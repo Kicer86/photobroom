@@ -267,7 +267,7 @@ QModelIndex Data::get(ModelIndexInfoSet::Model::const_level_iterator it) const
 }
 
 
-std::deque<QModelIndex> Data::findInRect(const QRect& rect) const
+std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 {
     const Data::ModelIndexInfoSet& model = getModel();
 
@@ -276,7 +276,7 @@ std::deque<QModelIndex> Data::findInRect(const QRect& rect) const
     auto first = root.begin();
     auto last = root.end();
 
-    const std::deque<QModelIndex> result = findInRect(first, last, rect);
+    const std::vector<QModelIndex> result = findInRect(first, last, rect);
 
     return result;
 }
@@ -476,11 +476,11 @@ QModelIndex Data::getLast(const QModelIndex& item) const
 }
 
 
-std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_iterator first,
+std::vector<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_iterator first,
                                          ModelIndexInfoSet::Model::const_level_iterator last,
                                          const QRect& rect) const
 {
-    std::deque<QModelIndex> result;
+    std::vector<QModelIndex> result;
 
     PositionsTranslator translator(this);
 
@@ -518,7 +518,7 @@ std::deque<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_i
         // item's children
         if ( upper_bound.children_count() > 0 && isExpanded( upper_bound ))
         {
-            const std::deque<QModelIndex> children = findInRect( upper_bound.begin(), upper_bound.end(), rect);
+            const std::vector<QModelIndex> children = findInRect( upper_bound.begin(), upper_bound.end(), rect);
 
             result.insert(result.end(), children.begin(), children.end());
         }

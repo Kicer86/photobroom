@@ -3,7 +3,7 @@
 #define DATABASE_QUERY_STRUCTS_HPP
 
 #include <memory>
-#include <deque>
+#include <vector>
 
 #include <QString>
 #include <QVariant>
@@ -46,8 +46,8 @@ namespace Database
             }
 
             const QString& getName() const;
-            const std::deque<QString>& getColumns() const;
-            const std::deque<QVariant>& getValues() const;
+            const std::vector<QString>& getColumns() const;
+            const std::vector<QVariant>& getValues() const;
 
         private:
             struct Data;

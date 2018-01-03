@@ -76,7 +76,7 @@ class DBDataModel: public APhotoInfoModel
         bool operator==(const DBDataModel& other) = delete;
 
         IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
-        const std::deque<Database::IFilter::Ptr>& getStaticFilters() const;
+        const std::vector<Database::IFilter::Ptr>& getStaticFilters() const;
 
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
         void group(const std::vector<Photo::Id> &, const QString& representativePath);     // group set of photos as one with given (external/generated) representative
@@ -84,7 +84,7 @@ class DBDataModel: public APhotoInfoModel
         void setHierarchy(const Hierarchy &);
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
-        void setStaticFilters(const std::deque<Database::IFilter::Ptr> &);
+        void setStaticFilters(const std::vector<Database::IFilter::Ptr> &);
         void applyFilters(const SearchExpressionEvaluator::Expression &);
 
         bool isNode(const QModelIndex &) const;
@@ -113,7 +113,7 @@ class DBDataModel: public APhotoInfoModel
 
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
-        std::deque<Database::IFilter::Ptr> m_filters;
+        std::vector<Database::IFilter::Ptr> m_filters;
         std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;

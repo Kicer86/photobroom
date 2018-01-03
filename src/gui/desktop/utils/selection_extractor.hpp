@@ -20,7 +20,7 @@
 #ifndef SELECTIONEXTRACTOR_HPP
 #define SELECTIONEXTRACTOR_HPP
 
-#include <deque>
+#include <vector>
 
 #include <database/iphoto_info.hpp>
 

@@ -7,7 +7,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 {
     Database::SqlFilterQueryGenerator generator;
 
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos", query);
@@ -17,7 +17,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> filter = std::make_shared<Database::FilterPhotosWithFlags>();
     filters.push_back(filter);
@@ -46,7 +46,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
         std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Date), QString("test_value"));
@@ -65,7 +65,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::Time));
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
@@ -84,7 +84,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithSha256> filter = std::make_shared<Database::FilterPhotosWithSha256>();
     filters.push_back(filter);
@@ -102,7 +102,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithId> filter = std::make_shared<Database::FilterPhotosWithId>();
     filters.push_back(filter);
@@ -118,7 +118,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     // sha256
     std::shared_ptr<Database::FilterPhotosWithSha256> sha_filter = std::make_shared<Database::FilterPhotosWithSha256>();
@@ -148,7 +148,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     // #1 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter =
@@ -176,7 +176,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
     flags->flags[Photo::FlagsE::ExifLoaded] = 100;
@@ -196,7 +196,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
 TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
     flags->flags[Photo::FlagsE::ExifLoaded] = 100;
@@ -220,7 +220,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     const SearchExpressionEvaluator::Expression expression = { {"Person 1", false} };
     std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>( expression );
@@ -238,7 +238,7 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
 TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     const SearchExpressionEvaluator::Expression expression = { {"Person 1", false}, {"Person 2", false} };
     std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>(expression);
@@ -256,7 +256,7 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
 
@@ -277,7 +277,7 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupRepresentative);
 
@@ -296,7 +296,7 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::deque<Database::IFilter::Ptr> filters;
+    std::vector<Database::IFilter::Ptr> filters;
 
     auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
 

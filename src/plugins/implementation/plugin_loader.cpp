@@ -19,7 +19,7 @@
 
 #include "plugin_loader.hpp"
 
-#include <deque>
+#include <vector>
 #include <cassert>
 
 #include <QDir>
@@ -103,7 +103,7 @@ namespace
             return result;
         }
 
-        const std::deque<Database::IPlugin *>& getDBPlugins()
+        const std::vector<Database::IPlugin *>& getDBPlugins()
         {
             find_all_db_plugins();
 
@@ -124,7 +124,7 @@ namespace
         }
 
         std::unique_ptr<ILogger> m_logger;
-        std::deque<Database::IPlugin *> m_db_plugins;
+        std::vector<Database::IPlugin *> m_db_plugins;
         bool m_found;
     };
 
@@ -165,7 +165,7 @@ Database::IPlugin* PluginLoader::getDBPlugin(const QString& name)
 }
 
 
-const std::deque<Database::IPlugin *>& PluginLoader::getDBPlugins() const
+const std::vector<Database::IPlugin *>& PluginLoader::getDBPlugins() const
 {
     return m_impl->m_finder.getDBPlugins();
 }

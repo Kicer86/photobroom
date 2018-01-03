@@ -82,7 +82,7 @@ namespace Database
     {
         QString result;
 
-        const std::deque<QString>& columns = data.getColumns();
+        const std::vector<QString>& columns = data.getColumns();
         const std::vector<QString> valuePlaceholders = preparePlaceholders(data);
 
         result = "INSERT INTO %1(%2) VALUES(%3)";
@@ -99,7 +99,7 @@ namespace Database
     {
         QString result;
 
-        const std::deque<QString>& columns = data.getColumns();
+        const std::vector<QString>& columns = data.getColumns();
         const std::vector<QString> valuePlaceholders = preparePlaceholders(data);        
         const std::pair<QString, QString>& key = data.getCondition();
 
@@ -142,8 +142,8 @@ namespace Database
     QSqlQuery GenericSqlQueryConstructor::insert(const QSqlDatabase& db, const InsertQueryData& data) const
     {
         const QString insertQuery = prepareInsertQuery(data);
-        const std::deque<QString>& columns = data.getColumns();
-        const std::deque<QVariant>& values = data.getValues();
+        const std::vector<QString>& columns = data.getColumns();
+        const std::vector<QVariant>& values = data.getValues();
         const std::size_t count = std::min(columns.size(), values.size());
 
         QSqlQuery query(db);
@@ -160,8 +160,8 @@ namespace Database
     QSqlQuery GenericSqlQueryConstructor::update(const QSqlDatabase& db, const UpdateQueryData& data) const
     {
         const QString updateQuery = prepareUpdateQuery(data);
-        const std::deque<QString>& columns = data.getColumns();
-        const std::deque<QVariant>& values = data.getValues();
+        const std::vector<QString>& columns = data.getColumns();
+        const std::vector<QVariant>& values = data.getValues();
         const std::size_t count = std::min(columns.size(), values.size());
 
         QSqlQuery query(db);
@@ -179,8 +179,8 @@ namespace Database
     
     std::vector<QString> GenericSqlQueryConstructor::preparePlaceholders(const InsertQueryData& data) const
     {
-        const std::deque<QString>& columns = data.getColumns();
-        const std::deque<QVariant>& values = data.getValues();
+        const std::vector<QString>& columns = data.getColumns();
+        const std::vector<QVariant>& values = data.getValues();
         const std::size_t count = std::min(columns.size(), values.size());
 
         std::vector<QString> valuePlaceholders;

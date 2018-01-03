@@ -20,7 +20,7 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-#include <deque>
+#include <vector>
 #include <functional>
 
 #include <QRect>
@@ -61,7 +61,7 @@ class Data
         QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
         QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
-        std::deque<QModelIndex> findInRect(const QRect &) const;
+        std::vector<QModelIndex> findInRect(const QRect &) const;
 
         bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
         bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
@@ -92,7 +92,7 @@ class Data
         int m_margin;
         int m_thumbHeight;
 
-        std::deque<QModelIndex> findInRect(ModelIndexInfoSet::Model::const_level_iterator, ModelIndexInfoSet::Model::const_level_iterator, const QRect &) const;
+        std::vector<QModelIndex> findInRect(ModelIndexInfoSet::Model::const_level_iterator, ModelIndexInfoSet::Model::const_level_iterator, const QRect &) const;
 };
 
 #endif // DATA_HPP

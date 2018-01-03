@@ -38,8 +38,8 @@
 #include "photos_matcher.hpp"
 
 
-Q_DECLARE_METATYPE(std::shared_ptr<std::deque<IdxData *>>)
-Q_DECLARE_METATYPE(std::deque<IPhotoInfo::Ptr>)
+Q_DECLARE_METATYPE(std::shared_ptr<std::vector<IdxData *>>)
+Q_DECLARE_METATYPE(std::vector<IPhotoInfo::Ptr>)
 
 
 struct IdxDataManager::Data
@@ -107,11 +107,11 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 
     setHierarchy(hierarchy);
 
-    qRegisterMetaType< std::shared_ptr<std::deque<IdxData *>> >();
+    qRegisterMetaType< std::shared_ptr<std::vector<IdxData *>> >();
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
-    qRegisterMetaType<std::deque<IPhotoInfo::Ptr>>();
+    qRegisterMetaType<std::vector<IPhotoInfo::Ptr>>();
     qRegisterMetaType<Photo::Id>();
-    qRegisterMetaType<std::deque<Photo::Id>>();
+    qRegisterMetaType<std::vector<Photo::Id>>();
 }
 
 
@@ -303,7 +303,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 {
     if (level <= m_data->m_hierarchy.nodeLevels())
     {
-        std::deque<Database::IFilter::Ptr> filter;
+        std::vector<Database::IFilter::Ptr> filter;
 
         const TagNameInfo& tagNameInfo = m_data->m_hierarchy.getNodeInfo(level).tagName;
         buildFilterFor(_parent, &filter);
@@ -312,7 +312,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         using namespace std::placeholders;
         auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagNameInfo &, const std::deque<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagNameInfo &, const std::vector<TagValue> &) >(callback);
 
         m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
@@ -323,7 +323,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
 
 void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 {
-    std::deque<Database::IFilter::Ptr> filter;
+    std::vector<Database::IFilter::Ptr> filter;
     buildFilterFor(_parent, &filter);
     buildExtraFilters(&filter);
 
@@ -337,7 +337,7 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
 // function checks if there are photos which do not have tags required by particular parent in data model
 void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& _parent)
 {
-    std::deque<Database::IFilter::Ptr> filter;
+    std::vector<Database::IFilter::Ptr> filter;
 
     //build filters for all parent nodes but last one
     if (_parent.isValid())   // do not enter here if there are no parent above '_parent'
@@ -367,7 +367,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
 }
 
 
-void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Database::IFilter::Ptr>* filter)
+void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::vector<Database::IFilter::Ptr>* filter)
 {
     IIdxData* idxData = getIdxDataFor(_parent);
 
@@ -379,7 +379,7 @@ void IdxDataManager::buildFilterFor(const QModelIndex& _parent, std::deque<Datab
 }
 
 
-void IdxDataManager::buildExtraFilters(std::deque<Database::IFilter::Ptr>* filter) const
+void IdxDataManager::buildExtraFilters(std::vector<Database::IFilter::Ptr>* filter) const
 {
     const auto modelSpecificFilters = m_data->m_model->getStaticFilters();
     filter->insert(filter->end(), modelSpecificFilters.begin(), modelSpecificFilters.end());
@@ -432,10 +432,10 @@ void IdxDataManager::setupRootNode()
 }
 
 
-void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator, const QModelIndex& parent, const std::deque<Database::IFilter::Ptr>& filter)
+void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
     auto photos = db_operator->getPhotos(filter);
-    auto leafs = std::make_shared<std::deque<IIdxData::Ptr>>();
+    auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;
 
@@ -475,7 +475,7 @@ void IdxDataManager::gotNonmatchingPhotosForParent(const QModelIndex& parent, in
 {
     if (size > 0)  //there is at least one such a photo? Create extra node
     {
-        auto leafs = std::make_shared<std::deque<IdxData::Ptr>>();
+        auto leafs = std::make_shared<std::vector<IdxData::Ptr>>();
 
         IIdxData* _parent = getIdxDataFor(parent);
         IIdxData::Ptr node = prepareUniversalNodeFor(_parent);
@@ -491,14 +491,14 @@ void IdxDataManager::gotNonmatchingPhotosForParent(const QModelIndex& parent, in
 
 
 //called when nodes for particual node have been loaded
-void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_t level, const std::deque<TagValue>& tags)
+void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_t level, const std::vector<TagValue>& tags)
 {
     IIdxData* parentIdxData = getIdxDataFor(parent);
 
     assert(isNode(parentIdxData));
     IdxNodeData* parentNode = static_cast<IdxNodeData *>(parentIdxData);
 
-    auto leafs = std::make_shared<std::deque<IIdxData::Ptr>>();
+    auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     for(const TagValue& tag: tags)
     {
@@ -557,7 +557,7 @@ void IdxDataManager::resetModel()
 }
 
 
-void IdxDataManager::appendIdxData(IdxNodeData* _parent, const std::shared_ptr<std::deque<IIdxData::Ptr>>& nodes)
+void IdxDataManager::appendIdxData(IdxNodeData* _parent, const std::shared_ptr<std::vector<IIdxData::Ptr>>& nodes)
 {
     assert(nodes->empty() == false);
     // We are not expecting any sub-nodes for not fetched nodes.
@@ -925,7 +925,7 @@ IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
 }
 
 
-void IdxDataManager::insertFetchedNodes(IdxNodeData* _parent, const std::shared_ptr<std::deque<IIdxData::Ptr>>& nodes)
+void IdxDataManager::insertFetchedNodes(IdxNodeData* _parent, const std::shared_ptr<std::vector<IIdxData::Ptr>>& nodes)
 {
     //attach nodes to parent in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
@@ -968,7 +968,7 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-void IdxDataManager::photosAdded(const std::deque<IPhotoInfo::Ptr>& photoInfos)
+void IdxDataManager::photosAdded(const std::vector<IPhotoInfo::Ptr>& photoInfos)
 {
     PhotosMatcher matcher;
     matcher.set(this);
@@ -984,7 +984,7 @@ void IdxDataManager::photosAdded(const std::deque<IPhotoInfo::Ptr>& photoInfos)
 }
 
 
-void IdxDataManager::photosRemoved(const std::deque<Photo::Id>& photos)
+void IdxDataManager::photosRemoved(const std::vector<Photo::Id>& photos)
 {
     for(const Photo::Id& id: photos)
         performRemove(id);

@@ -21,7 +21,7 @@
 #define TREE_PRIVATE_HPP
 
 #include <cassert>
-#include <deque>
+#include <vector>
 #include <memory>
 #include <ostream>
 #include <stack>
@@ -33,7 +33,7 @@ template<typename T> class tree;
 namespace tree_utils
 {
     template<typename T> class node;
-    template<typename T> using nodes = std::deque<node<T>>;
+    template<typename T> using nodes = std::vector<node<T>>;
 }
 
 
@@ -314,7 +314,7 @@ namespace tree_utils
 
 
 template<typename T>
-std::ostream& operator<<(std::ostream& st, const std::deque<tree_utils::node<T>>& nodes)
+std::ostream& operator<<(std::ostream& st, const std::vector<tree_utils::node<T>>& nodes)
 {
     st << "(";
 

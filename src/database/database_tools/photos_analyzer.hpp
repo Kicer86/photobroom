@@ -56,7 +56,7 @@ class DATABASE_EXPORT PhotosAnalyzer: public QObject
         PhotosAnalyzerImpl* m_data;
 
     private slots:
-        void photosAdded(const std::deque<IPhotoInfo::Ptr> &);
+        void photosAdded(const std::vector<IPhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOS_ANALYZER_HPP

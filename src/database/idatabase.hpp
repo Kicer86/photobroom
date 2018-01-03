@@ -20,7 +20,7 @@
 #ifndef IDATABASE_HPP
 #define IDATABASE_HPP
 
-#include <deque>
+#include <vector>
 #include <functional>
 #include <memory>
 #include <set>
@@ -55,18 +55,18 @@ namespace Database
             Q_OBJECT
 
         signals:
-            void photosAdded(const std::deque<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
+            void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
             void photoModified(const IPhotoInfo::Ptr &);            // emited when photo updated
-            void photosRemoved(const std::deque<Photo::Id> &);      // emited after photos removal
+            void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
     };
 
     struct IBackendOperator
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;       // find all photos matching filter
+        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                          // get IPhotoInfo for given id
-        virtual std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data> &) = 0;    // store photo
+        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::Data> &) = 0;    // store photo
     };
 
     //Database interface.
@@ -83,18 +83,18 @@ namespace Database
 
         // store data
         virtual void update(const IPhotoInfo::Ptr &) = 0;
-        virtual void store(const std::deque<Photo::Data> &,              // only path, flags and tags will be used to feed database
+        virtual void store(const std::vector<Photo::Data> &,              // only path, flags and tags will be used to feed database
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
 
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        virtual void countPhotos(const std::deque<IFilter::Ptr> &, const Callback<int> &) = 0;                           // count photos matching filters
-        virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::deque<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
-        virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;    // list all tag values
-        virtual void listTagValues( const TagNameInfo &, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
-        virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
+        virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                           // count photos matching filters
+        virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
+        virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
+        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values
+        virtual void listTagValues( const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
+        virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // modify data
 

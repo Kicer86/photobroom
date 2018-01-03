@@ -19,6 +19,8 @@
 
 #include "photos_matcher.hpp"
 
+#include <deque>
+
 #include "idx_data_manager.hpp"
 
 
@@ -30,7 +32,7 @@ struct FiltersMatcher: Database::IFilterVisitor
 
     FiltersMatcher& operator=(const FiltersMatcher &) = delete;
 
-    bool doesMatch(const IPhotoInfo::Ptr &, const std::deque<Database::IFilter::Ptr> &);
+    bool doesMatch(const IPhotoInfo::Ptr &, const std::vector<Database::IFilter::Ptr> &);
     bool doesMatch(const IPhotoInfo::Ptr &, const Database::IFilter::Ptr &);
 
     private:
@@ -61,7 +63,7 @@ FiltersMatcher::~FiltersMatcher()
 }
 
 
-bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::deque<Database::IFilter::Ptr>& filters)
+bool FiltersMatcher::doesMatch(const IPhotoInfo::Ptr& photoInfo, const std::vector<Database::IFilter::Ptr>& filters)
 {
     m_doesMatch = true;
     m_photo = photoInfo;
@@ -228,7 +230,7 @@ void PhotosMatcher::set(DBDataModel* model)
 
 bool PhotosMatcher::doesMatchModelFilters(const IPhotoInfo::Ptr& photoInfo) const
 {
-    std::deque<Database::IFilter::Ptr> filters = m_dbDataModel->getStaticFilters();
+    std::vector<Database::IFilter::Ptr> filters = m_dbDataModel->getStaticFilters();
 
     FiltersMatcher matcher;
     const bool result = matcher.doesMatch(photoInfo, filters);

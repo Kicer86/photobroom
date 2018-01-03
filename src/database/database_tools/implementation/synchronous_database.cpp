@@ -66,7 +66,7 @@ void SynchronousDatabase::set(Database::IDatabase* database)
 }
 
 
-const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::deque<Database::IFilter::Ptr>& filters)
+const IPhotoInfo::List SynchronousDatabase::getPhotos(const std::vector<Database::IFilter::Ptr>& filters)
 {
     DataReceiver receiver;
 

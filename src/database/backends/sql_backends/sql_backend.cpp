@@ -116,11 +116,11 @@ namespace Database
         };
 
 
-        std::deque<TagValue> flatten(const TagValue& tagValue)
+        std::vector<TagValue> flatten(const TagValue& tagValue)
         {
             const TagValue::Type type = tagValue.type();
 
-            std::deque<TagValue> result;
+            std::vector<TagValue> result;
 
             switch (type)
             {
@@ -140,7 +140,7 @@ namespace Database
 
                     for (const TagValue& subitem: list)
                     {
-                        const std::deque<TagValue> local_result = flatten(subitem);
+                        const std::vector<TagValue> local_result = flatten(subitem);
 
                         result.insert(result.end(), local_result.begin(), local_result.end());
                     }
@@ -153,14 +153,14 @@ namespace Database
         }
 
 
-        std::deque<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
+        std::vector<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
         {
-            std::deque<std::pair<TagNameInfo, TagValue>> result;
+            std::vector<std::pair<TagNameInfo, TagValue>> result;
 
             for(const auto& tag: tagsList)
             {
                 const TagValue& tagValue = tag.second;
-                const std::deque<TagValue> flatList = flatten(tagValue);
+                const std::vector<TagValue> flatList = flatten(tagValue);
 
                 for(const TagValue& flat: flatList)
                 {
@@ -195,19 +195,19 @@ namespace Database
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
             bool insert(Photo::Data &) const;
-            bool insert(std::deque<Photo::Data> &) const;
+            bool insert(std::vector<Photo::Data> &) const;
             Group::Id addGroup(const Photo::Id& id) const;
             bool update(const Photo::Data &) const;
 
-            std::deque<TagValue>  listTagValues(const TagNameInfo& tagName) const;
-            std::deque<TagValue>  listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) const;
+            std::vector<TagValue>  listTagValues(const TagNameInfo& tagName) const;
+            std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
 
-            void                  perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) const;
+            void                  perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
-            std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) const;
-            std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) const;
+            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
+            std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data           getPhoto(const Photo::Id &) const;
-            int                   getPhotosCount(const std::deque<IFilter::Ptr> &) const;
+            int                   getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
             bool storeData(const Photo::Data &) const;
@@ -223,7 +223,7 @@ namespace Database
             GroupInfo            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
-            std::deque<Photo::Id> fetch(QSqlQuery &) const;
+            std::vector<Photo::Id> fetch(QSqlQuery &) const;
             bool doesPhotoExist(const Photo::Id &) const;
 
             bool updateOrInsert(const UpdateQueryData &) const;
@@ -299,11 +299,11 @@ namespace Database
     }
 
 
-    std::deque<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
+    std::vector<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
     {
         const int tagId = tagName.getTag();
 
-        std::deque<TagValue> result;
+        std::vector<TagValue> result;
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -323,7 +323,7 @@ namespace Database
     }
 
 
-    std::deque<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter) const
+    std::vector<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -339,7 +339,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        std::deque<TagValue> result;
+        std::vector<TagValue> result;
         const bool status = m_executor.exec(queryStr, &query);
 
         if (status)
@@ -361,7 +361,7 @@ namespace Database
     }
 
 
-    void ASqlBackend::Data::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& actions) const
+    void ASqlBackend::Data::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& actions) const
     {
         for(auto action: actions)
         {
@@ -377,7 +377,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::getPhotos(const std::deque<IFilter::Ptr>& filter) const
+    std::vector<Photo::Id> ASqlBackend::Data::getPhotos(const std::vector<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -391,7 +391,7 @@ namespace Database
     }
 
 
-    int ASqlBackend::Data::getPhotosCount(const std::deque<IFilter::Ptr>& filter) const
+    int ASqlBackend::Data::getPhotosCount(const std::vector<IFilter::Ptr>& filter) const
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -411,7 +411,7 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::deque<IFilter::Ptr>& filter) const
+    std::vector<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::vector<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -419,7 +419,7 @@ namespace Database
         QSqlQuery query(db);
 
         //collect ids of photos to be dropped
-        std::deque<Photo::Id> ids;
+        std::vector<Photo::Id> ids;
         bool status = m_executor.exec(filterQuery, &query);
 
         if (status)
@@ -526,7 +526,7 @@ namespace Database
         if (status)
         {
             // read tag ids from query
-            std::deque<int> currentIds;
+            std::vector<int> currentIds;
 
             while (query.next())
             {
@@ -537,7 +537,7 @@ namespace Database
             }
 
             // convert map with possible lists into flat list of pairs
-            const std::deque<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
+            const std::vector<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
 
             // difference between current set in db and new set of tags
             const int currentIdsSize = static_cast<int>( currentIds.size() );
@@ -686,7 +686,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(std::deque<Photo::Data>& data_set) const
+    bool ASqlBackend::Data::insert(std::vector<Photo::Data>& data_set) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -1011,9 +1011,9 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query) const
+    std::vector<Photo::Id> ASqlBackend::Data::fetch(QSqlQuery& query) const
     {
-        std::deque<Photo::Id> collection;
+        std::vector<Photo::Id> collection;
 
         while (query.next())
         {
@@ -1206,7 +1206,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::addPhotos(std::deque<Photo::Data>& data)
+    bool ASqlBackend::addPhotos(std::vector<Photo::Data>& data)
     {
         const bool status = m_data->insert(data);
 
@@ -1237,16 +1237,16 @@ namespace Database
     }
 
 
-    std::deque<TagNameInfo> ASqlBackend::listTags()
+    std::vector<TagNameInfo> ASqlBackend::listTags()
     {
         assert(!"Not implemented");
-        return std::deque<TagNameInfo>();
+        return std::vector<TagNameInfo>();
     }
 
 
-    std::deque<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName)
     {
-        std::deque<TagValue> result;
+        std::vector<TagValue> result;
 
         if (m_data)
             result = m_data->listTagValues(tagName);
@@ -1257,17 +1257,17 @@ namespace Database
     }
 
 
-    std::deque<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::deque<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
-        const std::deque<TagValue> result = m_data->listTagValues(tagName, filter);
+        const std::vector<TagValue> result = m_data->listTagValues(tagName, filter);
 
         return result;
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::getAllPhotos()
+    std::vector<Photo::Id> ASqlBackend::getAllPhotos()
     {
-        std::deque<IFilter::Ptr> emptyFilter;
+        std::vector<IFilter::Ptr> emptyFilter;
         return m_data->getPhotos(emptyFilter);  //like getPhotos but without any filters
     }
 
@@ -1280,25 +1280,25 @@ namespace Database
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::getPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::vector<Photo::Id> ASqlBackend::getPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->getPhotos(filter);
     }
 
 
-    int ASqlBackend::getPhotosCount(const std::deque<IFilter::Ptr>& filter)
+    int ASqlBackend::getPhotosCount(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->getPhotosCount(filter);
     }
 
 
-    void ASqlBackend::perform(const std::deque<IFilter::Ptr>& filter, const std::deque<IAction::Ptr>& action)
+    void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
         return m_data->perform(filter, action);
     }
 
 
-    std::deque<Photo::Id> ASqlBackend::dropPhotos(const std::deque<IFilter::Ptr>& filter)
+    std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->dropPhotos(filter);
     }

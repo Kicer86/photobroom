@@ -130,7 +130,7 @@ void CollectionDirScanDialog::scan()
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
 
-    m_database->listPhotos( std::deque<Database::IFilter::Ptr>(), db_callback );
+    m_database->listPhotos( std::vector<Database::IFilter::Ptr>(), db_callback );
 }
 
 

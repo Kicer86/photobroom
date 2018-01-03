@@ -151,7 +151,7 @@ TagValue::TagValue(const QTime& time): TagValue()
 }
 
 
-TagValue::TagValue(const std::deque<TagValue>& list): TagValue()
+TagValue::TagValue(const std::vector<TagValue>& list): TagValue()
 {
     set(list);
 }
@@ -183,7 +183,7 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
 
         case QVariant::StringList:
         {
-            std::deque<TagValue> list;
+            std::vector<TagValue> list;
             QStringList stringList = variant.toStringList();
 
             list.insert(list.end(), stringList.begin(), stringList.end());
@@ -249,7 +249,7 @@ void TagValue::set(const QTime& time)
 }
 
 
-void TagValue::set(const std::deque<TagValue>& values)
+void TagValue::set(const std::vector<TagValue>& values)
 {
     m_value = values;
     m_type = Type::List;
@@ -279,7 +279,7 @@ QVariant TagValue::get() const
         case Type::List:
         {
             QStringList localResult;
-            const std::deque<TagValue>* v = get<TagValueTraits<Type::List>::StorageType>();
+            const std::vector<TagValue>* v = get<TagValueTraits<Type::List>::StorageType>();
 
             for(const TagValue& tagValue: *v)
                 localResult.append(tagValue.string());
@@ -309,7 +309,7 @@ const QDate& TagValue::getDate() const
 }
 
 
-const std::deque<TagValue>& TagValue::getList() const
+const std::vector<TagValue>& TagValue::getList() const
 {
     auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
@@ -341,7 +341,7 @@ QDate& TagValue::getDate()
 }
 
 
-std::deque< TagValue >& TagValue::getList()
+std::vector< TagValue >& TagValue::getList()
 {
     auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
@@ -426,9 +426,9 @@ bool TagValue::validate<QString>() const
 
 
 template<>
-bool TagValue::validate<std::deque<TagValue>>() const
+bool TagValue::validate<std::vector<TagValue>>() const
 {
-    return m_type == Type::List && m_value.has_value() && m_value.type() == typeid(std::deque<TagValue>);
+    return m_type == Type::List && m_value.has_value() && m_value.type() == typeid(std::vector<TagValue>);
 }
 
 

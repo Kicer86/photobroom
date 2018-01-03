@@ -20,7 +20,7 @@
 #ifndef SQLFILTERQUERYGENERATOR_HPP
 #define SQLFILTERQUERYGENERATOR_HPP
 
-#include <deque>
+#include <vector>
 
 #include <QString>
 
@@ -38,7 +38,7 @@ namespace Database
 
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
-            QString generate(const std::deque<IFilter::Ptr> &) const;
+            QString generate(const std::vector<IFilter::Ptr> &) const;
     };
 
 }

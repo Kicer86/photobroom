@@ -24,7 +24,7 @@
 
 #include <memory>
 #include <vector>
-#include <deque>
+#include <vector>
 
 #include "database/ibackend.hpp"
 #include "sql_backend_base_export.h"
@@ -81,21 +81,21 @@ namespace Database
 
             // Database::IBackend:
             virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual bool addPhotos(std::deque<Photo::Data> &) override final;
+            virtual bool addPhotos(std::vector<Photo::Data> &) override final;
             virtual Group::Id addGroup(const Photo::Id & ) override final;
             virtual bool update(const Photo::Data &) override final;
 
-            virtual std::deque<TagNameInfo> listTags() override final;
-            virtual std::deque<TagValue>    listTagValues(const TagNameInfo&) override final;
-            virtual std::deque<TagValue>    listTagValues(const TagNameInfo &, const std::deque<IFilter::Ptr> &) override final;
+            virtual std::vector<TagNameInfo> listTags() override final;
+            virtual std::vector<TagValue>    listTagValues(const TagNameInfo&) override final;
+            virtual std::vector<TagValue>    listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) override final;
 
-            virtual std::deque<Photo::Id> getAllPhotos() override final;
-            virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) override final;
-            virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) override final;
+            virtual std::vector<Photo::Id> getAllPhotos() override final;
+            virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override final;
+            virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) override final;
             virtual Photo::Data           getPhoto(const Photo::Id &) override final;
-            virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) override final;
+            virtual int                   getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
 
-            virtual void perform(const std::deque<IFilter::Ptr> &, const std::deque<IAction::Ptr> &) override final;
+            virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //
 
             BackendStatus checkStructure();

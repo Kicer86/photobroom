@@ -60,7 +60,7 @@ struct DBDataModel::Grouper
         std::function<void(const Group::Id &)> group_created =
             std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
 
-        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> photos_received =
+        std::function<void(const std::vector<IPhotoInfo::Ptr> &)> photos_received =
             std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
 
         m_db->createGroup(representativePhoto, group_created);
@@ -69,7 +69,7 @@ struct DBDataModel::Grouper
 
     private:
         std::function<void()> m_doneCallback;
-        std::deque<IPhotoInfo::Ptr> m_groupMembers;
+        std::vector<IPhotoInfo::Ptr> m_groupMembers;
         Database::IDatabase* m_db;
         Group::Id m_grp_id;
 
@@ -91,7 +91,7 @@ struct DBDataModel::Grouper
             gotData();
         }
 
-        void photosReceived(const std::deque<IPhotoInfo::Ptr>& photos)
+        void photosReceived(const std::vector<IPhotoInfo::Ptr>& photos)
         {
             assert( (m_flags & GotPhotos) == 0 );
 
@@ -194,7 +194,7 @@ IPhotoInfo::Ptr DBDataModel::getPhoto(const QModelIndex& idx) const
 }
 
 
-const std::deque<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
+const std::vector<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 {
     return m_filters;
 }
@@ -388,7 +388,7 @@ void DBDataModel::set(ITaskExecutor* taskExecutor)
 }
 
 
-void DBDataModel::setStaticFilters(const std::deque<Database::IFilter::Ptr>& filters)
+void DBDataModel::setStaticFilters(const std::vector<Database::IFilter::Ptr>& filters)
 {
     m_filters = filters;
 

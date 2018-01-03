@@ -60,7 +60,7 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
         for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::GeometryLoaded })
             flags_filter->flags[flag] = 0;            //uninitialized
 
-        const std::deque<Database::IFilter::Ptr> filters = {flags_filter};
+        const std::vector<Database::IFilter::Ptr> filters = {flags_filter};
 
         database->listPhotos(filters, [this](const IPhotoInfo::List& photos)
         {
@@ -186,7 +186,7 @@ void PhotosAnalyzer::stop()
 }
 
 
-void PhotosAnalyzer::photosAdded(const std::deque<IPhotoInfo::Ptr>& photos)
+void PhotosAnalyzer::photosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
 {
     for(const IPhotoInfo::Ptr& photo: photos)
         m_data->addPhoto(photo);

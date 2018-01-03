@@ -14,15 +14,15 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
 
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
-    MOCK_METHOD2(store, void( const std::deque<Photo::Data> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
+    MOCK_METHOD2(store, void( const std::vector<Photo::Data> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
     MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
 
-    MOCK_METHOD2(countPhotos, void(const std::deque<Database::IFilter::Ptr> &, const std::function<void(int)> &) );
-    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)> &) );
-    MOCK_METHOD1(listTagNames, void(const Callback<const std::deque<TagNameInfo> &> & ) );
-    MOCK_METHOD2(listTagValues, void( const TagNameInfo &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
-    MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::deque<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & ) );
-    MOCK_METHOD2(listPhotos, void(const std::deque<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
+    MOCK_METHOD2(countPhotos, void(const std::vector<Database::IFilter::Ptr> &, const std::function<void(int)> &) );
+    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)> &) );
+    MOCK_METHOD1(listTagNames, void(const Callback<const std::vector<TagNameInfo> &> & ) );
+    MOCK_METHOD2(listTagValues, void( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & ) );
+    MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::vector<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & ) );
+    MOCK_METHOD2(listPhotos, void(const std::vector<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
 
     MOCK_METHOD1(performCustomAction, void(const std::function<void(Database::IBackendOperator *)> &) );
 

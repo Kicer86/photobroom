@@ -5,7 +5,7 @@
 #include <assert.h>
 
 #include <any>
-#include <deque>
+#include <vector>
 #include <map>
 #include <set>
 #include <memory>
@@ -77,7 +77,7 @@ class CORE_EXPORT TagValue
 
         TagValue(const QDate &);
         TagValue(const QTime &);
-        TagValue(const std::deque<TagValue> &);
+        TagValue(const std::vector<TagValue> &);
         TagValue(const QString &);
 
         static TagValue fromRaw(const QString &, const TagNameInfo::Type &);    // tag's value as stored in db
@@ -90,17 +90,17 @@ class CORE_EXPORT TagValue
 
         void set(const QDate &);
         void set(const QTime &);
-        void set(const std::deque<TagValue> &);
+        void set(const std::vector<TagValue> &);
         void set(const QString &);
 
         QVariant get() const;
         const QDate& getDate() const;
-        const std::deque<TagValue>& getList() const;
+        const std::vector<TagValue>& getList() const;
         const QString& getString() const;
         const QTime& getTime() const;
 
         QDate& getDate();
-        std::deque<TagValue>& getList();
+        std::vector<TagValue>& getList();
         QString& getString();
         QTime& getTime();
 
@@ -154,7 +154,7 @@ struct TagValueTraits<TagValue::Type::Date>
 template<>
 struct TagValueTraits<TagValue::Type::List>
 {
-    typedef std::deque<TagValue> StorageType;
+    typedef std::vector<TagValue> StorageType;
 };
 
 template<>

@@ -102,7 +102,7 @@ namespace
 
         // IBackendOperator
 
-        std::deque<Photo::Id> getPhotos(const std::deque<Database::IFilter::Ptr>& filter) override
+        std::vector<Photo::Id> getPhotos(const std::vector<Database::IFilter::Ptr>& filter) override
         {
             return m_backend->getPhotos(filter);
         }
@@ -121,16 +121,16 @@ namespace
             return photoPtr;
         }
 
-        std::vector<Photo::Id> insertPhotos(const std::deque<Photo::Data>& data) override
+        std::vector<Photo::Id> insertPhotos(const std::vector<Photo::Data>& data) override
         {
             std::vector<Photo::Id> result;
 
-            std::deque<Photo::Data> data_set(data.begin(), data.end());
+            std::vector<Photo::Data> data_set(data.begin(), data.end());
             const bool status = m_backend->addPhotos(data_set);
 
             if (status)
             {
-                std::deque<IPhotoInfo::Ptr> photos;
+                std::vector<IPhotoInfo::Ptr> photos;
 
                 for(std::size_t i = 0; i < data_set.size(); i++)
                 {
@@ -215,7 +215,7 @@ namespace
 
     struct GetPhotoTask: IThreadTask
     {
-        GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::deque<IPhotoInfo::Ptr> &)>& callback):
+        GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)>& callback):
             IThreadTask(),
             m_ids(ids),
             m_callback(callback)
@@ -227,7 +227,7 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            std::deque<IPhotoInfo::Ptr> photos;
+            std::vector<IPhotoInfo::Ptr> photos;
 
             for (const Photo::Id& id: m_ids)
             {
@@ -239,13 +239,13 @@ namespace
         }
 
         std::vector<Photo::Id> m_ids;
-        std::function<void(const std::deque<IPhotoInfo::Ptr> &)> m_callback;
+        std::function<void(const std::vector<IPhotoInfo::Ptr> &)> m_callback;
     };
 
 
     struct GetPhotosTask: IThreadTask
     {
-        GetPhotosTask (const std::deque<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
+        GetPhotosTask (const std::vector<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
             IThreadTask(),
             m_filter(filter),
             m_callback(callback)
@@ -267,7 +267,7 @@ namespace
         }
 
 
-        std::deque<Database::IFilter::Ptr> m_filter;
+        std::vector<Database::IFilter::Ptr> m_filter;
         Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
     };
 
@@ -297,7 +297,7 @@ namespace
 
     struct InsertPhotosTask: IThreadTask
     {
-        InsertPhotosTask(const std::deque<Photo::Data>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+        InsertPhotosTask(const std::vector<Photo::Data>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
             IThreadTask(),
             m_data(data),
             m_callback(callback)
@@ -315,15 +315,15 @@ namespace
                 m_callback(result);
         }
 
-        const std::deque<Photo::Data> m_data;
+        const std::vector<Photo::Data> m_data;
         const std::function<void(const std::vector<Photo::Id> &)> m_callback;
     };
 
     struct ListTagValuesTask: IThreadTask
     {
         ListTagValuesTask (const TagNameInfo& info,
-                           const std::deque<Database::IFilter::Ptr>& filter,
-                           const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback):
+                           const std::vector<Database::IFilter::Ptr>& filter,
+                           const Database::IDatabase::Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback):
         IThreadTask(),
         m_callback(callback),
         m_info(info),
@@ -340,15 +340,15 @@ namespace
             m_callback(m_info, result);
         }
 
-        const Database::IDatabase::Callback<const TagNameInfo &, const std::deque<TagValue> &> m_callback;
+        const Database::IDatabase::Callback<const TagNameInfo &, const std::vector<TagValue> &> m_callback;
         TagNameInfo m_info;
-        std::deque<Database::IFilter::Ptr> m_filter;
+        std::vector<Database::IFilter::Ptr> m_filter;
     };
 
 
     struct ListTagsTask: IThreadTask
     {
-        ListTagsTask (const Database::IDatabase::Callback<const std::deque<TagNameInfo> &> & callback):
+        ListTagsTask (const Database::IDatabase::Callback<const std::vector<TagNameInfo> &> & callback):
             IThreadTask(),
             m_callback(callback)
         {
@@ -363,13 +363,13 @@ namespace
             m_callback(result);
         }
 
-        Database::IDatabase::Callback<const std::deque<TagNameInfo> &> m_callback;
+        Database::IDatabase::Callback<const std::vector<TagNameInfo> &> m_callback;
     };
 
 
     struct PhotoCountTask: IThreadTask
     {
-        PhotoCountTask (const std::deque<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
+        PhotoCountTask (const std::vector<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
             IThreadTask(),
             m_callback(callback),
             m_filter(filter)
@@ -384,7 +384,7 @@ namespace
         }
 
         std::function<void(int)> m_callback;
-        std::deque<Database::IFilter::Ptr> m_filter;
+        std::vector<Database::IFilter::Ptr> m_filter;
     };
 
 
@@ -512,7 +512,7 @@ namespace Database
         m_impl->addTask(task);
     }
 
-    void AsyncDatabase::store(const std::deque<Photo::Data>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::vector<Photo::Data>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {
         auto task = std::make_unique<InsertPhotosTask>(photos, callback);
         m_impl->addTask(std::move(task));
@@ -526,42 +526,42 @@ namespace Database
     }
 
 
-    void AsyncDatabase::countPhotos(const std::deque<IFilter::Ptr>& filters, const Callback<int>& callback)
+    void AsyncDatabase::countPhotos(const std::vector<IFilter::Ptr>& filters, const Callback<int>& callback)
     {
         PhotoCountTask* task = new PhotoCountTask(filters, callback);
         m_impl->addTask(task);
     }
 
 
-    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::deque<IPhotoInfo::Ptr> &>& callback)
+    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
         GetPhotoTask* task = new GetPhotoTask(ids, callback);
         m_impl->addTask(task);
     }
 
 
-    void AsyncDatabase::listTagNames( const Callback<const std::deque<TagNameInfo> &> & callback)
+    void AsyncDatabase::listTagNames( const Callback<const std::vector<TagNameInfo> &> & callback)
     {
         ListTagsTask* task = new ListTagsTask(callback);
         m_impl->addTask(task);
     }
 
 
-    void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
+    void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask (info, std::deque<IFilter::Ptr>(), callback);
+        ListTagValuesTask* task = new ListTagValuesTask (info, std::vector<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
 
-    void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::deque<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::deque<TagValue> &> & callback)
+    void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
         ListTagValuesTask* task = new ListTagValuesTask (info, filters, callback);
         m_impl->addTask(task);
     }
 
 
-    void AsyncDatabase::listPhotos(const std::deque<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
+    void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
         m_impl->addTask(std::move(task));

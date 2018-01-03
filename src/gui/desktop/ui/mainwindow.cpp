@@ -444,7 +444,7 @@ void MainWindow::setupReviewedPhotosView()
 
     reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
 
-    std::deque<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_group_members_filter};
+    std::vector<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_group_members_filter};
 
     m_imagesModel->setStaticFilters(reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
@@ -459,7 +459,7 @@ void MainWindow::setupNewPhotosView()
 
     new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
 
-    std::deque<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_group_members_filter};
+    std::vector<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_group_members_filter};
 
     m_newImagesModel->setStaticFilters(newPhotosFilters);
 
@@ -592,7 +592,7 @@ void MainWindow::on_actionScan_collection_triggered()
     {
         const std::set<QString>& paths = scanner.newPhotos();
 
-        std::deque<Photo::Data> photos;
+        std::vector<Photo::Data> photos;
         for(const QString& path: paths)
         {
             Photo::Data photo_data;
@@ -733,7 +733,7 @@ void MainWindow::markNewPhotosAsReviewed()
 
     filter->flags[Photo::FlagsE::StagingArea] = 1;
 
-    const std::deque<Database::IFilter::Ptr> filters( {filter});
+    const std::vector<Database::IFilter::Ptr> filters( {filter});
 
     m_currentPrj->getDatabase()->listPhotos(filters, markPhotos);
 }

@@ -40,7 +40,7 @@ class SynchronousDatabase
         void set(Database::IDatabase *);
 
         // functionality of IDatabase:
-        const IPhotoInfo::List getPhotos(const std::deque<Database::IFilter::Ptr> &);  //list all photos matching filter
+        const IPhotoInfo::List getPhotos(const std::vector<Database::IFilter::Ptr> &);  //list all photos matching filter
 
     private:
         Database::IDatabase* m_database;

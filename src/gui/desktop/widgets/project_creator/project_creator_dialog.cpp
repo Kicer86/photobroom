@@ -161,7 +161,7 @@ Database::IPlugin* ProjectCreatorDialog::getEnginePlugin() const
 
 void ProjectCreatorDialog::initEngines()
 {
-    const std::deque<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
+    const std::vector<Database::IPlugin *>& plugins = m_pluginLoader->getDBPlugins();
 
     std::set<Database::IPlugin *, PluginOrder> plugins_ordered;
     plugins_ordered.insert(plugins.cbegin(), plugins.cend());

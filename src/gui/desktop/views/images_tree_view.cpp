@@ -242,8 +242,8 @@ void ImagesTreeView::setSelection(const QRect& _rect, QItemSelectionModel::Selec
 {
     const QRect treeRect = _rect.translated(getOffset());
 
-    const std::deque<QModelIndex> items = findItemsIn(treeRect);
-    const std::deque<QModelIndex> linear_selection = items;
+    const std::vector<QModelIndex> items = findItemsIn(treeRect);
+    const std::vector<QModelIndex> linear_selection = items;
     QItemSelection selection;
 
     QAbstractItemModel* m = model();
@@ -304,7 +304,7 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
     visible_area.moveTo(offset);
     painter.translate(-offset);
 
-    std::deque<QModelIndex> items = findItemsIn(visible_area);
+    std::vector<QModelIndex> items = findItemsIn(visible_area);
 
     for (const QModelIndex& item: items)
     {
@@ -444,13 +444,13 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 }
 
 
-std::deque<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
+std::vector<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 {
     updateView();
 
     QRect normalized_rect = _rect.normalized();
 
-    const std::deque<QModelIndex> result = m_data->findInRect(normalized_rect);
+    const std::vector<QModelIndex> result = m_data->findInRect(normalized_rect);
 
     return result;
 }

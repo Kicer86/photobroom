@@ -51,7 +51,7 @@ bool PhotoDuplicatesFinder::hasDuplicate(const IPhotoInfo::Ptr& photo) const
     auto shaFilter = std::make_shared<Database::FilterPhotosWithSha256>();
     shaFilter->sha256 = photo->getSha256();
     
-    std::deque<Database::IFilter::Ptr> filters( {shaFilter} );
+    std::vector<Database::IFilter::Ptr> filters( {shaFilter} );
 
     database.set(m_database);
     auto photos = database.getPhotos(filters);

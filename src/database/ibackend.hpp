@@ -22,7 +22,7 @@
 
 #include <string>
 #include <set>
-#include <deque>
+#include <vector>
 
 #include <core/tag.hpp>
 
@@ -48,7 +48,7 @@ namespace Database
         virtual ~IBackend() = default;
 
         //add photo to database
-        virtual bool addPhotos(std::deque<Photo::Data> &) = 0;
+        virtual bool addPhotos(std::vector<Photo::Data> &) = 0;
 
         // create group
         virtual Group::Id addGroup(const Photo::Id &) = 0;
@@ -57,21 +57,21 @@ namespace Database
         virtual bool update(const Photo::Data &) = 0;
 
         //read data
-        virtual std::deque<TagNameInfo> listTags() = 0;                                        // list all stored tag names
-        virtual std::deque<TagValue> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
-        virtual std::deque<TagValue> listTagValues(const TagNameInfo &,
-                                                   const std::deque<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
-        virtual std::deque<Photo::Id> getAllPhotos() = 0;                                      // list all photos
-        virtual std::deque<Photo::Id> getPhotos(const std::deque<IFilter::Ptr> &) = 0;         // find all photos matching filter
-        virtual std::deque<Photo::Id> dropPhotos(const std::deque<IFilter::Ptr> &) = 0;        // drop photos matching filter
+        virtual std::vector<TagNameInfo> listTags() = 0;                                        // list all stored tag names
+        virtual std::vector<TagValue> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
+        virtual std::vector<TagValue> listTagValues(const TagNameInfo &,
+                                                   const std::vector<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
+        virtual std::vector<Photo::Id> getAllPhotos() = 0;                                      // list all photos
+        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;         // find all photos matching filter
+        virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) = 0;        // drop photos matching filter
         virtual Photo::Data           getPhoto(const Photo::Id &) = 0;                         // get particular photo
-        virtual int                   getPhotosCount(const std::deque<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
+        virtual int                   getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                                // get thumbnail for photo
 
         // modify data
-        virtual void perform(const std::deque<Database::IFilter::Ptr> &, const std::deque<Database::IAction::Ptr> &) = 0;
+        virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
 
         // write extra data
         //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo

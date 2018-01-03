@@ -20,7 +20,7 @@
 #ifndef SQLACTIONQUERYGENERATOR_HPP
 #define SQLACTIONQUERYGENERATOR_HPP
 
-#include <deque>
+#include <vector>
 
 #include <QString>
 

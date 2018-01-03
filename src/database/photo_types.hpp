@@ -2,7 +2,7 @@
 #ifndef PHOTO_TYPES_HPP
 #define PHOTO_TYPES_HPP
 
-#include <deque>
+#include <vector>
 #include <map>
 #include <string>
 
@@ -48,6 +48,6 @@ namespace Photo
 }
 
 Q_DECLARE_METATYPE(Photo::Id)
-Q_DECLARE_METATYPE(std::deque<Photo::Id>)
+Q_DECLARE_METATYPE(std::vector<Photo::Id>)
 
 #endif

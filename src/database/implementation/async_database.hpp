@@ -20,7 +20,7 @@
 #ifndef DATABASETHREAD_H
 #define DATABASETHREAD_H
 
-#include <deque>
+#include <vector>
 
 #include "idatabase.hpp"
 #include "ibackend.hpp"
@@ -42,15 +42,15 @@ namespace Database
             virtual ADatabaseSignals* notifier() override;
 
             virtual void update(const IPhotoInfo::Ptr &) override;
-            virtual void store(const std::deque<Photo::Data> &, const Callback<const std::vector<Photo::Id> &>&) override;
+            virtual void store(const std::vector<Photo::Data> &, const Callback<const std::vector<Photo::Id> &>&) override;
             virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
-            virtual void countPhotos(const std::deque<IFilter::Ptr> &, const Callback<int> &) override;
-            virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::deque<IPhotoInfo::Ptr> &> &) override;
-            virtual void listTagNames( const Callback<const std::deque<TagNameInfo> &> & ) override;
-            virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
-            virtual void listTagValues( const TagNameInfo&, const std::deque<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::deque<TagValue> &> &) override;
-            virtual void listPhotos(const std::deque<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
+            virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;
+            virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
+            virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) override;
+            virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
+            virtual void listTagValues( const TagNameInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
+            virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
             virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) override;
 

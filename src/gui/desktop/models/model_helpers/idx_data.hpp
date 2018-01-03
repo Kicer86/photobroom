@@ -172,7 +172,7 @@ class IdxGroupLeafData: public IdxLeafData
         virtual ~IdxGroupLeafData();
 
     private:
-        std::deque<IPhotoInfo::Ptr> m_photos;
+        std::vector<IPhotoInfo::Ptr> m_photos;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
 };

@@ -59,7 +59,7 @@ namespace Database
         Generator();
         ~Generator();
 
-        QString parse(const std::deque<IFilter::Ptr> &);
+        QString parse(const std::vector<IFilter::Ptr> &);
         bool canBeMerged(const FilterData &, const FilterData &) const;
         QString nest(const QString& current, const FilterData& incoming);
         QString constructQuery(const FilterData &) const;
@@ -256,7 +256,7 @@ namespace Database
     }
 
 
-    QString Generator::parse(const std::deque<IFilter::Ptr>& filters)
+    QString Generator::parse(const std::vector<IFilter::Ptr>& filters)
     {
         FiltersVisitor visitor;
         FilterData filterData;
@@ -406,7 +406,7 @@ namespace Database
     }
 
 
-    QString SqlFilterQueryGenerator::generate(const std::deque<IFilter::Ptr>& filters) const
+    QString SqlFilterQueryGenerator::generate(const std::vector<IFilter::Ptr>& filters) const
     {
         return Generator().parse(filters);
     }

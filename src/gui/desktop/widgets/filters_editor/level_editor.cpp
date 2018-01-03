@@ -34,7 +34,7 @@ namespace
 {
     struct WidgetsOrganizer
     {
-        WidgetsOrganizer(std::deque<QLabel *>* widgets): m_widgets(widgets) {}
+        WidgetsOrganizer(std::vector<QLabel *>* widgets): m_widgets(widgets) {}
 
         void organize()
         {
@@ -53,7 +53,7 @@ namespace
             
         }
 
-        std::deque<QLabel *>* m_widgets;
+        std::vector<QLabel *>* m_widgets;
     };
 
 
@@ -72,7 +72,7 @@ namespace
 
         QPoint calcDropPosition(const QPoint &);
 
-        std::deque<QLabel *> m_levels;
+        std::vector<QLabel *> m_levels;
         WidgetsOrganizer m_organizer;
 
         //drag data:
@@ -222,7 +222,7 @@ LevelEditor::~LevelEditor()
 }
 
 
-void LevelEditor::setLevelNames(const std::deque<QString>& names)
+void LevelEditor::setLevelNames(const std::vector<QString>& names)
 {
     //TODO: perform diff and remove/add widgets in smart way
 

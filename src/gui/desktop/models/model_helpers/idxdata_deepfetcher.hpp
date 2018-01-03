@@ -21,9 +21,10 @@
 #define IDXDATADEEPFETCHER_H
 
 #include <deque>
+#include <condition_variable>
 #include <mutex>
 #include <set>
-#include <condition_variable>
+#include <vector>
 
 #include <QObject>
 

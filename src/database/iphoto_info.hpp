@@ -22,7 +22,7 @@
 
 #include <memory>
 #include <string>
-#include <deque>
+#include <vector>
 
 #include <core/tag.hpp>
 
@@ -40,7 +40,7 @@ class TagDataBase;
 struct DATABASE_EXPORT IPhotoInfo
 {
     typedef std::shared_ptr<IPhotoInfo> Ptr;
-    typedef std::deque<IPhotoInfo::Ptr> List;
+    typedef std::vector<IPhotoInfo::Ptr> List;
 
     virtual ~IPhotoInfo() = default;
 

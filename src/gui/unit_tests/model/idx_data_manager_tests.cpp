@@ -55,7 +55,7 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     MockDatabase db;
 
     const TagNameInfo dateTag(BaseTagsList::Date);
-    const std::deque<TagValue> dates = { QDate(2017, 05, 30) };
+    const std::vector<TagValue> dates = { QDate(2017, 05, 30) };
 
     EXPECT_CALL(db, notifier())
         .WillRepeatedly(Return(nullptr));
@@ -93,7 +93,7 @@ TEST(IdxDataManagerShould, AddUniversalNodeOnTopWhenPhotoDoesntMatchOtherTopNode
     IdxDataManager manager(&model);
 
     //define expectations
-    const std::deque<TagValue> empty_values;
+    const std::vector<TagValue> empty_values;
 
     ON_CALL(database, notifier()).WillByDefault(Return(&notifier));
     ON_CALL(database, listTagValues(_, _, _)).WillByDefault(InvokeArgument<2>(TagNameInfo(), empty_values));

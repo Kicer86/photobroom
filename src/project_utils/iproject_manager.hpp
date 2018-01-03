@@ -21,7 +21,7 @@
 #define IPROJECTMANAGER_HPP
 
 #include <memory>
-#include <deque>
+#include <vector>
 
 #include <database/idatabase_plugin.hpp>
 

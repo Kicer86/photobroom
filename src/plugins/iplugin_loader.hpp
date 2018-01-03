@@ -21,7 +21,7 @@
 #define IPLUGIN_LOADER_HPP
 
 #include <memory>
-#include <deque>
+#include <vector>
 
 namespace Database
 {
@@ -36,7 +36,7 @@ struct IPluginLoader
     virtual ~IPluginLoader();
 
     virtual Database::IPlugin* getDBPlugin(const QString &) = 0;
-    virtual const std::deque<Database::IPlugin *>& getDBPlugins() const = 0;
+    virtual const std::vector<Database::IPlugin *>& getDBPlugins() const = 0;
 };
 
 #endif // IPLUGIN_LOADER_HPP

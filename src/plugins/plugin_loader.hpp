@@ -38,7 +38,7 @@ class PluginLoader: public IPluginLoader
         void set(ILoggerFactory *);
 
         Database::IPlugin* getDBPlugin(const QString &) override;
-        const std::deque<Database::IPlugin *>& getDBPlugins() const override;
+        const std::vector<Database::IPlugin *>& getDBPlugins() const override;
 
     private:
         struct Impl;
