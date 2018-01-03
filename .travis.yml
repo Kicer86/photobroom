@@ -1,102 +1,89 @@
 
+language: cpp
 sudo: required
 dist: trusty
-
-language: cpp
 
 branches:
   except:
     - appveyor
 
+addons:
+  apt:
+    packages:
+      - libexiv2-dev
+      - qt57base
+      - qt57svg
+      - python3
+      - ninja-build
+      - g++-7
+      - gcc-7
+      - clang-5.0
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
+      - sourceline: 'ppa:beineri/opt-qt571-trusty'
+
 notifications:
-    on_failure: never
-    on_success: never
+  on_failure: never
+  on_success: never
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+env:
+   - SHARED_BUILD=ON
+   - SHARED_BUILD=OFF
 
 matrix:
-    include:
-        # TODO: below env could be used as additional dimension in matrix but there is a feature missing:
-        # https://github.com/travis-ci/travis-ci/issues/1519
-        - compiler: gcc
-          addons:
-            apt:
-             packages:
-               - g++-7
-               - gcc-7
-               - libexiv2-dev
-               - python3
-               - ninja-build
-             sources:
-               - ubuntu-toolchain-r-test
-          # use compiler which has c++17 support
-          env: COMPILER=g++-7 SHARED_BUILD=ON
+  exclude:
+    - os: osx
+      env: SHARED_BUILD=ON
 
-        - compiler: gcc
-          addons:
-            apt:
-             packages:
-               - g++-7
-               - gcc-7
-               - libexiv2-dev
-               - python3
-               - ninja-build
-             sources:
-               - ubuntu-toolchain-r-test
-          # use compiler which has c++17 support
-          env: COMPILER=g++-7 SHARED_BUILD=OFF
-
-        - compiler: clang
-          addons:
-            apt:
-             packages:
-               - libstdc++-7-dev
-               - clang-5.0
-               - libexiv2-dev
-               - python3
-               - ninja-build
-             sources:
-               - ubuntu-toolchain-r-test
-               - llvm-toolchain-trusty-5.0
-          # use compiler which has c++17 support
-          env: COMPILER=clang++-5.0 SHARED_BUILD=ON
-
-        - compiler: clang
-          addons:
-            apt:
-             packages:
-               - libstdc++-7-dev
-               - clang-5.0
-               - libexiv2-dev
-               - python3
-               - ninja-build
-             sources:
-               - ubuntu-toolchain-r-test
-               - llvm-toolchain-trusty-5.0
-          # use compiler which has c++17 support
-          env: COMPILER=clang++-5.0 SHARED_BUILD=OFF
+  allow_failures:
+    - os: osx
 
 cache:
   directories:
-  - $TRAVIS_BUILD_DIR/usr
+    - $TRAVIS_BUILD_DIR/usr
 
 before_install:
-    # setup Qt 5.7 which is not in Ubuntu by default. To be removed in the future.
-  - sudo add-apt-repository ppa:beineri/opt-qt571-trusty -y
-  - sudo apt-get -qq update
-  - sudo sudo apt-get install -qq qt57base qt57svg
-  - source /opt/qt57/bin/qt57-env.sh
+  # setup tools for particular system
+  - if [ $TRAVIS_OS_NAME == 'osx' ]; then
+        brew upgrade pyenv;
+        brew install qt@5.7 ninja exiv2;
+        pyenv install 3.5.2;
+        pyenv global 3.5.2;
+        eval "$(pyenv init -)";
+        export PATH="/usr/local/opt/qt@5.7/bin:$PATH"
+        export CMAKE_BIN=cmake;
+        export PYTHON=python;
+    else
+        source /opt/qt57/bin/qt57-env.sh;
+        wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh;
+        chmod +x ./cmake-3.9.1-Linux-x86_64.sh;
+        ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
+        export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
+        export PYTHON=python3;
+    fi
 
 before_script:
-  # cmake (TODO: remove in the future)
-  - wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh
-  - chmod +x ./cmake-3.9.1-Linux-x86_64.sh
-  - ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license
-  - export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake
+  - if [ "$CC" = "gcc" ]; then
+        export COMPILER=g++-7;
+    else
+        export COMPILER=clang++-5.0;
+    fi
 
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
   # third party stuff
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         pushd tools;
-        python3 ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
+        $PYTHON --version;
+        $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
         popd;
     fi
   # setup gmock and gtest
@@ -107,8 +94,10 @@ before_script:
   - mkdir build && cd build
   - CXX=$COMPILER $CMAKE_BIN -GNinja -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
   # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - if [ $TRAVIS_OS_NAME == 'linux' ]; then
+        export DISPLAY=:99.0;
+        sh -e /etc/init.d/xvfb start;
+    fi
 
 script:
   - ninja
