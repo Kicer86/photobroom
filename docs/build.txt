@@ -1,4 +1,12 @@
 
+Before first build update git submodules with:
+git submodule update --init --recursive
+
+or clone whole repo with
+
+git clone --recursive
+
+
 Required tools and libraries:
  - cmake - version 3.8 or later
  - Qt5 - version 5.7 or higher
