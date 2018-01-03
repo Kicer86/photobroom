@@ -8,24 +8,24 @@ branches:
     - appveyor
 
 addons:
-    apt:
-        packages:
-            - libexiv2-dev
-            - qt57base
-            - qt57svg
-            - python3
-            - ninja-build
-            - g++-7
-            - gcc-7
-            - clang-5.0
-        sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-            - sourceline: 'ppa:beineri/opt-qt571-trusty'
+  apt:
+    packages:
+      - libexiv2-dev
+      - qt57base
+      - qt57svg
+      - python3
+      - ninja-build
+      - g++-7
+      - gcc-7
+      - clang-5.0
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
+      - sourceline: 'ppa:beineri/opt-qt571-trusty'
 
 notifications:
-    on_failure: never
-    on_success: never
+  on_failure: never
+  on_success: never
 
 os:
   - linux
@@ -36,20 +36,20 @@ compiler:
   - clang
 
 env:
-    - SHARED_BUILD=ON
-    - SHARED_BUILD=OFF
+   - SHARED_BUILD=ON
+   - SHARED_BUILD=OFF
 
 matrix:
-    exclude:
-        - os: osx
-          env: SHARED_BUILD=ON
+  exclude:
+    - os: osx
+      env: SHARED_BUILD=ON
 
-    allow_failures:
-        - os: osx
+  allow_failures:
+    - os: osx
 
 cache:
   directories:
-  - $TRAVIS_BUILD_DIR/usr
+    - $TRAVIS_BUILD_DIR/usr
 
 before_install:
   # setup tools for particular system
