@@ -74,6 +74,12 @@ void PhotoInfoStorekeeper::photoUpdated(IPhotoInfo* photoInfo, PhotoInfo::Change
 }
 
 
+void PhotoInfoStorekeeper::storeTags(const Photo::Id&, const Tag::TagsList&)
+{
+
+}
+
+
 void PhotoInfoStorekeeper::photoInfoConstructed(PhotoInfo* photoInfo)
 {
     photoInfo->registerObserver(this);

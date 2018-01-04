@@ -26,6 +26,7 @@
 #include <ibackend.hpp>
 
 #include "iphoto_info_cache.hpp"
+#include "iphoto_info_storekeeper.hpp"
 
 namespace Database
 {
@@ -34,14 +35,14 @@ namespace Database
 
 class PhotoInfo;
 
-class PhotoInfoStorekeeper: public PhotoInfo::IObserver
+class PhotoInfoStorekeeper: public PhotoInfo::IObserver, public IPhotoInfoStorekeeper
 {
     public:
         PhotoInfoStorekeeper();
-        PhotoInfoStorekeeper(const PhotoInfoStorekeeper& other) = delete;
+        PhotoInfoStorekeeper(const PhotoInfoStorekeeper &) = delete;
         ~PhotoInfoStorekeeper();
 
-        PhotoInfoStorekeeper& operator=(const PhotoInfoStorekeeper& other) = delete;
+        PhotoInfoStorekeeper& operator=(const PhotoInfoStorekeeper &) = delete;
 
         void photoInfoConstructed(PhotoInfo *);
         void setDatabase(Database::IDatabase *);
@@ -52,6 +53,8 @@ class PhotoInfoStorekeeper: public PhotoInfo::IObserver
         std::unique_ptr<Data> m_data;
 
         virtual void photoUpdated(IPhotoInfo *, PhotoInfo::ChangeReason) override;
+
+        void storeTags(const Photo::Id &, const Tag::TagsList &) override;
 };
 
 #endif // PHOTO_INFO_STOREKEEPER_HPP

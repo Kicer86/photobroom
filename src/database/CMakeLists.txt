@@ -38,6 +38,7 @@ set(DATABASE_HEADERS
     query_list.hpp
     project_info.hpp
     implementation/async_database.hpp
+    implementation/iphoto_info_storekeeper.hpp
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
     implementation/photo_info_storekeeper.hpp

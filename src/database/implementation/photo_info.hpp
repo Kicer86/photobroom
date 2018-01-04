@@ -14,6 +14,7 @@
 
 class QPixmap;
 
+struct IPhotoInfoStorekeeper;
 struct Sha256Assigner;
 
 namespace Photo
@@ -25,7 +26,7 @@ class PhotoInfo final: public IPhotoInfo
 {
     public:
 
-        enum class ChangeReason
+        [[deprecated]] enum class ChangeReason
         {
             Sha256Updated,
             TagsUpdated,
@@ -34,13 +35,13 @@ class PhotoInfo final: public IPhotoInfo
             GroupUpdated,
         };
 
-        struct IObserver
+        [[deprecated]] struct IObserver
         {
             virtual ~IObserver() = default;
             virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
         };
 
-        PhotoInfo(const Photo::Data &);
+        PhotoInfo(const Photo::Data &, IPhotoInfoStorekeeper *);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -82,6 +83,7 @@ class PhotoInfo final: public IPhotoInfo
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+        IPhotoInfoStorekeeper* m_storekeeper;
 
         void updated(ChangeReason);
 };
