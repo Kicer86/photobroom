@@ -61,8 +61,8 @@ class PhotoInfo final: public IPhotoInfo
         bool isExifDataLoaded() const override;              // returns true is exif for this photo was read
 
         //observers
-        void registerObserver(IObserver *);
-        void unregisterObserver(IObserver *);
+        void registerObserver(IObserver *) [[deprecated]];
+        void unregisterObserver(IObserver *) [[deprecated]];
 
         //set data
         void setSha256(const Photo::Sha256sum &) override;
