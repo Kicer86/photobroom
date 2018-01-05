@@ -60,6 +60,7 @@ namespace Database
             void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
     };
 
+    // for direct operating on backend (IDatabase::performCustomAction)
     struct IBackendOperator
     {
         virtual ~IBackendOperator() = default;
@@ -71,7 +72,6 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
-    // TODO: all exec functions should be dropped and dedicated functions should be introduced
     struct DATABASE_EXPORT IDatabase
     {
         template <typename... Args>
@@ -82,7 +82,7 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         // store data
-        virtual void update(const IPhotoInfo::Ptr &) = 0;
+        [[deprecated]] virtual void update(const IPhotoInfo::Ptr &) = 0;
         virtual void store(const std::vector<Photo::Data> &,              // only path, flags and tags will be used to feed database
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
 
