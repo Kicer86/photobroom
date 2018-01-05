@@ -202,12 +202,12 @@ namespace Database
             std::vector<TagValue>  listTagValues(const TagNameInfo& tagName) const;
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
 
-            void                  perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
+            void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
             std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
             std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
-            Photo::Data           getPhoto(const Photo::Id &) const;
-            int                   getPhotosCount(const std::vector<IFilter::Ptr> &) const;
+            Photo::Data            getPhoto(const Photo::Id &) const;
+            int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
             bool storeData(const Photo::Data &) const;
