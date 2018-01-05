@@ -20,6 +20,8 @@
 #ifndef PHOTO_DATA_HPP
 #define PHOTO_DATA_HPP
 
+#include <any>
+
 #include <QImage>
 
 #include <core/tag.hpp>
@@ -48,6 +50,22 @@ namespace Photo
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+    };
+
+    enum class Field
+    {
+        Checksum,
+        Tags,
+        Flags,
+        Path,
+        Geometry,
+        GroupInfo,
+    };
+
+    struct DataDelta
+    {
+        Photo::Id                 id;
+        std::map<Field, std::any> data;
     };
 
 }
