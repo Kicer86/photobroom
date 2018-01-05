@@ -62,13 +62,13 @@ namespace Database
         virtual std::vector<TagValue> listTagValues(const TagNameInfo &,
                                                    const std::vector<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
         virtual std::vector<Photo::Id> getAllPhotos() = 0;                                      // list all photos
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;         // find all photos matching filter
-        virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) = 0;        // drop photos matching filter
-        virtual Photo::Data           getPhoto(const Photo::Id &) = 0;                         // get particular photo
-        virtual int                   getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;    // is there any photo matching filters?
+        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;        // find all photos matching filter
+        virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) = 0;       // drop photos matching filter
+        virtual Photo::Data            getPhoto(const Photo::Id &) = 0;                         // get particular photo
+        virtual int                    getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;   // is there any photo matching filters?
 
         // reading extra data
-        //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                                // get thumbnail for photo
+        //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
 
         // modify data
         virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
