@@ -56,7 +56,7 @@ namespace Database
 
         signals:
             void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
-            void photoModified(const IPhotoInfo::Ptr &);            // emited when photo updated
+            void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
             void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
     };
 
@@ -64,8 +64,8 @@ namespace Database
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                          // get IPhotoInfo for given id
+        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;      // find all photos matching filter
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                           // get IPhotoInfo for given id
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::Data> &) = 0;    // store photo
     };
 
