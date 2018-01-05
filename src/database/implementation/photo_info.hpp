@@ -25,23 +25,8 @@ namespace Photo
 class PhotoInfo final: public IPhotoInfo
 {
     public:
-
-        [[deprecated]] enum class ChangeReason
-        {
-            Sha256Updated,
-            TagsUpdated,
-            GeometryUpdated,
-            FlagsUpdated,
-            GroupUpdated,
-        };
-
-        [[deprecated]] struct IObserver
-        {
-            virtual ~IObserver() = default;
-            virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
-        };
-
         PhotoInfo(const Photo::Data &, IPhotoInfoStorekeeper *);
+        PhotoInfo(const Photo::DataDelta &, IPhotoInfoStorekeeper *);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -60,10 +45,6 @@ class PhotoInfo final: public IPhotoInfo
         bool isSha256Loaded() const override;                // returns true if sha256 is not null
         bool isGeometryLoaded() const override;              // returns true if photo's geometry was loaded
         bool isExifDataLoaded() const override;              // returns true is exif for this photo was read
-
-        //observers
-        void registerObserver(IObserver *) [[deprecated]];
-        void unregisterObserver(IObserver *) [[deprecated]];
 
         //set data
         void setSha256(const Photo::Sha256sum &) override;
@@ -84,8 +65,6 @@ class PhotoInfo final: public IPhotoInfo
         struct Data;
         std::unique_ptr<Data> m_data;
         IPhotoInfoStorekeeper* m_storekeeper;
-
-        void updated(ChangeReason);
 };
 
 #endif

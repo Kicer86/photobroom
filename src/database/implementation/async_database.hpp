@@ -24,11 +24,12 @@
 
 #include "idatabase.hpp"
 #include "ibackend.hpp"
+#include "iphoto_info_storekeeper.hpp"
 
 namespace Database
 {
 
-    class AsyncDatabase: public IDatabase
+    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
     {
         public:
             AsyncDatabase (std::unique_ptr<IBackend> &&);
@@ -41,8 +42,8 @@ namespace Database
 
             virtual ADatabaseSignals* notifier() override;
 
-            virtual void update(const IPhotoInfo::Ptr &) override;
-            virtual void store(const std::vector<Photo::Data> &, const Callback<const std::vector<Photo::Id> &>&) override;
+            virtual void update(const Photo::DataDelta &) override;
+            virtual void store(const std::vector<Photo::DataDelta> &, const Callback<const std::vector<Photo::Id> &>&) override;
             virtual void createGroup(const Photo::Id & , const Callback<Group::Id> &) override;
 
             virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;

@@ -8,7 +8,7 @@ struct IPhotoInfoStorekeeper
 {
     virtual ~IPhotoInfoStorekeeper() = default;
 
-    virtual void storeTags(const Photo::Id &, const Tag::TagsList &) = 0;
+    virtual void update(const Photo::DataDelta &) = 0;
 };
 
 #endif

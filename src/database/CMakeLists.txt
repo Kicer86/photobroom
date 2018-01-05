@@ -14,7 +14,6 @@ set(DATABASE_SOURCES
     implementation/photo_data.cpp
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
-    implementation/photo_info_storekeeper.cpp
     implementation/photo_types.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
@@ -41,7 +40,6 @@ set(DATABASE_HEADERS
     implementation/iphoto_info_storekeeper.hpp
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
-    implementation/photo_info_storekeeper.hpp
     database_tools/photos_analyzer.hpp
     database_tools/tag_info_collector.hpp
     database_tools/implementation/photo_info_updater.hpp

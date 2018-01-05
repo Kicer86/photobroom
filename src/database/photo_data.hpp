@@ -62,10 +62,21 @@ namespace Photo
         GroupInfo,
     };
 
-    struct DataDelta
+    struct DATABASE_EXPORT DataDelta
     {
         Photo::Id                 id;
         std::map<Field, std::any> data;
+
+        bool has(Field) const;
+        const std::any& get(Field) const;
+
+        template<typename T>
+        const T& getAs(Field field) const
+        {
+            const std::any& raw = get(field);
+
+            return std::any_cast<const T &>(raw);
+        }
     };
 
 }

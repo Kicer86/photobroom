@@ -33,7 +33,6 @@
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 #include "photo_info.hpp"
-#include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 
 //TODO: cleanup this file!

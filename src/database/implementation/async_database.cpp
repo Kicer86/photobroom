@@ -28,7 +28,6 @@
 #include "iphoto_info_cache.hpp"
 #include "photo_data.hpp"
 #include "photo_info.hpp"
-#include "photo_info_storekeeper.hpp"
 #include "project_info.hpp"
 
 
@@ -45,7 +44,7 @@ namespace
 
     struct Executor: Database::ADatabaseSignals, Database::IBackendOperator
     {
-        Executor( std::unique_ptr<Database::IBackend>&& backend, PhotoInfoStorekeeper* storekeeper):
+        Executor( std::unique_ptr<Database::IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
             m_tasks(1024),
             m_backend( std::move(backend) ),
             m_cache(nullptr),
@@ -90,12 +89,12 @@ namespace
             m_backend->closeConnections();
         }
 
-        IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data& data)
+        template<typename T>
+        IPhotoInfo::Ptr constructPhotoInfo(const T& data)
         {
             auto photoInfo = std::make_shared<PhotoInfo>(data, m_storekeeper);
 
             m_cache->introduce(photoInfo);
-            m_storekeeper->photoInfoConstructed(photoInfo.get());
 
             return photoInfo;
         }
@@ -121,11 +120,11 @@ namespace
             return photoPtr;
         }
 
-        std::vector<Photo::Id> insertPhotos(const std::vector<Photo::Data>& data) override
+        std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta>& dataDelta) override
         {
             std::vector<Photo::Id> result;
 
-            std::vector<Photo::Data> data_set(data.begin(), data.end());
+            std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
             const bool status = m_backend->addPhotos(data_set);
 
             if (status)
@@ -134,7 +133,7 @@ namespace
 
                 for(std::size_t i = 0; i < data_set.size(); i++)
                 {
-                    const Photo::Data& data = data_set[i];
+                    const Photo::DataDelta& data = data_set[i];
                     IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
                     photos.push_back(photoInfo);
 
@@ -163,7 +162,7 @@ namespace
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
             Database::IPhotoInfoCache* m_cache;
-            PhotoInfoStorekeeper* m_storekeeper;
+            IPhotoInfoStorekeeper* m_storekeeper;
     };
 
 
@@ -297,7 +296,7 @@ namespace
 
     struct InsertPhotosTask: IThreadTask
     {
-        InsertPhotosTask(const std::vector<Photo::Data>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
+        InsertPhotosTask(const std::vector<Photo::DataDelta>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
             IThreadTask(),
             m_data(data),
             m_callback(callback)
@@ -315,7 +314,7 @@ namespace
                 m_callback(result);
         }
 
-        const std::vector<Photo::Data> m_data;
+        const std::vector<Photo::DataDelta> m_data;
         const std::function<void(const std::vector<Photo::Id> &)> m_callback;
     };
 
@@ -390,7 +389,7 @@ namespace
 
     struct UpdateTask: IThreadTask
     {
-        UpdateTask(const Photo::Data& photoData):
+        UpdateTask(const Photo::DataDelta& photoData):
             IThreadTask(),
             m_photoData(photoData)
         {
@@ -408,7 +407,7 @@ namespace
             emit executor->photoModified(photoInfo);
         }
 
-        Photo::Data m_photoData;
+        Photo::DataDelta m_photoData;
     };
 
 }
@@ -419,10 +418,9 @@ namespace Database
 
     struct AsyncDatabase::Impl
     {
-        Impl(std::unique_ptr<IBackend>&& backend):
+        Impl(std::unique_ptr<IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
             m_cache(nullptr),
-            m_storekeeper(),
-            m_executor(std::move(backend), &m_storekeeper),
+            m_executor(std::move(backend), storekeeper),
             m_thread(),
             m_working(true)
         {
@@ -458,18 +456,16 @@ namespace Database
         }
 
         std::unique_ptr<IPhotoInfoCache> m_cache;
-        PhotoInfoStorekeeper m_storekeeper;
         Executor m_executor;
         std::thread m_thread;
         bool m_working;
     };
 
 
-    AsyncDatabase::AsyncDatabase ( std::unique_ptr<IBackend>&& backend ):
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend):
         m_impl(nullptr)
     {
-        m_impl = std::make_unique<Impl>( std::move(backend));
-        m_impl->m_storekeeper.setDatabase(this);
+        m_impl = std::make_unique<Impl>(std::move(backend), this);
     }
 
 
@@ -491,7 +487,6 @@ namespace Database
     {
         m_impl->m_cache = std::move(cache);
         m_impl->m_executor.set(m_impl->m_cache.get());
-        m_impl->m_storekeeper.setCache(m_impl->m_cache.get());
     }
 
 
@@ -506,13 +501,15 @@ namespace Database
         m_impl->addTask(task);
     }
 
-    void AsyncDatabase::update(const IPhotoInfo::Ptr& photoInfo)
+    void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        UpdateTask* task = new UpdateTask(photoInfo->data());
+        assert(data.id.valid());
+
+        UpdateTask* task = new UpdateTask(data);
         m_impl->addTask(task);
     }
 
-    void AsyncDatabase::store(const std::vector<Photo::Data>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {
         auto task = std::make_unique<InsertPhotosTask>(photos, callback);
         m_impl->addTask(std::move(task));

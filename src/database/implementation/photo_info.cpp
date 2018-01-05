@@ -12,12 +12,11 @@
 #include <core/task_executor.hpp>
 
 #include "photo_data.hpp"
-
+#include "iphoto_info_storekeeper.hpp"
 
 struct PhotoInfo::Data
 {
     Data():
-        m_observers(),
         m_data(),
         m_valid(true)
     {
@@ -26,7 +25,6 @@ struct PhotoInfo::Data
     Data(const Data &) = delete;
     Data& operator=(const Data &) = delete;
 
-    ol::ThreadSafeResource<std::set<IObserver *>> m_observers;
     ol::ThreadSafeResource<Photo::Data> m_data;
     bool m_valid;
 };
@@ -38,6 +36,36 @@ PhotoInfo::PhotoInfo(const Photo::Data& data, IPhotoInfoStorekeeper* storekeeper
 {
     m_data = std::make_unique<Data>();
     *m_data->m_data.lock() = data;
+}
+
+PhotoInfo::PhotoInfo(const Photo::DataDelta& dataDelta, IPhotoInfoStorekeeper* storekeeper):
+    m_data(nullptr),
+    m_storekeeper(storekeeper)
+{
+    assert(dataDelta.id.valid());
+
+    m_data = std::make_unique<Data>();
+    auto data = m_data->m_data.lock();
+
+    data->id = dataDelta.id;
+
+    if (dataDelta.has(Photo::Field::Checksum))
+        data->sha256Sum = dataDelta.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+
+    if (dataDelta.has(Photo::Field::Flags))
+        data->flags = dataDelta.getAs<Photo::FlagValues>(Photo::Field::Flags);
+
+    if (dataDelta.has(Photo::Field::Geometry))
+        data->geometry = dataDelta.getAs<QSize>(Photo::Field::Geometry);
+
+    if (dataDelta.has(Photo::Field::GroupInfo))
+        data->groupInfo = dataDelta.getAs<GroupInfo>(Photo::Field::GroupInfo);
+
+    if (dataDelta.has(Photo::Field::Path))
+        data->path = dataDelta.getAs<QString>(Photo::Field::Path);
+
+    if (dataDelta.has(Photo::Field::Tags))
+        data->tags = dataDelta.getAs<Tag::TagsList>(Photo::Field::Tags);
 }
 
 
@@ -109,26 +137,19 @@ bool PhotoInfo::isExifDataLoaded() const
 }
 
 
-void PhotoInfo::registerObserver(IObserver* observer)
-{
-    m_data->m_observers.lock()->insert(observer);
-}
-
-
-void PhotoInfo::unregisterObserver(IObserver* observer)
-{
-    m_data->m_observers.lock()->erase(observer);
-}
-
-
 void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
 {
     assert(isSha256Loaded() == false);
 
-    m_data->m_data.lock()->sha256Sum = sha256;
-    markFlag(Photo::FlagsE::Sha256Loaded, 1);
+    auto data = m_data->m_data.lock();
+    data->sha256Sum = sha256;
+    data->flags[Photo::FlagsE::Sha256Loaded] = 1;
 
-    updated(ChangeReason::Sha256Updated);
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::Checksum] = data->sha256Sum;
+    delta.data[Photo::Field::Flags] = data->flags;
+    m_storekeeper->update(delta);
 }
 
 
@@ -136,34 +157,51 @@ void PhotoInfo::setGeometry(const QSize& geometry)
 {
     assert(isGeometryLoaded() == false);
 
-    m_data->m_data.lock()->geometry = geometry;
-    markFlag(Photo::FlagsE::GeometryLoaded, 1);
+    auto data = m_data->m_data.lock();
+    data->geometry = geometry;
+    data->flags[Photo::FlagsE::GeometryLoaded] = 1;
 
-    updated(ChangeReason::GeometryUpdated);
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::Geometry] = data->geometry;
+    delta.data[Photo::Field::Flags] = data->flags;
+    m_storekeeper->update(delta);
 }
 
 
 void PhotoInfo::setTags(const Tag::TagsList& tags)
 {
-    m_data->m_data.lock()->tags = tags;
+    auto data = m_data->m_data.lock();
+    data->tags = tags;
 
-    updated(ChangeReason::TagsUpdated);
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::Tags] = data->tags;
+    m_storekeeper->update(delta);
 }
 
 
 void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 {
-    m_data->m_data.lock()->tags[name] = value;
+    auto data = m_data->m_data.lock();
+    data->tags[name] = value;
 
-    updated(ChangeReason::TagsUpdated);
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::Tags] = data->tags;
+    m_storekeeper->update(delta);
 }
 
 
 void PhotoInfo::setGroup(const GroupInfo& info)
 {
-    m_data->m_data.lock()->groupInfo = info;
+    auto data = m_data->m_data.lock();
+    data->groupInfo = info;
 
-    updated(ChangeReason::GroupUpdated);
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::GroupInfo] = data->groupInfo;
+    m_storekeeper->update(delta);
 }
 
 
@@ -171,7 +209,13 @@ void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
 {
     m_data->m_data.lock()->flags[flag] = v;
 
-    updated(ChangeReason::FlagsUpdated);
+    auto data = m_data->m_data.lock();
+    data->flags[flag] = v;
+
+    Photo::DataDelta delta;
+    delta.id = data->id;
+    delta.data[Photo::Field::Flags] = data->flags;
+    m_storekeeper->update(delta);
 }
 
 
@@ -194,13 +238,4 @@ void PhotoInfo::invalidate()
 bool PhotoInfo::isValid()
 {
     return m_data->m_valid;
-}
-
-
-void PhotoInfo::updated(ChangeReason reason)
-{
-    auto observers = m_data->m_observers.lock();
-
-    for(IObserver* observer: observers.get())
-        observer->photoUpdated(this, reason);
 }

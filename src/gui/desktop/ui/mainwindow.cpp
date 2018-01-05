@@ -592,12 +592,14 @@ void MainWindow::on_actionScan_collection_triggered()
     {
         const std::set<QString>& paths = scanner.newPhotos();
 
-        std::vector<Photo::Data> photos;
+        std::vector<Photo::DataDelta> photos;
         for(const QString& path: paths)
         {
-            Photo::Data photo_data;
-            photo_data.path = path;
-            photo_data.flags = { {Photo::FlagsE::StagingArea, 1} };
+            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
+
+            Photo::DataDelta photo_data;
+            photo_data.data[Photo::Field::Path] = path;
+            photo_data.data[Photo::Field::Flags] = flags;
             photos.emplace_back(photo_data);
         }
 

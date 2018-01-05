@@ -48,13 +48,13 @@ namespace Database
         virtual ~IBackend() = default;
 
         //add photo to database
-        virtual bool addPhotos(std::vector<Photo::Data> &) = 0;
+        virtual bool addPhotos(std::vector<Photo::DataDelta> &) = 0;
 
         // create group
         virtual Group::Id addGroup(const Photo::Id &) = 0;
 
         //update data
-        virtual bool update(const Photo::Data &) = 0;
+        virtual bool update(const Photo::DataDelta &) = 0;
 
         //read data
         virtual std::vector<TagNameInfo> listTags() = 0;                                        // list all stored tag names
