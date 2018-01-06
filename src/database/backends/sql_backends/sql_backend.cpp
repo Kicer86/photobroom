@@ -194,10 +194,10 @@ namespace Database
 
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::Data &) const;
-            bool insert(std::vector<Photo::Data> &) const;
+            bool insert(Photo::DataDelta &) const;
+            bool insert(std::vector<Photo::DataDelta> &) const;
             Group::Id addGroup(const Photo::Id& id) const;
-            bool update(const Photo::Data &) const;
+            bool update(const Photo::DataDelta &) const;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo& tagName) const;
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
@@ -210,12 +210,12 @@ namespace Database
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
-            bool storeData(const Photo::Data &) const;
+            bool storeData(const Photo::DataDelta &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
-            bool storeFlags(const Photo::Data &) const;
-            bool storeGroup(const Photo::Data &) const;
+            bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
+            bool storeGroup(const Photo::Id &, const GroupInfo &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
@@ -287,6 +287,15 @@ namespace Database
                         updateQueryData.setCondition("id", QString::number(tag_id));
                         query = m_backend->getGenericQueryGenerator()->update(db, updateQueryData);
                     }
+
+                    const QMap<QString, QVariant> bound = query.boundValues();
+
+                    QStringList binded_values;
+                    for(QMap<QString, QVariant>::const_iterator it = bound.begin(); it != bound.end(); ++it)
+                        binded_values.append(it.key() + " = " + it.value().toString());
+
+                    const QString binded_values_msg = "Binded values: " + binded_values.join(", ");
+                    m_logger->debug(binded_values_msg.toStdString());
 
                     status = m_executor.exec(query);
                 }
@@ -458,26 +467,43 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeData(const Photo::Data& data) const
+    bool ASqlBackend::Data::storeData(const Photo::DataDelta& data) const
     {
         assert(data.id);
 
+        bool status = true;
+
         //store used tags
-        Tag::TagsList tags = data.tags;
+        if (data.has(Photo::Field::Tags))
+        {
+            const Tag::TagsList& tags = data.getAs<Tag::TagsList>(Photo::Field::Tags);
 
-        bool status = storeTags(data.id, tags);
+            status = storeTags(data.id, tags);
+        }
 
-        if (status && data.getFlag(Photo::FlagsE::GeometryLoaded) > 0)
-            status = storeGeometryFor(data.id, data.geometry);
+        if (status && data.has(Photo::Field::Geometry))
+        {
+            const QSize& geometry = data.getAs<QSize>(Photo::Field::Geometry);
+            status = storeGeometryFor(data.id, geometry);
+        }
 
-        if (status && data.getFlag(Photo::FlagsE::Sha256Loaded) > 0)
-            status = storeSha256(data.id, data.sha256Sum);
+        if (status && data.has(Photo::Field::Checksum))
+        {
+            const Photo::Sha256sum& checksum = data.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+            status = storeSha256(data.id, checksum);
+        }
 
-        if (status)
-            status = storeFlags(data);
+        if (status && data.has(Photo::Field::Flags))
+        {
+            const Photo::FlagValues& flags = data.getAs<Photo::FlagValues>(Photo::Field::Flags);
+            status = storeFlags(data.id, flags);
+        }
 
-        if (status)
-            status = storeGroup(data);
+        if (status && data.has(Photo::Field::GroupInfo))
+        {
+            const GroupInfo& groupInfo = data.getAs<GroupInfo>(Photo::Field::GroupInfo);
+            status = storeGroup(data.id, groupInfo);
+        }
 
         return status;
     }
@@ -578,17 +604,25 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeFlags(const Photo::Data& photoData) const
+    bool ASqlBackend::Data::storeFlags(const Photo::Id& id, const Photo::FlagValues& flags) const
     {
+        auto get_flag = [&flags](Photo::FlagsE flag)
+        {
+            auto it = flags.find(flag);
+
+            const int result = it != flags.end()? it->second : 0;
+            return result;
+        };
+
         UpdateQueryData queryInfo(TAB_FLAGS);
-        queryInfo.setCondition("photo_id", QString::number(photoData.id));
+        queryInfo.setCondition("photo_id", QString::number(id));
         queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
-        queryInfo.setValues(QString::number(photoData.id),
-                            photoData.getFlag(Photo::FlagsE::StagingArea),
-                            photoData.getFlag(Photo::FlagsE::ExifLoaded),
-                            photoData.getFlag(Photo::FlagsE::Sha256Loaded),
-                            photoData.getFlag(Photo::FlagsE::ThumbnailLoaded),
-                            photoData.getFlag(Photo::FlagsE::GeometryLoaded)
+        queryInfo.setValues(QString::number(id),
+                            get_flag(Photo::FlagsE::StagingArea),
+                            get_flag(Photo::FlagsE::ExifLoaded),
+                            get_flag(Photo::FlagsE::Sha256Loaded),
+                            get_flag(Photo::FlagsE::ThumbnailLoaded),
+                            get_flag(Photo::FlagsE::GeometryLoaded)
         );
 
         const bool status = updateOrInsert(queryInfo);
@@ -597,11 +631,9 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::storeGroup(const Photo::Data& data) const
+    bool ASqlBackend::Data::storeGroup(const Photo::Id& id, const GroupInfo& groupInfo) const
     {
         bool status = true;
-
-        const GroupInfo& groupInfo = data.groupInfo;
 
         if (groupInfo.group_id.valid())
             switch (groupInfo.role)
@@ -609,10 +641,10 @@ namespace Database
                 case GroupInfo::Member:
                 {
                     UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
-                    queryInfo.setCondition("photo_id", QString::number(data.id));
+                    queryInfo.setCondition("photo_id", QString::number(id));
                     queryInfo.setColumns("group_id", "photo_id");
                     queryInfo.setValues(QString::number(groupInfo.group_id),
-                                        QString::number(data.id)
+                                        QString::number(id)
                     );
 
                     status = updateOrInsert(queryInfo);
@@ -625,7 +657,7 @@ namespace Database
                     break;
 
                 case GroupInfo::None:
-                    // do nothink. Do doubts here ;]
+                    // do nothing. Do doubts here ;]
                     break;
             }
         else
@@ -637,7 +669,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(Photo::Data& data) const
+    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -650,7 +682,7 @@ namespace Database
         InsertQueryData insertData(TAB_PHOTOS);
 
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data.path, InsertQueryData::Value::CurrentTime);
+        insertData.setValues(data.getAs<QString>(Photo::Field::Path), InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
@@ -686,14 +718,14 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(std::vector<Photo::Data>& data_set) const
+    bool ASqlBackend::Data::insert(std::vector<Photo::DataDelta>& data_set) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         Transaction transaction(db);
         bool status = transaction.begin();
 
-        for(Photo::Data& data: data_set)
+        for(Photo::DataDelta& data: data_set)
         {
             if (status)
                 status = insert(data);
@@ -738,7 +770,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::update(const Photo::Data& data) const
+    bool ASqlBackend::Data::update(const Photo::DataDelta& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -1138,9 +1170,9 @@ namespace Database
         if (status && empty)
         {
             QString columnsDesc;
-            const int size = definition.columns.size();
+            const std::size_t size = definition.columns.size();
 
-            for(int i = 0; i < size; i++)
+            for(std::size_t i = 0; i < size; i++)
             {
                 const QStringList types =
                 {
@@ -1160,9 +1192,9 @@ namespace Database
 
             if (status && definition.keys.empty() == false)
             {
-                const int keys = definition.keys.size();
+                const std::size_t keys = definition.keys.size();
 
-                for(int i = 0; status && i < keys; i++)
+                for(std::size_t i = 0; status && i < keys; i++)
                     createKey(definition.keys[i], definition.name, query);
             }
         }
@@ -1206,7 +1238,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::addPhotos(std::vector<Photo::Data>& data)
+    bool ASqlBackend::addPhotos(std::vector<Photo::DataDelta>& data)
     {
         const bool status = m_data->insert(data);
 
@@ -1222,7 +1254,7 @@ namespace Database
     }
 
 
-    bool ASqlBackend::update(const Photo::Data& data)
+    bool ASqlBackend::update(const Photo::DataDelta& data)
     {
         assert(data.id.valid());
 

@@ -81,9 +81,9 @@ namespace Database
 
             // Database::IBackend:
             virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual bool addPhotos(std::vector<Photo::Data> &) override final;
+            virtual bool addPhotos(std::vector<Photo::DataDelta> &) override final;
             virtual Group::Id addGroup(const Photo::Id & ) override final;
-            virtual bool update(const Photo::Data &) override final;
+            virtual bool update(const Photo::DataDelta &) override final;
 
             virtual std::vector<TagNameInfo> listTags() override final;
             virtual std::vector<TagValue>    listTagValues(const TagNameInfo&) override final;

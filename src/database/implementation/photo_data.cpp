@@ -18,6 +18,8 @@
 *
 */
 
+#include <cassert>
+
 #include "photo_data.hpp"
 
 namespace Photo
@@ -45,4 +47,19 @@ namespace Photo
 
     }
 
+    bool Photo::DataDelta::has(Photo::Field field) const
+    {
+        auto it = data.find(field);
+
+        return it != data.end();
+    }
+
+
+    const std::any& Photo::DataDelta::get(Photo::Field field) const
+    {
+        assert(has(field));
+        auto it = data.find(field);
+
+        return it->second;
+    }
 }

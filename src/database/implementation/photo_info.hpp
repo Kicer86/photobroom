@@ -14,6 +14,7 @@
 
 class QPixmap;
 
+struct IPhotoInfoStorekeeper;
 struct Sha256Assigner;
 
 namespace Photo
@@ -24,23 +25,7 @@ namespace Photo
 class PhotoInfo final: public IPhotoInfo
 {
     public:
-
-        enum class ChangeReason
-        {
-            Sha256Updated,
-            TagsUpdated,
-            GeometryUpdated,
-            FlagsUpdated,
-            GroupUpdated,
-        };
-
-        struct IObserver
-        {
-            virtual ~IObserver() = default;
-            virtual void photoUpdated(IPhotoInfo *, ChangeReason) = 0;
-        };
-
-        PhotoInfo(const Photo::Data &);
+        PhotoInfo(const Photo::Data &, IPhotoInfoStorekeeper *);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -60,10 +45,6 @@ class PhotoInfo final: public IPhotoInfo
         bool isGeometryLoaded() const override;              // returns true if photo's geometry was loaded
         bool isExifDataLoaded() const override;              // returns true is exif for this photo was read
 
-        //observers
-        void registerObserver(IObserver *);
-        void unregisterObserver(IObserver *);
-
         //set data
         void setSha256(const Photo::Sha256sum &) override;
         void setGeometry(const QSize &) override;
@@ -82,8 +63,7 @@ class PhotoInfo final: public IPhotoInfo
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
-
-        void updated(ChangeReason);
+        IPhotoInfoStorekeeper* m_storekeeper;
 };
 
 #endif

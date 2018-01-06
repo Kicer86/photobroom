@@ -215,10 +215,11 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
         {
             IPhotoInfo::Ptr firstPhoto = backendOperator->getPhotoFor(photos[0]);
 
-            Photo::Data data;
-            data.path = representativePath;
-            data.tags = firstPhoto->getTags();
-            data.flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
+            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
+            Photo::DataDelta data;
+            data.data[Photo::Field::Path] = representativePath;
+            data.data[Photo::Field::Tags] = firstPhoto->getTags();
+            data.data[Photo::Field::Flags] = flags;
 
             std::vector<Photo::Id> stored = backendOperator->insertPhotos({data});
 

@@ -20,6 +20,8 @@
 #ifndef PHOTO_DATA_HPP
 #define PHOTO_DATA_HPP
 
+#include <any>
+
 #include <QImage>
 
 #include <core/tag.hpp>
@@ -48,6 +50,33 @@ namespace Photo
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+    };
+
+    enum class Field
+    {
+        Checksum,
+        Tags,
+        Flags,
+        Path,
+        Geometry,
+        GroupInfo,
+    };
+
+    struct DATABASE_EXPORT DataDelta
+    {
+        Photo::Id                 id;
+        std::map<Field, std::any> data;
+
+        bool has(Field) const;
+        const std::any& get(Field) const;
+
+        template<typename T>
+        const T& getAs(Field field) const
+        {
+            const std::any& raw = get(field);
+
+            return std::any_cast<const T &>(raw);
+        }
     };
 
 }

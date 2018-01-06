@@ -60,18 +60,18 @@ namespace Database
             void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
     };
 
+    // for direct operating on backend (IDatabase::performCustomAction)
     struct IBackendOperator
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;      // find all photos matching filter
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                           // get IPhotoInfo for given id
-        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::Data> &) = 0;    // store photo
+        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;           // find all photos matching filter
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
+        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
     };
 
     //Database interface.
     //A bridge between clients and backend.
-    // TODO: all exec functions should be dropped and dedicated functions should be introduced
     struct DATABASE_EXPORT IDatabase
     {
         template <typename... Args>
@@ -82,8 +82,8 @@ namespace Database
         virtual ADatabaseSignals* notifier() = 0;
 
         // store data
-        virtual void update(const IPhotoInfo::Ptr &) = 0;
-        virtual void store(const std::vector<Photo::Data> &,              // only path, flags and tags will be used to feed database
+        virtual void update(const Photo::DataDelta &) = 0;
+        virtual void store(const std::vector<Photo::DataDelta> &,              // only path, flags and tags will be used to feed database
                            const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
 
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
