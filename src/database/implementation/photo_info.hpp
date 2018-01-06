@@ -26,7 +26,6 @@ class PhotoInfo final: public IPhotoInfo
 {
     public:
         PhotoInfo(const Photo::Data &, IPhotoInfoStorekeeper *);
-        PhotoInfo(const Photo::DataDelta &, IPhotoInfoStorekeeper *);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 

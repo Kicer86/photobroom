@@ -33,6 +33,35 @@
 
 namespace
 {
+    Photo::Data dataFromDelta(const Photo::DataDelta& delta)
+    {
+        assert(delta.id.valid());
+
+        Photo::Data data;
+
+        data.id = delta.id;
+
+        if (delta.has(Photo::Field::Checksum))
+            data.sha256Sum = delta.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+
+        if (delta.has(Photo::Field::Flags))
+            data.flags = delta.getAs<Photo::FlagValues>(Photo::Field::Flags);
+
+        if (delta.has(Photo::Field::Geometry))
+            data.geometry = delta.getAs<QSize>(Photo::Field::Geometry);
+
+        if (delta.has(Photo::Field::GroupInfo))
+            data.groupInfo = delta.getAs<GroupInfo>(Photo::Field::GroupInfo);
+
+        if (delta.has(Photo::Field::Path))
+            data.path = delta.getAs<QString>(Photo::Field::Path);
+
+        if (delta.has(Photo::Field::Tags))
+            data.tags = delta.getAs<Tag::TagsList>(Photo::Field::Tags);
+
+        return data;
+    }
+
 
     struct Executor;
 
@@ -89,8 +118,7 @@ namespace
             m_backend->closeConnections();
         }
 
-        template<typename T>
-        IPhotoInfo::Ptr constructPhotoInfo(const T& data)
+        IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data& data)
         {
             auto photoInfo = std::make_shared<PhotoInfo>(data, m_storekeeper);
 
@@ -133,7 +161,7 @@ namespace
 
                 for(std::size_t i = 0; i < data_set.size(); i++)
                 {
-                    const Photo::DataDelta& data = data_set[i];
+                    Photo::Data data = dataFromDelta(data_set[i]);
                     IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
                     photos.push_back(photoInfo);
 

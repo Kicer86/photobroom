@@ -38,36 +38,6 @@ PhotoInfo::PhotoInfo(const Photo::Data& data, IPhotoInfoStorekeeper* storekeeper
     *m_data->m_data.lock() = data;
 }
 
-PhotoInfo::PhotoInfo(const Photo::DataDelta& dataDelta, IPhotoInfoStorekeeper* storekeeper):
-    m_data(nullptr),
-    m_storekeeper(storekeeper)
-{
-    assert(dataDelta.id.valid());
-
-    m_data = std::make_unique<Data>();
-    auto data = m_data->m_data.lock();
-
-    data->id = dataDelta.id;
-
-    if (dataDelta.has(Photo::Field::Checksum))
-        data->sha256Sum = dataDelta.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
-
-    if (dataDelta.has(Photo::Field::Flags))
-        data->flags = dataDelta.getAs<Photo::FlagValues>(Photo::Field::Flags);
-
-    if (dataDelta.has(Photo::Field::Geometry))
-        data->geometry = dataDelta.getAs<QSize>(Photo::Field::Geometry);
-
-    if (dataDelta.has(Photo::Field::GroupInfo))
-        data->groupInfo = dataDelta.getAs<GroupInfo>(Photo::Field::GroupInfo);
-
-    if (dataDelta.has(Photo::Field::Path))
-        data->path = dataDelta.getAs<QString>(Photo::Field::Path);
-
-    if (dataDelta.has(Photo::Field::Tags))
-        data->tags = dataDelta.getAs<Tag::TagsList>(Photo::Field::Tags);
-}
-
 
 PhotoInfo::~PhotoInfo()
 {
