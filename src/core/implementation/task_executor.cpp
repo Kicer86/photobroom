@@ -45,10 +45,8 @@ ITaskExecutor::~ITaskExecutor()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-TaskExecutor::TaskExecutor(ILogger* logger): m_tasks(), m_producer(), m_taskEater(), m_logger(logger), m_working(true)
+TaskExecutor::TaskExecutor(ILogger* logger): m_tasks(0), m_taskEater(), m_logger(logger), m_working(true)
 {
-    m_producer = m_tasks.prepareProducer();
-
     m_taskEater = std::thread( [&]
     {
         this->eat();
@@ -65,13 +63,7 @@ TaskExecutor::~TaskExecutor()
 void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 {
     assert(m_working);
-    m_producer->push(std::move(task));
-}
-
-
-TaskExecutor::TaskQueue TaskExecutor::getCustomTaskQueue()
-{
-    return m_tasks.prepareProducer();
+    m_tasks.push(std::move(task));
 }
 
 

@@ -51,7 +51,6 @@ class PhotosAnalyzerImpl: public QObject
         Database::IDatabase* getDatabase();
 
         void addPhoto(const IPhotoInfo::Ptr& photo);
-        void stop();
 
     private:
         PhotoInfoUpdater m_updater;

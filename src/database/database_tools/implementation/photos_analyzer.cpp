@@ -37,7 +37,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory):
 
 PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 {
-    stop();
+
 }
 
 
@@ -45,7 +45,6 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 {
     m_database = database;
 
-    m_updater.dropPendingTasks();
     m_updater.waitForActiveTasks();
 
     if (m_database != nullptr)
@@ -95,12 +94,6 @@ void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 
     if (photo->isExifDataLoaded() == false)
         m_updater.updateTags(photo);
-}
-
-
-void PhotosAnalyzerImpl::stop()
-{
-    m_updater.dropPendingTasks();
 }
 
 
@@ -177,12 +170,6 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
 void PhotosAnalyzer::set(ITasksView* tasksView)
 {
     m_data->set(tasksView);
-}
-
-
-void PhotosAnalyzer::stop()
-{
-    m_data->stop();
 }
 
 

@@ -24,7 +24,8 @@
 
 #include <QCache>
 
-#include <core/ts_multi_head_queue.hpp>
+#include <OpenLibrary/putils/ts_queue.hpp>
+
 #include <core/task_executor.hpp>
 
 #include "ithumbnail_generator.hpp"
@@ -43,7 +44,6 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-        void dismissPendingTasks();
         void set(ITaskExecutor *);
         void set(ILogger *);
         void set(IExifReaderFactory *);
@@ -54,7 +54,6 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
     private:
         QImage m_videoImage;
-        ITaskExecutor::TaskQueue m_tasks;
         ITaskExecutor* m_executor;
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
