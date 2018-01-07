@@ -69,7 +69,7 @@ namespace
 }
 
 
-MainWindow::MainWindow( ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -83,9 +83,9 @@ MainWindow::MainWindow( ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWin
     m_executor(coreFactory->getTaskExecutor()),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
-    m_mainTabCtrl(new MainTabController ),
-    m_lookTabCtrl(new LookTabController ),
-    m_toolsTabCtrl(new ToolsTabController ),
+    m_mainTabCtrl(new MainTabController),
+    m_lookTabCtrl(new LookTabController),
+    m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
     m_completerFactory()
 {
