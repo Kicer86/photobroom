@@ -103,6 +103,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
+    ts_multi_queue.hpp
     implementation/aexif_reader.hpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp

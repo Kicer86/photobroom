@@ -4,21 +4,21 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include <core/ts_multi_head_queue.hpp>
+#include <core/ts_multi_queue.hpp>
 
 
-TEST(TS_MultiHeadQueueTest, isConstructible)
+TEST(TS_MultiQueueTest, isConstructible)
 {
     EXPECT_NO_THROW(
         {
-            TS_MultiHeadQueue<int> q;
+            TS_MultiQueue<int> q;
         });
 }
 
 
-TEST(TS_MultiHeadQueueTest, QuitsWithTimeoutWhenNoDataIncomes)
+TEST(TS_MultiQueueTest, QuitsWithTimeoutWhenNoDataIncomes)
 {
-    TS_MultiHeadQueue<int> q;
+    TS_MultiQueue<int> q;
     using namespace std::literals;
 
     auto r = q.pop_for(1ms);
@@ -27,9 +27,9 @@ TEST(TS_MultiHeadQueueTest, QuitsWithTimeoutWhenNoDataIncomes)
 }
 
 
-TEST(TS_MultiHeadQueueTest, ReturnsWhatProducerGenerated)
+TEST(TS_MultiQueueTest, ReturnsWhatProducerGenerated)
 {
-    TS_MultiHeadQueue<int> q;
+    TS_MultiQueue<int> q;
     using namespace std::literals;
 
     auto p = q.prepareProducer();
@@ -57,9 +57,9 @@ TEST(TS_MultiHeadQueueTest, ReturnsWhatProducerGenerated)
 }
 
 
-TEST(TS_MultiHeadQueueTest, ReturnsMixedProductionOfManyProducers)
+TEST(TS_MultiQueueTest, ReturnsMixedProductionOfManyProducers)
 {
-    TS_MultiHeadQueue<int> q;
+    TS_MultiQueue<int> q;
     using namespace std::literals;
 
     auto p1 = q.prepareProducer();

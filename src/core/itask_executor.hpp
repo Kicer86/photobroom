@@ -25,7 +25,7 @@
 
 #include "core_export.h"
 
-#include "ts_multi_head_queue.hpp"
+#include "ts_multi_queue.hpp"
 
 struct CORE_EXPORT ITaskExecutor
 {
@@ -37,7 +37,7 @@ struct CORE_EXPORT ITaskExecutor
         virtual void perform() = 0;
     };
 
-    typedef std::unique_ptr<TS_MultiHeadQueue<std::unique_ptr<ITask>>::Producer> TaskQueue;
+    typedef std::unique_ptr<TS_MultiQueue<std::unique_ptr<ITask>>::Producer> TaskQueue;
 
     virtual ~ITaskExecutor();
 

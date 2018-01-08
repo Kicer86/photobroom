@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TS_MULTIHEADQUEUE_HPP
-#define TS_MULTIHEADQUEUE_HPP
+#ifndef TS_MULTI_QUEUE_HPP
+#define TS_MULTI_QUEUE_HPP
 
 #include <algorithm>
 #include <atomic>
@@ -32,7 +32,7 @@
 
 
 template<typename T>
-class TS_MultiHeadQueue
+class TS_MultiQueue
 {
     public:
 
@@ -108,14 +108,14 @@ class TS_MultiHeadQueue
                 }
 
             private:
-                template<typename> friend class ::TS_MultiHeadQueue;
+                template<typename> friend class ::TS_MultiQueue;
 
-                TS_MultiHeadQueue<T>* m_queue;
+                TS_MultiQueue<T>* m_queue;
                 std::deque<T> m_data;
                 mutable std::mutex m_dataMutex;
                 std::chrono::time_point<std::chrono::steady_clock> m_last_access_time;
 
-                Producer(TS_MultiHeadQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
+                Producer(TS_MultiQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
                 {
                     update_time();
                 }
@@ -141,7 +141,7 @@ class TS_MultiHeadQueue
         };
 
 
-        TS_MultiHeadQueue():
+        TS_MultiQueue():
             m_producers(),
             m_producersMutex(),
             m_non_empty(),
@@ -151,13 +151,13 @@ class TS_MultiHeadQueue
         {
         }
 
-        TS_MultiHeadQueue(const TS_MultiHeadQueue &) = delete;
+        TS_MultiQueue(const TS_MultiQueue &) = delete;
 
-        ~TS_MultiHeadQueue()
+        ~TS_MultiQueue()
         {
         }
 
-        TS_MultiHeadQueue& operator=(const TS_MultiHeadQueue &) = delete;
+        TS_MultiQueue& operator=(const TS_MultiQueue &) = delete;
 
         std::unique_ptr<Producer> prepareProducer()
         {
@@ -322,4 +322,4 @@ class TS_MultiHeadQueue
         }
 };
 
-#endif // TS_MULTIHEADQUEUE_H
+#endif // TS_MULTI_QUEUE_HPP

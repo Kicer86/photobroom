@@ -24,7 +24,7 @@
 
 #include "core_export.h"
 #include "itask_executor.hpp"
-#include "ts_multi_head_queue.hpp"
+#include "ts_multi_queue.hpp"
 
 struct ILogger;
 
@@ -43,7 +43,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void eat();
 
 private:
-    typedef TS_MultiHeadQueue<std::unique_ptr<ITask>> QueueT;
+    typedef TS_MultiQueue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
     std::unique_ptr<QueueT::Producer> m_producer;
     std::thread m_taskEater;
