@@ -45,7 +45,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 private:
     typedef TS_MultiQueue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
-    std::unique_ptr<QueueT::Producer> m_producer;
+    std::unique_ptr<QueueT::SubQueue> m_producer;
     std::thread m_taskEater;
     ILogger* m_logger;
     bool m_working;

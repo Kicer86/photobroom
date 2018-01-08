@@ -37,7 +37,7 @@ struct CORE_EXPORT ITaskExecutor
         virtual void perform() = 0;
     };
 
-    typedef std::unique_ptr<TS_MultiQueue<std::unique_ptr<ITask>>::Producer> TaskQueue;
+    typedef std::unique_ptr<TS_MultiQueue<std::unique_ptr<ITask>>::SubQueue> TaskQueue;
 
     virtual ~ITaskExecutor();
 

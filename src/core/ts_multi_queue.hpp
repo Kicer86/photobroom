@@ -36,17 +36,17 @@ class TS_MultiQueue
 {
     public:
 
-        class Producer
+        class SubQueue
         {
             public:
-                Producer(const Producer &) = delete;
+                SubQueue (const SubQueue &) = delete;
 
-                ~Producer()
+                ~SubQueue()
                 {
                     m_queue->release(this);
                 }
 
-                Producer& operator=(const Producer &) = delete;
+                SubQueue& operator=(const SubQueue &) = delete;
 
                 void push(const T& item)
                 {
@@ -115,7 +115,7 @@ class TS_MultiQueue
                 mutable std::mutex m_dataMutex;
                 std::chrono::time_point<std::chrono::steady_clock> m_last_access_time;
 
-                Producer(TS_MultiQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
+                SubQueue (TS_MultiQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
                 {
                     update_time();
                 }
@@ -159,11 +159,11 @@ class TS_MultiQueue
 
         TS_MultiQueue& operator=(const TS_MultiQueue &) = delete;
 
-        std::unique_ptr<Producer> prepareProducer()
+        std::unique_ptr<SubQueue> prepareProducer()
         {
             std::lock_guard<std::mutex> lock(m_producersMutex);
 
-            std::unique_ptr<Producer> result(new Producer(this));
+            std::unique_ptr<SubQueue> result(new SubQueue (this));
             m_producers.insert(result.get());
 
             return std::move(result);
@@ -213,11 +213,11 @@ class TS_MultiQueue
         }
 
     private:
-        friend class Producer;
+        friend class SubQueue;
 
         struct ProducerSorter
         {
-            bool operator()(Producer* p1, Producer* p2) const
+            bool operator()( SubQueue* p1, SubQueue* p2) const
             {
                 const auto& t1 = p1->last_access_time();
                 const auto& t2 = p2->last_access_time();
@@ -226,17 +226,17 @@ class TS_MultiQueue
             }
         };
 
-        std::set<Producer *> m_producers;
+        std::set<SubQueue *> m_producers;
         std::mutex m_producersMutex;
 
-        std::deque<Producer *> m_non_empty;
+        std::deque<SubQueue *> m_non_empty;
         std::mutex m_non_empty_mutex;
 
         std::condition_variable m_is_not_empty;
 
         std::atomic<bool> m_stopped;
 
-        void release(Producer* producer)
+        void release( SubQueue* producer)
         {
             // Remove Producer from non-empty producers
             // this ensures Producer will disaapear from both: m_non_empty and m_producers.
@@ -247,7 +247,7 @@ class TS_MultiQueue
             m_producers.erase(producer);
         }
 
-        void not_empty(Producer* producer)
+        void not_empty( SubQueue* producer)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
@@ -291,7 +291,7 @@ class TS_MultiQueue
 
             if (m_non_empty.empty() == false)
             {
-                Producer* top = m_non_empty.front();
+                SubQueue* top = m_non_empty.front();
                 result = std::move( top->pop() );
 
                 if (top->empty())
@@ -309,11 +309,11 @@ class TS_MultiQueue
             std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
         }
 
-        void aboutToBeCleaned(Producer* p)
+        void aboutToBeCleaned( SubQueue* p)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
-            for(typename std::deque<Producer *>::iterator it = m_non_empty.begin(); it != m_non_empty.end(); ++it)
+            for(typename std::deque<SubQueue *>::iterator it = m_non_empty.begin(); it != m_non_empty.end(); ++it)
                 if (*it == p)
                 {
                     m_non_empty.erase(it);
