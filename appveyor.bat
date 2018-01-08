@@ -8,6 +8,7 @@ copy /y nul "c:\program files\cmake\updated"
 
 :setup
 
+rem setup variables
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
     set qt_arch=msvc2017
