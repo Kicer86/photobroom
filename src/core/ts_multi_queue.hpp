@@ -217,7 +217,7 @@ class TS_MultiQueue
 
         struct ProducerSorter
         {
-            bool operator()( SubQueue* p1, SubQueue* p2) const
+            bool operator()(SubQueue* p1, SubQueue* p2) const
             {
                 const auto& t1 = p1->last_access_time();
                 const auto& t2 = p2->last_access_time();
@@ -236,7 +236,7 @@ class TS_MultiQueue
 
         std::atomic<bool> m_stopped;
 
-        void release( SubQueue* producer)
+        void release(SubQueue* producer)
         {
             // Remove Producer from non-empty producers
             // this ensures Producer will disaapear from both: m_non_empty and m_producers.
@@ -247,7 +247,7 @@ class TS_MultiQueue
             m_producers.erase(producer);
         }
 
-        void not_empty( SubQueue* producer)
+        void not_empty(SubQueue* producer)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
@@ -309,7 +309,7 @@ class TS_MultiQueue
             std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
         }
 
-        void aboutToBeCleaned( SubQueue* p)
+        void aboutToBeCleaned(SubQueue* p)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
