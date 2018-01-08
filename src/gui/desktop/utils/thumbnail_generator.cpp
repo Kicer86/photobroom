@@ -256,6 +256,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 
 ThumbnailGenerator::ThumbnailGenerator():
     m_videoImage(":/gui/video.svg"),
+    m_tasks(),
     m_executor(nullptr),
     m_logger(nullptr),
     m_exifReaderFactory(nullptr),
@@ -271,9 +272,17 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
+void ThumbnailGenerator::dismissPendingTasks()
+{
+    m_tasks->clear();
+}
+
+
 void ThumbnailGenerator::set(ITaskExecutor* executor)
 {
     m_executor = executor;
+
+    m_tasks = std::move( m_executor->getCustomTaskQueue() );
 }
 
 
@@ -302,7 +311,7 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     if (MediaTypes::isImageFile(path))
     {
         auto task = std::make_unique<FromImageTask>(info, callback, this);
-        m_executor->add(std::move(task));
+        m_tasks->push(std::move(task));
     }
     else if (MediaTypes::isVideoFile(path))
     {
@@ -313,7 +322,7 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
         if (fileInfo.isExecutable())
         {
             auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
-            m_executor->add(std::move(task));
+            m_tasks->push(std::move(task));
         }
         else
             callback(info, m_videoImage);

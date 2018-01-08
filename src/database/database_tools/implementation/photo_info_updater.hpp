@@ -30,13 +30,14 @@ class PhotoInfoUpdater final
         void updateTags(const IPhotoInfo::Ptr &);
 
         int tasksInProgress();
+        void dropPendingTasks();
         void waitForActiveTasks();
 
     private:
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
-        ITaskExecutor* m_tasksExecutor;
+        ITaskExecutor::TaskQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;

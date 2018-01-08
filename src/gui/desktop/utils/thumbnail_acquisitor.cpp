@@ -77,6 +77,7 @@ void ThumbnailAcquisitor::dismissPendingTasks()
     std::lock_guard<std::mutex> lock(m_cacheAccessMutex);
 
     m_awaitingTasks.clear();
+    m_generator.dismissPendingTasks();
 }
 
 

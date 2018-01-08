@@ -20,8 +20,6 @@
 #ifndef ANIMATION_GENERATOR_HPP
 #define ANIMATION_GENERATOR_HPP
 
-#include <mutex>
-
 #include <QObject>
 #include <QSize>
 

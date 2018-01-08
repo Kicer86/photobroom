@@ -50,6 +50,7 @@ class DATABASE_EXPORT PhotosAnalyzer: public QObject
 
         void setDatabase(Database::IDatabase *);
         void set(ITasksView *);
+        void stop();
 
     private:
         PhotosAnalyzerImpl* m_data;

@@ -96,7 +96,7 @@ namespace
         {
             for(;;)
             {
-                std::optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
+                ol::Optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
 
                 if (task)
                 {

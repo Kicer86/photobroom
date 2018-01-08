@@ -248,6 +248,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     //m_currentPrj->close();
 
     closeProject();
+    m_photosAnalyzer->stop();
 
     e->accept();
 

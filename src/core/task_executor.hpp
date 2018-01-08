@@ -22,10 +22,9 @@
 
 #include <thread>
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-
 #include "core_export.h"
 #include "itask_executor.hpp"
+#include "ts_multi_head_queue.hpp"
 
 struct ILogger;
 
@@ -38,13 +37,15 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
+    TaskQueue getCustomTaskQueue() override;
     void stop() override;
 
     void eat();
 
 private:
-    typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
+    typedef TS_MultiHeadQueue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
+    std::unique_ptr<QueueT::Producer> m_producer;
     std::thread m_taskEater;
     ILogger* m_logger;
     bool m_working;
