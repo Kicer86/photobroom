@@ -80,7 +80,7 @@ class TS_MultiQueue
                 {
                     // Inform Queue 'this' is going to be empty,
                     // so Queue will remove 'this' from non-empty list
-                    m_queue->aboutToBeCleaned(this);
+                    m_queue->will_be_cleaned(this);
 
                     std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.clear();
@@ -238,10 +238,10 @@ class TS_MultiQueue
 
         void remove(SubQueue* producer)
         {
-            // Remove Producer from non-empty producers
-            // this ensures Producer will disaapear from both: m_non_empty and m_producers.
-            // Without this one thread may remove producer while another will access it via m_non_empty.
-            aboutToBeCleaned(producer);
+            // Remove Subqueue from non-empty producers
+            // this ensures Subqueue will disappear from both: m_non_empty and m_producers.
+            // Without this one thread may remove Subqueue while another will access it via m_non_empty.
+            will_be_cleaned(producer);
 
             std::lock_guard<std::mutex> lock(m_producersMutex);
             m_producers.erase(producer);
@@ -309,7 +309,7 @@ class TS_MultiQueue
             std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
         }
 
-        void aboutToBeCleaned(SubQueue* p)
+        void will_be_cleaned(SubQueue* p)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
