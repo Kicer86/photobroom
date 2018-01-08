@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef TS_MULTIHEADQUEUE_HPP
-#define TS_MULTIHEADQUEUE_HPP
+#ifndef TS_MULTI_QUEUE_HPP
+#define TS_MULTI_QUEUE_HPP
 
 #include <algorithm>
 #include <atomic>
@@ -32,21 +32,21 @@
 
 
 template<typename T>
-class TS_MultiHeadQueue
+class TS_MultiQueue
 {
     public:
 
-        class Producer
+        class SubQueue
         {
             public:
-                Producer(const Producer &) = delete;
+                SubQueue (const SubQueue &) = delete;
 
-                ~Producer()
+                ~SubQueue()
                 {
-                    m_queue->release(this);
+                    m_queue->remove(this);
                 }
 
-                Producer& operator=(const Producer &) = delete;
+                SubQueue& operator=(const SubQueue &) = delete;
 
                 void push(const T& item)
                 {
@@ -80,7 +80,7 @@ class TS_MultiHeadQueue
                 {
                     // Inform Queue 'this' is going to be empty,
                     // so Queue will remove 'this' from non-empty list
-                    m_queue->aboutToBeCleaned(this);
+                    m_queue->will_be_cleaned(this);
 
                     std::lock_guard<std::mutex> lock(m_dataMutex);
                     m_data.clear();
@@ -108,14 +108,14 @@ class TS_MultiHeadQueue
                 }
 
             private:
-                template<typename> friend class ::TS_MultiHeadQueue;
+                template<typename> friend class ::TS_MultiQueue;
 
-                TS_MultiHeadQueue<T>* m_queue;
+                TS_MultiQueue<T>* m_queue;
                 std::deque<T> m_data;
                 mutable std::mutex m_dataMutex;
                 std::chrono::time_point<std::chrono::steady_clock> m_last_access_time;
 
-                Producer(TS_MultiHeadQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
+                SubQueue (TS_MultiQueue<T>* queue): m_queue(queue), m_data(), m_dataMutex(), m_last_access_time()
                 {
                     update_time();
                 }
@@ -141,7 +141,7 @@ class TS_MultiHeadQueue
         };
 
 
-        TS_MultiHeadQueue():
+        TS_MultiQueue():
             m_producers(),
             m_producersMutex(),
             m_non_empty(),
@@ -151,19 +151,19 @@ class TS_MultiHeadQueue
         {
         }
 
-        TS_MultiHeadQueue(const TS_MultiHeadQueue &) = delete;
+        TS_MultiQueue(const TS_MultiQueue &) = delete;
 
-        ~TS_MultiHeadQueue()
+        ~TS_MultiQueue()
         {
         }
 
-        TS_MultiHeadQueue& operator=(const TS_MultiHeadQueue &) = delete;
+        TS_MultiQueue& operator=(const TS_MultiQueue &) = delete;
 
-        std::unique_ptr<Producer> prepareProducer()
+        std::unique_ptr<SubQueue> prepareProducer()
         {
             std::lock_guard<std::mutex> lock(m_producersMutex);
 
-            std::unique_ptr<Producer> result(new Producer(this));
+            std::unique_ptr<SubQueue> result(new SubQueue (this));
             m_producers.insert(result.get());
 
             return std::move(result);
@@ -213,11 +213,11 @@ class TS_MultiHeadQueue
         }
 
     private:
-        friend class Producer;
+        friend class SubQueue;
 
         struct ProducerSorter
         {
-            bool operator()(Producer* p1, Producer* p2) const
+            bool operator()(SubQueue* p1, SubQueue* p2) const
             {
                 const auto& t1 = p1->last_access_time();
                 const auto& t2 = p2->last_access_time();
@@ -226,28 +226,28 @@ class TS_MultiHeadQueue
             }
         };
 
-        std::set<Producer *> m_producers;
+        std::set<SubQueue *> m_producers;
         std::mutex m_producersMutex;
 
-        std::deque<Producer *> m_non_empty;
+        std::deque<SubQueue *> m_non_empty;
         std::mutex m_non_empty_mutex;
 
         std::condition_variable m_is_not_empty;
 
         std::atomic<bool> m_stopped;
 
-        void release(Producer* producer)
+        void remove(SubQueue* producer)
         {
-            // Remove Producer from non-empty producers
-            // this ensures Producer will disaapear from both: m_non_empty and m_producers.
-            // Without this one thread may remove producer while another will access it via m_non_empty.
-            aboutToBeCleaned(producer);
+            // Remove Subqueue from non-empty producers
+            // this ensures Subqueue will disappear from both: m_non_empty and m_producers.
+            // Without this one thread may remove Subqueue while another will access it via m_non_empty.
+            will_be_cleaned(producer);
 
             std::lock_guard<std::mutex> lock(m_producersMutex);
             m_producers.erase(producer);
         }
 
-        void not_empty(Producer* producer)
+        void not_empty(SubQueue* producer)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
@@ -291,7 +291,7 @@ class TS_MultiHeadQueue
 
             if (m_non_empty.empty() == false)
             {
-                Producer* top = m_non_empty.front();
+                SubQueue* top = m_non_empty.front();
                 result = std::move( top->pop() );
 
                 if (top->empty())
@@ -309,11 +309,11 @@ class TS_MultiHeadQueue
             std::sort(m_non_empty.begin(), m_non_empty.end(), sorter);
         }
 
-        void aboutToBeCleaned(Producer* p)
+        void will_be_cleaned(SubQueue* p)
         {
             std::lock_guard<std::mutex> lock(m_non_empty_mutex);
 
-            for(typename std::deque<Producer *>::iterator it = m_non_empty.begin(); it != m_non_empty.end(); ++it)
+            for(typename std::deque<SubQueue *>::iterator it = m_non_empty.begin(); it != m_non_empty.end(); ++it)
                 if (*it == p)
                 {
                     m_non_empty.erase(it);
@@ -322,4 +322,4 @@ class TS_MultiHeadQueue
         }
 };
 
-#endif // TS_MULTIHEADQUEUE_H
+#endif // TS_MULTI_QUEUE_HPP

@@ -1,5 +1,5 @@
 
-find_package(OpenLibrary 2.1 REQUIRED putils)
+find_package(OpenLibrary 2.3 REQUIRED putils)
 find_package(Qt5Core 5.6 REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
@@ -103,6 +103,7 @@ set(CORE_HEADERS
     task_executor.hpp
     time_guardian.hpp
     tree.hpp
+    ts_multi_queue.hpp
     implementation/aexif_reader.hpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp

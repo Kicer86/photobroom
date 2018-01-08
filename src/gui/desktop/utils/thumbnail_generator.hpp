@@ -24,7 +24,7 @@
 
 #include <QCache>
 
-#include <core/ts_multi_head_queue.hpp>
+#include <core/ts_multi_queue.hpp>
 #include <core/task_executor.hpp>
 
 #include "ithumbnail_generator.hpp"

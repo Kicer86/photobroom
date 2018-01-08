@@ -105,16 +105,16 @@ int main(int argc, char **argv)
     prjManager.set(&database_builder);
 
     if (status)
-        logger_factory.get("CrashCatcher")->debug("Initialization successful");
+        logger_factory.get("CrashCatcher")->info("Initialization successful");
     else
         logger_factory.get("CrashCatcher")->error("Initialization failed");
 
     ExifReaderFactory exifReaderFactory;
 
     CoreFactoryAccessor coreFactory(&logger_factory,
-                            &exifReaderFactory,
-                            &configuration,
-                            &taskExecutor
+                                    &exifReaderFactory,
+                                    &configuration,
+                                    &taskExecutor
     );
 
     // start gui
