@@ -43,7 +43,7 @@ class TS_MultiQueue
 
                 ~SubQueue()
                 {
-                    m_queue->release(this);
+                    m_queue->remove(this);
                 }
 
                 SubQueue& operator=(const SubQueue &) = delete;
@@ -236,7 +236,7 @@ class TS_MultiQueue
 
         std::atomic<bool> m_stopped;
 
-        void release(SubQueue* producer)
+        void remove(SubQueue* producer)
         {
             // Remove Producer from non-empty producers
             // this ensures Producer will disaapear from both: m_non_empty and m_producers.
