@@ -32,8 +32,8 @@ namespace Database
     class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
     {
         public:
-            AsyncDatabase (std::unique_ptr<IBackend> &&);
-            AsyncDatabase (const AsyncDatabase &) = delete;
+            AsyncDatabase(std::unique_ptr<IBackend> &&);
+            AsyncDatabase(const AsyncDatabase &) = delete;
             virtual ~AsyncDatabase();
 
             AsyncDatabase& operator=(const AsyncDatabase &) = delete;
