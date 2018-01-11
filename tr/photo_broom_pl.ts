@@ -337,7 +337,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+129"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+130"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -372,7 +372,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+184"/>
+        <location line="+185"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -433,7 +433,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-245"/>
+        <location line="-246"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -451,7 +451,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+114"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+112"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -759,7 +759,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-165"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-163"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
@@ -767,7 +767,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TagEditorWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+193"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+199"/>
         <source>Cannot add empty value.</source>
         <translation>Nie można wprowadzić pustej wartości.</translation>
     </message>

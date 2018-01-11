@@ -54,9 +54,9 @@ void SelectionExtractor::set(DBDataModel* model)
 }
 
 
-std::vector<IPhotoInfo::Ptr> SelectionExtractor::getSelection() const
+std::vector<Photo::Data> SelectionExtractor::getSelection() const
 {
-    std::vector<IPhotoInfo::Ptr> result;
+    std::vector<Photo::Data> result;
 
     QItemSelection selection = m_selectionModel->selection();
 
@@ -67,7 +67,7 @@ std::vector<IPhotoInfo::Ptr> SelectionExtractor::getSelection() const
         for (const QModelIndex& idx : idxList)
             if (m_photosModel->isLeaf(idx))
             {
-                IPhotoInfo::Ptr photo = m_photosModel->getPhoto(idx);
+                const Photo::Data& photo = m_photosModel->getPhoto(idx);
 
                 result.push_back(photo);
             }

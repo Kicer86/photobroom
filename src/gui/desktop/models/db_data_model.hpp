@@ -75,7 +75,7 @@ class DBDataModel: public APhotoInfoModel
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
-        IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const Photo::Data& getPhoto(const QModelIndex &) const;
         const std::vector<Database::IFilter::Ptr>& getStaticFilters() const;
 
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively

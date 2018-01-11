@@ -31,17 +31,21 @@
 
 #include <QItemSelectionModel>
 
+#include <core/cross_thread_call.hpp>
+#include <database/idatabase.hpp>
 #include "models/db_data_model.hpp"
 #include "tags_operator.hpp"
 
 
+using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
     m_selectionExtractor(),
     m_selectionModel(nullptr),
     m_dbDataModel(nullptr),
-    m_tagsOperator()
+    m_tagsOperator(nullptr),
+    m_database(nullptr)
 {
 }
 
@@ -49,6 +53,12 @@ TagsModel::TagsModel(QObject* p):
 TagsModel::~TagsModel()
 {
 
+}
+
+
+void TagsModel::set(Database::IDatabase* database)
+{
+    m_database = database;
 }
 
 
@@ -101,28 +111,18 @@ void TagsModel::refreshModel()
     {
         clearModel();
 
-        std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor.getSelection();
-        m_tagsOperator->operateOn(photos);
+        std::vector<Photo::Data> photos = m_selectionExtractor.getSelection();
 
-        Tag::TagsList tags = getTags();
+        std::vector<Photo::Id> ids;
+        for(const Photo::Data& photo: photos)
+            ids.push_back(photo.id);
 
-        for (const auto& tag: tags)
-        {
-            Tag::Info info(tag);
-            QStandardItem* name = new QStandardItem(info.displayName());
-            QStandardItem* value = new QStandardItem;
+        Database::IDatabase::Callback<const IPhotoInfo::List &> target_fun =
+            std::bind(&TagsModel::loadPhotos, this, _1);
 
-            const QVariant dispRole = info.value().get();
-            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+        auto callback = make_cross_thread_function(this, target_fun);
 
-            value->setData(dispRole, Qt::DisplayRole);
-            value->setData(tagInfoRole, TagInfoRole);
-
-            const QList<QStandardItem *> items( { name, value });
-            appendRow(items);
-        }
-
-        emit modelChanged(photos.empty() == false);
+        m_database->getPhotos(ids, callback);
     }
 }
 
@@ -131,6 +131,32 @@ void TagsModel::clearModel()
 {
     clear();
     setHorizontalHeaderLabels( {tr("Name"), tr("Value")} );
+}
+
+
+void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
+{
+    m_tagsOperator->operateOn(photos);
+
+    Tag::TagsList tags = getTags();
+
+    for (const auto& tag: tags)
+    {
+        Tag::Info info(tag);
+        QStandardItem* name = new QStandardItem(info.displayName());
+        QStandardItem* value = new QStandardItem;
+
+        const QVariant dispRole = info.value().get();
+        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+
+        value->setData(dispRole, Qt::DisplayRole);
+        value->setData(tagInfoRole, TagInfoRole);
+
+        const QList<QStandardItem *> items( { name, value });
+        appendRow(items);
+    }
+
+    emit modelChanged(photos.empty() == false);
 }
 
 

@@ -296,6 +296,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
+        ui->tagEditor->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
         updateGui();
@@ -484,14 +485,14 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
 
 void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 {
-    const std::vector<IPhotoInfo::Ptr> selected_photos = m_selectionExtractor.getSelection();
+    const std::vector<Photo::Data> selected_photos = m_selectionExtractor.getSelection();
 
-    std::vector<IPhotoInfo::Ptr> photos;
+    std::vector<Photo::Data> photos;
     std::remove_copy_if(selected_photos.cbegin(),
                         selected_photos.cend(),
                         std::back_inserter(photos),
-                        [](const IPhotoInfo::Ptr& photo){
-                            return QFile::exists(photo->getPath()) == false;
+                        [](const Photo::Data& photo){
+                            return QFile::exists(photo.path) == false;
                         });
 
     QMenu contextMenu;
@@ -521,7 +522,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
             std::vector<Photo::Id> photos_ids;
             for(std::size_t i = 0; i < photos.size(); i++)
-                photos_ids.push_back(photos[i]->getID());
+                photos_ids.push_back(photos[i].id);
 
             const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
@@ -534,8 +535,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     {
         if (photos.empty() == false)
         {
-            const IPhotoInfo::Ptr& first = photos.front();
-            const QString relative_path = first->getPath();
+            const Photo::Data& first = photos.front();
+            const QString relative_path = first.path;
             const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
             const QFileInfo photoFileInfo(absolute_path);
             const QString file_dir = photoFileInfo.path();
@@ -671,6 +672,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
             m_completerFactory.set(db);
+            ui->tagEditor->setDatabase(db);
 
             // TODO: I do not like this flag here...
             if (is_new)

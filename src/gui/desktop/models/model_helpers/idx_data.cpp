@@ -207,14 +207,14 @@ IdxData::IdxData(IdxDataManager* model, const QVariant& name): IdxData(model)
 }
 
 
-IdxData::IdxData(IdxDataManager* model, const IPhotoInfo::Ptr& photo): IdxData(model)
+IdxData::IdxData(IdxDataManager* model, const Photo::Data& photo): IdxData(model)
 {
     setStatus(NodeStatus::Fetched);
 
     QImage img;
     img.load(":/gui/clock.svg");
 
-    m_data[Qt::DisplayRole] = photo->getPath();
+    m_data[Qt::DisplayRole] = photo.path;
     m_data[Qt::DecorationRole] = img;
 }
 
@@ -458,7 +458,7 @@ void IdxNodeData::visitMe(IIdxDataVisitor* visitor) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxLeafData::IdxLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo):
+IdxLeafData::IdxLeafData(IdxDataManager* mgr, const Photo::Data& photo):
     IdxData(mgr, photo),
     m_photo(photo)
 {
@@ -472,31 +472,31 @@ IdxLeafData::~IdxLeafData()
 }
 
 
-Photo::Id IdxLeafData::getMediaId() const
+const Photo::Id& IdxLeafData::getMediaId() const
 {
-    return m_photo->getID();
+    return m_photo.id;
 }
 
 
-QString IdxLeafData::getMediaPath() const
+const QString& IdxLeafData::getMediaPath() const
 {
-    return m_photo->getPath();
+    return m_photo.path;
 }
 
 
-QSize IdxLeafData::getMediaGeometry() const
+const QSize& IdxLeafData::getMediaGeometry() const
 {
-    return m_photo->getGeometry();
+    return m_photo.geometry;
 }
 
 
-Tag::TagsList IdxLeafData::getTags() const
+const Tag::TagsList& IdxLeafData::getTags() const
 {
-    return m_photo->getTags();
+    return m_photo.tags;
 }
 
 
-IPhotoInfo::Ptr IdxLeafData::getPhoto() const
+const Photo::Data& IdxLeafData::getPhoto() const
 {
     return m_photo;
 }
@@ -505,7 +505,7 @@ IPhotoInfo::Ptr IdxLeafData::getPhoto() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxRegularLeafData::IdxRegularLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photo): IdxLeafData(mgr, photo)
+IdxRegularLeafData::IdxRegularLeafData(IdxDataManager* mgr, const Photo::Data& photo): IdxLeafData(mgr, photo)
 {
 
 }
@@ -526,8 +526,8 @@ void IdxRegularLeafData::visitMe(IIdxDataVisitor* visitor) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
-IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const IPhotoInfo::Ptr& photoInfo):
-    IdxLeafData(mgr, photoInfo),
+IdxGroupLeafData::IdxGroupLeafData(IdxDataManager* mgr, const Photo::Data& photoData):
+    IdxLeafData(mgr, photoData),
     m_photos()
 {
 

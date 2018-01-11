@@ -451,11 +451,11 @@ void IdxDataManager::getPhotosForParent(Database::IBackendOperator* db_operator,
             if (gid != current_group)
             {
                 assert(pData.groupInfo.role == GroupInfo::Representative);       // we do not expect members here
-                leafs->push_back( std::make_unique<IdxGroupLeafData>(this, photo) );
+                leafs->push_back( std::make_unique<IdxGroupLeafData>(this, pData) );
             }
         }
         else
-            leafs->push_back( std::make_unique<IdxRegularLeafData>(this, photo) );
+            leafs->push_back( std::make_unique<IdxRegularLeafData>(this, pData) );
 
         current_group = gid;
     }
@@ -867,7 +867,7 @@ IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxNodeDa
     //       See 2199bc8c8d5c10bf84ed7334ec9a6779be311639 for first change
     assert(photoIdxData == nullptr);
 
-    auto newItem = std::make_unique<IdxRegularLeafData>(this, photoInfo);
+    auto newItem = std::make_unique<IdxRegularLeafData>(this, photoInfo->data());
 
     IIdxData* item = performAdd(to, std::move(newItem));
 
