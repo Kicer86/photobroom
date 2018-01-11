@@ -19,7 +19,6 @@ set(SRCS
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
     tag_editor/tag_editor_widget.cpp
-    tag_editor/helpers/itags_operator.cpp
     tag_editor/helpers/tags_item_delegate.cpp
     tag_editor/helpers/tags_operator.cpp
     tag_editor/helpers/tags_view.cpp
