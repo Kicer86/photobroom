@@ -91,7 +91,7 @@ class DBDataModel: public APhotoInfoModel
         bool isLeaf(const QModelIndex &) const;
 
         // APhotoInfoModel:
-        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const override;
+        virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

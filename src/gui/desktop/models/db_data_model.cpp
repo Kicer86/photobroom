@@ -262,7 +262,7 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 
 
 
-APhotoInfoModel::PhotoDetails DBDataModel::getPhotoDetails(const QModelIndex& idx) const
+const Photo::Data& DBDataModel::getPhotoDetails(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
     assert(::isLeaf(idxData));
@@ -270,12 +270,7 @@ APhotoInfoModel::PhotoDetails DBDataModel::getPhotoDetails(const QModelIndex& id
     IdxLeafData* leafIdxData = down_cast<IdxLeafData *>(idxData);
     const Photo::Data& data = leafIdxData->getPhoto();
 
-    const PhotoDetails result(data.id,
-                              data.geometry,
-                              data.path,
-                              data.groupInfo);
-
-    return result;
+    return data;
 }
 
 
