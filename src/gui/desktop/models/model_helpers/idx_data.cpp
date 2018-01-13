@@ -502,6 +502,14 @@ const Photo::Data& IdxLeafData::getPhoto() const
 }
 
 
+void IdxLeafData::update(const Photo::Data& data)
+{
+    assert(data.id == m_photo.id);
+
+    m_photo = data;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 

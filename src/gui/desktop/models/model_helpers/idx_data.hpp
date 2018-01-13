@@ -146,6 +146,7 @@ class IdxLeafData: public IdxData
         virtual const Tag::TagsList& getTags() const;
 
         const Photo::Data& getPhoto() const;
+        void update(const Photo::Data &);
 
     private:
         Photo::Data m_photo;

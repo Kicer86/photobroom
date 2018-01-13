@@ -956,6 +956,12 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         {
             QModelIndex index = getIndex(idx);
 
+            // update stored data
+            assert(isLeaf(idx));
+            IdxLeafData* idxLeaf = static_cast<IdxLeafData *>(idx);
+            idxLeaf->update(photoInfo->data());
+
+            // notify views
             emit m_data->m_model->dataChanged(index, index);
         }
     }
