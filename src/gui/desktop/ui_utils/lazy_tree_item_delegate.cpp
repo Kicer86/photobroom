@@ -51,9 +51,9 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 {
     const QAbstractItemModel* model = idx.model();
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
-    const APhotoInfoModel::PhotoDetails details = photoInfoModel->getPhotoDetails(idx);
+    const Photo::Data& details = photoInfoModel->getPhotoDetails(idx);
 
-    const ThumbnailInfo info = {details.path, size.height()};
+    const ThumbnailInfo info = { details.path, size.height() };
     QImage image = m_thumbnailAcquisitor->getThumbnail(info);
 
     if (details.groupInfo.role == GroupInfo::Representative)

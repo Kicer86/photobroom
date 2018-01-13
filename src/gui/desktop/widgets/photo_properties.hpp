@@ -23,7 +23,7 @@
 
 #include <QScrollArea>
 
-#include <database/iphoto_info.hpp>
+#include <database/photo_data.hpp>
 
 class QLabel;
 class QStackedLayout;
@@ -55,8 +55,8 @@ class PhotoProperties: public QScrollArea
         QLabel* m_geometryValue;
 
         void refreshView() const;
-        void refreshLabels(const std::vector<IPhotoInfo::Ptr> &) const;
-        void refreshValues(const std::vector<IPhotoInfo::Ptr> &) const;
+        void refreshLabels(const std::vector<Photo::Data> &) const;
+        void refreshValues(const std::vector<Photo::Data> &) const;
 
         QString sizeHuman(int) const;
 };

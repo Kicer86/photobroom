@@ -16,7 +16,7 @@
 #include "utils/grouppers/animation_generator.hpp"
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr>& photos,
+PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
                                            IExifReader* exifReader,
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
@@ -204,13 +204,13 @@ void PhotosGroupingDialog::makeAnimation()
 }
 
 
-void PhotosGroupingDialog::fillModel(const std::vector<IPhotoInfo::Ptr>& photos)
+void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 {
     m_model.clear();
 
-    for(const IPhotoInfo::Ptr& photo: photos)
+    for(const Photo::Data& photo: photos)
     {
-        const QString path = photo->getPath();
+        const QString& path = photo.path;
         const std::any sequence_number = m_exifReader->get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(sequence_number)): "-";

@@ -21,7 +21,7 @@
 #define ASCALABLEIMAGESMODEL_HPP
 
 #include <QAbstractItemModel>
-#include <database/iphoto_info.hpp>
+#include <database/photo_data.hpp>
 
 
 struct ITaskExecutor;
@@ -29,32 +29,13 @@ struct ITaskExecutor;
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        struct PhotoDetails
-        {
-            Photo::Id id;
-            QSize size;
-            QString path;
-            GroupInfo groupInfo;
-
-            PhotoDetails(): id(), size(), path(), groupInfo() {}
-
-            PhotoDetails(const Photo::Id& _id, const QSize& _size, const QString& _path, const GroupInfo& _groupInfo):
-                id(_id),
-                size(_size),
-                path(_path),
-                groupInfo(_groupInfo)
-            {
-
-            }
-        };
-
         APhotoInfoModel(QObject * = 0);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
         ~APhotoInfoModel();
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
-        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const = 0;
+        virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const = 0;
 };
 
 

@@ -22,7 +22,7 @@
 
 #include <QMap>
 
-#include <database/iphoto_info.hpp>
+#include <database/photo_data.hpp>
 #include <database/filter.hpp>
 
 #include "models/db_data_model.hpp"
@@ -69,7 +69,7 @@ class IdxData: public IIdxData
         IdxData(IdxDataManager *, const QVariant& name);
 
         //leaf constructor
-        IdxData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxData(IdxDataManager *, const Photo::Data &);
 
         virtual ~IdxData();
 
@@ -137,18 +137,18 @@ class IdxNodeData: public IdxData
 class IdxLeafData: public IdxData
 {
     public:
-        IdxLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxLeafData(IdxDataManager *, const Photo::Data &);
         virtual ~IdxLeafData();
 
-        virtual Photo::Id getMediaId() const;
-        virtual QString getMediaPath() const;
-        virtual QSize getMediaGeometry() const;
-        virtual Tag::TagsList getTags() const;
+        virtual const Photo::Id& getMediaId() const;
+        virtual const QString& getMediaPath() const;
+        virtual const QSize& getMediaGeometry() const;
+        virtual const Tag::TagsList& getTags() const;
 
-        IPhotoInfo::Ptr getPhoto() const;
+        const Photo::Data& getPhoto() const;
 
     private:
-        IPhotoInfo::Ptr m_photo;
+        Photo::Data m_photo;
 };
 
 
@@ -156,7 +156,7 @@ class IdxLeafData: public IdxData
 class IdxRegularLeafData: public IdxLeafData
 {
     public:
-        IdxRegularLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxRegularLeafData(IdxDataManager *, const Photo::Data &);
         virtual ~IdxRegularLeafData();
 
     private:
@@ -168,7 +168,7 @@ class IdxRegularLeafData: public IdxLeafData
 class IdxGroupLeafData: public IdxLeafData
 {
     public:
-        IdxGroupLeafData(IdxDataManager *, const IPhotoInfo::Ptr &);
+        IdxGroupLeafData(IdxDataManager *, const Photo::Data &);
         virtual ~IdxGroupLeafData();
 
     private:

@@ -16,6 +16,11 @@
 #include "test_helpers/photo_info_model.hpp"
 
 
+using ::testing::_;
+using ::testing::ReturnRef;
+using ::testing::Return;
+
+
 class PositionsCalculatorShould: public ::testing::Test
 {
     public:
@@ -72,9 +77,6 @@ TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 {
     // Situation:
     // One node with two children. Node is not expanded and is only one visible item.
-
-    using ::testing::_;
-    using ::testing::Return;
 
     const int canvas_w = 500;
     const int header_h = 40;
@@ -147,12 +149,12 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = QSize(100, 50);
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(100, 50);
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     //expand main node to show children
@@ -183,9 +185,6 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     // Situation:
     // two nodes with two children. Second node is expanded and its children are visible in one row.
 
-    using ::testing::_;
-    using ::testing::Return;
-
     const QSize img(100, 50);
 
     QStandardItem* top_idx = new QStandardItem( "Empty" );
@@ -211,12 +210,12 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     const int thumb_h = view_data.getThumbnailDesiredHeight();
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = img;
+    Photo::Data photoDetails;
+    photoDetails.geometry = img;
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
@@ -269,15 +268,12 @@ TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     const int header_h = 40;
 
     // setup expectations
-    using ::testing::_;
-    using ::testing::Return;
-
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = img;
+    Photo::Data photoDetails;
+    photoDetails.geometry = img;
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);
@@ -353,15 +349,12 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     submodel.appendRow(top2);
 
     // setup expectations
-    using testing::Return;
-    using testing::_;
-
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = img;
+    Photo::Data photoDetails;
+    photoDetails.geometry = img;
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     //expand main node to show children
@@ -423,22 +416,21 @@ TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     submodel.appendRow(child2);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails1;
-    photoDetails1.size = img1;
+    Photo::Data photoDetails1;
+    photoDetails1.geometry = img1;
     photoDetails1.id = 0;
     photoDetails1.path = "";
 
-    APhotoInfoModel::PhotoDetails photoDetails2;
-    photoDetails2.size = img2;
+    Photo::Data photoDetails2;
+    photoDetails2.geometry = img2;
     photoDetails2.id = 0;
     photoDetails2.path = "";
 
     const QModelIndex idx1 = child1->index();
     const QModelIndex idx2 = child2->index();
 
-    using ::testing::Return;
-    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(Return(photoDetails1));
-    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(Return(photoDetails2));
+    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(ReturnRef(photoDetails1));
+    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(ReturnRef(photoDetails2));
     //
 
     PositionsCalculator calculator(&data, canvas_w);
@@ -485,13 +477,13 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     submodel.appendRow(child2);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails1;
-    photoDetails1.size = img1;
+    Photo::Data photoDetails1;
+    photoDetails1.geometry = img1;
     photoDetails1.id = 0;
     photoDetails1.path = "";
 
-    APhotoInfoModel::PhotoDetails photoDetails2;
-    photoDetails2.size = img2;
+    Photo::Data photoDetails2;
+    photoDetails2.geometry = img2;
     photoDetails2.id = 0;
     photoDetails2.path = "";
 
@@ -499,8 +491,8 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     const QModelIndex idx2 = child2->index();
 
     using ::testing::Return;
-    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(Return(photoDetails1));
-    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(Return(photoDetails2));
+    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(ReturnRef(photoDetails1));
+    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(ReturnRef(photoDetails2));
     //
 
     PositionsCalculator calculator(&data, canvas_w);
@@ -553,15 +545,12 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     const int thumb_w = img.width() * thumb_h/img.height();
 
     // setup expectations
-    using ::testing::Return;
-    using ::testing::_;
-
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = img;
+    Photo::Data photoDetails;
+    photoDetails.geometry = img;
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     ViewDataModelObserver mo(&view_data.getModel(), &model);

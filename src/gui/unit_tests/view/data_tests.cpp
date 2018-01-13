@@ -14,6 +14,9 @@
 #include "test_helpers/photo_info_model.hpp"
 
 
+using ::testing::ReturnRef;
+using ::testing::_;
+
 class DataShould: public ::testing::Test
 {
     public:
@@ -156,14 +159,12 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     info.expanded = true;
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = QSize(10, 10);
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    using ::testing::Return;
-    using ::testing::_;
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
 
     //
     PositionsTranslator translator(&data);
@@ -214,14 +215,12 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     submodel.appendRow(top);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = QSize(10, 10);
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    using ::testing::Return;
-    using ::testing::_;
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     //expand top and update items positions
@@ -285,14 +284,12 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     submodel.appendRow(top);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = QSize(10, 10);
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    using ::testing::Return;
-    using ::testing::_;
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     //expand top and update items positions
@@ -339,14 +336,12 @@ TEST_F(DataShould, ReturnProperIndicesOfItems)
     submodel.appendRow(top);
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails;
-    photoDetails.size = QSize(10, 10);
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
     photoDetails.id = 0;
     photoDetails.path = "";
 
-    using ::testing::Return;
-    using ::testing::_;
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
     //expand top so children will be stored in 'data' when calculating positions
@@ -402,20 +397,18 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     const QModelIndex idx2 = child2->index();
 
     // setup expectations
-    APhotoInfoModel::PhotoDetails photoDetails1;
-    photoDetails1.size = img1;
+    Photo::Data photoDetails1;
+    photoDetails1.geometry = img1;
     photoDetails1.id = 1;
     photoDetails1.path = "";
 
-    APhotoInfoModel::PhotoDetails photoDetails2;
-    photoDetails2.size = img2;
+    Photo::Data photoDetails2;
+    photoDetails2.geometry = img2;
     photoDetails2.id = 2;
     photoDetails2.path = "";
 
-    using ::testing::Return;
-    using ::testing::_;
-    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(Return(photoDetails1));
-    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(Return(photoDetails2));
+    EXPECT_CALL(model, getPhotoDetails(idx1)).WillRepeatedly(ReturnRef(photoDetails1));
+    EXPECT_CALL(model, getPhotoDetails(idx2)).WillRepeatedly(ReturnRef(photoDetails2));
     //
 
     PositionsCalculator calculator(&data, canvas_w);

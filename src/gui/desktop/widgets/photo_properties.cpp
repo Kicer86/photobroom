@@ -37,11 +37,9 @@ namespace
         return result;
     }
 
-    QString geometryToStr(const IPhotoInfo::Ptr& photoInfo)
+    QString geometryToStr(const Photo::Data& photoInfo)
     {
-        const QSize geometry = photoInfo->getGeometry();
-
-        return geometryToStr(geometry);
+        return geometryToStr(photoInfo.geometry);
     }
 
     QString cutPrj(const QString& path)
@@ -98,14 +96,14 @@ void PhotoProperties::set(const SelectionExtractor* selection)
 
 void PhotoProperties::refreshView() const
 {
-    std::vector<IPhotoInfo::Ptr> photos = m_selectionExtractor->getSelection();
+    std::vector<Photo::Data> photos = m_selectionExtractor->getSelection();
 
     refreshLabels(photos);
     refreshValues(photos);
 }
 
 
-void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) const
+void PhotoProperties::refreshLabels(const std::vector<Photo::Data>& photos) const
 {
     const std::size_t s = photos.size();
 
@@ -124,7 +122,7 @@ void PhotoProperties::refreshLabels(const std::vector<IPhotoInfo::Ptr>& photos) 
 }
 
 
-void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) const
+void PhotoProperties::refreshValues(const std::vector<Photo::Data>& photos) const
 {
     const std::size_t s = photos.size();
 
@@ -132,7 +130,7 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     std::size_t size = 0;
     for(std::size_t i = 0; i < s; i++)
     {
-        const QFileInfo info(photos[i]->getPath());
+        const QFileInfo info(photos[i].path);
         size += info.size();
     }
 
@@ -147,8 +145,8 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     }
     else if (s == 1)
     {
-        const IPhotoInfo::Ptr& photo = photos.front();
-        const QString filePath = photo->getPath();
+        const Photo::Data& photo = photos.front();
+        const QString& filePath = photo.path;
         const QString geometry = geometryToStr(photo);
 
         // update values
@@ -159,21 +157,21 @@ void PhotoProperties::refreshValues(const std::vector<IPhotoInfo::Ptr>& photos) 
     else
     {
         // 'merge' paths
-        QString result = photos.front()->getPath();
+        QString result = photos.front().path;
 
         for(std::size_t i = 1; i < s; i++)
         {
-            const QString anotherPhotoPath = photos[i]->getPath();
+            const QString anotherPhotoPath = photos[i].path;
             result = FileSystem().commonPath(result, anotherPhotoPath);
         }
 
         const QString decorated_path = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
 
         // try to merge geometry
-        const QSize geometry = photos.front()->getGeometry();
-        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const IPhotoInfo::Ptr& photo)
+        const QSize geometry = photos.front().geometry;
+        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const Photo::Data& photo)
         {
-            return photo->getGeometry() == geometry;
+            return photo.geometry == geometry;
         });
 
         const QString geometryStr = equal? geometryToStr(geometry): "---";

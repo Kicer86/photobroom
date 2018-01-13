@@ -75,7 +75,7 @@ class DBDataModel: public APhotoInfoModel
         DBDataModel& operator=(const DBDataModel& other) = delete;
         bool operator==(const DBDataModel& other) = delete;
 
-        IPhotoInfo::Ptr getPhoto(const QModelIndex &) const;
+        const Photo::Data& getPhoto(const QModelIndex &) const;
         const std::vector<Database::IFilter::Ptr>& getStaticFilters() const;
 
         void deepFetch(const QModelIndex &);                        //loads provided index and all its children recursively
@@ -91,7 +91,7 @@ class DBDataModel: public APhotoInfoModel
         bool isLeaf(const QModelIndex &) const;
 
         // APhotoInfoModel:
-        virtual PhotoDetails getPhotoDetails(const QModelIndex &) const override;
+        virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const override;
 
         // QAbstractItemModel:
         virtual bool canFetchMore(const QModelIndex& parent) const override;

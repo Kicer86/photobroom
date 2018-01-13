@@ -198,9 +198,9 @@ QPixmap Data::getImage(typename ModelIndexInfoSet::Model::const_iterator it) con
 QSize Data::getImageSize(ModelIndexInfoSet::Model::const_iterator it) const
 {
     const QModelIndex idx = get(it);
-    const APhotoInfoModel::PhotoDetails details = m_model->getPhotoDetails(idx);
+    const Photo::Data& details = m_model->getPhotoDetails(idx);
 
-    return details.size;
+    return details.geometry;
 }
 
 

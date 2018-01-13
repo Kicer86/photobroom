@@ -48,7 +48,7 @@ class PhotosGroupingDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(const std::vector<IPhotoInfo::Ptr> &,
+        explicit PhotosGroupingDialog(const std::vector<Photo::Data> &,
                                       IExifReader *,
                                       ITaskExecutor *,
                                       IConfiguration *,
@@ -84,7 +84,7 @@ class PhotosGroupingDialog: public QDialog
         void typeChanged();
         void applyPressed();
         void makeAnimation();
-        void fillModel(const std::vector<IPhotoInfo::Ptr> &);
+        void fillModel(const std::vector<Photo::Data> &);
 
         QStringList getPhotos() const;
         void scalePreview();

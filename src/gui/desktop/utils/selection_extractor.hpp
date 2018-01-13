@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include <database/iphoto_info.hpp>
+#include <database/photo_data.hpp>
 
 class QItemSelectionModel;
 
@@ -42,7 +42,7 @@ class SelectionExtractor final: public QObject
         void set(QItemSelectionModel *);
         void set(DBDataModel *);
 
-        std::vector<IPhotoInfo::Ptr> getSelection() const;
+        std::vector<Photo::Data> getSelection() const;
 
     private:
         QItemSelectionModel* m_selectionModel;

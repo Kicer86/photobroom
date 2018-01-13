@@ -88,6 +88,12 @@ TagEditorWidget::~TagEditorWidget()
 }
 
 
+void TagEditorWidget::setDatabase(Database::IDatabase* db)
+{
+    m_model->set(db);
+}
+
+
 void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 {
     m_model->set(selectionModel);

@@ -55,6 +55,7 @@ class TagEditorWidget: public QWidget
         TagEditorWidget(const TagEditorWidget &) = delete;
         virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
 
+        void setDatabase(Database::IDatabase *);
         void set(QItemSelectionModel *);
         void set(DBDataModel *);
         void set(ICompleterFactory *);

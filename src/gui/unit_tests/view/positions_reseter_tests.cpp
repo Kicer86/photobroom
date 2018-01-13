@@ -13,6 +13,10 @@
 #include "test_helpers/photo_info_model.hpp"
 
 
+using ::testing::ReturnRefOfCopy;
+using ::testing::_;
+
+
 class PositionsReseterShould: public ::testing::Test
 {
     public:
@@ -101,14 +105,12 @@ class PositionsReseterShould: public ::testing::Test
             submodel.appendRow(top3);
 
             // setup base expectations
-            APhotoInfoModel::PhotoDetails photoDetails;
-            photoDetails.size = img;
+            Photo::Data photoDetails;
+            photoDetails.geometry = img;
             photoDetails.id = 0;
             photoDetails.path = "";
 
-            using ::testing::Return;
-            using ::testing::_;
-            EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(Return(photoDetails));
+            EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRefOfCopy(photoDetails));
             //
         }
 
