@@ -27,16 +27,17 @@
 
 #include <photos_crawler/iphoto_crawler.hpp>
 
-struct ITasksView;
-
 class QString;
+
+struct ITasksView;
+class Project;
 
 class PhotosCollector: public QObject, public IMediaNotification
 {
         Q_OBJECT
 
     public:
-        PhotosCollector(QObject * = nullptr);
+        PhotosCollector(const Project *, QObject * = nullptr);
         PhotosCollector(const PhotosCollector& other) = delete;
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
