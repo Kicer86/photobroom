@@ -25,20 +25,25 @@
 
 #include <atomic>
 
+#include <QStringList>
+
 #include "photos_crawler_export.h"
+
 
 class PHOTOS_CRAWLER_EXPORT FileSystemScanner: public IFileSystemScanner
 {
-
     public:
         FileSystemScanner();
         virtual ~FileSystemScanner();
+
+        void ignorePaths(const QStringList &);
 
         void getFilesFor(const QString &, IFileNotifier *) override;
         void stop() override;
 
     private:
         std::atomic<bool> m_work;
+        QStringList m_ignored;
 
         FileSystemScanner(const FileSystemScanner& other) = delete;
         virtual FileSystemScanner& operator=(const FileSystemScanner& other) = delete;

@@ -23,6 +23,13 @@
 #include <QDir>
 #include <QDirIterator>
 
+
+void FileSystemScanner::ignorePaths(const QStringList& to_ignore)
+{
+    m_ignored = to_ignore;
+}
+
+
 void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
 {
     m_work = true;
@@ -35,7 +42,16 @@ void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* noti
     while (m_work && dirIt.hasNext())
     {
         const QString entry = dirIt.next();
-        notifier->found(entry);
+        bool is_fine = true;
+
+        for (const QString& banned: m_ignored)
+        {
+            if (entry.contains(banned))
+                is_fine = false;
+        }
+
+        if (is_fine)
+            notifier->found(entry);
     }
 
     notifier->finished();
@@ -58,4 +74,3 @@ FileSystemScanner::~FileSystemScanner()
 {
 
 }
-

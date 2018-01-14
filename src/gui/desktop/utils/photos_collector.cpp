@@ -24,6 +24,7 @@
 #include <photos_crawler/photo_crawler_builder.hpp>
 #include <photos_crawler/photo_crawler.hpp>
 #include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>
+#include <project_utils/project.hpp>
 
 
 struct PhotosCollector::Data
@@ -31,6 +32,7 @@ struct PhotosCollector::Data
     std::function<void(const QString &)> m_callback;
     ITasksView* m_tasksView;
     std::unique_ptr<PhotoCrawler> m_crawler;
+    const Project* m_project;
 
     Data(): m_callback(), m_tasksView(nullptr), m_crawler(nullptr)
     {
@@ -42,8 +44,9 @@ struct PhotosCollector::Data
 };
 
 
-PhotosCollector::PhotosCollector(QObject* p): QObject(p), m_data(new Data)
+PhotosCollector::PhotosCollector(const Project* project, QObject* p): QObject(p), m_data(new Data)
 {
+    m_data->m_project = project;
 }
 
 
@@ -61,6 +64,12 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 
     auto analyzer = PhotoCrawlerBuilder().buildFullFileAnalyzer();
     auto scanner = std::make_unique<FileSystemScanner>();
+
+    const ProjectInfo& info = m_data->m_project->getProjectInfo();
+    const QString& internals = info.getInternalLocation();
+    const QStringList to_ignore { internals };
+
+    scanner->ignorePaths(to_ignore);
 
     m_data->m_crawler = std::make_unique<PhotoCrawler>( std::move(scanner), std::move(analyzer) );
     m_data->m_crawler->crawl(path, this);
