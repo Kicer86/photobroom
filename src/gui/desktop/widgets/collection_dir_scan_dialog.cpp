@@ -29,7 +29,7 @@
 
 CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase* db, QWidget* p):
     QDialog(p),
-    m_collector(project),
+    m_collector(),
     m_photosFound(),
     m_dbPhotos(),
     m_state(State::Scanning),

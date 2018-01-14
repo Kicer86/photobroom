@@ -23,6 +23,28 @@
 #include <QDir>
 #include <QDirIterator>
 
+void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
+{
+    m_work = true;
+
+    QDir p(dir_path);
+    QDirIterator dirIt(p, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
+
+    while (m_work && dirIt.hasNext())
+    {
+        const QString entry = dirIt.next();
+        notifier->found(entry);
+    }
+
+    notifier->finished();
+}
+
+
+void FileSystemScanner::stop()
+{
+    m_work = false;
+}
+
 
 FileSystemScanner::FileSystemScanner(): m_work(true)
 {
@@ -35,51 +57,3 @@ FileSystemScanner::~FileSystemScanner()
 
 }
 
-
-void FileSystemScanner::ignorePaths(const QStringList& to_ignore)
-{
-    m_ignored = to_ignore;
-}
-
-
-void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
-{
-    m_work = true;
-
-    scan(dir_path, notifier);
-}
-
-void FileSystemScanner::scan(const QString& dir_path, IFileNotifier* notifier)
-{
-    QDir p(dir_path);
-    QDirIterator dirIt(p);
-
-    while (m_work && dirIt.hasNext())
-    {
-        const QString entry = dirIt.next();
-        const QFileInfo entryInfo(entry);
-
-        if (entryInfo.isDir())
-        {
-            const QString entry_full_path = entryInfo.absoluteFilePath();
-            const QString entry_name = entryInfo.fileName();
-
-            if (m_ignored.contains(entry_full_path) == false &&
-                entry_name != "." &&
-                entry_name != "..")
-            {
-                scan(entry_full_path, notifier);
-            }
-        }
-        else
-            notifier->found(entry);
-    }
-
-    notifier->finished();
-}
-
-
-void FileSystemScanner::stop()
-{
-    m_work = false;
-}
