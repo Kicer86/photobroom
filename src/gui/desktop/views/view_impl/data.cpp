@@ -106,6 +106,15 @@ const ModelIndexInfo& Data::get(const QModelIndex& index) const
 }
 
 
+ModelIndexInfo& Data::get(const QModelIndex& index)
+{
+    auto it = m_itemData->find(index);
+    assert(it != m_itemData->end());
+
+    return *it;
+}
+
+
 Data::ModelIndexInfoSet::Model::const_iterator Data::cfind(const QModelIndex& index) const
 {
     auto it = m_itemData->cfind(index);

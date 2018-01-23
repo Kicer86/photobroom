@@ -104,12 +104,12 @@ TEST_F(DataShould, StoreInfoAboutItem)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    ModelIndexInfo& info = *data.get(QModelIndex());
+    ModelIndexInfo& info = data.get(QModelIndex());
     info.expanded = true;
     info.setRect(QRect(0, 0, 100, 50));
     info.setOverallSize(QSize(100, 50));
 
-    const ModelIndexInfo& info2 = *data.get(QModelIndex());
+    const ModelIndexInfo& info2 = data.get(QModelIndex());
     EXPECT_EQ(true, info2.expanded);
     EXPECT_EQ(QRect(0, 0, 100, 50), info2.getRect());
     EXPECT_EQ(QSize(100, 50), info2.getOverallSize());

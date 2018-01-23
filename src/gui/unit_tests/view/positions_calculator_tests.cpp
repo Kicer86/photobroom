@@ -220,7 +220,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand second node to show children
-    ModelIndexInfo& top_info2 = *view_data.get(top_idx2->index());
+    ModelIndexInfo& top_info2 = view_data.get(top_idx2->index());
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
@@ -278,7 +278,7 @@ TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand main node to show children
-    ModelIndexInfo& top_info = *view_data.get(top->index());
+    ModelIndexInfo& top_info = view_data.get(top->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
@@ -358,10 +358,10 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
 
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
     }
 
@@ -369,7 +369,7 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     calculator.updateItems();
 
     //// test
-    ModelIndexInfo& top_info = *data.get(top->index());
+    ModelIndexInfo& top_info = data.get(top->index());
     top_info.expanded = false;
 
     PositionsReseter reseter(&model, &data);
@@ -555,10 +555,10 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     ViewDataModelObserver mo(&view_data.getModel(), &model);
 
     //expand nodes to show children
-    ModelIndexInfo& top_info1 = *view_data.get(top_idx1->index());
+    ModelIndexInfo& top_info1 = view_data.get(top_idx1->index());
     top_info1.expanded = true;
 
-    ModelIndexInfo& top_info2 = *view_data.get(top_idx2->index());
+    ModelIndexInfo& top_info2 = view_data.get(top_idx2->index());
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
