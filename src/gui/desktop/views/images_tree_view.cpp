@@ -112,9 +112,9 @@ int ImagesTreeView::getThumbnailHeight() const
 
 QRect ImagesTreeView::childrenSize(const QModelIndex& idx) const
 {
-    auto it = m_data->get(idx);
+    const auto info = m_data->get(idx);
 
-    return it->getOverallRect();
+    return info.getOverallRect();
 }
 
 
@@ -308,17 +308,16 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        Data::ModelIndexInfoSet::Model::const_iterator infoIt = m_data->get(item);
-        const QRect rect = translator.getAbsoluteRect(infoIt);
+        const QRect rect = translator.getAbsoluteRect(item);
 
         const QSize decorationSize(rect.width()  - m_data->getSpacing() * 2,
                                    rect.height() - m_data->getSpacing() * 2);
 
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = rect;
-        styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
-        styleOption.state |= m_data->isExpanded(infoIt)? QStyle::State_Open: QStyle::State_None;
+        styleOption.state |= m_data->isExpanded(item)? QStyle::State_Open: QStyle::State_None;
         styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);

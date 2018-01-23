@@ -33,7 +33,8 @@ class PositionsTranslator
         PositionsTranslator(const PositionsTranslator &) = delete;
         ~PositionsTranslator();
 
-        QRect getAbsoluteRect(const Data::ModelIndexInfoSet::Model::const_level_iterator &) const;
+        [[deprecated]] QRect getAbsoluteRect(const Data::ModelIndexInfoSet::Model::const_level_iterator &) const;
+        QRect getAbsoluteRect(const QModelIndex &) const;
         QRect getAbsoluteOverallRect(const Data::ModelIndexInfoSet::Model::const_iterator &) const;
         QPoint getAbsolutePosition(const Data::ModelIndexInfoSet::Model::const_level_iterator &) const;
 

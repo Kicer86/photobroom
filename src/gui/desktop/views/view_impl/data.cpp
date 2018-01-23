@@ -97,12 +97,12 @@ void Data::setThumbnailDesiredHeight(int imgSize)
 }
 
 
-Data::ModelIndexInfoSet::Model::iterator Data::get(const QModelIndex& index) const
+const ModelIndexInfo& Data::get(const QModelIndex& index) const
 {
     auto it = m_itemData->find(index);
     assert(it != m_itemData->end());
 
-    return it;
+    return *it;
 }
 
 
@@ -146,6 +146,28 @@ bool Data::isImage(const ModelIndexInfoSet::Model::const_iterator& it) const
 {
     QModelIndex index = get(it);
 
+    bool result = false;
+
+    if (index.isValid())
+    {
+        const QAbstractItemModel* model = index.model();
+        const bool has_children = model->hasChildren(index);
+
+        if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
+        {
+            const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
+
+            result = decorationRole.canConvert<QPixmap>() || decorationRole.canConvert<QIcon>();
+        }
+        //else - has children so it is node so it is not image :)
+    }
+
+    return result;
+}
+
+
+bool Data::isImage(const QModelIndex& index) const
+{
     bool result = false;
 
     if (index.isValid())
@@ -292,6 +314,15 @@ bool Data::isExpanded(const ModelIndexInfoSet::Model::const_iterator& it) const
 }
 
 
+bool Data::isExpanded(const QModelIndex& idx) const
+{
+    assert(idx.isValid());
+
+    const ModelIndexInfo& info = get(idx);
+    return info.expanded;
+}
+
+
 bool Data::isVisible(const ModelIndexInfoSet::Model::const_level_iterator& it) const
 {
     ModelIndexInfoSet::Model::const_iterator parent = it.parent();
@@ -344,20 +375,20 @@ IConfiguration* Data::getConfig()
 
 QModelIndex Data::getRightOf(const QModelIndex& item) const
 {
+    assert(item.isValid());
+    assert(item.column() == 0);
+
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::Model::const_level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const QModelIndex sibling = item.sibling(item.row() + 1, 0);
+    const ModelIndexInfo& item_info = get(item);
 
-    const ModelIndexInfoSet::Model::const_level_iterator right_it = item_it + 1;
-
-    if (right_it.valid())
+    if (sibling.isValid())
     {
-        const ModelIndexInfo& item_info = *item_it;
-        const ModelIndexInfo& right_item = *right_it;
+        const ModelIndexInfo& right_item = get(sibling);
 
         if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
-            result = get(right_it);
+            result = sibling;
     }
 
     return result;
@@ -366,23 +397,20 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 
 QModelIndex Data::getLeftOf(const QModelIndex& item) const
 {
+    assert(item.isValid());
+    assert(item.column() == 0);
+
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::Model::const_level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const QModelIndex sibling = item.sibling(item.row() - 1, 0);
+    const ModelIndexInfo& item_info = get(item);
 
-    if (item_it.is_first() == false)
+    if (sibling.isValid())
     {
-        const ModelIndexInfoSet::Model::const_level_iterator left_it = item_it - 1;
+        const ModelIndexInfo& right_item = get(sibling);
 
-        if (left_it.valid())
-        {
-            const ModelIndexInfo& item_info = *item_it;
-            const ModelIndexInfo& left_item = *left_it;
-
-            if (item_info.getPosition().y() == left_item.getPosition().y())  // both at the same y?
-                result = get(left_it);
-        }
+        if (item_info.getPosition().y() == right_item.getPosition().y())  // both at the same y?
+            result = sibling;
     }
 
     return result;
@@ -391,30 +419,23 @@ QModelIndex Data::getLeftOf(const QModelIndex& item) const
 
 QModelIndex Data::getTopOf(const QModelIndex& item) const
 {
+    assert(item.isValid());
+    assert(item.column() == 0);
+
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::Model::level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const ModelIndexInfo& item_info = get(item);
 
-    const ModelIndexInfo& item_info = *item_it;
-
-    ModelIndexInfoSet::Model::const_level_iterator it = item_it;
-
-    while (true)
+    for (QModelIndex sibling = item; sibling.isValid(); sibling = sibling.sibling(sibling.row() - 1, 0))
     {
-        const ModelIndexInfo& sibling_item = *it;
+        const ModelIndexInfo& sibling_item = get(sibling);
 
         if (sibling_item.getPosition().y() < item_info.getPosition().y())       // is sibling_item in row over item?
             if (sibling_item.getPosition().x() <= item_info.getPosition().x())  // and is exactly over it?
             {
-                result = get(it);
+                result = sibling;
                 break;
             }
-
-        if (it.is_first())
-            break;
-        else
-            --it;
     }
 
     return result;
@@ -423,21 +444,21 @@ QModelIndex Data::getTopOf(const QModelIndex& item) const
 
 QModelIndex Data::getBottomOf(const QModelIndex& item) const
 {
+    assert(item.isValid());
+    assert(item.column() == 0);
+
     QModelIndex result = item;
 
-    const ModelIndexInfoSet::Model::const_level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const ModelIndexInfo& item_info = get(item);
 
-    const ModelIndexInfo& item_info = *item_it;
-
-    for(ModelIndexInfoSet::Model::const_level_iterator it = item_it; it.valid(); ++it)
+    for (QModelIndex sibling = item; sibling.isValid(); sibling = sibling.sibling(sibling.row() + 1, 0))
     {
-        const ModelIndexInfo& sibling_item = *it;
+        const ModelIndexInfo& sibling_item = get(sibling);
 
         if (sibling_item.getPosition().y() > item_info.getPosition().y())       // is sibling_item in row below item?
             if (sibling_item.getPosition().x() >= item_info.getPosition().x())  // and is exactly below it?
             {
-                result = get(it);
+                result = sibling;
                 break;
             }
     }
@@ -448,31 +469,19 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
 
 QModelIndex Data::getFirst(const QModelIndex& item) const
 {
-    const ModelIndexInfoSet::Model::const_level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const QModelIndex result = item.sibling(0, 0);
 
-    ModelIndexInfoSet::Model::const_level_iterator result = item_it;
-
-    for(; result.is_first() == false; --result);
-
-    const QModelIndex resultIdx = get(result);
-
-    return resultIdx;
+    return result;
 }
 
 
 QModelIndex Data::getLast(const QModelIndex& item) const
 {
-    const ModelIndexInfoSet::Model::const_level_iterator item_it = get(item);
-    assert(item_it.valid());
+    const int siblings = item.model()->rowCount(item.parent());
 
-    ModelIndexInfoSet::Model::const_level_iterator result = item_it;
+    const QModelIndex result = item.sibling(siblings - 1, 0);
 
-    for (; result.is_last() == false; ++result);
-
-    const QModelIndex resultIdx = get(result);
-
-    return resultIdx;
+    return result;
 }
 
 

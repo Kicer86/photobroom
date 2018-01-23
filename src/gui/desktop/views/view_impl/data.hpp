@@ -50,12 +50,13 @@ class Data
         void setImageMargin(int);
         void setThumbnailDesiredHeight(int);
 
-        ModelIndexInfoSet::Model::iterator get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
+        const ModelIndexInfo& get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
         ModelIndexInfoSet::Model::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::Model::iterator find(const QModelIndex &);
 
         ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
-        bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
+        [[deprecated]] bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
+        bool isImage(const QModelIndex &) const;
         [[deprecated]] QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;
         QSize getImageSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
         QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
@@ -63,7 +64,8 @@ class Data
         QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
         std::vector<QModelIndex> findInRect(const QRect &) const;
 
-        bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
+        [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
+        bool isExpanded(const QModelIndex &) const;
         bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
 
         const ModelIndexInfoSet& getModel() const;

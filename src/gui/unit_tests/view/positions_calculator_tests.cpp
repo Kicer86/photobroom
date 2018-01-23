@@ -64,8 +64,7 @@ TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     PositionsCalculator calculator(&data, 100);
     calculator.updateItems();
 
-    Data::ModelIndexInfoSet::Model::iterator infoIt = data.get(top);
-    const ModelIndexInfo& info = *infoIt;
+    const ModelIndexInfo& info = data.get(top);
 
     EXPECT_EQ(true, info.isPositionValid());
     EXPECT_EQ(QSize(0, 0), info.getSize());
@@ -158,7 +157,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     //
 
     //expand main node to show children
-    ModelIndexInfo& top_info = *view_data.get(top_idx->index());
+    ModelIndexInfo& top_info = view_data.get(top_idx->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);

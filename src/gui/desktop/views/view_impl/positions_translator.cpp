@@ -51,6 +51,24 @@ QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::Model:
 }
 
 
+QRect PositionsTranslator::getAbsoluteRect(const QModelIndex& idx) const
+{
+    const ModelIndexInfo idxInfo = m_data->get(idx);
+    const QModelIndex parent = idx.parent();
+
+    QRect result = idxInfo.getRect();
+
+    // top items have their posistions absolute by definition, no calculations needed
+    if (parent.isValid())
+    {
+        const QRect parentRect = getAbsoluteRect(parent);
+        result.translate(parentRect.bottomLeft());
+    }
+
+    return result;
+}
+
+
 QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::Model::const_iterator& mii) const
 {
     const QPoint position = getAbsolutePosition(mii);
