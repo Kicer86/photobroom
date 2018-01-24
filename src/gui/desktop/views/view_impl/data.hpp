@@ -65,7 +65,7 @@ class Data
         [[deprecated]] QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
         QSize getThumbnailSize(const QModelIndex &) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
-        QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
+        [[deprecated]] QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
         std::vector<QModelIndex> findInRect(const QRect &) const;
 
         [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;

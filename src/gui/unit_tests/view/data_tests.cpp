@@ -64,7 +64,7 @@ TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
     EXPECT_EQ(1, items.size());
 }
 
-/*
+
 TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 {
     Data data;
@@ -72,15 +72,13 @@ TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
-    Data::ModelIndexInfoSet::Model::iterator infoIt = data.get(QModelIndex());
-    QModelIndex idx = data.get(infoIt);
-
-    EXPECT_EQ(QModelIndex(), idx);
+    const ModelIndexInfo& info = data.get(QModelIndex());
+    EXPECT_EQ(info.valid(), false);
 
     const auto& items = data.getModel();
     EXPECT_EQ(false, items.empty());
 }
-*/
+
 
 TEST_F(DataShould, SetInitialDataForRootItem)
 {
@@ -312,60 +310,6 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
         EXPECT_EQ(false, data.isVisible(child2->index()));
     }
 }
-
-
-/*
-TEST_F(DataShould, ReturnProperIndicesOfItems)
-{
-    const QPixmap pixmap(10, 10);
-    const QIcon icon(pixmap);
-
-    Data data;
-    data.set(&model);
-
-    ViewDataModelObserver mo(&data.getModel(), &model);
-
-    QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-
-    top->appendRow(child1);
-    top->appendRow(child2);
-
-    submodel.appendRow(top);
-
-    // setup expectations
-    Photo::Data photoDetails;
-    photoDetails.geometry = QSize(10, 10);
-    photoDetails.id = 0;
-    photoDetails.path = "";
-
-    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
-    //
-
-    //expand top so children will be stored in 'data' when calculating positions
-    ModelIndexInfo& info = data.get(top->index());
-    info.expanded = true;
-
-    PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
-
-    {
-        auto it1 = data.get(top->index());
-        QModelIndex topIdx = data.get(it1);
-
-        auto it2 = data.get(child1->index());
-        QModelIndex child1Idx = data.get(it2);
-
-        auto it3 = data.get(child2->index());
-        QModelIndex child2Idx = data.get(it3);
-
-        EXPECT_EQ(top->index(), topIdx);
-        EXPECT_EQ(child1->index(), child1Idx);
-        EXPECT_EQ(child2->index(), child2Idx);
-    }
-}
-*/
 
 
 TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
