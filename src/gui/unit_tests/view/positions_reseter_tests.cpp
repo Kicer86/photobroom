@@ -166,10 +166,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());;
+        ModelIndexInfo& top2_info = data.get(top2->index());;
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
@@ -226,10 +226,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
@@ -287,10 +287,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
     }
 
@@ -361,10 +361,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 {
     //expand main nodes to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
@@ -476,10 +476,10 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
@@ -540,10 +540,10 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 {
     //expand main node to show children
     {
-        ModelIndexInfo& top_info = *data.get(top->index());
+        ModelIndexInfo& top_info = data.get(top->index());
         top_info.expanded = true;
 
-        ModelIndexInfo& top2_info = *data.get(top2->index());
+        ModelIndexInfo& top2_info = data.get(top2->index());
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);

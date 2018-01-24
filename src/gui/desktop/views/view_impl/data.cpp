@@ -153,25 +153,9 @@ Data::ModelIndexInfoSet::Model::iterator Data::get(const QPoint& point) const
 
 bool Data::isImage(const ModelIndexInfoSet::Model::const_iterator& it) const
 {
-    QModelIndex index = get(it);
+    const QModelIndex index = get(it);
 
-    bool result = false;
-
-    if (index.isValid())
-    {
-        const QAbstractItemModel* model = index.model();
-        const bool has_children = model->hasChildren(index);
-
-        if (!has_children)     //has no children? Leaf (image) or empty node, so still not sure
-        {
-            const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
-
-            result = decorationRole.canConvert<QPixmap>() || decorationRole.canConvert<QIcon>();
-        }
-        //else - has children so it is node so it is not image :)
-    }
-
-    return result;
+    return isImage(index);
 }
 
 
@@ -199,8 +183,14 @@ bool Data::isImage(const QModelIndex& index) const
 
 QPixmap Data::getImage(typename ModelIndexInfoSet::Model::const_iterator it) const
 {
-    QModelIndex index = get(it);
+    const QModelIndex index = get(it);
 
+    return getImage(index);
+}
+
+
+QPixmap Data::getImage(const QModelIndex& index) const
+{
     const QAbstractItemModel* model = index.model();
     const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
     const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
@@ -229,6 +219,13 @@ QPixmap Data::getImage(typename ModelIndexInfoSet::Model::const_iterator it) con
 QSize Data::getImageSize(ModelIndexInfoSet::Model::const_iterator it) const
 {
     const QModelIndex idx = get(it);
+
+    return getImageSize(idx);
+}
+
+
+QSize Data::getImageSize(const QModelIndex& idx) const
+{
     const Photo::Data& details = m_model->getPhotoDetails(idx);
 
     return details.geometry;
@@ -237,7 +234,15 @@ QSize Data::getImageSize(ModelIndexInfoSet::Model::const_iterator it) const
 
 QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
 {
-    const QSize size = getImageSize(it);
+    const QModelIndex idx = get(it);
+
+    return getThumbnailSize(idx);
+}
+
+
+QSize Data::getThumbnailSize(const QModelIndex& index) const
+{
+    const QSize size = getImageSize(index);
 
     const int w = size.width();
     const int h = size.height();
@@ -338,6 +343,20 @@ bool Data::isVisible(const ModelIndexInfoSet::Model::const_level_iterator& it) c
     bool result = false;
 
     if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
+        result = true;
+    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
+        result = true;
+
+    return result;
+}
+
+
+bool Data::isVisible(const QModelIndex& idx) const
+{
+    const QModelIndex parent = idx.parent();
+    bool result = false;
+
+    if (parent.isValid() == false)    //parent is on the top of hierarchy? Always visible
         result = true;
     else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
         result = true;

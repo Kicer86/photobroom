@@ -59,15 +59,19 @@ class Data
         [[deprecated]] bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
         bool isImage(const QModelIndex &) const;
         [[deprecated]] QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;
-        QSize getImageSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
-        QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        [[deprecated]] QPixmap getImage(const QModelIndex &) const;
+        [[deprecated]] QSize getImageSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        QSize getImageSize(const QModelIndex &) const;
+        [[deprecated]] QSize getThumbnailSize(Data::ModelIndexInfoSet::Model::const_iterator) const;
+        QSize getThumbnailSize(const QModelIndex &) const;
         void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
         QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
         std::vector<QModelIndex> findInRect(const QRect &) const;
 
         [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
         bool isExpanded(const QModelIndex &) const;
-        bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
+        [[deprecated]] bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
+        bool isVisible(const QModelIndex &) const;
 
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
