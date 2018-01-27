@@ -183,14 +183,6 @@ bool Data::isImage(const QModelIndex& index) const
 }
 
 
-QPixmap Data::getImage(typename ModelIndexInfoSet::Model::const_iterator it) const
-{
-    const QModelIndex index = get(it);
-
-    return getImage(index);
-}
-
-
 QPixmap Data::getImage(const QModelIndex& index) const
 {
     const QAbstractItemModel* model = index.model();
@@ -215,14 +207,6 @@ QPixmap Data::getImage(const QModelIndex& index) const
     }
 
     return pixmap;
-}
-
-
-QSize Data::getImageSize(ModelIndexInfoSet::Model::const_iterator it) const
-{
-    const QModelIndex idx = get(it);
-
-    return getImageSize(idx);
 }
 
 
