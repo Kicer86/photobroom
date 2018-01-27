@@ -177,14 +177,12 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     //even if we ask for point within child area, we should get empty result, as children are invisible
     {
         const QPoint c = rect1.center();
-        auto infoIt = data.get(c);
-        const QModelIndex index = data.get(infoIt);
+        const QModelIndex index = data.get(c);
 
         EXPECT_EQ(QModelIndex(), index);
 
         const QPoint c2 = rect2.center();
-        auto infoIt2 = data.get(c2);
-        const QModelIndex index2 = data.get(infoIt2);
+        const QModelIndex index2 = data.get(c2);
 
         EXPECT_EQ(QModelIndex(), index2);
     }

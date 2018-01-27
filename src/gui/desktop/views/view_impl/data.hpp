@@ -58,7 +58,7 @@ class Data
         ModelIndexInfo& get(const QModelIndex &);
         bool has(const QModelIndex &) const;
 
-        ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
+        QModelIndex get(const QPoint &) const;
         [[deprecated]] bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;
         bool isImage(const QModelIndex &) const;
         [[deprecated]] QPixmap getImage(Data::ModelIndexInfoSet::Model::const_iterator) const;

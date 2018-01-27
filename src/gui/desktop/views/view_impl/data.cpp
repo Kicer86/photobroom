@@ -132,9 +132,10 @@ bool Data::has(const QModelIndex& index) const
 }
 
 
-Data::ModelIndexInfoSet::Model::iterator Data::get(const QPoint& point) const
+QModelIndex Data::get(const QPoint& point) const
 {
-    ModelIndexInfoSet::Model::iterator result = m_itemData->end();
+    QModelIndex result;
+
     PositionsTranslator translator(this);
 
     for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
@@ -143,7 +144,7 @@ Data::ModelIndexInfoSet::Model::iterator Data::get(const QPoint& point) const
 
         if (rect.contains(point) && isVisible(it))
         {
-            result = it;
+            result = get(it);
             break;
         }
     }
