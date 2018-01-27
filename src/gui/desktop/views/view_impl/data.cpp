@@ -115,14 +115,6 @@ ModelIndexInfo& Data::get(const QModelIndex& index)
 }
 
 
-Data::ModelIndexInfoSet::Model::const_iterator Data::cfind(const QModelIndex& index) const
-{
-    auto it = m_itemData->cfind(index);
-
-    return it;
-}
-
-
 Data::ModelIndexInfoSet::Model::iterator Data::find(const QModelIndex& index)
 {
     auto it = m_itemData->find(index);

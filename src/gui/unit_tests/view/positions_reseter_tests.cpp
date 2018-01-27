@@ -185,31 +185,26 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
 
     //expectations
     {
-        Data::ModelIndexInfoSet::Model::const_iterator top_infoIt = data.cfind(top->index());
-        const ModelIndexInfo& info = *top_infoIt;
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(true,  info.isPositionValid());          // Parent's size should not be reseted
         EXPECT_EQ(true,  info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());       // But its overall rect should
     }
 
     {
-        Data::ModelIndexInfoSet::Model::const_iterator info1_It = data.cfind(child1->index());
-        Data::ModelIndexInfoSet::Model::const_iterator info5_It = data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
 
-        const ModelIndexInfo& info1 = *info1_It;
-        const ModelIndexInfo& info5 = *info5_It;
         EXPECT_NE(info1.getRect(), QRect());            //siblings should not be reseted
         EXPECT_NE(info5.getRect(), QRect());            //siblings should not be reseted
     }
 
     {
-        Data::ModelIndexInfoSet::Model::const_iterator info_It  = data.cfind(top2->index());
-        Data::ModelIndexInfoSet::Model::const_iterator info1_It = data.cfind(child2_1->index());
-        Data::ModelIndexInfoSet::Model::const_iterator info5_It = data.cfind(child2_5->index());
+        //top2's position should be reseted
 
-        const ModelIndexInfo& info  = *info_It;           //top2's position should be reseted
-        const ModelIndexInfo& info1 = *info1_It;
-        const ModelIndexInfo& info5 = *info5_It;
+        const ModelIndexInfo& info  = data.get(top2->index());
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         EXPECT_EQ(false, info.isPositionValid());
         EXPECT_EQ(true,  info.isSizeValid());
@@ -244,17 +239,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(true, info.isPositionValid());         // Parent's size should not be reseted
         EXPECT_EQ(true, info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        const ModelIndexInfo& info4 = *data.cfind(child4->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info2 = data.get(child2->index());
+        const ModelIndexInfo& info4 = data.get(child4->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
 
         EXPECT_EQ(true,  info1.isPositionValid());        //siblings before removed one should not be reseted
         EXPECT_EQ(true,  info2.isPositionValid());
@@ -269,9 +264,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's position should be reseted
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info  = data.get(top2->index());           //top2's position should be reseted
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         EXPECT_EQ(false, info.isPositionValid());
         EXPECT_EQ(true, info.isSizeValid());
@@ -305,7 +300,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(true,  info.isPositionValid());            // Parent's size should not be reseted
         EXPECT_EQ(true,  info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());         // But its overall rect should
@@ -313,17 +308,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
     {
         // child's size should be invalidated
-        const ModelIndexInfo& info3 = *data.cfind(child3->index());
+        const ModelIndexInfo& info3 = data.get(child3->index());
 
         EXPECT_EQ(true, info3.isPositionValid());
         EXPECT_EQ(false, info3.isSizeValid());
     }
 
     {
-        const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        const ModelIndexInfo& info4 = *data.cfind(child4->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info2 = data.get(child2->index());
+        const ModelIndexInfo& info4 = data.get(child4->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
 
         EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
         EXPECT_EQ(true, info2.isPositionValid());
@@ -338,9 +333,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info  = data.get(top2->index());
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         // top2's position should be reseted
         EXPECT_EQ(false, info.isPositionValid());
@@ -377,7 +372,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(true,  info.isPositionValid());            // Node's size should be reseted.
         EXPECT_EQ(false, info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());         // So should overall size.
@@ -385,8 +380,8 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
 
     {
         //children should not be reseted
-        const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
         EXPECT_EQ(true, info1.isPositionValid());
         EXPECT_EQ(true, info1.isSizeValid());
         EXPECT_EQ(true, info5.isPositionValid());
@@ -394,9 +389,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info  = data.get(top2->index());
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         // top2's position should be reseted
         EXPECT_EQ(false, info.isPositionValid());
@@ -433,21 +428,21 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         // Parent's size should be reseted
         EXPECT_EQ(false, info.isPositionValid());
         EXPECT_EQ(false, info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());
 
-        const ModelIndexInfo& info2 = *data.cfind(top2->index());
+        const ModelIndexInfo& info2 = data.get(top2->index());
         EXPECT_EQ(false, info2.isPositionValid());
         EXPECT_EQ(false, info2.isSizeValid());
         EXPECT_EQ(false, info2.isOverallSizeValid());
     }
 
     {
-        const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
         EXPECT_EQ(false, info1.isPositionValid());
         EXPECT_EQ(false, info1.isSizeValid());
         EXPECT_EQ(false, info1.isOverallSizeValid());
@@ -458,8 +453,8 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
     }
 
     {
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         EXPECT_EQ(false, info1.isPositionValid());
         EXPECT_EQ(false, info1.isSizeValid());
@@ -492,17 +487,17 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(true, info.isPositionValid());         // Parent's size should not be reseted
         EXPECT_EQ(true, info.isSizeValid());
         EXPECT_EQ(false, info.isOverallSizeValid());     // But its overall rect should
     }
 
     {
-        const ModelIndexInfo& info1 = *data.cfind(child1->index());
-        const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        const ModelIndexInfo& info4 = *data.cfind(child4->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info1 = data.get(child1->index());
+        const ModelIndexInfo& info2 = data.get(child2->index());
+        const ModelIndexInfo& info4 = data.get(child4->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
 
         EXPECT_EQ(true, info1.isPositionValid());            //siblings before changed one should not be reseted
         EXPECT_EQ(true, info2.isPositionValid());
@@ -517,9 +512,9 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's and all its children's positions should be reseted
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info  = data.get(top2->index());           //top2's and all its children's positions should be reseted
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         // top2's position should be reseted
         EXPECT_EQ(false, info.isPositionValid());
@@ -558,7 +553,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
 
     //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         // Parent's size should not be reseted
         EXPECT_EQ(true, info.isPositionValid());
         EXPECT_EQ(true, info.isSizeValid());
@@ -568,10 +563,10 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     }
 
     {
-        const ModelIndexInfo& info2 = *data.cfind(child2->index());
-        const ModelIndexInfo& info3 = *data.cfind(child3->index());
-        const ModelIndexInfo& info4 = *data.cfind(child4->index());
-        const ModelIndexInfo& info5 = *data.cfind(child5->index());
+        const ModelIndexInfo& info2 = data.get(child2->index());
+        const ModelIndexInfo& info3 = data.get(child3->index());
+        const ModelIndexInfo& info4 = data.get(child4->index());
+        const ModelIndexInfo& info5 = data.get(child5->index());
 
         //siblings after removed one should be reseted
         EXPECT_EQ(false, info2.isPositionValid());
@@ -587,9 +582,9 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
     }
 
     {
-        const ModelIndexInfo& info  = *data.cfind(top2->index());           //top2's position should be reseted
-        const ModelIndexInfo& info1 = *data.cfind(child2_1->index());
-        const ModelIndexInfo& info5 = *data.cfind(child2_5->index());
+        const ModelIndexInfo& info  = data.get(top2->index());           //top2's position should be reseted
+        const ModelIndexInfo& info1 = data.get(child2_1->index());
+        const ModelIndexInfo& info5 = data.get(child2_5->index());
 
         EXPECT_EQ(false, info.isPositionValid());
         EXPECT_EQ(true,  info.isSizeValid());
@@ -615,7 +610,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblingsWhenParentIsCollapsedA
 
    //expectations
     {
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
 
         EXPECT_EQ(true,  info.isPositionValid());                   // Parent's size should not be reseted
         EXPECT_EQ(true,  info.isSizeValid());
@@ -623,7 +618,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblingsWhenParentIsCollapsedA
     }
 
     {
-        const ModelIndexInfo& info2 = *data.cfind(top2->index());   // Parent's siblings should not be touched
+        const ModelIndexInfo& info2 = data.get(top2->index());   // Parent's siblings should not be touched
         EXPECT_EQ(true, info2.isPositionValid());
         EXPECT_EQ(true, info2.isSizeValid());
         EXPECT_EQ(true, info2.isOverallSizeValid());
@@ -647,17 +642,17 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
     //expectations
     {
         //all top items should be reseted
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_EQ(false, info.isPositionValid());
         EXPECT_EQ(true, info.isSizeValid());
         EXPECT_EQ(true, info.isOverallSizeValid());
 
-        const ModelIndexInfo& info2 = *data.cfind(top2->index());
+        const ModelIndexInfo& info2 = data.get(top2->index());
         EXPECT_EQ(false, info2.isPositionValid());
         EXPECT_EQ(true, info2.isSizeValid());
         EXPECT_EQ(true, info2.isOverallSizeValid());
 
-        const ModelIndexInfo& info3 = *data.cfind(top3->index());
+        const ModelIndexInfo& info3 = data.get(top3->index());
         EXPECT_EQ(false, info3.isPositionValid());
         EXPECT_EQ(true, info3.isSizeValid());
         EXPECT_EQ(true, info3.isOverallSizeValid());
@@ -680,12 +675,12 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
     //expectations
     {
         //all top items should be reseted
-        const ModelIndexInfo& info = *data.cfind(top->index());
+        const ModelIndexInfo& info = data.get(top->index());
         EXPECT_NE(QRect(), info.getRect());
         EXPECT_NE(QSize(), info.getOverallSize());
 
         //no reason for invalidating sizes
-        const ModelIndexInfo& info3 = *data.cfind(top3->index());
+        const ModelIndexInfo& info3 = data.get(top3->index());
         EXPECT_EQ(false, info3.isPositionValid());
         EXPECT_EQ(true,  info3.isSizeValid());
         EXPECT_EQ(true,  info3.getOverallSize().isValid());

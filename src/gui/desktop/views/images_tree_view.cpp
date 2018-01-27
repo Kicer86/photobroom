@@ -435,11 +435,8 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     const PositionsTranslator translator(m_data.get());
-    auto infoIt = m_data->cfind(index);
 
-    assert(infoIt.valid());
-
-    return translator.getAbsoluteRect(infoIt);
+    return translator.getAbsoluteRect(index);
 }
 
 
@@ -489,10 +486,8 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    auto infoIt = m_data->cfind(QModelIndex());
-    assert(infoIt.valid());
+    const ModelIndexInfo& info = m_data->get(QModelIndex());
 
-    const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
     const QSize treeAreaSize = info.getOverallSize();
 

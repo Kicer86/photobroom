@@ -52,7 +52,6 @@ class Data
 
         const ModelIndexInfo& get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
         ModelIndexInfo& get(const QModelIndex &);
-        ModelIndexInfoSet::Model::const_iterator cfind(const QModelIndex &) const;
         ModelIndexInfoSet::Model::iterator find(const QModelIndex &);
 
         ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
