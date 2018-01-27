@@ -32,6 +32,10 @@
 struct IConfiguration;
 class APhotoInfoModel;
 
+namespace utils
+{
+    QModelIndex next(const QModelIndex &);
+}
 
 class Data
 {
@@ -50,9 +54,9 @@ class Data
         void setImageMargin(int);
         void setThumbnailDesiredHeight(int);
 
-        const ModelIndexInfo& get(const QModelIndex &) const;            // Same as find(), but has assert inside. Use when result is not expected to be invalid.
+        const ModelIndexInfo& get(const QModelIndex &) const;
         ModelIndexInfo& get(const QModelIndex &);
-        ModelIndexInfoSet::Model::iterator find(const QModelIndex &);
+        bool has(const QModelIndex &) const;
 
         ModelIndexInfoSet::Model::iterator get(const QPoint &) const;
         [[deprecated]] bool isImage(const ModelIndexInfoSet::Model::const_iterator &) const;

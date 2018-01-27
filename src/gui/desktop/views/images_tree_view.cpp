@@ -395,12 +395,12 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     {
         QAbstractItemView::mouseReleaseEvent(e);
 
-        QModelIndex item = indexAt(e->pos());
-        Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(item);
+        const QModelIndex item = indexAt(e->pos());
+        const bool has = m_data->has(item);
 
-        if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
+        if (has && item.isValid() && m_data->isImage(item) == false)
         {
-            ModelIndexInfo& info = *infoIt;
+            ModelIndexInfo& info = m_data->get(item);
             info.expanded = !info.expanded;
 
             QAbstractItemModel* view_model = QAbstractItemView::model();

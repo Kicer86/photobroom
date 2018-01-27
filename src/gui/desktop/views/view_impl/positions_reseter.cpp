@@ -108,18 +108,14 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 void PositionsReseter::childRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
-    Data::ModelIndexInfoSet::Model::level_iterator infoIt = m_data->find(parent);
+    const ModelIndexInfo& parentInfo = m_data->get(parent);
 
-    if (infoIt.valid())
-    {
-        const ModelIndexInfo& parentInfo = *infoIt;
-        if (parentInfo.expanded)
-            invalidateItemOverallSize(parent);
+    if (parentInfo.expanded)
+        invalidateItemOverallSize(parent);
 
-        //invalidate all items which are after 'pos'
-        for(Data::ModelIndexInfoSet::Model::level_iterator it = infoIt.begin() + pos; it.valid(); ++it)
-            resetPosition(it);
-    }
+    //invalidate all items which are after 'pos'
+    for(QModelIndex child = m_model->index(pos, 0, parent); child.isValid(); child = utils::next(child))
+        resetPosition(child);
 }
 
 
@@ -141,13 +137,11 @@ void PositionsReseter::invalidateSiblingsRect(const QModelIndex& idx) const
 {
     if (idx.isValid())
     {
-        int row = idx.row() + 1;
-
-        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
+        for(QModelIndex sibling = utils::next(idx); sibling.isValid(); sibling = utils::next(sibling))
         {
             // if 'sibling' is invalid, all after it are invalid also
-            Data::ModelIndexInfoSet::Model::iterator siblingIt = m_data->find(sibling);
-            if (siblingIt->valid() == false)
+            const bool has = m_data->has(sibling);
+            if (has == false)
                 break;
 
             resetRect(sibling);
@@ -163,13 +157,12 @@ void PositionsReseter::invalidateSiblingsPosition(const QModelIndex& idx) const
 {
     if (idx.isValid())
     {
-        int row = idx.row() + 1;
+        for(QModelIndex sibling = utils::next(idx); sibling.isValid(); sibling = utils::next(sibling))
 
-        for(QModelIndex sibling = idx.sibling(row, 0); sibling.isValid(); sibling = sibling.sibling(++row, 0))
         {
             // if 'sibling' is invalid, all after it are invalid also
-            Data::ModelIndexInfoSet::Model::iterator siblingIt = m_data->find(sibling);
-            if (siblingIt->valid() == false)
+            const bool has = m_data->has(sibling);
+            if (has == false)
                 break;
 
             resetPosition(sibling);
@@ -193,11 +186,11 @@ void PositionsReseter::invalidateChildrenRect(const QModelIndex& parent, int fro
 
 void PositionsReseter::resetRect(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
+    const bool has = m_data->has(idx);
 
-    if (infoIt.valid())
+    if (has)
     {
-        ModelIndexInfo& info = *infoIt;
+        ModelIndexInfo& info = m_data->get(idx);
         info.markRectInvalid();
     }
 }
@@ -205,11 +198,11 @@ void PositionsReseter::resetRect(const QModelIndex& idx) const
 
 void PositionsReseter::resetPosition(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
+    const bool has = m_data->has(idx);
 
-    if (infoIt.valid())
+    if (has)
     {
-        ModelIndexInfo& info = *infoIt;
+        ModelIndexInfo& info = m_data->get(idx);
         info.markPositionInvalid();
     }
 }
@@ -217,11 +210,11 @@ void PositionsReseter::resetPosition(const QModelIndex& idx) const
 
 void PositionsReseter::resetSize(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
+    const bool has = m_data->has(idx);
 
-    if (infoIt.valid())
+    if (has)
     {
-        ModelIndexInfo& info = *infoIt;
+        ModelIndexInfo& info = m_data->get(idx);
         info.markSizeInvalid();
     }
 }
@@ -229,11 +222,11 @@ void PositionsReseter::resetSize(const QModelIndex& idx) const
 
 void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
 {
-    Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(idx);
+    const bool has = m_data->has(idx);
 
-    if (infoIt.valid())
+    if (has)
     {
-        ModelIndexInfo& info = *infoIt;
+        ModelIndexInfo& info = m_data->get(idx);
         info.markOverallSizeInvalid();
     }
 }

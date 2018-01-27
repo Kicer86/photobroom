@@ -60,6 +60,15 @@ namespace
 }
 
 
+QModelIndex utils::next(const QModelIndex& item)
+{
+    assert(item.isValid());
+    assert(item.column() == 0);
+
+    return item.sibling(item.row() + 1, 0);
+}
+
+
 Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
@@ -115,11 +124,11 @@ ModelIndexInfo& Data::get(const QModelIndex& index)
 }
 
 
-Data::ModelIndexInfoSet::Model::iterator Data::find(const QModelIndex& index)
+bool Data::has(const QModelIndex& index) const
 {
     auto it = m_itemData->find(index);
 
-    return it;
+    return it.valid();
 }
 
 
@@ -400,7 +409,7 @@ QModelIndex Data::getRightOf(const QModelIndex& item) const
 
     QModelIndex result = item;
 
-    const QModelIndex sibling = item.sibling(item.row() + 1, 0);
+    const QModelIndex sibling = utils::next(item);
     const ModelIndexInfo& item_info = get(item);
 
     if (sibling.isValid())
@@ -471,7 +480,7 @@ QModelIndex Data::getBottomOf(const QModelIndex& item) const
 
     const ModelIndexInfo& item_info = get(item);
 
-    for (QModelIndex sibling = item; sibling.isValid(); sibling = sibling.sibling(sibling.row() + 1, 0))
+    for (QModelIndex sibling = item; sibling.isValid(); sibling = utils::next(sibling))
     {
         const ModelIndexInfo& sibling_item = get(sibling);
 
