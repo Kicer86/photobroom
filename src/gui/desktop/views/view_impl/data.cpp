@@ -69,6 +69,15 @@ QModelIndex utils::next(const QModelIndex& item)
 }
 
 
+QModelIndex utils::prev(const QModelIndex& item)
+{
+    assert(item.isValid());
+    assert(item.column() == 0);
+
+    return item.sibling(item.row() - 1, 0);
+}
+
+
 Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
@@ -153,14 +162,6 @@ QModelIndex Data::get(const QPoint& point) const
 }
 
 
-bool Data::isImage(const ModelIndexInfoSet::Model::const_iterator& it) const
-{
-    const QModelIndex index = get(it);
-
-    return isImage(index);
-}
-
-
 bool Data::isImage(const QModelIndex& index) const
 {
     bool result = false;
@@ -215,14 +216,6 @@ QSize Data::getImageSize(const QModelIndex& idx) const
     const Photo::Data& details = m_model->getPhotoDetails(idx);
 
     return details.geometry;
-}
-
-
-QSize Data::getThumbnailSize(ModelIndexInfoSet::Model::const_iterator it) const
-{
-    const QModelIndex idx = get(it);
-
-    return getThumbnailSize(idx);
 }
 
 
