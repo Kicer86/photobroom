@@ -35,21 +35,28 @@
 
 namespace
 {
-    // custom std::lower_bound implementation http://en.cppreference.com/w/cpp/algorithm/lower_bound
-    // the only difference is that it passes iterator to comparator rather than value
-    template<class ForwardIt, class T, class Compare>
-    ForwardIt lower_bound_iterator(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    template<class T, class Compare>
+    QModelIndex lower_bound_iterator(QModelIndex first, const QModelIndex& last, const T& value, Compare comp)
     {
-        ForwardIt it;
-        typename std::iterator_traits<ForwardIt>::difference_type count, step;
-        count = std::distance(first,last);
+        assert(first.isValid());
+        assert(last.isValid());
+        assert(first.parent() == last.parent());
 
-        while (count > 0) {
+        QModelIndex parent = first.parent();
+
+        QModelIndex it;
+        std::size_t step = 0;
+        std::size_t count = last.row() - first.row();
+
+        while (count > 0)
+        {
             it = first;
             step = count / 2;
-            std::advance(it, step);
-            if (comp(it, value)) {
-                first = ++it;
+            it = parent.child(it.row() + step, 0);
+            if (comp(it, value))
+            {
+                it = utils::next(it);
+                first = it;
                 count -= step + 1;
             }
             else
@@ -147,14 +154,25 @@ QModelIndex Data::get(const QPoint& point) const
 
     PositionsTranslator translator(this);
 
-    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
-    {
-        const QRect rect = translator.getAbsoluteRect(it);
+    QModelIndex toCheck;                    // start with root
 
-        if (rect.contains(point) && isVisible(it))
+    while(toCheck.isValid())
+    {
+        const QRect overall_rect = translator.getAbsoluteOverallRect(toCheck);
+
+        if (overall_rect.contains(point))
         {
-            result = get(it);
-            break;
+            assert(isVisible(toCheck));
+
+            const QRect rect = translator.getAbsoluteRect(toCheck);
+
+            if (rect.contains(point))
+            {
+                result = toCheck;
+                break;
+            }
+            else          // Overall contains point, but it is not 'toCheck' item itself. It must one of its children.
+                toCheck = m_model->index(0, 0, toCheck);
         }
     }
 
@@ -248,50 +266,18 @@ QSize Data::getThumbnailSize(const QModelIndex& index) const
 }
 
 
-void Data::for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)> f) const
-{
-    for(auto it = m_itemData->begin(); it != m_itemData->end(); ++it)
-    {
-        bool cont = true;
-        if (isVisible(it))
-            cont = f(it);
-
-        if (cont == false)
-            break;
-    }
-}
-
-
-QModelIndex Data::get(ModelIndexInfoSet::Model::const_level_iterator it) const
-{
-    assert(m_model != nullptr);
-
-    ModelIndexInfoSet::Model::const_iterator parent = it.parent();
-    const size_t i = it.index();
-
-    QModelIndex result;          //top item in tree == QModelIndex()
-
-    const ModelIndexInfoSet::Model::const_iterator last = m_itemData->end();
-    if (parent != last)
-    {
-        QModelIndex parentIdx = get(parent);  // index of parent
-        result = m_model->index(static_cast<int>(i), 0, parentIdx);
-    }
-
-    return result;
-}
-
-
 std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 {
-    const Data::ModelIndexInfoSet& model = getModel();
+    std::vector<QModelIndex> result;
+    const int items = m_model->rowCount();
 
-    ModelIndexInfoSet::Model::const_level_iterator root = model.begin();
+    if (items > 0)
+    {
+        auto first = m_model->index(0, 0);
+        auto last = m_model->index(items - 1, 0);
 
-    auto first = root.begin();
-    auto last = root.end();
-
-    const std::vector<QModelIndex> result = findInRect(first, last, rect);
+        result = findInRect(first, last, rect);
+    }
 
     return result;
 }
@@ -353,6 +339,12 @@ const Data::ModelIndexInfoSet& Data::getModel() const
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;
+}
+
+
+const QAbstractItemModel* Data::getQtModel() const
+{
+    return m_model;
 }
 
 
@@ -492,17 +484,17 @@ QModelIndex Data::getLast(const QModelIndex& item) const
 }
 
 
-std::vector<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_iterator first,
-                                         ModelIndexInfoSet::Model::const_level_iterator last,
-                                         const QRect& rect) const
+std::vector<QModelIndex> Data::findInRect(const QModelIndex& first,
+                                          const QModelIndex& last,
+                                          const QRect& rect) const
 {
     std::vector<QModelIndex> result;
 
     PositionsTranslator translator(this);
 
-    const auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const ModelIndexInfoSet::Model::const_level_iterator& itemIt, const QRect& value)
+    const auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const QModelIndex& itemIdx, const QRect& value)
     {
-        const QRect overallRect = translator.getAbsoluteOverallRect(itemIt);
+        const QRect overallRect = translator.getAbsoluteOverallRect(itemIdx);
         const int p1 = overallRect.bottom();
         const int p2 = value.top();
 
@@ -511,7 +503,7 @@ std::vector<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_
         return cmp_res;
     });
 
-    auto upper_bound = lower_bound;
+    QModelIndex upper_bound = lower_bound;
 
     while(true)
     {
@@ -525,25 +517,35 @@ std::vector<QModelIndex> Data::findInRect(ModelIndexInfoSet::Model::const_level_
         // item itself is visible? Add it
         if (intersects)
         {
-            const QModelIndex modelIdx = get( upper_bound );
+            const QModelIndex& modelIdx = upper_bound;
             assert(modelIdx.isValid());
 
             result.push_back(modelIdx);
         }
 
         // item's children
-        if ( upper_bound.children_count() > 0 && isExpanded( upper_bound ))
+        const int childrenCount = m_model->rowCount(upper_bound);
+        if ( childrenCount > 0 && isExpanded( upper_bound ))
         {
-            const std::vector<QModelIndex> children = findInRect( upper_bound.begin(), upper_bound.end(), rect);
+            auto first_child = m_model->index(0, 0, upper_bound);
+            auto last_child = m_model->index(childrenCount - 1, 0, upper_bound);
 
-            result.insert(result.end(), children.begin(), children.end());
+            const std::vector<QModelIndex> children = findInRect(first_child, last_child, rect);
+
+            for(QModelIndex idx = first_child; ; idx = utils::next(idx))
+            {
+                result.push_back(idx);
+
+                if (idx == last_child)
+                    break;
+            }
         }
 
         const bool nextIsVisible = item_rect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
 
         // Current item may be invisible (beyond top line), but its children and next sibling may be visible
         if (nextIsVisible)
-            ++upper_bound;
+            upper_bound = utils::next(upper_bound);
         else
             break;
     }

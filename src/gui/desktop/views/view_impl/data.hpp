@@ -59,13 +59,11 @@ class Data
         ModelIndexInfo& get(const QModelIndex &);
         bool has(const QModelIndex &) const;
 
-        [[deprecated]] QModelIndex get(ModelIndexInfoSet::Model::const_level_iterator) const;
         QModelIndex get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;
         [[deprecated]] QPixmap getImage(const QModelIndex &) const;
         QSize getImageSize(const QModelIndex &) const;
         QSize getThumbnailSize(const QModelIndex &) const;
-        void for_each_visible(std::function<bool(ModelIndexInfoSet::Model::iterator)>) const;
         std::vector<QModelIndex> findInRect(const QRect &) const;
 
         bool isExpanded(const QModelIndex &) const;
@@ -73,6 +71,7 @@ class Data
 
         const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
+        const QAbstractItemModel* getQtModel() const;
 
         int getSpacing() const;
         int getImageMargin() const;
@@ -99,7 +98,7 @@ class Data
 
         [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
         [[deprecated]] bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
-        std::vector<QModelIndex> findInRect(ModelIndexInfoSet::Model::const_level_iterator, ModelIndexInfoSet::Model::const_level_iterator, const QRect &) const;
+        std::vector<QModelIndex> findInRect(const QModelIndex &, const QModelIndex &, const QRect &) const;
 };
 
 #endif // DATA_HPP

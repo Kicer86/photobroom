@@ -11,6 +11,7 @@
 #include <desktop/views/view_impl/data.hpp>
 
 #include "unit_tests_utils/mock_photo_info.hpp"
+#include "unit_tests_utils/printers.hpp"
 #include "test_helpers/mock_configuration.hpp"
 #include "test_helpers/mock_qabstractitemmodel.hpp"
 #include "test_helpers/photo_info_model.hpp"
@@ -123,9 +124,6 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     // Situation:
     // One node with two children. Node is expanded and its children are visible in one row.
 
-    using ::testing::_;
-    using ::testing::Return;
-
     const int img_w = 100;
     const int img_h = 50;
 
@@ -229,7 +227,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     {
         const ModelIndexInfo& info2 = view_data.get(top_idx2->index());
 
-        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info2.getRect());                           // its position - just after first item of height `header_h`
+        EXPECT_EQ(QRect(0, header_h, canvas_w, header_h), info2.getRect());                             // its position - just after first item of height `header_h`
         EXPECT_EQ(QSize(canvas_w, header_h + thumb_h + spacing * 2 + margin), info2.getOverallSize());  // no children expanded - overall == size
     }
 }
