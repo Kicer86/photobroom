@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+#include <QModelIndex>
 #include <QRect>
 #include <QSize>
 #include <QString>
@@ -28,6 +29,12 @@ inline void PrintTo(const QRect& qrect, std::ostream* os)
     PrintTo(qrect.topLeft(), os);
     *os << ", ";
     PrintTo(qrect.size(), os);
+}
+
+inline void PrintTo(const QModelIndex& qmodelindex, std::ostream* os)
+{
+    *os << "row = " << qmodelindex.row() << ", column = " << qmodelindex.column();
+    *os << ", model = " << qmodelindex.model() << ", internalId = " << qmodelindex.internalId();
 }
 
 #endif
