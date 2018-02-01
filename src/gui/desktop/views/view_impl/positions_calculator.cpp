@@ -303,7 +303,9 @@ void PositionsCalculator::updateItem(const QModelIndex& idx) const
         QSize rect = info.getSize();
 
         //calculate overall only if node is expanded and has any children
-        if (model->index(0, 0, idx).isValid() && expanded)
+        const int childrenCount = model->rowCount(idx);
+
+        if (childrenCount > 0 && expanded)
         {
             const QPoint offset(0, info.getSize().height());
 
