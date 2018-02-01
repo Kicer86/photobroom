@@ -32,11 +32,6 @@
 struct IConfiguration;
 class APhotoInfoModel;
 
-namespace utils
-{
-    QModelIndex next(const QModelIndex &);
-    QModelIndex prev(const QModelIndex &);
-}
 
 class Data
 {

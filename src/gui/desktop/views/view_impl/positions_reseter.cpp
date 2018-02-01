@@ -28,6 +28,7 @@
 #include <QModelIndex>
 
 #include "data.hpp"
+#include "utils/model_index_utils.hpp"
 
 PositionsReseter::PositionsReseter(QAbstractItemModel* model, Data* data): m_data(data), m_model(model)
 {

@@ -24,6 +24,7 @@
 #include <QModelIndex>
 
 #include "data.hpp"
+#include "utils/model_index_utils.hpp"
 
 
 PositionsCalculator::PositionsCalculator(Data* data, int width): m_data(data), m_width(width)
