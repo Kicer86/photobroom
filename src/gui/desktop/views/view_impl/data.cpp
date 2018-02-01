@@ -154,7 +154,7 @@ QModelIndex Data::get(const QPoint& point) const
 
     PositionsTranslator translator(this);
 
-    QModelIndex toCheck;                    // start with root
+    QModelIndex toCheck = m_model->index(0, 0);                    // start with first item
 
     while(toCheck.isValid())
     {
@@ -171,9 +171,17 @@ QModelIndex Data::get(const QPoint& point) const
                 result = toCheck;
                 break;
             }
-            else          // Overall contains point, but it is not 'toCheck' item itself. It must one of its children.
-                toCheck = m_model->index(0, 0, toCheck);
+            else // Overall contains point, but it is not 'toCheck' item itself.
+            {
+                if (isExpanded(toCheck))            // expanded? go down
+                {
+                    toCheck = m_model->index(0, 0, toCheck);
+                    continue;
+                }
+            }
         }
+
+        toCheck = utils::next(toCheck);
     }
 
     return result;

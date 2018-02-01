@@ -190,6 +190,60 @@ TEST_F(DataShould, NotReturnInvisibleItems)
 }
 
 
+TEST_F(DataShould, ReturnItemsByPoint)
+{
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
+
+    Data data;
+    data.set(&model);
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+
+    top->appendRow(child1);
+    top->appendRow(child2);
+
+    submodel.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo& info = data.get(top->index());
+    info.expanded = true;
+
+    // setup expectations
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
+    photoDetails.id = 0;
+    photoDetails.path = "";
+
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
+
+    //
+    PositionsTranslator translator(&data);
+
+    PositionsCalculator positions_calculator(&data, 100);
+    positions_calculator.updateItems();
+
+    const QRect rect1 = translator.getAbsoluteRect(child1->index());
+    const QRect rect2 = translator.getAbsoluteRect(child2->index());
+
+    {
+        const QPoint c = rect1.center();
+        const QModelIndex index = data.get(c);
+
+        EXPECT_EQ(child1->index(), index);
+
+        const QPoint c2 = rect2.center();
+        const QModelIndex index2 = data.get(c2);
+
+        EXPECT_EQ(child2->index(), index2);
+    }
+}
+
+
 TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
 {
     const QPixmap pixmap(10, 10);
