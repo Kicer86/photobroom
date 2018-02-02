@@ -76,3 +76,22 @@ TEST_F(ModelIndexUtilsTest, DecrementationUnderflow)
 
     EXPECT_EQ(sibling, sibling_by_decrementation);
 }
+
+
+TEST_F(ModelIndexUtilsTest, GoToNextSiblingThroughChildren)
+{
+    const QModelIndex top1 = model.index(2, 0);
+    QModelIndex index_iter = utils::step_in_next(top1);
+
+    for (int i = 0; i < model.rowCount(top1); i++)
+    {
+        const QModelIndex child = model.index(i, 0, top1);
+
+        EXPECT_EQ(child, index_iter);
+
+        index_iter = utils::step_in_next(index_iter);
+    }
+
+    const QModelIndex top2 = model.index(3, 0);
+    EXPECT_EQ(top2, index_iter);
+}

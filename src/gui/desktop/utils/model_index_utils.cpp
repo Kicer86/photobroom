@@ -20,3 +20,32 @@ QModelIndex utils::prev(const QModelIndex& item)
     return item.sibling(item.row() - 1, 0);
 }
 
+
+QModelIndex utils::step_in_next(const QModelIndex& item)
+{
+    QModelIndex result;
+    const QAbstractItemModel* model = item.model();
+
+    const int children = model->rowCount(item);
+
+    if (children > 0)
+        result = model->index(0, 0, item);
+    else
+    {
+        const QModelIndex parent = item.parent();
+        const int siblings = model->rowCount(parent);
+
+        if (item.row() + 1 < siblings)       // is there a next sibling?
+            result = next(item);             // go for it
+        else
+            result = next(parent);           // go to parent's sibling
+    }
+
+    return result;
+}
+
+
+QModelIndex utils::step_in_prev(const QModelIndex& item)
+{
+    return QModelIndex();
+}
