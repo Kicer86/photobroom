@@ -12,7 +12,7 @@ using ::testing::_;
 
 struct ModelIndexUtilsTest: testing::Test
 {
-    ModelIndexUtilsTest(): model()
+    ModelIndexUtilsTest(): shallow_model()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -24,21 +24,21 @@ struct ModelIndexUtilsTest: testing::Test
                 top->appendRow(child);
             }
 
-            model.appendRow(top);
+            shallow_model.appendRow(top);
         }
     }
 
     ~ModelIndexUtilsTest() {}
 
-    QStandardItemModel model;
+    QStandardItemModel shallow_model;
 };
 
 
 TEST_F(ModelIndexUtilsTest, OneLevelIncrementation)
 {
-    const QModelIndex parent = model.index(2, 0);
-    const QModelIndex child = model.index(2, 0, parent);
-    const QModelIndex sibling = model.index(3, 0, parent);
+    const QModelIndex parent = shallow_model.index(2, 0);
+    const QModelIndex child = shallow_model.index(2, 0, parent);
+    const QModelIndex sibling = shallow_model.index(3, 0, parent);
     const QModelIndex sibling_by_incrementation = utils::next(child);
 
     EXPECT_EQ(sibling, sibling_by_incrementation);
@@ -47,9 +47,9 @@ TEST_F(ModelIndexUtilsTest, OneLevelIncrementation)
 
 TEST_F(ModelIndexUtilsTest, OneLevelDecrementation)
 {
-    const QModelIndex parent = model.index(2, 0);
-    const QModelIndex child = model.index(2, 0, parent);
-    const QModelIndex sibling = model.index(1, 0, parent);
+    const QModelIndex parent = shallow_model.index(2, 0);
+    const QModelIndex child = shallow_model.index(2, 0, parent);
+    const QModelIndex sibling = shallow_model.index(1, 0, parent);
     const QModelIndex sibling_by_decrementation = utils::prev(child);
 
     EXPECT_EQ(sibling, sibling_by_decrementation);
@@ -58,8 +58,8 @@ TEST_F(ModelIndexUtilsTest, OneLevelDecrementation)
 
 TEST_F(ModelIndexUtilsTest, IncrementationOverflow)
 {
-    const QModelIndex parent = model.index(2, 0);
-    const QModelIndex child = model.index(4, 0, parent);
+    const QModelIndex parent = shallow_model.index(2, 0);
+    const QModelIndex child = shallow_model.index(4, 0, parent);
     const QModelIndex sibling;
     const QModelIndex sibling_by_incrementation = utils::next(child);
 
@@ -69,8 +69,8 @@ TEST_F(ModelIndexUtilsTest, IncrementationOverflow)
 
 TEST_F(ModelIndexUtilsTest, DecrementationUnderflow)
 {
-    const QModelIndex parent = model.index(2, 0);
-    const QModelIndex child = model.index(0, 0, parent);
+    const QModelIndex parent = shallow_model.index(2, 0);
+    const QModelIndex child = shallow_model.index(0, 0, parent);
     const QModelIndex sibling;
     const QModelIndex sibling_by_decrementation = utils::prev(child);
 
@@ -80,18 +80,19 @@ TEST_F(ModelIndexUtilsTest, DecrementationUnderflow)
 
 TEST_F(ModelIndexUtilsTest, GoToNextSiblingThroughChildren)
 {
-    const QModelIndex top1 = model.index(2, 0);
+    const QModelIndex top1 = shallow_model.index(2, 0);
     QModelIndex index_iter = utils::step_in_next(top1);
 
-    for (int i = 0; i < model.rowCount(top1); i++)
+    for (int i = 0; i < shallow_model.rowCount(top1); i++)
     {
-        const QModelIndex child = model.index(i, 0, top1);
+        const QModelIndex child = shallow_model.index(i, 0, top1);
 
         EXPECT_EQ(child, index_iter);
 
         index_iter = utils::step_in_next(index_iter);
     }
 
-    const QModelIndex top2 = model.index(3, 0);
+    const QModelIndex top2 = shallow_model.index(3, 0);
     EXPECT_EQ(top2, index_iter);
 }
+
