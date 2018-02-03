@@ -13,6 +13,9 @@ namespace utils
     // travel through hierarchy
     QModelIndex step_in_next(const QModelIndex &);
     QModelIndex step_in_prev(const QModelIndex &);
+
+    // debug
+    QString dump(const QAbstractItemModel &, const QModelIndex & = QModelIndex());
 }
 
 #endif

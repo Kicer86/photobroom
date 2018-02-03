@@ -49,3 +49,31 @@ QModelIndex utils::step_in_prev(const QModelIndex& item)
 {
     return QModelIndex();
 }
+
+
+namespace
+{
+    QString dump(const QAbstractItemModel& model, const QModelIndex& parent, int depth)
+    {
+        QString result;
+
+        const int children = model.rowCount(parent);
+
+        for (int i = 0; i < children; i++)
+        {
+            const QString indent(depth * 2, QChar(' '));
+            const QModelIndex child = model.index(i, 0, parent);
+
+            result += QString("%3row: %1, id: %2\n").arg(child.row()).arg(child.internalId()).arg(indent);
+            result += dump(model, child, depth + 1);
+        }
+
+        return result;
+    }
+}
+
+
+QString utils::dump(const QAbstractItemModel& model, const QModelIndex& parent)
+{
+    return ::dump(model, parent, 0);
+}
