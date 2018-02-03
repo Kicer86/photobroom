@@ -32,13 +32,26 @@ QModelIndex utils::step_in_next(const QModelIndex& item)
         result = model->index(0, 0, item);
     else
     {
-        const QModelIndex parent = item.parent();
+        QModelIndex parent = item.parent();
         const int siblings = model->rowCount(parent);
 
         if (item.row() + 1 < siblings)       // is there a next sibling?
             result = next(item);             // go for it
         else
-            result = next(parent);           // go to parent's sibling
+        {                                    // jump out
+            while(parent.isValid())
+            {
+                const QModelIndex result_candidate = next(parent);
+
+                if (result_candidate.isValid())
+                {
+                    result = result_candidate;
+                    break;
+                }
+                else
+                    parent = parent.parent();
+            }
+        }
     }
 
     return result;
