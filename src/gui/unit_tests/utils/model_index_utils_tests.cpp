@@ -1,6 +1,7 @@
 
 #include <gmock/gmock.h>
 
+//#include <QDebug>
 #include <QStandardItemModel>
 
 #include <desktop/utils/model_index_utils.hpp>
@@ -12,7 +13,7 @@ using ::testing::_;
 
 struct ModelIndexUtilsTest: testing::Test
 {
-    ModelIndexUtilsTest(): shallow_model()
+    ModelIndexUtilsTest(): shallow_model(), deep_model()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -26,13 +27,55 @@ struct ModelIndexUtilsTest: testing::Test
 
             shallow_model.appendRow(top);
         }
+
+        QStandardItem* top1 = new QStandardItem("top 1");
+        QStandardItem* top2 = new QStandardItem("top 2");
+
+        deep_model.appendRow(top1);
+        deep_model.appendRow(top2);
+
+        fill(deep_model, top1, 4);
+        fill(deep_model, top2, 4);
+
+        /*
+        qDebug().noquote() << utils::dump(shallow_model);
+        qDebug().noquote() << "";
+        qDebug().noquote() << utils::dump(deep_model);
+        */
     }
 
     ~ModelIndexUtilsTest() {}
 
     QStandardItemModel shallow_model;
+    QStandardItemModel deep_model;
+
+    void fill(QStandardItemModel& model, QStandardItem* parent, int level) const
+    {
+        if (level == 0)
+            return;
+        else
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                QStandardItem* item = new QStandardItem( QString("child %1").arg(i) );
+                parent->appendRow(item);
+
+                fill(model, item, level - 1);
+            }
+        }
+    };
+
+    QModelIndex get(const QAbstractItemModel& model, const std::vector<int>& list)
+    {
+        QModelIndex result;
+        for(int r: list)
+            result = model.index(r, 0, result);
+
+        return result;
+    }
 };
 
+// Level iterations
 
 TEST_F(ModelIndexUtilsTest, OneLevelIncrementation)
 {
@@ -78,6 +121,9 @@ TEST_F(ModelIndexUtilsTest, DecrementationUnderflow)
 }
 
 
+// Hierarchy iterations
+
+
 TEST_F(ModelIndexUtilsTest, GoToNextSiblingThroughChildren)
 {
     const QModelIndex top1 = shallow_model.index(2, 0);
@@ -96,3 +142,21 @@ TEST_F(ModelIndexUtilsTest, GoToNextSiblingThroughChildren)
     EXPECT_EQ(top2, index_iter);
 }
 
+
+TEST_F(ModelIndexUtilsTest, JumpOutFromDeepModel)
+{
+    const QModelIndex item1 = get(deep_model, {0, 1, 1, 1, 1});
+    const QModelIndex next1 = get(deep_model, {1});
+    const QModelIndex item2 = get(deep_model, {1, 1, 0, 1, 1});
+    const QModelIndex next2 = get(deep_model, {1, 1, 1});
+    const QModelIndex item3 = get(deep_model, {1, 1, 1, 1, 1});
+    const QModelIndex next3;
+
+    const QModelIndex calculated_next1 = utils::step_in_next(item1);
+    const QModelIndex calculated_next2 = utils::step_in_next(item2);
+    const QModelIndex calculated_next3 = utils::step_in_next(item3);
+
+    EXPECT_EQ(next1, calculated_next1);
+    EXPECT_EQ(next2, calculated_next2);
+    EXPECT_EQ(next3, calculated_next3);
+}
