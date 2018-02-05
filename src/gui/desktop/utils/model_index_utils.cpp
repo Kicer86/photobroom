@@ -39,7 +39,7 @@ QModelIndex utils::step_in_next(const QModelIndex& item)
             result = next(item);             // go for it
         else
         {                                    // jump out
-            while(parent.isValid())
+            while (parent.isValid())
             {
                 const QModelIndex result_candidate = next(parent);
 
@@ -60,7 +60,33 @@ QModelIndex utils::step_in_next(const QModelIndex& item)
 
 QModelIndex utils::step_in_prev(const QModelIndex& item)
 {
-    return QModelIndex();
+    const QAbstractItemModel* model = item.model();
+
+    QModelIndex result;
+    QModelIndex previousItem = utils::prev(item);
+
+    if (previousItem.isValid())
+    {
+        QModelIndex deepestDescendant = previousItem;
+
+        while (deepestDescendant.isValid())
+        {
+            const int children = model->rowCount(deepestDescendant);
+
+            if (children == 0)  // item has no children, so he is the chosen one
+            {
+                result = deepestDescendant;
+                break;
+            }
+            else                // otherwise dive into its last child
+                deepestDescendant = model->index(children - 1, 0, deepestDescendant);
+        }
+    }
+    else
+        result = item.parent();
+
+
+    return result;
 }
 
 
