@@ -14,6 +14,10 @@ namespace utils
     QModelIndex step_in_next(const QModelIndex &);
     QModelIndex step_in_prev(const QModelIndex &);
 
+    // accessors
+    QModelIndex first(const QAbstractItemModel &);
+    QModelIndex last(const QAbstractItemModel &);
+
     // debug
     QString dump(const QAbstractItemModel &, const QModelIndex & = QModelIndex());
 }

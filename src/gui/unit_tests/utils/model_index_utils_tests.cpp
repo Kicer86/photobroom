@@ -1,4 +1,6 @@
 
+#include <random>
+
 #include <gmock/gmock.h>
 
 //#include <QDebug>
@@ -13,8 +15,9 @@ using ::testing::_;
 
 struct ModelIndexUtilsTest: testing::Test
 {
-    ModelIndexUtilsTest(): shallow_model(), deep_model()
+    ModelIndexUtilsTest(): shallow_model(), deep_model(), mt(0)
     {
+        // shallow model
         for (int i = 0; i < 5; i++)
         {
             QStandardItem* top = new QStandardItem(QString("top %1").arg(i));
@@ -28,6 +31,7 @@ struct ModelIndexUtilsTest: testing::Test
             shallow_model.appendRow(top);
         }
 
+        // deep model
         QStandardItem* top1 = new QStandardItem("top 1");
         QStandardItem* top2 = new QStandardItem("top 2");
 
@@ -37,17 +41,25 @@ struct ModelIndexUtilsTest: testing::Test
         fill(deep_model, top1, 4);
         fill(deep_model, top2, 4);
 
+        // random model
+        fill_random(random_model, nullptr, 4);
+
         /*
         qDebug().noquote() << utils::dump(shallow_model);
         qDebug().noquote() << "";
         qDebug().noquote() << utils::dump(deep_model);
         */
+
+
+    std::uniform_int_distribution<> dist(0, 36);
     }
 
     ~ModelIndexUtilsTest() {}
 
     QStandardItemModel shallow_model;
     QStandardItemModel deep_model;
+    QStandardItemModel random_model;
+    mutable std::mt19937 mt;
 
     void fill(QStandardItemModel& model, QStandardItem* parent, int level) const
     {
@@ -63,7 +75,38 @@ struct ModelIndexUtilsTest: testing::Test
                 fill(model, item, level - 1);
             }
         }
-    };
+    }
+
+    void fill_random(QStandardItemModel& model, QStandardItem* parent, int level) const
+    {
+        if (level == 0)
+            return;
+        else
+        {
+            std::uniform_int_distribution<> dist(2, 7);
+            const int rows = dist(mt);
+            const int cols = dist(mt);
+
+            for (int r = 0; r < rows; r++)
+            {
+                QList<QStandardItem *> items;
+
+                for (int c = 0; c < cols; c++)
+                {
+                    QStandardItem* item = new QStandardItem(QString("child %1x%2").arg(r).arg(c));
+
+                    items.push_back(item);
+
+                    fill_random(model, item, level - 1);
+                }
+
+                if (parent)
+                    parent->appendRow(items);
+                else
+                    model.appendRow(items);
+            }
+        }
+    }
 
     QModelIndex get(const QAbstractItemModel& model, const std::vector<int>& list)
     {
@@ -197,4 +240,23 @@ TEST_F(ModelIndexUtilsTest, JumpIntoDeepModel)
     EXPECT_EQ(prev1, calculated_prev1);
     EXPECT_EQ(prev2, calculated_prev2);
     EXPECT_EQ(prev3, calculated_prev3);
+}
+
+
+TEST_F(ModelIndexUtilsTest, ForwardEqualsReversedBackward)
+{
+    std::vector<QModelIndex> forward_items;
+    for (QModelIndex forward = utils::first(random_model); forward.isValid(); forward = utils::step_in_next(forward))
+        forward_items.push_back(forward);
+
+    std::vector<QModelIndex> backward_items;
+    for (QModelIndex backward = utils::last(random_model); backward.isValid(); backward = utils::step_in_prev(backward))
+        backward_items.push_back(backward);
+
+    ASSERT_EQ(forward_items.size(), backward_items.size());
+
+    const bool eq = std::equal(forward_items.begin(), forward_items.end(),
+                               backward_items.rbegin());
+
+    EXPECT_TRUE(eq);
 }

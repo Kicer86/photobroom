@@ -90,6 +90,34 @@ QModelIndex utils::step_in_prev(const QModelIndex& item)
 }
 
 
+QModelIndex utils::first(const QAbstractItemModel& model)
+{
+    return model.rowCount() == 0?
+            QModelIndex():
+            model.index(0, 0);
+}
+
+
+QModelIndex utils::last(const QAbstractItemModel& model)
+{
+    QModelIndex result;
+    QModelIndex item = utils::first(model);
+
+    while (item.isValid())
+    {
+        const QModelIndex parent = item.parent();
+        const int siblings = model.rowCount(parent);
+
+        const QModelIndex last_sibling = model.index(siblings - 1, 0, parent);
+
+        result = last_sibling;
+        item = model.index(0, 0, last_sibling);
+    }
+
+    return result;
+}
+
+
 namespace
 {
     QString dump(const QAbstractItemModel& model, const QModelIndex& parent, int depth)
