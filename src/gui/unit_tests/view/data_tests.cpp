@@ -29,10 +29,6 @@ class DataShould: public ::testing::Test
         }
 
     protected:
-        virtual void SetUp() override
-        {
-
-        }
         QStandardItemModel submodel;
         MockPhotoInfoModel model;
 };
@@ -430,5 +426,63 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
 
         EXPECT_EQ(QSize(10, 50), thumb2);               // scaled
         EXPECT_EQ(img2, pix2Size);                      // original
+    }
+}
+
+
+TEST_F(DataShould, ReturnItemsInRect)
+{
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
+
+    Data data;
+    data.set(&model);
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child3 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child4 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child5 = new QStandardItem(icon, "Empty2");
+
+    top->appendRow(child1);
+    top->appendRow(child2);
+    top->appendRow(child3);
+    top->appendRow(child4);
+    top->appendRow(child5);
+
+    submodel.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo& info = data.get(top->index());
+    info.expanded = true;
+
+    // setup expectations
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
+    photoDetails.id = 0;
+    photoDetails.path = "";
+
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
+
+    //
+    PositionsTranslator translator(&data);
+
+    PositionsCalculator positions_calculator(&data, 100);
+    positions_calculator.updateItems();
+
+    const QRect rect3 = translator.getAbsoluteRect(child3->index());
+    const QRect rect4 = translator.getAbsoluteRect(child4->index());
+
+    {
+        const QRect selection = rect3.united(rect4);
+        const std::vector<QModelIndex> indexes = data.findInRect(selection);
+
+        ASSERT_EQ(indexes.size(), 2);
+
+        EXPECT_EQ(indexes[0], child3->index());
+        EXPECT_EQ(indexes[1], child4->index());
     }
 }
