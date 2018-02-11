@@ -437,21 +437,34 @@ TEST_F(DataShould, ReturnItemsInRect)
 
     Data data;
     data.set(&model);
+    data.setSpacing(0);
+    data.setImageMargin(0);
+    data.setThumbnailDesiredHeight(10);
 
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child0 = new QStandardItem(icon, "Empty0");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
     QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
+    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
+    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
+    QStandardItem* child6 = new QStandardItem(icon, "Empty6");
+    QStandardItem* child7 = new QStandardItem(icon, "Empty7");
+    QStandardItem* child8 = new QStandardItem(icon, "Empty8");
+    QStandardItem* child9 = new QStandardItem(icon, "Empty9");
 
+    top->appendRow(child0);
     top->appendRow(child1);
     top->appendRow(child2);
     top->appendRow(child3);
     top->appendRow(child4);
     top->appendRow(child5);
+    top->appendRow(child6);
+    top->appendRow(child7);
+    top->appendRow(child8);
+    top->appendRow(child9);
 
     submodel.appendRow(top);
 
@@ -470,19 +483,26 @@ TEST_F(DataShould, ReturnItemsInRect)
     //
     PositionsTranslator translator(&data);
 
-    PositionsCalculator positions_calculator(&data, 100);
+    PositionsCalculator positions_calculator(&data, 50);
     positions_calculator.updateItems();
 
+    const QRect rect2 = translator.getAbsoluteRect(child2->index());
     const QRect rect3 = translator.getAbsoluteRect(child3->index());
-    const QRect rect4 = translator.getAbsoluteRect(child4->index());
+    const QRect rect7 = translator.getAbsoluteRect(child7->index());
+    const QRect rect8 = translator.getAbsoluteRect(child8->index());
 
     {
-        const QRect selection = rect3.united(rect4);
+        const QRect selection = rect2.united(rect3)
+                                     .united(rect7)
+                                     .united(rect8);
+
         const std::vector<QModelIndex> indexes = data.findInRect(selection);
 
-        ASSERT_EQ(indexes.size(), 2);
+        ASSERT_EQ(indexes.size(), 4);
 
-        EXPECT_EQ(indexes[0], child3->index());
-        EXPECT_EQ(indexes[1], child4->index());
+        EXPECT_EQ(indexes[0], child2->index());
+        EXPECT_EQ(indexes[1], child3->index());
+        EXPECT_EQ(indexes[2], child7->index());
+        EXPECT_EQ(indexes[3], child8->index());
     }
 }
