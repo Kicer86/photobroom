@@ -17,7 +17,11 @@ QModelIndex utils::prev(const QModelIndex& item)
     assert(item.isValid());
     assert(item.column() == 0);
 
-    return item.sibling(item.row() - 1, 0);
+    const QModelIndex result = item.row() == 0?
+                                QModelIndex():
+                                item.sibling(item.row() - 1, 0);
+
+    return result;
 }
 
 
