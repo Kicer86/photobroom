@@ -93,7 +93,6 @@ class Data
 
         [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
         [[deprecated]] bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
-        std::vector<QModelIndex> findInRect(const QModelIndex &, const QModelIndex &, const QRect &) const;
 };
 
 #endif // DATA_HPP

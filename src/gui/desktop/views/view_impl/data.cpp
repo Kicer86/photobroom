@@ -65,6 +65,16 @@ namespace
         }
         return first;
     }
+
+    bool is_above(const QRect& r1, const QRect& r2)
+    {
+        return r1.bottom() < r2.top();
+    }
+
+    bool is_below(const QRect& r1, const QRect& r2)
+    {
+        return r1.top() > r2.bottom();
+    }
 }
 
 
@@ -137,7 +147,7 @@ QModelIndex Data::get(const QPoint& point) const
 
     PositionsTranslator translator(this);
 
-    QModelIndex toCheck = m_model->index(0, 0);                    // start with first item
+    QModelIndex toCheck = utils::first(*m_model);
 
     while(toCheck.isValid())
     {
@@ -260,18 +270,41 @@ QSize Data::getThumbnailSize(const QModelIndex& index) const
 std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 {
     std::vector<QModelIndex> result;
-    const int items = m_model->rowCount();
 
-    if (items > 0)
+    PositionsTranslator translator(this);
+
+    const QPoint central = rect.center();
+    const QModelIndex centralIdx = get(central);
+
+    if (centralIdx.isValid())
     {
-        auto first = m_model->index(0, 0);
-        auto last = m_model->index(items - 1, 0);
+        result.push_back(centralIdx);
 
-        result = findInRect(first, last, rect);
+        for(QModelIndex prev = utils::step_in_prev(centralIdx); prev.isValid(); prev = utils::step_in_prev(prev) )
+        {
+            const QRect r = translator.getAbsoluteRect(prev);
+
+            if (r.intersects(rect))
+                result.push_back(prev);
+            else if (is_above(r, rect)) // is current rectangle above selection? Break
+                break;
+        }
+
+        for(QModelIndex next = utils::step_in_next(centralIdx); next.isValid(); next = utils::step_in_next(next) )
+        {
+            const QRect r = translator.getAbsoluteRect(next);
+
+            if (r.intersects(rect))
+                result.push_back(next);
+            else if (is_below(r, rect)) // is current rectangle below selection? Break
+                break;
+        }
+
     }
 
     return result;
 }
+
 
 
 
@@ -470,76 +503,6 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const int siblings = item.model()->rowCount(item.parent());
 
     const QModelIndex result = item.sibling(siblings - 1, 0);
-
-    return result;
-}
-
-
-std::vector<QModelIndex> Data::findInRect(const QModelIndex& first,
-                                          const QModelIndex& last,
-                                          const QRect& rect) const
-{
-    std::vector<QModelIndex> result;
-
-    PositionsTranslator translator(this);
-
-    const auto lower_bound = lower_bound_iterator(first, last, rect, [&translator](const QModelIndex& itemIdx, const QRect& value)
-    {
-        const QRect overallRect = translator.getAbsoluteOverallRect(itemIdx);
-        const int p1 = overallRect.bottom();
-        const int p2 = value.top();
-
-        const bool cmp_res = p1 < p2;
-
-        return cmp_res;
-    });
-
-    QModelIndex upper_bound = lower_bound;
-
-    while(true)
-    {
-        const bool bound_invalid = upper_bound == last;
-        if (bound_invalid)
-            break;
-
-        const QRect item_rect = translator.getAbsoluteOverallRect( upper_bound );
-        const bool intersects = rect.intersects(item_rect);
-
-        // item itself is visible? Add it
-        if (intersects)
-        {
-            const QModelIndex& modelIdx = upper_bound;
-            assert(modelIdx.isValid());
-
-            result.push_back(modelIdx);
-        }
-
-        // item's children
-        const int childrenCount = m_model->rowCount(upper_bound);
-        if ( childrenCount > 0 && isExpanded( upper_bound ))
-        {
-            auto first_child = m_model->index(0, 0, upper_bound);
-            auto last_child = m_model->index(childrenCount - 1, 0, upper_bound);
-
-            const std::vector<QModelIndex> children = findInRect(first_child, last_child, rect);
-
-            for(QModelIndex idx = first_child; ; idx = utils::next(idx))
-            {
-                result.push_back(idx);
-
-                if (idx == last_child)
-                    break;
-            }
-        }
-
-        const bool nextIsVisible = item_rect.top() < rect.bottom();       // as long as we are visible, our horizontal sibling can be visible too
-
-        // Current item may be invisible (beyond top line), but its children and next sibling may be visible
-        if (nextIsVisible)
-            upper_bound = utils::next(upper_bound);
-        else
-            break;
-    }
 
     return result;
 }

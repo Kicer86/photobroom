@@ -62,7 +62,8 @@ QRect PositionsTranslator::getAbsoluteRect(const QModelIndex& idx) const
     if (parent.isValid())
     {
         const QRect parentRect = getAbsoluteRect(parent);
-        result.translate(parentRect.bottomLeft());
+        const QPoint nextLinePoint = parentRect.bottomLeft() + QPoint(0, 1);
+        result.translate(nextLinePoint);
     }
 
     return result;
@@ -117,6 +118,7 @@ QPoint PositionsTranslator::getAbsolutePosition(const QModelIndex& idx) const
     {
         const QRect parentRect = getAbsoluteRect(parentIdx);
         result += parentRect.bottomLeft();
+        result += QPoint(0, 1);
     }
 
     return result;
