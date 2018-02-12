@@ -587,27 +587,14 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     ViewDataModelObserver mo(&data.getModel(), &model);
 
     QStandardItem* top = new QStandardItem("Empty");
-    QStandardItem* child0 = new QStandardItem(icon, "Empty0");
-    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
-    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
-    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
-    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
-    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
-    QStandardItem* child6 = new QStandardItem(icon, "Empty6");
-    QStandardItem* child7 = new QStandardItem(icon, "Empty7");
-    QStandardItem* child8 = new QStandardItem(icon, "Empty8");
-    QStandardItem* child9 = new QStandardItem(icon, "Empty9");
 
-    top->appendRow(child0);
-    top->appendRow(child1);
-    top->appendRow(child2);
-    top->appendRow(child3);
-    top->appendRow(child4);
-    top->appendRow(child5);
-    top->appendRow(child6);
-    top->appendRow(child7);
-    top->appendRow(child8);
-    top->appendRow(child9);
+    std::vector<QStandardItem *> children;
+
+    for (int i = 0; i < 10; i++)
+        children.emplace_back(new QStandardItem(icon, QString("Empty%1").arg(i)));
+
+    for (int i = 0; i < 10; i++)
+        top->appendRow(children[i]);
 
     submodel.appendRow(top);
 
@@ -629,27 +616,25 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     PositionsCalculator positions_calculator(&data, 50);
     positions_calculator.updateItems();
 
+    std::vector<QRect> rects;
     const QRect rectt = translator.getAbsoluteRect(top->index());
-    const QRect rect0 = translator.getAbsoluteRect(child0->index());
-    const QRect rect1 = translator.getAbsoluteRect(child1->index());
-    const QRect rect2 = translator.getAbsoluteRect(child2->index());
-    const QRect rect3 = translator.getAbsoluteRect(child3->index());
-    const QRect rect4 = translator.getAbsoluteRect(child4->index());
-    const QRect rect5 = translator.getAbsoluteRect(child5->index());
-    const QRect rect6 = translator.getAbsoluteRect(child6->index());
-    const QRect rect7 = translator.getAbsoluteRect(child7->index());
-    const QRect rect8 = translator.getAbsoluteRect(child8->index());
-    const QRect rect9 = translator.getAbsoluteRect(child9->index());
+
+    for (int i = 0; i < 10; i++)
+        rects.emplace_back(translator.getAbsoluteRect(children[i]->index()));
 
     EXPECT_EQ(rectt, QRect(0,  0,  50, 40));
-    EXPECT_EQ(rect0, QRect(0,  40, 10, 10));
-    EXPECT_EQ(rect1, QRect(10, 40, 10, 10));
-    EXPECT_EQ(rect2, QRect(20, 40, 10, 10));
-    EXPECT_EQ(rect3, QRect(30, 40, 10, 10));
-    EXPECT_EQ(rect4, QRect(40, 40, 10, 10));
-    EXPECT_EQ(rect5, QRect(0,  50, 10, 10));
-    EXPECT_EQ(rect6, QRect(10, 50, 10, 10));
-    EXPECT_EQ(rect7, QRect(20, 50, 10, 10));
-    EXPECT_EQ(rect8, QRect(30, 50, 10, 10));
-    EXPECT_EQ(rect9, QRect(40, 50, 10, 10));
+
+    EXPECT_EQ(rects[0], QRect(0,  40, 10, 10));
+    EXPECT_EQ(rects[1], QRect(10, 40, 10, 10));
+    EXPECT_EQ(rects[2], QRect(20, 40, 10, 10));
+    EXPECT_EQ(rects[3], QRect(30, 40, 10, 10));
+    EXPECT_EQ(rects[4], QRect(40, 40, 10, 10));
+    EXPECT_EQ(rects[5], QRect(0,  50, 10, 10));
+    EXPECT_EQ(rects[6], QRect(10, 50, 10, 10));
+    EXPECT_EQ(rects[7], QRect(20, 50, 10, 10));
+    EXPECT_EQ(rects[8], QRect(30, 50, 10, 10));
+    EXPECT_EQ(rects[9], QRect(40, 50, 10, 10));
+
+    for (int i = 0; i < 10; i++)
+        EXPECT_EQ(rects[i], translator.getAbsoluteOverallRect(children[i]->index()));
 }
