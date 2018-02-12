@@ -8,6 +8,7 @@
 
 #include <desktop/views/view_impl/positions_calculator.hpp>
 #include <desktop/views/view_impl/positions_reseter.hpp>
+#include <desktop/views/view_impl/positions_translator.hpp>
 #include <desktop/views/view_impl/data.hpp>
 
 #include "unit_tests_utils/mock_photo_info.hpp"
@@ -569,4 +570,86 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
         const ModelIndexInfo& info2 = view_data.get(top2_child1_idx->index());
         EXPECT_EQ(QRect(margin, 0, thumb_w + 2 * spacing, thumb_h + 2 * spacing), info2.getRect());
     }
+}
+
+
+TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
+{
+    const QPixmap pixmap(10, 10);
+    const QIcon icon(pixmap);
+
+    Data data;
+    data.set(&model);
+    data.setSpacing(0);
+    data.setImageMargin(0);
+    data.setThumbnailDesiredHeight(10);
+
+    ViewDataModelObserver mo(&data.getModel(), &model);
+
+    QStandardItem* top = new QStandardItem("Empty");
+    QStandardItem* child0 = new QStandardItem(icon, "Empty0");
+    QStandardItem* child1 = new QStandardItem(icon, "Empty1");
+    QStandardItem* child2 = new QStandardItem(icon, "Empty2");
+    QStandardItem* child3 = new QStandardItem(icon, "Empty3");
+    QStandardItem* child4 = new QStandardItem(icon, "Empty4");
+    QStandardItem* child5 = new QStandardItem(icon, "Empty5");
+    QStandardItem* child6 = new QStandardItem(icon, "Empty6");
+    QStandardItem* child7 = new QStandardItem(icon, "Empty7");
+    QStandardItem* child8 = new QStandardItem(icon, "Empty8");
+    QStandardItem* child9 = new QStandardItem(icon, "Empty9");
+
+    top->appendRow(child0);
+    top->appendRow(child1);
+    top->appendRow(child2);
+    top->appendRow(child3);
+    top->appendRow(child4);
+    top->appendRow(child5);
+    top->appendRow(child6);
+    top->appendRow(child7);
+    top->appendRow(child8);
+    top->appendRow(child9);
+
+    submodel.appendRow(top);
+
+    //expand top and update items positions
+    ModelIndexInfo& info = data.get(top->index());
+    info.expanded = true;
+
+    // setup expectations
+    Photo::Data photoDetails;
+    photoDetails.geometry = QSize(10, 10);
+    photoDetails.id = 0;
+    photoDetails.path = "";
+
+    EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
+
+    //
+    PositionsTranslator translator(&data);
+
+    PositionsCalculator positions_calculator(&data, 50);
+    positions_calculator.updateItems();
+
+    const QRect rectt = translator.getAbsoluteRect(top->index());
+    const QRect rect0 = translator.getAbsoluteRect(child0->index());
+    const QRect rect1 = translator.getAbsoluteRect(child1->index());
+    const QRect rect2 = translator.getAbsoluteRect(child2->index());
+    const QRect rect3 = translator.getAbsoluteRect(child3->index());
+    const QRect rect4 = translator.getAbsoluteRect(child4->index());
+    const QRect rect5 = translator.getAbsoluteRect(child5->index());
+    const QRect rect6 = translator.getAbsoluteRect(child6->index());
+    const QRect rect7 = translator.getAbsoluteRect(child7->index());
+    const QRect rect8 = translator.getAbsoluteRect(child8->index());
+    const QRect rect9 = translator.getAbsoluteRect(child9->index());
+
+    EXPECT_EQ(rectt, QRect(0,  0,  50, 40));
+    EXPECT_EQ(rect0, QRect(0,  40, 10, 10));
+    EXPECT_EQ(rect1, QRect(10, 40, 10, 10));
+    EXPECT_EQ(rect2, QRect(20, 40, 10, 10));
+    EXPECT_EQ(rect3, QRect(30, 40, 10, 10));
+    EXPECT_EQ(rect4, QRect(40, 40, 10, 10));
+    EXPECT_EQ(rect5, QRect(0,  50, 10, 10));
+    EXPECT_EQ(rect6, QRect(10, 50, 10, 10));
+    EXPECT_EQ(rect7, QRect(20, 50, 10, 10));
+    EXPECT_EQ(rect8, QRect(30, 50, 10, 10));
+    EXPECT_EQ(rect9, QRect(40, 50, 10, 10));
 }
