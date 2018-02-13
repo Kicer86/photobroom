@@ -269,7 +269,7 @@ QSize Data::getThumbnailSize(const QModelIndex& index) const
 
 std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 {
-    std::vector<QModelIndex> result;
+    std::deque<QModelIndex> result;
 
     PositionsTranslator translator(this);
 
@@ -285,7 +285,7 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
             const QRect r = translator.getAbsoluteRect(prev);
 
             if (r.intersects(rect))
-                result.push_back(prev);
+                result.push_front(prev);
             else if (is_above(r, rect)) // is current rectangle above selection? Break
                 break;
         }
@@ -299,13 +299,10 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
             else if (is_below(r, rect)) // is current rectangle below selection? Break
                 break;
         }
-
     }
 
-    return result;
+    return std::vector<QModelIndex>(result.begin(), result.end());
 }
-
-
 
 
 bool Data::isExpanded(const ModelIndexInfoSet::Model::const_iterator& it) const
