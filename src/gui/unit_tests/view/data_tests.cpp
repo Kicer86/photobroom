@@ -498,11 +498,12 @@ TEST_F(DataShould, ReturnItemsInRect)
 
         const std::vector<QModelIndex> indexes = data.findInRect(selection);
 
-        ASSERT_EQ(indexes.size(), 4);
+        ASSERT_EQ(indexes.size(), 5);
 
-        EXPECT_EQ(indexes[0], child2->index());
-        EXPECT_EQ(indexes[1], child3->index());
-        EXPECT_EQ(indexes[2], child7->index());
-        EXPECT_EQ(indexes[3], child8->index());
+        EXPECT_EQ(indexes[0], top->index());
+        EXPECT_EQ(indexes[1], child2->index());
+        EXPECT_EQ(indexes[2], child3->index());
+        EXPECT_EQ(indexes[3], child7->index());
+        EXPECT_EQ(indexes[4], child8->index());
     }
 }

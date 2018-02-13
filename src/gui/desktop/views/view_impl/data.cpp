@@ -282,7 +282,7 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 
         for(QModelIndex prev = utils::step_in_prev(centralIdx); prev.isValid(); prev = utils::step_in_prev(prev) )
         {
-            const QRect r = translator.getAbsoluteRect(prev);
+            const QRect r = translator.getAbsoluteOverallRect(prev);
 
             if (r.intersects(rect))
                 result.push_front(prev);
@@ -292,7 +292,7 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 
         for(QModelIndex next = utils::step_in_next(centralIdx); next.isValid(); next = utils::step_in_next(next) )
         {
-            const QRect r = translator.getAbsoluteRect(next);
+            const QRect r = translator.getAbsoluteOverallRect(next);
 
             if (r.intersects(rect))
                 result.push_back(next);
