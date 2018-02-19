@@ -414,15 +414,13 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     // We expect both images to get resized to match height = 50px
     {
         const QSize thumb1 = data.getThumbnailSize(child1->index());
-        const QPixmap pix1 = data.getImage(child1->index());
-        const QSize pix1Size = pix1.size();
+        const QSize pix1Size = data.getImageSize(child1->index());
 
         EXPECT_EQ(QSize(100, 50), thumb1);              // scaled
         EXPECT_EQ(img1, pix1Size);                      // original
 
         const QSize thumb2 = data.getThumbnailSize(child2->index());
-        const QPixmap pix2 = data.getImage(child2->index());
-        const QSize pix2Size = pix2.size();
+        const QSize pix2Size = data.getImageSize(child2->index());
 
         EXPECT_EQ(QSize(10, 50), thumb2);               // scaled
         EXPECT_EQ(img2, pix2Size);                      // original

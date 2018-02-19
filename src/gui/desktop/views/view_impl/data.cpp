@@ -203,33 +203,6 @@ bool Data::isImage(const QModelIndex& index) const
 }
 
 
-QPixmap Data::getImage(const QModelIndex& index) const
-{
-    const QAbstractItemModel* model = index.model();
-    const QVariant decorationRole = model->data(index, Qt::DecorationRole);  //get display role
-    const bool directlyConvertable = decorationRole.canConvert<QPixmap>();
-    QPixmap pixmap;
-
-    if (directlyConvertable)
-        pixmap = decorationRole.value<QPixmap>();
-    else
-    {
-        const bool isIcon = decorationRole.canConvert<QIcon>();
-
-        if (isIcon)
-        {
-            const QIcon icon = decorationRole.value<QIcon>();
-            auto sizes = icon.availableSizes();
-
-            if (sizes.isEmpty() == false)
-                pixmap = icon.pixmap(sizes[0]);
-        }
-    }
-
-    return pixmap;
-}
-
-
 QSize Data::getImageSize(const QModelIndex& idx) const
 {
     const Photo::Data& details = m_model->getPhotoDetails(idx);
