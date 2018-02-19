@@ -56,7 +56,6 @@ class Data
 
         QModelIndex get(const QPoint &) const;
         bool isImage(const QModelIndex &) const;
-        //[[deprecated]] QPixmap getImage(const QModelIndex &) const;
         QSize getImageSize(const QModelIndex &) const;
         QSize getThumbnailSize(const QModelIndex &) const;
         std::vector<QModelIndex> findInRect(const QRect &) const;
