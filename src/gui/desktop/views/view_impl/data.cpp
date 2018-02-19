@@ -276,35 +276,12 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 }
 
 
-bool Data::isExpanded(const ModelIndexInfoSet::Model::const_iterator& it) const
-{
-    assert(it.valid());
-
-    const ModelIndexInfo& info = *it;
-    return info.expanded;
-}
-
-
 bool Data::isExpanded(const QModelIndex& idx) const
 {
     assert(idx.isValid());
 
     const ModelIndexInfo& info = get(idx);
     return info.expanded;
-}
-
-
-bool Data::isVisible(const ModelIndexInfoSet::Model::const_level_iterator& it) const
-{
-    ModelIndexInfoSet::Model::const_iterator parent = it.parent();
-    bool result = false;
-
-    if (parent.valid() == false)    //parent is on the top of hierarchy? Always visible
-        result = true;
-    else if (isExpanded(parent) && isVisible(parent))    //parent expanded? and visible?
-        result = true;
-
-    return result;
 }
 
 

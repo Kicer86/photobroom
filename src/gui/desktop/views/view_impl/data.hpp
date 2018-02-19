@@ -91,8 +91,6 @@ class Data
         int m_margin;
         int m_thumbHeight;
 
-        [[deprecated]] bool isExpanded(const ModelIndexInfoSet::Model::const_iterator &) const;
-        [[deprecated]] bool isVisible(const ModelIndexInfoSet::Model::const_level_iterator &) const;
         std::vector<QModelIndex> findInRect(const QRect &, const QModelIndex &) const;
 };
 
