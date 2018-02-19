@@ -269,39 +269,10 @@ QSize Data::getThumbnailSize(const QModelIndex& index) const
 
 std::vector<QModelIndex> Data::findInRect(const QRect& rect) const
 {
-    std::deque<QModelIndex> result;
+    const std::vector<QModelIndex> result =
+        findInRect(rect, utils::first(*m_model));
 
-    PositionsTranslator translator(this);
-
-    const QPoint central = rect.center();
-    const QModelIndex centralIdx = get(central);
-
-    if (centralIdx.isValid())
-    {
-        result.push_back(centralIdx);
-
-        for(QModelIndex prev = utils::step_in_prev(centralIdx); prev.isValid(); prev = utils::step_in_prev(prev) )
-        {
-            const QRect r = translator.getAbsoluteOverallRect(prev);
-
-            if (r.intersects(rect))
-                result.push_front(prev);
-            else if (is_above(r, rect)) // is current rectangle above selection? Break
-                break;
-        }
-
-        for(QModelIndex next = utils::step_in_next(centralIdx); next.isValid(); next = utils::step_in_next(next) )
-        {
-            const QRect r = translator.getAbsoluteOverallRect(next);
-
-            if (r.intersects(rect))
-                result.push_back(next);
-            else if (is_below(r, rect)) // is current rectangle below selection? Break
-                break;
-        }
-    }
-
-    return std::vector<QModelIndex>(result.begin(), result.end());
+    return result;
 }
 
 
@@ -500,6 +471,35 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const int siblings = item.model()->rowCount(item.parent());
 
     const QModelIndex result = item.sibling(siblings - 1, 0);
+
+    return result;
+}
+
+
+std::vector<QModelIndex> Data::findInRect(const QRect& rect, const QModelIndex& first) const
+{
+    std::vector<QModelIndex> result;
+
+    PositionsTranslator translator(this);
+
+    for(QModelIndex item = first; item.isValid(); item = utils::next(item))
+    {
+        const QRect r = translator.getAbsoluteOverallRect(item);
+
+        if (r.intersects(rect))
+        {
+            result.push_back(item);
+
+            const int children = item.model()->rowCount(item);
+
+            if (children > 0)
+            {
+                const std::vector<QModelIndex> item_results = findInRect(rect, utils::step_in_next(item));
+
+                std::copy(item_results.cbegin(), item_results.cend(), std::back_inserter(result));
+            }
+        }
+    }
 
     return result;
 }
