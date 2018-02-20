@@ -540,8 +540,6 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 {
     TIME_GUARDIAN("ImagesTreeView::rowsMoved", 100, "long moving");
 
-    m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
-
     const int items = sourceEnd - sourceStart + 1;
 
     //reset sizes and positions of existing items
@@ -559,11 +557,16 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 }
 
 
+void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
+{
+    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
+    m_data->getModel().rowsAboutToBeRemoved(_parent, start, end);
+}
+
+
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
     TIME_GUARDIAN("ImagesTreeView::rowsRemoved", 100, "long removing");
-
-    m_data->getModel().rowsRemoved(_parent, first, last);
 
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());

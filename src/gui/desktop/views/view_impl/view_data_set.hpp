@@ -20,13 +20,14 @@
 #ifndef VIEW_DATA_SET_HPP
 #define VIEW_DATA_SET_HPP
 
+#include <cassert>
 #include <iostream>
+#include <unordered_map>
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QRect>
 
-#include <core/tree.hpp>
 
 #ifndef NDEBUG
 #define assert_dump(expr,dump)                          \
@@ -41,8 +42,7 @@ struct IViewDataSet
         virtual ~IViewDataSet();
 
         virtual void rowsInserted(const QModelIndex &, int, int) = 0;
-        virtual void rowsRemoved(const QModelIndex &, int, int) = 0;
-        virtual void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int) = 0;
+        virtual void rowsAboutToBeRemoved(const QModelIndex &, int, int) = 0;
         virtual void modelReset() = 0;
 };
 
@@ -50,52 +50,8 @@ struct IViewDataSet
 template<typename T>
 class ViewDataSet final: public IViewDataSet
 {
-        template<typename IT, typename M>
-        IT _find(M& model, const std::vector<size_t>& hierarchy) const
-        {
-            assert(hierarchy.empty() == false);
-
-            //setup first item
-            IT item_it = model.end();
-
-            if (model.empty() == false)
-                for(size_t i = 0; i < hierarchy.size(); i++)
-                {
-                    const size_t pos = hierarchy[i];
-
-                    if (i == 0)
-                    {
-                        IT b(model.begin());
-                        IT e(model.end());
-
-                        const size_t c = e - b;               //how many items?
-                        if (pos < c)
-                            item_it = IT(b) + pos;
-                        else
-                        {
-                            item_it = e;
-                            break;                            //out of scope
-                        }
-                    }
-                    else
-                    {
-                        const size_t c = item_it.children_count();
-
-                        if (pos < c)
-                            item_it = item_it.begin() + pos;
-                        else
-                        {
-                            item_it = model.end();
-                            break;                            //out of scope
-                        }
-                    }
-                }
-
-            return item_it;
-        }
-
     public:
-        typedef tree<T>  Model;
+        typedef std::unordered_map<quintptr, T>  Model;
 
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
@@ -117,9 +73,12 @@ class ViewDataSet final: public IViewDataSet
 
         typename Model::const_iterator find(const QModelIndex& index) const
         {
-            std::vector<size_t> hierarchy = generateHierarchy(index);
+            return m_model.find(index.internalId());
+        }
 
-            return _find<typename Model::const_level_iterator>(m_model, hierarchy);
+        typename Model::iterator find(const QModelIndex& index)
+        {
+            return m_model.find(index.internalId());
         }
 
         typename Model::const_iterator begin() const
@@ -132,11 +91,6 @@ class ViewDataSet final: public IViewDataSet
             return m_model.end();
         }
 
-        typename Model::const_iterator cfind(const QModelIndex& index) const
-        {
-            return find(index);
-        }
-
         typename Model::const_iterator cbegin() const
         {
             return m_model.cbegin();
@@ -145,13 +99,6 @@ class ViewDataSet final: public IViewDataSet
         typename Model::const_iterator cend() const
         {
             return m_model.cend();
-        }
-
-        typename Model::iterator find(const QModelIndex& index)
-        {
-            std::vector<size_t> hierarchy = generateHierarchy(index);
-
-            return _find<typename Model::level_iterator>(m_model, hierarchy);
         }
 
         typename Model::iterator begin()
@@ -171,26 +118,16 @@ class ViewDataSet final: public IViewDataSet
 
         size_t size() const
         {
-            return m_model.cend() - m_model.cbegin();
-        }
-
-        std::string dumpModel() const
-        {
-            const std::string dump = m_model.dump();
-            return dump;
+            return m_model.size();
         }
 
         // to be called by view:
         void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
-            //update model
-            auto parentIt = find(parent);
-            typename Model::iterator childIt = typename Model::level_iterator(parentIt).begin() + from;
-
             for( int i = from; i <= to; i++)
             {
-                QModelIndex child_idx = m_db_model->index(i, 0, parent);
-                childIt = insert(childIt, T(child_idx));                       // each next sub node is being placed at the same position
+                const QModelIndex child_idx = m_db_model->index(i, 0, parent);
+                insert(child_idx);
 
                 //check if inserted item has children, and add them if any
                 const int children = m_db_model->rowCount(child_idx);
@@ -199,45 +136,13 @@ class ViewDataSet final: public IViewDataSet
             }
         }
 
-        void rowsRemoved(const QModelIndex& parent, int from , int to) override
+        void rowsAboutToBeRemoved(const QModelIndex& parent, int from , int to) override
         {
             //update model
-            auto parentIt = find(parent);
-            typename Model::level_iterator flat_parent(parentIt);
-
-            if (flat_parent.children_count() > static_cast<unsigned int>(to))
+            for(int i = from; i <= to; i++)
             {
-                for(int i = from; i <= to; i++)
-                {
-                    auto childIt = flat_parent.begin() + from;        // keep deleting item at the same position
-                    erase(childIt);
-                }
-            }
-            else
-                assert(!"model is not consistent");                   // parent is expanded, so should be loaded (have children)
-        }
-
-        void rowsMoved(const QModelIndex& sourceParent, int src_from, int src_to, const QModelIndex& destinationParent, int dst_from) override
-        {
-            const int n = src_to - src_from;
-            const int dst_to = dst_from + n;
-
-            // TODO: implement variant which would do a real move
-
-            if (sourceParent != destinationParent || src_from > dst_to)
-            {
-                rowsRemoved(sourceParent, src_from, src_to);
-                rowsInserted(destinationParent, dst_from, dst_to);
-            }
-            else
-            {
-                // The same parent, and source rows are before destination rows.
-                // In such case we need to do some adjustments in destination row
-
-                const int rows_removed = n + 1;
-
-                rowsRemoved(sourceParent, src_from, src_to);
-                rowsInserted(destinationParent, dst_from - rows_removed , dst_to - rows_removed);
+                const QModelIndex idx = m_db_model->index(i, 0, parent);
+                erase(idx);
             }
         }
 
@@ -248,64 +153,23 @@ class ViewDataSet final: public IViewDataSet
             if (m_db_model != nullptr)
             {
                 //load all data
-                loadIndex(QModelIndex(), begin());
+                loadIndex(QModelIndex());
             }
         }
 
         bool validate() const
         {
-            return validate(m_db_model, QModelIndex(), begin());
+            return true;
         }
 
     private:
         Model m_model;
         QAbstractItemModel* m_db_model;
 
-        // TODO: introduce tests for validity
-        bool validate(QAbstractItemModel* model, const QModelIndex& index, typename Model::const_level_iterator it) const
+        void erase(const QModelIndex& idx)
         {
-            bool equal = true;
-
-            if (it->expanded)                                          // never expanded nodes are not loaded due to lazy initialization
-            {
-                const std::size_t  children_count = it.children_count();
-                const std::size_t  idx_children = static_cast<std::size_t >(model->rowCount(index));
-                equal = children_count == idx_children;
-
-                assert_dump(equal, [&]
-                {
-                    std::cerr << m_model.dump() << std::endl;
-                });
-
-                if (equal && children_count != 0)                         // still ok && has children
-                    for(std::size_t i = 0; i < children_count; i++)
-                        equal = validate(model, model->index(i, 0, index), it.begin() + i);
-            }
-
-            return equal;
-        }
-
-        std::vector<size_t> generateHierarchy(const QModelIndex& index) const
-        {
-            std::vector<size_t> result;
-
-            if (index.isValid())
-            {
-                assert(index.row() >= 0);
-
-                std::vector<size_t> parents = generateHierarchy(index.parent());
-                result.insert(result.begin(), parents.cbegin(), parents.cend());
-                result.push_back( static_cast<size_t>(index.row()) );
-            }
-            else
-                result.push_back(0);             //top item
-
-            return result;
-        }
-
-        void erase(const typename Model::iterator& it)
-        {
-            m_model.erase(it);
+            const std::size_t erased = m_model.erase(idx.internalId());
+            assert(erased == 1);
         }
 
         void clear()
@@ -313,91 +177,27 @@ class ViewDataSet final: public IViewDataSet
             m_model.clear();
 
             //add item for QModelIndex() which is always present
-            insert( begin(), T(QModelIndex()) );
+            insert(QModelIndex());
         }
 
-        typename Model::iterator insert(const QModelIndex& index, const T& info)
+        typename Model::iterator insert(const QModelIndex& index)
         {
-            assert(find(index) == end());                 // we do not expect this item already in model
+            auto it = m_model.emplace(index.internalId(), T(index));
+            assert(it.second);
 
-            std::vector<size_t> hierarchy = generateHierarchy(index);
-            const size_t hierarchy_size = hierarchy.size();
-            assert(hierarchy_size > 0);
-
-            //setup first item
-            typename Model::level_iterator item_it = m_model.end();
-
-            for(std::size_t i = 0; i < hierarchy.size(); i++)
-            {
-                const size_t pos = hierarchy[i];
-                const bool last = i + 1 == hierarchy_size;
-
-                if (i == 0)
-                {
-                    typename Model::level_iterator b(m_model.begin());
-                    typename Model::level_iterator e(m_model.end());
-
-                    const size_t c = e - b;               // how many items?
-                    if (pos < c)
-                    {
-                        assert(last == false);            // we want to insert item. If this is last level and there is such item, something went wrong (assert at top of the function should have catch it)
-                        item_it = typename Model::level_iterator(m_model.begin()) + hierarchy[i];
-                    }
-                    else if (pos == c)                    // just append after last item?
-                    {
-                        if (last == false)                // for last level do nothing - we will instert this item later below
-                        {
-                            typename Model::level_iterator ins = b + pos;
-                            item_it = m_model.insert(ins, T());
-                        }
-                    }
-                    else
-                        assert(!"missing siblings");
-                }
-                else
-                {
-                    const size_t c = item_it.children_count();
-                    if (pos < c)
-                    {
-                        assert(last == false);            // we want to insert item. If this is last level and there is such item, something went wrong (assert at top of the function should have catch it)
-                        item_it = item_it.begin() + pos;
-                    }
-                    else if (pos == c)                    //just append after last item?
-                    {
-                        typename Model::level_iterator ins = item_it.begin() + pos;
-
-                        if (last)
-                            item_it = ins;                // for last level of hierarchy set item_it to desired position
-                            else
-                                item_it = m_model.insert(ins, T());
-                    }
-                    else
-                        assert(!"missing siblings");
-                }
-            }
-
-            auto it = m_model.insert(item_it, info);
-
-            return it;
+            return it.first;
         }
 
-        typename Model::iterator insert(typename Model::level_iterator it, const T& info)
+        void loadIndex(const QModelIndex& p)
         {
-            return m_model.insert(it, info);
-        }
-
-        void loadIndex(const QModelIndex& p, typename Model::level_iterator p_it)
-        {
-            assert(p_it.children_count() == 0);
             const int c = m_db_model->rowCount(p);
 
             for(int i = 0; i < c; i++)
             {
-                typename Model::level_iterator c_it = p_it.begin() + i;
-                QModelIndex c_idx = m_db_model->index(i, 0, p);
+                const QModelIndex c_idx = m_db_model->index(i, 0, p);
 
-                c_it = m_model.insert(c_it, T(c_idx));
-                loadIndex(c_idx, c_it);
+                insert(c_idx);
+                loadIndex(c_idx);
             }
         }
 };
@@ -433,23 +233,18 @@ struct ViewDataModelObserver: public QObject
 
             if (m_db_model != nullptr)
             {
-                connect(m_db_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(rowsInserted(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(rowsRemoved(QModelIndex, int, int)));
-                connect(m_db_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
-                        this, SLOT(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
-
-                connect(m_db_model, SIGNAL(modelReset()), this, SLOT(modelReset()));
+                connect(m_db_model, &QAbstractItemModel::rowsInserted, this, &ViewDataModelObserver::rowsInserted);
+                connect(m_db_model, &QAbstractItemModel::rowsAboutToBeRemoved, this, &ViewDataModelObserver::rowsAboutToBeRemoved);
+                connect(m_db_model, &QAbstractItemModel::modelReset, this, &ViewDataModelObserver::modelReset);
             }
 
             modelReset();
         }
 
-    private slots:
-        virtual void rowsInserted(const QModelIndex& p, int f, int t) { m_viewDataSet->rowsInserted(p, f, t); }
-        virtual void rowsRemoved(const QModelIndex& p, int f, int t)  { m_viewDataSet->rowsRemoved(p, f, t); }
-        virtual void rowsMoved(const QModelIndex& p, int f, int t,
-                               const QModelIndex& d, int dt)          { m_viewDataSet->rowsMoved(p, f, t, d, dt); }
-        virtual void modelReset()                                     { m_viewDataSet->modelReset(); }
+    private:
+        virtual void rowsInserted(const QModelIndex& p, int f, int t)         { m_viewDataSet->rowsInserted(p, f, t); }
+        virtual void rowsAboutToBeRemoved(const QModelIndex& p, int f, int t) { m_viewDataSet->rowsAboutToBeRemoved(p, f, t); }
+        virtual void modelReset()                                             { m_viewDataSet->modelReset(); }
 
     private:
         QAbstractItemModel* m_db_model;

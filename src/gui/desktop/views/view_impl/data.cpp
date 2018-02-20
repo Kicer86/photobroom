@@ -120,7 +120,7 @@ const ModelIndexInfo& Data::get(const QModelIndex& index) const
     auto it = m_itemData->find(index);
     assert(it != m_itemData->end());
 
-    return *it;
+    return it->second;
 }
 
 
@@ -129,7 +129,7 @@ ModelIndexInfo& Data::get(const QModelIndex& index)
     auto it = m_itemData->find(index);
     assert(it != m_itemData->end());
 
-    return *it;
+    return it->second;
 }
 
 
@@ -137,7 +137,7 @@ bool Data::has(const QModelIndex& index) const
 {
     auto it = m_itemData->find(index);
 
-    return it.valid();
+    return it != m_itemData->end();
 }
 
 

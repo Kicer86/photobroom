@@ -58,7 +58,7 @@ void PositionsReseter::invalidateAll() const
     Data::ModelIndexInfoSet& dataSet = m_data->getModel();
     for(auto it = dataSet.begin(); it != dataSet.end(); ++it)
     {
-        ModelIndexInfo& info = *it;
+        ModelIndexInfo& info = it->second;
 
         info.cleanRects();
     };
@@ -235,11 +235,11 @@ void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
 
 void PositionsReseter::resetPosition(Data::ModelIndexInfoSet::Model::iterator it) const
 {
-    it->markPositionInvalid();
+    it->second.markPositionInvalid();
 }
 
 
 void PositionsReseter::resetSize(Data::ModelIndexInfoSet::Model::iterator it) const
 {
-    it->markSizeInvalid();
+    it->second.markSizeInvalid();
 }
