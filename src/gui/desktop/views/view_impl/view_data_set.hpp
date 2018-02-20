@@ -91,16 +91,6 @@ class ViewDataSet final: public IViewDataSet
             return m_model.end();
         }
 
-        typename Model::const_iterator cbegin() const
-        {
-            return m_model.cbegin();
-        }
-
-        typename Model::const_iterator cend() const
-        {
-            return m_model.cend();
-        }
-
         typename Model::iterator begin()
         {
             return m_model.begin();
