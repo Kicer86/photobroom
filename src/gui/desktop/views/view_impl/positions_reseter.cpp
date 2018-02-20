@@ -231,15 +231,3 @@ void PositionsReseter::resetOverallSize(const QModelIndex& idx) const
         info.markOverallSizeInvalid();
     }
 }
-
-
-void PositionsReseter::resetPosition(Data::ModelIndexInfoSet::Model::iterator it) const
-{
-    it->second.markPositionInvalid();
-}
-
-
-void PositionsReseter::resetSize(Data::ModelIndexInfoSet::Model::iterator it) const
-{
-    it->second.markSizeInvalid();
-}
