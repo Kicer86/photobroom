@@ -95,14 +95,11 @@ class ViewDataSet final: public IViewDataSet
             return result;
         }
 
-        typename Model::iterator begin()
+        template<typename F>
+        void for_each(const F& f)
         {
-            return m_model.begin();
-        }
-
-        typename Model::iterator end()
-        {
-            return m_model.end();
+            for(auto& item: m_model)
+                f(item.second);
         }
 
         bool empty() const
