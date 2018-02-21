@@ -71,14 +71,28 @@ class ViewDataSet final: public IViewDataSet
             m_db_model = model;
         }
 
-        typename Model::const_iterator find(const QModelIndex& index) const
+        const T* find(const QModelIndex& index) const
         {
-            return m_model.find(index.internalId());
+            T* result = nullptr;
+
+            auto it = m_model.find(index.internalId());
+
+            if (it != m_model.end())
+                result = &(*it);
+
+            return result;
         }
 
-        typename Model::iterator find(const QModelIndex& index)
+        T* find(const QModelIndex& index)
         {
-            return m_model.find(index.internalId());
+            T* result = nullptr;
+
+            auto it = m_model.find(index.internalId());
+
+            if (it != m_model.end())
+                result = &(it->second);
+
+            return result;
         }
 
         typename Model::iterator begin()

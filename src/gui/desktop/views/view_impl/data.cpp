@@ -117,27 +117,27 @@ void Data::setThumbnailDesiredHeight(int imgSize)
 
 const ModelIndexInfo& Data::get(const QModelIndex& index) const
 {
-    auto it = m_itemData->find(index);
-    assert(it != m_itemData->end());
+    ModelIndexInfo* item = m_itemData->find(index);
+    assert(item != nullptr);
 
-    return it->second;
+    return *item;
 }
 
 
 ModelIndexInfo& Data::get(const QModelIndex& index)
 {
-    auto it = m_itemData->find(index);
-    assert(it != m_itemData->end());
+    ModelIndexInfo* item = m_itemData->find(index);
+    assert(item != nullptr);
 
-    return it->second;
+    return *item;
 }
 
 
 bool Data::has(const QModelIndex& index) const
 {
-    auto it = m_itemData->find(index);
+    ModelIndexInfo* item = m_itemData->find(index);
 
-    return it != m_itemData->end();
+    return item != nullptr;
 }
 
 
