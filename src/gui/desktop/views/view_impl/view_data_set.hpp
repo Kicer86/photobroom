@@ -171,12 +171,10 @@ class ViewDataSet final: public IViewDataSet
             insert(QModelIndex());
         }
 
-        typename Model::iterator insert(const QModelIndex& index)
+        void insert(const QModelIndex& index)
         {
             auto it = m_model.emplace(index.internalId(), T(index));
             assert(it.second);
-
-            return it.first;
         }
 
         void loadIndex(const QModelIndex& p)
