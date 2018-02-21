@@ -22,9 +22,9 @@
 
 #include <cassert>
 #include <iostream>
-#include <unordered_map>
 
 #include <QAbstractItemModel>
+#include <QHash>
 #include <QModelIndex>
 #include <QRect>
 
@@ -47,11 +47,44 @@ struct IViewDataSet
 };
 
 
-template<typename T>
+enum class ViewDataSetMode
+{
+    InternalId,
+    PersistentModelIndex,
+};
+
+template<ViewDataSetMode>
+struct ViewDataTraits {};
+
+template<>
+struct ViewDataTraits<ViewDataSetMode::InternalId>
+{
+    typedef quintptr Key;
+
+    static Key construct(const QModelIndex& idx)
+    {
+        return idx.internalId();
+    }
+};
+
+template<>
+struct ViewDataTraits<ViewDataSetMode::PersistentModelIndex>
+{
+    typedef QPersistentModelIndex Key;
+
+    static Key construct(const QModelIndex& idx)
+    {
+        return QPersistentModelIndex(idx);
+    }
+};
+
+
+template<typename T, ViewDataSetMode Mode = ViewDataSetMode::PersistentModelIndex>
 class ViewDataSet final: public IViewDataSet
 {
+
     public:
-        typedef std::unordered_map<quintptr, T>  Model;
+        typedef QHash<typename ViewDataTraits<Mode>::Key, T>  Model;
 
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
@@ -75,7 +108,7 @@ class ViewDataSet final: public IViewDataSet
         {
             T* result = nullptr;
 
-            auto it = m_model.find(index.internalId());
+            auto it = m_model.find(getKey(index));
 
             if (it != m_model.end())
                 result = &(*it);
@@ -87,10 +120,10 @@ class ViewDataSet final: public IViewDataSet
         {
             T* result = nullptr;
 
-            auto it = m_model.find(index.internalId());
+            auto it = m_model.find(getKey(index));
 
             if (it != m_model.end())
-                result = &(it->second);
+                result = &(it.value());
 
             return result;
         }
@@ -99,7 +132,7 @@ class ViewDataSet final: public IViewDataSet
         void for_each(const F& f)
         {
             for(auto& item: m_model)
-                f(item.second);
+                f(item);
         }
 
         bool empty() const
@@ -159,8 +192,9 @@ class ViewDataSet final: public IViewDataSet
 
         void erase(const QModelIndex& idx)
         {
-            const std::size_t erased = m_model.erase(idx.internalId());
-            assert(erased == 1);
+            const auto key = getKey(idx);
+            assert(m_model.find(key) != m_model.end());
+            m_model.remove(getKey(idx));
         }
 
         void clear()
@@ -173,8 +207,9 @@ class ViewDataSet final: public IViewDataSet
 
         void insert(const QModelIndex& index)
         {
-            auto it = m_model.emplace(index.internalId(), T(index));
-            assert(it.second);
+            const auto key = getKey(index);
+            assert(m_model.find(key) == m_model.end());
+            m_model.insert(key, T(index));
         }
 
         void loadIndex(const QModelIndex& p)
@@ -188,6 +223,11 @@ class ViewDataSet final: public IViewDataSet
                 insert(c_idx);
                 loadIndex(c_idx);
             }
+        }
+
+        typename ViewDataTraits<Mode>::Key getKey(const QModelIndex& idx) const
+        {
+            return ViewDataTraits<Mode>::construct(idx);
         }
 };
 
