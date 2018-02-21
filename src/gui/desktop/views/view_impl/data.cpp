@@ -272,12 +272,6 @@ bool Data::isVisible(const QModelIndex& idx) const
 }
 
 
-const Data::ModelIndexInfoSet& Data::getModel() const
-{
-    return *m_itemData;
-}
-
-
 Data::ModelIndexInfoSet& Data::getModel()
 {
     return *m_itemData;

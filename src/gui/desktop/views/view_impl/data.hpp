@@ -68,7 +68,7 @@ class Data
         bool isExpanded(const QModelIndex &) const;
         bool isVisible(const QModelIndex &) const;
 
-        const ModelIndexInfoSet& getModel() const;
+        //const ModelIndexInfoSet& getModel() const;
         ModelIndexInfoSet& getModel();
         const QAbstractItemModel* getQtModel() const;
 
