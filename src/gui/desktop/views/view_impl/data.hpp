@@ -37,8 +37,13 @@ class Data
 {
     public:
         typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
+        enum class KeyPolicy
+        {
+            InternalId,
+            PersistentModelIndex,
+        };
 
-        Data();
+        Data(KeyPolicy = KeyPolicy::PersistentModelIndex);
         Data(const Data &) = delete;
 
         ~Data();
