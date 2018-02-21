@@ -81,16 +81,6 @@ class ViewDataSet final: public IViewDataSet
             return m_model.find(index.internalId());
         }
 
-        typename Model::const_iterator begin() const
-        {
-            return m_model.begin();
-        }
-
-        typename Model::const_iterator end() const
-        {
-            return m_model.end();
-        }
-
         typename Model::iterator begin()
         {
             return m_model.begin();
