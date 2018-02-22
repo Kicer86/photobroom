@@ -28,15 +28,6 @@
 #include <QModelIndex>
 #include <QRect>
 
-
-#ifndef NDEBUG
-#define assert_dump(expr,dump)                          \
-    if (!expr) { dump(), abort(); }                     \
-    else static_cast<void>(0)
-#else
-#define assert_dump(expr,dump) static_cast<void>(0)
-#endif
-
 struct IViewDataSet
 {
     virtual ~IViewDataSet();
