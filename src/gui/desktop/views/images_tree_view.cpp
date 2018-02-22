@@ -519,7 +519,7 @@ void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& 
 
 void ImagesTreeView::modelReset()
 {
-    m_data->getModel().modelReset();
+    m_data->modelReset();
 }
 
 
@@ -527,7 +527,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
     TIME_GUARDIAN("ImagesTreeView::rowsInserted", 100, "long inserting");
 
-    m_data->getModel().rowsInserted(_parent, from, to);
+    m_data->rowsInserted(_parent, from, to);
 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
@@ -560,7 +560,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
 {
     QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
-    m_data->getModel().rowsAboutToBeRemoved(_parent, start, end);
+    m_data->rowsAboutToBeRemoved(_parent, start, end);
 }
 
 

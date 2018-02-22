@@ -33,7 +33,7 @@ struct IConfiguration;
 class APhotoInfoModel;
 
 
-class Data
+class Data: IViewDataSet
 {
     public:
         typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
@@ -68,8 +68,9 @@ class Data
         bool isExpanded(const QModelIndex &) const;
         bool isVisible(const QModelIndex &) const;
 
-        ModelIndexInfoSet& getModel();
         const QAbstractItemModel* getQtModel() const;
+
+        void for_each(const std::function<void(ModelIndexInfo &)> &);
 
         int getSpacing() const;
         int getImageMargin() const;
@@ -85,6 +86,10 @@ class Data
 
         QModelIndex getFirst(const QModelIndex &) const;
         QModelIndex getLast(const QModelIndex &) const;
+
+        void modelReset() override;
+        void rowsAboutToBeRemoved(const QModelIndex & , int , int ) override;
+        void rowsInserted(const QModelIndex & , int , int ) override;
 
     private:
         std::unique_ptr<ModelIndexInfoSet> m_itemData;

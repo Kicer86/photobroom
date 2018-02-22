@@ -41,8 +41,6 @@ PositionsCalculator::~PositionsCalculator()
 
 void PositionsCalculator::updateItems() const
 {
-    assert(m_data->getModel().validate());
-
     updateItem(QModelIndex());
 }
 

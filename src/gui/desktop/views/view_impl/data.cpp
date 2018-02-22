@@ -272,15 +272,15 @@ bool Data::isVisible(const QModelIndex& idx) const
 }
 
 
-Data::ModelIndexInfoSet& Data::getModel()
-{
-    return *m_itemData;
-}
-
-
 const QAbstractItemModel* Data::getQtModel() const
 {
     return m_model;
+}
+
+
+void Data::for_each(const std::function<void(ModelIndexInfo &)>& f)
+{
+    m_itemData->for_each(f);
 }
 
 
@@ -417,6 +417,24 @@ QModelIndex Data::getLast(const QModelIndex& item) const
     const QModelIndex result = item.sibling(siblings - 1, 0);
 
     return result;
+}
+
+
+void Data::modelReset()
+{
+    m_itemData->modelReset();
+}
+
+
+void Data::rowsAboutToBeRemoved(const QModelIndex& p, int f, int t)
+{
+    m_itemData->rowsAboutToBeRemoved(p, f, t);
+}
+
+
+void Data::rowsInserted(const QModelIndex& p, int f, int t)
+{
+    m_itemData->rowsInserted(p, f, t);
 }
 
 
