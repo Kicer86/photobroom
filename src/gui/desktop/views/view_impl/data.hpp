@@ -36,7 +36,6 @@ class APhotoInfoModel;
 class Data: IViewDataSet
 {
     public:
-        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
         enum class KeyPolicy
         {
             InternalId,
@@ -92,6 +91,7 @@ class Data: IViewDataSet
         void rowsInserted(const QModelIndex & , int , int ) override;
 
     private:
+        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         APhotoInfoModel* m_model;
         IConfiguration* m_configuration;

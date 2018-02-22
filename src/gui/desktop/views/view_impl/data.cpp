@@ -65,16 +65,6 @@ namespace
         }
         return first;
     }
-
-    bool is_above(const QRect& r1, const QRect& r2)
-    {
-        return r1.bottom() < r2.top();
-    }
-
-    bool is_below(const QRect& r1, const QRect& r2)
-    {
-        return r1.top() > r2.bottom();
-    }
 }
 
 
