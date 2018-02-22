@@ -135,16 +135,6 @@ class ViewDataSet final: public IViewDataSet
                 f(item);
         }
 
-        bool empty() const
-        {
-            return m_model.empty();
-        }
-
-        size_t size() const
-        {
-            return m_model.size();
-        }
-
         // to be called by view:
         void rowsInserted(const QModelIndex& parent, int from, int to) override
         {
