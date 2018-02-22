@@ -39,11 +39,11 @@
 
 struct IViewDataSet
 {
-        virtual ~IViewDataSet();
+    virtual ~IViewDataSet();
 
-        virtual void rowsInserted(const QModelIndex &, int, int) = 0;
-        virtual void rowsAboutToBeRemoved(const QModelIndex &, int, int) = 0;
-        virtual void modelReset() = 0;
+    virtual void rowsInserted(const QModelIndex &, int, int) = 0;
+    virtual void rowsAboutToBeRemoved(const QModelIndex &, int, int) = 0;
+    virtual void modelReset() = 0;
 };
 
 
