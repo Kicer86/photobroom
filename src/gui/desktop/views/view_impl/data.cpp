@@ -68,7 +68,7 @@ namespace
 }
 
 
-Data::Data(KeyPolicy keyPolicy): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
+Data::Data(): m_itemData(new ModelIndexInfoSet), m_model(nullptr), m_configuration(nullptr), m_spacing(5), m_margin(10), m_thumbHeight(120)
 {
 
 }
@@ -271,6 +271,12 @@ const QAbstractItemModel* Data::getQtModel() const
 void Data::for_each(const std::function<void(ModelIndexInfo &)>& f)
 {
     m_itemData->for_each(f);
+}
+
+
+std::size_t Data::size() const
+{
+    return m_itemData->size();
 }
 
 

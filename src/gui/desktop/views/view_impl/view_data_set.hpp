@@ -38,57 +38,39 @@ struct IViewDataSet
 };
 
 
-enum class ViewDataSetMode
+namespace ViewData
 {
-    InternalId,
-    PersistentModelIndex,
-};
-
-template<ViewDataSetMode>
-struct ViewDataTraits {};
-
-template<>
-struct ViewDataTraits<ViewDataSetMode::InternalId>
-{
-    typedef quintptr Key;
-
-    static Key construct(const QModelIndex& idx)
+    inline quintptr constructId(const QModelIndex& idx)
     {
         return idx.internalId();
     }
-};
 
-template<>
-struct ViewDataTraits<ViewDataSetMode::PersistentModelIndex>
-{
-    typedef QPersistentModelIndex Key;
-
-    static Key construct(const QModelIndex& idx)
+    inline QPersistentModelIndex constructPersistent(const QModelIndex& idx)
     {
         return QPersistentModelIndex(idx);
     }
-};
+}
 
 
-template<typename T, ViewDataSetMode Mode = ViewDataSetMode::PersistentModelIndex>
+template<typename T, typename Key, Key (*Constructor)(const QModelIndex &)>
 class ViewDataSet final: public IViewDataSet
 {
 
     public:
-        typedef QHash<typename ViewDataTraits<Mode>::Key, T>  Model;
+        typedef QHash<Key, T>  Model;
 
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
             clear();
         }
 
-        ViewDataSet(const ViewDataSet<T> &) = delete;
+        ViewDataSet(const ViewDataSet<T, Key, Constructor> &) = delete;
 
         ~ViewDataSet()
         {
         }
 
-        ViewDataSet<T>& operator=(const ViewDataSet<T> &) = delete;
+        ViewDataSet<T, Key, Constructor>& operator=(const ViewDataSet<T, Key, Constructor> &) = delete;
 
         void set(QAbstractItemModel* model)
         {
@@ -167,6 +149,11 @@ class ViewDataSet final: public IViewDataSet
             return true;
         }
 
+        std::size_t size() const
+        {
+            return m_model.size();
+        }
+
     private:
         Model m_model;
         QAbstractItemModel* m_db_model;
@@ -206,9 +193,9 @@ class ViewDataSet final: public IViewDataSet
             }
         }
 
-        typename ViewDataTraits<Mode>::Key getKey(const QModelIndex& idx) const
+        Key getKey(const QModelIndex& idx) const
         {
-            return ViewDataTraits<Mode>::construct(idx);
+            return Constructor(idx);
         }
 };
 

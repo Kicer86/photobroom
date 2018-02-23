@@ -45,8 +45,7 @@ TEST_F(DataShould, ContainOnlyRootNodeAfterConstruction)
 {
     Data data;
 
-    const auto& items = data.getModel();
-    EXPECT_EQ(1, items.size());
+    EXPECT_EQ(1, data.size());
 }
 
 
@@ -55,10 +54,9 @@ TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
-    const auto& items = data.getModel();
-    EXPECT_EQ(1, items.size());
+    EXPECT_EQ(1, data.size());
 }
 
 
@@ -67,13 +65,12 @@ TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(info.valid(), false);
 
-    const auto& items = data.getModel();
-    EXPECT_EQ(false, items.empty());
+    EXPECT_NE(0, data.size());
 }
 
 
@@ -82,7 +79,7 @@ TEST_F(DataShould, SetInitialDataForRootItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
@@ -97,7 +94,7 @@ TEST_F(DataShould, StoreInfoAboutItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     ModelIndexInfo& info = data.get(QModelIndex());
     info.expanded = true;
@@ -116,7 +113,7 @@ TEST_F(DataShould, MarkTopItemsAsVisible)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     submodel.appendRow(top);
@@ -136,7 +133,7 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -194,7 +191,7 @@ TEST_F(DataShould, ReturnItemsByPoint)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -248,7 +245,7 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -317,7 +314,7 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -372,7 +369,7 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     data.set(&model);
     data.setThumbnailDesiredHeight(50);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -439,7 +436,7 @@ TEST_F(DataShould, ReturnItemsInRect)
     data.setImageMargin(0);
     data.setThumbnailDesiredHeight(10);
 
-    ViewDataModelObserver mo(&data.getModel(), &model);
+    ViewDataModelObserver mo(&data, &model);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child0 = new QStandardItem(icon, "Empty0");

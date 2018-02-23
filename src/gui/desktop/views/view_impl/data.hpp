@@ -33,16 +33,10 @@ struct IConfiguration;
 class APhotoInfoModel;
 
 
-class Data: IViewDataSet
+class Data: public IViewDataSet
 {
     public:
-        enum class KeyPolicy
-        {
-            InternalId,
-            PersistentModelIndex,
-        };
-
-        Data(KeyPolicy = KeyPolicy::PersistentModelIndex);
+        Data();
         Data(const Data &) = delete;
 
         ~Data();
@@ -70,6 +64,7 @@ class Data: IViewDataSet
         const QAbstractItemModel* getQtModel() const;
 
         void for_each(const std::function<void(ModelIndexInfo &)> &);
+        std::size_t size() const;
 
         int getSpacing() const;
         int getImageMargin() const;
@@ -91,7 +86,11 @@ class Data: IViewDataSet
         void rowsInserted(const QModelIndex & , int , int ) override;
 
     private:
-        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
+#ifdef UNIT_TESTS_BUILD
+        typedef ViewDataSet<ModelIndexInfo, QPersistentModelIndex, ViewData::constructPersistent> ModelIndexInfoSet;
+#else
+        typedef ViewDataSet<ModelIndexInfo, quintptr, ViewData::constructId> ModelIndexInfoSet;
+#endif
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         APhotoInfoModel* m_model;
         IConfiguration* m_configuration;

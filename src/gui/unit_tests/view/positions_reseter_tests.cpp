@@ -60,7 +60,7 @@ class PositionsReseterShould: public ::testing::Test
 
             data.set(&model);
 
-            mo.reset( new ViewDataModelObserver(&data.getModel(), &model) );
+            mo.reset( new ViewDataModelObserver(&data, &model) );
 
             top = new QStandardItem("Empty");
             child1 = new QStandardItem(icon, "Empty1");
