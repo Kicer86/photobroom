@@ -10,6 +10,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 
 set(UTILS_SOURCES
     config_tools.cpp
+    model_index_utils.cpp
     photos_collector.cpp
     selection_extractor.cpp
     signal_filter.cpp
@@ -24,6 +25,7 @@ set(UTILS_HEADERS
     config_tools.hpp
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
+    model_index_utils.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp

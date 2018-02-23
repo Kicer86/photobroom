@@ -30,6 +30,8 @@ addTestTarget(gui
                     desktop/views/view_impl/view_data_set.cpp
                     ${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp
 
+                    desktop/utils/model_index_utils.cpp
+
                     # model tests:
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
@@ -48,6 +50,9 @@ addTestTarget(gui
 
                     unit_tests/test_helpers/photo_info_model.cpp
                     unit_tests/test_helpers/photo_info_model.hpp
+
+                    # utils:
+                    unit_tests/utils/model_index_utils_tests.cpp
 
                     # main()
                     unit_tests/main.cpp

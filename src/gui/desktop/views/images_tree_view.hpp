@@ -99,6 +99,7 @@ class ImagesTreeView: public QAbstractItemView
         void modelReset();
         void rowsInserted(const QModelIndex &, int, int) override;
         void rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
+        void rowsAboutToBeRemoved(const QModelIndex &, int, int) override;
         void rowsRemoved(const QModelIndex &, int, int);
 
         // model updates

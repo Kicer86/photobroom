@@ -23,7 +23,6 @@
 #include <QModelIndex>
 #include <QRect>
 
-#include <core/tree.hpp>
 
 struct ModelIndexInfo
 {

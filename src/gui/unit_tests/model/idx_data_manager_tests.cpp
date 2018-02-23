@@ -10,6 +10,7 @@
 
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/mock_photo_info.hpp"
+#include "unit_tests_utils/printers.hpp"
 #include "test_helpers/internal_task_executor.hpp"
 
 

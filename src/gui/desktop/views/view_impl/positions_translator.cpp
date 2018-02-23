@@ -35,42 +35,48 @@ PositionsTranslator::~PositionsTranslator()
 }
 
 
-QRect PositionsTranslator::getAbsoluteRect(const Data::ModelIndexInfoSet::Model::const_level_iterator& mii) const
+QRect PositionsTranslator::getAbsoluteRect(const QModelIndex& idx) const
 {
-    QRect result = mii->getRect();
-    auto parent = mii.parent();
+    const ModelIndexInfo idxInfo = m_data->get(idx);
+    const QModelIndex parent = idx.parent();
+
+    QRect result = idxInfo.getRect();
 
     // top items have their posistions absolute by definition, no calculations needed
-    if (parent != m_data->getModel().cend())
+    if (parent.isValid())
     {
         const QRect parentRect = getAbsoluteRect(parent);
-        result.translate(parentRect.bottomLeft());
+        const QPoint nextLinePoint = parentRect.bottomLeft() + QPoint(0, 1);
+        result.translate(nextLinePoint);
     }
 
     return result;
 }
 
 
-QRect PositionsTranslator::getAbsoluteOverallRect(const Data::ModelIndexInfoSet::Model::const_iterator& mii) const
+QRect PositionsTranslator::getAbsoluteOverallRect(const QModelIndex& idx) const
 {
-    const QPoint position = getAbsolutePosition(mii);
-    const ModelIndexInfo& info = *mii;
+    const QPoint position = getAbsolutePosition(idx);
+    const ModelIndexInfo& info = m_data->get(idx);
     const QRect result(position, info.getOverallSize());
 
     return result;
 }
 
 
-QPoint PositionsTranslator::getAbsolutePosition(const Data::ModelIndexInfoSet::Model::const_level_iterator& mii) const
+QPoint PositionsTranslator::getAbsolutePosition(const QModelIndex& idx) const
 {
-    QPoint result = mii->getPosition();
-    auto parent = mii.parent();
+    const ModelIndexInfo& info = m_data->get(idx);
+
+    QPoint result = info.getPosition();
+    const QModelIndex& parentIdx = idx.parent();
 
     // top items have their posistions absolute by definition, no calculations needed
-    if (parent != m_data->getModel().cend())
+    if (parentIdx.isValid())
     {
-        const QRect parentRect = getAbsoluteRect(parent);
+        const QRect parentRect = getAbsoluteRect(parentIdx);
         result += parentRect.bottomLeft();
+        result += QPoint(0, 1);
     }
 
     return result;

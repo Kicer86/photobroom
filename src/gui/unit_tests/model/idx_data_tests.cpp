@@ -5,6 +5,8 @@
 #include <desktop/models/model_helpers/idx_data_manager.hpp>
 #include <desktop/models/db_data_model.hpp>
 
+#include "unit_tests_utils/printers.hpp"
+
 
 class IdxDataTest : public ::testing::Test
 {

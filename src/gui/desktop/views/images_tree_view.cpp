@@ -112,9 +112,9 @@ int ImagesTreeView::getThumbnailHeight() const
 
 QRect ImagesTreeView::childrenSize(const QModelIndex& idx) const
 {
-    auto it = m_data->get(idx);
+    const auto info = m_data->get(idx);
 
-    return it->getOverallRect();
+    return info.getOverallRect();
 }
 
 
@@ -126,8 +126,7 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
     {
         const QPoint offset = getOffset();
         const QPoint treePoint = point + offset;
-        Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->get(treePoint);
-        result = m_data->get(infoIt);
+        result =  m_data->get(treePoint);
     }
 
     return result;
@@ -308,17 +307,16 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     for (const QModelIndex& item: items)
     {
-        Data::ModelIndexInfoSet::Model::const_iterator infoIt = m_data->get(item);
-        const QRect rect = translator.getAbsoluteRect(infoIt);
+        const QRect rect = translator.getAbsoluteRect(item);
 
         const QSize decorationSize(rect.width()  - m_data->getSpacing() * 2,
                                    rect.height() - m_data->getSpacing() * 2);
 
         QStyleOptionViewItem styleOption = viewOptions();
         styleOption.rect = rect;
-        styleOption.features = m_data->isImage(infoIt)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
+        styleOption.features = m_data->isImage(item)? QStyleOptionViewItem::HasDecoration: QStyleOptionViewItem::HasDisplay;
         styleOption.state |= selectionModel()->isSelected(item)? QStyle::State_Selected: QStyle::State_None;
-        styleOption.state |= m_data->isExpanded(infoIt)? QStyle::State_Open: QStyle::State_None;
+        styleOption.state |= m_data->isExpanded(item)? QStyle::State_Open: QStyle::State_None;
         styleOption.decorationSize = decorationSize;
 
         QAbstractItemView::itemDelegate()->paint(&painter, styleOption, item);
@@ -396,12 +394,12 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
     {
         QAbstractItemView::mouseReleaseEvent(e);
 
-        QModelIndex item = indexAt(e->pos());
-        Data::ModelIndexInfoSet::Model::iterator infoIt = m_data->find(item);
+        const QModelIndex item = indexAt(e->pos());
+        const bool has = m_data->has(item);
 
-        if (item.isValid() && infoIt.valid() && m_data->isImage(infoIt) == false)
+        if (has && item.isValid() && m_data->isImage(item) == false)
         {
-            ModelIndexInfo& info = *infoIt;
+            ModelIndexInfo& info = m_data->get(item);
             info.expanded = !info.expanded;
 
             QAbstractItemModel* view_model = QAbstractItemView::model();
@@ -436,11 +434,8 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
 const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 {
     const PositionsTranslator translator(m_data.get());
-    auto infoIt = m_data->cfind(index);
 
-    assert(infoIt.valid());
-
-    return translator.getAbsoluteRect(infoIt);
+    return translator.getAbsoluteRect(index);
 }
 
 
@@ -490,10 +485,8 @@ void ImagesTreeView::updateData()
 
 void ImagesTreeView::updateGui()
 {
-    auto infoIt = m_data->cfind(QModelIndex());
-    assert(infoIt.valid());
+    const ModelIndexInfo& info = m_data->get(QModelIndex());
 
-    const ModelIndexInfo& info = *infoIt;
     const QSize areaSize = viewport()->size();
     const QSize treeAreaSize = info.getOverallSize();
 
@@ -526,7 +519,7 @@ void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& 
 
 void ImagesTreeView::modelReset()
 {
-    m_data->getModel().modelReset();
+    m_data->modelReset();
 }
 
 
@@ -534,7 +527,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 {
     TIME_GUARDIAN("ImagesTreeView::rowsInserted", 100, "long inserting");
 
-    m_data->getModel().rowsInserted(_parent, from, to);
+    m_data->rowsInserted(_parent, from, to);
 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
@@ -546,8 +539,6 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
 void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd, const QModelIndex & destinationParent, int destinationRow)
 {
     TIME_GUARDIAN("ImagesTreeView::rowsMoved", 100, "long moving");
-
-    m_data->getModel().rowsMoved(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 
     const int items = sourceEnd - sourceStart + 1;
 
@@ -566,11 +557,16 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
 }
 
 
+void ImagesTreeView::rowsAboutToBeRemoved(const QModelIndex& _parent, int start, int end)
+{
+    QAbstractItemView::rowsAboutToBeRemoved(_parent, start, end);
+    m_data->rowsAboutToBeRemoved(_parent, start, end);
+}
+
+
 void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last)
 {
     TIME_GUARDIAN("ImagesTreeView::rowsRemoved", 100, "long removing");
-
-    m_data->getModel().rowsRemoved(_parent, first, last);
 
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());

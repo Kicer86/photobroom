@@ -8,8 +8,10 @@ option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turne
 macro(addTestTarget target)
 
     #get sources
-    set(multiValueArgs SOURCES LIBRARIES INCLUDES)
+    set(multiValueArgs SOURCES LIBRARIES INCLUDES DEFINITIONS)
     cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
+
+    list(APPEND T_DEFINITIONS PRIVATE UNIT_TESTS_BUILD)
 
     #test_bin_name
     set(test_bin ${target}_tests)
@@ -78,6 +80,18 @@ macro(addTestTarget target)
         target_include_directories(${test_bin}_thread ${T_INCLUDES})
         target_include_directories(${test_bin}_leak ${T_INCLUDES})
         target_include_directories(${test_bin}_ub ${T_INCLUDES})
+    endif()
+
+    #definitions
+    if(T_DEFINITIONS)
+        target_compile_definitions(${test_bin}_base ${T_DEFINITIONS})
+
+        if(ENABLE_SANITIZERS_FOR_TESTS)
+            target_compile_definitions(${test_bin}_addr ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_thread ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_leak ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_ub ${T_DEFINITIONS})
+        endif()
     endif()
 
     #enable code coverage
