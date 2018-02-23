@@ -20,8 +20,9 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-#include <vector>
 #include <functional>
+#include <memory>
+#include <vector>
 
 #include <QRect>
 #include <QModelIndex>
