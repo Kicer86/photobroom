@@ -108,10 +108,6 @@ set(CORE_HEADERS
     implementation/exiv2_exif_reader.hpp
     implementation/image_information.hpp
     implementation/log_file_rotator.hpp
-    implementation/tree_iterator_base.hpp
-    implementation/tree_level_iterator.hpp
-    implementation/tree_private.hpp
-    implementation/tree_flat_iterator.hpp
     implementation/video_information.hpp
 )
 
