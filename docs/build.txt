@@ -52,3 +52,13 @@ Extra targets available for Windows:
           Other libraries will be also included.
 'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.
+
+
+Face recognition
+Required tools:
+- face recognition Python module*
+- face recognition models Python module*
+- dlib*
+- Pillow Python module
+
+All marked dependencies are git submodules in 'external' directory and are built during PhotoBroom buld process.
