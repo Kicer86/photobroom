@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 17)
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake OR
    NOT EXISTS ${PROJECT_SOURCE_DIR}/external/dlib)
-    message(FATAL_ERROR "Git submodules were not updated. Use: git submodules update --init")
+    message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
 endif()
 
 #options for CPack
