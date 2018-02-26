@@ -7,3 +7,6 @@
 [submodule "external/dlib"]
 	path = external/dlib
 	url = https://github.com/davisking/dlib.git
+[submodule "external/face_recognition_models"]
+	path = external/face_recognition_models
+	url = https://github.com/ageitgey/face_recognition_models
