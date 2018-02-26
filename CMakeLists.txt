@@ -11,6 +11,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 
+#check if git modules are setup
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake OR
+   NOT EXISTS ${PROJECT_SOURCE_DIR}/external/dlib)
+    message(FATAL_ERROR "Git submodules were not updated. Use: git submodules update --init")
+endif()
+
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Photo Broom - tool for managing your photos")
