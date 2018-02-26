@@ -4,3 +4,6 @@
 [submodule "external/face_recognition"]
 	path = external/face_recognition
 	url = https://github.com/ageitgey/face_recognition.git
+[submodule "external/dlib"]
+	path = external/dlib
+	url = https://github.com/davisking/dlib.git
