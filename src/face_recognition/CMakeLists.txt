@@ -6,3 +6,10 @@ ExternalProject_Add(dlib
     BINARY_DIR ${PROJECT_BINARY_DIR}/dlib
     INSTALL_COMMAND ""
 )
+
+find_package(PythonLibs 3.0 REQUIRED)
+
+add_library(face_recognition
+    face_recognition.cpp
+    face_recognition.hpp
+)
