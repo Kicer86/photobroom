@@ -13,3 +13,6 @@ add_library(face_recognition
     face_recognition.cpp
     face_recognition.hpp
 )
+
+target_include_directories(face_recognition PRIVATE ${PYTHON_INCLUDE_DIRS})
+target_link_libraries(face_recognition PRIVATE ${PYTHON_LIBRARIES})
