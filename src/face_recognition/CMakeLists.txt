@@ -8,11 +8,24 @@ ExternalProject_Add(dlib
 )
 
 find_package(PythonLibs 3.0 REQUIRED)
+find_package(Qt5Core REQUIRED)
 
 add_library(face_recognition
     face_recognition.cpp
     face_recognition.hpp
 )
 
-target_include_directories(face_recognition PRIVATE ${PYTHON_INCLUDE_DIRS})
-target_link_libraries(face_recognition PRIVATE ${PYTHON_LIBRARIES})
+target_include_directories(face_recognition
+                                PUBLIC
+                                    ${Qt5Core_INCLUDE_DIRS}
+                                PRIVATE
+                                    ${PYTHON_INCLUDE_DIRS}
+)
+
+target_link_libraries(face_recognition
+                            PUBLIC
+                                Qt5::Core
+                            PRIVATE
+                                ${PYTHON_LIBRARIES}
+)
+
