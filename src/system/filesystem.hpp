@@ -29,6 +29,7 @@ struct SYSTEM_EXPORT FileSystem
         QString getPluginsPath() const;
         QString getTranslationsPath() const;
         QString getLibrariesPath() const;
+        QString getScriptsPath() const;
 
         QString commonPath(const QString &, const QString &) const;
 
