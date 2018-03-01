@@ -160,6 +160,8 @@ endif()
 
 #installation steps
 install(FILES ${SVG_ICONS} DESTINATION ${PATH_ICONS}/svg)
+install(DIRECTORY external/face_recognition/face_recognition DESTINATION ${PATH_SCRIPTS})
+install(DIRECTORY external/face_recognition_models/face_recognition_models DESTINATION ${PATH_SCRIPTS})
 
 #package
 include(CPack)
