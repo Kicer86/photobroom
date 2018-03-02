@@ -19,6 +19,10 @@
 #ifndef FACERECOGNITION_HPP
 #define FACERECOGNITION_HPP
 
+#include <vector>
+
+class QString;
+class QRect;
 
 class FaceRecognition final
 {
@@ -30,7 +34,10 @@ class FaceRecognition final
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
+        std::vector<QRect> findFaces(const QString &) const;
 
+    private:
+        void updateSearchPath() const;
 };
 
 #endif // FACERECOGNITION_HPP
