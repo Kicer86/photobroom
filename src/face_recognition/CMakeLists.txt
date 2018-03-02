@@ -1,12 +1,4 @@
 
-include(ExternalProject)
-
-ExternalProject_Add(dlib
-    SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/dlib/tools/python
-    BINARY_DIR ${PROJECT_BINARY_DIR}/dlib
-    INSTALL_COMMAND ""
-)
-
 find_package(PythonLibs 3.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
 
@@ -19,6 +11,7 @@ target_include_directories(face_recognition
                                 PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
                                 PRIVATE
+                                    ${CMAKE_SOURCE_DIR}/src
                                     ${PYTHON_INCLUDE_DIRS}
 )
 
@@ -26,6 +19,17 @@ target_link_libraries(face_recognition
                             PUBLIC
                                 Qt5::Core
                             PRIVATE
+                                system
                                 ${PYTHON_LIBRARIES}
 )
 
+if(BUILD_SHARED_LIBS)
+    install(TARGETS face_recognition RUNTIME DESTINATION ${PATH_LIBS}
+                                     LIBRARY DESTINATION ${PATH_LIBS})
+endif()
+
+install(FILES
+            scripts/find_faces.py
+        DESTINATION
+            ${PATH_SCRIPTS}
+)

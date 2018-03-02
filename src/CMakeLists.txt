@@ -53,6 +53,7 @@ target_link_libraries(photo_broom
                         core
                         crash_catcher
                         database
+                        face_recognition
                         gui
                         project_utils
                         system
