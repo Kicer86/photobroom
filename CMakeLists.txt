@@ -112,6 +112,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
+add_subdirectory(external)
 add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
@@ -160,8 +161,6 @@ endif()
 
 #installation steps
 install(FILES ${SVG_ICONS} DESTINATION ${PATH_ICONS}/svg)
-install(DIRECTORY external/face_recognition/face_recognition DESTINATION ${PATH_SCRIPTS})
-install(DIRECTORY external/face_recognition_models/face_recognition_models DESTINATION ${PATH_SCRIPTS})
 
 #package
 include(CPack)
