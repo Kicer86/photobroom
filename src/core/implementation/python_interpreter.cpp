@@ -17,3 +17,15 @@
  */
 
 #include "python_interpreter.hpp"
+
+
+PythonInterpreter::PythonInterpreter()
+{
+
+}
+
+
+PythonInterpreter::~PythonInterpreter()
+{
+
+}

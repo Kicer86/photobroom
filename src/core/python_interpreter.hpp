@@ -22,9 +22,13 @@
 
 #include "ipython_interpreter.hpp"
 
+#include "core_export.h"
 
-class PythonInterpreter: public IPythonInterpreter
+class CORE_EXPORT PythonInterpreter final: public IPythonInterpreter
 {
+    public:
+        PythonInterpreter();
+        ~PythonInterpreter();
 };
 
 #endif // PYTHONINTERPRETER_HPP
