@@ -47,6 +47,7 @@ set(CORE_SOURCES
     implementation/logger_factory.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
+    implementation/python_interpreter.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
@@ -97,6 +98,7 @@ set(CORE_HEADERS
     media_information.hpp
     media_types.hpp
     ptr_iterator.hpp
+    python_interpreter.hpp
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp
