@@ -42,12 +42,13 @@ set(CORE_SOURCES
     implementation/filter_engine.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
+    implementation/ipython_thread.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
-    implementation/python_interpreter.cpp
+    implementation/python_thread.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
@@ -98,7 +99,7 @@ set(CORE_HEADERS
     media_information.hpp
     media_types.hpp
     ptr_iterator.hpp
-    python_interpreter.hpp
+    python_thread.hpp
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp

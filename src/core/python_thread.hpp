@@ -1,5 +1,5 @@
 /*
- * Wrapper for Python interpreter.
+ * Utils responsible for managing Python's thread.
  * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,19 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PYTHONINTERPRETER_HPP
-#define PYTHONINTERPRETER_HPP
+#ifndef PYTHON_THREAD_HPP
+#define PYTHON_THREAD_HPP
 
 
-#include "ipython_interpreter.hpp"
+#include "ipython_thread.hpp"
 
 #include "core_export.h"
 
-class CORE_EXPORT PythonInterpreter final: public IPythonInterpreter
+class CORE_EXPORT PythonThread final: public IPythonThread
 {
     public:
-        PythonInterpreter();
-        ~PythonInterpreter();
+        PythonThread();
+        ~PythonThread();
 };
 
-#endif // PYTHONINTERPRETER_HPP
+#endif // PYTHON_THREAD_HPP
