@@ -3,20 +3,26 @@
 
 #include <QDialog>
 
+struct ICoreFactoryAccessor;
+struct IPythonThread;
+
 namespace Ui {
     class FacesDialog;
 }
 
-class FacesDialog : public QDialog
+class FacesDialog: public QDialog
 {
         Q_OBJECT
 
     public:
-        explicit FacesDialog(QWidget *parent = 0);
+        explicit FacesDialog(ICoreFactoryAccessor *, QWidget *parent = 0);
         ~FacesDialog();
+
+        void load(const QString& photo);
 
     private:
         Ui::FacesDialog *ui;
+        IPythonThread* m_pythonThread;
 };
 
 #endif // FACES_DIALOG_HPP

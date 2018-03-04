@@ -41,6 +41,7 @@
 #include "utils/photos_collector.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
+#include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 
 
@@ -81,6 +82,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWind
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
     m_executor(coreFactory->getTaskExecutor()),
+    m_coreAccessor(coreFactory),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
@@ -545,7 +547,13 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     }
     else if (chosenAction == faces)
     {
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
 
+        FacesDialog faces_dialog(m_coreAccessor);
+        faces_dialog.load(absolute_path);
+        faces_dialog.exec();
     }
 }
 

@@ -62,6 +62,7 @@ class MainWindow: public QMainWindow
         ILoggerFactory*           m_loggerFactory;
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
+        ICoreFactoryAccessor*     m_coreAccessor;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
