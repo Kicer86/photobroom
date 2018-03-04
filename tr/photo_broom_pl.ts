@@ -120,6 +120,19 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
+    <name>FacesDialog</name>
+    <message>
+        <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>Person</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IdxDataManager</name>
     <message>
         <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+914"/>
