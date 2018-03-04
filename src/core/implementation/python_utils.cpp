@@ -24,6 +24,8 @@ namespace py_utils
     // https://stackoverflow.com/a/43372878/1749713
     std::string dumpExc()
     {
+        std::string result;
+
         PyObject *ptype, *pvalue, *ptraceback;
 
         PyErr_Fetch(&ptype, &pvalue, &ptraceback);
@@ -47,6 +49,8 @@ namespace py_utils
                 std::string traceback_str = ObjectToString(pyth_val.get());
             }
         }
+
+        return result;
     }
 }
 
