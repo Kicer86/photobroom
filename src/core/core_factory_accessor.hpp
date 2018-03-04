@@ -23,40 +23,23 @@
 
 #include "icore_factory_accessor.hpp"
 
-/**
- * @todo write docs
- */
+
 class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
 {
-public:
-    /**
-     * Default constructor
-     */
-    CoreFactoryAccessor(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
+    public:
+        CoreFactoryAccessor(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
+        ~CoreFactoryAccessor();
 
-    /**
-     * Destructor
-     */
-    ~CoreFactoryAccessor();
+        ILoggerFactory* getLoggerFactory() override;
+        IExifReaderFactory* getExifReaderFactory() override;
+        IConfiguration* getConfiguration() override;
+        ITaskExecutor * getTaskExecutor() override;
 
-    /**
-     * @todo write docs
-     *
-     * @return TODO
-     */
-    ILoggerFactory* getLoggerFactory() override;
-
-    IExifReaderFactory* getExifReaderFactory() override;
-
-    IConfiguration* getConfiguration() override;
-
-    ITaskExecutor * getTaskExecutor() override;
-
-private:
-    ILoggerFactory* m_loggerFactory;
-    IExifReaderFactory* m_exifReaderFactory;
-    IConfiguration* m_configuration;
-    ITaskExecutor* m_taskExecutor;
+    private:
+        ILoggerFactory* m_loggerFactory;
+        IExifReaderFactory* m_exifReaderFactory;
+        IConfiguration* m_configuration;
+        ITaskExecutor* m_taskExecutor;
 };
 
 #endif // COREFACTORYACCESSOR_HPP
