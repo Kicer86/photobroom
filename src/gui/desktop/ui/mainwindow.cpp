@@ -498,9 +498,11 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
     QAction* location    = contextMenu.addAction(tr("Open photo location"));
+    QAction* faces       = contextMenu.addAction(tr("Recognize people"));
 
     groupPhotos->setEnabled(photos.size() > 1);
     location->setEnabled(photos.size() > 0);
+    faces->setEnabled(photos.size() > 0);
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
@@ -543,6 +545,10 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
             QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
         }
+    }
+    else if (chosenAction == faces)
+    {
+
     }
 }
 
