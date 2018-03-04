@@ -13,6 +13,9 @@ namespace py_utils
     {
         void operator()(PyObject* obj) const;
     };
+
+    std::string CORE_EXPORT ObjectToString(PyObject* obj);
+    std::string CORE_EXPORT dumpExc();
 }
 
 extern template class CORE_EXPORT std::unique_ptr<PyObject, py_utils::PyObjectDeleter>;
