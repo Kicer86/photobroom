@@ -33,17 +33,6 @@
 
 namespace
 {
-    struct A
-    {
-        A()
-        {
-            FaceRecognition f;
-            f.findFaces("/home/michal/projects/sources/broom/external/IMG_0091.JPG");
-        }
-    } a;
-
-
-
     QRect tupleToRect(PyObject* tuple)
     {
         QRect result;

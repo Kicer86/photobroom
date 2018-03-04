@@ -19,6 +19,9 @@
 #ifndef PYTHON_THREAD_HPP
 #define PYTHON_THREAD_HPP
 
+#include <thread>
+
+#include <OpenLibrary/putils/ts_queue.hpp>
 
 #include "ipython_thread.hpp"
 
@@ -29,6 +32,14 @@ class CORE_EXPORT PythonThread final: public IPythonThread
     public:
         PythonThread();
         ~PythonThread();
+
+        void execute(const std::function<void ()> &) override;
+
+    private:
+        ol::TS_Queue<std::function<void ()>> m_tasks;
+        std::thread m_pythonThread;
+
+        void thread();
 };
 
 #endif // PYTHON_THREAD_HPP
