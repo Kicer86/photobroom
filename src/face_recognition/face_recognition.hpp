@@ -19,25 +19,32 @@
 #ifndef FACERECOGNITION_HPP
 #define FACERECOGNITION_HPP
 
+#include <functional>
 #include <vector>
 
 class QString;
 class QRect;
 
+struct ICoreFactoryAccessor;
+struct IPythonThread;
+
 class FaceRecognition final
 {
     public:
-        FaceRecognition();
+        template <typename... Args>
+        using Callback = std::function<void(Args...)>;
+
+        FaceRecognition(ICoreFactoryAccessor *);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
-        std::vector<QRect> findFaces(const QString &) const;
+        void findFaces(const QString &, const Callback<const std::vector<QRect> &> &) const;
 
     private:
-        void updateSearchPath() const;
+        IPythonThread* m_pythonThread;
 };
 
 #endif // FACERECOGNITION_HPP
