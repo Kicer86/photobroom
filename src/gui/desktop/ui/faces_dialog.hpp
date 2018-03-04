@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include <face_recognition/face_recognition.hpp>
+
 struct ICoreFactoryAccessor;
 struct IPythonThread;
 
@@ -21,8 +23,14 @@ class FacesDialog: public QDialog
         void load(const QString& photo);
 
     private:
+        FaceRecognition m_faceRecognizer;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
+
+        void applyFacesLocations(const QVector<QRect> &);
+
+    signals:
+        void gotFacesLocations(const QVector<QRect> &);
 };
 
 #endif // FACES_DIALOG_HPP
