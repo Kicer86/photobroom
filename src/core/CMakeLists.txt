@@ -164,7 +164,6 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${EXIV2_INCLUDE_DIRS}
                                     ${JSONCPP_INCLUDE_DIRS}
                                 PRIVATE
-                                    ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src
 )
 
