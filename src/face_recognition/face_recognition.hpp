@@ -23,13 +23,15 @@
 
 #include <QVector>
 
+#include "face_recognition_export.h"
+
 class QString;
 class QRect;
 
 struct ICoreFactoryAccessor;
 struct IPythonThread;
 
-class FaceRecognition final
+class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
         template <typename... Args>

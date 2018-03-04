@@ -9,6 +9,7 @@ add_library(face_recognition
 target_include_directories(face_recognition
                                 PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
+                                    ${CMAKE_CURRENT_BINARY_DIR}
                                 PRIVATE
                                     ${CMAKE_SOURCE_DIR}/src
 )
@@ -20,6 +21,9 @@ target_link_libraries(face_recognition
                                 system
                                 core
 )
+
+generate_export_header(face_recognition)
+hideSymbols(face_recognition)
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS face_recognition RUNTIME DESTINATION ${PATH_LIBS}

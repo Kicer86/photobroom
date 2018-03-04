@@ -78,6 +78,9 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
     {
         int status = 0;
 
+        PyRun_SimpleString("import sys");
+        PyRun_SimpleString("print( sys.path )");
+
         PyObjPtr pName( PyUnicode_FromString("find_faces") );
         PyObjPtr pModule( PyImport_Import(pName.get()) );
         if (pModule.get() == nullptr)
