@@ -7,6 +7,7 @@ find_package(Threads REQUIRED)
 find_package(JsonCpp REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
+find_package(PythonLibs 3.0 REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -42,13 +43,13 @@ set(CORE_SOURCES
     implementation/filter_engine.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
-    implementation/ipython_thread.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/python_thread.cpp
+    implementation/python_utils.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
@@ -100,6 +101,7 @@ set(CORE_HEADERS
     media_types.hpp
     ptr_iterator.hpp
     python_thread.hpp
+    python_utils.hpp
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp
@@ -148,10 +150,12 @@ target_link_libraries(core
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                             ${JSONCPP_LIBRARIES}
+                            ${PYTHON_LIBRARIES}
 )
 
 target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
+                                    ${PYTHON_INCLUDE_DIRS}
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 SYSTEM PRIVATE

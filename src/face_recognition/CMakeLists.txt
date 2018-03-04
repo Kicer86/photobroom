@@ -1,5 +1,4 @@
 
-find_package(PythonLibs 3.0 REQUIRED)
 find_package(Qt5Core REQUIRED)
 
 add_library(face_recognition
@@ -12,7 +11,6 @@ target_include_directories(face_recognition
                                     ${Qt5Core_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_SOURCE_DIR}/src
-                                    ${PYTHON_INCLUDE_DIRS}
 )
 
 target_link_libraries(face_recognition
@@ -20,7 +18,7 @@ target_link_libraries(face_recognition
                                 Qt5::Core
                             PRIVATE
                                 system
-                                ${PYTHON_LIBRARIES}
+                                core
 )
 
 if(BUILD_SHARED_LIBS)

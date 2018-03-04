@@ -27,6 +27,7 @@
 #include <QString>
 #include <QRect>
 
+#include <core/python_utils.hpp>
 #include <system/filesystem.hpp>
 
 
@@ -41,15 +42,7 @@ namespace
         }
     } a;
 
-    struct ObjectDeleter
-    {
-        void operator()(PyObject* obj) const
-        {
-            Py_DECREF(obj);
-        }
-    };
 
-    typedef std::unique_ptr<PyObject, ObjectDeleter> PyObjPtr;
 
     QRect tupleToRect(PyObject* tuple)
     {
