@@ -535,16 +535,13 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     }
     else if (chosenAction == location)
     {
-        if (photos.empty() == false)
-        {
-            const Photo::Data& first = photos.front();
-            const QString relative_path = first.path;
-            const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
-            const QFileInfo photoFileInfo(absolute_path);
-            const QString file_dir = photoFileInfo.path();
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+        const QFileInfo photoFileInfo(absolute_path);
+        const QString file_dir = photoFileInfo.path();
 
-            QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
-        }
+        QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
     }
     else if (chosenAction == faces)
     {
