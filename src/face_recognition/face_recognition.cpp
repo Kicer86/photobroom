@@ -72,7 +72,7 @@ FaceRecognition::~FaceRecognition()
 }
 
 
-void FaceRecognition::findFaces(const QString& photo, const Callback<const std::vector<QRect> &>& callback) const
+void FaceRecognition::findFaces(const QString& photo, const Callback<const QVector<QRect> &>& callback) const
 {
     m_pythonThread->execute([photo, callback]()
     {
@@ -104,7 +104,7 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const std::
             return;
         }
 
-        std::vector<QRect> result;
+        QVector<QRect> result;
 
         const std::size_t facesCount = PyList_Size(pResult.get());
         for(std::size_t i = 0; i < facesCount; i++)

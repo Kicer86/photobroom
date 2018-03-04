@@ -20,7 +20,8 @@
 #define FACERECOGNITION_HPP
 
 #include <functional>
-#include <vector>
+
+#include <QVector>
 
 class QString;
 class QRect;
@@ -41,7 +42,7 @@ class FaceRecognition final
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
-        void findFaces(const QString &, const Callback<const std::vector<QRect> &> &) const;
+        void findFaces(const QString &, const Callback<const QVector<QRect> &> &) const;
 
     private:
         IPythonThread* m_pythonThread;
