@@ -117,7 +117,8 @@ int main(int argc, char **argv)
     CoreFactoryAccessor coreFactory(&logger_factory,
                                     &exifReaderFactory,
                                     &configuration,
-                                    &taskExecutor
+                                    &taskExecutor,
+                                    &pythonThread
     );
 
     // start gui

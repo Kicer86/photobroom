@@ -27,19 +27,26 @@
 class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
 {
     public:
-        CoreFactoryAccessor(ILoggerFactory *, IExifReaderFactory *, IConfiguration *, ITaskExecutor *);
+        CoreFactoryAccessor(ILoggerFactory *,
+                            IExifReaderFactory *,
+                            IConfiguration *,
+                            ITaskExecutor *,
+                            IPythonThread *
+                           );
         ~CoreFactoryAccessor();
 
         ILoggerFactory* getLoggerFactory() override;
         IExifReaderFactory* getExifReaderFactory() override;
         IConfiguration* getConfiguration() override;
         ITaskExecutor * getTaskExecutor() override;
+        IPythonThread * getPythonThread() override;
 
     private:
         ILoggerFactory* m_loggerFactory;
         IExifReaderFactory* m_exifReaderFactory;
         IConfiguration* m_configuration;
         ITaskExecutor* m_taskExecutor;
+        IPythonThread* m_pythonThread;
 };
 
 #endif // COREFACTORYACCESSOR_HPP
