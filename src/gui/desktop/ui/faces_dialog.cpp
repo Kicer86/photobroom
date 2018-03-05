@@ -18,6 +18,7 @@ FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, QWidget *parent):
 {
     ui->setupUi(this);
 
+    qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
     connect(this, &FacesDialog::gotFacesLocations,
             this, &FacesDialog::applyFacesLocations);
 }
@@ -45,7 +46,10 @@ void FacesDialog::applyFacesLocations(const QVector<QRect>& locations)
     QImage image = pixmap->toImage();
     QPainter painter(&image);
 
-    painter.setPen(Qt::red);
+    QPen pen;
+    pen.setColor(Qt::red);
+    pen.setWidth(20);
+    painter.setPen(pen);
     painter.drawRects(locations);
 
     QPixmap new_pixmap = QPixmap::fromImage(image);

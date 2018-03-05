@@ -8,6 +8,7 @@ find_package(JsonCpp REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 find_package(PythonLibs 3.0 REQUIRED)
+find_package(pybind11 REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -150,7 +151,7 @@ target_link_libraries(core
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                             ${JSONCPP_LIBRARIES}
-                            ${PYTHON_LIBRARIES}
+                            pybind11::embed
 )
 
 target_include_directories(core SYSTEM PUBLIC

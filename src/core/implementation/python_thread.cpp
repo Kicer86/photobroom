@@ -18,6 +18,7 @@
 
 #include "python_thread.hpp"
 
+#include <pybind11/embed.h>
 
 #include <system/filesystem.hpp>
 
@@ -28,33 +29,31 @@ namespace
 {
     void init_python()
     {
-        Py_Initialize();
-
-        int status = 0;
-
-        // add path to scripts to Python's search path
-        // https://mail.python.org/pipermail/capi-sig/2013-May/000590.html
-
         const QString scripts_qstr = FileSystem().getScriptsPath();
         const std::string scripts_str = scripts_qstr.toStdString();
 
-        PyObjPtr scriptsPath( PyUnicode_FromString(scripts_str.c_str()) );
-        PyObjPtr pPathsList( PySys_GetObject("path") );
-        status = PyList_Append(pPathsList.get(), scriptsPath.get());
-        assert(status == 0);
-
-        status = PySys_SetObject("path", pPathsList.get());
-        assert(status == 0);
+        pybind11::module sys = pybind11::module::import("sys");
+        sys.attr("path").cast<pybind11::list>().append(scripts_str);
+        pybind11::print(sys.attr("path"));
     }
 
     void deinit_python()
     {
-        Py_Finalize();
+        // Nothing special to do
     }
 }
 
 
-PythonThread::PythonThread(): m_tasks(16), m_pythonThread(std::bind(&PythonThread::thread, this))
+struct PythonThread::Impl
+{
+    pybind11::scoped_interpreter m_py_interpreter;
+    ol::TS_Queue<std::function<void ()>> m_tasks;
+
+    Impl(): m_py_interpreter(), m_tasks(16) {}
+};
+
+
+PythonThread::PythonThread():m_impl(new Impl), m_pythonThread(std::bind(&PythonThread::thread, this))
 {
     execute(&init_python);
 }
@@ -63,14 +62,14 @@ PythonThread::PythonThread(): m_tasks(16), m_pythonThread(std::bind(&PythonThrea
 PythonThread::~PythonThread()
 {
     execute(&deinit_python);
-    m_tasks.stop();
+    m_impl->m_tasks.stop();
     m_pythonThread.join();
 }
 
 
 void PythonThread::execute(const std::function<void ()>& callback)
 {
-    m_tasks.push(callback);
+    m_impl->m_tasks.push(callback);
 }
 
 
@@ -78,7 +77,7 @@ void PythonThread::thread()
 {
     for(;;)
     {
-        auto task = m_tasks.pop();
+        auto task = m_impl->m_tasks.pop();
 
         if (task)
         {

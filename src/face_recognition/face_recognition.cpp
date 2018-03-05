@@ -22,10 +22,10 @@
 #include <memory>
 #include <string>
 
-#include <Python.h>
-
 #include <QString>
 #include <QRect>
+
+#include <pybind11/embed.h>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
@@ -35,20 +35,20 @@
 
 namespace
 {
-    QRect tupleToRect(PyObject* tuple)
+    QRect tupleToRect(const pybind11::tuple& tuple)
     {
         QRect result;
 
         std::vector<long> rect;
-        const std::size_t coordinates = PyTuple_Size(tuple);
+        const std::size_t coordinates = tuple.size();
 
         if (coordinates == 4)
         {
             for(std::size_t i = 0; i < coordinates; i++)
             {
-                PyObject* part = PyTuple_GetItem(tuple, i);
+                auto part = tuple[i];
 
-                const long n = PyLong_AsLong(part);
+                const long n = part.cast<long>();
                 rect.push_back(n);
             }
 
@@ -78,43 +78,18 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
     {
         int status = 0;
 
-        PyRun_SimpleString("import sys");
-        PyRun_SimpleString("print( sys.path )");
+        pybind11::module find_faces = pybind11::module::import("find_faces");
+        pybind11::object locations = find_faces.attr("find_faces")(photo.toStdString());
 
-        PyObjPtr pName( PyUnicode_FromString("find_faces") );
-        PyObjPtr pModule( PyImport_Import(pName.get()) );
-        if (pModule.get() == nullptr)
-        {
-            py_utils::dumpExc();
-            callback({});
-            return;
-        }
-
-        PyObjPtr pDict( PyModule_GetDict(pModule.get()) );
-        PyObjPtr pFunc( PyDict_GetItemString(pDict.get(), "find_faces") );
-        PyObjPtr pArgs( PyTuple_New(1) );
-        PyObjPtr pPath( PyUnicode_FromString(photo.toStdString().c_str()) );
-
-        status = PyTuple_SetItem(pArgs.get(), 0, pPath.get());
-
-        PyObjPtr pResult( PyObject_CallObject(pFunc.get(), pArgs.get()) );
-
-        // Print a message if calling the method failed.
-        if (pResult == nullptr)
-        {
-            py_utils::dumpExc();
-            callback({});
-            return;
-        }
-
+        auto locations_list = locations.cast<pybind11::list>();
         QVector<QRect> result;
 
-        const std::size_t facesCount = PyList_Size(pResult.get());
+        const std::size_t facesCount = locations_list.size();
         for(std::size_t i = 0; i < facesCount; i++)
         {
-            PyObjPtr item( PyList_GetItem(pResult.get(), i) );
+            auto item = locations_list[i];
 
-            const QRect rect = tupleToRect(item.get());
+            const QRect rect = tupleToRect(item.cast<pybind11::tuple>());
 
             if (rect.isValid())
                 result.push_back(rect);

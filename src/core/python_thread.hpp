@@ -36,7 +36,9 @@ class CORE_EXPORT PythonThread final: public IPythonThread
         void execute(const std::function<void ()> &) override;
 
     private:
-        ol::TS_Queue<std::function<void ()>> m_tasks;
+        struct Impl;
+
+        std::unique_ptr<Impl> m_impl;
         std::thread m_pythonThread;
 
         void thread();
