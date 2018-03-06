@@ -74,13 +74,28 @@ void FacesDialog::updateImage()
         scaledFaces.append(scaledFace);
     }
 
-    QPainter painter(&image);
+    if (scaledFaces.isEmpty() == false)
+    {
+        QPainter painter(&image);
 
-    QPen pen;
-    pen.setColor(Qt::red);
-    pen.setWidth(2);
-    painter.setPen(pen);
-    painter.drawRects(scaledFaces);
+        QPen pen;
+        pen.setColor(Qt::red);
+        pen.setWidth(2);
+        painter.setPen(pen);
+        painter.drawRects(scaledFaces);
+
+        pen.setWidth(1);
+        painter.setBackground( Qt::white );
+        painter.setBackgroundMode( Qt::OpaqueMode );
+        painter.setPen(pen);
+
+        for(int i = 0; i < scaledFaces.size(); i++)
+        {
+            const QRect& face = scaledFaces[i];
+            const QPoint tl = face.topLeft();
+            painter.drawText(tl, QString::number(i + 1));
+        }
+    }
 
     QPixmap new_pixmap = QPixmap::fromImage(image);
     ui->imageView->setPixmap(new_pixmap);
