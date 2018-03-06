@@ -22,8 +22,6 @@
 
 #include <system/filesystem.hpp>
 
-#include "python_utils.hpp"
-
 
 namespace
 {

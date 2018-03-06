@@ -50,7 +50,6 @@ set(CORE_SOURCES
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/python_thread.cpp
-    implementation/python_utils.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
@@ -102,7 +101,6 @@ set(CORE_HEADERS
     media_types.hpp
     ptr_iterator.hpp
     python_thread.hpp
-    python_utils.hpp
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp

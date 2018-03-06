@@ -29,7 +29,6 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
-#include <core/python_utils.hpp>
 #include <system/filesystem.hpp>
 
 
