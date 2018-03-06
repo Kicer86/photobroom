@@ -27,7 +27,7 @@
           <x>0</x>
           <y>0</y>
           <width>520</width>
-          <height>512</height>
+          <height>478</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -60,7 +60,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1,2">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -98,6 +98,16 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="statusLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
