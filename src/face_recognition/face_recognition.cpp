@@ -32,9 +32,11 @@
 #include <system/filesystem.hpp>
 
 
+namespace py = pybind11;
+
 namespace
 {
-    QRect tupleToRect(const pybind11::tuple& tuple)
+    QRect tupleToRect(const py::tuple& tuple)
     {
         QRect result;
 
@@ -84,10 +86,10 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
     {
         int status = 0;
 
-        pybind11::module find_faces = pybind11::module::import("find_faces");
-        pybind11::object locations = find_faces.attr("find_faces")(photo.toStdString());
+        py::module find_faces = py::module::import("find_faces");
+        py::object locations = find_faces.attr("find_faces")(photo.toStdString());
 
-        auto locations_list = locations.cast<pybind11::list>();
+        auto locations_list = locations.cast<py::list>();
         QVector<QRect> result;
 
         const std::size_t facesCount = locations_list.size();
@@ -95,7 +97,7 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
         {
             auto item = locations_list[i];
 
-            const QRect rect = tupleToRect(item.cast<pybind11::tuple>());
+            const QRect rect = tupleToRect(item.cast<py::tuple>());
 
             if (rect.isValid())
                 result.push_back(rect);
