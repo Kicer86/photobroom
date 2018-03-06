@@ -450,7 +450,7 @@ std::vector<QModelIndex> Data::findInRect(const QRect& rect, const QModelIndex& 
 
             const int children = item.model()->rowCount(item);
 
-            if (children > 0)
+            if (children > 0 && isExpanded(item))
             {
                 const std::vector<QModelIndex> item_results = findInRect(rect, utils::step_in_next(item));
 
