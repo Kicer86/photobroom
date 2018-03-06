@@ -52,7 +52,14 @@ namespace
                 rect.push_back(n);
             }
 
-            result = QRect(rect[0], rect[1], rect[2], rect[3]);
+            const int top = rect[0];
+            const int right = rect[1];
+            const int bottom = rect[2];
+            const int left = rect[3];
+            const int width = right - left;
+            const int height = bottom - top;
+
+            result = QRect(left, top, width, height);
         }
 
         return result;
