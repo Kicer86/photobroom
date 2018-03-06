@@ -51,6 +51,7 @@ void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
     ui->statusLabel->setText(status);
     m_faces = faces;
     updateImage();
+    updatePeopleList();
 }
 
 
@@ -83,4 +84,14 @@ void FacesDialog::updateImage()
 
     QPixmap new_pixmap = QPixmap::fromImage(image);
     ui->imageView->setPixmap(new_pixmap);
+}
+
+
+void FacesDialog::updatePeopleList()
+{
+    const int rowCount = ui->peopleList->rowCount();
+    const int peopleCount = m_faces.size();
+
+    if (rowCount < peopleCount)
+        ui->peopleList->setRowCount(peopleCount);
 }

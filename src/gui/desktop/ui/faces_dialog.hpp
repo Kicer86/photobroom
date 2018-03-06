@@ -31,6 +31,7 @@ class FacesDialog: public QDialog
 
         void applyFacesLocations(const QVector<QRect> &);
         void updateImage();
+        void updatePeopleList();
 
     signals:
         void gotFacesLocations(const QVector<QRect> &);
