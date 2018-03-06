@@ -136,6 +136,16 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Scale:</source>
         <translation type="unfinished">Skala:</translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+42"/>
+        <source>Locating faces...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Found %1 face(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IdxDataManager</name>

@@ -39,6 +39,7 @@ void FacesDialog::load(const QString& photo)
 {
     m_photoPath = photo;
 
+    ui->statusLabel->setText(tr("Locating faces..."));
     m_faceRecognizer.findFaces(photo, std::bind(&FacesDialog::gotFacesLocations, this, _1));
     updateImage();
 }
@@ -46,6 +47,8 @@ void FacesDialog::load(const QString& photo)
 
 void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
 {
+    const QString status = tr("Found %1 face(s)").arg(faces.size());
+    ui->statusLabel->setText(status);
     m_faces = faces;
     updateImage();
 }
