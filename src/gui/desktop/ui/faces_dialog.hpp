@@ -23,11 +23,14 @@ class FacesDialog: public QDialog
         void load(const QString& photo);
 
     private:
+        QVector<QRect> m_faces;
         FaceRecognition m_faceRecognizer;
+        QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
 
         void applyFacesLocations(const QVector<QRect> &);
+        void updateImage();
 
     signals:
         void gotFacesLocations(const QVector<QRect> &);

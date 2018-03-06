@@ -131,6 +131,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Person</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+15"/>
+        <source>Scale:</source>
+        <translation type="unfinished">Skala:</translation>
+    </message>
 </context>
 <context>
     <name>IdxDataManager</name>
