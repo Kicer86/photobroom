@@ -1,5 +1,6 @@
 
 find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 
 add_library(face_recognition
     face_recognition.cpp
@@ -9,6 +10,7 @@ add_library(face_recognition
 target_include_directories(face_recognition
                                 PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
+                                    ${Qt5Gui_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 PRIVATE
                                     ${CMAKE_SOURCE_DIR}/src
@@ -17,6 +19,7 @@ target_include_directories(face_recognition
 target_link_libraries(face_recognition
                             PUBLIC
                                 Qt5::Core
+                                Qt5::Gui
                             PRIVATE
                                 system
                                 core
