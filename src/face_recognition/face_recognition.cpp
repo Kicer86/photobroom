@@ -22,10 +22,13 @@
 #include <memory>
 #include <string>
 
+#include <pybind11/embed.h>
+
+#include <QByteArray>
+#include <QImage>
 #include <QString>
 #include <QRect>
 
-#include <pybind11/embed.h>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
@@ -106,4 +109,18 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
 
         callback(result);
     });
+}
+
+
+void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QRect, QString> >& people) const
+{
+    const QImage image(photo);
+
+    for (const auto& person: people)
+    {
+        const QImage face = image.copy(person.first);
+        const QByteArray face_encoded = QByteArray(person.second.toUtf8()).toBase64();
+        const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString(face_encoded));
+        face.save(path);
+    }
 }

@@ -45,6 +45,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
         void findFaces(const QString &, const Callback<const QVector<QRect> &> &) const;
+        void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:
         IPythonThread* m_pythonThread;
