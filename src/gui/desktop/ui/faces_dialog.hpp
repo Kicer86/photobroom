@@ -23,6 +23,8 @@ class FacesDialog: public QDialog
 
         void load(const QString& photo);
 
+        std::vector<std::pair<QRect, QString>> people() const;
+
     private:
         QVector<QRect> m_faces;
         FaceRecognition m_faceRecognizer;

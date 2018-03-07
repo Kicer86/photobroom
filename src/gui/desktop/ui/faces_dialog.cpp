@@ -1,6 +1,8 @@
 
 #include "faces_dialog.hpp"
 
+#include <cassert>
+
 #include <QPainter>
 
 #include <core/icore_factory_accessor.hpp>
@@ -43,6 +45,29 @@ void FacesDialog::load(const QString& photo)
     ui->statusLabel->setText(tr("Locating faces..."));
     m_faceRecognizer.findFaces(photo, std::bind(&FacesDialog::gotFacesLocations, this, _1));
     updateImage();
+}
+
+
+std::vector<std::pair<QRect, QString>> FacesDialog::people() const
+{
+    std::vector<std::pair<QRect, QString>> result;
+
+    const int count = ui->peopleList->rowCount();
+    assert(count == m_faces.size());
+
+    for(int i = 0; i < count; i++)
+    {
+        auto person = ui->peopleList->item(i, 0);
+        const QString name = person->text();
+
+        if (name.isEmpty() == false)
+        {
+            auto face_data = std::make_pair(m_faces[i], name);
+            result.push_back(face_data);
+        }
+    }
+
+    return result;
 }
 
 
