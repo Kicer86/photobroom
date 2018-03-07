@@ -7,16 +7,15 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
-#include <project_utils/project.hpp>
 
 #include "ui_faces_dialog.h"
 
 using namespace std::placeholders;
 
-FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, const ProjectInfo& prjInfo, QWidget *parent):
+FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor,  const FaceRecognition& face_recognizer, QWidget *parent):
     QDialog(parent),
     m_faces(),
-    m_faceRecognizer(coreAccessor, prjInfo.getInternalLocation(ProjectInfo::FaceRecognition)),
+    m_faceRecognizer(face_recognizer),
     m_photoPath(),
     ui(new Ui::FacesDialog),
     m_pythonThread(coreAccessor->getPythonThread())
@@ -58,12 +57,16 @@ std::vector<std::pair<QRect, QString>> FacesDialog::people() const
     for(int i = 0; i < count; i++)
     {
         auto person = ui->peopleList->item(i, 0);
-        const QString name = person->text();
 
-        if (name.isEmpty() == false)
+        if (person != nullptr)
         {
-            auto face_data = std::make_pair(m_faces[i], name);
-            result.push_back(face_data);
+            const QString name = person->text();
+
+            if (name.isEmpty() == false)
+            {
+                auto face_data = std::make_pair(m_faces[i], name);
+                result.push_back(face_data);
+            }
         }
     }
 

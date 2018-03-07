@@ -5,7 +5,6 @@
 
 #include <face_recognition/face_recognition.hpp>
 
-class ProjectInfo;
 struct ICoreFactoryAccessor;
 struct IPythonThread;
 
@@ -18,7 +17,7 @@ class FacesDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit FacesDialog(ICoreFactoryAccessor *, const ProjectInfo &, QWidget *parent = 0);
+        explicit FacesDialog(ICoreFactoryAccessor *, const FaceRecognition &, QWidget *parent = 0);
         ~FacesDialog();
 
         void load(const QString& photo);
@@ -27,7 +26,7 @@ class FacesDialog: public QDialog
 
     private:
         QVector<QRect> m_faces;
-        FaceRecognition m_faceRecognizer;
+        const FaceRecognition& m_faceRecognizer;
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
