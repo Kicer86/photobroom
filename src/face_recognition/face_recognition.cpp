@@ -67,8 +67,9 @@ namespace
     }
 }
 
-FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_pythonThread(coreAccessor->getPythonThread())
+FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, const QString& storage):
+    m_pythonThread(coreAccessor->getPythonThread()),
+    m_storage(storage)
 {
 
 }

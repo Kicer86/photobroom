@@ -77,8 +77,9 @@ QString ProjectInfo::getInternalLocation(InternalData dataType) const
 
     switch(dataType)
     {
-        case Database:          subdir = "db";         break;
-        case PrivateMultimedia: subdir = "multimedia"; break;
+        case Database:          subdir = "db";          break;
+        case PrivateMultimedia: subdir = "multimedia";  break;
+        case FaceRecognition:   subdir = "known_faces"; break;
     }
 
     const QString result = QString("%1/%2").arg(internalLocation).arg(subdir);

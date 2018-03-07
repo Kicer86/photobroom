@@ -5,15 +5,16 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
+#include <project_utils/project.hpp>
 
 #include "ui_faces_dialog.h"
 
 using namespace std::placeholders;
 
-FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, QWidget *parent):
+FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, const ProjectInfo& prjInfo, QWidget *parent):
     QDialog(parent),
     m_faces(),
-    m_faceRecognizer(coreAccessor),
+    m_faceRecognizer(coreAccessor, prjInfo.getInternalLocation(ProjectInfo::FaceRecognition)),
     m_photoPath(),
     ui(new Ui::FacesDialog),
     m_pythonThread(coreAccessor->getPythonThread())

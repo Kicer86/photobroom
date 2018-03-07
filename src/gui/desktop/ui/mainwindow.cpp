@@ -551,7 +551,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         const QString relative_path = first.path;
         const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
 
-        FacesDialog faces_dialog(m_coreAccessor);
+        FacesDialog faces_dialog(m_coreAccessor, m_currentPrj->getProjectInfo());
         faces_dialog.load(absolute_path);
         faces_dialog.exec();
     }

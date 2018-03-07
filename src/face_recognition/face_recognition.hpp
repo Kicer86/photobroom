@@ -37,7 +37,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
 
-        FaceRecognition(ICoreFactoryAccessor *);
+        FaceRecognition(ICoreFactoryAccessor *, const QString& storage);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
@@ -48,6 +48,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
     private:
         IPythonThread* m_pythonThread;
+        const QString m_storage;
 };
 
 #endif // FACERECOGNITION_HPP

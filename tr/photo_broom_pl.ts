@@ -137,7 +137,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished">Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+42"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+43"/>
         <source>Locating faces...</source>
         <translation type="unfinished"></translation>
     </message>
