@@ -19,6 +19,7 @@
 
 #include "project.hpp"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QString>
 
@@ -96,7 +97,9 @@ Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& p
     m_database(std::move(db)),
     m_lock(prjInfo.getPath() + ".lock")
 {
-
+    // create internal directories
+    QDir().mkpath(m_prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia));
+    QDir().mkpath(m_prjInfo.getInternalLocation(ProjectInfo::FaceRecognition));
 }
 
 
