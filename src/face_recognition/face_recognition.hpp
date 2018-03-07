@@ -45,6 +45,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
         void findFaces(const QString &, const Callback<const QVector<QRect> &> &) const;
+        void nameFor(const QString &, const QRect &, const Callback<const QString &> &) const;
+
         void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:

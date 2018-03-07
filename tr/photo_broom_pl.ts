@@ -137,13 +137,23 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished">Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+44"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+48"/>
         <source>Locating faces...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+35"/>
-        <source>Found %1 face(s)</source>
+        <source>Found %1 face(s).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Found %1 face(s). Recognizing people...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>All known faces recognized.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

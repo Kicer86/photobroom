@@ -18,13 +18,17 @@ FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor,  const FaceRecognit
     m_faceRecognizer(face_recognizer),
     m_photoPath(),
     ui(new Ui::FacesDialog),
-    m_pythonThread(coreAccessor->getPythonThread())
+    m_pythonThread(coreAccessor->getPythonThread()),
+    m_facesToAnalyze(0)
 {
     ui->setupUi(this);
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
     connect(this, &FacesDialog::gotFacesLocations,
             this, &FacesDialog::applyFacesLocations);
+
+    connect(this, &FacesDialog::gotFaceName,
+            this, &FacesDialog::applyFaceName);
 
     connect(ui->scaleSlider, &QSlider::valueChanged,
             this, &FacesDialog::updateImage);
@@ -76,11 +80,39 @@ std::vector<std::pair<QRect, QString>> FacesDialog::people() const
 
 void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
 {
-    const QString status = tr("Found %1 face(s)").arg(faces.size());
+    const QString status = faces.isEmpty()? tr("Found %1 face(s).").arg(faces.size()) :
+                                            tr("Found %1 face(s). Recognizing people...").arg(faces.size());
+
     ui->statusLabel->setText(status);
+
     m_faces = faces;
     updateImage();
     updatePeopleList();
+
+    m_facesToAnalyze = faces.size();
+
+    for(const QRect& face: faces)
+        m_faceRecognizer.nameFor(m_photoPath, face, [this, face](const QString& name)
+        {
+            emit gotFaceName(face, name);
+        });
+}
+
+
+void FacesDialog::applyFaceName(const QRect& face, const QString& name)
+{
+    auto it = std::find(m_faces.cbegin(), m_faces.cend(), face);
+
+    if (it != m_faces.cend())
+    {
+        const std::size_t idx = std::distance(m_faces.cbegin(), it);
+        ui->peopleList->setItem(idx, 0, new QTableWidgetItem(name));
+    }
+
+    m_facesToAnalyze--;
+
+    if (m_facesToAnalyze == 0)
+        ui->statusLabel->setText(tr("All known faces recognized."));
 }
 
 

@@ -35,6 +35,7 @@ endif()
 
 install(FILES
             scripts/find_faces.py
+            scripts/recognize_face.py
         DESTINATION
             ${PATH_SCRIPTS}
 )

@@ -26,9 +26,10 @@
 
 #include <QByteArray>
 #include <QImage>
+#include <QFileInfo>
 #include <QString>
 #include <QRect>
-
+#include <QTemporaryFile>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
@@ -112,6 +113,30 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
 }
 
 
+void FaceRecognition::nameFor(const QString& path, const QRect& face, const Callback<const QString &>& callback) const
+{
+    m_pythonThread->execute([path, face, callback, this]()
+    {
+        QTemporaryFile tmpFile;
+
+        const QImage photo(path);
+        const QImage face_photo = photo.copy(face);
+        face_photo.save(&tmpFile, "JPEG");
+
+        py::module find_faces = py::module::import("recognize_face");
+        py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
+                                                              m_storage.toStdString());
+
+        const std::string result_str = result.cast<py::str>();
+        const QFileInfo fileInfo(result_str.c_str());
+        const QByteArray& file_name = fileInfo.baseName().toUtf8();
+        const QByteArray decoded = QByteArray::fromBase64(file_name);
+
+        callback(decoded.constData());
+    });
+}
+
+
 void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QRect, QString> >& people) const
 {
     const QImage image(photo);
@@ -119,7 +144,7 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
     for (const auto& person: people)
     {
         const QImage face = image.copy(person.first);
-        const QByteArray face_encoded = QByteArray(person.second.toUtf8()).toBase64();
+        const QByteArray face_encoded = person.second.toUtf8().toBase64();
         const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString(face_encoded));
         face.save(path);
     }

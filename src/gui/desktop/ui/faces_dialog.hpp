@@ -30,13 +30,16 @@ class FacesDialog: public QDialog
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
+        int m_facesToAnalyze;
 
         void applyFacesLocations(const QVector<QRect> &);
+        void applyFaceName(const QRect &, const QString &);
         void updateImage();
         void updatePeopleList();
 
     signals:
         void gotFacesLocations(const QVector<QRect> &);
+        void gotFaceName(const QRect &, const QString &);
 };
 
 #endif // FACES_DIALOG_HPP
