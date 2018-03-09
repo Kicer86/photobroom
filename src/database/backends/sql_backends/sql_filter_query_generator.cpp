@@ -413,11 +413,11 @@ namespace Database
     }
 
 
-    QString Database::SqlFilterQueryGenerator::generate(const QString& query) const
+    QString Database::SqlFilterQueryGenerator::generate(const QString& expression) const
     {
         QRegExp exp("([^ ]+) ([^ ]+) ?([^ ]+)? ?(.*)?");
 
-        const bool matched = exp.exactMatch(query);
+        const bool matched = exp.exactMatch(expression);
         assert(matched);
 
         const QStringList captured = exp.capturedTexts();
