@@ -19,6 +19,7 @@
 
 #include "sql_filter_query_generator.hpp"
 
+#include <QSet>
 #include <QStringList>
 #include <QRegExp>
 
@@ -415,7 +416,7 @@ namespace Database
 
     QString Database::SqlFilterQueryGenerator::generate(const QString& expression) const
     {
-        QRegExp exp("([^ ]+) ([^ ]+) ?([^ ]+)? ?(.*)?");
+        QRegExp exp("([^ ]+) ([^ ]+) ?([^ ]+)? ?(.*)?", Qt::CaseSensitive, QRegExp::RegExp2);
 
         const bool matched = exp.exactMatch(expression);
         assert(matched);
@@ -438,7 +439,48 @@ namespace Database
         const QString operand =   expression[3];
         const QString condition = expression[4];
 
+        QSet<QString> to_join;
+        QStringList where_conditions;
         QString result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+
+        if (operand == "with")
+        {
+            QStringList condition_list = condition.split(" ");
+            const QString filter = condition_list.takeFirst();
+
+            if (filter == "flag")
+            {
+                const QString name = condition_list.takeFirst();
+                const QString op = condition_list.takeFirst();
+                const QString value = condition_list.takeFirst();
+
+                to_join.insert(TAB_FLAGS);
+                where_conditions.append(QString("flags.%1 %2 '%3'").arg(name).arg(op).arg(value));
+            }
+        }
+        else if (operand.isEmpty() == false)
+            assert(!"unknown operand");
+
+        if (to_join.isEmpty() == false)
+        {
+            QStringList to_join_list;
+            std::copy(to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
+
+            result += " JOIN (" + to_join_list.join(", ") + ") ON (";
+
+            QStringList join_key;
+            for(const QString& tab: to_join)
+                join_key.append(tab + ".photo_id = photos.id");
+
+            result += join_key.join(" AND ");
+            result += ")";
+        }
+
+        if (where_conditions.isEmpty() == false)
+        {
+            result += " WHERE ";
+            result += where_conditions.join(" AND ");
+        }
 
         return result;
     }

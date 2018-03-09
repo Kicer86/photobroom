@@ -26,7 +26,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 
     filter->flags[Photo::FlagsE::ExifLoaded] = 1;
     QString query = generator.generate(filters);
+    QString sql_query = generator.generate("all photos with flag tags_loaded = 1");
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::Sha256Loaded] = 2;
