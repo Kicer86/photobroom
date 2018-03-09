@@ -208,6 +208,7 @@ namespace Database
             std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
+            QList<QVariant>        find(const QString &) const;
 
         private:
             bool storeData(const Photo::DataDelta &) const;
@@ -417,6 +418,12 @@ namespace Database
             result = query.next()? 1: 0;
 
         return result;
+    }
+
+
+    QList<QVariant> ASqlBackend::Data::find(const QString& query) const
+    {
+        return {};
     }
 
 
@@ -1321,6 +1328,12 @@ namespace Database
     int ASqlBackend::getPhotosCount(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->getPhotosCount(filter);
+    }
+
+
+    QList<QVariant> ASqlBackend::find(const QString& query)
+    {
+        return m_data->find(query);
     }
 
 
