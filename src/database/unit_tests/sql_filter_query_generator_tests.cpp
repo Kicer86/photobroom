@@ -9,8 +9,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 
     std::vector<Database::IFilter::Ptr> filters;
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos", query);
+    EXPECT_EQ(sql_query, query);
 }
 
 

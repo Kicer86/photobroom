@@ -20,6 +20,7 @@
 #include "sql_filter_query_generator.hpp"
 
 #include <QStringList>
+#include <QRegExp>
 
 #include "tables.hpp"
 
@@ -409,6 +410,37 @@ namespace Database
     QString SqlFilterQueryGenerator::generate(const std::vector<IFilter::Ptr>& filters) const
     {
         return Generator().parse(filters);
+    }
+
+
+    QString Database::SqlFilterQueryGenerator::generate(const QString& query) const
+    {
+        QRegExp exp("([^ ]+) ([^ ]+) ?([^ ]+)? ?(.*)?");
+
+        const bool matched = exp.exactMatch(query);
+        assert(matched);
+
+        const QStringList captured = exp.capturedTexts();
+        const QString item = captured[2];
+
+        if (item == "photos")
+            return forPhotos(captured);
+        else
+            assert(!"unknown item to fetch");
+
+        return QString();
+    }
+
+
+    QString Database::SqlFilterQueryGenerator::forPhotos(const QStringList& expression) const
+    {
+        const QString scope =     expression[1];
+        const QString operand =   expression[3];
+        const QString condition = expression[4];
+
+        QString result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+
+        return result;
     }
 
 }

@@ -38,7 +38,11 @@ namespace Database
 
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
-            QString generate(const std::vector<IFilter::Ptr> &) const;
+            [[deprecated]] QString generate(const std::vector<IFilter::Ptr> &) const;
+            QString generate(const QString& query) const;
+
+        private:
+            QString forPhotos(const QStringList &) const;
     };
 
 }
