@@ -33,17 +33,23 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter->flags.clear();
     filter->flags[Photo::FlagsE::Sha256Loaded] = 2;
     query = generator.generate(filters);
+    sql_query = generator.generate("all photos with flag sha256_loaded = 2");
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
+    EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::StagingArea] = 3;
     query = generator.generate(filters);
+    sql_query = generator.generate("all photos with flag staging_area = 3");
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
+    EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
     query = generator.generate(filters);
+    sql_query = generator.generate("all photos with flag thumbnail_loaded = 4");
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
+    EXPECT_EQ(sql_query, query);
 }
 
 
