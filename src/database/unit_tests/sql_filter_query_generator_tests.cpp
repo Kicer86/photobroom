@@ -64,11 +64,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     filters.push_back(filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with tag date = test_value");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags) "
               "ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '3' AND tags.value = 'test_value'", query);
+    EXPECT_EQ(sql_query, query);
 }
 
 
@@ -102,10 +104,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
     filter->sha256 = "1234567890";
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with sha = 1234567890");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
               "WHERE sha256sums.sha256 = '1234567890'", query);
+
+    EXPECT_EQ(sql_query, query);
 }
 
 

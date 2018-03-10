@@ -23,11 +23,17 @@
 #include <QStringList>
 #include <QRegExp>
 
+#include <core/base_tags.hpp>
+
 #include "tables.hpp"
 
 
 namespace Database
 {
+    const std::map<QString, int> name2number =
+    {
+        { "date", BaseTagsList::Date }
+    };
 
     struct FilterData
     {
@@ -457,6 +463,28 @@ namespace Database
                 to_join.insert(TAB_FLAGS);
                 where_conditions.append(QString("flags.%1 %2 '%3'").arg(name).arg(op).arg(value));
             }
+            else if (filter == "tag")
+            {
+                const QString name = condition_list.takeFirst();
+                const QString op = condition_list.takeFirst();
+                const QString value = condition_list.takeFirst();
+
+                auto it = name2number.find(name);
+                assert(it != name2number.end());
+
+                to_join.insert(TAB_TAGS);
+                where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+            }
+            else if (filter == "sha")
+            {
+                const QString op = condition_list.takeFirst();
+                const QString value = condition_list.takeFirst();
+
+                to_join.insert(TAB_SHA256SUMS);
+                where_conditions.append(QString("sha256sums.sha256 = '%1'").arg(value));
+            }
+            else
+                assert(!"unknown filter");
         }
         else if (operand.isEmpty() == false)
             assert(!"unknown operand");
