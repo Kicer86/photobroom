@@ -37,6 +37,7 @@ set(CORE_SOURCES
     implementation/exiv2_exif_reader.cpp
     implementation/ffmpeg_video_details_reader.cpp
     implementation/file_lock.cpp
+    implementation/filter_engine.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
     implementation/log_file_rotator.cpp
@@ -75,6 +76,7 @@ set(CORE_HEADERS
     disk_observer.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
+    filter_engine.hpp
     generic_concepts.hpp
     iconfiguration.hpp
     icore_factory_accessor.hpp
