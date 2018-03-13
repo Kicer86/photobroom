@@ -420,97 +420,67 @@ namespace Database
     }
 
 
-    QString Database::SqlFilterQueryGenerator::generate(const QString& expression) const
+    QString Database::SqlFilterQueryGenerator::generate(const QString& expression)
     {
-        QRegExp exp("([^ ]+) ([^ ]+) ?([^ ]+)? ?(.*)?", Qt::CaseSensitive, QRegExp::RegExp2);
+        m_result = QString();
+        m_to_join = QSet<QString>();
+        m_where_conditions = QStringList();
 
-        const bool matched = exp.exactMatch(expression);
-        assert(matched);
+        FilterEngine engine;
 
-        const QStringList captured = exp.capturedTexts();
-        const QString item = captured[2];
+        engine.parse(expression, this);
 
-        if (item == "photos")
-            return forPhotos(captured);
-        else
-            assert(!"unknown item to fetch");
-
-        return QString();
-    }
-
-
-    QString Database::SqlFilterQueryGenerator::forPhotos(const QStringList& expression) const
-    {
-        const QString scope =     expression[1];
-        const QString operand =   expression[3];
-        const QString condition = expression[4];
-
-        QSet<QString> to_join;
-        QStringList where_conditions;
-        QString result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-
-        if (operand == "with")
-        {
-            QStringList condition_list = condition.split(" ");
-            const QString filter = condition_list.takeFirst();
-
-            if (filter == "flag")
-            {
-                const QString name = condition_list.takeFirst();
-                const QString op = condition_list.takeFirst();
-                const QString value = condition_list.takeFirst();
-
-                to_join.insert(TAB_FLAGS);
-                where_conditions.append(QString("flags.%1 %2 '%3'").arg(name).arg(op).arg(value));
-            }
-            else if (filter == "tag")
-            {
-                const QString name = condition_list.takeFirst();
-                const QString op = condition_list.takeFirst();
-                const QString value = condition_list.takeFirst();
-
-                auto it = name2number.find(name);
-                assert(it != name2number.end());
-
-                to_join.insert(TAB_TAGS);
-                where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
-            }
-            else if (filter == "sha")
-            {
-                const QString op = condition_list.takeFirst();
-                const QString value = condition_list.takeFirst();
-
-                to_join.insert(TAB_SHA256SUMS);
-                where_conditions.append(QString("sha256sums.sha256 = '%1'").arg(value));
-            }
-            else
-                assert(!"unknown filter");
-        }
-        else if (operand.isEmpty() == false)
-            assert(!"unknown operand");
-
-        if (to_join.isEmpty() == false)
+        if ( m_to_join.isEmpty() == false)
         {
             QStringList to_join_list;
-            std::copy(to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
+            std::copy( m_to_join.cbegin(), m_to_join.cend(), std::back_inserter(to_join_list));
 
-            result += " JOIN (" + to_join_list.join(", ") + ") ON (";
+            m_result += " JOIN (" + to_join_list.join(", ") + ") ON (";
 
             QStringList join_key;
-            for(const QString& tab: to_join)
+            for(const QString& tab: m_to_join )
                 join_key.append(tab + ".photo_id = photos.id");
 
-            result += join_key.join(" AND ");
-            result += ")";
+            m_result += join_key.join(" AND ");
+            m_result += ")";
         }
 
-        if (where_conditions.isEmpty() == false)
+        if (m_where_conditions.isEmpty() == false)
         {
-            result += " WHERE ";
-            result += where_conditions.join(" AND ");
+            m_result += " WHERE ";
+            m_result += m_where_conditions.join(" AND ");
         }
 
-        return result;
+        return m_result;
     }
 
+
+    void Database::SqlFilterQueryGenerator::filterPhotos()
+    {
+        m_result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+    }
+
+
+    void Database::SqlFilterQueryGenerator::photoChecksum(const QString& value)
+    {
+        m_to_join.insert(TAB_SHA256SUMS);
+        m_where_conditions.append(QString("sha256sums.sha256 = '%1'").arg(value));
+    }
+
+
+    void Database::SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
+    {
+        m_to_join.insert(TAB_FLAGS);
+        m_where_conditions.append(QString("flags.%1 = '%3'").arg(name).arg(value));
+    }
+
+
+    void Database::SqlFilterQueryGenerator::photoTag(const QString& name, const QString& value)
+    {
+        auto it = name2number.find(name);
+        assert(it != name2number.end());
+
+        m_to_join.insert(TAB_TAGS);
+        m_where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+    }
 }

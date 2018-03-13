@@ -23,13 +23,16 @@
 #include <vector>
 
 #include <QString>
+#include <QSet>
 
+#include <core/filter_engine.hpp>
 #include <database/filter.hpp>
+
 
 namespace Database
 {
 
-    class SqlFilterQueryGenerator
+    class SqlFilterQueryGenerator: IFilterEngineCallback
     {
         public:
             SqlFilterQueryGenerator();
@@ -39,10 +42,17 @@ namespace Database
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
             [[deprecated]] QString generate(const std::vector<IFilter::Ptr> &) const;
-            QString generate(const QString& expression) const;
+            QString generate(const QString& expression);
 
         private:
-            QString forPhotos(const QStringList &) const;
+            QSet<QString> m_to_join;
+            QStringList m_where_conditions;
+            QString m_result;
+
+            void filterPhotos() override;
+            void photoFlag(const QString& name, const QString& value) override;
+            void photoTag(const QString& name, const QString& value) override;
+            void photoChecksum(const QString &) override;
     };
 
 }
