@@ -19,6 +19,8 @@
 #ifndef FILTERENGINE_HPP
 #define FILTERENGINE_HPP
 
+#include "core_export.h"
+
 class QString;
 class QStringList;
 
@@ -35,7 +37,7 @@ struct IFilterEngineCallback
 };
 
 
-class FilterEngine final
+class CORE_EXPORT FilterEngine final
 {
     public:
         FilterEngine();

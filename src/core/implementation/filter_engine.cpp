@@ -54,35 +54,36 @@ void FilterEngine::parse(const QString& expression, IFilterEngineCallback* callb
 
 void FilterEngine::forPhotos(const QStringList& expression, IFilterEngineCallback* callback) const
 {
-    const QString scope =     expression[1];
-    const QString operand =   expression[3];
-    const QString condition = expression[4];
+    QStringList to_process = expression;
+    if (to_process.isEmpty())
+        return;
+
+    const QString operand = to_process.takeFirst();
 
     if (operand == "with")
     {
-        QStringList condition_list = condition.split(" ");
-        const QString filter = condition_list.takeFirst();
+        const QString filter = to_process.takeFirst();
 
         if (filter == "flag")
         {
-            const QString name  = condition_list.takeFirst();
-                                  condition_list.takeFirst(); // operand
-            const QString value = condition_list.takeFirst();
+            const QString name  = to_process.takeFirst();
+                                  to_process.takeFirst(); // operand
+            const QString value = to_process.takeFirst();
 
             callback->photoFlag(name, value);
         }
         else if (filter == "tag")
         {
-            const QString name  = condition_list.takeFirst();
-                                  condition_list.takeFirst(); // operand
-            const QString value = condition_list.takeFirst();
+            const QString name  = to_process.takeFirst();
+                                  to_process.takeFirst(); // operand
+            const QString value = to_process.takeFirst();
 
             callback->photoTag(name, value);
         }
         else if (filter == "sha")
         {
-                                  condition_list.takeFirst(); // operand
-            const QString value = condition_list.takeFirst();
+                                  to_process.takeFirst(); // operand
+            const QString value = to_process.takeFirst();
 
             callback->photoChecksum(value);
         }
