@@ -84,12 +84,15 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     filters.push_back(filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos without tag time");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id NOT IN "
               "(SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '4')", query);
+
+    EXPECT_EQ(query, sql_query);
 }
 
 
