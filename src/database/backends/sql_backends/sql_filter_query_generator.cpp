@@ -483,4 +483,10 @@ namespace Database
         m_to_join.insert(TAB_TAGS);
         m_where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
     }
+
+
+    void Database::SqlFilterQueryGenerator::negate()
+    {
+    }
+
 }

@@ -34,6 +34,8 @@ struct IFilterEngineCallback
     virtual void photoFlag(const QString& name, const QString& value) = 0;
     virtual void photoTag(const QString& name, const QString& value) = 0;
     virtual void photoChecksum(const QString &) = 0;
+
+    virtual void negate() = 0;
 };
 
 
@@ -44,9 +46,6 @@ class CORE_EXPORT FilterEngine final
         ~FilterEngine();
 
         void parse(const QString &, IFilterEngineCallback *) const;
-
-    private:
-        void forPhotos(const QStringList& expression, IFilterEngineCallback *) const;
 };
 
 #endif // FILTERENGINE_H

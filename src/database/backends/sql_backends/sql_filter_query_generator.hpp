@@ -53,6 +53,7 @@ namespace Database
             void photoFlag(const QString& name, const QString& value) override;
             void photoTag(const QString& name, const QString& value) override;
             void photoChecksum(const QString &) override;
+            void negate() override;
     };
 
 }

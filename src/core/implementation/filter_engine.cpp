@@ -22,6 +22,16 @@
 
 #include <QStringList>
 
+#define YY_NO_UNISTD_H
+#include "filter_engine.tab.hh"
+#include "filter_engine.yy.hh"
+
+int filterEngine_parse(IFilterEngineCallback *, yyscan_t);
+
+#if defined YYDEBUG && YYDEBUG==1
+extern int filterEngine_debug;
+#endif
+
 
 FilterEngine::FilterEngine()
 {
@@ -37,59 +47,20 @@ FilterEngine::~FilterEngine()
 
 void FilterEngine::parse(const QString& expression, IFilterEngineCallback* callback) const
 {
-    QStringList divided = expression.split(" ");
+    //read the html code - each tag will be one field in std::vector
+    YY_BUFFER_STATE bp;
 
-                         divided.takeFirst(); // scope
-    const QString item = divided.takeFirst(); // item type
+#if defined YYDEBUG && YYDEBUG==1
+    filterEngine_debug=0;
+#endif
 
-    if (item == "photos")
-    {
-        callback->filterPhotos();
-        forPhotos(divided, callback);
-    }
-    else
-        assert(!"unknown item to fetch");
-}
+    yyscan_t scanner;
+    filterEngine_lex_init_extra(callback, &scanner);
 
+    bp=filterEngine__scan_string(expression.toStdString().c_str(), scanner);
+    filterEngine__switch_to_buffer(bp, scanner);
+    filterEngine_parse(callback, scanner);
 
-void FilterEngine::forPhotos(const QStringList& expression, IFilterEngineCallback* callback) const
-{
-    QStringList to_process = expression;
-    if (to_process.isEmpty())
-        return;
-
-    const QString operand = to_process.takeFirst();
-
-    if (operand == "with")
-    {
-        const QString filter = to_process.takeFirst();
-
-        if (filter == "flag")
-        {
-            const QString name  = to_process.takeFirst();
-                                  to_process.takeFirst(); // operand
-            const QString value = to_process.takeFirst();
-
-            callback->photoFlag(name, value);
-        }
-        else if (filter == "tag")
-        {
-            const QString name  = to_process.takeFirst();
-                                  to_process.takeFirst(); // operand
-            const QString value = to_process.takeFirst();
-
-            callback->photoTag(name, value);
-        }
-        else if (filter == "sha")
-        {
-                                  to_process.takeFirst(); // operand
-            const QString value = to_process.takeFirst();
-
-            callback->photoChecksum(value);
-        }
-        else
-            assert(!"unknown filter");
-    }
-    else if (operand.isEmpty() == false)
-        assert(!"unknown operator");
+    filterEngine__delete_buffer(bp, scanner);
+    filterEngine_lex_destroy(scanner);
 }
