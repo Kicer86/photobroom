@@ -29,12 +29,16 @@ struct IFilterEngineCallback
 {
     virtual ~IFilterEngineCallback() = default;
 
+    // scope
     virtual void filterPhotos() = 0;
 
+    // conditions
     virtual void photoFlag(const QString& name, const QString& value) = 0;
     virtual void photoTag(const QString& name, const QString& value) = 0;
+    virtual void photoTag(const QString& name) = 0;
     virtual void photoChecksum(const QString &) = 0;
 
+    // operations
     virtual void negate() = 0;
 };
 

@@ -36,14 +36,21 @@
 
 <INITIAL>photos  { // scope
                    *yylval=yytext;
-                   return SCOPE;
+                   return SCOPE_PHOTOS;
                  }
 
-<INITIAL>with|without  { // possession
+<INITIAL>with          { // possession
                             *yylval=yytext;
 
                             BEGIN(COND);
-                            return POSSESSION;
+                            return WITH;
+                       }
+
+<INITIAL>without       { // possession
+                            *yylval=yytext;
+
+                            BEGIN(COND);
+                            return WITHOUT;
                        }
 
 <COND>tag {

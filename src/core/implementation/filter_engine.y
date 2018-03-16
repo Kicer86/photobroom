@@ -1,5 +1,5 @@
 
-%pure_parser
+%pure-parser
 %error-verbose
 %parse-param { IFilterEngineCallback* engineCallback }
 %parse-param {void *scanner}
@@ -29,8 +29,10 @@
 %}
 
 %token SELECTOR
-%token SCOPE
-%token POSSESSION
+%token SCOPE_PHOTOS
+
+%token WITH
+%token WITHOUT
 
 %token TAG
 %token FLAG
@@ -42,40 +44,42 @@
 %%
 
 query: selector scope                                    {  };
-query: selector scope possession conditions              {  };
+query: selector scope filters      {  };
 
 
 selector: SELECTOR                                       {  };
 
 
-scope: SCOPE                        {
-                                        if ($1 == "photos")
-                                            engineCallback->filterPhotos();
-                                        else
-                                            assert(!"Unexpected scope");
-                                    };
+scope: SCOPE_PHOTOS                {
+                                        engineCallback->filterPhotos();
+                                   };
 
-possession: POSSESSION                                        {};
+filters: WITH conditions           {};
 
-conditions: condition                                         {};
+filters: WITHOUT conditions        {
+                                        engineCallback->negate();
+                                   };
 
-conditions: conditions condition                              {};
+conditions: condition              {};
+
+conditions: conditions condition   {};
 
 
 condition: TAG TEXT '=' TEXT       {
                                         engineCallback->photoTag($2.c_str(), $4.c_str());
                                    };
 
+condition: TAG TEXT                {
+                                        engineCallback->photoTag($2.c_str());
+                                   };
+
 condition: FLAG TEXT '=' TEXT      {
                                         engineCallback->photoFlag($2.c_str(), $4.c_str());
                                    };
 
-condition: SHA '=' value           {
+condition: SHA '=' STRING          {
                                         engineCallback->photoChecksum($3.c_str());
                                    };
 
-
-name:  TEXT;
-value: STRING;
 %%
 

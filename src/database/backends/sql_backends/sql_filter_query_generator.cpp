@@ -32,7 +32,11 @@ namespace Database
 {
     const std::map<QString, int> name2number =
     {
-        { "date", BaseTagsList::Date }
+        { "date",   BaseTagsList::Date   },
+        { "event",  BaseTagsList::Event  },
+        { "time",   BaseTagsList::Time   },
+        { "place",  BaseTagsList::Place  },
+        { "people", BaseTagsList::People }
     };
 
     struct FilterData
@@ -482,6 +486,16 @@ namespace Database
 
         m_to_join.insert(TAB_TAGS);
         m_where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+    }
+
+
+    void Database::SqlFilterQueryGenerator::photoTag(const QString& name)
+    {
+        auto it = name2number.find(name);
+        assert(it != name2number.end());
+
+        m_to_join.insert(TAB_TAGS);
+        m_where_conditions.append(QString("tags.name = '%1'").arg(it->second));
     }
 
 
