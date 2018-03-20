@@ -80,7 +80,7 @@
 
 <*>[[:blank:]$]+ {} //remove blanks
 
-<COND>"="     { // '='
+<COND>[=,]    { // some punctuation marks
                 return yytext[0];
               }
 

@@ -63,7 +63,7 @@ filters: WITHOUT conditions        {
 
 conditions: condition              {};
 
-conditions: conditions condition   {};
+conditions: conditions ',' condition   {};
 
 
 condition: TAG TEXT '=' TEXT       {
