@@ -453,15 +453,21 @@ namespace Database
 
     void Database::SqlFilterQueryGenerator::photoChecksum(const QString& value)
     {
-        m_scopeData.top().to_join.insert(TAB_SHA256SUMS);
-        m_scopeData.top().where_conditions.insert(QString("sha256sums.sha256 = %1").arg(value));
+        FilterData data;
+        data.join = TAB_SHA256SUMS;
+        data.condition = QString("sha256sums.sha256 = %1").arg(value);
+
+        add(data);
     }
 
 
     void Database::SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
     {
-        m_scopeData.top().to_join.insert(TAB_FLAGS);
-        m_scopeData.top().where_conditions.insert(QString("flags.%1 = '%3'").arg(name).arg(value));
+        FilterData data;
+        data.join = TAB_FLAGS;
+        data.condition = QString("flags.%1 = '%3'").arg(name).arg(value);
+
+        add(data);
     }
 
 
@@ -470,8 +476,11 @@ namespace Database
         auto it = name2number.find(name);
         assert(it != name2number.end());
 
-        m_scopeData.top().to_join.insert(TAB_TAGS);
-        m_scopeData.top().where_conditions.insert(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+        FilterData data;
+        data.join = TAB_TAGS;
+        data.condition = QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value);
+
+        add(data);
     }
 
 
@@ -480,14 +489,20 @@ namespace Database
         auto it = name2number.find(name);
         assert(it != name2number.end());
 
-        m_scopeData.top().to_join.insert(TAB_TAGS);
-        m_scopeData.top().where_conditions.insert(QString("tags.name = '%1'").arg(it->second));
+        FilterData data;
+        data.join = TAB_TAGS;
+        data.condition = QString("tags.name = '%1'").arg(it->second);
+
+        add(data);
     }
 
 
     void Database::SqlFilterQueryGenerator::photoID(const QString& id)
     {
-        m_scopeData.top().where_conditions.insert(QString("photos.id = %1").arg(id));
+        FilterData data;
+        data.condition = QString("photos.id = %1").arg(id);
+
+        add(data);
     }
 
 
@@ -542,4 +557,18 @@ namespace Database
 
         return result;
     }
+
+
+    void Database::SqlFilterQueryGenerator::add(const Database::SqlFilterQueryGenerator::FilterData& data)
+    {
+        if (m_scopeData.empty())
+            m_scopeData.push({});
+
+        if (data.join.isEmpty() == false)
+            m_scopeData.top().to_join.insert(data.join);
+
+        if (data.condition.isEmpty() == false)
+            m_scopeData.top().where_conditions.insert(data.condition);
+    }
+
 }
