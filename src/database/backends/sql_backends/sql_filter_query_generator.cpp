@@ -364,6 +364,7 @@ namespace Database
             joinsWith.append(joinWith);
         }
 
+        joinsWith.sort();
         result += joinsWith.join(", ");
 
         if (filterData.joins.empty() == false)  //at least one join
@@ -384,6 +385,7 @@ namespace Database
             joins.append(join);
         }
 
+        joins.sort();
         result += joins.join(" AND ");
 
         if (filterData.joins.empty() == false)  //at least one join
@@ -392,8 +394,11 @@ namespace Database
         //conditions
         if (filterData.conditions.isEmpty() == false)
         {
+            QStringList conditions = filterData.conditions;
+            conditions.sort();
+
             result += " WHERE ";
-            result += filterData.conditions.join(" AND ");
+            result += conditions.join(" AND ");
         }
 
         return result;
@@ -449,14 +454,14 @@ namespace Database
     void Database::SqlFilterQueryGenerator::photoChecksum(const QString& value)
     {
         m_scopeData.top().to_join.insert(TAB_SHA256SUMS);
-        m_scopeData.top().where_conditions.append(QString("sha256sums.sha256 = %1").arg(value));
+        m_scopeData.top().where_conditions.insert(QString("sha256sums.sha256 = %1").arg(value));
     }
 
 
     void Database::SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
     {
         m_scopeData.top().to_join.insert(TAB_FLAGS);
-        m_scopeData.top().where_conditions.append(QString("flags.%1 = '%3'").arg(name).arg(value));
+        m_scopeData.top().where_conditions.insert(QString("flags.%1 = '%3'").arg(name).arg(value));
     }
 
 
@@ -466,7 +471,7 @@ namespace Database
         assert(it != name2number.end());
 
         m_scopeData.top().to_join.insert(TAB_TAGS);
-        m_scopeData.top().where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+        m_scopeData.top().where_conditions.insert(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
     }
 
 
@@ -476,13 +481,13 @@ namespace Database
         assert(it != name2number.end());
 
         m_scopeData.top().to_join.insert(TAB_TAGS);
-        m_scopeData.top().where_conditions.append(QString("tags.name = '%1'").arg(it->second));
+        m_scopeData.top().where_conditions.insert(QString("tags.name = '%1'").arg(it->second));
     }
 
 
     void Database::SqlFilterQueryGenerator::photoID(const QString& id)
     {
-        m_scopeData.top().where_conditions.append(QString("photos.id = %1").arg(id));
+        m_scopeData.top().where_conditions.insert(QString("photos.id = %1").arg(id));
     }
 
 
@@ -493,7 +498,7 @@ namespace Database
         //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
 
         m_scopeData.push(ScopeData());
-        m_scopeData.top().where_conditions.append( QString("photos.id NOT IN (%1)").arg(current_state) );
+        m_scopeData.top().where_conditions.insert( QString("photos.id NOT IN (%1)").arg(current_state) );
     }
 
 
@@ -508,7 +513,7 @@ namespace Database
             const auto& to_join = m_scopeData.top().to_join;
             const auto& where_conditions = m_scopeData.top().where_conditions;
 
-            if ( to_join.isEmpty() == false)
+            if ( to_join.empty() == false)
             {
                 QStringList to_join_list;
                 std::copy( to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
@@ -523,10 +528,13 @@ namespace Database
                 result += ")";
             }
 
-            if (where_conditions.isEmpty() == false)
+            if (where_conditions.empty() == false)
             {
+                QStringList conditions_list;
+                std::copy(where_conditions.cbegin(), where_conditions.cend(), std::back_inserter(conditions_list));
+
                 result += " WHERE ";
-                result += where_conditions.join(" AND ");
+                result += conditions_list.join(" AND ");
             }
 
             m_scopeData.pop();

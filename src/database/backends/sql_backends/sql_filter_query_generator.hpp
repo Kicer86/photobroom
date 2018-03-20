@@ -21,9 +21,9 @@
 #define SQLFILTERQUERYGENERATOR_HPP
 
 #include <vector>
+#include <set>
 
 #include <QString>
-#include <QSet>
 #include <QStack>
 
 #include <core/filter_engine.hpp>
@@ -48,8 +48,8 @@ namespace Database
         private:
             struct ScopeData
             {
-                QSet<QString> to_join;
-                QStringList where_conditions;
+                std::set<QString> to_join;
+                std::set<QString> where_conditions;
             };
 
             QStack<ScopeData> m_scopeData;

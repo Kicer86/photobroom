@@ -157,11 +157,14 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     flags_filter->flags[Photo::FlagsE::ExifLoaded] = 1;
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with sha = '1234567890' tag people = test_value flag tags_loaded = 1");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags, flags, sha256sums) "
-              "ON (tags.photo_id = photos.id AND flags.photo_id = photos.id AND sha256sums.photo_id = photos.id) "
-              "WHERE sha256sums.sha256 = '1234567890' AND tags.name = '5' AND tags.value = 'test_value' AND flags.tags_loaded = '1'", query);
+              "JOIN (flags, sha256sums, tags) "
+              "ON (flags.photo_id = photos.id AND sha256sums.photo_id = photos.id AND tags.photo_id = photos.id) "
+              "WHERE flags.tags_loaded = '1' AND sha256sums.sha256 = '1234567890' AND tags.name = '5' AND tags.value = 'test_value'", query);
+
+    EXPECT_EQ(sql_query, query);
 }
 
 
