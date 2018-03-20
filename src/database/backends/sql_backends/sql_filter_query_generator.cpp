@@ -566,11 +566,8 @@ namespace Database
         if (m_scopeData.empty())
             m_scopeData.push({});
 
-        if (data.to_join.empty() == false)
-            m_scopeData.top().to_join.insert(data.to_join.cbegin(), data.to_join.cend());
-
-        if (data.where_conditions.empty() == false)
-            m_scopeData.top().where_conditions.insert(data.where_conditions.cbegin(), data.where_conditions.cend());
+        m_scopeData.top().to_join.insert(data.to_join.cbegin(), data.to_join.cend());
+        m_scopeData.top().where_conditions.insert(data.where_conditions.cbegin(), data.where_conditions.cend());
     }
 
 }
