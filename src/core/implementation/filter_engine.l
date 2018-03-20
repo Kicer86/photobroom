@@ -19,12 +19,12 @@
 
 %%
 
-\".*[^\\]\"   { //string
+<*>\".*[^\\]\"   { //string
                 *yylval=yytext;
                 return STRING;
               }
 
-\'.*[^\\]\'   { //string
+<*>\'.*[^\\]\'   { //string
                 *yylval=yytext;
                 return STRING;
               }
