@@ -538,7 +538,7 @@ namespace Database
                 result += " JOIN (" + to_join_list.join(", ") + ") ON (";
 
                 QStringList join_key;
-                for(const QString& tab: to_join )
+                for(const QString& tab: to_join)
                     join_key.append(tab + ".photo_id = photos.id");
 
                 result += join_key.join(" AND ");
