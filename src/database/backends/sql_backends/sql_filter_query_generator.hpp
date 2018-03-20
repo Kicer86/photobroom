@@ -24,6 +24,7 @@
 
 #include <QString>
 #include <QSet>
+#include <QStack>
 
 #include <core/filter_engine.hpp>
 #include <database/filter.hpp>
@@ -45,9 +46,14 @@ namespace Database
             QString generate(const QString& expression);
 
         private:
-            QSet<QString> m_to_join;
-            QStringList m_where_conditions;
-            QString m_result;
+            struct ScopeData
+            {
+                QSet<QString> to_join;
+                QStringList where_conditions;
+            };
+
+            QStack<ScopeData> m_scopeData;
+            QString m_scope;
 
             void filterPhotos() override;
             void photoFlag(const QString& name, const QString& value) override;
@@ -55,6 +61,8 @@ namespace Database
             void photoTag(const QString& name) override;
             void photoChecksum(const QString &) override;
             void negate() override;
+
+            QString flush();
     };
 
 }

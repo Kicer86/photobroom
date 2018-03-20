@@ -426,56 +426,37 @@ namespace Database
 
     QString Database::SqlFilterQueryGenerator::generate(const QString& expression)
     {
-        m_result = QString();
-        m_to_join = QSet<QString>();
-        m_where_conditions = QStringList();
+        m_scope = QString();
+        m_scopeData.clear();
 
         FilterEngine engine;
 
         engine.parse(expression, this);
 
-        if ( m_to_join.isEmpty() == false)
-        {
-            QStringList to_join_list;
-            std::copy( m_to_join.cbegin(), m_to_join.cend(), std::back_inserter(to_join_list));
+        const QString result = flush();
 
-            m_result += " JOIN (" + to_join_list.join(", ") + ") ON (";
-
-            QStringList join_key;
-            for(const QString& tab: m_to_join )
-                join_key.append(tab + ".photo_id = photos.id");
-
-            m_result += join_key.join(" AND ");
-            m_result += ")";
-        }
-
-        if (m_where_conditions.isEmpty() == false)
-        {
-            m_result += " WHERE ";
-            m_result += m_where_conditions.join(" AND ");
-        }
-
-        return m_result;
+        return result;
     }
 
 
     void Database::SqlFilterQueryGenerator::filterPhotos()
     {
-        m_result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+        m_scopeData.push(ScopeData());
+        m_scope = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
     }
 
 
     void Database::SqlFilterQueryGenerator::photoChecksum(const QString& value)
     {
-        m_to_join.insert(TAB_SHA256SUMS);
-        m_where_conditions.append(QString("sha256sums.sha256 = '%1'").arg(value));
+        m_scopeData.top().to_join.insert(TAB_SHA256SUMS);
+        m_scopeData.top().where_conditions.append(QString("sha256sums.sha256 = %1").arg(value));
     }
 
 
     void Database::SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
     {
-        m_to_join.insert(TAB_FLAGS);
-        m_where_conditions.append(QString("flags.%1 = '%3'").arg(name).arg(value));
+        m_scopeData.top().to_join.insert(TAB_FLAGS);
+        m_scopeData.top().where_conditions.append(QString("flags.%1 = '%3'").arg(name).arg(value));
     }
 
 
@@ -484,8 +465,8 @@ namespace Database
         auto it = name2number.find(name);
         assert(it != name2number.end());
 
-        m_to_join.insert(TAB_TAGS);
-        m_where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
+        m_scopeData.top().to_join.insert(TAB_TAGS);
+        m_scopeData.top().where_conditions.append(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
     }
 
 
@@ -494,13 +475,57 @@ namespace Database
         auto it = name2number.find(name);
         assert(it != name2number.end());
 
-        m_to_join.insert(TAB_TAGS);
-        m_where_conditions.append(QString("tags.name = '%1'").arg(it->second));
+        m_scopeData.top().to_join.insert(TAB_TAGS);
+        m_scopeData.top().where_conditions.append(QString("tags.name = '%1'").arg(it->second));
     }
 
 
     void Database::SqlFilterQueryGenerator::negate()
     {
+        const QString current_state = flush();
+
+        //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
+
+        m_scopeData.push(ScopeData());
+        m_scopeData.top().where_conditions.append( QString("photos.id NOT IN (%1)").arg(current_state) );
     }
 
+
+    QString Database::SqlFilterQueryGenerator::flush()
+    {
+        QString result;
+
+        if (m_scopeData.isEmpty() == false)
+        {
+            result = m_scope;
+
+            const auto& to_join = m_scopeData.top().to_join;
+            const auto& where_conditions = m_scopeData.top().where_conditions;
+
+            if ( to_join.isEmpty() == false)
+            {
+                QStringList to_join_list;
+                std::copy( to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
+
+                result += " JOIN (" + to_join_list.join(", ") + ") ON (";
+
+                QStringList join_key;
+                for(const QString& tab: to_join )
+                    join_key.append(tab + ".photo_id = photos.id");
+
+                result += join_key.join(" AND ");
+                result += ")";
+            }
+
+            if (where_conditions.isEmpty() == false)
+            {
+                result += " WHERE ";
+                result += where_conditions.join(" AND ");
+            }
+
+            m_scopeData.pop();
+        }
+
+        return result;
+    }
 }
