@@ -107,7 +107,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
     filter->sha256 = "1234567890";
 
     const QString query = generator.generate(filters);
-    const QString sql_query = generator.generate("all photos with sha = 1234567890");
+    const QString sql_query = generator.generate("all photos with sha = '1234567890'");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
