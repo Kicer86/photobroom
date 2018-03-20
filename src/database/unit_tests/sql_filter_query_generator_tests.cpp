@@ -128,8 +128,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
     filter->filter = Photo::Id(1234567890);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with id = '1234567890'");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos WHERE photos.id = '1234567890'", query);
+    EXPECT_EQ(sql_query, query);
 }
 
 

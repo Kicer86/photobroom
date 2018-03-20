@@ -480,6 +480,12 @@ namespace Database
     }
 
 
+    void Database::SqlFilterQueryGenerator::photoID(const QString& id)
+    {
+        m_scopeData.top().where_conditions.append(QString("photos.id = %1").arg(id));
+    }
+
+
     void Database::SqlFilterQueryGenerator::negate()
     {
         const QString current_state = flush();

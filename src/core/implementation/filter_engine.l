@@ -68,6 +68,11 @@
             return SHA;
           }
 
+<COND>id {
+           *yylval=yytext;
+           return ID;
+         }
+
 <COND>[[:alnum:]_-]+  { //text
                         *yylval=yytext;
                         return TEXT;

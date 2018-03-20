@@ -37,6 +37,7 @@
 %token TAG
 %token FLAG
 %token SHA
+%token ID
 
 %token TEXT
 %token STRING
@@ -79,6 +80,10 @@ condition: FLAG TEXT '=' TEXT      {
 
 condition: SHA '=' STRING          {
                                         engineCallback->photoChecksum($3.c_str());
+                                   };
+
+condition: ID '=' STRING           {
+                                        engineCallback->photoID($3.c_str());
                                    };
 
 %%
