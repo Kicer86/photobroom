@@ -512,8 +512,10 @@ namespace Database
 
         //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
 
-        m_scopeData.push(ScopeData());
-        m_scopeData.top().where_conditions.insert( QString("photos.id NOT IN (%1)").arg(current_state) );
+        FilterData data;
+        data.condition = QString("photos.id NOT IN (%1)").arg(current_state);
+
+        add(data);
     }
 
 
