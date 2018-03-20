@@ -52,12 +52,6 @@ namespace Database
                 std::set<QString> where_conditions;
             };
 
-            struct FilterData
-            {
-                QString join;
-                QString condition;
-            };
-
             QStack<ScopeData> m_scopeData;
             QString m_scope;
 
@@ -70,7 +64,7 @@ namespace Database
             void negate() override;
 
             QString flush();
-            void add(const FilterData &);
+            void add(const ScopeData &);
     };
 
 }
