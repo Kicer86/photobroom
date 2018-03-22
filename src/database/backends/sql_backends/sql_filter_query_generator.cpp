@@ -330,7 +330,7 @@ namespace Database
         }
         else
         {
-            result = "SELECT photos_id FROM ( " + current + ") AS level_%1_query";
+            result = "SELECT photos_id FROM (" + current + ") AS level_%1_query";
             result = result.arg(++level);
 
             const QString partial = constructQuery(incoming);
@@ -513,7 +513,7 @@ namespace Database
         //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
 
         ScopeData data;
-        data.where_conditions.insert(QString("photos.id NOT IN (%1)").arg(current_state));
+        data.where_conditions.insert(QString("photos.id NOT IN (%1 %2)").arg(m_scope).arg(current_state));
 
         add(data);
     }
@@ -523,16 +523,20 @@ namespace Database
     {
         QString result;
 
-        for (size_t i = m_scopeData.size(); i > 0; i--)
+        const int levels = m_scopeData.size();
+        for (int i = 0; i < levels; i++)
         {
             const QString top = flushTop();
 
-            if (i > 1)
-               result += QString("SELECT photos_id FROM (%1) AS level_%2_query")
-                            .arg(top)
-                            .arg(i);
+            if (i > 0)
+               result = QString("SELECT photos_id FROM (%1) AS level_%2_query %3")
+                            .arg(result)
+                            .arg(i)
+                            .arg(top);
             else
-                result += top;
+                result += top.isEmpty()?
+                    m_scope:
+                    QString("%1 %2").arg(m_scope).arg(top);
         }
 
         return result;
@@ -545,8 +549,6 @@ namespace Database
 
         if (m_scopeData.isEmpty() == false)
         {
-            result = m_scope;
-
             const auto& to_join = m_scopeData.top().to_join;
             const auto& where_conditions = m_scopeData.top().where_conditions;
 
@@ -555,14 +557,14 @@ namespace Database
                 QStringList to_join_list;
                 std::copy( to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
 
-                result += " JOIN (" + to_join_list.join(", ") + ") ON (";
+                result += "JOIN (" + to_join_list.join(", ") + ") ON (";
 
                 QStringList join_key;
                 for(const QString& tab: to_join)
                     join_key.append(tab + ".photo_id = photos.id");
 
                 result += join_key.join(" AND ");
-                result += ")";
+                result += ") ";
             }
 
             if (where_conditions.empty() == false)
@@ -570,7 +572,7 @@ namespace Database
                 QStringList conditions_list;
                 std::copy(where_conditions.cbegin(), where_conditions.cend(), std::back_inserter(conditions_list));
 
-                result += " WHERE ";
+                result += "WHERE ";
                 result += conditions_list.join(" AND ");
             }
 

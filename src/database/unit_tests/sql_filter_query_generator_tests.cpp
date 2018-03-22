@@ -186,13 +186,16 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     filters.push_back(tag2_filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with tag event = test_value2, tag place = test_value");
 
     EXPECT_EQ("SELECT photos_id FROM "
-              "( SELECT photos.id AS photos_id FROM photos "
+              "(SELECT photos.id AS photos_id FROM photos "
                 "JOIN (tags) ON (tags.photo_id = photos.id) "
                 "WHERE tags.name = '2' AND tags.value = 'test_value') AS level_1_query "
               "JOIN (tags) ON (tags.photo_id = photos_id) "
               "WHERE tags.name = '1' AND tags.value = 'test_value2'", query);
+
+    EXPECT_EQ(sql_query, query);
 }
 
 
