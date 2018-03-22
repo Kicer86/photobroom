@@ -27,28 +27,28 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter->flags[Photo::FlagsE::ExifLoaded] = 1;
     QString query = generator.generate(filters);
     QString sql_query = generator.generate("all photos with flag tags_loaded = 1");
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.tags_loaded = '1'", query);
     EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::Sha256Loaded] = 2;
     query = generator.generate(filters);
     sql_query = generator.generate("all photos with flag sha256_loaded = 2");
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.sha256_loaded = '2'", query);
     EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::StagingArea] = 3;
     query = generator.generate(filters);
     sql_query = generator.generate("all photos with flag staging_area = 3");
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.staging_area = '3'", query);
     EXPECT_EQ(sql_query, query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
     query = generator.generate(filters);
     sql_query = generator.generate("all photos with flag thumbnail_loaded = 4");
-    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
+    EXPECT_EQ("SELECT photos.id AS photos_id FROM photos JOIN (flags) ON (flags.photo_id = photos_id) WHERE flags.thumbnail_loaded = '4'", query);
     EXPECT_EQ(sql_query, query);
 }
 
@@ -68,7 +68,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (tags) "
-              "ON (tags.photo_id = photos.id) "
+              "ON (tags.photo_id = photos_id) "
               "WHERE tags.name = '3' AND tags.value = 'test_value'", query);
     EXPECT_EQ(sql_query, query);
 }
@@ -89,7 +89,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id NOT IN "
               "(SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "JOIN (tags) ON (tags.photo_id = photos_id) "
               "WHERE tags.name = '4')", query);
 
     EXPECT_EQ(query, sql_query);
@@ -110,7 +110,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
     const QString sql_query = generator.generate("all photos with sha = '1234567890'");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
+              "JOIN (sha256sums) ON (sha256sums.photo_id = photos_id) "
               "WHERE sha256sums.sha256 = '1234567890'", query);
 
     EXPECT_EQ(sql_query, query);
@@ -161,7 +161,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "JOIN (flags, sha256sums, tags) "
-              "ON (flags.photo_id = photos.id AND sha256sums.photo_id = photos.id AND tags.photo_id = photos.id) "
+              "ON (flags.photo_id = photos_id AND sha256sums.photo_id = photos_id AND tags.photo_id = photos_id) "
               "WHERE flags.tags_loaded = '1' AND sha256sums.sha256 = '1234567890' AND tags.name = '5' AND tags.value = 'test_value'", query);
 
     EXPECT_EQ(sql_query, query);
@@ -190,7 +190,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 
     EXPECT_EQ("SELECT photos_id FROM "
               "(SELECT photos.id AS photos_id FROM photos "
-                "JOIN (tags) ON (tags.photo_id = photos.id) "
+                "JOIN (tags) ON (tags.photo_id = photos_id) "
                 "WHERE tags.name = '2' AND tags.value = 'test_value') AS level_1_query "
               "JOIN (tags) ON (tags.photo_id = photos_id) "
               "WHERE tags.name = '1' AND tags.value = 'test_value2'", query);
@@ -214,7 +214,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (flags) ON (flags.photo_id = photos.id) "
+              "JOIN (flags) ON (flags.photo_id = photos_id) "
               "WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' )", query);
 }
 
@@ -238,7 +238,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (flags) ON (flags.photo_id = photos.id) "
+              "JOIN (flags) ON (flags.photo_id = photos_id) "
               "WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' ) AND photos.id = '1234567890'", query);
 }
 
@@ -256,7 +256,7 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "JOIN (tags) ON (tags.photo_id = photos_id) "
               "WHERE (tags.value LIKE '%Person 1%')", query);
 }
 
@@ -274,7 +274,7 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
+              "JOIN (tags) ON (tags.photo_id = photos_id) "
               "WHERE (tags.value LIKE '%Person 1%' OR tags.value LIKE '%Person 2%')", query);
 }
 

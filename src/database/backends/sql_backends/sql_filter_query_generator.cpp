@@ -407,7 +407,7 @@ namespace Database
 
     QString Generator::getPhotoId() const
     {
-        return level == 0? "photos.id" : "photos_id";   //Use directly photos.id for non-nested queries. For nested one - use photos.id alias.
+        return "photos_id";
     }
 
 
@@ -561,7 +561,7 @@ namespace Database
 
                 QStringList join_key;
                 for(const QString& tab: to_join)
-                    join_key.append(tab + ".photo_id = photos.id");
+                    join_key.append(tab + ".photo_id = photos_id");
 
                 result += join_key.join(" AND ");
                 result += ") ";
