@@ -63,8 +63,10 @@ namespace Database
             void photoID(const QString & ) override;
             void negate() override;
 
-            QString flush();
+            QString flushAll();
+            QString flushTop();
             void add(const ScopeData &);
+            bool canBeMerged(const ScopeData &, const ScopeData &) const;
     };
 
 }

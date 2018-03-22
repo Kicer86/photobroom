@@ -429,7 +429,7 @@ namespace Database
     }
 
 
-    QString Database::SqlFilterQueryGenerator::generate(const QString& expression)
+    QString SqlFilterQueryGenerator::generate(const QString& expression)
     {
         m_scope = QString();
         m_scopeData.clear();
@@ -438,20 +438,20 @@ namespace Database
 
         engine.parse(expression, this);
 
-        const QString result = flush();
+        const QString result = flushAll();
 
         return result;
     }
 
 
-    void Database::SqlFilterQueryGenerator::filterPhotos()
+    void SqlFilterQueryGenerator::filterPhotos()
     {
         m_scopeData.push(ScopeData());
         m_scope = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
     }
 
 
-    void Database::SqlFilterQueryGenerator::photoChecksum(const QString& value)
+    void SqlFilterQueryGenerator::photoChecksum(const QString& value)
     {
         ScopeData data;
         data.to_join.insert(TAB_SHA256SUMS);
@@ -461,7 +461,7 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
+    void SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
     {
         ScopeData data;
         data.to_join.insert(TAB_FLAGS);
@@ -471,7 +471,7 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::photoTag(const QString& name, const QString& value)
+    void SqlFilterQueryGenerator::photoTag(const QString& name, const QString& value)
     {
         auto it = name2number.find(name);
         assert(it != name2number.end());
@@ -484,7 +484,7 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::photoTag(const QString& name)
+    void SqlFilterQueryGenerator::photoTag(const QString& name)
     {
         auto it = name2number.find(name);
         assert(it != name2number.end());
@@ -497,7 +497,7 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::photoID(const QString& id)
+    void SqlFilterQueryGenerator::photoID(const QString& id)
     {
         ScopeData data;
         data.where_conditions.insert(QString("photos.id = %1").arg(id));
@@ -506,9 +506,9 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::negate()
+    void SqlFilterQueryGenerator::negate()
     {
-        const QString current_state = flush();
+        const QString current_state = flushTop();
 
         //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
 
@@ -519,7 +519,27 @@ namespace Database
     }
 
 
-    QString Database::SqlFilterQueryGenerator::flush()
+    QString SqlFilterQueryGenerator::flushAll()
+    {
+        QString result;
+
+        for (size_t i = m_scopeData.size(); i > 0; i--)
+        {
+            const QString top = flushTop();
+
+            if (i > 1)
+               result += QString("SELECT photos_id FROM (%1) AS level_%2_query")
+                            .arg(top)
+                            .arg(i);
+            else
+                result += top;
+        }
+
+        return result;
+    }
+
+
+    QString SqlFilterQueryGenerator::flushTop()
     {
         QString result;
 
@@ -561,13 +581,30 @@ namespace Database
     }
 
 
-    void Database::SqlFilterQueryGenerator::add(const Database::SqlFilterQueryGenerator::ScopeData& data)
+    void SqlFilterQueryGenerator::add(const Database::SqlFilterQueryGenerator::ScopeData& data)
     {
         if (m_scopeData.empty())
             m_scopeData.push({});
 
+        const bool mergable = canBeMerged(m_scopeData.top(), data);
+
+        if (mergable == false)
+            m_scopeData.push({});
+
         m_scopeData.top().to_join.insert(data.to_join.cbegin(), data.to_join.cend());
         m_scopeData.top().where_conditions.insert(data.where_conditions.cbegin(), data.where_conditions.cend());
+    }
+
+
+    bool SqlFilterQueryGenerator::canBeMerged(const ScopeData& fd1, const ScopeData& fd2) const
+    {
+        auto tf1 = fd1.to_join.find(TAB_TAGS);
+        auto tf2 = fd2.to_join.find(TAB_TAGS);
+
+        // there cannot be two joins for tags
+        const bool result = tf1 == fd1.to_join.cend() || tf2 == fd2.to_join.cend();
+
+        return result;
     }
 
 }
