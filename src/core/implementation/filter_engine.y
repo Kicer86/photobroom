@@ -66,7 +66,7 @@ filters: WITHOUT conditions        {
 conditions: condition              {};
 
 conditions: conditions ',' condition   {};
-conditions: conditions OR condition   {};
+conditions: conditions OR condition    {};
 
 
 

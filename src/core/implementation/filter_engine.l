@@ -73,6 +73,12 @@
            return ID;
          }
 
+
+<COND>or      {
+                *yylval=yytext;
+                return OR;
+              }
+
 <COND>[[:alnum:]_-]+  { //text
                         *yylval=yytext;
                         return TEXT;
@@ -80,11 +86,6 @@
 
 <COND>[=,]    { // some punctuation marks
                 return yytext[0];
-              }
-
-<COND>or      {
-                *yylval=yytext;
-                return OR;
               }
 
 <*>[[:blank:]$]+ {} //remove blanks
