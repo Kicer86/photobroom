@@ -73,7 +73,6 @@
            return ID;
          }
 
-
 <COND>or      {
                 *yylval=yytext;
                 return OR;
