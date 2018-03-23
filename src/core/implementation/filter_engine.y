@@ -39,16 +39,18 @@
 %token SHA
 %token ID
 
+%token OR
+
 %token TEXT
 %token STRING
 
 %%
 
-query: selector scope                                    {  };
+query: selector scope              {  };
 query: selector scope filters      {  };
 
 
-selector: SELECTOR                                       {  };
+selector: SELECTOR                 {  };
 
 
 scope: SCOPE_PHOTOS                {
@@ -64,6 +66,8 @@ filters: WITHOUT conditions        {
 conditions: condition              {};
 
 conditions: conditions ',' condition   {};
+conditions: conditions OR condition   {};
+
 
 
 condition: TAG TEXT '=' TEXT       {

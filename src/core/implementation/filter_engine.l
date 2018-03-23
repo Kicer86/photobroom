@@ -78,10 +78,15 @@
                         return TEXT;
                       }
 
-<*>[[:blank:]$]+ {} //remove blanks
-
 <COND>[=,]    { // some punctuation marks
                 return yytext[0];
               }
+
+<COND>or      {
+                *yylval=yytext;
+                return OR;
+              }
+
+<*>[[:blank:]$]+ {} //remove blanks
 
 %%
