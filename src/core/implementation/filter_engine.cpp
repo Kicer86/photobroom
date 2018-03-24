@@ -51,7 +51,7 @@ void FilterEngine::parse(const QString& expression, IFilterEngineCallback* callb
     YY_BUFFER_STATE bp;
 
 #if defined YYDEBUG && YYDEBUG==1
-    filterEngine_debug=0;
+    filterEngine_debug = 0;
 #endif
 
     yyscan_t scanner;

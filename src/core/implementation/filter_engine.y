@@ -39,8 +39,6 @@
 %token SHA
 %token ID
 
-%token OR
-
 %token TEXT
 %token STRING
 
@@ -66,9 +64,6 @@ filters: WITHOUT conditions        {
 conditions: condition              {};
 
 conditions: conditions ',' condition   {};
-conditions: conditions OR condition    {};
-
-
 
 condition: TAG TEXT '=' TEXT       {
                                         engineCallback->photoTag($2.c_str(), $4.c_str());

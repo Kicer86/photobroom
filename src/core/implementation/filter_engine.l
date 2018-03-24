@@ -73,11 +73,6 @@
            return ID;
          }
 
-<COND>or      {
-                *yylval=yytext;
-                return OR;
-              }
-
 <COND>[[:alnum:]_-]+  { //text
                         *yylval=yytext;
                         return TEXT;
