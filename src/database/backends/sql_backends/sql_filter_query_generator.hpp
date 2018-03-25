@@ -21,15 +21,19 @@
 #define SQLFILTERQUERYGENERATOR_HPP
 
 #include <vector>
+#include <set>
 
 #include <QString>
+#include <QStack>
 
+#include <core/filter_engine.hpp>
 #include <database/filter.hpp>
+
 
 namespace Database
 {
 
-    class SqlFilterQueryGenerator
+    class SqlFilterQueryGenerator: IFilterEngineCallback
     {
         public:
             SqlFilterQueryGenerator();
@@ -38,7 +42,34 @@ namespace Database
 
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
-            QString generate(const std::vector<IFilter::Ptr> &) const;
+            [[deprecated]] QString generate(const std::vector<IFilter::Ptr> &) const;
+            QString generate(const QString& expression);
+
+        private:
+            struct ScopeData
+            {
+                std::set<QString> to_join;
+                std::set<QString> where_conditions;
+            };
+
+            QStack<ScopeData> m_scopeData;
+            QString m_scope;
+
+            void filterPhotos() override;
+            void photoFlag(const QString& name, const QString& value) override;
+            void photoTag(const QString& name, const QString& value) override;
+            void photoTag(const QString& name) override;
+            void photoChecksum(const QString &) override;
+            void photoID(const QString &) override;
+            void anyTag(const QString &, bool exact) override;
+            void role(const QString &) override;
+            void negate() override;
+
+            QString flushAll();
+            QString flushTop();
+            void add(const ScopeData &);
+            bool canBeMerged(const ScopeData &, const ScopeData &) const;
+            QString strip(const QString &) const;
     };
 
 }

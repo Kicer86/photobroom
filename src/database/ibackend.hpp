@@ -66,6 +66,7 @@ namespace Database
         virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) = 0;       // drop photos matching filter
         virtual Photo::Data            getPhoto(const Photo::Id &) = 0;                         // get particular photo
         virtual int                    getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;   // is there any photo matching filters?
+        virtual QList<QVariant>        find(const QString &) = 0;                               // find items matching query
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
