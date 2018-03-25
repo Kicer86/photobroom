@@ -19,75 +19,75 @@
 
 %%
 
-<*>\".*[^\\]\"   { //string
-                *yylval=yytext;
-                return STRING;
-              }
+<*>\".*[^\\]\"          { //string
+                            *yylval=yytext;
+                            return STRING;
+                        }
 
-<*>\'.*[^\\]\'   { //string
-                *yylval=yytext;
-                return STRING;
-              }
+<*>\'.*[^\\]\'          { //string
+                            *yylval=yytext;
+                            return STRING;
+                        }
 
-<INITIAL>all  { // selector
-                *yylval=yytext;
-                return SELECTOR;
-              }
+<INITIAL>all            { // selector
+                            *yylval=yytext;
+                            return SELECTOR;
+                        }
 
-<INITIAL>photos  { // scope
-                   *yylval=yytext;
-                   return SCOPE_PHOTOS;
-                 }
+<INITIAL>photos         { // scope
+                            *yylval=yytext;
+                            return SCOPE_PHOTOS;
+                        }
 
-<INITIAL>with          { // possession
+<INITIAL>with           { // possession
                             *yylval=yytext;
 
                             BEGIN(COND);
                             return WITH;
-                       }
+                        }
 
-<INITIAL>without       { // possession
+<INITIAL>without        { // possession
                             *yylval=yytext;
 
                             BEGIN(COND);
                             return WITHOUT;
-                       }
+                        }
 
-<COND>tag {
-            *yylval=yytext;
-            return TAG;
-          }
+<COND>tag               {
+                            *yylval=yytext;
+                            return TAG;
+                        }
 
-<COND>flag {
-                *yylval=yytext;
-                return FLAG;
-           }
+<COND>flag              {
+                            *yylval=yytext;
+                            return FLAG;
+                        }
 
-<COND>sha {
-            *yylval=yytext;
-            return SHA;
-          }
+<COND>sha               {
+                            *yylval=yytext;
+                            return SHA;
+                        }
 
-<COND>id {
-           *yylval=yytext;
-           return ID;
-         }
+<COND>id                {
+                            *yylval=yytext;
+                            return ID;
+                        }
 
-<COND>any {
-           *yylval=yytext;
-           return ANY;
-          }
+<COND>any               {
+                            *yylval=yytext;
+                            return ANY;
+                        }
 
 
-<COND>[[:alnum:]_-]+  { //text
-                        *yylval=yytext;
-                        return TEXT;
-                      }
+<COND>[[:alnum:]_-]+    { //text
+                            *yylval=yytext;
+                            return TEXT;
+                        }
 
-<COND>[=,~]    { // some punctuation marks
-                return yytext[0];
-              }
+<COND>[=,~]             { // some punctuation marks
+                            return yytext[0];
+                        }
 
-<*>[[:blank:]$]+ {} //remove blanks
+<*>[[:blank:]$]+        {} //remove blanks
 
 %%

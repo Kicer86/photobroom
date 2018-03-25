@@ -46,46 +46,46 @@
 
 %%
 
-query: selector scope              {  };
-query: selector scope filters      {  };
+query: selector scope               {  };
+query: selector scope filters       {  };
 
 
-selector: SELECTOR                 {  };
+selector: SELECTOR                  {  };
 
 
-scope: SCOPE_PHOTOS                {
+scope: SCOPE_PHOTOS                 {
                                         engineCallback->filterPhotos();
-                                   };
+                                    };
 
-filters: WITH conditions           {};
+filters: WITH conditions            {};
 
-filters: WITHOUT conditions        {
+filters: WITHOUT conditions         {
                                         engineCallback->negate();
-                                   };
+                                    };
 
-conditions: condition              {};
+conditions: condition               {};
 
 conditions: conditions ',' condition   {};
 
-condition: TAG TEXT '=' TEXT       {
+condition: TAG TEXT '=' TEXT        {
                                         engineCallback->photoTag($2.c_str(), $4.c_str());
-                                   };
+                                    };
 
-condition: TAG TEXT                {
+condition: TAG TEXT                 {
                                         engineCallback->photoTag($2.c_str());
-                                   };
+                                    };
 
-condition: FLAG TEXT '=' TEXT      {
+condition: FLAG TEXT '=' TEXT       {
                                         engineCallback->photoFlag($2.c_str(), $4.c_str());
-                                   };
+                                    };
 
-condition: SHA '=' STRING          {
+condition: SHA '=' STRING           {
                                         engineCallback->photoChecksum($3.c_str());
-                                   };
+                                    };
 
-condition: ID '=' STRING           {
+condition: ID '=' STRING            {
                                         engineCallback->photoID($3.c_str());
-                                   };
+                                    };
 
 condition: ANY TAG '=' STRING      {
                                         engineCallback->anyTag($4.c_str(), true);
