@@ -128,6 +128,11 @@ add_flex_bison_dependency(filterEngineFlex filterEngineBison)
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
+# TODO: remove this when flex used by travis stops using 'register' keyword
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    addSourceFlags(${CMAKE_CURRENT_BINARY_DIR}/filter_engine.yy.cc COMPILE_FLAGS -Dregister=)
+endif()
+
 source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED} ${FLEX_filterEngineFlex_OUTPUTS} ${BISON_filterEngineBison_OUTPUTS} )
