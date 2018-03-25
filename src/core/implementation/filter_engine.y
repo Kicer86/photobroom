@@ -39,6 +39,8 @@
 %token SHA
 %token ID
 
+%token ANY
+
 %token TEXT
 %token STRING
 
@@ -83,6 +85,14 @@ condition: SHA '=' STRING          {
 
 condition: ID '=' STRING           {
                                         engineCallback->photoID($3.c_str());
+                                   };
+
+condition: ANY TAG '=' STRING      {
+                                        engineCallback->anyTag($4.c_str(), true);
+                                   };
+
+condition: ANY TAG '~' STRING      {
+                                        engineCallback->anyTag($4.c_str(), false);
                                    };
 
 %%

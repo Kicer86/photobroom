@@ -189,8 +189,10 @@ namespace Database
             const SearchExpressionEvaluator::Expression conditions = filter->expression;
             QString final_condition;
 
-            final_condition += "(";
             const std::size_t s = conditions.size();
+
+            if (s > 1)
+                final_condition += "(";
 
             for(std::size_t i = 0; i < s; i++)
             {
@@ -205,7 +207,8 @@ namespace Database
                     final_condition += " OR ";
             }
 
-            final_condition += ")";
+            if (s > 1)
+                final_condition += ")";
 
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
             m_filterResult.conditions.append(final_condition);
@@ -506,6 +509,22 @@ namespace Database
     }
 
 
+    void SqlFilterQueryGenerator::anyTag(const QString& value, bool exact)
+    {
+        ScopeData data;
+        data.to_join.insert(TAB_TAGS);
+
+        const QString stripped = strip(value);
+
+        if (exact)
+            data.where_conditions.insert(QString("tags.value = '%1'").arg(stripped));
+        else
+            data.where_conditions.insert(QString("tags.value LIKE '%%1%'").arg(stripped));
+
+        add(data);
+    }
+
+
     void SqlFilterQueryGenerator::negate()
     {
         const QString current_state = flushTop();
@@ -605,6 +624,25 @@ namespace Database
 
         // there cannot be two joins for tags
         const bool result = tf1 == fd1.to_join.cend() || tf2 == fd2.to_join.cend();
+
+        return result;
+    }
+
+
+    QString Database::SqlFilterQueryGenerator::strip(const QString& str) const
+    {
+        QString result;
+
+        if (str.size() >= 2)
+        {
+            if (str.front() == '\'' && str.back() == '\'' ||
+                str.front() == '"' && str.back() == '"')
+            {
+                result = str.mid(1, str.size() - 2);
+            }
+        }
+        else
+            result = str;
 
         return result;
     }

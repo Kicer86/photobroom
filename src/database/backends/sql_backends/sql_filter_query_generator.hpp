@@ -61,12 +61,14 @@ namespace Database
             void photoTag(const QString& name) override;
             void photoChecksum(const QString &) override;
             void photoID(const QString & ) override;
+            void anyTag(const QString & , bool exact) override;
             void negate() override;
 
             QString flushAll();
             QString flushTop();
             void add(const ScopeData &);
             bool canBeMerged(const ScopeData &, const ScopeData &) const;
+            QString strip(const QString &) const;
     };
 
 }
