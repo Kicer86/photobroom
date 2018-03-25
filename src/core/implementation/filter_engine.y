@@ -87,13 +87,13 @@ condition: ID '=' STRING            {
                                         engineCallback->photoID($3.c_str());
                                     };
 
-condition: ANY TAG '=' STRING      {
+condition: ANY TAG '=' STRING       {
                                         engineCallback->anyTag($4.c_str(), true);
-                                   };
+                                    };
 
-condition: ANY TAG '~' STRING      {
+condition: ANY TAG '~' STRING       {
                                         engineCallback->anyTag($4.c_str(), false);
-                                   };
+                                    };
 
 %%
 
