@@ -670,10 +670,14 @@ namespace Database
 
         if (str.size() >= 2)
         {
-            if (str.front() == '\'' && str.back() == '\'' ||
-                str.front() == '"' && str.back() == '"')
+            const int s = str.size();
+            const QChar f = str[0];           // TODO: switch to front() and back() after move to Qt 5.10
+            const QChar b = str[s - 1];
+
+            if (f == '\'' && b == '\'' ||
+                f == '"' && b == '"')
             {
-                result = str.mid(1, str.size() - 2);
+                result = str.mid(1, s - 2);
             }
         }
         else
