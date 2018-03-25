@@ -78,6 +78,27 @@
                             return ANY;
                         }
 
+<COND>role              {
+                            *yylval=yytext;
+                            return ROLE;
+                        }
+
+
+<COND>member            {
+                            *yylval=yytext;
+                            return MEMBER;
+                        }
+
+<COND>representative    {
+                            *yylval=yytext;
+                            return REPRESENTATIVE;
+                        }
+
+<COND>regular           {
+                            *yylval=yytext;
+                            return REGULAR;
+                        }
+
 
 <COND>[[:alnum:]_-]+    { //text
                             *yylval=yytext;

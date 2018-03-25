@@ -525,6 +525,41 @@ namespace Database
     }
 
 
+    void SqlFilterQueryGenerator::role(const QString& type)
+    {
+        ScopeData data;
+
+        if (type == "regular")
+        {
+            data.where_conditions.insert("photos.id NOT IN "
+                                            "("
+                                            "SELECT groups_members.photo_id FROM groups_members "
+                                            "UNION "
+                                            "SELECT groups.representative_id FROM groups"
+                                            ")"
+            );
+        }
+        else if (type == "representative")
+        {
+            data.where_conditions.insert("photos.id IN "
+                                            "("
+                                            "SELECT groups.representative_id FROM groups"
+                                            ")"
+            );
+        }
+        else if (type == "member")
+        {
+            data.where_conditions.insert("photos.id IN "
+                                            "("
+                                            "SELECT groups_members.photo_id FROM groups_members"
+                                            ")"
+            );
+        }
+
+        add(data);
+    }
+
+
     void SqlFilterQueryGenerator::negate()
     {
         const QString current_state = flushTop();

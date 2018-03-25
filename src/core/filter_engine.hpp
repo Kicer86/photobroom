@@ -39,6 +39,7 @@ struct IFilterEngineCallback
     virtual void photoChecksum(const QString &) = 0;
     virtual void photoID(const QString &) = 0;
     virtual void anyTag(const QString &, bool exact) = 0;
+    virtual void role(const QString &) = 0;
 
     // operations
     virtual void negate() = 0;

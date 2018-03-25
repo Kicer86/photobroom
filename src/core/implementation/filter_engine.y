@@ -39,6 +39,11 @@
 %token SHA
 %token ID
 
+%token ROLE
+%token REGULAR
+%token REPRESENTATIVE
+%token MEMBER
+
 %token ANY
 
 %token TEXT
@@ -94,6 +99,14 @@ condition: ANY TAG '=' STRING       {
 condition: ANY TAG '~' STRING       {
                                         engineCallback->anyTag($4.c_str(), false);
                                     };
+
+condition: role ROLE                {
+                                        engineCallback->role($1.c_str());
+                                    };
+
+role: REGULAR
+    | MEMBER
+    | REPRESENTATIVE                {};
 
 %%
 

@@ -292,6 +292,7 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
     filters.push_back(filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with regular role");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id NOT IN "
@@ -300,6 +301,8 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
                     "UNION "
                     "SELECT groups.representative_id FROM groups"
               ")", query);
+
+    EXPECT_EQ(query, sql_query);
 }
 
 
@@ -313,12 +316,15 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
     filters.push_back(filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with representative role");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id IN "
               "("
                     "SELECT groups.representative_id FROM groups"
               ")", query);
+
+    EXPECT_EQ(query, sql_query);
 }
 
 
@@ -332,10 +338,13 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
     filters.push_back(filter);
 
     const QString query = generator.generate(filters);
+    const QString sql_query = generator.generate("all photos with member role");
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
               "WHERE photos.id IN "
               "("
                     "SELECT groups_members.photo_id FROM groups_members"
               ")", query);
+
+    EXPECT_EQ(query, sql_query);
 }

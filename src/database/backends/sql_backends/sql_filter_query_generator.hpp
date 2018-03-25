@@ -60,8 +60,9 @@ namespace Database
             void photoTag(const QString& name, const QString& value) override;
             void photoTag(const QString& name) override;
             void photoChecksum(const QString &) override;
-            void photoID(const QString & ) override;
-            void anyTag(const QString & , bool exact) override;
+            void photoID(const QString &) override;
+            void anyTag(const QString &, bool exact) override;
+            void role(const QString &) override;
             void negate() override;
 
             QString flushAll();
