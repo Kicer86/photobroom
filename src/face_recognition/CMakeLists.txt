@@ -21,8 +21,9 @@ target_link_libraries(face_recognition
                                 Qt5::Core
                                 Qt5::Gui
                             PRIVATE
-                                system
                                 core
+                                database
+                                system
 )
 
 generate_export_header(face_recognition)

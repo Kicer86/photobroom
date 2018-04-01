@@ -33,6 +33,7 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
+#include <database/idatabase.hpp>
 #include <system/filesystem.hpp>
 
 
@@ -71,9 +72,10 @@ namespace
     }
 }
 
-FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, const QString& storage):
+FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, Database::IDatabase* db, const QString& storage):
+    m_storage(storage),
     m_pythonThread(coreAccessor->getPythonThread()),
-    m_storage(storage)
+    m_db(db)
 {
 
 }

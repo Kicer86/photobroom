@@ -31,13 +31,18 @@ class QRect;
 struct ICoreFactoryAccessor;
 struct IPythonThread;
 
+namespace Database
+{
+    struct IDatabase;
+}
+
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
 
-        FaceRecognition(ICoreFactoryAccessor *, const QString& storage);
+        FaceRecognition(ICoreFactoryAccessor *, Database::IDatabase *, const QString& storage);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
@@ -50,8 +55,9 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:
-        IPythonThread* m_pythonThread;
         const QString m_storage;
+        IPythonThread* m_pythonThread;
+        Database::IDatabase* m_db;
 };
 
 #endif // FACERECOGNITION_HPP
