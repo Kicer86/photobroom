@@ -4,17 +4,17 @@
 
 #include <map>
 
-#define TAB_VER            "version"
-#define TAB_PHOTOS         "photos"
-#define TAB_TAGS           "tags"
-#define TAB_THUMBS         "thumbnails"
-#define TAB_SHA256SUMS     "sha256sums"
-#define TAB_FLAGS          "flags"
-#define TAB_GEOMETRY       "geometry"
-#define TAB_GROUPS         "groups"
-#define TAB_GROUPS_MEMBERS "groups_members"
-#define TAB_PEOPLE         "people"
-#define TAB_PEOPLE_LOCATIONS "people_location"
+#define TAB_VER                  "version"
+#define TAB_PHOTOS               "photos"
+#define TAB_TAGS                 "tags"
+#define TAB_THUMBS               "thumbnails"
+#define TAB_SHA256SUMS           "sha256sums"
+#define TAB_FLAGS                "flags"
+#define TAB_GEOMETRY             "geometry"
+#define TAB_GROUPS               "groups"
+#define TAB_GROUPS_MEMBERS       "groups_members"
+#define TAB_PEOPLE               "people"
+#define TAB_PEOPLE_LOCATIONS     "people_location"
 #define TAB_FACE_REPRESENTATIVES "face_representatives"
 
 #define FLAG_STAGING_AREA  "staging_area"

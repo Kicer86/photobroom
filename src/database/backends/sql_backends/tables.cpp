@@ -127,8 +127,8 @@ namespace Database
         table_groups_members(TAB_GROUPS_MEMBERS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "group_id", "INTEGER NOT NULL"     },
-                        { "photo_id", "INTEGER NOT NULL"     },
+                        { "group_id", "INTEGER NOT NULL"         },
+                        { "photo_id", "INTEGER NOT NULL"         },
                         { "FOREIGN KEY(group_id) REFERENCES " TAB_GROUPS "(id)", "" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     }
@@ -150,10 +150,10 @@ namespace Database
         TableDefinition
         table_people_locations(TAB_PEOPLE_LOCATIONS,
                     {
-                        { "id", "", ColDefinition::Purpose::ID   },
-                        { "photo_id", "INTEGER NOT NULL"    },
-                        { "human_id", "INTEGER NOT NULL"    },
-                        { "location", "CHAR(64)"            }, // format: x y w h
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "photo_id", "INTEGER NOT NULL"       },
+                        { "human_id", "INTEGER NOT NULL"       },
+                        { "location", "CHAR(64)"               }, // format: x y w h
                     },
                     {
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
@@ -177,17 +177,17 @@ namespace Database
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
-            { TAB_VER,            table_versionHistory },
-            { TAB_PHOTOS,         table_photos },
-            { TAB_TAGS,           table_tags },
-            { TAB_THUMBS,         table_thumbnails },
-            { TAB_SHA256SUMS,     table_sha256sums },
-            { TAB_FLAGS,          table_flags },
-            { TAB_GEOMETRY,       table_geometry },
-            { TAB_GROUPS,         table_groups },
-            { TAB_GROUPS_MEMBERS, table_groups_members },
-            { TAB_PEOPLE,         table_people },
-            { TAB_PEOPLE_LOCATIONS, table_people_locations },
+            { TAB_VER,                  table_versionHistory },
+            { TAB_PHOTOS,               table_photos },
+            { TAB_TAGS,                 table_tags },
+            { TAB_THUMBS,               table_thumbnails },
+            { TAB_SHA256SUMS,           table_sha256sums },
+            { TAB_FLAGS,                table_flags },
+            { TAB_GEOMETRY,             table_geometry },
+            { TAB_GROUPS,               table_groups },
+            { TAB_GROUPS_MEMBERS,       table_groups_members },
+            { TAB_PEOPLE,               table_people },
+            { TAB_PEOPLE_LOCATIONS,     table_people_locations },
             { TAB_FACE_REPRESENTATIVES, table_face_representatives },
         };
 }
