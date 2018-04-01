@@ -13,6 +13,9 @@
 #define TAB_GEOMETRY       "geometry"
 #define TAB_GROUPS         "groups"
 #define TAB_GROUPS_MEMBERS "groups_members"
+#define TAB_PEOPLE         "people"
+#define TAB_PEOPLE_LOCATIONS "people_location"
+#define TAB_FACE_REPRESENTATIVES "face_representatives"
 
 #define FLAG_STAGING_AREA  "staging_area"
 #define FLAG_TAGS_LOADED   "tags_loaded"

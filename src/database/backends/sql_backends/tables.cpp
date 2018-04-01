@@ -134,6 +134,46 @@ namespace Database
                     }
         );
 
+        // list of people
+        TableDefinition
+        table_people(TAB_PEOPLE,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "name", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
+                    },
+                    {
+                        { "ppl_name", "UNIQUE INDEX", "(name)" },   // names should be unique
+                    }
+        );
+
+        // list of people recognized on particular photo
+        TableDefinition
+        table_people_locations(TAB_PEOPLE_LOCATIONS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "photo_id", "INTEGER NOT NULL"    },
+                        { "human_id", "INTEGER NOT NULL"    },
+                        { "location", "CHAR(64)"            }, // format: x y w h
+                    },
+                    {
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
+                        { "FOREIGN KEY(human_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                    }
+        );
+
+        // list of representations for faces
+        TableDefinition
+        table_face_representatives(TAB_FACE_REPRESENTATIVES,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "human_id", "INTEGER NOT NULL"         },
+                        { "path", "VARCHAR(1024) NOT NULL"       },
+                    },
+                    {
+                        { "FOREIGN KEY(human_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                    }
+        );
+
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
@@ -146,5 +186,8 @@ namespace Database
             { TAB_GEOMETRY,       table_geometry },
             { TAB_GROUPS,         table_groups },
             { TAB_GROUPS_MEMBERS, table_groups_members },
+            { TAB_PEOPLE,         table_people },
+            { TAB_PEOPLE_LOCATIONS, table_people_locations },
+            { TAB_FACE_REPRESENTATIVES, table_face_representatives },
         };
 }
