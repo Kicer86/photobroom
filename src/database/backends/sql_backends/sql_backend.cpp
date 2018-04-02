@@ -1336,6 +1336,9 @@ namespace Database
 
         if (status)
         {
+            if (m_data->m_dbHasSizeFeature)
+                result.reserve(query.size());
+
             while(query.next())
             {
                 const QVariant item = query.value(0);
