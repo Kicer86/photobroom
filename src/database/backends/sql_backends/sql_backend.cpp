@@ -421,9 +421,27 @@ namespace Database
     }
 
 
-    QList<QVariant> ASqlBackend::Data::find(const QString& query) const
+    QList<QVariant> ASqlBackend::Data::find(const QString& query_str) const
     {
-        return {};
+        const QString findQuery = SqlFilterQueryGenerator().generate(query_str);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        QList<QVariant> result;
+        const bool status = m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            while(query.next())
+            {
+                const QVariant item = query.value(0);
+
+                result.push_back(item);
+            }
+        }
+
+        return result;
     }
 
 
