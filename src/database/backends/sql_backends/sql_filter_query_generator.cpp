@@ -19,25 +19,13 @@
 
 #include "sql_filter_query_generator.hpp"
 
-#include <QSet>
 #include <QStringList>
-#include <QRegExp>
-
-#include <core/base_tags.hpp>
 
 #include "tables.hpp"
 
 
 namespace Database
 {
-    const std::map<QString, int> name2number =
-    {
-        { "date",   BaseTagsList::Date   },
-        { "event",  BaseTagsList::Event  },
-        { "time",   BaseTagsList::Time   },
-        { "place",  BaseTagsList::Place  },
-        { "people", BaseTagsList::People }
-    };
 
     struct FilterData
     {
@@ -189,10 +177,8 @@ namespace Database
             const SearchExpressionEvaluator::Expression conditions = filter->expression;
             QString final_condition;
 
+            final_condition += "(";
             const std::size_t s = conditions.size();
-
-            if (s > 1)
-                final_condition += "(";
 
             for(std::size_t i = 0; i < s; i++)
             {
@@ -207,8 +193,7 @@ namespace Database
                     final_condition += " OR ";
             }
 
-            if (s > 1)
-                final_condition += ")";
+            final_condition += ")";
 
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
             m_filterResult.conditions.append(final_condition);
@@ -333,7 +318,7 @@ namespace Database
         }
         else
         {
-            result = "SELECT photos_id FROM (" + current + ") AS level_%1_query";
+            result = "SELECT photos_id FROM ( " + current + ") AS level_%1_query";
             result = result.arg(++level);
 
             const QString partial = constructQuery(incoming);
@@ -367,7 +352,6 @@ namespace Database
             joinsWith.append(joinWith);
         }
 
-        joinsWith.sort();
         result += joinsWith.join(", ");
 
         if (filterData.joins.empty() == false)  //at least one join
@@ -388,7 +372,6 @@ namespace Database
             joins.append(join);
         }
 
-        joins.sort();
         result += joins.join(" AND ");
 
         if (filterData.joins.empty() == false)  //at least one join
@@ -397,11 +380,8 @@ namespace Database
         //conditions
         if (filterData.conditions.isEmpty() == false)
         {
-            QStringList conditions = filterData.conditions;
-            conditions.sort();
-
             result += " WHERE ";
-            result += conditions.join(" AND ");
+            result += filterData.conditions.join(" AND ");
         }
 
         return result;
@@ -410,7 +390,7 @@ namespace Database
 
     QString Generator::getPhotoId() const
     {
-        return "photos_id";
+        return level == 0? "photos.id" : "photos_id";   //Use directly photos.id for non-nested queries. For nested one - use photos.id alias.
     }
 
 
@@ -429,261 +409,6 @@ namespace Database
     QString SqlFilterQueryGenerator::generate(const std::vector<IFilter::Ptr>& filters) const
     {
         return Generator().parse(filters);
-    }
-
-
-    QString SqlFilterQueryGenerator::generate(const QString& expression)
-    {
-        m_scope = QString();
-        m_scopeData.clear();
-
-        FilterEngine engine;
-
-        engine.parse(expression, this);
-
-        const QString result = flushAll();
-
-        return result;
-    }
-
-
-    void SqlFilterQueryGenerator::filterPhotos()
-    {
-        m_scopeData.push(ScopeData());
-        m_scope = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-    }
-
-
-    void SqlFilterQueryGenerator::photoChecksum(const QString& value)
-    {
-        ScopeData data;
-        data.to_join.insert(TAB_SHA256SUMS);
-        data.where_conditions.insert(QString("sha256sums.sha256 = %1").arg(value));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::photoFlag(const QString& name, const QString& value)
-    {
-        ScopeData data;
-        data.to_join.insert(TAB_FLAGS);
-        data.where_conditions.insert(QString("flags.%1 = '%3'").arg(name).arg(value));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::photoTag(const QString& name, const QString& value)
-    {
-        auto it = name2number.find(name);
-        assert(it != name2number.end());
-
-        ScopeData data;
-        data.to_join.insert(TAB_TAGS);
-        data.where_conditions.insert(QString("tags.name = '%1' AND tags.value = '%2'").arg(it->second).arg(value));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::photoTag(const QString& name)
-    {
-        auto it = name2number.find(name);
-        assert(it != name2number.end());
-
-        ScopeData data;
-        data.to_join.insert(TAB_TAGS);
-        data.where_conditions.insert(QString("tags.name = '%1'").arg(it->second));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::photoID(const QString& id)
-    {
-        ScopeData data;
-        data.where_conditions.insert(QString("photos.id = %1").arg(id));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::anyTag(const QString& value, bool exact)
-    {
-        ScopeData data;
-        data.to_join.insert(TAB_TAGS);
-
-        const QString stripped = strip(value);
-
-        if (exact)
-            data.where_conditions.insert(QString("tags.value = '%1'").arg(stripped));
-        else
-            data.where_conditions.insert(QString("tags.value LIKE '%%1%'").arg(stripped));
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::role(const QString& type)
-    {
-        ScopeData data;
-
-        if (type == "regular")
-        {
-            data.where_conditions.insert("photos.id NOT IN "
-                                            "("
-                                            "SELECT groups_members.photo_id FROM groups_members "
-                                            "UNION "
-                                            "SELECT groups.representative_id FROM groups"
-                                            ")"
-            );
-        }
-        else if (type == "representative")
-        {
-            data.where_conditions.insert("photos.id IN "
-                                            "("
-                                            "SELECT groups.representative_id FROM groups"
-                                            ")"
-            );
-        }
-        else if (type == "member")
-        {
-            data.where_conditions.insert("photos.id IN "
-                                            "("
-                                            "SELECT groups_members.photo_id FROM groups_members"
-                                            ")"
-            );
-        }
-
-        add(data);
-    }
-
-
-    void SqlFilterQueryGenerator::negate()
-    {
-        const QString current_state = flushTop();
-
-        //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-
-        ScopeData data;
-        data.where_conditions.insert(QString("photos.id NOT IN (%1 %2)").arg(m_scope).arg(current_state));
-
-        add(data);
-    }
-
-
-    QString SqlFilterQueryGenerator::flushAll()
-    {
-        QString result;
-
-        const int levels = m_scopeData.size();
-        for (int i = 0; i < levels; i++)
-        {
-            const QString top = flushTop();
-
-            if (i > 0)
-               result = QString("SELECT photos_id FROM (%1) AS level_%2_query %3")
-                            .arg(result)
-                            .arg(i)
-                            .arg(top);
-            else
-                result += top.isEmpty()?
-                    m_scope:
-                    QString("%1 %2").arg(m_scope).arg(top);
-        }
-
-        return result;
-    }
-
-
-    QString SqlFilterQueryGenerator::flushTop()
-    {
-        QString result;
-
-        if (m_scopeData.isEmpty() == false)
-        {
-            const auto& to_join = m_scopeData.top().to_join;
-            const auto& where_conditions = m_scopeData.top().where_conditions;
-
-            if ( to_join.empty() == false)
-            {
-                QStringList to_join_list;
-                std::copy( to_join.cbegin(), to_join.cend(), std::back_inserter(to_join_list));
-
-                result += "JOIN (" + to_join_list.join(", ") + ") ON (";
-
-                QStringList join_key;
-                for(const QString& tab: to_join)
-                    join_key.append(tab + ".photo_id = photos_id");
-
-                result += join_key.join(" AND ");
-                result += ") ";
-            }
-
-            if (where_conditions.empty() == false)
-            {
-                QStringList conditions_list;
-                std::copy(where_conditions.cbegin(), where_conditions.cend(), std::back_inserter(conditions_list));
-
-                result += "WHERE ";
-                result += conditions_list.join(" AND ");
-            }
-
-            m_scopeData.pop();
-        }
-
-        return result;
-    }
-
-
-    void SqlFilterQueryGenerator::add(const Database::SqlFilterQueryGenerator::ScopeData& data)
-    {
-        if (m_scopeData.empty())
-            m_scopeData.push({});
-
-        const bool mergable = canBeMerged(m_scopeData.top(), data);
-
-        if (mergable == false)
-            m_scopeData.push({});
-
-        m_scopeData.top().to_join.insert(data.to_join.cbegin(), data.to_join.cend());
-        m_scopeData.top().where_conditions.insert(data.where_conditions.cbegin(), data.where_conditions.cend());
-    }
-
-
-    bool SqlFilterQueryGenerator::canBeMerged(const ScopeData& fd1, const ScopeData& fd2) const
-    {
-        auto tf1 = fd1.to_join.find(TAB_TAGS);
-        auto tf2 = fd2.to_join.find(TAB_TAGS);
-
-        // there cannot be two joins for tags
-        const bool result = tf1 == fd1.to_join.cend() || tf2 == fd2.to_join.cend();
-
-        return result;
-    }
-
-
-    QString Database::SqlFilterQueryGenerator::strip(const QString& str) const
-    {
-        QString result;
-
-        if (str.size() >= 2)
-        {
-            const int s = str.size();
-            const QChar f = str[0];           // TODO: switch to front() and back() after move to Qt 5.10
-            const QChar b = str[s - 1];
-
-            if (f == '\'' && b == '\'' ||
-                f == '"' && b == '"')
-            {
-                result = str.mid(1, s - 2);
-            }
-        }
-        else
-            result = str;
-
-        return result;
     }
 
 }

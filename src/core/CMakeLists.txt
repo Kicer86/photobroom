@@ -5,8 +5,6 @@ find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(JsonCpp REQUIRED)
-find_package(FLEX REQUIRED)
-find_package(BISON REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -39,7 +37,6 @@ set(CORE_SOURCES
     implementation/exiv2_exif_reader.cpp
     implementation/ffmpeg_video_details_reader.cpp
     implementation/file_lock.cpp
-    implementation/filter_engine.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
     implementation/log_file_rotator.cpp
@@ -78,7 +75,6 @@ set(CORE_HEADERS
     disk_observer.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
-    filter_engine.hpp
     generic_concepts.hpp
     iconfiguration.hpp
     icore_factory_accessor.hpp
@@ -118,24 +114,12 @@ set(CORE_HEADERS
 set(CORE_RESOURCE_FILES images/images.qrc)
 set(CORE_MOC_FILES disk_observer.hpp)
 
-
-bison_target(filterEngineBison implementation/filter_engine.y ${CMAKE_CURRENT_BINARY_DIR}/filter_engine.tab.cc)
-flex_target(filterEngineFlex implementation/filter_engine.l ${CMAKE_CURRENT_BINARY_DIR}/filter_engine.yy.cc
-    COMPILE_FLAGS "-CF --header-file=${CMAKE_CURRENT_BINARY_DIR}/filter_engine.yy.hh")
-
-add_flex_bison_dependency(filterEngineFlex filterEngineBison)
-
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
-# TODO: remove this when flex used by travis stops using 'register' keyword
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    addSourceFlags(${CMAKE_CURRENT_BINARY_DIR}/filter_engine.yy.cc COMPILE_FLAGS -Dregister=)
-endif()
-
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED} ${FLEX_filterEngineFlex_OUTPUTS} ${BISON_filterEngineBison_OUTPUTS} )
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_HEADERS} ${CORE_WRAPPED})
 target_link_libraries(core
                         PRIVATE
                             system
@@ -160,9 +144,6 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src
 )
-
-
-set_target_properties(core PROPERTIES COMPILE_DEFINITIONS $<$<CONFIG:Debug>:YYDEBUG=1>)
 
 generate_export_header(core)
 hideSymbols(core)

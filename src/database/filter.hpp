@@ -46,7 +46,7 @@ namespace Database
     struct FilterPhotosWithPath;
     struct FilterPhotosWithRole;
 
-    struct DATABASE_DEPRECATED_EXPORT IFilter
+    struct DATABASE_EXPORT IFilter
     {
         typedef std::shared_ptr<IFilter> Ptr;
 
@@ -71,14 +71,14 @@ namespace Database
 
     //filters
 
-    struct DATABASE_DEPRECATED_EXPORT EmptyFilter: IFilter
+    struct DATABASE_EXPORT EmptyFilter: IFilter
     {
         virtual ~EmptyFilter();
 
         FILTER_COMMAND();
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithTag: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithTag: IFilter
     {
         virtual ~FilterPhotosWithTag();
 
@@ -90,7 +90,7 @@ namespace Database
         FilterPhotosWithTag(const TagNameInfo &, const TagValue & = TagValue());
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithFlags: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
     {
         FilterPhotosWithFlags();
         virtual ~FilterPhotosWithFlags();
@@ -107,7 +107,7 @@ namespace Database
         Mode mode;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithSha256: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
     {
         FilterPhotosWithSha256();
         virtual ~FilterPhotosWithSha256();
@@ -117,7 +117,7 @@ namespace Database
         Photo::Sha256sum sha256;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterNotMatchingFilter: IFilter
+    struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
     {
         FilterNotMatchingFilter(const IFilter::Ptr &);
         virtual ~FilterNotMatchingFilter();
@@ -127,7 +127,7 @@ namespace Database
         const IFilter::Ptr filter;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithId: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithId: IFilter
     {
         FilterPhotosWithId();
         virtual ~FilterPhotosWithId();
@@ -137,7 +137,7 @@ namespace Database
         Photo::Id filter;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosMatchingExpression: IFilter
+    struct DATABASE_EXPORT FilterPhotosMatchingExpression: IFilter
     {
         FilterPhotosMatchingExpression(const SearchExpressionEvaluator::Expression &);
         virtual ~FilterPhotosMatchingExpression();
@@ -147,7 +147,7 @@ namespace Database
         const SearchExpressionEvaluator::Expression expression;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithPath: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithPath: IFilter
     {
         explicit FilterPhotosWithPath(const QString &);
         virtual ~FilterPhotosWithPath();
@@ -157,7 +157,7 @@ namespace Database
         const QString path;
     };
 
-    struct DATABASE_DEPRECATED_EXPORT FilterPhotosWithRole: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithRole: IFilter
     {
         enum class Role
         {

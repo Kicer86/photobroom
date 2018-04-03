@@ -1324,33 +1324,6 @@ namespace Database
     }
 
 
-    QList<QVariant> ASqlBackend::find(const QString& query_str)
-    {
-        const QString findQuery = SqlFilterQueryGenerator().generate(query_str);
-
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        QList<QVariant> result;
-        const bool status = m_data->m_executor.exec(findQuery, &query);
-
-        if (status)
-        {
-            if (m_data->m_dbHasSizeFeature)
-                result.reserve(query.size());
-
-            while(query.next())
-            {
-                const QVariant item = query.value(0);
-
-                result.push_back(item);
-            }
-        }
-
-        return result;
-    }
-
-
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
         return m_data->perform(filter, action);

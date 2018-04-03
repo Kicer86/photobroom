@@ -52,7 +52,6 @@ namespace Database
             virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
             virtual void listTagValues( const TagNameInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
-            virtual void find(const QString & , const Callback<const QList<QVariant> &> & ) override;
 
             virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) override;
 
