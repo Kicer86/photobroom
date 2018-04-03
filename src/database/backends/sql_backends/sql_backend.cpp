@@ -208,7 +208,6 @@ namespace Database
             std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
-            QList<QVariant>        find(const QString &) const;
 
         private:
             bool storeData(const Photo::DataDelta &) const;
@@ -418,12 +417,6 @@ namespace Database
             result = query.next()? 1: 0;
 
         return result;
-    }
-
-
-    QList<QVariant> ASqlBackend::Data::find(const QString& query) const
-    {
-        return {};
     }
 
 
@@ -1331,9 +1324,30 @@ namespace Database
     }
 
 
-    QList<QVariant> ASqlBackend::find(const QString& query)
+    QList<QVariant> ASqlBackend::find(const QString& query_str)
     {
-        return m_data->find(query);
+        const QString findQuery = SqlFilterQueryGenerator().generate(query_str);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        QList<QVariant> result;
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_data->m_dbHasSizeFeature)
+                result.reserve(query.size());
+
+            while(query.next())
+            {
+                const QVariant item = query.value(0);
+
+                result.push_back(item);
+            }
+        }
+
+        return result;
     }
 
 
