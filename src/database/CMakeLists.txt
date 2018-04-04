@@ -11,6 +11,7 @@ set(DATABASE_SOURCES
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
+    implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
@@ -31,6 +32,7 @@ set(DATABASE_HEADERS
     idatabase.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp
+    person_data.hpp
     photo_data.hpp
     photo_iterator.hpp
     photo_types.hpp
