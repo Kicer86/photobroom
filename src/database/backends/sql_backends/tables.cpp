@@ -152,12 +152,12 @@ namespace Database
                     {
                         { "id", "", ColDefinition::Purpose::ID },
                         { "photo_id", "INTEGER NOT NULL"       },
-                        { "human_id", "INTEGER NOT NULL"       },
+                        { "person_id", "INTEGER NOT NULL"      },
                         { "location", "CHAR(64)"               }, // format: x y w h
                     },
                     {
-                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
-                        { "FOREIGN KEY(human_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
+                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
                     }
         );
 
@@ -166,11 +166,11 @@ namespace Database
         table_face_representatives(TAB_FACE_REPRESENTATIVES,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "human_id", "INTEGER NOT NULL"         },
+                        { "person_id", "INTEGER NOT NULL"        },
                         { "path", "VARCHAR(1024) NOT NULL"       },
                     },
                     {
-                        { "FOREIGN KEY(human_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
                     }
         );
 
