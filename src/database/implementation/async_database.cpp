@@ -199,6 +199,19 @@ namespace
     };
 
 
+    template<typename T>
+    struct GenericTask: IThreadTask
+    {
+        GenericTask(const T& callable): m_callable(callable) {}
+
+        void execute(Executor* executor) override
+        {
+            m_callable(executor);
+        }
+
+        T m_callable;
+    };
+
     struct CreateGroupTask: IThreadTask
     {
         CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
