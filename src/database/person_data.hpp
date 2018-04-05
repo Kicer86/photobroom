@@ -23,12 +23,14 @@
 
 #include <core/id.hpp>
 
+#include "database_export.h"
+
 namespace Person
 {
     typedef Id<int> Id;
 }
 
-class PersonData final
+class DATABASE_EXPORT PersonData final
 {
     public:
         PersonData(const Person::Id &, const QString &, const QString &);
