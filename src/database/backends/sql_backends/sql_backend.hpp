@@ -80,23 +80,23 @@ namespace Database
             std::unique_ptr<Data> m_data;
 
             // Database::IBackend:
-            virtual BackendStatus init(const ProjectInfo &) override final;
-            virtual bool addPhotos(std::vector<Photo::DataDelta> &) override final;
-            virtual Group::Id addGroup(const Photo::Id & ) override final;
-            virtual bool update(const Photo::DataDelta &) override final;
+            BackendStatus init(const ProjectInfo &) override final;
+            bool addPhotos(std::vector<Photo::DataDelta> &) override final;
+            Group::Id addGroup(const Photo::Id & ) override final;
+            bool update(const Photo::DataDelta &) override final;
 
-            virtual std::vector<TagNameInfo> listTags() override final;
-            virtual std::vector<TagValue>    listTagValues(const TagNameInfo&) override final;
-            virtual std::vector<TagValue>    listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) override final;
+            std::vector<TagNameInfo> listTags() override final;
+            std::vector<TagValue>    listTagValues(const TagNameInfo&) override final;
+            std::vector<TagValue>    listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) override final;
 
-            virtual std::vector<Photo::Id> getAllPhotos() override final;
-            virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override final;
-            virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) override final;
-            virtual Photo::Data           getPhoto(const Photo::Id &) override final;
-            virtual int                   getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
-            virtual QList<QVariant>       find(const QString & ) override final;
-            virtual std::vector<PersonData> listPeople() override final;
-            virtual Person::Id              store(const PersonData &) override final;
+            std::vector<Photo::Id>   getAllPhotos() override final;
+            std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
+            std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) override final;
+            Photo::Data              getPhoto(const Photo::Id &) override final;
+            int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
+            QList<QVariant>          find(const QString &) override final;
+            std::vector<PersonData>  listPeople() override final;
+            Person::Id               store(const PersonData &) override final;
 
             virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //
