@@ -179,10 +179,14 @@ namespace
             return result;
         }
 
-
         std::vector<PersonData> listPeople() override
         {
             return m_backend->listPeople();
+        }
+
+        Person::Id store(const PersonData& d) override
+        {
+            return m_backend->store(d);
         }
 
         //

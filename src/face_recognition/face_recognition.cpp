@@ -148,10 +148,30 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
 
     for (const auto& person: people)
     {
-        const QImage face = image.copy(person.first);
-        const QByteArray face_encoded = person.second.toUtf8().toBase64();
-        const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString(face_encoded));
-        face.save(path);
+        const QString& name = person.second;
+        auto it = std::find_if(m_people.cbegin(), m_people.cend(), [name](const PersonData& d)
+        {
+            return d.name() == name;
+        });
+
+        if (it == m_people.cend())  // we do not have it
+        {
+            const QImage face = image.copy(person.first);
+
+            m_db->performCustomAction([name, this, face](Database::IBackendOperator* op)
+            {
+                // anounce new face, get id for it
+                const PersonData d(Person::Id(), name, "");
+                const Person::Id id = op->store(d);
+
+                // update face's path to representative
+                const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(id.value()));
+                const PersonData ud(id, name, path);
+
+                op->store(d);
+                face.save(path);
+            });
+        }
     }
 }
 

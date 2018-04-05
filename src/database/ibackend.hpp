@@ -69,6 +69,7 @@ namespace Database
         virtual int                    getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;   // is there any photo matching filters?
         virtual QList<QVariant>        find(const QString &) = 0;                               // find items matching query
         virtual std::vector<PersonData> listPeople() = 0;                                       // list all people
+        virtual Person::Id             store(const PersonData &) = 0;                           // store or update person data
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo

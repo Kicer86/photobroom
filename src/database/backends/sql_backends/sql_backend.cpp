@@ -1383,6 +1383,11 @@ namespace Database
     }
 
 
+    Person::Id ASqlBackend::store(const PersonData& d)
+    {
+    }
+
+
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
         return m_data->perform(filter, action);

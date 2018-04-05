@@ -96,6 +96,7 @@ namespace Database
             virtual int                   getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
             virtual QList<QVariant>       find(const QString & ) override final;
             virtual std::vector<PersonData> listPeople() override final;
+            virtual Person::Id              store(const PersonData &) override final;
 
             virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //
