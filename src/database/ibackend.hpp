@@ -30,6 +30,7 @@
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
+#include "person_data.hpp"
 #include "photo_data.hpp"
 
 #include "database_export.h"
@@ -67,6 +68,7 @@ namespace Database
         virtual Photo::Data            getPhoto(const Photo::Id &) = 0;                         // get particular photo
         virtual int                    getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;   // is there any photo matching filters?
         virtual QList<QVariant>        find(const QString &) = 0;                               // find items matching query
+        virtual std::vector<PersonData> listPeople() = 0;                                       // list all people
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo

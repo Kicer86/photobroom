@@ -1351,6 +1351,38 @@ namespace Database
     }
 
 
+    std::vector<PersonData> ASqlBackend::listPeople()
+    {
+        const QString findQuery = QString("SELECT %1.id, %1.name, %2.path FROM %1 JOIN %2 ON %1.id = %2.person_id")
+                                    .arg(TAB_PEOPLE)
+                                    .arg(TAB_FACE_REPRESENTATIVES);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        std::vector<PersonData> result;
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_data->m_dbHasSizeFeature)
+                result.reserve(static_cast<std::size_t>(query.size()));
+
+            while(query.next())
+            {
+                const int id = query.value(0).toInt();
+                const QString name = query.value(1).toString();
+                const QString path = query.value(2).toString();
+                const Person::Id pid(id);
+
+                result.emplace_back(pid, name, path);
+            }
+        }
+
+        return result;
+    }
+
+
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
         return m_data->perform(filter, action);

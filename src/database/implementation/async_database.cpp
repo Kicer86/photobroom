@@ -179,6 +179,12 @@ namespace
             return result;
         }
 
+
+        std::vector<PersonData> listPeople() override
+        {
+            return m_backend->listPeople();
+        }
+
         //
 
         Database::IBackend* getBackend() const

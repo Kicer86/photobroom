@@ -25,6 +25,8 @@
 
 #include "face_recognition_export.h"
 
+#include <database/person_data.hpp>
+
 class QString;
 class QRect;
 
@@ -34,6 +36,7 @@ struct IPythonThread;
 namespace Database
 {
     struct IDatabase;
+    struct IBackendOperator;
 }
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
@@ -58,6 +61,10 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         const QString m_storage;
         IPythonThread* m_pythonThread;
         Database::IDatabase* m_db;
+        std::vector<PersonData> m_people;
+        std::atomic<bool> m_peopleLoaded;
+
+        void loadData(Database::IBackendOperator *);
 };
 
 #endif // FACERECOGNITION_HPP

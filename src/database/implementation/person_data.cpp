@@ -19,9 +19,10 @@
 #include "person_data.hpp"
 
 
-PersonData::PersonData(const Person::Id& id, const QString& name):
+PersonData::PersonData(const Person::Id& id, const QString& name, const QString& path):
     m_id(id),
-    m_name(name)
+    m_name(name),
+    m_path(path)
 {
 
 }
@@ -29,7 +30,8 @@ PersonData::PersonData(const Person::Id& id, const QString& name):
 
 PersonData::PersonData(const PersonData& other):
     m_id(other.m_id),
-    m_name(other.m_name)
+    m_name(other.m_name),
+    m_path(other.m_path)
 {
 
 }
@@ -43,4 +45,10 @@ const Person::Id& PersonData::id() const
 const QString& PersonData::name() const
 {
     return m_name;
+}
+
+
+const QString& PersonData::path() const
+{
+    return m_path;
 }

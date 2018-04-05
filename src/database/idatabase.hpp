@@ -35,6 +35,7 @@
 #include "filter.hpp"
 #include "group.hpp"
 #include "iphoto_info.hpp"
+#include "person_data.hpp"
 
 #include "database_export.h"
 
@@ -69,6 +70,7 @@ namespace Database
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
         virtual QList<QVariant> find(const QString& query) = 0;                                    // search database for items matching query
+        virtual std::vector<PersonData> listPeople() = 0;                                          // list all people
     };
 
     //Database interface.

@@ -38,6 +38,7 @@
 
 
 namespace py = pybind11;
+using namespace std::placeholders;
 
 namespace
 {
@@ -75,9 +76,11 @@ namespace
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, Database::IDatabase* db, const QString& storage):
     m_storage(storage),
     m_pythonThread(coreAccessor->getPythonThread()),
-    m_db(db)
+    m_db(db),
+    m_peopleLoaded(false)
 {
-
+    auto load = std::bind(&FaceRecognition::loadData, this, _1);
+    m_db->performCustomAction(load);
 }
 
 
@@ -150,4 +153,11 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
         const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString(face_encoded));
         face.save(path);
     }
+}
+
+
+void FaceRecognition::loadData(Database::IBackendOperator* op)
+{
+    m_people = op->listPeople();
+    m_peopleLoaded = true;
 }

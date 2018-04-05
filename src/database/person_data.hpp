@@ -31,16 +31,18 @@ namespace Person
 class PersonData final
 {
     public:
-        PersonData(const Person::Id &, const QString &);
+        PersonData(const Person::Id &, const QString &, const QString &);
         PersonData(const PersonData &);
         ~PersonData() = default;
 
         const Person::Id& id() const;
         const QString& name() const;
+        const QString& path() const;
 
     private:
         const Person::Id m_id;
         const QString m_name;
+        const QString m_path;
 };
 
 #endif // PERSONDATA_HPP
