@@ -133,11 +133,25 @@ void FaceRecognition::nameFor(const QString& path, const QRect& face, const Call
                                                               m_storage.toStdString());
 
         const std::string result_str = result.cast<py::str>();
-        const QFileInfo fileInfo(result_str.c_str());
-        const QByteArray& file_name = fileInfo.baseName().toUtf8();
-        const QByteArray decoded = QByteArray::fromBase64(file_name);
 
-        callback(decoded.constData());
+        QString name;
+
+        if (result_str.empty() == false)
+        {
+            const QFileInfo fileInfo(result_str.c_str());
+            const QByteArray& file_name = fileInfo.baseName().toUtf8();
+            const int id = file_name.toInt();
+
+            auto it = std::find_if(m_people.cbegin(), m_people.cend(), [id](const PersonData& d)
+            {
+                return d.id() == id;
+            });
+
+            if (it != m_people.cend())
+                name = it->name();
+        }
+
+        callback(name);
     });
 }
 
@@ -157,18 +171,19 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
         if (it == m_people.cend())  // we do not have it
         {
             const QImage face = image.copy(person.first);
+            const QString base_path = m_storage;
 
-            m_db->performCustomAction([name, this, face](Database::IBackendOperator* op)
+            m_db->performCustomAction([name, base_path, face](Database::IBackendOperator* op)
             {
                 // anounce new face, get id for it
                 const PersonData d(Person::Id(), name, "");
                 const Person::Id id = op->store(d);
 
                 // update face's path to representative
-                const QString path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(id.value()));
+                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(id.value()));
                 const PersonData ud(id, name, path);
 
-                op->store(d);
+                op->store(ud);
                 face.save(path);
             });
         }
