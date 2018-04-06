@@ -226,6 +226,7 @@ namespace Database
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
             bool doesPhotoExist(const Photo::Id &) const;
 
+        public:
             bool updateOrInsert(const UpdateQueryData &) const;
     };
 
@@ -1385,6 +1386,52 @@ namespace Database
 
     Person::Id ASqlBackend::store(const PersonData& d)
     {
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        Transaction transaction(db);
+
+        Person::Id id(d.id());
+
+        bool status = false;
+        {
+            InsertQueryData queryData(TAB_PEOPLE);
+            queryData.setColumns("name");
+            queryData.setValues(d.name());
+
+            QSqlQuery query;
+
+            if (id.valid())
+            {
+                UpdateQueryData updateQueryData(queryData);
+                updateQueryData.setCondition("id", QString::number(id));
+                query = getGenericQueryGenerator()->update(db, updateQueryData);
+            }
+            else
+            {
+                query = getGenericQueryGenerator()->insert(db, queryData);
+            }
+
+            status = m_data->m_executor.exec(query);
+
+            if (status && id.valid() == false)
+            {
+                const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                id = vid.toInt();
+            }
+        }
+
+        if (status && id.valid())
+        {
+            InsertQueryData queryData(TAB_FACE_REPRESENTATIVES);
+            queryData.setColumns("person_id", "path");
+            queryData.setValues(id, d.path());
+
+            UpdateQueryData updateQueryData(queryData);
+            updateQueryData.setCondition("person_id", QString::number(id));
+
+            status = m_data->updateOrInsert(updateQueryData);
+        }
+
+        return id;
     }
 
 
