@@ -142,7 +142,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+39"/>
         <source>Found %1 face(s).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -152,7 +152,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>All known faces recognized.</source>
         <translation type="unfinished"></translation>
     </message>

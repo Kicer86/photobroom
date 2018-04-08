@@ -46,7 +46,11 @@ void FacesDialog::load(const QString& photo)
     m_photoPath = photo;
 
     ui->statusLabel->setText(tr("Locating faces..."));
-    m_faceRecognizer.findFaces(photo, std::bind(&FacesDialog::gotFacesLocations, this, _1));
+
+    auto callback = m_safeCallback.make_safe_callback<void(const QVector<QRect> &)>
+        (std::bind(&FacesDialog::gotFacesLocations, this, _1));
+
+    m_faceRecognizer.findFaces(photo, callback);
     updateImage();
 }
 
@@ -92,10 +96,12 @@ void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
     m_facesToAnalyze = faces.size();
 
     for(const QRect& face: faces)
-        m_faceRecognizer.nameFor(m_photoPath, face, [this, face](const QString& name)
-        {
-            emit gotFaceName(face, name);
-        });
+    {
+        auto callback = m_safeCallback.make_safe_callback<void(const QString &)>
+            (std::bind(&FacesDialog::gotFaceName, this, face, _1));
+
+        m_faceRecognizer.nameFor(m_photoPath, face, callback);
+    }
 }
 
 

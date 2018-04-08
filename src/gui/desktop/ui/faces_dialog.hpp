@@ -3,7 +3,9 @@
 
 #include <QDialog>
 
+#include <core/callback_ptr.hpp>
 #include <face_recognition/face_recognition.hpp>
+
 
 struct ICoreFactoryAccessor;
 struct IPythonThread;
@@ -25,6 +27,7 @@ class FacesDialog: public QDialog
         std::vector<std::pair<QRect, QString>> people() const;
 
     private:
+        safe_callback_ctrl m_safeCallback;
         QVector<QRect> m_faces;
         const FaceRecognition& m_faceRecognizer;
         QString m_photoPath;
