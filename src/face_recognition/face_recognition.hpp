@@ -52,9 +52,17 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
+        // Locate faces on given photo. Return results in callback
         void findFaces(const QString &, const Callback<const QVector<QRect> &> &) const;
+
+        // Try to recognize person on given photo and face.
+        // Second parameter is a face located by findFaces()
+        // Name is returned in callback.
         void nameFor(const QString &, const QRect &, const Callback<const QString &> &) const;
 
+        // Store information about people on given photo.
+        // First parameter is path to photo.
+        // Second is a list of faces and associated names.
         void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:
