@@ -20,6 +20,7 @@
 #define FACERECOGNITION_HPP
 
 #include <functional>
+#include <memory>
 
 #include <QVector>
 
@@ -66,11 +67,10 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:
-        const QString m_storage;
+        struct SharedData;
+        std::shared_ptr<SharedData> m_data;
         IPythonThread* m_pythonThread;
         Database::IDatabase* m_db;
-        std::vector<PersonData> m_people;
-        std::atomic<bool> m_peopleLoaded;
 
         void loadData(Database::IBackendOperator *);
 };

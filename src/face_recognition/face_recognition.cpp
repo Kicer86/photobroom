@@ -73,11 +73,26 @@ namespace
     }
 }
 
+
+struct FaceRecognition::SharedData
+{
+    const QString m_storage;
+    std::vector<PersonData> m_people;
+    std::atomic<bool> m_peopleLoaded;
+
+    SharedData(const QString& storage):
+        m_storage(storage),
+        m_peopleLoaded(false)
+    {
+
+    }
+};
+
+
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, Database::IDatabase* db, const QString& storage):
-    m_storage(storage),
+    m_data(new SharedData(storage)),
     m_pythonThread(coreAccessor->getPythonThread()),
-    m_db(db),
-    m_peopleLoaded(false)
+    m_db(db)
 {
     auto load = std::bind(&FaceRecognition::loadData, this, _1);
     m_db->performCustomAction(load);
@@ -120,7 +135,8 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
 
 void FaceRecognition::nameFor(const QString& path, const QRect& face, const Callback<const QString &>& callback) const
 {
-    m_pythonThread->execute([path, face, callback, this]()
+    auto data = m_data;
+    m_pythonThread->execute([path, face, data, callback]()
     {
         QTemporaryFile tmpFile;
 
@@ -130,7 +146,7 @@ void FaceRecognition::nameFor(const QString& path, const QRect& face, const Call
 
         py::module find_faces = py::module::import("recognize_face");
         py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                              m_storage.toStdString());
+                                                              data->m_storage.toStdString());
 
         const std::string result_str = result.cast<py::str>();
 
@@ -142,12 +158,14 @@ void FaceRecognition::nameFor(const QString& path, const QRect& face, const Call
             const QByteArray& file_name = fileInfo.baseName().toUtf8();
             const int id = file_name.toInt();
 
-            auto it = std::find_if(m_people.cbegin(), m_people.cend(), [id](const PersonData& d)
+            auto it = std::find_if(data->m_people.cbegin(),
+                                   data->m_people.cend(),
+                                   [id](const PersonData& d)
             {
                 return d.id() == id;
             });
 
-            if (it != m_people.cend())
+            if (it != data->m_people.cend())
                 name = it->name();
         }
 
@@ -163,15 +181,17 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
     for (const auto& person: people)
     {
         const QString& name = person.second;
-        auto it = std::find_if(m_people.cbegin(), m_people.cend(), [name](const PersonData& d)
+        auto it = std::find_if(m_data->m_people.cbegin(),
+                               m_data->m_people.cend(),
+                               [name](const PersonData& d)
         {
             return d.name() == name;
         });
 
-        if (it == m_people.cend())  // we do not have it
+        if (it == m_data->m_people.cend())  // we do not have it
         {
             const QImage face = image.copy(person.first);
-            const QString base_path = m_storage;
+            const QString base_path = m_data->m_storage;
 
             m_db->performCustomAction([name, base_path, face](Database::IBackendOperator* op)
             {
@@ -193,6 +213,6 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
 
 void FaceRecognition::loadData(Database::IBackendOperator* op)
 {
-    m_people = op->listPeople();
-    m_peopleLoaded = true;
+    m_data->m_people = op->listPeople();
+    m_data->m_peopleLoaded = true;
 }
