@@ -12,7 +12,7 @@
 
 using namespace std::placeholders;
 
-FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor,  const FaceRecognition& face_recognizer, QWidget *parent):
+FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, const FaceRecognition& face_recognizer, QWidget *parent):
     QDialog(parent),
     m_faces(),
     m_faceRecognizer(face_recognizer),

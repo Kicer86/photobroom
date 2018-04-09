@@ -34,6 +34,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
 #include <database/idatabase.hpp>
+#include <database/filter.hpp>
 #include <system/filesystem.hpp>
 
 
@@ -174,12 +175,13 @@ void FaceRecognition::nameFor(const QString& path, const QRect& face, const Call
 }
 
 
-void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QRect, QString> >& people) const
+void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pair<QRect, QString> >& people) const
 {
-    const QImage image(photo);
+    const QImage image(photo.path);
 
     for (const auto& person: people)
     {
+        const QRect face_coords = person.first;
         const QString& name = person.second;
         auto it = std::find_if(m_data->m_people.cbegin(),
                                m_data->m_people.cend(),
@@ -188,25 +190,34 @@ void FaceRecognition::store(const QString& photo, const std::vector<std::pair<QR
             return d.name() == name;
         });
 
-        if (it == m_data->m_people.cend())  // we do not have it
+        if (it == m_data->m_people.cend())  // we do not know that person
         {
-            const QImage face = image.copy(person.first);
+            const QImage face = image.copy( face_coords );
             const QString base_path = m_data->m_storage;
 
-            m_db->performCustomAction([name, base_path, face](Database::IBackendOperator* op)
+            m_db->performCustomAction([photo, name, base_path, face, face_coords](Database::IBackendOperator* op)
             {
                 // anounce new face, get id for it
                 const PersonData d(Person::Id(), name, "");
-                const Person::Id id = op->store(d);
+                const Person::Id p_id = op->store(d);
 
                 // update face's path to representative
-                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(id.value()));
-                const PersonData ud(id, name, path);
+                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
+                const PersonData ud(p_id, name, path);
+
+                // store face location
+                op->store(photo.id, p_id, face_coords);
 
                 op->store(ud);
                 face.save(path);
             });
         }
+        else                                // someone known
+            m_db->performCustomAction([face_coords, photo, p_id = it->id()](Database::IBackendOperator* op)
+            {
+                // store face location
+                op->store(photo.id, p_id, face_coords);
+            });
     }
 }
 

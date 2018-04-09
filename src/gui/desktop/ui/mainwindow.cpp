@@ -559,7 +559,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         if (faces_dialog.exec() == QDialog::Accepted)
         {
             const auto people = faces_dialog.people();
-            faceRecognition.store(absolute_path, people);
+            faceRecognition.store(first, people);
         }
     }
 }

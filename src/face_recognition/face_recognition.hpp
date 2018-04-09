@@ -28,6 +28,7 @@
 
 #include <database/person_data.hpp>
 
+
 class QString;
 class QRect;
 
@@ -38,6 +39,11 @@ namespace Database
 {
     struct IDatabase;
     struct IBackendOperator;
+}
+
+namespace Photo
+{
+    class Data;
 }
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
@@ -62,9 +68,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         void nameFor(const QString &, const QRect &, const Callback<const QString &> &) const;
 
         // Store information about people on given photo.
-        // First parameter is path to photo.
-        // Second is a list of faces and associated names.
-        void store(const QString &, const std::vector<std::pair<QRect, QString>> &) const;
+        // Second argument is a list of faces and associated names.
+        void store(const Photo::Data &, const std::vector<std::pair<QRect, QString>> &) const;
 
     private:
         struct SharedData;
