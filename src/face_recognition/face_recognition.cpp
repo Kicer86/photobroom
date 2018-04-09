@@ -183,6 +183,7 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
     {
         const QRect face_coords = person.first;
         const QString& name = person.second;
+
         auto it = std::find_if(m_data->m_people.cbegin(),
                                m_data->m_people.cend(),
                                [name](const PersonData& d)
@@ -192,13 +193,10 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
 
         if (it == m_data->m_people.cend())  // we do not know that person
         {
-            const QImage face = image.copy( face_coords );
-            const QString base_path = m_data->m_storage;
-
-            m_db->performCustomAction([photo,
+            m_db->performCustomAction([photo_id = photo.id,
                                        name,
-                                       base_path,
-                                       face,
+                                       base_path = m_data->m_storage,
+                                       face = image.copy(face_coords),
                                        face_coords]
                                        (Database::IBackendOperator* op)
             {
@@ -211,17 +209,20 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
                 const PersonData ud(p_id, name, path);
 
                 // store face location
-                op->store(photo.id, p_id, face_coords);
+                op->store(photo_id, p_id, face_coords);
 
                 op->store(ud);
                 face.save(path);
             });
         }
         else                                // someone known
-            m_db->performCustomAction([face_coords, photo, p_id = it->id()](Database::IBackendOperator* op)
+            m_db->performCustomAction([face_coords,
+                                       photo_id = photo.id,
+                                       p_id = it->id()]
+                                       (Database::IBackendOperator* op)
             {
                 // store face location
-                op->store(photo.id, p_id, face_coords);
+                op->store(photo_id, p_id, face_coords);
             });
     }
 }
