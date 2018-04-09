@@ -189,6 +189,11 @@ namespace
             return m_backend->store(d);
         }
 
+        void store(const Photo::Id& ph_id, const Person::Id& p_id, const QRect& face)
+        {
+            m_backend->store(ph_id, p_id, face);
+        }
+
         //
 
         Database::IBackend* getBackend() const

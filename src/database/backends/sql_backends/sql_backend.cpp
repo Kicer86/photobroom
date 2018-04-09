@@ -1435,6 +1435,26 @@ namespace Database
     }
 
 
+    void ASqlBackend::store(const Photo::Id& ph_id, const Person::Id& p_id, const QRect& face)
+    {
+        const QString face_coords = QString("%1,%2 %3x%4")
+                                        .arg(face.x())
+                                        .arg(face.y())
+                                        .arg(face.width())
+                                        .arg(face.height());
+
+        InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
+        queryData.setColumns("photo_id", "person_id", "location");
+        queryData.setValues(ph_id, p_id, face_coords);
+
+        UpdateQueryData updateQueryData(queryData);
+        updateQueryData.addCondition("photo_id", QString::number(ph_id));
+        updateQueryData.addCondition("person_id", QString::number(p_id));
+
+        m_data->updateOrInsert(updateQueryData);
+    }
+
+
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
         return m_data->perform(filter, action);
