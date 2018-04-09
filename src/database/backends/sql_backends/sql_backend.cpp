@@ -285,7 +285,7 @@ namespace Database
                     else
                     {
                         UpdateQueryData updateQueryData(queryData);
-                        updateQueryData.setCondition("id", QString::number(tag_id));
+                        updateQueryData.addCondition("id", QString::number(tag_id));
                         query = m_backend->getGenericQueryGenerator()->update(db, updateQueryData);
                     }
 
@@ -513,7 +513,7 @@ namespace Database
     bool ASqlBackend::Data::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
     {
         UpdateQueryData data(TAB_GEOMETRY);
-        data.setCondition("photo_id", QString::number(photo_id));
+        data.addCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
 
@@ -526,7 +526,7 @@ namespace Database
     bool ASqlBackend::Data::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
     {
         UpdateQueryData data(TAB_SHA256SUMS);
-        data.setCondition("photo_id", QString::number(photo_id));
+        data.addCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "sha256");
         data.setValues(QString::number(photo_id), sha256.constData());
 
@@ -616,7 +616,7 @@ namespace Database
         };
 
         UpdateQueryData queryInfo(TAB_FLAGS);
-        queryInfo.setCondition("photo_id", QString::number(id));
+        queryInfo.addCondition("photo_id", QString::number(id));
         queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
         queryInfo.setValues(QString::number(id),
                             get_flag(Photo::FlagsE::StagingArea),
@@ -642,7 +642,7 @@ namespace Database
                 case GroupInfo::Member:
                 {
                     UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
-                    queryInfo.setCondition("photo_id", QString::number(id));
+                    queryInfo.addCondition("photo_id", QString::number(id));
                     queryInfo.setColumns("group_id", "photo_id");
                     queryInfo.setValues(QString::number(groupInfo.group_id),
                                         QString::number(id)
@@ -1402,7 +1402,7 @@ namespace Database
             if (id.valid())
             {
                 UpdateQueryData updateQueryData(queryData);
-                updateQueryData.setCondition("id", QString::number(id));
+                updateQueryData.addCondition("id", QString::number(id));
                 query = getGenericQueryGenerator()->update(db, updateQueryData);
             }
             else
@@ -1426,7 +1426,7 @@ namespace Database
             queryData.setValues(id, d.path());
 
             UpdateQueryData updateQueryData(queryData);
-            updateQueryData.setCondition("person_id", QString::number(id));
+            updateQueryData.addCondition("person_id", QString::number(id));
 
             status = m_data->updateOrInsert(updateQueryData);
         }
