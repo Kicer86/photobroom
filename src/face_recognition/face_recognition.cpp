@@ -195,7 +195,12 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
             const QImage face = image.copy( face_coords );
             const QString base_path = m_data->m_storage;
 
-            m_db->performCustomAction([photo, name, base_path, face, face_coords](Database::IBackendOperator* op)
+            m_db->performCustomAction([photo,
+                                       name,
+                                       base_path,
+                                       face,
+                                       face_coords]
+                                       (Database::IBackendOperator* op)
             {
                 // anounce new face, get id for it
                 const PersonData d(Person::Id(), name, "");
