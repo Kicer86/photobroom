@@ -11,7 +11,13 @@ def recognize_face(face_file, known_faces_dir):
     for file in glob.glob("*.jpg"):
 
         image = face_recognition.load_image_file(file)
-        encoded = face_recognition.face_encodings(image)[0]
+        encodings = face_recognition.face_encodings(image)
+
+        if len(encodings) > 0:
+            encoded = face_recognition.face_encodings(image)[0]
+        else:
+            print("Could not encode face on photo ", file)
+            continue
 
         names.append(file)
         encoded_faces.append(encoded)
