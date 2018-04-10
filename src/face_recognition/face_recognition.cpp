@@ -202,7 +202,7 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
                                        base_path = m_data->m_storage,
                                        face = image.copy(face_coords),
                                        face_coords]
-                                       (Database::IBackendOperator* op)
+                                      (Database::IBackendOperator* op)
             {
                 // anounce new face, get id for it
                 const PersonData d(Person::Id(), name, "");
@@ -223,7 +223,7 @@ void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pai
             m_db->performCustomAction([face_coords,
                                        photo_id = photo.id,
                                        p_id = it->id()]
-                                       (Database::IBackendOperator* op)
+                                      (Database::IBackendOperator* op)
             {
                 // store face location
                 op->store(photo_id, p_id, face_coords);
