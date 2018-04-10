@@ -136,6 +136,8 @@ void FaceRecognition::findFaces(const QString& photo, const Callback<const QVect
 
 void FaceRecognition::nameFor(const QString& path, const QRect& face, const Callback<const QString &>& callback) const
 {
+    assert(m_data->m_peopleLoaded);
+
     auto data = m_data;
     m_pythonThread->execute([path, face, data, callback]()
     {
@@ -177,6 +179,8 @@ void FaceRecognition::nameFor(const QString& path, const QRect& face, const Call
 
 void FaceRecognition::store(const Photo::Data& photo, const std::vector<std::pair<QRect, QString> >& people) const
 {
+    assert(m_data->m_peopleLoaded);
+
     const QImage image(photo.path);
 
     for (const auto& person: people)
