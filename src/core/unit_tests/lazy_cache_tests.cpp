@@ -3,10 +3,7 @@
 
 #include "lazy_cache.hpp"
 
-typedef std::function<void(int)> CacheSetter;
-typedef std::function<void( const CacheSetter & )> CacheSetterCallback;
-
-typedef LazyCache<int, CacheSetterCallback> Cache;
+typedef LazyCache<int> Cache;
 
 using testing::Return;
 using testing::_;

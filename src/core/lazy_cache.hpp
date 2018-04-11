@@ -7,11 +7,14 @@
 #include <optional>
 #include <vector>
 
-template<typename T, typename G>
+template<typename T>
 class LazyCache
 {
     public:
-        LazyCache(const G& g): m_getter(g) {}
+        typedef std::function<void(int)> Getter;
+        typedef std::function<void(const Getter &)> GetterCallback;
+
+        LazyCache(const GetterCallback& g): m_getter(g) {}
 
         template<typename R>
         void get(const R& callback)
@@ -30,7 +33,7 @@ class LazyCache
         }
 
     private:
-        G m_getter;
+        GetterCallback m_getter;
         std::mutex m_mutex;
         std::optional<T> m_value;
         std::vector<std::function<void(const T &)>> m_wating;
@@ -49,7 +52,7 @@ class LazyCache
 
         void get()
         {
-            auto set = std::bind(&LazyCache<T, G>::assign, this, std::placeholders::_1);
+            auto set = std::bind(&LazyCache<T>::assign, this, std::placeholders::_1);
             m_getter(set);
         }
 };
