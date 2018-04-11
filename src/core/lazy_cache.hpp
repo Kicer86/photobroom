@@ -11,7 +11,7 @@ template<typename T>
 class LazyCache
 {
     public:
-        typedef std::function<void(int)> Getter;
+        typedef std::function<void(T)> Getter;
         typedef std::function<void(const Getter &)> GetterCallback;
 
         LazyCache(const GetterCallback& g): m_getter(g) {}
