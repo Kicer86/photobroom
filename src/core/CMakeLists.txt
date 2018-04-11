@@ -94,6 +94,7 @@ set(CORE_HEADERS
     itasks_view.hpp
     iview_task.hpp
     iterator_wrapper.hpp
+    lazy_cache.hpp
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp

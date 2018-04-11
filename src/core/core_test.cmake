@@ -10,6 +10,7 @@ find_package(Qt5Core REQUIRED)
 
 addTestTarget(core
                 SOURCES
+                    unit_tests/lazy_cache_tests.cpp
                     unit_tests/map_iterator_tests.cpp
                     unit_tests/ptr_iterator_tests.cpp
                     unit_tests/qmodelindex_comparator_tests.cpp
