@@ -1384,6 +1384,42 @@ namespace Database
     }
 
 
+    std::vector<PersonLocation> ASqlBackend::listFaces(const Photo::Id& id)
+    {
+        const QString findQuery = QString("SELECT %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+                                    .arg(TAB_PEOPLE_LOCATIONS)
+                                    .arg(id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        std::vector<PersonLocation> result;
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_data->m_dbHasSizeFeature)
+                result.reserve(static_cast<std::size_t>(query.size()));
+
+            while(query.next())
+            {
+                const int id_raw = query.value(0).toInt();
+                const QString location_raw = query.value(1).toString();
+                const Person::Id pid(id_raw);
+                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
+                const QRect location(location_list[0].toInt(),
+                                     location_list[1].toInt(),
+                                     location_list[2].toInt(),
+                                     location_list[3].toInt());
+
+                result.emplace_back(pid, location);
+            }
+        }
+
+        return result;
+    }
+
+
     Person::Id ASqlBackend::store(const PersonData& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);

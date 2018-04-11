@@ -20,6 +20,7 @@
 #define PERSONDATA_HPP
 
 #include <QString>
+#include <QRect>
 
 #include <core/id.hpp>
 
@@ -45,6 +46,14 @@ class DATABASE_EXPORT PersonData final
         const Person::Id m_id;
         const QString m_name;
         const QString m_path;
+};
+
+struct PersonLocation
+{
+    const Person::Id id;
+    const QRect location;
+
+    PersonLocation(const Person::Id& i, const QRect& l): id(i), location(l) {}
 };
 
 #endif // PERSONDATA_HPP
