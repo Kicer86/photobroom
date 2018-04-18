@@ -2,6 +2,7 @@
 
 include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:face_recognition,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
@@ -11,6 +12,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 set(UTILS_SOURCES
     config_tools.cpp
     model_index_utils.cpp
+    people_operator.cpp
     photos_collector.cpp
     selection_extractor.cpp
     signal_filter.cpp
@@ -26,6 +28,7 @@ set(UTILS_HEADERS
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
     model_index_utils.hpp
+    people_operator.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
@@ -38,6 +41,7 @@ set(UTILS_HEADERS
 
 
 set(UTILS_FILES_TO_MOC
+    people_operator.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
