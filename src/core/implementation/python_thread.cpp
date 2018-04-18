@@ -45,7 +45,7 @@ namespace
 struct PythonThread::Impl
 {
     pybind11::scoped_interpreter m_py_interpreter;
-    ol::TS_Queue<std::function<void ()>> m_tasks;
+    ol::TS_Queue<std::unique_ptr<ITask>> m_tasks;
 
     Impl(): m_py_interpreter(), m_tasks(16) {}
 };
@@ -65,9 +65,9 @@ PythonThread::~PythonThread()
 }
 
 
-void PythonThread::execute(const std::function<void ()>& callback)
+void PythonThread::execute(std::unique_ptr<ITask>&& task)
 {
-    m_impl->m_tasks.push(callback);
+    m_impl->m_tasks.push(std::move(task));
 }
 
 
@@ -78,10 +78,7 @@ void PythonThread::thread()
         auto task = m_impl->m_tasks.pop();
 
         if (task)
-        {
-            const auto& callable = *task;
-            callable();
-        }
+            (*task)->run();
         else
             break;
     }

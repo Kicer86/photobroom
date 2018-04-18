@@ -33,7 +33,8 @@ class CORE_EXPORT PythonThread final: public IPythonThread
         PythonThread();
         ~PythonThread();
 
-        void execute(const std::function<void ()> &) override;
+        void execute(std::unique_ptr<ITask> &&) override;
+        using IPythonThread::execute;
 
     private:
         struct Impl;
