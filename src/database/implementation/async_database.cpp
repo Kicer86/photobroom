@@ -264,17 +264,17 @@ namespace
 
     struct CustomAction: IThreadTask
     {
-        CustomAction(const std::function<void(Database::IBackendOperator *)>& operation): m_operation(operation)
+        CustomAction(std::unique_ptr<Database::IDatabase::ITask>&& operation): m_operation(std::move(operation))
         {
 
         }
 
         virtual void execute(Executor* executor) override
         {
-            m_operation(executor);
+            m_operation->run(executor);
         }
 
-        std::function<void(Database::IBackendOperator *)> m_operation;
+        std::unique_ptr<Database::IDatabase::ITask> m_operation;
     };
 
 
@@ -660,9 +660,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::performCustomAction(const std::function<void(IBackendOperator *)>& action)
+    void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
     {
-        auto task = std::make_unique<CustomAction>(action);
+        auto task = std::make_unique<CustomAction>(std::move(action));
         m_impl->addTask(std::move(task));
     }
 

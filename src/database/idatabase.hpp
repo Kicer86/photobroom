@@ -76,6 +76,7 @@ namespace Database
         virtual void store(const Photo::Id &, const Person::Id &, const QRect &) = 0;              // store information about person of photo
     };
 
+
     //Database interface.
     //A bridge between clients and backend.
     struct DATABASE_EXPORT IDatabase
@@ -108,13 +109,40 @@ namespace Database
         // drop data
 
         // other
-        virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) = 0;
+        template<typename Callable>
+        void performCustomAction(Callable&& f)
+        {
+            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
+            execute(std::move(task));
+        }
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
+
+        struct ITask
+        {
+            virtual ~ITask() = default;
+            virtual void run(IBackendOperator *) = 0;
+        };
+
+    protected:
+        template<typename Callable>
+            struct Task: ITask
+            {
+                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+
+                void run(IBackendOperator* backend) override
+                {
+                    m_f(backend);
+                }
+
+                Callable m_f;
+            };
+
+        virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
 }

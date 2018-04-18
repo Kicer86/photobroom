@@ -54,7 +54,7 @@ namespace Database
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
             virtual void find(const QString & , const Callback<const QList<QVariant> &> & ) override;
 
-            virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) override;
+            virtual void execute(std::unique_ptr<ITask> &&) override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;

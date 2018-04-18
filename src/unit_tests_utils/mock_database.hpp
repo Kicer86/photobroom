@@ -26,7 +26,8 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD2(listPhotos, void(const std::vector<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
     MOCK_METHOD2(find, void(const QString &, const Callback<const QList<QVariant> &> &) );
 
-    MOCK_METHOD1(performCustomAction, void(const std::function<void(Database::IBackendOperator *)> &) );
+    // TODO: not doesn't compile when MOCKED
+    void execute(std::unique_ptr<Database::IDatabase::ITask> &&) {}
 
     MOCK_METHOD2(init, void(const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &) );
 
