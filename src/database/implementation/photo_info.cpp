@@ -51,25 +51,25 @@ Photo::Data PhotoInfo::data() const
 }
 
 
-const QString PhotoInfo::getPath() const
+QString PhotoInfo::getPath() const
 {
     return m_data->m_data.lock()->path;
 }
 
 
-const Tag::TagsList PhotoInfo::getTags() const
+Tag::TagsList PhotoInfo::getTags() const
 {
     return m_data->m_data.lock()->tags;
 }
 
 
-const QSize PhotoInfo::getGeometry() const
+QSize PhotoInfo::getGeometry() const
 {
     return m_data->m_data.lock()->geometry;
 }
 
 
-const Photo::Sha256sum PhotoInfo::getSha256() const
+Photo::Sha256sum PhotoInfo::getSha256() const
 {
     assert(isSha256Loaded());
 

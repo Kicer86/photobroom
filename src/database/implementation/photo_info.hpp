@@ -32,12 +32,12 @@ class PhotoInfo final: public IPhotoInfo
         PhotoInfo& operator=(const PhotoInfo &) = delete;
 
         //data getting
-        Photo::Data            data() const override;
-        const QString          getPath() const override;
-        const Tag::TagsList    getTags() const override;       // a access to tags
-        const QSize            getGeometry() const override;   // get photo's geometry
-        const Photo::Sha256sum getSha256() const override;     // Do not call until isSha256Loaded()
-        Photo::Id              getID() const override;
+        Photo::Data      data() const override;
+        QString          getPath() const override;
+        Tag::TagsList    getTags() const override;           // a access to tags
+        QSize            getGeometry() const override;       // get photo's geometry
+        Photo::Sha256sum getSha256() const override;         // Do not call until isSha256Loaded()
+        Photo::Id        getID() const override;
 
         //status checking
         bool isFullyInitialized() const override;            // returns true if photo fully loaded (all items below are loaded)

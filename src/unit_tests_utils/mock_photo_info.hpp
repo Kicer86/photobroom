@@ -11,10 +11,10 @@
 struct MockPhotoInfo: IPhotoInfo
 {
     MOCK_CONST_METHOD0(data, Photo::Data());
-    MOCK_CONST_METHOD0(getPath, const QString());
-    MOCK_CONST_METHOD0(getTags, const Tag::TagsList());
-    MOCK_CONST_METHOD0(getGeometry, const QSize());
-    MOCK_CONST_METHOD0(getSha256, const Photo::Sha256sum());
+    MOCK_CONST_METHOD0(getPath, QString());
+    MOCK_CONST_METHOD0(getTags, Tag::TagsList());
+    MOCK_CONST_METHOD0(getGeometry, QSize());
+    MOCK_CONST_METHOD0(getSha256, Photo::Sha256sum());
     MOCK_CONST_METHOD0(getID, Photo::Id());
 
     MOCK_CONST_METHOD0(isFullyInitialized, bool());
