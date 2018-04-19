@@ -1,5 +1,5 @@
 /*
- * Access information about people from db and photo itself.
+ * Private details of PeopleOperator
  * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PEOPLEOPERATOR_HPP
-#define PEOPLEOPERATOR_HPP
+#ifndef PEOPLEOPERATOR_P_HPP
+#define PEOPLEOPERATOR_P_HPP
 
 #include <QObject>
 #include <QVector>
 #include <QRect>
 
+#include <core/itask_executor.hpp>
 #include <database/photo_data.hpp>
+#include <database/person_data.hpp>
 
 
 namespace Database
@@ -34,23 +36,25 @@ namespace Database
 struct ICoreFactoryAccessor;
 
 
-class PeopleOperator final: public QObject
+class FacesFetcher final: public QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT
 
     public:
-        PeopleOperator(Database::IDatabase *, ICoreFactoryAccessor *);
-        ~PeopleOperator();
+        FacesFetcher(const Photo::Id &, ICoreFactoryAccessor *, Database::IDatabase *);
+        virtual ~FacesFetcher();
 
-        // Locate faces on given photo.
-        void fetchFaces(const Photo::Id &) const;
+        std::string name() const override;
+        void perform() override;
+        std::vector<PersonLocation> fetchFacesFromDb() const;
+        QString getPhotoPath() const ;
+
+        const Photo::Id m_id;
+        ICoreFactoryAccessor* m_coreFactory;
+        Database::IDatabase* m_db;
 
     signals:
-        void faces(const Photo::Id &, const QVector<QRect> &) const;
-
-    private:
-        Database::IDatabase* m_db;
-        ICoreFactoryAccessor* m_coreFactory;
+        void faces(const QVector<QRect> &) const;
 };
 
-#endif // PEOPLEOPERATOR_HPP
+#endif // PEOPLEOPERATOR_P_HPP

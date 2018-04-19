@@ -29,6 +29,7 @@ set(UTILS_HEADERS
     ithumbnail_generator.hpp
     model_index_utils.hpp
     people_operator.hpp
+    people_operator_p.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
@@ -42,6 +43,7 @@ set(UTILS_HEADERS
 
 set(UTILS_FILES_TO_MOC
     people_operator.hpp
+    people_operator_p.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp

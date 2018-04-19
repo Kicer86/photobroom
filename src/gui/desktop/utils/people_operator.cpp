@@ -27,6 +27,9 @@
 #include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
 
+#include "people_operator_p.hpp"
+
+
 using namespace std::placeholders;
 
 
