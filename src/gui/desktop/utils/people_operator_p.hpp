@@ -46,12 +46,14 @@ class FacesFetcher final: public QObject, public ITaskExecutor::ITask
 
         std::string name() const override;
         void perform() override;
-        std::vector<PersonLocation> fetchFacesFromDb() const;
-        QString getPhotoPath() const ;
 
+    private:
         const Photo::Id m_id;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
+
+        std::vector<PersonLocation> fetchFacesFromDb() const;
+        QString getPhotoPath() const;
 
     signals:
         void faces(const QVector<QRect> &) const;
