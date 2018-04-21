@@ -19,65 +19,37 @@
 #ifndef FACERECOGNITION_HPP
 #define FACERECOGNITION_HPP
 
-#include <functional>
-#include <memory>
-
 #include <QVector>
 
 #include "face_recognition_export.h"
-
-#include <database/person_data.hpp>
-
 
 class QString;
 class QRect;
 
 struct ICoreFactoryAccessor;
 struct IPythonThread;
-
-namespace Database
-{
-    struct IDatabase;
-    struct IBackendOperator;
-}
-
-namespace Photo
-{
-    class Data;
-}
+struct FacesData;
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
-        template <typename... Args>
-        using Callback = std::function<void(Args...)>;
-
-        FaceRecognition(ICoreFactoryAccessor *, Database::IDatabase *, const QString& storage);
+        FaceRecognition(ICoreFactoryAccessor *, const QString& storage);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
-        // Locate faces on given photo. Return results in callback
-        void findFaces(const QString &, const Callback<const QVector<QRect> &> &) const;
+        // Locate faces on given photo.
+        QVector<QRect> fetchFaces(const QString &) const;
 
         // Try to recognize person on given photo and face.
-        // Second parameter is a face located by findFaces()
-        // Name is returned in callback.
-        void nameFor(const QString &, const QRect &, const Callback<const QString &> &) const;
-
-        // Store information about people on given photo.
-        // Second argument is a list of faces and associated names.
-        void store(const Photo::Data &, const std::vector<std::pair<QRect, QString>> &) const;
+        // Second parameter is a face located by fetchFaces()
+        QString recognize(const QString &, const QRect &) const;
 
     private:
-        struct SharedData;
-        std::shared_ptr<SharedData> m_data;
+        QString m_storage;
         IPythonThread* m_pythonThread;
-        Database::IDatabase* m_db;
-
-        void loadData(Database::IBackendOperator *);
 };
 
 #endif // FACERECOGNITION_HPP

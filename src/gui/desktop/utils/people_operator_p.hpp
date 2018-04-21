@@ -59,4 +59,31 @@ class FacesFetcher final: public QObject, public ITaskExecutor::ITask
         void faces(const QVector<QRect> &) const;
 };
 
+
+class FaceRecognizer final: public QObject, public ITaskExecutor::ITask
+{
+        Q_OBJECT
+
+    public:
+        FaceRecognizer(const Photo::Id &, const QRect &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
+        virtual ~FaceRecognizer();
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        const Photo::Id m_id;
+        const QRect m_rect;
+        const QString m_patterns;
+        ICoreFactoryAccessor* m_coreFactory;
+        Database::IDatabase* m_db;
+
+        std::vector<PersonLocation> fetchFacesFromDb() const;
+        QString getPhotoPath() const;
+        PersonData personData(const Person::Id &) const;
+
+    signals:
+        void recognized(const PersonData &) const;
+};
+
 #endif // PEOPLEOPERATOR_P_HPP

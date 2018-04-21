@@ -4,7 +4,10 @@
 #include <QDialog>
 
 #include <core/callback_ptr.hpp>
+#include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
+
+#include "utils/people_operator.hpp"
 
 
 struct ICoreFactoryAccessor;
@@ -14,35 +17,31 @@ namespace Ui {
     class FacesDialog;
 }
 
+class Project;
+
 class FacesDialog: public QDialog
 {
         Q_OBJECT
 
     public:
-        explicit FacesDialog(ICoreFactoryAccessor *, const FaceRecognition &, QWidget *parent = 0);
+        explicit FacesDialog(const Photo::Data &, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
         ~FacesDialog();
-
-        void load(const QString& photo);
 
         std::vector<std::pair<QRect, QString>> people() const;
 
     private:
+        PeopleOperator m_people;
         safe_callback_ctrl m_safeCallback;
         QVector<QRect> m_faces;
-        const FaceRecognition& m_faceRecognizer;
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
         int m_facesToAnalyze;
 
-        void applyFacesLocations(const QVector<QRect> &);
-        void applyFaceName(const QRect &, const QString &);
+        void applyFacesLocations(const Photo::Id &, const QVector<QRect> &);
+        void applyFaceName(const Photo::Id &, const QRect &, const PersonData &);
         void updateImage();
         void updatePeopleList();
-
-    signals:
-        void gotFacesLocations(const QVector<QRect> &);
-        void gotFaceName(const QRect &, const QString &);
 };
 
 #endif // FACES_DIALOG_HPP

@@ -19,6 +19,12 @@
 #include "person_data.hpp"
 
 
+PersonData::PersonData()
+{
+
+}
+
+
 PersonData::PersonData(const Person::Id& id, const QString& name, const QString& path):
     m_id(id),
     m_name(name),

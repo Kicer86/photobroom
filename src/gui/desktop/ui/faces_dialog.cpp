@@ -7,16 +7,18 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
+#include <database/photo_data.hpp>
+#include <project_utils/project.hpp>
 
 #include "ui_faces_dialog.h"
 
 using namespace std::placeholders;
 
-FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, const FaceRecognition& face_recognizer, QWidget *parent):
+FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
+    m_people(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition), prj->getDatabase(), coreAccessor),
     m_faces(),
-    m_faceRecognizer(face_recognizer),
-    m_photoPath(),
+    m_photoPath(data.path),
     ui(new Ui::FacesDialog),
     m_pythonThread(coreAccessor->getPythonThread()),
     m_facesToAnalyze(0)
@@ -24,34 +26,26 @@ FacesDialog::FacesDialog(ICoreFactoryAccessor* coreAccessor, const FaceRecogniti
     ui->setupUi(this);
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
-    connect(this, &FacesDialog::gotFacesLocations,
-            this, &FacesDialog::applyFacesLocations);
-
-    connect(this, &FacesDialog::gotFaceName,
-            this, &FacesDialog::applyFaceName);
 
     connect(ui->scaleSlider, &QSlider::valueChanged,
             this, &FacesDialog::updateImage);
+
+    connect(&m_people, &PeopleOperator::faces,
+            this, &FacesDialog::applyFacesLocations);
+
+    connect(&m_people, &PeopleOperator::recognized,
+            this, &FacesDialog::applyFaceName);
+
+    ui->statusLabel->setText(tr("Locating faces..."));
+
+    m_people.fetchFaces(data.id);
+    updateImage();
 }
 
 
 FacesDialog::~FacesDialog()
 {
     delete ui;
-}
-
-
-void FacesDialog::load(const QString& photo)
-{
-    m_photoPath = photo;
-
-    ui->statusLabel->setText(tr("Locating faces..."));
-
-    auto callback = m_safeCallback.make_safe_callback<void(const QVector<QRect> &)>
-        (std::bind(&FacesDialog::gotFacesLocations, this, _1));
-
-    m_faceRecognizer.findFaces(photo, callback);
-    updateImage();
 }
 
 
@@ -82,7 +76,7 @@ std::vector<std::pair<QRect, QString>> FacesDialog::people() const
 }
 
 
-void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
+void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<QRect>& faces)
 {
     const QString status = faces.isEmpty()? tr("Found %1 face(s).").arg(faces.size()) :
                                             tr("Found %1 face(s). Recognizing people...").arg(faces.size());
@@ -96,17 +90,14 @@ void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
     m_facesToAnalyze = faces.size();
 
     for(const QRect& face: faces)
-    {
-        auto callback = m_safeCallback.make_safe_callback<void(const QString &)>
-            (std::bind(&FacesDialog::gotFaceName, this, face, _1));
-
-        m_faceRecognizer.nameFor(m_photoPath, face, callback);
-    }
+        m_people.recognize(id, face);
 }
 
 
-void FacesDialog::applyFaceName(const QRect& face, const QString& name)
+void FacesDialog::applyFaceName(const Photo::Id &, const QRect& face, const PersonData& person)
 {
+    const QString name = person.name();
+
     auto it = std::find(m_faces.cbegin(), m_faces.cend(), face);
 
     if (it != m_faces.cend())

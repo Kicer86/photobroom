@@ -24,6 +24,7 @@
 #include <QRect>
 
 #include <database/photo_data.hpp>
+#include <database/person_data.hpp>
 
 
 namespace Database
@@ -39,16 +40,22 @@ class PeopleOperator final: public QObject
         Q_OBJECT
 
     public:
-        PeopleOperator(Database::IDatabase *, ICoreFactoryAccessor *);
+        PeopleOperator(const QString& storage, Database::IDatabase *, ICoreFactoryAccessor *);
         ~PeopleOperator();
 
         // Locate faces on given photo.
         void fetchFaces(const Photo::Id &) const;
 
+        // Try to recognize person on given photo and face.
+        // Second parameter is a face located by fetchFaces()
+        void recognize(const Photo::Id &, const QRect &) const;
+
     signals:
         void faces(const Photo::Id &, const QVector<QRect> &) const;
+        void recognized(const Photo::Id &, const QRect &, const PersonData &) const;
 
     private:
+        const QString m_storage;
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_coreFactory;
 };
