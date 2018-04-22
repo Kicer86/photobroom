@@ -33,7 +33,7 @@ struct FacesData;
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
-        FaceRecognition(ICoreFactoryAccessor *, const QString& storage);
+        FaceRecognition(ICoreFactoryAccessor *);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
@@ -45,10 +45,10 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
         // Try to recognize person on given photo and face.
         // Second parameter is a face located by fetchFaces()
-        QString recognize(const QString &, const QRect &) const;
+        // Third parameter is a path to directory with known faces
+        QString recognize(const QString &, const QRect &, const QString& storage) const;
 
     private:
-        QString m_storage;
         IPythonThread* m_pythonThread;
 };
 

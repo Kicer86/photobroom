@@ -76,8 +76,7 @@ namespace
 }
 
 
-FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor, const QString& storage):
-    m_storage(storage),
+FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
     m_pythonThread(coreAccessor->getPythonThread())
 {
 
@@ -124,9 +123,9 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
 
 
-QString FaceRecognition::recognize(const QString& path, const QRect& face) const
+QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
-    std::packaged_task<QString()> recognize_task([path, face, storage = m_storage]()
+    std::packaged_task<QString()> recognize_task([path, face, storage]()
     {
         QTemporaryFile tmpFile;
 

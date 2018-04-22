@@ -65,7 +65,7 @@ void FacesFetcher::perform()
         const QFileInfo pathInfo(path);
         const QString full_path = pathInfo.absoluteFilePath();
 
-        FaceRecognition face_recognition(m_coreFactory, "");
+        FaceRecognition face_recognition(m_coreFactory);
         result = face_recognition.fetchFaces(full_path);
     }
     else
@@ -153,8 +153,8 @@ void FaceRecognizer::perform()
         const QFileInfo pathInfo(path);
         const QString full_path = pathInfo.absoluteFilePath();
 
-        FaceRecognition face_recognition(m_coreFactory, m_patterns);
-        const QString personPath = face_recognition.recognize(full_path, m_rect);
+        FaceRecognition face_recognition(m_coreFactory);
+        const QString personPath = face_recognition.recognize(full_path, m_rect, m_patterns);
 
         if (personPath.isEmpty() == false)
         {
