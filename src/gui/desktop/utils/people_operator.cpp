@@ -280,3 +280,59 @@ void PeopleOperator::recognize(const Photo::Id& id, const QRect& face) const
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }
+
+
+
+void PeopleOperator::store(const Photo::Id& id, const std::vector<std::pair<QRect, PersonData> >& people) const
+{
+    /*
+    const QImage image(m_photo.path);
+
+    for (const auto& person: people)
+    {
+        const QRect face_coords = person.first;
+        const QString& name = person.second;
+
+        auto it = std::find_if(m_data->m_people.cbegin(),
+                               m_data->m_people.cend(),
+                               [name](const PersonData& d)
+        {
+            return d.name() == name;
+        });
+
+        if (it == m_data->m_people.cend())  // we do not know that person
+        {
+            m_db->performCustomAction([photo_id = m_photo.id,
+                                       name,
+                                       base_path = m_data->m_storage,
+                                       face = image.copy(face_coords),
+                                       face_coords]
+                                      (Database::IBackendOperator* op)
+            {
+                // anounce new face, get id for it
+                const PersonData d(Person::Id(), name, "");
+                const Person::Id p_id = op->store(d);
+
+                // update face's path to representative
+                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
+                const PersonData ud(p_id, name, path);
+
+                // store face location
+                op->store(photo_id, p_id, face_coords);
+
+                op->store(ud);
+                face.save(path);
+            });
+        }
+        else                                // someone known
+            m_db->performCustomAction([face_coords,
+                                       photo_id = m_photo.id,
+                                       p_id = it->id()]
+                                      (Database::IBackendOperator* op)
+            {
+                // store face location
+                op->store(photo_id, p_id, face_coords);
+            });
+    }
+    */
+}

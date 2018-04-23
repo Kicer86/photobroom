@@ -50,6 +50,9 @@ class PeopleOperator final: public QObject
         // Second parameter is a face located by fetchFaces()
         void recognize(const Photo::Id &, const QRect &) const;
 
+        // Store information about people on photo
+        void store(const Photo::Id &, const std::vector<std::pair<QRect, PersonData> >& people) const;
+
     signals:
         void faces(const Photo::Id &, const QVector<QRect> &) const;
         void recognized(const Photo::Id &, const QRect &, const PersonData &) const;
