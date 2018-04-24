@@ -36,7 +36,23 @@ namespace Database
 struct ICoreFactoryAccessor;
 
 
-class FacesFetcher final: public QObject, public ITaskExecutor::ITask
+class FaceTask: public ITaskExecutor::ITask
+{
+    public:
+        FaceTask(const Photo::Id &, ICoreFactoryAccessor *, Database::IDatabase *);
+        ~FaceTask();
+
+    protected:
+        const Photo::Id m_id;
+        ICoreFactoryAccessor* m_coreFactory;
+        Database::IDatabase* m_db;
+
+        std::vector<PersonLocation> fetchFacesFromDb() const;
+        QString getPhotoPath() const;
+};
+
+
+class FacesFetcher final: public QObject, public FaceTask
 {
         Q_OBJECT
 
@@ -47,20 +63,12 @@ class FacesFetcher final: public QObject, public ITaskExecutor::ITask
         std::string name() const override;
         void perform() override;
 
-    private:
-        const Photo::Id m_id;
-        ICoreFactoryAccessor* m_coreFactory;
-        Database::IDatabase* m_db;
-
-        std::vector<PersonLocation> fetchFacesFromDb() const;
-        QString getPhotoPath() const;
-
     signals:
         void faces(const QVector<QRect> &) const;
 };
 
 
-class FaceRecognizer final: public QObject, public ITaskExecutor::ITask
+class FaceRecognizer final: public QObject, public FaceTask
 {
         Q_OBJECT
 
@@ -72,14 +80,9 @@ class FaceRecognizer final: public QObject, public ITaskExecutor::ITask
         void perform() override;
 
     private:
-        const Photo::Id m_id;
         const QRect m_rect;
         const QString m_patterns;
-        ICoreFactoryAccessor* m_coreFactory;
-        Database::IDatabase* m_db;
 
-        std::vector<PersonLocation> fetchFacesFromDb() const;
-        QString getPhotoPath() const;
         PersonData personData(const Person::Id &) const;
 
     signals:

@@ -33,10 +33,62 @@
 using namespace std::placeholders;
 
 
-FacesFetcher::FacesFetcher(const Photo::Id& id, ICoreFactoryAccessor* f, Database::IDatabase* d):
+FaceTask::FaceTask(const Photo::Id& id, ICoreFactoryAccessor* f, Database::IDatabase* d):
     m_id(id),
     m_coreFactory(f),
     m_db(d)
+{
+
+}
+
+
+FaceTask::~FaceTask()
+{
+
+}
+
+
+std::vector<PersonLocation> FaceTask::fetchFacesFromDb() const
+{
+    std::packaged_task<std::vector<PersonLocation>(Database::IBackendOperator*)>
+        db_task([id = m_id](Database::IBackendOperator* backend)
+    {
+        return backend->listFaces(id);
+    });
+
+    auto result_future = db_task.get_future();
+
+    m_db->performCustomAction(std::move(db_task));
+    result_future.wait();
+
+    return result_future.get();
+}
+
+
+QString FaceTask::getPhotoPath() const
+{
+    std::packaged_task<QString(Database::IBackendOperator* backend)>
+        db_task([id = m_id](Database::IBackendOperator* backend)
+    {
+        auto photo = backend->getPhotoFor(id);
+
+        return photo->getPath();
+    });
+
+    auto result_future = db_task.get_future();
+    m_db->performCustomAction(std::move(db_task));
+
+    result_future.wait();
+
+    return result_future.get();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+FacesFetcher::FacesFetcher(const Photo::Id& id, ICoreFactoryAccessor* c, Database::IDatabase* db):
+    FaceTask(id, c, db)
 {
 
 }
@@ -80,51 +132,13 @@ void FacesFetcher::perform()
 }
 
 
-std::vector<PersonLocation> FacesFetcher::fetchFacesFromDb() const
-{
-    std::packaged_task<std::vector<PersonLocation>(Database::IBackendOperator*)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
-    {
-        return backend->listFaces(id);
-    });
-
-    auto result_future = db_task.get_future();
-
-    m_db->performCustomAction(std::move(db_task));
-    result_future.wait();
-
-    return result_future.get();
-}
-
-
-QString FacesFetcher::getPhotoPath() const
-{
-    std::packaged_task<QString(Database::IBackendOperator* backend)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
-    {
-        auto photo = backend->getPhotoFor(id);
-
-        return photo->getPath();
-    });
-
-    auto result_future = db_task.get_future();
-    m_db->performCustomAction(std::move(db_task));
-
-    result_future.wait();
-
-    return result_future.get();
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
 FaceRecognizer::FaceRecognizer(const Photo::Id& id, const QRect& rect, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
-    m_id(id),
+    FaceTask(id, core, db),
     m_rect(rect),
-    m_patterns(patterns),
-    m_coreFactory(core),
-    m_db(db)
+    m_patterns(patterns)
 {
 
 }
@@ -173,42 +187,6 @@ void FaceRecognizer::perform()
             }
 
     emit recognized(result);
-}
-
-
-std::vector<PersonLocation> FaceRecognizer::fetchFacesFromDb() const
-{
-    std::packaged_task<std::vector<PersonLocation>(Database::IBackendOperator*)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
-    {
-        return backend->listFaces(id);
-    });
-
-    auto result_future = db_task.get_future();
-
-    m_db->performCustomAction(std::move(db_task));
-    result_future.wait();
-
-    return result_future.get();
-}
-
-
-QString FaceRecognizer::getPhotoPath() const
-{
-    std::packaged_task<QString(Database::IBackendOperator* backend)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
-    {
-        const auto photo = backend->getPhotoFor(id);
-
-        return photo->getPath();
-    });
-
-    auto result_future = db_task.get_future();
-    m_db->performCustomAction(std::move(db_task));
-
-    result_future.wait();
-
-    return result_future.get();
 }
 
 
