@@ -39,12 +39,11 @@ struct ICoreFactoryAccessor;
 class FaceTask: public ITaskExecutor::ITask
 {
     public:
-        FaceTask(const Photo::Id &, ICoreFactoryAccessor *, Database::IDatabase *);
+        FaceTask(const Photo::Id &, Database::IDatabase *);
         ~FaceTask();
 
     protected:
         const Photo::Id m_id;
-        ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
 
         std::vector<PersonLocation> fetchFacesFromDb() const;
@@ -65,6 +64,9 @@ class FacesFetcher final: public QObject, public FaceTask
 
     signals:
         void faces(const QVector<QRect> &) const;
+
+    private:
+        ICoreFactoryAccessor* m_coreFactory;
 };
 
 
@@ -82,11 +84,29 @@ class FaceRecognizer final: public QObject, public FaceTask
     private:
         const QRect m_rect;
         const QString m_patterns;
+        ICoreFactoryAccessor* m_coreFactory;
 
         PersonData personData(const Person::Id &) const;
 
     signals:
         void recognized(const PersonData &) const;
+};
+
+
+class FaceStore final: public FaceTask
+{
+    public:
+        FaceStore(const Photo::Id &, const std::vector<std::pair<QRect, QString>> &, Database::IDatabase *, const QString& patterns);
+        ~FaceStore();
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        const std::vector<std::pair<QRect, QString>> m_data;
+        const QString m_patterns;
+
+        std::vector<PersonData> fetchPeople();
 };
 
 #endif // PEOPLEOPERATOR_P_HPP

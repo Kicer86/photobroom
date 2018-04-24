@@ -33,9 +33,8 @@
 using namespace std::placeholders;
 
 
-FaceTask::FaceTask(const Photo::Id& id, ICoreFactoryAccessor* f, Database::IDatabase* d):
+FaceTask::FaceTask(const Photo::Id& id, Database::IDatabase* d):
     m_id(id),
-    m_coreFactory(f),
     m_db(d)
 {
 
@@ -88,7 +87,8 @@ QString FaceTask::getPhotoPath() const
 
 
 FacesFetcher::FacesFetcher(const Photo::Id& id, ICoreFactoryAccessor* c, Database::IDatabase* db):
-    FaceTask(id, c, db)
+    FaceTask(id, db),
+    m_coreFactory(c)
 {
 
 }
@@ -122,7 +122,7 @@ void FacesFetcher::perform()
     }
     else
     {
-        result.reserve(peopleData.size());
+        result.reserve(static_cast<int>(peopleData.size()));
 
         for (const PersonLocation& loc: peopleData )
             result.push_back(loc.location);
@@ -136,9 +136,10 @@ void FacesFetcher::perform()
 
 
 FaceRecognizer::FaceRecognizer(const Photo::Id& id, const QRect& rect, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
-    FaceTask(id, core, db),
+    FaceTask(id, db),
     m_rect(rect),
-    m_patterns(patterns)
+    m_patterns(patterns),
+    m_coreFactory(core)
 {
 
 }
@@ -222,6 +223,104 @@ PersonData FaceRecognizer::personData(const Person::Id& id) const
 ///////////////////////////////////////////////////////////////////////////////
 
 
+FaceStore::FaceStore(const Photo::Id& id, const std::vector<std::pair<QRect, QString>>& data, Database::IDatabase* db, const QString& patterns):
+    FaceTask(id, db),
+    m_data(data),
+    m_patterns(patterns)
+{
+
+}
+
+
+FaceStore::~FaceStore()
+{
+
+}
+
+
+std::string FaceStore::name() const
+{
+    return "FaceStore";
+}
+
+
+void FaceStore::perform()
+{
+    const std::vector<PersonData> people = fetchPeople();
+    const QString path = getPhotoPath();
+    const QImage image(path);
+
+    for (const auto& person: m_data)
+    {
+        const QRect face_coords = person.first;
+        const QString& name = person.second;
+
+        auto it = std::find_if(people.cbegin(),
+                               people.cend(),
+                               [name](const PersonData& d)
+        {
+            return d.name() == name;
+        });
+
+        if (it == people.cend())  // we do not know that person
+        {
+            m_db->performCustomAction([photo_id = m_id,
+                                       name,
+                                       base_path = m_patterns,
+                                       face = image.copy(face_coords),
+                                       face_coords]
+                                      (Database::IBackendOperator* op)
+            {
+                // anounce new face, get id for it
+                const PersonData d(Person::Id(), name, "");
+                const Person::Id p_id = op->store(d);
+
+                // update face's path to representative
+                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
+                const PersonData ud(p_id, name, path);
+
+                // store face location
+                op->store(photo_id, p_id, face_coords);
+
+                op->store(ud);
+                face.save(path);
+            });
+        }
+        else                                // someone known
+            m_db->performCustomAction([face_coords,
+                                       photo_id = m_id,
+                                       p_id = it->id()]
+                                      (Database::IBackendOperator* op)
+            {
+                // store face location
+                op->store(photo_id, p_id, face_coords);
+            });
+    }
+}
+
+
+std::vector<PersonData> FaceStore::fetchPeople()
+{
+    std::packaged_task<std::vector<PersonData>(Database::IBackendOperator* backend)>
+        db_task([](Database::IBackendOperator* backend)
+    {
+        auto people = backend->listPeople();
+
+        return people;
+    });
+
+    auto result_future = db_task.get_future();
+    m_db->performCustomAction(std::move(db_task));
+
+    result_future.wait();
+
+    return result_future.get();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, ICoreFactoryAccessor* ca):
     m_storage(storage),
     m_db(db),
@@ -260,57 +359,10 @@ void PeopleOperator::recognize(const Photo::Id& id, const QRect& face) const
 }
 
 
-
-void PeopleOperator::store(const Photo::Id& id, const std::vector<std::pair<QRect, PersonData> >& people) const
+void PeopleOperator::store(const Photo::Id& id, const std::vector<std::pair<QRect, QString> >& people) const
 {
-    /*
-    const QImage image(m_photo.path);
+    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
+    auto task = std::make_unique<FaceStore>(id, people, m_db, m_storage);
 
-    for (const auto& person: people)
-    {
-        const QRect face_coords = person.first;
-        const QString& name = person.second;
-
-        auto it = std::find_if(m_data->m_people.cbegin(),
-                               m_data->m_people.cend(),
-                               [name](const PersonData& d)
-        {
-            return d.name() == name;
-        });
-
-        if (it == m_data->m_people.cend())  // we do not know that person
-        {
-            m_db->performCustomAction([photo_id = m_photo.id,
-                                       name,
-                                       base_path = m_data->m_storage,
-                                       face = image.copy(face_coords),
-                                       face_coords]
-                                      (Database::IBackendOperator* op)
-            {
-                // anounce new face, get id for it
-                const PersonData d(Person::Id(), name, "");
-                const Person::Id p_id = op->store(d);
-
-                // update face's path to representative
-                const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
-                const PersonData ud(p_id, name, path);
-
-                // store face location
-                op->store(photo_id, p_id, face_coords);
-
-                op->store(ud);
-                face.save(path);
-            });
-        }
-        else                                // someone known
-            m_db->performCustomAction([face_coords,
-                                       photo_id = m_photo.id,
-                                       p_id = it->id()]
-                                      (Database::IBackendOperator* op)
-            {
-                // store face location
-                op->store(photo_id, p_id, face_coords);
-            });
-    }
-    */
+    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }

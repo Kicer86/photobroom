@@ -51,7 +51,7 @@ class PeopleOperator final: public QObject
         void recognize(const Photo::Id &, const QRect &) const;
 
         // Store information about people on photo
-        void store(const Photo::Id &, const std::vector<std::pair<QRect, PersonData> >& people) const;
+        void store(const Photo::Id &, const std::vector<std::pair<QRect, QString> >& people) const;
 
     signals:
         void faces(const Photo::Id &, const QVector<QRect> &) const;
