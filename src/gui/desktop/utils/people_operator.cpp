@@ -19,7 +19,6 @@
 #include "people_operator.hpp"
 
 #include <functional>
-#include <future>
 
 #include <QFileInfo>
 
@@ -31,6 +30,15 @@
 
 
 using namespace std::placeholders;
+
+template<typename T>
+struct ExecutorTraits<Database::IDatabase, T>
+{
+    static void exec(Database::IDatabase* db, T&& t)
+    {
+        db->performCustomAction(std::forward<T>(t));
+    }
+};
 
 
 FaceTask::FaceTask(const Photo::Id& id, Database::IDatabase* d):
@@ -49,37 +57,22 @@ FaceTask::~FaceTask()
 
 std::vector<PersonLocation> FaceTask::fetchFacesFromDb() const
 {
-    std::packaged_task<std::vector<PersonLocation>(Database::IBackendOperator*)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonLocation>(Database::IBackendOperator*)>
+        (m_db, [id = m_id](Database::IBackendOperator* backend)
     {
         return backend->listFaces(id);
     });
-
-    auto result_future = db_task.get_future();
-
-    m_db->performCustomAction(std::move(db_task));
-    result_future.wait();
-
-    return result_future.get();
 }
 
 
 QString FaceTask::getPhotoPath() const
 {
-    std::packaged_task<QString(Database::IBackendOperator* backend)>
-        db_task([id = m_id](Database::IBackendOperator* backend)
+    return evaluate<QString(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
     {
         auto photo = backend->getPhotoFor(id);
 
         return photo->getPath();
     });
-
-    auto result_future = db_task.get_future();
-    m_db->performCustomAction(std::move(db_task));
-
-    result_future.wait();
-
-    return result_future.get();
 }
 
 
@@ -193,20 +186,14 @@ void FaceRecognizer::perform()
 
 PersonData FaceRecognizer::personData(const Person::Id& id) const
 {
-    std::packaged_task<std::vector<PersonData>(Database::IBackendOperator* backend)>
-        db_task([](Database::IBackendOperator* backend)
+    const std::vector<PersonData> people =
+        evaluate<std::vector<PersonData>(Database::IBackendOperator *)>
+            (m_db, [](Database::IBackendOperator* backend)
     {
         const auto people = backend->listPeople();
 
         return people;
     });
-
-    auto result_future = db_task.get_future();
-    m_db->performCustomAction(std::move(db_task));
-
-    result_future.wait();
-
-    const auto people = result_future.get();
 
     PersonData result;
     for(const PersonData& person: people)
@@ -301,20 +288,12 @@ void FaceStore::perform()
 
 std::vector<PersonData> FaceStore::fetchPeople()
 {
-    std::packaged_task<std::vector<PersonData>(Database::IBackendOperator* backend)>
-        db_task([](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonData>(Database::IBackendOperator* backend)>(m_db, [](Database::IBackendOperator* backend)
     {
         auto people = backend->listPeople();
 
         return people;
     });
-
-    auto result_future = db_task.get_future();
-    m_db->performCustomAction(std::move(db_task));
-
-    result_future.wait();
-
-    return result_future.get();
 }
 
 
