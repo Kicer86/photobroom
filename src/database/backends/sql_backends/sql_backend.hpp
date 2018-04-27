@@ -96,7 +96,7 @@ namespace Database
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
             QList<QVariant>          find(const QString &) override final;
             std::vector<PersonData>  listPeople() override final;
-            std::vector<PersonLocation> listFaces(const Photo::Id &) override final;
+            std::vector<PersonLocation> listPeople (const Photo::Id &) override final;
             Person::Id               store(const PersonData &) override final;
             void                     store(const Photo::Id &,
                                            const Person::Id &,

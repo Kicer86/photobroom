@@ -186,7 +186,7 @@ namespace
 
         std::vector<PersonLocation> listFaces(const Photo::Id& id) override
         {
-            return m_backend->listFaces(id);
+            return m_backend->listPeople(id);
         }
 
         Person::Id store(const PersonData& d) override

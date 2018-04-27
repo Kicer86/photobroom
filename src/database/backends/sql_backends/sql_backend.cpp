@@ -1384,7 +1384,7 @@ namespace Database
     }
 
 
-    std::vector<PersonLocation> ASqlBackend::listFaces(const Photo::Id& id)
+    std::vector<PersonLocation> ASqlBackend::listPeople(const Photo::Id& id)
     {
         const QString findQuery = QString("SELECT %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE_LOCATIONS)
