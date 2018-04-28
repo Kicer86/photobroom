@@ -151,13 +151,12 @@ namespace Database
         table_people_locations(TAB_PEOPLE_LOCATIONS,
                     {
                         { "id", "", ColDefinition::Purpose::ID },
-                        { "photo_id", "INTEGER NOT NULL"       },
                         { "person_id", "INTEGER NOT NULL"      },
-                        { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h)
+                        { "face_id", "INTEGER NOT NULL"        },
                     },
                     {
-                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
                         { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                        { "FOREIGN KEY(face_id) REFERENCES " TAB_FACES "(id)", ""  },
                     }
         );
 
@@ -171,6 +170,19 @@ namespace Database
                     },
                     {
                         { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                    }
+        );
+
+        // list of faces
+        TableDefinition
+        table_faces(TAB_FACES,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "photo_id", "INTEGER NOT NULL"       },
+                        { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h)
+                    },
+                    {
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
                     }
         );
 
@@ -189,5 +201,6 @@ namespace Database
             { TAB_PEOPLE,               table_people },
             { TAB_PEOPLE_LOCATIONS,     table_people_locations },
             { TAB_FACE_REPRESENTATIVES, table_face_representatives },
+            { TAB_FACES,                table_faces },
         };
 }

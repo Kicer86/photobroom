@@ -1386,8 +1386,9 @@ namespace Database
 
     std::vector<PersonLocation> ASqlBackend::listPeople(const Photo::Id& id)
     {
-        const QString findQuery = QString("SELECT %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+        const QString findQuery = QString("SELECT %1.person_id, %2.location FROM %1 JOIN %2 ON %1.face_id = %2.id WHERE %2.photo_id = %3")
                                     .arg(TAB_PEOPLE_LOCATIONS)
+                                    .arg(TAB_FACES)
                                     .arg(id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1413,6 +1414,40 @@ namespace Database
                                      location_list[3].toInt());
 
                 result.emplace_back(pid, location);
+            }
+        }
+
+        return result;
+    }
+
+
+    std::vector<QRect> ASqlBackend::listFaces(const Photo::Id& id)
+    {
+        const QString findQuery = QString("SELECT %1.location FROM %1 WHERE %1.photo_id = %2")
+                                    .arg(TAB_FACES)
+                                    .arg(id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        std::vector<QRect> result;
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_data->m_dbHasSizeFeature)
+                result.reserve(static_cast<std::size_t>(query.size()));
+
+            while(query.next())
+            {
+                const QString location_raw = query.value(0).toString();
+                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
+                const QRect location(location_list[0].toInt(),
+                                     location_list[1].toInt(),
+                                     location_list[2].toInt(),
+                                     location_list[3].toInt());
+
+                result.push_back(location);
             }
         }
 
@@ -1473,21 +1508,57 @@ namespace Database
 
     void ASqlBackend::store(const Photo::Id& ph_id, const Person::Id& p_id, const QRect& face)
     {
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+        Transaction transaction(db);
+        transaction.begin();
+
+        QSqlQuery query(db);
+        int face_id = -1;
+        bool status = true;
+
         const QString face_coords = QString("%1,%2 %3x%4")
                                         .arg(face.x())
                                         .arg(face.y())
                                         .arg(face.width())
                                         .arg(face.height());
 
-        InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
-        queryData.setColumns("photo_id", "person_id", "location");
-        queryData.setValues(ph_id, p_id, face_coords);
+        const QString find = QString("SELECT id FROM %1 WHERE photo_id = %2 AND location = '%3'")
+                                .arg(TAB_FACES)
+                                .arg(ph_id)
+                                .arg(face_coords);
 
-        UpdateQueryData updateQueryData(queryData);
-        updateQueryData.addCondition("photo_id", QString::number(ph_id));
-        updateQueryData.addCondition("person_id", QString::number(p_id));
+        status = m_data->m_executor.exec(find, &query);
 
-        m_data->updateOrInsert(updateQueryData);
+        if (status && query.next())
+            face_id = query.value(0).toInt();
+        else if (status)
+        {
+            InsertQueryData queryData(TAB_FACES);
+            queryData.setColumns("photo_id", "location");
+            queryData.setValues(ph_id, face_coords);
+
+            query = m_data->m_backend->getGenericQueryGenerator()->insert(db, queryData);
+            status = m_data->m_executor.exec(query);
+
+            face_id = query.lastInsertId().toInt();
+        }
+
+        if (status)
+        {
+            InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
+            queryData.setColumns("person_id", "face_id");
+            queryData.setValues(p_id, face_id);
+
+            UpdateQueryData updateQueryData(queryData);
+            updateQueryData.addCondition("face_id", QString::number(face_id));
+            updateQueryData.addCondition("person_id", QString::number(p_id));
+
+            status = m_data->updateOrInsert(updateQueryData);
+        }
+
+        if (status)
+            transaction.commit();
     }
 
 
