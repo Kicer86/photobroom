@@ -184,7 +184,7 @@ namespace
             return m_backend->listPeople();
         }
 
-        std::vector<PersonLocation> listFaces(const Photo::Id& id) override
+        std::vector<PersonLocation> listPeople(const Photo::Id& id) override
         {
             return m_backend->listPeople(id);
         }

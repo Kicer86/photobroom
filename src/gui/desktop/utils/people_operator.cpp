@@ -60,7 +60,7 @@ std::vector<PersonLocation> FaceTask::fetchFacesFromDb() const
     return evaluate<std::vector<PersonLocation>(Database::IBackendOperator*)>
         (m_db, [id = m_id](Database::IBackendOperator* backend)
     {
-        return backend->listFaces(id);
+        return backend->listPeople(id);
     });
 }
 
