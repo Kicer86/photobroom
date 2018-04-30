@@ -71,9 +71,11 @@ namespace Database
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
         virtual QList<QVariant> find(const QString& query) = 0;                                    // search database for items matching query
         virtual std::vector<PersonData> listPeople() = 0;                                          // list all people
-        virtual std::vector<PersonLocation> listPeople (const Photo::Id &) = 0;                      // list faces on photo
+        virtual std::vector<PersonLocation> listPeople(const Photo::Id &) = 0;                     // list people on photo
+        virtual std::vector<FaceData> listFaces(const Photo::Id &) = 0;                            // list faces on photo
         virtual Person::Id store(const PersonData &) = 0;                                          // store or update person
-        virtual void store(const Photo::Id &, const Person::Id &, const QRect &) = 0;              // store information about person of photo
+        virtual Face::Id store(const FaceData &) = 0;                                              // store or update face
+        virtual void store(const Person::Id &, const Face::Id &) = 0;                              // store information about person of photo
     };
 
 

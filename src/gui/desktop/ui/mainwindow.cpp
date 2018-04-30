@@ -558,8 +558,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
         if (faces_dialog.exec() == QDialog::Accepted)
         {
-            const auto people = faces_dialog.people();
-            peop.store(first.id, people);
+            const auto faces = faces_dialog.faces();
+            peop.store(first.id, faces);
         }
     }
 }

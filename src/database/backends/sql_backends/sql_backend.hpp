@@ -97,11 +97,10 @@ namespace Database
             QList<QVariant>          find(const QString &) override final;
             std::vector<PersonData>  listPeople() override final;
             std::vector<PersonLocation> listPeople (const Photo::Id &) override final;
-            std::vector<QRect>       listFaces(const Photo::Id &) override final;
+            std::vector<FaceData>    listFaces(const Photo::Id &) override final;
             Person::Id               store(const PersonData &) override final;
-            void                     store(const Photo::Id &,
-                                           const Person::Id &,
-                                           const QRect &) override;
+            Face::Id                 store(const FaceData &) override final;
+            void                     store(const Person::Id &, const Face::Id &) override final;
 
             virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //

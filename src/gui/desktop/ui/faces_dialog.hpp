@@ -5,6 +5,7 @@
 
 #include <core/callback_ptr.hpp>
 #include <database/idatabase.hpp>
+#include <database/person_data.hpp>
 #include <face_recognition/face_recognition.hpp>
 
 #include "utils/people_operator.hpp"
@@ -27,19 +28,19 @@ class FacesDialog: public QDialog
         explicit FacesDialog(const Photo::Data &, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
         ~FacesDialog();
 
-        std::vector<std::pair<QRect, QString>> people() const;
+        std::vector<std::pair<FaceData, QString>> faces() const;
 
     private:
         PeopleOperator m_people;
         safe_callback_ctrl m_safeCallback;
-        QVector<QRect> m_faces;
+        QVector<FaceData> m_faces;
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
         int m_facesToAnalyze;
 
-        void applyFacesLocations(const Photo::Id &, const QVector<QRect> &);
-        void applyFaceName(const Photo::Id &, const QRect &, const PersonData &);
+        void applyFacesLocations(const Photo::Id &, const QVector<FaceData> &);
+        void applyFaceName(const Photo::Id &, const FaceData &, const PersonData &);
         void updateImage();
         void updatePeopleList();
 };

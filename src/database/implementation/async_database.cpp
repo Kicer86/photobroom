@@ -189,14 +189,24 @@ namespace
             return m_backend->listPeople(id);
         }
 
+        std::vector<FaceData> listFaces(const Photo::Id& id) override
+        {
+            return m_backend->listFaces(id);
+        }
+
         Person::Id store(const PersonData& d) override
         {
             return m_backend->store(d);
         }
 
-        void store(const Photo::Id& ph_id, const Person::Id& p_id, const QRect& face)
+        Face::Id store(const FaceData& d) override
         {
-            m_backend->store(ph_id, p_id, face);
+            return m_backend->store(d);
+        }
+
+        void store(const Person::Id& p_id, const Face::Id& face)
+        {
+            m_backend->store(p_id, face);
         }
 
         //

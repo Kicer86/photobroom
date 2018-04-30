@@ -49,34 +49,27 @@ FacesDialog::~FacesDialog()
 }
 
 
-std::vector<std::pair<QRect, QString>> FacesDialog::people() const
+std::vector<std::pair<FaceData, QString>> FacesDialog::faces() const
 {
-    std::vector<std::pair<QRect, QString>> result;
+    std::vector<std::pair<FaceData, QString>> result;
 
     const int count = ui->peopleList->rowCount();
     assert(count == m_faces.size());
 
     for(int i = 0; i < count; i++)
     {
-        auto person = ui->peopleList->item(i, 0);
+        const auto person = ui->peopleList->item(i, 0);
+        const QString name = person == nullptr? QString(): person->text();
 
-        if (person != nullptr)
-        {
-            const QString name = person->text();
-
-            if (name.isEmpty() == false)
-            {
-                auto face_data = std::make_pair(m_faces[i], name);
-                result.push_back(face_data);
-            }
-        }
+        auto face_data = std::make_pair(m_faces[i], name);
+        result.push_back(face_data);
     }
 
     return result;
 }
 
 
-void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<QRect>& faces)
+void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<FaceData>& faces)
 {
     const QString status = faces.isEmpty()? tr("Found %1 face(s).").arg(faces.size()) :
                                             tr("Found %1 face(s). Recognizing people...").arg(faces.size());
@@ -89,12 +82,12 @@ void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<QRect>&
 
     m_facesToAnalyze = faces.size();
 
-    for(const QRect& face: faces)
+    for(const FaceData& face: faces)
         m_people.recognize(id, face);
 }
 
 
-void FacesDialog::applyFaceName(const Photo::Id &, const QRect& face, const PersonData& person)
+void FacesDialog::applyFaceName(const Photo::Id &, const FaceData& face, const PersonData& person)
 {
     const QString name = person.name();
 
@@ -123,8 +116,9 @@ void FacesDialog::updateImage()
     image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QVector<QRect> scaledFaces;
-    for(QRect face: m_faces)
+    for(const FaceData& faceData: std::as_const(m_faces))
     {
+        const QRect& face = faceData.rect;
         const QPoint tl = face.topLeft();
         const QSize size = face.size();
         const QRect scaledFace = QRect( tl * scale, size * scale );

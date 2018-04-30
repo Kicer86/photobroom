@@ -1421,16 +1421,16 @@ namespace Database
     }
 
 
-    std::vector<QRect> ASqlBackend::listFaces(const Photo::Id& id)
+    std::vector<FaceData> ASqlBackend::listFaces(const Photo::Id& id)
     {
-        const QString findQuery = QString("SELECT %1.location FROM %1 WHERE %1.photo_id = %2")
+        const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_FACES)
                                     .arg(id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        std::vector<QRect> result;
+        std::vector<FaceData> result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status)
@@ -1440,14 +1440,16 @@ namespace Database
 
             while(query.next())
             {
-                const QString location_raw = query.value(0).toString();
+                const Face::Id f_id( query.value(0).toInt() );
+                const Face::Id p_id( query.value(1).toInt() );
+                const QString location_raw = query.value(2).toString();
                 const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
                 const QRect location(location_list[0].toInt(),
                                      location_list[1].toInt(),
                                      location_list[2].toInt(),
                                      location_list[3].toInt());
 
-                result.push_back(location);
+                result.emplace_back(f_id, p_id, location);
             }
         }
 
@@ -1506,59 +1508,62 @@ namespace Database
     }
 
 
-    void ASqlBackend::store(const Photo::Id& ph_id, const Person::Id& p_id, const QRect& face)
+    Face::Id ASqlBackend::store(const FaceData& fd)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
-        Transaction transaction(db);
-        transaction.begin();
+        Face::Id id(fd.id);
 
-        QSqlQuery query(db);
-        int face_id = -1;
-        bool status = true;
-
+        const QRect& face = fd.rect;
         const QString face_coords = QString("%1,%2 %3x%4")
                                         .arg(face.x())
                                         .arg(face.y())
                                         .arg(face.width())
                                         .arg(face.height());
 
-        const QString find = QString("SELECT id FROM %1 WHERE photo_id = %2 AND location = '%3'")
-                                .arg(TAB_FACES)
-                                .arg(ph_id)
-                                .arg(face_coords);
+        InsertQueryData queryData(TAB_FACES);
+        queryData.setColumns("photo_id", "location");
+        queryData.setValues(fd.ph_id, face_coords);
 
-        status = m_data->m_executor.exec(find, &query);
+        QSqlQuery query;
 
-        if (status && query.next())
-            face_id = query.value(0).toInt();
-        else if (status)
+        if (id.valid())
         {
-            InsertQueryData queryData(TAB_FACES);
-            queryData.setColumns("photo_id", "location");
-            queryData.setValues(ph_id, face_coords);
-
-            query = m_data->m_backend->getGenericQueryGenerator()->insert(db, queryData);
-            status = m_data->m_executor.exec(query);
-
-            face_id = query.lastInsertId().toInt();
-        }
-
-        if (status)
-        {
-            InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
-            queryData.setColumns("person_id", "face_id");
-            queryData.setValues(p_id, face_id);
-
             UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("face_id", QString::number(face_id));
-            updateQueryData.addCondition("person_id", QString::number(p_id));
-
-            status = m_data->updateOrInsert(updateQueryData);
+            updateQueryData.addCondition("id", QString::number(id));
+            query = getGenericQueryGenerator()->update(db, updateQueryData);
+        }
+        else
+        {
+            query = getGenericQueryGenerator()->insert(db, queryData);
         }
 
-        if (status)
-            transaction.commit();
+        const bool status = m_data->m_executor.exec(query);
+
+        if (status && id.valid() == false)
+        {
+            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            id = vid.toInt();
+        }
+
+        return id;
+    }
+
+
+    void ASqlBackend::store(const Person::Id& p_id, const Face::Id& face_id)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
+        queryData.setColumns("person_id", "face_id");
+        queryData.setValues(p_id, face_id);
+
+        UpdateQueryData updateQueryData(queryData);
+        updateQueryData.addCondition("face_id", QString::number(face_id));
+        updateQueryData.addCondition("person_id", QString::number(p_id));
+
+        m_data->updateOrInsert(updateQueryData);
     }
 
 

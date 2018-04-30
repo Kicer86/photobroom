@@ -46,7 +46,7 @@ class FaceTask: public ITaskExecutor::ITask
         const Photo::Id m_id;
         Database::IDatabase* m_db;
 
-        std::vector<PersonLocation> fetchFacesFromDb() const;
+        std::vector<FaceData> fetchFacesFromDb() const;
         QString getPhotoPath() const;
 };
 
@@ -63,7 +63,7 @@ class FacesFetcher final: public QObject, public FaceTask
         void perform() override;
 
     signals:
-        void faces(const QVector<QRect> &) const;
+        void faces(const QVector<FaceData> &) const;
 
     private:
         ICoreFactoryAccessor* m_coreFactory;
@@ -87,6 +87,7 @@ class FaceRecognizer final: public QObject, public FaceTask
         ICoreFactoryAccessor* m_coreFactory;
 
         PersonData personData(const Person::Id &) const;
+        std::vector<PersonLocation> fetchPeopleFromDb() const;
 
     signals:
         void recognized(const PersonData &) const;
@@ -96,14 +97,14 @@ class FaceRecognizer final: public QObject, public FaceTask
 class FaceStore final: public FaceTask
 {
     public:
-        FaceStore(const Photo::Id &, const std::vector<std::pair<QRect, QString>> &, Database::IDatabase *, const QString& patterns);
+        FaceStore(const Photo::Id &, const std::vector<std::pair<FaceData, QString>> &, Database::IDatabase *, const QString& patterns);
         ~FaceStore();
 
         std::string name() const override;
         void perform() override;
 
     private:
-        const std::vector<std::pair<QRect, QString>> m_data;
+        const std::vector<std::pair<FaceData, QString>> m_data;
         const QString m_patterns;
 
         std::vector<PersonData> fetchPeople();

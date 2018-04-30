@@ -25,9 +25,15 @@
 
 #include <core/id.hpp>
 
+#include "photo_data.hpp"
 #include "database_export.h"
 
 namespace Person
+{
+    typedef Id<int> Id;
+}
+
+namespace Face
 {
     typedef Id<int> Id;
 }
@@ -58,6 +64,32 @@ struct PersonLocation
     const QRect location;
 
     PersonLocation(const Person::Id& i, const QRect& l): id(i), location(l) {}
+};
+
+
+struct FaceData
+{
+    Face::Id id;
+    Photo::Id ph_id;
+    QRect rect;
+
+    FaceData(): id(), ph_id(), rect()
+    {
+    }
+
+    FaceData(const Face::Id& _id, const Photo::Id& _ph_id, const QRect& _rect):
+        id(_id), ph_id(_ph_id), rect(_rect)
+    {}
+
+    FaceData(const FaceData &) = default;
+    FaceData& operator=(const FaceData &) = default;
+
+    bool operator==(const FaceData& other) const
+    {
+        return id == other.id &&
+               ph_id == other.ph_id &&
+               rect == other.rect;
+    }
 };
 
 Q_DECLARE_METATYPE(PersonData)
