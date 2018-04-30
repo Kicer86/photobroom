@@ -42,7 +42,7 @@ class DATABASE_EXPORT PersonData final
 {
     public:
         PersonData();
-        PersonData(const Person::Id &, const QString &, const QString &);
+        PersonData(const Person::Id &, const QString &);
         PersonData(const PersonData &);
         ~PersonData() = default;
 
@@ -50,12 +50,10 @@ class DATABASE_EXPORT PersonData final
 
         const Person::Id& id() const;
         const QString& name() const;
-        const QString& path() const;
 
     private:
         Person::Id m_id;
         QString m_name;
-        QString m_path;
 };
 
 struct PersonLocation

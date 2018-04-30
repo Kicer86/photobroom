@@ -271,13 +271,11 @@ void FaceStore::perform()
                 if (name.isEmpty() == false)
                 {
                     // anounce new person, get id for it
-                    const PersonData d(Person::Id(), name, "");
+                    const PersonData d(Person::Id(), name);
                     const Person::Id p_id = op->store(d);
 
-                    // update face's path to representative
+                    // save representative photo
                     const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
-                    const PersonData ud(p_id, name, path);
-                    op->store(ud);
                     face.save(path);
 
                     // store person location

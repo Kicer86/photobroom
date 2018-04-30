@@ -25,10 +25,9 @@ PersonData::PersonData()
 }
 
 
-PersonData::PersonData(const Person::Id& id, const QString& name, const QString& path):
+PersonData::PersonData(const Person::Id& id, const QString& name):
     m_id(id),
-    m_name(name),
-    m_path(path)
+    m_name(name)
 {
 
 }
@@ -36,8 +35,7 @@ PersonData::PersonData(const Person::Id& id, const QString& name, const QString&
 
 PersonData::PersonData(const PersonData& other):
     m_id(other.m_id),
-    m_name(other.m_name),
-    m_path(other.m_path)
+    m_name(other.m_name)
 {
 
 }
@@ -48,13 +46,8 @@ const Person::Id& PersonData::id() const
     return m_id;
 }
 
+
 const QString& PersonData::name() const
 {
     return m_name;
-}
-
-
-const QString& PersonData::path() const
-{
-    return m_path;
 }

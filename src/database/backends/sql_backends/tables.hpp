@@ -15,7 +15,6 @@
 #define TAB_GROUPS_MEMBERS       "groups_members"
 #define TAB_PEOPLE               "people"
 #define TAB_PEOPLE_LOCATIONS     "people_location"
-#define TAB_FACE_REPRESENTATIVES "face_representatives"
 #define TAB_FACES                "faces"
 
 #define FLAG_STAGING_AREA  "staging_area"

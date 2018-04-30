@@ -1354,9 +1354,8 @@ namespace Database
 
     std::vector<PersonData> ASqlBackend::listPeople()
     {
-        const QString findQuery = QString("SELECT %1.id, %1.name, %2.path FROM %1 JOIN %2 ON %1.id = %2.person_id")
-                                    .arg(TAB_PEOPLE)
-                                    .arg(TAB_FACE_REPRESENTATIVES);
+        const QString findQuery = QString("SELECT id, name FROM %1")
+                                    .arg(TAB_PEOPLE);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
@@ -1373,10 +1372,9 @@ namespace Database
             {
                 const int id = query.value(0).toInt();
                 const QString name = query.value(1).toString();
-                const QString path = query.value(2).toString();
                 const Person::Id pid(id);
 
-                result.emplace_back(pid, name, path);
+                result.emplace_back(pid, name);
             }
         }
 
@@ -1423,9 +1421,8 @@ namespace Database
 
     PersonData ASqlBackend::person(const Person::Id& id)
     {
-        const QString findQuery = QString("SELECT %1.id, %1.name, %2.path FROM %1 JOIN %2 ON %1.id = %2.person_id WHERE %1.id = %3")
+        const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
                                     .arg(TAB_PEOPLE)
-                                    .arg(TAB_FACE_REPRESENTATIVES)
                                     .arg(id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1438,10 +1435,9 @@ namespace Database
         {
             const int id = query.value(0).toInt();
             const QString name = query.value(1).toString();
-            const QString path = query.value(2).toString();
             const Person::Id pid(id);
 
-            result = PersonData(pid, name, path);
+            result = PersonData(pid, name);
         }
 
         return result;
@@ -1487,48 +1483,32 @@ namespace Database
     Person::Id ASqlBackend::store(const PersonData& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        Transaction transaction(db);
-
         Person::Id id(d.id());
-
         bool status = false;
+
+        InsertQueryData queryData(TAB_PEOPLE);
+        queryData.setColumns("name");
+        queryData.setValues(d.name());
+
+        QSqlQuery query;
+
+        if (id.valid())
         {
-            InsertQueryData queryData(TAB_PEOPLE);
-            queryData.setColumns("name");
-            queryData.setValues(d.name());
-
-            QSqlQuery query;
-
-            if (id.valid())
-            {
-                UpdateQueryData updateQueryData(queryData);
-                updateQueryData.addCondition("id", QString::number(id));
-                query = getGenericQueryGenerator()->update(db, updateQueryData);
-            }
-            else
-            {
-                query = getGenericQueryGenerator()->insert(db, queryData);
-            }
-
-            status = m_data->m_executor.exec(query);
-
-            if (status && id.valid() == false)
-            {
-                const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-                id = vid.toInt();
-            }
+            UpdateQueryData updateQueryData(queryData);
+            updateQueryData.addCondition("id", QString::number(id));
+            query = getGenericQueryGenerator()->update(db, updateQueryData);
+        }
+        else
+        {
+            query = getGenericQueryGenerator()->insert(db, queryData);
         }
 
-        if (status && id.valid())
+        status = m_data->m_executor.exec(query);
+
+        if (status && id.valid() == false)
         {
-            InsertQueryData queryData(TAB_FACE_REPRESENTATIVES);
-            queryData.setColumns("person_id", "path");
-            queryData.setValues(id, d.path());
-
-            UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("person_id", QString::number(id));
-
-            status = m_data->updateOrInsert(updateQueryData);
+            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            id = vid.toInt();
         }
 
         return id;

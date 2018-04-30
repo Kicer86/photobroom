@@ -160,19 +160,6 @@ namespace Database
                     }
         );
 
-        // list of representations for faces
-        TableDefinition
-        table_face_representatives(TAB_FACE_REPRESENTATIVES,
-                    {
-                        { "id", "", ColDefinition::Purpose::ID   },
-                        { "person_id", "INTEGER NOT NULL"        },
-                        { "path", "VARCHAR(1024) NOT NULL"       },
-                    },
-                    {
-                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
-                    }
-        );
-
         // list of faces
         TableDefinition
         table_faces(TAB_FACES,
@@ -200,7 +187,6 @@ namespace Database
             { TAB_GROUPS_MEMBERS,       table_groups_members },
             { TAB_PEOPLE,               table_people },
             { TAB_PEOPLE_LOCATIONS,     table_people_locations },
-            { TAB_FACE_REPRESENTATIVES, table_face_representatives },
             { TAB_FACES,                table_faces },
         };
 }
