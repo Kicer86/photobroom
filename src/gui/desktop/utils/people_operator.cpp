@@ -188,24 +188,16 @@ void FaceRecognizer::perform()
 
 PersonData FaceRecognizer::personData(const Person::Id& id) const
 {
-    const std::vector<PersonData> people =
-        evaluate<std::vector<PersonData>(Database::IBackendOperator *)>
-            (m_db, [](Database::IBackendOperator* backend)
+    const PersonData person =
+        evaluate<PersonData(Database::IBackendOperator *)>
+            (m_db, [id](Database::IBackendOperator* backend)
     {
-        const auto people = backend->listPeople();
+        const auto people = backend->person(id);
 
         return people;
     });
 
-    PersonData result;
-    for(const PersonData& person: people)
-        if (person.id() == id)
-        {
-            result = person;
-            break;
-        }
-
-    return result;
+    return person;
 }
 
 

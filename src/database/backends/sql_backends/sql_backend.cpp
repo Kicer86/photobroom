@@ -1421,6 +1421,33 @@ namespace Database
     }
 
 
+    PersonData ASqlBackend::person(const Person::Id& id)
+    {
+        const QString findQuery = QString("SELECT %1.id, %1.name, %2.path FROM %1 JOIN %2 ON %1.id = %2.person_id WHERE %1.id = %3")
+                                    .arg(TAB_PEOPLE)
+                                    .arg(TAB_FACE_REPRESENTATIVES)
+                                    .arg(id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        PersonData result;
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status && query.next())
+        {
+            const int id = query.value(0).toInt();
+            const QString name = query.value(1).toString();
+            const QString path = query.value(2).toString();
+            const Person::Id pid(id);
+
+            result = PersonData(pid, name, path);
+        }
+
+        return result;
+    }
+
+
     std::vector<FaceData> ASqlBackend::listFaces(const Photo::Id& id)
     {
         const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2")

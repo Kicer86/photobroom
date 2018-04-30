@@ -70,6 +70,7 @@ namespace Database
         virtual QList<QVariant>          find(const QString &) = 0;                              // find items matching query
         virtual std::vector<PersonData>  listPeople() = 0;                                       // list all people
         virtual std::vector<PersonLocation> listPeople (const Photo::Id &) = 0;                  // list people on photo
+        virtual PersonData               person(const Person::Id &) = 0;                         // person data
         virtual std::vector<FaceData>    listFaces(const Photo::Id &) = 0;                       // list faces on photo
         virtual Person::Id               store(const PersonData &) = 0;                          // store or update person data
         virtual Face::Id                 store(const FaceData &) = 0;                            // store or update face data

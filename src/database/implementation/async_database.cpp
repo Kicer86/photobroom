@@ -194,6 +194,11 @@ namespace
             return m_backend->listFaces(id);
         }
 
+        PersonData person(const Person::Id& id) override
+        {
+            return m_backend->person(id);
+        }
+
         Person::Id store(const PersonData& d) override
         {
             return m_backend->store(d);
