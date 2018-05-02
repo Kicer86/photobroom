@@ -60,6 +60,14 @@ namespace Database
     }
 
 
+    BackendStatus SqlQueryExecutor::prepare(const QString& query, QSqlQuery* result) const
+    {
+        const BackendStatus status = result->prepare(query)? StatusCodes::Ok: StatusCodes::QueryPreparationFailed;
+
+        return status;
+    }
+
+
     BackendStatus SqlQueryExecutor::exec(QSqlQuery& query) const
     {
         // threads cannot be used with sql connections:
@@ -99,7 +107,7 @@ namespace Database
 
     BackendStatus SqlQueryExecutor::exec(const QString& query, QSqlQuery* result) const
     {
-        BackendStatus status = result->prepare(query)? StatusCodes::Ok: StatusCodes::QueryPreparationFailed;
+        BackendStatus status = prepare(query, result);
 
         if (status)
             status = exec(*result);
