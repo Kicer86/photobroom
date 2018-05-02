@@ -86,7 +86,6 @@ namespace Database
             bool update(const Photo::DataDelta &) override final;
 
             std::vector<TagNameInfo> listTags() override final;
-            std::vector<TagValue>    listTagValues(const TagNameInfo&) override final;
             std::vector<TagValue>    listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) override final;
 
             std::vector<Photo::Id>   getAllPhotos() override final;

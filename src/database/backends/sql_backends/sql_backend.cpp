@@ -199,7 +199,6 @@ namespace Database
             Group::Id addGroup(const Photo::Id& id) const;
             bool update(const Photo::DataDelta &) const;
 
-            std::vector<TagValue>  listTagValues(const TagNameInfo& tagName) const;
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
 
             void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
@@ -306,30 +305,6 @@ namespace Database
         }
 
         return status;
-    }
-
-
-    std::vector<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName) const
-    {
-        const int tagId = tagName.getTag();
-
-        std::vector<TagValue> result;
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        const QString query_str = QString("SELECT value FROM " TAB_TAGS " WHERE name=\"%1\";").arg(tagId);
-
-        const bool status = m_executor.exec(query_str, &query);
-
-        while (status && query.next())
-        {
-            const QString raw_value = query.value(0).toString();
-            const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
-
-            result.push_back(value);
-        }
-
-        return result;
     }
 
 
@@ -1277,19 +1252,6 @@ namespace Database
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName)
-    {
-        std::vector<TagValue> result;
-
-        if (m_data)
-            result = m_data->listTagValues(tagName);
-        else
-            m_data->m_logger->error("Database object does not exist.");
-
-        return result;
-    }
-
-
     std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
         const std::vector<TagValue> result = m_data->listTagValues(tagName, filter);
@@ -1631,7 +1593,8 @@ namespace Database
                 status = checkDBVersion();
         }
 
-        status &= transaction.commit();
+        if (status)
+            status &= transaction.commit();
 
         return status;
     }
@@ -1663,13 +1626,52 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 // invalidate geometry table - from version 2 photo orientation will be considered
                 const QString cleanGeometry = QString("UPDATE %1 SET geometry_loaded = 0 WHERE geometry_loaded = 1").arg(TAB_FLAGS);
                 status = m_data->m_executor.exec(cleanGeometry, &query);
+                if (status == false)
+                    break;
             }
 
             case 2:             // update from 2 to 3
             {
+                // move all people from tags to new table, and use references
+                const TagNameInfo people(BaseTagsList::People);
+                const auto peopleList = listTagValues(people, {});      // people saved in tags
+                std::vector<PersonData> personData;
+
+                for (const TagValue& person: peopleList)
+                {
+                    const QString name = person.getString();
+
+                    const PersonData pd(Person::Id(), name);
+                    const Person::Id id = store(pd);
+                    const PersonData ud(id, name);
+                    personData.push_back(ud);
+                }
+
+                // replace direct value with reference to TAB_PEOPLE table
+                for (std::size_t i = 0; status && i < personData.size(); i++)
+                {
+                    const QString& name = personData[i].name();
+                    const Person::Id& id = personData[i].id();
+                    const QString replace = QString("UPDATE %1 SET value = %2 WHERE value = :old AND name = %3")
+                                             .arg(TAB_TAGS)
+                                             .arg(id)
+                                             .arg(people.getTag());
+
+                    status = m_data->m_executor.prepare(replace, &query);
+
+                    if (status)
+                    {
+                        query.bindValue(":old", name);
+
+                        status = m_data->m_executor.exec(query);
+                    }
+                }
+
+                if (status == false)
+                    break;
             }
 
-            case 3:   // current version, break updgrades chain
+            case 3:             // current version, break updgrades chain
                 break;
 
             default:
