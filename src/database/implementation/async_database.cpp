@@ -649,14 +649,14 @@ namespace Database
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask (info, std::vector<IFilter::Ptr>(), callback);
+        ListTagValuesTask* task = new ListTagValuesTask(info, std::vector<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask (info, filters, callback);
+        ListTagValuesTask* task = new ListTagValuesTask(info, filters, callback);
         m_impl->addTask(task);
     }
 
