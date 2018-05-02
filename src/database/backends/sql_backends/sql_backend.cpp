@@ -270,7 +270,8 @@ namespace Database
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
 
-                const QString value = tagValue.rawValue();
+                const QString value_raw = tagValue.rawValue();
+                const QString value = m_backend->encodeTag(name_id, value_raw);
 
                 assert(value.isEmpty() == false);
                 if (value.isEmpty() == false)
@@ -332,7 +333,8 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+                const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
+                const TagValue value = TagValue::fromRaw(value_decoded, tagName.getType());
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
@@ -826,27 +828,9 @@ namespace Database
             if (value.isValid() == false || value.isNull())
                 continue;
 
-            TagValue tagValue;
-
-            switch(tagType)
-            {
-                case TagNameInfo::Type::Date:
-                    tagValue = TagValue(value.toDate());
-                    break;
-
-                case TagNameInfo::Type::Time:
-                    tagValue = TagValue(value.toTime());
-                    break;
-
-                case TagNameInfo::Type::String:
-                    tagValue = TagValue(value.toString());
-                    break;
-
-                case TagNameInfo::Type::Invalid:
-                    assert(!"Invalid case");
-                    break;
-            }
-
+            const QString raw_value = value.toString();
+            const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
+            const TagValue tagValue = TagValue::fromRaw(value_decoded, tagName.getType());
             const bool multivalue = tagName.isMultiValue();
 
             if (multivalue)   // accumulate vs override
@@ -1552,6 +1536,66 @@ namespace Database
     {
         m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
         m_data->m_executor.set(m_data->m_logger.get());
+    }
+
+
+    QString ASqlBackend::decodeTag(const TagNameInfo& info, const QString& value)
+    {
+        QString result = value;
+
+        if (info.getTag() == BaseTagsList::People)
+        {
+            const Person::Id id( value.toInt() );
+            const PersonData data = person(id);
+
+            result = data.name();
+        }
+
+        return result;
+    }
+
+
+    QString ASqlBackend::encodeTag(int t, const QString& value)
+    {
+        QString result = value;
+
+        if (t == BaseTagsList::People)
+        {
+            const PersonData p = person(value);
+
+            Person::Id id = p.id();
+            if (id.valid() == false)
+                id = store(PersonData(Person::Id(), value));
+
+            result = QString::number(id);
+        }
+
+        return result;
+    }
+
+
+    PersonData ASqlBackend::person(const QString& name) const
+    {
+        PersonData result;
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg(TAB_PEOPLE);
+        m_data->m_executor.prepare(s, &query);
+        query.bindValue(":name", name);
+
+        m_data->m_executor.exec(query);
+
+        if (query.next())
+        {
+            const Person::Id id( query.value(0).toInt() );
+            const QString name( query.value(1).toString() );
+
+            result = PersonData(id, name);
+        }
+
+        return result;
     }
 
 

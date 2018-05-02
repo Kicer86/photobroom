@@ -105,6 +105,9 @@ namespace Database
             virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //
 
+            QString       decodeTag(const TagNameInfo &, const QString &);
+            QString       encodeTag(int, const QString &);
+            PersonData    person(const QString &) const;
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
 
