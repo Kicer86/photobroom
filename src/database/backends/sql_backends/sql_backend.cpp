@@ -1539,6 +1539,7 @@ namespace Database
     }
 
 
+    // TODO: issue #249
     QString ASqlBackend::decodeTag(const TagNameInfo& info, const QString& value)
     {
         QString result = value;
@@ -1554,7 +1555,7 @@ namespace Database
         return result;
     }
 
-
+    // TODO: issue #249
     QString ASqlBackend::encodeTag(int t, const QString& value)
     {
         QString result = value;
