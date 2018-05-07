@@ -128,16 +128,22 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
     <message>
         <location line="+38"/>
+        <location line="+24"/>
         <source>Person</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-11"/>
+        <source>Unassigned people:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
         <source>Scale:</source>
         <translation type="unfinished">Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+39"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+41"/>
         <source>Locating faces...</source>
         <translation type="unfinished"></translation>
     </message>
