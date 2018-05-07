@@ -43,6 +43,8 @@ class FacesDialog: public QDialog
         void applyFaceName(const Photo::Id &, const FaceData &, const PersonData &);
         void updateImage();
         void updatePeopleList();
+
+        void setUnassignedVisible(bool);
 };
 
 #endif // FACES_DIALOG_HPP

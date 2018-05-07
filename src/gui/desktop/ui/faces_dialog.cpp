@@ -25,6 +25,8 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
 {
     ui->setupUi(this);
 
+    setUnassignedVisible(false);
+
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
 
     connect(ui->scaleSlider, &QSlider::valueChanged,
@@ -161,4 +163,11 @@ void FacesDialog::updatePeopleList()
 
     if (rowCount < peopleCount)
         ui->peopleList->setRowCount(peopleCount);
+}
+
+
+void FacesDialog::setUnassignedVisible(bool visible)
+{
+    ui->unassignedLabel->setVisible(visible);
+    ui->unassignedList->setVisible(visible);
 }
