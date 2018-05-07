@@ -60,14 +60,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLabel" name="notAssignedLabel">
+        <widget class="QLabel" name="unassignedLabel">
          <property name="text">
-          <string>Not assigned people:</string>
+          <string>Unassigned people:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTableWidget" name="notAssignedList">
+        <widget class="QTableWidget" name="unassignedList">
          <property name="columnCount">
           <number>1</number>
          </property>
