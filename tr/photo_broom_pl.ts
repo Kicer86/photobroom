@@ -127,20 +127,25 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+38"/>
-        <location line="+24"/>
+        <location line="+46"/>
+        <source>Assi&amp;gned people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Unassigned people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Sca&amp;le:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-47"/>
+        <location line="+30"/>
         <source>Person</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-11"/>
-        <source>Unassigned people:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <source>Scale:</source>
-        <translation type="unfinished">Skala:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+44"/>

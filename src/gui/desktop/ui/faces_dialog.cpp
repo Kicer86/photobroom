@@ -187,6 +187,5 @@ void FacesDialog::updatePeopleList()
 
 void FacesDialog::setUnassignedVisible(bool visible)
 {
-    ui->unassignedLabel->setVisible(visible);
-    ui->unassignedList->setVisible(visible);
+    ui->unassignedGroup->setVisible(visible);
 }
