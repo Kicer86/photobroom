@@ -50,12 +50,16 @@ class PeopleOperator final: public QObject
         // Second parameter is a face located by fetchFaces()
         void recognize(const Photo::Id &, const FaceData &) const;
 
+        // list all people which were not assigned
+        void getUnassignedPeople(const Photo::Id &) const;
+
         // Store information about people on photo
         void store(const Photo::Id &, const std::vector<std::pair<FaceData, QString> >& people) const;
 
     signals:
         void faces(const Photo::Id &, const QVector<FaceData> &) const;
         void recognized(const Photo::Id &, const FaceData &, const PersonData &) const;
+        void unassigned(const Photo::Id &, const QStringList &) const;
 
     private:
         const QString m_storage;

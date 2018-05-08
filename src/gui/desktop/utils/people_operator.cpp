@@ -215,6 +215,70 @@ std::vector<PersonLocation> FaceRecognizer::fetchPeopleFromDb() const
 ///////////////////////////////////////////////////////////////////////////////
 
 
+FetchUnassigned::FetchUnassigned(const Photo::Id& id, Database::IDatabase* db):
+    m_id(id),
+    m_db(db)
+{
+}
+
+
+FetchUnassigned::~FetchUnassigned()
+{
+}
+
+
+std::string FetchUnassigned::name() const
+{
+    return "FetchUnassigned";
+}
+
+
+void FetchUnassigned::perform()
+{
+    const QStringList un = evaluate<QStringList(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    {
+        auto photo = backend->getPhotoFor(id);
+        const Tag::TagsList tags = photo->getTags();
+
+        QStringList people;
+        for(const std::pair<TagNameInfo, TagValue>& tag: tags)
+        {
+            if (tag.first.getTag() == BaseTagsList::People)
+            {
+                const std::vector<TagValue> subtags = tag.second.getList();
+
+                for(const TagValue& subtag: subtags)
+                    people.append(subtag.getString());
+            }
+        }
+
+        const std::vector<PersonLocation> locations = backend->listPeople(id);
+        QStringList locatedPeople;
+
+        for(const PersonLocation& location: locations)
+        {
+            const PersonData data = backend->person(location.id);
+            locatedPeople.append(data.name());
+        }
+
+        people.sort();
+        locatedPeople.sort();
+
+        QStringList unassigned;
+        std::set_difference(people.begin(), people.end(),
+                            locatedPeople.begin(), locatedPeople.end(),
+                            std::back_inserter(unassigned));
+
+        return unassigned;
+    });
+
+    emit unassigned(un);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 FaceStore::FaceStore(const Photo::Id& id, const std::vector<std::pair<FaceData, QString>>& data, Database::IDatabase* db, const QString& patterns):
     FaceTask(id, db),
     m_data(data),
@@ -347,6 +411,18 @@ void PeopleOperator::recognize(const Photo::Id& id, const FaceData& face) const
 
     auto notifier = std::bind(&PeopleOperator::recognized, this, id, face, _1);
     connect(task.get(), &FaceRecognizer::recognized, notifier);
+
+    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+}
+
+
+void PeopleOperator::getUnassignedPeople(const Photo::Id& id) const
+{
+    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
+    auto task = std::make_unique<FetchUnassigned>(id, m_db);
+
+    auto notifier = std::bind(&PeopleOperator::unassigned, this, id, _1);
+    connect(task.get(), &FetchUnassigned::unassigned, notifier);
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }

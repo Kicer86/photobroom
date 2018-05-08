@@ -94,6 +94,26 @@ class FaceRecognizer final: public QObject, public FaceTask
 };
 
 
+class FetchUnassigned final: public QObject, public ITaskExecutor::ITask
+{
+        Q_OBJECT
+
+    public:
+        FetchUnassigned(const Photo::Id &, Database::IDatabase* db);
+        ~FetchUnassigned();
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        const Photo::Id m_id;
+        Database::IDatabase* m_db;
+
+    signals:
+        void unassigned(const QStringList &) const;
+};
+
+
 class FaceStore final: public FaceTask
 {
     public:

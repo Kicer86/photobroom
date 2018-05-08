@@ -38,9 +38,13 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
     connect(&m_people, &PeopleOperator::recognized,
             this, &FacesDialog::applyFaceName);
 
+    connect(&m_people, &PeopleOperator::unassigned,
+            this, &FacesDialog::applyUnassigned);
+
     ui->statusLabel->setText(tr("Locating faces..."));
 
     m_people.fetchFaces(data.id);
+    m_people.getUnassignedPeople(data.id);
     updateImage();
 }
 
@@ -105,6 +109,18 @@ void FacesDialog::applyFaceName(const Photo::Id &, const FaceData& face, const P
 
     if (m_facesToAnalyze == 0)
         ui->statusLabel->setText(tr("All known faces recognized."));
+}
+
+
+void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassigned)
+{
+    for(auto it = unassigned.begin(); it != unassigned.end(); ++it)
+    {
+        const std::size_t idx = std::distance(unassigned.cbegin(), it);
+        ui->unassignedList->setItem(idx, 0, new QTableWidgetItem(*it));
+    }
+
+    setUnassignedVisible(unassigned.empty() == false);
 }
 
 
