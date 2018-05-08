@@ -114,13 +114,16 @@ void FacesDialog::applyFaceName(const Photo::Id &, const FaceData& face, const P
 
 void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassigned)
 {
+    const int count = unassigned.size();
+    ui->unassignedList->setRowCount(count);
+
     for(auto it = unassigned.begin(); it != unassigned.end(); ++it)
     {
         const std::size_t idx = std::distance(unassigned.cbegin(), it);
         ui->unassignedList->setItem(idx, 0, new QTableWidgetItem(*it));
     }
 
-    setUnassignedVisible(unassigned.empty() == false);
+    setUnassignedVisible(count > 0);
 }
 
 
