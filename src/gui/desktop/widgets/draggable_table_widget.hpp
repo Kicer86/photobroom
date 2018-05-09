@@ -28,6 +28,16 @@ class DraggableTableWidget: public QTableWidget
     public:
         DraggableTableWidget(QWidget *);
         ~DraggableTableWidget();
+
+    private:
+        QTableWidgetItem* m_current;
+
+        void itemChosen(QTableWidgetItem *);
+        void mouseReleaseEvent(QMouseEvent * event) override;
+        void mouseMoveEvent(QMouseEvent * event) override;
+
+    signals:
+        void beginDrag(QTableWidgetItem *) const;
 };
 
 #endif // DRAGGABLETABLEWIDGET_HPP

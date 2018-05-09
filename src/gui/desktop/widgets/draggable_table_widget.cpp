@@ -20,9 +20,11 @@
 
 
 DraggableTableWidget::DraggableTableWidget(QWidget* p):
-    QTableWidget(p)
+    QTableWidget(p),
+    m_current(nullptr)
 {
-
+    connect(this, &QTableWidget::itemPressed,
+            this, &DraggableTableWidget::itemChosen);
 }
 
 
@@ -30,3 +32,26 @@ DraggableTableWidget::~DraggableTableWidget()
 {
 
 }
+
+
+void DraggableTableWidget::itemChosen(QTableWidgetItem* item)
+{
+    m_current = item;
+}
+
+
+void DraggableTableWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+    m_current = nullptr;
+    QTableWidget::mouseReleaseEvent(event);
+}
+
+
+void DraggableTableWidget::mouseMoveEvent(QMouseEvent* event)
+{
+    if (m_current == nullptr)
+        QTableWidget::mouseMoveEvent(event);
+    else
+        emit beginDrag(m_current);
+}
+
