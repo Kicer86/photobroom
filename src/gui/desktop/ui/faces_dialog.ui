@@ -88,7 +88,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QTableWidget" name="unassignedList">
+           <widget class="DraggableTableWidget" name="unassignedList">
             <property name="columnCount">
              <number>1</number>
             </property>
@@ -174,6 +174,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DraggableTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>widgets/draggable_table_widget.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
