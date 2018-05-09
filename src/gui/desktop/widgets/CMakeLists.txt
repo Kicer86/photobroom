@@ -11,6 +11,7 @@ include_directories(
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
+    draggable_table_widget.cpp
     info_widget.cpp
     multi_value_line_edit.cpp
     photo_properties.cpp
@@ -28,6 +29,7 @@ set(SRCS
 set(HEADERS
     collection_dir_scan_dialog.hpp
     color_pick_button.hpp
+    draggable_table_widget.hpp
     info_widget.hpp
     multi_value_line_edit.hpp
     photo_properties.hpp
@@ -46,6 +48,7 @@ set(HEADERS
 #set of file to be moced
 set(TO_MOC
     collection_dir_scan_dialog.hpp
+    draggable_table_widget.hpp
     filters_editor/level_editor.hpp
     photo_properties.hpp
     photos_widget.hpp
