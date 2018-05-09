@@ -42,8 +42,8 @@ void DraggableTableWidget::itemChosen(QTableWidgetItem* item)
 
 void DraggableTableWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    m_current = nullptr;
     QTableWidget::mouseReleaseEvent(event);
+    m_current = nullptr;
 }
 
 
@@ -54,4 +54,3 @@ void DraggableTableWidget::mouseMoveEvent(QMouseEvent* event)
     else
         emit beginDrag(m_current);
 }
-
