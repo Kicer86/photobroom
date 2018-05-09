@@ -52,5 +52,8 @@ void DraggableTableWidget::mouseMoveEvent(QMouseEvent* event)
     if (m_current == nullptr)
         QTableWidget::mouseMoveEvent(event);
     else
+    {
         emit beginDrag(m_current);
+        m_current = nullptr;
+    }
 }
