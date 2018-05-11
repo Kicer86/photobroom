@@ -127,7 +127,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+52"/>
         <source>Assi&amp;gned people</source>
         <translation type="unfinished"></translation>
     </message>
