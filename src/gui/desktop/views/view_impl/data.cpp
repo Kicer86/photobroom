@@ -24,7 +24,6 @@
 
 #include <QPixmap>
 #include <QIcon>
-#include <QDebug>
 #include <QModelIndex>
 
 #include <core/iconfiguration.hpp>

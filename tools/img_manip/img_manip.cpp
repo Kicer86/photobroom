@@ -1,7 +1,6 @@
 
 #include <QString>
 #include <QImage>
-#include <QDebug>
 #include <QImageWriter>
 
 int main(int argc, char** argv)

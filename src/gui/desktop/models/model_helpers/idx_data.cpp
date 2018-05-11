@@ -24,7 +24,6 @@
 #include <QPixmap>
 #include <QVariant>
 #include <QDirIterator>
-#include <QDebug>
 
 #include <database/iphoto_info.hpp>
 
