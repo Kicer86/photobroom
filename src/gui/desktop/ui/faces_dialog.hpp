@@ -30,9 +30,8 @@ class FacesDialog: public QDialog
         explicit FacesDialog(const Photo::Data &, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
         ~FacesDialog();
 
-        std::vector<std::pair<FaceData, QString>> faces() const;
-
     private:
+        const Photo::Id m_id;
         PeopleOperator m_people;
         safe_callback_ctrl m_safeCallback;
         QVector<FaceData> m_faces;
@@ -48,6 +47,7 @@ class FacesDialog: public QDialog
         void updatePeopleList();
 
         void setUnassignedVisible(bool);
+        void apply();
 };
 
 #endif // FACES_DIALOG_HPP

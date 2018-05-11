@@ -18,6 +18,7 @@ using namespace std::placeholders;
 
 FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
+    m_id(data.id),
     m_people(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition), prj->getDatabase(), coreAccessor),
     m_faces(),
     m_photoPath(data.path),
@@ -43,6 +44,9 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
     connect(&m_people, &PeopleOperator::unassigned,
             this, &FacesDialog::applyUnassigned);
 
+    connect(this, &FacesDialog::accepted,
+            this, &FacesDialog::apply);
+
     ui->statusLabel->setText(tr("Locating faces..."));
     m_people.fetchFaces(data.id);
     m_people.getUnassignedPeople(data.id);
@@ -53,26 +57,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
 FacesDialog::~FacesDialog()
 {
     delete ui;
-}
-
-
-std::vector<std::pair<FaceData, QString>> FacesDialog::faces() const
-{
-    std::vector<std::pair<FaceData, QString>> result;
-
-    const int count = ui->peopleList->rowCount();
-    assert(count == m_faces.size());
-
-    for(int i = 0; i < count; i++)
-    {
-        const auto person = ui->peopleList->item(i, 0);
-        const QString name = person == nullptr? QString(): person->text();
-
-        auto face_data = std::make_pair(m_faces[i], name);
-        result.push_back(face_data);
-    }
-
-    return result;
 }
 
 
@@ -189,4 +173,24 @@ void FacesDialog::updatePeopleList()
 void FacesDialog::setUnassignedVisible(bool visible)
 {
     ui->unassignedGroup->setVisible(visible);
+}
+
+
+void FacesDialog::apply()
+{
+    std::vector<std::pair<FaceData, QString>> known_faces;
+
+    const int count = ui->peopleList->rowCount();
+    assert(count == m_faces.size());
+
+    for(int i = 0; i < count; i++)
+    {
+        const auto person = ui->peopleList->item(i, 0);
+        const QString name = person == nullptr? QString(): person->text();
+
+        auto face_data = std::make_pair(m_faces[i], name);
+        known_faces.push_back(face_data);
+    }
+
+    m_people.store(m_id, known_faces);
 }
