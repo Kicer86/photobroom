@@ -349,7 +349,6 @@ void FaceStore::perform()
         }
         else                                // someone known
             m_db->performCustomAction([faceData,
-                                       photo_id = m_id,
                                        p_id = it->id()]
                                       (Database::IBackendOperator* op)
             {
