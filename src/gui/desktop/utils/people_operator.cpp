@@ -321,8 +321,7 @@ void FaceStore::perform()
 
         if (it == people.cend())  // we do not know that person
         {
-            m_db->performCustomAction([photo_id = m_id,
-                                       name,
+            m_db->performCustomAction([name,
                                        base_path = m_patterns,
                                        face = image.copy(face_coords),
                                        faceData]
