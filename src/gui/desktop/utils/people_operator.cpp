@@ -364,12 +364,18 @@ void FaceStore::perform()
             });
     }
 
-    m_db->performCustomAction([unknown_people = m_unknownPeople,
+    // store all people in tags
+    QStringList allPeople = m_unknownPeople;
+    for (auto person: m_knownPeople)
+        if (person.second.isEmpty() == false)
+            allPeople.append(person.second);
+
+    m_db->performCustomAction([people = std::move(allPeople),
                                id = m_id]
                               (Database::IBackendOperator* op)
     {
         std::vector<TagValue> people_list;
-        for(const QString& person: unknown_people)
+        for(const QString& person: people)
         {
             TagValue personTag(person);
             people_list.push_back(personTag);
