@@ -62,20 +62,19 @@
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QTableWidget" name="peopleList">
+            <property name="dragEnabled">
+             <bool>true</bool>
+            </property>
+            <property name="dragDropMode">
+             <enum>QAbstractItemView::DropOnly</enum>
+            </property>
             <property name="columnCount">
              <number>1</number>
             </property>
             <attribute name="horizontalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <column>
-             <property name="text">
-              <string>Person</string>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
-            </column>
+            <column/>
            </widget>
           </item>
          </layout>
@@ -88,7 +87,16 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="DraggableTableWidget" name="unassignedList">
+           <widget class="QTableWidget" name="unassignedList">
+            <property name="dragEnabled">
+             <bool>true</bool>
+            </property>
+            <property name="dragDropMode">
+             <enum>QAbstractItemView::DragOnly</enum>
+            </property>
+            <property name="defaultDropAction">
+             <enum>Qt::MoveAction</enum>
+            </property>
             <property name="columnCount">
              <number>1</number>
             </property>
@@ -98,11 +106,7 @@
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <column>
-             <property name="text">
-              <string>Person</string>
-             </property>
-            </column>
+            <column/>
            </widget>
           </item>
          </layout>
@@ -174,13 +178,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>DraggableTableWidget</class>
-   <extends>QTableWidget</extends>
-   <header>widgets/draggable_table_widget.hpp</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

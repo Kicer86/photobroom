@@ -132,28 +132,27 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+33"/>
         <source>Unassigned people</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+38"/>
         <source>Sca&amp;le:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-47"/>
-        <location line="+30"/>
+        <location line="-52"/>
         <source>Person</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+49"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+46"/>
         <source>Locating faces...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+35"/>
         <source>Found %1 face(s).</source>
         <translation type="unfinished"></translation>
     </message>

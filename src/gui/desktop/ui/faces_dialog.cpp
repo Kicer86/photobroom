@@ -43,11 +43,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
     connect(&m_people, &PeopleOperator::unassigned,
             this, &FacesDialog::applyUnassigned);
 
-    connect(ui->unassignedList, &DraggableTableWidget::beginDrag,
-            this, &FacesDialog::dragUnassigned);
-
     ui->statusLabel->setText(tr("Locating faces..."));
-
     m_people.fetchFaces(data.id);
     m_people.getUnassignedPeople(data.id);
     updateImage();
@@ -129,18 +125,6 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
     }
 
     setUnassignedVisible(count > 0);
-}
-
-
-void FacesDialog::dragUnassigned(QTableWidgetItem* item)
-{
-    QDrag* drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
-
-    mimeData->setText(item->text());
-    drag->setMimeData(mimeData);
-
-    drag->exec();
 }
 
 
