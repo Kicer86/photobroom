@@ -54,7 +54,9 @@ class PeopleOperator final: public QObject
         void getUnassignedPeople(const Photo::Id &) const;
 
         // Store information about people on photo
-        void store(const Photo::Id &, const std::vector<std::pair<FaceData, QString> >& people) const;
+        void store(const Photo::Id &,
+                   const std::vector<std::pair<FaceData, QString> >& known_people,
+                   const QStringList& unknown_people) const;
 
     signals:
         void faces(const Photo::Id &, const QVector<FaceData> &) const;

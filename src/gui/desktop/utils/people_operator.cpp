@@ -279,9 +279,14 @@ void FetchUnassigned::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceStore::FaceStore(const Photo::Id& id, const std::vector<std::pair<FaceData, QString>>& data, Database::IDatabase* db, const QString& patterns):
+FaceStore::FaceStore(const Photo::Id& id,
+                     const std::vector<std::pair<FaceData, QString>>& known_people,
+                     const QStringList& unknown_people,
+                     Database::IDatabase* db,
+                     const QString& patterns):
     FaceTask(id, db),
-    m_data(data),
+    m_knownPeople(known_people),
+    m_unknownPeople(unknown_people),
     m_patterns(patterns)
 {
 
@@ -306,7 +311,7 @@ void FaceStore::perform()
     const QString path = getPhotoPath();
     const QImage image(path);
 
-    for (const auto& person: m_data)
+    for (const auto& person: m_knownPeople )
     {
         const FaceData& faceData = person.first;
         const QString& name = person.second;
@@ -358,6 +363,25 @@ void FaceStore::perform()
                 op->store(p_id, f_id);
             });
     }
+
+    m_db->performCustomAction([unknown_people = m_unknownPeople,
+                               id = m_id]
+                              (Database::IBackendOperator* op)
+    {
+        std::vector<TagValue> people_list;
+        for(const QString& person: unknown_people)
+        {
+            TagValue personTag(person);
+            people_list.push_back(personTag);
+        }
+
+        const TagValue new_people(people_list);
+
+        auto photo = op->getPhotoFor(id);
+
+        const TagNameInfo peopleInfo(BaseTagsList::People);
+        photo->setTag(peopleInfo, new_people);
+    });
 }
 
 
@@ -426,10 +450,12 @@ void PeopleOperator::getUnassignedPeople(const Photo::Id& id) const
 }
 
 
-void PeopleOperator::store(const Photo::Id& id, const std::vector<std::pair<FaceData, QString> >& people) const
+void PeopleOperator::store(const Photo::Id& id,
+                           const std::vector<std::pair<FaceData, QString> >& known_people,
+                           const QStringList& unknown_people) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FaceStore>(id, people, m_db, m_storage);
+    auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }

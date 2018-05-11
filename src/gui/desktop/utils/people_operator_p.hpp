@@ -117,14 +117,19 @@ class FetchUnassigned final: public QObject, public ITaskExecutor::ITask
 class FaceStore final: public FaceTask
 {
     public:
-        FaceStore(const Photo::Id &, const std::vector<std::pair<FaceData, QString>> &, Database::IDatabase *, const QString& patterns);
+        FaceStore(const Photo::Id &,
+                  const std::vector<std::pair<FaceData, QString>> &,
+                  const QStringList& unknownPeople,
+                  Database::IDatabase *,
+                  const QString& patterns);
         ~FaceStore();
 
         std::string name() const override;
         void perform() override;
 
     private:
-        const std::vector<std::pair<FaceData, QString>> m_data;
+        const std::vector<std::pair<FaceData, QString>> m_knownPeople;
+        const QStringList m_unknownPeople;
         const QString m_patterns;
 
         std::vector<PersonData> fetchPeople();

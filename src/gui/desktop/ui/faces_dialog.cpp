@@ -179,11 +179,12 @@ void FacesDialog::setUnassignedVisible(bool visible)
 void FacesDialog::apply()
 {
     std::vector<std::pair<FaceData, QString>> known_faces;
+    QStringList unknownPeople;
 
-    const int count = ui->peopleList->rowCount();
-    assert(count == m_faces.size());
+    const int known_count = ui->peopleList->rowCount();
+    assert( known_count == m_faces.size());
 
-    for(int i = 0; i < count; i++)
+    for(int i = 0; i < known_count; i++)
     {
         const auto person = ui->peopleList->item(i, 0);
         const QString name = person == nullptr? QString(): person->text();
@@ -192,5 +193,16 @@ void FacesDialog::apply()
         known_faces.push_back(face_data);
     }
 
-    m_people.store(m_id, known_faces);
+    const int unknown_count = ui->unassignedList->rowCount();
+
+    for(int i = 0; i < unknown_count; i++)
+    {
+        const auto person = ui->unassignedList->item(i, 0);
+        const QString name = person == nullptr? QString(): person->text();
+
+        if (name.isEmpty() == false)
+            unknownPeople.append(name);
+    }
+
+    m_people.store(m_id, known_faces, unknownPeople);
 }
