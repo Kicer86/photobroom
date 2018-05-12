@@ -148,11 +148,6 @@ namespace
             return photoPtr;
         }
 
-        QList<QVariant> find(const QString& query) override
-        {
-            return m_backend->find(query);
-        }
-
         std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta>& dataDelta) override
         {
             std::vector<Photo::Id> result;
@@ -320,28 +315,6 @@ namespace
 
         std::vector<Photo::Id> m_ids;
         std::function<void(const std::vector<IPhotoInfo::Ptr> &)> m_callback;
-    };
-
-
-    struct FindTask: IThreadTask
-    {
-        FindTask(const QString& query, const std::function<void(const QList<QVariant> &)>& callback):
-            IThreadTask(),
-            m_query(query),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual void execute(Executor* executor) override
-        {
-            QList<QVariant> results = executor->find(m_query);
-
-            m_callback(results);
-        }
-
-        QString m_query;
-        std::function<void(const QList<QVariant> &)> m_callback;
     };
 
 
@@ -664,13 +637,6 @@ namespace Database
     void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
-        m_impl->addTask(std::move(task));
-    }
-
-
-    void AsyncDatabase::find(const QString& query, const Callback<const QList<QVariant> &> & callback)
-    {
-        auto task = std::make_unique<FindTask>(query, callback);
         m_impl->addTask(std::move(task));
     }
 

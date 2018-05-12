@@ -13,8 +13,6 @@ Required tools and libraries:
  - exiv2*
  - jsoncpp*
  - OpenLibrary*
- - flex
- - bison
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)

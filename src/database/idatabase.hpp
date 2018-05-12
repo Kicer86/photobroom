@@ -69,7 +69,6 @@ namespace Database
         virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;           // find all photos matching filter
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
-        virtual QList<QVariant> find(const QString& query) = 0;                                    // search database for items matching query
         virtual std::vector<PersonData> listPeople() = 0;                                          // list all people
         virtual std::vector<PersonLocation> listPeople(const Photo::Id &) = 0;                     // list people on photo
         virtual PersonData person(const Person::Id &) = 0;                                         // person data
@@ -99,13 +98,12 @@ namespace Database
         virtual void createGroup(const Photo::Id &, const Callback<Group::Id> &) = 0;
 
         // read data
-        virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                           // count photos matching filters
+        virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
         virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;   // list all tag values
         virtual void listTagValues( const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
-        virtual void find(const QString &, const Callback<const QList<QVariant> &> &) = 0;                                            // search database for items matching query
 
         // modify data
 

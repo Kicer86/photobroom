@@ -66,7 +66,6 @@ namespace Database
         virtual std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) = 0;      // drop photos matching filter
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
-        virtual QList<QVariant>          find(const QString &) = 0;                              // find items matching query
         virtual std::vector<PersonData>  listPeople() = 0;                                       // list all people
         virtual std::vector<PersonLocation> listPeople (const Photo::Id &) = 0;                  // list people on photo
         virtual PersonData               person(const Person::Id &) = 0;                         // person data
