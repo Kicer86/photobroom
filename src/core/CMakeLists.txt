@@ -5,7 +5,6 @@ find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(JsonCpp REQUIRED)
-find_package(PythonLibs 3.0 REQUIRED)
 find_package(pybind11 REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
@@ -138,7 +137,6 @@ target_link_libraries(core
 
 target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
-                                    ${PYTHON_INCLUDE_DIRS}
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 SYSTEM PRIVATE
