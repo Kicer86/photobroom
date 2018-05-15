@@ -26,7 +26,6 @@ if EXIST c:/projects/install goto :gtest
 
 rem third party stuff
 cd tools
-python -m pip install pytest
 python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -p pybind11 -g %generator% -c %Configuration% c:/projects/install
 cd ..
 
