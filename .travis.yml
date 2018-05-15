@@ -72,7 +72,6 @@ before_install:
         export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
         export PYTHON=`which python`;
         echo $PYTHON;
-        $PYTHON -m pip install pytest;
     fi
 
 before_script:
