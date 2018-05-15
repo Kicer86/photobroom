@@ -26,6 +26,8 @@ target_link_libraries(face_recognition
                                 system
 )
 
+target_compile_definitions(face_recognition PRIVATE DQT_NO_KEYWORDS)
+
 generate_export_header(face_recognition)
 hideSymbols(face_recognition)
 

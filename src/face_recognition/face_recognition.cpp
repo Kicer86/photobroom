@@ -23,7 +23,6 @@
 #include <memory>
 #include <string>
 
-#undef slots
 #include <pybind11/embed.h>
 
 #include <QByteArray>
