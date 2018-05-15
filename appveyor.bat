@@ -18,7 +18,7 @@ if "%platform%"=="Win32" (
 )
 
 set USE_QT_VER=5.9
-set PATH=C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
+set PATH=C:\Python36-x64;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
