@@ -1,6 +1,7 @@
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(pybind11 REQUIRED)
 
 add_library(face_recognition
     face_recognition.cpp
@@ -24,6 +25,7 @@ target_link_libraries(face_recognition
                                 core
                                 database
                                 system
+                                pybind11::embed
 )
 
 generate_export_header(face_recognition)
