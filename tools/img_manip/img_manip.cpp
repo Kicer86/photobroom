@@ -1,4 +1,5 @@
 
+#include <QDebug>
 #include <QString>
 #include <QImage>
 #include <QImageWriter>
