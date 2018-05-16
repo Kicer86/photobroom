@@ -244,3 +244,46 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     emit db_signals.photoModified(photoInfo);
 }
+
+
+TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
+{
+    using ::testing::InvokeArgument;
+    using ::testing::Return;
+    using ::testing::_;
+    using ::testing::NiceMock;
+
+    Database::ADatabaseSignals db_signals;
+    NiceMock<MockDatabase> database;
+
+    EXPECT_CALL(database, notifier())
+        .WillOnce(Return(&db_signals));
+
+    TagInfoCollector tagInfoCollector;
+    tagInfoCollector.set(&database);
+
+    auto photoInfo = std::make_shared<MockPhotoInfo>();
+    Tag::TagsList tags = {
+                            { TagNameInfo(BaseTagsList::People), TagValue( {QString("person123"), QString("person987") }) },
+                            { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
+    };
+
+    EXPECT_CALL(*photoInfo.get(), getTags())
+        .WillOnce(Return(tags));
+
+    emit db_signals.photoModified(photoInfo);
+
+    auto event = tagInfoCollector.get(TagNameInfo(BaseTagsList::Event));
+    auto people = tagInfoCollector.get(TagNameInfo(BaseTagsList::People));
+
+    ASSERT_EQ(event.size(), 1);
+    ASSERT_EQ(event[0].type(), TagValue::Type::String);
+    EXPECT_EQ(event[0].getString(), "event123");
+
+    // people should be flattened
+    ASSERT_EQ(people.size(), 2);
+    ASSERT_EQ(people[0].type(), TagValue::Type::String);
+    ASSERT_EQ(people[1].type(), TagValue::Type::String);
+    EXPECT_EQ(people[0].getString(), "person123");
+    EXPECT_EQ(people[1].getString(), "person987");
+}

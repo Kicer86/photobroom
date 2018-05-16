@@ -558,4 +558,40 @@ namespace Tag
         m_value = v;
     }
 
+
+    std::vector<TagValue> flatten(const TagValue& tagValue)
+    {
+        const TagValue::Type type = tagValue.type();
+
+        std::vector<TagValue> result;
+
+        switch (type)
+        {
+            case TagValue::Type::Empty:
+                assert(!"empty tag value!");
+                break;
+
+            case TagValue::Type::Date:
+            case TagValue::Type::String:
+            case TagValue::Type::Time:
+                result.push_back(tagValue);
+                break;
+
+            case TagValue::Type::List:
+            {
+                auto list = tagValue.getList();
+
+                for (const TagValue& subitem: list)
+                {
+                    const std::vector<TagValue> local_result = flatten(subitem);
+
+                    result.insert(result.end(), local_result.begin(), local_result.end());
+                }
+
+                break;
+            }
+        }
+
+        return result;
+    }
 }

@@ -116,43 +116,6 @@ namespace Database
         };
 
 
-        std::vector<TagValue> flatten(const TagValue& tagValue)
-        {
-            const TagValue::Type type = tagValue.type();
-
-            std::vector<TagValue> result;
-
-            switch (type)
-            {
-                case TagValue::Type::Empty:
-                    assert(!"empty tag value!");
-                    break;
-
-                case TagValue::Type::Date:
-                case TagValue::Type::String:
-                case TagValue::Type::Time:
-                    result.push_back(tagValue);
-                    break;
-
-                case TagValue::Type::List:
-                {
-                    auto list = tagValue.getList();
-
-                    for (const TagValue& subitem: list)
-                    {
-                        const std::vector<TagValue> local_result = flatten(subitem);
-
-                        result.insert(result.end(), local_result.begin(), local_result.end());
-                    }
-
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-
         std::vector<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
         {
             std::vector<std::pair<TagNameInfo, TagValue>> result;
@@ -160,7 +123,7 @@ namespace Database
             for(const auto& tag: tagsList)
             {
                 const TagValue& tagValue = tag.second;
-                const std::vector<TagValue> flatList = flatten(tagValue);
+                const std::vector<TagValue> flatList = Tag::flatten(tagValue);
 
                 for(const TagValue& flat: flatList)
                 {

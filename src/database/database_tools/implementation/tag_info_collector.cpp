@@ -103,12 +103,18 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     for(const auto& tag: tags)
     {
         const TagNameInfo& tagNameInfo = tag.first;
+        const TagValue& tagValues = tag.second;
 
-        std::vector<TagValue>& values = m_tags[tagNameInfo];
-        auto found = std::find(values.begin(), values.end(), tag.second);
+        const std::vector<TagValue> flatted = Tag::flatten(tagValues);
 
-        if (found == values.end())
-            values.emplace_back(tag.second);
+        for(const TagValue& tagValue: flatted)
+        {
+            std::vector<TagValue>& values = m_tags[tagNameInfo];
+            auto found = std::find(values.begin(), values.end(), tagValue);
+
+            if (found == values.end())
+                values.emplace_back(tagValue);
+        }
     }
 
     lock.unlock();
@@ -121,7 +127,6 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
         notifyObserversAbout(tagNameInfo);
     }
-
 }
 
 
