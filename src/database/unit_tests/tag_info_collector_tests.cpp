@@ -244,3 +244,9 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     emit db_signals.photoModified(photoInfo);
 }
+
+
+TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
+{
+
+}
