@@ -18,7 +18,7 @@ if "%platform%"=="Win32" (
 )
 
 set USE_QT_VER=5.9
-set PATH=C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
+set PATH=C:\Python35-x64;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
@@ -26,7 +26,7 @@ if EXIST c:/projects/install goto :gtest
 
 rem third party stuff
 cd tools
-c:/Python35/python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -g %generator% -c %Configuration% c:/projects/install
+python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -p pybind11 -g %generator% -c %Configuration% c:/projects/install
 cd ..
 
 rem setup gmock and gtest
