@@ -195,6 +195,7 @@ namespace Tag
             TagValue m_value;
     };
 
+    CORE_EXPORT std::vector<TagValue> flatten(const TagValue &);
 }
 
 Q_DECLARE_METATYPE(TagNameInfo)
