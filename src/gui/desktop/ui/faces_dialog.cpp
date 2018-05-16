@@ -4,19 +4,52 @@
 #include <cassert>
 
 #include <QDrag>
+#include <QLineEdit>
 #include <QMimeData>
 #include <QPainter>
+#include <QStyledItemDelegate>
 
+#include <core/down_cast.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ipython_thread.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
 #include "ui_faces_dialog.h"
+#include "ui_utils/icompleter_factory.hpp"
 
 using namespace std::placeholders;
 
-FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
+namespace
+{
+    class TableDelegate: public QStyledItemDelegate
+    {
+        public:
+            TableDelegate(ICompleterFactory* completerFactory, QObject* p):
+                QStyledItemDelegate(p),
+                m_completerFactory(completerFactory)
+            {
+            }
+
+            QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
+            {
+                QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
+
+                // WARNING: ugly down cast, but makes things easy
+                QLineEdit* lineEdit = down_cast<QLineEdit *>(editor);
+                const TagNameInfo peopleTag(BaseTagsList::People);
+                auto completer = m_completerFactory->createCompleter(peopleTag);
+                lineEdit->setCompleter(completer);
+
+                return editor;
+            }
+
+        private:
+            ICompleterFactory* m_completerFactory;
+    };
+}
+
+FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFactory, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
     m_id(data.id),
     m_people(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition), prj->getDatabase(), coreAccessor),
@@ -27,6 +60,8 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
     m_facesToAnalyze(0)
 {
     ui->setupUi(this);
+    ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
+    ui->unassignedList->setItemDelegate(new TableDelegate(completerFactory, this));
 
     setUnassignedVisible(false);
 

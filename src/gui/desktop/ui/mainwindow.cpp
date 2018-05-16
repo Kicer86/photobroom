@@ -553,7 +553,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
         const QString faceStorage = prjInfo.getInternalLocation(ProjectInfo::FaceRecognition);
 
-        FacesDialog faces_dialog(first, m_coreAccessor, m_currentPrj.get());
+        FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
     }
 }

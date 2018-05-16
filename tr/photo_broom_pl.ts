@@ -142,7 +142,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+50"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+85"/>
         <source>Locating faces...</source>
         <translation type="unfinished"></translation>
     </message>
