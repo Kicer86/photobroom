@@ -121,7 +121,6 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
         notifyObserversAbout(tagNameInfo);
     }
-
 }
 
 
