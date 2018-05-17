@@ -97,8 +97,8 @@ FacesDialog::~FacesDialog()
 
 void FacesDialog::applyFacesLocations(const QVector<FaceData>& faces)
 {
-    const QString status = faces.isEmpty()? tr("Found %1 face(s).").arg(faces.size()) :
-                                            tr("Found %1 face(s). Recognizing people...").arg(faces.size());
+    const QString status = faces.isEmpty()? tr("Found %n face(s).", "", faces.size()) :
+                                            tr("Found %n face(s). Recognizing people...", "", faces.size());
 
     ui->statusLabel->setText(status);
 

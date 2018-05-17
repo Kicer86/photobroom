@@ -123,43 +123,51 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>People assignment</source>
+        <translation>Przypisywanie osób</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Assi&amp;gned people</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Przypisane osoby</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Unassigned people</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprzypisane osoby</translation>
     </message>
     <message>
         <location line="+38"/>
-        <source>Sca&amp;le:</source>
-        <translation type="unfinished"></translation>
+        <source>Scale:</source>
+        <translation>Skala:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+85"/>
         <source>Locating faces...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykrywanie twarzy...</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location line="+15"/>
-        <source>Found %1 face(s).</source>
-        <translation type="unfinished"></translation>
+        <source>Found %n face(s).</source>
+        <translation>
+            <numerusform>Znaleziono %n twarz.</numerusform>
+            <numerusform>Znaleziono %n tware.</numerusform>
+            <numerusform>Znaleziono %n twarzy.</numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location line="+1"/>
-        <source>Found %1 face(s). Recognizing people...</source>
-        <translation type="unfinished"></translation>
+        <source>Found %n face(s). Recognizing people...</source>
+        <translation>
+            <numerusform>Znaleziono %n twarz. Rozpoznawanie ludzi...</numerusform>
+            <numerusform>Znaleziono %n twarze. Rozpoznawanie ludzi...</numerusform>
+            <numerusform>Znaleziono %n twarzy. Rozpoznawanie ludzi...</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+30"/>
         <source>All known faces recognized.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie znane osoby rozpoznane.</translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+1"/>
         <source>Recognize people</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
         <location line="+194"/>
