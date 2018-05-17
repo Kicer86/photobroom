@@ -18,7 +18,7 @@
 
 #include "table_widget_with_limited_drop.hpp"
 
-#include <QDropEvent>
+#include <QDragMoveEvent>
 
 TableWidgetWithLimitedDrop::TableWidgetWithLimitedDrop(QWidget* p):
     QTableWidget(p)
@@ -27,10 +27,10 @@ TableWidgetWithLimitedDrop::TableWidgetWithLimitedDrop(QWidget* p):
 }
 
 
-void TableWidgetWithLimitedDrop::dropEvent(QDropEvent* event)
+void TableWidgetWithLimitedDrop::dragMoveEvent(QDragMoveEvent * event)
 {
     // check if allowed by base
-    QTableWidget::dropEvent(event);
+    QTableWidget::dragMoveEvent(event);
 
     if (event->isAccepted())
     {

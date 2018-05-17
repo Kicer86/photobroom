@@ -26,7 +26,7 @@ class TableWidgetWithLimitedDrop : public QTableWidget
     public:
         TableWidgetWithLimitedDrop(QWidget *);
 
-        void dropEvent(QDropEvent * event) override;
+        void dragMoveEvent(QDragMoveEvent  * event) override;
 };
 
 #endif // TABLEWIDGETWITHLIMITEDDROP_HPP
