@@ -130,9 +130,9 @@ void FacesFetcher::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceRecognizer::FaceRecognizer(const Photo::Id& id, const QRect& rect, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
-    FaceTask(id, db),
-    m_rect(rect),
+FaceRecognizer::FaceRecognizer(const FaceData& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
+    FaceTask(face.ph_id, db),
+    m_data(face),
     m_patterns(patterns),
     m_coreFactory(core)
 {
@@ -164,7 +164,7 @@ void FaceRecognizer::perform()
         const QString full_path = pathInfo.absoluteFilePath();
 
         FaceRecognition face_recognition(m_coreFactory);
-        const QString personPath = face_recognition.recognize(full_path, m_rect, m_patterns);
+        const QString personPath = face_recognition.recognize(full_path, m_data.rect, m_patterns);
 
         if (personPath.isEmpty() == false)
         {
@@ -176,13 +176,13 @@ void FaceRecognizer::perform()
     }
     else
         for(const PersonLocation& location: peopleData)
-            if (location.location == m_rect)
+            if (location.location == m_data.rect)
             {
                 result = personData(location.id);
                 break;
             }
 
-    emit recognized(result);
+    emit recognized(m_data, result);
 }
 
 
@@ -272,7 +272,7 @@ void FetchUnassigned::perform()
         return unassigned;
     });
 
-    emit unassigned(un);
+    emit unassigned(m_id, un);
 }
 
 
@@ -425,20 +425,20 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FacesFetcher>(id, m_coreFactory, m_db);
 
-    auto notifier = std::bind(&PeopleOperator::faces, this, id, _1);
-    connect(task.get(), &FacesFetcher::faces, notifier);
+    connect(task.get(), &FacesFetcher::faces,
+            this, &PeopleOperator::faces);
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }
 
 
-void PeopleOperator::recognize(const Photo::Id& id, const FaceData& face) const
+void PeopleOperator::recognize(const FaceData& face) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FaceRecognizer>(id, face.rect, m_storage, m_coreFactory, m_db);
+    auto task = std::make_unique<FaceRecognizer>(face, m_storage, m_coreFactory, m_db);
 
-    auto notifier = std::bind(&PeopleOperator::recognized, this, id, face, _1);
-    connect(task.get(), &FaceRecognizer::recognized, notifier);
+    connect(task.get(), &FaceRecognizer::recognized,
+            this, &PeopleOperator::recognized);
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }
@@ -449,8 +449,8 @@ void PeopleOperator::getUnassignedPeople(const Photo::Id& id) const
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FetchUnassigned>(id, m_db);
 
-    auto notifier = std::bind(&PeopleOperator::unassigned, this, id, _1);
-    connect(task.get(), &FetchUnassigned::unassigned, notifier);
+    connect(task.get(), &FetchUnassigned::unassigned,
+            this, &PeopleOperator::unassigned);
 
     executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
 }

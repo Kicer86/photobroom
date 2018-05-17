@@ -75,14 +75,14 @@ class FaceRecognizer final: public QObject, public FaceTask
         Q_OBJECT
 
     public:
-        FaceRecognizer(const Photo::Id &, const QRect &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
+        FaceRecognizer(const FaceData &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
         virtual ~FaceRecognizer();
 
         std::string name() const override;
         void perform() override;
 
     private:
-        const QRect m_rect;
+        const FaceData m_data;
         const QString m_patterns;
         ICoreFactoryAccessor* m_coreFactory;
 
@@ -90,7 +90,7 @@ class FaceRecognizer final: public QObject, public FaceTask
         std::vector<PersonLocation> fetchPeopleFromDb() const;
 
     signals:
-        void recognized(const PersonData &) const;
+        void recognized(const FaceData &, const PersonData &) const;
 };
 
 
@@ -110,7 +110,7 @@ class FetchUnassigned final: public QObject, public ITaskExecutor::ITask
         Database::IDatabase* m_db;
 
     signals:
-        void unassigned(const QStringList &) const;
+        void unassigned(const Person::Id &, const QStringList &) const;
 };
 
 

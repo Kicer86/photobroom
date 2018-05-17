@@ -95,7 +95,7 @@ FacesDialog::~FacesDialog()
 }
 
 
-void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<FaceData>& faces)
+void FacesDialog::applyFacesLocations(const QVector<FaceData>& faces)
 {
     const QString status = faces.isEmpty()? tr("Found %1 face(s).").arg(faces.size()) :
                                             tr("Found %1 face(s). Recognizing people...").arg(faces.size());
@@ -109,11 +109,11 @@ void FacesDialog::applyFacesLocations(const Photo::Id& id, const QVector<FaceDat
     m_facesToAnalyze = faces.size();
 
     for(const FaceData& face: faces)
-        m_people.recognize(id, face);
+        m_people.recognize(face);
 }
 
 
-void FacesDialog::applyFaceName(const Photo::Id &, const FaceData& face, const PersonData& person)
+void FacesDialog::applyFaceName(const FaceData& face, const PersonData& person)
 {
     const QString name = person.name();
 

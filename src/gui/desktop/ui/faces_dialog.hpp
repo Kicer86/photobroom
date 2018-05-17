@@ -41,8 +41,8 @@ class FacesDialog: public QDialog
         IPythonThread* m_pythonThread;
         int m_facesToAnalyze;
 
-        void applyFacesLocations(const Photo::Id &, const QVector<FaceData> &);
-        void applyFaceName(const Photo::Id &, const FaceData &, const PersonData &);
+        void applyFacesLocations(const QVector<FaceData> &);
+        void applyFaceName(const FaceData &, const PersonData &);
         void applyUnassigned(const Photo::Id &, const QStringList &);
         void updateImage();
         void updatePeopleList();

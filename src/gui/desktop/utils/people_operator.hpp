@@ -46,9 +46,9 @@ class PeopleOperator final: public QObject
         // Locate faces on given photo.
         void fetchFaces(const Photo::Id &) const;
 
-        // Try to recognize person on given photo and face.
+        // Try to recognize person with given face.
         // Second parameter is a face located by fetchFaces()
-        void recognize(const Photo::Id &, const FaceData &) const;
+        void recognize(const FaceData &) const;
 
         // list all people which were not assigned
         void getUnassignedPeople(const Photo::Id &) const;
@@ -59,8 +59,8 @@ class PeopleOperator final: public QObject
                    const QStringList& unknown_people) const;
 
     signals:
-        void faces(const Photo::Id &, const QVector<FaceData> &) const;
-        void recognized(const Photo::Id &, const FaceData &, const PersonData &) const;
+        void faces(const QVector<FaceData> &) const;
+        void recognized(const FaceData &, const PersonData &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;
 
     private:
