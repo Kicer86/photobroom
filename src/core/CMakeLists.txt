@@ -5,6 +5,7 @@ find_package(Qt5Gui REQUIRED)
 find_package(Exiv2 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(JsonCpp REQUIRED)
+find_package(pybind11 REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -44,6 +45,7 @@ set(CORE_SOURCES
     implementation/logger_factory.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
+    implementation/python_thread.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
@@ -93,6 +95,7 @@ set(CORE_HEADERS
     media_information.hpp
     media_types.hpp
     ptr_iterator.hpp
+    python_thread.hpp
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp
@@ -129,6 +132,7 @@ target_link_libraries(core
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                             ${JSONCPP_LIBRARIES}
+                            pybind11::embed
 )
 
 target_include_directories(core SYSTEM PUBLIC
@@ -141,7 +145,6 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${EXIV2_INCLUDE_DIRS}
                                     ${JSONCPP_INCLUDE_DIRS}
                                 PRIVATE
-                                    ${CMAKE_BINARY_DIR}/exports
                                     ${CMAKE_SOURCE_DIR}/src
 )
 

@@ -41,6 +41,7 @@ namespace Database
 
             SqlQueryExecutor& operator=(const SqlQueryExecutor &) = delete;
 
+            BackendStatus prepare(const QString& query, QSqlQuery* result) const override;
             BackendStatus exec(const std::vector<QString>& query, QSqlQuery* result) const override;
             BackendStatus exec(const QString& query, QSqlQuery* result) const override;
             BackendStatus exec(QSqlQuery& query) const override;

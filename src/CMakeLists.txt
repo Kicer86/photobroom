@@ -7,6 +7,7 @@ add_subdirectory(core)
 add_subdirectory(crash_catcher)
 add_subdirectory(photos_crawler)
 add_subdirectory(database)
+add_subdirectory(face_recognition)
 add_subdirectory(gui)
 add_subdirectory(plugins)
 add_subdirectory(project_utils)
@@ -52,6 +53,7 @@ target_link_libraries(photo_broom
                         core
                         crash_catcher
                         database
+                        face_recognition
                         gui
                         project_utils
                         system

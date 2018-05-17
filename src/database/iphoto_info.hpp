@@ -45,12 +45,12 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual ~IPhotoInfo() = default;
 
     //data getting
-    virtual Photo::Data            data() const = 0;
-    virtual const QString          getPath() const = 0;
-    virtual const Tag::TagsList    getTags() const = 0;       // access to tags
-    virtual const QSize            getGeometry() const = 0;   // get photo geometry
-    virtual const Photo::Sha256sum getSha256() const = 0;     // Do not call until isSha256Loaded()
-    virtual Photo::Id              getID() const = 0;
+    virtual Photo::Data      data() const = 0;
+    virtual QString          getPath() const = 0;
+    virtual Tag::TagsList    getTags() const = 0;       // access to tags
+    virtual QSize            getGeometry() const = 0;   // get photo geometry
+    virtual Photo::Sha256sum getSha256() const = 0;     // Do not call until isSha256Loaded()
+    virtual Photo::Id        getID() const = 0;
 
     //status checking
     virtual bool isFullyInitialized() const = 0;            // returns true if photo fully loaded (all items below are loaded)

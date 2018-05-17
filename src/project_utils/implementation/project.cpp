@@ -19,6 +19,7 @@
 
 #include "project.hpp"
 
+#include <QDir>
 #include <QFileInfo>
 #include <QString>
 
@@ -77,8 +78,9 @@ QString ProjectInfo::getInternalLocation(InternalData dataType) const
 
     switch(dataType)
     {
-        case Database:          subdir = "db";         break;
-        case PrivateMultimedia: subdir = "multimedia"; break;
+        case Database:          subdir = "db";          break;
+        case PrivateMultimedia: subdir = "multimedia";  break;
+        case FaceRecognition:   subdir = "known_faces"; break;
     }
 
     const QString result = QString("%1/%2").arg(internalLocation).arg(subdir);
@@ -95,7 +97,9 @@ Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& p
     m_database(std::move(db)),
     m_lock(prjInfo.getPath() + ".lock")
 {
-
+    // create internal directories
+    QDir().mkpath(m_prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia));
+    QDir().mkpath(m_prjInfo.getInternalLocation(ProjectInfo::FaceRecognition));
 }
 
 

@@ -16,8 +16,6 @@ QString copyFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
     const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
     const QString newFilePathPattern = QString("%1/XXXXXX.%2").arg(mediaLocation).arg(extension);
 
-    QDir().mkpath(mediaLocation);
-
     QFile originalFile(path);
     originalFile.open(QFile::ReadOnly);
 

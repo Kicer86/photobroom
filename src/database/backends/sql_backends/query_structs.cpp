@@ -104,13 +104,13 @@ namespace Database
     }
 
 
-    void UpdateQueryData::setCondition(const QString& column, const QString& value)
+    void UpdateQueryData::addCondition (const QString& column, const QString& value)
     {
-        m_condition = std::make_pair(column, value);
+        m_condition.emplace_back(column, value);
     }
 
 
-    const std::pair<QString, QString>& UpdateQueryData::getCondition() const
+    const std::vector<std::pair<QString, QString>>& UpdateQueryData::getCondition() const
     {
         return m_condition;
     }

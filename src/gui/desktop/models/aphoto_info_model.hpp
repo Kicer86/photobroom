@@ -24,8 +24,6 @@
 #include <database/photo_data.hpp>
 
 
-struct ITaskExecutor;
-
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:

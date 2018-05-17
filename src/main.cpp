@@ -14,6 +14,7 @@
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/logger_factory.hpp>
+#include <core/python_thread.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <crash_catcher/crash_catcher.hpp>
@@ -90,6 +91,8 @@ int main(int argc, char **argv)
 
     Configuration configuration;
 
+    PythonThread pythonThread;
+
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);
 
@@ -114,7 +117,8 @@ int main(int argc, char **argv)
     CoreFactoryAccessor coreFactory(&logger_factory,
                                     &exifReaderFactory,
                                     &configuration,
-                                    &taskExecutor
+                                    &taskExecutor,
+                                    &pythonThread
     );
 
     // start gui

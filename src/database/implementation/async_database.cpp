@@ -174,6 +174,41 @@ namespace
             return result;
         }
 
+        std::vector<PersonData> listPeople() override
+        {
+            return m_backend->listPeople();
+        }
+
+        std::vector<PersonLocation> listPeople(const Photo::Id& id) override
+        {
+            return m_backend->listPeople(id);
+        }
+
+        std::vector<FaceData> listFaces(const Photo::Id& id) override
+        {
+            return m_backend->listFaces(id);
+        }
+
+        PersonData person(const Person::Id& id) override
+        {
+            return m_backend->person(id);
+        }
+
+        Person::Id store(const PersonData& d) override
+        {
+            return m_backend->store(d);
+        }
+
+        Face::Id store(const FaceData& d) override
+        {
+            return m_backend->store(d);
+        }
+
+        void store(const Person::Id& p_id, const Face::Id& face)
+        {
+            m_backend->store(p_id, face);
+        }
+
         //
 
         Database::IBackend* getBackend() const
@@ -193,6 +228,19 @@ namespace
             IPhotoInfoStorekeeper* m_storekeeper;
     };
 
+
+    template<typename T>
+    struct GenericTask: IThreadTask
+    {
+        GenericTask(const T& callable): m_callable(callable) {}
+
+        void execute(Executor* executor) override
+        {
+            m_callable(executor);
+        }
+
+        T m_callable;
+    };
 
     struct CreateGroupTask: IThreadTask
     {
@@ -226,17 +274,17 @@ namespace
 
     struct CustomAction: IThreadTask
     {
-        CustomAction(const std::function<void(Database::IBackendOperator *)>& operation): m_operation(operation)
+        CustomAction(std::unique_ptr<Database::IDatabase::ITask>&& operation): m_operation(std::move(operation))
         {
 
         }
 
         virtual void execute(Executor* executor) override
         {
-            m_operation(executor);
+            m_operation->run(executor);
         }
 
-        std::function<void(Database::IBackendOperator *)> m_operation;
+        std::unique_ptr<Database::IDatabase::ITask> m_operation;
     };
 
 
@@ -574,14 +622,14 @@ namespace Database
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask (info, std::vector<IFilter::Ptr>(), callback);
+        ListTagValuesTask* task = new ListTagValuesTask(info, std::vector<IFilter::Ptr>(), callback);
         m_impl->addTask(task);
     }
 
 
     void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask (info, filters, callback);
+        ListTagValuesTask* task = new ListTagValuesTask(info, filters, callback);
         m_impl->addTask(task);
     }
 
@@ -593,9 +641,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::performCustomAction(const std::function<void(IBackendOperator *)>& action)
+    void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
     {
-        auto task = std::make_unique<CustomAction>(action);
+        auto task = std::make_unique<CustomAction>(std::move(action));
         m_impl->addTask(std::move(task));
     }
 

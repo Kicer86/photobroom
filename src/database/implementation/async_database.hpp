@@ -53,7 +53,7 @@ namespace Database
             virtual void listTagValues( const TagNameInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
-            virtual void performCustomAction(const std::function<void(IBackendOperator *)> &) override;
+            virtual void execute(std::unique_ptr<ITask> &&) override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;

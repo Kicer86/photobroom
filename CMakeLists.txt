@@ -11,6 +11,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 
+#check if git modules are setup
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake OR
+   NOT EXISTS ${PROJECT_SOURCE_DIR}/external/dlib)
+    message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
+endif()
+
 #options for CPack
 set(CPACK_PACKAGE_VENDOR "Michal Walenciak")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Photo Broom - tool for managing your photos")
@@ -87,6 +93,7 @@ if(UNIX OR CYGWIN)
         set(PATH_TR       "share/photo_broom/tr")
         set(PATH_DOCS     "share/photo_broom/docs")
         set(PATH_ICONS    "share/photo_broom/icons")
+        set(PATH_SCRIPTS  "share/photo_broom/scripts")
 elseif(WIN32)
         set(PATH_BIN      ".")
         set(PATH_LIBS     ".")
@@ -94,6 +101,7 @@ elseif(WIN32)
         set(PATH_TR       "tr")
         set(PATH_DOCS     "docs")
         set(PATH_ICONS    "icons")
+        set(PATH_SCRIPTS  "scripts")
 endif(UNIX OR CYGWIN)
 
 # RPATH
@@ -104,6 +112,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
+add_subdirectory(external)
 add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)

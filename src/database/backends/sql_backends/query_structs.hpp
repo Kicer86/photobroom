@@ -71,11 +71,11 @@ namespace Database
             explicit UpdateQueryData(const InsertQueryData &);
 
             //update where c == v
-            void setCondition(const QString& c, const QString& v);
-            const std::pair<QString, QString>& getCondition() const;
+            void addCondition(const QString& c, const QString& v);
+            const std::vector<std::pair<QString, QString>>& getCondition() const;
 
         private:
-            std::pair<QString, QString> m_condition;
+            std::vector<std::pair<QString, QString>> m_condition;
     };
 }
 

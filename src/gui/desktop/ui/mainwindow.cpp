@@ -41,6 +41,7 @@
 #include "utils/photos_collector.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
+#include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 
 
@@ -81,6 +82,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWind
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
     m_executor(coreFactory->getTaskExecutor()),
+    m_coreAccessor(coreFactory),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
@@ -498,9 +500,11 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     QMenu contextMenu;
     QAction* groupPhotos = contextMenu.addAction(tr("Group"));
     QAction* location    = contextMenu.addAction(tr("Open photo location"));
+    QAction* faces       = contextMenu.addAction(tr("Recognize people"));
 
     groupPhotos->setEnabled(photos.size() > 1);
     location->setEnabled(photos.size() > 0);
+    faces->setEnabled(photos.size() > 0);
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
@@ -533,16 +537,24 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     }
     else if (chosenAction == location)
     {
-        if (photos.empty() == false)
-        {
-            const Photo::Data& first = photos.front();
-            const QString relative_path = first.path;
-            const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
-            const QFileInfo photoFileInfo(absolute_path);
-            const QString file_dir = photoFileInfo.path();
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+        const QFileInfo photoFileInfo(absolute_path);
+        const QString file_dir = photoFileInfo.path();
 
-            QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
-        }
+        QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+    }
+    else if (chosenAction == faces)
+    {
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+        const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
+        const QString faceStorage = prjInfo.getInternalLocation(ProjectInfo::FaceRecognition);
+
+        FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
+        faces_dialog.exec();
     }
 }
 

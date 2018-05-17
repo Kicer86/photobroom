@@ -2,6 +2,7 @@
 #ifndef CALLBACK_PTR_HPP
 #define CALLBACK_PTR_HPP
 
+#include <functional>
 #include <memory>
 
 #include <OpenLibrary/putils/ts_resource.hpp>

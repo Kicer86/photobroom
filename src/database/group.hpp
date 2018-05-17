@@ -6,7 +6,8 @@
 
 namespace Group
 {
-    typedef Id<int> Id;
+    extern const char Name[];
+    typedef Id<int, Name> Id;
 }
 
 struct GroupInfo

@@ -63,12 +63,15 @@ before_install:
         export CMAKE_BIN=cmake;
         export PYTHON=python;
     else
+        pyenv install 3.6.0;
+        pyenv global 3.6.0;
         source /opt/qt57/bin/qt57-env.sh;
         wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh;
         chmod +x ./cmake-3.9.1-Linux-x86_64.sh;
         ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
         export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
-        export PYTHON=python3;
+        export PYTHON=`which python`;
+        echo $PYTHON;
     fi
 
 before_script:
@@ -84,7 +87,7 @@ before_script:
   - if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
         pushd tools;
         $PYTHON --version;
-        $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary $TRAVIS_BUILD_DIR/usr;
+        $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary -p pybind11 $TRAVIS_BUILD_DIR/usr;
         popd;
     fi
 

@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 2;
+        const int db_version = 3;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -127,24 +127,66 @@ namespace Database
         table_groups_members(TAB_GROUPS_MEMBERS,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
-                        { "group_id", "INTEGER NOT NULL"     },
-                        { "photo_id", "INTEGER NOT NULL"     },
+                        { "group_id", "INTEGER NOT NULL"         },
+                        { "photo_id", "INTEGER NOT NULL"         },
                         { "FOREIGN KEY(group_id) REFERENCES " TAB_GROUPS "(id)", "" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+                    }
+        );
+
+        // list of people
+        TableDefinition
+        table_people(TAB_PEOPLE,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID   },
+                        { "name", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
+                    },
+                    {
+                        { "ppl_name", "UNIQUE INDEX", "(name)" },   // names should be unique
+                    }
+        );
+
+        // list of people recognized on particular photo
+        TableDefinition
+        table_people_locations(TAB_PEOPLE_LOCATIONS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "person_id", "INTEGER NOT NULL"      },
+                        { "face_id", "INTEGER NOT NULL"        },
+                    },
+                    {
+                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                        { "FOREIGN KEY(face_id) REFERENCES " TAB_FACES "(id)", ""  },
+                    }
+        );
+
+        // list of faces
+        TableDefinition
+        table_faces(TAB_FACES,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "photo_id", "INTEGER NOT NULL"       },
+                        { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h)
+                    },
+                    {
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
                     }
         );
 
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
-            { TAB_VER,            table_versionHistory },
-            { TAB_PHOTOS,         table_photos },
-            { TAB_TAGS,           table_tags },
-            { TAB_THUMBS,         table_thumbnails },
-            { TAB_SHA256SUMS,     table_sha256sums },
-            { TAB_FLAGS,          table_flags },
-            { TAB_GEOMETRY,       table_geometry },
-            { TAB_GROUPS,         table_groups },
-            { TAB_GROUPS_MEMBERS, table_groups_members },
+            { TAB_VER,                  table_versionHistory },
+            { TAB_PHOTOS,               table_photos },
+            { TAB_TAGS,                 table_tags },
+            { TAB_THUMBS,               table_thumbnails },
+            { TAB_SHA256SUMS,           table_sha256sums },
+            { TAB_FLAGS,                table_flags },
+            { TAB_GEOMETRY,             table_geometry },
+            { TAB_GROUPS,               table_groups },
+            { TAB_GROUPS_MEMBERS,       table_groups_members },
+            { TAB_PEOPLE,               table_people },
+            { TAB_PEOPLE_LOCATIONS,     table_people_locations },
+            { TAB_FACES,                table_faces },
         };
 }

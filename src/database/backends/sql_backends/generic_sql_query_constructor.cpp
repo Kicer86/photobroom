@@ -100,8 +100,8 @@ namespace Database
         QString result;
 
         const std::vector<QString>& columns = data.getColumns();
-        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);        
-        const std::pair<QString, QString>& key = data.getCondition();
+        const std::vector<QString> valuePlaceholders = preparePlaceholders(data);
+        const std::vector<std::pair<QString, QString>>& keys = data.getCondition();
 
         result = "UPDATE %1 SET %2 WHERE %3";
         result = result.arg(data.getName());
@@ -118,7 +118,15 @@ namespace Database
                 assigments += ", ";
         }
 
-        const QString condition(key.first + "=:" + key.first);
+        QStringList conditions;
+
+        for(const auto& key: keys)
+        {
+            const QString condition(key.first + "=:" + key.first);
+            conditions.append(condition);
+        }
+
+        const QString condition = conditions.join(" AND ");
 
         result = result.arg(assigments);
         result = result.arg(condition);
@@ -171,12 +179,14 @@ namespace Database
             if (values[i].userType() != qMetaTypeId<InsertQueryData::Value>())
                 query.bindValue(":" + columns[i], values[i]);
 
-        query.bindValue(":" + data.getCondition().first, data.getCondition().second);
+        const auto& keys = data.getCondition();
+        for(const auto& key: keys)
+            query.bindValue(":" + key.first, key.second);
 
         return query;
     }
-    
-    
+
+
     std::vector<QString> GenericSqlQueryConstructor::preparePlaceholders(const InsertQueryData& data) const
     {
         const std::vector<QString>& columns = data.getColumns();
@@ -195,7 +205,7 @@ namespace Database
             else
                 valuePlaceholders[i] = ":" + columns[i];
         }
-     
+
         return valuePlaceholders;
     }
 

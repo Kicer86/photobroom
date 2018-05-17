@@ -50,7 +50,7 @@ TEST(GenericSqlQueryConstructorTest, simpleUpdateQuery)
     Database::UpdateQueryData data("table");
     data.setColumns("id", "name");
     data.setValues("id_value", "name_value");
-    data.setCondition("pkg", "pkg_value");
+    data.addCondition("pkg", "pkg_value");
     const QString queryStr = constructor.prepareUpdateQuery(data);
 
     EXPECT_EQ(queryStr, "UPDATE table SET id=:id, name=:name WHERE pkg=:pkg");

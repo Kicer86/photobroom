@@ -69,6 +69,7 @@ target_link_libraries(gui
                         PRIVATE
                             core
                             database
+                            face_recognition
                             photos_crawler
                             project_utils
                             system

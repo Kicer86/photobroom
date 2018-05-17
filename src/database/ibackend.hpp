@@ -30,6 +30,7 @@
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
+#include "person_data.hpp"
 #include "photo_data.hpp"
 
 #include "database_export.h"
@@ -57,15 +58,22 @@ namespace Database
         virtual bool update(const Photo::DataDelta &) = 0;
 
         //read data
-        virtual std::vector<TagNameInfo> listTags() = 0;                                        // list all stored tag names
-        virtual std::vector<TagValue> listTagValues(const TagNameInfo &) = 0;                   // list all values of provided tag
-        virtual std::vector<TagValue> listTagValues(const TagNameInfo &,
-                                                   const std::vector<IFilter::Ptr> &) = 0;      // list all values for provided tag used on photos matching provided filter
-        virtual std::vector<Photo::Id> getAllPhotos() = 0;                                      // list all photos
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;        // find all photos matching filter
-        virtual std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) = 0;       // drop photos matching filter
-        virtual Photo::Data            getPhoto(const Photo::Id &) = 0;                         // get particular photo
-        virtual int                    getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;   // is there any photo matching filters?
+        virtual std::vector<TagNameInfo> listTags() = 0;                                         // list all stored tag names
+        virtual std::vector<TagValue>    listTagValues(const TagNameInfo &,
+                                                       const std::vector<IFilter::Ptr> &) = 0;   // list all values of tag for photos matching provided filter
+        virtual std::vector<Photo::Id>   getAllPhotos() = 0;                                     // list all photos
+        virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
+        virtual std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) = 0;      // drop photos matching filter
+        virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
+        virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
+        virtual std::vector<PersonData>  listPeople() = 0;                                       // list all people
+        virtual std::vector<PersonLocation> listPeople (const Photo::Id &) = 0;                  // list people on photo
+        virtual PersonData               person(const Person::Id &) = 0;                         // person data
+        virtual std::vector<FaceData>    listFaces(const Photo::Id &) = 0;                       // list faces on photo
+        virtual Person::Id               store(const PersonData &) = 0;                          // store or update person data
+        virtual Face::Id                 store(const FaceData &) = 0;                            // store or update face data
+        virtual void                     store(const Person::Id &,
+                                               const Face::Id &) = 0;                            // store information about person on photo
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
