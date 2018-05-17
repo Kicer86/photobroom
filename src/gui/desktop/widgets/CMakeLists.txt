@@ -15,6 +15,7 @@ set(SRCS
     multi_value_line_edit.cpp
     photo_properties.cpp
     photos_widget.cpp
+    table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
@@ -23,7 +24,7 @@ set(SRCS
     tag_editor/helpers/tags_operator.cpp
     tag_editor/helpers/tags_view.cpp
     tag_editor/helpers/tags_model.cpp
-    )
+)
 
 set(HEADERS
     collection_dir_scan_dialog.hpp
@@ -32,6 +33,7 @@ set(HEADERS
     multi_value_line_edit.hpp
     photo_properties.hpp
     photos_widget.hpp
+    table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
