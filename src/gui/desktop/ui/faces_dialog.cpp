@@ -33,15 +33,15 @@ namespace
 
             QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
             {
-                QWidget* editor = QStyledItemDelegate::createEditor(parent, option, index);
-
-                // WARNING: ugly down cast, but makes things easy
-                QLineEdit* lineEdit = down_cast<QLineEdit *>(editor);
+                const QString value = index.data(Qt::EditRole).toString();
+                QLineEdit* lineEdit = new QLineEdit(value, parent);
+                lineEdit->setGeometry(option.rect);
+                lineEdit->show();
                 const TagNameInfo peopleTag(BaseTagsList::People);
                 auto completer = m_completerFactory->createCompleter(peopleTag);
                 lineEdit->setCompleter(completer);
 
-                return editor;
+                return lineEdit;
             }
 
         private:
