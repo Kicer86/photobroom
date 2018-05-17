@@ -25,4 +25,4 @@ class TableWidgetWithLimitedDrop : public QTableWidget
 {
 };
 
-#endif // TABLEWIDGETWITHLIMITEDDROP_H
+#endif // TABLEWIDGETWITHLIMITEDDROP_HPP
