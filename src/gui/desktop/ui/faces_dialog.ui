@@ -67,7 +67,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QTableWidget" name="peopleList">
+           <widget class="TableWidgetWithLimitedDrop" name="peopleList">
             <property name="dragEnabled">
              <bool>true</bool>
             </property>
@@ -181,6 +181,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TableWidgetWithLimitedDrop</class>
+   <extends>QTableWidget</extends>
+   <header>widgets/table_widget_with_limited_drop.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
