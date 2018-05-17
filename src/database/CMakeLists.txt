@@ -11,6 +11,7 @@ set(DATABASE_SOURCES
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
+    implementation/group.cpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info.cpp

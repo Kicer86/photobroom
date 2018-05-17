@@ -1383,7 +1383,7 @@ namespace Database
             while(query.next())
             {
                 const Face::Id f_id( query.value(0).toInt() );
-                const Face::Id p_id( query.value(1).toInt() );
+                const Photo::Id p_id( query.value(1).toInt() );
                 const QString location_raw = query.value(2).toString();
                 const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
                 const QRect location(location_list[0].toInt(),

@@ -19,6 +19,18 @@
 #include "person_data.hpp"
 
 
+namespace Person
+{
+    extern const char Name[] = "Person";
+}
+
+
+namespace Face
+{
+    extern const char Name[] = "Face";
+}
+
+
 PersonData::PersonData()
 {
 

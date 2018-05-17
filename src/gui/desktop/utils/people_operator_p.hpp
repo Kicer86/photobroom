@@ -110,7 +110,7 @@ class FetchUnassigned final: public QObject, public ITaskExecutor::ITask
         Database::IDatabase* m_db;
 
     signals:
-        void unassigned(const Person::Id &, const QStringList &) const;
+        void unassigned(const Photo::Id &, const QStringList &) const;
 };
 
 
