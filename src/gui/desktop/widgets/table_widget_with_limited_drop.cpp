@@ -17,3 +17,35 @@
  */
 
 #include "table_widget_with_limited_drop.hpp"
+
+#include <QDropEvent>
+
+TableWidgetWithLimitedDrop::TableWidgetWithLimitedDrop(QWidget* p):
+    QTableWidget(p)
+{
+
+}
+
+
+void TableWidgetWithLimitedDrop::dropEvent(QDropEvent* event)
+{
+    // check if allowed by base
+    QTableWidget::dropEvent(event);
+
+    if (event->isAccepted())
+    {
+        const QPoint pos = event->pos();
+        QTableWidgetItem* i = itemAt(pos);
+
+        if (i == nullptr)
+            event->ignore();
+        else
+        {
+            const auto keys = event->keyboardModifiers();
+            if (keys == Qt::NoModifier)
+                event->accept();
+            else
+                event->ignore();
+        }
+    }
+}
