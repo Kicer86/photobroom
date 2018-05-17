@@ -127,7 +127,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Sca&amp;le:</string>
+        <string>Scale:</string>
        </property>
       </widget>
      </item>
