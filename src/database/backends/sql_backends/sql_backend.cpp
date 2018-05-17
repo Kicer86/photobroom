@@ -1238,7 +1238,17 @@ namespace Database
 
     std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
-        const std::vector<TagValue> result = m_data->listTagValues(tagName, filter);
+        std::vector<TagValue> result;
+
+        // when there is no filter, and we ask for people, list all people, including these not assigned to any photo
+        if (tagName.getTag() == BaseTagsList::People && filter.empty())
+        {
+            const std::vector<PersonData> data = listPeople();
+            for(const PersonData& pd: data)
+                result.push_back(TagValue(pd.name()));
+        }
+        else
+            result = m_data->listTagValues(tagName, filter);
 
         return result;
     }
