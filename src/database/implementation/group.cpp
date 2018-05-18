@@ -3,5 +3,5 @@
 
 namespace Group
 {
-    constexpr char Name[16] = "Group";
+    const char Name[16] = "Group";
 }
