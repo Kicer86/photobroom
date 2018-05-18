@@ -21,13 +21,13 @@
 
 namespace Person
 {
-    extern const char Name[] = "Person";
+    extern const char Name[16] = "Person";
 }
 
 
 namespace Face
 {
-    extern const char Name[] = "Face";
+    extern const char Name[16] = "Face";
 }
 
 

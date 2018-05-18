@@ -30,13 +30,13 @@
 
 namespace Person
 {
-    DATABASE_EXPORT extern const char Name[];
+    DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
 }
 
 namespace Face
 {
-    DATABASE_EXPORT extern const char Name[];
+    DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
 }
 

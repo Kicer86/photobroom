@@ -3,5 +3,5 @@
 
 namespace Photo
 {
-    const char Name[] = "Photo";
+    const char Name[16] = "Photo";
 }
