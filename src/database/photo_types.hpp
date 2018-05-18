@@ -17,7 +17,7 @@ namespace Photo
 {
     typedef QByteArray Sha256sum;
 
-    extern const char Name[];
+    DATABASE_EXPORT extern const char Name[];
     typedef Id<int, Name> Id;
 
     enum class FlagsE

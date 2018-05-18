@@ -3,10 +3,11 @@
 #define GROUP_HPP
 
 #include <core/id.hpp>
+#include "database_export.h"
 
 namespace Group
 {
-    extern const char Name[];
+    DATABASE_EXPORT extern const char Name[];
     typedef Id<int, Name> Id;
 }
 
