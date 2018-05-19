@@ -13,7 +13,7 @@
 #define TAB_GEOMETRY             "geometry"
 #define TAB_GROUPS               "groups"
 #define TAB_GROUPS_MEMBERS       "groups_members"
-#define TAB_PEOPLE               "people"
+#define TAB_PEOPLE_NAMES         "people_names"
 #define TAB_PEOPLE_LOCATIONS     "people_location"
 #define TAB_FACES                "faces"
 

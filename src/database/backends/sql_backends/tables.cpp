@@ -136,7 +136,7 @@ namespace Database
 
         // list of people
         TableDefinition
-        table_people(TAB_PEOPLE,
+        table_people( TAB_PEOPLE_NAMES,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
                         { "name", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
@@ -155,7 +155,7 @@ namespace Database
                         { "face_id", "INTEGER NOT NULL"        },
                     },
                     {
-                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
+                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE_NAMES "(id)", "" },
                         { "FOREIGN KEY(face_id) REFERENCES " TAB_FACES "(id)", ""  },
                     }
         );
@@ -185,7 +185,7 @@ namespace Database
             { TAB_GEOMETRY,             table_geometry },
             { TAB_GROUPS,               table_groups },
             { TAB_GROUPS_MEMBERS,       table_groups_members },
-            { TAB_PEOPLE,               table_people },
+            { TAB_PEOPLE_NAMES,               table_people },
             { TAB_PEOPLE_LOCATIONS,     table_people_locations },
             { TAB_FACES,                table_faces },
         };

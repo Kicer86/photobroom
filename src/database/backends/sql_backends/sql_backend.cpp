@@ -1247,7 +1247,7 @@ namespace Database
     std::vector<PersonData> ASqlBackend::listPeople()
     {
         const QString findQuery = QString("SELECT id, name FROM %1")
-                                    .arg(TAB_PEOPLE);
+                                    .arg( TAB_PEOPLE_NAMES );
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
@@ -1314,7 +1314,7 @@ namespace Database
     PersonData ASqlBackend::person(const Person::Id& id)
     {
         const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
-                                    .arg(TAB_PEOPLE)
+                                    .arg( TAB_PEOPLE_NAMES )
                                     .arg(id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1378,7 +1378,7 @@ namespace Database
         Person::Id id(d.id());
         bool status = false;
 
-        InsertQueryData queryData(TAB_PEOPLE);
+        InsertQueryData queryData( TAB_PEOPLE_NAMES );
         queryData.setColumns("name");
         queryData.setValues(d.name());
 
@@ -1528,7 +1528,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg(TAB_PEOPLE);
+        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg( TAB_PEOPLE_NAMES );
         m_data->m_executor.prepare(s, &query);
         query.bindValue(":name", name);
 
