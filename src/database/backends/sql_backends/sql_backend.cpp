@@ -1277,7 +1277,7 @@ namespace Database
     std::vector<PersonLocation> ASqlBackend::listPeople(const Photo::Id& id)
     {
         const QString findQuery = QString("SELECT %1.person_id, %2.location FROM %1 JOIN %2 ON %1.face_id = %2.id WHERE %2.photo_id = %3")
-                                    .arg(TAB_PEOPLE_LOCATIONS)
+                                    .arg( TAB_PEOPLE )
                                     .arg(TAB_FACES)
                                     .arg(id);
 
@@ -1454,7 +1454,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
+        InsertQueryData queryData( TAB_PEOPLE );
         queryData.setColumns("person_id", "face_id");
         queryData.setValues(p_id, face_id);
 

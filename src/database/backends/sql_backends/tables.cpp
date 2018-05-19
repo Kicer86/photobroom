@@ -148,7 +148,7 @@ namespace Database
 
         // list of people recognized on particular photo
         TableDefinition
-        table_people_locations(TAB_PEOPLE_LOCATIONS,
+        table_people_locations( TAB_PEOPLE,
                     {
                         { "id", "", ColDefinition::Purpose::ID },
                         { "person_id", "INTEGER NOT NULL"      },
@@ -186,7 +186,7 @@ namespace Database
             { TAB_GROUPS,               table_groups },
             { TAB_GROUPS_MEMBERS,       table_groups_members },
             { TAB_PEOPLE_NAMES,               table_people },
-            { TAB_PEOPLE_LOCATIONS,     table_people_locations },
+            { TAB_PEOPLE,     table_people_locations },
             { TAB_FACES,                table_faces },
         };
 }
