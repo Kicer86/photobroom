@@ -153,8 +153,6 @@ namespace Database
                         { "id", "", ColDefinition::Purpose::ID },
                         { "person_id", "INTEGER NOT NULL"      },
                         { "face_id", "INTEGER NOT NULL"        },
-                    },
-                    {
                         { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE_NAMES "(id)", "" },
                         { "FOREIGN KEY(face_id) REFERENCES " TAB_FACES "(id)", ""  },
                     }
@@ -167,8 +165,6 @@ namespace Database
                         { "id", "", ColDefinition::Purpose::ID },
                         { "photo_id", "INTEGER NOT NULL"       },
                         { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h)
-                    },
-                    {
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
                     }
         );
