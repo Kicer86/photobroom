@@ -15,7 +15,6 @@
 #define TAB_GROUPS_MEMBERS       "groups_members"
 #define TAB_PEOPLE_NAMES         "people_names"
 #define TAB_PEOPLE               "people"
-#define TAB_FACES                "faces"
 
 #define FLAG_STAGING_AREA  "staging_area"
 #define FLAG_TAGS_LOADED   "tags_loaded"

@@ -49,12 +49,13 @@ namespace Database
             const std::vector<QString>& getColumns() const;
             const std::vector<QVariant>& getValues() const;
 
+            void addColumn(const QString &);
+            void addValue(const QString &);
+
         private:
             struct Data;
             ol::data_ptr<Data> m_data;
 
-            void addColumn(const QString &);
-            void addValue(const QString &);
             void addValue(int);
             void addValue(Value);
 

@@ -784,7 +784,6 @@ namespace Database
             const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
             const QVariant value = query.value(2);
             const TagNameInfo tagName(tagNameType);
-            const TagNameInfo::Type tagType = tagName.getType();
 
             // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);
@@ -1206,8 +1205,8 @@ namespace Database
         // when there is no filter, and we ask for people, list all people, including these not assigned to any photo
         if (tagName.getTag() == BaseTagsList::People && filter.empty())
         {
-            const std::vector<PersonData> data = listPeople();
-            for(const PersonData& pd: data)
+            const std::vector<PersonName> data = listPeople();
+            for(const PersonName& pd: data)
                 result.push_back(TagValue(pd.name()));
         }
         else
@@ -1244,7 +1243,7 @@ namespace Database
     }
 
 
-    std::vector<PersonData> ASqlBackend::listPeople()
+    std::vector<PersonName> ASqlBackend::listPeople()
     {
         const QString findQuery = QString("SELECT id, name FROM %1")
                                     .arg( TAB_PEOPLE_NAMES );
@@ -1252,7 +1251,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        std::vector<PersonData> result;
+        std::vector<PersonName> result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status)
@@ -1274,17 +1273,16 @@ namespace Database
     }
 
 
-    std::vector<PersonLocation> ASqlBackend::listPeople(const Photo::Id& id)
+    std::vector<PersonInfo> ASqlBackend::listPeople(const Photo::Id& ph_id )
     {
-        const QString findQuery = QString("SELECT %1.person_id, %2.location FROM %1 JOIN %2 ON %1.face_id = %2.id WHERE %2.photo_id = %3")
-                                    .arg( TAB_PEOPLE )
-                                    .arg(TAB_FACES)
-                                    .arg(id);
+        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+                                    .arg(TAB_PEOPLE)
+                                    .arg( ph_id );
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        std::vector<PersonLocation> result;
+        std::vector<PersonInfo> result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status)
@@ -1295,15 +1293,24 @@ namespace Database
             while(query.next())
             {
                 const int id_raw = query.value(0).toInt();
-                const QString location_raw = query.value(1).toString();
-                const Person::Id pid(id_raw);
-                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
-                const QRect location(location_list[0].toInt(),
+                const PersonInfo::Id id(id_raw);
+                const Person::Id pid = query.isNull(1)?
+                                           Person::Id():
+                                           Person::Id(query.value(1).toInt());
+
+                QRect location;
+
+                if (query.isNull(2) == false)
+                {
+                    const QVariant location_raw = query.value(2);
+                    const QStringList location_list = location_raw.toString().split(QRegExp("[ ,x]"));
+                    location = QRect(location_list[0].toInt(),
                                      location_list[1].toInt(),
                                      location_list[2].toInt(),
                                      location_list[3].toInt());
+                }
 
-                result.emplace_back(pid, location);
+                result.emplace_back(id, pid, ph_id, location);
             }
         }
 
@@ -1311,16 +1318,16 @@ namespace Database
     }
 
 
-    PersonData ASqlBackend::person(const Person::Id& id)
+    PersonName ASqlBackend::person(const Person::Id& p_id)
     {
         const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
                                     .arg( TAB_PEOPLE_NAMES )
-                                    .arg(id);
+                                    .arg(p_id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        PersonData result;
+        PersonName result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status && query.next())
@@ -1329,17 +1336,18 @@ namespace Database
             const QString name = query.value(1).toString();
             const Person::Id pid(id);
 
-            result = PersonData(pid, name);
+            result = PersonName (pid, name);
         }
 
         return result;
     }
 
 
+    /*
     std::vector<FaceData> ASqlBackend::listFaces(const Photo::Id& id)
     {
-        const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2")
-                                    .arg(TAB_FACES)
+        const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2 AND %1.location <>'' ")
+                                    .arg(TAB_PEOPLE)
                                     .arg(id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1355,7 +1363,7 @@ namespace Database
 
             while(query.next())
             {
-                const Face::Id f_id( query.value(0).toInt() );
+                const PersonInfo::Id id( query.value(0).toInt() );
                 const Photo::Id p_id( query.value(1).toInt() );
                 const QString location_raw = query.value(2).toString();
                 const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
@@ -1364,21 +1372,22 @@ namespace Database
                                      location_list[2].toInt(),
                                      location_list[3].toInt());
 
-                result.emplace_back(f_id, p_id, location);
+                result.emplace_back(id, p_id, location);
             }
         }
 
         return result;
     }
+    */
 
 
-    Person::Id ASqlBackend::store(const PersonData& d)
+    Person::Id ASqlBackend::store(const PersonName& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         Person::Id id(d.id());
         bool status = false;
 
-        InsertQueryData queryData( TAB_PEOPLE_NAMES );
+        InsertQueryData queryData(TAB_PEOPLE_NAMES);
         queryData.setColumns("name");
         queryData.setValues(d.name());
 
@@ -1407,22 +1416,60 @@ namespace Database
     }
 
 
-    Face::Id ASqlBackend::store(const FaceData& fd)
+    PersonInfo::Id ASqlBackend::store(const PersonInfo& fd)
     {
+        assert(fd.ph_id);
+        assert(fd.rect.isValid() || fd.p_id.valid());
+
+        // determin if it is a new person, or we want to update existing one
+        const auto existing_people = listPeople(fd.ph_id);
+
+        PersonInfo to_store = fd;
+        for(const auto& person: existing_people)
+        {
+            if (fd.rect.isValid())
+            {
+                if (person.rect == fd.rect)
+                {
+                    to_store = merge(person, fd);
+                    break;
+                }
+            }
+            else if (person.p_id == fd.p_id)
+            {
+                to_store = merge(person, fd);
+                break;
+            }
+        }
+
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
-        Face::Id id(fd.id);
+        PersonInfo::Id id = to_store.id;
 
-        const QRect& face = fd.rect;
-        const QString face_coords = QString("%1,%2 %3x%4")
-                                        .arg(face.x())
-                                        .arg(face.y())
-                                        .arg(face.width())
-                                        .arg(face.height());
+        InsertQueryData queryData(TAB_PEOPLE);
+        queryData.setColumns("photo_id");
+        queryData.setValues(to_store.ph_id);
 
-        InsertQueryData queryData(TAB_FACES);
-        queryData.setColumns("photo_id", "location");
-        queryData.setValues(fd.ph_id, face_coords);
+        if (to_store.rect.isValid())
+        {
+            const QRect& face = to_store.rect;
+            const QString face_coords = QString("%1,%2 %3x%4")
+                                            .arg(face.x())
+                                            .arg(face.y())
+                                            .arg(face.width())
+                                            .arg(face.height());
+
+            queryData.addColumn("location");
+            queryData.addValue(face_coords);
+        }
+
+        if (to_store.p_id.valid())
+        {
+            const QString person_id = QString::number(to_store.p_id);
+
+            queryData.addColumn("person_id");
+            queryData.addValue(person_id);
+        }
 
         QSqlQuery query;
 
@@ -1448,23 +1495,23 @@ namespace Database
         return id;
     }
 
-
-    void ASqlBackend::store(const Person::Id& p_id, const Face::Id& face_id)
+/*
+    void ASqlBackend::store(const Person::Id& p_id, const PersonInfo::Id& person_id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        InsertQueryData queryData( TAB_PEOPLE );
+        InsertQueryData queryData(TAB_PEOPLE);
         queryData.setColumns("person_id", "face_id");
-        queryData.setValues(p_id, face_id);
+        queryData.setValues(p_id, person_id );
 
         UpdateQueryData updateQueryData(queryData);
-        updateQueryData.addCondition("face_id", QString::number(face_id));
+        updateQueryData.addCondition("id", QString::number( person_id ));
         updateQueryData.addCondition("person_id", QString::number(p_id));
 
         m_data->updateOrInsert(updateQueryData);
     }
-
+*/
 
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
@@ -1493,7 +1540,7 @@ namespace Database
         if (info.getTag() == BaseTagsList::People)
         {
             const Person::Id id( value.toInt() );
-            const PersonData data = person(id);
+            const PersonName data = person(id);
 
             result = data.name();
         }
@@ -1508,11 +1555,11 @@ namespace Database
 
         if (t == BaseTagsList::People)
         {
-            const PersonData p = person(value);
+            const PersonName p = person(value);
 
             Person::Id id = p.id();
             if (id.valid() == false)
-                id = store(PersonData(Person::Id(), value));
+                id = store( PersonName (Person::Id(), value));
 
             result = QString::number(id);
         }
@@ -1521,9 +1568,9 @@ namespace Database
     }
 
 
-    PersonData ASqlBackend::person(const QString& name) const
+    PersonName ASqlBackend::person(const QString& name) const
     {
-        PersonData result;
+        PersonName result;
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
@@ -1539,8 +1586,26 @@ namespace Database
             const Person::Id id( query.value(0).toInt() );
             const QString name( query.value(1).toString() );
 
-            result = PersonData(id, name);
+            result = PersonName (id, name);
         }
+
+        return result;
+    }
+
+
+    PersonInfo ASqlBackend::merge(const PersonInfo& base, const PersonInfo& incoming) const
+    {
+        assert(base.id.valid());
+        assert(base.ph_id == incoming.ph_id);
+        assert(incoming.id.valid() == false || incoming.id == base.id);
+
+        PersonInfo result = base;
+
+        if (incoming.p_id.valid())
+            result.p_id = incoming.p_id;
+
+        if (incoming.rect.isValid())
+            result.rect = incoming.rect;
 
         return result;
     }
@@ -1623,11 +1688,34 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
             case 2:             // update from 2 to 3
             {
-                // move all people from tags to new table, and use references
-                const TagNameInfo people(BaseTagsList::People);
-                const auto peopleList = listTagValues(people, {});      // people saved in tags
-                std::vector<PersonData> personData;
+                // move all people from tags to new tables
 
+                // collect existing data
+                const TagNameInfo people(BaseTagsList::People);
+                const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
+                                                .arg(TAB_TAGS)
+                                                .arg(BaseTagsList::People);
+                status = m_data->m_executor.prepare(find_query, &query);
+
+                //QSet<QString> names;
+                //std::vector<PeopleLo
+/*
+                if (status)
+                    while(query.next())
+                    {
+                        const QString name = query.value(0).toString();
+                        const Photo::Id p_id = query.value(1).toInt();
+
+                        const PersonData pd(Person::Id(), name);
+                        const Person::Id id = store(pd);
+                        const PersonData ud(id, name);
+                        personData.push_back(ud);
+                    }
+
+
+                // fill table TAB_PEOPLE_NAMES with all found names
+
+                // fill table TAB_PEOPLE with people on particular photo
                 for (const TagValue& person: peopleList)
                 {
                     const QString name = person.getString();
@@ -1660,8 +1748,8 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
                 if (status == false)
                     break;
+*/
             }
-
             case 3:             // current version, break updgrades chain
                 break;
 

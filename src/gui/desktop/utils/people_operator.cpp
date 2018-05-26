@@ -55,12 +55,19 @@ FaceTask::~FaceTask()
 }
 
 
-std::vector<FaceData> FaceTask::fetchFacesFromDb() const
+std::vector<QRect> FaceTask::fetchFacesFromDb() const
 {
-    return evaluate<std::vector<FaceData>(Database::IBackendOperator*)>
+    return evaluate<std::vector<QRect>(Database::IBackendOperator*)>
         (m_db, [id = m_id](Database::IBackendOperator* backend)
     {
-        return backend->listFaces(id);
+        std::vector<QRect> faces;
+
+        const auto people = backend->listPeople(id);
+        for(const auto& person: people)
+            if (person.rect.isValid())
+                faces.push_back(person.rect);
+
+        return faces;
     });
 }
 
@@ -83,7 +90,7 @@ FacesFetcher::FacesFetcher(const Photo::Id& id, ICoreFactoryAccessor* c, Databas
     FaceTask(id, db),
     m_coreFactory(c)
 {
-    qRegisterMetaType<QVector<FaceData>>("QVector<FaceData>");
+    qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
 }
 
 
@@ -101,8 +108,8 @@ std::string FacesFetcher::name() const
 
 void FacesFetcher::perform()
 {
-    QVector<FaceData> result;
-    const std::vector<FaceData> list_of_faces = fetchFacesFromDb();
+    QVector<QRect> result;
+    const std::vector<QRect> list_of_faces = fetchFacesFromDb();
 
     if (list_of_faces.empty())
     {
@@ -114,7 +121,7 @@ void FacesFetcher::perform()
         const auto faces = face_recognition.fetchFaces(full_path);
 
         for(const QRect& face: faces)
-            result.append(FaceData(Face::Id(), m_id, face));
+            result.append(face);
     }
     else
     {
@@ -130,8 +137,8 @@ void FacesFetcher::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceRecognizer::FaceRecognizer(const FaceData& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
-    FaceTask(face.ph_id, db),
+FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face,  const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
+    FaceTask(face.first, db),
     m_data(face),
     m_patterns(patterns),
     m_coreFactory(core)
@@ -154,17 +161,29 @@ std::string FaceRecognizer::name() const
 
 void FaceRecognizer::perform()
 {
-    const std::vector<PersonLocation> peopleData = fetchPeopleFromDb();
-    PersonData result;
+    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb();
+    PersonName result;
 
-    if (peopleData.empty())
+    // check if we have data for given face in db
+    bool filled = false;
+    for(const PersonInfo& person: peopleData)
+        if (person.rect.isValid() &&
+            person.rect == m_data.second &&
+            person.p_id.valid())
+        {
+            result = personData(person.p_id);     // use stored name
+            filled = true;
+            break;
+        }
+
+    if (filled == false)    // we do not have data, try to guess
     {
         const QString path = getPhotoPath();
         const QFileInfo pathInfo(path);
         const QString full_path = pathInfo.absoluteFilePath();
 
         FaceRecognition face_recognition(m_coreFactory);
-        const QString personPath = face_recognition.recognize(full_path, m_data.rect, m_patterns);
+        const QString personPath = face_recognition.recognize(full_path, m_data.second, m_patterns);
 
         if (personPath.isEmpty() == false)
         {
@@ -174,22 +193,15 @@ void FaceRecognizer::perform()
             result = personData(pid);
         }
     }
-    else
-        for(const PersonLocation& location: peopleData)
-            if (location.location == m_data.rect)
-            {
-                result = personData(location.id);
-                break;
-            }
 
-    emit recognized(m_data, result);
+    emit recognized(m_data.second, result);
 }
 
 
-PersonData FaceRecognizer::personData(const Person::Id& id) const
+PersonName FaceRecognizer::personData(const Person::Id& id) const
 {
-    const PersonData person =
-        evaluate<PersonData(Database::IBackendOperator *)>
+    const PersonName person =
+        evaluate<PersonName (Database::IBackendOperator *)>
             (m_db, [id](Database::IBackendOperator* backend)
     {
         const auto people = backend->person(id);
@@ -201,9 +213,9 @@ PersonData FaceRecognizer::personData(const Person::Id& id) const
 }
 
 
-std::vector<PersonLocation> FaceRecognizer::fetchPeopleFromDb() const
+std::vector<PersonInfo> FaceRecognizer::fetchPeopleFromDb() const
 {
-    return evaluate<std::vector<PersonLocation>(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonInfo>(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
     {
         auto people = backend->listPeople(id);
 
@@ -252,13 +264,16 @@ void FetchUnassigned::perform()
             }
         }
 
-        const std::vector<PersonLocation> locations = backend->listPeople(id);
+        const std::vector<PersonInfo> locations = backend->listPeople(id);
         QStringList locatedPeople;
 
-        for(const PersonLocation& location: locations)
+        for(const PersonInfo& location: locations)
         {
-            const PersonData data = backend->person(location.id);
-            locatedPeople.append(data.name());
+            if (location.p_id.valid())
+            {
+                const PersonName data = backend->person(location.p_id);
+                locatedPeople.append(data.name());
+            }
         }
 
         people.sort();
@@ -280,7 +295,7 @@ void FetchUnassigned::perform()
 
 
 FaceStore::FaceStore(const Photo::Id& id,
-                     const std::vector<std::pair<FaceData, QString>>& known_people,
+                     const std::vector<PeopleOperator::FaceInfo>& known_people,
                      const QStringList& unknown_people,
                      Database::IDatabase* db,
                      const QString& patterns):
@@ -307,93 +322,69 @@ std::string FaceStore::name() const
 
 void FaceStore::perform()
 {
-    const std::vector<PersonData> people = fetchPeople();
+    const std::vector<PersonName> people = fetchPeople();
     const QString path = getPhotoPath();
     const QImage image(path);
 
     for (const auto& person: m_knownPeople )
     {
-        const FaceData& faceData = person.first;
         const QString& name = person.second;
-        const QRect& face_coords = faceData.rect;
+        const QRect& face_coords = person.first;
 
         auto it = std::find_if(people.cbegin(),
                                people.cend(),
-                               [name](const PersonData& d)
+                               [name](const PersonName& d)
         {
             return d.name() == name;
         });
 
         if (it == people.cend())  // we do not know that person
         {
-            m_db->performCustomAction([name,
-                                       base_path = m_patterns,
+            m_db->performCustomAction([base_path = m_patterns,
                                        face = image.copy(face_coords),
-                                       faceData]
+                                       ph_id = m_id,
+                                       person]
                                       (Database::IBackendOperator* op)
             {
+                const QRect& face_location = person.first;
+                const QString& name = person.second;
 
-                // store face location
-                const Face::Id f_id = op->store(faceData);
+                PersonInfo personData(PersonInfo::Id(), Person::Id(), ph_id, face_location);
 
                 if (name.isEmpty() == false)
                 {
                     // anounce new person, get id for it
-                    const PersonData d(Person::Id(), name);
+                    const PersonName d(Person::Id(), name);
                     const Person::Id p_id = op->store(d);
 
                     // save representative photo
                     const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
                     face.save(path);
 
-                    // store person location
-                    op->store(p_id, f_id);
+                    personData.p_id = p_id;
                 }
+
+                // store person information
+                op->store(personData);
             });
         }
         else                                // someone known
-            m_db->performCustomAction([faceData,
-                                       p_id = it->id()]
+        {
+            const PersonInfo pinfo(PersonInfo::Id(), it->id(), m_id, face_coords);
+            m_db->performCustomAction([pinfo]
                                       (Database::IBackendOperator* op)
             {
-                // store face location
-                const Face::Id f_id = op->store(faceData);
-
-                // store person location
-                op->store(p_id, f_id);
+                // store person information
+                op->store(pinfo);
             });
-    }
-
-    // store all people in tags
-    QStringList allPeople = m_unknownPeople;
-    for (auto person: m_knownPeople)
-        if (person.second.isEmpty() == false)
-            allPeople.append(person.second);
-
-    m_db->performCustomAction([people = std::move(allPeople),
-                               id = m_id]
-                              (Database::IBackendOperator* op)
-    {
-        std::vector<TagValue> people_list;
-        for(const QString& person: people)
-        {
-            TagValue personTag(person);
-            people_list.push_back(personTag);
         }
-
-        const TagValue new_people(people_list);
-
-        auto photo = op->getPhotoFor(id);
-
-        const TagNameInfo peopleInfo(BaseTagsList::People);
-        photo->setTag(peopleInfo, new_people);
-    });
+    }
 }
 
 
-std::vector<PersonData> FaceStore::fetchPeople()
+std::vector<PersonName> FaceStore::fetchPeople()
 {
-    return evaluate<std::vector<PersonData>(Database::IBackendOperator* backend)>(m_db, [](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonName>(Database::IBackendOperator* backend)>(m_db, [](Database::IBackendOperator* backend)
     {
         auto people = backend->listPeople();
 
@@ -410,8 +401,7 @@ PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, 
     m_db(db),
     m_coreFactory(ca)
 {
-    qRegisterMetaType<PersonData>("PersonData");
-    qRegisterMetaType<FaceData>("FaceData");
+    qRegisterMetaType<PersonName>("PersonData");
 }
 
 
@@ -432,7 +422,7 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
 }
 
 
-void PeopleOperator::recognize(const FaceData& face) const
+void PeopleOperator::recognize(const PeopleOperator::FaceLocation& face) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FaceRecognizer>(face, m_storage, m_coreFactory, m_db);
@@ -457,7 +447,7 @@ void PeopleOperator::getUnassignedPeople(const Photo::Id& id) const
 
 
 void PeopleOperator::store(const Photo::Id& id,
-                           const std::vector<std::pair<FaceData, QString> >& known_people,
+                           const std::vector<FaceInfo>& known_people,
                            const QStringList& unknown_people) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();

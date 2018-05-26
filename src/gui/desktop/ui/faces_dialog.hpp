@@ -34,15 +34,15 @@ class FacesDialog: public QDialog
     private:
         const Photo::Id m_id;
         PeopleOperator m_people;
-        safe_callback_ctrl m_safeCallback;
-        QVector<FaceData> m_faces;
+        //safe_callback_ctrl m_safeCallback;
+        QVector<QRect> m_faces;
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IPythonThread* m_pythonThread;
         int m_facesToAnalyze;
 
-        void applyFacesLocations(const QVector<FaceData> &);
-        void applyFaceName(const FaceData &, const PersonData &);
+        void applyFacesLocations(const QVector<QRect> &);
+        void applyFaceName(const QRect &, const PersonName &);
         void applyUnassigned(const Photo::Id &, const QStringList &);
         void updateImage();
         void updatePeopleList();

@@ -28,27 +28,23 @@
 #include "photo_data.hpp"
 #include "database_export.h"
 
+
 namespace Person
 {
     DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
 }
 
-namespace Face
-{
-    DATABASE_EXPORT extern const char Name[16];
-    typedef Id<int, Name> Id;
-}
 
-class DATABASE_EXPORT PersonData final
+class DATABASE_EXPORT PersonName final
 {
     public:
-        PersonData();
-        PersonData(const Person::Id &, const QString &);
-        PersonData(const PersonData &);
-        ~PersonData() = default;
+        PersonName();
+        PersonName (const Person::Id &, const QString &);
+        PersonName (const PersonName &);
+        ~PersonName() = default;
 
-        PersonData& operator=(const PersonData &) = default;
+        PersonName& operator=(const PersonName &) = default;
 
         const Person::Id& id() const;
         const QString& name() const;
@@ -58,40 +54,41 @@ class DATABASE_EXPORT PersonData final
         QString m_name;
 };
 
-struct PersonLocation
+class DATABASE_EXPORT PersonInfo
 {
-    const Person::Id id;
-    const QRect location;
+        static const char Name[16];
 
-    PersonLocation(const Person::Id& i, const QRect& l): id(i), location(l) {}
+    public:
+        typedef ::Id<int, Name> Id;
+
+        Id id;
+        Person::Id p_id;
+        Photo::Id ph_id;
+        QRect rect;
+
+        PersonInfo(): id(), p_id(), ph_id(), rect()
+        {
+        }
+
+        PersonInfo(const PersonInfo::Id& _id,
+                const Person::Id& _p_id,
+                const Photo::Id& _ph_id,
+                const QRect& _rect):
+            id(_id), p_id(_p_id), ph_id(_ph_id), rect(_rect)
+        {}
+
+        PersonInfo(const PersonInfo &) = default;
+        PersonInfo& operator=(const PersonInfo &) = default;
+
+        bool operator==(const PersonInfo& other) const
+        {
+            return id == other.id       &&
+                p_id == other.p_id   &&
+                ph_id == other.ph_id &&
+                rect == other.rect;
+        }
 };
 
-
-struct FaceData
-{
-    Face::Id id;
-    Photo::Id ph_id;
-    QRect rect;
-
-    FaceData(): id(), ph_id(), rect()
-    {
-    }
-
-    FaceData(const Face::Id& _id, const Photo::Id& _ph_id, const QRect& _rect):
-        id(_id), ph_id(_ph_id), rect(_rect)
-    {}
-
-    FaceData(const FaceData &) = default;
-    FaceData& operator=(const FaceData &) = default;
-
-    bool operator==(const FaceData& other) const
-    {
-        return id == other.id &&
-               ph_id == other.ph_id &&
-               rect == other.rect;
-    }
-};
-
-Q_DECLARE_METATYPE(PersonData)
+Q_DECLARE_METATYPE( PersonName )
 
 #endif // PERSONDATA_HPP

@@ -27,6 +27,8 @@
 #include <database/photo_data.hpp>
 #include <database/person_data.hpp>
 
+#include "people_operator.hpp"
+
 
 namespace Database
 {
@@ -46,7 +48,7 @@ class FaceTask: public ITaskExecutor::ITask
         const Photo::Id m_id;
         Database::IDatabase* m_db;
 
-        std::vector<FaceData> fetchFacesFromDb() const;
+        std::vector<QRect> fetchFacesFromDb() const;
         QString getPhotoPath() const;
 };
 
@@ -63,7 +65,7 @@ class FacesFetcher final: public QObject, public FaceTask
         void perform() override;
 
     signals:
-        void faces(const QVector<FaceData> &) const;
+        void faces(const QVector<QRect> &) const;
 
     private:
         ICoreFactoryAccessor* m_coreFactory;
@@ -75,22 +77,22 @@ class FaceRecognizer final: public QObject, public FaceTask
         Q_OBJECT
 
     public:
-        FaceRecognizer(const FaceData &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
+        FaceRecognizer(const PeopleOperator::FaceLocation &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
         virtual ~FaceRecognizer();
 
         std::string name() const override;
         void perform() override;
 
     private:
-        const FaceData m_data;
+        const PeopleOperator::FaceLocation m_data;
         const QString m_patterns;
         ICoreFactoryAccessor* m_coreFactory;
 
-        PersonData personData(const Person::Id &) const;
-        std::vector<PersonLocation> fetchPeopleFromDb() const;
+        PersonName personData(const Person::Id &) const;
+        std::vector<PersonInfo> fetchPeopleFromDb() const;
 
     signals:
-        void recognized(const FaceData &, const PersonData &) const;
+        void recognized(const QRect &, const PersonName &) const;
 };
 
 
@@ -118,7 +120,7 @@ class FaceStore final: public FaceTask
 {
     public:
         FaceStore(const Photo::Id &,
-                  const std::vector<std::pair<FaceData, QString>> &,
+                  const std::vector<PeopleOperator::FaceInfo> &,
                   const QStringList& unknownPeople,
                   Database::IDatabase *,
                   const QString& patterns);
@@ -128,11 +130,11 @@ class FaceStore final: public FaceTask
         void perform() override;
 
     private:
-        const std::vector<std::pair<FaceData, QString>> m_knownPeople;
+        const std::vector<PeopleOperator::FaceInfo> m_knownPeople;
         const QStringList m_unknownPeople;
         const QString m_patterns;
 
-        std::vector<PersonData> fetchPeople();
+        std::vector<PersonName> fetchPeople();
 };
 
 #endif // PEOPLEOPERATOR_P_HPP

@@ -25,19 +25,16 @@ namespace Person
 }
 
 
-namespace Face
-{
-    const char Name[16] = "Face";
-}
+const char PersonInfo::Name[16] = "PersonInfo";
 
 
-PersonData::PersonData()
+PersonName::PersonName()
 {
 
 }
 
 
-PersonData::PersonData(const Person::Id& id, const QString& name):
+PersonName::PersonName (const Person::Id& id, const QString& name):
     m_id(id),
     m_name(name)
 {
@@ -45,7 +42,7 @@ PersonData::PersonData(const Person::Id& id, const QString& name):
 }
 
 
-PersonData::PersonData(const PersonData& other):
+PersonName::PersonName (const PersonName& other):
     m_id(other.m_id),
     m_name(other.m_name)
 {
@@ -53,13 +50,13 @@ PersonData::PersonData(const PersonData& other):
 }
 
 
-const Person::Id& PersonData::id() const
+const Person::Id& PersonName::id() const
 {
     return m_id;
 }
 
 
-const QString& PersonData::name() const
+const QString& PersonName::name() const
 {
     return m_name;
 }

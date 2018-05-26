@@ -190,39 +190,30 @@ namespace
             return result;
         }
 
-        std::vector<PersonData> listPeople() override
+        std::vector<PersonName> listPeople() override
         {
             return m_backend->listPeople();
         }
 
-        std::vector<PersonLocation> listPeople(const Photo::Id& id) override
+        std::vector<PersonInfo> listPeople(const Photo::Id& id) override
         {
             return m_backend->listPeople(id);
         }
 
-        std::vector<FaceData> listFaces(const Photo::Id& id) override
+        PersonName person(const Person::Id& id) override
         {
-            return m_backend->listFaces(id);
-        }
-
-        PersonData person(const Person::Id& id) override
-        {
+            assert(id.valid());
             return m_backend->person(id);
         }
 
-        Person::Id store(const PersonData& d) override
+        Person::Id store(const PersonName& d) override
         {
             return m_backend->store(d);
         }
 
-        Face::Id store(const FaceData& d) override
+        PersonInfo::Id store(const PersonInfo& d) override
         {
             return m_backend->store(d);
-        }
-
-        void store(const Person::Id& p_id, const Face::Id& face)
-        {
-            m_backend->store(p_id, face);
         }
 
         //
