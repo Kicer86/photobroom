@@ -107,6 +107,7 @@ namespace
             m_cache = cache;
         }
 
+        // run in a db thread started by AsyncDatabase::Impl
         void begin()
         {
             for(;;)
@@ -500,7 +501,7 @@ namespace
 
 namespace Database
 {
-
+    // TODO: move methods implementation to AsyncDatabase. No need to keep them here
     struct AsyncDatabase::Impl
     {
         Impl(std::unique_ptr<IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
