@@ -71,6 +71,21 @@ namespace
         virtual void execute(Executor *) = 0;
     };
 
+
+    template<typename T>
+    struct GenericTask: IThreadTask
+    {
+        GenericTask(const T& callable): m_callable(callable) {}
+
+        void execute(Executor* executor) override
+        {
+            m_callable(executor);
+        }
+
+        T m_callable;
+    };
+
+
     struct Executor: Database::ADatabaseSignals, Database::IBackendOperator
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
@@ -221,6 +236,13 @@ namespace
             m_tasks.push(std::move(task));
         }
 
+        template<typename T>
+        void addTask(T&& callable)
+        {
+            std::unique_ptr<IThreadTask> task = std::make_unique<GenericTask<T>>(std::forward<T>(callable));
+            addTask(std::move(task));
+        }
+
         private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
@@ -228,19 +250,6 @@ namespace
             IPhotoInfoStorekeeper* m_storekeeper;
     };
 
-
-    template<typename T>
-    struct GenericTask: IThreadTask
-    {
-        GenericTask(const T& callable): m_callable(callable) {}
-
-        void execute(Executor* executor) override
-        {
-            m_callable(executor);
-        }
-
-        T m_callable;
-    };
 
     struct CreateGroupTask: IThreadTask
     {
@@ -521,13 +530,19 @@ namespace Database
         {
             if (m_working)
             {
+                // do not accept any more tasks
                 m_working = false;
+
+                // add final task
+                m_executor.addTask([](Executor* executor)
+                {
+                    executor->closeConnections();
+                });
                 m_executor.stop();
 
+                // wait for all tasks to be finished
                 assert(m_thread.joinable());
                 m_thread.join();
-
-                m_executor.closeConnections();
             }
         }
 
