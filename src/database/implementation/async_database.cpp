@@ -565,7 +565,6 @@ namespace Database
     }
 
 
-
     void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)
     {
         m_impl->m_cache = std::move(cache);
