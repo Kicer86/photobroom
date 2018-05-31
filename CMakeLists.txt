@@ -154,6 +154,7 @@ if(BUILD_TESTS)
                       COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest
                       DEPENDS core_tests
                               database_tests
+                              database_integration_tests
                               gui_tests
                               photos_crawler_tests
                      )
