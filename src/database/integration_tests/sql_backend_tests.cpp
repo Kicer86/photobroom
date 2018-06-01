@@ -11,7 +11,7 @@
 #include "plugins/iplugin_loader.hpp"
 #include "project_info.hpp"
 
-namespace
+namespace   // Some fakes, mocks and stubs
 {
     struct PluginLoader: IPluginLoader
     {
