@@ -78,6 +78,7 @@ struct SqlBackendTest: testing::Test
 {
     SqlBackendTest()
     {
+        // Setup builder
         Database::Builder builder;
         builder.set(&m_loader);
         builder.set(&m_logger);
@@ -86,6 +87,7 @@ struct SqlBackendTest: testing::Test
         const QString wd = m_wd.path();
         const auto plugins = m_loader.getDBPlugins();
 
+        // prepare db for each plugin
         for (const Database::IPlugin* plugin: plugins)
         {
             const QString name = plugin->backendName();
