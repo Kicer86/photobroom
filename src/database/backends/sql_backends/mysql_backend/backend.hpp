@@ -53,7 +53,6 @@ namespace Database
             virtual char simplicity() const override;
     };
 
-
 }
 
 #endif
