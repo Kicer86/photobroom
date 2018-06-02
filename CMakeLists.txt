@@ -159,6 +159,7 @@ if(BUILD_TESTS)
                               database_integration_tests
                               gui_tests
                               photos_crawler_tests
+                              system_tests
                      )
 endif()
 
