@@ -1411,6 +1411,8 @@ namespace Database
             const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
             id = vid.toInt();
         }
+        else
+            id = Person::Id();    // error occured
 
         return id;
     }
