@@ -130,6 +130,17 @@ TEST_F(SqlBackendTest, opening)
             EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
         });
 
+        // expect db to be empty, do some checks
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            const auto photos = op->getPhotos({});
+            EXPECT_TRUE(photos.empty());
+
+            const auto people = op->listPeople();
+            EXPECT_TRUE(people.empty());
+        });
+
         db->closeConnections();
     }
 }
+
