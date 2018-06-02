@@ -42,8 +42,11 @@ namespace Database
     class DATABASE_SQLITE_BACKEND_EXPORT SQLitePlugin final: public IPlugin
     {
             Q_OBJECT
+
+#ifndef STATIC_PLUGINS
             Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "sqlite_backend.json")
             Q_INTERFACES(Database::IPlugin)   //'Database' namespace is obligatory
+#endif
 
         public:
             SQLitePlugin();

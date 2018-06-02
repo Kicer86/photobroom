@@ -21,7 +21,6 @@ namespace Database
     };
 
     typedef Status<StatusCodes, StatusCodes::Ok> BackendStatus;
-
 }
 
 #endif
