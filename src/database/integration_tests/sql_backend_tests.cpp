@@ -7,6 +7,7 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include "backends/sql_backends/sqlite_backend/backend.hpp"
+#include "backends/sql_backends/mysql_backend/backend.hpp"
 #include "database_builder.hpp"
 #include "plugins/iplugin_loader.hpp"
 #include "project_info.hpp"
@@ -18,6 +19,7 @@ namespace   // Some fakes, mocks and stubs
         PluginLoader()
         {
             m_plugins.push_back(&m_sqlitePlugin);
+            m_plugins.push_back(&m_mysqlPlugin);
         }
 
         Database::IPlugin* getDBPlugin(const QString& name) override
@@ -37,6 +39,7 @@ namespace   // Some fakes, mocks and stubs
 
         std::vector<Database::IPlugin *> m_plugins;
         Database::SQLitePlugin m_sqlitePlugin;
+        Database::MySqlPlugin m_mysqlPlugin;
     };
 
     struct Logger: ILogger
@@ -92,7 +95,8 @@ struct SqlBackendTest: testing::Test
         {
             const QString name = plugin->backendName();
             const QString db_path = wd + "/" + name;
-            Database::ProjectInfo prjInfo(db_path, name);
+            QDir().mkdir(db_path);
+            Database::ProjectInfo prjInfo(db_path + "/db", name);
 
             auto db = builder.get(prjInfo);
 
