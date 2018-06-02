@@ -19,7 +19,7 @@ namespace   // Some fakes, mocks and stubs
         PluginLoader()
         {
             m_plugins.push_back(&m_sqlitePlugin);
-            m_plugins.push_back(&m_mysqlPlugin);
+            //m_plugins.push_back(&m_mysqlPlugin);
         }
 
         Database::IPlugin* getDBPlugin(const QString& name) override
