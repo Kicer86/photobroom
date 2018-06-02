@@ -39,8 +39,11 @@ namespace Database
     class DATABASE_MYSQL_BACKEND_EXPORT MySqlPlugin final: public IPlugin
     {
             Q_OBJECT
+
+#ifndef STATIC_PLUGINS
             Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "mysql_backend.json")
             Q_INTERFACES(Database::IPlugin)   //'Database' namespace is obligatory
+#endif
 
         public:
             MySqlPlugin();
