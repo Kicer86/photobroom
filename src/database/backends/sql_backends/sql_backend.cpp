@@ -1393,26 +1393,35 @@ namespace Database
 
         QSqlQuery query;
 
-        if (id.valid())
+        if (id.valid())  // id valid? override (update name)
         {
             UpdateQueryData updateQueryData(queryData);
             updateQueryData.addCondition("id", QString::number(id));
             query = getGenericQueryGenerator()->update(db, updateQueryData);
-        }
-        else
-        {
-            query = getGenericQueryGenerator()->insert(db, queryData);
-        }
 
-        status = m_data->m_executor.exec(query);
+            status = m_data->m_executor.exec(query);
 
-        if (status && id.valid() == false)
-        {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            id = vid.toInt();
+            if (query.numRowsAffected() == 0)   // any update?
+                id = Person::Id();              // nope - error
         }
-        else
-            id = Person::Id();    // error occured
+        else             // id invalid? add new person or nothing when already exists
+        {
+            const PersonName pn = person(d.name());
+
+            if (pn.id().valid())
+                id = pn.id();
+            else
+            {
+                query = getGenericQueryGenerator()->insert(db, queryData);
+                status = m_data->m_executor.exec(query);
+
+                if (status)
+                {
+                    const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                    id = vid.toInt();
+                }
+            }
+        }
 
         return id;
     }
