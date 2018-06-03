@@ -144,3 +144,89 @@ TEST_F(SqlBackendTest, opening)
     }
 }
 
+
+TEST_F(SqlBackendTest, personIntroduction)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            const PersonName p1(Person::Id(), "P 1");
+            const Person::Id p1_id = op->store(p1);
+
+            const PersonName p1_r = op->person(p1_id);
+
+            EXPECT_EQ(p1_r.name(), p1.name());
+            EXPECT_EQ(p1_r.id(), p1_id);
+        });
+
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            const PersonName p2(Person::Id(123), "P 2");
+            const Person::Id p2_id = op->store(p2);
+
+            EXPECT_FALSE(p2_id.valid());     // p2 was nonexistent person (id 123 doesn't exist in db), we should get an error
+
+            const PersonName p2_r = op->person(Person::Id(123));
+
+            EXPECT_FALSE(p2_r.id().valid()); // make sure there is no entry with given id
+        });
+
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            const PersonName p2(Person::Id(), "P 2");
+            const Person::Id p2_id = op->store(p2);
+
+            const PersonName p2_dup(Person::Id(), "P 2");
+            const Person::Id p2_dup_id = op->store(p2_dup);
+
+            EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
+        });
+
+        db->closeConnections();
+    }
+}
+
+TEST_F(SqlBackendTest, personConsistency)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            std::set<Person::Id> ids;
+            for(int i = 0; i < 8; i++)
+            {
+                const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
+                const Person::Id pn_id = op->store(pn);
+
+                ids.insert(pn_id);
+            }
+
+            const std::vector<PersonName> pns_r = op->listPeople();
+
+            for (const PersonName& pn: pns_r)
+            {
+                EXPECT_TRUE(ids.find(pn.id()) != ids.end());
+            }
+
+        });
+
+        db->closeConnections();
+    }
+}
