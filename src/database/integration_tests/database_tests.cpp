@@ -77,9 +77,9 @@ namespace   // Some fakes, mocks and stubs
     };
 }
 
-struct SqlBackendTest: testing::Test
+struct DatabaseTest: testing::Test
 {
-    SqlBackendTest()
+    DatabaseTest()
     {
         // Setup builder
         Database::Builder builder;
@@ -104,7 +104,7 @@ struct SqlBackendTest: testing::Test
         }
     }
 
-    ~SqlBackendTest()
+    ~DatabaseTest()
     {
     }
 
@@ -118,7 +118,7 @@ struct SqlBackendTest: testing::Test
 };
 
 
-TEST_F(SqlBackendTest, opening)
+TEST_F(DatabaseTest, opening)
 {
     for(const auto& db_info: m_dbs)
     {
@@ -145,7 +145,7 @@ TEST_F(SqlBackendTest, opening)
 }
 
 
-TEST_F(SqlBackendTest, personIntroduction)
+TEST_F(DatabaseTest, personIntroduction)
 {
     for(const auto& db_info: m_dbs)
     {
@@ -195,7 +195,7 @@ TEST_F(SqlBackendTest, personIntroduction)
     }
 }
 
-TEST_F(SqlBackendTest, personMassiveIntroduction)
+TEST_F(DatabaseTest, personMassiveIntroduction)
 {
     for(const auto& db_info: m_dbs)
     {
@@ -237,3 +237,6 @@ TEST_F(SqlBackendTest, personMassiveIntroduction)
         db->closeConnections();
     }
 }
+
+
+
