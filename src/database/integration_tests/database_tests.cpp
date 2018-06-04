@@ -195,6 +195,7 @@ TEST_F(DatabaseTest, personIntroduction)
     }
 }
 
+
 TEST_F(DatabaseTest, personMassiveIntroduction)
 {
     for(const auto& db_info: m_dbs)
@@ -231,7 +232,6 @@ TEST_F(DatabaseTest, personMassiveIntroduction)
 
             // `people` should be empty by now
             EXPECT_TRUE(people.empty());
-
         });
 
         db->closeConnections();
@@ -239,4 +239,45 @@ TEST_F(DatabaseTest, personMassiveIntroduction)
 }
 
 
+TEST_F(DatabaseTest, simpleAssignmentToPhoto)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+        std::mutex op_mutex;
+        std::unique_lock op_lock(op_mutex);
 
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        Photo::DataDelta pd;
+        pd.data[Photo::Field::Path] = QString("photo.jpeg");
+
+        std::vector<Photo::Id> ids;
+        db->store({pd}, [&ids](const std::vector<Photo::Id>& _ids)
+        {
+            ids = _ids;
+        });
+
+        db->performCustomAction([&ids, _op_lock = std::move(op_lock)](Database::IBackendOperator* op)
+        {
+            ASSERT_EQ(ids.size(), 1);
+
+            const IPhotoInfo::Ptr photo = op->getPhotoFor(ids.front());
+            const TagNameInfo pi(BaseTagsList::People);
+            const TagValue pv({QString("person 1"), QString("person 2")});
+
+            photo->setTag(pi, pv);
+        });
+
+        // Wait for all operations to be finished before closing db.
+        // Otherwise some db task may appear after we closeConnections,
+        // which would assert.
+        std::unique_lock close_lock(op_mutex);  // will get lock when op_mutex is released by performCustomAction
+
+        db->closeConnections();
+    }
+}
