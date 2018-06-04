@@ -221,7 +221,7 @@ TEST_F(SqlBackendTest, personMassiveIntroduction)
 
             const std::vector<PersonName> pns_r = op->listPeople();
 
-            // we expect that all instered people will appear in pns_r
+            // we expect that all inserted people will appear in pns_r
             for (const PersonName& pn: pns_r)
             {
                 const auto it = people.find(pn);
