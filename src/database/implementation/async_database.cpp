@@ -507,21 +507,21 @@ namespace Database
         //store task to be executed by thread
         [[deprecated]] void addTask(IThreadTask* task)
         {
-            assert(m_working);
-            m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
+            addTask(std::unique_ptr<IThreadTask>(task));
         }
 
         //store task to be executed by thread
         void addTask(std::unique_ptr<IThreadTask>&& task)
         {
-            assert(m_working);
-
             // When task comes from from db's thread execute it immediately.
             // This simplifies some client's codes (when operating inside of performCustomAction)
             if (std::this_thread::get_id() == m_thread.get_id())
                 task->execute(&m_executor);
             else
+            {
+                assert(m_working);
                 m_executor.addTask(std::move(task));
+            }
         }
 
         void stopExecutor()
