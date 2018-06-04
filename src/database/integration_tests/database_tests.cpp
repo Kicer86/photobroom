@@ -195,7 +195,7 @@ TEST_F(SqlBackendTest, personIntroduction)
     }
 }
 
-TEST_F(SqlBackendTest, personConsistency)
+TEST_F(SqlBackendTest, personMassiveIntroduction)
 {
     for(const auto& db_info: m_dbs)
     {
