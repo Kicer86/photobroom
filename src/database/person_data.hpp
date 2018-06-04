@@ -24,6 +24,7 @@
 #include <QRect>
 
 #include <core/id.hpp>
+#include <core/universal_operators.hpp>
 
 #include "photo_data.hpp"
 #include "database_export.h"
@@ -40,11 +41,17 @@ class DATABASE_EXPORT PersonName final
 {
     public:
         PersonName();
-        PersonName (const Person::Id &, const QString &);
-        PersonName (const PersonName &);
+        PersonName(const Person::Id &, const QString &);
+        PersonName(const PersonName &);
         ~PersonName() = default;
 
         PersonName& operator=(const PersonName &) = default;
+        bool operator<(const PersonName& other) const
+        {
+            return isLess(*this, other,
+                          &PersonName::m_id,
+                          &PersonName::m_name);
+        }
 
         const Person::Id& id() const;
         const QString& name() const;
@@ -83,9 +90,9 @@ class DATABASE_EXPORT PersonInfo
         bool operator==(const PersonInfo& other) const
         {
             return id == other.id       &&
-                p_id == other.p_id   &&
-                ph_id == other.ph_id &&
-                rect == other.rect;
+                   p_id == other.p_id   &&
+                   ph_id == other.ph_id &&
+                   rect == other.rect;
         }
 };
 

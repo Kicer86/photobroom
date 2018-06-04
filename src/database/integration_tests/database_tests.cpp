@@ -209,21 +209,28 @@ TEST_F(SqlBackendTest, personMassiveIntroduction)
 
         db->performCustomAction([](Database::IBackendOperator* op)
         {
-            std::set<Person::Id> ids;
+            std::set<PersonName> people;
             for(int i = 0; i < 8; i++)
             {
                 const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
                 const Person::Id pn_id = op->store(pn);
+                const PersonName f_pn(pn_id, pn.name());     // construct PersonName with full info
 
-                ids.insert(pn_id);
+                people.insert(f_pn);
             }
 
             const std::vector<PersonName> pns_r = op->listPeople();
 
+            // we expect that all instered people will appear in pns_r
             for (const PersonName& pn: pns_r)
             {
-                EXPECT_TRUE(ids.find(pn.id()) != ids.end());
+                const auto it = people.find(pn);
+                ASSERT_TRUE(it != people.end());
+                people.erase(it);
             }
+
+            // `people` should be empty by now
+            EXPECT_TRUE(people.empty());
 
         });
 
