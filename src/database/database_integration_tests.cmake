@@ -35,7 +35,7 @@ addTestTarget(database_integration
                     ${moced_cpps}
 
                     # sql tests:
-                    integration_tests/sql_backend_tests.cpp
+                    integration_tests/database_tests.cpp
 
                     # main()
                     integration_tests/main.cpp
