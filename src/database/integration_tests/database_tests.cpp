@@ -245,8 +245,6 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
     {
         const std::unique_ptr<Database::IDatabase>& db = db_info.first;
         const Database::ProjectInfo& prjInfo = db_info.second;
-        std::mutex op_mutex;
-        std::unique_lock op_lock(op_mutex);
 
         db->init(prjInfo,[](const Database::BackendStatus& status)
         {
@@ -262,7 +260,7 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
             ids = _ids;
         });
 
-        db->performCustomAction([&ids, _op_lock = std::move(op_lock)](Database::IBackendOperator* op)
+        db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
             ASSERT_EQ(ids.size(), 1);
 
@@ -272,11 +270,6 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
 
             photo->setTag(pi, pv);
         });
-
-        // Wait for all operations to be finished before closing db.
-        // Otherwise some db task may appear after we closeConnections,
-        // which would assert.
-        std::unique_lock close_lock(op_mutex);  // will get lock when op_mutex is released by performCustomAction
 
         db->closeConnections();
     }
