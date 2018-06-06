@@ -241,7 +241,6 @@ TEST_F(DatabaseTest, personMassiveIntroduction)
 
 TEST_F(DatabaseTest, simpleAssignmentToPhoto)
 {
-    /*
     for(const auto& db_info: m_dbs)
     {
         const std::unique_ptr<Database::IDatabase>& db = db_info.first;
@@ -289,5 +288,4 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
 
         db->closeConnections();
     }
-    */
 }
