@@ -237,6 +237,7 @@ namespace Database
 
                 assert(value.isEmpty() == false);
 
+                // TODO: extract
                 if (name_id == BaseTagsList::People)
                 {
                     PersonName pn = m_backend->person(value);
