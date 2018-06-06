@@ -42,6 +42,14 @@ PersonName::PersonName (const Person::Id& id, const QString& name):
 }
 
 
+PersonName::PersonName(const QString& name):
+    m_id(),
+    m_name(name)
+{
+
+}
+
+
 PersonName::PersonName (const PersonName& other):
     m_id(other.m_id),
     m_name(other.m_name)

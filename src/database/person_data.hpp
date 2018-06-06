@@ -42,6 +42,7 @@ class DATABASE_EXPORT PersonName final
     public:
         PersonName();
         PersonName(const Person::Id &, const QString &);
+        PersonName(const QString &);
         PersonName(const PersonName &);
         ~PersonName() = default;
 
