@@ -233,11 +233,22 @@ namespace Database
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
 
-                const QString value_raw = tagValue.rawValue();
-                const QString value = m_backend->encodeTag(name_id, value_raw);
+                const QString value = tagValue.rawValue();
 
                 assert(value.isEmpty() == false);
-                if (value.isEmpty() == false)
+
+                if (name_id == BaseTagsList::People)
+                {
+                    PersonName pn = m_backend->person(value);
+                    Person::Id p_id = pn.id();
+
+                    if (p_id.valid() == false)
+                        p_id = m_backend->store(PersonName(value));
+
+                    const PersonInfo pi(PersonInfo::Id(), p_id, Photo::Id(photo_id), QRect());
+                    m_backend->store(pi);
+                }
+                else if (value.isEmpty() == false)
                 {
                     InsertQueryData queryData(TAB_TAGS);
                     queryData.setColumns("value", "photo_id", "name");
@@ -296,8 +307,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
-                const TagValue value = TagValue::fromRaw(value_decoded, tagName.getType());
+                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
