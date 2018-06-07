@@ -79,9 +79,9 @@ class DATABASE_EXPORT PersonInfo
         }
 
         PersonInfo(const PersonInfo::Id& _id,
-                const Person::Id& _p_id,
-                const Photo::Id& _ph_id,
-                const QRect& _rect):
+                   const Person::Id& _p_id,
+                   const Photo::Id& _ph_id,
+                   const QRect& _rect):
             id(_id), p_id(_p_id), ph_id(_ph_id), rect(_rect)
         {}
 
