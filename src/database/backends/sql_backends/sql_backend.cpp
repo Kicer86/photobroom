@@ -286,35 +286,55 @@ namespace Database
 
     std::vector<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter) const
     {
-        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-
-        // from filtered photos, get info about tags used there
-        // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
-        // TODO: consider DISTINCT removal, just do some post process
-        QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
-
-        queryStr = queryStr.arg(tagName.getTag());
-        queryStr = queryStr.arg(TAB_TAGS);
-        queryStr = queryStr.arg(filterQuery);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
         std::vector<TagValue> result;
-        const bool status = m_executor.exec(queryStr, &query);
 
-        if (status)
+        // TODO: extract
+        if (tagName.getTag() == BaseTagsList::People)
         {
-            while (status && query.next())
+            std::set<QString> all_people;
+
+            // collect all people for matching photos
+            const auto photos = getPhotos(filter);
+            const auto all_person_info = m_backend->listPeople(photos);
+            for(const PersonInfo& pi: all_person_info)
             {
-                const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+                const auto personName = m_backend->person(pi.p_id);
+                all_people.insert(personName.name());
+            }
 
-                // we do not expect empty values (see store() for tags)
-                assert(raw_value.isEmpty() == false);
+            std::copy(all_people.cbegin(), all_people.cend(), std::back_inserter(result));
+        }
+        else  // regular tags
+        {
+            const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
-                if (raw_value.isEmpty() == false)
-                    result.push_back(value);
+            // from filtered photos, get info about tags used there
+            // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
+            // TODO: consider DISTINCT removal, just do some post process
+            QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
+
+            queryStr = queryStr.arg(tagName.getTag());
+            queryStr = queryStr.arg(TAB_TAGS);
+            queryStr = queryStr.arg(filterQuery);
+
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+            QSqlQuery query(db);
+
+            const bool status = m_executor.exec(queryStr, &query);
+
+            if (status)
+            {
+                while (status && query.next())
+                {
+                    const QString raw_value = query.value(0).toString();
+                    const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+
+                    // we do not expect empty values (see store() for tags)
+                    assert(raw_value.isEmpty() == false);
+
+                    if (raw_value.isEmpty() == false)
+                        result.push_back(value);
+                }
             }
         }
 
@@ -802,8 +822,7 @@ namespace Database
                 continue;
 
             const QString raw_value = value.toString();
-            const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
-            const TagValue tagValue = TagValue::fromRaw(value_decoded, tagName.getType());
+            const TagValue tagValue = TagValue::fromRaw(raw_value, tagName.getType());
             const bool multivalue = tagName.isMultiValue();
 
             if (multivalue)   // accumulate vs override
@@ -819,8 +838,20 @@ namespace Database
             }
             else
                 tagData[tagName] = tagValue;
-
         }
+
+        // TODO: extract
+        // append people
+        const auto people = m_backend->listPeople({photoId});
+        TagValueTraits<TagValue::Type::List>::StorageType peopleList;
+        for(const PersonInfo& pi: people)
+        {
+            const PersonName pn = m_backend->person(pi.p_id);
+            peopleList.push_back(pn.name());
+        }
+
+        if (peopleList.empty() == false)
+            tagData[TagNameInfo(BaseTagsList::People)] = peopleList;
 
         return tagData;
     }
@@ -1554,42 +1585,6 @@ namespace Database
     }
 
 
-    // TODO: issue #249
-    QString ASqlBackend::decodeTag(const TagNameInfo& info, const QString& value)
-    {
-        QString result = value;
-
-        if (info.getTag() == BaseTagsList::People)
-        {
-            const Person::Id id( value.toInt() );
-            const PersonName data = person(id);
-
-            result = data.name();
-        }
-
-        return result;
-    }
-
-    // TODO: issue #249
-    QString ASqlBackend::encodeTag(int t, const QString& value)
-    {
-        QString result = value;
-
-        if (t == BaseTagsList::People)
-        {
-            const PersonName p = person(value);
-
-            Person::Id id = p.id();
-            if (id.valid() == false)
-                id = store( PersonName (Person::Id(), value));
-
-            result = QString::number(id);
-        }
-
-        return result;
-    }
-
-
     PersonName ASqlBackend::person(const QString& name) const
     {
         PersonName result;
@@ -1790,6 +1785,22 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
     }
 
     return status;
+}
+
+
+std::vector<PersonInfo> Database::ASqlBackend::listPeople(const std::vector<Photo::Id>& ids)
+{
+    std::vector<PersonInfo> all_people;
+
+    for(const Photo::Id& id: ids)
+    {
+        const auto people = listPeople(id);
+
+        for (const PersonInfo& person: people)
+            all_people.push_back(person);
+    }
+
+    return all_people;
 }
 
 

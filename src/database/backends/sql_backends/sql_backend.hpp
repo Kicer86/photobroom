@@ -107,6 +107,8 @@ namespace Database
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
 
+            std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
+
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
     };
 
