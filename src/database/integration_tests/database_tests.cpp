@@ -251,39 +251,82 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
             EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
         });
 
-        Photo::DataDelta pd;
-        pd.data[Photo::Field::Path] = QString("photo.jpeg");
+        Photo::DataDelta pd1, pd2;
+        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+        pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
 
         std::vector<Photo::Id> ids;
-        db->store({pd}, [&ids](const std::vector<Photo::Id>& _ids)
+        db->store({pd1, pd2}, [&ids](const std::vector<Photo::Id>& _ids)
         {
             ids = _ids;
         });
 
         db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
-            ASSERT_EQ(ids.size(), 1);
+            ASSERT_EQ(ids.size(), 2);
 
-            const IPhotoInfo::Ptr photo = op->getPhotoFor(ids.front());
-            const TagNameInfo pi(BaseTagsList::People);
-            const TagValue pv({QString("person 1"), QString("person 2")});
+            const IPhotoInfo::Ptr photo1 = op->getPhotoFor(ids[0]);
+            const TagNameInfo pi1(BaseTagsList::People);
+            const TagValue pv1({QString("person 1"), QString("person 2")});
 
-            photo->setTag(pi, pv);
+            photo1->setTag(pi1, pv1);
 
+            const IPhotoInfo::Ptr photo2 = op->getPhotoFor(ids[1]);
+            const TagNameInfo pi2(BaseTagsList::People);
+            const TagValue pv2({QString("person 2"), QString("person 3")});
+
+            photo2->setTag(pi2, pv2);
+
+            // verify if people's name were stored
             const auto all_people = op->listPeople();
-            ASSERT_EQ(all_people.size(), 2);
-            EXPECT_EQ(all_people.front().name(), "person 1");
-            EXPECT_EQ(all_people.back().name(), "person 2");
+            ASSERT_EQ(all_people.size(), 3);
+            EXPECT_EQ(all_people[0].name(), "person 1");
+            EXPECT_EQ(all_people[1].name(), "person 2");
+            EXPECT_EQ(all_people[2].name(), "person 3");
 
-            const auto photo_people = op->listPeople(photo->getID());
-            ASSERT_EQ(photo_people.size(), 2);
-            EXPECT_EQ(photo_people.front().p_id, all_people.front().id());
-            EXPECT_EQ(photo_people.front().ph_id, photo->getID());
-            EXPECT_FALSE(photo_people.front().rect.isValid());
+            // verify people assigned to photo1
+            const auto photo1_people = op->listPeople(photo1->getID());
+            ASSERT_EQ(photo1_people.size(), 2);
+            EXPECT_EQ(photo1_people[0].p_id, all_people[0].id());
+            EXPECT_EQ(photo1_people[0].ph_id, photo1->getID());
+            EXPECT_FALSE(photo1_people[0].rect.isValid());
 
-            EXPECT_EQ(photo_people.back().p_id, all_people.back().id());
-            EXPECT_EQ(photo_people.back().ph_id, photo->getID());
-            EXPECT_FALSE(photo_people.back().rect.isValid());
+            EXPECT_EQ(photo1_people[1].p_id, all_people[1].id());
+            EXPECT_EQ(photo1_people[1].ph_id, photo1->getID());
+            EXPECT_FALSE(photo1_people[1].rect.isValid());
+
+            // verify people assigned to photo2
+            const auto photo2_people = op->listPeople(photo2->getID());
+            ASSERT_EQ(photo2_people.size(), 2);
+            EXPECT_EQ(photo2_people[0].p_id, all_people[1].id());
+            EXPECT_EQ(photo2_people[0].ph_id, photo2->getID());
+            EXPECT_FALSE(photo2_people[0].rect.isValid());
+
+            EXPECT_EQ(photo2_people[1].p_id, all_people[2].id());
+            EXPECT_EQ(photo2_people[1].ph_id, photo2->getID());
+            EXPECT_FALSE(photo2_people[1].rect.isValid());
+
+            // verfy photo1's tag
+            const auto tags1 = photo1->getTags();
+            ASSERT_EQ(tags1.size(), 1);                 // just people
+            ASSERT_EQ(tags1.begin()->first.getTag(), BaseTagsList::People);
+
+            const auto peopleTagValues1 = tags1.begin()->second;
+            const auto peopleList1 = peopleTagValues1.getList();
+            ASSERT_EQ(peopleList1.size(), 2);           // 2 people
+            EXPECT_EQ(peopleList1.front(), TagValue("person 1"));
+            EXPECT_EQ(peopleList1.back(), TagValue("person 2"));
+
+            // verfy photo2's tag
+            const auto tags2 = photo2->getTags();
+            ASSERT_EQ(tags2.size(), 1);                 // just people
+            ASSERT_EQ(tags2.begin()->first.getTag(), BaseTagsList::People);
+
+            const auto peopleTagValues2 = tags2.begin()->second;
+            const auto peopleList2 = peopleTagValues2.getList();
+            ASSERT_EQ(peopleList2.size(), 2);           // 2 people
+            EXPECT_EQ(peopleList2.front(), TagValue("person 2"));
+            EXPECT_EQ(peopleList2.back(), TagValue("person 3"));
         });
 
         db->closeConnections();
