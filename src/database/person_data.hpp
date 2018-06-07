@@ -85,6 +85,12 @@ class DATABASE_EXPORT PersonInfo
             id(_id), p_id(_p_id), ph_id(_ph_id), rect(_rect)
         {}
 
+        PersonInfo(const Person::Id& _p_id,
+                   const Photo::Id& _ph_id,
+                   const QRect& _rect):
+            id(), p_id(_p_id), ph_id(_ph_id), rect(_rect)
+        {}
+
         PersonInfo(const PersonInfo &) = default;
         PersonInfo& operator=(const PersonInfo &) = default;
 
