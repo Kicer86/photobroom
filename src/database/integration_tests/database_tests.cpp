@@ -251,6 +251,7 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
             EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
         });
 
+        // store 2 photos
         Photo::DataDelta pd1, pd2;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
         pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
@@ -261,6 +262,7 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
             ids = _ids;
         });
 
+        // perform some manipulations with photos' tags
         db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
             ASSERT_EQ(ids.size(), 2);
