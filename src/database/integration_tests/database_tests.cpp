@@ -334,3 +334,80 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
         db->closeConnections();
     }
 }
+
+
+TEST_F(DatabaseTest, assignmentToPhotoTouchesPeople)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        {
+            ids = _ids;
+        });
+
+        // perform some manipulations with photos' tags
+        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        {
+            ASSERT_EQ(ids.size(), 1);
+
+            // add fully described person to photo
+            const PersonName pn("person 123");
+            const auto p_id = op->store(pn);
+            const QRect p_r(12, 34, 56, 78);
+            const PersonInfo pi(p_id, ids[0], p_r);
+
+            op->store(pi);
+
+            // verify if person was successfully stored
+            {
+                const auto people = op->listPeople(ids[0]);
+                ASSERT_EQ(people.size(), 1);
+                EXPECT_TRUE(people[0].id.valid());
+                EXPECT_EQ(people[0].p_id, p_id);
+                EXPECT_EQ(people[0].ph_id, ids[0]);
+                EXPECT_EQ(people[0].rect, p_r);
+            }
+
+            // add more people to photo
+            auto photo = op->getPhotoFor(ids[0]);
+            auto tags = photo->getTags();
+            auto peopleTags = tags.find(TagNameInfo(BaseTagsList::People));
+            ASSERT_NE(peopleTags, tags.end());
+
+            auto peopleList = peopleTags->second.getList();
+            peopleList.push_back(TagValue("person 987"));
+            photo->setTag(TagNameInfo(BaseTagsList::People), peopleList);
+
+            // verify if original person wasn't touched, and if we have a new companion
+            {
+                const auto people = op->listPeople(ids[0]);
+                ASSERT_EQ(people.size(), 2);
+
+                EXPECT_TRUE(people[0].id.valid());
+                EXPECT_EQ(people[0].p_id, p_id);
+                EXPECT_EQ(people[0].ph_id, ids[0]);
+                EXPECT_EQ(people[0].rect, p_r);
+
+                EXPECT_TRUE(people[1].id.valid());
+                EXPECT_NE(people[1].p_id, p_id);          // not as first person's id
+                EXPECT_EQ(people[1].ph_id, ids[0]);
+                EXPECT_FALSE(people[1].rect.isValid());   // no rect for second guy
+            }
+        });
+
+        db->closeConnections();
+    }
+}
