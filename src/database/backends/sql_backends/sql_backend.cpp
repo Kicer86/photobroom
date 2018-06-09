@@ -1474,24 +1474,28 @@ namespace Database
         assert(fd.ph_id);
         assert(fd.rect.isValid() || fd.p_id.valid());
 
-        // determin if it is a new person, or we want to update existing one
-        const auto existing_people = listPeople(fd.ph_id);
-
         PersonInfo to_store = fd;
-        for(const auto& person: existing_people)
+
+        if (fd.id.valid() == false)
         {
-            if (fd.rect.isValid())
+            // determin if it is a new person, or we want to update existing one
+            const auto existing_people = listPeople(fd.ph_id);
+
+            for(const auto& person: existing_people)
             {
-                if (person.rect == fd.rect)
+                if (fd.rect.isValid())
+                {
+                    if (person.rect == fd.rect)
+                    {
+                        to_store = merge(person, fd);
+                        break;
+                    }
+                }
+                else if (person.p_id == fd.p_id)
                 {
                     to_store = merge(person, fd);
                     break;
                 }
-            }
-            else if (person.p_id == fd.p_id)
-            {
-                to_store = merge(person, fd);
-                break;
             }
         }
 
@@ -1503,26 +1507,22 @@ namespace Database
         queryData.setColumns("photo_id");
         queryData.setValues(to_store.ph_id);
 
-        if (to_store.rect.isValid())
-        {
-            const QRect& face = to_store.rect;
-            const QString face_coords = QString("%1,%2 %3x%4")
-                                            .arg(face.x())
-                                            .arg(face.y())
-                                            .arg(face.width())
-                                            .arg(face.height());
+        const QRect& face = to_store.rect;
+        const QString face_coords = QString("%1,%2 %3x%4")
+                                        .arg(face.x())
+                                        .arg(face.y())
+                                        .arg(face.width())
+                                        .arg(face.height());
 
-            queryData.addColumn("location");
-            queryData.addValue(face_coords);
-        }
+        queryData.addColumn("location");
+        queryData.addValue(face_coords);
 
-        if (to_store.p_id.valid())
-        {
-            const QString person_id = QString::number(to_store.p_id);
+        const QString person_id = to_store.p_id.valid()?
+                                    QString::number(to_store.p_id):
+                                    QString();
 
-            queryData.addColumn("person_id");
-            queryData.addValue(person_id);
-        }
+        queryData.addColumn("person_id");
+        queryData.addValue(person_id);
 
         QSqlQuery query;
 
