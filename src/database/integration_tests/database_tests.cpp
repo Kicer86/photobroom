@@ -435,7 +435,6 @@ TEST_F(DatabaseTest, alteringPersonData)
             ids = _ids;
         });
 
-        // perform some manipulations with photos' tags
         db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
             ASSERT_EQ(ids.size(), 1);
@@ -498,6 +497,65 @@ TEST_F(DatabaseTest, alteringPersonData)
 
                 const auto ph_ppl = op->listPeople(ph_id);
                 EXPECT_TRUE(ph_ppl.empty());
+            }
+        });
+
+        db->closeConnections();
+    }
+}
+
+
+TEST_F(DatabaseTest, inteligentRectUpdate)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        {
+            ids = _ids;
+        });
+
+
+        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        {
+            ASSERT_EQ(ids.size(), 1);
+            const Photo::Id& ph_id = ids.front();
+
+            // store people without rect
+            const Person::Id p_id = op->store(PersonName("person 15"));
+            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, QRect()));
+            const Person::Id p_id2 = op->store(PersonName("person 25"));
+            const PersonInfo::Id pi_id2 = op->store(PersonInfo(p_id2, ph_id, QRect()));
+            const Person::Id p_id3 = op->store(PersonName("person 35"));
+            const PersonInfo::Id pi_id3 = op->store(PersonInfo(p_id3, ph_id, QRect()));
+
+            // update rect info ommiting pi_id (backend should guess which person needs update)
+            const QRect pr(34, 56, 78, 90);
+            const PersonInfo pi_full(p_id2, ph_id, pr);
+            const PersonInfo::Id pi_id_full = op->store(pi_full);
+
+            EXPECT_EQ(pi_id2, pi_id_full);
+
+            // expect one person in db with full data + two with missing rects
+            {
+                const auto ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ppl.size(), 3);
+
+                EXPECT_FALSE(ppl[0].rect.isValid());
+                EXPECT_EQ(ppl[1].rect, pr);
+                EXPECT_FALSE(ppl[2].rect.isValid());
             }
         });
 
