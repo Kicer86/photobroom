@@ -1472,80 +1472,46 @@ namespace Database
     PersonInfo::Id ASqlBackend::store(const PersonInfo& fd)
     {
         assert(fd.ph_id);
-        assert(fd.rect.isValid() || fd.p_id.valid());
+        assert(fd.rect.isValid() || fd.p_id.valid() || fd.id.valid());  // if rect is invalid and person is invalid then at least id must be valid (removal operation)
 
-        PersonInfo to_store = fd;
+        PersonInfo::Id result = fd.id;
 
-        if (fd.id.valid() == false)
+        if (fd.id.valid() && fd.rect.isValid() == false && fd.p_id.valid() == false)
+            dropPersonInfo (fd.id);
+        else
         {
-            // determin if it is a new person, or we want to update existing one
-            const auto existing_people = listPeople(fd.ph_id);
+            PersonInfo to_store = fd;
 
-            for(const auto& person: existing_people)
+            if (fd.id.valid() == false)
             {
-                if (fd.rect.isValid())
+                // determin if it is a new person, or we want to update existing one
+                const auto existing_people = listPeople(fd.ph_id);
+
+                for(const auto& person: existing_people)
                 {
-                    if (person.rect == fd.rect)
+                    if (fd.rect.isValid())
+                    {
+                        if (person.rect == fd.rect)
+                        {
+                            to_store = merge(person, fd);
+                            break;
+                        }
+                    }
+                    else if (person.p_id == fd.p_id)
                     {
                         to_store = merge(person, fd);
                         break;
                     }
                 }
-                else if (person.p_id == fd.p_id)
-                {
-                    to_store = merge(person, fd);
-                    break;
-                }
             }
+
+            if (to_store.id.valid() && to_store.rect.isValid() == false && to_store.p_id.valid() == false)
+                dropPersonInfo (fd.id);
+            else
+                result = storePerson(to_store);
         }
 
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-
-        PersonInfo::Id id = to_store.id;
-
-        InsertQueryData queryData(TAB_PEOPLE);
-        queryData.setColumns("photo_id");
-        queryData.setValues(to_store.ph_id);
-
-        const QRect& face = to_store.rect;
-        const QString face_coords = QString("%1,%2 %3x%4")
-                                        .arg(face.x())
-                                        .arg(face.y())
-                                        .arg(face.width())
-                                        .arg(face.height());
-
-        queryData.addColumn("location");
-        queryData.addValue(face_coords);
-
-        const QString person_id = to_store.p_id.valid()?
-                                    QString::number(to_store.p_id):
-                                    QString();
-
-        queryData.addColumn("person_id");
-        queryData.addValue(person_id);
-
-        QSqlQuery query;
-
-        if (id.valid())
-        {
-            UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
-            query = getGenericQueryGenerator()->update(db, updateQueryData);
-        }
-        else
-        {
-            query = getGenericQueryGenerator()->insert(db, queryData);
-        }
-
-        const bool status = m_data->m_executor.exec(query);
-
-        if (status && id.valid() == false)
-        {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            id = vid.toInt();
-        }
-
-        return id;
+        return result;
     }
 
 /*
@@ -1801,6 +1767,71 @@ std::vector<PersonInfo> Database::ASqlBackend::listPeople(const std::vector<Phot
     }
 
     return all_people;
+}
+
+
+PersonInfo::Id Database::ASqlBackend::storePerson(const PersonInfo& fd)
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+    PersonInfo::Id id = fd.id;
+
+    InsertQueryData queryData(TAB_PEOPLE);
+    queryData.setColumns("photo_id");
+    queryData.setValues(fd.ph_id);
+
+    const QRect& face = fd.rect;
+    const QString face_coords = QString("%1,%2 %3x%4")
+                                    .arg(face.x())
+                                    .arg(face.y())
+                                    .arg(face.width())
+                                    .arg(face.height());
+
+    queryData.addColumn("location");
+    queryData.addValue(face_coords);
+
+    const QString person_id = fd.p_id.valid()?
+                                QString::number(fd.p_id):
+                                QString();
+
+    queryData.addColumn("person_id");
+    queryData.addValue(person_id);
+
+    QSqlQuery query;
+
+    if (id.valid())
+    {
+        UpdateQueryData updateQueryData(queryData);
+        updateQueryData.addCondition("id", QString::number(id));
+        query = getGenericQueryGenerator()->update(db, updateQueryData);
+    }
+    else
+    {
+        query = getGenericQueryGenerator()->insert(db, queryData);
+    }
+
+    const bool status = m_data->m_executor.exec(query);
+
+    if (status && id.valid() == false)
+    {
+        const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+        id = vid.toInt();
+    }
+
+    return id;
+}
+
+
+void Database::ASqlBackend::dropPersonInfo(const PersonInfo::Id& id)
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+    const QString query = QString("DELETE FROM %1 WHERE id=%2")
+                            .arg(TAB_PEOPLE)
+                            .arg(id);
+
+    QSqlQuery q(db);
+    m_data->m_executor.exec(query, &q);
 }
 
 

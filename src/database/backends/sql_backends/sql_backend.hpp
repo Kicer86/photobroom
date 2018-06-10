@@ -108,6 +108,8 @@ namespace Database
             Database::BackendStatus checkDBVersion();
 
             std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
+            PersonInfo::Id storePerson(const PersonInfo &);
+            void dropPersonInfo(const PersonInfo::Id &);
 
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
     };
