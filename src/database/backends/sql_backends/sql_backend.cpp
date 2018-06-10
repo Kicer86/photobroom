@@ -1451,13 +1451,10 @@ namespace Database
 
                 for(const auto& person: existing_people)
                 {
-                    if (fd.rect.isValid())
+                    if (fd.rect.isValid() && person.rect == fd.rect)
                     {
-                        if (person.rect == fd.rect)
-                        {
-                            to_store = merge(person, fd);
-                            break;
-                        }
+                        to_store = merge(person, fd);
+                        break;
                     }
                     else if (person.p_id == fd.p_id)
                     {
