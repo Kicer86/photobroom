@@ -562,3 +562,62 @@ TEST_F(DatabaseTest, inteligentRectUpdate)
         db->closeConnections();
     }
 }
+
+
+TEST_F(DatabaseTest, inteligentNameUpdate)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        {
+            ids = _ids;
+        });
+
+
+        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        {
+            ASSERT_EQ(ids.size(), 1);
+            const Photo::Id& ph_id = ids.front();
+
+            // store faces without names
+            const QRect r1(12, 34, 56, 78);
+            const QRect r2(23, 45, 67, 89);
+            const QRect r3(34, 56, 78, 90);
+            const PersonInfo::Id pi_id = op->store(PersonInfo(Person::Id(), ph_id, r1));
+            const PersonInfo::Id pi_id2 = op->store(PersonInfo(Person::Id(), ph_id, r2));
+            const PersonInfo::Id pi_id3 = op->store(PersonInfo(Person::Id(), ph_id, r3));
+
+            // update name ommiting pi_id (backend should guess which person needs update)
+            const Person::Id pn_id = op->store(PersonName("per 12345"));
+            const PersonInfo pi_full(pn_id, ph_id, r2);
+            const PersonInfo::Id pi_id_full = op->store(pi_full);
+
+            EXPECT_EQ(pi_id2, pi_id_full);
+
+            // expect one person in db with full data + two with missing names
+            {
+                const auto ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ppl.size(), 3);
+
+                EXPECT_FALSE(ppl[0].p_id.valid());
+                EXPECT_EQ(ppl[1].p_id, pn_id);
+                EXPECT_FALSE(ppl[2].p_id.valid());
+            }
+        });
+
+        db->closeConnections();
+    }
+}
