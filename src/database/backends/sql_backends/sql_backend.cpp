@@ -1385,44 +1385,6 @@ namespace Database
     }
 
 
-    /*
-    std::vector<FaceData> ASqlBackend::listFaces(const Photo::Id& id)
-    {
-        const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2 AND %1.location <>'' ")
-                                    .arg(TAB_PEOPLE)
-                                    .arg(id);
-
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        std::vector<FaceData> result;
-        const bool status = m_data->m_executor.exec(findQuery, &query);
-
-        if (status)
-        {
-            if (m_data->m_dbHasSizeFeature)
-                result.reserve(static_cast<std::size_t>(query.size()));
-
-            while(query.next())
-            {
-                const PersonInfo::Id id( query.value(0).toInt() );
-                const Photo::Id p_id( query.value(1).toInt() );
-                const QString location_raw = query.value(2).toString();
-                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
-                const QRect location(location_list[0].toInt(),
-                                     location_list[1].toInt(),
-                                     location_list[2].toInt(),
-                                     location_list[3].toInt());
-
-                result.emplace_back(id, p_id, location);
-            }
-        }
-
-        return result;
-    }
-    */
-
-
     Person::Id ASqlBackend::store(const PersonName& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1514,23 +1476,6 @@ namespace Database
         return result;
     }
 
-/*
-    void ASqlBackend::store(const Person::Id& p_id, const PersonInfo::Id& person_id)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        InsertQueryData queryData(TAB_PEOPLE);
-        queryData.setColumns("person_id", "face_id");
-        queryData.setValues(p_id, person_id );
-
-        UpdateQueryData updateQueryData(queryData);
-        updateQueryData.addCondition("id", QString::number( person_id ));
-        updateQueryData.addCondition("person_id", QString::number(p_id));
-
-        m_data->updateOrInsert(updateQueryData);
-    }
-*/
 
     void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
     {
