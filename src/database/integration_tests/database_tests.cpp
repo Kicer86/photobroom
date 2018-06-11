@@ -600,6 +600,9 @@ TEST_F(DatabaseTest, inteligentNameUpdate)
             const PersonInfo::Id pi_id2 = op->store(PersonInfo(Person::Id(), ph_id, r2));
             const PersonInfo::Id pi_id3 = op->store(PersonInfo(Person::Id(), ph_id, r3));
 
+            EXPECT_NE(pi_id, pi_id2);
+            EXPECT_NE(pi_id2, pi_id3);
+
             // update name ommiting pi_id (backend should guess which person needs update)
             const Person::Id pn_id = op->store(PersonName("per 12345"));
             const PersonInfo pi_full(pn_id, ph_id, r2);
