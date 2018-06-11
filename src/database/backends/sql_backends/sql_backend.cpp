@@ -1456,7 +1456,7 @@ namespace Database
                         to_store = merge(person, fd);
                         break;
                     }
-                    else if (person.p_id == fd.p_id)
+                    else if (person.p_id.valid() && person.p_id == fd.p_id)
                     {
                         to_store = merge(person, fd);
                         break;
