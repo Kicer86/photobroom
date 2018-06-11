@@ -541,6 +541,9 @@ TEST_F(DatabaseTest, inteligentRectUpdate)
             const Person::Id p_id3 = op->store(PersonName("person 35"));
             const PersonInfo::Id pi_id3 = op->store(PersonInfo(p_id3, ph_id, QRect()));
 
+            EXPECT_NE(pi_id, pi_id2);
+            EXPECT_NE(pi_id2, pi_id3);
+
             // update rect info ommiting pi_id (backend should guess which person needs update)
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(p_id2, ph_id, pr);
