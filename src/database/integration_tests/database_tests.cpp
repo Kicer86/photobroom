@@ -627,3 +627,50 @@ TEST_F(DatabaseTest, inteligentNameUpdate)
         db->closeConnections();
     }
 }
+
+
+TEST_F(DatabaseTest, photoTagsWhenNoName)
+{
+    for(const auto& db_info: m_dbs)
+    {
+        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+        const Database::ProjectInfo& prjInfo = db_info.second;
+
+        db->init(prjInfo,[](const Database::BackendStatus& status)
+        {
+            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+        });
+
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        {
+            ids = _ids;
+        });
+
+
+        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        {
+            ASSERT_EQ(ids.size(), 1);
+            const Photo::Id& ph_id = ids.front();
+
+            // store faces without names
+            const QRect r1(12, 34, 56, 78);
+            const QRect r2(23, 45, 67, 89);
+            const QRect r3(34, 56, 78, 90);
+            op->store(PersonInfo(Person::Id(), ph_id, r1));
+            op->store(PersonInfo(Person::Id(), ph_id, r2));
+            op->store(PersonInfo(Person::Id(), ph_id, r3));
+
+            const auto photo = op->getPhotoFor(ph_id);
+            const auto tags = photo->getTags();
+
+            EXPECT_TRUE(tags.empty());
+        });
+
+        db->closeConnections();
+    }
+}
