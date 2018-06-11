@@ -845,10 +845,11 @@ namespace Database
         const auto people = m_backend->listPeople({photoId});
         TagValueTraits<TagValue::Type::List>::StorageType peopleList;
         for(const PersonInfo& pi: people)
-        {
-            const PersonName pn = m_backend->person(pi.p_id);
-            peopleList.push_back(pn.name());
-        }
+            if (pi.p_id.valid())
+            {
+                const PersonName pn = m_backend->person(pi.p_id);
+                peopleList.push_back(pn.name());
+            }
 
         if (peopleList.empty() == false)
             tagData[TagNameInfo(BaseTagsList::People)] = peopleList;
