@@ -21,6 +21,7 @@
 
 #include <thread>
 #include <memory>
+#include <optional>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
@@ -68,7 +69,7 @@ namespace
         {
             for(;;)
             {
-                ol::Optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
+                std::optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
 
                 if (task)
                 {
