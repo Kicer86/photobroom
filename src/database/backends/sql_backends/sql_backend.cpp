@@ -1617,64 +1617,36 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 // move all people from tags to new tables
 
                 // collect existing data
-                const TagNameInfo people(BaseTagsList::People);
                 const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
                                                 .arg(TAB_TAGS)
                                                 .arg(BaseTagsList::People);
-                status = m_data->m_executor.prepare(find_query, &query);
+                status = m_data->m_executor.exec(find_query, &query);
 
-                //QSet<QString> names;
-                //std::vector<PeopleLo
-/*
-                if (status)
-                    while(query.next())
-                    {
-                        const QString name = query.value(0).toString();
-                        const Photo::Id p_id = query.value(1).toInt();
-
-                        const PersonData pd(Person::Id(), name);
-                        const Person::Id id = store(pd);
-                        const PersonData ud(id, name);
-                        personData.push_back(ud);
-                    }
-
-
-                // fill table TAB_PEOPLE_NAMES with all found names
-
-                // fill table TAB_PEOPLE with people on particular photo
-                for (const TagValue& person: peopleList)
+                while(status && query.next())
                 {
-                    const QString name = person.getString();
+                    const QString name = query.value(0).toString();
+                    const Photo::Id ph_id(query.value(1).toInt());
 
-                    const PersonData pd(Person::Id(), name);
-                    const Person::Id id = store(pd);
-                    const PersonData ud(id, name);
-                    personData.push_back(ud);
+                    const Person::Id p_id = store(PersonName(name));
+                    const PersonInfo pi(p_id, ph_id, QRect());
+                    const PersonInfo::Id id = store(pi);
+
+                    if (id.valid() == false)
+                        status = Database::StatusCodes::MigrationFailed;
                 }
 
-                // replace direct value with reference to TAB_PEOPLE table
-                for (std::size_t i = 0; status && i < personData.size(); i++)
+                if (status)
                 {
-                    const QString& name = personData[i].name();
-                    const Person::Id& id = personData[i].id();
-                    const QString replace = QString("UPDATE %1 SET value = %2 WHERE value = :old AND name = %3")
-                                             .arg(TAB_TAGS)
-                                             .arg(id)
-                                             .arg(people.getTag());
+                    const QString drop_query = QString("DELETE FROM %1 WHERE name=%2")
+                                                .arg(TAB_TAGS)
+                                                .arg(BaseTagsList::People);
 
-                    status = m_data->m_executor.prepare(replace, &query);
-
-                    if (status)
-                    {
-                        query.bindValue(":old", name);
-
-                        status = m_data->m_executor.exec(query);
-                    }
+                    QSqlQuery q(db);
+                    m_data->m_executor.exec(drop_query, &query);
                 }
 
                 if (status == false)
                     break;
-*/
             }
             case 3:             // current version, break updgrades chain
                 break;
