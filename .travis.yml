@@ -34,14 +34,9 @@ compiler:
   - gcc
   - clang
 
-env:
-   - SHARED_BUILD=ON
-   - SHARED_BUILD=OFF
-
 matrix:
   exclude:
     - os: osx
-      env: SHARED_BUILD=ON
 
   allow_failures:
     - os: osx
@@ -96,7 +91,7 @@ before_script:
     fi
   # photo broom
   - mkdir build && cd build
-  - CXX=$COMPILER $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=$SHARED_BUILD ..
+  - CXX=$COMPILER $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ..
   # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
   - if [ $TRAVIS_OS_NAME == 'linux' ]; then
         export DISPLAY=:99.0;
