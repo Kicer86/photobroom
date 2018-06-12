@@ -7,20 +7,23 @@ find_package(GTest REQUIRED)
 
 include_directories(unit_tests)
 
-set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idx_data_manager.cpp PROPERTIES GENERATED TRUE)
-set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idxdata_deepfetcher.cpp PROPERTIES GENERATED TRUE)
-set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp PROPERTIES GENERATED TRUE)
+qt5_wrap_cpp_for_ut(moced_cpps
+                        desktop/models/model_helpers/idx_data_manager.hpp
+                        desktop/models/model_helpers/idxdata_deepfetcher.hpp
+                        desktop/views/view_impl/view_data_set.hpp
+)
+
 
 addTestTarget(gui
                 SOURCES
+                    ${moced_cpps}
+
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/db_data_model.cpp
                     desktop/models/model_helpers/idx_data.cpp
                     desktop/models/model_helpers/idx_data_manager.cpp
                     desktop/models/model_helpers/idxdata_deepfetcher.cpp
                     desktop/models/model_helpers/photos_matcher.cpp
-                    ${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idx_data_manager.cpp
-                    ${CMAKE_CURRENT_BINARY_DIR}/desktop/models/model_helpers/moc_idxdata_deepfetcher.cpp
 
                     desktop/views/view_impl/data.cpp
                     desktop/views/view_impl/model_index_info.cpp
@@ -28,7 +31,6 @@ addTestTarget(gui
                     desktop/views/view_impl/positions_reseter.cpp
                     desktop/views/view_impl/positions_translator.cpp
                     desktop/views/view_impl/view_data_set.cpp
-                    ${CMAKE_CURRENT_BINARY_DIR}/desktop/views/view_impl/moc_view_data_set.cpp
 
                     desktop/utils/model_index_utils.cpp
 
@@ -70,6 +72,7 @@ addTestTarget(gui
 
                 INCLUDES
                     PRIVATE
+                        desktop/models/model_helpers
                         ${GMOCK_INCLUDE_DIRS}
                         ${GTEST_INCLUDE_DIRS}
 )

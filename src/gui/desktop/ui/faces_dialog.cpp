@@ -95,7 +95,7 @@ FacesDialog::~FacesDialog()
 }
 
 
-void FacesDialog::applyFacesLocations(const QVector<FaceData>& faces)
+void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
 {
     const QString status = faces.isEmpty()? tr("Found %n face(s).", "", faces.size()) :
                                             tr("Found %n face(s). Recognizing people...", "", faces.size());
@@ -108,12 +108,15 @@ void FacesDialog::applyFacesLocations(const QVector<FaceData>& faces)
 
     m_facesToAnalyze = faces.size();
 
-    for(const FaceData& face: faces)
-        m_people.recognize(face);
+    for(const QRect& face: faces)
+    {
+        PeopleOperator::FaceLocation fl(m_id, face);
+        m_people.recognize(fl);
+    }
 }
 
 
-void FacesDialog::applyFaceName(const FaceData& face, const PersonData& person)
+void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 {
     const QString name = person.name();
 
@@ -157,9 +160,8 @@ void FacesDialog::updateImage()
     image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QVector<QRect> scaledFaces;
-    for(const FaceData& faceData: std::as_const(m_faces))
+    for(const QRect& face: std::as_const(m_faces))
     {
-        const QRect& face = faceData.rect;
         const QPoint tl = face.topLeft();
         const QSize size = face.size();
         const QRect scaledFace = QRect( tl * scale, size * scale );
@@ -213,7 +215,7 @@ void FacesDialog::setUnassignedVisible(bool visible)
 
 void FacesDialog::apply()
 {
-    std::vector<std::pair<FaceData, QString>> known_faces;
+    std::vector<std::pair<QRect, QString>> known_faces;
     QStringList unknownPeople;
 
     const int known_count = ui->peopleList->rowCount();

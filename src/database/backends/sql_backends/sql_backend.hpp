@@ -93,22 +93,23 @@ namespace Database
             std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) override final;
             Photo::Data              getPhoto(const Photo::Id &) override final;
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
-            std::vector<PersonData>  listPeople() override final;
-            std::vector<PersonLocation> listPeople (const Photo::Id &) override final;
-            PersonData               person(const Person::Id &) override final;
-            std::vector<FaceData>    listFaces(const Photo::Id &) override final;
-            Person::Id               store(const PersonData &) override final;
-            Face::Id                 store(const FaceData &) override final;
-            void                     store(const Person::Id &, const Face::Id &) override final;
+            std::vector<PersonName>  listPeople() override final;
+            std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
+            PersonName               person(const Person::Id &) override final;
+            Person::Id               store(const PersonName &) override final;
+            PersonInfo::Id           store(const PersonInfo &) override final;
 
             virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             //
 
-            QString       decodeTag(const TagNameInfo &, const QString &);
-            QString       encodeTag(int, const QString &);
-            PersonData    person(const QString &) const;
+            PersonName    person(const QString &) const;
+            PersonInfo    merge(const PersonInfo &, const PersonInfo &) const;
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
+
+            std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
+            PersonInfo::Id storePerson(const PersonInfo &);
+            void dropPersonInfo(const PersonInfo::Id &);
 
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
     };

@@ -16,6 +16,10 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 set(BACKEND_SOURCES backend.cpp)
 set(BACKEND_HEADERS backend.hpp)
 
+if(STATIC_PLUGINS)
+    add_definitions(-DSTATIC_PLUGINS)
+endif()
+
 qt5_wrap_cpp(BACKEND_MOCS ${BACKEND_HEADERS})
 
 add_library(database_sqlite_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_MOCS})

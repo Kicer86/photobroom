@@ -23,6 +23,11 @@ set(BACKEND_HEADERS
         backend.hpp
 )
 
+
+if(STATIC_PLUGINS)
+    add_definitions(-DSTATIC_PLUGINS)
+endif()
+
 qt5_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp )
 
 add_library(database_mysql_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})

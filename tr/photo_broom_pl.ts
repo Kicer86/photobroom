@@ -165,7 +165,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         </translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>All known faces recognized.</source>
         <translation>Wszystkie znane osoby rozpoznane.</translation>
     </message>

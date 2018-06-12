@@ -190,39 +190,30 @@ namespace
             return result;
         }
 
-        std::vector<PersonData> listPeople() override
+        std::vector<PersonName> listPeople() override
         {
             return m_backend->listPeople();
         }
 
-        std::vector<PersonLocation> listPeople(const Photo::Id& id) override
+        std::vector<PersonInfo> listPeople(const Photo::Id& id) override
         {
             return m_backend->listPeople(id);
         }
 
-        std::vector<FaceData> listFaces(const Photo::Id& id) override
+        PersonName person(const Person::Id& id) override
         {
-            return m_backend->listFaces(id);
-        }
-
-        PersonData person(const Person::Id& id) override
-        {
+            assert(id.valid());
             return m_backend->person(id);
         }
 
-        Person::Id store(const PersonData& d) override
+        Person::Id store(const PersonName& d) override
         {
             return m_backend->store(d);
         }
 
-        Face::Id store(const FaceData& d) override
+        PersonInfo::Id store(const PersonInfo& d) override
         {
             return m_backend->store(d);
-        }
-
-        void store(const Person::Id& p_id, const Face::Id& face)
-        {
-            m_backend->store(p_id, face);
         }
 
         //
@@ -516,15 +507,21 @@ namespace Database
         //store task to be executed by thread
         [[deprecated]] void addTask(IThreadTask* task)
         {
-            assert(m_working);
-            m_executor.addTask( std::move(std::unique_ptr<IThreadTask>(task)) );
+            addTask(std::unique_ptr<IThreadTask>(task));
         }
 
         //store task to be executed by thread
         void addTask(std::unique_ptr<IThreadTask>&& task)
         {
-            assert(m_working);
-            m_executor.addTask(std::move(task));
+            // When task comes from from db's thread execute it immediately.
+            // This simplifies some client's codes (when operating inside of performCustomAction)
+            if (std::this_thread::get_id() == m_thread.get_id())
+                task->execute(&m_executor);
+            else
+            {
+                assert(m_working);
+                m_executor.addTask(std::move(task));
+            }
         }
 
         void stopExecutor()
@@ -572,7 +569,6 @@ namespace Database
     {
         m_impl->stopExecutor();
     }
-
 
 
     void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)

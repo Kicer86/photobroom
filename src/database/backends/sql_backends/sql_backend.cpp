@@ -233,11 +233,23 @@ namespace Database
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
 
-                const QString value_raw = tagValue.rawValue();
-                const QString value = m_backend->encodeTag(name_id, value_raw);
+                const QString value = tagValue.rawValue();
 
                 assert(value.isEmpty() == false);
-                if (value.isEmpty() == false)
+
+                // TODO: extract
+                if (name_id == BaseTagsList::People)
+                {
+                    PersonName pn = m_backend->person(value);
+                    Person::Id p_id = pn.id();
+
+                    if (p_id.valid() == false)
+                        p_id = m_backend->store(PersonName(value));
+
+                    const PersonInfo pi(PersonInfo::Id(), p_id, Photo::Id(photo_id), QRect());
+                    m_backend->store(pi);
+                }
+                else if (value.isEmpty() == false)
                 {
                     InsertQueryData queryData(TAB_TAGS);
                     queryData.setColumns("value", "photo_id", "name");
@@ -274,36 +286,55 @@ namespace Database
 
     std::vector<TagValue> ASqlBackend::Data::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter) const
     {
-        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-
-        // from filtered photos, get info about tags used there
-        // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
-        // TODO: consider DISTINCT removal, just do some post process
-        QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
-
-        queryStr = queryStr.arg(tagName.getTag());
-        queryStr = queryStr.arg(TAB_TAGS);
-        queryStr = queryStr.arg(filterQuery);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
         std::vector<TagValue> result;
-        const bool status = m_executor.exec(queryStr, &query);
 
-        if (status)
+        // TODO: extract
+        if (tagName.getTag() == BaseTagsList::People)
         {
-            while (status && query.next())
+            std::set<QString> all_people;
+
+            // collect all people for matching photos
+            const auto photos = getPhotos(filter);
+            const auto all_person_info = m_backend->listPeople(photos);
+            for(const PersonInfo& pi: all_person_info)
             {
-                const QString raw_value = query.value(0).toString();
-                const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
-                const TagValue value = TagValue::fromRaw(value_decoded, tagName.getType());
+                const auto personName = m_backend->person(pi.p_id);
+                all_people.insert(personName.name());
+            }
 
-                // we do not expect empty values (see store() for tags)
-                assert(raw_value.isEmpty() == false);
+            std::copy(all_people.cbegin(), all_people.cend(), std::back_inserter(result));
+        }
+        else  // regular tags
+        {
+            const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
-                if (raw_value.isEmpty() == false)
-                    result.push_back(value);
+            // from filtered photos, get info about tags used there
+            // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
+            // TODO: consider DISTINCT removal, just do some post process
+            QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
+
+            queryStr = queryStr.arg(tagName.getTag());
+            queryStr = queryStr.arg(TAB_TAGS);
+            queryStr = queryStr.arg(filterQuery);
+
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+            QSqlQuery query(db);
+
+            const bool status = m_executor.exec(queryStr, &query);
+
+            if (status)
+            {
+                while (status && query.next())
+                {
+                    const QString raw_value = query.value(0).toString();
+                    const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+
+                    // we do not expect empty values (see store() for tags)
+                    assert(raw_value.isEmpty() == false);
+
+                    if (raw_value.isEmpty() == false)
+                        result.push_back(value);
+                }
             }
         }
 
@@ -784,7 +815,6 @@ namespace Database
             const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
             const QVariant value = query.value(2);
             const TagNameInfo tagName(tagNameType);
-            const TagNameInfo::Type tagType = tagName.getType();
 
             // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);
@@ -792,8 +822,7 @@ namespace Database
                 continue;
 
             const QString raw_value = value.toString();
-            const QString value_decoded = m_backend->decodeTag(tagName, raw_value);
-            const TagValue tagValue = TagValue::fromRaw(value_decoded, tagName.getType());
+            const TagValue tagValue = TagValue::fromRaw(raw_value, tagName.getType());
             const bool multivalue = tagName.isMultiValue();
 
             if (multivalue)   // accumulate vs override
@@ -809,8 +838,21 @@ namespace Database
             }
             else
                 tagData[tagName] = tagValue;
-
         }
+
+        // TODO: extract
+        // append people
+        const auto people = m_backend->listPeople({photoId});
+        TagValueTraits<TagValue::Type::List>::StorageType peopleList;
+        for(const PersonInfo& pi: people)
+            if (pi.p_id.valid())
+            {
+                const PersonName pn = m_backend->person(pi.p_id);
+                peopleList.push_back(pn.name());
+            }
+
+        if (peopleList.empty() == false)
+            tagData[TagNameInfo(BaseTagsList::People)] = peopleList;
 
         return tagData;
     }
@@ -1206,8 +1248,8 @@ namespace Database
         // when there is no filter, and we ask for people, list all people, including these not assigned to any photo
         if (tagName.getTag() == BaseTagsList::People && filter.empty())
         {
-            const std::vector<PersonData> data = listPeople();
-            for(const PersonData& pd: data)
+            const std::vector<PersonName> data = listPeople();
+            for(const PersonName& pd: data)
                 result.push_back(TagValue(pd.name()));
         }
         else
@@ -1244,15 +1286,15 @@ namespace Database
     }
 
 
-    std::vector<PersonData> ASqlBackend::listPeople()
+    std::vector<PersonName> ASqlBackend::listPeople()
     {
         const QString findQuery = QString("SELECT id, name FROM %1")
-                                    .arg(TAB_PEOPLE);
+                                    .arg( TAB_PEOPLE_NAMES );
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        std::vector<PersonData> result;
+        std::vector<PersonName> result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status)
@@ -1274,17 +1316,16 @@ namespace Database
     }
 
 
-    std::vector<PersonLocation> ASqlBackend::listPeople(const Photo::Id& id)
+    std::vector<PersonInfo> ASqlBackend::listPeople(const Photo::Id& ph_id )
     {
-        const QString findQuery = QString("SELECT %1.person_id, %2.location FROM %1 JOIN %2 ON %1.face_id = %2.id WHERE %2.photo_id = %3")
-                                    .arg(TAB_PEOPLE_LOCATIONS)
-                                    .arg(TAB_FACES)
-                                    .arg(id);
+        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+                                    .arg(TAB_PEOPLE)
+                                    .arg( ph_id );
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        std::vector<PersonLocation> result;
+        std::vector<PersonInfo> result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status)
@@ -1295,15 +1336,24 @@ namespace Database
             while(query.next())
             {
                 const int id_raw = query.value(0).toInt();
-                const QString location_raw = query.value(1).toString();
-                const Person::Id pid(id_raw);
-                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
-                const QRect location(location_list[0].toInt(),
+                const PersonInfo::Id id(id_raw);
+                const Person::Id pid = query.isNull(1)?
+                                           Person::Id():
+                                           Person::Id(query.value(1).toInt());
+
+                QRect location;
+
+                if (query.isNull(2) == false)
+                {
+                    const QVariant location_raw = query.value(2);
+                    const QStringList location_list = location_raw.toString().split(QRegExp("[ ,x]"));
+                    location = QRect(location_list[0].toInt(),
                                      location_list[1].toInt(),
                                      location_list[2].toInt(),
                                      location_list[3].toInt());
+                }
 
-                result.emplace_back(pid, location);
+                result.emplace_back(id, pid, ph_id, location);
             }
         }
 
@@ -1311,16 +1361,16 @@ namespace Database
     }
 
 
-    PersonData ASqlBackend::person(const Person::Id& id)
+    PersonName ASqlBackend::person(const Person::Id& p_id)
     {
         const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
-                                    .arg(TAB_PEOPLE)
-                                    .arg(id);
+                                    .arg( TAB_PEOPLE_NAMES )
+                                    .arg(p_id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        PersonData result;
+        PersonName result;
         const bool status = m_data->m_executor.exec(findQuery, &query);
 
         if (status && query.next())
@@ -1329,140 +1379,99 @@ namespace Database
             const QString name = query.value(1).toString();
             const Person::Id pid(id);
 
-            result = PersonData(pid, name);
+            result = PersonName (pid, name);
         }
 
         return result;
     }
 
 
-    std::vector<FaceData> ASqlBackend::listFaces(const Photo::Id& id)
-    {
-        const QString findQuery = QString("SELECT %1.id, %1.photo_id, %1.location FROM %1 WHERE %1.photo_id = %2")
-                                    .arg(TAB_FACES)
-                                    .arg(id);
-
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        std::vector<FaceData> result;
-        const bool status = m_data->m_executor.exec(findQuery, &query);
-
-        if (status)
-        {
-            if (m_data->m_dbHasSizeFeature)
-                result.reserve(static_cast<std::size_t>(query.size()));
-
-            while(query.next())
-            {
-                const Face::Id f_id( query.value(0).toInt() );
-                const Photo::Id p_id( query.value(1).toInt() );
-                const QString location_raw = query.value(2).toString();
-                const QStringList location_list = location_raw.split(QRegExp("[ ,x]"));
-                const QRect location(location_list[0].toInt(),
-                                     location_list[1].toInt(),
-                                     location_list[2].toInt(),
-                                     location_list[3].toInt());
-
-                result.emplace_back(f_id, p_id, location);
-            }
-        }
-
-        return result;
-    }
-
-
-    Person::Id ASqlBackend::store(const PersonData& d)
+    Person::Id ASqlBackend::store(const PersonName& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         Person::Id id(d.id());
         bool status = false;
 
-        InsertQueryData queryData(TAB_PEOPLE);
+        InsertQueryData queryData(TAB_PEOPLE_NAMES);
         queryData.setColumns("name");
         queryData.setValues(d.name());
 
         QSqlQuery query;
 
-        if (id.valid())
+        if (id.valid())  // id valid? override (update name)
         {
             UpdateQueryData updateQueryData(queryData);
             updateQueryData.addCondition("id", QString::number(id));
             query = getGenericQueryGenerator()->update(db, updateQueryData);
-        }
-        else
-        {
-            query = getGenericQueryGenerator()->insert(db, queryData);
-        }
 
-        status = m_data->m_executor.exec(query);
+            status = m_data->m_executor.exec(query);
 
-        if (status && id.valid() == false)
+            if (query.numRowsAffected() == 0)   // any update?
+                id = Person::Id();              // nope - error
+        }
+        else             // id invalid? add new person or nothing when already exists
         {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            id = vid.toInt();
+            const PersonName pn = person(d.name());
+
+            if (pn.id().valid())
+                id = pn.id();
+            else
+            {
+                query = getGenericQueryGenerator()->insert(db, queryData);
+                status = m_data->m_executor.exec(query);
+
+                if (status)
+                {
+                    const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                    id = vid.toInt();
+                }
+            }
         }
 
         return id;
     }
 
 
-    Face::Id ASqlBackend::store(const FaceData& fd)
+    PersonInfo::Id ASqlBackend::store(const PersonInfo& fd)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        assert(fd.ph_id);
+        assert(fd.rect.isValid() || fd.p_id.valid() || fd.id.valid());  // if rect is invalid and person is invalid then at least id must be valid (removal operation)
 
-        Face::Id id(fd.id);
+        PersonInfo::Id result = fd.id;
 
-        const QRect& face = fd.rect;
-        const QString face_coords = QString("%1,%2 %3x%4")
-                                        .arg(face.x())
-                                        .arg(face.y())
-                                        .arg(face.width())
-                                        .arg(face.height());
-
-        InsertQueryData queryData(TAB_FACES);
-        queryData.setColumns("photo_id", "location");
-        queryData.setValues(fd.ph_id, face_coords);
-
-        QSqlQuery query;
-
-        if (id.valid())
-        {
-            UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
-            query = getGenericQueryGenerator()->update(db, updateQueryData);
-        }
+        if (fd.id.valid() && fd.rect.isValid() == false && fd.p_id.valid() == false)
+            dropPersonInfo (fd.id);
         else
         {
-            query = getGenericQueryGenerator()->insert(db, queryData);
+            PersonInfo to_store = fd;
+
+            if (fd.id.valid() == false)
+            {
+                // determin if it is a new person, or we want to update existing one
+                const auto existing_people = listPeople(fd.ph_id);
+
+                for(const auto& person: existing_people)
+                {
+                    if (fd.rect.isValid() && person.rect == fd.rect)
+                    {
+                        to_store = merge(person, fd);
+                        break;
+                    }
+                    else if (person.p_id.valid() && person.p_id == fd.p_id)
+                    {
+                        to_store = merge(person, fd);
+                        break;
+                    }
+                }
+            }
+
+            if (to_store.id.valid() && to_store.rect.isValid() == false && to_store.p_id.valid() == false)
+                dropPersonInfo (fd.id);
+            else
+                result = storePerson(to_store);
         }
 
-        const bool status = m_data->m_executor.exec(query);
-
-        if (status && id.valid() == false)
-        {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            id = vid.toInt();
-        }
-
-        return id;
-    }
-
-
-    void ASqlBackend::store(const Person::Id& p_id, const Face::Id& face_id)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        InsertQueryData queryData(TAB_PEOPLE_LOCATIONS);
-        queryData.setColumns("person_id", "face_id");
-        queryData.setValues(p_id, face_id);
-
-        UpdateQueryData updateQueryData(queryData);
-        updateQueryData.addCondition("face_id", QString::number(face_id));
-        updateQueryData.addCondition("person_id", QString::number(p_id));
-
-        m_data->updateOrInsert(updateQueryData);
+        return result;
     }
 
 
@@ -1485,50 +1494,14 @@ namespace Database
     }
 
 
-    // TODO: issue #249
-    QString ASqlBackend::decodeTag(const TagNameInfo& info, const QString& value)
+    PersonName ASqlBackend::person(const QString& name) const
     {
-        QString result = value;
-
-        if (info.getTag() == BaseTagsList::People)
-        {
-            const Person::Id id( value.toInt() );
-            const PersonData data = person(id);
-
-            result = data.name();
-        }
-
-        return result;
-    }
-
-    // TODO: issue #249
-    QString ASqlBackend::encodeTag(int t, const QString& value)
-    {
-        QString result = value;
-
-        if (t == BaseTagsList::People)
-        {
-            const PersonData p = person(value);
-
-            Person::Id id = p.id();
-            if (id.valid() == false)
-                id = store(PersonData(Person::Id(), value));
-
-            result = QString::number(id);
-        }
-
-        return result;
-    }
-
-
-    PersonData ASqlBackend::person(const QString& name) const
-    {
-        PersonData result;
+        PersonName result;
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
 
-        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg(TAB_PEOPLE);
+        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg( TAB_PEOPLE_NAMES );
         m_data->m_executor.prepare(s, &query);
         query.bindValue(":name", name);
 
@@ -1537,10 +1510,28 @@ namespace Database
         if (query.next())
         {
             const Person::Id id( query.value(0).toInt() );
-            const QString name( query.value(1).toString() );
+            const QString p_name( query.value(1).toString() );
 
-            result = PersonData(id, name);
+            result = PersonName (id, p_name);
         }
+
+        return result;
+    }
+
+
+    PersonInfo ASqlBackend::merge(const PersonInfo& base, const PersonInfo& incoming) const
+    {
+        assert(base.id.valid());
+        assert(base.ph_id == incoming.ph_id);
+        assert(incoming.id.valid() == false || incoming.id == base.id);
+
+        PersonInfo result = base;
+
+        if (incoming.p_id.valid())
+            result.p_id = incoming.p_id;
+
+        if (incoming.rect.isValid())
+            result.rect = incoming.rect;
 
         return result;
     }
@@ -1619,48 +1610,45 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 status = m_data->m_executor.exec(cleanGeometry, &query);
                 if (status == false)
                     break;
-            }
+
+            } [[fallthrough]];
 
             case 2:             // update from 2 to 3
             {
-                // move all people from tags to new table, and use references
-                const TagNameInfo people(BaseTagsList::People);
-                const auto peopleList = listTagValues(people, {});      // people saved in tags
-                std::vector<PersonData> personData;
+                // move all people from tags to new tables
 
-                for (const TagValue& person: peopleList)
+                // collect existing data
+                const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
+                                                .arg(TAB_TAGS)
+                                                .arg(BaseTagsList::People);
+                status = m_data->m_executor.exec(find_query, &query);
+
+                while(status && query.next())
                 {
-                    const QString name = person.getString();
+                    const QString name = query.value(0).toString();
+                    const Photo::Id ph_id(query.value(1).toInt());
 
-                    const PersonData pd(Person::Id(), name);
-                    const Person::Id id = store(pd);
-                    const PersonData ud(id, name);
-                    personData.push_back(ud);
+                    const Person::Id p_id = store(PersonName(name));
+                    const PersonInfo pi(p_id, ph_id, QRect());
+                    const PersonInfo::Id id = store(pi);
+
+                    if (id.valid() == false)
+                        status = Database::StatusCodes::MigrationFailed;
                 }
 
-                // replace direct value with reference to TAB_PEOPLE table
-                for (std::size_t i = 0; status && i < personData.size(); i++)
+                if (status)
                 {
-                    const QString& name = personData[i].name();
-                    const Person::Id& id = personData[i].id();
-                    const QString replace = QString("UPDATE %1 SET value = %2 WHERE value = :old AND name = %3")
-                                             .arg(TAB_TAGS)
-                                             .arg(id)
-                                             .arg(people.getTag());
+                    const QString drop_query = QString("DELETE FROM %1 WHERE name=%2")
+                                                .arg(TAB_TAGS)
+                                                .arg(BaseTagsList::People);
 
-                    status = m_data->m_executor.prepare(replace, &query);
-
-                    if (status)
-                    {
-                        query.bindValue(":old", name);
-
-                        status = m_data->m_executor.exec(query);
-                    }
+                    QSqlQuery q(db);
+                    m_data->m_executor.exec(drop_query, &query);
                 }
 
                 if (status == false)
                     break;
-            }
+            } [[fallthrough]];
 
             case 3:             // current version, break updgrades chain
                 break;
@@ -1680,6 +1668,87 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
     }
 
     return status;
+}
+
+
+std::vector<PersonInfo> Database::ASqlBackend::listPeople(const std::vector<Photo::Id>& ids)
+{
+    std::vector<PersonInfo> all_people;
+
+    for(const Photo::Id& id: ids)
+    {
+        const auto people = listPeople(id);
+
+        for (const PersonInfo& person: people)
+            all_people.push_back(person);
+    }
+
+    return all_people;
+}
+
+
+PersonInfo::Id Database::ASqlBackend::storePerson(const PersonInfo& fd)
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+    PersonInfo::Id id = fd.id;
+
+    InsertQueryData queryData(TAB_PEOPLE);
+    queryData.setColumns("photo_id");
+    queryData.setValues(fd.ph_id);
+
+    const QRect& face = fd.rect;
+    const QString face_coords = QString("%1,%2 %3x%4")
+                                    .arg(face.x())
+                                    .arg(face.y())
+                                    .arg(face.width())
+                                    .arg(face.height());
+
+    queryData.addColumn("location");
+    queryData.addValue(face_coords);
+
+    const QString person_id = fd.p_id.valid()?
+                                QString::number(fd.p_id):
+                                QString();
+
+    queryData.addColumn("person_id");
+    queryData.addValue(person_id);
+
+    QSqlQuery query;
+
+    if (id.valid())
+    {
+        UpdateQueryData updateQueryData(queryData);
+        updateQueryData.addCondition("id", QString::number(id));
+        query = getGenericQueryGenerator()->update(db, updateQueryData);
+    }
+    else
+    {
+        query = getGenericQueryGenerator()->insert(db, queryData);
+    }
+
+    const bool status = m_data->m_executor.exec(query);
+
+    if (status && id.valid() == false)
+    {
+        const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+        id = vid.toInt();
+    }
+
+    return id;
+}
+
+
+void Database::ASqlBackend::dropPersonInfo(const PersonInfo::Id& id)
+{
+    QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+    const QString query = QString("DELETE FROM %1 WHERE id=%2")
+                            .arg(TAB_PEOPLE)
+                            .arg(id);
+
+    QSqlQuery q(db);
+    m_data->m_executor.exec(query, &q);
 }
 
 

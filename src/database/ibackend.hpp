@@ -66,14 +66,11 @@ namespace Database
         virtual std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) = 0;      // drop photos matching filter
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
-        virtual std::vector<PersonData>  listPeople() = 0;                                       // list all people
-        virtual std::vector<PersonLocation> listPeople (const Photo::Id &) = 0;                  // list people on photo
-        virtual PersonData               person(const Person::Id &) = 0;                         // person data
-        virtual std::vector<FaceData>    listFaces(const Photo::Id &) = 0;                       // list faces on photo
-        virtual Person::Id               store(const PersonData &) = 0;                          // store or update person data
-        virtual Face::Id                 store(const FaceData &) = 0;                            // store or update face data
-        virtual void                     store(const Person::Id &,
-                                               const Face::Id &) = 0;                            // store information about person on photo
+        virtual std::vector<PersonName>  listPeople() = 0;                                       // list all people names
+        virtual std::vector<PersonInfo>  listPeople (const Photo::Id &) = 0;                     // list people on photo
+        virtual PersonName               person(const Person::Id &) = 0;                         // person data
+        virtual Person::Id               store(const PersonName &) = 0;                          // store or update person
+        virtual PersonInfo::Id           store(const PersonInfo &) = 0;                          // store or update person details
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo

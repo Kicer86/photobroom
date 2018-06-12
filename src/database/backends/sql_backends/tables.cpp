@@ -136,7 +136,7 @@ namespace Database
 
         // list of people
         TableDefinition
-        table_people(TAB_PEOPLE,
+        table_people( TAB_PEOPLE_NAMES,
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
                         { "name", QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
@@ -146,30 +146,16 @@ namespace Database
                     }
         );
 
-        // list of people recognized on particular photo
+        // list of people assigned to particular photo
         TableDefinition
-        table_people_locations(TAB_PEOPLE_LOCATIONS,
-                    {
-                        { "id", "", ColDefinition::Purpose::ID },
-                        { "person_id", "INTEGER NOT NULL"      },
-                        { "face_id", "INTEGER NOT NULL"        },
-                    },
-                    {
-                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE "(id)", "" },
-                        { "FOREIGN KEY(face_id) REFERENCES " TAB_FACES "(id)", ""  },
-                    }
-        );
-
-        // list of faces
-        TableDefinition
-        table_faces(TAB_FACES,
+        table_people_locations(TAB_PEOPLE,
                     {
                         { "id", "", ColDefinition::Purpose::ID },
                         { "photo_id", "INTEGER NOT NULL"       },
-                        { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h)
-                    },
-                    {
-                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" },
+                        { "person_id", "INTEGER"               }, // may be null when only face was found but noone was assigned
+                        { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h); may be null if person was assigned, but we do not know location
+                        { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
+                        { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE_NAMES "(id)", "" },
                     }
         );
 
@@ -185,8 +171,7 @@ namespace Database
             { TAB_GEOMETRY,             table_geometry },
             { TAB_GROUPS,               table_groups },
             { TAB_GROUPS_MEMBERS,       table_groups_members },
-            { TAB_PEOPLE,               table_people },
-            { TAB_PEOPLE_LOCATIONS,     table_people_locations },
-            { TAB_FACES,                table_faces },
+            { TAB_PEOPLE_NAMES,         table_people },
+            { TAB_PEOPLE,               table_people_locations },
         };
 }
