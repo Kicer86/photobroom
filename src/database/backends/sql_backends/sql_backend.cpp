@@ -1610,7 +1610,8 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 status = m_data->m_executor.exec(cleanGeometry, &query);
                 if (status == false)
                     break;
-            }
+
+            } [[fallthrough]];
 
             case 2:             // update from 2 to 3
             {
@@ -1647,7 +1648,8 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
                 if (status == false)
                     break;
-            }
+            } [[fallthrough]];
+
             case 3:             // current version, break updgrades chain
                 break;
 
