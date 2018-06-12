@@ -1510,9 +1510,9 @@ namespace Database
         if (query.next())
         {
             const Person::Id id( query.value(0).toInt() );
-            const QString name( query.value(1).toString() );
+            const QString p_name( query.value(1).toString() );
 
-            result = PersonName (id, name);
+            result = PersonName (id, p_name);
         }
 
         return result;
