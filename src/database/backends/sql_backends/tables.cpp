@@ -159,6 +159,17 @@ namespace Database
                     }
         );
 
+        TableDefinition
+        table_general_flags(TAB_GENERAL_FLAGS,
+                            {
+                                { "id", "", ColDefinition::Purpose::ID },
+                                { "photo_id", "INTEGER NOT NULL"       },
+                                { "name", "CHAR(64)"                   },
+                                { "value", "INTEGER"                   },
+                                { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
+                            }
+        );
+
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
@@ -173,5 +184,6 @@ namespace Database
             { TAB_GROUPS_MEMBERS,       table_groups_members },
             { TAB_PEOPLE_NAMES,         table_people },
             { TAB_PEOPLE,               table_people_locations },
+            { TAB_GENERAL_FLAGS,        table_general_flags },
         };
 }
