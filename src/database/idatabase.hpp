@@ -34,6 +34,7 @@
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
+#include "ibackend.hpp"
 #include "iphoto_info.hpp"
 #include "person_data.hpp"
 
@@ -62,18 +63,12 @@ namespace Database
     };
 
     // for direct operating on backend (IDatabase::performCustomAction)
-    struct IBackendOperator
+    struct IBackendOperator: IBackend
     {
         virtual ~IBackendOperator() = default;
 
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;           // find all photos matching filter
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
-        virtual std::vector<PersonName> listPeople() = 0;                                          // list all people names
-        virtual std::vector<PersonInfo> listPeople(const Photo::Id &) = 0;                         // list people on photo
-        virtual PersonName person(const Person::Id &) = 0;                                         // person name
-        virtual Person::Id store(const PersonName &) = 0;                                          // store or update person
-        virtual PersonInfo::Id store(const PersonInfo &) = 0;                                      // store or update person details
     };
 
 

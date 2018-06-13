@@ -143,11 +143,47 @@ namespace
             return photoInfo;
         }
 
-        // IBackendOperator
+        // IBackend && IBackendOperator
+
+        bool addPhotos(std::vector<Photo::DataDelta> &) override
+        {
+            assert(!"Not implemented");
+            return false;
+        }
+
+        Group::Id addGroup(const Photo::Id & ) override
+        {
+            assert(!"Not implemented");
+            return Group::Id();
+        }
+
+        std::vector<Photo::Id> dropPhotos(const std::vector<Database::IFilter::Ptr> & )
+        {
+            assert(!"Not implemented");
+            return {};
+        }
+
+        std::vector<Photo::Id> getAllPhotos() override
+        {
+            assert(!"Not implemented");
+            return {};
+        }
+
+        Photo::Data getPhoto(const Photo::Id & ) override
+        {
+            assert(!"Not implemented");
+            return {};
+        }
 
         std::vector<Photo::Id> getPhotos(const std::vector<Database::IFilter::Ptr>& filter) override
         {
             return m_backend->getPhotos(filter);
+        }
+
+        int getPhotosCount(const std::vector<Database::IFilter::Ptr> &) override
+        {
+            assert(!"Not implemented");
+            return -1;
         }
 
         IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override
@@ -162,6 +198,12 @@ namespace
             }
 
             return photoPtr;
+        }
+
+        Database::BackendStatus init(const Database::ProjectInfo & ) override
+        {
+            assert(!"Not implemented");
+            return Database::StatusCodes::OpenFailed;
         }
 
         std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta>& dataDelta) override
@@ -200,10 +242,27 @@ namespace
             return m_backend->listPeople(id);
         }
 
+        std::vector<TagNameInfo> listTags() override
+        {
+            assert(!"Not implemented");
+            return {};
+        }
+
+        std::vector<TagValue> listTagValues(const TagNameInfo & , const std::vector<Database::IFilter::Ptr> & ) override
+        {
+            assert(!"Not implemented");
+            return {};
+        }
+
         PersonName person(const Person::Id& id) override
         {
             assert(id.valid());
             return m_backend->person(id);
+        }
+
+        void perform(const std::vector<Database::IFilter::Ptr> & , const std::vector<Database::IAction::Ptr> & ) override
+        {
+            assert(!"Not implemented");
         }
 
         Person::Id store(const PersonName& d) override
@@ -215,6 +274,25 @@ namespace
         {
             return m_backend->store(d);
         }
+
+        void set(const Photo::Id& id, const QString& name, int value) override
+        {
+            m_backend->set(id, name, value);
+        }
+
+        std::optional<int> get(const Photo::Id& id, const QString& name) override
+        {
+            return m_backend->get(id, name);
+        }
+
+        bool update(const Photo::DataDelta &) override
+        {
+            assert(!"Not implemented");
+            return false;
+        }
+
+        void set(IConfiguration *) override { assert(!"Not implemented"); }
+        void set(ILoggerFactory *) override { assert(!"Not implemented"); }
 
         //
 
