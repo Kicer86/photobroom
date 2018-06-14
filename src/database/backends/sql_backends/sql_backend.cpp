@@ -1485,7 +1485,7 @@ namespace Database
         updateData.addCondition("photo_id", QString::number(id));
         updateData.addCondition("name", name);
 
-        QSqlQuery query = getGenericQueryGenerator()->update(db, updateData);
+        m_data->updateOrInsert(updateData);
     }
 
 
