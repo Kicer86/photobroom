@@ -1320,7 +1320,7 @@ namespace Database
     {
         const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE)
-                                    .arg( ph_id );
+                                    .arg(ph_id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
@@ -1733,11 +1733,13 @@ PersonInfo::Id Database::ASqlBackend::storePerson(const PersonInfo& fd)
     queryData.setValues(fd.ph_id);
 
     const QRect& face = fd.rect;
-    const QString face_coords = QString("%1,%2 %3x%4")
-                                    .arg(face.x())
-                                    .arg(face.y())
-                                    .arg(face.width())
-                                    .arg(face.height());
+    const QString face_coords = face.isEmpty()?
+                                    QString():
+                                    QString("%1,%2 %3x%4")
+                                        .arg(face.x())
+                                        .arg(face.y())
+                                        .arg(face.width())
+                                        .arg(face.height());
 
     queryData.addColumn("location");
     queryData.addValue(face_coords);
