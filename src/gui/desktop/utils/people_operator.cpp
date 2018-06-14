@@ -254,42 +254,19 @@ void FetchUnassigned::perform()
 {
     const QStringList un = evaluate<QStringList(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
     {
-        auto photo = backend->getPhotoFor(id);
-        const Tag::TagsList tags = photo->getTags();
-
-        QStringList people;
-        for(const std::pair<TagNameInfo, TagValue>& tag: tags)
-        {
-            if (tag.first.getTag() == BaseTagsList::People)
-            {
-                const std::vector<TagValue> subtags = tag.second.getList();
-
-                for(const TagValue& subtag: subtags)
-                    people.append(subtag.getString());
-            }
-        }
-
-        const std::vector<PersonInfo> locations = backend->listPeople(id);
+        const std::vector<PersonInfo> people = backend->listPeople(id);
         QStringList locatedPeople;
 
-        for(const PersonInfo& location: locations)
+        for(const PersonInfo& person: people)
         {
-            if (location.p_id.valid())
+            if (person.p_id.valid() && person.rect.isEmpty())
             {
-                const PersonName data = backend->person(location.p_id);
+                const PersonName data = backend->person(person.p_id);
                 locatedPeople.append(data.name());
             }
         }
 
-        people.sort();
-        locatedPeople.sort();
-
-        QStringList unassigned;
-        std::set_difference(people.begin(), people.end(),
-                            locatedPeople.begin(), locatedPeople.end(),
-                            std::back_inserter(unassigned));
-
-        return unassigned;
+        return locatedPeople;
     });
 
     emit unassigned(m_id, un);
