@@ -40,6 +40,11 @@ struct ExecutorTraits<Database::IDatabase, T>
     }
 };
 
+namespace
+{
+    const QString faces_recognized_flag = QStringLiteral("faces_recognized");
+}
+
 
 FaceTask::FaceTask(const Photo::Id& id, Database::IDatabase* d):
     m_id(id),
@@ -326,6 +331,7 @@ void FaceStore::perform()
     const QString path = getPhotoPath();
     const QImage image(path);
 
+    // store people data
     for (const auto& person: m_knownPeople )
     {
         const QString& name = person.second;
@@ -379,6 +385,12 @@ void FaceStore::perform()
             });
         }
     }
+
+    // mark photo as analyzed
+    m_db->performCustomAction([ph_id = m_id](Database::IBackendOperator* op)
+    {
+        op->set(ph_id, faces_recognized_flag, 1);
+    });
 }
 
 
