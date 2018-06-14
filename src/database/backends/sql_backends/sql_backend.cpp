@@ -1493,7 +1493,7 @@ namespace Database
     {
         std::optional<int> result;
 
-        const QString findQuery = QString("SELECT value FROM %1 WHERE photo_id = %2 AND name = %3")
+        const QString findQuery = QString("SELECT value FROM %1 WHERE photo_id = %2 AND name = '%3'")
                                     .arg(TAB_GENERAL_FLAGS)
                                     .arg(id)
                                     .arg(name);
