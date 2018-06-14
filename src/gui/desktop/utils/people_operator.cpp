@@ -29,6 +29,9 @@
 #include "people_operator_p.hpp"
 
 
+// TODO: tasks are not using any shared data and therefore ask database for the same stuff over and over.
+
+
 using namespace std::placeholders;
 
 template<typename T>
@@ -176,12 +179,12 @@ void FaceRecognizer::perform()
             person.rect == m_data.second &&
             person.p_id.valid())
         {
-            result = personData(person.p_id);     // use stored name
+            result = personData(person.p_id);         // use stored name
             filled = true;
             break;
         }
 
-    if (filled == false)    // we do not have data, try to guess
+    if (filled == false && wasAnalyzed() == false)    // we do not have data, try to guess
     {
         const QString path = getPhotoPath();
         const QFileInfo pathInfo(path);
@@ -225,6 +228,18 @@ std::vector<PersonInfo> FaceRecognizer::fetchPeopleFromDb() const
         auto people = backend->listPeople(id);
 
         return people;
+    });
+}
+
+
+bool FaceRecognizer::wasAnalyzed() const
+{
+    return evaluate<bool(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    {
+        const auto value = backend->get(id, faces_recognized_flag);
+        const bool result = value.has_value() && *value > 0;
+
+        return result;
     });
 }
 
