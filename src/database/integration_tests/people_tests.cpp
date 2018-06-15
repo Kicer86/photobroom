@@ -1,17 +1,6 @@
 
 #include <gmock/gmock.h>
 
-#include <QTemporaryDir>
-
-#include <core/iconfiguration.hpp>
-#include <core/ilogger_factory.hpp>
-#include <core/ilogger.hpp>
-#include "backends/sql_backends/sqlite_backend/backend.hpp"
-#include "backends/sql_backends/mysql_backend/backend.hpp"
-#include "database_builder.hpp"
-#include "plugins/iplugin_loader.hpp"
-#include "project_info.hpp"
-
 #include "common.hpp"
 
 

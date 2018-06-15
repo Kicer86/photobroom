@@ -1,6 +1,18 @@
 
 // Some fakes, mocks and stubs
 
+#include <QTemporaryDir>
+
+#include <core/iconfiguration.hpp>
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
+
+#include "backends/sql_backends/sqlite_backend/backend.hpp"
+#include "backends/sql_backends/mysql_backend/backend.hpp"
+#include "database_builder.hpp"
+#include "plugins/iplugin_loader.hpp"
+#include "project_info.hpp"
+
 namespace Tests
 {
     struct PluginLoader: IPluginLoader
