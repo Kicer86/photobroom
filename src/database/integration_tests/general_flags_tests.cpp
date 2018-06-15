@@ -48,3 +48,26 @@ TEST_F(GeneralFlagsTest, flagsIntroduction)
         });
     });
 }
+
+
+TEST_F(GeneralFlagsTest, invalidName)
+{
+    for_all([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 2 photos
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
+
+            EXPECT_FALSE(op->get(ids[0], "test2").has_value());
+            EXPECT_FALSE(op->get(ids[0], "test1").has_value());
+        });
+    });
+}
