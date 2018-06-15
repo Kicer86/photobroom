@@ -75,25 +75,6 @@ struct DatabaseTest: testing::Test
 };
 
 
-TEST_F(DatabaseTest, opening)
-{
-    for_all([](Database::IDatabase* db)
-    {
-        // expect db to be empty, do some checks
-        db->performCustomAction([](Database::IBackendOperator* op)
-        {
-            const auto photos = op->getPhotos({});
-            EXPECT_TRUE(photos.empty());
-
-            const auto people = op->listPeople();
-            EXPECT_TRUE(people.empty());
-        });
-
-        db->closeConnections();
-    });
-}
-
-
 TEST_F(DatabaseTest, personIntroduction)
 {
     for_all([](Database::IDatabase* db)
@@ -131,7 +112,6 @@ TEST_F(DatabaseTest, personIntroduction)
 
             EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
         });
-
     });
 }
 
@@ -173,21 +153,20 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 2 photos
-        Photo::DataDelta pd1, pd2;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-        pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1, pd2}, [&ids](const std::vector<Photo::Id>& _ids)
-        {
-            ids = _ids;
-        });
-
         // perform some manipulations with photos' tags
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ASSERT_EQ(ids.size(), 2);
+            // store 2 photos
+            Photo::DataDelta pd1, pd2;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1, pd2 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
+            ids.push_back(photos.back().id);
 
             const IPhotoInfo::Ptr photo1 = op->getPhotoFor(ids[0]);
             const TagNameInfo pi1(BaseTagsList::People);
@@ -260,20 +239,18 @@ TEST_F(DatabaseTest, assignmentToPhotoTouchesPeople)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 1 photo
-        Photo::DataDelta pd1;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
-        {
-            ids = _ids;
-        });
-
         // perform some manipulations with photos' tags
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ASSERT_EQ(ids.size(), 1);
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
 
             // add fully described person to photo
             const PersonName pn("person 123");
@@ -327,19 +304,18 @@ TEST_F(DatabaseTest, alteringPersonData)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 1 photo
-        Photo::DataDelta pd1;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ids = _ids;
-        });
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
 
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
-        {
-            ASSERT_EQ(ids.size(), 1);
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
+
             const Photo::Id& ph_id = ids.front();
 
             // store person without rect
@@ -409,20 +385,18 @@ TEST_F(DatabaseTest, inteligentRectUpdate)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 1 photo
-        Photo::DataDelta pd1;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ids = _ids;
-        });
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
 
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
 
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
-        {
-            ASSERT_EQ(ids.size(), 1);
+            ids.push_back(photos.front().id);
+
             const Photo::Id& ph_id = ids.front();
 
             // store people without rect
@@ -461,19 +435,18 @@ TEST_F(DatabaseTest, inteligentNameUpdate)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 1 photo
-        Photo::DataDelta pd1;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ids = _ids;
-        });
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
 
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
-        {
-            ASSERT_EQ(ids.size(), 1);
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
+
             const Photo::Id& ph_id = ids.front();
 
             // store faces without names
@@ -512,19 +485,18 @@ TEST_F(DatabaseTest, photoTagsWhenNoName)
 {
     for_all([](Database::IDatabase* db)
     {
-        // store 1 photo
-        Photo::DataDelta pd1;
-        pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-
-        std::vector<Photo::Id> ids;
-        db->store({pd1}, [&ids](const std::vector<Photo::Id>& _ids)
+        db->performCustomAction([](Database::IBackendOperator* op)
         {
-            ids = _ids;
-        });
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
 
-        db->performCustomAction([&ids](Database::IBackendOperator* op)
-        {
-            ASSERT_EQ(ids.size(), 1);
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().id);
+
             const Photo::Id& ph_id = ids.front();
 
             // store faces without names
