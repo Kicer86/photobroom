@@ -145,10 +145,9 @@ namespace
 
         // IBackend && IBackendOperator
 
-        bool addPhotos(std::vector<Photo::DataDelta> &) override
+        bool addPhotos(std::vector<Photo::DataDelta>& d) override
         {
-            assert(!"Not implemented");
-            return false;
+            return m_backend->addPhotos(d);
         }
 
         Group::Id addGroup(const Photo::Id & ) override
