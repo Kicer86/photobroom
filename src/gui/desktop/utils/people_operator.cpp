@@ -29,6 +29,9 @@
 #include "people_operator_p.hpp"
 
 
+// TODO: tasks are not using any shared data and therefore ask database for the same stuff over and over.
+
+
 using namespace std::placeholders;
 
 template<typename T>
@@ -39,6 +42,11 @@ struct ExecutorTraits<Database::IDatabase, T>
         db->performCustomAction(std::forward<T>(t));
     }
 };
+
+namespace
+{
+    const QString faces_recognized_flag = QStringLiteral("faces_recognized");
+}
 
 
 FaceTask::FaceTask(const Photo::Id& id, Database::IDatabase* d):
@@ -171,12 +179,12 @@ void FaceRecognizer::perform()
             person.rect == m_data.second &&
             person.p_id.valid())
         {
-            result = personData(person.p_id);     // use stored name
+            result = personData(person.p_id);         // use stored name
             filled = true;
             break;
         }
 
-    if (filled == false)    // we do not have data, try to guess
+    if (filled == false && wasAnalyzed() == false)    // we do not have data, try to guess
     {
         const QString path = getPhotoPath();
         const QFileInfo pathInfo(path);
@@ -224,6 +232,18 @@ std::vector<PersonInfo> FaceRecognizer::fetchPeopleFromDb() const
 }
 
 
+bool FaceRecognizer::wasAnalyzed() const
+{
+    return evaluate<bool(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    {
+        const auto value = backend->get(id, faces_recognized_flag);
+        const bool result = value.has_value() && *value > 0;
+
+        return result;
+    });
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -249,42 +269,19 @@ void FetchUnassigned::perform()
 {
     const QStringList un = evaluate<QStringList(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
     {
-        auto photo = backend->getPhotoFor(id);
-        const Tag::TagsList tags = photo->getTags();
-
-        QStringList people;
-        for(const std::pair<TagNameInfo, TagValue>& tag: tags)
-        {
-            if (tag.first.getTag() == BaseTagsList::People)
-            {
-                const std::vector<TagValue> subtags = tag.second.getList();
-
-                for(const TagValue& subtag: subtags)
-                    people.append(subtag.getString());
-            }
-        }
-
-        const std::vector<PersonInfo> locations = backend->listPeople(id);
+        const std::vector<PersonInfo> people = backend->listPeople(id);
         QStringList locatedPeople;
 
-        for(const PersonInfo& location: locations)
+        for(const PersonInfo& person: people)
         {
-            if (location.p_id.valid())
+            if (person.p_id.valid() && person.rect.isEmpty())
             {
-                const PersonName data = backend->person(location.p_id);
+                const PersonName data = backend->person(person.p_id);
                 locatedPeople.append(data.name());
             }
         }
 
-        people.sort();
-        locatedPeople.sort();
-
-        QStringList unassigned;
-        std::set_difference(people.begin(), people.end(),
-                            locatedPeople.begin(), locatedPeople.end(),
-                            std::back_inserter(unassigned));
-
-        return unassigned;
+        return locatedPeople;
     });
 
     emit unassigned(m_id, un);
@@ -326,6 +323,7 @@ void FaceStore::perform()
     const QString path = getPhotoPath();
     const QImage image(path);
 
+    // store people data
     for (const auto& person: m_knownPeople )
     {
         const QString& name = person.second;
@@ -379,6 +377,12 @@ void FaceStore::perform()
             });
         }
     }
+
+    // mark photo as analyzed
+    m_db->performCustomAction([ph_id = m_id](Database::IBackendOperator* op)
+    {
+        op->set(ph_id, faces_recognized_flag, 1);
+    });
 }
 
 

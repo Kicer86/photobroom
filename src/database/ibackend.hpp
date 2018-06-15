@@ -71,6 +71,8 @@ namespace Database
         virtual PersonName               person(const Person::Id &) = 0;                         // person data
         virtual Person::Id               store(const PersonName &) = 0;                          // store or update person
         virtual PersonInfo::Id           store(const PersonInfo &) = 0;                          // store or update person details
+        virtual void                     set(const Photo::Id &, const QString &, int value) = 0; // set flag for photo to given value
+        virtual std::optional<int>       get(const Photo::Id &, const QString &) = 0;            // get flag value
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo

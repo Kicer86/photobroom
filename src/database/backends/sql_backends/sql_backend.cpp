@@ -1320,7 +1320,7 @@ namespace Database
     {
         const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE)
-                                    .arg( ph_id );
+                                    .arg(ph_id);
 
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         QSqlQuery query(db);
@@ -1470,6 +1470,41 @@ namespace Database
             else
                 result = storePerson(to_store);
         }
+
+        return result;
+    }
+
+
+    void ASqlBackend::set(const Photo::Id& id, const QString& name, int value)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+
+        UpdateQueryData updateData(TAB_GENERAL_FLAGS);
+        updateData.setColumns("photo_id", "name", "value");
+        updateData.setValues(id, name, value);
+        updateData.addCondition("photo_id", QString::number(id));
+        updateData.addCondition("name", name);
+
+        m_data->updateOrInsert(updateData);
+    }
+
+
+    std::optional<int> ASqlBackend::get(const Photo::Id& id, const QString& name)
+    {
+        std::optional<int> result;
+
+        const QString findQuery = QString("SELECT value FROM %1 WHERE photo_id = %2 AND name = '%3'")
+                                    .arg(TAB_GENERAL_FLAGS)
+                                    .arg(id)
+                                    .arg(name);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        const bool status = m_data->m_executor.exec(findQuery, &query);
+
+        if (status && query.next())
+            result = query.value(0).toInt();
 
         return result;
     }
@@ -1698,11 +1733,13 @@ PersonInfo::Id Database::ASqlBackend::storePerson(const PersonInfo& fd)
     queryData.setValues(fd.ph_id);
 
     const QRect& face = fd.rect;
-    const QString face_coords = QString("%1,%2 %3x%4")
-                                    .arg(face.x())
-                                    .arg(face.y())
-                                    .arg(face.width())
-                                    .arg(face.height());
+    const QString face_coords = face.isEmpty()?
+                                    QString():
+                                    QString("%1,%2 %3x%4")
+                                        .arg(face.x())
+                                        .arg(face.y())
+                                        .arg(face.width())
+                                        .arg(face.height());
 
     queryData.addColumn("location");
     queryData.addValue(face_coords);

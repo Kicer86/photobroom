@@ -35,7 +35,9 @@ addTestTarget(database_integration
                     ${moced_cpps}
 
                     # sql tests:
-                    integration_tests/database_tests.cpp
+                    integration_tests/common.hpp
+                    integration_tests/general_flags_tests.cpp
+                    integration_tests/people_tests.cpp
 
                     # main()
                     integration_tests/main.cpp

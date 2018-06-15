@@ -90,6 +90,7 @@ class FaceRecognizer final: public QObject, public FaceTask
 
         PersonName personData(const Person::Id &) const;
         std::vector<PersonInfo> fetchPeopleFromDb() const;
+        bool wasAnalyzed() const;
 
     signals:
         void recognized(const QRect &, const PersonName &) const;
