@@ -46,6 +46,25 @@ struct DatabaseTest: testing::Test
     {
     }
 
+    template<typename C>
+    void for_all(C&& c)
+    {
+        for(const auto& db_info: m_dbs)
+        {
+            const std::unique_ptr<Database::IDatabase>& db = db_info.first;
+            const Database::ProjectInfo& prjInfo = db_info.second;
+
+            db->init(prjInfo,[](const Database::BackendStatus& status)
+            {
+                EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
+            });
+
+            c(db.get());
+
+            db->closeConnections();
+        }
+    }
+
     Tests::PluginLoader m_loader;
     Tests::LoggerFactory m_logger;
     Tests::Config m_config;
@@ -58,16 +77,8 @@ struct DatabaseTest: testing::Test
 
 TEST_F(DatabaseTest, opening)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // expect db to be empty, do some checks
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -79,22 +90,14 @@ TEST_F(DatabaseTest, opening)
         });
 
         db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, personIntroduction)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         db->performCustomAction([](Database::IBackendOperator* op)
         {
             const PersonName p1(Person::Id(), "P 1");
@@ -129,23 +132,14 @@ TEST_F(DatabaseTest, personIntroduction)
             EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
         });
 
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, personMassiveIntroduction)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         db->performCustomAction([](Database::IBackendOperator* op)
         {
             std::set<PersonName> people;
@@ -171,24 +165,14 @@ TEST_F(DatabaseTest, personMassiveIntroduction)
             // `people` should be empty by now
             EXPECT_TRUE(people.empty());
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, simpleAssignmentToPhoto)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 2 photos
         Photo::DataDelta pd1, pd2;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -268,24 +252,14 @@ TEST_F(DatabaseTest, simpleAssignmentToPhoto)
             EXPECT_EQ(peopleList2.front(), TagValue("person 2"));
             EXPECT_EQ(peopleList2.back(), TagValue("person 3"));
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, assignmentToPhotoTouchesPeople)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 1 photo
         Photo::DataDelta pd1;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -345,24 +319,14 @@ TEST_F(DatabaseTest, assignmentToPhotoTouchesPeople)
                 EXPECT_FALSE(people[1].rect.isValid());   // no rect for second guy
             }
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, alteringPersonData)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 1 photo
         Photo::DataDelta pd1;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -437,24 +401,14 @@ TEST_F(DatabaseTest, alteringPersonData)
                 EXPECT_TRUE(ph_ppl.empty());
             }
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, inteligentRectUpdate)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 1 photo
         Photo::DataDelta pd1;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -499,24 +453,14 @@ TEST_F(DatabaseTest, inteligentRectUpdate)
                 EXPECT_FALSE(ppl[2].rect.isValid());
             }
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, inteligentNameUpdate)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 1 photo
         Photo::DataDelta pd1;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -526,7 +470,6 @@ TEST_F(DatabaseTest, inteligentNameUpdate)
         {
             ids = _ids;
         });
-
 
         db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
@@ -561,24 +504,14 @@ TEST_F(DatabaseTest, inteligentNameUpdate)
                 EXPECT_FALSE(ppl[2].p_id.valid());
             }
         });
-
-        db->closeConnections();
-    }
+    });
 }
 
 
 TEST_F(DatabaseTest, photoTagsWhenNoName)
 {
-    for(const auto& db_info: m_dbs)
+    for_all([](Database::IDatabase* db)
     {
-        const std::unique_ptr<Database::IDatabase>& db = db_info.first;
-        const Database::ProjectInfo& prjInfo = db_info.second;
-
-        db->init(prjInfo,[](const Database::BackendStatus& status)
-        {
-            EXPECT_EQ(status.get(), Database::StatusCodes::Ok);
-        });
-
         // store 1 photo
         Photo::DataDelta pd1;
         pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
@@ -588,7 +521,6 @@ TEST_F(DatabaseTest, photoTagsWhenNoName)
         {
             ids = _ids;
         });
-
 
         db->performCustomAction([&ids](Database::IBackendOperator* op)
         {
@@ -608,7 +540,5 @@ TEST_F(DatabaseTest, photoTagsWhenNoName)
 
             EXPECT_TRUE(tags.empty());
         });
-
-        db->closeConnections();
-    }
+    });
 }
