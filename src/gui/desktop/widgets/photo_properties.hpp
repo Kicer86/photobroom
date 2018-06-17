@@ -28,8 +28,8 @@
 class QLabel;
 class QStackedLayout;
 
+class APhotoInfoModel;
 class SelectionExtractor;
-struct APhotoInfoModel;
 
 
 class PhotoProperties: public QScrollArea

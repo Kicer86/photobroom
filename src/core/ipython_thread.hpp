@@ -6,8 +6,9 @@
 #include <functional>
 #include <memory>
 
+#include "core_export.h"
 
-struct IPythonThread
+struct CORE_EXPORT IPythonThread
 {
     struct ITask
     {
