@@ -23,6 +23,7 @@
 #include <string>
 #include <set>
 #include <vector>
+#include <optional>
 
 #include <core/tag.hpp>
 
