@@ -4,9 +4,8 @@
 
 #include <QString>
 
-#include "core_export.h"
 
-struct CORE_EXPORT IProgressBar
+struct IProgressBar
 {
     virtual ~IProgressBar() = default;
 
@@ -16,7 +15,7 @@ struct CORE_EXPORT IProgressBar
 };
 
 
-struct CORE_EXPORT IViewTask
+struct IViewTask
 {
     virtual ~IViewTask() = default;
 

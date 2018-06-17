@@ -4,14 +4,11 @@
 
 #include <QString>
 
-#include "core_export.h"
-
 class QProgressBar;
 
 struct IViewTask;
 
-
-struct CORE_EXPORT ITasksView
+struct ITasksView
 {
     virtual ~ITasksView() = default;
 
