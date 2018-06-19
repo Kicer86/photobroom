@@ -53,7 +53,7 @@ macro(addDeploymentActions)
                      HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 12.0/VC/redist/"
                            "$ENV{PROGRAMFILES}/Microsoft Visual Studio 13.0/VC/redist/"
                            "$ENV{PROGRAMFILES}/Microsoft Visual Studio 14.0/VC/redist/"
-                    )
+        )
 
         if(VS_REDIST)
             #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
@@ -68,9 +68,22 @@ macro(addDeploymentActions)
 
     endif()
 
-    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
-    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/bin)
-    install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
+    install_external_lib(NAME "OpenLibrary"  
+                         DLLFILES ${libs_OL} 
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+                               ${OpenLibrary_DIR}/../lib
+    )
+    
+    install_external_lib(NAME "Exiv2"        
+                         DLLFILES ${libs_exiv2} 
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+                               ${CMAKE_INSTALL_PREFIX}/bin
+    )
+                               
+    install_external_lib(NAME "Compiler"     
+                         DLLFILES ${libs_Compiler} 
+                         LOCATION "."
+    )
 
     #Qt5
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
