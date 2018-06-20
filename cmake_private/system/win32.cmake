@@ -67,6 +67,8 @@ macro(addDeploymentActions)
         set(libs_Compiler )
 
     endif()
+    
+    get_filename_component(exiv2_lib_dir ${EXIV2_LIBRARY} DIRECTORY)
 
     install_external_lib(NAME "OpenLibrary"  
                          DLLFILES ${libs_OL} 
@@ -78,6 +80,7 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_exiv2} 
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib 
                                ${CMAKE_INSTALL_PREFIX}/bin
+                               ${exiv2_lib_dir}/../bin
     )
                                
     install_external_lib(NAME "Compiler"     
@@ -157,6 +160,7 @@ macro(addDeploymentActions)
                       DEPENDS ${OUTPUT_PATH}/deploy_qt5
                      )
 
+    # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
 
