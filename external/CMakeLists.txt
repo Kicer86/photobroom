@@ -10,7 +10,12 @@ ExternalProject_Add(dlib
 install(DIRECTORY face_recognition/face_recognition DESTINATION ${PATH_SCRIPTS})
 install(DIRECTORY face_recognition_models/face_recognition_models DESTINATION ${PATH_SCRIPTS})
 
-install(CODE "set(PATH_SCRIPTS \"${PATH_SCRIPTS}\")")
-install(CODE "set(PROJECT_BINARY_DIR \"${PROJECT_BINARY_DIR}\")")
-install(CODE "set(CMAKE_INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}\")")
-install(SCRIPT dlib.cmake)
+# TODO: not very nice (EXCLUDE patterns), but I could not find anything better
+install(DIRECTORY ${PROJECT_BINARY_DIR}/dlib/
+        DESTINATION ${PATH_SCRIPTS}
+        FILES_MATCHING
+        PATTERN "dlib.cpython*"
+        PATTERN "CMakeFiles" EXCLUDE
+        PATTERN "dlib_build" EXCLUDE
+        PATTERN "pybind11_build" EXCLUDE
+)
