@@ -50,10 +50,8 @@ macro(addDeploymentActions)
         find_program(VS_REDIST
                      vcredist_x86
                      DOC "Visual Studio redistributable package installer"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 12.0/VC/redist/"
-                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 13.0/VC/redist/"
-                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 14.0/VC/redist/"
-        )
+                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 15.0/VC/redist/"
+                    )
 
         if(VS_REDIST)
             #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
@@ -156,9 +154,7 @@ macro(addDeploymentActions)
     endif(WINDEPLOY)
 
     #target
-    add_custom_target(deploy ALL
-                      DEPENDS ${OUTPUT_PATH}/deploy_qt5
-                     )
+    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
 
     install(SCRIPT deploy_win.cmake)
                      
