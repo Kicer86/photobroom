@@ -160,6 +160,8 @@ macro(addDeploymentActions)
                       DEPENDS ${OUTPUT_PATH}/deploy_qt5
                      )
 
+    install(SCRIPT deploy_win.cmake)
+                     
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
