@@ -15,7 +15,7 @@ set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::an
 
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake OR
-   NOT EXISTS ${PROJECT_SOURCE_DIR}/external/dlib)
+   NOT EXISTS ${PROJECT_SOURCE_DIR}/external/face_recognition)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
 endif()
 
