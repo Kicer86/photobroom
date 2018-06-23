@@ -3,31 +3,50 @@ from sys import argv
 import os
 
 
-def _find_dll(name, search_path):
-    for root, dirs, files in os.walk(search_path):
-        for file in files:
-            if file.endswith(".dll") and file.startswith(name):
-                return root + "/" + file
+class Finder:
+    def __init__(self):
+        pass
 
-    return None
+    def _find_dll_s(self, name, search_path):
+        for root, dirs, files in os.walk(search_path):
+            for file in files:
+                if file.endswith(".dll") and file.startswith(name):
+                    return root + "/" + file
 
+        return None
 
-def find_dll(name, search_paths):
-    for searchPath in search_paths:
-        path = _find_dll(name, searchPath)
+    def find_dll(self, name, search_paths):
+        for searchPath in search_paths:
+            path = self._find_dll_s(name, searchPath)
 
-        if path:
-            return path
+            if path:
+                return path
 
-    return None
+        return None
 
+    def collect_libraries(self, dependencies_dir):
+        required_libs = \
+        [
+            "QtExt",                   # OpenLibrary
+            "exiv2", "expat", "zlib",  # exiv2 + dependencies
+        ]
 
-# collect necessary binaries
-required_libs = \
-    [
-        "QtExt",                   # from OpenLibrary
-        "exiv2", "expat", "zlib",  # exiv2 + dependencies
-    ]
+        libraries = []
+        for lib in required_libs:
+            path = self.find_dll(lib, [dependencies_dir])
+
+            if path:
+                libraries.append(path)
+            else:
+                print("Could not find dll for " + lib)
+                exit(1)
+
+        return libraries
+
+    def collect_qt_files(self, binaries, output):
+        for binary in binaries:
+            pass
+
 
 if len(argv) != 2:
     print("Invalid arguments")
@@ -35,10 +54,6 @@ if len(argv) != 2:
 
 dependencies_dir = argv[1]
 
-for lib in required_libs:
-    path = find_dll(lib, [dependencies_dir])
+finder = Finder()
 
-    if path:
-        print("lib = ", path)
-    else:
-        print("lib = :(")
+libs = finder.collect_libraries(dependencies_dir)
