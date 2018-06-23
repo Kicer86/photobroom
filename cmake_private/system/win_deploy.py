@@ -3,8 +3,8 @@ from sys import argv
 import os
 
 
-def _findDll(name, searchPath):
-    for root, dirs, files in os.walk(searchPath):
+def _find_dll(name, search_path):
+    for root, dirs, files in os.walk(search_path):
         for file in files:
             if file.endswith(".dll") and file.startswith(name):
                 return root + "/" + file
@@ -12,9 +12,9 @@ def _findDll(name, searchPath):
     return None
 
 
-def findDll(name, searchPaths):
-    for searchPath in searchPaths:
-        path = _findDll(name, searchPath)
+def find_dll(name, search_paths):
+    for searchPath in search_paths:
+        path = _find_dll(name, searchPath)
 
         if path:
             return path
@@ -36,7 +36,7 @@ if len(argv) != 2:
 dependencies_dir = argv[1]
 
 for lib in required_libs:
-    path = findDll(lib, [dependencies_dir])
+    path = find_dll(lib, [dependencies_dir])
 
     if path:
         print("lib = ", path)
