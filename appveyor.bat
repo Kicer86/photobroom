@@ -11,14 +11,16 @@ copy /y nul "c:\program files\cmake\updated"
 rem setup variables
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
-    set qt_arch=msvc2017
+    set qt_arch=msvc2015
+    set python_path=C:\Python35
 ) else (
     set generator="Visual Studio 15 Win64"
     set qt_arch=msvc2017_64
+    set python_path=C:\Python35-x64
 )
 
 set USE_QT_VER=5.9
-set PATH=C:\Python35-x64;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
+set PATH=%python_path%;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
