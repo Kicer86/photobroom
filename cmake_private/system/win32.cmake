@@ -155,8 +155,6 @@ macro(addDeploymentActions)
 
     #target
     add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
-
-    install(SCRIPT deploy_win.cmake)
                      
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
