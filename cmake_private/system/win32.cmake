@@ -50,9 +50,7 @@ macro(addDeploymentActions)
         find_program(VS_REDIST
                      vcredist_x86
                      DOC "Visual Studio redistributable package installer"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 12.0/VC/redist/"
-                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 13.0/VC/redist/"
-                           "$ENV{PROGRAMFILES}/Microsoft Visual Studio 14.0/VC/redist/"
+                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 15.0/VC/redist/"
                     )
 
         if(VS_REDIST)
@@ -67,10 +65,26 @@ macro(addDeploymentActions)
         set(libs_Compiler )
 
     endif()
+    
+    get_filename_component(exiv2_lib_dir ${EXIV2_LIBRARY} DIRECTORY)
 
-    install_external_lib(NAME "OpenLibrary"  DLLFILES ${libs_OL} HINTS ${CMAKE_INSTALL_PREFIX}/lib)
-    install_external_lib(NAME "Exiv2"        DLLFILES ${libs_exiv2} HINTS ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/bin)
-    install_external_lib(NAME "Compiler"     DLLFILES ${libs_Compiler} LOCATION ".")
+    install_external_lib(NAME "OpenLibrary"  
+                         DLLFILES ${libs_OL} 
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+                               ${OpenLibrary_DIR}/../lib
+    )
+    
+    install_external_lib(NAME "Exiv2"        
+                         DLLFILES ${libs_exiv2} 
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+                               ${CMAKE_INSTALL_PREFIX}/bin
+                               ${exiv2_lib_dir}/../bin
+    )
+                               
+    install_external_lib(NAME "Compiler"     
+                         DLLFILES ${libs_Compiler} 
+                         LOCATION "."
+    )
 
     #Qt5
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
@@ -140,10 +154,9 @@ macro(addDeploymentActions)
     endif(WINDEPLOY)
 
     #target
-    add_custom_target(deploy ALL
-                      DEPENDS ${OUTPUT_PATH}/deploy_qt5
-                     )
-
+    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
+                     
+    # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
 
