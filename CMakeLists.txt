@@ -14,8 +14,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
 #check if git modules are setup
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake OR
-   NOT EXISTS ${PROJECT_SOURCE_DIR}/external/face_recognition)
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
 endif()
 
@@ -106,7 +105,6 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #subdirs
-add_subdirectory(external)
 add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
