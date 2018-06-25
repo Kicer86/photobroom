@@ -37,16 +37,12 @@ endfunction(install_external_lib)
 
 macro(addDeploymentActions)
 
-    find_package(PythonLibs REQUIRED)
-    
-    string(REPLACE "." ";" PYTHON_VERSION_LIST ${PYTHONLIBS_VERSION_STRING})
-    list(GET PYTHON_VERSION_LIST 0 PYTHON_MAJOR_VERSION)
-    list(GET PYTHON_VERSION_LIST 1 PYTHON_MINOR_VERSION)
+    find_package(PythonInterp REQUIRED)
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 expat zlib)
-    set(libs_python python${PYTHON_MAJOR_VERSION}${PYTHON_MINOR_VERSION})
+    set(libs_python python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR})
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -72,31 +68,32 @@ macro(addDeploymentActions)
         set(libs_Compiler )
 
     endif()
-    
+
     get_filename_component(exiv2_lib_dir "${EXIV2_LIBRARY}" DIRECTORY)
     get_filename_component(python_lib_dir "${PYTHON_LIBRARIES}" DIRECTORY)
 
-    install_external_lib(NAME "OpenLibrary"  
-                         DLLFILES ${libs_OL} 
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+    install_external_lib(NAME "OpenLibrary"
+                         DLLFILES ${libs_OL}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OpenLibrary_DIR}/../lib
     )
-    
-    install_external_lib(NAME "Exiv2"        
-                         DLLFILES ${libs_exiv2} 
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib 
+
+    install_external_lib(NAME "Exiv2"
+                         DLLFILES ${libs_exiv2}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${CMAKE_INSTALL_PREFIX}/bin
                                ${exiv2_lib_dir}/../bin
     )
-                               
-    install_external_lib(NAME "Compiler"     
-                         DLLFILES ${libs_Compiler} 
+
+    install_external_lib(NAME "Compiler"
+                         DLLFILES ${libs_Compiler}
                          LOCATION "."
     )
-    
-    install_external_lib(NAME "Python"     
-                         DLLFILES ${libs_python} 
-                         LOCATION ${python_lib_dir}/../bin
+
+    install_external_lib(NAME "Python"
+                         DLLFILES ${libs_python}
+                         HINTS ${python_lib_dir}/../bin
+                               ${python_lib_dir}/..
     )
 
     #Qt5
@@ -168,7 +165,7 @@ macro(addDeploymentActions)
 
     #target
     add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
-                     
+
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
     install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
