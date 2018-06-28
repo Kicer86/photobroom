@@ -88,6 +88,37 @@ FaceRecognition::~FaceRecognition()
 }
 
 
+QStringList FaceRecognition::verifySystem() const
+{
+    std::packaged_task<QStringList()> test_task([]()
+    {
+        py::module system_test = py::module::import("system_test");
+        py::object missing = system_test.attr("detect_required_modules")();
+
+        auto missing_list = missing.cast<py::list>();
+        QStringList result;
+
+        const std::size_t count = missing_list.size();
+        for(std::size_t i = 0; i < count; i++)
+        {
+            auto item = missing_list[i];
+
+            const std::string missing_module = item.cast<std::string>();
+            result.append(missing_module.c_str());
+        }
+
+        return result;
+    });
+
+    auto test_future = test_task.get_future();
+    m_pythonThread->execute(test_task);
+
+    test_future.wait();
+
+    return test_future.get();
+}
+
+
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     std::packaged_task<QVector<QRect>()> fetch_task([path]()
