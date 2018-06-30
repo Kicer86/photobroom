@@ -138,4 +138,23 @@ class FaceStore final: public FaceTask
         std::vector<PersonName> fetchPeople();
 };
 
+
+class TestSystem: public QObject, public ITaskExecutor::ITask
+{
+        Q_OBJECT
+
+    public:
+        TestSystem(ICoreFactoryAccessor *);
+        ~TestSystem();
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        ICoreFactoryAccessor* m_core;
+
+    signals:
+        void status(const bool, const QString &) const;
+};
+
 #endif // PEOPLEOPERATOR_P_HPP

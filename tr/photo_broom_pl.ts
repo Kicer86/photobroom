@@ -142,12 +142,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+85"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+90"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
     <message numerus="yes">
-        <location line="+15"/>
+        <location line="+14"/>
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
@@ -168,6 +168,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <location line="+33"/>
         <source>All known faces recognized.</source>
         <translation>Wszystkie znane osoby rozpoznane.</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Missing libraries</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -839,6 +844,16 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+0"/>
         <source>Value</source>
         <translation>Wartość</translation>
+    </message>
+</context>
+<context>
+    <name>TestSystem</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+429"/>
+        <source>Face recognition function is disabled due to missing python modules: %1.
+To install them, use &apos;python -m pip install %1&apos; (on Windows)
+or use package system for your Linux distro.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
