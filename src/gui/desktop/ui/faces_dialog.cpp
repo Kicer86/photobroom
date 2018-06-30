@@ -157,12 +157,11 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
 void FacesDialog::systemStatus(bool status, const QString& message)
 {
     if (status)
-    {
         m_people.fetchFaces(m_id);
-        m_people.getUnassignedPeople(m_id);
-    }
     else
         QMessageBox::warning(this, tr("Missing libraries"), message);
+
+    m_people.getUnassignedPeople(m_id);
 }
 
 

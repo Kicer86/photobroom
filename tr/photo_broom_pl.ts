@@ -170,7 +170,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wszystkie znane osoby rozpoznane.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+24"/>
         <source>Missing libraries</source>
         <translation type="unfinished"></translation>
     </message>
