@@ -426,9 +426,9 @@ void TestSystem::perform()
     else
     {
         const QString py_mods = modules.join(", ");
-        const QString msg = tr("Face recognition function is disabled due to missing python modules: %1.\n"
+        const QString msg = tr("Automatic people recognition functionality is disabled due to missing Python modules.\n"
                                "To install them, use 'python -m pip install %1' (on Windows)\n"
-                               "or use package system for your Linux distro.")
+                               "or use package system for your Linux distro.\n")
                             .arg(py_mods);
 
         emit status(false, msg);
