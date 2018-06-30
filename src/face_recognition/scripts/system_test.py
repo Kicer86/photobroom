@@ -8,10 +8,16 @@ def detect_required_modules():
     missing = []
 
     for module in modules:
+        message = "Checking for " + module + " module - ";
         mod_spec = importlib.util.find_spec(module)
         found = mod_spec is not None
 
-        if not found:
+        if found:
+            message += "found"
+        else:
+            message += "not found"
             missing.append(module)
+
+        print(message)
 
     return missing
