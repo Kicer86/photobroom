@@ -19,6 +19,12 @@ Required tools and libraries:
  - KCrash + drkonqi (for crash catching)
  - GMock and GTest  (unit tests)
 
+ Optional python modules required for face recognition:
+ - dlib
+ - face_recognition
+ - face_recognition_models
+ - pillow
+
 * For convenience it is possible to use python script
   for download, build and install all marked libraries
   (python 3.5 at least is required).
@@ -51,13 +57,3 @@ Extra targets available for Windows:
           All necessary libraries will be also included.
 'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.
-
-
-Face recognition
-Required tools:
-- face recognition Python module*
-- face recognition models Python module*
-- dlib*
-- Pillow Python module
-
-All marked dependencies are git submodules in 'external' directory and are built during PhotoBroom buld process.
