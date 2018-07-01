@@ -44,6 +44,7 @@ class FacesDialog: public QDialog
         void applyFacesLocations(const QVector<QRect> &);
         void applyFaceName(const QRect &, const PersonName &);
         void applyUnassigned(const Photo::Id &, const QStringList &);
+        void systemStatus(bool, const QString &);
         void updateImage();
         void updatePeopleList();
 

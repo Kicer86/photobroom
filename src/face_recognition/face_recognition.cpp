@@ -72,6 +72,26 @@ namespace
 
         return result;
     }
+
+    QStringList missingModules()
+    {
+        py::module system_test = py::module::import("system_test");
+        py::object missing = system_test.attr("detect_required_modules")();
+
+        auto missing_list = missing.cast<py::list>();
+        QStringList result;
+
+        const std::size_t count = missing_list.size();
+        for(std::size_t i = 0; i < count; i++)
+        {
+            auto item = missing_list[i];
+
+            const std::string missing_module = item.cast<std::string>();
+            result.append(missing_module.c_str());
+        }
+
+        return result;
+    }
 }
 
 
@@ -88,25 +108,46 @@ FaceRecognition::~FaceRecognition()
 }
 
 
+QStringList FaceRecognition::verifySystem() const
+{
+    std::packaged_task<QStringList()> test_task([]()
+    {
+        return missingModules();
+    });
+
+    auto test_future = test_task.get_future();
+    m_pythonThread->execute(test_task);
+
+    test_future.wait();
+
+    return test_future.get();
+}
+
+
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     std::packaged_task<QVector<QRect>()> fetch_task([path]()
     {
-        py::module find_faces = py::module::import("find_faces");
-        py::object locations = find_faces.attr("find_faces")(path.toStdString());
-
-        auto locations_list = locations.cast<py::list>();
         QVector<QRect> result;
+        const QStringList mm = missingModules();
 
-        const std::size_t facesCount = locations_list.size();
-        for(std::size_t i = 0; i < facesCount; i++)
+        if (mm.empty())
         {
-            auto item = locations_list[i];
+            py::module find_faces = py::module::import("find_faces");
+            py::object locations = find_faces.attr("find_faces")(path.toStdString());
 
-            const QRect rect = tupleToRect(item.cast<py::tuple>());
+            auto locations_list = locations.cast<py::list>();
 
-            if (rect.isValid())
-                result.push_back(rect);
+            const std::size_t facesCount = locations_list.size();
+            for(std::size_t i = 0; i < facesCount; i++)
+            {
+                auto item = locations_list[i];
+
+                const QRect rect = tupleToRect(item.cast<py::tuple>());
+
+                if (rect.isValid())
+                    result.push_back(rect);
+            }
         }
 
         return result;
@@ -126,19 +167,26 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 {
     std::packaged_task<QString()> recognize_task([path, face, storage]()
     {
-        QTemporaryFile tmpFile;
+        QString fresult;
+        const QStringList mm = missingModules();
 
-        const QImage photo(path);
-        const QImage face_photo = photo.copy(face);
-        face_photo.save(&tmpFile, "JPEG");
+        if (mm.empty())
+        {
+            QTemporaryFile tmpFile;
 
-        py::module find_faces = py::module::import("recognize_face");
-        py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                              storage.toStdString());
+            const QImage photo(path);
+            const QImage face_photo = photo.copy(face);
+            face_photo.save(&tmpFile, "JPEG");
 
-        const std::string result_str = result.cast<py::str>();
+            py::module find_faces = py::module::import("recognize_face");
+            py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
+                                                                storage.toStdString());
 
-        return QString::fromStdString(result_str);
+            const std::string result_str = result.cast<py::str>();
+            fresult = QString::fromStdString(result_str);
+        }
+
+        return fresult;
     });
 
     auto recognize_future = recognize_task.get_future();
