@@ -1621,6 +1621,15 @@ namespace Database
 
 Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 {
+    // WARNING: use raw SQL here. Do not use high level functions for data storage
+    //          as they will save data using current algorithms which may
+    //          break conversion chain.
+    //
+    //          Functions storing people for database in version X
+    //          may store data in the different way than it was when db was in version 3.
+    //          If used during upgrade from v2 to v3 it may be impossible to perform one of
+    //          next steps (v5 -> v6 as example).
+
     QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
 
     QSqlQuery query(db);
@@ -1658,17 +1667,59 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                                                 .arg(BaseTagsList::People);
                 status = m_data->m_executor.exec(find_query, &query);
 
+                std::map<QString, Person::Id> name_to_id;
+                std::vector<std::pair<QString, Photo::Id>> old_data;
+
                 while(status && query.next())
                 {
                     const QString name = query.value(0).toString();
                     const Photo::Id ph_id(query.value(1).toInt());
+                    old_data.emplace_back(name, ph_id);
+                }
 
-                    const Person::Id p_id = store(PersonName(name));
-                    const PersonInfo pi(p_id, ph_id, QRect());
-                    const PersonInfo::Id id = store(pi);
+                for(const auto& d: old_data)
+                {
+                    const QString& name = d.first;
+                    const Photo::Id& ph_id = d.second;
 
-                    if (id.valid() == false)
-                        status = Database::StatusCodes::MigrationFailed;
+                    // store name if unknown
+                    auto it = name_to_id.find(name);
+
+                    if (it == name_to_id.end())
+                    {
+                        InsertQueryData queryData(TAB_PEOPLE_NAMES);
+                        queryData.setColumns("name");
+                        queryData.setValues(name);
+
+                        query = getGenericQueryGenerator()->insert(db, queryData);
+
+                        status = m_data->m_executor.exec(query);
+
+                        if (status)
+                        {
+                            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                            const int id = vid.toInt();
+                            auto ins_it = name_to_id.emplace(name, id);
+                            it = ins_it.first;
+                        }
+                        else
+                            status = Database::StatusCodes::MigrationFailed;
+                    }
+
+                    // store person
+                    if (status)
+                    {
+                        InsertQueryData queryData(TAB_PEOPLE);
+                        queryData.setColumns("photo_id", "person_id");
+                        queryData.setValues(ph_id, it->second);
+
+                        query = getGenericQueryGenerator()->insert(db, queryData);
+
+                        status = m_data->m_executor.exec(query);
+
+                        if (!status)
+                            status = Database::StatusCodes::MigrationFailed;
+                    }
                 }
 
                 if (status)
