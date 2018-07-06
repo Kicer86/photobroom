@@ -21,6 +21,7 @@ set(UTILS_SOURCES
     thumbnail_generator.cpp
     variant_display.cpp
     grouppers/animation_generator.cpp
+    grouppers/generator_utils.cpp
     grouppers/hdr_generator.cpp
 )
 
@@ -39,6 +40,7 @@ set(UTILS_HEADERS
     thumbnail_generator.hpp
     variant_display.hpp
     grouppers/animation_generator.hpp
+    grouppers/generator_utils.hpp
     grouppers/hdr_generator.hpp
 )
 
