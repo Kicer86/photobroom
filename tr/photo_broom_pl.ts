@@ -590,8 +590,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Grouping type:</source>
-        <translation>Rodzaj grupowania:</translation>
+        <source>&amp;Grouping type:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -605,58 +605,57 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+50"/>
-        <source>Animation speed:</source>
-        <translation>Szybkość animacji:</translation>
+        <source>Anima&amp;tion speed:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+31"/>
+        <source>Delay &amp;before restart:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>&amp;ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Sca&amp;le:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>P&amp;review:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-180"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Delay before restart:</source>
-        <translation>Opóźnienie pętli:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>ms</source>
-        <translation>ms</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Scale:</source>
-        <translation>Skala:</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+68"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+124"/>
+        <location line="+31"/>
         <source>Generate preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+68"/>
-        <source>Preview:</source>
-        <translation>Podgląd:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="-52"/>
-        <location line="+74"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+73"/>
+        <location line="+79"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-79"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+79"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
@@ -693,12 +692,12 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
         <source>Cancel</source>
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+41"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

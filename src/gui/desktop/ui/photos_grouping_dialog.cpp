@@ -50,6 +50,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->generationProgressBar->reset();
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
+    connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
 }
 
 
@@ -121,7 +122,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
     ui->animationOptions->setEnabled(true);
-    ui->previewButton->setText(tr("Generate preview"));
+    ui->previewButtons->setCurrentIndex(0);
 
     refreshDialogButtons();
 }
@@ -141,15 +142,20 @@ void PhotosGroupingDialog::typeChanged()
 
 void PhotosGroupingDialog::previewPressed()
 {
-    if (m_workInProgress)
-    {
-        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+    makeAnimation();
+    ui->previewButtons->setCurrentIndex(1);
+}
 
-        if (result == QMessageBox::StandardButton::Yes)
-            emit cancel();
+
+void PhotosGroupingDialog::previewCancelPressed()
+{
+    const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+
+    if (result == QMessageBox::StandardButton::Yes)
+    {
+        ui->previewButtons->setCurrentIndex(0);
+        emit cancel();
     }
-    else
-        makeAnimation();
 }
 
 
@@ -194,7 +200,6 @@ void PhotosGroupingDialog::makeAnimation()
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
-        ui->previewButton->setText(tr("Cancel"));
         ui->resultPreview->setWidget(new QWidget);
         m_workInProgress = true;
         m_representativeFile.clear();

@@ -83,6 +83,7 @@ class PhotosGroupingDialog: public QDialog
         void refreshDialogButtons();
         void typeChanged();
         void previewPressed();
+        void previewCancelPressed();
         void makeAnimation();
         void fillModel(const std::vector<Photo::Data> &);
 

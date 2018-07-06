@@ -36,7 +36,7 @@
             <item>
              <widget class="QLabel" name="groupingTypeLabel">
               <property name="text">
-               <string>Grouping type:</string>
+               <string>&amp;Grouping type:</string>
               </property>
              </widget>
             </item>
@@ -99,7 +99,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="speedLabel">
                   <property name="text">
-                   <string>Animation speed:</string>
+                   <string>Anima&amp;tion speed:</string>
                   </property>
                  </widget>
                 </item>
@@ -130,7 +130,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="delayLabel">
                   <property name="text">
-                   <string>Delay before restart:</string>
+                   <string>Delay &amp;before restart:</string>
                   </property>
                  </widget>
                 </item>
@@ -149,7 +149,7 @@
                   <item>
                    <widget class="QLabel" name="msLabel">
                     <property name="text">
-                     <string>ms</string>
+                     <string>&amp;ms</string>
                     </property>
                    </widget>
                   </item>
@@ -158,7 +158,7 @@
                 <item row="2" column="0">
                  <widget class="QLabel" name="scaleLabel">
                   <property name="text">
-                   <string>Scale:</string>
+                   <string>Sca&amp;le:</string>
                   </property>
                  </widget>
                 </item>
@@ -201,28 +201,56 @@
            </widget>
           </item>
           <item>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="1">
-             <widget class="QPushButton" name="previewButton">
-              <property name="text">
-               <string>Generate preview</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+           <widget class="QStackedWidget" name="previewButtons">
+            <widget class="QWidget" name="generate" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="previewButton">
+                <property name="text">
+                 <string>Generate preview</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="cancel">
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>172</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="cancelButton">
+                <property name="text">
+                 <string>Cancel</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -273,7 +301,7 @@
           <item>
            <widget class="QLabel" name="peviewLabel">
             <property name="text">
-             <string>Preview:</string>
+             <string>P&amp;review:</string>
             </property>
            </widget>
           </item>
