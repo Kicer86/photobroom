@@ -50,7 +50,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->generationProgressBar->reset();
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
-    connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
+    connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
 }
 
 
