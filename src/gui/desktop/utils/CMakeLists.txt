@@ -21,6 +21,7 @@ set(UTILS_SOURCES
     thumbnail_generator.cpp
     variant_display.cpp
     grouppers/animation_generator.cpp
+    grouppers/hdr_generator.cpp
 )
 
 set(UTILS_HEADERS
@@ -38,6 +39,7 @@ set(UTILS_HEADERS
     thumbnail_generator.hpp
     variant_display.hpp
     grouppers/animation_generator.hpp
+    grouppers/hdr_generator.hpp
 )
 
 
@@ -48,6 +50,7 @@ set(UTILS_FILES_TO_MOC
     selection_extractor.hpp
     signal_filter.hpp
     grouppers/animation_generator.hpp
+    grouppers/hdr_generator.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
