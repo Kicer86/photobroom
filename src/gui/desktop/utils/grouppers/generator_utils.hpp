@@ -19,10 +19,54 @@
 #ifndef GENERATORUTILS_HPP
 #define GENERATORUTILS_HPP
 
+#include <functional>
+
+#include <QProcess>
+#include <QStringList>
+
+#include <core/ilogger.hpp>
 
 namespace GeneratorUtils
 {
+    template<typename T>
+    void append(QStringList& list, const T& arg)
+    {
+        list << arg;
+    }
 
+    template<typename T, typename ...Args>
+    void append(QStringList& list, const T& arg, Args... args)
+    {
+        list << arg;
+        append(list, args...);
+    }
+
+    template<typename ...Args>
+    void execute(ILogger* logger,
+                 const QString& executable,
+                 const std::function<void(QIODevice &)>& outputDataCallback,
+                 const std::function<void(QProcess &)>& launcher,
+                 const Args... args)
+    {
+        QStringList arguments;
+        append(arguments, args...);
+
+        QProcess pr;
+        pr.setProcessChannelMode(QProcess::MergedChannels);
+
+        if (outputDataCallback)
+            QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
+
+        pr.setProgram(executable);
+        pr.setArguments(arguments);
+
+        const std::string info_message =
+            QString("Executing %1 %2").arg(executable).arg(arguments.join(" ")).toStdString();
+
+        logger->info(info_message);
+
+        launcher(pr);
+    }
 }
 
 #endif // GENERATORUTILS_HPP

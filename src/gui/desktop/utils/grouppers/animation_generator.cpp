@@ -22,57 +22,17 @@
 #include <QDirIterator>
 #include <QEventLoop>
 #include <QFileInfo>
-#include <QProcess>
 #include <QRegExp>
 
 #include <core/cross_thread_call.hpp>
-#include <core/ilogger.hpp>
 #include <system/system.hpp>
+
+#include "generator_utils.hpp"
 
 using std::placeholders::_1;
 
 namespace
 {
-    template<typename T>
-    void append(QStringList& list, const T& arg)
-    {
-        list << arg;
-    }
-
-    template<typename T, typename ...Args>
-    void append(QStringList& list, const T& arg, Args... args)
-    {
-        list << arg;
-        append(list, args...);
-    }
-
-    template<typename ...Args>
-    void execute(ILogger* logger,
-                 const QString& executable,
-                 const std::function<void(QIODevice &)>& outputDataCallback,
-                 const std::function<void(QProcess &)>& launcher,
-                 const Args... args)
-    {
-        QStringList arguments;
-        append(arguments, args...);
-
-        QProcess pr;
-        pr.setProcessChannelMode(QProcess::MergedChannels);
-
-        if (outputDataCallback)
-            QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
-
-        pr.setProgram(executable);
-        pr.setArguments(arguments);
-
-        const std::string info_message =
-            QString("Executing %1 %2").arg(executable).arg(arguments.join(" ")).toStdString();
-
-        logger->info(info_message);
-
-        launcher(pr);
-    }
-
     struct StabilizationData
     {
         const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
@@ -171,7 +131,7 @@ QStringList AnimationGenerator::stabilize()
                                  .arg(dirForRotatedPhotos->path())
                                  .arg(photo_index);
 
-        execute(
+        GeneratorUtils::execute(
             m_logger,
             m_data.convertPath,
             [](QIODevice &) {},
@@ -235,7 +195,7 @@ QStringList AnimationGenerator::stabilize()
         }
     };
 
-    execute(m_logger,
+    GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
             align_image_stack_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
@@ -334,7 +294,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
         }
     };
 
-    execute(m_logger,
+    GeneratorUtils::execute(m_logger,
             m_data.convertPath,
             convert_output_analizer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
