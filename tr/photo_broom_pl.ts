@@ -599,6 +599,11 @@ Kod błędu: %1</translation>
         <translation>animacja</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>HDR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+50"/>
         <source>Animation speed:</source>
         <translation>Szybkość animacji:</translation>
@@ -629,12 +634,18 @@ Kod błędu: %1</translation>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+16"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+124"/>
+        <source>Generate preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+68"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+72"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="-52"/>
         <location line="+74"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -645,13 +656,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-68"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+52"/>
-        <source>Generate animation</source>
-        <translation>Utwórz animację</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+22"/>
+        <location line="+74"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
@@ -689,8 +694,8 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Cancel generation</source>
-        <translation>Przerwij</translation>
+        <source>Cancel</source>
+        <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
         <location line="+25"/>

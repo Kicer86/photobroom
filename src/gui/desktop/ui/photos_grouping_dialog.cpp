@@ -49,7 +49,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
 
-    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::applyPressed);
+    connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
 }
 
 
@@ -121,7 +121,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
     ui->animationOptions->setEnabled(true);
-    ui->applyButton->setText(tr("Generate animation"));
+    ui->previewButton->setText(tr("Generate preview"));
 
     refreshDialogButtons();
 }
@@ -139,7 +139,7 @@ void PhotosGroupingDialog::typeChanged()
 }
 
 
-void PhotosGroupingDialog::applyPressed()
+void PhotosGroupingDialog::previewPressed()
 {
     if (m_workInProgress)
     {
@@ -194,7 +194,7 @@ void PhotosGroupingDialog::makeAnimation()
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
-        ui->applyButton->setText(tr("Cancel generation"));
+        ui->previewButton->setText(tr("Cancel"));
         ui->resultPreview->setWidget(new QWidget);
         m_workInProgress = true;
         m_representativeFile.clear();
