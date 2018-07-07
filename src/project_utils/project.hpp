@@ -53,7 +53,7 @@ struct PROJECT_UTILS_EXPORT ProjectInfo
         const QString& getBaseDir() const;                   // collection base dir (usually where bpj file lies)
         const QString& getName() const;                      // collection name
         const QString& getInternalLocation() const;          // return base for internal content (subdir of baseDir)
-        QString getInternalLocation(InternalData) const;     // subdirectory of internal conent for particular Photo Broom files (database, log files, etc)
+        QString getInternalLocation(InternalData) const;     // subdirectory of internal content for particular Photo Broom files (database, log files, etc)
 
     private:
         QString path;
