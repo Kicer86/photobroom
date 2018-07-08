@@ -24,8 +24,8 @@ struct SYSTEM_EXPORT System
     [[deprecated]] static QString getTempFilePatternFor(const QString& extension);  // just xyz without a dot
     static std::string findProgram(const std::string& name);         // TODO: is is really necessary?
     static std::string userName();
-    static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);       // Returns dir in tmp dir for given utility. For small files only
-    static std::unique_ptr<ITmpDir> getHeavyTmpDir(const QString& utility);  // Returns dir in tmp dir for given utility. For big files
+    static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);       // Returns dir in tmp dir for given utility.
+    static QString getTmpFile(ITmpDir *, const QString& fileExt);
 };
 
 

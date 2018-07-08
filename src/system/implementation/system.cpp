@@ -4,6 +4,7 @@
 #include <mutex>
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
@@ -12,24 +13,21 @@ namespace
 {
     struct TmpDir: public ITmpDir
     {
-        TmpDir(const std::shared_ptr<QTemporaryDir>& base_dir, const QString& name):
-            m_dir(),
-            m_tmp_dir(base_dir)
+        TmpDir(const QString& base_dir, const QString& name):
+            m_dir()
         {
-            const QString path = m_tmp_dir->path();
-
             // create sub dir
             for(int c = 0;; c++)
             {
                 const QString sub_path = QString("%2%3")
                                             .arg(name)
                                             .arg(c++);
-                QDir cd(path);
+                QDir cd(base_dir);
                 const bool status = cd.mkdir(sub_path);
 
                 if (status)
                 {
-                    m_dir = QDir(path + "/" + sub_path);
+                    m_dir = QDir(base_dir + "/" + sub_path);
                     break;
                 }
             }
@@ -47,11 +45,7 @@ namespace
 
     private:
         QDir m_dir;
-        std::shared_ptr<QTemporaryDir> m_tmp_dir;
     };
-
-    std::shared_ptr<QTemporaryDir> g_heavy_dir;
-    std::shared_ptr<QTemporaryDir> g_light_dir;
 
     std::mutex g_dir_creation;
 }
@@ -105,13 +99,14 @@ std::unique_ptr<ITmpDir> System::getTmpDir(const QString& utility)
 {
     std::unique_lock<std::mutex> l(g_dir_creation);
 
-    if (g_light_dir.get() == nullptr)
-        g_light_dir = std::make_shared<QTemporaryDir>();    // temporary dir for light files was not created yet, make one
+    const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    const QString wd = "working_dir";
+    const QDir base_dir(base);
 
-    return std::make_unique<TmpDir>(g_light_dir, utility);
-}
+    if (base_dir.exists(wd) == false)
+        base_dir.mkdir(wd);
 
+    const QString full = base + "/" + wd;
 
-std::unique_ptr<ITmpDir> System::getHeavyTmpDir(const QString& utility)
-{
+    return std::make_unique<TmpDir>(full, utility);
 }
