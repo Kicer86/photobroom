@@ -28,6 +28,7 @@
 class QProcess;
 
 struct ILogger;
+struct ITmpDir;
 
 class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 {
@@ -66,10 +67,12 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
     private:
         Data m_data;
         std::mutex m_cancelMutex;
+        std::unique_ptr<ITmpDir> m_tmpDir;
+        ITmpDir* m_workingDir;
         ILogger* m_logger;
         bool m_cancel;
 
-        QStringList stabilize(const QString &);
+        QStringList stabilize();
         QString generateGif(const QStringList &);
 
         void startAndWaitForFinish(QProcess &);
