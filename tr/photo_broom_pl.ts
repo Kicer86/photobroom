@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+152"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+150"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
@@ -14,7 +14,7 @@
         <translation>Zapisywanie wyników</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+71"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
     </message>

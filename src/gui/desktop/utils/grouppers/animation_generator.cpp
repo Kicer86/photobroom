@@ -24,7 +24,6 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QRegExp>
-#include <QTemporaryDir>
 
 #include <core/cross_thread_call.hpp>
 #include <core/ilogger.hpp>
@@ -99,6 +98,8 @@ namespace
 AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_data(data),
     m_cancelMutex(),
+    m_tmpDir(System::getTmpDir("AG_tmp")),
+    m_workingDir(System::persistentTmpDir("AG_wd")),
     m_logger(logger),
     m_cancel(false)
 {
@@ -121,12 +122,9 @@ void AnimationGenerator::perform()
 {
     emit progress(-1);
 
-    // temporary dir for heavy files, to be removed just after we are done
-    QTemporaryDir work_dir;
-
     // stabilize?
     const QStringList images_to_be_used = m_data.stabilize?
-                                          stabilize(work_dir.path()):
+                                          stabilize():
                                           m_data.photos;
 
     // generate gif (if there was no cancel during stabilization)
@@ -145,7 +143,7 @@ void AnimationGenerator::cancel()
 }
 
 
-QStringList AnimationGenerator::stabilize(const QString& work_dir)
+QStringList AnimationGenerator::stabilize()
 {
     const int photos_count = m_data.photos.size();
 
@@ -159,7 +157,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     // generate rotated copies of original images
 
     int photo_index = 0;
-    QTemporaryDir dirForRotatedPhotos;
+    auto dirForRotatedPhotos = System::getTmpDir("AG_rotate");
     QStringList rotated_photos;
     StabilizationData stabilization_data;
 
@@ -170,7 +168,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     for (const QString& photo: m_data.photos)
     {
         const QString location = QString("%1/%2.tiff")
-                                 .arg(dirForRotatedPhotos.path())
+                                 .arg(dirForRotatedPhotos->path())
                                  .arg(photo_index);
 
         execute(
@@ -193,7 +191,7 @@ QStringList AnimationGenerator::stabilize(const QString& work_dir)
     }
 
     // generate aligned files
-    const QString output_prefix = work_dir + QDir::separator() + "stabilized";
+    const QString output_prefix = m_tmpDir->path() + QDir::separator() + "stabilized";
 
     auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
     {
@@ -271,7 +269,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
-    const QString location = System::getTempFilePath() + ".gif";
+    const QString location = System::getTmpFile(m_workingDir, "gif");
 
     struct
     {
