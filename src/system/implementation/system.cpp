@@ -151,3 +151,16 @@ QString System::getTmpFile(ITmpDir* dir, const QString& fileExt)
 
     return f.fileName();
 }
+
+
+void System::cleanTemporaries()
+{
+    std::unique_lock<std::mutex> l(g_dir_creation);
+
+    const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    const QString wd = "working_dir";
+    const QString full = base + "/" + wd;
+
+    QDir base_dir(full);
+    base_dir.removeRecursively();
+}

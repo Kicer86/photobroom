@@ -14,7 +14,7 @@
         <translation>Zapisywanie wyników</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+71"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
     </message>
