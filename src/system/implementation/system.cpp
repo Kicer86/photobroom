@@ -48,6 +48,7 @@ namespace
     };
 
     std::mutex g_dir_creation;
+    std::map<QString, std::unique_ptr<ITmpDir>> g_persistentTmps;
 }
 
 
@@ -109,4 +110,44 @@ std::unique_ptr<ITmpDir> System::getTmpDir(const QString& utility)
     const QString full = base + "/" + wd;
 
     return std::make_unique<TmpDir>(full, utility);
+}
+
+
+ITmpDir* System::persistentTmpDir(const QString& utility)
+{
+    auto it = g_persistentTmps.find(utility);
+
+    if (it == g_persistentTmps.end())
+    {
+        auto i_it = g_persistentTmps.emplace(utility, getTmpDir(utility));
+
+        it = i_it.first;
+    }
+
+    return it->second.get();
+}
+
+
+QString System::getTmpFile(ITmpDir* dir, const QString& fileExt)
+{
+    static int v = 0;
+
+    const QString path = dir->path();
+
+    QFile f;
+    for(;;)
+    {
+        const QString full_path = QString("%1/%2.%3")
+                                    .arg(path)
+                                    .arg(v++, 6, 16, QLatin1Char('0'))
+                                    .arg(fileExt);
+
+        f.setFileName(full_path);
+        const bool s = f.open(QIODevice::NewOnly);
+
+        if (s)
+            break;
+    }
+
+    return f.fileName();
 }
