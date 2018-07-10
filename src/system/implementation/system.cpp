@@ -1,6 +1,9 @@
 
 #include "../system.hpp"
 
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <mutex>
 
 #include <QCoreApplication>
@@ -134,22 +137,28 @@ QString System::getTmpFile(ITmpDir* dir, const QString& fileExt)
 
     const QString path = dir->path();
 
-    QFile f;
+    QString result;
+
     for(;;)
     {
-        const QString full_path = QString("%1/%2.%3")
-                                    .arg(path)
-                                    .arg(v++, 6, 16, QLatin1Char('0'))
-                                    .arg(fileExt);
+        result = QString("%1/%2.%3")
+                    .arg(path)
+                    .arg(v++, 6, 16, QLatin1Char('0'))
+                    .arg(fileExt);
 
-        f.setFileName(full_path);
-        const bool s = f.open(QIODevice::NewOnly);
+        const std::string full_path_str = result.toStdString();
 
-        if (s)
+        // TODO: use QIODevice::NewOnly with QFile in future (when Qt5.11 is more popular)
+        const int fd = open(full_path_str.c_str(), O_CREAT | O_EXCL, 0644);
+
+        if (fd != -1)
+        {
+            close(fd);
             break;
+        }
     }
 
-    return f.fileName();
+    return result;
 }
 
 
