@@ -67,6 +67,38 @@ namespace GeneratorUtils
 
         launcher(pr);
     }
+
+    class ConvertOutputAnalyzer: public QObject
+    {
+            Q_OBJECT
+
+        public:
+            ConvertOutputAnalyzer(ILogger* logger, int photos_count);
+
+            void operator()(QIODevice& device);
+
+        signals:
+            void operation(const QString &);
+            void progress(int);
+            void finished(const QString &);
+
+        private:
+            struct
+            {
+                int photos_loaded = 0;
+                int photos_assembled = 0;
+
+                enum
+                {
+                    LoadingImages,
+                    BuildingGif,
+                } state = LoadingImages;
+
+            } conversion_data;
+
+            const int m_photos_count;
+            ILogger* m_logger;
+    };
 }
 
 #endif // GENERATORUTILS_HPP

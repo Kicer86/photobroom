@@ -52,6 +52,7 @@ set(UTILS_FILES_TO_MOC
     selection_extractor.hpp
     signal_filter.hpp
     grouppers/animation_generator.hpp
+    grouppers/generator_utils.hpp
     grouppers/hdr_generator.hpp
 )
 

@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+150"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+110"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
@@ -173,6 +173,14 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <location line="+22"/>
         <source>Missing libraries</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GeneratorUtils::ConvertOutputAnalyzer</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+63"/>
+        <source>Assembling gif file</source>
+        <translation type="unfinished">Składanie animacji</translation>
     </message>
 </context>
 <context>
