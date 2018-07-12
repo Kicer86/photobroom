@@ -14,14 +14,9 @@
         <translation>Zapisywanie wyników</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+61"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Assembling gif file</source>
-        <translation>Składanie animacji</translation>
     </message>
 </context>
 <context>

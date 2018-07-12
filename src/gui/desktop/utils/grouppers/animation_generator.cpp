@@ -223,6 +223,8 @@ QStringList AnimationGenerator::stabilize()
 
 QString AnimationGenerator::generateGif(const QStringList& photos)
 {
+    using GeneratorUtils::ConvertOutputAnalyzer;
+
     // generate gif
     const int photos_count = m_data.photos.size();
     const double last_photo_exact_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
@@ -231,72 +233,16 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     const QString last = photos.last();
     const QString location = System::getTmpFile(m_workingDir, "gif");
 
-    struct
-    {
-        const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
-        const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
-        const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
-        int photos_loaded = 0;
-        int photos_assembled = 0;
-
-        enum
-        {
-            LoadingImages,
-            BuildingGif,
-        } state = LoadingImages;
-
-    } conversion_data;
+    ConvertOutputAnalyzer coa(m_logger, photos_count);
+    connect(&coa, &ConvertOutputAnalyzer::operation, this, &AnimationGenerator::operation);
+    connect(&coa, &ConvertOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
+    connect(&coa, &ConvertOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
 
     emit operation(tr("Loading photos to be animated"));
 
-    auto convert_output_analizer = [&conversion_data, &photos_count, this](QIODevice& device)
-    {
-        while(device.bytesAvailable() > 0 && device.canReadLine())
-        {
-            const QByteArray line_raw = device.readLine();
-            const QString line(line_raw);
-
-            const QString message = "convert: " + line.trimmed();
-            m_logger->debug(message.toStdString());
-
-            switch (conversion_data.state)
-            {
-                case conversion_data.LoadingImages:
-                {
-                    if (conversion_data.loadImages_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_loaded++;
-
-                        emit progress(conversion_data.photos_loaded * 100 / photos_count);
-                    }
-                    else if (conversion_data.mogrify_regExp.exactMatch(line))
-                    {
-                        conversion_data.state = conversion_data.BuildingGif;
-
-                        emit operation(tr("Assembling gif file"));
-                    }
-
-                    break;
-                }
-
-                case conversion_data.BuildingGif:
-                {
-                    if (conversion_data.dither_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_assembled++;
-
-                        emit progress(conversion_data.photos_assembled * 100 / photos_count);
-                    }
-
-                    break;
-                }
-            };
-        }
-    };
-
     GeneratorUtils::execute(m_logger,
             m_data.convertPath,
-            convert_output_analizer,
+            coa,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second

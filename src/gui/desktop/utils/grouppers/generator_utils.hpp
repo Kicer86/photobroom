@@ -41,10 +41,10 @@ namespace GeneratorUtils
         append(list, args...);
     }
 
-    template<typename ...Args>
+    template<typename T, typename ...Args>
     void execute(ILogger* logger,
                  const QString& executable,
-                 const std::function<void(QIODevice &)>& outputDataCallback,
+                 T&& outputDataCallback,
                  const std::function<void(QProcess &)>& launcher,
                  const Args... args)
     {
@@ -54,8 +54,10 @@ namespace GeneratorUtils
         QProcess pr;
         pr.setProcessChannelMode(QProcess::MergedChannels);
 
-        if (outputDataCallback)
-            QObject::connect(&pr, &QIODevice::readyRead, std::bind(outputDataCallback, std::ref(pr)));
+        QObject::connect(&pr, &QIODevice::readyRead, [&outputDataCallback, &pr]()
+        {
+            outputDataCallback(pr);
+        });
 
         pr.setProgram(executable);
         pr.setArguments(arguments);
