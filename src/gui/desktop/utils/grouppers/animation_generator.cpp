@@ -31,27 +31,6 @@
 
 using std::placeholders::_1;
 
-namespace
-{
-    struct StabilizationData
-    {
-        const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
-        const QRegExp run_regExp  = QRegExp("^Run called.*");
-        const QRegExp save_regExp = QRegExp("^saving.*");
-
-        int stabilization_steps = 0;
-        int stabilization_step = 0;
-        int photos_saved = 0;
-
-        enum
-        {
-            StabilizingImages,
-            SavingImages,
-        } state = StabilizingImages;
-    };
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -105,9 +84,11 @@ void AnimationGenerator::cancel()
 
 QStringList AnimationGenerator::stabilize()
 {
+    using GeneratorUtils::AISOutputAnalyzer;
+
     const int photos_count = m_data.photos.size();
 
-    emit operation(tr("Stabilizing photos"));
+    emit operation(tr("Preparing photos"));
     emit progress(0);
     // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
@@ -119,14 +100,15 @@ QStringList AnimationGenerator::stabilize()
     int photo_index = 0;
     auto dirForRotatedPhotos = System::getTmpDir("AG_rotate");
     QStringList rotated_photos;
-    StabilizationData stabilization_data;
+    AISOutputAnalyzer analyzer(m_logger, photos_count);
+    connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);
+    connect(&analyzer, &AISOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
+    connect(&analyzer, &AISOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
 
-    stabilization_data.stabilization_steps =  photos_count +   // 'photos_count' photos need orientation fixes
-                                              photos_count - 1 // there will be n-1 control points groups
-                                              + 4;             // and 4 optimization steps
-
-    for (const QString& photo: m_data.photos)
+    const int p_s = m_data.photos.size();
+    for (int i = 0; i < p_s; i++)
     {
+        const QString& photo = m_data.photos[i];
         const QString location = QString("%1/%2.tiff")
                                  .arg(dirForRotatedPhotos->path())
                                  .arg(photo_index);
@@ -144,60 +126,17 @@ QStringList AnimationGenerator::stabilize()
         rotated_photos << location;
         photo_index++;
 
-        stabilization_data.stabilization_step++;
 
-        emit progress( stabilization_data.stabilization_step * 100 /
-                        stabilization_data.stabilization_steps);
+        emit progress( (i + 1) * 100 /p_s );
     }
 
     // generate aligned files
+    emit operation(tr("Stabilizing photos"));
     const QString output_prefix = m_tmpDir->path() + QDir::separator() + "stabilized";
-
-    auto align_image_stack_output_analizer = [&stabilization_data, photos_count, this](QIODevice& device)
-    {
-        while(device.bytesAvailable() > 0 && device.canReadLine())
-        {
-            const QByteArray line_raw = device.readLine();
-            const QString line(line_raw);
-
-            const QString message = "align_image_stack: " + line.trimmed();
-            m_logger->debug(message.toStdString());
-
-            switch (stabilization_data.state)
-            {
-                case stabilization_data.StabilizingImages:
-                    if (stabilization_data.cp_regExp.exactMatch(line))
-                    {
-                        stabilization_data.stabilization_step++;
-
-                        emit progress( stabilization_data.stabilization_step * 100 /
-                                       stabilization_data.stabilization_steps);
-                    }
-                    else if (stabilization_data.run_regExp.exactMatch(line))
-                    {
-                        stabilization_data.state = stabilization_data.SavingImages;
-
-                        emit operation(tr("Saving stabilized images"));
-                    }
-
-                    break;
-
-                case stabilization_data.SavingImages:
-                    if (stabilization_data.save_regExp.exactMatch(line))
-                    {
-                        stabilization_data.photos_saved++;
-
-                        emit progress( stabilization_data.photos_saved * 100 / photos_count );
-                    }
-
-                    break;
-            }
-        }
-    };
 
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
-            align_image_stack_output_analizer,
+            analyzer,
             std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
             "-C",
             "-v",                              // for align_image_stack_output_analizer

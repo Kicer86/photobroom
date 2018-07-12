@@ -4,17 +4,17 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+110"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+91"/>
+        <source>Preparing photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Saving stabilized images</source>
-        <translation>Zapisywanie wyników</translation>
-    </message>
-    <message>
-        <location line="+61"/>
+        <location line="+46"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
     </message>
@@ -171,9 +171,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
+    <name>GeneratorUtils::AISOutputAnalyzer</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+122"/>
+        <source>Saving stabilized images</source>
+        <translation type="unfinished">Zapisywanie wyników</translation>
+    </message>
+</context>
+<context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+63"/>
+        <location line="-55"/>
         <source>Assembling final file</source>
         <translation type="unfinished"></translation>
     </message>

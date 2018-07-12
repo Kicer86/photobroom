@@ -24,6 +24,10 @@ namespace
     const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
     const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
     const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
+
+    const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
+    const QRegExp run_regExp  = QRegExp("^Run called.*");
+    const QRegExp save_regExp = QRegExp("^saving.*");
 }
 
 namespace GeneratorUtils
@@ -77,6 +81,58 @@ namespace GeneratorUtils
 
                     break;
                 }
+            }
+        }
+    }
+
+
+    AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
+        m_photos_count(photos_count),
+        m_logger(logger)
+    {
+        stabilization_data.stabilization_steps =  photos_count - 1 // there will be n-1 control points groups
+                                                  + 4;             // and 4 optimization steps
+    }
+
+
+    void AISOutputAnalyzer::operator()(QIODevice& device)
+    {
+        while(device.bytesAvailable() > 0 && device.canReadLine())
+        {
+            const QByteArray line_raw = device.readLine();
+            const QString line(line_raw);
+
+            const QString message = "align_image_stack: " + line.trimmed();
+            m_logger->debug(message.toStdString());
+
+            switch (stabilization_data.state)
+            {
+                case stabilization_data.StabilizingImages:
+                    if (cp_regExp.exactMatch(line))
+                    {
+                        stabilization_data.stabilization_step++;
+
+                        emit progress( stabilization_data.stabilization_step * 100 /
+                                       stabilization_data.stabilization_steps);
+                    }
+                    else if (run_regExp.exactMatch(line))
+                    {
+                        stabilization_data.state = stabilization_data.SavingImages;
+
+                        emit operation(tr("Saving stabilized images"));
+                    }
+
+                    break;
+
+                case stabilization_data.SavingImages:
+                    if (save_regExp.exactMatch(line))
+                    {
+                        stabilization_data.photos_saved++;
+
+                        emit progress( stabilization_data.photos_saved * 100 / m_photos_count );
+                    }
+
+                    break;
             }
         }
     }

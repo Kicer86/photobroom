@@ -70,6 +70,7 @@ namespace GeneratorUtils
         launcher(pr);
     }
 
+
     class ConvertOutputAnalyzer: public QObject
     {
             Q_OBJECT
@@ -97,6 +98,40 @@ namespace GeneratorUtils
                 } state = LoadingImages;
 
             } conversion_data;
+
+            const int m_photos_count;
+            ILogger* m_logger;
+    };
+
+
+
+    class AISOutputAnalyzer: public QObject
+    {
+            Q_OBJECT
+
+        public:
+            AISOutputAnalyzer(ILogger* logger, int photos_count);
+
+            void operator()(QIODevice& device);
+
+        signals:
+            void operation(const QString &);
+            void progress(int);
+            void finished(const QString &);
+
+        private:
+            struct
+            {
+                int stabilization_steps = 0;
+                int stabilization_step = 0;
+                int photos_saved = 0;
+
+                enum
+                {
+                    StabilizingImages,
+                    SavingImages,
+                } state = StabilizingImages;
+            } stabilization_data;
 
             const int m_photos_count;
             ILogger* m_logger;
