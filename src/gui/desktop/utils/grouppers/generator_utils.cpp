@@ -77,7 +77,7 @@ namespace GeneratorUtils
 
                     break;
                 }
-            };
+            }
         }
     }
 
