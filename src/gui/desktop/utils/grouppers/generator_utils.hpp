@@ -104,7 +104,6 @@ namespace GeneratorUtils
     };
 
 
-
     class AISOutputAnalyzer: public QObject
     {
             Q_OBJECT
