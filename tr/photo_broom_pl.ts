@@ -174,8 +174,8 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+63"/>
-        <source>Assembling gif file</source>
-        <translation type="unfinished">Składanie animacji</translation>
+        <source>Assembling final file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

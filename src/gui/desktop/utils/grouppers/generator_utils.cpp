@@ -58,15 +58,15 @@ namespace GeneratorUtils
                     }
                     else if (mogrify_regExp.exactMatch(line))
                     {
-                        conversion_data.state = conversion_data.BuildingGif;
+                        conversion_data.state = conversion_data.BuildingImage;
 
-                        emit operation(tr("Assembling gif file"));
+                        emit operation(tr("Assembling final file"));
                     }
 
                     break;
                 }
 
-                case conversion_data.BuildingGif:
+                case conversion_data.BuildingImage:
                 {
                     if (dither_regExp.exactMatch(line))
                     {

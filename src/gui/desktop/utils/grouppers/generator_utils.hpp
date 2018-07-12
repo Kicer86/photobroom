@@ -93,7 +93,7 @@ namespace GeneratorUtils
                 enum
                 {
                     LoadingImages,
-                    BuildingGif,
+                    BuildingImage,
                 } state = LoadingImages;
 
             } conversion_data;
