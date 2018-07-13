@@ -142,13 +142,12 @@ namespace GeneratorUtils
             Q_OBJECT
 
         public:
-            ProcessRunner(QProcess &);
+            ProcessRunner();
 
-            void runAndWait();
+            void operator()(QProcess &);
             void cancel();
 
         private:
-            QProcess& m_process;
 
         signals:
             void stop();

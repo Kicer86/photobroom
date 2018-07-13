@@ -145,19 +145,19 @@ namespace GeneratorUtils
 
     ///////////////////////////////////////////////////////////////////////////
 
-    ProcessRunner::ProcessRunner(QProcess& pr): m_process(pr)
+    ProcessRunner::ProcessRunner()
     {
-        connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
     }
 
 
-    void ProcessRunner::runAndWait()
+    void ProcessRunner::operator()(QProcess& pr)
     {
         QEventLoop loop;
 
-        connect(&m_process, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
+        connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
+        connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
 
-        m_process.start();
+        pr.start();
         loop.exec();
     }
 
