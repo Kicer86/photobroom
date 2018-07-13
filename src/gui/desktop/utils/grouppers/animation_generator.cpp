@@ -85,6 +85,7 @@ void AnimationGenerator::cancel()
 QStringList AnimationGenerator::stabilize()
 {
     using GeneratorUtils::AISOutputAnalyzer;
+    using GeneratorUtils::ProcessRunner;
 
     const int photos_count = m_data.photos.size();
 
@@ -117,7 +118,7 @@ QStringList AnimationGenerator::stabilize()
             m_logger,
             m_data.convertPath,
             [](QIODevice &) {},
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
+            ProcessRunner(),
             "-monitor",                                      // be verbose
             photo,
             "-auto-orient",
@@ -137,7 +138,7 @@ QStringList AnimationGenerator::stabilize()
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
             analyzer,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
+            ProcessRunner(),
             "-C",
             "-v",                              // for align_image_stack_output_analizer
             "--use-given-order",
@@ -163,6 +164,7 @@ QStringList AnimationGenerator::stabilize()
 QString AnimationGenerator::generateGif(const QStringList& photos)
 {
     using GeneratorUtils::ConvertOutputAnalyzer;
+    using GeneratorUtils::ProcessRunner;
 
     // generate gif
     const int photos_count = m_data.photos.size();
@@ -182,7 +184,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     GeneratorUtils::execute(m_logger,
             m_data.convertPath,
             coa,
-            std::bind(&AnimationGenerator::startAndWaitForFinish, this, _1),
+            ProcessRunner(),
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,
@@ -201,23 +203,4 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     //     from (0, 0) to (cropX, cropY). It results in a black border.
     //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
     //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
-}
-
-
-void AnimationGenerator::startAndWaitForFinish(QProcess& process)
-{
-    // lock mutex to setup reaction on cancel correctly
-    std::unique_lock<std::mutex> lock(m_cancelMutex);
-
-    if (m_cancel == false)
-    {
-        QEventLoop loop;
-
-        connect(this, &AnimationGenerator::canceled, &process, &QProcess::terminate);
-        connect(&process, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
-
-        process.start();
-        lock.unlock();
-        loop.exec();
-    }
 }
