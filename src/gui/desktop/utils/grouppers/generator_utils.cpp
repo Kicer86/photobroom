@@ -18,6 +18,8 @@
 
 #include "generator_utils.hpp"
 
+#include <QEventLoop>
+
 
 namespace
 {
@@ -86,6 +88,9 @@ namespace GeneratorUtils
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+
+
     AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
         m_photos_count(photos_count),
         m_logger(logger)
@@ -137,4 +142,28 @@ namespace GeneratorUtils
         }
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    ProcessRunner::ProcessRunner(QProcess& pr): m_process(pr)
+    {
+        connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
+    }
+
+
+    void ProcessRunner::runAndWait()
+    {
+        QEventLoop loop;
+
+        connect(&m_process, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
+
+        m_process.start();
+        loop.exec();
+    }
+
+
+    void GeneratorUtils::ProcessRunner::cancel()
+    {
+        emit stop();
+    }
 }

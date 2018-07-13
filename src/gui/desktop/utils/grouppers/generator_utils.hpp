@@ -135,6 +135,24 @@ namespace GeneratorUtils
             const int m_photos_count;
             ILogger* m_logger;
     };
+
+
+    class ProcessRunner: public QObject
+    {
+            Q_OBJECT
+
+        public:
+            ProcessRunner(QProcess &);
+
+            void runAndWait();
+            void cancel();
+
+        private:
+            QProcess& m_process;
+
+        signals:
+            void stop();
+    };
 }
 
 #endif // GENERATORUTILS_HPP
