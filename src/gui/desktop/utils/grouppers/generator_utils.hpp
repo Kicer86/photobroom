@@ -41,11 +41,11 @@ namespace GeneratorUtils
         append(list, args...);
     }
 
-    template<typename T, typename ...Args>
+    template<typename T, typename L, typename ...Args>
     void execute(ILogger* logger,
                  const QString& executable,
                  T&& outputDataCallback,
-                 const std::function<void(QProcess &)>& launcher,
+                 L&& launcher,
                  const Args... args)
     {
         QStringList arguments;
