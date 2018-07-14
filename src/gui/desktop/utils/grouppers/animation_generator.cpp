@@ -32,7 +32,6 @@ using std::placeholders::_1;
 
 AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_data(data),
-    m_tmpDir(System::getTmpDir("AG_tmp")),
     m_workingDir(System::persistentTmpDir("AG_wd")),
     m_logger(logger)
 {
@@ -92,7 +91,7 @@ QStringList AnimationGenerator::stabilize()
 
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
-    const QString output_prefix = m_tmpDir->path() + QDir::separator() + "stabilized";
+    const QString output_prefix = m_tmpDir->path() + "/stabilized";
 
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,

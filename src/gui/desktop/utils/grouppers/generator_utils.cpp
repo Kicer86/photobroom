@@ -22,6 +22,7 @@
 
 #include "system/system.hpp"
 
+
 namespace
 {
     const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
@@ -183,7 +184,8 @@ namespace GeneratorUtils
 
     BreakableTask::BreakableTask():
         QObject(),
-        m_runner()
+        m_runner(),
+        m_tmpDir(System::getTmpDir("BT_tmp"))
     {
         connect(this, &BreakableTask::canceled,
                 &m_runner, &GeneratorUtils::ProcessRunner::cancel);

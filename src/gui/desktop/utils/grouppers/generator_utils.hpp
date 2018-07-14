@@ -170,6 +170,7 @@ namespace GeneratorUtils
             void cancel();
 
         protected:
+            std::unique_ptr<ITmpDir> m_tmpDir;
             ProcessRunner m_runner;
             virtual void run() = 0;
 

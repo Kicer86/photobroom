@@ -58,7 +58,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
 
     private:
         Data m_data;
-        std::unique_ptr<ITmpDir> m_tmpDir;
         ITmpDir* m_workingDir;
         ILogger* m_logger;
 
