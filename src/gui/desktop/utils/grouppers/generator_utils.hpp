@@ -144,7 +144,7 @@ namespace GeneratorUtils
         public:
             ProcessRunner();
 
-            void operator()(QProcess &);
+            void operator()(QProcess &);      // throws `bool` if action was cancelled or was launched again after cancelation
             void cancel();
 
         private:

@@ -163,6 +163,9 @@ namespace GeneratorUtils
             pr.start();
             loop.exec();
         }
+
+        if (m_work == false)
+            throw false;
     }
 
 
