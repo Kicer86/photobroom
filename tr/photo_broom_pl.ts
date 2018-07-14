@@ -4,12 +4,12 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
         <source>Preparing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+42"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
@@ -708,7 +708,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+41"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+42"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

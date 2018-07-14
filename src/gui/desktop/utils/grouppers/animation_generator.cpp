@@ -36,8 +36,7 @@ AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_workingDir(System::persistentTmpDir("AG_wd")),
     m_logger(logger)
 {
-    connect(this, &AnimationGenerator::canceled,
-            &m_runner, &GeneratorUtils::ProcessRunner::cancel);
+
 }
 
 
@@ -53,33 +52,19 @@ std::string AnimationGenerator::name() const
 }
 
 
-void AnimationGenerator::perform()
+void AnimationGenerator::run()
 {
     emit progress(-1);
 
-    QString gif_path;
+    // stabilize?
+    const QStringList images_to_be_used = m_data.stabilize?
+                                        stabilize():
+                                        m_data.photos;
 
-    try
-    {
-        // stabilize?
-        const QStringList images_to_be_used = m_data.stabilize?
-                                            stabilize():
-                                            m_data.photos;
-
-        // generate gif (if there was no cancel during stabilization)
-        gif_path = generateGif(images_to_be_used);
-    }
-    catch(bool)
-    {
-    }
+    // generate gif (if there was no cancel during stabilization)
+    const QString gif_path = generateGif(images_to_be_used);
 
     emit finished(gif_path);
-}
-
-
-void AnimationGenerator::cancel()
-{
-    emit canceled();
 }
 
 
@@ -126,7 +111,6 @@ QStringList AnimationGenerator::stabilize()
 
         rotated_photos << location;
         photo_index++;
-
 
         emit progress( (i + 1) * 100 /p_s );
     }

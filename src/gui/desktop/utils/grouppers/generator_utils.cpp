@@ -175,4 +175,40 @@ namespace GeneratorUtils
 
         emit stop();
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    BreakableTask::BreakableTask():
+        QObject(),
+        m_runner()
+    {
+        connect(this, &BreakableTask::canceled,
+                &m_runner, &GeneratorUtils::ProcessRunner::cancel);
+    }
+
+
+    GeneratorUtils::BreakableTask::~BreakableTask()
+    {
+    }
+
+
+
+    void GeneratorUtils::BreakableTask::perform()
+    {
+        try
+        {
+            run();
+        }
+        catch(bool)
+        {
+        }
+    }
+
+
+    void GeneratorUtils::BreakableTask::cancel()
+    {
+        emit canceled();
+    }
 }

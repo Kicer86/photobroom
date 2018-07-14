@@ -20,10 +20,7 @@
 #ifndef ANIMATION_GENERATOR_HPP
 #define ANIMATION_GENERATOR_HPP
 
-#include <QObject>
 #include <QSize>
-
-#include <core/itask_executor.hpp>
 
 #include "generator_utils.hpp"
 
@@ -32,7 +29,7 @@ class QProcess;
 struct ILogger;
 struct ITmpDir;
 
-class AnimationGenerator: public QObject, public ITaskExecutor::ITask
+class AnimationGenerator: public GeneratorUtils::BreakableTask
 {
         Q_OBJECT
 
@@ -57,9 +54,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
         AnimationGenerator& operator=(const AnimationGenerator &) = delete;
 
         std::string name() const override;
-        void perform() override;
-
-        void cancel();
+        void run() override;
 
     signals:
         void operation(const QString &);
@@ -68,17 +63,12 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 
     private:
         Data m_data;
-        GeneratorUtils::ProcessRunner m_runner;
         std::unique_ptr<ITmpDir> m_tmpDir;
         ITmpDir* m_workingDir;
         ILogger* m_logger;
 
         QStringList stabilize();
         QString generateGif(const QStringList &);
-
-    // internal signals:
-    signals:
-        void canceled();
 };
 
 

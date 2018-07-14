@@ -25,6 +25,7 @@
 #include <QStringList>
 
 #include <core/ilogger.hpp>
+#include <core/itask_executor.hpp>
 
 namespace GeneratorUtils
 {
@@ -152,6 +153,26 @@ namespace GeneratorUtils
 
         signals:
             void stop();
+    };
+
+
+    class BreakableTask: public QObject, public ITaskExecutor::ITask
+    {
+            Q_OBJECT
+
+        public:
+            BreakableTask();
+            virtual ~BreakableTask();
+
+            void perform() override final;
+            void cancel();
+
+        protected:
+            ProcessRunner m_runner;
+            virtual void run() = 0;
+
+        signals:
+            void canceled();
     };
 }
 
