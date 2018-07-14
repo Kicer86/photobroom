@@ -31,8 +31,6 @@ struct ITmpDir;
 
 class AnimationGenerator: public GeneratorUtils::BreakableTask
 {
-        Q_OBJECT
-
     public:
         struct Data
         {
@@ -55,11 +53,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
 
         std::string name() const override;
         void run() override;
-
-    signals:
-        void operation(const QString &);
-        void progress(int);
-        void finished(const QString &);
 
     private:
         Data m_data;

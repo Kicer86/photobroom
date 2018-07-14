@@ -172,6 +172,9 @@ namespace GeneratorUtils
             virtual void run() = 0;
 
         signals:
+            void operation(const QString &);
+            void progress(int);
+            void finished(const QString &);
             void canceled();
     };
 }
