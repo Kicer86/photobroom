@@ -27,6 +27,8 @@
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 
+struct ITmpDir;
+
 namespace GeneratorUtils
 {
     template<typename T>
@@ -171,11 +173,13 @@ namespace GeneratorUtils
             ProcessRunner m_runner;
             virtual void run() = 0;
 
+            QStringList rotatePhotos(const QStringList& photos, const QString& covert, ILogger *, const QString& storage);
+
         signals:
-            void operation(const QString &);
-            void progress(int);
-            void finished(const QString &);
-            void canceled();
+            void operation(const QString &) const;
+            void progress(int) const;
+            void finished(const QString &) const;
+            void canceled() const;
     };
 }
 

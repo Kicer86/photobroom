@@ -20,6 +20,7 @@
 
 #include <QEventLoop>
 
+#include "system/system.hpp"
 
 namespace
 {
@@ -189,13 +190,13 @@ namespace GeneratorUtils
     }
 
 
-    GeneratorUtils::BreakableTask::~BreakableTask()
+    BreakableTask::~BreakableTask()
     {
     }
 
 
 
-    void GeneratorUtils::BreakableTask::perform()
+    void BreakableTask::perform()
     {
         try
         {
@@ -207,8 +208,48 @@ namespace GeneratorUtils
     }
 
 
-    void GeneratorUtils::BreakableTask::cancel()
+    void BreakableTask::cancel()
     {
         emit canceled();
     }
+
+
+    QStringList BreakableTask::rotatePhotos(const QStringList& photos,
+                                                            const QString& covert,
+                                                            ILogger* logger,
+                                                            const QString& storage)
+    {
+        emit operation(tr("Preparing photos"));
+        emit progress(0);
+
+        int photo_index = 0;
+        QStringList rotated_photos;
+
+        const int p_s = photos.size();
+        for (int i = 0; i < p_s; i++)
+        {
+            const QString& photo = photos[i];
+            const QString location = QString("%1/%2.tiff")
+                                    .arg(storage)
+                                    .arg(photo_index);
+
+            execute(
+                logger,
+                covert,
+                [](QIODevice &) {},
+                m_runner,
+                "-monitor",                                      // be verbose
+                photo,
+                "-auto-orient",
+                location);
+
+            rotated_photos << location;
+            photo_index++;
+
+            emit progress( (i + 1) * 100 /p_s );
+        }
+
+        return rotated_photos;
+    }
+
 }
