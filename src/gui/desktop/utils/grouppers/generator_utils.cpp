@@ -145,7 +145,8 @@ namespace GeneratorUtils
 
     ///////////////////////////////////////////////////////////////////////////
 
-    ProcessRunner::ProcessRunner()
+
+    ProcessRunner::ProcessRunner(): m_work(true)
     {
     }
 
@@ -157,13 +158,18 @@ namespace GeneratorUtils
         connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
         connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
 
-        pr.start();
-        loop.exec();
+        if (m_work)
+        {
+            pr.start();
+            loop.exec();
+        }
     }
 
 
     void GeneratorUtils::ProcessRunner::cancel()
     {
+        m_work = false;
+
         emit stop();
     }
 }

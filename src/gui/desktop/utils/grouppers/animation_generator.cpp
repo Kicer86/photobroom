@@ -25,8 +25,6 @@
 #include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
 
-#include "generator_utils.hpp"
-
 using std::placeholders::_1;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,6 +38,8 @@ AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_logger(logger),
     m_cancel(false)
 {
+    connect(this, &AnimationGenerator::canceled,
+            &m_runner, &GeneratorUtils::ProcessRunner::cancel);
 }
 
 
@@ -83,7 +83,6 @@ void AnimationGenerator::cancel()
 QStringList AnimationGenerator::stabilize()
 {
     using GeneratorUtils::AISOutputAnalyzer;
-    using GeneratorUtils::ProcessRunner;
 
     const int photos_count = m_data.photos.size();
 
@@ -116,7 +115,7 @@ QStringList AnimationGenerator::stabilize()
             m_logger,
             m_data.convertPath,
             [](QIODevice &) {},
-            ProcessRunner(),
+            m_runner,
             "-monitor",                                      // be verbose
             photo,
             "-auto-orient",
@@ -136,7 +135,7 @@ QStringList AnimationGenerator::stabilize()
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
             analyzer,
-            ProcessRunner(),
+            m_runner,
             "-C",
             "-v",                              // for align_image_stack_output_analizer
             "--use-given-order",
@@ -162,7 +161,6 @@ QStringList AnimationGenerator::stabilize()
 QString AnimationGenerator::generateGif(const QStringList& photos)
 {
     using GeneratorUtils::ConvertOutputAnalyzer;
-    using GeneratorUtils::ProcessRunner;
 
     // generate gif
     const int photos_count = m_data.photos.size();
@@ -182,7 +180,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     GeneratorUtils::execute(m_logger,
             m_data.convertPath,
             coa,
-            ProcessRunner(),
+            m_runner,
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,

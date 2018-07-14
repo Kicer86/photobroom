@@ -25,6 +25,8 @@
 
 #include <core/itask_executor.hpp>
 
+#include "generator_utils.hpp"
+
 class QProcess;
 
 struct ILogger;
@@ -66,6 +68,7 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
 
     private:
         Data m_data;
+        GeneratorUtils::ProcessRunner m_runner;
         std::mutex m_cancelMutex;
         std::unique_ptr<ITmpDir> m_tmpDir;
         ITmpDir* m_workingDir;

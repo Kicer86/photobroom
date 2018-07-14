@@ -148,6 +148,7 @@ namespace GeneratorUtils
             void cancel();
 
         private:
+            bool m_work;
 
         signals:
             void stop();
