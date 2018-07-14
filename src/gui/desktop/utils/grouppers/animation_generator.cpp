@@ -20,9 +20,7 @@
 #include "animation_generator.hpp"
 
 #include <QDirIterator>
-#include <QEventLoop>
 #include <QFileInfo>
-#include <QRegExp>
 
 #include <core/cross_thread_call.hpp>
 #include <system/system.hpp>
