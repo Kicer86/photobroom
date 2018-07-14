@@ -128,6 +128,12 @@ void PhotosGroupingDialog::generationDone(const QString& location)
 }
 
 
+void PhotosGroupingDialog::generationCanceled()
+{
+    generationDone(QString());
+}
+
+
 void PhotosGroupingDialog::refreshDialogButtons()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
@@ -196,6 +202,7 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+        connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
 
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
