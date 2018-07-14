@@ -31,6 +31,8 @@ struct ITmpDir;
 
 class AnimationGenerator: public GeneratorUtils::BreakableTask
 {
+        Q_OBJECT
+
     public:
         struct Data
         {

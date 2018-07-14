@@ -51,6 +51,7 @@ set(UTILS_FILES_TO_MOC
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
+    grouppers/animation_generator.hpp
     grouppers/generator_utils.hpp
 )
 
