@@ -202,7 +202,7 @@
           </item>
           <item>
            <widget class="QStackedWidget" name="previewButtons">
-            <widget class="QWidget" name="generate" native="true">
+            <widget class="QWidget" name="generate">
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
                <spacer name="horizontalSpacer_2">
@@ -391,6 +391,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>groupingType</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>optionsWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>156</x>
+     <y>252</y>
     </hint>
    </hints>
   </connection>
