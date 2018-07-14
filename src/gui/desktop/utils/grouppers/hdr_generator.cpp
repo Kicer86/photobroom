@@ -18,6 +18,8 @@
 
 #include "hdr_generator.hpp"
 
+#include "system/system.hpp"
+
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger):
     m_data(data),
@@ -34,4 +36,34 @@ std::string HDRGenerator::name() const
 
 void HDRGenerator::run()
 {
+    using GeneratorUtils::AISOutputAnalyzer;
+
+    auto rotateDir = System::getTmpDir("HDR_rotate");
+
+    // rotate photos
+    const QStringList rotated = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, rotateDir->path());
+
+    // blend them!
+    const int photos_count = m_data.photos.size();
+    AISOutputAnalyzer analyzer(m_logger, photos_count);
+    connect(&analyzer, &AISOutputAnalyzer::operation, this, &HDRGenerator::operation);
+    connect(&analyzer, &AISOutputAnalyzer::progress,  this, &HDRGenerator::progress);
+    connect(&analyzer, &AISOutputAnalyzer::finished,  this, &HDRGenerator::finished);
+
+    // generate aligned files
+    emit operation(tr("generating HDR"));
+    const QString output_prefix = m_tmpDir->path() + "/output";
+
+    GeneratorUtils::execute(m_logger,
+            m_data.alignImageStackPath,
+            analyzer,
+            m_runner,
+            "-C",
+            "-v",                              // for align_image_stack_output_analizer
+            "-d", "-i", "-x", "-y", "-z",
+            "-s", "0",
+            "-o", output_prefix,
+            rotated);
+
+    emit finished(output_prefix + ".hdr");
 }

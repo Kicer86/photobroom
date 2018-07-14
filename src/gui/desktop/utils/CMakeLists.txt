@@ -53,6 +53,7 @@ set(UTILS_FILES_TO_MOC
     signal_filter.hpp
     grouppers/animation_generator.hpp
     grouppers/generator_utils.hpp
+    grouppers/hdr_generator.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

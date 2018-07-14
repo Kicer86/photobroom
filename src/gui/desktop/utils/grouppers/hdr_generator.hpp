@@ -23,6 +23,8 @@
 
 class HDRGenerator: public GeneratorUtils::BreakableTask
 {
+        Q_OBJECT
+
     public:
         struct Data
         {

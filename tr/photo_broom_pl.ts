@@ -4,12 +4,12 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+76"/>
         <source>Preparing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+17"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
@@ -173,16 +173,32 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+127"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+129"/>
         <source>Saving stabilized images</source>
         <translation type="unfinished">Zapisywanie wyników</translation>
     </message>
 </context>
 <context>
+    <name>GeneratorUtils::BreakableTask</name>
+    <message>
+        <location line="+95"/>
+        <source>Preparing photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location line="-58"/>
+        <location line="-153"/>
         <source>Assembling final file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HDRGenerator</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+54"/>
+        <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
