@@ -69,11 +69,9 @@ class AnimationGenerator: public QObject, public ITaskExecutor::ITask
     private:
         Data m_data;
         GeneratorUtils::ProcessRunner m_runner;
-        std::mutex m_cancelMutex;
         std::unique_ptr<ITmpDir> m_tmpDir;
         ITmpDir* m_workingDir;
         ILogger* m_logger;
-        bool m_cancel;
 
         QStringList stabilize();
         QString generateGif(const QStringList &);

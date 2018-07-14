@@ -32,11 +32,9 @@ using std::placeholders::_1;
 
 AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
     m_data(data),
-    m_cancelMutex(),
     m_tmpDir(System::getTmpDir("AG_tmp")),
     m_workingDir(System::persistentTmpDir("AG_wd")),
-    m_logger(logger),
-    m_cancel(false)
+    m_logger(logger)
 {
     connect(this, &AnimationGenerator::canceled,
             &m_runner, &GeneratorUtils::ProcessRunner::cancel);
@@ -59,13 +57,21 @@ void AnimationGenerator::perform()
 {
     emit progress(-1);
 
-    // stabilize?
-    const QStringList images_to_be_used = m_data.stabilize?
-                                          stabilize():
-                                          m_data.photos;
+    QString gif_path;
 
-    // generate gif (if there was no cancel during stabilization)
-    const QString gif_path = m_cancel? "": generateGif(images_to_be_used);
+    try
+    {
+        // stabilize?
+        const QStringList images_to_be_used = m_data.stabilize?
+                                            stabilize():
+                                            m_data.photos;
+
+        // generate gif (if there was no cancel during stabilization)
+        gif_path = generateGif(images_to_be_used);
+    }
+    catch(bool)
+    {
+    }
 
     emit finished(gif_path);
 }
@@ -73,9 +79,6 @@ void AnimationGenerator::perform()
 
 void AnimationGenerator::cancel()
 {
-    std::lock_guard<std::mutex> lock(m_cancelMutex);
-    m_cancel = true;
-
     emit canceled();
 }
 
@@ -192,7 +195,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
             "-scale", QString::number(m_data.scale) + "%",
             location);
 
-    return m_cancel? "": location;
+    return location;
 
     // [1] It seems that align_image_stack may safe information about crop it applied to images.
     //     convert uses this information(?) and generates gif with frames moved
