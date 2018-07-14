@@ -82,38 +82,13 @@ QStringList AnimationGenerator::stabilize()
 
     // align_image_stack doesn't respect photo's rotation
     // generate rotated copies of original images
-
-    int photo_index = 0;
     auto dirForRotatedPhotos = System::getTmpDir("AG_rotate");
-    QStringList rotated_photos;
+    const QStringList rotated_photos = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, dirForRotatedPhotos->path());
+
     AISOutputAnalyzer analyzer(m_logger, photos_count);
     connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);
     connect(&analyzer, &AISOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
     connect(&analyzer, &AISOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
-
-    const int p_s = m_data.photos.size();
-    for (int i = 0; i < p_s; i++)
-    {
-        const QString& photo = m_data.photos[i];
-        const QString location = QString("%1/%2.tiff")
-                                 .arg(dirForRotatedPhotos->path())
-                                 .arg(photo_index);
-
-        GeneratorUtils::execute(
-            m_logger,
-            m_data.convertPath,
-            [](QIODevice &) {},
-            m_runner,
-            "-monitor",                                      // be verbose
-            photo,
-            "-auto-orient",
-            location);
-
-        rotated_photos << location;
-        photo_index++;
-
-        emit progress( (i + 1) * 100 /p_s );
-    }
 
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
