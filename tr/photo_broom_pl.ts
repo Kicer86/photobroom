@@ -655,7 +655,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+73"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+74"/>
         <location line="+85"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -673,11 +673,14 @@ Kod błędu: %1</translation>
     <message>
         <location line="+25"/>
         <location line="+8"/>
+        <location line="+39"/>
+        <location line="+8"/>
         <source>Missing tool</source>
         <translation>Brakujący program</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-54"/>
+        <location line="+47"/>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
@@ -690,7 +693,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-39"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -701,6 +704,15 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 
 &quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR animation.
+Please go to settings and setup path to &apos;align_image_stack&apos; executable.
+
+&apos;align_image_stack&apos; is a tool which is a part of Hugin.
+Visit http://hugin.sourceforge.net/ for downloads.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
