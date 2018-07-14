@@ -19,9 +19,28 @@
 #ifndef HDRGENERATOR_HPP
 #define HDRGENERATOR_HPP
 
+#include "generator_utils.hpp"
 
-class HDRGenerator
+class HDRGenerator: public GeneratorUtils::BreakableTask
 {
+    public:
+        struct Data
+        {
+            QString convertPath;
+            QString alignImageStackPath;
+            QStringList photos;
+
+            Data(): convertPath(), alignImageStackPath(), photos() {}
+        };
+
+        HDRGenerator(const Data& photos, ILogger *);
+
+        std::string name() const override;
+        void run() override;
+
+    private:
+        const Data m_data;
+        ILogger* m_logger;
 };
 
 #endif // HDRGENERATOR_HPP

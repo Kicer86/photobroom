@@ -17,3 +17,21 @@
  */
 
 #include "hdr_generator.hpp"
+
+
+HDRGenerator::HDRGenerator(const Data& data, ILogger* logger):
+    m_data(data),
+    m_logger(logger)
+{
+}
+
+
+std::string HDRGenerator::name() const
+{
+    return "HDRGenerator";
+}
+
+
+void HDRGenerator::run()
+{
+}
