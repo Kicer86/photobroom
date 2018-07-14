@@ -38,6 +38,7 @@ std::string HDRGenerator::name() const
 void HDRGenerator::run()
 {
     using GeneratorUtils::AISOutputAnalyzer;
+    using GeneratorUtils::ConvertOutputAnalyzer;
 
     // rotate photos
     const QStringList rotated = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, m_tmpDir->path());
@@ -49,7 +50,6 @@ void HDRGenerator::run()
     connect(&analyzer, &AISOutputAnalyzer::progress,  this, &HDRGenerator::progress);
     connect(&analyzer, &AISOutputAnalyzer::finished,  this, &HDRGenerator::finished);
 
-    // generate aligned files
     emit operation(tr("generating HDR"));
     const QString location = System::getTmpFile(m_storage, "hdr");
 
@@ -64,5 +64,21 @@ void HDRGenerator::run()
             "-o", location,
             rotated);
 
-    emit finished(location);
+    const QString output = System::getTmpFile(m_storage, "jpeg");
+    ConvertOutputAnalyzer coa(m_logger, photos_count);
+    connect(&coa, &ConvertOutputAnalyzer::operation, this, &HDRGenerator::operation);
+    connect(&coa, &ConvertOutputAnalyzer::progress,  this, &HDRGenerator::progress);
+    connect(&coa, &ConvertOutputAnalyzer::finished,  this, &HDRGenerator::finished);
+
+    emit operation(tr("Saving result"));
+
+    GeneratorUtils::execute(m_logger,
+            m_data.convertPath,
+            coa,
+            m_runner,
+            "-monitor",                                      // for convert_output_analizer
+            location,
+            output);
+
+    emit finished(output);
 }

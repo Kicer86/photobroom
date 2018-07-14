@@ -201,6 +201,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+20"/>
+        <source>Saving result</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IdxDataManager</name>
