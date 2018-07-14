@@ -14,6 +14,7 @@
 #include "ui_photos_grouping_dialog.h"
 
 #include "utils/grouppers/animation_generator.hpp"
+#include "utils/grouppers/hdr_generator.hpp"
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
@@ -205,6 +206,53 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
 
         m_executor->add(std::move(animation_task));
+        ui->generationProgressBar->setEnabled(true);
+        ui->animationOptions->setEnabled(false);
+        ui->resultPreview->setWidget(new QWidget);
+        m_workInProgress = true;
+        m_representativeFile.clear();
+
+        refreshDialogButtons();
+    }
+}
+
+
+void PhotosGroupingDialog::makeHDR()
+{
+    HDRGenerator::Data generator_data;
+
+    generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
+    generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
+    generator_data.photos = getPhotos();
+
+    // make sure we have all neccessary data
+    if (generator_data.convertPath.isEmpty())
+        QMessageBox::critical(this,
+                              tr("Missing tool"),
+                              tr("'convert' tool is neccessary for this operation.\n"
+                                 "Please go to settings and setup path to 'convert' executable.\n\n"
+                                 "'convert' is a tool which is a part of ImageMagick.\n"
+                                 "Visit https://www.imagemagick.org/ for downloads."));
+
+    else if(generator_data.alignImageStackPath.isEmpty())
+        QMessageBox::critical(this,
+                              tr("Missing tool"),
+                              tr("'align_image_stack' tool is neccessary to generate HDR animation.\n"
+                                 "Please go to settings and setup path to 'align_image_stack' executable.\n\n"
+                                 "'align_image_stack' is a tool which is a part of Hugin.\n"
+                                 "Visit http://hugin.sourceforge.net/ for downloads."));
+    else
+    {
+        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger);
+
+        connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
+        connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
+        connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+        connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+        connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+        connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+
+        m_executor->add(std::move(hdr_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
         ui->resultPreview->setWidget(new QWidget);

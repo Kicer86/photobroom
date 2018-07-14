@@ -86,6 +86,7 @@ class PhotosGroupingDialog: public QDialog
         void previewPressed();
         void previewCancelPressed();
         void makeAnimation();
+        void makeHDR();
         void fillModel(const std::vector<Photo::Data> &);
 
         QStringList getPhotos() const;
