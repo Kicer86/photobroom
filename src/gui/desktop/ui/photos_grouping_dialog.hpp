@@ -13,6 +13,7 @@ struct IConfiguration;
 struct IExifReader;
 struct ILogger;
 struct ITaskExecutor;
+struct ITmpDir;
 
 namespace Ui
 {
@@ -66,6 +67,7 @@ class PhotosGroupingDialog: public QDialog
 
     private:
         QStandardItemModel m_model;
+        std::unique_ptr<ITmpDir> m_tmpDir;
         std::unique_ptr<QMovie> m_movie;
         SortingProxy m_sortProxy;
         QString m_representativeFile;

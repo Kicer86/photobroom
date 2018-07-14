@@ -27,7 +27,6 @@
 class QProcess;
 
 struct ILogger;
-struct ITmpDir;
 
 class AnimationGenerator: public GeneratorUtils::BreakableTask
 {
@@ -36,6 +35,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
     public:
         struct Data
         {
+            QString storage;
             QString convertPath;
             QString alignImageStackPath;
             QStringList photos;
@@ -44,7 +44,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             double scale;
             bool stabilize;
 
-            Data(): convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
+            Data(): storage(), convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
         };
 
         AnimationGenerator(const Data& data, ILogger *);
@@ -58,7 +58,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
 
     private:
         Data m_data;
-        ITmpDir* m_workingDir;
         ILogger* m_logger;
 
         QStringList stabilize();

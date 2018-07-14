@@ -163,7 +163,7 @@ namespace GeneratorUtils
             Q_OBJECT
 
         public:
-            BreakableTask();
+            BreakableTask(const QString& storage);
             virtual ~BreakableTask();
 
             void perform() override final;
@@ -171,6 +171,7 @@ namespace GeneratorUtils
 
         protected:
             std::unique_ptr<ITmpDir> m_tmpDir;
+            const QString m_storage;
             ProcessRunner m_runner;
             virtual void run() = 0;
 

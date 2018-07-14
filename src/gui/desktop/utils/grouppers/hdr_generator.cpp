@@ -22,6 +22,7 @@
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger):
+    GeneratorUtils::BreakableTask(data.storage),
     m_data(data),
     m_logger(logger)
 {
@@ -38,10 +39,8 @@ void HDRGenerator::run()
 {
     using GeneratorUtils::AISOutputAnalyzer;
 
-    auto rotateDir = System::getTmpDir("HDR_rotate");
-
     // rotate photos
-    const QStringList rotated = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, rotateDir->path());
+    const QStringList rotated = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, m_tmpDir->path());
 
     // blend them!
     const int photos_count = m_data.photos.size();
@@ -52,7 +51,7 @@ void HDRGenerator::run()
 
     // generate aligned files
     emit operation(tr("generating HDR"));
-    const QString output_prefix = m_tmpDir->path() + "/output";
+    const QString location = System::getTmpFile(m_storage, "hdr");
 
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
@@ -62,8 +61,8 @@ void HDRGenerator::run()
             "-v",                              // for align_image_stack_output_analizer
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
-            "-o", output_prefix,
+            "-o", location,
             rotated);
 
-    emit finished(output_prefix + ".hdr");
+    emit finished(location);
 }

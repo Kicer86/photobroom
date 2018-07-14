@@ -182,8 +182,9 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask():
+    BreakableTask::BreakableTask(const QString& storage):
         QObject(),
+        m_storage(storage),
         m_runner(),
         m_tmpDir(System::getTmpDir("BT_tmp"))
     {

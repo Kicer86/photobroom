@@ -31,8 +31,8 @@ using std::placeholders::_1;
 
 
 AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger):
+    GeneratorUtils::BreakableTask(data.storage),
     m_data(data),
-    m_workingDir(System::persistentTmpDir("AG_wd")),
     m_logger(logger)
 {
 
@@ -129,7 +129,7 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
-    const QString location = System::getTmpFile(m_workingDir, "gif");
+    const QString location = System::getTmpFile(m_storage, "gif");
 
     ConvertOutputAnalyzer coa(m_logger, photos_count);
     connect(&coa, &ConvertOutputAnalyzer::operation, this, &AnimationGenerator::operation);

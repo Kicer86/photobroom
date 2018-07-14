@@ -10,6 +10,7 @@
 #include <core/constants.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
+#include <system/system.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
@@ -25,6 +26,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
+    m_tmpDir(System::getTmpDir("PGD_wd")),
     m_movie(),
     m_sortProxy(),
     m_representativeFile(),
@@ -186,6 +188,7 @@ void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
 
+    generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     generator_data.photos = getPhotos();
@@ -237,6 +240,7 @@ void PhotosGroupingDialog::makeHDR()
 {
     HDRGenerator::Data generator_data;
 
+    generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     generator_data.photos = getPhotos();

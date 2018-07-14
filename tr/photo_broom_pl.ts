@@ -181,7 +181,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+95"/>
+        <location line="+96"/>
         <source>Preparing photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -189,7 +189,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location line="-153"/>
+        <location line="-154"/>
         <source>Assembling final file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -197,7 +197,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+54"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+53"/>
         <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
@@ -671,7 +671,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+74"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+76"/>
         <location line="+101"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -687,16 +687,16 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <location line="+8"/>
-        <location line="+39"/>
+        <location line="+40"/>
         <location line="+8"/>
         <source>Missing tool</source>
         <translation>Brakujący program</translation>
     </message>
     <message>
-        <location line="-54"/>
-        <location line="+47"/>
+        <location line="-55"/>
+        <location line="+48"/>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
@@ -709,7 +709,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="-39"/>
+        <location line="-40"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -722,7 +722,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+48"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
