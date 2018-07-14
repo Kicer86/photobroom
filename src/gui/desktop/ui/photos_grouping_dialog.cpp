@@ -149,7 +149,23 @@ void PhotosGroupingDialog::typeChanged()
 
 void PhotosGroupingDialog::previewPressed()
 {
-    makeAnimation();
+    const int tool_page = ui->optionsWidget->currentIndex();
+
+    switch(tool_page)
+    {
+        case 0:
+            makeAnimation();
+            break;
+
+        case 1:
+            makeHDR();
+            break;
+
+        default:
+            assert(!"I should not be here");
+            break;
+    }
+
     ui->previewButtons->setCurrentIndex(1);
 }
 
