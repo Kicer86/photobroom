@@ -84,6 +84,7 @@ class Data: public IViewDataSet
 
         void modelReset() override;
         void rowsAboutToBeRemoved(const QModelIndex & , int , int ) override;
+        void rowsRemoved(const QModelIndex &, int, int);
         void rowsInserted(const QModelIndex & , int , int ) override;
 
     private:

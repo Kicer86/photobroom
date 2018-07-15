@@ -433,6 +433,12 @@ void Data::rowsInserted(const QModelIndex& p, int f, int t)
 }
 
 
+void Data::rowsRemoved(const QModelIndex& p, int f, int t)
+{
+    m_itemData->rowsRemoved(p, f, t);
+}
+
+
 std::vector<QModelIndex> Data::findInRect(const QRect& rect, const QModelIndex& first) const
 {
     std::vector<QModelIndex> result;
