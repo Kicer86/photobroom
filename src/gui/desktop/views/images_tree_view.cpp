@@ -568,6 +568,8 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 {
     TIME_GUARDIAN("ImagesTreeView::rowsRemoved", 100, "long removing");
 
+    m_data->rowsRemoved(_parent, first, last);
+
     //reset sizes and positions of existing items
     PositionsReseter reseter(model(), m_data.get());
     reseter.childRemoved(_parent, first);
