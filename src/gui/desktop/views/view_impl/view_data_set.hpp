@@ -53,11 +53,9 @@ namespace ViewData
 
 
 template<typename T, typename Key, Key (*Constructor)(const QModelIndex &)>
-class ViewDataSet final: public IViewDataSet
+class ViewDataSet final
 {
     public:
-        typedef QHash<Key, T>  Model;
-
         ViewDataSet(): m_model(), m_db_model(nullptr)
         {
             clear();
@@ -108,7 +106,7 @@ class ViewDataSet final: public IViewDataSet
         }
 
         // to be called by view:
-        void rowsInserted(const QModelIndex& parent, int from, int to) override
+        void rowsInserted(const QModelIndex& parent, int from, int to)
         {
             for( int i = from; i <= to; i++)
             {
@@ -122,7 +120,7 @@ class ViewDataSet final: public IViewDataSet
             }
         }
 
-        void rowsAboutToBeRemoved(const QModelIndex& parent, int from , int to) override
+        void rowsAboutToBeRemoved(const QModelIndex& parent, int from , int to)
         {
             // collect data for future removal
             Keys keys;
@@ -162,7 +160,7 @@ class ViewDataSet final: public IViewDataSet
             }
         }
 
-        void modelReset() override
+        void modelReset()
         {
             clear();
 
@@ -188,15 +186,8 @@ class ViewDataSet final: public IViewDataSet
         typedef std::vector<Key> Keys;
         std::map<RemovalSource, Keys> m_removalInfo;
 
-        Model m_model;
+        QHash<Key, T> m_model;
         QAbstractItemModel* m_db_model;
-
-        void erase(const QModelIndex& idx)
-        {
-            const auto key = getKey(idx);
-            assert(m_model.find(key) != m_model.end());
-            m_model.remove(getKey(idx));
-        }
 
         void clear()
         {
