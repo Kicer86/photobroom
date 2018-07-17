@@ -11,6 +11,7 @@ set(UTILS_SOURCES
     iconfig_dialog_manager.cpp
     icons_loader.cpp
     lazy_tree_item_delegate.cpp
+    media_preview.cpp
     photos_item_delegate.cpp
 )
 
@@ -23,6 +24,7 @@ set(UTILS_HEADERS
     icons_loader.hpp
     ieditor_factory.hpp
     lazy_tree_item_delegate.hpp
+    media_preview.hpp
     photos_item_delegate.hpp
 )
 
