@@ -17,3 +17,19 @@
  */
 
 #include "media_preview.hpp"
+
+
+MediaPreview::MediaPreview(QWidget* p): QWidget(p)
+{
+}
+
+
+MediaPreview::~MediaPreview()
+{
+}
+
+
+void MediaPreview::setMedia(const QString& path)
+{
+
+}

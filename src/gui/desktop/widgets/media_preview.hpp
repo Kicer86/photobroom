@@ -25,6 +25,11 @@
 
 class MediaPreview : public QWidget
 {
+    public:
+        MediaPreview(QWidget *);
+        ~MediaPreview();
+
+        void setMedia(const QString &);
 };
 
 #endif // MEDIAPREVIEW_HPP
