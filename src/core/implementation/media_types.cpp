@@ -16,42 +16,34 @@ namespace
     std::mutex img_regex_mutex;
     std::mutex anim_img_regex_mutex;
     std::mutex vid_regex_mutex;
+
+    bool is(std::mutex& mutex, const QRegExp& regex, const QString& file_path)
+    {
+        std::lock_guard<std::mutex> lock(mutex);
+
+        const QFileInfo path(file_path);
+        const QString ext = path.suffix();
+        const bool matches = regex.exactMatch(ext);
+
+        return matches;
+    }
 }
 
 
 namespace MediaTypes
 {
-
     bool isImageFile(const QString& file_path)
     {
-        std::lock_guard<std::mutex> lock(img_regex_mutex);
-
-        const QFileInfo path(file_path);
-        const QString ext = path.suffix();
-        const bool matches = img_regex.exactMatch(ext);
-
-        return matches;
+        return is(img_regex_mutex, img_regex, file_path);
     }
 
     bool isAnimatedImageFile(const QString& file_path)
     {
-        std::lock_guard<std::mutex> lock(anim_img_regex_mutex);
-
-        const QFileInfo path(file_path);
-        const QString ext = path.suffix();
-        const bool matches = anim_img_regex.exactMatch(ext);
-
-        return matches;
+        return is(anim_img_regex_mutex, anim_img_regex, file_path);
     }
 
     bool isVideoFile(const QString& file_path)
     {
-        std::lock_guard<std::mutex> lock(vid_regex_mutex);
-
-        const QFileInfo path(file_path);
-        const QString ext = path.suffix();
-        const bool matches = vid_regex.exactMatch(ext);
-
-        return matches;
+        return is(vid_regex_mutex, vid_regex, file_path);
     }
 }
