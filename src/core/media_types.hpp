@@ -10,6 +10,7 @@ class QString;
 namespace MediaTypes
 {
     CORE_EXPORT bool isImageFile(const QString &);
+    CORE_EXPORT bool isAnimatedImageFile(const QString &);
     CORE_EXPORT bool isVideoFile(const QString &);
 }
 
