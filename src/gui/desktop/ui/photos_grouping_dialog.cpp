@@ -16,6 +16,7 @@
 
 #include "utils/grouppers/animation_generator.hpp"
 #include "utils/grouppers/hdr_generator.hpp"
+#include "widgets/media_preview.hpp"
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
@@ -27,10 +28,10 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     QDialog(parent),
     m_model(),
     m_tmpDir(System::getTmpDir("PGD_wd")),
-    m_movie(),
     m_sortProxy(),
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
+    m_preview(new MediaPreview(this)),
     m_exifReader(exifReader),
     m_config(configuration),
     m_logger(logger),
@@ -42,6 +43,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     fillModel(photos);
 
     ui->setupUi(this);
+    ui->resultPreview->setWidget(m_preview);
 
     m_sortProxy.setSourceModel(&m_model);
 
@@ -111,15 +113,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     m_workInProgress = false;
 
     if (m_representativeFile.isEmpty() == false)
-    {
-        m_movie = std::make_unique<QMovie>(location);
-        QLabel* label = new QLabel;
-
-        label->setMovie(m_movie.get());
-        m_movie->start();
-
-        ui->resultPreview->setWidget(label);
-    }
+        m_preview->setMedia(m_representativeFile);
 
     ui->generationProgressBar->reset();
     ui->generationProgressBar->setDisabled(true);
@@ -326,6 +320,7 @@ QStringList PhotosGroupingDialog::getPhotos() const
 
 void PhotosGroupingDialog::scalePreview()
 {
+    /*
     if (m_movie.get() != nullptr)
     {
         if (m_baseSize.isValid() == false)
@@ -340,4 +335,5 @@ void PhotosGroupingDialog::scalePreview()
 
         m_movie->setScaledSize(size.toSize());
     }
+    */
 }

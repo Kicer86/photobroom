@@ -9,6 +9,7 @@
 #include <database/iphoto_info.hpp>
 
 
+class MediaPreview;
 struct IConfiguration;
 struct IExifReader;
 struct ILogger;
@@ -68,11 +69,11 @@ class PhotosGroupingDialog: public QDialog
     private:
         QStandardItemModel m_model;
         std::unique_ptr<ITmpDir> m_tmpDir;
-        std::unique_ptr<QMovie> m_movie;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
         QSize m_baseSize;                // TODO: used in one method only. Extraction?
         Ui::PhotosGroupingDialog *ui;
+        MediaPreview* m_preview;
         IExifReader* m_exifReader;
         IConfiguration* m_config;
         ILogger* m_logger;

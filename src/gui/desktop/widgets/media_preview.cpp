@@ -74,7 +74,7 @@ MediaPreview::MediaPreview(QWidget* p):
     QWidget(p),
     m_interior(nullptr)
 {
-    setLayout(new QHBoxLayout);
+    new QHBoxLayout(this);
 }
 
 
