@@ -30,6 +30,16 @@ class MediaPreview : public QWidget
         ~MediaPreview();
 
         void setMedia(const QString &);
+
+        struct IInternal
+        {
+            virtual ~IInternal() = default;
+
+            QWidget* getWidget();
+        };
+
+    private:
+        IInternal* m_interior;
 };
 
 #endif // MEDIAPREVIEW_HPP

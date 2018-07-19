@@ -18,18 +18,96 @@
 
 #include "media_preview.hpp"
 
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMovie>
 
-MediaPreview::MediaPreview(QWidget* p): QWidget(p)
+#include <core/media_types.hpp>
+
+
+namespace
 {
+    class StaticInternal: public MediaPreview::IInternal
+    {
+        public:
+            StaticInternal(const QString& path, QWidget* p):
+                m_label(p)
+            {
+                QPixmap pixmap(path);
+                m_label.setPixmap(pixmap);
+            }
+
+            QWidget* getWidget()
+            {
+                return &m_label;
+            }
+
+        private:
+            QLabel m_label;
+    };
+
+
+    class AnimatedInternal: public MediaPreview::IInternal
+    {
+        public:
+            AnimatedInternal(const QString& path, QWidget* p):
+                m_label(p),
+                m_movie(path)
+            {
+                m_label.setMovie(&m_movie);
+                m_movie.start();
+            }
+
+            QWidget* getWidget()
+            {
+                return &m_label;
+            }
+
+        private:
+            QLabel m_label;
+            QMovie m_movie;
+    };
+}
+
+
+MediaPreview::MediaPreview(QWidget* p):
+    QWidget(p),
+    m_interior(nullptr)
+{
+    setLayout(new QHBoxLayout);
 }
 
 
 MediaPreview::~MediaPreview()
 {
+    delete m_interior;
 }
 
 
 void MediaPreview::setMedia(const QString& path)
 {
+    QLayout* l = layout();
 
+    delete m_interior;
+    m_interior = nullptr;
+
+    if (MediaTypes::isImageFile(path))
+    {
+        StaticInternal* interior = new StaticInternal(path, this);
+        m_interior = interior;
+
+        QWidget* w = interior->getWidget();
+        l->addWidget(w);
+    }
+    else if (MediaTypes::isAnimatedImageFile(path) ||
+             MediaTypes::isVideoFile(path))
+    {
+        AnimatedInternal* interior = new AnimatedInternal(path, this);
+        m_interior = interior;
+
+        QWidget* w = interior->getWidget();
+        l->addWidget(w);
+    }
+    else
+        assert(!"unknown file type");
 }
