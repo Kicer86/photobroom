@@ -37,9 +37,13 @@ namespace
                 m_label.setPixmap(pixmap);
             }
 
-            QWidget* getWidget()
+            QWidget* getWidget() override
             {
                 return &m_label;
+            }
+
+            void scale(double f) override
+            {
             }
 
         private:
@@ -58,9 +62,13 @@ namespace
                 m_movie.start();
             }
 
-            QWidget* getWidget()
+            QWidget* getWidget() override
             {
                 return &m_label;
+            }
+
+            void scale(double f) override
+            {
             }
 
         private:
@@ -111,3 +119,10 @@ void MediaPreview::setMedia(const QString& path)
     else
         assert(!"unknown file type");
 }
+
+
+void MediaPreview::scale(double f)
+{
+    m_interior->scale(f);
+}
+

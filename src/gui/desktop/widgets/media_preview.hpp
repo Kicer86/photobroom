@@ -30,12 +30,14 @@ class MediaPreview : public QWidget
         ~MediaPreview();
 
         void setMedia(const QString &);
+        void scale(double);
 
         struct IInternal
         {
             virtual ~IInternal() = default;
 
-            QWidget* getWidget();
+            virtual QWidget* getWidget() = 0;
+            virtual void scale(double) = 0;
         };
 
     private:
