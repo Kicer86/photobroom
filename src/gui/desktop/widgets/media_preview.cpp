@@ -31,10 +31,10 @@ namespace
     {
         public:
             StaticInternal(const QString& path, QWidget* p):
-                m_label(p)
+                m_label(p),
+                m_path(path)
             {
-                QPixmap pixmap(path);
-                m_label.setPixmap(pixmap);
+                scale(1.0);
             }
 
             QWidget* getWidget() override
@@ -44,10 +44,17 @@ namespace
 
             void scale(double f) override
             {
+                QPixmap pixmap(m_path);
+                QSizeF size = pixmap.size();
+                size *= f;
+
+                auto scaled = pixmap.scaled(size.width(), size.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                m_label.setPixmap(scaled);
             }
 
         private:
             QLabel m_label;
+            QString m_path;
     };
 
 
@@ -69,11 +76,19 @@ namespace
 
             void scale(double f) override
             {
+                if (m_baseSize.isValid() == false)
+                    m_baseSize = m_movie.frameRect().size();
+
+                QSizeF size = m_baseSize;
+                size *= f;
+
+                m_movie.setScaledSize(size.toSize());
             }
 
         private:
             QLabel m_label;
             QMovie m_movie;
+            QSize m_baseSize;
     };
 }
 
@@ -125,4 +140,3 @@ void MediaPreview::scale(double f)
 {
     m_interior->scale(f);
 }
-
