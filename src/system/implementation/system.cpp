@@ -129,11 +129,9 @@ ITmpDir* System::persistentTmpDir(const QString& utility)
 }
 
 
-QString System::getTmpFile(ITmpDir* dir, const QString& fileExt)
+QString System::getTmpFile(const QString& path, const QString& fileExt)
 {
     static int v = 0;
-
-    const QString path = dir->path();
 
     QString result;
 

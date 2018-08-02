@@ -10,10 +10,13 @@
 #include <core/constants.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
+#include <system/system.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
 #include "utils/grouppers/animation_generator.hpp"
+#include "utils/grouppers/hdr_generator.hpp"
+#include "widgets/media_preview.hpp"
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
@@ -24,10 +27,11 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
-    m_movie(),
+    m_tmpDir(System::getTmpDir("PGD_wd")),
     m_sortProxy(),
     m_representativeFile(),
     ui(new Ui::PhotosGroupingDialog),
+    m_preview(new MediaPreview(this)),
     m_exifReader(exifReader),
     m_config(configuration),
     m_logger(logger),
@@ -39,6 +43,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     fillModel(photos);
 
     ui->setupUi(this);
+    ui->resultPreview->setWidget(m_preview);
 
     m_sortProxy.setSourceModel(&m_model);
 
@@ -49,7 +54,8 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
 
-    connect(ui->applyButton, &QPushButton::clicked, this, &PhotosGroupingDialog::applyPressed);
+    connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
+    connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
 }
 
 
@@ -107,23 +113,21 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     m_workInProgress = false;
 
     if (m_representativeFile.isEmpty() == false)
-    {
-        m_movie = std::make_unique<QMovie>(location);
-        QLabel* label = new QLabel;
-
-        label->setMovie(m_movie.get());
-        m_movie->start();
-
-        ui->resultPreview->setWidget(label);
-    }
+        m_preview->setMedia(m_representativeFile);
 
     ui->generationProgressBar->reset();
     ui->generationProgressBar->setDisabled(true);
     ui->operationName->setText("");
     ui->animationOptions->setEnabled(true);
-    ui->applyButton->setText(tr("Generate animation"));
+    ui->previewButtons->setCurrentIndex(0);
 
     refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::generationCanceled()
+{
+    generationDone(QString());
 }
 
 
@@ -139,17 +143,38 @@ void PhotosGroupingDialog::typeChanged()
 }
 
 
-void PhotosGroupingDialog::applyPressed()
+void PhotosGroupingDialog::previewPressed()
 {
-    if (m_workInProgress)
-    {
-        const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+    const int tool_page = ui->optionsWidget->currentIndex();
 
-        if (result == QMessageBox::StandardButton::Yes)
-            emit cancel();
+    switch(tool_page)
+    {
+        case 0:
+            makeAnimation();
+            break;
+
+        case 1:
+            makeHDR();
+            break;
+
+        default:
+            assert(!"I should not be here");
+            break;
     }
-    else
-        makeAnimation();
+
+    ui->previewButtons->setCurrentIndex(1);
+}
+
+
+void PhotosGroupingDialog::previewCancelPressed()
+{
+    const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work?"));
+
+    if (result == QMessageBox::StandardButton::Yes)
+    {
+        ui->previewButtons->setCurrentIndex(0);
+        emit cancel();
+    }
 }
 
 
@@ -157,6 +182,7 @@ void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
 
+    generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     generator_data.photos = getPhotos();
@@ -190,12 +216,60 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+        connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
 
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
-        ui->applyButton->setText(tr("Cancel generation"));
-        ui->resultPreview->setWidget(new QWidget);
+        m_preview->clean();
+        m_workInProgress = true;
+        m_representativeFile.clear();
+
+        refreshDialogButtons();
+    }
+}
+
+
+void PhotosGroupingDialog::makeHDR()
+{
+    HDRGenerator::Data generator_data;
+
+    generator_data.storage = m_tmpDir->path();
+    generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
+    generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
+    generator_data.photos = getPhotos();
+
+    // make sure we have all neccessary data
+    if (generator_data.convertPath.isEmpty())
+        QMessageBox::critical(this,
+                              tr("Missing tool"),
+                              tr("'convert' tool is neccessary for this operation.\n"
+                                 "Please go to settings and setup path to 'convert' executable.\n\n"
+                                 "'convert' is a tool which is a part of ImageMagick.\n"
+                                 "Visit https://www.imagemagick.org/ for downloads."));
+
+    else if(generator_data.alignImageStackPath.isEmpty())
+        QMessageBox::critical(this,
+                              tr("Missing tool"),
+                              tr("'align_image_stack' tool is neccessary to generate HDR image.\n"
+                                 "Please go to settings and setup path to 'align_image_stack' executable.\n\n"
+                                 "'align_image_stack' is a tool which is a part of Hugin.\n"
+                                 "Visit http://hugin.sourceforge.net/ for downloads."));
+    else
+    {
+        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger);
+
+        connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
+        connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
+        connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+        connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+        connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+        connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+
+        m_executor->add(std::move(hdr_task));
+        ui->generationProgressBar->setEnabled(true);
+        ui->animationOptions->setEnabled(false);
+        m_preview->clean();
         m_workInProgress = true;
         m_representativeFile.clear();
 
@@ -246,18 +320,8 @@ QStringList PhotosGroupingDialog::getPhotos() const
 
 void PhotosGroupingDialog::scalePreview()
 {
-    if (m_movie.get() != nullptr)
-    {
-        if (m_baseSize.isValid() == false)
-            m_baseSize = m_movie->frameRect().size();
+    const int scale = ui->previewScaleSlider->value();
+    const double scaleFactor = scale/100.0;
 
-        const int scale = ui->previewScaleSlider->value();
-
-        const double scaleFactor = scale/100.0;
-        QSizeF size = m_baseSize;
-        size.rheight() *= scaleFactor;
-        size.rwidth() *= scaleFactor;
-
-        m_movie->setScaledSize(size.toSize());
-    }
+    m_preview->scale(scaleFactor);
 }

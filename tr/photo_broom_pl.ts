@@ -4,24 +4,19 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+150"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+76"/>
+        <source>Preparing photos</source>
+        <translation>Przygotowywanie zdjęć</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Saving stabilized images</source>
-        <translation>Zapisywanie wyników</translation>
-    </message>
-    <message>
-        <location line="+70"/>
+        <location line="+46"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Assembling gif file</source>
-        <translation>Składanie animacji</translation>
     </message>
 </context>
 <context>
@@ -172,7 +167,44 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+22"/>
         <source>Missing libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujące biblioteki</translation>
+    </message>
+</context>
+<context>
+    <name>GeneratorUtils::AISOutputAnalyzer</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+129"/>
+        <source>Saving stabilized images</source>
+        <translation>Zapisywanie wyników</translation>
+    </message>
+</context>
+<context>
+    <name>GeneratorUtils::BreakableTask</name>
+    <message>
+        <location line="+96"/>
+        <source>Preparing photos</source>
+        <translation>Przygotowywanie zdjęć</translation>
+    </message>
+</context>
+<context>
+    <name>GeneratorUtils::ConvertOutputAnalyzer</name>
+    <message>
+        <location line="-154"/>
+        <source>Assembling final file</source>
+        <translation>Składanie pliku wynikowego</translation>
+    </message>
+</context>
+<context>
+    <name>HDRGenerator</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+53"/>
+        <source>generating HDR</source>
+        <translation>generacja HDR</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Saving result</source>
+        <translation>Zapisywanie wyniku</translation>
     </message>
 </context>
 <context>
@@ -590,8 +622,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Grouping type:</source>
-        <translation>Rodzaj grupowania:</translation>
+        <source>&amp;Grouping type:</source>
+        <translation>&amp;Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -599,70 +631,77 @@ Kod błędu: %1</translation>
         <translation>animacja</translation>
     </message>
     <message>
-        <location line="+50"/>
-        <source>Animation speed:</source>
-        <translation>Szybkość animacji:</translation>
+        <location line="+5"/>
+        <source>HDR</source>
+        <translation>HDR</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+50"/>
+        <source>Anima&amp;tion speed:</source>
+        <translation>&amp;Prędkość&#xa0;animacji:</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Delay &amp;before restart:</source>
+        <translation>&amp;Opóźnienie pętli:</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>&amp;ms</source>
+        <translation>&amp;ms</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Sca&amp;le:</source>
+        <translation>S&amp;kala:</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>P&amp;review:</source>
+        <translation>Po&amp;dgląd:</translation>
+    </message>
+    <message>
+        <location line="-180"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Delay before restart:</source>
-        <translation>Opóźnienie pętli:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>ms</source>
-        <translation>ms</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Scale:</source>
-        <translation>Skala:</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+68"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+83"/>
-        <source>Preview:</source>
-        <translation>Podgląd:</translation>
+        <location line="+31"/>
+        <source>Generate preview</source>
+        <translation>Utwórz podgląd</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+72"/>
-        <location line="+74"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+78"/>
+        <location line="+93"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-93"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-68"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+52"/>
-        <source>Generate animation</source>
-        <translation>Utwórz animację</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+22"/>
+        <location line="+93"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
+        <location line="+8"/>
+        <location line="+40"/>
         <location line="+8"/>
         <source>Missing tool</source>
         <translation>Brakujący program</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-55"/>
+        <location line="+48"/>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
@@ -675,7 +714,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-40"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -688,12 +727,25 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>Cancel generation</source>
-        <translation>Przerwij</translation>
+        <location line="+48"/>
+        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
+Please go to settings and setup path to &apos;align_image_stack&apos; executable.
+
+&apos;align_image_stack&apos; is a tool which is a part of Hugin.
+Visit http://hugin.sourceforge.net/ for downloads.</source>
+        <translation>Program &quot;align_image_stack&quot; jest wymagany aby utworzyć obraz HDR.
+Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
+
+&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
+Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+42"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
@@ -855,7 +907,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 To install them, use &apos;python -m pip install %1&apos; (on Windows)
 or use package system for your Linux distro.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne rozpoznawanie twarzy nie będzie działać ze względu na brakujące moduły dla Pythona.
+
+Aby je zainstalować użyj &quot;python -m pip install %1&quot; (na Windowsie)
+lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
+</translation>
     </message>
 </context>
 <context>

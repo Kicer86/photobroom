@@ -9,10 +9,12 @@
 #include <database/iphoto_info.hpp>
 
 
+class MediaPreview;
 struct IConfiguration;
 struct IExifReader;
 struct ILogger;
 struct ITaskExecutor;
+struct ITmpDir;
 
 namespace Ui
 {
@@ -66,11 +68,11 @@ class PhotosGroupingDialog: public QDialog
 
     private:
         QStandardItemModel m_model;
-        std::unique_ptr<QMovie> m_movie;
+        std::unique_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
-        QSize m_baseSize;                // TODO: used in one method only. Extraction?
         Ui::PhotosGroupingDialog *ui;
+        MediaPreview* m_preview;
         IExifReader* m_exifReader;
         IConfiguration* m_config;
         ILogger* m_logger;
@@ -80,10 +82,13 @@ class PhotosGroupingDialog: public QDialog
         void generationTitle(const QString &);
         void generationProgress(int);
         void generationDone(const QString &);
+        void generationCanceled();
         void refreshDialogButtons();
         void typeChanged();
-        void applyPressed();
+        void previewPressed();
+        void previewCancelPressed();
         void makeAnimation();
+        void makeHDR();
         void fillModel(const std::vector<Photo::Data> &);
 
         QStringList getPhotos() const;

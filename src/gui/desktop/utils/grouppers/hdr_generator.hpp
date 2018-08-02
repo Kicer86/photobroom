@@ -1,6 +1,6 @@
 /*
- * tool for generating gif file from many images
- * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
+ * HDR generator
+ * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,21 +14,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef ANIMATION_GENERATOR_HPP
-#define ANIMATION_GENERATOR_HPP
-
-#include <QSize>
+#ifndef HDRGENERATOR_HPP
+#define HDRGENERATOR_HPP
 
 #include "generator_utils.hpp"
 
-class QProcess;
-
-struct ILogger;
-
-class AnimationGenerator: public GeneratorUtils::BreakableTask
+class HDRGenerator: public GeneratorUtils::BreakableTask
 {
         Q_OBJECT
 
@@ -39,30 +32,18 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             QString convertPath;
             QString alignImageStackPath;
             QStringList photos;
-            double fps;
-            double delay;
-            double scale;
-            bool stabilize;
 
-            Data(): storage(), convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
+            Data(): storage(), convertPath(), alignImageStackPath(), photos() {}
         };
 
-        AnimationGenerator(const Data& data, ILogger *);
-        AnimationGenerator(const AnimationGenerator &) = delete;
-        ~AnimationGenerator();
-
-        AnimationGenerator& operator=(const AnimationGenerator &) = delete;
+        HDRGenerator(const Data& photos, ILogger *);
 
         std::string name() const override;
         void run() override;
 
     private:
-        Data m_data;
+        const Data m_data;
         ILogger* m_logger;
-
-        QStringList stabilize();
-        QString generateGif(const QStringList &);
 };
 
-
-#endif // ANIMATION_GENERATOR_HPP
+#endif // HDRGENERATOR_HPP

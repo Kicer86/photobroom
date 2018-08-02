@@ -26,7 +26,7 @@ struct SYSTEM_EXPORT System
     static std::string userName();
     static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);       // Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
     static ITmpDir* persistentTmpDir(const QString& utility);                // Returns dir in tmp dir for given utility. Removed when application is closed.
-    static QString getTmpFile(ITmpDir *, const QString& fileExt);            // Returns unique file name with given extension in given tmp dir
+    static QString getTmpFile(const QString& dir, const QString& fileExt);   // Returns unique file name with given extension in given tmp dir
 
     static void cleanTemporaries();                                          // removes all temporary files
 };
