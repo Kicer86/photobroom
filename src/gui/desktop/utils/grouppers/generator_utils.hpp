@@ -89,7 +89,7 @@ namespace GeneratorUtils
             void finished(const QString &);
 
         private:
-            struct
+            struct Data
             {
                 int photos_loaded = 0;
                 int photos_assembled = 0;
@@ -122,7 +122,7 @@ namespace GeneratorUtils
             void finished(const QString &);
 
         private:
-            struct
+            struct Data
             {
                 int stabilization_steps = 0;
                 int stabilization_step = 0;

@@ -56,7 +56,7 @@ namespace GeneratorUtils
 
             switch (conversion_data.state)
             {
-                case conversion_data.LoadingImages:
+                case Data::LoadingImages:
                 {
                     if (loadImages_regExp.exactMatch(line))
                     {
@@ -74,7 +74,7 @@ namespace GeneratorUtils
                     break;
                 }
 
-                case conversion_data.BuildingImage:
+                case Data::BuildingImage:
                 {
                     if (dither_regExp.exactMatch(line))
                     {
@@ -114,7 +114,7 @@ namespace GeneratorUtils
 
             switch (stabilization_data.state)
             {
-                case stabilization_data.StabilizingImages:
+                case Data::StabilizingImages:
                     if (cp_regExp.exactMatch(line))
                     {
                         stabilization_data.stabilization_step++;
@@ -131,7 +131,7 @@ namespace GeneratorUtils
 
                     break;
 
-                case stabilization_data.SavingImages:
+                case Data::SavingImages:
                     if (save_regExp.exactMatch(line))
                     {
                         stabilization_data.photos_saved++;

@@ -18,6 +18,8 @@
 
 #include "media_preview.hpp"
 
+#include <cassert>
+
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMovie>
