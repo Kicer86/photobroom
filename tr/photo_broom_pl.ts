@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+76"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Przygotowywanie zdjęć</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -167,7 +167,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+22"/>
         <source>Missing libraries</source>
-        <translation type="unfinished"></translation>
+        <translation>Brakujące biblioteki</translation>
     </message>
 </context>
 <context>
@@ -175,7 +175,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+129"/>
         <source>Saving stabilized images</source>
-        <translation type="unfinished">Zapisywanie wyników</translation>
+        <translation>Zapisywanie wyników</translation>
     </message>
 </context>
 <context>
@@ -183,7 +183,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+96"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Przygotowywanie zdjęć</translation>
     </message>
 </context>
 <context>
@@ -191,7 +191,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="-154"/>
         <source>Assembling final file</source>
-        <translation type="unfinished"></translation>
+        <translation>Składanie pliku wynikowego</translation>
     </message>
 </context>
 <context>
@@ -199,12 +199,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+53"/>
         <source>generating HDR</source>
-        <translation type="unfinished"></translation>
+        <translation>generacja HDR</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Saving result</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie wyniku</translation>
     </message>
 </context>
 <context>
@@ -623,7 +623,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+25"/>
         <source>&amp;Grouping type:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -633,32 +633,32 @@ Kod błędu: %1</translation>
     <message>
         <location line="+5"/>
         <source>HDR</source>
-        <translation type="unfinished"></translation>
+        <translation>HDR</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Anima&amp;tion speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Delay &amp;before restart:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Opóźnienie pętli:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>&amp;ms</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ms</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Sca&amp;le:</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;kala:</translation>
     </message>
     <message>
         <location line="+143"/>
         <source>P&amp;review:</source>
-        <translation type="unfinished"></translation>
+        <translation>Po&amp;dgląd:</translation>
     </message>
     <message>
         <location line="-180"/>
@@ -673,7 +673,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+31"/>
         <source>Generate preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz podgląd</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+78"/>
@@ -728,17 +728,21 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+48"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR animation.
+        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
 &apos;align_image_stack&apos; is a tool which is a part of Hugin.
 Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Program &quot;align_image_stack&quot; jest wymagany aby utworzyć obraz HDR.
+Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
+
+&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
+Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anuluj</translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+42"/>
@@ -903,7 +907,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 To install them, use &apos;python -m pip install %1&apos; (on Windows)
 or use package system for your Linux distro.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne rozpoznawanie twarzy nie będzie działać ze względu na brakujące moduły dla Pythona.
+
+Aby je zainstalować użyj &quot;python -m pip install %1&quot; (na Windowsie)
+lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
+</translation>
     </message>
 </context>
 <context>
