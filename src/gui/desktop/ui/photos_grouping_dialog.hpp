@@ -71,7 +71,6 @@ class PhotosGroupingDialog: public QDialog
         std::unique_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
-        QSize m_baseSize;                // TODO: used in one method only. Extraction?
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
         IExifReader* m_exifReader;

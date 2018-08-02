@@ -221,7 +221,7 @@ void PhotosGroupingDialog::makeAnimation()
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
-        ui->resultPreview->setWidget(new QWidget);
+        m_preview->clean();
         m_workInProgress = true;
         m_representativeFile.clear();
 
@@ -269,7 +269,7 @@ void PhotosGroupingDialog::makeHDR()
         m_executor->add(std::move(hdr_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
-        ui->resultPreview->setWidget(new QWidget);
+        m_preview->clean();
         m_workInProgress = true;
         m_representativeFile.clear();
 
@@ -320,20 +320,8 @@ QStringList PhotosGroupingDialog::getPhotos() const
 
 void PhotosGroupingDialog::scalePreview()
 {
-    /*
-    if (m_movie.get() != nullptr)
-    {
-        if (m_baseSize.isValid() == false)
-            m_baseSize = m_movie->frameRect().size();
+    const int scale = ui->previewScaleSlider->value();
+    const double scaleFactor = scale/100.0;
 
-        const int scale = ui->previewScaleSlider->value();
-
-        const double scaleFactor = scale/100.0;
-        QSizeF size = m_baseSize;
-        size.rheight() *= scaleFactor;
-        size.rwidth() *= scaleFactor;
-
-        m_movie->setScaledSize(size.toSize());
-    }
-    */
+    m_preview->scale(scaleFactor);
 }
