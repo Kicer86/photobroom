@@ -29,6 +29,7 @@ class MediaPreview : public QWidget
         MediaPreview(QWidget *);
         ~MediaPreview();
 
+        void clean();
         void setMedia(const QString &);
         void scale(double);
 
