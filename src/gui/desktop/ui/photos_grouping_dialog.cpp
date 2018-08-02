@@ -251,7 +251,7 @@ void PhotosGroupingDialog::makeHDR()
     else if(generator_data.alignImageStackPath.isEmpty())
         QMessageBox::critical(this,
                               tr("Missing tool"),
-                              tr("'align_image_stack' tool is neccessary to generate HDR animation.\n"
+                              tr("'align_image_stack' tool is neccessary to generate HDR image.\n"
                                  "Please go to settings and setup path to 'align_image_stack' executable.\n\n"
                                  "'align_image_stack' is a tool which is a part of Hugin.\n"
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
