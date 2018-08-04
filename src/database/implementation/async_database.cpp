@@ -322,10 +322,11 @@ namespace
 
     struct CreateGroupTask: IThreadTask
     {
-        CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
+        CreateGroupTask(const Photo::Id& representative, Group::Type type, const std::function<void(Group::Id)>& callback):
             IThreadTask(),
             m_representative(representative),
-            m_callback(callback)
+            m_callback(callback),
+            m_type(type)
         {
 
         }
@@ -334,7 +335,7 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const Group::Id gid = executor->getBackend()->addGroup(m_representative, Group::Type::Animation);
+            const Group::Id gid = executor->getBackend()->addGroup(m_representative, m_type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = executor->getPhotoFor(m_representative);
@@ -345,8 +346,9 @@ namespace
                 m_callback( gid );
         }
 
-        Photo::Id m_representative;
-        std::function<void(Group::Id)> m_callback;
+        const Photo::Id m_representative;
+        const std::function<void(Group::Id)> m_callback;
+        const Group::Type m_type;
     };
 
 
@@ -681,9 +683,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::createGroup(const Photo::Id& id, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, Group::Type type, const Callback<Group::Id>& callback)
     {
-        CreateGroupTask* task = new CreateGroupTask(id, callback);
+        CreateGroupTask* task = new CreateGroupTask(id, type, callback);
         m_impl->addTask(task);
     }
 

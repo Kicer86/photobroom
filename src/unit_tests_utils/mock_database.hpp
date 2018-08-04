@@ -16,7 +16,7 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
     MOCK_METHOD1(update, void(const Photo::DataDelta &) );
     MOCK_METHOD2(store, void( const std::vector<Photo::DataDelta> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
-    MOCK_METHOD2(createGroup, void( const Photo::Id &, const std::function<void(Group::Id)> &) );
+    MOCK_METHOD3(createGroup, void( const Photo::Id &, Group::Type, const std::function<void(Group::Id)> &) );
 
     MOCK_METHOD2(countPhotos, void(const std::vector<Database::IFilter::Ptr> &, const std::function<void(int)> &) );
     MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)> &) );

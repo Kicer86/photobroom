@@ -55,7 +55,7 @@ struct DBDataModel::Grouper
         m_doneCallback = doneCallback;
     }
 
-    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
+    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, Group::Type type)
     {
         std::function<void(const Group::Id &)> group_created =
             std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
@@ -63,7 +63,7 @@ struct DBDataModel::Grouper
         std::function<void(const std::vector<IPhotoInfo::Ptr> &)> photos_received =
             std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
 
-        m_db->createGroup(representativePhoto, group_created);
+        m_db->createGroup(representativePhoto, type, group_created);
         m_db->getPhotos(photos, photos_received);
     }
 
@@ -207,19 +207,19 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath, Group::Type type)
 {
     if (photos.empty() == false)
     {
-        m_database->performCustomAction([photos, representativePath, this](Database::IBackendOperator* backendOperator)
+        m_database->performCustomAction([photos, representativePath, type, this](Database::IBackendOperator* backendOperator)
         {
             IPhotoInfo::Ptr firstPhoto = backendOperator->getPhotoFor(photos[0]);
 
             const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
             Photo::DataDelta data;
-            data.data[Photo::Field::Path] = representativePath;
-            data.data[Photo::Field::Tags] = firstPhoto->getTags();
-            data.data[Photo::Field::Flags] = flags;
+            data.insert(Photo::Field::Path,  representativePath);
+            data.insert(Photo::Field::Tags,  firstPhoto->getTags());
+            data.insert(Photo::Field::Flags, flags);
 
             std::vector<Photo::Id> stored = backendOperator->insertPhotos({data});
 
@@ -227,17 +227,21 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 
             if (stored.empty() == false)
                 call_from_this_thread( this,
-                                       std::bind( qOverload<const std::vector<Photo::Id>&, const Photo::Id &>(&DBDataModel::group),
-                                                                                                              this,
-                                                                                                              photos,
-                                                                                                              stored.front())
+                                       std::bind( qOverload<const std::vector<Photo::Id>&,
+                                                            const Photo::Id &,
+                                                            Group::Type>(&DBDataModel::group),
+                                                                        this,
+                                                                        photos,
+                                                                        stored.front(),
+                                                                        type
+                                                )
                 );
         });
     }
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, Group::Type type)
 {
     const auto emplaced = m_groupers.emplace( std::make_unique<Grouper>(m_database) );
     const auto grouperIt = emplaced.first;
@@ -251,7 +255,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& r
     auto doneCallback = make_cross_thread_function(this, doneCallbackFun);
 
     grouper->setDoneCallback(doneCallback);
-    grouper->create(photos, representativePhoto);
+    grouper->create(photos, representativePhoto, type);
 }
 
 

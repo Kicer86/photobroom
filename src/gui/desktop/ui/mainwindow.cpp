@@ -532,7 +532,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
             DBDataModel* model = photosView->getModel();
-            model->group(photos_ids, internalPathDecorated);
+            model->group(photos_ids, internalPathDecorated, Group::Type::Animation);
         }
     }
     else if (chosenAction == location)
