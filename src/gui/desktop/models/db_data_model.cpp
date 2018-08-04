@@ -217,9 +217,9 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 
             const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
             Photo::DataDelta data;
-            data.insert(Photo::Field::Path,  representativePath);
-            data.insert(Photo::Field::Tags,  firstPhoto->getTags());
-            data.insert(Photo::Field::Flags, flags);
+            data.insert<Photo::Field::Path>(representativePath);
+            data.insert<Photo::Field::Tags>(firstPhoto->getTags());
+            data.insert<Photo::Field::Flags>(flags);
 
             std::vector<Photo::Id> stored = backendOperator->insertPhotos({data});
 

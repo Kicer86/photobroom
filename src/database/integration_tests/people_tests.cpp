@@ -101,8 +101,8 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
-            pd2.insert(Photo::Field::Path, QString("photo2.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            pd2.insert<Photo::Field::Path>("photo2.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2 };
@@ -187,7 +187,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
@@ -251,7 +251,7 @@ TEST_F(PeopleTest, alteringPersonData)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
@@ -332,7 +332,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
@@ -382,7 +382,7 @@ TEST_F(PeopleTest, inteligentNameUpdate)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
@@ -432,7 +432,7 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };

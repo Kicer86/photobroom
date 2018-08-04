@@ -611,8 +611,8 @@ void MainWindow::on_actionScan_collection_triggered()
             const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
 
             Photo::DataDelta photo_data;
-            photo_data.insert(Photo::Field::Path,  path);
-            photo_data.insert(Photo::Field::Flags, flags);
+            photo_data.insert<Photo::Field::Path>(path);
+            photo_data.insert<Photo::Field::Flags>(flags);
             photos.emplace_back(photo_data);
         }
 

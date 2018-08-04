@@ -62,6 +62,45 @@ namespace Photo
         GroupInfo,
     };
 
+    template<Field>
+    struct DeltaTypes {};
+
+    template<>
+    struct DeltaTypes<Field::Checksum>
+    {
+        typedef QString Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::Tags>
+    {
+        typedef Tag::TagsList Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::Flags>
+    {
+        typedef Photo::FlagValues Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::Path>
+    {
+        typedef QString Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::Geometry>
+    {
+        typedef QSize Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::GroupInfo>
+    {
+        typedef GroupInfo Storage;
+    };
+
     class DATABASE_EXPORT DataDelta
     {
         public:
@@ -69,10 +108,10 @@ namespace Photo
 
             DataDelta(const Photo::Id& id): m_id(id), m_data() {}
 
-            template<typename T>
-            void insert(Field field, T&& value)
+            template<Field F>
+            void insert(const typename DeltaTypes<F>::Storage& value)
             {
-                m_data.emplace(field, value);
+                m_data.emplace(F, value);
             }
 
             void setId(const Photo::Id &);

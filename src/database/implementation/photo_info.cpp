@@ -116,8 +116,8 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
     data->flags[Photo::FlagsE::Sha256Loaded] = 1;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::Checksum, data->sha256Sum);
-    delta.insert(Photo::Field::Flags,    data->flags);
+    delta.insert<Photo::Field::Checksum>(data->sha256Sum);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 
@@ -131,8 +131,8 @@ void PhotoInfo::setGeometry(const QSize& geometry)
     data->flags[Photo::FlagsE::GeometryLoaded] = 1;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::Geometry, data->geometry);
-    delta.insert(Photo::Field::Flags,    data->flags);
+    delta.insert<Photo::Field::Geometry>(data->geometry);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 
@@ -143,7 +143,7 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
     data->tags = tags;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::Tags, data->tags);
+    delta.insert<Photo::Field::Tags>(data->tags);
     m_storekeeper->update(delta);
 }
 
@@ -154,7 +154,7 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
     data->tags[name] = value;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::Tags, data->tags);
+    delta.insert<Photo::Field::Tags>(data->tags);
     m_storekeeper->update(delta);
 }
 
@@ -165,7 +165,7 @@ void PhotoInfo::setGroup(const GroupInfo& info)
     data->groupInfo = info;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::GroupInfo, data->groupInfo);
+    delta.insert<Photo::Field::GroupInfo>(data->groupInfo);
     m_storekeeper->update(delta);
 }
 
@@ -178,7 +178,7 @@ void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
     data->flags[flag] = v;
 
     Photo::DataDelta delta(data->id);
-    delta.insert(Photo::Field::Flags, data->flags);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 
