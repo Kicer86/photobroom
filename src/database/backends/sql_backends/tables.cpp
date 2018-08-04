@@ -118,7 +118,7 @@ namespace Database
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
                         { "representative_id",  "INTEGER NOT NULL"     },
-                        { "type",               "INTEGER NOT NULL"     },
+                        { "type",               "INTEGER"              },
                         { "FOREIGN KEY(representative_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     }
         );
