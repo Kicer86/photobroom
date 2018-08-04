@@ -265,7 +265,6 @@ void DBDataModel::setHierarchy(const Hierarchy& hierarchy)
 }
 
 
-
 const Photo::Data& DBDataModel::getPhotoDetails(const QModelIndex& idx) const
 {
     IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
