@@ -111,6 +111,14 @@ namespace Database
 
         if (status)
             status = exec(*result);
+        else
+        {
+            const QString message = QString("Error during query preparation. '%1' finished with: '%2'")
+                                        .arg(query)
+                                        .arg(result->lastError().text());
+
+            m_logger->error(message.toStdString());
+        }
 
         return status;
     }
