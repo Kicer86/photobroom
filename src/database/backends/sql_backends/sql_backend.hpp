@@ -82,7 +82,7 @@ namespace Database
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
             bool addPhotos(std::vector<Photo::DataDelta> &) override final;
-            Group::Id addGroup(const Photo::Id & ) override final;
+            Group::Id addGroup(const Photo::Id &, Group::Type) override final;
             bool update(const Photo::DataDelta &) override final;
 
             std::vector<TagNameInfo> listTags() override final;

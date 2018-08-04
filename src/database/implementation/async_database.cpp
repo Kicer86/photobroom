@@ -129,7 +129,7 @@ namespace
             m_tasks.stop();
         }
 
-        void closeConnections()
+        void closeConnections() override
         {
             m_backend->closeConnections();
         }
@@ -150,7 +150,7 @@ namespace
             return m_backend->addPhotos(d);
         }
 
-        Group::Id addGroup(const Photo::Id & ) override
+        Group::Id addGroup(const Photo::Id &, Group::Type) override
         {
             assert(!"Not implemented");
             return Group::Id();
@@ -334,7 +334,7 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const Group::Id gid = executor->getBackend()->addGroup(m_representative);
+            const Group::Id gid = executor->getBackend()->addGroup(m_representative, Group::Type::Animation);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = executor->getPhotoFor(m_representative);

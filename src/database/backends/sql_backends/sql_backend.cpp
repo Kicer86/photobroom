@@ -159,7 +159,7 @@ namespace Database
 
             bool insert(Photo::DataDelta &) const;
             bool insert(std::vector<Photo::DataDelta> &) const;
-            Group::Id addGroup(const Photo::Id& id) const;
+            Group::Id addGroup(const Photo::Id& id, Group::Type) const;
             bool update(const Photo::DataDelta &) const;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
@@ -713,7 +713,7 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id) const
+    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id, Group::Type type) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -721,8 +721,8 @@ namespace Database
 
         InsertQueryData insertData(TAB_GROUPS);
 
-        insertData.setColumns("id", "representative_id");
-        insertData.setValues(InsertQueryData::Value::Null, id);
+        insertData.setColumns("id", "representative_id", "type");
+        insertData.setValues(InsertQueryData::Value::Null, id, static_cast<int>(type));
 
         QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
 
@@ -1211,9 +1211,9 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::addGroup(const Photo::Id& id)
+    Group::Id ASqlBackend::addGroup(const Photo::Id& id, Group::Type type)
     {
-        const Group::Id group = m_data->addGroup(id);
+        const Group::Id group = m_data->addGroup(id, type);
 
         return group;
     }
