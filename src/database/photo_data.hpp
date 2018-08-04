@@ -62,21 +62,37 @@ namespace Photo
         GroupInfo,
     };
 
-    struct DATABASE_EXPORT DataDelta
+    class DATABASE_EXPORT DataDelta
     {
-        Photo::Id                 id;
-        std::map<Field, std::any> data;
+        public:
+            DataDelta(): m_id(), m_data() {}
 
-        bool has(Field) const;
-        const std::any& get(Field) const;
+            DataDelta(const Photo::Id& id): m_id(id), m_data() {}
 
-        template<typename T>
-        const T& getAs(Field field) const
-        {
-            const std::any& raw = get(field);
+            template<typename T>
+            void insert(Field field, T&& value)
+            {
+                m_data.emplace(field, value);
+            }
 
-            return std::any_cast<const T &>(raw);
-        }
+            void setId(const Photo::Id &);
+
+            bool has(Field) const;
+            const std::any& get(Field) const;
+
+            template<typename T>
+            const T& getAs(Field field) const
+            {
+                const std::any& raw = get(field);
+
+                return std::any_cast<const T &>(raw);
+            }
+
+            const Photo::Id& getId() const;
+
+        private:
+            Photo::Id                 m_id;
+            std::map<Field, std::any> m_data;
     };
 
 }

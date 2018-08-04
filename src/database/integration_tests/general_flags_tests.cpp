@@ -26,15 +26,15 @@ TEST_F(GeneralFlagsTest, flagsIntroduction)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-            pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
+            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
+            pd2.insert(Photo::Field::Path, QString("photo2.jpeg"));
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
-            ids.push_back(photos.back().id);
+            ids.push_back(photos.front().getId());
+            ids.push_back(photos.back().getId());
 
             op->set(ids[0], "test1", 1);
             op->set(ids[0], "test2", 2);
@@ -58,13 +58,13 @@ TEST_F(GeneralFlagsTest, invalidName)
         {
             // store 2 photos
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert(Photo::Field::Path, QString("photo1.jpeg"));
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             EXPECT_FALSE(op->get(ids[0], "test2").has_value());
             EXPECT_FALSE(op->get(ids[0], "test1").has_value());

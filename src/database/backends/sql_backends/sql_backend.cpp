@@ -441,7 +441,7 @@ namespace Database
 
     bool ASqlBackend::Data::storeData(const Photo::DataDelta& data) const
     {
-        assert(data.id);
+        assert(data.getId());
 
         bool status = true;
 
@@ -450,31 +450,31 @@ namespace Database
         {
             const Tag::TagsList& tags = data.getAs<Tag::TagsList>(Photo::Field::Tags);
 
-            status = storeTags(data.id, tags);
+            status = storeTags(data.getId(), tags);
         }
 
         if (status && data.has(Photo::Field::Geometry))
         {
             const QSize& geometry = data.getAs<QSize>(Photo::Field::Geometry);
-            status = storeGeometryFor(data.id, geometry);
+            status = storeGeometryFor(data.getId(), geometry);
         }
 
         if (status && data.has(Photo::Field::Checksum))
         {
             const Photo::Sha256sum& checksum = data.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
-            status = storeSha256(data.id, checksum);
+            status = storeSha256(data.getId(), checksum);
         }
 
         if (status && data.has(Photo::Field::Flags))
         {
             const Photo::FlagValues& flags = data.getAs<Photo::FlagValues>(Photo::Field::Flags);
-            status = storeFlags(data.id, flags);
+            status = storeFlags(data.getId(), flags);
         }
 
         if (status && data.has(Photo::Field::GroupInfo))
         {
             const GroupInfo& groupInfo = data.getAs<GroupInfo>(Photo::Field::GroupInfo);
-            status = storeGroup(data.id, groupInfo);
+            status = storeGroup(data.getId(), groupInfo);
         }
 
         return status;
@@ -648,7 +648,7 @@ namespace Database
         bool status = true;
 
         //store path and date
-        Photo::Id id = data.id;
+        Photo::Id id = data.getId();
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
@@ -679,8 +679,8 @@ namespace Database
 
         if (status)
         {
-            assert(data.id.valid() == false || data.id == id);
-            data.id = id;
+            assert(data.getId().valid() == false || data.getId() == id);
+            data.setId(id);
         }
 
         if (status)
@@ -1221,7 +1221,7 @@ namespace Database
 
     bool ASqlBackend::update(const Photo::DataDelta& data)
     {
-        assert(data.id.valid());
+        assert(data.getId().valid());
 
         bool status = false;
 
