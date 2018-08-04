@@ -1736,7 +1736,28 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                     break;
             } [[fallthrough]];
 
-            case 3:             // current version, break updgrades chain
+            case 3:
+            {
+                // insert column with type for groups
+                const QString insertGroupType = QString("ALTER TABLE %1 ADD type INTEGER NOT NULL "
+                                                        "CONSTRAINT default_value DEFAULT '%2'")
+                                                    .arg(TAB_GROUPS)
+                                                    .arg(static_cast<int>(Group::Type::Animation));
+
+                status = m_data->m_executor.exec(insertGroupType, &query);
+                if (status == false)
+                    break;
+
+                const QString dropConstraint = QString("ALTER TABLE %1 DROP CONSTRAINT default_value")
+                                                   .arg(TAB_GROUPS);
+
+                status = m_data->m_executor.exec(dropConstraint, &query);
+                if (status == false)
+                    break;
+
+            } [[fallthrough]];
+
+            case 4:             // current version, break updgrades chain
                 break;
 
             default:
