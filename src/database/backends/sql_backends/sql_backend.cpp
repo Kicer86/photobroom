@@ -448,32 +448,32 @@ namespace Database
         //store used tags
         if (data.has(Photo::Field::Tags))
         {
-            const Tag::TagsList& tags = data.getAs<Tag::TagsList>(Photo::Field::Tags);
+            const Tag::TagsList& tags = data.get<Photo::Field::Tags>();
 
             status = storeTags(data.getId(), tags);
         }
 
         if (status && data.has(Photo::Field::Geometry))
         {
-            const QSize& geometry = data.getAs<QSize>(Photo::Field::Geometry);
+            const QSize& geometry = data.get<Photo::Field::Geometry>();
             status = storeGeometryFor(data.getId(), geometry);
         }
 
         if (status && data.has(Photo::Field::Checksum))
         {
-            const Photo::Sha256sum& checksum = data.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+            const Photo::Sha256sum& checksum = data.get<Photo::Field::Checksum>();
             status = storeSha256(data.getId(), checksum);
         }
 
         if (status && data.has(Photo::Field::Flags))
         {
-            const Photo::FlagValues& flags = data.getAs<Photo::FlagValues>(Photo::Field::Flags);
+            const Photo::FlagValues& flags = data.get<Photo::Field::Flags>();
             status = storeFlags(data.getId(), flags);
         }
 
         if (status && data.has(Photo::Field::GroupInfo))
         {
-            const GroupInfo& groupInfo = data.getAs<GroupInfo>(Photo::Field::GroupInfo);
+            const GroupInfo& groupInfo = data.get<Photo::Field::GroupInfo>();
             status = storeGroup(data.getId(), groupInfo);
         }
 
@@ -654,7 +654,7 @@ namespace Database
         InsertQueryData insertData(TAB_PHOTOS);
 
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data.getAs<QString>(Photo::Field::Path), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 

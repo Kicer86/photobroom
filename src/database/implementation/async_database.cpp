@@ -42,22 +42,22 @@ namespace
         data.id = delta.getId();
 
         if (delta.has(Photo::Field::Checksum))
-            data.sha256Sum = delta.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+            data.sha256Sum = delta.get<Photo::Field::Checksum>();
 
         if (delta.has(Photo::Field::Flags))
-            data.flags = delta.getAs<Photo::FlagValues>(Photo::Field::Flags);
+            data.flags = delta.get<Photo::Field::Flags>();
 
         if (delta.has(Photo::Field::Geometry))
-            data.geometry = delta.getAs<QSize>(Photo::Field::Geometry);
+            data.geometry = delta.get<Photo::Field::Geometry>();
 
         if (delta.has(Photo::Field::GroupInfo))
-            data.groupInfo = delta.getAs<GroupInfo>(Photo::Field::GroupInfo);
+            data.groupInfo = delta.get<Photo::Field::GroupInfo>();
 
         if (delta.has(Photo::Field::Path))
-            data.path = delta.getAs<QString>(Photo::Field::Path);
+            data.path = delta.get<Photo::Field::Path>();
 
         if (delta.has(Photo::Field::Tags))
-            data.tags = delta.getAs<Tag::TagsList>(Photo::Field::Tags);
+            data.tags = delta.get<Photo::Field::Tags>();
 
         return data;
     }

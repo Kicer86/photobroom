@@ -68,7 +68,7 @@ namespace Photo
     template<>
     struct DeltaTypes<Field::Checksum>
     {
-        typedef QString Storage;
+        typedef Photo::Sha256sum Storage;
     };
 
     template<>
@@ -119,12 +119,14 @@ namespace Photo
             bool has(Field) const;
             const std::any& get(Field) const;
 
-            template<typename T>
-            const T& getAs(Field field) const
+            template<Field F>
+            const typename DeltaTypes<F>::Storage& get() const
             {
-                const std::any& raw = get(field);
+                typedef typename DeltaTypes<F>::Storage Result;
 
-                return std::any_cast<const T &>(raw);
+                const std::any& raw = get(F);
+
+                return std::any_cast<const Result &>(raw);
             }
 
             const Photo::Id& getId() const;
