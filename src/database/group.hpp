@@ -9,6 +9,12 @@ namespace Group
 {
     DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
+
+    enum class Type
+    {
+        Animation = 1,
+        HDR       = 2,
+    };
 }
 
 struct GroupInfo
