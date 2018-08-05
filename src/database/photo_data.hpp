@@ -108,10 +108,10 @@ namespace Photo
 
             DataDelta(const Photo::Id& id): m_id(id), m_data() {}
 
-            template<Field F>
-            void insert(const typename DeltaTypes<F>::Storage& value)
+            template<Field field>
+            void insert(const typename DeltaTypes<field>::Storage& value)
             {
-                m_data.emplace(F, value);
+                m_data.emplace(field, value);
             }
 
             void setId(const Photo::Id &);
@@ -119,12 +119,12 @@ namespace Photo
             bool has(Field) const;
             const std::any& get(Field) const;
 
-            template<Field F>
-            const typename DeltaTypes<F>::Storage& get() const
+            template<Field field>
+            const typename DeltaTypes<field>::Storage& get() const
             {
-                typedef typename DeltaTypes<F>::Storage Result;
+                typedef typename DeltaTypes<field>::Storage Result;
 
-                const std::any& raw = get(F);
+                const std::any& raw = get(field);
 
                 return std::any_cast<const Result &>(raw);
             }
