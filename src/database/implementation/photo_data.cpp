@@ -47,11 +47,13 @@ namespace Photo
 
     }
 
+
     void Photo::DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
         m_id = id;
     }
+
 
     bool Photo::DataDelta::has(Photo::Field field) const
     {
@@ -68,6 +70,7 @@ namespace Photo
 
         return it->second;
     }
+
 
     const Photo::Id & Photo::DataDelta::getId() const
     {
