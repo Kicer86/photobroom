@@ -126,6 +126,9 @@ namespace Photo
 
                 const std::any& raw = get(field);
 
+                // TODO: may fail then compiled with clang.
+                // https://stackoverflow.com/questions/51693605/clang-compiled-program-throws-stdbad-any-cast-during-stdany-cast/51703166#51703166
+                // https://bugs.llvm.org/show_bug.cgi?id=38485
                 return std::any_cast<const Result &>(raw);
             }
 
