@@ -158,7 +158,7 @@ namespace Database
 
             bool insert(Photo::DataDelta &) const;
             bool insert(std::vector<Photo::DataDelta> &) const;
-            Group::Id addGroup(const Photo::Id& id, Group::Type) const;
+            Group::Id addGroup(const Photo::Id& id, GroupInfo::Type) const;
             bool update(const Photo::DataDelta &) const;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
@@ -712,7 +712,7 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id, Group::Type type) const
+    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id, GroupInfo::Type type) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -938,12 +938,12 @@ namespace Database
 
             if (id == representativeId)
             {
-                result = GroupInfo(gid, GroupInfo::Representative);
+                result = GroupInfo(gid, GroupInfo::Representative, GroupInfo::Animation);
                 break;
             }
             else if (id == memberId)
             {
-                result = GroupInfo(gid, GroupInfo::Member);
+                result = GroupInfo(gid, GroupInfo::Member, GroupInfo::Animation);
                 break;
             }
         }
@@ -1210,7 +1210,7 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::addGroup(const Photo::Id& id, Group::Type type)
+    Group::Id ASqlBackend::addGroup(const Photo::Id& id, GroupInfo::Type type)
     {
         const Group::Id group = m_data->addGroup(id, type);
 
@@ -1747,7 +1747,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
                 const QString setValue = QString("UPDATE %1 SET type = %2")
                                             .arg(TAB_GROUPS)
-                                            .arg(static_cast<int>(Group::Type::Animation));
+                                            .arg(static_cast<int>(GroupInfo::Type::Animation));
 
                 status = m_data->m_executor.exec(setValue, &query);
                 if (status == false)

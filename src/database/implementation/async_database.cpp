@@ -150,7 +150,7 @@ namespace
             return m_backend->addPhotos(d);
         }
 
-        Group::Id addGroup(const Photo::Id &, Group::Type) override
+        Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override
         {
             assert(!"Not implemented");
             return Group::Id();
@@ -322,7 +322,7 @@ namespace
 
     struct CreateGroupTask: IThreadTask
     {
-        CreateGroupTask(const Photo::Id& representative, Group::Type type, const std::function<void(Group::Id)>& callback):
+        CreateGroupTask(const Photo::Id& representative, GroupInfo::Type type, const std::function<void(Group::Id)>& callback):
             IThreadTask(),
             m_representative(representative),
             m_callback(callback),
@@ -339,7 +339,7 @@ namespace
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = executor->getPhotoFor(m_representative);
-            const GroupInfo grpInfo = GroupInfo( gid, GroupInfo::Representative);
+            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, m_type);
             representative->setGroup(grpInfo);
 
             if (m_callback)
@@ -348,7 +348,7 @@ namespace
 
         const Photo::Id m_representative;
         const std::function<void(Group::Id)> m_callback;
-        const Group::Type m_type;
+        const GroupInfo::Type m_type;
     };
 
 
@@ -683,7 +683,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::createGroup(const Photo::Id& id, Group::Type type, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, GroupInfo::Type type, const Callback<Group::Id>& callback)
     {
         CreateGroupTask* task = new CreateGroupTask(id, type, callback);
         m_impl->addTask(task);
