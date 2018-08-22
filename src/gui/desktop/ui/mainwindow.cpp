@@ -523,6 +523,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         if (status == QDialog::Accepted)
         {
             const QString photo = dialog.getRepresentative();
+            const GroupInfo::Type type = dialog.groupType();
 
             std::vector<Photo::Id> photos_ids;
             for(std::size_t i = 0; i < photos.size(); i++)
@@ -532,7 +533,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
             DBDataModel* model = photosView->getModel();
-            model->group(photos_ids, internalPathDecorated, GroupInfo::Type::Animation);
+            model->group(photos_ids, internalPathDecorated, type);
         }
     }
     else if (chosenAction == location)
