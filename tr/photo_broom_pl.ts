@@ -430,7 +430,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+209"/>
+        <location line="+210"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -440,7 +440,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-104"/>
+        <location line="-105"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -465,7 +465,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+194"/>
+        <location line="+195"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -526,12 +526,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-257"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+166"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -676,18 +676,18 @@ Kod błędu: %1</translation>
         <translation>Utwórz podgląd</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+78"/>
-        <location line="+93"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+99"/>
+        <location line="+96"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-96"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+96"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
