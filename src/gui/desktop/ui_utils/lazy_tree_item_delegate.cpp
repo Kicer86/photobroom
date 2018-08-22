@@ -62,7 +62,7 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
         QImage canvas(canvasSize, QImage::Format_ARGB32);
         canvas.fill(Qt::transparent);
 
-        const QSize layerSize = canvasSize *0.9;
+        const QSize layerSize = canvasSize * 0.9;
         const QImage layer_image = image.scaled(layerSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         const int layers = 5;
