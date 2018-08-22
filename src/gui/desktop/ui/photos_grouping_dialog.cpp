@@ -19,6 +19,20 @@
 #include "widgets/media_preview.hpp"
 
 
+namespace
+{
+    GroupInfo::Type comboboxToGroupType(int c)
+    {
+        if (c == 0)
+            return GroupInfo::Animation;
+        else if (c == 1)
+            return GroupInfo::HDR;
+        else
+            return GroupInfo::Invalid;
+    }
+}
+
+
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
                                            IExifReader* exifReader,
                                            ITaskExecutor* executor,
@@ -30,6 +44,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     m_tmpDir(System::getTmpDir("PGD_wd")),
     m_sortProxy(),
     m_representativeFile(),
+    m_representativeType(GroupInfo::Invalid),
     ui(new Ui::PhotosGroupingDialog),
     m_preview(new MediaPreview(this)),
     m_exifReader(exifReader),
@@ -68,6 +83,12 @@ PhotosGroupingDialog::~PhotosGroupingDialog()
 QString PhotosGroupingDialog::getRepresentative() const
 {
     return m_representativeFile;
+}
+
+
+GroupInfo::Type PhotosGroupingDialog::groupType() const
+{
+    return m_representativeType;
 }
 
 
@@ -110,6 +131,8 @@ void PhotosGroupingDialog::generationProgress(int v)
 void PhotosGroupingDialog::generationDone(const QString& location)
 {
     m_representativeFile = location;
+    m_representativeType = comboboxToGroupType(ui->optionsWidget->currentIndex());
+
     m_workInProgress = false;
 
     if (m_representativeFile.isEmpty() == false)
@@ -146,18 +169,19 @@ void PhotosGroupingDialog::typeChanged()
 void PhotosGroupingDialog::previewPressed()
 {
     const int tool_page = ui->optionsWidget->currentIndex();
+    auto type = comboboxToGroupType(tool_page);
 
-    switch(tool_page)
+    switch(type)
     {
-        case 0:
+        case GroupInfo::Animation:
             makeAnimation();
             break;
 
-        case 1:
+        case GroupInfo::HDR:
             makeHDR();
             break;
 
-        default:
+        case GroupInfo::Invalid:
             assert(!"I should not be here");
             break;
     }
