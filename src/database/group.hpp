@@ -35,6 +35,7 @@ struct GroupInfo
     GroupInfo(const Group::Id& id, Role r, Type t): group_id(id), role(r), type(t)
     {
         assert( (role == None) ^ group_id.valid() );
+        assert(type == Animation || type == HDR);
     }
 
     GroupInfo(const GroupInfo &) = default;
