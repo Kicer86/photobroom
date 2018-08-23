@@ -5,5 +5,7 @@
         <file>clock.svg</file>
         <file>error.svg</file>
         <file>video.svg</file>
+        <file>GIF.svg</file>
+        <file>HDR.svg</file>
     </qresource>
 </RCC>
