@@ -15,6 +15,7 @@ include_directories(${CMAKE_BINARY_DIR}
 
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
                            ${Qt5Widgets_INCLUDE_DIRS}
+                           ${Qt5Svg_INCLUDE_DIRS}
                            ${Qt5Gui_INCLUDE_DIRS}
 )
 
