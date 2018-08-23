@@ -934,7 +934,7 @@ namespace Database
             const int groupId = groupVariant.toInt();
             const int representativeId = representativeVariant.toInt();
             const int memberId = memberVariant.toInt();
-            const GroupInfo::Type type = static_cast<GroupInfo::Type>(memberVariant.toInt());
+            const GroupInfo::Type type = static_cast<GroupInfo::Type>(typeVariant.toInt());
 
             assert(type != GroupInfo::Invalid);
 
