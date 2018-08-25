@@ -81,8 +81,14 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
                 break;
         }
 
+        const QFont font = painter.font();
+        const QFontMetrics fontMetrics(font, painter.device());
+        QRect bb = fontMetrics.boundingRect(text);
+        bb.moveTop(0);
+        const QPoint sp = QPoint(bb.left(), fontMetrics.height()) + QPoint(5, 0);
+
         painter.setPen(textColor);
-        PainterHelpers::drawTextWithOutline(&painter, QPoint(5, 15), text, outline);
+        PainterHelpers::drawTextWithOutline(&painter, sp, text, outline);
     }
 
     return image;
