@@ -12,6 +12,7 @@ include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
 set(UTILS_SOURCES
     config_tools.cpp
     model_index_utils.cpp
+    painter_helpers.cpp
     people_operator.cpp
     photos_collector.cpp
     selection_extractor.cpp
@@ -30,6 +31,7 @@ set(UTILS_HEADERS
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
     model_index_utils.hpp
+    painter_helpers.hpp
     people_operator.hpp
     people_operator_p.hpp
     photos_collector.hpp
