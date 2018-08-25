@@ -19,9 +19,28 @@
 #ifndef PAINTERHELPERS_HPP
 #define PAINTERHELPERS_HPP
 
+#include <QPainter>
+#include <QPen>
 
 class PainterHelpers
 {
+    public:
+        template<typename T>
+        static void drawTextWithOutline(QPainter* painter, const QPoint& p, const T& text, const QPen& outlineColor)
+        {
+            const QPen currentPen = painter->pen();
+
+            // draw outline by painting text 4 times (moved by one pixel in each direction from center)
+            painter->setPen(outlineColor);
+            painter->drawText(p + QPoint(-1,  0), text);
+            painter->drawText(p + QPoint( 1,  0), text);
+            painter->drawText(p + QPoint( 0, -1), text);
+            painter->drawText(p + QPoint( 0,  1), text);
+
+            // draw text
+            painter->setPen(currentPen);
+            painter->drawText(p, text);
+        }
 };
 
 #endif // PAINTERHELPERS_HPP
