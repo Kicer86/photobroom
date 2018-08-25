@@ -69,7 +69,7 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
         switch (details.groupInfo.type)
         {
             case GroupInfo::Animation:
-                text = "GIF";
+                text = "gif";
                 break;
 
             case GroupInfo::HDR:
