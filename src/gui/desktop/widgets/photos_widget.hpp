@@ -34,7 +34,7 @@ class DBDataModel;
 class PhotosItemDelegate;
 class MultiValueLineEdit;
 class InfoBalloonWidget;
-struct ImagesTreeView;
+class ImagesTreeView;
 
 struct ICompleterFactory;
 struct IConfiguration;

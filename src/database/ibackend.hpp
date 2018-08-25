@@ -53,7 +53,7 @@ namespace Database
         virtual bool addPhotos(std::vector<Photo::DataDelta> &) = 0;
 
         // create group
-        virtual Group::Id addGroup(const Photo::Id &) = 0;
+        virtual Group::Id addGroup(const Photo::Id &, GroupInfo::Type) = 0;
 
         //update data
         virtual bool update(const Photo::DataDelta &) = 0;

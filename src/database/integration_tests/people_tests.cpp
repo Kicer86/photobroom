@@ -101,15 +101,15 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
-            pd2.data[Photo::Field::Path] = QString("photo2.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            pd2.insert<Photo::Field::Path>("photo2.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
-            ids.push_back(photos.back().id);
+            ids.push_back(photos.front().getId());
+            ids.push_back(photos.back().getId());
 
             const IPhotoInfo::Ptr photo1 = op->getPhotoFor(ids[0]);
             const TagNameInfo pi1(BaseTagsList::People);
@@ -187,13 +187,13 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             // add fully described person to photo
             const PersonName pn("person 123");
@@ -251,13 +251,13 @@ TEST_F(PeopleTest, alteringPersonData)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
 
@@ -332,13 +332,13 @@ TEST_F(PeopleTest, inteligentRectUpdate)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
 
@@ -382,13 +382,13 @@ TEST_F(PeopleTest, inteligentNameUpdate)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
 
@@ -432,13 +432,13 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.data[Photo::Field::Path] = QString("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
             op->addPhotos(photos);
 
-            ids.push_back(photos.front().id);
+            ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
 

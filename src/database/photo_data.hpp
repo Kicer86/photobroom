@@ -62,21 +62,81 @@ namespace Photo
         GroupInfo,
     };
 
-    struct DATABASE_EXPORT DataDelta
+    template<Field>
+    struct DeltaTypes {};
+
+    template<>
+    struct DeltaTypes<Field::Checksum>
     {
-        Photo::Id                 id;
-        std::map<Field, std::any> data;
+        typedef Photo::Sha256sum Storage;
+    };
 
-        bool has(Field) const;
-        const std::any& get(Field) const;
+    template<>
+    struct DeltaTypes<Field::Tags>
+    {
+        typedef Tag::TagsList Storage;
+    };
 
-        template<typename T>
-        const T& getAs(Field field) const
-        {
-            const std::any& raw = get(field);
+    template<>
+    struct DeltaTypes<Field::Flags>
+    {
+        typedef Photo::FlagValues Storage;
+    };
 
-            return std::any_cast<const T &>(raw);
-        }
+    template<>
+    struct DeltaTypes<Field::Path>
+    {
+        typedef QString Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::Geometry>
+    {
+        typedef QSize Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::GroupInfo>
+    {
+        typedef GroupInfo Storage;
+    };
+
+    class DATABASE_EXPORT DataDelta
+    {
+        public:
+            DataDelta(): m_id(), m_data() {}
+
+            DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+
+            template<Field field>
+            void insert(const typename DeltaTypes<field>::Storage& value)
+            {
+                m_data.emplace(field, value);
+            }
+
+            void setId(const Photo::Id &);
+
+            bool has(Field) const;
+            const std::any& get(Field) const;
+
+            template<Field field>
+            const typename DeltaTypes<field>::Storage& get() const
+            {
+                typedef typename DeltaTypes<field>::Storage Result;
+
+                const std::any& raw = get(field);
+
+                // TODO: may fail then compiled with clang.
+                // https://stackoverflow.com/questions/51693605/clang-compiled-program-throws-stdbad-any-cast-during-stdany-cast/51703166#51703166
+                // https://bugs.llvm.org/show_bug.cgi?id=38485
+                return std::any_cast<const Result &>(raw);
+            }
+
+            const Photo::Id& getId() const;
+
+        private:
+            Photo::Id                 m_id;
+            std::map<Field, std::any> m_data;
     };
 
 }

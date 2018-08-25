@@ -35,29 +35,29 @@ namespace
 {
     Photo::Data dataFromDelta(const Photo::DataDelta& delta)
     {
-        assert(delta.id.valid());
+        assert(delta.getId().valid());
 
         Photo::Data data;
 
-        data.id = delta.id;
+        data.id = delta.getId();
 
         if (delta.has(Photo::Field::Checksum))
-            data.sha256Sum = delta.getAs<Photo::Sha256sum>(Photo::Field::Checksum);
+            data.sha256Sum = delta.get<Photo::Field::Checksum>();
 
         if (delta.has(Photo::Field::Flags))
-            data.flags = delta.getAs<Photo::FlagValues>(Photo::Field::Flags);
+            data.flags = delta.get<Photo::Field::Flags>();
 
         if (delta.has(Photo::Field::Geometry))
-            data.geometry = delta.getAs<QSize>(Photo::Field::Geometry);
+            data.geometry = delta.get<Photo::Field::Geometry>();
 
         if (delta.has(Photo::Field::GroupInfo))
-            data.groupInfo = delta.getAs<GroupInfo>(Photo::Field::GroupInfo);
+            data.groupInfo = delta.get<Photo::Field::GroupInfo>();
 
         if (delta.has(Photo::Field::Path))
-            data.path = delta.getAs<QString>(Photo::Field::Path);
+            data.path = delta.get<Photo::Field::Path>();
 
         if (delta.has(Photo::Field::Tags))
-            data.tags = delta.getAs<Tag::TagsList>(Photo::Field::Tags);
+            data.tags = delta.get<Photo::Field::Tags>();
 
         return data;
     }
@@ -129,7 +129,7 @@ namespace
             m_tasks.stop();
         }
 
-        void closeConnections()
+        void closeConnections() override
         {
             m_backend->closeConnections();
         }
@@ -150,7 +150,7 @@ namespace
             return m_backend->addPhotos(d);
         }
 
-        Group::Id addGroup(const Photo::Id & ) override
+        Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override
         {
             assert(!"Not implemented");
             return Group::Id();
@@ -322,10 +322,11 @@ namespace
 
     struct CreateGroupTask: IThreadTask
     {
-        CreateGroupTask(const Photo::Id& representative, const std::function<void(Group::Id)>& callback):
+        CreateGroupTask(const Photo::Id& representative, GroupInfo::Type type, const std::function<void(Group::Id)>& callback):
             IThreadTask(),
             m_representative(representative),
-            m_callback(callback)
+            m_callback(callback),
+            m_type(type)
         {
 
         }
@@ -334,19 +335,20 @@ namespace
 
         virtual void execute(Executor* executor) override
         {
-            const Group::Id gid = executor->getBackend()->addGroup(m_representative);
+            const Group::Id gid = executor->getBackend()->addGroup(m_representative, m_type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = executor->getPhotoFor(m_representative);
-            const GroupInfo grpInfo = GroupInfo( gid, GroupInfo::Representative);
+            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, m_type);
             representative->setGroup(grpInfo);
 
             if (m_callback)
                 m_callback( gid );
         }
 
-        Photo::Id m_representative;
-        std::function<void(Group::Id)> m_callback;
+        const Photo::Id m_representative;
+        const std::function<void(Group::Id)> m_callback;
+        const GroupInfo::Type m_type;
     };
 
 
@@ -557,7 +559,7 @@ namespace
             const bool status = executor->getBackend()->update(m_photoData);
             assert(status);
 
-            IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.id);
+            IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.getId());
             emit executor->photoModified(photoInfo);
         }
 
@@ -668,7 +670,7 @@ namespace Database
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        assert(data.id.valid());
+        assert(data.getId().valid());
 
         UpdateTask* task = new UpdateTask(data);
         m_impl->addTask(task);
@@ -681,9 +683,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::createGroup(const Photo::Id& id, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, GroupInfo::Type type, const Callback<Group::Id>& callback)
     {
-        CreateGroupTask* task = new CreateGroupTask(id, callback);
+        CreateGroupTask* task = new CreateGroupTask(id, type, callback);
         m_impl->addTask(task);
     }
 

@@ -115,10 +115,9 @@ void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
     data->sha256Sum = sha256;
     data->flags[Photo::FlagsE::Sha256Loaded] = 1;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::Checksum] = data->sha256Sum;
-    delta.data[Photo::Field::Flags] = data->flags;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::Checksum>(data->sha256Sum);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 
@@ -131,10 +130,9 @@ void PhotoInfo::setGeometry(const QSize& geometry)
     data->geometry = geometry;
     data->flags[Photo::FlagsE::GeometryLoaded] = 1;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::Geometry] = data->geometry;
-    delta.data[Photo::Field::Flags] = data->flags;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::Geometry>(data->geometry);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 
@@ -144,9 +142,8 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
     auto data = m_data->m_data.lock();
     data->tags = tags;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::Tags] = data->tags;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::Tags>(data->tags);
     m_storekeeper->update(delta);
 }
 
@@ -156,9 +153,8 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
     auto data = m_data->m_data.lock();
     data->tags[name] = value;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::Tags] = data->tags;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::Tags>(data->tags);
     m_storekeeper->update(delta);
 }
 
@@ -168,9 +164,8 @@ void PhotoInfo::setGroup(const GroupInfo& info)
     auto data = m_data->m_data.lock();
     data->groupInfo = info;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::GroupInfo] = data->groupInfo;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::GroupInfo>(data->groupInfo);
     m_storekeeper->update(delta);
 }
 
@@ -182,9 +177,8 @@ void PhotoInfo::markFlag(Photo::FlagsE flag, int v)
     auto data = m_data->m_data.lock();
     data->flags[flag] = v;
 
-    Photo::DataDelta delta;
-    delta.id = data->id;
-    delta.data[Photo::Field::Flags] = data->flags;
+    Photo::DataDelta delta(data->id);
+    delta.insert<Photo::Field::Flags>(data->flags);
     m_storekeeper->update(delta);
 }
 

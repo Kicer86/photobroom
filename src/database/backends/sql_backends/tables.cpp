@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 3;
+        const int db_version = 4;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -118,6 +118,7 @@ namespace Database
                     {
                         { "id", "", ColDefinition::Purpose::ID   },
                         { "representative_id",  "INTEGER NOT NULL"     },
+                        { "type",               "INTEGER"              },
                         { "FOREIGN KEY(representative_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     }
         );

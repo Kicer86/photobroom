@@ -32,7 +32,7 @@ namespace Database
 
             //ISqlQueryConstructor:
             virtual QString prepareFindTableQuery(const QString &) const override;
-            virtual QString getTypeFor(ColDefinition::Purpose) const;
+            virtual QString getTypeFor(ColDefinition::Purpose) const override;
 
             struct Data;
             std::unique_ptr<Data> m_data;

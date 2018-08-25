@@ -37,7 +37,6 @@ namespace Photo
 
     typedef std::map<FlagsE, int> FlagValues;
 
-
     struct IdHash
     {
         std::size_t operator()(const Id& key) const

@@ -25,6 +25,7 @@
 
 #include "models/aphoto_info_model.hpp"
 #include "utils/ithumbnail_acquisitor.hpp"
+#include "utils/painter_helpers.hpp"
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
@@ -58,39 +59,36 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
     if (details.groupInfo.role == GroupInfo::Representative)
     {
-        const QSize canvasSize = image.size();
-        QImage canvas(canvasSize, QImage::Format_ARGB32);
-        canvas.fill(Qt::transparent);
+        const QPen outline(Qt::black);
+        const QPen textColor(Qt::white);
 
-        const QSize layerSize = canvasSize *0.9;
-        const QImage layer_image = image.scaled(layerSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPainter painter(&image);
 
-        const int layers = 5;
-        const QSize size_diff = canvasSize - layerSize;
-        const QPoint offset = QPoint(size_diff.width(), size_diff.height());
-        const QPoint step = offset / (layers - 1);
+        QString text;
 
-        const float opacity_min = 0.3f;
-        const float opacity_max = 1.0f;
-        const float opacity_step = (opacity_max - opacity_min) / layers;
-
-        float current_opacity = opacity_min;
-        QPoint current_layer_pos;
-        QPainter painter(&canvas);
-
-        for(int i = 0; i < layers; i++)
+        switch (details.groupInfo.type)
         {
-            QRect current_layer_rect(current_layer_pos, layerSize);
-            current_layer_rect.moveTo(current_layer_pos);
+            case GroupInfo::Animation:
+                text = "gif";
+                break;
 
-            painter.setOpacity(current_opacity);
-            painter.drawImage(current_layer_pos, layer_image);
+            case GroupInfo::HDR:
+                text = "HDR";
+                break;
 
-            current_layer_pos += step;
-            current_opacity += opacity_step;
+            case GroupInfo::Invalid:
+                assert(!"not expected");
+                break;
         }
 
-        image = canvas;
+        const QFont font = painter.font();
+        const QFontMetrics fontMetrics(font, painter.device());
+        QRect bb = fontMetrics.boundingRect(text);
+        bb.moveTop(0);
+        const QPoint sp = QPoint(bb.left(), fontMetrics.height()) + QPoint(5, 0);
+
+        painter.setPen(textColor);
+        PainterHelpers::drawTextWithOutline(&painter, sp, text, outline);
     }
 
     return image;

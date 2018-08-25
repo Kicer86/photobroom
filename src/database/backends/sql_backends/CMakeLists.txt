@@ -17,7 +17,6 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
                            ${OPENLIBRARY_INCLUDE_DIRS})
 
 set(SOURCES
-        database_migrator.cpp
         generic_sql_query_constructor.cpp
         sql_backend.cpp
         table_definition.cpp
@@ -29,7 +28,6 @@ set(SOURCES
     )
 
 set(HEADERS
-        database_migrator.hpp
         generic_sql_query_constructor.hpp
         isql_query_constructor.hpp
         isql_query_executor.hpp
