@@ -43,7 +43,7 @@ struct CORE_EXPORT ITaskExecutor
     virtual ~ITaskExecutor();
 
     virtual void add(std::unique_ptr<ITask> &&) = 0;
-    virtual TaskQueue getCustomTaskQueue() = 0;
+    [[deprecated]] virtual TaskQueue getCustomTaskQueue() = 0 ;
     virtual void stop() = 0;
 };
 
