@@ -6,7 +6,7 @@
 #include <condition_variable>
 
 #include <core/exif_reader_factory.hpp>
-#include <core/task_executor.hpp>
+#include <core/task_executor_utils.hpp>
 #include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
 
@@ -37,7 +37,7 @@ class PhotoInfoUpdater final
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
-        ITaskExecutor::TaskQueue m_taskQueue;
+        TasksQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
