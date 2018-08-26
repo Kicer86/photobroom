@@ -32,7 +32,7 @@
 
 
 template<typename T>
-class TS_MultiQueue
+class [[deprecated]] TS_MultiQueue
 {
     public:
 
