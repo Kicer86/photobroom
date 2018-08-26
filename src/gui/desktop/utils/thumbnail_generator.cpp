@@ -28,16 +28,16 @@
 #include <core/ffmpeg_video_details_reader.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/itask_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
 #include <core/stopwatch.hpp>
-#include <core/task_executor.hpp>
 #include <system/system.hpp>
 
 #include "images/images.hpp"
 
 
-struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
+struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
 {
     FromImageTask(const ThumbnailInfo& info,
                   const ThumbnailGenerator::Callback& callback,
@@ -188,7 +188,7 @@ struct ThumbnailGenerator::FromImageTask: TaskExecutor::ITask
 };
 
 
-struct ThumbnailGenerator::FromVideoTask: TaskExecutor::ITask
+struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
                   const ThumbnailGenerator::Callback& callback,
@@ -257,7 +257,6 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 ThumbnailGenerator::ThumbnailGenerator():
     m_videoImage(":/gui/video.svg"),
     m_tasks(),
-    m_executor(nullptr),
     m_logger(nullptr),
     m_exifReaderFactory(nullptr),
     m_configuration(nullptr)
@@ -280,9 +279,7 @@ void ThumbnailGenerator::dismissPendingTasks()
 
 void ThumbnailGenerator::set(ITaskExecutor* executor)
 {
-    m_executor = executor;
-
-    m_tasks = std::move( m_executor->getCustomTaskQueue() );
+    m_tasks = std::make_unique<TasksQueue>(executor);
 }
 
 
