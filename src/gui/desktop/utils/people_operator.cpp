@@ -23,6 +23,7 @@
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
 

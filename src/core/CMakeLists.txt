@@ -52,6 +52,7 @@ set(CORE_SOURCES
     implementation/stopwatch.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
+    implementation/task_executor_utils.cpp
     implementation/time_guardian.cpp
     implementation/video_information.cpp
 )
@@ -104,6 +105,7 @@ set(CORE_HEADERS
     tag.hpp
     exif_reader_factory.hpp
     task_executor.hpp
+    task_executor_utils.hpp
     time_guardian.hpp
     ts_multi_queue.hpp
     universal_operators.hpp
