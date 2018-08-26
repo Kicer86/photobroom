@@ -7,6 +7,8 @@
 
 #include "itask_executor.hpp"
 
+#include "core_export.h"
+
 template<typename T, typename E>
 struct ExecutorTraits
 {
@@ -38,33 +40,31 @@ auto evaluate(E* executor, const T& task)
 // A subqueue for ITaskExecutor.
 // Its purpose is to have a queue of tasks to be executed by executor
 // but controled by client ( can be clean()ed )
-class TasksQueue
+class CORE_EXPORT TasksQueue
 {
     public:
 
         TasksQueue(ITaskExecutor *);
 
-        template<typename T>
-        void addTask(T&& callable)
+        void push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
         {
             std::lock_guard<std::mutex> guard(m_tasksMutex);
 
-            auto task = std::make_unique<IntTask<T>>(callable, this);
-            m_waitingTasks.push_back(task);
+            auto task = std::make_unique<IntTask>(std::move(callable), this);
+            m_waitingTasks.push_back(std::move(task));
 
             try_to_fire();
         }
 
-        void clean();
+        void clear();
 
     private:
-        template<typename T> friend struct IntTask;
+        friend struct IntTask;
 
-        template<typename T>
         struct IntTask: ITaskExecutor::ITask
         {
-            IntTask(T&& callable, TasksQueue* queue):
-                m_callable(callable),
+            IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
+                m_callable(std::move(callable)),
                 m_queue(queue)
             {
             }
@@ -77,16 +77,16 @@ class TasksQueue
 
             void perform() override
             {
-                m_callable();     // client's code
-                notify();         // internal jobs
+                m_callable->perform();     // client's code
+                notify();                  // internal jobs
             }
 
-            std::string name() override
+            std::string name() const override
             {
                 return "TasksQueue::IntTask";
             }
 
-            T m_callable;
+            std::unique_ptr<ITaskExecutor::ITask> m_callable;
             TasksQueue* m_queue;
         };
 

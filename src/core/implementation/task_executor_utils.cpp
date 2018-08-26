@@ -13,7 +13,7 @@ TasksQueue::TasksQueue(ITaskExecutor* executor):
 }
 
 
-void TasksQueue::clean()
+void TasksQueue::clear()
 {
     std::lock_guard<std::mutex> guard(m_tasksMutex);
     m_waitingTasks.clear();
