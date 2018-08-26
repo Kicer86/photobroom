@@ -54,6 +54,8 @@ struct ExecutorTraits
 };
 
 
+// Helper function.
+// Run a task and wait for it to be finished.
 template<typename R, typename E, typename T>
 auto evaluate(E* executor, const T& task)
 {
