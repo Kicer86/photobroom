@@ -43,7 +43,6 @@ auto evaluate(E* executor, const T& task)
 class CORE_EXPORT TasksQueue
 {
     public:
-
         TasksQueue(ITaskExecutor *);
 
         void push(std::unique_ptr<ITaskExecutor::ITask> &&);
