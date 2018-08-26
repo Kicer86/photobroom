@@ -40,10 +40,11 @@ auto evaluate(E* executor, const T& task)
 // A subqueue for ITaskExecutor.
 // Its purpose is to have a queue of tasks to be executed by executor
 // but controled by client ( can be clean()ed )
-class CORE_EXPORT TasksQueue
+class CORE_EXPORT TasksQueue final
 {
     public:
         TasksQueue(ITaskExecutor *);
+        ~TasksQueue();
 
         void push(std::unique_ptr<ITaskExecutor::ITask> &&);
         void clear();
@@ -54,6 +55,7 @@ class CORE_EXPORT TasksQueue
 
         std::mutex m_tasksMutex;
         std::deque<std::unique_ptr<ITaskExecutor::ITask>> m_waitingTasks;
+        std::condition_variable m_noWork;
         ITaskExecutor* m_tasksExecutor;
         int m_maxTasks;
         int m_executingTasks;

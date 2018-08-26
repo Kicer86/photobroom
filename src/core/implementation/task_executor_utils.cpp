@@ -44,6 +44,19 @@ TasksQueue::TasksQueue(ITaskExecutor* executor):
 }
 
 
+TasksQueue::~TasksQueue()
+{
+    clear();  // drop all tasks awaiting
+
+    // wait for tasks being executed
+    std::unique_lock<std::mutex> lock(m_tasksMutex);
+    m_noWork.wait(lock, [this]
+    {
+        return m_executingTasks == 0;
+    });
+}
+
+
 void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
 {
     std::lock_guard<std::mutex> guard(m_tasksMutex);
@@ -93,6 +106,9 @@ void TasksQueue::task_finished()
 
     assert(m_executingTasks > 0);
     m_executingTasks--;
+
+    if (m_executingTasks == 0)
+        m_noWork.notify_one();
 
     try_to_fire();
 }
