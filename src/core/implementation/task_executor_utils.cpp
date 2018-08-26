@@ -2,6 +2,37 @@
 #include "task_executor_utils.hpp"
 
 
+struct TasksQueue::IntTask: ITaskExecutor::ITask
+{
+    IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
+        m_callable(std::move(callable)),
+        m_queue(queue)
+    {
+    }
+
+    void notify()
+    {
+        // tell TasksQueue job is done
+        m_queue->task_finished();
+    }
+
+    void perform() override
+    {
+        m_callable->perform();     // client's code
+        notify();                  // internal jobs
+    }
+
+    std::string name() const override
+    {
+        return "TasksQueue::IntTask";
+    }
+
+    std::unique_ptr<ITaskExecutor::ITask> m_callable;
+    TasksQueue* m_queue;
+};
+
+
+
 TasksQueue::TasksQueue(ITaskExecutor* executor):
     m_tasksMutex(),
     m_waitingTasks(),
@@ -10,6 +41,17 @@ TasksQueue::TasksQueue(ITaskExecutor* executor):
     m_executingTasks(0)
 {
 
+}
+
+
+void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
+{
+    std::lock_guard<std::mutex> guard(m_tasksMutex);
+
+    auto task = std::make_unique<IntTask>(std::move(callable), this);
+    m_waitingTasks.push_back(std::move(task));
+
+    try_to_fire();
 }
 
 
