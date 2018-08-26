@@ -2,6 +2,7 @@
 #ifndef TASK_EXECUTOR_UTILS
 #define TASK_EXECUTOR_UTILS
 
+#include <deque>
 #include <mutex>
 #include <future>
 
