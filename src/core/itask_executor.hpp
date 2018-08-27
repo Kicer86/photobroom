@@ -30,13 +30,13 @@ struct CORE_EXPORT ITaskExecutor
 {
     struct CORE_EXPORT ITask
     {
-        virtual ~ITask();
+        virtual ~ITask() = default;
 
         virtual std::string name() const = 0;       //task's name
         virtual void perform() = 0;
     };
 
-    virtual ~ITaskExecutor();
+    virtual ~ITaskExecutor() = default;
 
     virtual void add(std::unique_ptr<ITask> &&) = 0;         // add short but heavy task (calculations)
     virtual void addLight(std::unique_ptr<ITask> &&) = 0;    // add long but light task  (awaiting results from other threads etc)

@@ -27,21 +27,6 @@
 #include <QString>
 
 
-ITaskExecutor::ITask::~ITask()
-{
-
-}
-
-
-ITaskExecutor::~ITaskExecutor()
-{
-
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 TaskExecutor::TaskExecutor(ILogger* logger):
     m_tasks(),
     m_taskEater(),
