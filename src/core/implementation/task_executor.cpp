@@ -47,6 +47,7 @@ TaskExecutor::TaskExecutor(ILogger* logger):
     m_taskEater(),
     m_logger(logger),
     m_threads(std::thread::hardware_concurrency()),
+    m_lightTasks(0),
     m_working(true)
 {
     DebugStream(m_logger) << "TaskExecutor: " << m_threads << " threads detected.";
@@ -71,8 +72,27 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TaskExecutor::addLight(std::unique_ptr<ITask> &&)
+void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
 {
+    assert(m_working);
+
+    // start a task and increase count of them
+    std::lock_guard<std::mutex> guard(m_lightTasksMutex);
+    ++m_lightTasks;
+
+    auto light_task = std::thread( [this, lt = std::move(task)]
+    {
+        // do job
+        lt->perform();
+
+        // notify about finished task
+        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
+        --m_lightTasks;
+
+        std::notify_all_at_thread_exit(m_lightTaskFinished, std::move(lock));
+    });
+
+    light_task.detach();
 }
 
 
@@ -81,9 +101,19 @@ void TaskExecutor::stop()
     if (m_working)
     {
         m_working = false;
+
+        // wait for heavy tasks
         m_tasks.stop();
         assert(m_taskEater.joinable());
         m_taskEater.join();
+
+        // wait for light tasks
+        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
+
+        m_lightTaskFinished.wait(lock, [this]
+        {
+            return m_lightTasks == 0;
+        });
     }
 }
 
