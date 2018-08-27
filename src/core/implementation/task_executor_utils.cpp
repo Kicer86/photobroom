@@ -39,7 +39,7 @@ TasksQueue::TasksQueue(ITaskExecutor* executor):
     m_tasksMutex(),
     m_waitingTasks(),
     m_tasksExecutor(executor),
-    m_maxTasks(16),
+    m_maxTasks(executor->heavyWorkers() + 2),
     m_executingTasks(0)
 {
 
