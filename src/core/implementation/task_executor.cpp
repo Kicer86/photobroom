@@ -72,6 +72,7 @@ void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
 
         // notify about finished task
         std::unique_lock<std::mutex> lock(m_lightTasksMutex);
+        assert(m_lightTasks > 0);
         --m_lightTasks;
 
         std::notify_all_at_thread_exit(m_lightTaskFinished, std::move(lock));
