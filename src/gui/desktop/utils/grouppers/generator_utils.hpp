@@ -150,8 +150,13 @@ namespace GeneratorUtils
             void operator()(QProcess &);      // throws `bool` if action was cancelled or was launched again after cancelation
             void cancel();
 
+            int getExitCode() const;
+
         private:
+            int m_exitCode;
             bool m_work;
+
+            void exitCode(int);
 
         signals:
             void stop();

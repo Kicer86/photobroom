@@ -159,6 +159,7 @@ namespace GeneratorUtils
 
         connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
         connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
+        connect(&pr, qOverload<int>(&QProcess::finished), this, &ProcessRunner::exitCode);
 
         if (m_work)
         {
@@ -176,6 +177,18 @@ namespace GeneratorUtils
         m_work = false;
 
         emit stop();
+    }
+
+
+    int ProcessRunner::getExitCode() const
+    {
+        return m_exitCode;
+    }
+
+
+    void ProcessRunner::exitCode(int e)
+    {
+        m_exitCode = e;
     }
 
 
