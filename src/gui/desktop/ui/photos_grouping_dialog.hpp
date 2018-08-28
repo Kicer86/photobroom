@@ -85,6 +85,7 @@ class PhotosGroupingDialog: public QDialog
         void generationProgress(int);
         void generationDone(const QString &);
         void generationCanceled();
+        void generationError(const QString &, const QStringList &);
         void refreshDialogButtons();
         void typeChanged();
         void previewPressed();

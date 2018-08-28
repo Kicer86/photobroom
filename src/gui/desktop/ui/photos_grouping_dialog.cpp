@@ -154,6 +154,18 @@ void PhotosGroupingDialog::generationCanceled()
 }
 
 
+void PhotosGroupingDialog::generationError(const QString& info, const QStringList& output)
+{
+    generationDone(QString());
+
+    const QString message = QString("%1\n\n%2")
+                                .arg(info)
+                                .arg(output.join("\n"));
+
+    QMessageBox::critical(this, info, message, QMessageBox::Ok);
+}
+
+
 void PhotosGroupingDialog::refreshDialogButtons()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
@@ -241,6 +253,7 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
         connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+        connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
@@ -289,6 +302,7 @@ void PhotosGroupingDialog::makeHDR()
         connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
         connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+        connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
         m_executor->add(std::move(hdr_task));
         ui->generationProgressBar->setEnabled(true);

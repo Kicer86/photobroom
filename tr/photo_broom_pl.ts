@@ -682,31 +682,31 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+99"/>
-        <location line="+96"/>
+        <location line="+108"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-108"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+108"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+8"/>
-        <location line="+40"/>
+        <location line="+41"/>
         <location line="+8"/>
         <source>Missing tool</source>
         <translation>Brakujący program</translation>
     </message>
     <message>
-        <location line="-55"/>
-        <location line="+48"/>
+        <location line="-56"/>
+        <location line="+49"/>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
@@ -719,7 +719,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="-40"/>
+        <location line="-41"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -732,7 +732,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -750,7 +750,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+42"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+43"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
