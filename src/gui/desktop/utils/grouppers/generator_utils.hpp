@@ -79,19 +79,22 @@ namespace GeneratorUtils
             Q_OBJECT
 
         public:
-            GenericAnalyzer(int tailLenght);
+            GenericAnalyzer(ILogger *, int tailLenght);
             virtual ~GenericAnalyzer() = default;
 
             const QStringList& tail() const;
 
-            virtual void operator()(QIODevice& device) = 0;
+            virtual void operator()(QIODevice& device) final;
 
         protected:
-            void addMessage(const QString &);
+            virtual void processMessage(const QString &) = 0;
 
         private:
             QStringList m_tail;
+            ILogger* m_logger;
             int m_tailLenght;
+
+            void addMessage(const QString &);
 
         signals:
             void operation(const QString &);
@@ -107,7 +110,7 @@ namespace GeneratorUtils
         public:
             ConvertOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device) override;
+            void processMessage(const QString &) override;
 
         private:
             struct Data
@@ -124,7 +127,6 @@ namespace GeneratorUtils
             } conversion_data;
 
             const int m_photos_count;
-            ILogger* m_logger;
     };
 
 
@@ -135,7 +137,7 @@ namespace GeneratorUtils
         public:
             AISOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device) override;
+            void processMessage(const QString &) override;
 
         private:
             struct Data
@@ -152,7 +154,6 @@ namespace GeneratorUtils
             } stabilization_data;
 
             const int m_photos_count;
-            ILogger* m_logger;
     };
 
 
