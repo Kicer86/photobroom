@@ -204,6 +204,7 @@ namespace GeneratorUtils
             void progress(int) const;
             void finished(const QString &) const;
             void canceled() const;
+            void error(const QString &, const QStringList &) const;
     };
 }
 
