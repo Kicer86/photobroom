@@ -52,7 +52,7 @@ namespace GeneratorUtils
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
 
-            const QString message = "convert: " + line.trimmed();
+            const QString message = "tool output: " + line.trimmed();
             addMessage(message);
             m_logger->debug(message.toStdString());
 
