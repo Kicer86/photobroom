@@ -74,19 +74,40 @@ namespace GeneratorUtils
     }
 
 
-    class ConvertOutputAnalyzer: public QObject
+    class GenericAnalyzer: public QObject
+    {
+            Q_OBJECT
+
+        public:
+            GenericAnalyzer(int tailLenght);
+            virtual ~GenericAnalyzer() = default;
+
+            const QStringList& tail() const;
+
+            virtual void operator()(QIODevice& device) = 0;
+
+        protected:
+            void addMessage(const QString &);
+
+        private:
+            QStringList m_tail;
+            int m_tailLenght;
+
+        signals:
+            void operation(const QString &);
+            void progress(int);
+            void finished(const QString &);
+    };
+
+
+    class ConvertOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT
 
         public:
             ConvertOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device);
-
-        signals:
-            void operation(const QString &);
-            void progress(int);
-            void finished(const QString &);
+            void operator()(QIODevice& device) override;
 
         private:
             struct Data
@@ -107,19 +128,14 @@ namespace GeneratorUtils
     };
 
 
-    class AISOutputAnalyzer: public QObject
+    class AISOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT
 
         public:
             AISOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device);
-
-        signals:
-            void operation(const QString &);
-            void progress(int);
-            void finished(const QString &);
+            void operator()(QIODevice& device) override;
 
         private:
             struct Data

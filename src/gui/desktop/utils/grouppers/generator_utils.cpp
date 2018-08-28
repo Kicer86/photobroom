@@ -37,7 +37,33 @@ namespace
 namespace GeneratorUtils
 {
 
+    GenericAnalyzer::GenericAnalyzer(int tailLenght):
+        QObject(),
+        m_tailLenght(m_tailLenght)
+    {
+    }
+
+
+    const QStringList& GenericAnalyzer::tail() const
+    {
+        return m_tail;
+    }
+
+
+    void GenericAnalyzer::addMessage(const QString& m)
+    {
+        m_tail.append(m);
+
+        if (m_tail.size() > m_tailLenght)
+            m_tail.pop_front();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
     ConvertOutputAnalyzer::ConvertOutputAnalyzer(ILogger* logger, int photos_count):
+        GenericAnalyzer(10),
         m_photos_count(photos_count),
         m_logger(logger)
     {
@@ -52,6 +78,7 @@ namespace GeneratorUtils
             const QString line(line_raw);
 
             const QString message = "convert: " + line.trimmed();
+            addMessage(message);
             m_logger->debug(message.toStdString());
 
             switch (conversion_data.state)
@@ -94,6 +121,7 @@ namespace GeneratorUtils
 
 
     AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
+        GenericAnalyzer(10),
         m_photos_count(photos_count),
         m_logger(logger)
     {
@@ -110,6 +138,7 @@ namespace GeneratorUtils
             const QString line(line_raw);
 
             const QString message = "align_image_stack: " + line.trimmed();
+            addMessage(message);
             m_logger->debug(message.toStdString());
 
             switch (stabilization_data.state)
