@@ -167,13 +167,12 @@ struct TagsCollector: UpdaterTask
 
 PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory):
     m_mediaInformation(),
-    m_taskQueue(),
+    m_taskQueue(coreFactory->getTaskExecutor()),
     m_tasks(),
     m_tasksMutex(),
     m_finishedTask(),
     m_coreFactory(coreFactory)
 {
-    m_taskQueue = m_coreFactory->getTaskExecutor()->getCustomTaskQueue();
     m_mediaInformation.set(coreFactory);
 }
 
@@ -188,7 +187,7 @@ void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
-    m_taskQueue->push(std::move(task));
+    m_taskQueue.push(std::move(task));
 }
 
 
@@ -196,7 +195,7 @@ void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
 {
     auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
 
-    m_taskQueue->push(std::move(task));
+    m_taskQueue.push(std::move(task));
 }
 
 
@@ -205,7 +204,7 @@ void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
     auto task = std::make_unique<TagsCollector>(this, photoInfo);
     task->set(m_coreFactory->getExifReaderFactory());
 
-    m_taskQueue->push(std::move(task));
+    m_taskQueue.push(std::move(task));
 }
 
 
@@ -217,8 +216,7 @@ int PhotoInfoUpdater::tasksInProgress()
 
 void PhotoInfoUpdater::dropPendingTasks()
 {
-    if (m_taskQueue != nullptr)
-        m_taskQueue->clear();
+    m_taskQueue.clear();
 }
 
 

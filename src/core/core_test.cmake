@@ -14,7 +14,6 @@ addTestTarget(core
                     unit_tests/ptr_iterator_tests.cpp
                     unit_tests/qmodelindex_comparator_tests.cpp
                     unit_tests/qmodelindex_selector_tests.cpp
-                    unit_tests/ts_multi_queue_tests.cpp
                 LIBRARIES
                     PRIVATE
                         ${GMOCK_MAIN_LIBRARY}

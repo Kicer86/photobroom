@@ -20,18 +20,19 @@
 #ifndef THUMBNAILGENERATOR_HPP
 #define THUMBNAILGENERATOR_HPP
 
+#include <memory>
 #include <mutex>
 
 #include <QCache>
 
-#include <core/ts_multi_queue.hpp>
-#include <core/task_executor.hpp>
+#include <core/task_executor_utils.hpp>
 
 #include "ithumbnail_generator.hpp"
 
 
 struct IExifReaderFactory;
 struct IConfiguration;
+struct ILogger;
 
 
 class ThumbnailGenerator: public IThumbnailGenerator
@@ -54,8 +55,7 @@ class ThumbnailGenerator: public IThumbnailGenerator
 
     private:
         QImage m_videoImage;
-        ITaskExecutor::TaskQueue m_tasks;
-        ITaskExecutor* m_executor;
+        std::unique_ptr<TasksQueue> m_tasks;
         ILogger* m_logger;
         IExifReaderFactory* m_exifReaderFactory;
         IConfiguration* m_configuration;

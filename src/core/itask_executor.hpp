@@ -22,53 +22,28 @@
 
 #include <memory>
 #include <string>
-#include <future>
 
 #include "core_export.h"
 
-#include "ts_multi_queue.hpp"
 
 struct CORE_EXPORT ITaskExecutor
 {
     struct CORE_EXPORT ITask
     {
-        virtual ~ITask();
+        virtual ~ITask() = default;
 
         virtual std::string name() const = 0;       //task's name
         virtual void perform() = 0;
     };
 
-    typedef std::unique_ptr<TS_MultiQueue<std::unique_ptr<ITask>>::SubQueue> TaskQueue;
+    virtual ~ITaskExecutor() = default;
 
-    virtual ~ITaskExecutor();
+    virtual void add(std::unique_ptr<ITask> &&) = 0;         // add short but heavy task (calculations)
+    virtual void addLight(std::unique_ptr<ITask> &&) = 0;    // add long but light task  (awaiting results from other threads etc)
 
-    virtual void add(std::unique_ptr<ITask> &&) = 0;
-    virtual TaskQueue getCustomTaskQueue() = 0;
     virtual void stop() = 0;
+
+    virtual int heavyWorkers() const = 0;                    // return number of heavy task workers
 };
-
-template<typename T, typename E>
-struct ExecutorTraits
-{
-    static void exec(E *, T &&);
-};
-
-
-template<typename R, typename E, typename T>
-auto evaluate(E* executor, const T& task)
-{
-    typedef std::packaged_task<R> PTask;
-
-    PTask p_task(task);
-
-    auto result_future = p_task.get_future();
-    ExecutorTraits<E, PTask>::exec(executor, std::move(p_task));
-
-    result_future.wait();
-
-    const auto result = result_future.get();
-
-    return result;
-}
 
 #endif // TASKEXECUTOR_H

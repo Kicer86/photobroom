@@ -26,28 +26,16 @@
 
 #include <QString>
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-#include <OpenLibrary/putils/ts_resource.hpp>
 
-
-ITaskExecutor::ITask::~ITask()
+TaskExecutor::TaskExecutor(ILogger* logger):
+    m_tasks(),
+    m_taskEater(),
+    m_logger(logger),
+    m_threads(std::thread::hardware_concurrency()),
+    m_lightTasks(0),
+    m_working(true)
 {
-
-}
-
-
-ITaskExecutor::~ITaskExecutor()
-{
-
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-TaskExecutor::TaskExecutor(ILogger* logger): m_tasks(), m_producer(), m_taskEater(), m_logger(logger), m_working(true)
-{
-    m_producer = m_tasks.prepareProducer();
+    DebugStream(m_logger) << "TaskExecutor: " << m_threads << " threads detected.";
 
     m_taskEater = std::thread( [&]
     {
@@ -65,13 +53,32 @@ TaskExecutor::~TaskExecutor()
 void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 {
     assert(m_working);
-    m_producer->push(std::move(task));
+    m_tasks.push(std::move(task));
 }
 
 
-TaskExecutor::TaskQueue TaskExecutor::getCustomTaskQueue()
+void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
 {
-    return m_tasks.prepareProducer();
+    assert(m_working);
+
+    // start a task and increase count of them
+    std::lock_guard<std::mutex> guard(m_lightTasksMutex);
+    ++m_lightTasks;
+
+    auto light_task = std::thread( [this, lt = std::move(task)]
+    {
+        // do job
+        lt->perform();
+
+        // notify about finished task
+        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
+        assert(m_lightTasks > 0);
+        --m_lightTasks;
+
+        std::notify_all_at_thread_exit(m_lightTaskFinished, std::move(lock));
+    });
+
+    light_task.detach();
 }
 
 
@@ -80,20 +87,32 @@ void TaskExecutor::stop()
     if (m_working)
     {
         m_working = false;
+
+        // wait for heavy tasks
         m_tasks.stop();
         assert(m_taskEater.joinable());
         m_taskEater.join();
+
+        // wait for light tasks
+        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
+
+        m_lightTaskFinished.wait(lock, [this]
+        {
+            return m_lightTasks == 0;
+        });
     }
+}
+
+
+int TaskExecutor::heavyWorkers() const
+{
+    return m_threads;
 }
 
 
 void TaskExecutor::eat()
 {
     using namespace std::chrono_literals;
-
-    const unsigned int threads = std::thread::hardware_concurrency();
-
-    DebugStream(m_logger) << "TaskExecutor: " << threads << " threads detected.";
 
     std::atomic<unsigned int> running_tasks(0);
     std::condition_variable free_worker;
@@ -105,7 +124,7 @@ void TaskExecutor::eat()
         m_tasks.wait_for_data();
 
         // if there are tasks and a free worker - give him a job
-        if (running_tasks < threads && m_tasks.empty() == false)
+        if (running_tasks < m_threads && m_tasks.empty() == false)
         {
             ++running_tasks;
 
@@ -145,7 +164,7 @@ void TaskExecutor::eat()
         std::unique_lock<std::mutex> free_worker_lock(free_worker_mutex);
         free_worker.wait(free_worker_lock, [&]
         {
-            return running_tasks < threads;
+            return running_tasks < m_threads;
         });
     }
 

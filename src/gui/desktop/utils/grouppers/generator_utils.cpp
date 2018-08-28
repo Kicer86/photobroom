@@ -184,9 +184,9 @@ namespace GeneratorUtils
 
     BreakableTask::BreakableTask(const QString& storage):
         QObject(),
+        m_tmpDir(System::getTmpDir("BT_tmp")),
         m_storage(storage),
-        m_runner(),
-        m_tmpDir(System::getTmpDir("BT_tmp"))
+        m_runner()
     {
         connect(this, &BreakableTask::canceled,
                 &m_runner, &GeneratorUtils::ProcessRunner::cancel);

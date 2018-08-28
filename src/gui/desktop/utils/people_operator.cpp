@@ -23,6 +23,7 @@
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
 
@@ -461,7 +462,7 @@ void PeopleOperator::testSystem() const
     connect(task.get(), &TestSystem::status,
             this, &PeopleOperator::system_status);
 
-    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+    executor->addLight(std::move(task));
 }
 
 
@@ -473,7 +474,7 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
     connect(task.get(), &FacesFetcher::faces,
             this, &PeopleOperator::faces);
 
-    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+    executor->addLight(std::move(task));
 }
 
 
@@ -485,7 +486,7 @@ void PeopleOperator::recognize(const PeopleOperator::FaceLocation& face) const
     connect(task.get(), &FaceRecognizer::recognized,
             this, &PeopleOperator::recognized);
 
-    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+    executor->addLight(std::move(task));
 }
 
 
@@ -497,7 +498,7 @@ void PeopleOperator::getUnassignedPeople(const Photo::Id& id) const
     connect(task.get(), &FetchUnassigned::unassigned,
             this, &PeopleOperator::unassigned);
 
-    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+    executor->addLight(std::move(task));
 }
 
 
@@ -508,5 +509,5 @@ void PeopleOperator::store(const Photo::Id& id,
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
 
-    executor->add(std::move(task)); // TODO: this task will mostly wait. Use new mechanism (issue #247)
+    executor->addLight(std::move(task));
 }
