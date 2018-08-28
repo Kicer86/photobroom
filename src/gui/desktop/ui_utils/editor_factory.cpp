@@ -176,7 +176,7 @@ void ListEditor::review()
 void ListEditor::editorDestroyed(QObject* obj)
 {
     QLineEdit* e = static_cast<QLineEdit *>(obj);
-    const int erased = m_editors.erase(e);
+    const std::size_t erased = m_editors.erase(e);
 
     assert(erased == 1);
 }

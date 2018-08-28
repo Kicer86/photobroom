@@ -94,9 +94,9 @@ void TagValueModel::set(ILoggerFactory* loggerFactory)
 
 int TagValueModel::rowCount(const QModelIndex& index) const
 {
-    const int result = index.isValid()? 0: m_values.size();
+    const std::size_t result = index.isValid()? 0: m_values.size();
 
-    return result;
+    return static_cast<int>(result);
 }
 
 
