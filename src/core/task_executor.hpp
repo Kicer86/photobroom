@@ -39,7 +39,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
-    void addLight(std::unique_ptr<ITask> && ) override;
+    void addLight(std::unique_ptr<ITask> &&) override;
 
     void stop() override;
 
