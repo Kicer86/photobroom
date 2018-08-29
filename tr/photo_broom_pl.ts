@@ -178,7 +178,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+154"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+155"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -681,18 +681,18 @@ Kod błędu: %1</translation>
         <translation>Utwórz podgląd</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+99"/>
-        <location line="+108"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
+        <location line="+120"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-120"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+120"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
