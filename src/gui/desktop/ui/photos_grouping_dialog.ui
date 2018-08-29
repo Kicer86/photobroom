@@ -36,7 +36,7 @@
             <item>
              <widget class="QLabel" name="groupingTypeLabel">
               <property name="text">
-               <string>&amp;Grouping type:</string>
+               <string>Grouping type:</string>
               </property>
              </widget>
             </item>
@@ -99,7 +99,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="speedLabel">
                   <property name="text">
-                   <string>Anima&amp;tion speed:</string>
+                   <string>Animation speed:</string>
                   </property>
                  </widget>
                 </item>
@@ -130,7 +130,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="delayLabel">
                   <property name="text">
-                   <string>Delay &amp;before restart:</string>
+                   <string>Delay before restart:</string>
                   </property>
                  </widget>
                 </item>
@@ -149,7 +149,7 @@
                   <item>
                    <widget class="QLabel" name="msLabel">
                     <property name="text">
-                     <string>&amp;ms</string>
+                     <string>ms</string>
                     </property>
                    </widget>
                   </item>
@@ -158,7 +158,7 @@
                 <item row="2" column="0">
                  <widget class="QLabel" name="scaleLabel">
                   <property name="text">
-                   <string>Sca&amp;le:</string>
+                   <string>Scale:</string>
                   </property>
                  </widget>
                 </item>
@@ -220,7 +220,7 @@
               <item>
                <widget class="QPushButton" name="previewButton">
                 <property name="text">
-                 <string>Generate preview</string>
+                 <string>Generate</string>
                 </property>
                </widget>
               </item>
@@ -301,7 +301,7 @@
           <item>
            <widget class="QLabel" name="peviewLabel">
             <property name="text">
-             <string>P&amp;review:</string>
+             <string>Preview:</string>
             </property>
            </widget>
           </item>
