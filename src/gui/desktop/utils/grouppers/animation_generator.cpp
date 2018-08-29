@@ -56,14 +56,22 @@ void AnimationGenerator::run()
     emit progress(-1);
 
     // stabilize?
-    const QStringList images_to_be_used = m_data.stabilize?
-                                        stabilize():
-                                        m_data.photos;
+    try
+    {
+        const QStringList images_to_be_used = m_data.stabilize?
+                                            stabilize():
+                                            m_data.photos;
 
-    // generate gif (if there was no cancel during stabilization)
-    const QString gif_path = generateGif(images_to_be_used);
+        // generate gif (if there was no cancel during stabilization)
+        const QString gif_path = generateGif(images_to_be_used);
 
-    emit finished(gif_path);
+        emit finished(gif_path);
+    }
+    catch(const QStringList& output)
+    {
+        emit error(tr("Error occured during external program execution"),
+                   output);
+    }
 }
 
 
@@ -104,6 +112,12 @@ QStringList AnimationGenerator::stabilize()
             "-s", "0",
             "-a", output_prefix,
             rotated_photos);
+
+    if (m_runner.getExitCode() != 0)
+    {
+        const QStringList& output = analyzer.tail();
+        throw output;
+    }
 
     QStringList stabilized_images;
 

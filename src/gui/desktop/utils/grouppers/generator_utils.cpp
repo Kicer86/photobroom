@@ -37,54 +37,88 @@ namespace
 namespace GeneratorUtils
 {
 
-    ConvertOutputAnalyzer::ConvertOutputAnalyzer(ILogger* logger, int photos_count):
-        m_photos_count(photos_count),
-        m_logger(logger)
+    GenericAnalyzer::GenericAnalyzer(ILogger* logger, int tailLenght):
+        QObject(),
+        m_logger(logger),
+        m_tailLenght(tailLenght)
     {
     }
 
 
-    void ConvertOutputAnalyzer::operator()(QIODevice& device)
+    void GenericAnalyzer::operator()(QIODevice& device)
     {
         while(device.bytesAvailable() > 0 && device.canReadLine())
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+            const QString lineTrimmed = line.trimmed();
+            const QString message = "tool output: " + lineTrimmed;
 
-            const QString message = "convert: " + line.trimmed();
+            addMessage(lineTrimmed);
             m_logger->debug(message.toStdString());
 
-            switch (conversion_data.state)
+            processMessage(message);
+        }
+    }
+
+
+    const QStringList& GenericAnalyzer::tail() const
+    {
+        return m_tail;
+    }
+
+
+    void GenericAnalyzer::addMessage(const QString& m)
+    {
+        m_tail.append(m);
+
+        if (m_tail.size() > m_tailLenght)
+            m_tail.pop_front();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    ConvertOutputAnalyzer::ConvertOutputAnalyzer(ILogger* logger, int photos_count):
+        GenericAnalyzer(logger, 10),
+        m_photos_count(photos_count)
+    {
+    }
+
+
+    void ConvertOutputAnalyzer::processMessage(const QString& line)
+    {
+        switch (conversion_data.state)
+        {
+            case Data::LoadingImages:
             {
-                case Data::LoadingImages:
+                if (loadImages_regExp.exactMatch(line))
                 {
-                    if (loadImages_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_loaded++;
+                    conversion_data.photos_loaded++;
 
-                        emit progress(conversion_data.photos_loaded * 100 / m_photos_count);
-                    }
-                    else if (mogrify_regExp.exactMatch(line))
-                    {
-                        conversion_data.state = conversion_data.BuildingImage;
+                    emit progress(conversion_data.photos_loaded * 100 / m_photos_count);
+                }
+                else if (mogrify_regExp.exactMatch(line))
+                {
+                    conversion_data.state = conversion_data.BuildingImage;
 
-                        emit operation(tr("Assembling final file"));
-                    }
-
-                    break;
+                    emit operation(tr("Assembling final file"));
                 }
 
-                case Data::BuildingImage:
+                break;
+            }
+
+            case Data::BuildingImage:
+            {
+                if (dither_regExp.exactMatch(line))
                 {
-                    if (dither_regExp.exactMatch(line))
-                    {
-                        conversion_data.photos_assembled++;
+                    conversion_data.photos_assembled++;
 
-                        emit progress(conversion_data.photos_assembled * 100 / m_photos_count);
-                    }
-
-                    break;
+                    emit progress(conversion_data.photos_assembled * 100 / m_photos_count);
                 }
+
+                break;
             }
         }
     }
@@ -94,53 +128,44 @@ namespace GeneratorUtils
 
 
     AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
-        m_photos_count(photos_count),
-        m_logger(logger)
+        GenericAnalyzer(logger, 10),
+        m_photos_count(photos_count)
     {
         stabilization_data.stabilization_steps =  photos_count - 1 // there will be n-1 control points groups
                                                   + 4;             // and 4 optimization steps
     }
 
 
-    void AISOutputAnalyzer::operator()(QIODevice& device)
+    void AISOutputAnalyzer::processMessage(const QString& line)
     {
-        while(device.bytesAvailable() > 0 && device.canReadLine())
+        switch (stabilization_data.state)
         {
-            const QByteArray line_raw = device.readLine();
-            const QString line(line_raw);
+            case Data::StabilizingImages:
+                if (cp_regExp.exactMatch(line))
+                {
+                    stabilization_data.stabilization_step++;
 
-            const QString message = "align_image_stack: " + line.trimmed();
-            m_logger->debug(message.toStdString());
+                    emit progress( stabilization_data.stabilization_step * 100 /
+                                    stabilization_data.stabilization_steps);
+                }
+                else if (run_regExp.exactMatch(line))
+                {
+                    stabilization_data.state = stabilization_data.SavingImages;
 
-            switch (stabilization_data.state)
-            {
-                case Data::StabilizingImages:
-                    if (cp_regExp.exactMatch(line))
-                    {
-                        stabilization_data.stabilization_step++;
+                    emit operation(tr("Saving stabilized images"));
+                }
 
-                        emit progress( stabilization_data.stabilization_step * 100 /
-                                       stabilization_data.stabilization_steps);
-                    }
-                    else if (run_regExp.exactMatch(line))
-                    {
-                        stabilization_data.state = stabilization_data.SavingImages;
+                break;
 
-                        emit operation(tr("Saving stabilized images"));
-                    }
+            case Data::SavingImages:
+                if (save_regExp.exactMatch(line))
+                {
+                    stabilization_data.photos_saved++;
 
-                    break;
+                    emit progress( stabilization_data.photos_saved * 100 / m_photos_count );
+                }
 
-                case Data::SavingImages:
-                    if (save_regExp.exactMatch(line))
-                    {
-                        stabilization_data.photos_saved++;
-
-                        emit progress( stabilization_data.photos_saved * 100 / m_photos_count );
-                    }
-
-                    break;
-            }
+                break;
         }
     }
 
@@ -159,6 +184,7 @@ namespace GeneratorUtils
 
         connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
         connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
+        connect(&pr, qOverload<int>(&QProcess::finished), this, &ProcessRunner::exitCode, Qt::DirectConnection);
 
         if (m_work)
         {
@@ -176,6 +202,18 @@ namespace GeneratorUtils
         m_work = false;
 
         emit stop();
+    }
+
+
+    int ProcessRunner::getExitCode() const
+    {
+        return m_exitCode;
+    }
+
+
+    void ProcessRunner::exitCode(int e)
+    {
+        m_exitCode = e;
     }
 
 

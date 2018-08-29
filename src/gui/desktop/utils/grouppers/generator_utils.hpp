@@ -74,19 +74,43 @@ namespace GeneratorUtils
     }
 
 
-    class ConvertOutputAnalyzer: public QObject
+    class GenericAnalyzer: public QObject
+    {
+            Q_OBJECT
+
+        public:
+            GenericAnalyzer(ILogger *, int tailLenght);
+            virtual ~GenericAnalyzer() = default;
+
+            const QStringList& tail() const;
+
+            virtual void operator()(QIODevice& device) final;
+
+        protected:
+            virtual void processMessage(const QString &) = 0;
+
+        private:
+            QStringList m_tail;
+            ILogger* m_logger;
+            int m_tailLenght;
+
+            void addMessage(const QString &);
+
+        signals:
+            void operation(const QString &);
+            void progress(int);
+            void finished(const QString &);
+    };
+
+
+    class ConvertOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT
 
         public:
             ConvertOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device);
-
-        signals:
-            void operation(const QString &);
-            void progress(int);
-            void finished(const QString &);
+            void processMessage(const QString &) override;
 
         private:
             struct Data
@@ -103,23 +127,17 @@ namespace GeneratorUtils
             } conversion_data;
 
             const int m_photos_count;
-            ILogger* m_logger;
     };
 
 
-    class AISOutputAnalyzer: public QObject
+    class AISOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT
 
         public:
             AISOutputAnalyzer(ILogger* logger, int photos_count);
 
-            void operator()(QIODevice& device);
-
-        signals:
-            void operation(const QString &);
-            void progress(int);
-            void finished(const QString &);
+            void processMessage(const QString &) override;
 
         private:
             struct Data
@@ -136,7 +154,6 @@ namespace GeneratorUtils
             } stabilization_data;
 
             const int m_photos_count;
-            ILogger* m_logger;
     };
 
 
@@ -150,8 +167,13 @@ namespace GeneratorUtils
             void operator()(QProcess &);      // throws `bool` if action was cancelled or was launched again after cancelation
             void cancel();
 
+            int getExitCode() const;
+
         private:
+            int m_exitCode;
             bool m_work;
+
+            void exitCode(int);
 
         signals:
             void stop();
@@ -182,6 +204,7 @@ namespace GeneratorUtils
             void progress(int) const;
             void finished(const QString &) const;
             void canceled() const;
+            void error(const QString &, const QStringList &) const;
     };
 }
 

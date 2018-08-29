@@ -4,7 +4,12 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+76"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+72"/>
+        <source>Error occured during external program execution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -14,7 +19,7 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+52"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
     </message>
@@ -173,7 +178,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+129"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+155"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -181,7 +186,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+96"/>
+        <location line="+108"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -189,7 +194,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location line="-154"/>
+        <location line="-157"/>
         <source>Assembling final file</source>
         <translation>Składanie pliku wynikowego</translation>
     </message>
@@ -622,8 +627,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>&amp;Grouping type:</source>
-        <translation>&amp;Rodzaj grupowania:</translation>
+        <source>Grouping type:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -637,71 +642,71 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+50"/>
-        <source>Anima&amp;tion speed:</source>
-        <translation>&amp;Prędkość&#xa0;animacji:</translation>
+        <source>Animation speed:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+31"/>
-        <source>Delay &amp;before restart:</source>
-        <translation>&amp;Opóźnienie pętli:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>&amp;ms</source>
-        <translation>&amp;ms</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Sca&amp;le:</source>
-        <translation>S&amp;kala:</translation>
-    </message>
-    <message>
-        <location line="+143"/>
-        <source>P&amp;review:</source>
-        <translation>Po&amp;dgląd:</translation>
-    </message>
-    <message>
-        <location line="-180"/>
+        <location line="+22"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+9"/>
+        <source>Delay before restart:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale:</source>
+        <translation type="unfinished">Skala:</translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Generate preview</source>
-        <translation>Utwórz podgląd</translation>
+        <source>Generate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+99"/>
-        <location line="+96"/>
+        <location line="+81"/>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
+        <location line="+120"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-120"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+120"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
         <location line="+26"/>
         <location line="+8"/>
-        <location line="+40"/>
+        <location line="+41"/>
         <location line="+8"/>
         <source>Missing tool</source>
         <translation>Brakujący program</translation>
     </message>
     <message>
-        <location line="-55"/>
-        <location line="+48"/>
+        <location line="-56"/>
+        <location line="+49"/>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
@@ -714,7 +719,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="-40"/>
+        <location line="-41"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -727,7 +732,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -740,12 +745,12 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+42"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+43"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

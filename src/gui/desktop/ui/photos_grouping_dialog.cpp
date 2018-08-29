@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QMovie>
+#include <QPlainTextEdit>
 #include <QProcess>
 
 #include <core/configuration.hpp>
@@ -154,6 +155,30 @@ void PhotosGroupingDialog::generationCanceled()
 }
 
 
+void PhotosGroupingDialog::generationError(const QString& info, const QStringList& output)
+{
+    generationDone(QString());
+
+    QDialog errorReporter(this);
+    errorReporter.setModal(true);
+
+    QVBoxLayout* layout = new QVBoxLayout(&errorReporter);
+    layout->addWidget(new QLabel(info));
+
+    QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
+    outputContainer->setReadOnly(true);
+    outputContainer->setPlainText(output.join("\n"));
+    outputContainer->setWordWrapMode(QTextOption::NoWrap);
+    layout->addWidget(outputContainer);
+
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &errorReporter);
+    layout->addWidget(buttons);
+    connect(buttons, &QDialogButtonBox::accepted, &errorReporter, &QDialog::accept);
+
+    errorReporter.exec();
+}
+
+
 void PhotosGroupingDialog::refreshDialogButtons()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
@@ -241,6 +266,7 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
         connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+        connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
         m_executor->add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
@@ -289,6 +315,7 @@ void PhotosGroupingDialog::makeHDR()
         connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
         connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
         connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+        connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
         m_executor->add(std::move(hdr_task));
         ui->generationProgressBar->setEnabled(true);
