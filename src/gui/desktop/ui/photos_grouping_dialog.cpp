@@ -168,6 +168,7 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
     QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
     outputContainer->setReadOnly(true);
     outputContainer->setPlainText(output.join("\n"));
+    outputContainer->setWordWrapMode(QTextOption::NoWrap);
     layout->addWidget(outputContainer);
 
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &errorReporter);
