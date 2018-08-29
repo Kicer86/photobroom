@@ -51,9 +51,10 @@ namespace GeneratorUtils
         {
             const QByteArray line_raw = device.readLine();
             const QString line(line_raw);
+            const QString lineTrimmed = line.trimmed();
+            const QString message = "tool output: " + lineTrimmed;
 
-            const QString message = "tool output: " + line.trimmed();
-            addMessage(message);
+            addMessage(lineTrimmed);
             m_logger->debug(message.toStdString());
 
             processMessage(message);
