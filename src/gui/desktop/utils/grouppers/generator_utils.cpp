@@ -61,7 +61,6 @@ namespace GeneratorUtils
     }
 
 
-
     const QStringList& GenericAnalyzer::tail() const
     {
         return m_tail;
@@ -184,7 +183,7 @@ namespace GeneratorUtils
 
         connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
         connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
-        connect(&pr, qOverload<int>(&QProcess::finished), this, &ProcessRunner::exitCode);
+        connect(&pr, qOverload<int>(&QProcess::finished), this, &ProcessRunner::exitCode, Qt::DirectConnection);
 
         if (m_work)
         {
