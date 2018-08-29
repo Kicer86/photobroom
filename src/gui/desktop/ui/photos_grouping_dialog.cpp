@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QMovie>
+#include <QPlainTextEdit>
 #include <QProcess>
 
 #include <core/configuration.hpp>
@@ -158,11 +159,22 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
 {
     generationDone(QString());
 
-    const QString message = QString("%1\n\n%2")
-                                .arg(info)
-                                .arg(output.join("\n"));
+    QDialog errorReporter(this);
+    errorReporter.setModal(true);
 
-    QMessageBox::critical(this, info, message, QMessageBox::Ok);
+    QVBoxLayout* layout = new QVBoxLayout(&errorReporter);
+    layout->addWidget(new QLabel(info));
+
+    QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
+    outputContainer->setReadOnly(true);
+    outputContainer->setPlainText(output.join("\n"));
+    layout->addWidget(outputContainer);
+
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &errorReporter);
+    layout->addWidget(buttons);
+    connect(buttons, &QDialogButtonBox::accepted, &errorReporter, &QDialog::accept);
+
+    errorReporter.exec();
 }
 
 
