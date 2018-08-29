@@ -627,8 +627,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>&amp;Grouping type:</source>
-        <translation>&amp;Rodzaj grupowania:</translation>
+        <source>Grouping type:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -642,43 +642,43 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+50"/>
-        <source>Anima&amp;tion speed:</source>
-        <translation>&amp;Prędkość&#xa0;animacji:</translation>
+        <source>Animation speed:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+31"/>
-        <source>Delay &amp;before restart:</source>
-        <translation>&amp;Opóźnienie pętli:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>&amp;ms</source>
-        <translation>&amp;ms</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Sca&amp;le:</source>
-        <translation>S&amp;kala:</translation>
-    </message>
-    <message>
-        <location line="+143"/>
-        <source>P&amp;review:</source>
-        <translation>Po&amp;dgląd:</translation>
-    </message>
-    <message>
-        <location line="-180"/>
+        <location line="+22"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+9"/>
+        <source>Delay before restart:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Scale:</source>
+        <translation type="unfinished">Skala:</translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Generate preview</source>
-        <translation>Utwórz podgląd</translation>
+        <source>Generate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+81"/>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
@@ -745,7 +745,7 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="+24"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
