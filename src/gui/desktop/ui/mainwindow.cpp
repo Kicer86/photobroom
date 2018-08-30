@@ -33,6 +33,7 @@
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
+#include "widgets/face_reviewer/face_reviewer.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
@@ -670,7 +671,9 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionFace_organizer_triggered()
 {
-
+    FaceReviewer organizer(this);
+    organizer.setModal(true);
+    organizer.exec();
 }
 
 
