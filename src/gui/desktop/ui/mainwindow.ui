@@ -56,7 +56,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>31</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">
@@ -105,9 +105,16 @@
     <addaction name="actionTasks"/>
     <addaction name="actionPhoto_properties"/>
    </widget>
+   <widget class="QMenu" name="menuTools_2">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionFace_organizer"/>
+   </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
    <addaction name="menuWindows"/>
+   <addaction name="menuTools_2"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -214,6 +221,11 @@
    </property>
    <property name="text">
     <string>&amp;Photo properties</string>
+   </property>
+  </action>
+  <action name="actionFace_organizer">
+   <property name="text">
+    <string>Face organizer</string>
    </property>
   </action>
  </widget>

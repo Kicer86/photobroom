@@ -668,6 +668,12 @@ void MainWindow::on_actionPhoto_properties_triggered()
 }
 
 
+void MainWindow::on_actionFace_organizer_triggered()
+{
+
+}
+
+
 void MainWindow::on_actionConfiguration_triggered()
 {
     m_configDialogManager->run();
