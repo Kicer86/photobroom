@@ -17,3 +17,15 @@
  */
 
 #include "face_reviewer.hpp"
+
+
+FaceReviewer::FaceReviewer(QWidget* p):
+    QWidget(p)
+{
+}
+
+
+FaceReviewer::~FaceReviewer()
+{
+}
+

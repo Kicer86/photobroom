@@ -24,6 +24,9 @@
 
 class FaceReviewer: public QWidget
 {
+    public:
+        FaceReviewer(QWidget *);
+        ~FaceReviewer();
 };
 
 #endif // FACEREVIEWER_HPP
