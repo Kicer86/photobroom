@@ -30,6 +30,8 @@
 
 #include "database_export.h"
 #include "iphoto_info.hpp"
+#include "person_data.hpp"
+
 
 #define FILTER_COMMAND() virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); } //
 
@@ -45,6 +47,7 @@ namespace Database
     struct FilterPhotosMatchingExpression;
     struct FilterPhotosWithPath;
     struct FilterPhotosWithRole;
+    struct FilterPhotosWithPerson;
 
     struct DATABASE_EXPORT IFilter
     {
@@ -67,6 +70,7 @@ namespace Database
         virtual void visit(FilterPhotosMatchingExpression *) = 0;
         virtual void visit(FilterPhotosWithPath *) = 0;
         virtual void visit(FilterPhotosWithRole *) = 0;
+        virtual void visit(FilterPhotosWithPerson *) = 0;
     };
 
     //filters
@@ -172,6 +176,16 @@ namespace Database
         FILTER_COMMAND();
 
         const Role m_role;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithPerson: IFilter
+    {
+        explicit FilterPhotosWithPerson(const Person::Id &);
+        virtual ~FilterPhotosWithPerson();
+
+        FILTER_COMMAND();
+
+        const Person::Id person_id;
     };
 
 }

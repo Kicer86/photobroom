@@ -237,6 +237,11 @@ namespace Database
             }
         }
 
+        void visit(Database::FilterPhotosWithPerson* personFilter) override
+        {
+            assert(!"not implemented");
+        }
+
         FilterData m_filterResult;
     };
 

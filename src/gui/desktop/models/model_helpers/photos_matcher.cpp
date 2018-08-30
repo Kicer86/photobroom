@@ -48,6 +48,7 @@ struct FiltersMatcher: Database::IFilterVisitor
         void visit(Database::FilterPhotosMatchingExpression *) override;
         void visit(Database::FilterPhotosWithPath *) override;
         void visit(Database::FilterPhotosWithRole *) override;
+        void visit(Database::FilterPhotosWithPerson * ) override;
 };
 
 
@@ -198,6 +199,12 @@ void FiltersMatcher::visit(Database::FilterPhotosWithRole* filter)
             m_doesMatch = m_photo->data().groupInfo.role == GroupInfo::Member;
             break;
     }
+}
+
+
+void FiltersMatcher::visit(Database::FilterPhotosWithPerson *)
+{
+    assert(!"not implemented");
 }
 
 
