@@ -20,7 +20,7 @@
 
 
 FaceReviewer::FaceReviewer(QWidget* p):
-    QWidget(p)
+    QDialog(p)
 {
 }
 

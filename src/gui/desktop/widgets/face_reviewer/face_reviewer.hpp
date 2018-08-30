@@ -19,10 +19,10 @@
 #ifndef FACEREVIEWER_HPP
 #define FACEREVIEWER_HPP
 
-#include <QWidget>
+#include <QDialog>
 
 
-class FaceReviewer: public QWidget
+class FaceReviewer: public QDialog
 {
     public:
         FaceReviewer(QWidget *);
