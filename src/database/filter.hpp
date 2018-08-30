@@ -187,6 +187,8 @@ namespace Database
 
         const Person::Id person_id;
     };
-
 }
+
+#undef FILTER_COMMAND
+
 #endif // FILTER_HPP
