@@ -68,7 +68,7 @@ namespace Database
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
         virtual std::vector<PersonName>  listPeople() = 0;                                       // list all people names
-        virtual std::vector<PersonInfo>  listPeople (const Photo::Id &) = 0;                     // list people on photo
+        virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;                      // list people on photo
         virtual PersonName               person(const Person::Id &) = 0;                         // person data
         virtual Person::Id               store(const PersonName &) = 0;                          // store or update person
         virtual PersonInfo::Id           store(const PersonInfo &) = 0;                          // store or update person details
