@@ -21,12 +21,33 @@
 
 #include <QDialog>
 
+#include <database/person_data.hpp>
+
+
+namespace Database
+{
+    struct IDatabase;
+}
+
 
 class FaceReviewer: public QDialog
 {
+        Q_OBJECT
+
     public:
-        FaceReviewer(QWidget *);
+        FaceReviewer(Database::IDatabase *, QWidget *);
         ~FaceReviewer();
+
+    private:
+        Database::IDatabase* m_db;
+
+        void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
+                          const std::map<Photo::Id, QString> &);
+
+    // internal signals
+    signals:
+        void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,
+                           const std::map<Photo::Id, QString> &);
 };
 
 #endif // FACEREVIEWER_HPP

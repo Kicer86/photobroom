@@ -18,14 +18,74 @@
 
 #include "face_reviewer.hpp"
 
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
 
-FaceReviewer::FaceReviewer(QWidget* p):
-    QDialog(p)
+#include <database/idatabase.hpp>
+
+
+FaceReviewer::FaceReviewer(Database::IDatabase* db, QWidget* p):
+    QDialog(p),
+    m_db(db)
 {
+    QVBoxLayout* l = new QVBoxLayout(this);
+
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    l->addWidget(buttons);
+
+    connect(this, &FaceReviewer::gotPeopleInfo,
+            this, &FaceReviewer::updatePeople);
+
+    m_db->performCustomAction([this](Database::IBackendOperator* op)
+    {
+        auto people = op->listPeople();
+
+        std::map<PersonName, std::vector<PersonInfo>> details;
+        std::map<Photo::Id, QString> photoToPath;
+        std::set<Photo::Id> touchedPhotos;
+
+        // for each person
+        for(const auto& person: people)
+        {
+            // get photos it occurs on
+            const Person::Id& p_id = person.id();
+            auto filter = std::make_unique<Database::FilterPhotosWithPerson >(p_id);
+
+            const std::vector<Photo::Id> matching_ids = op->getPhotos( { std::move(filter) } );
+
+            // for each photo with given person
+            for (const Photo::Id& ph_id: matching_ids)
+            {
+                // list detailed info about people
+                std::vector<PersonInfo> people = op->listPeople(ph_id);
+
+                // and find one for person we are insterested in
+                for (const PersonInfo& pi: people)
+                    if (pi.p_id == p_id)
+                    {
+                        details[person].push_back(pi);
+                        touchedPhotos.insert(pi.ph_id);
+                    }
+            }
+        }
+
+        for(const Photo::Id& ph_id: touchedPhotos)
+        {
+            IPhotoInfo::Ptr photoInfo = op->getPhotoFor(ph_id);
+            photoToPath[ph_id] = photoInfo->getPath();
+        }
+    });
 }
 
 
 FaceReviewer::~FaceReviewer()
 {
+
 }
 
+
+void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
+                                const std::map<Photo::Id, QString>& paths)
+{
+
+}
