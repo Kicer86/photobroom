@@ -593,7 +593,7 @@ namespace Database
         void addTask(std::unique_ptr<IThreadTask>&& task)
         {
             // When task comes from from db's thread execute it immediately.
-            // This simplifies some client's codes (when operating inside of performCustomAction)
+            // This simplifies some client's codes (when operating inside of execute())
             if (std::this_thread::get_id() == m_thread.get_id())
                 task->execute(&m_executor);
             else
