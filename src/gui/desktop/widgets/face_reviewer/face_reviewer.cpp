@@ -39,7 +39,9 @@ FaceReviewer::FaceReviewer(Database::IDatabase* db, QWidget* p):
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
 
-    m_db->performCustomAction(std::bind(&FaceReviewer::fetchPeople, this, _1));
+    auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(std::bind(&FaceReviewer::fetchPeople, this, _1));
+
+    m_db->performCustomAction(callback);
 }
 
 
@@ -87,6 +89,8 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op)
         IPhotoInfo::Ptr photoInfo = op->getPhotoFor(ph_id);
         photoToPath[ph_id] = photoInfo->getPath();
     }
+
+    emit gotPeopleInfo(details, photoToPath);
 }
 
 

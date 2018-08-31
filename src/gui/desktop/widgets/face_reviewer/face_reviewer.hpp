@@ -21,6 +21,7 @@
 
 #include <QDialog>
 
+#include <core/callback_ptr.hpp>
 #include <database/person_data.hpp>
 
 
@@ -40,6 +41,7 @@ class FaceReviewer: public QDialog
         ~FaceReviewer();
 
     private:
+        safe_callback_ctrl m_safe_callback;
         Database::IDatabase* m_db;
 
         void fetchPeople(Database::IBackendOperator* op);
