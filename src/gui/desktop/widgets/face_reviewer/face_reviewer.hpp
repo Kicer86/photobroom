@@ -27,6 +27,7 @@
 namespace Database
 {
     struct IDatabase;
+    struct IBackendOperator;
 }
 
 
@@ -40,6 +41,8 @@ class FaceReviewer: public QDialog
 
     private:
         Database::IDatabase* m_db;
+
+        void fetchPeople(Database::IBackendOperator* op);
 
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
                           const std::map<Photo::Id, QString> &);
