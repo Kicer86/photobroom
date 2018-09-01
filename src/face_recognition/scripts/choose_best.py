@@ -9,8 +9,8 @@ import _utils
 
 def choose_best(faces, tmp_dir):
 
-    # we need more than 2 faces to do any serious job
-    if len(faces) < 2:
+    # we need at least 3 faces to do any serious job
+    if len(faces) < 3:
         return faces[0];
 
     encoded_faces = {}
