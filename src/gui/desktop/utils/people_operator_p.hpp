@@ -157,4 +157,24 @@ class TestSystem: public QObject, public ITaskExecutor::ITask
         void status(const bool, const QString &) const;
 };
 
+
+class FindBest: public QObject, public ITaskExecutor::ITask
+{
+        Q_OBJECT
+
+    public:
+        FindBest(ICoreFactoryAccessor *, const QStringList &);
+        ~FindBest();
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        const QStringList m_faces;
+        ICoreFactoryAccessor* m_core;
+
+    signals:
+        void best(const QString &) const;
+};
+
 #endif // PEOPLEOPERATOR_P_HPP
