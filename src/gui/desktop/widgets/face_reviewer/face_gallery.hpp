@@ -21,8 +21,23 @@
 
 #include <QWidget>
 
+class QHBoxLayout;
+
 class FaceGallery: public QWidget
 {
+    public:
+        struct FaceData
+        {
+            QString file;
+            QRect face;
+        };
+
+        FaceGallery(QWidget *);
+
+        void fill(const std::vector<FaceData> &);
+
+    private:
+        QHBoxLayout* m_layout;
 };
 
 #endif // FACEGALLERY_HPP

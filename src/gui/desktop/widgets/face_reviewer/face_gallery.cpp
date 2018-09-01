@@ -17,3 +17,45 @@
  */
 
 #include "face_gallery.hpp"
+
+#include <QHBoxLayout>
+#include <QImage>
+#include <QLabel>
+#include <QScrollArea>
+
+
+FaceGallery::FaceGallery(QWidget* p):
+    QWidget(p),
+    m_layout(new QHBoxLayout)
+{
+    QHBoxLayout* l = new QHBoxLayout(this);
+    QScrollArea* area = new QScrollArea(this);
+    QWidget* canvas = new QWidget(this);
+
+    canvas->setLayout(m_layout);
+
+    area->setWidgetResizable(true);
+    area->setWidget(canvas);
+    area->setMinimumHeight(120);
+
+    l->addWidget(area);
+}
+
+
+void FaceGallery::fill(const std::vector<FaceData>& faces)
+{
+    for(const FaceData& faceData: faces)
+    {
+        const QImage img(faceData.file);
+        const QImage face = img.copy(faceData.face);
+        const QImage scaled = face.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        const QPixmap scaledFace = QPixmap::fromImage(scaled);
+
+        QLabel* label = new QLabel(this);
+        label->setPixmap(scaledFace);
+
+        m_layout->addWidget(label);
+    }
+
+    m_layout->addStretch();
+}
