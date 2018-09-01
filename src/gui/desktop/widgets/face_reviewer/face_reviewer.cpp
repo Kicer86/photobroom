@@ -150,8 +150,8 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
                 const QRect& faceRect = pi.rect;
                 const QImage photo(absolute_path);
                 const QImage face = photo.copy(faceRect);
+                const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
-                const auto file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
                 face.save(file_path);
 
                 faceImages.push_back(face);
