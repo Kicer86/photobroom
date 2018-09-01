@@ -42,12 +42,10 @@ FaceGallery::FaceGallery(QWidget* p):
 }
 
 
-void FaceGallery::fill(const std::vector<FaceData>& faces)
+void FaceGallery::fill(const std::vector<QImage>& faces)
 {
-    for(const FaceData& faceData: faces)
+    for(const QImage& face: faces)
     {
-        const QImage img(faceData.file);
-        const QImage face = img.copy(faceData.face);
         const QImage scaled = face.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         const QPixmap scaledFace = QPixmap::fromImage(scaled);
 

@@ -26,15 +26,9 @@ class QHBoxLayout;
 class FaceGallery: public QWidget
 {
     public:
-        struct FaceData
-        {
-            QString file;
-            QRect face;
-        };
-
         FaceGallery(QWidget *);
 
-        void fill(const std::vector<FaceData> &);
+        void fill(const std::vector<QImage> &);
 
     private:
         QHBoxLayout* m_layout;
