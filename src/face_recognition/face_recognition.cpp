@@ -162,7 +162,6 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 }
 
 
-
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
     std::packaged_task<QString()> recognize_task([path, face, storage]()
