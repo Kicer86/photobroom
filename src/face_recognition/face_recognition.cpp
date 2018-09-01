@@ -24,6 +24,7 @@
 #include <string>
 
 #include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <QByteArray>
 #include <QImage>
@@ -36,6 +37,7 @@
 #include <core/ipython_thread.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
+#include <system/system.hpp>
 
 
 namespace py = pybind11;
@@ -179,7 +181,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 
             py::module find_faces = py::module::import("recognize_face");
             py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                                storage.toStdString());
+                                                                  storage.toStdString());
 
             const std::string result_str = result.cast<py::str>();
             fresult = QString::fromStdString(result_str);
@@ -194,4 +196,41 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
     recognize_future.wait();
 
     return recognize_future.get();
+}
+
+
+QString FaceRecognition::best(const QStringList& faces)
+{
+    std::packaged_task<QString()> optimize_task([faces]()
+    {
+        QString fresult;
+        const QStringList mm = missingModules();
+
+        if (mm.empty())
+        {
+            auto tmp_dir = System::getTmpDir("FaceRecognition_best");
+
+            std::vector<std::string> face_files;
+            face_files.reserve(faces.size());
+
+            for (const QString& face: faces)
+                face_files.push_back(face.toStdString());
+
+            py::module find_faces = py::module::import("choose_best");
+            py::object result = find_faces.attr("choose_best")(face_files,
+                                                               tmp_dir->path().toStdString());
+
+            const std::string result_str = result.cast<py::str>();
+            fresult = QString::fromStdString(result_str);
+        }
+
+        return fresult;
+    });
+
+    auto optimize_future = optimize_task.get_future();
+    m_pythonThread->execute(optimize_task);
+
+    optimize_future.wait();
+
+    return optimize_future.get();
 }

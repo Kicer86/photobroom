@@ -50,6 +50,11 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // Third parameter is a path to directory with known faces
         QString recognize(const QString &, const QRect &, const QString& storage) const;
 
+
+        // Optimize representative photo
+        // from given set of faces, choose one with best parameters
+        QString best(const QStringList& faces);
+
     private:
         IPythonThread* m_pythonThread;
 };
