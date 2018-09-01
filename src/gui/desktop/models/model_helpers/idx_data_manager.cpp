@@ -330,7 +330,7 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     using namespace std::placeholders;
     auto action_callback = std::bind(&IdxDataManager::getPhotosForParent, this, _1, _parent, filter);
 
-    m_data->m_database->performCustomAction(std::move(action_callback));
+    m_data->m_database->performCustomAction(action_callback);
 }
 
 
