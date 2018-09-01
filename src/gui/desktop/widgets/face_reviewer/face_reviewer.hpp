@@ -43,8 +43,9 @@ class FaceReviewer: public QDialog
     private:
         safe_callback_ctrl m_safe_callback;
         Database::IDatabase* m_db;
+        QWidget* m_canvas;
 
-        void fetchPeople(Database::IBackendOperator* op);
+        void fetchPeople(Database::IBackendOperator *) const;
 
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
                           const std::map<Photo::Id, QString> &);
@@ -52,7 +53,7 @@ class FaceReviewer: public QDialog
     // internal signals
     signals:
         void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,
-                           const std::map<Photo::Id, QString> &);
+                           const std::map<Photo::Id, QString> &) const;
 };
 
 #endif // FACEREVIEWER_HPP

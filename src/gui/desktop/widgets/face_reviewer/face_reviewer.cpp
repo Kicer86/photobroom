@@ -19,6 +19,8 @@
 #include "face_reviewer.hpp"
 
 #include <QDialogButtonBox>
+#include <QGroupBox>
+#include <QScrollArea>
 #include <QVBoxLayout>
 
 #include <database/idatabase.hpp>
@@ -31,15 +33,30 @@ FaceReviewer::FaceReviewer(Database::IDatabase* db, QWidget* p):
     QDialog(p),
     m_db(db)
 {
-    QVBoxLayout* l = new QVBoxLayout(this);
+    qRegisterMetaType<std::map<PersonName, std::vector<PersonInfo>>>("std::map<PersonName, std::vector<PersonInfo>>");
+    qRegisterMetaType<std::map<Photo::Id, QString>>("std::map<Photo::Id, QString>");
 
+    resize(640, 480);
+
+    QVBoxLayout* l = new QVBoxLayout(this);
+    QScrollArea* area = new QScrollArea(this);
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    m_canvas = new QWidget(this);
+
+    area->setWidgetResizable(true);
+    area->setWidget(m_canvas);
+
+    l->addWidget(area);
     l->addWidget(buttons);
+
+    connect(buttons, &QDialogButtonBox::accepted,
+            this, &QDialog::accept);
 
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
 
-    auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(std::bind(&FaceReviewer::fetchPeople, this, _1));
+    auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
+    auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
 
     m_db->performCustomAction(callback);
 }
@@ -51,7 +68,7 @@ FaceReviewer::~FaceReviewer()
 }
 
 
-void FaceReviewer::fetchPeople(Database::IBackendOperator* op)
+void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
 {
     auto people = op->listPeople();
 
@@ -72,10 +89,10 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op)
         for (const Photo::Id& ph_id: matching_ids)
         {
             // list detailed info about people
-            std::vector<PersonInfo> people = op->listPeople(ph_id);
+            std::vector<PersonInfo> peopleInfo = op->listPeople(ph_id);
 
             // and find one for person we are insterested in
-            for (const PersonInfo& pi: people)
+            for (const PersonInfo& pi: peopleInfo)
                 if (pi.p_id == p_id)
                 {
                     details[person].push_back(pi);
@@ -97,5 +114,14 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op)
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
+    QVBoxLayout* canvasLayout = new QVBoxLayout;
 
+    for(const auto& detail: details)
+    {
+        QGroupBox* group = new QGroupBox(detail.first.name());
+        canvasLayout->addWidget(group);
+    }
+
+    delete m_canvas->layout();
+    m_canvas->setLayout(canvasLayout);
 }
