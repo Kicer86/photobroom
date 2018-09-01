@@ -15,6 +15,7 @@ def choose_best(faces, tmp_dir):
 
     encoded_faces = {}
 
+    # encode all faces for speedup
     for file in faces:
 
         filename = os.path.basename(file)
@@ -47,7 +48,7 @@ def choose_best(faces, tmp_dir):
         avg_distance = total_distance / count
         results['file'] = avg_distance
 
-    # find photo with best avg dstance
+    # find photo with best avg distance to other photos
     print(results)
 
     best = max(results.items(), key = operator.itemgetter(1))
