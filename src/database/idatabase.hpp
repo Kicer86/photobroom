@@ -133,7 +133,8 @@ namespace Database
                     m_f(backend);
                 }
 
-                Callable m_f;
+                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+                Callable_T m_f;
             };
 
         virtual void execute(std::unique_ptr<ITask> &&) = 0;
