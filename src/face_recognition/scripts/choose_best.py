@@ -9,7 +9,7 @@ import _utils
 
 def choose_best(faces, tmp_dir):
 
-    # we need more than 2 faces to do some serious job
+    # we need more than 2 faces to do any serious job
     if len(faces) < 2:
         return faces[0];
 
