@@ -26,14 +26,21 @@
 #include <database/idatabase.hpp>
 
 #include "face_gallery.hpp"
+#include "utils/people_operator.hpp"
+#include "project_utils/project.hpp"
+#include "system/system.hpp"
 
 
 using namespace std::placeholders;
 
 
-FaceReviewer::FaceReviewer(Database::IDatabase* db, QWidget* p):
+FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p):
     QDialog(p),
-    m_db(db)
+    m_tmpDir(System::getTmpDir("FaceReviewer")),
+    m_db(prj->getDatabase()),
+    m_core(core),
+    m_canvas(nullptr),
+    m_project(prj)
 {
     qRegisterMetaType<std::map<PersonName, std::vector<PersonInfo>>>("std::map<PersonName, std::vector<PersonInfo>>");
     qRegisterMetaType<std::map<Photo::Id, QString>>("std::map<Photo::Id, QString>");
@@ -116,6 +123,7 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
+    PeopleOperator po(m_tmpDir->path(), m_db, m_core);
     QVBoxLayout* canvasLayout = new QVBoxLayout;
 
     for(const auto& detail: details)
@@ -125,9 +133,10 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
-        std::vector<FaceGallery::FaceData> faceData;
-        faceData.reserve(peopleInfo.size());
+        std::vector<QImage> faceImages;
+        faceImages.reserve(peopleInfo.size());
 
+        QStringList faces;
         for(const PersonInfo& pi: peopleInfo)
         {
             auto it = paths.find(pi.ph_id);
@@ -137,10 +146,16 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
             if (it != paths.end())
             {
                 const QString& path = it->second;
-                const QRect& face = pi.rect;
-                FaceGallery::FaceData data = { path, face };
+                const QString absolute_path = m_project->makePathAbsolute(path);
+                const QRect& faceRect = pi.rect;
+                const QImage photo(absolute_path);
+                const QImage face = photo.copy(faceRect);
 
-                faceData.push_back(data);
+                const auto file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
+                face.save(file_path);
+
+                faceImages.push_back(face);
+                faces.append(file_path);
             }
         }
 
@@ -149,7 +164,9 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
         groupLayout->addWidget(gallery);
 
-        gallery->fill(faceData);
+        gallery->fill(faceImages);
+
+        po.findBest(faces);
     }
 
     delete m_canvas->layout();

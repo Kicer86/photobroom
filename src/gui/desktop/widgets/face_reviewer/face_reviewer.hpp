@@ -23,6 +23,7 @@
 
 #include <core/callback_ptr.hpp>
 #include <database/person_data.hpp>
+#include <system/system.hpp>
 
 
 namespace Database
@@ -31,19 +32,25 @@ namespace Database
     struct IBackendOperator;
 }
 
+class Project;
+struct ICoreFactoryAccessor;
+
 
 class FaceReviewer: public QDialog
 {
         Q_OBJECT
 
     public:
-        FaceReviewer(Database::IDatabase *, QWidget *);
+        FaceReviewer(Project *, ICoreFactoryAccessor *, QWidget *);
         ~FaceReviewer();
 
     private:
         safe_callback_ctrl m_safe_callback;
+        std::unique_ptr<ITmpDir> m_tmpDir;
         Database::IDatabase* m_db;
+        ICoreFactoryAccessor* m_core;
         QWidget* m_canvas;
+        Project* m_project;
 
         void fetchPeople(Database::IBackendOperator *) const;
 

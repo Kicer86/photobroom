@@ -671,7 +671,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionFace_organizer_triggered()
 {
-    FaceReviewer organizer(m_currentPrj->getDatabase(), this);
+    FaceReviewer organizer(m_currentPrj.get(), m_coreAccessor, this);
     organizer.setModal(true);
     organizer.exec();
 }
