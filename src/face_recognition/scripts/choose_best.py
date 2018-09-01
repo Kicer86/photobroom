@@ -29,28 +29,28 @@ def choose_best(faces, tmp_dir):
 
         encoded_faces[file] = encoded
 
-    results = {}
+    fresults = {}
 
     # check each one with each one
-    for file, face_data in encoded_faces:
+    for file, face_data in encoded_faces.items():
 
         total_distance = 0;
         count = 0
 
-        for file2, face_data2 in encoded_faces:
+        for file2, face_data2 in encoded_faces.items():
             if file == file2:
                 continue
 
-            results = face_recognition.face_distance(face_data, face_data2)
+            results = face_recognition.face_distance( [face_data], face_data2)
             total_distance += results[0]
             count += 1
 
         avg_distance = total_distance / count
-        results['file'] = avg_distance
+        fresults[file] = avg_distance
 
     # find photo with best avg distance to other photos
-    print(results)
+    print(fresults)
 
-    best = max(results.items(), key = operator.itemgetter(1))
+    best = max(fresults.items(), key = operator.itemgetter(1))
 
     return best[0]
