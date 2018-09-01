@@ -25,6 +25,8 @@
 
 #include <database/idatabase.hpp>
 
+#include "face_gallery.hpp"
+
 
 using namespace std::placeholders;
 
@@ -120,6 +122,34 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
     {
         QGroupBox* group = new QGroupBox(detail.first.name());
         canvasLayout->addWidget(group);
+
+        const std::vector<PersonInfo>& peopleInfo = detail.second;
+
+        std::vector<FaceGallery::FaceData> faceData;
+        faceData.reserve(peopleInfo.size());
+
+        for(const PersonInfo& pi: peopleInfo)
+        {
+            auto it = paths.find(pi.ph_id);
+
+            assert(it != paths.end());
+
+            if (it != paths.end())
+            {
+                const QString& path = it->second;
+                const QRect& face = pi.rect;
+                FaceGallery::FaceData data = { path, face };
+
+                faceData.push_back(data);
+            }
+        }
+
+        QHBoxLayout* groupLayout = new QHBoxLayout(group);
+        FaceGallery* gallery = new FaceGallery(group);
+
+        groupLayout->addWidget(gallery);
+
+        gallery->fill(faceData);
     }
 
     delete m_canvas->layout();
