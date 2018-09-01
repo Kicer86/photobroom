@@ -40,6 +40,7 @@ endif()
 
 install(FILES
             scripts/_utils.py
+            scripts/choose_best.py
             scripts/find_faces.py
             scripts/recognize_face.py
             scripts/system_test.py
