@@ -34,6 +34,7 @@ namespace Database
             TagsWithPhotos,
             FlagsWithPhotos,
             Sha256WithPhotos,
+            PeopleWithPhotos,
         };
 
         std::set<Join> joins;
@@ -239,7 +240,8 @@ namespace Database
 
         void visit(Database::FilterPhotosWithPerson* personFilter) override
         {
-            assert(!"not implemented");
+            m_filterResult.joins.insert(FilterData::PeopleWithPhotos);
+            m_filterResult.conditions.append( QString("%1.person_id = %2").arg(TAB_PEOPLE).arg(personFilter->person_id) );
         }
 
         FilterData m_filterResult;
@@ -352,6 +354,7 @@ namespace Database
                 case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;       break;
                 case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;      break;
                 case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS; break;
+                case FilterData::PeopleWithPhotos: joinWith = TAB_PEOPLE;     break;
             }
 
             joinsWith.append(joinWith);
@@ -372,6 +375,7 @@ namespace Database
                 case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = " + getPhotoId();   break;
                 case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
                 case FilterData::Sha256WithPhotos: join = TAB_SHA256SUMS ".photo_id = " + getPhotoId(); break;
+                case FilterData::PeopleWithPhotos: join = TAB_PEOPLE ".photo_id = " + getPhotoId(); break;
             }
 
             joins.append(join);
