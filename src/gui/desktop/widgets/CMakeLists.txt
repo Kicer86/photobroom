@@ -18,6 +18,7 @@ set(SRCS
     photos_widget.cpp
     table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
+    face_reviewer/face_details.cpp
     face_reviewer/face_reviewer.cpp
     face_reviewer/face_gallery.cpp
     filters_editor/level_editor.cpp
@@ -39,6 +40,7 @@ set(HEADERS
     photos_widget.hpp
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
+    face_reviewer/face_details.cpp
     face_reviewer/face_reviewer.hpp
     face_reviewer/face_gallery.hpp
     filters_editor/level_editor.hpp
