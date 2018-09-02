@@ -120,6 +120,18 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
+    <name>FaceDetails</name>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+45"/>
+        <source>On %n photo(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>

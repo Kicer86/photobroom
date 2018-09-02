@@ -21,9 +21,19 @@
 
 #include <QGroupBox>
 
+class QLabel;
 
-class FaceDescription: public QGroupBox
+class FaceDetails: public QGroupBox
 {
+    public:
+        FaceDetails(const QString &, QWidget *);
+
+        void setOccurrences(int);
+        void setModelPhoto(const QPixmap &);
+
+    private:
+        QLabel* m_photo;
+        QLabel* m_occurences;
 };
 
 #endif // FACEDETAILS_HPP
