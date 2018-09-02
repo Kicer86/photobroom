@@ -25,6 +25,8 @@ class QLabel;
 
 class FaceDetails: public QGroupBox
 {
+        Q_OBJECT
+
     public:
         FaceDetails(const QString &, QWidget *);
 
