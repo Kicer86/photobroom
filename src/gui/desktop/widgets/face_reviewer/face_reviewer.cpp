@@ -25,7 +25,7 @@
 
 #include <database/idatabase.hpp>
 
-#include "face_gallery.hpp"
+#include "face_details.hpp"
 #include "utils/people_operator.hpp"
 #include "project_utils/project.hpp"
 #include "system/system.hpp"
@@ -128,7 +128,7 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
     for(const auto& detail: details)
     {
-        QGroupBox* group = new QGroupBox(detail.first.name());
+        FaceDetails* group = new FaceDetails(detail.first.name(), this);
         canvasLayout->addWidget(group);
 
         const std::vector<PersonInfo>& peopleInfo = detail.second;
@@ -159,12 +159,15 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
             }
         }
 
-        QHBoxLayout* groupLayout = new QHBoxLayout(group);
-        FaceGallery* gallery = new FaceGallery(group);
+        if (faceImages.empty() == false)
+        {
+            const QImage& front = faceImages.front();
+            const QImage scaled = front.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            QPixmap facePixmap = QPixmap::fromImage(scaled);
+            group->setModelPhoto(facePixmap);
+        }
 
-        groupLayout->addWidget(gallery);
-
-        gallery->fill(faceImages);
+        group->setOccurrences(peopleInfo.size());
 
         po.findBest(faces);
     }
