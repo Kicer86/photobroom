@@ -20,6 +20,7 @@
 
 #include <functional>
 
+#include <QFile>
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
@@ -542,6 +543,18 @@ void PeopleOperator::store(const Photo::Id& id,
     auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
 
     executor->addLight(std::move(task));
+}
+
+
+void PeopleOperator::getModelFace(const Person::Id& p_id) const
+{
+    assert(p_id.valid());
+
+    const QString path = QString("%1/%2").arg(m_storage).arg(p_id.value());
+    if (QFile::exists(path))
+        emit modelFace(p_id, path);
+    else
+        emit modelFace(p_id, QString());
 }
 
 
