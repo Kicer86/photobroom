@@ -20,7 +20,6 @@ set(SRCS
     tasks_view_widget.cpp
     face_reviewer/face_details.cpp
     face_reviewer/face_reviewer.cpp
-    face_reviewer/face_gallery.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
     tag_editor/tag_editor_widget.cpp
@@ -42,7 +41,6 @@ set(HEADERS
     tasks_view_widget.hpp
     face_reviewer/face_details.cpp
     face_reviewer/face_reviewer.hpp
-    face_reviewer/face_gallery.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
