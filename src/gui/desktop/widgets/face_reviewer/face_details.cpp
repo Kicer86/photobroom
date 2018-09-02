@@ -37,6 +37,7 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
 
     l->addWidget(m_photo);
     l->addLayout(dl);
+    l->addStretch();
 }
 
 
