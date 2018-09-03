@@ -180,15 +180,16 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
         const QString modelFacePath = po.getModelFace(p_name.id());
 
+        // set pixmap with face.
+        // As pixmap preparations may be heavy, perform them in a thread
         if (modelFacePath.isEmpty() == false)
             runOn(taskMgr, [group, modelFacePath]
             {
                 const QImage faceImg(modelFacePath);
                 const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-                QPixmap facePixmap = QPixmap::fromImage(scaled);
 
                 // do not call slot directly - make sure it will be called from main thread
-                QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QPixmap, facePixmap));
+                QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QImage, scaled));
             });
 
         //po.findBest(faces);
