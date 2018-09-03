@@ -23,6 +23,9 @@
 #include <QScrollArea>
 #include <QVBoxLayout>
 
+#include <core/icore_factory_accessor.hpp>
+#include <core/itask_executor.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 
 #include "face_details.hpp"
@@ -123,16 +126,21 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
-    PeopleOperator po(m_tmpDir->path(), m_db, m_core);
+    const QString faceDataDir = m_project->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition);
+    PeopleOperator po(faceDataDir, m_db, m_core);
     QVBoxLayout* canvasLayout = new QVBoxLayout;
+
+    auto* taskMgr = m_core->getTaskExecutor();
 
     for(const auto& detail: details)
     {
         FaceDetails* group = new FaceDetails(detail.first.name(), this);
         canvasLayout->addWidget(group);
 
+        const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
+        /*
         std::vector<QImage> faceImages;
         faceImages.reserve(peopleInfo.size());
 
@@ -166,10 +174,24 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
             QPixmap facePixmap = QPixmap::fromImage(scaled);
             group->setModelPhoto(facePixmap);
         }
+        */
 
         group->setOccurrences(peopleInfo.size());
 
-        po.findBest(faces);
+        const QString modelFacePath = po.getModelFace(p_name.id());
+
+        if (modelFacePath.isEmpty() == false)
+            runOn(taskMgr, [group, modelFacePath]
+            {
+                const QImage faceImg(modelFacePath);
+                const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                QPixmap facePixmap = QPixmap::fromImage(scaled);
+
+                // do not call slot directly - make sure it will be called from main thread
+                QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QPixmap, facePixmap));
+            });
+
+        //po.findBest(faces);
     }
 
     delete m_canvas->layout();
