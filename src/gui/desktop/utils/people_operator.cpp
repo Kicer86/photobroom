@@ -546,15 +546,14 @@ void PeopleOperator::store(const Photo::Id& id,
 }
 
 
-void PeopleOperator::getModelFace(const Person::Id& p_id) const
+QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 {
     assert(p_id.valid());
 
-    const QString path = QString("%1/%2").arg(m_storage).arg(p_id.value());
-    if (QFile::exists(path))
-        emit modelFace(p_id, path);
-    else
-        emit modelFace(p_id, QString());
+    const QString path = QString("%1/%2.jpg").arg(m_storage).arg(p_id.value());
+    const QString result = QFile::exists(path)? path: QString();
+
+    return result;
 }
 
 
