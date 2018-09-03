@@ -57,6 +57,8 @@ class FaceReviewer: public QDialog
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
                           const std::map<Photo::Id, QString> &);
 
+        void optimize(const Person::Id &);
+
     // internal signals
     signals:
         void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,

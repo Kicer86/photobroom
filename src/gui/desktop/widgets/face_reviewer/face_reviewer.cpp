@@ -192,9 +192,16 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
                 QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QImage, scaled));
             });
 
+        connect(group, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
+
         //po.findBest(faces);
     }
 
     delete m_canvas->layout();
     m_canvas->setLayout(canvasLayout);
+}
+
+
+void FaceReviewer::optimize(const Person::Id& id)
+{
 }
