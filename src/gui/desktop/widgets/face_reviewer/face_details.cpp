@@ -51,3 +51,10 @@ void FaceDetails::setModelPhoto(const QPixmap& p)
 {
     m_photo->setPixmap(p);
 }
+
+
+void FaceDetails::setModelPhoto(const QImage& img)
+{
+    const QPixmap pixmap = QPixmap::fromImage(img);
+    setModelPhoto(pixmap);
+}

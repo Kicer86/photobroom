@@ -33,6 +33,7 @@ class FaceDetails: public QGroupBox
     public slots:
         void setOccurrences(int);
         void setModelPhoto(const QPixmap &);
+        void setModelPhoto(const QImage &);
 
     private:
         QLabel* m_photo;
