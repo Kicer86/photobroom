@@ -38,6 +38,9 @@ class FaceDetails: public QGroupBox
     private:
         QLabel* m_photo;
         QLabel* m_occurences;
+
+    signals:
+        void optimize();
 };
 
 #endif // FACEDETAILS_HPP

@@ -20,6 +20,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 
@@ -30,14 +31,18 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
+    QPushButton* opt = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
     m_occurences = new QLabel(this);
 
     dl->addWidget(m_occurences);
+    dl->addWidget(opt);
 
     l->addWidget(m_photo);
     l->addLayout(dl);
     l->addStretch();
+
+    connect(opt, &QPushButton::pressed, this, &FaceDetails::optimize);
 }
 
 
