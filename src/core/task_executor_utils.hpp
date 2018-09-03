@@ -10,6 +10,7 @@
 
 #include "core_export.h"
 
+
 template<typename T, typename E>
 struct ExecutorTraits
 {
@@ -34,6 +35,38 @@ auto evaluate(E* executor, const T& task)
     const auto result = result_future.get();
 
     return result;
+}
+
+
+// Run callable as a task
+template<typename Callable>
+void runOn(ITaskExecutor* executor, Callable&& callable)
+{
+    struct GenericTask: ITaskExecutor::ITask
+    {
+        GenericTask(Callable&& callable):
+            m_callable(std::forward<Callable>(callable))
+        {
+
+        }
+
+        std::string name() const override
+        {
+            return "generic";
+        }
+
+        void perform() override
+        {
+            m_callable();
+        }
+
+        private:
+            typedef typename std::remove_reference<Callable>::type CallableT;
+            CallableT m_callable;
+    };
+
+    auto task = std::make_unique<GenericTask>(std::forward<Callable>(callable));
+    executor->add(std::move(task));
 }
 
 
