@@ -30,6 +30,7 @@ class FaceDetails: public QGroupBox
     public:
         FaceDetails(const QString &, QWidget *);
 
+    public slots:
         void setOccurrences(int);
         void setModelPhoto(const QPixmap &);
 
