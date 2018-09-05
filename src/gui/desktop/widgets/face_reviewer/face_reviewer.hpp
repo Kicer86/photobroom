@@ -45,6 +45,8 @@ class FaceReviewer: public QDialog
         ~FaceReviewer();
 
     private:
+        std::map<Person::Id, std::vector<PersonInfo> > m_details;
+        std::map<Photo::Id, QString> m_paths;
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;
         Database::IDatabase* m_db;
@@ -58,11 +60,14 @@ class FaceReviewer: public QDialog
                           const std::map<Photo::Id, QString> &);
 
         void optimize(const Person::Id &);
+        void findBest(const QStringList &);
 
     // internal signals
     signals:
         void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,
                            const std::map<Photo::Id, QString> &) const;
+
+        void saved(const QStringList &) const;
 };
 
 #endif // FACEREVIEWER_HPP

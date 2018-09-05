@@ -67,6 +67,9 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
 
+    connect(this, &FaceReviewer::saved,
+            this, &FaceReviewer::findBest);
+
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
 
@@ -126,6 +129,12 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
+    m_paths = paths;
+    m_details.clear();
+
+    for(const auto& detail: details)
+        m_details[detail.first.id()] = detail.second;
+
     const QString faceDataDir = m_project->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition);
     PeopleOperator po(faceDataDir, m_db, m_core);
     QVBoxLayout* canvasLayout = new QVBoxLayout;
@@ -139,42 +148,6 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
         const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
-
-        /*
-        std::vector<QImage> faceImages;
-        faceImages.reserve(peopleInfo.size());
-
-        QStringList faces;
-        for(const PersonInfo& pi: peopleInfo)
-        {
-            auto it = paths.find(pi.ph_id);
-
-            assert(it != paths.end());
-
-            if (it != paths.end())
-            {
-                const QString& path = it->second;
-                const QString absolute_path = m_project->makePathAbsolute(path);
-                const QRect& faceRect = pi.rect;
-                const QImage photo(absolute_path);
-                const QImage face = photo.copy(faceRect);
-                const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
-
-                face.save(file_path);
-
-                faceImages.push_back(face);
-                faces.append(file_path);
-            }
-        }
-
-        if (faceImages.empty() == false)
-        {
-            const QImage& front = faceImages.front();
-            const QImage scaled = front.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-            QPixmap facePixmap = QPixmap::fromImage(scaled);
-            group->setModelPhoto(facePixmap);
-        }
-        */
 
         group->setOccurrences(peopleInfo.size());
 
@@ -193,8 +166,6 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
             });
 
         connect(group, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
-
-        //po.findBest(faces);
     }
 
     delete m_canvas->layout();
@@ -204,4 +175,47 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
 void FaceReviewer::optimize(const Person::Id& id)
 {
+    auto it = m_details.find(id);
+    assert(it != m_details.end());
+
+    const std::vector<PersonInfo>& peopleInfo = it->second;
+
+    auto filesSaver = [this, peopleInfo]()
+    {
+        QStringList faces;
+        for(const PersonInfo& pi: peopleInfo)
+        {
+            auto it = m_paths.find(pi.ph_id);
+
+            assert(it != m_paths.end());
+
+            if (it != m_paths.end())
+            {
+                const QString& path = it->second;
+                const QString absolute_path = m_project->makePathAbsolute(path);
+                const QRect& faceRect = pi.rect;
+                const QImage photo(absolute_path);
+                const QImage face = photo.copy(faceRect);
+                const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
+
+                face.save(file_path);
+
+                faces.append(file_path);
+            }
+        }
+
+        emit saved(faces);
+    };
+
+    auto task = m_safe_callback.make_safe_callback<void()>(filesSaver);
+    auto* taskMgr = m_core->getTaskExecutor();
+    runOn(taskMgr, task);
+}
+
+
+void FaceReviewer::findBest(const QStringList& faces)
+{
+    PeopleOperator po(m_tmpDir->path(), m_db, m_core);
+
+    po.findBest(faces);
 }
