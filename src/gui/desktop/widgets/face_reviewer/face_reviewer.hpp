@@ -36,6 +36,32 @@ class Project;
 struct ICoreFactoryAccessor;
 
 
+class FaceOptimizer: public QObject
+{
+        Q_OBJECT
+
+    public:
+        FaceOptimizer(Database::IDatabase *,
+                      ICoreFactoryAccessor *);
+
+        void optimize(const Person::Id &,
+                      const std::vector<PersonInfo> &,
+                      const std::map<Photo::Id, QString> &);
+
+    private:
+        safe_callback_ctrl m_safe_callback;
+        std::unique_ptr<ITmpDir> m_tmpDir;
+        Database::IDatabase* m_db;
+        ICoreFactoryAccessor* m_core;
+
+        QStringList saveFiles(const std::vector<PersonInfo> &,
+                              const std::map<Photo::Id, QString> &);
+
+    signals:
+        void best(const Person::Id &, const QString &) const;   // TODO: consider PersonInfo in the future?
+};
+
+
 class FaceReviewer: public QDialog
 {
         Q_OBJECT
@@ -45,6 +71,7 @@ class FaceReviewer: public QDialog
         ~FaceReviewer();
 
     private:
+        FaceOptimizer m_optimizer;
         std::map<Person::Id, std::vector<PersonInfo> > m_details;
         std::map<Photo::Id, QString> m_paths;
         safe_callback_ctrl m_safe_callback;
@@ -60,14 +87,11 @@ class FaceReviewer: public QDialog
                           const std::map<Photo::Id, QString> &);
 
         void optimize(const Person::Id &);
-        void findBest(const QStringList &);
 
     // internal signals
     signals:
         void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,
                            const std::map<Photo::Id, QString> &) const;
-
-        void saved(const QStringList &) const;
 };
 
 #endif // FACEREVIEWER_HPP

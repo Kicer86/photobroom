@@ -27,6 +27,7 @@
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
+#include <face_recognition/face_recognition.hpp>
 
 #include "face_details.hpp"
 #include "utils/people_operator.hpp"
@@ -39,6 +40,7 @@ using namespace std::placeholders;
 
 FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p):
     QDialog(p),
+    m_optimizer(prj->getDatabase(), core),
     m_tmpDir(System::getTmpDir("FaceReviewer")),
     m_db(prj->getDatabase()),
     m_core(core),
@@ -66,9 +68,6 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
 
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
-
-    connect(this, &FaceReviewer::saved,
-            this, &FaceReviewer::findBest);
 
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
@@ -180,42 +179,63 @@ void FaceReviewer::optimize(const Person::Id& id)
 
     const std::vector<PersonInfo>& peopleInfo = it->second;
 
-    auto filesSaver = [this, peopleInfo]()
-    {
-        QStringList faces;
-        for(const PersonInfo& pi: peopleInfo)
-        {
-            auto it = m_paths.find(pi.ph_id);
-
-            assert(it != m_paths.end());
-
-            if (it != m_paths.end())
-            {
-                const QString& path = it->second;
-                const QString absolute_path = m_project->makePathAbsolute(path);
-                const QRect& faceRect = pi.rect;
-                const QImage photo(absolute_path);
-                const QImage face = photo.copy(faceRect);
-                const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
-
-                face.save(file_path);
-
-                faces.append(file_path);
-            }
-        }
-
-        emit saved(faces);
-    };
-
-    auto task = m_safe_callback.make_safe_callback<void()>(filesSaver);
-    auto* taskMgr = m_core->getTaskExecutor();
-    runOn(taskMgr, task);
+    m_optimizer.optimize(id, peopleInfo, m_paths);
 }
 
 
-void FaceReviewer::findBest(const QStringList& faces)
+FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
+                             ICoreFactoryAccessor* core):
+    m_tmpDir(System::getTmpDir("FaceOptimizer")),
+    m_db(db),
+    m_core(core)
 {
-    PeopleOperator po(m_tmpDir->path(), m_db, m_core);
+}
 
-    po.findBest(faces);
+
+void FaceOptimizer::optimize(const Person::Id& p_id,
+                             const std::vector<PersonInfo>& pi,
+                             const std::map<Photo::Id, QString>& paths)
+{
+    auto task = [this, p_id, pi, paths]
+    {
+        FaceRecognition face_recognition(m_core);
+
+        const auto files = saveFiles(pi, paths);
+        const QString best_face = face_recognition.best(files);
+
+        emit best(p_id, best_face);
+    };
+
+    auto safe_task = m_safe_callback.make_safe_callback<void()>(task);
+    auto* taskMgr = m_core->getTaskExecutor();
+
+    runOn(taskMgr, safe_task);
+}
+
+
+QStringList FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
+                                     const std::map<Photo::Id, QString>& paths)
+{
+    QStringList faces;
+    for(const PersonInfo& pi: pis)
+    {
+        auto it = paths.find(pi.ph_id);
+
+        assert(it != paths.end());
+
+        if (it != paths.end())
+        {
+            const QString& path = it->second;
+            const QRect& faceRect = pi.rect;
+            const QImage photo(path);
+            const QImage face = photo.copy(faceRect);
+            const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
+
+            face.save(file_path);
+
+            faces.append(file_path);
+        }
+    }
+
+    return faces;
 }
