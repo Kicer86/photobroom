@@ -352,12 +352,10 @@ void FaceStore::perform()
                 {
                     // anounce new person, get id for it
                     const PersonName d(Person::Id(), name);
-                    const Person::Id p_id = op->store(d);
+                    personData.p_id = op->store(d);
 
                     // save representative photo
-                    personData.p_id = p_id;
-
-                    ModelFaceStore mfs(p_id, personData, db, base_path);
+                    ModelFaceStore mfs(personData, db, base_path);
                     mfs.perform();
                 }
 
@@ -399,13 +397,11 @@ std::vector<PersonName> FaceStore::fetchPeople()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-ModelFaceStore::ModelFaceStore(const Person::Id& pid,
-                               const PersonInfo& pi,
+ModelFaceStore::ModelFaceStore(const PersonInfo& pi,
                                Database::IDatabase* db,
                                const QString& storage
                               ):
     FaceTask(pi.ph_id, db),
-    m_pid(pid),
     m_pi(pi),
     m_storage(storage)
 {
@@ -424,7 +420,7 @@ void ModelFaceStore::perform()
     const QImage image(photo_path);
     const QImage face = image.copy(m_pi.rect);
 
-    const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pid.value()));
+    const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
     face.save(face_path);
 }
 
@@ -596,10 +592,10 @@ QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 }
 
 
-void PeopleOperator::setModelFace(const Person::Id& pid, const PersonInfo& pi)
+void PeopleOperator::setModelFace(const PersonInfo& pi)
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<ModelFaceStore>(pid, pi, m_db, m_storage);
+    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_storage);
 
     executor->add(std::move(task));
 }

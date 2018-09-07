@@ -71,8 +71,8 @@ class PeopleOperator final: public QObject
         // returns path to jpg file with face used for identifying given person
         QString getModelFace(const Person::Id &) const;
 
-        // sets given face as model for given person
-        void setModelFace(const Person::Id &, const PersonInfo &);
+        // sets given face as model
+        void setModelFace(const PersonInfo &);
 
     signals:
         void system_status(const bool, const QString &) const;

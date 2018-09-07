@@ -142,8 +142,7 @@ class FaceStore final: public FaceTask
 class ModelFaceStore final: public FaceTask
 {
     public:
-        ModelFaceStore(const Person::Id &,
-                       const PersonInfo &,
+        ModelFaceStore(const PersonInfo &,
                        Database::IDatabase *,
                        const QString& storage);
 
@@ -151,7 +150,6 @@ class ModelFaceStore final: public FaceTask
         void perform() override;
 
     private:
-        const Person::Id m_pid;
         const PersonInfo m_pi;
         const QString m_storage;
 };
