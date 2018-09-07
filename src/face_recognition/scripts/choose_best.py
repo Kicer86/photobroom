@@ -45,12 +45,16 @@ def choose_best(faces, tmp_dir):
             total_distance += results[0]
             count += 1
 
-        avg_distance = total_distance / count
-        fresults[file] = avg_distance
+        if count > 0:
+            avg_distance = total_distance / count
+            fresults[file] = avg_distance
 
     # find photo with best avg distance to other photos
     print(fresults)
 
-    best = max(fresults.items(), key = operator.itemgetter(1))
+    if len(fresults) > 0:
+        best = max(fresults.items(), key = operator.itemgetter(1))
 
-    return best[0]
+        return best[0]
+    else:
+        return ""
