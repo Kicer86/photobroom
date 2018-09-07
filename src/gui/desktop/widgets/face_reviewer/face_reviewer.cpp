@@ -50,6 +50,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
 {
     qRegisterMetaType<std::map<PersonName, std::vector<PersonInfo>>>("std::map<PersonName, std::vector<PersonInfo>>");
     qRegisterMetaType<std::map<Photo::Id, QString>>("std::map<Photo::Id, QString>");
+    qRegisterMetaType<PersonInfo>("PersonInfo");
 
     resize(640, 480);
 
@@ -69,6 +70,9 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
 
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
+
+    connect(&m_optimizer, &FaceOptimizer::best,
+            this,         &FaceReviewer::setBest);
 
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
@@ -180,8 +184,20 @@ void FaceReviewer::optimize(const Person::Id& id)
 
     const std::vector<PersonInfo>& peopleInfo = it->second;
 
-    m_optimizer.optimize(id, peopleInfo, m_paths);
+    m_optimizer.optimize(peopleInfo, m_paths);
 }
+
+
+void FaceReviewer::setBest(const PersonInfo& pi)
+{
+    const QString faceDataDir = m_project->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition);
+    PeopleOperator po(faceDataDir, m_db, m_core);
+
+    po.setModelFace(pi);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
@@ -193,11 +209,10 @@ FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
 }
 
 
-void FaceOptimizer::optimize(const Person::Id& p_id,
-                             const std::vector<PersonInfo>& pis,
+void FaceOptimizer::optimize(const std::vector<PersonInfo>& pis,
                              const std::map<Photo::Id, QString>& paths)
 {
-    auto task = [this, p_id, pis, paths]
+    auto task = [this, pis, paths]
     {
         FaceRecognition face_recognition(m_core);
 
@@ -214,7 +229,7 @@ void FaceOptimizer::optimize(const Person::Id& p_id,
         assert(it != path2Person.cend());
 
         if (it != path2Person.cend())
-            emit best(p_id, it->second);
+            emit best(it->second);
     };
 
     auto safe_task = m_safe_callback.make_safe_callback<void()>(task);

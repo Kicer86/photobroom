@@ -44,8 +44,7 @@ class FaceOptimizer: public QObject
         FaceOptimizer(Database::IDatabase *,
                       ICoreFactoryAccessor *);
 
-        void optimize(const Person::Id &,
-                      const std::vector<PersonInfo> &,
+        void optimize(const std::vector<PersonInfo> &,
                       const std::map<Photo::Id, QString> &);
 
     private:
@@ -58,7 +57,7 @@ class FaceOptimizer: public QObject
                                                 const std::map<Photo::Id, QString> &);
 
     signals:
-        void best(const Person::Id &, const PersonInfo &) const;
+        void best(const PersonInfo &) const;
 };
 
 
@@ -87,6 +86,8 @@ class FaceReviewer: public QDialog
                           const std::map<Photo::Id, QString> &);
 
         void optimize(const Person::Id &);
+
+        void setBest(const PersonInfo &);
 
     // internal signals
     signals:
