@@ -402,6 +402,39 @@ std::vector<PersonName> FaceStore::fetchPeople()
 ///////////////////////////////////////////////////////////////////////////////
 
 
+ModelFaceStore::ModelFaceStore(const Person::Id& pid,
+                               const PersonInfo& pi,
+                               Database::IDatabase* db,
+                               const QString& storage
+                              ):
+    FaceTask(pi.ph_id, db),
+    m_pid(pid),
+    m_pi(pi),
+    m_storage(storage)
+{
+}
+
+
+std::string ModelFaceStore::name() const
+{
+    return "ModelFaceStore";
+}
+
+
+void ModelFaceStore::perform()
+{
+    const QString photo_path = getPhotoPath();
+    const QImage image(photo_path);
+    const QImage face = image.copy(m_pi.rect);
+
+    const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pid.value()));
+    face.save(face_path);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 TestSystem::TestSystem(ICoreFactoryAccessor* core): m_core(core)
 {
 }
@@ -546,6 +579,15 @@ void PeopleOperator::store(const Photo::Id& id,
 }
 
 
+void PeopleOperator::findBest(const QStringList& faces) const
+{
+    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
+    auto task = std::make_unique<FindBest>(m_coreFactory, faces);
+
+    executor->addLight(std::move(task));
+}
+
+
 QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 {
     assert(p_id.valid());
@@ -557,10 +599,10 @@ QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 }
 
 
-void PeopleOperator::findBest(const QStringList& faces) const
+void PeopleOperator::setModelFace(const Person::Id& pid, const PersonInfo& pi)
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FindBest>(m_coreFactory, faces);
+    auto task = std::make_unique<ModelFaceStore>(pid, pi, m_db, m_storage);
 
-    executor->addLight(std::move(task));
+    executor->add(std::move(task));
 }
