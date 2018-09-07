@@ -54,11 +54,11 @@ class FaceOptimizer: public QObject
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_core;
 
-        QStringList saveFiles(const std::vector<PersonInfo> &,
-                              const std::map<Photo::Id, QString> &);
+        std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &,
+                                                const std::map<Photo::Id, QString> &);
 
     signals:
-        void best(const Person::Id &, const QString &) const;   // TODO: consider PersonInfo in the future?
+        void best(const Person::Id &, const PersonInfo &) const;
 };
 
 

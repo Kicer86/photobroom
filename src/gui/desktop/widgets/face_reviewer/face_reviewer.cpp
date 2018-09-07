@@ -25,6 +25,7 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/itask_executor.hpp>
+#include <core/map_iterator.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -193,17 +194,27 @@ FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
 
 
 void FaceOptimizer::optimize(const Person::Id& p_id,
-                             const std::vector<PersonInfo>& pi,
+                             const std::vector<PersonInfo>& pis,
                              const std::map<Photo::Id, QString>& paths)
 {
-    auto task = [this, p_id, pi, paths]
+    auto task = [this, p_id, pis, paths]
     {
         FaceRecognition face_recognition(m_core);
 
-        const auto files = saveFiles(pi, paths);
-        const QString best_face = face_recognition.best(files);
+        const auto path2Person = saveFiles(pis, paths);
 
-        emit best(p_id, best_face);
+        QStringList files;
+        std::copy(key_map_iterator<decltype(path2Person)>(path2Person.cbegin()),
+                  key_map_iterator<decltype(path2Person)>(path2Person.cend()),
+                  std::back_inserter(files));
+
+        const auto best_face_path = face_recognition.best(files);
+
+        auto it = path2Person.find(best_face_path);
+        assert(it != path2Person.cend());
+
+        if (it != path2Person.cend())
+            emit best(p_id, it->second);
     };
 
     auto safe_task = m_safe_callback.make_safe_callback<void()>(task);
@@ -213,10 +224,10 @@ void FaceOptimizer::optimize(const Person::Id& p_id,
 }
 
 
-QStringList FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
-                                     const std::map<Photo::Id, QString>& paths)
+std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
+                                                       const std::map<Photo::Id, QString>& paths)
 {
-    QStringList faces;
+    std::map<QString, PersonInfo> results;
     for(const PersonInfo& pi: pis)
     {
         auto it = paths.find(pi.ph_id);
@@ -233,9 +244,9 @@ QStringList FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
 
             face.save(file_path);
 
-            faces.append(file_path);
+            results.emplace(file_path, pi);
         }
     }
 
-    return faces;
+    return results;
 }
