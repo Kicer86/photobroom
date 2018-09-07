@@ -322,8 +322,6 @@ std::string FaceStore::name() const
 void FaceStore::perform()
 {
     const std::vector<PersonName> people = fetchPeople();
-    const QString path = getPhotoPath();
-    const QImage image(path);
 
     // store people data
     for (const auto& person: m_knownPeople )
@@ -340,16 +338,15 @@ void FaceStore::perform()
 
         if (it == people.cend())  // we do not know that person
         {
+            PersonInfo pi(Person::Id(), m_id, face_coords);
+
             m_db->performCustomAction([base_path = m_patterns,
-                                       face = image.copy(face_coords),
-                                       ph_id = m_id,
-                                       person]
+                                       pi,
+                                       db = m_db,
+                                       name]
                                       (Database::IBackendOperator* op)
             {
-                const QRect& face_location = person.first;
-                const QString& name = person.second;
-
-                PersonInfo personData(PersonInfo::Id(), Person::Id(), ph_id, face_location);
+                PersonInfo personData = pi;
 
                 if (name.isEmpty() == false)
                 {
@@ -358,10 +355,10 @@ void FaceStore::perform()
                     const Person::Id p_id = op->store(d);
 
                     // save representative photo
-                    const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
-                    face.save(path);
-
                     personData.p_id = p_id;
+
+                    ModelFaceStore mfs(p_id, personData, db, base_path);
+                    mfs.perform();
                 }
 
                 // store person information
