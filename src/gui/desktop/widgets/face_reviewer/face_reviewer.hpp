@@ -25,6 +25,8 @@
 #include <database/person_data.hpp>
 #include <system/system.hpp>
 
+#include "utils/people_operator.hpp"
+
 
 namespace Database
 {
@@ -70,6 +72,7 @@ class FaceReviewer: public QDialog
         ~FaceReviewer();
 
     private:
+        PeopleOperator m_operator;
         FaceOptimizer m_optimizer;
         std::map<Person::Id, std::vector<PersonInfo> > m_details;
         std::map<Photo::Id, QString> m_paths;

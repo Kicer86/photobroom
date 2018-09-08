@@ -31,7 +31,6 @@
 #include <face_recognition/face_recognition.hpp>
 
 #include "face_details.hpp"
-#include "utils/people_operator.hpp"
 #include "project_utils/project.hpp"
 #include "system/system.hpp"
 
@@ -41,6 +40,9 @@ using namespace std::placeholders;
 
 FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p):
     QDialog(p),
+    m_operator(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition),
+               prj->getDatabase(),
+               core),
     m_optimizer(prj->getDatabase(), core),
     m_tmpDir(System::getTmpDir("FaceReviewer")),
     m_db(prj->getDatabase()),
@@ -139,8 +141,6 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
     for(const auto& detail: details)
         m_details[detail.first.id()] = detail.second;
 
-    const QString faceDataDir = m_project->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition);
-    PeopleOperator po(faceDataDir, m_db, m_core);
     QVBoxLayout* canvasLayout = new QVBoxLayout;
 
     auto* taskMgr = m_core->getTaskExecutor();
@@ -155,7 +155,7 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
         group->setOccurrences(peopleInfo.size());
 
-        const QString modelFacePath = po.getModelFace(p_name.id());
+        const QString modelFacePath = m_operator.getModelFace(p_name.id());
 
         // set pixmap with face.
         // As pixmap preparations may be heavy, perform them in a thread
@@ -190,10 +190,7 @@ void FaceReviewer::optimize(const Person::Id& id)
 
 void FaceReviewer::setBest(const PersonInfo& pi)
 {
-    const QString faceDataDir = m_project->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition);
-    PeopleOperator po(faceDataDir, m_db, m_core);
-
-    po.setModelFace(pi);
+    m_operator.setModelFace(pi);
 }
 
 
