@@ -464,37 +464,6 @@ void TestSystem::perform()
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
-
-
-FindBest::FindBest(ICoreFactoryAccessor* core, const QStringList& faces):
-    m_faces(faces),
-    m_core(core)
-{
-
-}
-
-
-FindBest::~FindBest()
-{
-
-}
-
-
-std::string FindBest::name() const
-{
-    return "FindBest";
-}
-
-
-void FindBest::perform()
-{
-    FaceRecognition face_recognition(m_core);
-
-    const QString best_face = face_recognition.best(m_faces);
-    emit best(best_face);
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -567,15 +536,6 @@ void PeopleOperator::store(const Photo::Id& id,
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
-
-    executor->addLight(std::move(task));
-}
-
-
-void PeopleOperator::findBest(const QStringList& faces) const
-{
-    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FindBest>(m_coreFactory, faces);
 
     executor->addLight(std::move(task));
 }
