@@ -139,8 +139,10 @@ class FaceStore final: public FaceTask
 };
 
 
-class ModelFaceStore final: public FaceTask
+class ModelFaceStore final: public QObject, public FaceTask
 {
+        Q_OBJECT
+
     public:
         ModelFaceStore(const PersonInfo &,
                        Database::IDatabase *,
@@ -152,6 +154,9 @@ class ModelFaceStore final: public FaceTask
     private:
         const PersonInfo m_pi;
         const QString m_storage;
+
+    signals:
+        void done() const;
 };
 
 

@@ -422,6 +422,8 @@ void ModelFaceStore::perform()
 
     const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
     face.save(face_path);
+
+    emit done();
 }
 
 
@@ -556,6 +558,9 @@ void PeopleOperator::setModelFace(const PersonInfo& pi)
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_storage);
+
+    connect(task.get(), &ModelFaceStore::done,
+            this, &PeopleOperator::modelFaceSet);
 
     executor->add(std::move(task));
 }
