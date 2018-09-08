@@ -43,6 +43,7 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
     l->addStretch();
 
     connect(opt, &QPushButton::pressed, this, &FaceDetails::optimize);
+    connect(this, &FaceDetails::enableOptimizeButton, opt, &QWidget::setEnabled);  // lazy trick: enableOptimizeButton is a signal, so here we can use it
 }
 
 

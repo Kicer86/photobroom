@@ -30,6 +30,9 @@ class FaceDetails: public QGroupBox
     public:
         FaceDetails(const QString &, QWidget *);
 
+    signals:   // use as regular, public function, forget it's a signal
+        void enableOptimizeButton(bool = true);
+
     public slots:
         void setOccurrences(int);
         void setModelPhoto(const QPixmap &);
