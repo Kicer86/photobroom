@@ -156,7 +156,7 @@ class ModelFaceStore final: public QObject, public FaceTask
         const QString m_storage;
 
     signals:
-        void done() const;
+        void done(const Person::Id &) const;
 };
 
 

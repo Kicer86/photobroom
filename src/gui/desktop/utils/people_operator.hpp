@@ -76,7 +76,7 @@ class PeopleOperator final: public QObject
         void faces(const QVector<QRect> &) const;
         void recognized(const QRect &, const PersonName &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;
-        void modelFaceSet() const;
+        void modelFaceSet(const Person::Id &) const;
 
     private:
         const QString m_storage;

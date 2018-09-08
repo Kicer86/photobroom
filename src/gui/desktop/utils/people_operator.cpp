@@ -423,7 +423,7 @@ void ModelFaceStore::perform()
     const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
     face.save(face_path);
 
-    emit done();
+    emit done(m_pi.p_id);
 }
 
 
