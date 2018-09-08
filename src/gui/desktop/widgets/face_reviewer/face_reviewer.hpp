@@ -90,8 +90,6 @@ class FaceReviewer: public QDialog
 
         void optimize(const Person::Id &);
 
-        void setBest(const PersonInfo &);
-
     // internal signals
     signals:
         void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,

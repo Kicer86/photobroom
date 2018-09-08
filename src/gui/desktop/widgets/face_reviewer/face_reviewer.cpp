@@ -74,7 +74,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
             this, &FaceReviewer::updatePeople);
 
     connect(&m_optimizer, &FaceOptimizer::best,
-            this,         &FaceReviewer::setBest);
+            &m_operator,  &PeopleOperator::setModelFace);
 
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
@@ -185,12 +185,6 @@ void FaceReviewer::optimize(const Person::Id& id)
     const std::vector<PersonInfo>& peopleInfo = it->second;
 
     m_optimizer.optimize(peopleInfo, m_paths);
-}
-
-
-void FaceReviewer::setBest(const PersonInfo& pi)
-{
-    m_operator.setModelFace(pi);
 }
 
 
