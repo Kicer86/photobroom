@@ -226,9 +226,14 @@ void FaceOptimizer::optimize(const std::vector<PersonInfo>& pis,
         const auto best_face_path = face_recognition.best(files);
 
         auto it = path2Person.find(best_face_path);
-        assert(it != path2Person.cend());
 
-        if (it != path2Person.cend())
+        assert(it != path2Person.cend() || best_face_path.isEmpty()); // if `best_face_path` isn't empty, then we should find person
+
+        if (it == path2Person.cend())
+        {
+            // TODO: error? warning? could not find face - possible when none of faces was encoded
+        }
+        else
             emit best(it->second);
     };
 
