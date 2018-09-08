@@ -76,6 +76,9 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
     connect(&m_optimizer, &FaceOptimizer::best,
             &m_operator,  &PeopleOperator::setModelFace);
 
+    connect(&m_operator, &PeopleOperator::modelFaceSet,
+            this,        qOverload<const Person::Id &>(&FaceReviewer::updatePerson));
+
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
 
@@ -143,8 +146,6 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
     QVBoxLayout* canvasLayout = new QVBoxLayout;
 
-    auto* taskMgr = m_core->getTaskExecutor();
-
     for(const auto& detail: details)
     {
         FaceDetails* group = new FaceDetails(detail.first.name(), this);
@@ -154,27 +155,53 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
         group->setOccurrences(peopleInfo.size());
-
-        const QString modelFacePath = m_operator.getModelFace(p_name.id());
-
-        // set pixmap with face.
-        // As pixmap preparations may be heavy, perform them in a thread
-        if (modelFacePath.isEmpty() == false)
-            runOn(taskMgr, [group, modelFacePath]
-            {
-                const QImage faceImg(modelFacePath);
-                const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-
-                // do not call slot directly - make sure it will be called from main thread
-                QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QImage, scaled));
-            });
+        updatePerson(group, p_name.id());
 
         connect(group, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
+
+        m_faceWidgets.emplace(p_name.id(), group);
     }
 
     delete m_canvas->layout();
     m_canvas->setLayout(canvasLayout);
 }
+
+
+void FaceReviewer::updatePerson(const Person::Id& id)
+{
+    auto it = m_faceWidgets.find(id);
+
+    assert(it != m_faceWidgets.cend());
+
+    if (it != m_faceWidgets.cend())
+    {
+        FaceDetails* group = it->second;
+        updatePerson(group, id);
+    }
+}
+
+
+void FaceReviewer::updatePerson(FaceDetails* group, const Person::Id& id)
+{
+    const QString modelFacePath = m_operator.getModelFace(id);
+
+    // set pixmap with face.
+    // As pixmap preparations may be heavy, perform them in a thread
+    if (modelFacePath.isEmpty() == false)
+    {
+        auto* taskMgr = m_core->getTaskExecutor();
+
+        runOn(taskMgr, [group, modelFacePath]
+        {
+            const QImage faceImg(modelFacePath);
+            const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+
+            // do not call slot directly - make sure it will be called from main thread
+            QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QImage, scaled));
+        });
+    }
+}
+
 
 
 void FaceReviewer::optimize(const Person::Id& id)

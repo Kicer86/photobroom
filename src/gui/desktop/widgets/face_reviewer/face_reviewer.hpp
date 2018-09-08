@@ -34,6 +34,7 @@ namespace Database
     struct IBackendOperator;
 }
 
+class FaceDetails;
 class Project;
 struct ICoreFactoryAccessor;
 
@@ -78,6 +79,7 @@ class FaceReviewer: public QDialog
         std::map<Photo::Id, QString> m_paths;
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;
+        std::map<Person::Id, FaceDetails *> m_faceWidgets;
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_core;
         QWidget* m_canvas;
@@ -87,6 +89,9 @@ class FaceReviewer: public QDialog
 
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
                           const std::map<Photo::Id, QString> &);
+
+        void updatePerson(const Person::Id &);
+        void updatePerson(FaceDetails *, const Person::Id &);
 
         void optimize(const Person::Id &);
 
