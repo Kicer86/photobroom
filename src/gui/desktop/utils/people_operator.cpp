@@ -476,6 +476,7 @@ PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, 
     m_coreFactory(ca)
 {
     qRegisterMetaType<PersonName>("PersonData");
+    qRegisterMetaType<Person::Id>("Person::Id");
 }
 
 
