@@ -22,6 +22,7 @@
 #include <QGroupBox>
 
 class QLabel;
+class QPushButton;
 
 class FaceDetails: public QGroupBox
 {
@@ -30,8 +31,7 @@ class FaceDetails: public QGroupBox
     public:
         FaceDetails(const QString &, QWidget *);
 
-    signals:   // use as regular, public function, forget it's a signal
-        void enableOptimizeButton(bool = true);
+        void enableOptimizationButton(bool = true);
 
     public slots:
         void setOccurrences(int);
@@ -39,6 +39,7 @@ class FaceDetails: public QGroupBox
         void setModelPhoto(const QImage &);
 
     private:
+        QPushButton* m_optButton;
         QLabel* m_photo;
         QLabel* m_occurences;
 

@@ -26,24 +26,30 @@
 
 FaceDetails::FaceDetails(const QString& name, QWidget* p):
     QGroupBox(name, p),
+    m_optButton(nullptr),
     m_photo(nullptr),
     m_occurences(nullptr)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
-    QPushButton* opt = new QPushButton(tr("Find better"), this);
+    m_optButton = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
     m_occurences = new QLabel(this);
 
     dl->addWidget(m_occurences);
-    dl->addWidget(opt);
+    dl->addWidget(m_optButton);
 
     l->addWidget(m_photo);
     l->addLayout(dl);
     l->addStretch();
 
-    connect(opt, &QPushButton::pressed, this, &FaceDetails::optimize);
-    connect(this, &FaceDetails::enableOptimizeButton, opt, &QWidget::setEnabled);  // lazy trick: enableOptimizeButton is a signal, so here we can use it
+    connect(m_optButton, &QPushButton::pressed, this, &FaceDetails::optimize);
+}
+
+
+void FaceDetails::enableOptimizationButton(bool e)
+{
+    m_optButton->setEnabled(e);
 }
 
 
