@@ -43,7 +43,7 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
     l->addLayout(dl);
     l->addStretch();
 
-    connect(m_optButton, &QPushButton::pressed, this, &FaceDetails::optimize);
+    connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
 }
 
 
