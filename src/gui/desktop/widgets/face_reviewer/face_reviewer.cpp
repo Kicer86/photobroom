@@ -148,18 +148,18 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
     for(const auto& detail: details)
     {
-        FaceDetails* group = new FaceDetails(detail.first.name(), this);
-        canvasLayout->addWidget(group);
+        FaceDetails* faceDetails = new FaceDetails(detail.first.name(), this);
+        canvasLayout->addWidget(faceDetails);
 
         const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
-        group->setOccurrences(peopleInfo.size());
-        updatePerson(group, p_name.id());
+        faceDetails->setOccurrences(peopleInfo.size());
+        updatePerson(faceDetails, p_name.id());
 
-        connect(group, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
+        connect(faceDetails, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
 
-        m_faceWidgets.emplace(p_name.id(), group);
+        m_faceWidgets.emplace(p_name.id(), faceDetails);
     }
 
     delete m_canvas->layout();
@@ -175,8 +175,8 @@ void FaceReviewer::updatePerson(const Person::Id& id)
 
     if (it != m_faceWidgets.cend())
     {
-        FaceDetails* group = it->second;
-        updatePerson(group, id);
+        FaceDetails* faceDetails = it->second;
+        updatePerson(faceDetails, id);
     }
 }
 
