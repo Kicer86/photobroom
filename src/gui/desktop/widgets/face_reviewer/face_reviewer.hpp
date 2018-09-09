@@ -75,7 +75,7 @@ class FaceReviewer: public QDialog
     private:
         PeopleOperator m_operator;
         FaceOptimizer m_optimizer;
-        std::map<Person::Id, std::vector<PersonInfo> > m_details;
+        std::map<Person::Id, std::vector<PersonInfo> > m_infos;
         std::map<Photo::Id, QString> m_paths;
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;

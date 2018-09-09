@@ -139,10 +139,10 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
                                 const std::map<Photo::Id, QString>& paths)
 {
     m_paths = paths;
-    m_details.clear();
+    m_infos.clear();
 
     for(const auto& detail: details)
-        m_details[detail.first.id()] = detail.second;
+        m_infos[detail.first.id()] = detail.second;
 
     QVBoxLayout* canvasLayout = new QVBoxLayout;
 
@@ -206,8 +206,8 @@ void FaceReviewer::updatePerson(FaceDetails* group, const Person::Id& id)
 
 void FaceReviewer::optimize(const Person::Id& id)
 {
-    auto it = m_details.find(id);
-    assert(it != m_details.end());
+    auto it = m_infos.find(id);
+    assert(it != m_infos.end());
 
     const std::vector<PersonInfo>& peopleInfo = it->second;
 
