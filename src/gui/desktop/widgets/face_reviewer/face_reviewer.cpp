@@ -76,6 +76,9 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
     connect(&m_optimizer, &FaceOptimizer::best,
             &m_operator,  &PeopleOperator::setModelFace);
 
+    connect(&m_optimizer, &FaceOptimizer::error,
+            this,         &FaceReviewer::updatePersonFailed);
+
     connect(&m_operator, &PeopleOperator::modelFaceSet,
             this,        qOverload<const Person::Id &>(&FaceReviewer::updatePerson));
 
@@ -169,15 +172,11 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
 void FaceReviewer::updatePerson(const Person::Id& id)
 {
-    auto it = m_faceWidgets.find(id);
+    FaceDetails* fd = detailsFor(id);
 
-    assert(it != m_faceWidgets.cend());
+    fd->enableOptimizationButton(true);
 
-    if (it != m_faceWidgets.cend())
-    {
-        FaceDetails* faceDetails = it->second;
-        updatePerson(faceDetails, id);
-    }
+    updatePerson(fd, id);
 }
 
 
@@ -203,15 +202,34 @@ void FaceReviewer::updatePerson(FaceDetails* group, const Person::Id& id)
 }
 
 
+void FaceReviewer::updatePersonFailed(const Person::Id& id) const
+{
+    FaceDetails* fd = detailsFor(id);
+    fd->enableOptimizationButton(true);
+}
+
 
 void FaceReviewer::optimize(const Person::Id& id)
 {
+    FaceDetails* fd = detailsFor(id);
+    fd->enableOptimizationButton(false);
+
     auto it = m_infos.find(id);
     assert(it != m_infos.end());
 
     const std::vector<PersonInfo>& peopleInfo = it->second;
 
-    m_optimizer.optimize(peopleInfo, m_paths);
+    m_optimizer.optimize(id, peopleInfo, m_paths);
+}
+
+
+FaceDetails* FaceReviewer::detailsFor(const Person::Id& id) const
+{
+    auto it = m_faceWidgets.find(id);
+
+    assert(it != m_faceWidgets.cend());
+
+    return it->second;
 }
 
 
@@ -227,10 +245,11 @@ FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
 }
 
 
-void FaceOptimizer::optimize(const std::vector<PersonInfo>& pis,
+void FaceOptimizer::optimize(const Person::Id& pid,
+                             const std::vector<PersonInfo>& pis,
                              const std::map<Photo::Id, QString>& paths)
 {
-    auto task = [this, pis, paths]
+    auto task = [this, pid, pis, paths]
     {
         FaceRecognition face_recognition(m_core);
 
@@ -248,9 +267,7 @@ void FaceOptimizer::optimize(const std::vector<PersonInfo>& pis,
         assert(it != path2Person.cend() || best_face_path.isEmpty()); // if `best_face_path` isn't empty, then we should find person
 
         if (it == path2Person.cend())
-        {
-            // TODO: error? warning? could not find face - possible when none of faces was encoded
-        }
+            emit error(pid);
         else
             emit best(it->second);
     };
