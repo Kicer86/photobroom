@@ -49,6 +49,7 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
 
 void FaceDetails::enableOptimizationButton(bool e)
 {
+    m_optButton->clearFocus();
     m_optButton->setEnabled(e);
 }
 

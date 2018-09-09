@@ -91,7 +91,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
 
 FaceReviewer::~FaceReviewer()
 {
-
+    m_safe_callback.invalidate();
 }
 
 
@@ -242,6 +242,12 @@ FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
     m_db(db),
     m_core(core)
 {
+}
+
+
+FaceOptimizer::~FaceOptimizer()
+{
+    m_safe_callback.invalidate();
 }
 
 

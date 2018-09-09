@@ -47,6 +47,8 @@ class FaceOptimizer: public QObject
         FaceOptimizer(Database::IDatabase *,
                       ICoreFactoryAccessor *);
 
+        ~ FaceOptimizer();
+
         void optimize(const Person::Id &,
                       const std::vector<PersonInfo> &,
                       const std::map<Photo::Id, QString> &);

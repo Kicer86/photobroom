@@ -58,6 +58,15 @@ class safe_callback_ctrl final
 
         ~safe_callback_ctrl()
         {
+            // safe_callback_ctrl should be reset before its destruction.
+            //
+            // Object owning instance of this class should call invalidate()
+            // as a first action in its destructor.
+            // Otherwise owner class may be partialy destructed before
+            // safe_callback_ctrl is reseted which will allow
+            // callbacks to work on a broken object
+            assert(m_data.get() == 0 || m_data.use_count() == 1);  // no data, or only one client - us
+
             reset();
         }
 

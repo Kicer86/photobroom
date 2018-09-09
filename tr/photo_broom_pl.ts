@@ -127,7 +127,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+23"/>
+        <location line="+24"/>
         <source>On %n photo(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
