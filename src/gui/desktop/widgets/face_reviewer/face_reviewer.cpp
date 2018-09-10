@@ -108,7 +108,7 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
     {
         // get photos it occurs on
         const Person::Id& p_id = person.id();
-        auto filter = std::make_unique<Database::FilterPhotosWithPerson >(p_id);
+        auto filter = std::make_unique<Database::FilterPhotosWithPerson>(p_id);
 
         const std::vector<Photo::Id> matching_ids = op->getPhotos( { std::move(filter) } );
 
