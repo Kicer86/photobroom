@@ -26,6 +26,7 @@
 #include <system/system.hpp>
 
 #include "utils/people_operator.hpp"
+#include "face_optimizer.hpp"
 
 
 namespace Database
@@ -37,35 +38,6 @@ namespace Database
 class FaceDetails;
 class Project;
 struct ICoreFactoryAccessor;
-
-
-class FaceOptimizer: public QObject
-{
-        Q_OBJECT
-
-    public:
-        FaceOptimizer(Database::IDatabase *,
-                      ICoreFactoryAccessor *);
-
-        ~ FaceOptimizer();
-
-        void optimize(const Person::Id &,
-                      const std::vector<PersonInfo> &,
-                      const std::map<Photo::Id, QString> &);
-
-    private:
-        safe_callback_ctrl m_safe_callback;
-        std::unique_ptr<ITmpDir> m_tmpDir;
-        Database::IDatabase* m_db;
-        ICoreFactoryAccessor* m_core;
-
-        std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &,
-                                                const std::map<Photo::Id, QString> &);
-
-    signals:
-        void best(const PersonInfo &) const;
-        void error(const Person::Id &) const;
-};
 
 
 class FaceReviewer: public QDialog
