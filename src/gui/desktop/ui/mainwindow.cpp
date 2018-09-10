@@ -343,6 +343,7 @@ void MainWindow::updateMenus()
     const bool valid = m_recentCollections.isEmpty() == false;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuTools->menuAction()->setVisible(prj);
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
 
