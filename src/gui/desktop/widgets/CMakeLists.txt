@@ -41,7 +41,7 @@ set(HEADERS
     photos_widget.hpp
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
-    face_reviewer/face_details.cpp
+    face_reviewer/face_details.hpp
     face_reviewer/face_optimizer.hpp
     face_reviewer/face_reviewer.hpp
     filters_editor/level_editor.hpp
