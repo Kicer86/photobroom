@@ -426,7 +426,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
     <message>
         <location line="+5"/>
-        <source>Face organizer</source>
+        <source>&amp;Face organizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -457,7 +457,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+130"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
