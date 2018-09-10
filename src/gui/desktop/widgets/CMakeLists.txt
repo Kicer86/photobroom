@@ -20,6 +20,7 @@ set(SRCS
     table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
     face_reviewer/face_details.cpp
+    face_reviewer/face_optimizer.cpp
     face_reviewer/face_reviewer.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
@@ -41,6 +42,7 @@ set(HEADERS
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
     face_reviewer/face_details.cpp
+    face_reviewer/face_optimizer.hpp
     face_reviewer/face_reviewer.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
