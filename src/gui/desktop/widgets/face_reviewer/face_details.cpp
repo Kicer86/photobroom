@@ -23,13 +23,19 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <core/cross_thread_call.hpp>
+
+using namespace std::placeholders;
+
 
 FaceDetails::FaceDetails(const QString& name,
                          IModelFaceFinder* finder,
-                         const std::vector<PersonInfo> &,
-                         const std::map<Photo::Id, QString> &,
+                         const std::vector<PersonInfo>& pi,
+                         const std::map<Photo::Id, QString>& paths,
                          QWidget* p):
     QGroupBox(name, p),
+    m_pi(pi),
+    m_photo2path(paths),
     m_optButton(nullptr),
     m_photo(nullptr),
     m_occurences(nullptr),
@@ -80,5 +86,17 @@ void FaceDetails::setModelPhoto(const QImage& img)
 
 void FaceDetails::optimize()
 {
-    m_modelFaceFinder->findBest(m_pi, m_photo2path, [](const PersonInfo &){});
+    m_optButton->clearFocus();
+    m_optButton->setDisabled(true);
+
+    std::function<void(const PersonInfo &)> callback = std::bind(&FaceDetails::apply, this, _1);
+    auto safe_callback = make_cross_thread_function<const PersonInfo &>(this, callback);
+
+    m_modelFaceFinder->findBest(m_pi, m_photo2path, safe_callback);
+}
+
+
+void FaceDetails::apply(const PersonInfo& pi)
+{
+    m_optButton->setEnabled(true);
 }

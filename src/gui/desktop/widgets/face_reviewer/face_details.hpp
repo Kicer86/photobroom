@@ -62,6 +62,7 @@ class FaceDetails: public QGroupBox
         IModelFaceFinder* m_modelFaceFinder;
 
         void optimize();
+        void apply(const PersonInfo &);
 };
 
 #endif // FACEDETAILS_HPP
