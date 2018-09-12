@@ -73,8 +73,39 @@ void FaceOptimizer::optimize(const Person::Id& pid,
 }
 
 
-void FaceOptimizer::findBest(const std::vector<PersonInfo>&, const std::map<Photo::Id, QString>&, const std::function<void (const PersonInfo &)>&)
+void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
+                             const std::map<Photo::Id, QString>& paths,
+                             const std::function<void (const PersonInfo &)>& callback)
 {
+    auto task = [this, callback, pis, paths]
+    {
+        static PersonInfo invalid;
+
+        FaceRecognition face_recognition(m_core);
+
+        const auto path2Person = saveFiles(pis, paths);
+
+        QStringList files;
+        std::copy(key_map_iterator<decltype(path2Person)>(path2Person.cbegin()),
+                  key_map_iterator<decltype(path2Person)>(path2Person.cend()),
+                  std::back_inserter(files));
+
+        const auto best_face_path = face_recognition.best(files);
+
+        auto it = path2Person.find(best_face_path);
+
+        assert(it != path2Person.cend() || best_face_path.isEmpty()); // if `best_face_path` isn't empty, then we should find person
+
+        if (it == path2Person.cend())
+            callback(invalid);
+        else
+            callback(it->second);
+    };
+
+    auto safe_task = m_safe_callback.make_safe_callback<void()>(task);
+    auto* taskMgr = m_core->getTaskExecutor();
+
+    runOn(taskMgr, safe_task);
 }
 
 
