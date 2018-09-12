@@ -24,11 +24,16 @@
 #include <QVBoxLayout>
 
 
-FaceDetails::FaceDetails(const QString& name, QWidget* p):
+FaceDetails::FaceDetails(const QString& name,
+                         IModelFaceFinder* finder,
+                         const std::vector<PersonInfo> &,
+                         const std::map<Photo::Id, QString> &,
+                         QWidget* p):
     QGroupBox(name, p),
     m_optButton(nullptr),
     m_photo(nullptr),
-    m_occurences(nullptr)
+    m_occurences(nullptr),
+    m_modelFaceFinder(finder)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
@@ -46,13 +51,13 @@ FaceDetails::FaceDetails(const QString& name, QWidget* p):
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
 }
 
-
+/*
 void FaceDetails::enableOptimizationButton(bool e)
 {
     m_optButton->clearFocus();
     m_optButton->setEnabled(e);
 }
-
+*/
 
 void FaceDetails::setOccurrences(int c)
 {
@@ -70,4 +75,10 @@ void FaceDetails::setModelPhoto(const QImage& img)
 {
     const QPixmap pixmap = QPixmap::fromImage(img);
     setModelPhoto(pixmap);
+}
+
+
+void FaceDetails::optimize()
+{
+    m_modelFaceFinder->findBest(m_pi, m_photo2path, [](const PersonInfo &){});
 }

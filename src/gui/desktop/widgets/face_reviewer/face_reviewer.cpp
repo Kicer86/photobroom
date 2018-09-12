@@ -149,16 +149,16 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
 
     for(const auto& detail: details)
     {
-        FaceDetails* faceDetails = new FaceDetails(detail.first.name(), this);
-        canvasLayout->addWidget(faceDetails);
-
         const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
+
+        FaceDetails* faceDetails = new FaceDetails(detail.first.name(), &m_optimizer, peopleInfo, paths, this);
+        canvasLayout->addWidget(faceDetails);
 
         faceDetails->setOccurrences(peopleInfo.size());
         updatePerson(faceDetails, p_name.id());
 
-        connect(faceDetails, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
+        //connect(faceDetails, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
 
         m_faceWidgets.emplace(p_name.id(), faceDetails);
     }
@@ -172,7 +172,7 @@ void FaceReviewer::updatePerson(const Person::Id& id)
 {
     FaceDetails* fd = detailsFor(id);
 
-    fd->enableOptimizationButton(true);
+    //fd->enableOptimizationButton(true);
 
     updatePerson(fd, id);
 }
@@ -203,14 +203,14 @@ void FaceReviewer::updatePerson(FaceDetails* group, const Person::Id& id)
 void FaceReviewer::updatePersonFailed(const Person::Id& id) const
 {
     FaceDetails* fd = detailsFor(id);
-    fd->enableOptimizationButton(true);
+    //fd->enableOptimizationButton(true);
 }
 
 
 void FaceReviewer::optimize(const Person::Id& id)
 {
     FaceDetails* fd = detailsFor(id);
-    fd->enableOptimizationButton(false);
+    //fd->enableOptimizationButton(false);
 
     auto it = m_infos.find(id);
     assert(it != m_infos.end());

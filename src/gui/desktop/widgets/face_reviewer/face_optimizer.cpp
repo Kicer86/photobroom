@@ -73,6 +73,12 @@ void FaceOptimizer::optimize(const Person::Id& pid,
 }
 
 
+void FaceOptimizer::findBest(const std::vector<PersonInfo>&, const std::map<Photo::Id, QString>&, const std::function<void (const PersonInfo &)>&)
+{
+}
+
+
+
 std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
                                                        const std::map<Photo::Id, QString>& paths)
 {

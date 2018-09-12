@@ -25,6 +25,7 @@
 #include <database/person_data.hpp>
 #include <system/system.hpp>
 
+#include "face_details.hpp"
 
 namespace Database
 {
@@ -34,7 +35,7 @@ namespace Database
 struct ICoreFactoryAccessor;
 
 
-class FaceOptimizer: public QObject
+class FaceOptimizer: public QObject, public IModelFaceFinder
 {
         Q_OBJECT
 
@@ -47,6 +48,10 @@ class FaceOptimizer: public QObject
         void optimize(const Person::Id &,
                       const std::vector<PersonInfo> &,
                       const std::map<Photo::Id, QString> &);
+
+        void findBest(const std::vector<PersonInfo> &,
+                      const std::map<Photo::Id, QString> &,
+                      const std::function<void(const PersonInfo &)> &) override;
 
     private:
         safe_callback_ctrl m_safe_callback;

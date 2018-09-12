@@ -122,7 +122,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>FaceDetails</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+35"/>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+40"/>
         <source>Find better</source>
         <translation type="unfinished"></translation>
     </message>

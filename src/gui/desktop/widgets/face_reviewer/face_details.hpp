@@ -21,17 +21,32 @@
 
 #include <QGroupBox>
 
+#include <database/person_data.hpp>
+
 class QLabel;
 class QPushButton;
+
+
+struct IModelFaceFinder
+{
+    virtual ~IModelFaceFinder() = default;
+
+    virtual void findBest(const std::vector<PersonInfo> &,
+                          const std::map<Photo::Id, QString> &,
+                          const std::function<void(const PersonInfo &)> &) = 0;
+};
+
 
 class FaceDetails: public QGroupBox
 {
         Q_OBJECT
 
     public:
-        FaceDetails(const QString &, QWidget *);
-
-        void enableOptimizationButton(bool = true);
+        FaceDetails(const QString &,
+                    IModelFaceFinder *,
+                    const std::vector<PersonInfo> &,
+                    const std::map<Photo::Id, QString> &,
+                    QWidget *);
 
     public slots:
         void setOccurrences(int);
@@ -39,11 +54,13 @@ class FaceDetails: public QGroupBox
         void setModelPhoto(const QImage &);
 
     private:
+        const std::vector<PersonInfo> m_pi;
+        const std::map<Photo::Id, QString> m_photo2path;
         QPushButton* m_optButton;
         QLabel* m_photo;
         QLabel* m_occurences;
+        IModelFaceFinder* m_modelFaceFinder;
 
-    signals:
         void optimize();
 };
 
