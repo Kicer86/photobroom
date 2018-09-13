@@ -41,7 +41,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
     m_operator(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition),
                prj->getDatabase(),
                core),
-    m_optimizer(prj->getDatabase(), core),
+    m_optimizer(prj->getDatabase(), core, &m_operator),
     m_tmpDir(System::getTmpDir("FaceReviewer")),
     m_db(prj->getDatabase()),
     m_core(core),
@@ -70,15 +70,6 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
 
     connect(this, &FaceReviewer::gotPeopleInfo,
             this, &FaceReviewer::updatePeople);
-
-    connect(&m_optimizer, &FaceOptimizer::best,
-            &m_operator,  &PeopleOperator::setModelFace);
-
-    connect(&m_optimizer, &FaceOptimizer::error,
-            this,         &FaceReviewer::updatePersonFailed);
-
-    connect(&m_operator, &PeopleOperator::modelFaceSet,
-            this,        qOverload<const Person::Id &>(&FaceReviewer::updatePerson));
 
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
     auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
@@ -139,7 +130,7 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
-    m_paths = paths;
+    m_optimizer.set(paths);
     m_infos.clear();
 
     for(const auto& detail: details)
@@ -152,80 +143,14 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
         const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
-        FaceDetails* faceDetails = new FaceDetails(detail.first.name(), &m_optimizer, peopleInfo, paths, this);
+        FaceDetails* faceDetails = new FaceDetails(detail.first.name(),
+                                                   &m_optimizer,
+                                                   m_core->getTaskExecutor(),
+                                                   peopleInfo,
+                                                   this);
         canvasLayout->addWidget(faceDetails);
-
-        faceDetails->setOccurrences(peopleInfo.size());
-        updatePerson(faceDetails, p_name.id());
-
-        //connect(faceDetails, &FaceDetails::optimize, std::bind(&FaceReviewer::optimize, this, p_name.id()));
-
-        m_faceWidgets.emplace(p_name.id(), faceDetails);
     }
 
     delete m_canvas->layout();
     m_canvas->setLayout(canvasLayout);
-}
-
-
-void FaceReviewer::updatePerson(const Person::Id& id)
-{
-    FaceDetails* fd = detailsFor(id);
-
-    //fd->enableOptimizationButton(true);
-
-    updatePerson(fd, id);
-}
-
-
-void FaceReviewer::updatePerson(FaceDetails* group, const Person::Id& id)
-{
-    const QString modelFacePath = m_operator.getModelFace(id);
-
-    // set pixmap with face.
-    // As pixmap preparations may be heavy, perform them in a thread
-    if (modelFacePath.isEmpty() == false)
-    {
-        auto* taskMgr = m_core->getTaskExecutor();
-
-        runOn(taskMgr, [group, modelFacePath]
-        {
-            const QImage faceImg(modelFacePath);
-            const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-
-            // do not call slot directly - make sure it will be called from main thread
-            QMetaObject::invokeMethod(group, "setModelPhoto", Q_ARG(QImage, scaled));
-        });
-    }
-}
-
-
-void FaceReviewer::updatePersonFailed(const Person::Id& id) const
-{
-    FaceDetails* fd = detailsFor(id);
-    //fd->enableOptimizationButton(true);
-}
-
-
-void FaceReviewer::optimize(const Person::Id& id)
-{
-    FaceDetails* fd = detailsFor(id);
-    //fd->enableOptimizationButton(false);
-
-    auto it = m_infos.find(id);
-    assert(it != m_infos.end());
-
-    const std::vector<PersonInfo>& peopleInfo = it->second;
-
-    m_optimizer.optimize(id, peopleInfo, m_paths);
-}
-
-
-FaceDetails* FaceReviewer::detailsFor(const Person::Id& id) const
-{
-    auto it = m_faceWidgets.find(id);
-
-    assert(it != m_faceWidgets.cend());
-
-    return it->second;
 }

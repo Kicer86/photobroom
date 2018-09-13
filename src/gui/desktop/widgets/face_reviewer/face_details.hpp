@@ -26,14 +26,17 @@
 class QLabel;
 class QPushButton;
 
+struct ITaskExecutor;
+
 
 struct IModelFaceFinder
 {
     virtual ~IModelFaceFinder() = default;
 
     virtual void findBest(const std::vector<PersonInfo> &,
-                          const std::map<Photo::Id, QString> &,
-                          const std::function<void(const PersonInfo &)> &) = 0;
+                          const std::function<void(const QString &)> &) = 0;
+
+    virtual QString current(const Person::Id &) const = 0;
 };
 
 
@@ -44,25 +47,24 @@ class FaceDetails: public QGroupBox
     public:
         FaceDetails(const QString &,
                     IModelFaceFinder *,
+                    ITaskExecutor *,
                     const std::vector<PersonInfo> &,
-                    const std::map<Photo::Id, QString> &,
                     QWidget *);
-
-    public slots:
-        void setOccurrences(int);
-        void setModelPhoto(const QPixmap &);
-        void setModelPhoto(const QImage &);
 
     private:
         const std::vector<PersonInfo> m_pi;
-        const std::map<Photo::Id, QString> m_photo2path;
+        ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;
         QLabel* m_occurences;
         IModelFaceFinder* m_modelFaceFinder;
 
+    private slots:
+        void setModelPhoto(const QPixmap &);
+        void setModelPhoto(const QImage &);
+
         void optimize();
-        void apply(const PersonInfo &);
+        void apply(const QString &);
 };
 
 #endif // FACEDETAILS_HPP

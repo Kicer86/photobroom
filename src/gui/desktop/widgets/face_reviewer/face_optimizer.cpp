@@ -1,3 +1,4 @@
+
 /*
  * helper for finding best face
  * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
@@ -23,9 +24,13 @@
 #include <core/task_executor_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
 
+#include "utils/people_operator.hpp"
+
 
 FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
-                             ICoreFactoryAccessor* core):
+                             ICoreFactoryAccessor* core,
+                             PeopleOperator* op):
+    m_operator(op),
     m_tmpDir(System::getTmpDir("FaceOptimizer")),
     m_db(db),
     m_core(core)
@@ -39,51 +44,20 @@ FaceOptimizer::~FaceOptimizer()
 }
 
 
-void FaceOptimizer::optimize(const Person::Id& pid,
-                             const std::vector<PersonInfo>& pis,
-                             const std::map<Photo::Id, QString>& paths)
+void FaceOptimizer::set(const std::map<Photo::Id, QString>& paths)
 {
-    auto task = [this, pid, pis, paths]
-    {
-        FaceRecognition face_recognition(m_core);
-
-        const auto path2Person = saveFiles(pis, paths);
-
-        QStringList files;
-        std::copy(key_map_iterator<decltype(path2Person)>(path2Person.cbegin()),
-                  key_map_iterator<decltype(path2Person)>(path2Person.cend()),
-                  std::back_inserter(files));
-
-        const auto best_face_path = face_recognition.best(files);
-
-        auto it = path2Person.find(best_face_path);
-
-        assert(it != path2Person.cend() || best_face_path.isEmpty()); // if `best_face_path` isn't empty, then we should find person
-
-        if (it == path2Person.cend())
-            emit error(pid);
-        else
-            emit best(it->second);
-    };
-
-    auto safe_task = m_safe_callback.make_safe_callback<void()>(task);
-    auto* taskMgr = m_core->getTaskExecutor();
-
-    runOn(taskMgr, safe_task);
+    m_photo2path = paths;
 }
 
 
 void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
-                             const std::map<Photo::Id, QString>& paths,
-                             const std::function<void (const PersonInfo &)>& callback)
+                             const std::function<void(const QString &)>& callback)
 {
-    auto task = [this, callback, pis, paths]
+    auto task = [this, callback, pis]
     {
-        static PersonInfo invalid;
-
         FaceRecognition face_recognition(m_core);
 
-        const auto path2Person = saveFiles(pis, paths);
+        const auto path2Person = saveFiles(pis);
 
         QStringList files;
         std::copy(key_map_iterator<decltype(path2Person)>(path2Person.cbegin()),
@@ -97,9 +71,15 @@ void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
         assert(it != path2Person.cend() || best_face_path.isEmpty()); // if `best_face_path` isn't empty, then we should find person
 
         if (it == path2Person.cend())
-            callback(invalid);
+            callback(QString());
         else
-            callback(it->second);
+        {
+            const PersonInfo& pi = it->second;
+            m_operator->setModelFaceSync(pi);
+
+            const QString path = m_operator->getModelFace(pi.p_id);
+            callback(path);
+        }
     };
 
     auto safe_task = m_safe_callback.make_safe_callback<void()>(task);
@@ -109,18 +89,22 @@ void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
 }
 
 
+QString FaceOptimizer::current(const Person::Id& id) const
+{
+    return m_operator->getModelFace(id);
+}
 
-std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis,
-                                                       const std::map<Photo::Id, QString>& paths)
+
+std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonInfo>& pis)
 {
     std::map<QString, PersonInfo> results;
     for(const PersonInfo& pi: pis)
     {
-        auto it = paths.find(pi.ph_id);
+        auto it = m_photo2path.find(pi.ph_id);
 
-        assert(it != paths.end());
+        assert(it != m_photo2path.end());
 
-        if (it != paths.end())
+        if (it != m_photo2path.end())
         {
             const QString& path = it->second;
             const QRect& faceRect = pi.rect;

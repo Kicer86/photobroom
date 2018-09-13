@@ -24,18 +24,20 @@
 #include <QVBoxLayout>
 
 #include <core/cross_thread_call.hpp>
+#include <core/itask_executor.hpp>
+#include <core/task_executor_utils.hpp>
 
 using namespace std::placeholders;
 
 
 FaceDetails::FaceDetails(const QString& name,
                          IModelFaceFinder* finder,
+                         ITaskExecutor* executor,
                          const std::vector<PersonInfo>& pi,
-                         const std::map<Photo::Id, QString>& paths,
                          QWidget* p):
     QGroupBox(name, p),
     m_pi(pi),
-    m_photo2path(paths),
+    m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
     m_occurences(nullptr),
@@ -55,19 +57,11 @@ FaceDetails::FaceDetails(const QString& name,
     l->addStretch();
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
-}
 
-/*
-void FaceDetails::enableOptimizationButton(bool e)
-{
-    m_optButton->clearFocus();
-    m_optButton->setEnabled(e);
-}
-*/
+    if (pi.empty() == false)
+        apply(m_modelFaceFinder->current(pi.front().p_id));
 
-void FaceDetails::setOccurrences(int c)
-{
-    m_occurences->setText(tr("On %n photo(s)", "", c));
+    m_occurences->setText(tr("On %n photo(s)", "", pi.size()));
 }
 
 
@@ -89,14 +83,26 @@ void FaceDetails::optimize()
     m_optButton->clearFocus();
     m_optButton->setDisabled(true);
 
-    std::function<void(const PersonInfo &)> callback = std::bind(&FaceDetails::apply, this, _1);
-    auto safe_callback = make_cross_thread_function<const PersonInfo &>(this, callback);
+    std::function<void(const QString &)> callback = std::bind(&FaceDetails::apply, this, _1);
+    auto safe_callback = make_cross_thread_function<const QString &>(this, callback);
 
-    m_modelFaceFinder->findBest(m_pi, m_photo2path, safe_callback);
+    m_modelFaceFinder->findBest(m_pi, safe_callback);
 }
 
 
-void FaceDetails::apply(const PersonInfo& pi)
+void FaceDetails::apply(const QString& path)
 {
     m_optButton->setEnabled(true);
+
+    if (path.isEmpty() == false)
+    {
+        runOn(m_executor, [this, path]
+        {
+            const QImage faceImg(path);
+            const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+
+            // do not call slot directly - make sure it will be called from main thread
+            QMetaObject::invokeMethod(this, "setModelPhoto", Q_ARG(QImage, scaled));
+        });
+    }
 }

@@ -122,12 +122,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>FaceDetails</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+46"/>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+48"/>
         <source>Find better</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+24"/>
+        <location line="+16"/>
         <source>On %n photo(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>

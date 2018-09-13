@@ -33,38 +33,33 @@ namespace Database
 }
 
 struct ICoreFactoryAccessor;
+class PeopleOperator;
 
-
-class FaceOptimizer: public QObject, public IModelFaceFinder
+class FaceOptimizer: public IModelFaceFinder
 {
-        Q_OBJECT
-
     public:
         FaceOptimizer(Database::IDatabase *,
-                      ICoreFactoryAccessor *);
+                      ICoreFactoryAccessor *,
+                      PeopleOperator *);
 
         ~ FaceOptimizer();
 
-        void optimize(const Person::Id &,
-                      const std::vector<PersonInfo> &,
-                      const std::map<Photo::Id, QString> &);
+        void set(const std::map<Photo::Id, QString> &);
 
         void findBest(const std::vector<PersonInfo> &,
-                      const std::map<Photo::Id, QString> &,
-                      const std::function<void(const PersonInfo &)> &) override;
+                      const std::function<void(const QString &)> &) override;
+
+        QString current(const Person::Id &) const override;
 
     private:
+        PeopleOperator* m_operator;
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;
+        std::map<Photo::Id, QString> m_photo2path;
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_core;
 
-        std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &,
-                                                const std::map<Photo::Id, QString> &);
-
-    signals:
-        void best(const PersonInfo &) const;
-        void error(const Person::Id &) const;
+        std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &);
 };
 
 #endif // FACEOPTIMIZER_HPP
