@@ -56,7 +56,6 @@ class FaceDetails: public QGroupBox
         ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;
-        QLabel* m_occurences;
         IModelFaceFinder* m_modelFaceFinder;
 
     private slots:

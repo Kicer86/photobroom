@@ -40,16 +40,15 @@ FaceDetails::FaceDetails(const QString& name,
     m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
-    m_occurences(nullptr),
     m_modelFaceFinder(finder)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
     m_optButton = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
-    m_occurences = new QLabel(this);
+    QLabel* occurences = new QLabel(this);
 
-    dl->addWidget(m_occurences);
+    dl->addWidget(occurences);
     dl->addWidget(m_optButton);
 
     l->addWidget(m_photo);
@@ -61,7 +60,7 @@ FaceDetails::FaceDetails(const QString& name,
     if (pi.empty() == false)
         apply(m_modelFaceFinder->current(pi.front().p_id));
 
-    m_occurences->setText(tr("On %n photo(s)", "", pi.size()));
+    occurences->setText(tr("On %n photo(s)", "", pi.size()));
 }
 
 
