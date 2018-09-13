@@ -143,7 +143,7 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
         const PersonName& p_name = detail.first;
         const std::vector<PersonInfo>& peopleInfo = detail.second;
 
-        FaceDetails* faceDetails = new FaceDetails(detail.first.name(),
+        FaceDetails* faceDetails = new FaceDetails(p_name.name(),
                                                    &m_optimizer,
                                                    m_core->getTaskExecutor(),
                                                    peopleInfo,
