@@ -565,3 +565,9 @@ void PeopleOperator::setModelFace(const PersonInfo& pi)
 
     executor->add(std::move(task));
 }
+
+
+void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
+{
+    ModelFaceStore(pi, m_db, m_storage).perform();
+}

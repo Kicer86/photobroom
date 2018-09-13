@@ -70,6 +70,7 @@ class PeopleOperator final: public QObject
 
         // sets given face as model
         void setModelFace(const PersonInfo &);
+        void setModelFaceSync(const PersonInfo &);
 
     signals:
         void system_status(const bool, const QString &) const;
