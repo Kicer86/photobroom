@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+72"/>
         <source>Error occured during external program execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -124,15 +124,15 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+47"/>
         <source>Find better</source>
-        <translation type="unfinished"></translation>
+        <translation>Znajdź lepsze</translation>
     </message>
     <message numerus="yes">
         <location line="+16"/>
         <source>On %n photo(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Na %n zdjęciu</numerusform>
+            <numerusform>Na %n zdjęciach</numerusform>
+            <numerusform>Na %n zdjęciach</numerusform>
         </translation>
     </message>
 </context>
@@ -342,7 +342,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+14"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzia</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -427,7 +427,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+5"/>
         <source>&amp;Face organizer</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+227"/>
@@ -655,7 +655,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+25"/>
         <source>Grouping type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -670,7 +670,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+50"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -680,17 +680,17 @@ Kod błędu: %1</translation>
     <message>
         <location line="+9"/>
         <source>Delay before restart:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opóźnienie przed zapętleniem:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Scale:</source>
-        <translation type="unfinished">Skala:</translation>
+        <translation>Skala:</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -700,12 +700,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+31"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Generuj</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
