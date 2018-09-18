@@ -21,6 +21,7 @@ namespace Image
         {
             case 0:
             case 1:
+                rotated = img;
                 break;    // nothing to do - no data, or normal orientation
 
             case 2:
