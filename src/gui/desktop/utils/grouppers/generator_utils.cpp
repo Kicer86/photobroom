@@ -20,7 +20,7 @@
 
 #include <QEventLoop>
 
-#include "system/system.hpp"
+#include <system/system.hpp>
 
 
 namespace
@@ -274,6 +274,7 @@ namespace GeneratorUtils
                                     .arg(storage)
                                     .arg(photo_index);
 
+            // TODO: use Image::normalize
             execute(
                 logger,
                 covert,
