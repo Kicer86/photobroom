@@ -40,6 +40,7 @@ set(CORE_SOURCES
     implementation/file_lock.cpp
     implementation/ilogger.cpp
     implementation/image_information.cpp
+    implementation/image_tools.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
     implementation/logger_factory.cpp
@@ -84,6 +85,7 @@ set(CORE_HEADERS
     id.hpp
     ilogger.hpp
     ilogger_factory.hpp
+    image_tools.hpp
     imedia_information.hpp
     iexif_reader.hpp
     itask_executor.hpp
