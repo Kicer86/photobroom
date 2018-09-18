@@ -28,6 +28,7 @@
 #include <core/ffmpeg_video_details_reader.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
@@ -64,14 +65,12 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
         // TODO: use QTransform here to perform one transformation instead of many
 
         IExifReader* reader = m_generator->m_exifReaderFactory->get();
-        const bool needs_to_be_rotated = shouldSwap(reader);
 
         Stopwatch stopwatch;
-
         stopwatch.start();
 
         QImage image = QFile::exists(m_info.path)?
-            QImage(m_info.path):
+            Image::normalized(m_info.path, reader):
             QImage(Images::error);
 
         if (image.isNull())
@@ -84,12 +83,7 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
 
         const int photo_read = stopwatch.read(true);
 
-        if (needs_to_be_rotated)
-        {
-            if (image.width() != m_info.height)         // because photo will be rotated by 90⁰, use width as it was height
-                image = image.scaledToWidth(m_info.height, Qt::SmoothTransformation);
-        }
-        else if (image.height() != m_info.height)
+        if (image.height() != m_info.height)
             image = image.scaledToHeight(m_info.height, Qt::SmoothTransformation);
 
         const int photo_scaling = stopwatch.stop();
@@ -100,86 +94,7 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
         const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
         m_generator->m_logger->debug(scaling_time_message);
 
-        image = rotateThumbnail(reader, image);
-
         m_callback(m_info, image);
-    }
-
-    bool shouldSwap(IExifReader* reader)
-    {
-        const std::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
-        const int orientation = std::any_cast<int>(orientation_raw);
-
-        return orientation > 4;
-    }
-
-    QImage rotateThumbnail(IExifReader* reader, const QImage& thumbnail) const
-    {
-        const std::any orientation_raw = reader->get(m_info.path, IExifReader::TagType::Orientation);
-        const int orientation = std::any_cast<int>(orientation_raw);
-
-        QImage rotated = thumbnail;
-        switch(orientation)
-        {
-            case 0:
-            case 1:
-                break;    // nothing to do - no data, or normal orientation
-
-            case 2:
-                rotated = thumbnail.mirrored(true, false);
-                break;
-
-            case 3:
-            {
-                QTransform transform;
-                transform.rotate(180);
-
-                rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
-                break;
-            }
-
-            case 4:
-                rotated = thumbnail.mirrored(false, true);
-                break;
-
-            case 5:
-            {
-                QTransform transform;
-                transform.rotate(270);
-
-                rotated = thumbnail.mirrored(true, false).transformed(transform);
-                break;
-            }
-
-            case 6:
-            {
-                QTransform transform;
-                transform.rotate(90);
-
-                rotated = thumbnail.transformed(transform, Qt::SmoothTransformation);
-                break;
-            }
-
-            case 7:
-            {
-                QTransform transform;
-                transform.rotate(90);
-
-                rotated = thumbnail.mirrored(true, false).transformed(transform);
-                break;
-            }
-
-            case 8:
-            {
-                QTransform transform;
-                transform.rotate(270);
-
-                rotated = thumbnail.transformed(transform);
-                break;
-            }
-        }
-
-        return rotated;
     }
 
     ThumbnailInfo m_info;
