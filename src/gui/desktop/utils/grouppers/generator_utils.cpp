@@ -20,6 +20,7 @@
 
 #include <QEventLoop>
 
+#include <core/image_tools.hpp>
 #include <system/system.hpp>
 
 
@@ -220,11 +221,12 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask(const QString& storage):
+    BreakableTask::BreakableTask(const QString& storage, IExifReader* exif):
         QObject(),
         m_tmpDir(System::getTmpDir("BT_tmp")),
         m_storage(storage),
-        m_runner()
+        m_runner(),
+        m_exif(exif)
     {
         connect(this, &BreakableTask::canceled,
                 &m_runner, &GeneratorUtils::ProcessRunner::cancel);
@@ -274,16 +276,7 @@ namespace GeneratorUtils
                                     .arg(storage)
                                     .arg(photo_index);
 
-            // TODO: use Image::normalize
-            execute(
-                logger,
-                covert,
-                [](QIODevice &) {},
-                m_runner,
-                "-monitor",                                      // be verbose
-                photo,
-                "-auto-orient",
-                location);
+            Image::normalize(photo, location, m_exif);
 
             rotated_photos << location;
             photo_index++;

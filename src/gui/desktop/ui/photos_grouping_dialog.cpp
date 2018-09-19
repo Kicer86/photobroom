@@ -258,7 +258,7 @@ void PhotosGroupingDialog::makeAnimation()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger);
+        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReader);
 
         connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
         connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
@@ -307,7 +307,7 @@ void PhotosGroupingDialog::makeHDR()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger);
+        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReader);
 
         connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
         connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);

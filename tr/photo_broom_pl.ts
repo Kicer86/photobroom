@@ -195,7 +195,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+155"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+156"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -203,7 +203,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+108"/>
+        <location line="+109"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -211,7 +211,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location line="-157"/>
+        <location line="-158"/>
         <source>Assembling final file</source>
         <translation>Składanie pliku wynikowego</translation>
     </message>
