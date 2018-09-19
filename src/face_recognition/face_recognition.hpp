@@ -21,12 +21,15 @@
 
 #include <QVector>
 
+#include <system/system.hpp>
+
 #include "face_recognition_export.h"
 
 class QString;
 class QRect;
 
 struct ICoreFactoryAccessor;
+struct IExifReader;
 struct IPythonThread;
 struct FacesData;
 
@@ -56,7 +59,9 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         QString best(const QStringList& faces);
 
     private:
+        std::unique_ptr<ITmpDir> m_tmpDir;
         IPythonThread* m_pythonThread;
+        IExifReader* m_exif;
 };
 
 #endif // FACERECOGNITION_HPP

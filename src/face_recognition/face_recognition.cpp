@@ -34,6 +34,8 @@
 #include <QTemporaryFile>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
 #include <core/ipython_thread.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
@@ -98,7 +100,9 @@ namespace
 
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_pythonThread(coreAccessor->getPythonThread())
+    m_tmpDir(System::getTmpDir("FaceRecognition")),
+    m_pythonThread(coreAccessor->getPythonThread()),
+    m_exif(coreAccessor->getExifReaderFactory()->get())
 {
 
 }
@@ -128,7 +132,10 @@ QStringList FaceRecognition::verifySystem() const
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
-    std::packaged_task<QVector<QRect>()> fetch_task([path]()
+    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_exif);
+
+    std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
     {
         QVector<QRect> result;
         const QStringList mm = missingModules();
