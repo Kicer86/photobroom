@@ -135,4 +135,14 @@ namespace Database
 
     }
 
+
+    Database::FilterPhotosWithPerson::FilterPhotosWithPerson(const Person::Id& id):
+        person_id(id)
+    {
+    }
+
+
+    FilterPhotosWithPerson::~FilterPhotosWithPerson()
+    {
+    }
 }

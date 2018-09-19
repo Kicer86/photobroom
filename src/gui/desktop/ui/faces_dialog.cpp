@@ -11,7 +11,9 @@
 #include <QStyledItemDelegate>
 
 #include <core/down_cast.hpp>
+#include <core/iexif_reader.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/image_tools.hpp>
 #include <core/ipython_thread.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
@@ -58,6 +60,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
     m_pythonThread(coreAccessor->getPythonThread()),
+    m_exif(coreAccessor->getExifReaderFactory()->get()),
     m_facesToAnalyze(0)
 {
     ui->setupUi(this);
@@ -166,7 +169,7 @@ void FacesDialog::systemStatus(bool status, const QString& message)
 
 void FacesDialog::updateImage()
 {
-    QImage image(m_photoPath);
+    QImage image = Image::normalized(m_photoPath, m_exif);
     const QSize currentSize = image.size();
     const double scale = ui->scaleSlider->value() / 100.0;
 

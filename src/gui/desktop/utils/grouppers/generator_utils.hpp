@@ -27,6 +27,7 @@
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 
+struct IExifReaderFactory;
 struct ITmpDir;
 
 namespace GeneratorUtils
@@ -185,7 +186,7 @@ namespace GeneratorUtils
             Q_OBJECT
 
         public:
-            BreakableTask(const QString& storage);
+            BreakableTask(const QString& storage, IExifReaderFactory *);
             virtual ~BreakableTask();
 
             void perform() override final;
@@ -195,6 +196,8 @@ namespace GeneratorUtils
             std::unique_ptr<ITmpDir> m_tmpDir;
             const QString m_storage;
             ProcessRunner m_runner;
+            IExifReaderFactory* m_exif;
+
             virtual void run() = 0;
 
             QStringList rotatePhotos(const QStringList& photos, const QString& covert, ILogger *, const QString& storage);

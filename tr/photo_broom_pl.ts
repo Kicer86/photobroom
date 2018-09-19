@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+72"/>
         <source>Error occured during external program execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -120,6 +120,23 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
+    <name>FaceDetails</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+47"/>
+        <source>Find better</source>
+        <translation>Znajdź lepsze</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+16"/>
+        <source>On %n photo(s)</source>
+        <translation>
+            <numerusform>Na %n zdjęciu</numerusform>
+            <numerusform>Na %n zdjęciach</numerusform>
+            <numerusform>Na %n zdjęciach</numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
@@ -142,7 +159,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+90"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+93"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
@@ -178,7 +195,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+155"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+157"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -186,7 +203,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+108"/>
+        <location line="+109"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -194,7 +211,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
-        <location line="-157"/>
+        <location line="-158"/>
         <source>Assembling final file</source>
         <translation>Składanie pliku wynikowego</translation>
     </message>
@@ -323,7 +340,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+14"/>
+        <source>Tools</source>
+        <translation>Narzędzia</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -403,6 +425,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Właściwości zdjęcia</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>&amp;Face organizer</source>
+        <translation>&amp;Zarządzanie osobami</translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -425,17 +452,17 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-170"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-182"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+130"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+210"/>
+        <location line="+208"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -445,7 +472,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-105"/>
+        <location line="-103"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -470,7 +497,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+201"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -531,12 +558,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-257"/>
+        <location line="-263"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+164"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -628,7 +655,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+25"/>
         <source>Grouping type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaj grupowania:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -643,7 +670,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+50"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -653,17 +680,17 @@ Kod błędu: %1</translation>
     <message>
         <location line="+9"/>
         <source>Delay before restart:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opóźnienie przed zapętleniem:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Scale:</source>
-        <translation type="unfinished">Skala:</translation>
+        <translation>Skala:</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -673,12 +700,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+31"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Generuj</translation>
     </message>
     <message>
         <location line="+81"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
@@ -750,7 +777,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+43"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+45"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
@@ -906,7 +933,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TestSystem</name>
     <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+430"/>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+459"/>
         <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
 
 To install them, use &apos;python -m pip install %1&apos; (on Windows)

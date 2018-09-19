@@ -65,11 +65,19 @@ class PeopleOperator final: public QObject
                    const std::vector<FaceInfo>& known_people,
                    const QStringList& unknown_people) const;
 
+        // returns path to jpg file with face used for identifying given person
+        QString getModelFace(const Person::Id &) const;
+
+        // sets given face as model
+        void setModelFace(const PersonInfo &);
+        void setModelFaceSync(const PersonInfo &);
+
     signals:
         void system_status(const bool, const QString &) const;
         void faces(const QVector<QRect> &) const;
         void recognized(const QRect &, const PersonName &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;
+        void modelFaceSet(const Person::Id &) const;
 
     private:
         const QString m_storage;

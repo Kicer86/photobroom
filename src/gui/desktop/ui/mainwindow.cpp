@@ -14,7 +14,6 @@
 
 #include <core/constants.hpp>
 #include <core/cross_thread_call.hpp>
-#include <core/exif_reader_factory.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -33,6 +32,7 @@
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
+#include "widgets/face_reviewer/face_reviewer.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
@@ -342,6 +342,7 @@ void MainWindow::updateMenus()
     const bool valid = m_recentCollections.isEmpty() == false;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
+    ui->menuTools->menuAction()->setVisible(prj);
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
 
@@ -511,13 +512,11 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        ExifReaderFactory factory;
-
-        IExifReader* reader = factory.get();
+        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
 
         auto logger = m_loggerFactory->get("PhotosGrouping");
 
-        PhotosGroupingDialog dialog(photos, reader, m_executor, m_configuration, logger.get());
+        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)
@@ -665,6 +664,14 @@ void MainWindow::on_actionPhoto_properties_triggered()
     const bool state = ui->actionPhoto_properties->isChecked();
 
     ui->photoPropertiesDockWidget->setVisible(state);
+}
+
+
+void MainWindow::on_actionFace_organizer_triggered()
+{
+    FaceReviewer organizer(m_currentPrj.get(), m_coreAccessor, this);
+    organizer.setModal(true);
+    organizer.exec();
 }
 
 

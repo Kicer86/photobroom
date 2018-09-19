@@ -24,6 +24,7 @@
 #include <string>
 
 #include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 #include <QByteArray>
 #include <QImage>
@@ -33,9 +34,12 @@
 #include <QTemporaryFile>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
 #include <core/ipython_thread.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
+#include <system/system.hpp>
 
 
 namespace py = pybind11;
@@ -96,7 +100,9 @@ namespace
 
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_pythonThread(coreAccessor->getPythonThread())
+    m_tmpDir(System::getTmpDir("FaceRecognition")),
+    m_pythonThread(coreAccessor->getPythonThread()),
+    m_exif(coreAccessor->getExifReaderFactory()->get())
 {
 
 }
@@ -126,7 +132,10 @@ QStringList FaceRecognition::verifySystem() const
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
-    std::packaged_task<QVector<QRect>()> fetch_task([path]()
+    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_exif);
+
+    std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
     {
         QVector<QRect> result;
         const QStringList mm = missingModules();
@@ -162,10 +171,12 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 }
 
 
-
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
-    std::packaged_task<QString()> recognize_task([path, face, storage]()
+    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_exif);
+
+    std::packaged_task<QString()> recognize_task([path = normalizedPhotoPath, face, storage]()
     {
         QString fresult;
         const QStringList mm = missingModules();
@@ -180,7 +191,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 
             py::module find_faces = py::module::import("recognize_face");
             py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                                storage.toStdString());
+                                                                  storage.toStdString());
 
             const std::string result_str = result.cast<py::str>();
             fresult = QString::fromStdString(result_str);
@@ -195,4 +206,41 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
     recognize_future.wait();
 
     return recognize_future.get();
+}
+
+
+QString FaceRecognition::best(const QStringList& faces)
+{
+    std::packaged_task<QString()> optimize_task([faces]()
+    {
+        QString fresult;
+        const QStringList mm = missingModules();
+
+        if (mm.empty())
+        {
+            auto tmp_dir = System::getTmpDir("FaceRecognition_best");
+
+            std::vector<std::string> face_files;
+            face_files.reserve(faces.size());
+
+            for (const QString& face: faces)
+                face_files.push_back(face.toStdString());
+
+            py::module find_faces = py::module::import("choose_best");
+            py::object result = find_faces.attr("choose_best")(face_files,
+                                                               tmp_dir->path().toStdString());
+
+            const std::string result_str = result.cast<py::str>();
+            fresult = QString::fromStdString(result_str);
+        }
+
+        return fresult;
+    });
+
+    auto optimize_future = optimize_task.get_future();
+    m_pythonThread->execute(optimize_task);
+
+    optimize_future.wait();
+
+    return optimize_future.get();
 }

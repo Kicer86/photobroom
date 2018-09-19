@@ -20,7 +20,9 @@
 
 #include <QEventLoop>
 
-#include "system/system.hpp"
+#include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
+#include <system/system.hpp>
 
 
 namespace
@@ -220,11 +222,12 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask(const QString& storage):
+    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory* exif):
         QObject(),
         m_tmpDir(System::getTmpDir("BT_tmp")),
         m_storage(storage),
-        m_runner()
+        m_runner(),
+        m_exif(exif)
     {
         connect(this, &BreakableTask::canceled,
                 &m_runner, &GeneratorUtils::ProcessRunner::cancel);
@@ -256,17 +259,20 @@ namespace GeneratorUtils
 
 
     QStringList BreakableTask::rotatePhotos(const QStringList& photos,
-                                                            const QString& covert,
-                                                            ILogger* logger,
-                                                            const QString& storage)
+                                            const QString& covert,
+                                            ILogger* logger,
+                                            const QString& storage)
     {
         emit operation(tr("Preparing photos"));
         emit progress(0);
+
+        IExifReader* exif = m_exif->get();
 
         int photo_index = 0;
         QStringList rotated_photos;
 
         const int p_s = photos.size();
+
         for (int i = 0; i < p_s; i++)
         {
             const QString& photo = photos[i];
@@ -274,15 +280,7 @@ namespace GeneratorUtils
                                     .arg(storage)
                                     .arg(photo_index);
 
-            execute(
-                logger,
-                covert,
-                [](QIODevice &) {},
-                m_runner,
-                "-monitor",                                      // be verbose
-                photo,
-                "-auto-orient",
-                location);
+            Image::normalize(photo, location, exif);
 
             rotated_photos << location;
             photo_index++;

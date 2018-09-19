@@ -56,7 +56,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>31</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">
@@ -91,7 +91,7 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
+   <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>Settin&amp;gs</string>
     </property>
@@ -105,10 +105,17 @@
     <addaction name="actionTasks"/>
     <addaction name="actionPhoto_properties"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionFace_organizer"/>
+   </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
    <addaction name="menuWindows"/>
    <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -214,6 +221,11 @@
    </property>
    <property name="text">
     <string>&amp;Photo properties</string>
+   </property>
+  </action>
+  <action name="actionFace_organizer">
+   <property name="text">
+    <string>&amp;Face organizer</string>
    </property>
   </action>
  </widget>

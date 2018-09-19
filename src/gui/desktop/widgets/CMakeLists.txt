@@ -2,6 +2,7 @@
 include_directories(
                     $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
+                    $<TARGET_PROPERTY:face_recognition,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
                     $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
@@ -18,6 +19,9 @@ set(SRCS
     photos_widget.cpp
     table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
+    face_reviewer/face_details.cpp
+    face_reviewer/face_optimizer.cpp
+    face_reviewer/face_reviewer.cpp
     filters_editor/level_editor.cpp
     project_creator/project_creator_dialog.cpp
     tag_editor/tag_editor_widget.cpp
@@ -37,6 +41,9 @@ set(HEADERS
     photos_widget.hpp
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
+    face_reviewer/face_details.hpp
+    face_reviewer/face_optimizer.hpp
+    face_reviewer/face_reviewer.hpp
     filters_editor/level_editor.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
@@ -53,6 +60,8 @@ set(TO_MOC
     filters_editor/level_editor.hpp
     photo_properties.hpp
     photos_widget.hpp
+    face_reviewer/face_details.hpp
+    face_reviewer/face_reviewer.hpp
     project_creator/project_creator_dialog.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp

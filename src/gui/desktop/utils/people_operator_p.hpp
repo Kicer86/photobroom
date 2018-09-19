@@ -139,6 +139,27 @@ class FaceStore final: public FaceTask
 };
 
 
+class ModelFaceStore final: public QObject, public FaceTask
+{
+        Q_OBJECT
+
+    public:
+        ModelFaceStore(const PersonInfo &,
+                       Database::IDatabase *,
+                       const QString& storage);
+
+        std::string name() const override;
+        void perform() override;
+
+    private:
+        const PersonInfo m_pi;
+        const QString m_storage;
+
+    signals:
+        void done(const Person::Id &) const;
+};
+
+
 class TestSystem: public QObject, public ITaskExecutor::ITask
 {
         Q_OBJECT

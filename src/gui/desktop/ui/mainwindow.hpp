@@ -113,6 +113,9 @@ class MainWindow: public QMainWindow
         void on_actionTasks_triggered();
         void on_actionPhoto_properties_triggered();
 
+        // tools menu
+        void on_actionFace_organizer_triggered();
+
         // settings menu
         void on_actionConfiguration_triggered();
 

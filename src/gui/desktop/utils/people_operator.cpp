@@ -20,6 +20,7 @@
 
 #include <functional>
 
+#include <QFile>
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
@@ -321,8 +322,6 @@ std::string FaceStore::name() const
 void FaceStore::perform()
 {
     const std::vector<PersonName> people = fetchPeople();
-    const QString path = getPhotoPath();
-    const QImage image(path);
 
     // store people data
     for (const auto& person: m_knownPeople )
@@ -339,28 +338,25 @@ void FaceStore::perform()
 
         if (it == people.cend())  // we do not know that person
         {
+            PersonInfo pi(Person::Id(), m_id, face_coords);
+
             m_db->performCustomAction([base_path = m_patterns,
-                                       face = image.copy(face_coords),
-                                       ph_id = m_id,
-                                       person]
+                                       pi,
+                                       db = m_db,
+                                       name]
                                       (Database::IBackendOperator* op)
             {
-                const QRect& face_location = person.first;
-                const QString& name = person.second;
-
-                PersonInfo personData(PersonInfo::Id(), Person::Id(), ph_id, face_location);
+                PersonInfo personData = pi;
 
                 if (name.isEmpty() == false)
                 {
                     // anounce new person, get id for it
                     const PersonName d(Person::Id(), name);
-                    const Person::Id p_id = op->store(d);
+                    personData.p_id = op->store(d);
 
                     // save representative photo
-                    const QString path = QString("%1/%2.jpg").arg(base_path).arg(QString::number(p_id.value()));
-                    face.save(path);
-
-                    personData.p_id = p_id;
+                    ModelFaceStore mfs(personData, db, base_path);
+                    mfs.perform();
                 }
 
                 // store person information
@@ -395,6 +391,39 @@ std::vector<PersonName> FaceStore::fetchPeople()
 
         return people;
     });
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+ModelFaceStore::ModelFaceStore(const PersonInfo& pi,
+                               Database::IDatabase* db,
+                               const QString& storage
+                              ):
+    FaceTask(pi.ph_id, db),
+    m_pi(pi),
+    m_storage(storage)
+{
+}
+
+
+std::string ModelFaceStore::name() const
+{
+    return "ModelFaceStore";
+}
+
+
+void ModelFaceStore::perform()
+{
+    const QString photo_path = getPhotoPath();
+    const QImage image(photo_path);
+    const QImage face = image.copy(m_pi.rect);
+
+    const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
+    face.save(face_path);
+
+    emit done(m_pi.p_id);
 }
 
 
@@ -437,6 +466,7 @@ void TestSystem::perform()
 }
 
 
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -446,6 +476,7 @@ PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, 
     m_coreFactory(ca)
 {
     qRegisterMetaType<PersonName>("PersonData");
+    qRegisterMetaType<Person::Id>("Person::Id");
 }
 
 
@@ -510,4 +541,33 @@ void PeopleOperator::store(const Photo::Id& id,
     auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
 
     executor->addLight(std::move(task));
+}
+
+
+QString PeopleOperator::getModelFace(const Person::Id& p_id) const
+{
+    assert(p_id.valid());
+
+    const QString path = QString("%1/%2.jpg").arg(m_storage).arg(p_id.value());
+    const QString result = QFile::exists(path)? path: QString();
+
+    return result;
+}
+
+
+void PeopleOperator::setModelFace(const PersonInfo& pi)
+{
+    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
+    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_storage);
+
+    connect(task.get(), &ModelFaceStore::done,
+            this, &PeopleOperator::modelFaceSet);
+
+    executor->add(std::move(task));
+}
+
+
+void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
+{
+    ModelFaceStore(pi, m_db, m_storage).perform();
 }
