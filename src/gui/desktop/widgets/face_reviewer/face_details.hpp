@@ -19,6 +19,8 @@
 #ifndef FACEDETAILS_HPP
 #define FACEDETAILS_HPP
 
+#include <functional>
+
 #include <QGroupBox>
 
 #include <database/person_data.hpp>
