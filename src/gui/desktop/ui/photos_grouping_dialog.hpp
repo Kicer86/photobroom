@@ -11,7 +11,7 @@
 
 class MediaPreview;
 struct IConfiguration;
-struct IExifReader;
+struct IExifReaderFactory;
 struct ILogger;
 struct ITaskExecutor;
 struct ITmpDir;
@@ -51,7 +51,7 @@ class PhotosGroupingDialog: public QDialog
 
     public:
         explicit PhotosGroupingDialog(const std::vector<Photo::Data> &,
-                                      IExifReader *,
+                                      IExifReaderFactory *,
                                       ITaskExecutor *,
                                       IConfiguration *,
                                       ILogger *,
@@ -75,7 +75,7 @@ class PhotosGroupingDialog: public QDialog
         GroupInfo::Type m_representativeType;
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
-        IExifReader* m_exifReader;
+        IExifReaderFactory* m_exifReaderFactory;
         IConfiguration* m_config;
         ILogger* m_logger;
         ITaskExecutor* m_executor;

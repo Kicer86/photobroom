@@ -14,7 +14,6 @@
 
 #include <core/constants.hpp>
 #include <core/cross_thread_call.hpp>
-#include <core/exif_reader_factory.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -513,13 +512,11 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        ExifReaderFactory factory;
-
-        IExifReader* reader = factory.get();
+        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
 
         auto logger = m_loggerFactory->get("PhotosGrouping");
 
-        PhotosGroupingDialog dialog(photos, reader, m_executor, m_configuration, logger.get());
+        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)

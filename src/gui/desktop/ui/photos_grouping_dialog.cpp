@@ -35,7 +35,7 @@ namespace
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
-                                           IExifReader* exifReader,
+                                           IExifReaderFactory* exifReader,
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
                                            ILogger* logger,
@@ -48,7 +48,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     m_representativeType(GroupInfo::Invalid),
     ui(new Ui::PhotosGroupingDialog),
     m_preview(new MediaPreview(this)),
-    m_exifReader(exifReader),
+    m_exifReaderFactory(exifReader),
     m_config(configuration),
     m_logger(logger),
     m_executor(executor),
@@ -258,7 +258,7 @@ void PhotosGroupingDialog::makeAnimation()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReader);
+        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
         connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
         connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
@@ -307,7 +307,7 @@ void PhotosGroupingDialog::makeHDR()
                                  "Visit http://hugin.sourceforge.net/ for downloads."));
     else
     {
-        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReader);
+        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
         connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
         connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
@@ -333,10 +333,12 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 {
     m_model.clear();
 
+    IExifReader* exif = m_exifReaderFactory->get();
+
     for(const Photo::Data& photo: photos)
     {
         const QString& path = photo.path;
-        const std::any sequence_number = m_exifReader->get(path, IExifReader::TagType::SequenceNumber);
+        const std::any sequence_number = exif->get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(sequence_number)): "-";
 

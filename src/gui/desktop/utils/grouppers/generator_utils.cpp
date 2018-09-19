@@ -20,6 +20,7 @@
 
 #include <QEventLoop>
 
+#include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
 #include <system/system.hpp>
 
@@ -221,7 +222,7 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask(const QString& storage, IExifReader* exif):
+    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory* exif):
         QObject(),
         m_tmpDir(System::getTmpDir("BT_tmp")),
         m_storage(storage),
@@ -265,10 +266,13 @@ namespace GeneratorUtils
         emit operation(tr("Preparing photos"));
         emit progress(0);
 
+        IExifReader* exif = m_exif->get();
+
         int photo_index = 0;
         QStringList rotated_photos;
 
         const int p_s = photos.size();
+
         for (int i = 0; i < p_s; i++)
         {
             const QString& photo = photos[i];
@@ -276,7 +280,7 @@ namespace GeneratorUtils
                                     .arg(storage)
                                     .arg(photo_index);
 
-            Image::normalize(photo, location, m_exif);
+            Image::normalize(photo, location, exif);
 
             rotated_photos << location;
             photo_index++;

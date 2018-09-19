@@ -36,7 +36,7 @@ class HDRGenerator: public GeneratorUtils::BreakableTask
             Data(): storage(), convertPath(), alignImageStackPath(), photos() {}
         };
 
-        HDRGenerator(const Data& photos, ILogger *, IExifReader *);
+        HDRGenerator(const Data& photos, ILogger *, IExifReaderFactory *);
 
         std::string name() const override;
         void run() override;

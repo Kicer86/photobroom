@@ -47,7 +47,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             Data(): storage(), convertPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
         };
 
-        AnimationGenerator(const Data& data, ILogger *, IExifReader *);
+        AnimationGenerator(const Data& data, ILogger *, IExifReaderFactory *);
         AnimationGenerator(const AnimationGenerator &) = delete;
         ~AnimationGenerator();
 
