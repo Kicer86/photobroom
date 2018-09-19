@@ -256,9 +256,9 @@ namespace GeneratorUtils
 
 
     QStringList BreakableTask::rotatePhotos(const QStringList& photos,
-                                                            const QString& covert,
-                                                            ILogger* logger,
-                                                            const QString& storage)
+                                            const QString& covert,
+                                            ILogger* logger,
+                                            const QString& storage)
     {
         emit operation(tr("Preparing photos"));
         emit progress(0);
