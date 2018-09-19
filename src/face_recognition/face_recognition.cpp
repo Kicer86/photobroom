@@ -173,7 +173,10 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
-    std::packaged_task<QString()> recognize_task([path, face, storage]()
+    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_exif);
+
+    std::packaged_task<QString()> recognize_task([path = normalizedPhotoPath, face, storage]()
     {
         QString fresult;
         const QStringList mm = missingModules();
