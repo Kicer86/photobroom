@@ -480,9 +480,9 @@ TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
 
             {
                 // store people
-                TagValue people({ TagValue("Per1"),
-                                TagValue("Per2"),
-                                TagValue("Per3")});
+                const TagValue people({ TagValue("Per1"),
+                                        TagValue("Per2"),
+                                        TagValue("Per3")});
 
                 photo->setTag(TagNameInfo(BaseTagsList::People), people);
 
@@ -493,8 +493,8 @@ TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
 
             {
                 // remove person from tags
-                TagValue people({ TagValue("Per1"),
-                                TagValue("Per3")});
+                const TagValue people({ TagValue("Per1"),
+                                        TagValue("Per3")});
 
                 photo->setTag(TagNameInfo(BaseTagsList::People), people);
 
