@@ -59,7 +59,7 @@ TEST_F(PeopleTest, personIntroduction)
 }
 
 
-TEST_F(PeopleTest, personMassiveIntroduction)
+TEST_F(PeopleTest, massivePersonIntroduction)
 {
     for_all([](Database::IDatabase* db)
     {
