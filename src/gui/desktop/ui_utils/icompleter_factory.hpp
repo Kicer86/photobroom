@@ -12,6 +12,8 @@ struct ICompleterFactory
 
     virtual QCompleter* createCompleter(const TagNameInfo &) = 0;
     virtual QCompleter* createCompleter(const std::set<TagNameInfo> &) = 0;
+
+    virtual QCompleter* createPeopleCompleter() = 0;
 };
 
 #endif

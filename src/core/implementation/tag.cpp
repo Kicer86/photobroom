@@ -89,31 +89,6 @@ BaseTagsList TagNameInfo::getTag() const
 }
 
 
-bool TagNameInfo::isMultiValue() const
-{
-    bool result = false;
-
-    switch (m_tag)
-    {
-        case BaseTagsList::Invalid:
-            assert(!"Unexpected");
-            break;
-
-        case BaseTagsList::Event:
-        case BaseTagsList::Place:
-        case BaseTagsList::Date:
-        case BaseTagsList::Time:
-            break;
-
-        case BaseTagsList::People:
-            result = true;
-            break;
-    }
-
-    return result;
-}
-
-
 //////////////////////////////////////////////////////////////
 
 
@@ -151,12 +126,6 @@ TagValue::TagValue(const QTime& time): TagValue()
 }
 
 
-TagValue::TagValue(const std::vector<TagValue>& list): TagValue()
-{
-    set(list);
-}
-
-
 TagValue::TagValue(const QString& string): TagValue()
 {
     set(string);
@@ -180,17 +149,6 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
         default:
             assert(!"unknown type");
             break;
-
-        case QVariant::StringList:
-        {
-            std::vector<TagValue> list;
-            QStringList stringList = variant.toStringList();
-
-            list.insert(list.end(), stringList.begin(), stringList.end());
-
-            result = TagValue(list);
-            break;
-        }
 
         case QVariant::String:
             result = TagValue( variant.toString() );
@@ -249,13 +207,6 @@ void TagValue::set(const QTime& time)
 }
 
 
-void TagValue::set(const std::vector<TagValue>& values)
-{
-    m_value = values;
-    m_type = Type::List;
-}
-
-
 void TagValue::set(const QString& string)
 {
     m_value = string;
@@ -276,18 +227,6 @@ QVariant TagValue::get() const
             result = * get<TagValueTraits<Type::Date>::StorageType>();
             break;
 
-        case Type::List:
-        {
-            QStringList localResult;
-            const std::vector<TagValue>* v = get<TagValueTraits<Type::List>::StorageType>();
-
-            for(const TagValue& tagValue: *v)
-                localResult.append(tagValue.string());
-
-            result = localResult;
-            break;
-        }
-
         case Type::String:
             result = * get<TagValueTraits<Type::String>::StorageType>();
             break;
@@ -304,14 +243,6 @@ QVariant TagValue::get() const
 const QDate& TagValue::getDate() const
 {
     auto* v = get<TagValueTraits<Type::Date>::StorageType>();
-
-    return *v;
-}
-
-
-const std::vector<TagValue>& TagValue::getList() const
-{
-    auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
     return *v;
 }
@@ -336,14 +267,6 @@ const QTime& TagValue::getTime() const
 QDate& TagValue::getDate()
 {
     auto* v = get<TagValueTraits<Type::Date>::StorageType>();
-
-    return *v;
-}
-
-
-std::vector< TagValue >& TagValue::getList()
-{
-    auto* v = get<TagValueTraits<Type::List>::StorageType>();
 
     return *v;
 }
@@ -425,13 +348,6 @@ bool TagValue::validate<QString>() const
 }
 
 
-template<>
-bool TagValue::validate<std::vector<TagValue>>() const
-{
-    return m_type == Type::List && m_value.has_value() && m_value.type() == typeid(std::vector<TagValue>);
-}
-
-
 QString TagValue::string() const
 {
     QString result;
@@ -445,18 +361,6 @@ QString TagValue::string() const
         {
             const QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
             result = v->toString("yyyy.MM.dd");
-            break;
-        }
-
-        case Type::List:
-        {
-            QString localResult;
-            auto* v = get<TagValueTraits<Type::List>::StorageType>();
-
-            for(const TagValue& tagValue: *v)
-                localResult += tagValue.string() + '\n';
-
-            result = localResult;
             break;
         }
 
@@ -556,42 +460,5 @@ namespace Tag
     void Info::setValue(const TagValue& v)
     {
         m_value = v;
-    }
-
-
-    std::vector<TagValue> flatten(const TagValue& tagValue)
-    {
-        const TagValue::Type type = tagValue.type();
-
-        std::vector<TagValue> result;
-
-        switch (type)
-        {
-            case TagValue::Type::Empty:
-                assert(!"empty tag value!");
-                break;
-
-            case TagValue::Type::Date:
-            case TagValue::Type::String:
-            case TagValue::Type::Time:
-                result.push_back(tagValue);
-                break;
-
-            case TagValue::Type::List:
-            {
-                auto list = tagValue.getList();
-
-                for (const TagValue& subitem: list)
-                {
-                    const std::vector<TagValue> local_result = flatten(subitem);
-
-                    result.insert(result.end(), local_result.begin(), local_result.end());
-                }
-
-                break;
-            }
-        }
-
-        return result;
     }
 }

@@ -48,6 +48,7 @@ class CompleterFactory: public ICompleterFactory
 
         QCompleter* createCompleter(const TagNameInfo &) override;
         QCompleter* createCompleter(const std::set<TagNameInfo> &) override;
+        QCompleter* createPeopleCompleter() override;
 
     private:
         typedef std::unique_ptr<QAbstractItemModel> ModelPtr;

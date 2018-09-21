@@ -103,6 +103,12 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos
 }
 
 
+QCompleter* CompleterFactory::createPeopleCompleter()
+{
+    return new QCompleter;    // TODO: implement
+}
+
+
 QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
 {
     auto it = m_tagValueModels.find(infos);

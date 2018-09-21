@@ -27,12 +27,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+67"/>
-        <source>People</source>
-        <translation>Osoby</translation>
-    </message>
-    <message>
-        <location line="-12"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+54"/>
         <source>Place</source>
         <translation>Miejsce</translation>
     </message>

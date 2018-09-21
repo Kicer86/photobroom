@@ -168,9 +168,6 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::vector<TagValue>()) );
-
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>()) );
 
@@ -264,7 +261,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     auto photoInfo = std::make_shared<MockPhotoInfo>();
     Tag::TagsList tags = {
-                            { TagNameInfo(BaseTagsList::People), TagValue( {QString("person123"), QString("person987") }) },
+                            { TagNameInfo(BaseTagsList::Time), TagValue(QTime(2, 5)) },
                             { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
     };
 

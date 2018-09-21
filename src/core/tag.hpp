@@ -18,13 +18,13 @@
 
 enum BaseTagsList
 {
-    //indexed, as those values will be stored in db and should not change without a reason.
+    // indexed, as those values will be stored in db and should not change without a reason.
     Invalid = 0,
     Event   = 1,
     Place   = 2,
     Date    = 3,
     Time    = 4,
-    People  = 5,
+    _People = 5,        // not valid anymore
 };
 
 
@@ -52,7 +52,6 @@ struct CORE_EXPORT TagNameInfo
         QString getDisplayName() const;
         Type getType() const;
         BaseTagsList getTag() const;
-        bool isMultiValue() const;
 
     private:
         BaseTagsList m_tag;
@@ -68,7 +67,6 @@ class CORE_EXPORT TagValue
             String,
             Date,
             Time,
-            List,
         };
 
         TagValue();
@@ -77,7 +75,6 @@ class CORE_EXPORT TagValue
 
         TagValue(const QDate &);
         TagValue(const QTime &);
-        TagValue(const std::vector<TagValue> &);
         TagValue(const QString &);
 
         static TagValue fromRaw(const QString &, const TagNameInfo::Type &);    // tag's value as stored in db
@@ -90,7 +87,6 @@ class CORE_EXPORT TagValue
 
         void set(const QDate &);
         void set(const QTime &);
-        void set(const std::vector<TagValue> &);
         void set(const QString &);
 
         QVariant get() const;
@@ -152,12 +148,6 @@ struct TagValueTraits<TagValue::Type::Date>
 };
 
 template<>
-struct TagValueTraits<TagValue::Type::List>
-{
-    typedef std::vector<TagValue> StorageType;
-};
-
-template<>
 struct TagValueTraits<TagValue::Type::String>
 {
     typedef QString StorageType;
@@ -194,8 +184,6 @@ namespace Tag
             TagNameInfo m_name;
             TagValue m_value;
     };
-
-    CORE_EXPORT std::vector<TagValue> flatten(const TagValue &);
 }
 
 Q_DECLARE_METATYPE(TagNameInfo)

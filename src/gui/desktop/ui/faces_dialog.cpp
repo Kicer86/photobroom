@@ -37,11 +37,11 @@ namespace
             QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
             {
                 const QString value = index.data(Qt::EditRole).toString();
+                auto completer = m_completerFactory->createPeopleCompleter();
+
                 QLineEdit* lineEdit = new QLineEdit(value, parent);
                 lineEdit->setGeometry(option.rect);
                 lineEdit->show();
-                const TagNameInfo peopleTag(BaseTagsList::People);
-                auto completer = m_completerFactory->createCompleter(peopleTag);
                 lineEdit->setCompleter(completer);
 
                 return lineEdit;
