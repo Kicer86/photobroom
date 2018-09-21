@@ -457,3 +457,51 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
         });
     });
 }
+
+
+TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
+{
+    for_all([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().getId());
+
+            const Photo::Id& ph_id = ids.front();
+            auto photo = op->getPhotoFor(ph_id);
+
+            {
+                // store people
+                TagValue people({ TagValue("Per1"),
+                                TagValue("Per2"),
+                                TagValue("Per3")});
+
+                photo->setTag(TagNameInfo(BaseTagsList::People), people);
+
+                // verify people count
+                const auto ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ppl.size(), 3);
+            }
+
+            {
+                // remove person from tags
+                TagValue people({ TagValue("Per1"),
+                                TagValue("Per3")});
+
+                photo->setTag(TagNameInfo(BaseTagsList::People), people);
+
+                // verify people count
+                const auto ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ppl.size(), 2);
+            }
+        });
+    });
+}
