@@ -25,7 +25,7 @@
 #include "idatabase.hpp"
 
 
-TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_observers(), m_database(nullptr), m_observerId(0)
+TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_database(nullptr), m_observerId(0)
 {
 
 }
@@ -47,7 +47,8 @@ void TagInfoCollector::set(Database::IDatabase* db)
 
     if (m_database != nullptr)
     {
-        connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified, this, &TagInfoCollector::photoModified);
+        connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified,
+                this,                   &TagInfoCollector::photoModified);
 
         updateAllTags();
     }
@@ -61,32 +62,13 @@ const std::vector<TagValue>& TagInfoCollector::get(const TagNameInfo& info) cons
 }
 
 
-int TagInfoCollector::registerChangeObserver(const std::function<void(const TagNameInfo &)>& observer)
-{
-    const int id = m_observerId++;
-
-    m_observers[id] = observer;
-
-    return id;
-}
-
-
-void TagInfoCollector::unregisterChangeObserver(int id)
-{
-    auto it = m_observers.find(id);
-    assert(it != m_observers.end());
-
-    m_observers.erase(it);
-}
-
-
 void TagInfoCollector::gotTagValues(const TagNameInfo& name, const std::vector<TagValue>& values)
 {
     std::unique_lock<std::mutex> lock(m_tags_mutex);
     m_tags[name] = values;
     lock.unlock();
 
-    notifyObserversAbout(name);
+    emit setOfValuesChanged(name);
 }
 
 
@@ -119,7 +101,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     {
         const TagNameInfo& tagNameInfo = tag.first;
 
-        notifyObserversAbout(tagNameInfo);
+        emit setOfValuesChanged(tagNameInfo);
     }
 }
 
@@ -144,11 +126,4 @@ void TagInfoCollector::updateValuesFor(const TagNameInfo& name)
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
         m_database->listTagValues(name, result);
     }
-}
-
-
-void TagInfoCollector::notifyObserversAbout(const TagNameInfo& tagNameInfo) const
-{
-    for(auto& observer: m_observers)
-        observer.second(tagNameInfo);
 }
