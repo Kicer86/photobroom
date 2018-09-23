@@ -21,10 +21,24 @@
 
 #include <QAbstractListModel>
 
+namespace Database
+{
+    struct IDatabase;
+}
 
 class PeopleListModel: public QAbstractListModel
 {
+    public:
+        PeopleListModel(Database::IDatabase *);
+        ~PeopleListModel();
 
+        QVariant data(const QModelIndex & index, int role) const override;
+        int rowCount(const QModelIndex & parent) const override;
+
+    private:
+        QStringList m_names;
+
+        void fill(const QStringList &);
 };
 
 #endif // PEOPLELISTMODEL_HPP
