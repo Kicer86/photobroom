@@ -36,19 +36,12 @@ namespace FunctorCallConsumer
 }
 
 
-template<typename T>
-void call_from_this_thread(QObject* object, const T& functor)
-{
-    QObject signalSource;
-    QObject::connect(&signalSource, &QObject::destroyed,
-                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ functor(); }, Qt::AutoConnection);
-}
-
-
 template<typename F, typename... Args>
 void call_from_this_thread(QObject* object, const F& function, Args&&... args)
 {
-    call_from_this_thread(object, std::bind(function, std::forward<Args>(args)...));
+    QObject signalSource;
+    QObject::connect(&signalSource, &QObject::destroyed,
+                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, Qt::AutoConnection);
 }
 
 
