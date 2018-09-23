@@ -13,6 +13,7 @@ set(UTILS_SOURCES
     config_tools.cpp
     model_index_utils.cpp
     painter_helpers.cpp
+    people_list_model.cpp
     people_operator.cpp
     photos_collector.cpp
     selection_extractor.cpp
@@ -32,6 +33,7 @@ set(UTILS_HEADERS
     ithumbnail_generator.hpp
     model_index_utils.hpp
     painter_helpers.hpp
+    people_list_model.hpp
     people_operator.hpp
     people_operator_p.hpp
     photos_collector.hpp
