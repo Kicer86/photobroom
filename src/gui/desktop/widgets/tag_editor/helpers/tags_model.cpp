@@ -117,10 +117,8 @@ void TagsModel::refreshModel()
         for(const Photo::Data& photo: photos)
             ids.push_back(photo.id);
 
-        Database::IDatabase::Callback<const IPhotoInfo::List &> target_fun =
-            std::bind(&TagsModel::loadPhotos, this, _1);
-
-        auto callback = make_cross_thread_function(this, target_fun);
+        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
+        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
 
         m_database->getPhotos(ids, callback);
     }
