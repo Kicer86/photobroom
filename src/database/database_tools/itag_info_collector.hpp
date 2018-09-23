@@ -8,8 +8,9 @@
 
 #include <core/tag.hpp>
 
+#include "database_export.h"
 
-struct ITagInfoCollector: public QObject
+struct DATABASE_EXPORT ITagInfoCollector: public QObject
 {
     virtual ~ITagInfoCollector() = default;
 
