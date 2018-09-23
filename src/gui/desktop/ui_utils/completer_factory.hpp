@@ -56,9 +56,11 @@ class CompleterFactory: public ICompleterFactory
 
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagNameInfo>, ModelPair> m_tagValueModels;
+        QAbstractItemModel* m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);
+        QAbstractItemModel* getModelForPeople();
 };
 
 #endif // COMPLETERFACTORY_HPP
