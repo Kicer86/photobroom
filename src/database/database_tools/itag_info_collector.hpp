@@ -10,6 +10,7 @@
 
 #include "database_export.h"
 
+
 struct DATABASE_EXPORT ITagInfoCollector: public QObject
 {
     virtual ~ITagInfoCollector() = default;
