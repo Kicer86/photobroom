@@ -35,6 +35,7 @@ namespace Database
             FlagsWithPhotos,
             Sha256WithPhotos,
             PeopleWithPhotos,
+            NamesWithPeople,
         };
 
         std::set<Join> joins;
@@ -186,9 +187,9 @@ namespace Database
                 const QString condition = conditions[i].m_value;
 
                 if (conditions[i].m_exact)
-                    final_condition += QString(TAB_TAGS ".value = '%1'").arg(condition);
+                    final_condition += QString(TAB_TAGS ".value = '%1' OR " TAB_PEOPLE_NAMES ".name = '%1'").arg(condition);
                 else
-                    final_condition += QString(TAB_TAGS ".value LIKE '%%1%'").arg(condition);
+                    final_condition += QString(TAB_TAGS ".value LIKE '%%1%' OR " TAB_PEOPLE_NAMES ".name LIKE '%%1%'").arg(condition);
 
                 if (i + 1 < s)
                     final_condition += " OR ";
@@ -197,6 +198,8 @@ namespace Database
             final_condition += ")";
 
             m_filterResult.joins.insert(FilterData::TagsWithPhotos);
+            m_filterResult.joins.insert(FilterData::PeopleWithPhotos);
+            m_filterResult.joins.insert(FilterData::NamesWithPeople);
             m_filterResult.conditions.append(final_condition);
         }
 
@@ -351,10 +354,11 @@ namespace Database
 
             switch(item)
             {
-                case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;       break;
-                case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;      break;
-                case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS; break;
-                case FilterData::PeopleWithPhotos: joinWith = TAB_PEOPLE;     break;
+                case FilterData::TagsWithPhotos:   joinWith = TAB_TAGS;         break;
+                case FilterData::FlagsWithPhotos:  joinWith = TAB_FLAGS;        break;
+                case FilterData::Sha256WithPhotos: joinWith = TAB_SHA256SUMS;   break;
+                case FilterData::PeopleWithPhotos: joinWith = TAB_PEOPLE;       break;
+                case FilterData::NamesWithPeople:  joinWith = TAB_PEOPLE_NAMES; break;
             }
 
             joinsWith.append(joinWith);
@@ -375,7 +379,8 @@ namespace Database
                 case FilterData::TagsWithPhotos:   join = TAB_TAGS ".photo_id = " + getPhotoId();   break;
                 case FilterData::FlagsWithPhotos:  join = TAB_FLAGS ".photo_id = " + getPhotoId();  break;
                 case FilterData::Sha256WithPhotos: join = TAB_SHA256SUMS ".photo_id = " + getPhotoId(); break;
-                case FilterData::PeopleWithPhotos: join = TAB_PEOPLE ".photo_id = " + getPhotoId(); break;
+                case FilterData::PeopleWithPhotos: join = TAB_PEOPLE ".photo_id = " + getPhotoId();     break;
+                case FilterData::NamesWithPeople:  join = TAB_PEOPLE ".person_id = " TAB_PEOPLE_NAMES ".id"; break;
             }
 
             joins.append(join);
