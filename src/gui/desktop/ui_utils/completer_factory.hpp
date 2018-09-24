@@ -34,6 +34,7 @@ namespace Database
 }
 
 struct ILoggerFactory;
+class PeopleListModel;
 
 class CompleterFactory: public ICompleterFactory
 {
@@ -56,7 +57,7 @@ class CompleterFactory: public ICompleterFactory
 
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagNameInfo>, ModelPair> m_tagValueModels;
-        QAbstractItemModel* m_peopleListModel;
+        PeopleListModel* m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);

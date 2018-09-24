@@ -65,7 +65,11 @@ namespace
 }
 
 
-CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_peopleListModel(nullptr), m_loggerFactory(nullptr)
+CompleterFactory::CompleterFactory():
+    m_tagInfoCollector(),
+    m_tagValueModels(),
+    m_peopleListModel(new PeopleListModel),
+    m_loggerFactory(nullptr)
 {
 
 }
@@ -81,10 +85,7 @@ void CompleterFactory::set(Database::IDatabase* db)
 {
     m_tagInfoCollector.set(db);
 
-    if (db == nullptr)
-        delete m_peopleListModel, m_peopleListModel = nullptr;
-    else
-        m_peopleListModel = new PeopleListModel(db);
+    m_peopleListModel->setDB(db);
 }
 
 
@@ -111,7 +112,7 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos
 
 QCompleter* CompleterFactory::createPeopleCompleter()
 {
-    return new QCompleter;    // TODO: implement
+    return new QCompleter(m_peopleListModel);
 }
 
 

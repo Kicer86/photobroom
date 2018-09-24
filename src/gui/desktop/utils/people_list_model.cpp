@@ -27,28 +27,9 @@
 using namespace std::placeholders;
 
 
-PeopleListModel::PeopleListModel(Database::IDatabase* db)
+PeopleListModel::PeopleListModel()
 {
-    // TODO: here we fetch all existing people.
-    // PeopleListModel should react on changes in db,
-    // but there is no proper signal from IDatabase.
-    //
-    // To consider: as functionality of IDatabase is being limited and moved
-    // to IBackend, maybe all signals should be moved there also.
 
-    auto f = make_cross_thread_function<const QStringList &>(this, std::bind(&PeopleListModel::fill, this, _1));
-
-    db->performCustomAction([f](Database::IBackendOperator* op)
-    {
-        const std::vector<PersonName> names = op->listPeople();
-
-        QStringList namesList;
-
-        for (const PersonName& name: names)
-            namesList.append(name.name());
-
-        f(namesList);
-    });
 }
 
 
@@ -58,12 +39,45 @@ PeopleListModel::~PeopleListModel()
 }
 
 
+void PeopleListModel::setDB(Database::IDatabase* db)
+{
+    if (db == nullptr)
+        clear();
+    else
+    {
+        // TODO: here we fetch all existing people.
+        // PeopleListModel should react on changes in db,
+        // but there is no proper signal from IDatabase.
+        //
+        // To consider: as functionality of IDatabase is being limited and moved
+        // to IBackend, maybe all signals should be moved there also.
+
+        auto f = make_cross_thread_function<const QStringList &>(this, std::bind(&PeopleListModel::fill, this, _1));
+
+        db->performCustomAction([f](Database::IBackendOperator* op)
+        {
+            const std::vector<PersonName> names = op->listPeople();
+
+            QStringList namesList;
+
+            for (const PersonName& name: names)
+                namesList.append(name.name());
+
+            f(namesList);
+        });
+    }
+}
+
+
 QVariant PeopleListModel::data(const QModelIndex& index, int role) const
 {
     QVariant result;
 
-    if (role == Qt::DisplayRole && index.column() == 0 && index.row() < rowCount(index.parent()))
+    if ( (role == Qt::EditRole || role == Qt::DisplayRole) &&
+         index.column() == 0 && index.row() < rowCount(index.parent()))
+    {
         result = m_names[index.row()];
+    }
 
     return result;
 }
@@ -88,4 +102,14 @@ void PeopleListModel::fill(const QStringList& names)
     m_names = names;
 
     endInsertRows();
+}
+
+
+void PeopleListModel::clear()
+{
+    beginResetModel();
+
+    m_names.clear();
+
+    endResetModel();
 }

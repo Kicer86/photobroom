@@ -29,8 +29,10 @@ namespace Database
 class PeopleListModel: public QAbstractListModel
 {
     public:
-        PeopleListModel(Database::IDatabase *);
+        PeopleListModel();
         ~PeopleListModel();
+
+        void setDB(Database::IDatabase *);
 
         QVariant data(const QModelIndex & index, int role) const override;
         int rowCount(const QModelIndex & parent) const override;
@@ -39,6 +41,7 @@ class PeopleListModel: public QAbstractListModel
         QStringList m_names;
 
         void fill(const QStringList &);
+        void clear();
 };
 
 #endif // PEOPLELISTMODEL_HPP
