@@ -298,6 +298,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
+        m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
         QDir::setSearchPaths("prj", QStringList() );
 
