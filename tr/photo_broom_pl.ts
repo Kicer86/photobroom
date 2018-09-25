@@ -905,14 +905,6 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>TagEditorWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+199"/>
-        <source>Cannot add empty value.</source>
-        <translation>Nie można wprowadzić pustej wartości.</translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+131"/>
