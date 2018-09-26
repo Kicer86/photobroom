@@ -19,21 +19,35 @@
 #ifndef APPENDABLEMODELPROXY_HPP
 #define APPENDABLEMODELPROXY_HPP
 
-#include <QAbstractItemModel>
+#include <QAbstractProxyModel>
 
 
-class AppendableModelProxy : public QAbstractItemModel
+class AppendableModelProxy: public QAbstractProxyModel
 {
     public:
-        AppendableModelProxy();
+        AppendableModelProxy(QObject* = nullptr);
         ~AppendableModelProxy();
 
-        // QAbstractItemModel overrides:
-        QVariant data(const QModelIndex& index, int role) const override;
+        //QAbstractItemModel overrides:
         int columnCount(const QModelIndex& parent) const override;
         int rowCount(const QModelIndex& parent) const override;
         QModelIndex parent(const QModelIndex& child) const override;
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
+
+        //QAbstractProxyModel overrides:
+        void setSourceModel(QAbstractItemModel *sourceModel) override;
+        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const override;
+        QModelIndex mapToSource(const QModelIndex & proxyIndex) const override;
+
+    private:
+        void modelRowsAboutToBeInserted(const QModelIndex &, int, int);
+        void modelRowsInserted(const QModelIndex &, int, int);
+        void modelColumnsAboutToBeInserted(const QModelIndex &, int, int);
+        void modelColumnsInserted(const QModelIndex &, int, int);
+        void modelRowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
+        void modelRowsRemoved(const QModelIndex &parent, int start, int end);
+        void sourceModelAboutToBeReset();
+        void sourceModelReset();
 };
 
 #endif // APPENDABLEMODELPROXY_H
