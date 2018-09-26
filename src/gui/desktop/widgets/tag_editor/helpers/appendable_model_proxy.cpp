@@ -55,7 +55,7 @@ QModelIndex AppendableModelProxy::parent(const QModelIndex& child) const
     const QModelIndex sourceIdx = mapToSource(child);
     const QModelIndex sourceParent = sourceModel()->parent(sourceIdx);
     const QModelIndex p = mapFromSource(sourceParent);
-;
+
     assert(p.isValid() == false);     // only flat models are supported
 
     return p;
