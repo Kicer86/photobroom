@@ -76,7 +76,6 @@ class TagsModel: public QStandardItemModel
         void syncData(const QModelIndex &, const QModelIndex &);
 
     signals:
-        void modelChanged(bool);
         void emptyValueError();
 };
 

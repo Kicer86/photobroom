@@ -153,8 +153,6 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         const QList<QStandardItem *> items( { name, value });
         appendRow(items);
     }
-
-    emit modelChanged(photos.empty() == false);
 }
 
 
