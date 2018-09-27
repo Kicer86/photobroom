@@ -36,7 +36,7 @@ int AppendableModelProxy::columnCount(const QModelIndex& parent) const
 
     const QModelIndex sourceIdx = mapToSource(parent);
     const int cc = sourceModel()->columnCount(sourceIdx);
-    return cc;
+    return std::min(cc, 2);
 }
 
 
@@ -46,7 +46,7 @@ int AppendableModelProxy::rowCount(const QModelIndex& parent) const
 
     const QModelIndex sourceIdx = mapToSource(parent);
     const int rc = sourceModel()->rowCount(sourceIdx);
-    return rc;
+    return rc + 1;
 }
 
 
@@ -66,7 +66,14 @@ QModelIndex AppendableModelProxy::index(int row, int column, const QModelIndex& 
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    const QModelIndex i = QAbstractProxyModel::createIndex(row, column);
+    const QModelIndex sourceIdx = mapToSource(parent);
+    const int rc = sourceModel()->rowCount(sourceIdx);
+
+    // if this is the last row (one row after last row of original model) then mark this index with `this`
+    const void* id = row == rc? this: nullptr;
+    void* fid = const_cast<void *>(id);
+
+    const QModelIndex i = QAbstractProxyModel::createIndex(row, column, fid);
     return i;
 }
 
@@ -121,7 +128,8 @@ QModelIndex AppendableModelProxy::mapFromSource(const QModelIndex& sourceIndex) 
 
 QModelIndex AppendableModelProxy::mapToSource(const QModelIndex& proxyIndex) const
 {
-    const QModelIndex i = proxyIndex.isValid()?
+    // if internalPointer is set, then `proxyIndex` is part of extra row
+    const QModelIndex i = proxyIndex.isValid() && proxyIndex.internalPointer() == nullptr?
         sourceModel()->index(proxyIndex.row(), proxyIndex.column()):
         QModelIndex();
 
