@@ -46,9 +46,14 @@ TagsView::~TagsView()
 
 bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger trigger, QEvent* e)
 {
-    const bool status = index.column() == 0?
-            false:
-            QTableView::edit(index, trigger, e);
+    const int rc = model()->rowCount();
+    const int last_row = rc - 1;
+    const bool is_last_item = index.row() == last_row;
+
+    // allow edit in 2nd column and whole last row
+    const bool status = index.column() == 1 || is_last_item?
+            QTableView::edit(index, trigger, e):
+            false;
 
     return status;
 }
