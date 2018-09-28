@@ -21,13 +21,19 @@
 
 #include <cassert>
 
-#include <QStringListModel>
+#include <QComboBox>
 #include <QHeaderView>
+#include <QStringListModel>
+
+#include <core/base_tags.hpp>
 
 #include "tags_item_delegate.hpp"
 
 
-TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p): QTableView(p), m_editorFactory()
+TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
+    QTableView(p),
+    m_editorFactory(),
+    m_comboBox(nullptr)
 {
     TagsItemDelegate* delegate = new TagsItemDelegate;
     delegate->setEditorFactory(editorFactory);
@@ -66,6 +72,8 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
     if (parent.isValid() == false)
         for(int i = start; i <= end; i++)
             updateRow(i);
+
+    updateComboBox();
 }
 
 
@@ -91,3 +99,29 @@ void TagsView::updateRow(int row)
     if (t == QVariant::StringList)
         verticalHeader()->setSectionResizeMode(row, QHeaderView::ResizeToContents);
 }
+
+
+void TagsView::updateComboBox()
+{
+    if (m_comboBox != nullptr)
+        m_comboBox->deleteLater();
+
+    m_comboBox = new QComboBox(this);
+
+    const auto tags = BaseTags::getAll();
+
+    for(const auto& tag: tags)
+    {
+        const TagNameInfo info(tag);
+
+        const QString text = BaseTags::getTr(tag);
+        m_comboBox->addItem(text, QVariant::fromValue(info));
+    }
+
+    const int rc = model()->rowCount();
+    const int last_row = rc - 1;
+    const QModelIndex idx = model()->index(last_row, 0);
+
+    setIndexWidget(idx, m_comboBox);
+}
+

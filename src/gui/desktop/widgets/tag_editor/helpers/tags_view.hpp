@@ -25,8 +25,12 @@
 #include <core/tag.hpp>
 #include "ui_utils/editor_factory.hpp"
 
+
+class QComboBox;
+
 struct IEditorFactory;
 class TagValueModel;
+
 
 class TagsView: public QTableView
 {
@@ -39,11 +43,13 @@ class TagsView: public QTableView
 
     private:
         EditorFactory m_editorFactory;
+        QComboBox* m_comboBox;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
         void rowsInserted(const QModelIndex& parent, int start, int end) override;
 
         void updateRow(int);
+        void updateComboBox();
 
         // QTableViews:
         int sizeHintForRow(int row) const override;
