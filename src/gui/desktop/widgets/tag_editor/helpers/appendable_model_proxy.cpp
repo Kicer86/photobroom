@@ -150,12 +150,7 @@ QVariant AppendableModelProxy::data(const QModelIndex& index, int role) const
 {
     QVariant result;
 
-    if (index.isValid() && index.internalPointer() == this)
-    {
-        if (role == Qt::DisplayRole || role == Qt::EditRole)
-            result = "<edit>";
-    }
-    else
+    if (index.isValid() && index.internalPointer() != this)
         result = m_sourceModel->data(mapToSource(index), role);
 
     return result;
