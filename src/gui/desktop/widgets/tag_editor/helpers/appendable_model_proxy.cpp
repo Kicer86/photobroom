@@ -20,7 +20,8 @@
 
 
 AppendableModelProxy::AppendableModelProxy(QObject* p):
-    QAbstractProxyModel(p)
+    QAbstractItemModel(p),
+    m_sourceModel(nullptr)
 {
 }
 
@@ -35,7 +36,7 @@ int AppendableModelProxy::columnCount(const QModelIndex& parent) const
     assert(parent.isValid() == false);     // only flat models are supported
 
     const QModelIndex sourceIdx = mapToSource(parent);
-    const int cc = sourceModel()->columnCount(sourceIdx);
+    const int cc = m_sourceModel->columnCount(sourceIdx);
     return std::min(cc, 2);
 }
 
@@ -45,20 +46,14 @@ int AppendableModelProxy::rowCount(const QModelIndex& parent) const
     assert(parent.isValid() == false);     // only flat models are supported
 
     const QModelIndex sourceIdx = mapToSource(parent);
-    const int rc = sourceModel()->rowCount(sourceIdx);
+    const int rc = m_sourceModel->rowCount(sourceIdx);
     return rc + 1;
 }
 
 
-QModelIndex AppendableModelProxy::parent(const QModelIndex& child) const
+QModelIndex AppendableModelProxy::parent(const QModelIndex& /*child*/) const
 {
-    const QModelIndex sourceIdx = mapToSource(child);
-    const QModelIndex sourceParent = sourceModel()->parent(sourceIdx);
-    const QModelIndex p = mapFromSource(sourceParent);
-
-    assert(p.isValid() == false);     // only flat models are supported
-
-    return p;
+    return QModelIndex();      // only flat models supported - no parent for anyone
 }
 
 
@@ -67,25 +62,25 @@ QModelIndex AppendableModelProxy::index(int row, int column, const QModelIndex& 
     assert(parent.isValid() == false);     // only flat models are supported
 
     const QModelIndex sourceIdx = mapToSource(parent);
-    const int rc = sourceModel()->rowCount(sourceIdx);
+    const int rc = m_sourceModel->rowCount(sourceIdx);
 
     // if this is the last row (one row after last row of original model) then mark this index with `this`
     const void* id = row == rc? this: nullptr;
     void* fid = const_cast<void *>(id);
 
-    const QModelIndex i = QAbstractProxyModel::createIndex(row, column, fid);
+    const QModelIndex i = QAbstractItemModel::createIndex(row, column, fid);
     return i;
 }
 
 
 void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 {
-    QAbstractItemModel* current = sourceModel();
+    QAbstractItemModel* current = m_sourceModel;
 
     if (current)
         current->disconnect(this);
 
-    QAbstractProxyModel::setSourceModel(model);
+    m_sourceModel = model;
 
     if (model)
     {
@@ -119,7 +114,7 @@ void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 QModelIndex AppendableModelProxy::mapFromSource(const QModelIndex& sourceIndex) const
 {
     const QModelIndex i = sourceIndex.isValid()?
-        QAbstractProxyModel::createIndex(sourceIndex.row(), sourceIndex.column()):
+        QAbstractItemModel::createIndex(sourceIndex.row(), sourceIndex.column()):
         QModelIndex();
 
     return i;
@@ -130,10 +125,46 @@ QModelIndex AppendableModelProxy::mapToSource(const QModelIndex& proxyIndex) con
 {
     // if internalPointer is set, then `proxyIndex` is part of extra row
     const QModelIndex i = proxyIndex.isValid() && proxyIndex.internalPointer() == nullptr?
-        sourceModel()->index(proxyIndex.row(), proxyIndex.column()):
+        m_sourceModel->index(proxyIndex.row(), proxyIndex.column()):
         QModelIndex();
 
     return i;
+}
+
+
+Qt::ItemFlags AppendableModelProxy::flags(const QModelIndex& index) const
+{
+    const auto f = index.isValid() && index.internalPointer() == this?
+        ( Qt::ItemIsEnabled |
+          Qt::ItemIsDropEnabled |
+          Qt::ItemIsDragEnabled |
+          Qt::ItemIsEditable |
+          Qt::ItemIsSelectable   ):
+        m_sourceModel->flags(mapToSource(index));
+
+    return f;
+}
+
+
+QVariant AppendableModelProxy::data(const QModelIndex& index, int role) const
+{
+    QVariant result;
+
+    if (index.isValid() && index.internalPointer() == this)
+    {
+        if (role == Qt::DisplayRole || role == Qt::EditRole)
+            result = "<edit>";
+    }
+    else
+        result = m_sourceModel->data(mapToSource(index), role);
+
+    return result;
+}
+
+
+QVariant AppendableModelProxy::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    return m_sourceModel->headerData(section, orientation, role);
 }
 
 
@@ -141,7 +172,7 @@ void AppendableModelProxy::modelRowsAboutToBeInserted(const QModelIndex &parent,
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::beginInsertRows(mapFromSource(parent), start, end);
+    QAbstractItemModel::beginInsertRows(mapFromSource(parent), start, end);
 }
 
 
@@ -149,7 +180,7 @@ void AppendableModelProxy::modelRowsInserted(const QModelIndex &parent, int /*fi
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::endInsertRows();
+    QAbstractItemModel::endInsertRows();
 }
 
 
@@ -157,7 +188,7 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::beginInsertColumns(mapFromSource(parent), start, end);
+    QAbstractItemModel::beginInsertColumns(mapFromSource(parent), start, end);
 }
 
 
@@ -165,7 +196,7 @@ void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::endInsertColumns();
+    QAbstractItemModel::endInsertColumns();
 }
 
 
@@ -173,7 +204,7 @@ void AppendableModelProxy::modelRowsAboutToBeRemoved(const QModelIndex& parent, 
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::beginRemoveRows(mapFromSource(parent), start, end);
+    QAbstractItemModel::beginRemoveRows(mapFromSource(parent), start, end);
 }
 
 
@@ -181,7 +212,7 @@ void AppendableModelProxy::modelRowsRemoved(const QModelIndex& parent, int /*sta
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    QAbstractProxyModel::endRemoveRows();
+    QAbstractItemModel::endRemoveRows();
 }
 
 

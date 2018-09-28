@@ -19,10 +19,10 @@
 #ifndef APPENDABLEMODELPROXY_HPP
 #define APPENDABLEMODELPROXY_HPP
 
-#include <QAbstractProxyModel>
+#include <QAbstractItemModel>
 
 
-class AppendableModelProxy: public QAbstractProxyModel
+class AppendableModelProxy: public QAbstractItemModel
 {
     public:
         AppendableModelProxy(QObject* = nullptr);
@@ -33,13 +33,18 @@ class AppendableModelProxy: public QAbstractProxyModel
         int rowCount(const QModelIndex& parent) const override;
         QModelIndex parent(const QModelIndex& child) const override;
         QModelIndex index(int row, int column, const QModelIndex& parent) const override;
+        Qt::ItemFlags flags(const QModelIndex &index) const override;
+        QVariant data(const QModelIndex& index, int role) const override;
+        QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-        //QAbstractProxyModel overrides:
-        void setSourceModel(QAbstractItemModel *sourceModel) override;
-        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const override;
-        QModelIndex mapToSource(const QModelIndex & proxyIndex) const override;
+        void setSourceModel(QAbstractItemModel *sourceModel);
 
     private:
+        QAbstractItemModel* m_sourceModel;
+
+        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
+        QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+
         void modelRowsAboutToBeInserted(const QModelIndex &, int, int);
         void modelRowsInserted(const QModelIndex &, int, int);
         void modelColumnsAboutToBeInserted(const QModelIndex &, int, int);
