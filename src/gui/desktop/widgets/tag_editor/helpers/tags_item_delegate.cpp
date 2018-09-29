@@ -25,7 +25,6 @@
 
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
-#include "tags_model.hpp"
 
 
 TagsItemDelegate::TagsItemDelegate():
