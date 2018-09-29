@@ -50,6 +50,27 @@ TagsView::~TagsView()
 }
 
 
+void TagsView::setModel(QAbstractItemModel* model)
+{
+    connect(model, &QAbstractItemModel::columnsInserted,
+            this, &TagsView::updateComboBox);
+
+    connect(model, &QAbstractItemModel::columnsRemoved,
+            this, &TagsView::updateComboBox);
+
+    connect(model, &QAbstractItemModel::rowsInserted,
+            this, &TagsView::updateComboBox);
+
+    connect(model, &QAbstractItemModel::rowsRemoved,
+            this, &TagsView::updateComboBox);
+
+    connect(model, &QAbstractItemModel::modelReset,
+            this, &TagsView::updateComboBox);
+
+    QTableView::setModel(model);
+}
+
+
 bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger trigger, QEvent* e)
 {
     const int rc = model()->rowCount();
@@ -72,8 +93,6 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
     if (parent.isValid() == false)
         for(int i = start; i <= end; i++)
             updateRow(i);
-
-    updateComboBox();
 }
 
 
@@ -103,8 +122,10 @@ void TagsView::updateRow(int row)
 
 void TagsView::updateComboBox()
 {
-    if (m_comboBox != nullptr)
-        m_comboBox->deleteLater();
+    QAbstractItemModel* m = model();
+
+    if (m == nullptr)
+        return;
 
     m_comboBox = new QComboBox(this);
 
@@ -118,10 +139,14 @@ void TagsView::updateComboBox()
         m_comboBox->addItem(text, QVariant::fromValue(info));
     }
 
-    const int rc = model()->rowCount();
-    const int last_row = rc - 1;
-    const QModelIndex idx = model()->index(last_row, 0);
+    const int rc = m->rowCount();
 
-    setIndexWidget(idx, m_comboBox);
+    if (rc > 0)
+    {
+        const int last_row = rc - 1;
+        const QModelIndex idx = model()->index(last_row, 0);
+
+        setIndexWidget(idx, m_comboBox);
+    }
 }
 

@@ -41,6 +41,8 @@ class TagsView: public QTableView
 
         TagsView& operator=(const TagsView &) = delete;
 
+        void setModel(QAbstractItemModel * model) override;
+
     private:
         EditorFactory m_editorFactory;
         QComboBox* m_comboBox;
