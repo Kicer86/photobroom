@@ -22,6 +22,7 @@
 
 #include <QTableView>
 
+#include <core/base_tags.hpp>
 #include <core/tag.hpp>
 #include "ui_utils/editor_factory.hpp"
 
@@ -52,6 +53,8 @@ class TagsView: public QTableView
 
         void updateRow(int);
         void updateComboBox();
+        std::set<BaseTagsList> alreadyUsedTags() const;
+        std::vector<BaseTagsList> tagsNotUsed() const;
 
         // QTableViews:
         int sizeHintForRow(int row) const override;

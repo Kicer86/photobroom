@@ -28,6 +28,8 @@
 #include <core/base_tags.hpp>
 
 #include "tags_item_delegate.hpp"
+#include "tags_model.hpp"              // TODO: TagsView and TagModel will be probably always used together,
+                                       //       yet it would be nice to keep abstraction here
 
 
 TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
@@ -96,6 +98,44 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
 }
 
 
+std::set<BaseTagsList> TagsView::alreadyUsedTags() const
+{
+    std::set<BaseTagsList> result;
+
+    const QAbstractItemModel* m = model();
+    const int rc = m->rowCount();
+
+    for (int r = 0; r < rc - 1; r++)    // go for all but last
+    {
+        const QModelIndex tagTypeIdx = m->index(r, 1);
+        const QVariant tagInfoRoleRaw = tagTypeIdx.data(TagsModel::TagInfoRole);
+
+        assert(tagInfoRoleRaw.isValid());
+        const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+        const BaseTagsList tag = tagInfoRole.getTag();
+
+        result.insert(tag);
+    }
+
+    return result;
+}
+
+
+std::vector<BaseTagsList> TagsView::tagsNotUsed() const
+{
+    std::vector<BaseTagsList> notUsed;
+
+    const std::set<BaseTagsList> used = alreadyUsedTags();
+    const auto tags = BaseTags::getAll();
+
+    for(const auto& tag: tags)
+        if (used.find(tag) == used.end())
+            notUsed.push_back(tag);
+
+    return notUsed;
+}
+
+
 int TagsView::sizeHintForRow(int row) const
 {
     // TODO: remove .05 when https://bugreports.qt.io/browse/QTBUG-55514 is fixed
@@ -129,7 +169,7 @@ void TagsView::updateComboBox()
 
     m_comboBox = new QComboBox(this);
 
-    const auto tags = BaseTags::getAll();
+    const auto tags = tagsNotUsed();
 
     for(const auto& tag: tags)
     {
