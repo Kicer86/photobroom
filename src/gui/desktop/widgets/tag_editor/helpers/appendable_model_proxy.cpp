@@ -19,11 +19,12 @@
 #include "appendable_model_proxy.hpp"
 
 
-AppendableModelProxy::AppendableModelProxy(QObject* p):
+AppendableModelProxy::AppendableModelProxy(int defCC, QObject* p):
     QAbstractItemModel(p),
-    m_sourceModel(nullptr)
+    m_sourceModel(nullptr),
+    m_defCC(defCC)
 {
-    m_lastRowData.resize(2);
+    m_lastRowData.resize(m_defCC);
 }
 
 
@@ -38,7 +39,7 @@ int AppendableModelProxy::columnCount(const QModelIndex& parent) const
 
     const QModelIndex sourceIdx = mapToSource(parent);
     const int cc = m_sourceModel->columnCount(sourceIdx);
-    return std::min(cc, 2);
+    return std::min(cc, m_defCC);
 }
 
 

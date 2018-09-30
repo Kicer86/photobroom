@@ -25,7 +25,7 @@
 class AppendableModelProxy: public QAbstractItemModel
 {
     public:
-        AppendableModelProxy(QObject* = nullptr);
+        AppendableModelProxy(int default_column_count, QObject* = nullptr);
         ~AppendableModelProxy();
 
         //QAbstractItemModel overrides:
@@ -44,6 +44,7 @@ class AppendableModelProxy: public QAbstractItemModel
         typedef std::map<int, QVariant> CellData;
         std::vector<CellData> m_lastRowData;
         QAbstractItemModel* m_sourceModel;
+        const int m_defCC;
 
         QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
         QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
