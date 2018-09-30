@@ -167,7 +167,16 @@ void TagsView::updateComboBox()
     if (m == nullptr)
         return;
 
+    if (m_comboBox)
+        m_comboBox->disconnect(this);
+
     m_comboBox = new QComboBox(this);
+
+    connect(m_comboBox, &QComboBox::destroyed,
+            this, &TagsView::comboBoxDestroyed);
+
+    connect(m_comboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+            this, &TagsView::comboBoxChanged);
 
     const auto tags = tagsNotUsed();
 
@@ -184,9 +193,30 @@ void TagsView::updateComboBox()
     if (rc > 0)
     {
         const int last_row = rc - 1;
-        const QModelIndex idx = model()->index(last_row, 0);
+        const QModelIndex idx = m->index(last_row, 0);
 
         setIndexWidget(idx, m_comboBox);
     }
 }
 
+
+void TagsView::comboBoxChanged(int p)
+{
+    QAbstractItemModel* m = model();
+
+    if (m && m_comboBox)
+    {
+        const QVariant v = m_comboBox->itemData(p, TagsModel::TagInfoRole);
+        const int rc = m->rowCount();
+        const int last_row = rc - 1;
+        const QModelIndex idx = m->index(last_row, 1);
+
+        m->setData(idx, v, TagsModel::TagInfoRole);
+    }
+}
+
+
+void TagsView::comboBoxDestroyed()
+{
+    m_comboBox = nullptr;
+}

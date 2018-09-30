@@ -53,6 +53,8 @@ class TagsView: public QTableView
 
         void updateRow(int);
         void updateComboBox();
+        void comboBoxChanged(int);
+        void comboBoxDestroyed();
         std::set<BaseTagsList> alreadyUsedTags() const;
         std::vector<BaseTagsList> tagsNotUsed() const;
 
