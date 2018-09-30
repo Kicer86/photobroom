@@ -23,6 +23,7 @@ AppendableModelProxy::AppendableModelProxy(QObject* p):
     QAbstractItemModel(p),
     m_sourceModel(nullptr)
 {
+    m_lastRowData.resize(2);
 }
 
 
