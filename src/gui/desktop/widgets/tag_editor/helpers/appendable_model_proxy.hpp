@@ -46,6 +46,8 @@ class AppendableModelProxy: public QAbstractItemModel
         QAbstractItemModel* m_sourceModel;
         const int m_defCC;
 
+        void updateRowData();
+
         QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
         QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
 

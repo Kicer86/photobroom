@@ -77,6 +77,8 @@ QModelIndex AppendableModelProxy::index(int row, int column, const QModelIndex& 
 
 bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& value, int role)
 {
+    bool result = true;
+
     if (index.isValid() && index.internalPointer() == this)
     {
         assert(m_lastRowData.size() > index.column());
@@ -84,7 +86,9 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
         col_data[role] = value;
     }
     else
-        m_sourceModel->setData(mapToSource(index), value, role);
+        result = m_sourceModel->setData(mapToSource(index), value, role);
+
+    return result;
 }
 
 
@@ -123,6 +127,14 @@ void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
         connect(model, &QAbstractItemModel::modelReset,
                 this, &AppendableModelProxy::sourceModelReset);
     }
+}
+
+
+void AppendableModelProxy::updateRowData()
+{
+    // make sure we have enought space for last row's data
+    const int cols = columnCount(QModelIndex());
+    m_lastRowData.resize(cols);
 }
 
 
@@ -215,10 +227,7 @@ void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    // make sure we have enought space for last row's data
-    const int cols = m_sourceModel->columnCount();
-    m_lastRowData.resize(cols);
-
+    updateRowData();
     QAbstractItemModel::endInsertColumns();
 }
 
@@ -247,5 +256,6 @@ void AppendableModelProxy::sourceModelAboutToBeReset()
 
 void AppendableModelProxy::sourceModelReset()
 {
+    updateRowData();
     QAbstractItemModel::endResetModel();
 }
