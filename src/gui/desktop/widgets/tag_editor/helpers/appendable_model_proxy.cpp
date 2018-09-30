@@ -73,6 +73,19 @@ QModelIndex AppendableModelProxy::index(int row, int column, const QModelIndex& 
 }
 
 
+bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (index.isValid() && index.internalPointer() == this)
+    {
+        assert(m_lastRowData.size() > index.column());
+        auto& col_data = m_lastRowData[index.column()];
+        col_data[role] = value;
+    }
+    else
+        m_sourceModel->setData(mapToSource(index), value, role);
+}
+
+
 void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 {
     QAbstractItemModel* current = m_sourceModel;
@@ -150,7 +163,16 @@ QVariant AppendableModelProxy::data(const QModelIndex& index, int role) const
 {
     QVariant result;
 
-    if (index.isValid() && index.internalPointer() != this)
+    if (index.isValid() && index.internalPointer() == this)
+    {
+        assert(m_lastRowData.size() > index.column());
+        auto& col_data = m_lastRowData[index.column()];
+        auto it = col_data.find(role);
+
+        if (it != col_data.end())
+            result = it->second;
+    }
+    else
         result = m_sourceModel->data(mapToSource(index), role);
 
     return result;
@@ -190,6 +212,10 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
 void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /*first*/, int /*last*/)
 {
     assert(parent.isValid() == false);     // only flat models are supported
+
+    // make sure we have enought space for last row's data
+    const int cols = m_sourceModel->columnCount();
+    m_lastRowData.resize(cols);
 
     QAbstractItemModel::endInsertColumns();
 }

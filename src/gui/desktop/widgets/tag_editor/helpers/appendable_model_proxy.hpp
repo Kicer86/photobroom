@@ -36,10 +36,13 @@ class AppendableModelProxy: public QAbstractItemModel
         Qt::ItemFlags flags(const QModelIndex &index) const override;
         QVariant data(const QModelIndex& index, int role) const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+        bool setData(const QModelIndex & index, const QVariant & value, int role) override;
 
         void setSourceModel(QAbstractItemModel *sourceModel);
 
     private:
+        typedef std::map<int, QVariant> CellData;
+        std::vector<CellData> m_lastRowData;
         QAbstractItemModel* m_sourceModel;
 
         QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
