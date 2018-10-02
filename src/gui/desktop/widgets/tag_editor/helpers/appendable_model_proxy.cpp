@@ -19,6 +19,9 @@
 #include "appendable_model_proxy.hpp"
 
 
+// TODO: This class needs unit tests.
+//       It was only tested at runtime with very simple scenarios.
+
 AppendableModelProxy::AppendableModelProxy(int defCC, QObject* p):
     QAbstractItemModel(p),
     m_sourceModel(nullptr),
