@@ -79,7 +79,7 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
 
     if (index.isValid() && index.internalPointer() == this)
     {
-        assert(m_lastRowData.size() > index.column());
+        assert( static_cast<int>(m_lastRowData.size()) > index.column());
         auto& col_data = m_lastRowData[index.column()];
         col_data[role] = value;
     }
@@ -192,7 +192,7 @@ QVariant AppendableModelProxy::data(const QModelIndex& index, int role) const
 
     if (index.isValid() && index.internalPointer() == this)
     {
-        assert(m_lastRowData.size() > index.column());
+        assert(static_cast<int>(m_lastRowData.size()) > index.column());
         auto& col_data = m_lastRowData[index.column()];
         auto it = col_data.find(role);
 
@@ -274,7 +274,7 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
 }
 
 
-void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int first, int last)
+void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /*first*/, int /*last*/)
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
