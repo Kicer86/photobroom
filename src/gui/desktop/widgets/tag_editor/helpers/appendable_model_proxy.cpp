@@ -22,9 +22,11 @@
 AppendableModelProxy::AppendableModelProxy(int defCC, QObject* p):
     QAbstractItemModel(p),
     m_sourceModel(nullptr),
-    m_defCC(defCC)
+    m_defCC(defCC),
+    m_rows(0),
+    m_cols(0)
 {
-    m_lastRowData.resize(m_defCC);
+    updateRowData();
 }
 
 
@@ -37,9 +39,7 @@ int AppendableModelProxy::columnCount(const QModelIndex& parent) const
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    const QModelIndex sourceIdx = mapToSource(parent);
-    const int cc = m_sourceModel->columnCount(sourceIdx);
-    return std::min(cc, m_defCC);
+    return m_cols;
 }
 
 
@@ -47,9 +47,7 @@ int AppendableModelProxy::rowCount(const QModelIndex& parent) const
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    const QModelIndex sourceIdx = mapToSource(parent);
-    const int rc = m_sourceModel->rowCount(sourceIdx);
-    return rc + 1;
+    return m_rows;
 }
 
 
@@ -94,6 +92,9 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
 
 void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 {
+    m_cols = 0;
+    m_rows = 0;
+
     QAbstractItemModel* current = m_sourceModel;
 
     if (current)
@@ -126,15 +127,27 @@ void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 
         connect(model, &QAbstractItemModel::modelReset,
                 this, &AppendableModelProxy::sourceModelReset);
+
+        // setup initial counts
+        setupCount();
     }
+
+    updateRowData();
 }
 
 
 void AppendableModelProxy::updateRowData()
 {
     // make sure we have enought space for last row's data
-    const int cols = columnCount(QModelIndex());
-    m_lastRowData.resize(cols);
+    m_lastRowData.resize(m_cols);
+}
+
+
+void AppendableModelProxy::setupCount()
+{
+    m_rows = m_sourceModel->rowCount() + 1;
+    m_cols = m_sourceModel->columnCount();
+    m_cols = m_rows == 1 && m_cols == 0? m_defCC: m_cols;   // just one row (ours)? and no columns - use default columns count
 }
 
 
@@ -207,9 +220,13 @@ void AppendableModelProxy::modelRowsAboutToBeInserted(const QModelIndex &parent,
 }
 
 
-void AppendableModelProxy::modelRowsInserted(const QModelIndex &parent, int /*first*/, int /*last*/)
+void AppendableModelProxy::modelRowsInserted(const QModelIndex &parent, int first, int last)
 {
     assert(parent.isValid() == false);     // only flat models are supported
+
+    m_rows += last - first + 1;
+
+    assert(m_sourceModel->rowCount() + 1 == m_rows);
 
     QAbstractItemModel::endInsertRows();
 }
@@ -217,18 +234,56 @@ void AppendableModelProxy::modelRowsInserted(const QModelIndex &parent, int /*fi
 
 void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& parent, int start, int end)
 {
-    assert(parent.isValid() == false);     // only flat models are supported
+    // check current size (columns) of source model
+    // it is possible to have a significant dismatch here -
+    // if source model was empty, AppendableModelProxy
+    // has created some fake data.
+    // Now when source model is being filled, we need to
+    // adjust to its data
 
-    QAbstractItemModel::beginInsertColumns(mapFromSource(parent), start, end);
+    const int count = end - start + 1;
+    const int sourceColumns = m_sourceModel->columnCount(parent) + count;
+    const int diff = sourceColumns - m_cols;
+
+    if (diff < 0)
+    {
+        // not tested! I guess there is some math error
+        const int last = m_cols - 1;
+        const int first = last + diff;
+
+        assert(!"not tested");
+        QAbstractItemModel::beginRemoveColumns(mapFromSource(parent), first, last);
+
+        m_postColumnInsertAction = std::bind(&AppendableModelProxy::endRemoveColumns, this);
+    }
+    else if (diff == 0)
+    {
+        // nothing to do
+        m_postColumnInsertAction = []{};
+    }
+    else
+    {
+        // not tested! I guess there is some math error
+        const int first = m_cols;
+        const int last = first + diff;
+
+        assert(!"not tested");
+        QAbstractItemModel::beginInsertColumns(mapFromSource(parent), first, last);
+
+        m_postColumnInsertAction = std::bind(&AppendableModelProxy::endRemoveColumns, this);
+    }
 }
 
 
-void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /*first*/, int /*last*/)
+void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int first, int last)
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
+    m_cols = m_sourceModel->columnCount(parent);
     updateRowData();
-    QAbstractItemModel::endInsertColumns();
+
+    m_postColumnInsertAction();
+    m_postColumnInsertAction = std::function<void()>();
 }
 
 
@@ -240,9 +295,13 @@ void AppendableModelProxy::modelRowsAboutToBeRemoved(const QModelIndex& parent, 
 }
 
 
-void AppendableModelProxy::modelRowsRemoved(const QModelIndex& parent, int /*start*/, int /*end*/)
+void AppendableModelProxy::modelRowsRemoved(const QModelIndex& parent, int start, int end)
 {
     assert(parent.isValid() == false);     // only flat models are supported
+
+    m_rows -= end - start + 1;
+
+    assert(m_sourceModel->rowCount() + 1 == m_rows);
 
     QAbstractItemModel::endRemoveRows();
 }
@@ -256,6 +315,7 @@ void AppendableModelProxy::sourceModelAboutToBeReset()
 
 void AppendableModelProxy::sourceModelReset()
 {
+    setupCount();
     updateRowData();
     QAbstractItemModel::endResetModel();
 }

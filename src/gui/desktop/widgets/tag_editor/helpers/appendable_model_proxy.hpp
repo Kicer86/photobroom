@@ -43,10 +43,14 @@ class AppendableModelProxy: public QAbstractItemModel
     private:
         typedef std::map<int, QVariant> CellData;
         std::vector<CellData> m_lastRowData;
+        std::function<void()> m_postColumnInsertAction;
         QAbstractItemModel* m_sourceModel;
         const int m_defCC;
+        int m_rows;
+        int m_cols;
 
         void updateRowData();
+        void setupCount();
 
         QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
         QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
