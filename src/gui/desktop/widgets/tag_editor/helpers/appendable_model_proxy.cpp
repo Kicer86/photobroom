@@ -237,9 +237,8 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
     // check current size (columns) of source model
     // it is possible to have a significant dismatch here -
     // if source model was empty, AppendableModelProxy
-    // has created some fake data.
-    // Now when source model is being filled, we need to
-    // adjust to its data
+    // has created some fake columns (as defined in constructor).
+    // Now when source model is being filled, we need to adjust.
 
     const int count = end - start + 1;
     const int sourceColumns = m_sourceModel->columnCount(parent) + count;
