@@ -281,7 +281,7 @@ void AppendableModelProxy::modelColumnsInserted(const QModelIndex& parent, int /
     m_cols = m_sourceModel->columnCount(parent);
     updateRowData();
 
-    m_postColumnInsertAction();
+    m_postColumnInsertAction();            // behave as defined in modelColumnsAboutToBeInserted
     m_postColumnInsertAction = std::function<void()>();
 }
 
