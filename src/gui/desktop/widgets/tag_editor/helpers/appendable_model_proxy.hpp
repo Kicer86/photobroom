@@ -28,6 +28,8 @@ class AppendableModelProxy: public QAbstractItemModel
         AppendableModelProxy(int default_column_count, QObject* = nullptr);
         ~AppendableModelProxy();
 
+        void enableAppending(bool);
+
         //QAbstractItemModel overrides:
         int columnCount(const QModelIndex& parent) const override;
         int rowCount(const QModelIndex& parent) const override;
@@ -48,6 +50,7 @@ class AppendableModelProxy: public QAbstractItemModel
         const int m_defCC;
         int m_rows;
         int m_cols;
+        bool m_enabled;
 
         void updateRowData();
         void setupCount();

@@ -27,7 +27,8 @@ AppendableModelProxy::AppendableModelProxy(int defCC, QObject* p):
     m_sourceModel(nullptr),
     m_defCC(defCC),
     m_rows(0),
-    m_cols(0)
+    m_cols(0),
+    m_enabled(true)
 {
     updateRowData();
 }
@@ -35,6 +36,28 @@ AppendableModelProxy::AppendableModelProxy(int defCC, QObject* p):
 
 AppendableModelProxy::~AppendableModelProxy()
 {
+}
+
+
+void AppendableModelProxy::enableAppending(bool enable)
+{
+    if (enable != m_enabled)
+    {
+        m_enabled = enable;
+
+        if (m_enabled)
+        {
+            QAbstractItemModel::beginInsertRows(QModelIndex(), m_rows - 1, m_rows);
+            m_rows++;
+            QAbstractItemModel::endInsertRows();
+        }
+        else
+        {
+            QAbstractItemModel::beginRemoveRows(QModelIndex(), m_rows - 1, m_rows);
+            m_rows--;
+            QAbstractItemModel::endRemoveRows();
+        }
+    }
 }
 
 
@@ -148,9 +171,11 @@ void AppendableModelProxy::updateRowData()
 
 void AppendableModelProxy::setupCount()
 {
-    m_rows = m_sourceModel->rowCount() + 1;
+    const int extraRows = m_enabled? 1: 0;
+
+    m_rows = m_sourceModel->rowCount() + extraRows;
     m_cols = m_sourceModel->columnCount();
-    m_cols = m_rows == 1 && m_cols == 0? m_defCC: m_cols;   // just one row (ours)? and no columns - use default columns count
+    m_cols = m_rows == extraRows && m_cols == 0? m_defCC: m_cols;   // just one row (ours)? and no columns - use default columns count
 }
 
 
@@ -229,7 +254,8 @@ void AppendableModelProxy::modelRowsInserted(const QModelIndex &parent, int firs
 
     m_rows += last - first + 1;
 
-    assert(m_sourceModel->rowCount() + 1 == m_rows);
+    const int extraRows = m_enabled? 1: 0;
+    assert(m_sourceModel->rowCount() + extraRows == m_rows);
 
     QAbstractItemModel::endInsertRows();
 }
@@ -303,7 +329,8 @@ void AppendableModelProxy::modelRowsRemoved(const QModelIndex& parent, int start
 
     m_rows -= end - start + 1;
 
-    assert(m_sourceModel->rowCount() + 1 == m_rows);
+    const int extraRows = m_enabled? 1: 0;
+    assert(m_sourceModel->rowCount() + extraRows == m_rows);
 
     QAbstractItemModel::endRemoveRows();
 }
