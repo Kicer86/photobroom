@@ -31,6 +31,7 @@ class QComboBox;
 
 struct IEditorFactory;
 class TagValueModel;
+class AppendableModelProxy;
 
 
 class TagsView: public QTableView
@@ -47,6 +48,7 @@ class TagsView: public QTableView
     private:
         EditorFactory m_editorFactory;
         QComboBox* m_comboBox;
+        AppendableModelProxy* m_proxy;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
         void rowsInserted(const QModelIndex& parent, int start, int end) override;

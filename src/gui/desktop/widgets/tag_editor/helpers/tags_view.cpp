@@ -28,6 +28,7 @@
 #include <core/base_tags.hpp>
 
 #include "tags_item_delegate.hpp"
+#include "appendable_model_proxy.hpp"
 #include "tags_model.hpp"              // TODO: TagsView and TagModel will be probably always used together,
                                        //       yet it would be nice to keep abstraction here
 
@@ -35,7 +36,8 @@
 TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     QTableView(p),
     m_editorFactory(),
-    m_comboBox(nullptr)
+    m_comboBox(nullptr),
+    m_proxy(new AppendableModelProxy(2, this))
 {
     TagsItemDelegate* delegate = new TagsItemDelegate;
     delegate->setEditorFactory(editorFactory);
@@ -43,6 +45,23 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     verticalHeader()->hide();
     setItemDelegate(delegate);
     horizontalHeader()->setStretchLastSection(true);
+
+    connect(m_proxy, &QAbstractItemModel::columnsInserted,
+            this, &TagsView::updateComboBox);
+
+    connect(m_proxy, &QAbstractItemModel::columnsRemoved,
+            this, &TagsView::updateComboBox);
+
+    connect(m_proxy, &QAbstractItemModel::rowsInserted,
+            this, &TagsView::updateComboBox);
+
+    connect(m_proxy, &QAbstractItemModel::rowsRemoved,
+            this, &TagsView::updateComboBox);
+
+    connect(m_proxy, &QAbstractItemModel::modelReset,
+            this, &TagsView::updateComboBox);
+
+    QTableView::setModel(m_proxy);
 }
 
 
@@ -54,22 +73,7 @@ TagsView::~TagsView()
 
 void TagsView::setModel(QAbstractItemModel* model)
 {
-    connect(model, &QAbstractItemModel::columnsInserted,
-            this, &TagsView::updateComboBox);
-
-    connect(model, &QAbstractItemModel::columnsRemoved,
-            this, &TagsView::updateComboBox);
-
-    connect(model, &QAbstractItemModel::rowsInserted,
-            this, &TagsView::updateComboBox);
-
-    connect(model, &QAbstractItemModel::rowsRemoved,
-            this, &TagsView::updateComboBox);
-
-    connect(model, &QAbstractItemModel::modelReset,
-            this, &TagsView::updateComboBox);
-
-    QTableView::setModel(model);
+    m_proxy->setSourceModel(model);
 }
 
 
@@ -170,32 +174,38 @@ void TagsView::updateComboBox()
     if (m_comboBox)
         m_comboBox->disconnect(this);
 
-    m_comboBox = new QComboBox(this);
-
-    connect(m_comboBox, &QComboBox::destroyed,
-            this, &TagsView::comboBoxDestroyed);
-
-    connect(m_comboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-            this, &TagsView::comboBoxChanged);
+    m_comboBox = nullptr;
 
     const auto tags = tagsNotUsed();
 
-    for(const auto& tag: tags)
+    if (tags.empty() == false)
     {
-        const TagNameInfo info(tag);
+        m_comboBox = new QComboBox(this);
 
-        const QString text = BaseTags::getTr(tag);
-        m_comboBox->addItem(text, QVariant::fromValue(info));
-    }
+        connect(m_comboBox, &QComboBox::destroyed,
+                this, &TagsView::comboBoxDestroyed);
 
-    const int rc = m->rowCount();
+        connect(m_comboBox, qOverload<int>(&QComboBox::currentIndexChanged),
+                this, &TagsView::comboBoxChanged);
 
-    if (rc > 0)
-    {
-        const int last_row = rc - 1;
-        const QModelIndex idx = m->index(last_row, 0);
 
-        setIndexWidget(idx, m_comboBox);
+        for(const auto& tag: tags)
+        {
+            const TagNameInfo info(tag);
+
+            const QString text = BaseTags::getTr(tag);
+            m_comboBox->addItem(text, QVariant::fromValue(info));
+        }
+
+        const int rc = m->rowCount();
+
+        if (rc > 0)
+        {
+            const int last_row = rc - 1;
+            const QModelIndex idx = m->index(last_row, 0);
+
+            setIndexWidget(idx, m_comboBox);
+        }
     }
 }
 
