@@ -175,15 +175,16 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
 
         if (itemIndex.column() == 1)
         {
-            const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
-            const QString tagName = tagNameIndex.data().toString();
             const QVariant valueRaw = itemIndex.data();
             const TagValue value = TagValue::fromQVariant(valueRaw);
+
+            const QVariant nameRaw = itemIndex.data(TagInfoRole);
+            const TagNameInfo nameInfo = nameRaw.value<TagNameInfo>();
 
             if (value.rawValue().isEmpty())
                 update_failed = true;
             else
-                m_tagsOperator->updateTag(tagName, value);
+                m_tagsOperator->updateTag(nameInfo, value);
         }
     }
 
