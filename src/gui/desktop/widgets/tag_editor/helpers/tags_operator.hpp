@@ -37,7 +37,7 @@ class TagsOperator: public ITagsOperator
 
         void setTag(const TagNameInfo &, const TagValue &) override;
         void setTags(const Tag::TagsList &) override;
-        void updateTag(const QString &, const TagValue& value) override;
+        void updateTag(const TagNameInfo &, const TagValue& value) override;
 
     private:
         std::vector<IPhotoInfo::Ptr> m_photos;

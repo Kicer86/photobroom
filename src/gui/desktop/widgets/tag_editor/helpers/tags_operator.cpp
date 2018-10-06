@@ -90,7 +90,7 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::updateTag(const QString& name, const TagValue& value)
+void TagsOperator::updateTag(const TagNameInfo& name, const TagValue& value)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();
@@ -98,7 +98,7 @@ void TagsOperator::updateTag(const QString& name, const TagValue& value)
 
     for(Tag::Info info: tags)
     {
-        if (info.displayName() == name)
+        if (info.getTypeInfo() == name)
         {
             const bool differs = info.value() != value;
 
