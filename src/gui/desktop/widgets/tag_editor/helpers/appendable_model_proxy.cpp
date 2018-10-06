@@ -108,6 +108,18 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
         assert( static_cast<int>(m_lastRowData.size()) > index.column());
         auto& col_data = m_lastRowData[index.column()];
         col_data[role] = value;
+
+        if (role == Qt::EditRole)   // field was edited by user
+        {
+            col_data[Qt::DisplayRole] = value;
+
+            assert(index.parent().isValid() == false);    // only flat models are supported
+            m_sourceModel->insertRow(index.row());
+
+            // mapToSource would fail when called after row instertion
+            const QModelIndex destIdx = m_sourceModel->index(index.row(), index.column());
+            result = m_sourceModel->setItemData(destIdx, col_data);
+        }
     }
     else
         result = m_sourceModel->setData(mapToSource(index), value, role);
@@ -225,7 +237,7 @@ QVariant AppendableModelProxy::data(const QModelIndex& index, int role) const
         auto it = col_data.find(role);
 
         if (it != col_data.end())
-            result = it->second;
+            result = it.value();
     }
     else
         result = m_sourceModel->data(mapToSource(index), role);
