@@ -63,8 +63,9 @@ TagsView::~TagsView()
 void TagsView::setModel(QAbstractItemModel* model)
 {
     m_proxy->setSourceModel(model);
-
     m_proxy->enableAppending(model != nullptr);
+
+    updateComboBox();
 }
 
 
@@ -223,5 +224,7 @@ void TagsView::comboBoxDestroyed()
 {
     m_comboBox = nullptr;
 
+    // combo box was destroyed (model update usually)
+    // recalculate where to place it now
     updateComboBox();
 }
