@@ -43,7 +43,7 @@ class AppendableModelProxy: public QAbstractItemModel
         void setSourceModel(QAbstractItemModel *sourceModel);
 
     private:
-        typedef std::map<int, QVariant> CellData;
+        typedef QMap<int, QVariant> CellData;
         std::vector<CellData> m_lastRowData;
         std::function<void()> m_postColumnInsertAction;
         QAbstractItemModel* m_sourceModel;
