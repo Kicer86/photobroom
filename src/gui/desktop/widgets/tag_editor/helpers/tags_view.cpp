@@ -46,34 +46,25 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     setItemDelegate(delegate);
     horizontalHeader()->setStretchLastSection(true);
 
-    connect(m_proxy, &QAbstractItemModel::columnsInserted,
-            this, &TagsView::updateComboBox);
-
-    connect(m_proxy, &QAbstractItemModel::columnsRemoved,
-            this, &TagsView::updateComboBox);
-
-    connect(m_proxy, &QAbstractItemModel::rowsInserted,
-            this, &TagsView::updateComboBox);
-
-    connect(m_proxy, &QAbstractItemModel::rowsRemoved,
-            this, &TagsView::updateComboBox);
-
-    connect(m_proxy, &QAbstractItemModel::modelReset,
-            this, &TagsView::updateComboBox);
-
+    m_proxy->enableAppending(false);
     QTableView::setModel(m_proxy);
 }
 
 
 TagsView::~TagsView()
 {
+    if (m_comboBox)
+        m_comboBox->disconnect(this);
 
+    m_comboBox = nullptr;
 }
 
 
 void TagsView::setModel(QAbstractItemModel* model)
 {
     m_proxy->setSourceModel(model);
+
+    m_proxy->enableAppending(model != nullptr);
 }
 
 
@@ -207,6 +198,8 @@ void TagsView::updateComboBox()
             setIndexWidget(idx, m_comboBox);
         }
     }
+
+    m_proxy->enableAppending(tags.empty() == false);
 }
 
 
@@ -229,4 +222,6 @@ void TagsView::comboBoxChanged(int p)
 void TagsView::comboBoxDestroyed()
 {
     m_comboBox = nullptr;
+
+    updateComboBox();
 }
