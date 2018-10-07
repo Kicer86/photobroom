@@ -72,7 +72,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
     m_selectionModel = selectionModel;
     connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
-    connect(this, &TagsModel::emptyValueError, this, static_cast<void (TagsModel::*)()>(&TagsModel::refreshModel), Qt::QueuedConnection);   // refresh model on problems
+    connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
