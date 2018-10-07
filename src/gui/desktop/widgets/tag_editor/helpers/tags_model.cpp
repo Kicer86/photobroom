@@ -70,7 +70,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
         m_selectionModel->disconnect(this);
 
     m_selectionModel = selectionModel;
-    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(refreshModel(QItemSelection, const QItemSelection &)));
+    connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
     connect(this, &TagsModel::emptyValueError, this, static_cast<void (TagsModel::*)()>(&TagsModel::refreshModel), Qt::QueuedConnection);   // refresh model on problems
 
@@ -153,12 +153,6 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         const QList<QStandardItem *> items( { name, value });
         appendRow(items);
     }
-}
-
-
-void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
-{
-    refreshModel();
 }
 
 

@@ -70,9 +70,6 @@ class TagsModel: public QStandardItemModel
         void refreshModel();
         void clearModel();
         void loadPhotos(const std::vector<IPhotoInfo::Ptr> &);
-
-    private slots:
-        void refreshModel(const QItemSelection &, const QItemSelection &);
         void syncData(const QModelIndex &, const QModelIndex &);
 
     signals:
