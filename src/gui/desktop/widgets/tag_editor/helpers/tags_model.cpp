@@ -178,7 +178,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
             if (value.rawValue().isEmpty())
                 update_failed = true;
             else
-                m_tagsOperator->updateTag(nameInfo, value);
+                m_tagsOperator->insert(nameInfo, value);
         }
     }
 

@@ -37,7 +37,7 @@ class TagsOperator: public ITagsOperator
 
         void setTag(const TagNameInfo &, const TagValue &) override;
         void setTags(const Tag::TagsList &) override;
-        void updateTag(const TagNameInfo &, const TagValue& value) override;
+        void insert(const TagNameInfo & name, const TagValue & ) override;
 
     private:
         std::vector<IPhotoInfo::Ptr> m_photos;

@@ -90,7 +90,7 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::updateTag(const TagNameInfo& name, const TagValue& value)
+void TagsOperator::insert(const TagNameInfo& name, const TagValue& value)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();
@@ -105,7 +105,7 @@ void TagsOperator::updateTag(const TagNameInfo& name, const TagValue& value)
             if (differs)
             {
                 info.setValue(value);
-                setTag(info.getTypeInfo(), info.value());
+                setTag(name, info.value());
             }
 
             updated = true;
@@ -113,5 +113,6 @@ void TagsOperator::updateTag(const TagNameInfo& name, const TagValue& value)
         }
     }
 
-    assert(updated);
+    if (updated == false)
+        setTag(name, value);
 }
