@@ -211,11 +211,14 @@ void TagsView::comboBoxChanged(int p)
     if (m && m_comboBox)
     {
         const QVariant v = m_comboBox->itemData(p, TagsModel::TagInfoRole);
+        const QVariant n = m_comboBox->itemText(p);
         const int rc = m->rowCount();
         const int last_row = rc - 1;
-        const QModelIndex idx = m->index(last_row, 1);
+        const QModelIndex name_idx = m->index(last_row, 0);
+        const QModelIndex value_idx = m->index(last_row, 1);
 
-        m->setData(idx, v, TagsModel::TagInfoRole);
+        m->setData(name_idx, n, Qt::DisplayRole);
+        m->setData(value_idx, v, TagsModel::TagInfoRole);
     }
 }
 
