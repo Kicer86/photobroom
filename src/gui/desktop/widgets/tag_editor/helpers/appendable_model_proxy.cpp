@@ -116,9 +116,12 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
             assert(index.parent().isValid() == false);    // only flat models are supported
             m_sourceModel->insertRow(index.row());
 
-            // mapToSource would fail when called after row instertion
-            const QModelIndex destIdx = m_sourceModel->index(index.row(), index.column());
-            result = m_sourceModel->setItemData(destIdx, col_data);
+            for(int c = 0; c < m_cols; c++)
+            {
+                // mapToSource would fail when called after row instertion
+                const QModelIndex destIdx = m_sourceModel->index(index.row(), c);
+                result &= m_sourceModel->setItemData(destIdx, m_lastRowData[c]);
+            }
         }
     }
     else
