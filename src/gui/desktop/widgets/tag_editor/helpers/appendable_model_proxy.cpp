@@ -61,6 +61,12 @@ void AppendableModelProxy::enableAppending(bool enable)
 }
 
 
+bool AppendableModelProxy::appendingEnabled() const
+{
+    return m_enabled;
+}
+
+
 int AppendableModelProxy::columnCount(const QModelIndex& parent) const
 {
     assert(parent.isValid() == false);     // only flat models are supported

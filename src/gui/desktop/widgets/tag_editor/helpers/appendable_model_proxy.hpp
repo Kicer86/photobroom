@@ -29,6 +29,7 @@ class AppendableModelProxy: public QAbstractItemModel
         ~AppendableModelProxy();
 
         void enableAppending(bool);
+        bool appendingEnabled() const;
 
         //QAbstractItemModel overrides:
         int columnCount(const QModelIndex& parent) const override;
