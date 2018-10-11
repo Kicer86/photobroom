@@ -35,6 +35,7 @@ addTestTarget(gui
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
+                    unit_tests/model/appenable_model_proxy_tests.cpp
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
 
