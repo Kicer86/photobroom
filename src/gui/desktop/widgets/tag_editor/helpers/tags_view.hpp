@@ -54,7 +54,10 @@ class TagsView: public QTableView
         void rowsInserted(const QModelIndex& parent, int start, int end) override;
 
         void updateRow(int);
-        void updateComboBox();
+        void setupComboBox();
+        void dropComboBox();
+        void applyTags(const std::vector<BaseTagsList> &);
+        void placeWidget(QWidget *);
         void comboBoxChanged(int);
         void comboBoxDestroyed();
         std::set<BaseTagsList> alreadyUsedTags() const;
