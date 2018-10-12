@@ -24,7 +24,7 @@ enum BaseTagsList
     Place   = 2,
     Date    = 3,
     Time    = 4,
-    _People = 5,        // not valid anymore
+    _People [[deprecated]] = 5,        // not valid anymore
 };
 
 
