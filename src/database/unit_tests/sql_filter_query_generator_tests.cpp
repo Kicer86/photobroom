@@ -127,7 +127,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::People), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::_People), QString("test_value"));
 
     filters.push_back(tag_filter);
 

@@ -63,8 +63,8 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>({QTime(2, 3), QTime(3, 4), QTime(11, 18)})) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::vector<TagValue>({QString("person1"), QString("person2")})) );
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::_People), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::_People), std::vector<TagValue>({QString("person1"), QString("person2")})) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>({QString("12"), QString("23")})) );
@@ -88,7 +88,7 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_EQ(times[1].getTime(), QTime(3, 4));
     EXPECT_EQ(times[2].getTime(), QTime(11, 18));
 
-    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::People) );
+    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::_People) );
     ASSERT_EQ(people.size(), 2);
     EXPECT_EQ(people[0].getString(), "person1");
     EXPECT_EQ(people[1].getString(), "person2");
@@ -121,8 +121,8 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::_People), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::_People), std::vector<TagValue>()) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>()) );
@@ -139,7 +139,7 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     const std::vector<TagValue>& times = tagInfoCollector.get( TagNameInfo(BaseTagsList::Time) );
     EXPECT_TRUE(times.empty());
 
-    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::People) );
+    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::_People) );
     EXPECT_TRUE(people.empty());
 
     const std::vector<TagValue>& places = tagInfoCollector.get( TagNameInfo(BaseTagsList::Place) );
@@ -176,7 +176,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     auto photoInfo = std::make_shared<MockPhotoInfo>();
     Tag::TagsList tags = {
-                            { TagNameInfo(BaseTagsList::People), TagValue("person123") }
+                            { TagNameInfo(BaseTagsList::_People), TagValue("person123") }
     };
 
     EXPECT_CALL(*photoInfo.get(), getTags())
