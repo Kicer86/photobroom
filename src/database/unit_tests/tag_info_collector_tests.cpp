@@ -11,7 +11,7 @@
 #include "unit_tests_utils/mock_photo_info.hpp"
 
 
-struct Observer
+struct Observer: QObject
 {
     MOCK_METHOD1(event, void(const TagNameInfo &));
 };
@@ -184,7 +184,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     emit db_signals.photoModified(photoInfo);
 
-    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::People) );
+    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::_People) );
     ASSERT_EQ(people.size(), 1);
     EXPECT_EQ(people[0].getString(), "person123");
 }
@@ -211,15 +211,13 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>({QTime(2, 3), QTime(3, 4), QTime(11, 18)})) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::People), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::People), std::vector<TagValue>({QString("person1"), QString("person2")})) );
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::_People), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::_People), std::vector<TagValue>({QString("person1"), QString("person2")})) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>({QString("12"), QString("23")})) );
 
     Observer observer;
-    using namespace std::placeholders;
-    auto observerCallback = std::bind(&Observer::event, &observer, _1);
 
     // called 5 times by TagInfoCollector for each of TagName after database is set
     //      + 2 times after photo modification (for each tag name)
@@ -227,12 +225,14 @@ TEST(TagInfoCollectorTest, ObserversNotification)
         .Times(7);
 
     TagInfoCollector tagInfoCollector;
-    tagInfoCollector.registerChangeObserver(observerCallback);
+    QObject::connect(&tagInfoCollector, &TagInfoCollector::setOfValuesChanged,
+                     &observer, &Observer::event);
+
     tagInfoCollector.set(&database);
 
     auto photoInfo = std::make_shared<MockPhotoInfo>();
     Tag::TagsList tags = {
-                            { TagNameInfo(BaseTagsList::People), TagValue("person123") },
+                            { TagNameInfo(BaseTagsList::_People), TagValue("person123") },
                             { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
     };
 
@@ -271,7 +271,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
     emit db_signals.photoModified(photoInfo);
 
     auto event = tagInfoCollector.get(TagNameInfo(BaseTagsList::Event));
-    auto people = tagInfoCollector.get(TagNameInfo(BaseTagsList::People));
+    auto people = tagInfoCollector.get(TagNameInfo(BaseTagsList::_People));
 
     ASSERT_EQ(event.size(), 1);
     ASSERT_EQ(event[0].type(), TagValue::Type::String);
