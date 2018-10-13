@@ -21,7 +21,7 @@ TEST(AppendableModelProxyTest, IsConstructable)
 }
 
 
-TEST(AppendableModelProxyTest, NoModelNoData)
+TEST(AppendableModelProxyTest, NoModel_NoData)
 {
     AppendableModelProxy proxy(2, nullptr);
 
@@ -30,7 +30,7 @@ TEST(AppendableModelProxyTest, NoModelNoData)
 }
 
 
-TEST(AppendableModelProxyTest, EmptyModelAppendableRow)
+TEST(AppendableModelProxyTest, EmptyModel_AppendableRow)
 {
     QStandardItemModel model;
 
@@ -39,4 +39,73 @@ TEST(AppendableModelProxyTest, EmptyModelAppendableRow)
 
     EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
     EXPECT_EQ(proxy.columnCount(QModelIndex()), 2);
+}
+
+
+TEST(AppendableModelProxyTest, EmptyModel_ExtraRowDisabled)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(2, nullptr);
+    proxy.enableAppending(false);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 0);
+}
+
+
+TEST(AppendableModelProxyTest, ReactionOnModelGrowthWhenColumnsMatch)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(3, nullptr);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 5);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
+
+
+TEST(AppendableModelProxyTest, ReactionOnModelShrinkWhenColumnsMatch)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(3, nullptr);
+    proxy.setSourceModel(&model);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 5);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(0, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 4);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(0, 1);
+    model.removeRows(0, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(0, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
 }
