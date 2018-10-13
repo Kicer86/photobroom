@@ -296,11 +296,9 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
 
     if (diff < 0)  // source model has less columns, perform remove action
     {
-        // not tested! I guess there is some math error
         const int last = m_cols - 1;
-        const int first = last + diff;
+        const int first = m_cols + diff;
 
-        assert(!"not tested");
         QAbstractItemModel::beginRemoveColumns(mapFromSource(parent), first, last);
 
         m_postColumnInsertAction = std::bind(&AppendableModelProxy::endRemoveColumns, this);
@@ -312,14 +310,12 @@ void AppendableModelProxy::modelColumnsAboutToBeInserted(const QModelIndex& pare
     }
     else   // source model has more columns, perform insert action
     {
-        // not tested! I guess there is some math error
         const int first = m_cols;
-        const int last = first + diff;
+        const int last = m_cols + diff - 1;
 
-        assert(!"not tested");
         QAbstractItemModel::beginInsertColumns(mapFromSource(parent), first, last);
 
-        m_postColumnInsertAction = std::bind(&AppendableModelProxy::endRemoveColumns, this);
+        m_postColumnInsertAction = std::bind(&AppendableModelProxy::endInsertColumns, this);
     }
 }
 
