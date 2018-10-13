@@ -163,3 +163,109 @@ TEST(AppendableModelProxyTest, ReactionOnModelGrowthWhenMoreColumns)
     EXPECT_EQ(proxy.columnCount(QModelIndex()), 9);
 }
 
+
+TEST(AppendableModelProxyTest, GrowthWithChangingAdditionalRow)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(5, nullptr);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 5);
+
+    proxy.enableAppending(false);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 0);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(true);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(false);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(true);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 3);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
+
+
+TEST(AppendableModelProxyTest, ShrinkWithChangingAdditionalRow)
+{
+    QStandardItemModel model;
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    AppendableModelProxy proxy(5, nullptr);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 6);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(false);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 5);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(2, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 4);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(true);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 5);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(false);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 4);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(0, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 3);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(true);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 4);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(1, 1);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 3);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    proxy.enableAppending(false);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+
+    model.removeRows(0, 2);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 0);
+
+    proxy.enableAppending(true);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
