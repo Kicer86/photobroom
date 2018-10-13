@@ -30,7 +30,7 @@ namespace
         EXPECT_GT(rows, 0);
 
         for (int r = 0; r < rows; r++)
-            for (int c = 0; c< cols; c++)
+            for (int c = 0; c < cols; c++)
             {
                 const QModelIndex m1i = m1.index(r, c);
                 const QModelIndex m2i = m2.index(r, c);
