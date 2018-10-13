@@ -1,4 +1,6 @@
 
+#include <random>
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -11,6 +13,63 @@ using ::testing::_;
 using ::testing::ElementsAre;
 using ::testing::InvokeArgument;
 using ::testing::Return;
+
+
+namespace
+{
+    std::mt19937 mt(0);
+
+    void expectEqual(const QAbstractItemModel& m1, const QAbstractItemModel& m2)
+    {
+        QModelIndex np;
+
+        const int cols = std::min(m1.columnCount(np), m2.columnCount(np));
+        const int rows = std::min(m1.rowCount(np), m2.rowCount(np));
+
+        EXPECT_GT(cols, 0);
+        EXPECT_GT(rows, 0);
+
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c< cols; c++)
+            {
+                const QModelIndex m1i = m1.index(r, c);
+                const QModelIndex m2i = m2.index(r, c);
+
+                const auto i1d = m1.itemData(m1i);
+                const auto i2d = m2.itemData(m2i);
+
+                EXPECT_EQ(i1d, i2d);
+            }
+    }
+
+    QString randomString()
+    {
+        QString result;
+
+        const int len = std::uniform_int_distribution<>(6, 10)(mt);
+        std::uniform_int_distribution<> letters('A', 'Z');
+
+        for(int i = 0; i < len; i++)
+            result += static_cast<char>(letters(mt));
+
+        return result;
+    }
+
+    QList<QStandardItem *> generateRandomRow(int cols)
+    {
+        QList<QStandardItem *> result;
+
+        for(int i = 0; i < cols; i++)
+        {
+            const QString name = randomString();
+            QStandardItem* item = new QStandardItem(name);
+
+            result.append(item);
+        }
+
+        return result;
+    }
+}
 
 
 TEST(AppendableModelProxyTest, IsConstructable)
@@ -268,4 +327,21 @@ TEST(AppendableModelProxyTest, ShrinkWithChangingAdditionalRow)
 
     EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
     EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
+
+
+TEST(AppendableModelProxyTest, DataProxying)
+{
+    QStandardItemModel model;
+
+    for (int i = 0; i < 5; i++)
+    {
+        auto row = generateRandomRow(5);
+        model.appendRow(row);
+    }
+
+    AppendableModelProxy proxy(0);
+    proxy.setSourceModel(&model);
+
+    expectEqual(model, proxy);
 }
