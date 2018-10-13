@@ -109,3 +109,57 @@ TEST(AppendableModelProxyTest, ReactionOnModelShrinkWhenColumnsMatch)
     EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
     EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
 }
+
+
+TEST(AppendableModelProxyTest, ReactionOnPrefilledModelLoadWhenColumnsMatch)
+{
+    QStandardItemModel model;
+    AppendableModelProxy proxy(3, nullptr);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 5);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
+
+
+TEST(AppendableModelProxyTest, ReactionOnModelGrowthWhenLessColumns)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(5, nullptr);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 5);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 3);
+}
+
+
+TEST(AppendableModelProxyTest, ReactionOnModelGrowthWhenMoreColumns)
+{
+    QStandardItemModel model;
+
+    AppendableModelProxy proxy(5, nullptr);
+    proxy.setSourceModel(&model);
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 1);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 5);
+
+    model.appendRow({new QStandardItem, new QStandardItem, new QStandardItem,
+                     new QStandardItem, new QStandardItem, new QStandardItem,
+                     new QStandardItem, new QStandardItem, new QStandardItem});
+
+    EXPECT_EQ(proxy.rowCount(QModelIndex()), 2);
+    EXPECT_EQ(proxy.columnCount(QModelIndex()), 9);
+}
+
