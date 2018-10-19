@@ -21,7 +21,7 @@ namespace
 
     void expectEqual(const QAbstractItemModel& m1, const QAbstractItemModel& m2)
     {
-        QModelIndex np;
+        const QModelIndex np;
 
         const int cols = std::min(m1.columnCount(np), m2.columnCount(np));
         const int rows = std::min(m1.rowCount(np), m2.rowCount(np));
