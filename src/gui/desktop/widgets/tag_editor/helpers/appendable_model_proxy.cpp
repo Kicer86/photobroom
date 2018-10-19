@@ -93,15 +93,21 @@ QModelIndex AppendableModelProxy::index(int row, int column, const QModelIndex& 
 {
     assert(parent.isValid() == false);     // only flat models are supported
 
-    const QModelIndex sourceIdx = mapToSource(parent);
-    const int rc = m_sourceModel->rowCount(sourceIdx);
+    QModelIndex result;
 
-    // if this is the last row (one row after last row of original model) then mark this index with `this`
-    const void* id = row == rc? this: nullptr;
-    void* fid = const_cast<void *>(id);
+    if (m_sourceModel)
+    {
+        const QModelIndex sourceIdx = mapToSource(parent);
+        const int rc = m_sourceModel->rowCount(sourceIdx);
 
-    const QModelIndex i = QAbstractItemModel::createIndex(row, column, fid);
-    return i;
+        // if this is the last row (one row after last row of original model) then mark this index with `this`
+        const void* id = row == rc? this: nullptr;
+        void* fid = const_cast<void *>(id);
+
+        result = QAbstractItemModel::createIndex(row, column, fid);
+    }
+
+    return result;
 }
 
 
