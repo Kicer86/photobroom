@@ -47,13 +47,13 @@ void AppendableModelProxy::enableAppending(bool enable)
 
         if (m_enabled)
         {
-            QAbstractItemModel::beginInsertRows(QModelIndex(), m_rows - 1, m_rows);
+            QAbstractItemModel::beginInsertRows(QModelIndex(), m_rows, m_rows);
             m_rows++;
             QAbstractItemModel::endInsertRows();
         }
-        else
+        else if (m_rows > 0)
         {
-            QAbstractItemModel::beginRemoveRows(QModelIndex(), m_rows - 1, m_rows);
+            QAbstractItemModel::beginRemoveRows(QModelIndex(), m_rows - 1, m_rows - 1);
             m_rows--;
             QAbstractItemModel::endRemoveRows();
         }
