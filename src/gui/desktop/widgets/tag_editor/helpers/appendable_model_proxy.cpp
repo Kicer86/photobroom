@@ -137,6 +137,18 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
 }
 
 
+QMap<int, QVariant> AppendableModelProxy::itemData(const QModelIndex& index) const
+{
+    return m_sourceModel->itemData(index);
+}
+
+
+bool AppendableModelProxy::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
+{
+    return m_sourceModel->setItemData(index, roles);
+}
+
+
 void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
 {
     m_cols = 0;

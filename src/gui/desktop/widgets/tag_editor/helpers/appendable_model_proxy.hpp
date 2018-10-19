@@ -40,6 +40,8 @@ class AppendableModelProxy: public QAbstractItemModel
         QVariant data(const QModelIndex& index, int role) const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;
+        QMap<int, QVariant> itemData(const QModelIndex & index) const override;
+        bool setItemData(const QModelIndex & index, const QMap<int, QVariant> & roles) override;
 
         void setSourceModel(QAbstractItemModel *sourceModel);
 
