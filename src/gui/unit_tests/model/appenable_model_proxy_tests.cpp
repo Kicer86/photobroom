@@ -345,3 +345,12 @@ TEST(AppendableModelProxyTest, DataProxying)
 
     expectEqual(model, proxy);
 }
+
+TEST(AppendableModelProxyTest, InvalidQueries)
+{
+    AppendableModelProxy proxy(5);
+
+    const QModelIndex i = proxy.index(0, 0, QModelIndex());
+
+    EXPECT_FALSE(i.isValid());     // no source model in proxy
+}
