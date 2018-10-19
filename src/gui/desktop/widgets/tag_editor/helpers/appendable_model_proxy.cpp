@@ -139,13 +139,13 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
 
 QMap<int, QVariant> AppendableModelProxy::itemData(const QModelIndex& index) const
 {
-    return m_sourceModel->itemData(index);
+    return m_sourceModel->itemData(mapToSource(index));
 }
 
 
 bool AppendableModelProxy::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
 {
-    return m_sourceModel->setItemData(index, roles);
+    return m_sourceModel->setItemData(mapToSource(index), roles);
 }
 
 
