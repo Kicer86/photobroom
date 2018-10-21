@@ -69,6 +69,7 @@ class AppendableModelProxy: public QAbstractItemModel
         void modelRowsRemoved(const QModelIndex &parent, int start, int end);
         void sourceModelAboutToBeReset();
         void sourceModelReset();
+        void sourceModelDataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 };
 
 #endif // APPENDABLEMODELPROXY_H

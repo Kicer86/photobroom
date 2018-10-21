@@ -193,6 +193,9 @@ void AppendableModelProxy::setSourceModel(QAbstractItemModel* model)
         connect(model, &QAbstractItemModel::modelReset,
                 this, &AppendableModelProxy::sourceModelReset);
 
+        connect(model, &QAbstractItemModel::dataChanged,
+                this, &AppendableModelProxy::sourceModelDataChanged);
+
         // setup initial counts
         setupCount();
     }
@@ -382,4 +385,12 @@ void AppendableModelProxy::sourceModelReset()
     setupCount();
     updateRowData();
     QAbstractItemModel::endResetModel();
+}
+
+
+void AppendableModelProxy::sourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    emit dataChanged(mapFromSource(topLeft),
+                     mapFromSource(bottomRight),
+                     roles);
 }
