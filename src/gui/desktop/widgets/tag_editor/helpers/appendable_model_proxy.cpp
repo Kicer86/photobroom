@@ -242,11 +242,11 @@ QModelIndex AppendableModelProxy::mapToSource(const QModelIndex& proxyIndex) con
 Qt::ItemFlags AppendableModelProxy::flags(const QModelIndex& index) const
 {
     const auto f = index.isValid() && index.internalPointer() == this?
-        ( Qt::ItemIsEnabled |
+        ( Qt::ItemIsEnabled     |
           Qt::ItemIsDropEnabled |
           Qt::ItemIsDragEnabled |
-          Qt::ItemIsEditable |
-          Qt::ItemIsSelectable   ):
+          Qt::ItemIsEditable    |
+          Qt::ItemIsSelectable  ):
         m_sourceModel->flags(mapToSource(index));
 
     return f;
