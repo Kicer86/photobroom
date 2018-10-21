@@ -180,9 +180,13 @@ void TagsView::setupComboBox()
     const auto tags = tagsNotUsed();
 
     if (tags.empty())      // no tags - no combo
+    {
         dropComboBox();
+        m_proxy->enableAppending(false);
+    }
     else
     {
+        m_proxy->enableAppending(true);
         if (m_comboBox == nullptr)
         {
             m_comboBox = new QComboBox(this);
@@ -200,8 +204,6 @@ void TagsView::setupComboBox()
 
         applyTags(tags);
     }
-
-    m_proxy->enableAppending(tags.empty() == false);
 }
 
 
@@ -234,6 +236,7 @@ void TagsView::placeWidget(QWidget* w)
 
     if (rc > 0)
     {
+        assert(w == nullptr || m_proxy->appendingEnabled());     // when we add widget, there must be extra row (added by proxy when appending is enabled)
         const int last_row = rc - (m_proxy->appendingEnabled()? 1: 0);
         const QModelIndex idx = m->index(last_row, 0);
 
@@ -246,19 +249,17 @@ void TagsView::placeWidget(QWidget* w)
 
 void TagsView::comboBoxChanged(int p)
 {
-    QAbstractItemModel* m = model();
-
-    if (m && m_comboBox)
+    if (m_proxy->appendingEnabled() && m_comboBox)
     {
         const QVariant v = m_comboBox->itemData(p, TagsModel::TagInfoRole);
         const QVariant n = m_comboBox->itemText(p);
-        const int rc = m->rowCount();
+        const int rc = m_proxy->rowCount();
         const int last_row = rc - 1;
-        const QModelIndex name_idx = m->index(last_row, 0);
-        const QModelIndex value_idx = m->index(last_row, 1);
+        const QModelIndex name_idx = m_proxy->index(last_row, 0);
+        const QModelIndex value_idx = m_proxy->index(last_row, 1);
 
-        m->setData(name_idx, n, Qt::DisplayRole);
-        m->setData(value_idx, v, TagsModel::TagInfoRole);
+        m_proxy->setData(name_idx, n, Qt::DisplayRole);
+        m_proxy->setData(value_idx, v, TagsModel::TagInfoRole);
     }
 }
 
