@@ -19,11 +19,69 @@
 #ifndef SIGNALPOSTPONER_HPP
 #define SIGNALPOSTPONER_HPP
 
+#include <functional>
+
 #include <QObject>
 
 
+struct PatientPolicy
+{
+    bool operator()(const std::chrono::steady_clock::time_point& last,
+                    const std::chrono::steady_clock::time_point& current) const
+    {
+        if (last.time_since_epoch() != 0)
+        {
+        }
+
+        return true;
+    }
+};
+
+
+template<typename Signal2, typename PostponePolicy>
 class SignalPostponer: public QObject
 {
+    public:
+        template<typename Fire>
+        SignalPostponer(Fire fire, QObject* p, PostponePolicy policy):
+            QObject(p),
+            m_fire(fire),
+            m_policy(policy)
+        {
+            reset();
+        }
+
+        void notify()
+        {
+            auto current_time = std::chrono::steady_clock::now();
+
+            const bool fire = m_policy(m_last, current_time);
+
+            if (fire)
+                m_fire();
+            else
+                m_last = current_time;
+        }
+
+    private:
+        std::function<void()> m_fire;
+        PostponePolicy m_policy;
+        std::chrono::steady_clock::time_point m_last;
+
+        void reset()
+        {
+            m_last = 0;
+        }
 };
+
+
+template<typename Signal1, typename Dst, typename Signal2, typename PostponePolicy>
+void lazy_connect(QObject* src, Signal1 sig1, Dst* dst, Signal2 sig2, PostponePolicy policy)
+{
+    typedef SignalPostponer<Signal2, PostponePolicy> Postponer;
+    Postponer* postponer = new Postponer([&dst, &sig2](){dst->sig2();}, src, policy);
+
+    QObject::connect(src, sig1, postponer, &Postponer::notify);
+}
 
 #endif // SIGNALPOSTPONER_HPP
