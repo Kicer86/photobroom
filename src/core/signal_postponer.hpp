@@ -50,15 +50,15 @@ class SignalPostponer: public QObject
 };
 
 
-template<typename Signal1, typename Dst, typename Signal2>
-void lazy_connect(QObject* src, Signal1 sig1, Dst* dst, Signal2 slot1)
+template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
+void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1)
 {
     typedef SignalPostponer<Signal2> Postponer;
 
     Postponer* postponer = new Postponer([&dst, &slot1]()
         {
             // launch destination slot
-            dst->slot1();
+            (dst->*slot1)();
         },
         src);
 
