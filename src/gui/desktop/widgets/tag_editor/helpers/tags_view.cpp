@@ -33,6 +33,7 @@
 #include "tags_model.hpp"              // TODO: TagsView and TagModel will be probably always used together,
                                        //       yet it would be nice to keep abstraction here
 
+using namespace std::chrono;
 
 TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     QTableView(p),
@@ -48,16 +49,16 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     horizontalHeader()->setStretchLastSection(true);
 
     lazy_connect(m_proxy, &QAbstractItemModel::columnsInserted,
-            this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, 100ms);
 
     lazy_connect(m_proxy, &QAbstractItemModel::columnsRemoved,
-            this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, 100ms);
 
     lazy_connect(m_proxy, &QAbstractItemModel::rowsInserted,
-            this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, 100ms);
 
     lazy_connect(m_proxy, &QAbstractItemModel::rowsRemoved,
-            this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, 100ms);
 
     m_proxy->enableAppending(false);
     QTableView::setModel(m_proxy);
