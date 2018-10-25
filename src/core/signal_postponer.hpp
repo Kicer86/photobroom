@@ -33,21 +33,39 @@ class CORE_EXPORT SignalPostponer: public QObject
     public:
         template<typename Fire>
         SignalPostponer(Fire fire, QObject* p):
-            QObject(p)
+            QObject(p),
+            m_delay(std::chrono::milliseconds(250)),
+            m_patience(std::chrono::milliseconds(1000))
         {
-            connect(&m_timer, &QTimer::timeout, fire);
-            m_timer.setSingleShot(true);
+            connect(&m_lazinessTimer, &QTimer::timeout, fire);
+            connect(&m_patienceTimer, &QTimer::timeout, fire);
+
+            // when any of timers timeouts, stop both of them
+            connect(&m_lazinessTimer, &QTimer::timeout, this, &SignalPostponer::stop);
+            connect(&m_patienceTimer, &QTimer::timeout, this, &SignalPostponer::stop);
+
+            m_lazinessTimer.setSingleShot(true);
+            m_patienceTimer.setSingleShot(true);
         }
 
+        void setDelay(const std::chrono::milliseconds &);
+        void setPatiece(const std::chrono::milliseconds &);
         void notify();
 
     private:
-        QTimer m_timer;
+        QTimer m_lazinessTimer;
+        QTimer m_patienceTimer;
+        std::chrono::milliseconds m_delay;
+        std::chrono::milliseconds m_patience;
+
+        void stop();
 };
 
 
 template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
-void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1)
+void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1,
+                const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
+                const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000))
 {
     SignalPostponer* postponer = new SignalPostponer([dst, slot1]()
         {
@@ -55,6 +73,9 @@ void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1)
             (dst->*slot1)();
         },
         src);
+
+    postponer->setDelay(delay);
+    postponer->setPatiece(patience);
 
     QObject::connect(src, sig1, postponer, &SignalPostponer::notify);
 }

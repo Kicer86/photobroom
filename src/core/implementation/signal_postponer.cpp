@@ -21,7 +21,29 @@
 using namespace std::chrono;
 
 
+void SignalPostponer::setDelay(const std::chrono::milliseconds& d)
+{
+    m_delay = d;
+}
+
+
+void SignalPostponer::setPatiece(const std::chrono::milliseconds& p)
+{
+    m_patience = p;
+}
+
+
 void SignalPostponer::notify()
 {
-    m_timer.start(250ms);
+    if (m_lazinessTimer.isActive() == false)  // lazy timer will be launched for the first time?
+        m_patienceTimer.start(m_patience);    // start patience timer also
+
+    m_lazinessTimer.start(m_delay);
+}
+
+
+void SignalPostponer::stop()
+{
+    m_lazinessTimer.stop();
+    m_patienceTimer.stop();
 }
