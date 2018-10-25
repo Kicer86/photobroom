@@ -55,7 +55,7 @@ void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1)
 {
     typedef SignalPostponer<Signal2> Postponer;
 
-    Postponer* postponer = new Postponer([&dst, &slot1]()
+    Postponer* postponer = new Postponer([dst, slot1]()
         {
             // launch destination slot
             (dst->*slot1)();
