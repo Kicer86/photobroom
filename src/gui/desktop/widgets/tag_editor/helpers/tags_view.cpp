@@ -189,6 +189,7 @@ void TagsView::setupComboBox()
     else
     {
         m_proxy->enableAppending(true);
+
         if (m_comboBox == nullptr)
         {
             m_comboBox = new QComboBox(this);
