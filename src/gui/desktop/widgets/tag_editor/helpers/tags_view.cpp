@@ -26,6 +26,7 @@
 #include <QStringListModel>
 
 #include <core/base_tags.hpp>
+#include <core/signal_postponer.hpp>
 
 #include "tags_item_delegate.hpp"
 #include "appendable_model_proxy.hpp"
@@ -46,16 +47,16 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     setItemDelegate(delegate);
     horizontalHeader()->setStretchLastSection(true);
 
-    connect(m_proxy, &QAbstractItemModel::columnsInserted,
+    lazy_connect(m_proxy, &QAbstractItemModel::columnsInserted,
             this, &TagsView::setupComboBox);
 
-    connect(m_proxy, &QAbstractItemModel::columnsRemoved,
+    lazy_connect(m_proxy, &QAbstractItemModel::columnsRemoved,
             this, &TagsView::setupComboBox);
 
-    connect(m_proxy, &QAbstractItemModel::rowsInserted,
+    lazy_connect(m_proxy, &QAbstractItemModel::rowsInserted,
             this, &TagsView::setupComboBox);
 
-    connect(m_proxy, &QAbstractItemModel::rowsRemoved,
+    lazy_connect(m_proxy, &QAbstractItemModel::rowsRemoved,
             this, &TagsView::setupComboBox);
 
     m_proxy->enableAppending(false);
