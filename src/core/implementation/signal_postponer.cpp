@@ -17,3 +17,11 @@
  */
 
 #include "signal_postponer.hpp"
+
+using namespace std::chrono;
+
+
+void SignalPostponer::notify()
+{
+    m_timer.start(250ms);
+}

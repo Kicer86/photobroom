@@ -25,9 +25,10 @@
 #include <QObject>
 #include <QTimer>
 
+#include "core_export.h"
 
-template<typename Signal2>
-class SignalPostponer: public QObject
+
+class CORE_EXPORT SignalPostponer: public QObject
 {
     public:
         template<typename Fire>
@@ -38,12 +39,7 @@ class SignalPostponer: public QObject
             m_timer.setSingleShot(true);
         }
 
-        void notify()
-        {
-            using namespace std::chrono;
-
-            m_timer.start(250ms);
-        }
+        void notify();
 
     private:
         QTimer m_timer;
@@ -53,16 +49,14 @@ class SignalPostponer: public QObject
 template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
 void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1)
 {
-    typedef SignalPostponer<Signal2> Postponer;
-
-    Postponer* postponer = new Postponer([dst, slot1]()
+    SignalPostponer* postponer = new SignalPostponer([dst, slot1]()
         {
             // launch destination slot
             (dst->*slot1)();
         },
         src);
 
-    QObject::connect(src, sig1, postponer, &Postponer::notify);
+    QObject::connect(src, sig1, postponer, &SignalPostponer::notify);
 }
 
 #endif // SIGNALPOSTPONER_HPP
