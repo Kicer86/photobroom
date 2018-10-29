@@ -32,11 +32,13 @@
 #include <QItemSelectionModel>
 
 #include <core/cross_thread_call.hpp>
+#include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 #include "models/db_data_model.hpp"
 #include "tags_operator.hpp"
 
 
+using namespace std::chrono;
 using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
@@ -70,9 +72,9 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
         m_selectionModel->disconnect(this);
 
     m_selectionModel = selectionModel;
-    connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
-    connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, Qt::QueuedConnection);   // refresh model on problems
+    lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
+    lazy_connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, 250ms, 500ms, Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
