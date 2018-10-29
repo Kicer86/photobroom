@@ -64,8 +64,8 @@ class CORE_EXPORT SignalPostponer: public QObject
 
 template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
 void lazy_connect(SrcObj* src, Signal1 sig1, Dst* dst, Signal2 slot1,
-                const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
-                const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000))
+                  const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
+                  const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000))
 {
     SignalPostponer* postponer = new SignalPostponer([dst, slot1]()
         {
