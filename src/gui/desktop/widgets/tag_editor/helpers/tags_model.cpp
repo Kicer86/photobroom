@@ -43,6 +43,7 @@ using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
     QStandardItemModel(p),
+    m_loadInProgress(false),
     m_selectionExtractor(),
     m_selectionModel(nullptr),
     m_dbDataModel(nullptr),
@@ -109,8 +110,10 @@ void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
 
 void TagsModel::refreshModel()
 {
-    if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
+    if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
     {
+        m_loadInProgress = true;
+
         clearModel();
 
         std::vector<Photo::Data> photos = m_selectionExtractor.getSelection();
@@ -155,6 +158,8 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         const QList<QStandardItem *> items( { name, value });
         appendRow(items);
     }
+
+    m_loadInProgress = false;
 }
 
 

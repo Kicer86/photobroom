@@ -61,6 +61,7 @@ class TagsModel: public QStandardItemModel
         void addTag(const TagNameInfo &, const TagValue &);
 
     private:
+        std::atomic<bool> m_loadInProgress;
         SelectionExtractor m_selectionExtractor;
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_dbDataModel;
