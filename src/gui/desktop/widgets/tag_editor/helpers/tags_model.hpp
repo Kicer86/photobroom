@@ -20,7 +20,7 @@
 #ifndef TAGSMODEL_HPP
 #define TAGSMODEL_HPP
 
-#include <QStandardItemModel>
+#include <QAbstractItemModel>
 
 #include <database/iphoto_info.hpp>
 
@@ -36,7 +36,7 @@ namespace Database
 struct ITagsOperator;
 class DBDataModel;
 
-class TagsModel: public QStandardItemModel
+class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
 
@@ -60,7 +60,19 @@ class TagsModel: public QStandardItemModel
         Tag::TagsList getTags() const;
         void addTag(const TagNameInfo &, const TagValue &);
 
+        // overrides:
+        bool setData(const QModelIndex & index, const QVariant & value, int role) override;
+
+        QVariant data(const QModelIndex & index, int role) const override;
+        QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+        QModelIndex parent(const QModelIndex & child) const override;
+        int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+        int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+
     private:
+        typedef QMap<int, QVariant> ItemData;
+        std::vector<ItemData> m_keys,
+                              m_values;
         std::atomic<bool> m_loadInProgress;
         SelectionExtractor m_selectionExtractor;
         QItemSelectionModel* m_selectionModel;

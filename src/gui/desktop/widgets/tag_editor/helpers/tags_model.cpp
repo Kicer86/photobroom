@@ -42,7 +42,7 @@ using namespace std::chrono;
 using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
-    QStandardItemModel(p),
+    QAbstractItemModel(p),
     m_loadInProgress(false),
     m_selectionExtractor(),
     m_selectionModel(nullptr),
@@ -108,6 +108,80 @@ void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
 }
 
 
+bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    const int c = index.column();
+    const int r = index.row();
+
+    bool done = false;
+
+    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    {
+        auto& vec = c == 0? m_keys: m_values;
+        auto& data = vec[r];
+        data[role] = value;
+
+        done = true;
+    }
+
+    return done;
+}
+
+
+QVariant TagsModel::data(const QModelIndex& index, int role) const
+{
+    const int c = index.column();
+    const int r = index.row();
+
+    QVariant result;
+
+    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    {
+        const auto& vec = c == 0? m_keys: m_values;
+        const auto& data  = vec[r];
+        const auto it = data.constFind(role);
+
+        result = it == data.end()? QVariant(): *it;
+    }
+
+    return result;
+}
+
+
+QModelIndex TagsModel::index(int row, int column, const QModelIndex& parent) const
+{
+    const QModelIndex result = parent.isValid()?
+                                QModelIndex():
+                                QAbstractItemModel::createIndex(row, column, nullptr);
+
+    return result;
+}
+
+
+QModelIndex TagsModel::parent(const QModelIndex& child) const
+{
+    return QModelIndex();
+}
+
+
+int TagsModel::columnCount(const QModelIndex& parent) const
+{
+    const int c = parent.isValid()? 0 : 2;
+
+    return c;
+}
+
+
+int TagsModel::rowCount(const QModelIndex& parent) const
+{
+    assert(m_keys.size() == m_values.size());
+
+    const int r = parent.isValid()? 0 : m_keys.size();
+
+    return r;
+}
+
+
 void TagsModel::refreshModel()
 {
     if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
@@ -132,8 +206,13 @@ void TagsModel::refreshModel()
 
 void TagsModel::clearModel()
 {
-    clear();
-    setHorizontalHeaderLabels( {tr("Name"), tr("Value")} );
+    beginResetModel();
+    m_keys.clear();
+    m_values.clear();
+    endResetModel();
+
+    setHeaderData(0, Qt::Horizontal, tr("Name"));
+    setHeaderData(1, Qt::Horizontal, tr("Value"));
 }
 
 
@@ -143,20 +222,37 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 
     Tag::TagsList tags = getTags();
 
-    for (const auto& tag: tags)
+    assert(rowCount() == 0);
+
+    if (tags.empty() == false)
     {
-        Tag::Info info(tag);
-        QStandardItem* name = new QStandardItem(info.displayName());
-        QStandardItem* value = new QStandardItem;
+        const std::size_t tc = tags.size();
+        QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
 
-        const QVariant dispRole = info.value().get();
-        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+        m_keys.resize(tc);
+        m_values.resize(tc);
 
-        value->setData(dispRole, Qt::DisplayRole);
-        value->setData(tagInfoRole, TagInfoRole);
+        int row = 0;
 
-        const QList<QStandardItem *> items( { name, value });
-        appendRow(items);
+        for (const auto& tag: tags)
+        {
+            const Tag::Info info(tag);
+
+            QModelIndex name = index(row, 0);
+            QModelIndex value = index(row, 1);
+
+            setData(name, info.displayName(), Qt::DisplayRole);
+
+            const QVariant dispRole = info.value().get();
+            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+
+            setData(value, dispRole, Qt::DisplayRole);
+            setData(value, tagInfoRole, TagInfoRole);
+
+            row++;
+        }
+
+        QAbstractItemModel::endInsertRows();
     }
 
     m_loadInProgress = false;
