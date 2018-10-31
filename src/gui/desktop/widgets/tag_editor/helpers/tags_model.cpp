@@ -182,6 +182,20 @@ int TagsModel::rowCount(const QModelIndex& parent) const
 }
 
 
+QVariant TagsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        switch(section)
+        {
+            case 0: return tr("Name");
+            case 1: return tr("Value");
+            default: return QVariant();
+        }
+    else
+        return QVariant();
+}
+
+
 void TagsModel::refreshModel()
 {
     if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
@@ -210,9 +224,6 @@ void TagsModel::clearModel()
     m_keys.clear();
     m_values.clear();
     endResetModel();
-
-    setHeaderData(0, Qt::Horizontal, tr("Name"));
-    setHeaderData(1, Qt::Horizontal, tr("Value"));
 }
 
 
