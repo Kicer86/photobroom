@@ -48,16 +48,16 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     horizontalHeader()->setStretchLastSection(true);
 
     connect(m_proxy, &QAbstractItemModel::columnsInserted,
-                 this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
 
     connect(m_proxy, &QAbstractItemModel::columnsRemoved,
-                 this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
 
     connect(m_proxy, &QAbstractItemModel::rowsInserted,
-                 this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
 
     connect(m_proxy, &QAbstractItemModel::rowsRemoved,
-                 this, &TagsView::setupComboBox);
+                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
 
     m_proxy->enableAppending(false);
     QTableView::setModel(m_proxy);
@@ -218,7 +218,6 @@ void TagsView::dropComboBox()
     if (m_comboBox)
         m_comboBox->disconnect(this);
 
-    placeWidget(nullptr);
     m_comboBox = nullptr;
 }
 
@@ -240,16 +239,19 @@ void TagsView::placeWidget(QWidget* w)
     QAbstractItemModel* m = model();
     const int rc = m->rowCount();
 
-    if (rc > 0)
+    if (w)
     {
-        assert(w == nullptr || m_proxy->appendingEnabled());     // when we add widget, there must be extra row (added by proxy when appending is enabled)
-        const int last_row = rc - (m_proxy->appendingEnabled()? 1: 0);
-        const QModelIndex idx = m->index(last_row, 0);
+        if (rc > 0)
+        {
+            assert(m_proxy->appendingEnabled());     // when we add widget, there must be extra row (added by proxy when appending is enabled)
+            const int last_row = rc - 1;
+            const QModelIndex idx = m->index(last_row, 0);
 
-        setIndexWidget(idx, w);
+            setIndexWidget(idx, w);
+        }
+        else
+            w->deleteLater();
     }
-    else if (w)
-        w->deleteLater();
 }
 
 
