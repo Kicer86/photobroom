@@ -121,6 +121,14 @@ bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int rol
         auto& data = vec[r];
         data[role] = value;
 
+        // Item edited? Set DisplayRole too.
+        if (role == Qt::EditRole)
+            data[Qt::DisplayRole] = value;
+
+        // Display role? Set EditRole too.
+        if (role == Qt::DisplayRole)
+            data[Qt::EditRole] = value;
+
         done = true;
     }
 
