@@ -148,6 +148,27 @@ QVariant TagsModel::data(const QModelIndex& index, int role) const
 }
 
 
+Qt::ItemFlags TagsModel::flags(const QModelIndex& index) const
+{
+    Qt::ItemFlags flags = Qt::NoItemFlags;
+
+    if (index.isValid() && index.column() < 2 && index.row() < m_keys.size())
+    {
+        flags =
+          Qt::ItemIsEnabled     |
+          Qt::ItemIsDropEnabled |
+          Qt::ItemIsDragEnabled |
+          Qt::ItemIsSelectable;
+
+        if (index.column() == 1)
+            flags |= Qt::ItemIsEditable;
+    }
+
+    return flags;
+}
+
+
+
 QModelIndex TagsModel::index(int row, int column, const QModelIndex& parent) const
 {
     const QModelIndex result = parent.isValid()?
