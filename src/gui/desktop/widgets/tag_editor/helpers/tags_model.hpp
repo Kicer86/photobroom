@@ -62,6 +62,8 @@ class TagsModel: public QAbstractItemModel
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;
+        bool setItemData(const QModelIndex & index, const QMap<int, QVariant> & roles) override;
+        bool insertRows(int row, int count, const QModelIndex & parent) override;
 
         QVariant data(const QModelIndex & index, int role) const override;
         Qt::ItemFlags flags(const QModelIndex &index) const override;

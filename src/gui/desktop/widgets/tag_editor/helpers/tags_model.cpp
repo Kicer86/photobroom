@@ -120,6 +120,40 @@ bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int rol
 }
 
 
+bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
+{
+    const int r = index.row();
+    const int c = index.column();
+
+    assert(r < m_keys.size());
+    assert(r < m_values.size());
+    assert(c == 0 || c == 1);
+
+    auto& vec = c == 0? m_keys: m_values;
+    auto& data = vec[r];
+
+    data = roles;
+
+    emit dataChanged(index, index);
+}
+
+
+bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
+{
+    assert(row == m_keys.size());
+    assert(row == m_values.size());
+    assert(parent.isValid() == false);
+
+    const std::size_t s = m_keys.size();
+    const std::size_t newSize = s + count;
+
+    m_keys.resize(newSize);
+    m_values.resize(newSize);
+
+    return true;
+}
+
+
 QVariant TagsModel::data(const QModelIndex& index, int role) const
 {
     const int c = index.column();
