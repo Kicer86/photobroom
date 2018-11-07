@@ -265,13 +265,13 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
             QModelIndex name = index(row, 0);
             QModelIndex value = index(row, 1);
 
-            setData(name, info.displayName(), Qt::DisplayRole);
+            setDataInternal(name, info.displayName(), Qt::DisplayRole);
 
             const QVariant dispRole = info.value().get();
             const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
 
-            setData(value, dispRole, Qt::DisplayRole);
-            setData(value, tagInfoRole, TagInfoRole);
+            setDataInternal(value, dispRole, Qt::DisplayRole);
+            setDataInternal(value, tagInfoRole, TagInfoRole);
 
             row++;
         }
