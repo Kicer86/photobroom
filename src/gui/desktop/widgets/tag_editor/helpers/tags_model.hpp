@@ -86,6 +86,7 @@ class TagsModel: public QAbstractItemModel
         void clearModel();
         void loadPhotos(const std::vector<IPhotoInfo::Ptr> &);
         void syncData(const QModelIndex &, const QModelIndex &);
+        QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
 
     signals:
         void emptyValueError();

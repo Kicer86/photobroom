@@ -110,29 +110,13 @@ void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
 
 bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    const int c = index.column();
-    const int r = index.row();
+    const QVector<int> touchedRoles = setDataInternal(index, value, role);
+    const bool set = touchedRoles.empty() == false;
 
-    bool done = false;
+    if (set)
+        emit dataChanged(index, index, touchedRoles);
 
-    if (r < m_keys.size() && ( c == 0 || c == 1) )
-    {
-        auto& vec = c == 0? m_keys: m_values;
-        auto& data = vec[r];
-        data[role] = value;
-
-        // Item edited? Set DisplayRole too.
-        if (role == Qt::EditRole)
-            data[Qt::DisplayRole] = value;
-
-        // Display role? Set EditRole too.
-        if (role == Qt::DisplayRole)
-            data[Qt::EditRole] = value;
-
-        done = true;
-    }
-
-    return done;
+    return set;
 }
 
 
@@ -328,4 +312,38 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
 
     if (update_failed)
         emit emptyValueError();
+}
+
+
+QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant& value, int role)
+{
+    const int c = index.column();
+    const int r = index.row();
+
+    QVector<int> touchedRoles;
+
+    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    {
+        touchedRoles.append(role);
+
+        auto& vec = c == 0? m_keys: m_values;
+        auto& data = vec[r];
+        data[role] = value;
+
+        // Item edited? Set DisplayRole too.
+        if (role == Qt::EditRole)
+        {
+            data[Qt::DisplayRole] = value;
+            touchedRoles.append(Qt::DisplayRole);
+        }
+
+        // Display role? Set EditRole too.
+        if (role == Qt::DisplayRole)
+        {
+            data[Qt::EditRole] = value;
+            touchedRoles.append(Qt::EditRole);
+        }
+    }
+
+    return touchedRoles;
 }
