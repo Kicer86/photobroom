@@ -147,8 +147,12 @@ bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
     const std::size_t s = m_keys.size();
     const std::size_t newSize = s + count;
 
+    beginInsertRows(parent, row, row + count -1);
+
     m_keys.resize(newSize);
     m_values.resize(newSize);
+
+    endInsertRows();
 
     return true;
 }
