@@ -134,6 +134,9 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
                 const QModelIndex destIdx = m_sourceModel->index(index.row(), c);
                 result &= m_sourceModel->setItemData(destIdx, m_lastRowData[c]);
             }
+
+            for(auto& data: m_lastRowData)
+                data.clear();
         }
     }
     else
