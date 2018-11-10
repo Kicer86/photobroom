@@ -210,6 +210,8 @@ void TagsView::setupComboBox()
         m_comboBox->addItem("", QVariant::fromValue(TagNameInfo()));  // defualt, empty value
         applyTags(tags);
     }
+
+    resizeColumnToContents(0);
 }
 
 
