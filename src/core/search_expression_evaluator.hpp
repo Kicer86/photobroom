@@ -46,7 +46,7 @@ class CORE_EXPORT SearchExpressionEvaluator
 
         SearchExpressionEvaluator& operator=(const SearchExpressionEvaluator &) = delete;
 
-        std::vector<Filter> evaluate(const QString& input) const;
+        Expression evaluate(const QString& input) const;
 
     private:
         QString m_separator;

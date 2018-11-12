@@ -204,19 +204,7 @@ void PhotosWidget::set(IConfiguration* configuration)
 
 void PhotosWidget::set(ICompleterFactory* completerFactory)
 {
-    auto allTagTypes = BaseTags::getAll();
-    std::set<TagNameInfo> allTags;
-
-    for(const BaseTagsList& tagType: allTagTypes)
-    {
-        if (tagType != BaseTagsList::Date)
-        {
-            const TagNameInfo tagInfo(tagType);
-            allTags.insert(tagInfo);
-        }
-    }
-
-    QCompleter* completer = completerFactory->createCompleter(allTags);
+    QCompleter* completer = completerFactory->createPeopleCompleter();
     m_searchExpression->setCompleter(completer);
 }
 

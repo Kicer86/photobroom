@@ -27,12 +27,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+67"/>
-        <source>People</source>
-        <translation>Osoby</translation>
-    </message>
-    <message>
-        <location line="-12"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+54"/>
         <source>Place</source>
         <translation>Miejsce</translation>
     </message>
@@ -457,7 +452,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+131"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+132"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -910,22 +905,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>TagEditorWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/tag_editor_widget.cpp" line="+199"/>
-        <source>Cannot add empty value.</source>
-        <translation>Nie można wprowadzić pustej wartości.</translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+133"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+241"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Value</source>
         <translation>Wartość</translation>
     </message>

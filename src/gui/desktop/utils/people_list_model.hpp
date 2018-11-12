@@ -1,6 +1,6 @@
 /*
- * Tags operator
- * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Model keeping list of all people names
+ * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,33 +14,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef TAGS_OPERATOR_HPP
-#define TAGS_OPERATOR_HPP
+#ifndef PEOPLELISTMODEL_HPP
+#define PEOPLELISTMODEL_HPP
 
-#include <vector>
+#include <QAbstractListModel>
 
-#include <database/iphoto_info.hpp>
+namespace Database
+{
+    struct IDatabase;
+}
 
-#include "itags_operator.hpp"
-
-class TagsOperator: public ITagsOperator
+class PeopleListModel: public QAbstractListModel
 {
     public:
-        TagsOperator();
+        PeopleListModel();
+        ~PeopleListModel();
 
-        void operateOn(const std::vector< IPhotoInfo::Ptr >&) override;
+        void setDB(Database::IDatabase *);
 
-        Tag::TagsList getTags() const override;
-
-        void setTag(const TagNameInfo &, const TagValue &) override;
-        void setTags(const Tag::TagsList &) override;
-        void insert(const TagNameInfo & name, const TagValue & ) override;
+        QVariant data(const QModelIndex & index, int role) const override;
+        int rowCount(const QModelIndex & parent) const override;
 
     private:
-        std::vector<IPhotoInfo::Ptr> m_photos;
+        QStringList m_names;
+
+        void fill(const QStringList &);
+        void clear();
 };
 
-#endif // TAGS_OPERATOR_HPP
+#endif // PEOPLELISTMODEL_HPP

@@ -50,6 +50,7 @@ set(CORE_SOURCES
     implementation/qmodelindex_comparator.cpp
     implementation/qmodelindex_selector.cpp
     implementation/search_expression_evaluator.cpp
+    implementation/signal_postponer.cpp
     implementation/stopwatch.cpp
     implementation/tag.cpp
     implementation/task_executor.cpp
@@ -102,6 +103,7 @@ set(CORE_HEADERS
     qmodelindex_comparator.hpp
     qmodelindex_selector.hpp
     search_expression_evaluator.hpp
+    signal_postponer.hpp
     status.hpp
     stopwatch.hpp
     tag.hpp

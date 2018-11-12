@@ -122,13 +122,8 @@ namespace Database
             for(const auto& tag: tagsList)
             {
                 const TagValue& tagValue = tag.second;
-                const std::vector<TagValue> flatList = Tag::flatten(tagValue);
 
-                for(const TagValue& flat: flatList)
-                {
-                    const auto p = std::make_pair(tag.first, flat);
-                    result.push_back(p);
-                }
+                result.emplace_back(tag.first, tagValue);
             }
 
             return result;
@@ -221,10 +216,6 @@ namespace Database
                 assert(!"Empty tag value!");
                 break;
 
-            case TagValue::Type::List:
-                assert(!"TagValue should be flat");
-                break;
-
             case TagValue::Type::Date:
             case TagValue::Type::String:
             case TagValue::Type::Time:
@@ -236,19 +227,7 @@ namespace Database
 
                 assert(value.isEmpty() == false);
 
-                // TODO: extract
-                if (name_id == BaseTagsList::People)
-                {
-                    PersonName pn = m_backend->person(value);
-                    Person::Id p_id = pn.id();
-
-                    if (p_id.valid() == false)
-                        p_id = m_backend->store(PersonName(value));
-
-                    const PersonInfo pi(PersonInfo::Id(), p_id, Photo::Id(photo_id), QRect());
-                    m_backend->store(pi);
-                }
-                else if (value.isEmpty() == false)
+                if (value.isEmpty() == false)
                 {
                     InsertQueryData queryData(TAB_TAGS);
                     queryData.setColumns("value", "photo_id", "name");
@@ -287,53 +266,34 @@ namespace Database
     {
         std::vector<TagValue> result;
 
-        // TODO: extract
-        if (tagName.getTag() == BaseTagsList::People)
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
+
+        // from filtered photos, get info about tags used there
+        // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
+        // TODO: consider DISTINCT removal, just do some post process
+        QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
+
+        queryStr = queryStr.arg(tagName.getTag());
+        queryStr = queryStr.arg(TAB_TAGS);
+        queryStr = queryStr.arg(filterQuery);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const bool status = m_executor.exec(queryStr, &query);
+
+        if (status)
         {
-            std::set<QString> all_people;
-
-            // collect all people for matching photos
-            const auto photos = getPhotos(filter);
-            const auto all_person_info = m_backend->listPeople(photos);
-            for(const PersonInfo& pi: all_person_info)
+            while (status && query.next())
             {
-                const auto personName = m_backend->person(pi.p_id);
-                all_people.insert(personName.name());
-            }
+                const QString raw_value = query.value(0).toString();
+                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
 
-            std::copy(all_people.cbegin(), all_people.cend(), std::back_inserter(result));
-        }
-        else  // regular tags
-        {
-            const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
+                // we do not expect empty values (see store() for tags)
+                assert(raw_value.isEmpty() == false);
 
-            // from filtered photos, get info about tags used there
-            // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
-            // TODO: consider DISTINCT removal, just do some post process
-            QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
-
-            queryStr = queryStr.arg(tagName.getTag());
-            queryStr = queryStr.arg(TAB_TAGS);
-            queryStr = queryStr.arg(filterQuery);
-
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-            QSqlQuery query(db);
-
-            const bool status = m_executor.exec(queryStr, &query);
-
-            if (status)
-            {
-                while (status && query.next())
-                {
-                    const QString raw_value = query.value(0).toString();
-                    const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
-
-                    // we do not expect empty values (see store() for tags)
-                    assert(raw_value.isEmpty() == false);
-
-                    if (raw_value.isEmpty() == false)
-                        result.push_back(value);
-                }
+                if (raw_value.isEmpty() == false)
+                    result.push_back(value);
             }
         }
 
@@ -822,36 +782,9 @@ namespace Database
 
             const QString raw_value = value.toString();
             const TagValue tagValue = TagValue::fromRaw(raw_value, tagName.getType());
-            const bool multivalue = tagName.isMultiValue();
 
-            if (multivalue)   // accumulate vs override
-            {
-                // insert() will add empty List if there is no entry for given key.
-                // otherwise will do nothing.
-                auto insert_it = tagData.insert( std::make_pair(tagName, TagValueTraits<TagValue::Type::List>::StorageType()) );
-                auto it = insert_it.first;   // get regular map iterator
-                TagValue& listTagValue = it->second;
-                TagValueTraits<TagValue::Type::List>::StorageType& values = listTagValue.getList();
-
-                values.push_back(tagValue);
-            }
-            else
-                tagData[tagName] = tagValue;
+            tagData[tagName] = tagValue;
         }
-
-        // TODO: extract
-        // append people
-        const auto people = m_backend->listPeople({photoId});
-        TagValueTraits<TagValue::Type::List>::StorageType peopleList;
-        for(const PersonInfo& pi: people)
-            if (pi.p_id.valid())
-            {
-                const PersonName pn = m_backend->person(pi.p_id);
-                peopleList.push_back(pn.name());
-            }
-
-        if (peopleList.empty() == false)
-            tagData[TagNameInfo(BaseTagsList::People)] = peopleList;
 
         return tagData;
     }
@@ -1246,17 +1179,7 @@ namespace Database
 
     std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
-        std::vector<TagValue> result;
-
-        // when there is no filter, and we ask for people, list all people, including these not assigned to any photo
-        if (tagName.getTag() == BaseTagsList::People && filter.empty())
-        {
-            const std::vector<PersonName> data = listPeople();
-            for(const PersonName& pd: data)
-                result.push_back(TagValue(pd.name()));
-        }
-        else
-            result = m_data->listTagValues(tagName, filter);
+        const std::vector<TagValue> result = m_data->listTagValues(tagName, filter);
 
         return result;
     }
@@ -1667,7 +1590,8 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 // collect existing data
                 const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
                                                 .arg(TAB_TAGS)
-                                                .arg(BaseTagsList::People);
+                                                .arg(BaseTagsList::_People);
+
                 status = m_data->m_executor.exec(find_query, &query);
 
                 std::map<QString, Person::Id> name_to_id;
@@ -1729,7 +1653,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
                 {
                     const QString drop_query = QString("DELETE FROM %1 WHERE name=%2")
                                                 .arg(TAB_TAGS)
-                                                .arg(BaseTagsList::People);
+                                                .arg(BaseTagsList::_People);
 
                     QSqlQuery q(db);
                     m_data->m_executor.exec(drop_query, &query);

@@ -127,7 +127,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::People), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(BaseTagsList::_People), QString("test_value"));
 
     filters.push_back(tag_filter);
 
@@ -230,8 +230,8 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
-              "WHERE (tags.value LIKE '%Person 1%')", query);
+              "JOIN (tags, people, people_names) ON (tags.photo_id = photos.id AND people.photo_id = photos.id AND people.person_id = people_names.id) "
+              "WHERE (tags.value LIKE '%Person 1%' OR people_names.name LIKE '%Person 1%')", query);
 }
 
 
@@ -248,8 +248,8 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
-              "WHERE (tags.value LIKE '%Person 1%' OR tags.value LIKE '%Person 2%')", query);
+              "JOIN (tags, people, people_names) ON (tags.photo_id = photos.id AND people.photo_id = photos.id AND people.person_id = people_names.id) "
+              "WHERE (tags.value LIKE '%Person 1%' OR people_names.name LIKE '%Person 1%' OR tags.value LIKE '%Person 2%' OR people_names.name LIKE '%Person 2%')", query);
 }
 
 

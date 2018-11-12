@@ -6,17 +6,19 @@
 #include <core/tag.hpp>
 #include <database/iphoto_info.hpp>
 
+// Interface for tags operations on set of photos.
+
 struct ITagsOperator
 {
     virtual ~ITagsOperator() = default;
 
-    virtual void operateOn(const std::vector<IPhotoInfo::Ptr> &) = 0;
+    virtual void operateOn(const std::vector<IPhotoInfo::Ptr> &) = 0;           // scope
 
-    virtual Tag::TagsList getTags() const = 0;
+    virtual Tag::TagsList getTags() const = 0;                                  // list of common tags
 
-    virtual void setTag(const TagNameInfo &, const TagValue &) = 0;
-    virtual void setTags(const Tag::TagsList &) = 0;
-    virtual void updateTag(const QString& name, const TagValue &) = 0;
+    virtual void setTag(const TagNameInfo &, const TagValue &) = 0;             // set tag to value
+    virtual void setTags(const Tag::TagsList &) = 0;                            // set list of tags
+    virtual void insert(const TagNameInfo& name, const TagValue &) = 0;         // set or update exisiting tag
 };
 
 

@@ -32,15 +32,18 @@
 #include <QItemSelectionModel>
 
 #include <core/cross_thread_call.hpp>
+#include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 #include "models/db_data_model.hpp"
 #include "tags_operator.hpp"
 
 
+using namespace std::chrono;
 using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
-    QStandardItemModel(p),
+    QAbstractItemModel(p),
+    m_loadInProgress(false),
     m_selectionExtractor(),
     m_selectionModel(nullptr),
     m_dbDataModel(nullptr),
@@ -70,9 +73,9 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
         m_selectionModel->disconnect(this);
 
     m_selectionModel = selectionModel;
-    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(refreshModel(QItemSelection, const QItemSelection &)));
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
-    connect(this, &TagsModel::emptyValueError, this, static_cast<void (TagsModel::*)()>(&TagsModel::refreshModel), Qt::QueuedConnection);   // refresh model on problems
+    lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
+    lazy_connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, 250ms, 500ms, Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
@@ -105,10 +108,151 @@ void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
 }
 
 
+bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    const QVector<int> touchedRoles = setDataInternal(index, value, role);
+    const bool set = touchedRoles.empty() == false;
+
+    if (set)
+        emit dataChanged(index, index, touchedRoles);
+
+    return set;
+}
+
+
+bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
+{
+    const int r = index.row();
+    const int c = index.column();
+
+    assert(r < m_keys.size());
+    assert(r < m_values.size());
+    assert(c == 0 || c == 1);
+
+    auto& vec = c == 0? m_keys: m_values;
+    auto& data = vec[r];
+
+    data = roles;
+
+    emit dataChanged(index, index);
+}
+
+
+bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
+{
+    assert(row == m_keys.size());
+    assert(row == m_values.size());
+    assert(parent.isValid() == false);
+
+    const std::size_t s = m_keys.size();
+    const std::size_t newSize = s + count;
+
+    beginInsertRows(parent, row, row + count -1);
+
+    m_keys.resize(newSize);
+    m_values.resize(newSize);
+
+    endInsertRows();
+
+    return true;
+}
+
+
+QVariant TagsModel::data(const QModelIndex& index, int role) const
+{
+    const int c = index.column();
+    const int r = index.row();
+
+    QVariant result;
+
+    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    {
+        const auto& vec = c == 0? m_keys: m_values;
+        const auto& data  = vec[r];
+        const auto it = data.constFind(role);
+
+        result = it == data.end()? QVariant(): *it;
+    }
+
+    return result;
+}
+
+
+Qt::ItemFlags TagsModel::flags(const QModelIndex& index) const
+{
+    Qt::ItemFlags flags = Qt::NoItemFlags;
+
+    if (index.isValid() && index.column() < 2 && index.row() < m_keys.size())
+    {
+        flags =
+          Qt::ItemIsEnabled     |
+          Qt::ItemIsDropEnabled |
+          Qt::ItemIsDragEnabled |
+          Qt::ItemIsSelectable;
+
+        if (index.column() == 1)
+            flags |= Qt::ItemIsEditable;
+    }
+
+    return flags;
+}
+
+
+
+QModelIndex TagsModel::index(int row, int column, const QModelIndex& parent) const
+{
+    const QModelIndex result = parent.isValid()?
+                                QModelIndex():
+                                QAbstractItemModel::createIndex(row, column, nullptr);
+
+    return result;
+}
+
+
+QModelIndex TagsModel::parent(const QModelIndex& child) const
+{
+    return QModelIndex();
+}
+
+
+int TagsModel::columnCount(const QModelIndex& parent) const
+{
+    const int c = parent.isValid()? 0 : 2;
+
+    return c;
+}
+
+
+int TagsModel::rowCount(const QModelIndex& parent) const
+{
+    assert(m_keys.size() == m_values.size());
+
+    const int r = parent.isValid()? 0 : m_keys.size();
+
+    return r;
+}
+
+
+QVariant TagsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        switch(section)
+        {
+            case 0: return tr("Name");
+            case 1: return tr("Value");
+            default: return QVariant();
+        }
+    else
+        return QVariant();
+}
+
+
 void TagsModel::refreshModel()
 {
-    if (m_dbDataModel != nullptr && m_selectionModel != nullptr)
+    if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
     {
+        m_loadInProgress = true;
+
         clearModel();
 
         std::vector<Photo::Data> photos = m_selectionExtractor.getSelection();
@@ -117,10 +261,8 @@ void TagsModel::refreshModel()
         for(const Photo::Data& photo: photos)
             ids.push_back(photo.id);
 
-        Database::IDatabase::Callback<const IPhotoInfo::List &> target_fun =
-            std::bind(&TagsModel::loadPhotos, this, _1);
-
-        auto callback = make_cross_thread_function(this, target_fun);
+        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
+        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
 
         m_database->getPhotos(ids, callback);
     }
@@ -129,8 +271,10 @@ void TagsModel::refreshModel()
 
 void TagsModel::clearModel()
 {
-    clear();
-    setHorizontalHeaderLabels( {tr("Name"), tr("Value")} );
+    beginResetModel();
+    m_keys.clear();
+    m_values.clear();
+    endResetModel();
 }
 
 
@@ -140,29 +284,40 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 
     Tag::TagsList tags = getTags();
 
-    for (const auto& tag: tags)
+    assert(rowCount() == 0);
+
+    if (tags.empty() == false)
     {
-        Tag::Info info(tag);
-        QStandardItem* name = new QStandardItem(info.displayName());
-        QStandardItem* value = new QStandardItem;
+        const std::size_t tc = tags.size();
+        QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
 
-        const QVariant dispRole = info.value().get();
-        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+        m_keys.resize(tc);
+        m_values.resize(tc);
 
-        value->setData(dispRole, Qt::DisplayRole);
-        value->setData(tagInfoRole, TagInfoRole);
+        int row = 0;
 
-        const QList<QStandardItem *> items( { name, value });
-        appendRow(items);
+        for (const auto& tag: tags)
+        {
+            const Tag::Info info(tag);
+
+            QModelIndex name = index(row, 0);
+            QModelIndex value = index(row, 1);
+
+            setDataInternal(name, info.displayName(), Qt::DisplayRole);
+
+            const QVariant dispRole = info.value().get();
+            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+
+            setDataInternal(value, dispRole, Qt::DisplayRole);
+            setDataInternal(value, tagInfoRole, TagInfoRole);
+
+            row++;
+        }
+
+        QAbstractItemModel::endInsertRows();
     }
 
-    emit modelChanged(photos.empty() == false);
-}
-
-
-void TagsModel::refreshModel(const QItemSelection &, const QItemSelection &)
-{
-    refreshModel();
+    m_loadInProgress = false;
 }
 
 
@@ -175,22 +330,58 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
 
     for (const QModelIndex& itemIndex: itemsList)
     {
-        assert(itemIndex.column() == 1);
-
+        // Do not react on changes in first column.
+        // Such a change may be a reasult of new row appending.
+        // Wait for the whole row to be filled.
         if (itemIndex.column() == 1)
         {
-            const QModelIndex tagNameIndex = itemIndex.sibling(itemIndex.row(), 0);
-            const QString tagName = tagNameIndex.data().toString();
             const QVariant valueRaw = itemIndex.data();
             const TagValue value = TagValue::fromQVariant(valueRaw);
+
+            const QVariant nameRaw = itemIndex.data(TagInfoRole);
+            const TagNameInfo nameInfo = nameRaw.value<TagNameInfo>();
 
             if (value.rawValue().isEmpty())
                 update_failed = true;
             else
-                m_tagsOperator->updateTag(tagName, value);
+                m_tagsOperator->insert(nameInfo, value);
         }
     }
 
     if (update_failed)
         emit emptyValueError();
+}
+
+
+QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant& value, int role)
+{
+    const int c = index.column();
+    const int r = index.row();
+
+    QVector<int> touchedRoles;
+
+    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    {
+        touchedRoles.append(role);
+
+        auto& vec = c == 0? m_keys: m_values;
+        auto& data = vec[r];
+        data[role] = value;
+
+        // Item edited? Set DisplayRole too.
+        if (role == Qt::EditRole)
+        {
+            data[Qt::DisplayRole] = value;
+            touchedRoles.append(Qt::DisplayRole);
+        }
+
+        // Display role? Set EditRole too.
+        if (role == Qt::DisplayRole)
+        {
+            data[Qt::EditRole] = value;
+            touchedRoles.append(Qt::EditRole);
+        }
+    }
+
+    return touchedRoles;
 }

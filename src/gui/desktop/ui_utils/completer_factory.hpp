@@ -34,6 +34,7 @@ namespace Database
 }
 
 struct ILoggerFactory;
+class PeopleListModel;
 
 class CompleterFactory: public ICompleterFactory
 {
@@ -48,6 +49,7 @@ class CompleterFactory: public ICompleterFactory
 
         QCompleter* createCompleter(const TagNameInfo &) override;
         QCompleter* createCompleter(const std::set<TagNameInfo> &) override;
+        QCompleter* createPeopleCompleter() override;
 
     private:
         typedef std::unique_ptr<QAbstractItemModel> ModelPtr;
@@ -55,9 +57,11 @@ class CompleterFactory: public ICompleterFactory
 
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagNameInfo>, ModelPair> m_tagValueModels;
+        PeopleListModel* m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);
+        QAbstractItemModel* getModelForPeople();
 };
 
 #endif // COMPLETERFACTORY_HPP

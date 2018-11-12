@@ -15,51 +15,54 @@ using ::testing::_;
 
 struct ModelIndexUtilsTest: testing::Test
 {
-    ModelIndexUtilsTest(): shallow_model(), deep_model(), mt(0)
+    ModelIndexUtilsTest()
     {
-        // shallow model
-        for (int i = 0; i < 5; i++)
+        if (models_filled == false)
         {
-            QStandardItem* top = new QStandardItem(QString("top %1").arg(i));
-            for (int j = 0; j < 5; j++)
+            // shallow model
+            for (int i = 0; i < 5; i++)
             {
-                QStandardItem* child = new QStandardItem(QString("child %1").arg(j));
+                QStandardItem* top = new QStandardItem(QString("top %1").arg(i));
+                for (int j = 0; j < 5; j++)
+                {
+                    QStandardItem* child = new QStandardItem(QString("child %1").arg(j));
 
-                top->appendRow(child);
+                    top->appendRow(child);
+                }
+
+                shallow_model.appendRow(top);
             }
 
-            shallow_model.appendRow(top);
+            // deep model
+            QStandardItem* top1 = new QStandardItem("top 1");
+            QStandardItem* top2 = new QStandardItem("top 2");
+
+            deep_model.appendRow(top1);
+            deep_model.appendRow(top2);
+
+            fill(deep_model, top1, 4);
+            fill(deep_model, top2, 4);
+
+            // random model
+            fill_random(random_model, nullptr, 4);
+
+            /*
+            qDebug().noquote() << utils::dump(shallow_model);
+            qDebug().noquote() << "";
+            qDebug().noquote() << utils::dump(deep_model);
+            */
+
+            models_filled = true;
         }
-
-        // deep model
-        QStandardItem* top1 = new QStandardItem("top 1");
-        QStandardItem* top2 = new QStandardItem("top 2");
-
-        deep_model.appendRow(top1);
-        deep_model.appendRow(top2);
-
-        fill(deep_model, top1, 4);
-        fill(deep_model, top2, 4);
-
-        // random model
-        fill_random(random_model, nullptr, 4);
-
-        /*
-        qDebug().noquote() << utils::dump(shallow_model);
-        qDebug().noquote() << "";
-        qDebug().noquote() << utils::dump(deep_model);
-        */
-
-
-    std::uniform_int_distribution<> dist(0, 36);
     }
 
     ~ModelIndexUtilsTest() {}
 
-    QStandardItemModel shallow_model;
-    QStandardItemModel deep_model;
-    QStandardItemModel random_model;
-    mutable std::mt19937 mt;
+    static bool models_filled;
+    static QStandardItemModel shallow_model;
+    static QStandardItemModel deep_model;
+    static QStandardItemModel random_model;
+    static std::mt19937 mt;
 
     void fill(QStandardItemModel& model, QStandardItem* parent, int level) const
     {
@@ -117,6 +120,14 @@ struct ModelIndexUtilsTest: testing::Test
         return result;
     }
 };
+
+
+bool ModelIndexUtilsTest::models_filled = false;
+QStandardItemModel ModelIndexUtilsTest::shallow_model;
+QStandardItemModel ModelIndexUtilsTest::deep_model;
+QStandardItemModel ModelIndexUtilsTest::random_model;
+std::mt19937 ModelIndexUtilsTest::mt(0);
+
 
 // Level iterations
 

@@ -24,6 +24,7 @@
 
 #include <database/database_tools/tag_info_collector.hpp>
 
+#include "utils/people_list_model.hpp"
 #include "utils/tag_value_model.hpp"
 #include "utils/variant_display.hpp"
 
@@ -64,7 +65,11 @@ namespace
 }
 
 
-CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), m_loggerFactory(nullptr)
+CompleterFactory::CompleterFactory():
+    m_tagInfoCollector(),
+    m_tagValueModels(),
+    m_peopleListModel(new PeopleListModel),
+    m_loggerFactory(nullptr)
 {
 
 }
@@ -72,13 +77,15 @@ CompleterFactory::CompleterFactory(): m_tagInfoCollector(), m_tagValueModels(), 
 
 CompleterFactory::~CompleterFactory()
 {
-
+    delete m_peopleListModel, m_peopleListModel = nullptr;
 }
 
 
 void CompleterFactory::set(Database::IDatabase* db)
 {
     m_tagInfoCollector.set(db);
+
+    m_peopleListModel->setDB(db);
 }
 
 
@@ -103,6 +110,12 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos
 }
 
 
+QCompleter* CompleterFactory::createPeopleCompleter()
+{
+    return new QCompleter(m_peopleListModel);
+}
+
+
 QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
 {
     auto it = m_tagValueModels.find(infos);
@@ -124,4 +137,12 @@ QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& i
     }
 
     return it->second.first.get();
+}
+
+
+QAbstractItemModel* CompleterFactory::getModelForPeople()
+{
+    assert(m_peopleListModel != nullptr);
+
+    return m_peopleListModel;
 }

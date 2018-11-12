@@ -20,7 +20,7 @@
 #ifndef TAGSMODEL_HPP
 #define TAGSMODEL_HPP
 
-#include <QStandardItemModel>
+#include <QAbstractItemModel>
 
 #include <database/iphoto_info.hpp>
 
@@ -36,7 +36,7 @@ namespace Database
 struct ITagsOperator;
 class DBDataModel;
 
-class TagsModel: public QStandardItemModel
+class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
 
@@ -60,7 +60,24 @@ class TagsModel: public QStandardItemModel
         Tag::TagsList getTags() const;
         void addTag(const TagNameInfo &, const TagValue &);
 
+        // overrides:
+        bool setData(const QModelIndex & index, const QVariant & value, int role) override;
+        bool setItemData(const QModelIndex & index, const QMap<int, QVariant> & roles) override;
+        bool insertRows(int row, int count, const QModelIndex & parent) override;
+
+        QVariant data(const QModelIndex & index, int role) const override;
+        Qt::ItemFlags flags(const QModelIndex &index) const override;
+        QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const override;
+        QModelIndex parent(const QModelIndex & child) const override;
+        int columnCount(const QModelIndex & parent = QModelIndex()) const override;
+        int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+        QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+
     private:
+        typedef QMap<int, QVariant> ItemData;
+        std::vector<ItemData> m_keys,
+                              m_values;
+        std::atomic<bool> m_loadInProgress;
         SelectionExtractor m_selectionExtractor;
         QItemSelectionModel* m_selectionModel;
         DBDataModel* m_dbDataModel;
@@ -70,13 +87,10 @@ class TagsModel: public QStandardItemModel
         void refreshModel();
         void clearModel();
         void loadPhotos(const std::vector<IPhotoInfo::Ptr> &);
-
-    private slots:
-        void refreshModel(const QItemSelection &, const QItemSelection &);
         void syncData(const QModelIndex &, const QModelIndex &);
+        QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
 
     signals:
-        void modelChanged(bool);
         void emptyValueError();
 };
 

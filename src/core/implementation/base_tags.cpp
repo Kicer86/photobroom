@@ -30,7 +30,6 @@ std::vector<BaseTagsList> BaseTags::getAll()
         BaseTagsList::Place,
         BaseTagsList::Date,
         BaseTagsList::Time,
-        BaseTagsList::People,
     };
 
     return tags;
@@ -62,10 +61,6 @@ QString BaseTags::getTr(BaseTagsList tag)
         case BaseTagsList::Time:
             result = tr("Time");
             break;
-
-        case BaseTagsList::People:
-            result = tr("People");
-            break;
     }
 
     return result;
@@ -82,7 +77,7 @@ QString BaseTags::getName(BaseTagsList tag)
         case BaseTagsList::Invalid:
             assert(!"Invalid tag type");
             break;
-            
+
         case BaseTagsList::Event:
             result = "Event";
             break;
@@ -97,10 +92,6 @@ QString BaseTags::getName(BaseTagsList tag)
 
         case BaseTagsList::Time:
             result = "Time";
-            break;
-
-        case BaseTagsList::People:
-            result = "People";
             break;
     }
 
@@ -119,7 +110,6 @@ TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
             break;
 
         case BaseTagsList::Event:
-        case BaseTagsList::People:
         case BaseTagsList::Place:
             result = TagNameInfo::Type::String;
             break;

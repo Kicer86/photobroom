@@ -31,7 +31,7 @@ namespace Database
     struct IDatabase;
 }
 
-class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
+class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 {
     public:
         TagInfoCollector();
@@ -43,13 +43,10 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
         void set(Database::IDatabase *);
 
         const std::vector<TagValue>& get(const TagNameInfo &) const override;
-        int registerChangeObserver( const std::function< void(const TagNameInfo &) > & ) override;
-        void unregisterChangeObserver(int) override;
 
     private:
         mutable std::map<TagNameInfo, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
-        std::map< int, std::function<void(const TagNameInfo &)> > m_observers;
         Database::IDatabase* m_database;
         int m_observerId;
 
@@ -58,8 +55,6 @@ class DATABASE_EXPORT TagInfoCollector: public QObject, public ITagInfoCollector
 
         void updateAllTags();
         void updateValuesFor(const TagNameInfo &);
-
-        void notifyObserversAbout(const TagNameInfo &) const;
 };
 
 #endif // TAGINFOCOLLECTOR_H

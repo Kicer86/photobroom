@@ -22,11 +22,17 @@
 
 #include <QTableView>
 
+#include <core/base_tags.hpp>
 #include <core/tag.hpp>
 #include "ui_utils/editor_factory.hpp"
 
+
+class QComboBox;
+
 struct IEditorFactory;
 class TagValueModel;
+class AppendableModelProxy;
+
 
 class TagsView: public QTableView
 {
@@ -37,13 +43,25 @@ class TagsView: public QTableView
 
         TagsView& operator=(const TagsView &) = delete;
 
+        void setModel(QAbstractItemModel * model) override;
+
     private:
         EditorFactory m_editorFactory;
+        QComboBox* m_comboBox;
+        AppendableModelProxy* m_proxy;
 
         bool edit(const QModelIndex &, EditTrigger, QEvent *) override;
         void rowsInserted(const QModelIndex& parent, int start, int end) override;
 
         void updateRow(int);
+        void setupComboBox();
+        void dropComboBox();
+        void applyTags(const std::vector<BaseTagsList> &);
+        void placeWidget(QWidget *);
+        void comboBoxChanged(int);
+        void comboBoxDestroyed();
+        std::set<BaseTagsList> alreadyUsedTags() const;
+        std::vector<BaseTagsList> tagsNotUsed() const;
 
         // QTableViews:
         int sizeHintForRow(int row) const override;

@@ -19,7 +19,6 @@
 
 #include "tag_value_model.hpp"
 
-#include <core/cross_thread_call.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
@@ -57,30 +56,24 @@ TagValueModel::TagValueModel(const std::set<TagNameInfo>& infos):
     m_values(),
     m_tagInfos(infos),
     m_tagInfoCollector(nullptr),
-    m_loggerFactory(nullptr),
-    m_observerId(0)
+    m_loggerFactory(nullptr)
 {
-
+    qRegisterMetaType<TagNameInfo>("TagNameInfo");
 }
 
 
 TagValueModel::~TagValueModel()
 {
-    if (m_tagInfoCollector)
-        m_tagInfoCollector->unregisterChangeObserver(m_observerId);
+
 }
 
 
 void TagValueModel::set(ITagInfoCollector* collector)
 {
-    // TODO: consider signal/slot mechanism here
     m_tagInfoCollector = collector;
 
-    using namespace std::placeholders;
-    std::function<void(const TagNameInfo &)> callback = std::bind(&TagValueModel::collectorNotification, this, _1);
-    auto mainThreadCallback = make_cross_thread_function(this, callback);                  // make sure we won't have problems with calls from other threads
-
-    m_observerId = m_tagInfoCollector->registerChangeObserver(mainThreadCallback);
+    connect(m_tagInfoCollector, &ITagInfoCollector::setOfValuesChanged,
+            this,               &TagValueModel::collectorNotification);
 
     updateData();
 }

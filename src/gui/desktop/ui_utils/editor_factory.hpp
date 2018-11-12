@@ -50,39 +50,4 @@ class EditorFactory: public IEditorFactory
         ICompleterFactory* m_completerFactory;
 };
 
-
-struct ListEditor: QTableWidget
-{
-        Q_OBJECT
-        Q_PROPERTY(QStringList value READ getValues WRITE setValues USER true)
-
-    public:
-        explicit ListEditor(QWidget* parent = 0);
-        ListEditor(const ListEditor &) = delete;
-        virtual ~ListEditor();
-
-        ListEditor& operator=(const ListEditor &) = delete;
-
-        QStringList getValues() const;
-        void setValues(const QStringList &);
-
-        void setCompleter(QCompleter *);
-
-    private:
-        std::set<QLineEdit *> m_editors;
-        QCompleter* m_completer;
-
-        void addRow(int);
-        QString value(int) const;
-
-        void setValue(int, const QString &);
-
-        // QWidget overrides
-        QSize minimumSizeHint() const override;
-
-        //
-        void review();
-        void editorDestroyed(QObject *) override;
-};
-
 #endif // EDITORFACTORY_HPP

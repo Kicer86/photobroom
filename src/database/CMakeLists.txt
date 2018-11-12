@@ -53,6 +53,7 @@ set(DATABASE_HEADERS
 set(DATABASE_MOC
     idatabase.hpp
     idatabase_plugin.hpp
+    database_tools/itag_info_collector.hpp
     database_tools/photos_analyzer.hpp
     database_tools/implementation/photos_analyzer_p.hpp)
 

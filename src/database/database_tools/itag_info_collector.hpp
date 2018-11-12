@@ -4,16 +4,23 @@
 
 #include <functional>
 
+#include <QObject>
+
 #include <core/tag.hpp>
 
+#include "database_export.h"
 
-struct ITagInfoCollector
+
+struct DATABASE_EXPORT ITagInfoCollector: public QObject
 {
-    virtual ~ITagInfoCollector() {}
+    virtual ~ITagInfoCollector() = default;
 
     virtual const std::vector<TagValue>& get(const TagNameInfo &) const = 0;
-    virtual int registerChangeObserver( const std::function< void(const TagNameInfo &) > & ) = 0;
-    virtual void unregisterChangeObserver(int) = 0;
+
+    Q_OBJECT
+
+signals:
+    void setOfValuesChanged(const TagNameInfo &);
 };
 
 #endif

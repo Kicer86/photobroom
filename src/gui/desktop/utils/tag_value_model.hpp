@@ -47,7 +47,6 @@ class TagValueModel: public QAbstractListModel
         std::set<TagNameInfo> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
-        int m_observerId;
 
         void updateData();
         void collectorNotification(const TagNameInfo &);
