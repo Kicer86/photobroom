@@ -6,7 +6,7 @@
 
 // TODO: reenable
 
-/*
+
 struct PeopleTest: Tests::DatabaseTest
 {
     PeopleTest(): Tests::DatabaseTest()
@@ -95,6 +95,7 @@ TEST_F(PeopleTest, massivePersonIntroduction)
 }
 
 
+/*
 TEST_F(PeopleTest, simpleAssignmentToPhoto)
 {
     for_all([](Database::IDatabase* db)
@@ -179,8 +180,10 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
         });
     });
 }
+*/
 
 
+/*
 TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 {
     for_all([](Database::IDatabase* db)
@@ -244,6 +247,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
         });
     });
 }
+*/
 
 
 TEST_F(PeopleTest, alteringPersonData)
@@ -462,6 +466,7 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
 }
 
 
+/*
 TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
 {
     for_all([](Database::IDatabase* db)
