@@ -230,8 +230,8 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
     const QString query = generator.generate(filters);
 
     EXPECT_EQ("SELECT photos.id AS photos_id FROM photos "
-              "JOIN (tags) ON (tags.photo_id = photos.id) "
-              "WHERE (tags.value LIKE '%Person 1%')", query);
+              "JOIN (tags, people, people_names) ON (tags.photo_id = photos.id AND people.photo_id = photos.id AND people.person_id = people_names.id) "
+              "WHERE (tags.value LIKE '%Person 1%' OR people_names.name LIKE '%Person 1%')", query);
 }
 
 
