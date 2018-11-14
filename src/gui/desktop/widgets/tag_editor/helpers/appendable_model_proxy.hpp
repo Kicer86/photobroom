@@ -19,6 +19,8 @@
 #ifndef APPENDABLEMODELPROXY_HPP
 #define APPENDABLEMODELPROXY_HPP
 
+#include <functional>
+
 #include <QAbstractItemModel>
 
 
