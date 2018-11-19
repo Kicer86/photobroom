@@ -1383,6 +1383,7 @@ namespace Database
                         to_store.id = person.id;
                         break;
                     }
+                    //WARNING: does it forbits us from having same person twice?
                     else if (person.p_id.valid() && person.p_id == fd.p_id)
                     {
                         to_store.id = person.id;
