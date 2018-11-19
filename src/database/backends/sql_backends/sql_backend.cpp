@@ -1366,7 +1366,7 @@ namespace Database
         PersonInfo::Id result = fd.id;
 
         if (fd.id.valid() && fd.rect.isValid() == false && fd.p_id.valid() == false)
-            dropPersonInfo (fd.id);
+            dropPersonInfo(fd.id);
         else
         {
             PersonInfo to_store = fd;
@@ -1380,12 +1380,12 @@ namespace Database
                 {
                     if (fd.rect.isValid() && person.rect == fd.rect)
                     {
-                        to_store = merge(person, fd);
+                        to_store.id = person.id;
                         break;
                     }
                     else if (person.p_id.valid() && person.p_id == fd.p_id)
                     {
-                        to_store = merge(person, fd);
+                        to_store.id = person.id;
                         break;
                     }
                 }
@@ -1475,24 +1475,6 @@ namespace Database
 
             result = PersonName (id, p_name);
         }
-
-        return result;
-    }
-
-
-    PersonInfo ASqlBackend::merge(const PersonInfo& base, const PersonInfo& incoming) const
-    {
-        assert(base.id.valid());
-        assert(base.ph_id == incoming.ph_id);
-        assert(incoming.id.valid() == false || incoming.id == base.id);
-
-        PersonInfo result = base;
-
-        if (incoming.p_id.valid())
-            result.p_id = incoming.p_id;
-
-        if (incoming.rect.isValid())
-            result.rect = incoming.rect;
 
         return result;
     }
