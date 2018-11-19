@@ -365,7 +365,7 @@ void FaceStore::perform()
         }
         else                                // someone known
         {
-            const PersonInfo pinfo(PersonInfo::Id(), it->id(), m_id, face_coords);
+            const PersonInfo pinfo(it->id(), m_id, face_coords);
             m_db->performCustomAction([pinfo]
                                       (Database::IBackendOperator* op)
             {
