@@ -110,7 +110,7 @@ namespace Tests
         }
 
         template<typename C>
-        void for_all(C&& c)
+        void for_all_db_plugins(C&& c)
         {
             for(const auto& db_info: m_dbs)
             {

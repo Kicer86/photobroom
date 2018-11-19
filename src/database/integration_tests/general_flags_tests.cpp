@@ -20,7 +20,7 @@ struct GeneralFlagsTest: Tests::DatabaseTest
 
 TEST_F(GeneralFlagsTest, flagsIntroduction)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -52,7 +52,7 @@ TEST_F(GeneralFlagsTest, flagsIntroduction)
 
 TEST_F(GeneralFlagsTest, invalidName)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {

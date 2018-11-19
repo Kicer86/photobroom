@@ -23,7 +23,7 @@ struct PeopleTest: Tests::DatabaseTest
 
 TEST_F(PeopleTest, personIntroduction)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -64,7 +64,7 @@ TEST_F(PeopleTest, personIntroduction)
 
 TEST_F(PeopleTest, massivePersonIntroduction)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -252,7 +252,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 
 TEST_F(PeopleTest, alteringPersonData)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -333,7 +333,7 @@ TEST_F(PeopleTest, alteringPersonData)
 
 TEST_F(PeopleTest, inteligentRectUpdate)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -383,7 +383,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 
 TEST_F(PeopleTest, inteligentNameUpdate)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -433,7 +433,7 @@ TEST_F(PeopleTest, inteligentNameUpdate)
 
 TEST_F(PeopleTest, photoTagsWhenNoName)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
