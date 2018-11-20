@@ -466,6 +466,67 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
 }
 
 
+TEST_F(PeopleTest, inteligentPersonNameRemoval)
+{
+    for_all_db_plugins([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().getId());
+
+            const Photo::Id& ph_id = ids.front();
+            const Person::Id p_id = op->store(PersonName("person 25"));
+
+            // store person with full data
+            const QRect pr(34, 56, 78, 90);
+            const PersonInfo pi_full(p_id, ph_id, pr);
+            const PersonInfo::Id pi_id = op->store(pi_full);
+
+            // expect one person in db with full data
+            {
+                const auto ppl = op->listPeople();
+                ASSERT_EQ(ppl.size(), 1);
+                EXPECT_EQ(ppl[0].id(), pi_id);
+                EXPECT_EQ(ppl[0].name(), "person 25");
+
+                const auto ph_ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ph_ppl.size(), 1);
+                EXPECT_EQ(ph_ppl[0].id, pi_id);
+                EXPECT_EQ(ph_ppl[0].p_id, p_id);
+                EXPECT_EQ(ph_ppl[0].rect, pr);
+            }
+
+            // remove person name (Omit PersonInfo::Id)
+            const PersonInfo pi_no_person(Person::Id(), ph_id, pr);
+            op->store(pi_no_person);
+
+            // person should not be removed from people list, but should not be assigned to photo anymore.
+            // Rect with face should stay
+            {
+                const auto ppl = op->listPeople();
+                ASSERT_EQ(ppl.size(), 1);
+                EXPECT_EQ(ppl[0].id(), pi_id);
+                EXPECT_EQ(ppl[0].name(), "person 25");
+
+                const auto ph_ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ph_ppl.size(), 1);
+                EXPECT_EQ(ph_ppl[0].id, pi_id);
+                EXPECT_FALSE(ph_ppl[0].p_id.valid());
+                EXPECT_EQ(ph_ppl[0].rect, pr);
+            }
+        });
+    });
+}
+
+
 /*
 TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
 {
