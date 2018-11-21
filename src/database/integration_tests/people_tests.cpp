@@ -360,7 +360,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
             EXPECT_NE(pi_id, pi_id2);
             EXPECT_NE(pi_id2, pi_id3);
 
-            // update rect info ommiting pi_id (backend should guess which person needs update)
+            // update rect info omitting pi_id (backend should guess which person needs update)
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(p_id2, ph_id, pr);
             const PersonInfo::Id pi_id_full = op->store(pi_full);
