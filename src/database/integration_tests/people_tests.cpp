@@ -331,6 +331,40 @@ TEST_F(PeopleTest, alteringPersonData)
 }
 
 
+
+TEST_F(PeopleTest, rectIsMoreImportantThanName)
+{
+    for_all_db_plugins([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().getId());
+
+            const Photo::Id& ph_id = ids.front();
+
+            // store person with rect
+            const Person::Id p_id = op->store(PersonName("person 25"));
+            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, QRect(12, 34, 56, 78)));
+
+            // store the same person with another rect
+            const Person::Id p_id2 = op->store(PersonName("person 25"));
+            const PersonInfo::Id pi_id2 = op->store(PersonInfo(p_id, ph_id, QRect(23, 34, 45, 56)));
+
+            EXPECT_EQ(p_id, p_id2);   // same person
+            EXPECT_NE(pi_id, pi_id2); // different entries on photo
+        });
+    });
+}
+
+
 TEST_F(PeopleTest, inteligentRectUpdate)
 {
     for_all_db_plugins([](Database::IDatabase* db)
