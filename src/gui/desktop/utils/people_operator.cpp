@@ -147,7 +147,7 @@ void FacesFetcher::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face,  const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
+FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
     FaceTask(face.first, db),
     m_data(face),
     m_patterns(patterns),
