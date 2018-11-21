@@ -89,7 +89,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
-
     ui->statusLabel->setText(tr("Locating faces..."));
     m_people.testSystem();
     updateImage();
