@@ -135,6 +135,7 @@ namespace Database
     /*****************************************************************************/
 
 
+    // TODO: deprecated, move code to ASqlBackend (no reason for this impl)
     struct ASqlBackend::Data
     {
             ASqlBackend* m_backend;
