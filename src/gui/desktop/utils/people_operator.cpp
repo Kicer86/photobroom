@@ -485,6 +485,8 @@ PeopleOperator::~PeopleOperator()
 }
 
 
+// TODO: move it app initialization. No need doing it everytime.
+// 3rd party apps are already detected once when gui starts.
 void PeopleOperator::testSystem() const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
