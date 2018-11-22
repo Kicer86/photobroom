@@ -23,7 +23,7 @@ struct PeopleTest: Tests::DatabaseTest
 
 TEST_F(PeopleTest, personIntroduction)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -64,7 +64,7 @@ TEST_F(PeopleTest, personIntroduction)
 
 TEST_F(PeopleTest, massivePersonIntroduction)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -252,7 +252,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 
 TEST_F(PeopleTest, alteringPersonData)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -331,9 +331,10 @@ TEST_F(PeopleTest, alteringPersonData)
 }
 
 
-TEST_F(PeopleTest, inteligentRectUpdate)
+
+TEST_F(PeopleTest, rectIsMoreImportantThanName)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -349,7 +350,40 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 
             const Photo::Id& ph_id = ids.front();
 
-            // store people without rect
+            // store person with rect
+            const Person::Id p_id = op->store(PersonName("person 25"));
+            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, QRect(12, 34, 56, 78)));
+
+            // store the same person with another rect
+            const Person::Id p_id2 = op->store(PersonName("person 25"));
+            const PersonInfo::Id pi_id2 = op->store(PersonInfo(p_id, ph_id, QRect(23, 34, 45, 56)));
+
+            EXPECT_EQ(p_id, p_id2);   // same person
+            EXPECT_NE(pi_id, pi_id2); // different entries on photo
+        });
+    });
+}
+
+
+TEST_F(PeopleTest, inteligentRectUpdate)
+{
+    for_all_db_plugins([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().getId());
+
+            const Photo::Id& ph_id = ids.front();
+
+            // store people without rects
             const Person::Id p_id = op->store(PersonName("person 15"));
             const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, QRect()));
             const Person::Id p_id2 = op->store(PersonName("person 25"));
@@ -360,7 +394,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
             EXPECT_NE(pi_id, pi_id2);
             EXPECT_NE(pi_id2, pi_id3);
 
-            // update rect info ommiting pi_id (backend should guess which person needs update)
+            // update rect info omitting pi_id (backend should guess which person needs update)
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(p_id2, ph_id, pr);
             const PersonInfo::Id pi_id_full = op->store(pi_full);
@@ -383,7 +417,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 
 TEST_F(PeopleTest, inteligentNameUpdate)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -433,7 +467,7 @@ TEST_F(PeopleTest, inteligentNameUpdate)
 
 TEST_F(PeopleTest, photoTagsWhenNoName)
 {
-    for_all([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IDatabase* db)
     {
         db->performCustomAction([](Database::IBackendOperator* op)
         {
@@ -461,6 +495,67 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
             const auto tags = photo->getTags();
 
             EXPECT_TRUE(tags.empty());
+        });
+    });
+}
+
+
+TEST_F(PeopleTest, inteligentPersonNameRemoval)
+{
+    for_all_db_plugins([](Database::IDatabase* db)
+    {
+        db->performCustomAction([](Database::IBackendOperator* op)
+        {
+            // store 1 photo
+            Photo::DataDelta pd1;
+            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+            std::vector<Photo::Id> ids;
+            std::vector<Photo::DataDelta> photos = { pd1 };
+            op->addPhotos(photos);
+
+            ids.push_back(photos.front().getId());
+
+            const Photo::Id& ph_id = ids.front();
+            const Person::Id p_id = op->store(PersonName("person 25"));
+
+            // store person with full data
+            const QRect pr(34, 56, 78, 90);
+            const PersonInfo pi_full(p_id, ph_id, pr);
+            const PersonInfo::Id pi_id = op->store(pi_full);
+
+            // expect one person in db with full data
+            {
+                const auto ppl = op->listPeople();
+                ASSERT_EQ(ppl.size(), 1);
+                EXPECT_EQ(ppl[0].id(), pi_id);
+                EXPECT_EQ(ppl[0].name(), "person 25");
+
+                const auto ph_ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ph_ppl.size(), 1);
+                EXPECT_EQ(ph_ppl[0].id, pi_id);
+                EXPECT_EQ(ph_ppl[0].p_id, p_id);
+                EXPECT_EQ(ph_ppl[0].rect, pr);
+            }
+
+            // remove person name (Omit PersonInfo::Id)
+            const PersonInfo pi_no_person(Person::Id(), ph_id, pr);
+            op->store(pi_no_person);
+
+            // person should not be removed from people list, but should not be assigned to photo anymore.
+            // Rect with face should stay
+            {
+                const auto ppl = op->listPeople();
+                ASSERT_EQ(ppl.size(), 1);
+                EXPECT_EQ(ppl[0].id(), pi_id);
+                EXPECT_EQ(ppl[0].name(), "person 25");
+
+                const auto ph_ppl = op->listPeople(ph_id);
+                ASSERT_EQ(ph_ppl.size(), 1);
+                EXPECT_EQ(ph_ppl[0].id, pi_id);
+                EXPECT_FALSE(ph_ppl[0].p_id.valid());
+                EXPECT_EQ(ph_ppl[0].rect, pr);
+            }
         });
     });
 }

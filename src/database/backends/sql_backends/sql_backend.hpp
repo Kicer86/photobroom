@@ -105,7 +105,6 @@ namespace Database
             //
 
             PersonName    person(const QString &) const;
-            PersonInfo    merge(const PersonInfo &, const PersonInfo &) const;
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
 

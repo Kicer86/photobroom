@@ -147,7 +147,7 @@ void FacesFetcher::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face,  const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
+FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
     FaceTask(face.first, db),
     m_data(face),
     m_patterns(patterns),
@@ -365,7 +365,7 @@ void FaceStore::perform()
         }
         else                                // someone known
         {
-            const PersonInfo pinfo(PersonInfo::Id(), it->id(), m_id, face_coords);
+            const PersonInfo pinfo(it->id(), m_id, face_coords);
             m_db->performCustomAction([pinfo]
                                       (Database::IBackendOperator* op)
             {
@@ -485,6 +485,8 @@ PeopleOperator::~PeopleOperator()
 }
 
 
+// TODO: move it app initialization. No need doing it everytime.
+// 3rd party apps are already detected once when gui starts.
 void PeopleOperator::testSystem() const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
