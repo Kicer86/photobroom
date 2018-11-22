@@ -1379,13 +1379,15 @@ namespace Database
 
                 for(const auto& person: existing_people)
                 {
-                    if (fd.rect.isValid() && person.rect == fd.rect)
+                    if (fd.rect.isValid() &&
+                        person.rect == fd.rect)                 // same, valid rect
                     {
                         to_store.id = person.id;
                         break;
                     }
-                    //WARNING: does it forbits us from having same person twice?
-                    else if (person.p_id.valid() && person.p_id == fd.p_id)
+                    else if (person.p_id.valid()    &&
+                             person.p_id == fd.p_id &&
+                             person.rect.isValid() == false)    // same, valid person but no rect in db
                     {
                         to_store.id = person.id;
                         break;
