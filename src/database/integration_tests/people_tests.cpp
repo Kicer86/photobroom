@@ -383,7 +383,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 
             const Photo::Id& ph_id = ids.front();
 
-            // store people without rect
+            // store people without rects
             const Person::Id p_id = op->store(PersonName("person 15"));
             const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, QRect()));
             const Person::Id p_id2 = op->store(PersonName("person 25"));
