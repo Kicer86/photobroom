@@ -21,11 +21,12 @@
 
 #include "sql_backend.hpp"
 
-#include <iostream>
-#include <set>
-#include <thread>
 #include <chrono>
+#include <iostream>
+#include <optional>
+#include <set>
 #include <sstream>
+#include <thread>
 
 #include <QBuffer>
 #include <QDate>
