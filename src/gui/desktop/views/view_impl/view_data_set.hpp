@@ -122,42 +122,22 @@ class ViewDataSet final
 
         void rowsAboutToBeRemoved(const QModelIndex& parent, int from , int to)
         {
+            assert(m_removalInfo.empty());
+
             // collect data for future removal
-            Keys keys;
-            keys.reserve(to - from + 1);
-
-            for(int i = from; i <= to; i++)
-            {
-                const QModelIndex idx = m_db_model->index(i, 0, parent);
-                const auto key = getKey(idx);
-
-                keys.push_back(key);
-            }
-
-            const RemovalSource source(parent, from, to);
-            m_removalInfo.emplace(source, keys);
+            addItemsToRemovalList(parent, from, to);
         }
 
         void rowsRemoved(const QModelIndex& _parent, int first, int last)
         {
-            const RemovalSource source(_parent, first, last);
-
-            auto it = m_removalInfo.find(source);
-            assert(it != m_removalInfo.end());
-
-            if (it != m_removalInfo.end())
+            for (const Key& key: m_removalInfo)
             {
-                const Keys& keys = it->second;
-
-                for (const Key& key: keys)
-                {
-                    auto k_it = m_model.find(key);
-                    assert(k_it != m_model.end());
-                    m_model.erase(k_it);
-                }
-
-                m_removalInfo.erase(it);
+                auto k_it = m_model.find(key);
+                assert(k_it != m_model.end());
+                m_model.erase(k_it);
             }
+
+            m_removalInfo.clear();
         }
 
         void modelReset()
@@ -182,9 +162,7 @@ class ViewDataSet final
         }
 
     private:
-        typedef std::tuple<QModelIndex, int, int> RemovalSource;
-        typedef std::vector<Key> Keys;
-        std::map<RemovalSource, Keys> m_removalInfo;
+        std::vector<Key> m_removalInfo;
 
         QHash<Key, T> m_model;
         QAbstractItemModel* m_db_model;
@@ -220,6 +198,27 @@ class ViewDataSet final
         Key getKey(const QModelIndex& idx) const
         {
             return Constructor(idx);
+        }
+
+        void addItemsToRemovalList(const QModelIndex& parent, int from, int to)
+        {
+            std::vector<Key> keys;
+            keys.reserve(to - from + 1);
+
+            for(int i = from; i <= to; i++)
+            {
+                const QModelIndex idx = m_db_model->index(i, 0, parent);
+                const auto key = getKey(idx);
+
+                keys.push_back(key);
+
+                const int children = m_db_model->rowCount(idx);
+
+                if (children > 0)
+                    addItemsToRemovalList(idx, 0, children - 1);
+            }
+
+            m_removalInfo.insert(m_removalInfo.end(), keys.cbegin(), keys.cend());
         }
 };
 
