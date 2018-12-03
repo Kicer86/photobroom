@@ -20,6 +20,8 @@
 #include "face_optimizer.hpp"
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
 #include <core/map_iterator.hpp>
 #include <core/task_executor_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -108,7 +110,7 @@ std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonI
         {
             const QString& path = it->second;
             const QRect& faceRect = pi.rect;
-            const QImage photo(path);
+            const QImage photo = Image::normalized(path, m_core->getExifReaderFactory()->get());
             const QImage face = photo.copy(faceRect);
             const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
