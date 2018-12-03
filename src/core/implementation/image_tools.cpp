@@ -6,7 +6,6 @@
 #include "iexif_reader.hpp"
 
 
-
 namespace Image
 {
     QImage normalized(const QString& src, IExifReader* exif)

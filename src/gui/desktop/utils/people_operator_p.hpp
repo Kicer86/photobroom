@@ -124,6 +124,7 @@ class FaceStore final: public FaceTask
                   const std::vector<PeopleOperator::FaceInfo> &,
                   const QStringList& unknownPeople,
                   Database::IDatabase *,
+                  ICoreFactoryAccessor *,
                   const QString& patterns);
         ~FaceStore();
 
@@ -134,6 +135,7 @@ class FaceStore final: public FaceTask
         const std::vector<PeopleOperator::FaceInfo> m_knownPeople;
         const QStringList m_unknownPeople;
         const QString m_patterns;
+        ICoreFactoryAccessor* m_coreAccessor;
 
         std::vector<PersonName> fetchPeople();
 };
@@ -146,6 +148,7 @@ class ModelFaceStore final: public QObject, public FaceTask
     public:
         ModelFaceStore(const PersonInfo &,
                        Database::IDatabase *,
+                       ICoreFactoryAccessor *,
                        const QString& storage);
 
         std::string name() const override;
@@ -154,6 +157,7 @@ class ModelFaceStore final: public QObject, public FaceTask
     private:
         const PersonInfo m_pi;
         const QString m_storage;
+        ICoreFactoryAccessor* m_coreAccessor;
 
     signals:
         void done(const Person::Id &) const;

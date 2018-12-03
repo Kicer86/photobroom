@@ -920,7 +920,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TestSystem</name>
     <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+459"/>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+466"/>
         <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
 
 To install them, use &apos;python -m pip install %1&apos; (on Windows)
