@@ -54,6 +54,11 @@ QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
 
             result = QSize(resolution_x, resolution_y);
 
+            const int r = rotation(output);
+
+            if (r == 90)
+                result.transpose();
+
             break;
         }
     }
@@ -109,4 +114,28 @@ QStringList FFMpegVideoDetailsReader::outputFor(const QString& video_file) const
     }
 
     return result;
+}
+
+
+int FFMpegVideoDetailsReader::rotation(const QStringList& output) const
+{
+    QRegExp rotation_regex(" *rotate *: ([0-9]+).*");
+    int rotation = 0;
+
+    for(const QString& line: output)
+    {
+        const bool matched = rotation_regex.exactMatch(line);
+
+        if (matched)
+        {
+            const QStringList captured = rotation_regex.capturedTexts();
+            const QString rotation_str = captured[1];
+
+            rotation = rotation_str.toInt();
+
+            break;
+        }
+    }
+
+    return rotation;
 }

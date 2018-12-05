@@ -47,6 +47,7 @@ class CORE_EXPORT FFMpegVideoDetailsReader
         const QString m_ffmpegPath;
 
         QStringList outputFor(const QString &) const;
+        int rotation(const QStringList &) const;
 };
 
 #endif // FFMPEGVIDEODETAILSREADER_HPP
