@@ -313,6 +313,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
         EXPECT_EQ(true, info3.isPositionValid());
         EXPECT_EQ(false, info3.isSizeValid());
+        EXPECT_EQ(false, info3.isOverallSizeValid());
     }
 
     {
