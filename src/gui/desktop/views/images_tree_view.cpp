@@ -126,7 +126,7 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
     {
         const QPoint offset = getOffset();
         const QPoint treePoint = point + offset;
-        result =  m_data->get(treePoint);
+        result = m_data->get(treePoint);
     }
 
     return result;
