@@ -134,6 +134,9 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWind
     ui->newImagesView->set(&m_completerFactory);
     ui->newImagesView->set(m_loggerFactory);
     ui->tagEditor->set(&m_completerFactory);
+
+    // TODO: nothing useful in help mentu at this moment
+    ui->menuHelp->menuAction()->setVisible(false);
 }
 
 
