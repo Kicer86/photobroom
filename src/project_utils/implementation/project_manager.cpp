@@ -35,21 +35,9 @@
 #include "project.hpp"
 
 
-ProjectManager::ProjectManager(): m_dbBuilder(nullptr)
+ProjectManager::ProjectManager(Database::IBuilder* builder): m_dbBuilder(builder)
 {
 
-}
-
-
-ProjectManager::~ProjectManager()
-{
-
-}
-
-
-void ProjectManager::set(Database::IBuilder* builder)
-{
-    m_dbBuilder = builder;
 }
 
 

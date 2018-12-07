@@ -104,8 +104,7 @@ int main(int argc, char **argv)
     database_builder.set(&logger_factory);
     database_builder.set(&configuration);
 
-    ProjectManager prjManager;
-    prjManager.set(&database_builder);
+    ProjectManager prjManager(&database_builder);
 
     if (status)
         logger_factory.get("CrashCatcher")->info("Initialization successful");
