@@ -77,6 +77,10 @@ PhotoProperties::PhotoProperties(QWidget* p):
 
     setWidgetResizable(true);
     setWidget(area);
+
+    m_locationValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+    m_sizeValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+    m_geometryValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 }
 
 
