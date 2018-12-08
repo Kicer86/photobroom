@@ -58,7 +58,7 @@ class PhotoProperties: public QScrollArea
         void refreshLabels(const std::vector<Photo::Data> &) const;
         void refreshValues(const std::vector<Photo::Data> &) const;
 
-        QString sizeHuman(int) const;
+        QString sizeHuman(qint64) const;
 };
 
 #endif // PHOTOPROPERTIES_HPP

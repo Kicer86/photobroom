@@ -596,7 +596,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
-        <location line="+77"/>
+        <location line="+79"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
@@ -899,7 +899,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-167"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-169"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
