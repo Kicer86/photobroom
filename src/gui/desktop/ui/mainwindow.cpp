@@ -508,8 +508,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     QAction* faces       = contextMenu.addAction(tr("Recognize people"));
 
     groupPhotos->setEnabled(photos.size() > 1);
-    location->setEnabled(photos.size() > 0);
-    faces->setEnabled(photos.size() > 0);
+    location->setEnabled(photos.size() == 1);
+    faces->setEnabled(photos.size() == 1);
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
