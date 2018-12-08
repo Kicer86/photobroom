@@ -169,47 +169,55 @@ void FacesDialog::systemStatus(bool status, const QString& message)
 void FacesDialog::updateImage()
 {
     QImage image = Image::normalized(m_photoPath, m_exif);
-    const QSize currentSize = image.size();
-    const double scale = ui->scaleSlider->value() / 100.0;
 
-    const QSize scaledSize = currentSize * scale;
-    image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    QVector<QRect> scaledFaces;
-    for(const QRect& face: std::as_const(m_faces))
+    if (image.isNull())
     {
-        const QPoint tl = face.topLeft();
-        const QSize size = face.size();
-        const QRect scaledFace = QRect( tl * scale, size * scale );
-
-        scaledFaces.append(scaledFace);
+        // TODO: display some empty image or something
     }
-
-    if (scaledFaces.isEmpty() == false)
+    else
     {
-        QPainter painter(&image);
+        const QSize currentSize = image.size();
+        const double scale = ui->scaleSlider->value() / 100.0;
 
-        QPen pen;
-        pen.setColor(Qt::red);
-        pen.setWidth(2);
-        painter.setPen(pen);
-        painter.drawRects(scaledFaces);
+        const QSize scaledSize = currentSize * scale;
+        image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        pen.setWidth(1);
-        painter.setBackground( Qt::white );
-        painter.setBackgroundMode( Qt::OpaqueMode );
-        painter.setPen(pen);
-
-        for(int i = 0; i < scaledFaces.size(); i++)
+        QVector<QRect> scaledFaces;
+        for(const QRect& face: std::as_const(m_faces))
         {
-            const QRect& face = scaledFaces[i];
             const QPoint tl = face.topLeft();
-            painter.drawText(tl, QString::number(i + 1));
-        }
-    }
+            const QSize size = face.size();
+            const QRect scaledFace = QRect( tl * scale, size * scale );
 
-    QPixmap new_pixmap = QPixmap::fromImage(image);
-    ui->imageView->setPixmap(new_pixmap);
+            scaledFaces.append(scaledFace);
+        }
+
+        if (scaledFaces.isEmpty() == false)
+        {
+            QPainter painter(&image);
+
+            QPen pen;
+            pen.setColor(Qt::red);
+            pen.setWidth(2);
+            painter.setPen(pen);
+            painter.drawRects(scaledFaces);
+
+            pen.setWidth(1);
+            painter.setBackground( Qt::white );
+            painter.setBackgroundMode( Qt::OpaqueMode );
+            painter.setPen(pen);
+
+            for(int i = 0; i < scaledFaces.size(); i++)
+            {
+                const QRect& face = scaledFaces[i];
+                const QPoint tl = face.topLeft();
+                painter.drawText(tl, QString::number(i + 1));
+            }
+        }
+
+        QPixmap new_pixmap = QPixmap::fromImage(image);
+        ui->imageView->setPixmap(new_pixmap);
+    }
 }
 
 
