@@ -18,6 +18,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
+#include <core/media_types.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
@@ -509,7 +510,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
     groupPhotos->setEnabled(photos.size() > 1);
     location->setEnabled(photos.size() == 1);
-    faces->setEnabled(photos.size() == 1);
+    faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);

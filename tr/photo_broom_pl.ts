@@ -425,7 +425,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+229"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+230"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
