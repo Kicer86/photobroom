@@ -22,6 +22,7 @@
 #include <QPainter>
 
 #include <core/down_cast.hpp>
+#include <core/media_types.hpp>
 
 #include "models/aphoto_info_model.hpp"
 #include "utils/ithumbnail_acquisitor.hpp"
@@ -57,15 +58,9 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
     const ThumbnailInfo info = { details.path, size.height() };
     QImage image = m_thumbnailAcquisitor->getThumbnail(info);
 
+    QString text;
+
     if (details.groupInfo.role == GroupInfo::Representative)
-    {
-        const QPen outline(Qt::black);
-        const QPen textColor(Qt::white);
-
-        QPainter painter(&image);
-
-        QString text;
-
         switch (details.groupInfo.type)
         {
             case GroupInfo::Animation:
@@ -80,6 +75,16 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
                 assert(!"not expected");
                 break;
         }
+
+    if (MediaTypes::isVideoFile(details.path))
+        text = "VID";
+
+    if (text.isNull() == false)
+    {
+        const QPen outline(Qt::black);
+        const QPen textColor(Qt::white);
+
+        QPainter painter(&image);
 
         const QFont font = painter.font();
         const QFontMetrics fontMetrics(font, painter.device());
