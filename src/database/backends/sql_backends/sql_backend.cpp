@@ -1448,6 +1448,18 @@ namespace Database
     }
 
 
+    void ASqlBackend::markStagedAsReviewed()
+    {
+        const QString conversionQuery = QString("UPDATE %1 SET staging_area=1")
+                                            .arg(TAB_FLAGS);
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        m_data->m_executor.exec(conversionQuery, &query);
+    }
+
+
     std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->dropPhotos(filter);

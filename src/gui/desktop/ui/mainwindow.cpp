@@ -488,6 +488,15 @@ void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
     // add task for photos modification, so main thread will not be slowed down
     auto task = std::make_unique<StagePhotosTask>(photos);
     m_executor->add(std::move(task));
+
+    m_currentPrj->getDatabase()->performCustomAction([](Database::IBackend* db)
+    {
+        auto flagsFilter = std::make_shared<Database::FilterPhotosWithFlags>();
+        flagsFilter->flags.emplace(Photo::FlagsE::StagingArea, 1);
+
+        const auto staged = db->getPhotos({flagsFilter});
+        db->markStagedAsReviewed();
+    });
 }
 
 

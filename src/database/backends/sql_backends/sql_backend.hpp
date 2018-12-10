@@ -99,7 +99,8 @@ namespace Database
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
-            virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
+            void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
+            void markStagedAsReviewed() override final;
             //
 
             PersonName    person(const QString &) const;

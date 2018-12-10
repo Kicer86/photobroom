@@ -264,6 +264,11 @@ namespace
             assert(!"Not implemented");
         }
 
+        void markStagedAsReviewed() override
+        {
+            assert(!"Not implemented");
+        }
+
         Person::Id store(const PersonName& d) override
         {
             return m_backend->store(d);

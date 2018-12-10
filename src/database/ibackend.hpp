@@ -80,6 +80,7 @@ namespace Database
 
         // modify data
         virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
+        virtual void markStagedAsReviewed() = 0;
 
         // write extra data
         //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo
