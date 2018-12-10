@@ -17,15 +17,13 @@ namespace Database
     class MySqlBackend final: public ASqlBackend, GenericSqlQueryConstructor
     {
         public:
-            MySqlBackend();
+            MySqlBackend(IConfiguration *, ILoggerFactory *);
             virtual ~MySqlBackend();
 
         private:
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const override;
-            virtual void set(IConfiguration *) override;
-            virtual void set(ILoggerFactory *) override;
 
             // GenericSqlQueryConstructor:
             virtual QString prepareCreationQuery(const QString& name, const QString& columns) const override;
@@ -49,7 +47,7 @@ namespace Database
             MySqlPlugin();
             virtual ~MySqlPlugin();
 
-            virtual std::unique_ptr<IBackend> constructBackend() override;
+            virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILoggerFactory *) override;
             virtual QString backendName() const override;
             virtual ProjectInfo initPrjDir(const QString &, const QString &) const override;
             virtual QLayout* buildDBOptions() override;

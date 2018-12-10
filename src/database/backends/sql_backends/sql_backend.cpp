@@ -1017,9 +1017,10 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////
 
 
-    ASqlBackend::ASqlBackend(): m_data(new Data(this))
+    ASqlBackend::ASqlBackend(ILoggerFactory* l): m_data(new Data(this))
     {
-
+        m_data->m_logger = l->get({"Database" ,"ASqlBackend"});
+        m_data->m_executor.set(m_data->m_logger.get());
     }
 
 
@@ -1450,13 +1451,6 @@ namespace Database
     std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
     {
         return m_data->dropPhotos(filter);
-    }
-
-
-    void ASqlBackend::set(ILoggerFactory* logger_factory)
-    {
-        m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
-        m_data->m_executor.set(m_data->m_logger.get());
     }
 
 

@@ -94,9 +94,7 @@ namespace Database
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
 
-        std::unique_ptr<IBackend> backend = plugin->constructBackend();
-        backend->set(m_impl->m_logger_factory);
-        backend->set(m_impl->m_configuration);
+        std::unique_ptr<IBackend> backend = plugin->constructBackend(m_impl->m_configuration, m_impl->m_logger_factory);
 
         auto cache = std::make_unique<PhotoInfoCache>();
         auto database = std::make_unique<AsyncDatabase>( std::move(backend) );

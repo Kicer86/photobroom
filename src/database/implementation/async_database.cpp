@@ -290,9 +290,6 @@ namespace
             return false;
         }
 
-        void set(IConfiguration *) override { assert(!"Not implemented"); }
-        void set(ILoggerFactory *) override { assert(!"Not implemented"); }
-
         //
 
         Database::IBackend* getBackend() const

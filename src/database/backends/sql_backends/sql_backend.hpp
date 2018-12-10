@@ -48,7 +48,7 @@ namespace Database
         public:
             struct Data;
 
-            ASqlBackend();
+            ASqlBackend(ILoggerFactory *);
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend() ;
 
@@ -73,8 +73,6 @@ namespace Database
             virtual bool exec(const QString &, QSqlQuery *) const;
 
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
-
-            virtual void set(ILoggerFactory *) override;
 
         private:
             std::unique_ptr<Data> m_data;
