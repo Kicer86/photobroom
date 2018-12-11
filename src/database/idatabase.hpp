@@ -51,17 +51,6 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
-    //set of signals emitted when database changes or when tasks are being executed
-    class DATABASE_EXPORT ADatabaseSignals: public QObject
-    {
-            Q_OBJECT
-
-        signals:
-            void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
-            void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-            void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
-    };
-
     // for direct operating on backend (IDatabase::performCustomAction)
     struct IBackendOperator: IBackend
     {
@@ -74,14 +63,12 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
-    struct DATABASE_EXPORT IDatabase
+    struct DATABASE_EXPORT IDatabase: public QObject
     {
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
 
         virtual ~IDatabase() = default;
-
-        virtual ADatabaseSignals* notifier() = 0;
 
         // store data
         virtual void update(const Photo::DataDelta &) = 0;
@@ -122,6 +109,11 @@ namespace Database
             virtual void run(IBackendOperator *) = 0;
         };
 
+    signals:
+        void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
+        void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
+        void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
+
     protected:
         template<typename Callable>
             struct Task: ITask
@@ -138,6 +130,8 @@ namespace Database
             };
 
         virtual void execute(std::unique_ptr<ITask> &&) = 0;
+
+        Q_OBJECT
     };
 
 }

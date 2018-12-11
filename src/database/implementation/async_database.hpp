@@ -40,8 +40,6 @@ namespace Database
 
             void set(std::unique_ptr<IPhotoInfoCache> &&);
 
-            virtual ADatabaseSignals* notifier() override;
-
             virtual void update(const Photo::DataDelta &) override;
             virtual void store(const std::vector<Photo::DataDelta> &, const Callback<const std::vector<Photo::Id> &>&) override;
             virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) override;

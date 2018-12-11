@@ -31,10 +31,6 @@ MATCHER(IsEmptyFilter, "")
 
 namespace
 {
-    struct DatabaseNotifier: Database::ADatabaseSignals
-    {
-    };
-
     struct PhotoInfo: IPhotoInfo
     {
 
@@ -57,9 +53,6 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
 
     const TagNameInfo dateTag(BaseTagsList::Date);
     const std::vector<TagValue> dates = { QDate(2017, 05, 30) };
-
-    EXPECT_CALL(db, notifier())
-        .WillRepeatedly(Return(nullptr));
 
     EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))
         .WillOnce(InvokeArgument<2>(dateTag, dates));

@@ -11,8 +11,6 @@
 // depends on: https://github.com/google/googletest/issues/395
 struct MockDatabase: Database::IDatabase
 {
-    MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
-
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
     MOCK_METHOD1(update, void(const Photo::DataDelta &) );
     MOCK_METHOD2(store, void( const std::vector<Photo::DataDelta> &, const std::function<void(const std::vector<Photo::Id> &)> &) );

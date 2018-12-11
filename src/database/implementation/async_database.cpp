@@ -63,6 +63,7 @@ namespace
     }
 
 
+    // TODO: replace all tasks with lambdas in AsyncDatabase methods
     struct Executor;
 
     struct IThreadTask
@@ -86,9 +87,9 @@ namespace
     };
 
 
-    struct Executor: Database::ADatabaseSignals, Database::IBackendOperator
+    struct Executor: Database::IBackendOperator
     {
-        Executor( std::unique_ptr<Database::IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
+        Executor( std::unique_ptr<Database::IBackend>&& backend, Database::AsyncDatabase* storekeeper):
             m_tasks(1024),
             m_backend( std::move(backend) ),
             m_cache(nullptr),
@@ -225,7 +226,7 @@ namespace
                     result.push_back(data.id);
                 }
 
-                emit photosAdded(photos);
+                emit m_storekeeper->photosAdded(photos);
             }
 
             return result;
@@ -314,11 +315,11 @@ namespace
             addTask(std::move(task));
         }
 
-        private:
+        //private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
             Database::IPhotoInfoCache* m_cache;
-            IPhotoInfoStorekeeper* m_storekeeper;
+            Database::AsyncDatabase* m_storekeeper;
     };
 
 
@@ -562,7 +563,7 @@ namespace
             assert(status);
 
             IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.getId());
-            emit executor->photoModified(photoInfo);
+            emit executor->m_storekeeper->photoModified(photoInfo);
         }
 
         Photo::DataDelta m_photoData;
@@ -576,7 +577,7 @@ namespace Database
     // TODO: move methods implementation to AsyncDatabase. No need to keep them here
     struct AsyncDatabase::Impl
     {
-        Impl(std::unique_ptr<IBackend>&& backend, IPhotoInfoStorekeeper* storekeeper):
+        Impl(std::unique_ptr<IBackend>&& backend, AsyncDatabase* storekeeper):
             m_cache(nullptr),
             m_executor(std::move(backend), storekeeper),
             m_thread(),
@@ -659,16 +660,12 @@ namespace Database
     }
 
 
-    ADatabaseSignals* AsyncDatabase::notifier()
-    {
-        return &m_impl->m_executor;
-    }
-
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
         InitTask* task = new InitTask(prjInfo, callback);
         m_impl->addTask(task);
     }
+
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
@@ -677,6 +674,7 @@ namespace Database
         UpdateTask* task = new UpdateTask(data);
         m_impl->addTask(task);
     }
+
 
     void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {

@@ -176,17 +176,15 @@ bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 void IdxDataManager::setDatabase(Database::IDatabase* database)
 {
     if (m_data->m_database != nullptr)
-        disconnect(m_data->m_database->notifier());
+        disconnect(m_data->m_database);
 
     m_data->m_database = database;
 
-    Database::ADatabaseSignals* notifier = database == nullptr? nullptr: database->notifier();
-
-    if (notifier != nullptr)
+    if (database != nullptr)
     {
-        connect(notifier, &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
-        connect(notifier, &Database::ADatabaseSignals::photosAdded,   this, &IdxDataManager::photosAdded);
-        connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
+        connect(database, &Database::IDatabase::photoModified, this, &IdxDataManager::photoChanged);
+        connect(database, &Database::IDatabase::photosAdded,   this, &IdxDataManager::photosAdded);
+        connect(database, &Database::IDatabase::photosRemoved, this, &IdxDataManager::photosRemoved);
     }
 
     resetModel();
