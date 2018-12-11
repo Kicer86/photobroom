@@ -104,7 +104,7 @@ namespace Database
 
         // other
         template<typename Callable>
-        void performCustomAction(Callable&& f)
+        void exec(Callable&& f)
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));

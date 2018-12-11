@@ -43,7 +43,7 @@ struct ExecutorTraits<Database::IDatabase, T>
 {
     static void exec(Database::IDatabase* db, T&& t)
     {
-        db->performCustomAction(std::forward<T>(t));
+        db->exec(std::forward<T>(t));
     }
 };
 
@@ -344,7 +344,7 @@ void FaceStore::perform()
         {
             PersonInfo pi(Person::Id(), m_id, face_coords);
 
-            m_db->performCustomAction([base_path = m_patterns,
+            m_db->exec([base_path = m_patterns,
                                        pi,
                                        db = m_db,
                                        coreAccessor = m_coreAccessor,
@@ -371,7 +371,7 @@ void FaceStore::perform()
         else                                // someone known
         {
             const PersonInfo pinfo(it->id(), m_id, face_coords);
-            m_db->performCustomAction([pinfo]
+            m_db->exec([pinfo]
                                       (Database::IBackendOperator* op)
             {
                 // store person information
@@ -381,7 +381,7 @@ void FaceStore::perform()
     }
 
     // mark photo as analyzed
-    m_db->performCustomAction([ph_id = m_id](Database::IBackendOperator* op)
+    m_db->exec([ph_id = m_id](Database::IBackendOperator* op)
     {
         op->set(ph_id, faces_recognized_flag, 1);
     });

@@ -211,7 +211,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 {
     if (photos.empty() == false)
     {
-        m_database->performCustomAction([photos, representativePath, type, this](Database::IBackendOperator* backendOperator)
+        m_database->exec([photos, representativePath, type, this](Database::IBackendOperator* backendOperator)
         {
             IPhotoInfo::Ptr firstPhoto = backendOperator->getPhotoFor(photos[0]);
 

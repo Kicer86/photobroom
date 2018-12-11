@@ -54,7 +54,7 @@ void PeopleListModel::setDB(Database::IDatabase* db)
 
         auto f = make_cross_thread_function<const QStringList &>(this, std::bind(&PeopleListModel::fill, this, _1));
 
-        db->performCustomAction([f](Database::IBackendOperator* op)
+        db->exec([f](Database::IBackendOperator* op)
         {
             const std::vector<PersonName> names = op->listPeople();
 
