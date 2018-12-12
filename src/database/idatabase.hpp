@@ -116,18 +116,18 @@ namespace Database
 
     protected:
         template<typename Callable>
-            struct Task: ITask
+        struct Task: ITask
+        {
+            Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+
+            void run(IBackendOperator* backend) override
             {
-                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+                m_f(backend);
+            }
 
-                void run(IBackendOperator* backend) override
-                {
-                    m_f(backend);
-                }
-
-                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
-                Callable_T m_f;
-            };
+            typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+            Callable_T m_f;
+        };
 
         virtual void execute(std::unique_ptr<ITask> &&) = 0;
 
