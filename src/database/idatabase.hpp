@@ -80,9 +80,9 @@ namespace Database
         // read data
         virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
-        virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;   // list all tag values
-        virtual void listTagValues( const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
+        virtual void listTagNames(const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                           // list all stored tag names
+        virtual void listTagValues(const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values
+        virtual void listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // modify data
