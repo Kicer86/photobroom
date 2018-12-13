@@ -1448,15 +1448,26 @@ namespace Database
     }
 
 
-    void ASqlBackend::markStagedAsReviewed()
+    std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
-        const QString conversionQuery = QString("UPDATE %1 SET staging_area=1")
-                                            .arg(TAB_FLAGS);
+        auto filter = std::make_shared<FilterPhotosWithFlags>();
+        filter->flags[Photo::FlagsE::StagingArea] = 1;
 
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
+        const std::vector<Database::IFilter::Ptr> filters({filter});
+        const std::vector<Photo::Id> staged = getPhotos(filters);
 
-        m_data->m_executor.exec(conversionQuery, &query);
+        if (staged.empty() == false)
+        {
+            const QString conversionQuery = QString("UPDATE %1 SET staging_area=1")
+                                                .arg(TAB_FLAGS);
+
+            QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+            QSqlQuery query(db);
+
+            m_data->m_executor.exec(conversionQuery, &query);
+        }
+
+        return staged;
     }
 
 

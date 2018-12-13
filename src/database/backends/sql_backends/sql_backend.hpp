@@ -100,7 +100,7 @@ namespace Database
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
             void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
-            void markStagedAsReviewed() override final;
+            std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 
             PersonName    person(const QString &) const;
