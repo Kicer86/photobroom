@@ -24,6 +24,8 @@
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
+#include <core/down_cast.hpp>
+
 #include "ibackend.hpp"
 #include "iphoto_info_cache.hpp"
 #include "photo_data.hpp"
@@ -87,6 +89,7 @@ namespace
     };
 
 
+    // TODO: it seems to be useless it this form, reduce it.
     struct Executor: Database::IBackendOperator
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, Database::AsyncDatabase* storekeeper):
@@ -265,9 +268,10 @@ namespace
             assert(!"Not implemented");
         }
 
-        void markStagedAsReviewed() override
+        std::vector<Photo::Id> markStagedAsReviewed() override
         {
             assert(!"Not implemented");
+            return {};
         }
 
         Person::Id store(const PersonName& d) override
@@ -729,6 +733,19 @@ namespace Database
     {
         auto task = std::make_unique<GetPhotosTask>(filter, callback);
         m_impl->addTask(std::move(task));
+    }
+
+
+    void AsyncDatabase::markStagedAsReviewed()
+    {
+        exec([this](IBackendOperator* op)
+        {
+            Executor* ex = down_cast<Executor *>(op);
+            const std::vector<Photo::Id> moved = ex->m_backend->markStagedAsReviewed();
+
+            //for (const Photo::Id& id: moved)
+            //    emit photoModified(id);
+        });
     }
 
 

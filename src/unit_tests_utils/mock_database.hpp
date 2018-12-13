@@ -23,6 +23,8 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::vector<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & ) );
     MOCK_METHOD2(listPhotos, void(const std::vector<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
 
+    MOCK_METHOD0(markStagedAsReviewed, void());
+
     // TODO: not doesn't compile when MOCKED
     void execute(std::unique_ptr<Database::IDatabase::ITask> &&) {}
 
