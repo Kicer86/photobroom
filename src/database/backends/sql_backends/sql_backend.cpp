@@ -1017,9 +1017,10 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////
 
 
-    ASqlBackend::ASqlBackend(): m_data(new Data(this))
+    ASqlBackend::ASqlBackend(ILoggerFactory* l): m_data(new Data(this))
     {
-
+        m_data->m_logger = l->get({"Database" ,"ASqlBackend"});
+        m_data->m_executor.set(m_data->m_logger.get());
     }
 
 
@@ -1447,16 +1448,32 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
+    std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
-        return m_data->dropPhotos(filter);
+        auto filter = std::make_shared<FilterPhotosWithFlags>();
+        filter->flags[Photo::FlagsE::StagingArea] = 1;
+
+        const std::vector<Database::IFilter::Ptr> filters({filter});
+        const std::vector<Photo::Id> staged = getPhotos(filters);
+
+        if (staged.empty() == false)
+        {
+            const QString conversionQuery = QString("UPDATE %1 SET staging_area=0 WHERE staging_area=1")
+                                                .arg(TAB_FLAGS);
+
+            QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+            QSqlQuery query(db);
+
+            m_data->m_executor.exec(conversionQuery, &query);
+        }
+
+        return staged;
     }
 
 
-    void ASqlBackend::set(ILoggerFactory* logger_factory)
+    std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
     {
-        m_data->m_logger = logger_factory->get({"Database" ,"ASqlBackend"});
-        m_data->m_executor.set(m_data->m_logger.get());
+        return m_data->dropPhotos(filter);
     }
 
 

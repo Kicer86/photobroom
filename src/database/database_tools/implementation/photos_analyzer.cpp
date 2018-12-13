@@ -161,22 +161,14 @@ void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
     Database::IDatabase* cur_database = m_data->getDatabase();
 
     if (cur_database)
-    {
-        Database::ADatabaseSignals* notifier = cur_database->notifier();
-
-        notifier->disconnect(this);
-    }
+        cur_database->disconnect(this);
 
     //setup new database
     m_data->setDatabase(new_database);
 
     //and new connections
     if (new_database)
-    {
-        Database::ADatabaseSignals* notifier = new_database->notifier();
-
-        connect(notifier, &Database::ADatabaseSignals::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
-    }
+        connect(new_database, &Database::IDatabase::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
 }
 
 

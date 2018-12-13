@@ -11,8 +11,6 @@
 // depends on: https://github.com/google/googletest/issues/395
 struct MockDatabase: Database::IDatabase
 {
-    MOCK_METHOD0(notifier, Database::ADatabaseSignals*());
-
     MOCK_METHOD1(update, void(const IPhotoInfo::Ptr &) );
     MOCK_METHOD1(update, void(const Photo::DataDelta &) );
     MOCK_METHOD2(store, void( const std::vector<Photo::DataDelta> &, const std::function<void(const std::vector<Photo::Id> &)> &) );
@@ -24,6 +22,8 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD2(listTagValues, void( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & ) );
     MOCK_METHOD3(listTagValues, void( const TagNameInfo &, const std::vector<Database::IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & ) );
     MOCK_METHOD2(listPhotos, void(const std::vector<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
+
+    MOCK_METHOD0(markStagedAsReviewed, void());
 
     // TODO: not doesn't compile when MOCKED
     void execute(std::unique_ptr<Database::IDatabase::ITask> &&) {}

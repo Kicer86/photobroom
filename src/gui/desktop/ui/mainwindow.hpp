@@ -90,7 +90,6 @@ class MainWindow: public QMainWindow
         void setupNewPhotosView();
         void setupConfig();
 
-        void markPhotosReviewed(const IPhotoInfo::List &);
         void showContextMenuFor(PhotosWidget *, const QPoint &);
 
     private slots:
@@ -131,6 +130,7 @@ class MainWindow: public QMainWindow
         //
         void currentVersion(const IUpdater::OnlineVersion &);
         void markNewPhotosAsReviewed();
+        void photosMarkedAsReviewed();
         void viewChanged(int);
 };
 

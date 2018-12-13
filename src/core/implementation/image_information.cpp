@@ -28,6 +28,7 @@
 
 ImageInformation::ImageInformation(): m_exif(nullptr)
 {
+
 }
 
 

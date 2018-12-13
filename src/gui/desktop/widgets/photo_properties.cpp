@@ -77,6 +77,10 @@ PhotoProperties::PhotoProperties(QWidget* p):
 
     setWidgetResizable(true);
     setWidget(area);
+
+    m_locationValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+    m_sizeValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+    m_geometryValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 }
 
 
@@ -184,19 +188,21 @@ void PhotoProperties::refreshValues(const std::vector<Photo::Data>& photos) cons
 }
 
 
-QString PhotoProperties::sizeHuman(int size) const
+QString PhotoProperties::sizeHuman(qint64 size) const
 {
     int i = 0;
     for(; i < 4 && size > 20480; i++)
-        size /= 1024.0;
+        size /= 1024;
+
+    const int sh = static_cast<int>(size);
 
     QString units;
     switch (i)
     {
-        case 0:  units = tr("%n byte(s)",  "", size); break;
-        case 1:  units = tr("%n kbyte(s)", "", size); break;
-        case 2:  units = tr("%n Mbyte(s)", "", size); break;
-        default: units = tr("%n Gbyte(s)", "", size); break;
+        case 0:  units = tr("%n byte(s)",  "", sh); break;
+        case 1:  units = tr("%n kbyte(s)", "", sh); break;
+        case 2:  units = tr("%n Mbyte(s)", "", sh); break;
+        default: units = tr("%n Gbyte(s)", "", sh); break;
     }
 
     return units;

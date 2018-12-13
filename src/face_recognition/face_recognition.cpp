@@ -132,42 +132,49 @@ QStringList FaceRecognition::verifySystem() const
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
+    QVector<QRect> result;
+
     const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-    Image::normalize(path, normalizedPhotoPath, m_exif);
+    const bool s = Image::normalize(path, normalizedPhotoPath, m_exif);
 
-    std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
+    if (s)
     {
-        QVector<QRect> result;
-        const QStringList mm = missingModules();
-
-        if (mm.empty())
+        std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
         {
-            py::module find_faces = py::module::import("find_faces");
-            py::object locations = find_faces.attr("find_faces")(path.toStdString());
+            QVector<QRect> result;
+            const QStringList mm = missingModules();
 
-            auto locations_list = locations.cast<py::list>();
-
-            const std::size_t facesCount = locations_list.size();
-            for(std::size_t i = 0; i < facesCount; i++)
+            if (mm.empty())
             {
-                auto item = locations_list[i];
+                py::module find_faces = py::module::import("find_faces");
+                py::object locations = find_faces.attr("find_faces")(path.toStdString());
 
-                const QRect rect = tupleToRect(item.cast<py::tuple>());
+                auto locations_list = locations.cast<py::list>();
 
-                if (rect.isValid())
-                    result.push_back(rect);
+                const std::size_t facesCount = locations_list.size();
+                for(std::size_t i = 0; i < facesCount; i++)
+                {
+                    auto item = locations_list[i];
+
+                    const QRect rect = tupleToRect(item.cast<py::tuple>());
+
+                    if (rect.isValid())
+                        result.push_back(rect);
+                }
             }
-        }
 
-        return result;
-    });
+            return result;
+        });
 
-    auto fetch_future = fetch_task.get_future();
-    m_pythonThread->execute(fetch_task);
+        auto fetch_future = fetch_task.get_future();
+        m_pythonThread->execute(fetch_task);
 
-    fetch_future.wait();
+        fetch_future.wait();
 
-    return fetch_future.get();
+        result = fetch_future.get();
+    }
+
+    return result;
 }
 
 

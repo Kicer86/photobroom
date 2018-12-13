@@ -93,7 +93,10 @@ void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 
         //invalidate themselves
         for(const QModelIndex& item: items)
+        {
             resetRect(item);
+            resetOverallSize(item);
+        }
 
         const QModelIndex& last = items[s - 1];
 

@@ -51,17 +51,6 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
-    //set of signals emitted when database changes or when tasks are being executed
-    class DATABASE_EXPORT ADatabaseSignals: public QObject
-    {
-            Q_OBJECT
-
-        signals:
-            void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
-            void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-            void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
-    };
-
     // for direct operating on backend (IDatabase::performCustomAction)
     struct IBackendOperator: IBackend
     {
@@ -74,14 +63,13 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
-    struct DATABASE_EXPORT IDatabase
+    // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
+    struct DATABASE_EXPORT IDatabase: public QObject
     {
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
 
         virtual ~IDatabase() = default;
-
-        virtual ADatabaseSignals* notifier() = 0;
 
         // store data
         virtual void update(const Photo::DataDelta &) = 0;
@@ -93,18 +81,19 @@ namespace Database
         // read data
         virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
-        virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                          // list all stored tag names
-        virtual void listTagValues( const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;   // list all tag values
-        virtual void listTagValues( const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
+        virtual void listTagNames(const Callback<const std::vector<TagNameInfo> &> & ) = 0;                                           // list all stored tag names
+        virtual void listTagValues(const TagNameInfo &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values
+        virtual void listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // modify data
+        virtual void markStagedAsReviewed() = 0;            // mark photos from stage area as reviewed in one single step
 
         // drop data
 
         // other
         template<typename Callable>
-        void performCustomAction(Callable&& f)
+        void exec(Callable&& f)
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));
@@ -122,22 +111,30 @@ namespace Database
             virtual void run(IBackendOperator *) = 0;
         };
 
+    signals:
+        void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
+        void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
+        void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
+        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
+
     protected:
         template<typename Callable>
-            struct Task: ITask
+        struct Task: ITask
+        {
+            Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+
+            void run(IBackendOperator* backend) override
             {
-                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+                m_f(backend);
+            }
 
-                void run(IBackendOperator* backend) override
-                {
-                    m_f(backend);
-                }
-
-                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
-                Callable_T m_f;
-            };
+            typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+            Callable_T m_f;
+        };
 
         virtual void execute(std::unique_ptr<ITask> &&) = 0;
+
+        Q_OBJECT
     };
 
 }

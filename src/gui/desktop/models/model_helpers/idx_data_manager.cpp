@@ -176,17 +176,15 @@ bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 void IdxDataManager::setDatabase(Database::IDatabase* database)
 {
     if (m_data->m_database != nullptr)
-        disconnect(m_data->m_database->notifier());
+        disconnect(m_data->m_database);
 
     m_data->m_database = database;
 
-    Database::ADatabaseSignals* notifier = database == nullptr? nullptr: database->notifier();
-
-    if (notifier != nullptr)
+    if (database != nullptr)
     {
-        connect(notifier, &Database::ADatabaseSignals::photoModified, this, &IdxDataManager::photoChanged);
-        connect(notifier, &Database::ADatabaseSignals::photosAdded,   this, &IdxDataManager::photosAdded);
-        connect(notifier, &Database::ADatabaseSignals::photosRemoved, this, &IdxDataManager::photosRemoved);
+        connect(database, &Database::IDatabase::photoModified, this, &IdxDataManager::photoChanged);
+        connect(database, &Database::IDatabase::photosAdded,   this, &IdxDataManager::photosAdded);
+        connect(database, &Database::IDatabase::photosRemoved, this, &IdxDataManager::photosRemoved);
     }
 
     resetModel();
@@ -330,7 +328,7 @@ void IdxDataManager::fetchPhotosFor(const QModelIndex& _parent)
     using namespace std::placeholders;
     auto action_callback = std::bind(&IdxDataManager::getPhotosForParent, this, _1, _parent, filter);
 
-    m_data->m_database->performCustomAction(action_callback);
+    m_data->m_database->exec(action_callback);
 }
 
 
@@ -596,7 +594,7 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IdxNodeData* currentParent = getCurrentParent(photoInfo);
+    IdxNodeData* currentParent = getCurrentParent(photoInfo->getID());
     IdxNodeData* newParent = createAncestry(photoInfo);
     bool position_changed = currentParent != newParent;
 
@@ -605,9 +603,9 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
         if (currentParent == nullptr)
             performAdd(photoInfo, newParent);
         else if (newParent == nullptr)
-            performRemove(photoInfo);
+            performRemove(photoInfo->getID());
         else
-            performMove(photoInfo, currentParent, newParent);
+            performMove(photoInfo->getID(), currentParent, newParent);
     }
     else if (currentParent != nullptr)                            //same parent, but maybe reorder of children is required? (sorting)
         position_changed = sortChildrenOf(currentParent);
@@ -616,9 +614,9 @@ bool IdxDataManager::movePhotoToRightParent(const IPhotoInfo::Ptr& photoInfo)
 }
 
 
-IdxNodeData* IdxDataManager::getCurrentParent(const IPhotoInfo::Ptr& photoInfo)
+IdxNodeData* IdxDataManager::getCurrentParent(const Photo::Id& id)
 {
-    IIdxData* item = findIdxDataFor(photoInfo);
+    IIdxData* item = findIdxDataFor(id);
     IdxNodeData* result = item != nullptr? item->parent(): nullptr;
 
     return result;
@@ -655,20 +653,11 @@ IdxNodeData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
                 _parent = nullptr;
             }
         }
-        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans (if possible)
+        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such orphans (if possible)
             createUniversalAncestor(&matcher, photoInfo);
     }
 
     return _parent;
-}
-
-
-IIdxData* IdxDataManager::findIdxDataFor(const IPhotoInfo::Ptr& photoInfo)
-{
-    const Photo::Id id = photoInfo->getID();
-    IIdxData* result = findIdxDataFor(id);
-
-    return result;
 }
 
 
@@ -759,12 +748,12 @@ void IdxDataManager::removeChildren(IdxNodeData* parent)
 }
 
 
-void IdxDataManager::performMove(const IPhotoInfo::Ptr& photoInfo, IdxNodeData* from, IdxNodeData* to)
+void IdxDataManager::performMove(const Photo::Id& id, IdxNodeData* from, IdxNodeData* to)
 {
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IIdxData* photoIdxData = findIdxDataFor(photoInfo);
+    IIdxData* photoIdxData = findIdxDataFor(id);
     performMove(photoIdxData, from, to);
 }
 
@@ -813,13 +802,6 @@ void IdxDataManager::performRemoveChildren(IdxNodeData* parent)
 }
 
 
-void IdxDataManager::performRemove(const IPhotoInfo::Ptr& photoInfo)
-{
-    const Photo::Id& id = photoInfo->getID();
-    performRemove(id);
-}
-
-
 void IdxDataManager::performRemove(const Photo::Id& id)
 {
     IIdxData* photoIdxData = findIdxDataFor(id);
@@ -861,7 +843,7 @@ IIdxData* IdxDataManager::performAdd(const IPhotoInfo::Ptr& photoInfo, IdxNodeDa
     //modify IdxData only in main thread
     assert(m_data->m_mainThreadId == std::this_thread::get_id());
 
-    IIdxData* photoIdxData = findIdxDataFor(photoInfo);
+    IIdxData* photoIdxData = findIdxDataFor(photoInfo->getID());
 
     // TODO: Code above looks weird. Watch for sitution when it returns non null ptr.
     //       See 2199bc8c8d5c10bf84ed7334ec9a6779be311639 for first change
@@ -951,7 +933,7 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
         movePhotoToRightParent(photoInfo);
 
         //take IdxData now, it is possible we have removed it while moving to new parent
-        IIdxData* idx = findIdxDataFor(photoInfo);
+        IIdxData* idx = findIdxDataFor(photoInfo->getID());
         if (idx != nullptr)
         {
             QModelIndex index = getIndex(idx);
@@ -967,7 +949,7 @@ void IdxDataManager::photoChanged(const IPhotoInfo::Ptr& photoInfo)
     }
     else // photo doesn't match filters, but maybe it did?
     {
-        IIdxData* idx = findIdxDataFor(photoInfo);
+        IIdxData* idx = findIdxDataFor(photoInfo->getID());
         if (idx != nullptr)
             movePhotoToRightParent(photoInfo);
     }

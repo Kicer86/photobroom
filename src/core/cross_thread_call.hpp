@@ -26,6 +26,7 @@
 #include <functional>
 
 #include <QObject>
+#include <QPointer>
 
 #include "core_export.h"
 
@@ -37,11 +38,17 @@ namespace FunctorCallConsumer
 
 
 template<typename F, typename... Args>
-void call_from_this_thread(QObject* object, const F& function, Args&&... args)
+void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
 {
-    QObject signalSource;
-    QObject::connect(&signalSource, &QObject::destroyed,
-                     FunctorCallConsumer::forThread(object->thread()), [=](QObject *){ function(args...); }, Qt::AutoConnection);
+    if (object.data() != nullptr)
+    {
+        QObject signalSource;
+        QObject::connect(&signalSource, &QObject::destroyed,
+                         object.data(), [=](QObject *)
+                         {
+                             function(args...);
+                         }, Qt::AutoConnection);
+    }
 }
 
 
@@ -50,7 +57,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
-        call_from_this_thread(object, function, std::forward<Args>(args)...);
+        call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
     };
 
     return result;

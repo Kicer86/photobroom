@@ -40,8 +40,6 @@ namespace Database
 
             void set(std::unique_ptr<IPhotoInfoCache> &&);
 
-            virtual ADatabaseSignals* notifier() override;
-
             virtual void update(const Photo::DataDelta &) override;
             virtual void store(const std::vector<Photo::DataDelta> &, const Callback<const std::vector<Photo::Id> &>&) override;
             virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) override;
@@ -52,6 +50,8 @@ namespace Database
             virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
             virtual void listTagValues( const TagNameInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
+
+            virtual void markStagedAsReviewed() override;
 
             virtual void execute(std::unique_ptr<ITask> &&) override;
 

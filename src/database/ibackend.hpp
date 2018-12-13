@@ -80,16 +80,13 @@ namespace Database
 
         // modify data
         virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
+        virtual std::vector<Photo::Id> markStagedAsReviewed() = 0;
 
         // write extra data
         //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo
 
         //init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;
-
-        //configuration
-        virtual void set(IConfiguration *) = 0;
-        virtual void set(ILoggerFactory *) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;

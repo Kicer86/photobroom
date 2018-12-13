@@ -48,11 +48,7 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     using ::testing::Return;
     using ::testing::_;
 
-    Database::ADatabaseSignals db_signals;
     MockDatabase database;
-
-    EXPECT_CALL(database, notifier())
-        .WillOnce(Return(&db_signals));
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>({QDate(0, 1, 2), QDate(1, 2, 3)})) );
@@ -98,11 +94,7 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     using ::testing::Return;
     using ::testing::_;
 
-    Database::ADatabaseSignals db_signals;
     MockDatabase database;
-
-    EXPECT_CALL(database, notifier())
-        .WillOnce(Return(&db_signals));
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>()) );
@@ -139,11 +131,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
     using ::testing::Return;
     using ::testing::_;
 
-    Database::ADatabaseSignals db_signals;
     MockDatabase database;
-
-    EXPECT_CALL(database, notifier())
-        .WillOnce(Return(&db_signals));
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>()) );
@@ -168,7 +156,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
     EXPECT_CALL(*photoInfo.get(), getTags())
         .WillOnce(Return(tags));
 
-    emit db_signals.photoModified(photoInfo);
+    emit database.photoModified(photoInfo);
 
     const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::_People) );
     ASSERT_EQ(people.size(), 1);
@@ -182,11 +170,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     using ::testing::Return;
     using ::testing::_;
 
-    Database::ADatabaseSignals db_signals;
     MockDatabase database;
-
-    EXPECT_CALL(database, notifier())
-        .WillOnce(Return(&db_signals));
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>({QDate(0, 1, 2), QDate(1, 2, 3)})) );
@@ -222,7 +206,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     EXPECT_CALL(*photoInfo.get(), getTags())
         .WillOnce(Return(tags));
 
-    emit db_signals.photoModified(photoInfo);
+    emit database.photoModified(photoInfo);
 }
 
 
@@ -233,11 +217,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
     using ::testing::_;
     using ::testing::NiceMock;
 
-    Database::ADatabaseSignals db_signals;
     NiceMock<MockDatabase> database;
-
-    EXPECT_CALL(database, notifier())
-        .WillOnce(Return(&db_signals));
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
@@ -251,7 +231,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
     EXPECT_CALL(*photoInfo.get(), getTags())
         .WillOnce(Return(tags));
 
-    emit db_signals.photoModified(photoInfo);
+    emit database.photoModified(photoInfo);
 
     auto event = tagInfoCollector.get(TagNameInfo(BaseTagsList::Event));
 

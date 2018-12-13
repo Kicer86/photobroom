@@ -21,14 +21,14 @@ namespace Database
 
     struct MySqlBackend::Data
     {
-        Data(): m_server(), m_dbLocation(), m_initialized(false) {}
+        Data(IConfiguration* c, ILoggerFactory* l): m_server(), m_dbLocation(), m_initialized(false)
+        {
+            m_server.set(c);
+            m_server.set(l);
+        }
+
         Data(const Data &) = delete;
         Data& operator=(const Data &) = delete;
-
-        void set(IConfiguration* configuration)
-        {
-            m_server.set(configuration);
-        }
 
         ~Data() { }
 
@@ -38,7 +38,7 @@ namespace Database
     };
 
 
-    MySqlBackend::MySqlBackend(): m_data(new Data)
+    MySqlBackend::MySqlBackend(IConfiguration* c, ILoggerFactory* l): ASqlBackend(l), m_data(new Data(c, l))
     {
 
     }
@@ -96,21 +96,6 @@ namespace Database
     }
 
 
-    void MySqlBackend::set(IConfiguration* configuration)
-    {
-        m_data->set(configuration);
-        m_data->m_server.set(configuration);
-    }
-
-
-    void MySqlBackend::set(ILoggerFactory* logger)
-    {
-        Database::ASqlBackend::set(logger);
-
-        m_data->m_server.set(logger);
-    }
-
-
     QString MySqlBackend::getTypeFor(ColDefinition::Purpose type) const
     {
         QString result;
@@ -141,9 +126,9 @@ namespace Database
     }
 
 
-    std::unique_ptr<IBackend> MySqlPlugin::constructBackend()
+    std::unique_ptr<IBackend> MySqlPlugin::constructBackend(IConfiguration* c, ILoggerFactory* l)
     {
-        return std::make_unique<MySqlBackend>();
+        return std::make_unique<MySqlBackend>(c, l);
     }
 
 

@@ -48,7 +48,7 @@ namespace Database
         public:
             struct Data;
 
-            ASqlBackend();
+            ASqlBackend(ILoggerFactory *);
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend() ;
 
@@ -73,8 +73,6 @@ namespace Database
             virtual bool exec(const QString &, QSqlQuery *) const;
 
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
-
-            virtual void set(ILoggerFactory *) override;
 
         private:
             std::unique_ptr<Data> m_data;
@@ -101,7 +99,8 @@ namespace Database
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
-            virtual void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
+            void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
+            std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 
             PersonName    person(const QString &) const;

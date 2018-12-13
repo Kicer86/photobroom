@@ -24,6 +24,8 @@
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/iexif_reader.hpp>
+#include <core/image_tools.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -41,7 +43,7 @@ struct ExecutorTraits<Database::IDatabase, T>
 {
     static void exec(Database::IDatabase* db, T&& t)
     {
-        db->performCustomAction(std::forward<T>(t));
+        db->exec(std::forward<T>(t));
     }
 };
 
@@ -297,11 +299,13 @@ FaceStore::FaceStore(const Photo::Id& id,
                      const std::vector<PeopleOperator::FaceInfo>& known_people,
                      const QStringList& unknown_people,
                      Database::IDatabase* db,
+                     ICoreFactoryAccessor* coreAccessor,
                      const QString& patterns):
     FaceTask(id, db),
     m_knownPeople(known_people),
     m_unknownPeople(unknown_people),
-    m_patterns(patterns)
+    m_patterns(patterns),
+    m_coreAccessor(coreAccessor)
 {
 
 }
@@ -340,9 +344,10 @@ void FaceStore::perform()
         {
             PersonInfo pi(Person::Id(), m_id, face_coords);
 
-            m_db->performCustomAction([base_path = m_patterns,
+            m_db->exec([base_path = m_patterns,
                                        pi,
                                        db = m_db,
+                                       coreAccessor = m_coreAccessor,
                                        name]
                                       (Database::IBackendOperator* op)
             {
@@ -355,7 +360,7 @@ void FaceStore::perform()
                     personData.p_id = op->store(d);
 
                     // save representative photo
-                    ModelFaceStore mfs(personData, db, base_path);
+                    ModelFaceStore mfs(personData, db, coreAccessor, base_path);
                     mfs.perform();
                 }
 
@@ -366,7 +371,7 @@ void FaceStore::perform()
         else                                // someone known
         {
             const PersonInfo pinfo(it->id(), m_id, face_coords);
-            m_db->performCustomAction([pinfo]
+            m_db->exec([pinfo]
                                       (Database::IBackendOperator* op)
             {
                 // store person information
@@ -376,7 +381,7 @@ void FaceStore::perform()
     }
 
     // mark photo as analyzed
-    m_db->performCustomAction([ph_id = m_id](Database::IBackendOperator* op)
+    m_db->exec([ph_id = m_id](Database::IBackendOperator* op)
     {
         op->set(ph_id, faces_recognized_flag, 1);
     });
@@ -399,11 +404,13 @@ std::vector<PersonName> FaceStore::fetchPeople()
 
 ModelFaceStore::ModelFaceStore(const PersonInfo& pi,
                                Database::IDatabase* db,
+                               ICoreFactoryAccessor* coreAccessor,
                                const QString& storage
                               ):
     FaceTask(pi.ph_id, db),
     m_pi(pi),
-    m_storage(storage)
+    m_storage(storage),
+    m_coreAccessor(coreAccessor)
 {
 }
 
@@ -417,7 +424,7 @@ std::string ModelFaceStore::name() const
 void ModelFaceStore::perform()
 {
     const QString photo_path = getPhotoPath();
-    const QImage image(photo_path);
+    const QImage image = Image::normalized(photo_path, m_coreAccessor->getExifReaderFactory()->get());
     const QImage face = image.copy(m_pi.rect);
 
     const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
@@ -540,7 +547,7 @@ void PeopleOperator::store(const Photo::Id& id,
                            const QStringList& unknown_people) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_storage);
+    auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_coreFactory, m_storage);
 
     executor->addLight(std::move(task));
 }
@@ -560,7 +567,7 @@ QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 void PeopleOperator::setModelFace(const PersonInfo& pi)
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_storage);
+    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_coreFactory, m_storage);
 
     connect(task.get(), &ModelFaceStore::done,
             this, &PeopleOperator::modelFaceSet);
@@ -571,5 +578,5 @@ void PeopleOperator::setModelFace(const PersonInfo& pi)
 
 void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
 {
-    ModelFaceStore(pi, m_db, m_storage).perform();
+    ModelFaceStore(pi, m_db, m_coreFactory, m_storage).perform();
 }

@@ -109,17 +109,15 @@ private:
     //model manipulations
     void appendIdxData(IdxNodeData *, const std::shared_ptr<std::vector<IIdxData::Ptr>> &);
     bool movePhotoToRightParent(const IPhotoInfo::Ptr &);
-    IdxNodeData* getCurrentParent(const IPhotoInfo::Ptr &);
+    IdxNodeData* getCurrentParent(const Photo::Id &);
     IdxNodeData* createAncestry(const IPhotoInfo::Ptr &);                            //returns direct parent or nullptr if direct parent isn't fetched yet
-    IIdxData* findIdxDataFor(const IPhotoInfo::Ptr &);
     IIdxData* findIdxDataFor(const Photo::Id &);
     IdxNodeData* createCloserAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);     //returns direct parent or nullptr if direct parent isn't fetched yet
     IdxNodeData* createUniversalAncestor(PhotosMatcher *, const IPhotoInfo::Ptr &);  //returns pointer to universal ancestor for given photo if could be created
     void removeChildren(IdxNodeData *);                                              // remove all children
-    void performMove(const IPhotoInfo::Ptr &, IdxNodeData *, IdxNodeData *);
+    void performMove(const Photo::Id &, IdxNodeData *, IdxNodeData *);
     void performMove(IIdxData* item, IdxNodeData* from, IdxNodeData* to);
     void performRemoveChildren(IdxNodeData *);
-    void performRemove(const IPhotoInfo::Ptr &);
     void performRemove(const Photo::Id &);
     void performRemove(IIdxData *);
     IIdxData* performAdd(const IPhotoInfo::Ptr &, IdxNodeData* parent);

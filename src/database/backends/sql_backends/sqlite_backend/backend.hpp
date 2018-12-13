@@ -20,7 +20,7 @@ namespace Database
     class SQLiteBackend final: public ASqlBackend, GenericSqlQueryConstructor
     {
         public:
-            SQLiteBackend();
+            SQLiteBackend(IConfiguration *, ILoggerFactory *);
             virtual ~SQLiteBackend();
 
         private:
@@ -28,7 +28,6 @@ namespace Database
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
             virtual bool dbOpened() override;
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const override;
-            virtual void set(IConfiguration *);
 
             //ISqlQueryConstructor:
             virtual QString prepareFindTableQuery(const QString &) const override;
@@ -52,7 +51,7 @@ namespace Database
             SQLitePlugin();
             virtual ~SQLitePlugin();
 
-            virtual std::unique_ptr<IBackend> constructBackend() override;
+            virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILoggerFactory *) override;
             virtual QString backendName() const override;
             virtual ProjectInfo initPrjDir(const QString& dir, const QString& name) const override;
             virtual QLayout* buildDBOptions() override;

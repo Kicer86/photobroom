@@ -47,8 +47,8 @@ void TagInfoCollector::set(Database::IDatabase* db)
 
     if (m_database != nullptr)
     {
-        connect(m_database->notifier(), &Database::ADatabaseSignals::photoModified,
-                this,                   &TagInfoCollector::photoModified);
+        connect(m_database, &Database::IDatabase::photoModified,
+                this,       &TagInfoCollector::photoModified);
 
         updateAllTags();
     }

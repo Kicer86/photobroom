@@ -36,11 +36,9 @@ namespace Database
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 {
     public:
-        ProjectManager();
-        ProjectManager(const ProjectManager &) = delete;
-        virtual ~ProjectManager();
-
-        void set(Database::IBuilder *);
+        ProjectManager(Database::IBuilder *);
+        ProjectManager(const ProjectManager &) = default;
+        virtual ~ProjectManager() = default;
 
         ProjectManager& operator=(const ProjectManager &) = delete;
 

@@ -227,7 +227,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+914"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+896"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -425,7 +425,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+205"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -457,7 +457,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+200"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -467,7 +467,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-103"/>
+        <location line="-95"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -477,7 +477,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+127"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -553,12 +553,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-263"/>
+        <location line="-255"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+164"/>
+        <location line="+156"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -571,7 +571,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoProperties</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+112"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+116"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -596,7 +596,7 @@ Kod błędu: %1</translation>
         <translation>Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
-        <location line="+77"/>
+        <location line="+79"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
@@ -899,7 +899,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-163"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-169"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
@@ -920,7 +920,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TestSystem</name>
     <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+459"/>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+466"/>
         <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
 
 To install them, use &apos;python -m pip install %1&apos; (on Windows)
