@@ -1458,7 +1458,7 @@ namespace Database
 
         if (staged.empty() == false)
         {
-            const QString conversionQuery = QString("UPDATE %1 SET staging_area=1")
+            const QString conversionQuery = QString("UPDATE %1 SET staging_area=0 WHERE staging_area=1")
                                                 .arg(TAB_FLAGS);
 
             QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
