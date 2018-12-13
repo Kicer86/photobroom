@@ -425,7 +425,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+230"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+205"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -457,7 +457,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+217"/>
+        <location line="+200"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -467,7 +467,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-95"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -477,7 +477,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location line="+127"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -553,12 +553,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-272"/>
+        <location line="-255"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+156"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

@@ -46,31 +46,6 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-namespace
-{
-
-    struct StagePhotosTask final: ITaskExecutor::ITask
-    {
-        StagePhotosTask(const IPhotoInfo::List& photos): m_photos(photos) {}
-
-        std::string name() const override
-        {
-            return "Store photos";
-        }
-
-        void perform() override
-        {
-            for(const IPhotoInfo::Ptr& photo: m_photos)
-                photo->markFlag(Photo::FlagsE::StagingArea, 0);
-        }
-
-        private:
-            IPhotoInfo::List m_photos;
-    };
-
-}
-
-
 MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
@@ -483,23 +458,6 @@ void MainWindow::setupNewPhotosView()
 }
 
 
-void MainWindow::markPhotosReviewed(const IPhotoInfo::List& photos)
-{
-    // add task for photos modification, so main thread will not be slowed down
-    auto task = std::make_unique<StagePhotosTask>(photos);
-    m_executor->add(std::move(task));
-
-    m_currentPrj->getDatabase()->exec([](Database::IBackend* db)
-    {
-        auto flagsFilter = std::make_shared<Database::FilterPhotosWithFlags>();
-        flagsFilter->flags.emplace(Photo::FlagsE::StagingArea, 1);
-
-        const auto staged = db->getPhotos({flagsFilter});
-        db->markStagedAsReviewed();
-    });
-}
-
-
 void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 {
     const std::vector<Photo::Data> selected_photos = m_selectionExtractor.getSelection();
@@ -761,19 +719,25 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
 
 void MainWindow::markNewPhotosAsReviewed()
 {
-    // TODO: use batch operations here (IDatabase::perform)
-    // Current implementation is buggy and cannot be used.
-    // Check commit 722821802d2af576f0d97fc4bc5a898033a87970
-    // and issue #203
-    using namespace std::placeholders;
-    auto markPhotos = std::bind(&MainWindow::markPhotosReviewed, this, _1);
-    auto filter = std::make_shared<Database::FilterPhotosWithFlags>();
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+    connect(db, &Database::IDatabase::photosMarkedAsReviewed,
+            this, &MainWindow::photosMarkedAsReviewed, Qt::UniqueConnection);  // make sure connection exists. It will be closed when db is closed.
 
-    filter->flags[Photo::FlagsE::StagingArea] = 1;
+    db->markStagedAsReviewed();
+}
 
-    const std::vector<Database::IFilter::Ptr> filters( {filter});
 
-    m_currentPrj->getDatabase()->listPhotos(filters, markPhotos);
+void MainWindow::photosMarkedAsReviewed()
+{
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    // force model to reload
+    // TODO: model should know it needs reload, however the db's photosMarkedAsReviewed signal
+    //       is of too high level: model works on photos level.
+    //       IDatabase segregation should highlight the difference by separating
+    //       these signals with different interfaces. See #272 issue on github
+    m_newImagesModel->setDatabase(db);
+    m_imagesModel->setDatabase(db);
 }
 
 
