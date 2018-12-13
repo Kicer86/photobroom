@@ -115,6 +115,7 @@ namespace Database
         void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
         void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
         void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
+        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
 
     protected:
         template<typename Callable>

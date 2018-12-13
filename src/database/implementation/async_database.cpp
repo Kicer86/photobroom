@@ -743,8 +743,7 @@ namespace Database
             Executor* ex = down_cast<Executor *>(op);
             const std::vector<Photo::Id> moved = ex->m_backend->markStagedAsReviewed();
 
-            //for (const Photo::Id& id: moved)
-            //    emit photoModified(id);
+            emit photosMarkedAsReviewed(moved);
         });
     }
 
