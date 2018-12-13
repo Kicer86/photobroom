@@ -653,7 +653,7 @@ IdxNodeData* IdxDataManager::createAncestry(const IPhotoInfo::Ptr& photoInfo)
                 _parent = nullptr;
             }
         }
-        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such a orphans (if possible)
+        else   // we could not find or create any reasonable parent. Create or attach to universal parent for such orphans (if possible)
             createUniversalAncestor(&matcher, photoInfo);
     }
 
