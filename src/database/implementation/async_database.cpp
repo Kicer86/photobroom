@@ -434,29 +434,6 @@ namespace
     };
 
 
-    struct InitTask: IThreadTask
-    {
-        InitTask(const Database::ProjectInfo& prjInfo, const std::function<void(const Database::BackendStatus &)>& callback):
-            IThreadTask(),
-            m_callback(callback),
-            m_prjInfo(prjInfo)
-        {
-
-        }
-
-        virtual ~InitTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            const Database::BackendStatus status = executor->getBackend()->init(m_prjInfo);
-            m_callback(status);
-        }
-
-        std::function<void(const Database::BackendStatus &)> m_callback;
-        Database::ProjectInfo m_prjInfo;
-    };
-
-
     struct InsertPhotosTask: IThreadTask
     {
         InsertPhotosTask(const std::vector<Photo::DataDelta>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
@@ -666,8 +643,13 @@ namespace Database
 
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
-        InitTask* task = new InitTask(prjInfo, callback);
-        m_impl->addTask(task);
+        exec([prjInfo, callback](IBackendOperator* op)
+        {
+             Executor* ex = down_cast<Executor *>(op);
+             const Database::BackendStatus status = ex->getBackend()->init(prjInfo);
+
+             callback(status);
+        });
     }
 
 
