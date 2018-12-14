@@ -63,8 +63,11 @@ namespace
 
         return data;
     }
+}
 
 
+namespace Database
+{
     // TODO: replace all tasks with lambdas in AsyncDatabase methods
     struct Executor;
 
@@ -146,7 +149,7 @@ namespace
             return Group::Id();
         }
 
-        std::vector<Photo::Id> dropPhotos(const std::vector<Database::IFilter::Ptr> & )
+        std::vector<Photo::Id> dropPhotos(const std::vector<Database::IFilter::Ptr> &) override
         {
             assert(!"Not implemented");
             return {};
@@ -331,65 +334,13 @@ namespace
            executor->closeConnections();
         }
     };
-}
-
-
-namespace Database
-{
-    // TODO: move methods implementation to AsyncDatabase. No need to keep them here
-    struct AsyncDatabase::Impl
-    {
-        Impl(std::unique_ptr<IBackend>&& backend, AsyncDatabase* storekeeper):
-            m_cache(nullptr),
-            m_executor(std::move(backend), storekeeper),
-            m_thread(),
-            m_working(true)
-        {
-            m_thread = std::thread(&Executor::begin, &m_executor);
-        }
-
-        //store task to be executed by thread
-        void addTask(std::unique_ptr<IThreadTask>&& task)
-        {
-            // When task comes from from db's thread execute it immediately.
-            // This simplifies some client's codes (when operating inside of execute())
-            if (std::this_thread::get_id() == m_thread.get_id())
-                task->execute(&m_executor);
-            else
-            {
-                assert(m_working);
-                m_executor.addTask(std::move(task));
-            }
-        }
-
-        void stopExecutor()
-        {
-            if (m_working)
-            {
-                // do not accept any more tasks
-                m_working = false;
-
-                // add final task
-                m_executor.addTask(std::make_unique<DbCloseTask>());
-                m_executor.stop();
-
-                // wait for all tasks to be finished
-                assert(m_thread.joinable());
-                m_thread.join();
-            }
-        }
-
-        std::unique_ptr<IPhotoInfoCache> m_cache;
-        Executor m_executor;
-        std::thread m_thread;
-        bool m_working;
-    };
 
 
     AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend):
-        m_impl(nullptr)
+        m_executor(std::make_unique<Executor>(std::move(backend), this)),
+        m_working(true)
     {
-        m_impl = std::make_unique<Impl>(std::move(backend), this);
+        m_thread = std::thread(&Executor::begin, m_executor.get());
     }
 
 
@@ -402,14 +353,14 @@ namespace Database
 
     void AsyncDatabase::closeConnections()
     {
-        m_impl->stopExecutor();
+        stopExecutor();
     }
 
 
     void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)
     {
-        m_impl->m_cache = std::move(cache);
-        m_impl->m_executor.set(m_impl->m_cache.get());
+        m_cache = std::move(cache);
+        m_executor->set(m_cache.get());
     }
 
 
@@ -559,7 +510,39 @@ namespace Database
     void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
     {
         auto task = std::make_unique<CustomAction>(std::move(action));
-        m_impl->addTask(std::move(task));
+        addTask(std::move(task));
+    }
+
+
+    void AsyncDatabase::addTask(std::unique_ptr<IThreadTask>&& task)
+    {
+        // When task comes from from db's thread execute it immediately.
+        // This simplifies some client's codes (when operating inside of execute())
+        if (std::this_thread::get_id() == m_thread.get_id())
+            task->execute(m_executor.get());
+        else
+        {
+            assert(m_working);
+            m_executor->addTask(std::move(task));
+        }
+    }
+
+
+    void AsyncDatabase::stopExecutor()
+    {
+        if (m_working)
+        {
+            // do not accept any more tasks
+            m_working = false;
+
+            // add final task
+            m_executor->addTask(std::make_unique<DbCloseTask>());
+            m_executor->stop();
+
+            // wait for all tasks to be finished
+            assert(m_thread.joinable());
+            m_thread.join();
+        }
     }
 
 }

@@ -20,6 +20,7 @@
 #ifndef DATABASETHREAD_H
 #define DATABASETHREAD_H
 
+#include <thread>
 #include <vector>
 
 #include "idatabase.hpp"
@@ -28,6 +29,8 @@
 
 namespace Database
 {
+    struct Executor;
+    struct IThreadTask;
 
     class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
     {
@@ -59,8 +62,14 @@ namespace Database
             virtual void closeConnections() override;
 
         private:
-            struct Impl;
-            std::unique_ptr<Impl> m_impl;
+            std::unique_ptr<IPhotoInfoCache> m_cache;
+            std::unique_ptr<Executor> m_executor;
+            std::thread m_thread;
+            bool m_working;
+
+            //store task to be executed by thread
+            void addTask(std::unique_ptr<IThreadTask> &&);
+            void stopExecutor();
     };
 
 }
