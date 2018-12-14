@@ -343,36 +343,6 @@ namespace
     };
 
 
-    struct GetPhotoTask: IThreadTask
-    {
-        GetPhotoTask(const std::vector<Photo::Id>& ids, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)>& callback):
-            IThreadTask(),
-            m_ids(ids),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~GetPhotoTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            std::vector<IPhotoInfo::Ptr> photos;
-
-            for (const Photo::Id& id: m_ids)
-            {
-                IPhotoInfo::Ptr photo = executor->getPhotoFor(id);
-                photos.push_back(photo);
-            }
-
-            m_callback(photos);
-        }
-
-        std::vector<Photo::Id> m_ids;
-        std::function<void(const std::vector<IPhotoInfo::Ptr> &)> m_callback;
-    };
-
-
     struct GetPhotosTask: IThreadTask
     {
         GetPhotosTask (const std::vector<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
@@ -580,8 +550,19 @@ namespace Database
 
     void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
-        GetPhotoTask* task = new GetPhotoTask(ids, callback);
-        m_impl->addTask(task);
+        exec([ids, callback](IBackendOperator* op)
+        {
+            Executor* ex = down_cast<Executor *>(op);
+            std::vector<IPhotoInfo::Ptr> photos;
+
+            for (const Photo::Id& id: ids)
+            {
+                IPhotoInfo::Ptr photo = ex->getPhotoFor(id);
+                photos.push_back(photo);
+            }
+
+            callback(photos);
+        });
     }
 
 
