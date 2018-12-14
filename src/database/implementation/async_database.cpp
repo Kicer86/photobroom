@@ -341,31 +341,6 @@ namespace
 
         std::unique_ptr<Database::IDatabase::ITask> m_operation;
     };
-
-
-    struct UpdateTask: IThreadTask
-    {
-        UpdateTask(const Photo::DataDelta& photoData):
-            IThreadTask(),
-            m_photoData(photoData)
-        {
-
-        }
-
-        virtual ~UpdateTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            const bool status = executor->getBackend()->update(m_photoData);
-            assert(status);
-
-            IPhotoInfo::Ptr photoInfo = executor->getPhotoFor(m_photoData.getId());
-            emit executor->m_storekeeper->photoModified(photoInfo);
-        }
-
-        Photo::DataDelta m_photoData;
-    };
-
 }
 
 
@@ -471,10 +446,15 @@ namespace Database
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        assert(data.getId().valid());
+        exec([this, data](IBackendOperator* op)
+        {
+            Executor* ex = down_cast<Executor *>(op);
+            const bool status = ex->getBackend()->update(data);
+            assert(status);
 
-        UpdateTask* task = new UpdateTask(data);
-        m_impl->addTask(task);
+            IPhotoInfo::Ptr photoInfo = ex->getPhotoFor(data.getId());
+            emit photoModified(photoInfo);
+        });
     }
 
 
