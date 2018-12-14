@@ -343,35 +343,6 @@ namespace
     };
 
 
-    struct GetPhotosTask: IThreadTask
-    {
-        GetPhotosTask (const std::vector<Database::IFilter::Ptr>& filter, const Database::IDatabase::Callback<const IPhotoInfo::List &>& callback):
-            IThreadTask(),
-            m_filter(filter),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~GetPhotosTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            auto photos = executor->getBackend()->getPhotos(m_filter);
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(executor->getPhotoFor(id));
-
-            m_callback(photosList);
-        }
-
-
-        std::vector<Database::IFilter::Ptr> m_filter;
-        Database::IDatabase::Callback<const IPhotoInfo::List &> m_callback;
-    };
-
-
     struct UpdateTask: IThreadTask
     {
         UpdateTask(const Photo::DataDelta& photoData):
@@ -598,8 +569,17 @@ namespace Database
 
     void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
-        auto task = std::make_unique<GetPhotosTask>(filter, callback);
-        m_impl->addTask(std::move(task));
+        exec([filter, callback](IBackendOperator* op)
+        {
+            Executor* ex = down_cast<Executor *>(op);
+            auto photos = ex->getBackend()->getPhotos(filter);
+            IPhotoInfo::List photosList;
+
+            for(const Photo::Id& id: photos)
+                photosList.push_back(ex->getPhotoFor(id));
+
+            callback(photosList);
+        });
     }
 
 
