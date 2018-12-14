@@ -723,7 +723,7 @@ namespace Database
         exec([this](IBackendOperator* op)
         {
             Executor* ex = down_cast<Executor *>(op);
-            const std::vector<Photo::Id> moved = ex->m_backend->markStagedAsReviewed();
+            const std::vector<Photo::Id> moved = ex->getBackend()->markStagedAsReviewed();
 
             emit photosMarkedAsReviewed(moved);
         });
