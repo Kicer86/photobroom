@@ -434,30 +434,6 @@ namespace
     };
 
 
-    struct InsertPhotosTask: IThreadTask
-    {
-        InsertPhotosTask(const std::vector<Photo::DataDelta>& data, const std::function<void(const std::vector<Photo::Id> &)>& callback):
-            IThreadTask(),
-            m_data(data),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~InsertPhotosTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            const std::vector<Photo::Id> result = executor->insertPhotos(m_data);
-
-            if (m_callback)
-                m_callback(result);
-        }
-
-        const std::vector<Photo::DataDelta> m_data;
-        const std::function<void(const std::vector<Photo::Id> &)> m_callback;
-    };
-
     struct ListTagValuesTask: IThreadTask
     {
         ListTagValuesTask (const TagNameInfo& info,
@@ -664,8 +640,13 @@ namespace Database
 
     void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {
-        auto task = std::make_unique<InsertPhotosTask>(photos, callback);
-        m_impl->addTask(std::move(task));
+        exec([photos, callback](IBackendOperator* op)
+        {
+             Executor* ex = down_cast<Executor *>(op);
+             const std::vector<Photo::Id> status = ex->insertPhotos(photos);
+
+             callback(status);
+        });
     }
 
 
