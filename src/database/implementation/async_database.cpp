@@ -434,33 +434,6 @@ namespace
     };
 
 
-    struct ListTagValuesTask: IThreadTask
-    {
-        ListTagValuesTask (const TagNameInfo& info,
-                           const std::vector<Database::IFilter::Ptr>& filter,
-                           const Database::IDatabase::Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback):
-        IThreadTask(),
-        m_callback(callback),
-        m_info(info),
-        m_filter(filter)
-        {
-
-        }
-
-        virtual ~ListTagValuesTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            auto result = executor->getBackend()->listTagValues(m_info, m_filter);
-            m_callback(m_info, result);
-        }
-
-        const Database::IDatabase::Callback<const TagNameInfo &, const std::vector<TagValue> &> m_callback;
-        TagNameInfo m_info;
-        std::vector<Database::IFilter::Ptr> m_filter;
-    };
-
-
     struct ListTagsTask: IThreadTask
     {
         ListTagsTask (const Database::IDatabase::Callback<const std::vector<TagNameInfo> &> & callback):
@@ -678,17 +651,21 @@ namespace Database
     }
 
 
-    void AsyncDatabase::listTagValues( const TagNameInfo& info, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
+    void AsyncDatabase::listTagValues(const TagNameInfo& info, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask(info, std::vector<IFilter::Ptr>(), callback);
-        m_impl->addTask(task);
+        listTagValues(info, {}, callback);
     }
 
 
-    void AsyncDatabase::listTagValues( const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
+    void AsyncDatabase::listTagValues(const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        ListTagValuesTask* task = new ListTagValuesTask(info, filters, callback);
-        m_impl->addTask(task);
+        exec([info, filters, callback](IBackendOperator* op)
+        {
+             Executor* ex = down_cast<Executor *>(op);
+             const auto result = ex->getBackend()->listTagValues(info, filters);
+
+             callback(info, result);
+        });
     }
 
 
