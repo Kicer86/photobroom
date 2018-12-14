@@ -75,20 +75,6 @@ namespace
     };
 
 
-    template<typename T>
-    struct GenericTask: IThreadTask
-    {
-        GenericTask(const T& callable): m_callable(callable) {}
-
-        void execute(Executor* executor) override
-        {
-            m_callable(executor);
-        }
-
-        T m_callable;
-    };
-
-
     // TODO: it seems to be useless it this form, reduce it.
     struct Executor: Database::IBackendOperator
     {
@@ -312,13 +298,6 @@ namespace
             m_tasks.push(std::move(task));
         }
 
-        template<typename T>
-        void addTask(T&& callable)
-        {
-            std::unique_ptr<IThreadTask> task = std::make_unique<GenericTask<T>>(std::forward<T>(callable));
-            addTask(std::move(task));
-        }
-
         //private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
@@ -340,6 +319,17 @@ namespace
         }
 
         std::unique_ptr<Database::IDatabase::ITask> m_operation;
+    };
+
+
+    struct DbCloseTask: IThreadTask
+    {
+        DbCloseTask() = default;
+
+        void execute(Executor* executor) override
+        {
+           executor->closeConnections();
+        }
     };
 }
 
@@ -380,10 +370,7 @@ namespace Database
                 m_working = false;
 
                 // add final task
-                m_executor.addTask([](Executor* executor)
-                {
-                    executor->closeConnections();
-                });
+                m_executor.addTask(std::make_unique<DbCloseTask>());
                 m_executor.stop();
 
                 // wait for all tasks to be finished
