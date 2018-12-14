@@ -434,27 +434,6 @@ namespace
     };
 
 
-    struct ListTagsTask: IThreadTask
-    {
-        ListTagsTask (const Database::IDatabase::Callback<const std::vector<TagNameInfo> &> & callback):
-            IThreadTask(),
-            m_callback(callback)
-        {
-
-        }
-
-        virtual ~ListTagsTask() {}
-
-        virtual void execute(Executor* executor) override
-        {
-            auto result = executor->getBackend()->listTags();
-            m_callback(result);
-        }
-
-        Database::IDatabase::Callback<const std::vector<TagNameInfo> &> m_callback;
-    };
-
-
     struct PhotoCountTask: IThreadTask
     {
         PhotoCountTask (const std::vector<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
@@ -646,8 +625,13 @@ namespace Database
 
     void AsyncDatabase::listTagNames( const Callback<const std::vector<TagNameInfo> &> & callback)
     {
-        ListTagsTask* task = new ListTagsTask(callback);
-        m_impl->addTask(task);
+        exec([callback](IBackendOperator* op)
+        {
+             Executor* ex = down_cast<Executor *>(op);
+             const auto result = ex->getBackend()->listTags();
+
+             callback(result);
+        });
     }
 
 
