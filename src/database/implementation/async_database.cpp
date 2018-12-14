@@ -434,27 +434,6 @@ namespace
     };
 
 
-    struct PhotoCountTask: IThreadTask
-    {
-        PhotoCountTask (const std::vector<Database::IFilter::Ptr>& filter, const std::function<void(int)>& callback):
-            IThreadTask(),
-            m_callback(callback),
-            m_filter(filter)
-        {
-
-        }
-
-        virtual void execute(Executor* executor) override
-        {
-            auto result = executor->getBackend()->getPhotosCount(m_filter);
-            m_callback(result);
-        }
-
-        std::function<void(int)> m_callback;
-        std::vector<Database::IFilter::Ptr> m_filter;
-    };
-
-
     struct UpdateTask: IThreadTask
     {
         UpdateTask(const Photo::DataDelta& photoData):
@@ -611,8 +590,13 @@ namespace Database
 
     void AsyncDatabase::countPhotos(const std::vector<IFilter::Ptr>& filters, const Callback<int>& callback)
     {
-        PhotoCountTask* task = new PhotoCountTask(filters, callback);
-        m_impl->addTask(task);
+        exec([filters, callback](IBackendOperator* op)
+        {
+             Executor* ex = down_cast<Executor *>(op);
+             const auto result = ex->getBackend()->getPhotosCount(filters);
+
+             callback(result);
+        });
     }
 
 
