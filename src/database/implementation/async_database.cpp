@@ -359,12 +359,6 @@ namespace Database
         }
 
         //store task to be executed by thread
-        [[deprecated]] void addTask(IThreadTask* task)
-        {
-            addTask(std::unique_ptr<IThreadTask>(task));
-        }
-
-        //store task to be executed by thread
         void addTask(std::unique_ptr<IThreadTask>&& task)
         {
             // When task comes from from db's thread execute it immediately.
