@@ -61,10 +61,45 @@ namespace Database
     };
 
 
+    struct DATABASE_EXPORT IDatabaseThread
+    {
+        virtual ~IDatabaseThread() = default;
+
+        template<typename Callable>
+        void exec(Callable&& f)
+        {
+            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
+            execute(std::move(task));
+        }
+
+        struct ITask
+        {
+            virtual ~ITask() = default;
+            virtual void run(IBackendOperator *) = 0;
+        };
+
+        protected:
+            template<typename Callable>
+            struct Task: ITask
+            {
+                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+
+                void run(IBackendOperator* backend) override
+                {
+                    m_f(backend);
+                }
+
+                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+                Callable_T m_f;
+            };
+
+            virtual void execute(std::unique_ptr<ITask> &&) = 0;
+    };
+
     //Database interface.
     //A bridge between clients and backend.
     // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
-    struct DATABASE_EXPORT IDatabase: public QObject
+    struct DATABASE_EXPORT IDatabase: QObject, IDatabaseThread
     {
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
@@ -92,12 +127,7 @@ namespace Database
         // drop data
 
         // other
-        template<typename Callable>
-        void exec(Callable&& f)
-        {
-            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
-            execute(std::move(task));
-        }
+
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
@@ -105,35 +135,13 @@ namespace Database
         //close database connection
         virtual void closeConnections() = 0;
 
-        struct ITask
-        {
-            virtual ~ITask() = default;
-            virtual void run(IBackendOperator *) = 0;
-        };
-
     signals:
         void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
         void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
         void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
         void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
 
-    protected:
-        template<typename Callable>
-        struct Task: ITask
-        {
-            Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
-
-            void run(IBackendOperator* backend) override
-            {
-                m_f(backend);
-            }
-
-            typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
-            Callable_T m_f;
-        };
-
-        virtual void execute(std::unique_ptr<ITask> &&) = 0;
-
+    private:
         Q_OBJECT
     };
 
