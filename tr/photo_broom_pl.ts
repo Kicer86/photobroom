@@ -227,7 +227,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+896"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+898"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -920,7 +920,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TestSystem</name>
     <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+466"/>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+467"/>
         <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
 
 To install them, use &apos;python -m pip install %1&apos; (on Windows)

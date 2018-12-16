@@ -68,23 +68,19 @@ namespace
 
 namespace Database
 {
-    // TODO: replace all tasks with lambdas in AsyncDatabase methods
-    struct Executor;
-
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
-        virtual void execute(Executor *) = 0;
+        virtual void execute(IBackend *) = 0;
     };
 
 
     // TODO: it seems to be useless it this form, reduce it.
-    struct Executor: Database::IBackendOperator
+    struct Executor
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, Database::AsyncDatabase* storekeeper):
             m_tasks(1024),
-            m_backend( std::move(backend) ),
-            m_cache(nullptr),
+            m_backend(std::move(backend)),
             m_storekeeper(storekeeper)
         {
 
@@ -94,11 +90,6 @@ namespace Database
         Executor& operator=(const Executor &) = delete;
 
         virtual ~Executor() {}
-
-        void set(Database::IPhotoInfoCache* cache)
-        {
-            m_cache = cache;
-        }
 
         // run in a db thread started by AsyncDatabase::Impl
         void begin()
@@ -110,7 +101,7 @@ namespace Database
                 if (task)
                 {
                     IThreadTask* baseTask = task->get();
-                    baseTask->execute(this);
+                    baseTask->execute(m_backend.get());
                 }
                 else
                     break;
@@ -122,172 +113,6 @@ namespace Database
             m_tasks.stop();
         }
 
-        void closeConnections() override
-        {
-            m_backend->closeConnections();
-        }
-
-        IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data& data)
-        {
-            auto photoInfo = std::make_shared<PhotoInfo>(data, m_storekeeper);
-
-            m_cache->introduce(photoInfo);
-
-            return photoInfo;
-        }
-
-        // IBackend && IBackendOperator
-
-        bool addPhotos(std::vector<Photo::DataDelta>& d) override
-        {
-            return m_backend->addPhotos(d);
-        }
-
-        Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override
-        {
-            assert(!"Not implemented");
-            return Group::Id();
-        }
-
-        std::vector<Photo::Id> dropPhotos(const std::vector<Database::IFilter::Ptr> &) override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        std::vector<Photo::Id> getAllPhotos() override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        Photo::Data getPhoto(const Photo::Id & ) override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        std::vector<Photo::Id> getPhotos(const std::vector<Database::IFilter::Ptr>& filter) override
-        {
-            return m_backend->getPhotos(filter);
-        }
-
-        int getPhotosCount(const std::vector<Database::IFilter::Ptr> &) override
-        {
-            assert(!"Not implemented");
-            return -1;
-        }
-
-        IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override
-        {
-            IPhotoInfo::Ptr photoPtr = m_cache->find(id);
-
-            if (photoPtr.get() == nullptr)
-            {
-                const Photo::Data photoData = m_backend->getPhoto(id);
-
-                photoPtr = constructPhotoInfo(photoData);
-            }
-
-            return photoPtr;
-        }
-
-        Database::BackendStatus init(const Database::ProjectInfo & ) override
-        {
-            assert(!"Not implemented");
-            return Database::StatusCodes::OpenFailed;
-        }
-
-        std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta>& dataDelta) override
-        {
-            std::vector<Photo::Id> result;
-
-            std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
-            const bool status = m_backend->addPhotos(data_set);
-
-            if (status)
-            {
-                std::vector<IPhotoInfo::Ptr> photos;
-
-                for(std::size_t i = 0; i < data_set.size(); i++)
-                {
-                    Photo::Data data = dataFromDelta(data_set[i]);
-                    IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
-                    photos.push_back(photoInfo);
-
-                    result.push_back(data.id);
-                }
-
-                emit m_storekeeper->photosAdded(photos);
-            }
-
-            return result;
-        }
-
-        std::vector<PersonName> listPeople() override
-        {
-            return m_backend->listPeople();
-        }
-
-        std::vector<PersonInfo> listPeople(const Photo::Id& id) override
-        {
-            return m_backend->listPeople(id);
-        }
-
-        std::vector<TagNameInfo> listTags() override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        std::vector<TagValue> listTagValues(const TagNameInfo & , const std::vector<Database::IFilter::Ptr> & ) override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        PersonName person(const Person::Id& id) override
-        {
-            assert(id.valid());
-            return m_backend->person(id);
-        }
-
-        void perform(const std::vector<Database::IFilter::Ptr> & , const std::vector<Database::IAction::Ptr> & ) override
-        {
-            assert(!"Not implemented");
-        }
-
-        std::vector<Photo::Id> markStagedAsReviewed() override
-        {
-            assert(!"Not implemented");
-            return {};
-        }
-
-        Person::Id store(const PersonName& d) override
-        {
-            return m_backend->store(d);
-        }
-
-        PersonInfo::Id store(const PersonInfo& d) override
-        {
-            return m_backend->store(d);
-        }
-
-        void set(const Photo::Id& id, const QString& name, int value) override
-        {
-            m_backend->set(id, name, value);
-        }
-
-        std::optional<int> get(const Photo::Id& id, const QString& name) override
-        {
-            return m_backend->get(id, name);
-        }
-
-        bool update(const Photo::DataDelta &) override
-        {
-            assert(!"Not implemented");
-            return false;
-        }
 
         //
 
@@ -304,7 +129,6 @@ namespace Database
         //private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             std::unique_ptr<Database::IBackend> m_backend;
-            Database::IPhotoInfoCache* m_cache;
             Database::AsyncDatabase* m_storekeeper;
     };
 
@@ -316,9 +140,9 @@ namespace Database
 
         }
 
-        virtual void execute(Executor* executor) override
+        virtual void execute(IBackend* backend) override
         {
-            m_operation->run(executor);
+            m_operation->run(backend);
         }
 
         std::unique_ptr<Database::IDatabase::ITask> m_operation;
@@ -329,9 +153,9 @@ namespace Database
     {
         DbCloseTask() = default;
 
-        void execute(Executor* executor) override
+        void execute(IBackend* backend) override
         {
-           executor->closeConnections();
+           backend->closeConnections();
         }
     };
 
@@ -360,16 +184,14 @@ namespace Database
     void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)
     {
         m_cache = std::move(cache);
-        m_executor->set(m_cache.get());
     }
 
 
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
-        exec([prjInfo, callback](IBackendOperator* op)
+        exec([prjInfo, callback](IBackend* backend)
         {
-             Executor* ex = down_cast<Executor *>(op);
-             const Database::BackendStatus status = ex->getBackend()->init(prjInfo);
+             const Database::BackendStatus status = backend->init(prjInfo);
 
              callback(status);
         });
@@ -378,13 +200,12 @@ namespace Database
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        exec([this, data](IBackendOperator* op)
+        exec([this, data](IBackend* backend)
         {
-            Executor* ex = down_cast<Executor *>(op);
-            const bool status = ex->getBackend()->update(data);
+            const bool status = backend->update(data);
             assert(status);
 
-            IPhotoInfo::Ptr photoInfo = ex->getPhotoFor(data.getId());
+            IPhotoInfo::Ptr photoInfo = getPhotoFor(data.getId());
             emit photoModified(photoInfo);
         });
     }
@@ -392,10 +213,9 @@ namespace Database
 
     void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
     {
-        exec([photos, callback](IBackendOperator* op)
+        exec([this, photos, callback](IBackend *)
         {
-             Executor* ex = down_cast<Executor *>(op);
-             const std::vector<Photo::Id> status = ex->insertPhotos(photos);
+             const std::vector<Photo::Id> status = insertPhotos(photos);
 
              callback(status);
         });
@@ -404,13 +224,12 @@ namespace Database
 
     void AsyncDatabase::createGroup(const Photo::Id& id, GroupInfo::Type type, const Callback<Group::Id>& callback)
     {
-        exec([id, type, callback](IBackendOperator* op)
+        exec([this, id, type, callback](IBackend* backend)
         {
-            Executor* ex = down_cast<Executor *>(op);
-            const Group::Id gid = ex->getBackend()->addGroup(id, type);
+            const Group::Id gid = backend->addGroup(id, type);
 
             // mark representative as representative
-            IPhotoInfo::Ptr representative = ex->getPhotoFor(id);
+            IPhotoInfo::Ptr representative = getPhotoFor(id);
             const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, type);
             representative->setGroup(grpInfo);
 
@@ -421,10 +240,9 @@ namespace Database
 
     void AsyncDatabase::countPhotos(const std::vector<IFilter::Ptr>& filters, const Callback<int>& callback)
     {
-        exec([filters, callback](IBackendOperator* op)
+        exec([filters, callback](IBackend* backend)
         {
-             Executor* ex = down_cast<Executor *>(op);
-             const auto result = ex->getBackend()->getPhotosCount(filters);
+             const auto result = backend->getPhotosCount(filters);
 
              callback(result);
         });
@@ -433,14 +251,13 @@ namespace Database
 
     void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
-        exec([ids, callback](IBackendOperator* op)
+        exec([this, ids, callback](IBackend *)
         {
-            Executor* ex = down_cast<Executor *>(op);
             std::vector<IPhotoInfo::Ptr> photos;
 
             for (const Photo::Id& id: ids)
             {
-                IPhotoInfo::Ptr photo = ex->getPhotoFor(id);
+                IPhotoInfo::Ptr photo = getPhotoFor(id);
                 photos.push_back(photo);
             }
 
@@ -451,10 +268,9 @@ namespace Database
 
     void AsyncDatabase::listTagNames( const Callback<const std::vector<TagNameInfo> &> & callback)
     {
-        exec([callback](IBackendOperator* op)
+        exec([callback](IBackend* backend)
         {
-             Executor* ex = down_cast<Executor *>(op);
-             const auto result = ex->getBackend()->listTags();
+             const auto result = backend->listTags();
 
              callback(result);
         });
@@ -469,10 +285,9 @@ namespace Database
 
     void AsyncDatabase::listTagValues(const TagNameInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagNameInfo &, const std::vector<TagValue> &> & callback)
     {
-        exec([info, filters, callback](IBackendOperator* op)
+        exec([info, filters, callback](IBackend* backend)
         {
-             Executor* ex = down_cast<Executor *>(op);
-             const auto result = ex->getBackend()->listTagValues(info, filters);
+             const auto result = backend->listTagValues(info, filters);
 
              callback(info, result);
         });
@@ -481,14 +296,13 @@ namespace Database
 
     void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
-        exec([filter, callback](IBackendOperator* op)
+        exec([this, filter, callback](IBackend* backend)
         {
-            Executor* ex = down_cast<Executor *>(op);
-            auto photos = ex->getBackend()->getPhotos(filter);
+            auto photos = backend->getPhotos(filter);
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)
-                photosList.push_back(ex->getPhotoFor(id));
+                photosList.push_back(getPhotoFor(id));
 
             callback(photosList);
         });
@@ -497,10 +311,9 @@ namespace Database
 
     void AsyncDatabase::markStagedAsReviewed()
     {
-        exec([this](IBackendOperator* op)
+        exec([this](IBackend* backend)
         {
-            Executor* ex = down_cast<Executor *>(op);
-            const std::vector<Photo::Id> moved = ex->getBackend()->markStagedAsReviewed();
+            const std::vector<Photo::Id> moved = backend->markStagedAsReviewed();
 
             emit photosMarkedAsReviewed(moved);
         });
@@ -514,12 +327,18 @@ namespace Database
     }
 
 
+    Database::IUtils* AsyncDatabase::utils()
+    {
+        return this;
+    }
+
+
     void AsyncDatabase::addTask(std::unique_ptr<IThreadTask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())
         if (std::this_thread::get_id() == m_thread.get_id())
-            task->execute(m_executor.get());
+            task->execute(m_executor->getBackend());
         else
         {
             assert(m_working);
@@ -543,6 +362,58 @@ namespace Database
             assert(m_thread.joinable());
             m_thread.join();
         }
+    }
+
+
+    IPhotoInfo::Ptr AsyncDatabase::constructPhotoInfo(const Photo::Data& data)
+    {
+        auto photoInfo = std::make_shared<PhotoInfo>(data, this);
+
+        m_cache->introduce(photoInfo);
+
+        return photoInfo;
+    }
+
+
+    IPhotoInfo::Ptr AsyncDatabase::getPhotoFor(const Photo::Id& id)
+    {
+        IPhotoInfo::Ptr photoPtr = m_cache->find(id);
+
+        if (photoPtr.get() == nullptr)
+        {
+            const Photo::Data photoData = m_executor->getBackend()->getPhoto(id);
+
+            photoPtr = constructPhotoInfo(photoData);
+        }
+
+        return photoPtr;
+    }
+
+
+    std::vector<Photo::Id> AsyncDatabase::insertPhotos(const std::vector<Photo::DataDelta>& dataDelta)
+    {
+        std::vector<Photo::Id> result;
+
+        std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
+        const bool status = m_executor->getBackend()->addPhotos(data_set);
+
+        if (status)
+        {
+            std::vector<IPhotoInfo::Ptr> photos;
+
+            for(std::size_t i = 0; i < data_set.size(); i++)
+            {
+                Photo::Data data = dataFromDelta(data_set[i]);
+                IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
+                photos.push_back(photoInfo);
+
+                result.push_back(data.id);
+            }
+
+            emit photosAdded(photos);
+        }
+
+        return result;
     }
 
 }

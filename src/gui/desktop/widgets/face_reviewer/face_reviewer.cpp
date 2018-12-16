@@ -72,7 +72,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
             this, &FaceReviewer::updatePeople);
 
     auto fetch = std::bind(&FaceReviewer::fetchPeople, this, _1);
-    auto callback = m_safe_callback.make_safe_callback<void(Database::IBackendOperator *)>(fetch);
+    auto callback = m_safe_callback.make_safe_callback<void(Database::IBackend *)>(fetch);
 
     m_db->exec(callback);
 }
@@ -84,7 +84,7 @@ FaceReviewer::~FaceReviewer()
 }
 
 
-void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
+void FaceReviewer::fetchPeople(Database::IBackend* op) const
 {
     auto people = op->listPeople();
 
@@ -117,9 +117,11 @@ void FaceReviewer::fetchPeople(Database::IBackendOperator* op) const
         }
     }
 
+    Database::IUtils* db_utils = m_db->utils();
+
     for(const Photo::Id& ph_id: touchedPhotos)
     {
-        IPhotoInfo::Ptr photoInfo = op->getPhotoFor(ph_id);
+        IPhotoInfo::Ptr photoInfo = db_utils->getPhotoFor(ph_id);
         photoToPath[ph_id] = photoInfo->getPath();
     }
 

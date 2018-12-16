@@ -32,7 +32,7 @@ namespace Database
     struct Executor;
     struct IThreadTask;
 
-    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
+    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper, public IUtils
     {
         public:
             AsyncDatabase(std::unique_ptr<IBackend> &&);
@@ -58,6 +58,8 @@ namespace Database
 
             virtual void execute(std::unique_ptr<ITask> &&) override;
 
+            Database::IUtils * utils() override;
+
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
 
@@ -70,6 +72,12 @@ namespace Database
             //store task to be executed by thread
             void addTask(std::unique_ptr<IThreadTask> &&);
             void stopExecutor();
+
+            IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
+
+            // IUtils overrides
+            IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override;
+            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) override;
     };
 
 }

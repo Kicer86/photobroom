@@ -32,7 +32,7 @@
 namespace Database
 {
     struct IDatabase;
-    struct IBackendOperator;
+    struct IBackend;
 }
 
 class FaceDetails;
@@ -59,7 +59,7 @@ class FaceReviewer: public QDialog
         QWidget* m_canvas;
         Project* m_project;
 
-        void fetchPeople(Database::IBackendOperator *) const;
+        void fetchPeople(Database::IBackend *) const;
 
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
                           const std::map<Photo::Id, QString> &);

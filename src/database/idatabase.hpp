@@ -51,16 +51,8 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
-    // for direct operating on backend (IDatabase::performCustomAction)
-    struct IBackendOperator: IBackend
-    {
-        virtual ~IBackendOperator() = default;
 
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
-        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
-    };
-
-
+    // class responsible for running tasks meant to be executed in db's thread on IBackend
     struct DATABASE_EXPORT IDatabaseThread
     {
         virtual ~IDatabaseThread() = default;
@@ -75,7 +67,7 @@ namespace Database
         struct ITask
         {
             virtual ~ITask() = default;
-            virtual void run(IBackendOperator *) = 0;
+            virtual void run(IBackend *) = 0;
         };
 
         protected:
@@ -84,7 +76,7 @@ namespace Database
             {
                 Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
 
-                void run(IBackendOperator* backend) override
+                void run(IBackend* backend) override
                 {
                     m_f(backend);
                 }
@@ -94,6 +86,15 @@ namespace Database
             };
 
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
+    };
+
+    // High level utils to be used in db's thread
+    struct DATABASE_EXPORT IUtils
+    {
+        virtual ~IUtils() = default;
+
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;
+        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;
     };
 
     //Database interface.
@@ -127,7 +128,7 @@ namespace Database
         // drop data
 
         // other
-
+        virtual IUtils* utils() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;

@@ -211,9 +211,11 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 {
     if (photos.empty() == false)
     {
-        m_database->exec([photos, representativePath, type, this](Database::IBackendOperator* backendOperator)
+        Database::IUtils* db_utils = m_database->utils();
+
+        m_database->exec([db_utils, photos, representativePath, type, this](Database::IBackend *)
         {
-            IPhotoInfo::Ptr firstPhoto = backendOperator->getPhotoFor(photos[0]);
+            IPhotoInfo::Ptr firstPhoto = db_utils->getPhotoFor(photos[0]);
 
             const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
             Photo::DataDelta data;
@@ -221,7 +223,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
             data.insert<Photo::Field::Tags>(firstPhoto->getTags());
             data.insert<Photo::Field::Flags>(flags);
 
-            std::vector<Photo::Id> stored = backendOperator->insertPhotos({data});
+            std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
 
             assert(stored.size() == 1);
 

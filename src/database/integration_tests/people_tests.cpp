@@ -25,7 +25,7 @@ TEST_F(PeopleTest, personIntroduction)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             const PersonName p1(Person::Id(), "P 1");
             const Person::Id p1_id = op->store(p1);
@@ -36,7 +36,7 @@ TEST_F(PeopleTest, personIntroduction)
             EXPECT_EQ(p1_r.id(), p1_id);
         });
 
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(123), "P 2");
             const Person::Id p2_id = op->store(p2);
@@ -48,7 +48,7 @@ TEST_F(PeopleTest, personIntroduction)
             EXPECT_FALSE(p2_r.id().valid()); // make sure there is no entry with given id
         });
 
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(), "P 2");
             const Person::Id p2_id = op->store(p2);
@@ -66,7 +66,7 @@ TEST_F(PeopleTest, massivePersonIntroduction)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             std::set<PersonName> people;
             for(int i = 0; i < 8; i++)
@@ -101,7 +101,7 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
     for_all([](Database::IDatabase* db)
     {
         // perform some manipulations with photos' tags
-        db->performCustomAction([](Database::IBackendOperator* op)
+        db->performCustomAction([](Database::IBackend* op)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
@@ -189,7 +189,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
     for_all([](Database::IDatabase* db)
     {
         // perform some manipulations with photos' tags
-        db->performCustomAction([](Database::IBackendOperator* op)
+        db->performCustomAction([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -254,7 +254,7 @@ TEST_F(PeopleTest, alteringPersonData)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -336,7 +336,7 @@ TEST_F(PeopleTest, rectIsMoreImportantThanName)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -369,7 +369,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -419,7 +419,7 @@ TEST_F(PeopleTest, inteligentNameUpdate)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -469,8 +469,10 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([db](Database::IBackend* op)
         {
+            Database::IUtils* db_utils = db->utils();
+
             // store 1 photo
             Photo::DataDelta pd1;
             pd1.insert<Photo::Field::Path>("photo1.jpeg");
@@ -491,7 +493,7 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
             op->store(PersonInfo(Person::Id(), ph_id, r2));
             op->store(PersonInfo(Person::Id(), ph_id, r3));
 
-            const auto photo = op->getPhotoFor(ph_id);
+            const auto photo = db_utils->getPhotoFor(ph_id);
             const auto tags = photo->getTags();
 
             EXPECT_TRUE(tags.empty());
@@ -504,7 +506,7 @@ TEST_F(PeopleTest, inteligentPersonNameRemoval)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;
@@ -566,7 +568,7 @@ TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
 {
     for_all([](Database::IDatabase* db)
     {
-        db->performCustomAction([](Database::IBackendOperator* op)
+        db->performCustomAction([](Database::IBackend* op)
         {
             // store 1 photo
             Photo::DataDelta pd1;

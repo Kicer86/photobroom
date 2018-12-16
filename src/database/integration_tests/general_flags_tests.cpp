@@ -22,7 +22,7 @@ TEST_F(GeneralFlagsTest, flagsIntroduction)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
@@ -54,7 +54,7 @@ TEST_F(GeneralFlagsTest, invalidName)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
-        db->exec([](Database::IBackendOperator* op)
+        db->exec([](Database::IBackend* op)
         {
             // store 2 photos
             Photo::DataDelta pd1;
