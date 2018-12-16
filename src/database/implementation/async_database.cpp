@@ -74,8 +74,6 @@ namespace Database
         virtual void execute(IBackend *) = 0;
     };
 
-
-    // TODO: it seems to be useless it this form, reduce it.
     struct Executor
     {
         Executor( std::unique_ptr<Database::IBackend>&& backend, Database::AsyncDatabase* storekeeper):
