@@ -50,7 +50,7 @@ namespace Database
 
             ASqlBackend(ILoggerFactory *);
             ASqlBackend(const ASqlBackend& other) = delete;
-            virtual ~ASqlBackend() ;
+            virtual ~ASqlBackend();
 
             ASqlBackend& operator=(const ASqlBackend& other) = delete;
             bool operator==(const ASqlBackend& other) = delete;
