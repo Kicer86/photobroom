@@ -51,6 +51,7 @@ set(DATABASE_HEADERS
 )
 
 set(DATABASE_MOC
+    ibackend.hpp
     idatabase.hpp
     idatabase_plugin.hpp
     database_tools/itag_info_collector.hpp
