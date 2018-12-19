@@ -22,6 +22,7 @@ set(DATABASE_SOURCES
     database_tools/implementation/photo_duplicates_finder.cpp
     database_tools/implementation/synchronous_database.cpp
     database_tools/implementation/tag_info_collector.cpp
+    database_tools/implementation/signal_mapper.cpp
 )
 
 set(DATABASE_HEADERS
@@ -45,6 +46,7 @@ set(DATABASE_HEADERS
     implementation/photo_info_cache.hpp
     database_tools/photos_analyzer.hpp
     database_tools/tag_info_collector.hpp
+    database_tools/signal_mapper.hpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp
     database_tools/implementation/synchronous_database.hpp
@@ -56,7 +58,9 @@ set(DATABASE_MOC
     idatabase_plugin.hpp
     database_tools/itag_info_collector.hpp
     database_tools/photos_analyzer.hpp
-    database_tools/implementation/photos_analyzer_p.hpp)
+    database_tools/implementation/photos_analyzer_p.hpp
+    database_tools/signal_mapper.hpp
+)
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
