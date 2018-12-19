@@ -227,7 +227,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+898"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+895"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
     </message>
@@ -635,7 +635,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+118"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+125"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>

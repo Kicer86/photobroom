@@ -33,38 +33,6 @@
 #include "project_info.hpp"
 
 
-namespace
-{
-    Photo::Data dataFromDelta(const Photo::DataDelta& delta)
-    {
-        assert(delta.getId().valid());
-
-        Photo::Data data;
-
-        data.id = delta.getId();
-
-        if (delta.has(Photo::Field::Checksum))
-            data.sha256Sum = delta.get<Photo::Field::Checksum>();
-
-        if (delta.has(Photo::Field::Flags))
-            data.flags = delta.get<Photo::Field::Flags>();
-
-        if (delta.has(Photo::Field::Geometry))
-            data.geometry = delta.get<Photo::Field::Geometry>();
-
-        if (delta.has(Photo::Field::GroupInfo))
-            data.groupInfo = delta.get<Photo::Field::GroupInfo>();
-
-        if (delta.has(Photo::Field::Path))
-            data.path = delta.get<Photo::Field::Path>();
-
-        if (delta.has(Photo::Field::Tags))
-            data.tags = delta.get<Photo::Field::Tags>();
-
-        return data;
-    }
-}
-
 
 namespace Database
 {
@@ -202,9 +170,6 @@ namespace Database
         {
             const bool status = backend->update(data);
             assert(status);
-
-            IPhotoInfo::Ptr photoInfo = getPhotoFor(data.getId());
-            emit photoModified(photoInfo);
         });
     }
 
@@ -309,11 +274,9 @@ namespace Database
 
     void AsyncDatabase::markStagedAsReviewed()
     {
-        exec([this](IBackend* backend)
+        exec([](IBackend* backend)
         {
-            const std::vector<Photo::Id> moved = backend->markStagedAsReviewed();
-
-            emit photosMarkedAsReviewed(moved);
+            backend->markStagedAsReviewed();
         });
     }
 
@@ -325,9 +288,21 @@ namespace Database
     }
 
 
-    Database::IUtils* AsyncDatabase::utils()
+    IUtils* AsyncDatabase::utils()
     {
         return this;
+    }
+
+
+    IBackend* AsyncDatabase::backend()
+    {
+        return m_executor->getBackend();
+    }
+
+
+    IPhotoInfoCache* AsyncDatabase::cache()
+    {
+        return m_cache.get();
     }
 
 
@@ -395,21 +370,7 @@ namespace Database
         std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
         const bool status = m_executor->getBackend()->addPhotos(data_set);
 
-        if (status)
-        {
-            std::vector<IPhotoInfo::Ptr> photos;
-
-            for(std::size_t i = 0; i < data_set.size(); i++)
-            {
-                Photo::Data data = dataFromDelta(data_set[i]);
-                IPhotoInfo::Ptr photoInfo = constructPhotoInfo(data);
-                photos.push_back(photoInfo);
-
-                result.push_back(data.id);
-            }
-
-            emit photosAdded(photos);
-        }
+        assert(status);
 
         return result;
     }

@@ -27,7 +27,8 @@
 
 TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_database(nullptr), m_observerId(0)
 {
-
+    connect(&m_mapper, &Database::SignalMapper::photoModified,
+            this,      &TagInfoCollector::photoModified);
 }
 
 
@@ -45,13 +46,9 @@ void TagInfoCollector::set(Database::IDatabase* db)
     // It would require improvements in backend (#10 and maybe #180), so for now listen for photo modifications.
     // Github issue: #183
 
+    m_mapper.set(db);
     if (m_database != nullptr)
-    {
-        connect(m_database, &Database::IDatabase::photoModified,
-                this,       &TagInfoCollector::photoModified);
-
         updateAllTags();
-    }
 }
 
 

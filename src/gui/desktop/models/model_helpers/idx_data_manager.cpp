@@ -33,6 +33,7 @@
 #include <core/callback_ptr.hpp>
 #include <core/cross_thread_call.hpp>
 #include <database/iphoto_info.hpp>
+#include <database/database_tools/signal_mapper.hpp>
 
 #include "idxdata_deepfetcher.hpp"
 #include "photos_matcher.hpp"
@@ -86,6 +87,7 @@ struct IdxDataManager::Data
     ITaskExecutor* m_taskExecutor;
     safe_callback_ctrl m_tasksResultsCtrl;
     SearchExpressionEvaluator::Expression filterExpression;
+    Database::SignalMapper m_signalsMapper;
 };
 
 
@@ -112,6 +114,10 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
     qRegisterMetaType<std::vector<IPhotoInfo::Ptr>>();
     qRegisterMetaType<Photo::Id>();
     qRegisterMetaType<std::vector<Photo::Id>>();
+
+    connect(&m_data->m_signalsMapper, &Database::SignalMapper::photoModified, this, &IdxDataManager::photoChanged);
+    connect(&m_data->m_signalsMapper, &Database::SignalMapper::photosAdded,   this, &IdxDataManager::photosAdded);
+    connect(&m_data->m_signalsMapper, &Database::SignalMapper::photosRemoved, this, &IdxDataManager::photosRemoved);
 }
 
 
@@ -175,17 +181,8 @@ bool IdxDataManager::canFetchMore(const QModelIndex& _parent)
 
 void IdxDataManager::setDatabase(Database::IDatabase* database)
 {
-    if (m_data->m_database != nullptr)
-        disconnect(m_data->m_database);
-
     m_data->m_database = database;
-
-    if (database != nullptr)
-    {
-        connect(database, &Database::IDatabase::photoModified, this, &IdxDataManager::photoChanged);
-        connect(database, &Database::IDatabase::photosAdded,   this, &IdxDataManager::photosAdded);
-        connect(database, &Database::IDatabase::photosRemoved, this, &IdxDataManager::photosRemoved);
-    }
+    m_data->m_signalsMapper.set(database);
 
     resetModel();
 }

@@ -720,7 +720,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
 void MainWindow::markNewPhotosAsReviewed()
 {
     Database::IDatabase* db = m_currentPrj->getDatabase();
-    connect(db, &Database::IDatabase::photosMarkedAsReviewed,
+    Database::IBackend* backend = db->backend();
+
+    connect(backend, &Database::IBackend::photosMarkedAsReviewed,
             this, &MainWindow::photosMarkedAsReviewed, Qt::UniqueConnection);  // make sure connection exists. It will be closed when db is closed.
 
     db->markStagedAsReviewed();

@@ -97,10 +97,11 @@ namespace Database
         virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;
     };
 
+
     //Database interface.
     //A bridge between clients and backend.
     // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
-    struct DATABASE_EXPORT IDatabase: QObject, IDatabaseThread
+    struct DATABASE_EXPORT IDatabase: IDatabaseThread
     {
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
@@ -129,23 +130,15 @@ namespace Database
 
         // other
         virtual IUtils* utils() = 0;
+        virtual IBackend* backend() = 0;
+        virtual IPhotoInfoCache* cache() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
-
-    signals:
-        void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
-        void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-        void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
-        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
-
-    private:
-        Q_OBJECT
     };
-
 }
 
 #endif
