@@ -10,6 +10,7 @@
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/mock_photo_info.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
+#include "unit_tests_utils/mock_db_utils.hpp"
 
 
 using ::testing::InvokeArgument;
@@ -134,6 +135,7 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
 
 TEST(TagInfoCollectorTest, ReactionOnDBChange)
 {
+    NiceMock<MockUtils> utils;
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
@@ -152,21 +154,27 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
+    ON_CALL(database, utils)
+        .WillByDefault(Return(&utils));
+
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    MockPhotoInfo photoInfo;
+    auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
         { TagNameInfo(BaseTagsList::_People), TagValue("person123") }
     };
 
-    EXPECT_CALL(photoInfo, getTags())
+    EXPECT_CALL(*photoInfo, getTags())
         .WillOnce(Return(tags));
 
-    ON_CALL(photoInfo, getID)
+    ON_CALL(*photoInfo, getID)
         .WillByDefault(Return(Photo::Id(1)));
 
-    emit backend.photoModified(photoInfo.getID());
+    ON_CALL(utils, getPhotoFor(Photo::Id(1)))
+        .WillByDefault(Return(photoInfo));
+
+    emit backend.photoModified(photoInfo->getID());
 
     const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(BaseTagsList::_People) );
     ASSERT_EQ(people.size(), 1);
@@ -176,8 +184,9 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
 TEST(TagInfoCollectorTest, ObserversNotification)
 {
+    NiceMock<MockUtils> utils;
     MockBackend backend;
-    MockDatabase database;
+    NiceMock<MockDatabase> database;
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>({QDate(0, 1, 2), QDate(1, 2, 3)})) );
@@ -194,6 +203,9 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
+    ON_CALL(database, utils)
+        .WillByDefault(Return(&utils));
+
     Observer observer;
 
     // called 4 times by TagInfoCollector for each of TagName after database is set
@@ -207,14 +219,20 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     tagInfoCollector.set(&database);
 
-    auto photoInfo = std::make_shared<MockPhotoInfo>();
+    auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
                             { TagNameInfo(BaseTagsList::Time), TagValue(QTime(20,21)) },
                             { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
     };
 
-    EXPECT_CALL(*photoInfo.get(), getTags())
+    EXPECT_CALL(*photoInfo, getTags())
         .WillOnce(Return(tags));
+
+    ON_CALL(*photoInfo, getID)
+        .WillByDefault(Return(Photo::Id(1)));
+
+    ON_CALL(utils, getPhotoFor(Photo::Id(1)))
+        .WillByDefault(Return(photoInfo));
 
     emit backend.photoModified(photoInfo->getID());
 }
@@ -222,16 +240,20 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
 TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 {
+    NiceMock<MockUtils> utils;
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
+    ON_CALL(database, utils)
+        .WillByDefault(Return(&utils));
+
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    auto photoInfo = std::make_shared<MockPhotoInfo>();
+    auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
                             { TagNameInfo(BaseTagsList::Time), TagValue(QTime(2, 5)) },
                             { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
@@ -239,6 +261,12 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     EXPECT_CALL(*photoInfo.get(), getTags())
         .WillOnce(Return(tags));
+
+    ON_CALL(*photoInfo, getID)
+        .WillByDefault(Return(Photo::Id(1)));
+
+    ON_CALL(utils, getPhotoFor(Photo::Id(1)))
+        .WillByDefault(Return(photoInfo));
 
     emit backend.photoModified(photoInfo->getID());
 

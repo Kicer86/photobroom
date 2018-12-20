@@ -8,6 +8,7 @@
 #include <desktop/models/model_helpers/idx_data_manager.hpp>
 #include <desktop/models/db_data_model.hpp>
 
+#include "unit_tests_utils/mock_backend.hpp"
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/mock_photo_info.hpp"
 #include "unit_tests_utils/printers.hpp"
@@ -20,6 +21,7 @@ using ::testing::_;
 using ::testing::ElementsAre;
 using ::testing::InvokeArgument;
 using ::testing::Return;
+using ::testing::NiceMock;
 
 MATCHER(IsEmptyFilter, "")
 {
@@ -49,7 +51,8 @@ TEST(IdxDataManagerShould, BeConstructable)
 
 TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
 {
-    MockDatabase db;
+    MockBackend backend;
+    NiceMock<MockDatabase> db;
 
     const TagNameInfo dateTag(BaseTagsList::Date);
     const std::vector<TagValue> dates = { QDate(2017, 05, 30) };
@@ -59,6 +62,9 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
 
     // filter, callback
     EXPECT_CALL(db, countPhotos(_, _));
+
+    ON_CALL(db, backend)
+        .WillByDefault(Return(&backend));
 
     DBDataModel model;
     model.setDatabase(&db);
