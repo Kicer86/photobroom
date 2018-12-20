@@ -37,13 +37,16 @@ namespace Database
 
         if (db != nullptr)
         {
+            IBackend* backend = db->backend();
+            assert(backend);
+
             // conversion required (use Qt::DirectConnection to be sure we were called from IBackend's thread)
-            connect(db->backend(), &IBackend::photosAdded, this, &SignalMapper::i_photosAdded, Qt::DirectConnection);
-            connect(db->backend(), &IBackend::photoModified, this, &SignalMapper::i_photoModified, Qt::DirectConnection);
+            connect(backend, &IBackend::photosAdded, this, &SignalMapper::i_photosAdded, Qt::DirectConnection);
+            connect(backend, &IBackend::photoModified, this, &SignalMapper::i_photoModified, Qt::DirectConnection);
 
             // direct reemits
-            connect(db->backend(), &IBackend::photosRemoved, this, &SignalMapper::photosRemoved);
-            connect(db->backend(), &IBackend::photosMarkedAsReviewed, this, &SignalMapper::photosMarkedAsReviewed);
+            connect(backend, &IBackend::photosRemoved, this, &SignalMapper::photosRemoved);
+            connect(backend, &IBackend::photosMarkedAsReviewed, this, &SignalMapper::photosMarkedAsReviewed);
         }
 
         m_db = db;
