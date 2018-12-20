@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DATABASETHREAD_H
-#define DATABASETHREAD_H
+#ifndef DATABASETHREAD_HPP
+#define DATABASETHREAD_HPP
 
 #include <thread>
 #include <vector>
@@ -60,7 +60,6 @@ namespace Database
 
             IUtils*   utils() override;
             IBackend* backend() override;
-            IPhotoInfoCache* cache() override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
@@ -84,4 +83,4 @@ namespace Database
 
 }
 
-#endif // DATABASETHREAD_H
+#endif // DATABASETHREAD_HPP

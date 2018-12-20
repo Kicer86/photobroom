@@ -131,7 +131,6 @@ namespace Database
         // other
         virtual IUtils* utils() = 0;
         virtual IBackend* backend() = 0;
-        virtual IPhotoInfoCache* cache() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;

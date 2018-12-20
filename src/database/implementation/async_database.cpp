@@ -300,12 +300,6 @@ namespace Database
     }
 
 
-    IPhotoInfoCache* AsyncDatabase::cache()
-    {
-        return m_cache.get();
-    }
-
-
     void AsyncDatabase::addTask(std::unique_ptr<IThreadTask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
