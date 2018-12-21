@@ -32,16 +32,33 @@ namespace Database
     struct Executor;
     struct IThreadTask;
 
-    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper, public IUtils
+
+    class Utils: public IUtils
     {
         public:
-            AsyncDatabase(std::unique_ptr<IBackend> &&);
+            Utils(std::unique_ptr<IPhotoInfoCache> &&, IBackend *, IPhotoInfoStorekeeper *);
+            ~Utils();
+
+            IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
+            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
+
+        private:
+            std::unique_ptr<IPhotoInfoCache> m_cache;
+            IBackend* m_backend;
+            IPhotoInfoStorekeeper* m_storeKeeper;
+
+            IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
+    };
+
+
+    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
+    {
+        public:
+            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&);
             AsyncDatabase(const AsyncDatabase &) = delete;
             virtual ~AsyncDatabase();
 
             AsyncDatabase& operator=(const AsyncDatabase &) = delete;
-
-            void set(std::unique_ptr<IPhotoInfoCache> &&);
 
             virtual void update(const Photo::DataDelta &) override;
             virtual void store(const std::vector<Photo::DataDelta> &, const Callback<const std::vector<Photo::Id> &>&) override;
@@ -65,20 +82,14 @@ namespace Database
             virtual void closeConnections() override;
 
         private:
-            std::unique_ptr<IPhotoInfoCache> m_cache;
             std::unique_ptr<Executor> m_executor;
             std::thread m_thread;
+            Utils m_utils;
             bool m_working;
 
             //store task to be executed by thread
             void addTask(std::unique_ptr<IThreadTask> &&);
             void stopExecutor();
-
-            IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
-
-            // IUtils overrides
-            IPhotoInfo::Ptr getPhotoFor(const Photo::Id& id) override;
-            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) override;
     };
 
 }

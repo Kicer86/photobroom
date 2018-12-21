@@ -126,8 +126,70 @@ namespace Database
     };
 
 
-    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend):
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    Utils::Utils(std::unique_ptr<IPhotoInfoCache>&& cache, IBackend* backend, IPhotoInfoStorekeeper* keeper):
+        m_cache(std::move(cache)),
+        m_backend(backend),
+        m_storeKeeper(keeper)
+    {
+
+    }
+
+
+    Utils::~Utils()
+    {
+
+    }
+
+
+    IPhotoInfo::Ptr Utils::getPhotoFor(const Photo::Id& id)
+    {
+        IPhotoInfo::Ptr photoPtr = m_cache->find(id);
+
+        if (photoPtr.get() == nullptr)
+        {
+            const Photo::Data photoData = m_backend->getPhoto(id);
+
+            photoPtr = constructPhotoInfo(photoData);
+        }
+
+        return photoPtr;
+    }
+
+
+    std::vector<Photo::Id> Utils::insertPhotos(const std::vector<Photo::DataDelta>& dataDelta)
+    {
+        std::vector<Photo::Id> result;
+
+        std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
+        const bool status = m_backend->addPhotos(data_set);
+
+        if (status)
+            for(std::size_t i = 0; i < data_set.size(); i++)
+                result.push_back(data_set[i].getId());
+
+        return result;
+    }
+
+
+    IPhotoInfo::Ptr Utils::constructPhotoInfo(const Photo::Data& data)
+    {
+        auto photoInfo = std::make_shared<PhotoInfo>(data, m_storeKeeper);
+
+        m_cache->introduce(photoInfo);
+
+        return photoInfo;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, std::unique_ptr<IPhotoInfoCache>&& cache):
         m_executor(std::make_unique<Executor>(std::move(backend), this)),
+        m_utils(std::move(cache), m_executor->getBackend(), this),
         m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
@@ -144,12 +206,6 @@ namespace Database
     void AsyncDatabase::closeConnections()
     {
         stopExecutor();
-    }
-
-
-    void AsyncDatabase::set(std::unique_ptr<IPhotoInfoCache>&& cache)
-    {
-        m_cache = std::move(cache);
     }
 
 
@@ -178,7 +234,7 @@ namespace Database
     {
         exec([this, photos, callback](IBackend *)
         {
-             const std::vector<Photo::Id> status = insertPhotos(photos);
+             const std::vector<Photo::Id> status = m_utils.insertPhotos(photos);
 
              callback(status);
         });
@@ -192,7 +248,7 @@ namespace Database
             const Group::Id gid = backend->addGroup(id, type);
 
             // mark representative as representative
-            IPhotoInfo::Ptr representative = getPhotoFor(id);
+            IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
             const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, type);
             representative->setGroup(grpInfo);
 
@@ -220,7 +276,7 @@ namespace Database
 
             for (const Photo::Id& id: ids)
             {
-                IPhotoInfo::Ptr photo = getPhotoFor(id);
+                IPhotoInfo::Ptr photo = m_utils.getPhotoFor(id);
                 photos.push_back(photo);
             }
 
@@ -265,7 +321,7 @@ namespace Database
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)
-                photosList.push_back(getPhotoFor(id));
+                photosList.push_back(m_utils.getPhotoFor(id));
 
             callback(photosList);
         });
@@ -290,7 +346,7 @@ namespace Database
 
     IUtils* AsyncDatabase::utils()
     {
-        return this;
+        return &m_utils;
     }
 
 
@@ -329,44 +385,6 @@ namespace Database
             assert(m_thread.joinable());
             m_thread.join();
         }
-    }
-
-
-    IPhotoInfo::Ptr AsyncDatabase::constructPhotoInfo(const Photo::Data& data)
-    {
-        auto photoInfo = std::make_shared<PhotoInfo>(data, this);
-
-        m_cache->introduce(photoInfo);
-
-        return photoInfo;
-    }
-
-
-    IPhotoInfo::Ptr AsyncDatabase::getPhotoFor(const Photo::Id& id)
-    {
-        IPhotoInfo::Ptr photoPtr = m_cache->find(id);
-
-        if (photoPtr.get() == nullptr)
-        {
-            const Photo::Data photoData = m_executor->getBackend()->getPhoto(id);
-
-            photoPtr = constructPhotoInfo(photoData);
-        }
-
-        return photoPtr;
-    }
-
-
-    std::vector<Photo::Id> AsyncDatabase::insertPhotos(const std::vector<Photo::DataDelta>& dataDelta)
-    {
-        std::vector<Photo::Id> result;
-
-        std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
-        const bool status = m_executor->getBackend()->addPhotos(data_set);
-
-        assert(status);
-
-        return result;
     }
 
 }
