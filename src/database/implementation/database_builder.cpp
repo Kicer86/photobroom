@@ -97,7 +97,7 @@ namespace Database
         std::unique_ptr<IBackend> backend = plugin->constructBackend(m_impl->m_configuration, m_impl->m_logger_factory);
 
         auto cache = std::make_unique<PhotoInfoCache>();
-        auto database = std::make_unique<AsyncDatabase>( std::move(backend), std::move(cache) );
+        auto database = std::make_unique<AsyncDatabase>(std::move(backend), std::move(cache));
 
         // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
         return std::move(database);

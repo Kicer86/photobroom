@@ -44,10 +44,9 @@ namespace Database
 
     struct Executor
     {
-        Executor( std::unique_ptr<Database::IBackend>&& backend, Database::AsyncDatabase* storekeeper):
+        Executor(Database::IBackend* backend):
             m_tasks(1024),
-            m_backend(std::move(backend)),
-            m_storekeeper(storekeeper)
+            m_backend(backend)
         {
 
         }
@@ -67,7 +66,7 @@ namespace Database
                 if (task)
                 {
                     IThreadTask* baseTask = task->get();
-                    baseTask->execute(m_backend.get());
+                    baseTask->execute(m_backend);
                 }
                 else
                     break;
@@ -80,22 +79,14 @@ namespace Database
         }
 
 
-        //
-
-        Database::IBackend* getBackend() const
-        {
-            return m_backend.get();
-        }
-
         void addTask(std::unique_ptr<IThreadTask>&& task)
         {
             m_tasks.push(std::move(task));
         }
 
-        //private:
+        private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
-            std::unique_ptr<Database::IBackend> m_backend;
-            Database::AsyncDatabase* m_storekeeper;
+            Database::IBackend* m_backend;
     };
 
 
@@ -129,8 +120,8 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    Utils::Utils(std::unique_ptr<IPhotoInfoCache>&& cache, IBackend* backend, IPhotoInfoStorekeeper* keeper):
-        m_cache(std::move(cache)),
+    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IPhotoInfoStorekeeper* keeper):
+        m_cache(cache),
         m_backend(backend),
         m_storeKeeper(keeper)
     {
@@ -188,8 +179,10 @@ namespace Database
 
 
     AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, std::unique_ptr<IPhotoInfoCache>&& cache):
-        m_executor(std::make_unique<Executor>(std::move(backend), this)),
-        m_utils(std::move(cache), m_executor->getBackend(), this),
+        m_backend(std::move(backend)),
+        m_cache(std::move(cache)),
+        m_executor(std::make_unique<Executor>(m_backend.get())),
+        m_utils(m_cache.get(), m_backend.get(), this),
         m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
@@ -352,7 +345,7 @@ namespace Database
 
     IBackend* AsyncDatabase::backend()
     {
-        return m_executor->getBackend();
+        return m_backend.get();
     }
 
 
@@ -361,7 +354,7 @@ namespace Database
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())
         if (std::this_thread::get_id() == m_thread.get_id())
-            task->execute(m_executor->getBackend());
+            task->execute(m_backend.get());
         else
         {
             assert(m_working);

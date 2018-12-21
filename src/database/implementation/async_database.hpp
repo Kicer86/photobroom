@@ -36,14 +36,14 @@ namespace Database
     class Utils: public IUtils
     {
         public:
-            Utils(std::unique_ptr<IPhotoInfoCache> &&, IBackend *, IPhotoInfoStorekeeper *);
+            Utils(IPhotoInfoCache *, IBackend *, IPhotoInfoStorekeeper *);
             ~Utils();
 
             IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
             std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
 
         private:
-            std::unique_ptr<IPhotoInfoCache> m_cache;
+            IPhotoInfoCache* m_cache;
             IBackend* m_backend;
             IPhotoInfoStorekeeper* m_storeKeeper;
 
@@ -82,6 +82,8 @@ namespace Database
             virtual void closeConnections() override;
 
         private:
+            std::unique_ptr<IBackend> m_backend;
+            std::unique_ptr<IPhotoInfoCache> m_cache;
             std::unique_ptr<Executor> m_executor;
             std::thread m_thread;
             Utils m_utils;
