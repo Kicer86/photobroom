@@ -120,7 +120,7 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IPhotoInfoStorekeeper* keeper):
+    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper):
         m_cache(cache),
         m_backend(backend),
         m_storeKeeper(keeper)

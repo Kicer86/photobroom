@@ -14,8 +14,12 @@
 
 class QPixmap;
 
-struct IPhotoInfoStorekeeper;
 struct Sha256Assigner;
+
+namespace Database
+{
+    struct IDatabase;
+}
 
 namespace Photo
 {
@@ -25,7 +29,7 @@ namespace Photo
 class PhotoInfo final: public IPhotoInfo
 {
     public:
-        PhotoInfo(const Photo::Data &, IPhotoInfoStorekeeper *);
+        PhotoInfo(const Photo::Data &, Database::IDatabase *);
         PhotoInfo(const PhotoInfo &) = delete;
         virtual ~PhotoInfo();
 
@@ -63,7 +67,7 @@ class PhotoInfo final: public IPhotoInfo
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
-        IPhotoInfoStorekeeper* m_storekeeper;
+        Database::IDatabase* m_storekeeper;
 };
 
 #endif

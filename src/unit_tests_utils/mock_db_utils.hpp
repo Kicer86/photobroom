@@ -16,4 +16,3 @@ struct MockUtils: Database::IUtils
 
 
 #endif
-

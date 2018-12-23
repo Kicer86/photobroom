@@ -25,7 +25,6 @@
 
 #include "idatabase.hpp"
 #include "ibackend.hpp"
-#include "iphoto_info_storekeeper.hpp"
 
 namespace Database
 {
@@ -36,7 +35,7 @@ namespace Database
     class Utils: public IUtils
     {
         public:
-            Utils(IPhotoInfoCache *, IBackend *, IPhotoInfoStorekeeper *);
+            Utils(IPhotoInfoCache *, IBackend *, IDatabase *);
             ~Utils();
 
             IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
@@ -45,13 +44,13 @@ namespace Database
         private:
             IPhotoInfoCache* m_cache;
             IBackend* m_backend;
-            IPhotoInfoStorekeeper* m_storeKeeper;
+            IDatabase* m_storeKeeper;
 
             IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
     };
 
 
-    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
+    class AsyncDatabase: public IDatabase
     {
         public:
             AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&);
