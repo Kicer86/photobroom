@@ -17,28 +17,47 @@
  *
  */
 
-#ifndef DATABASETHREAD_H
-#define DATABASETHREAD_H
+#ifndef DATABASETHREAD_HPP
+#define DATABASETHREAD_HPP
 
+#include <thread>
 #include <vector>
 
 #include "idatabase.hpp"
 #include "ibackend.hpp"
-#include "iphoto_info_storekeeper.hpp"
 
 namespace Database
 {
+    struct Executor;
+    struct IThreadTask;
 
-    class AsyncDatabase: public IDatabase, public IPhotoInfoStorekeeper
+
+    class Utils: public IUtils
     {
         public:
-            AsyncDatabase(std::unique_ptr<IBackend> &&);
+            Utils(IPhotoInfoCache *, IBackend *, IDatabase *);
+            ~Utils();
+
+            IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
+            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
+
+        private:
+            IPhotoInfoCache* m_cache;
+            IBackend* m_backend;
+            IDatabase* m_storeKeeper;
+
+            IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
+    };
+
+
+    class AsyncDatabase: public IDatabase
+    {
+        public:
+            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&);
             AsyncDatabase(const AsyncDatabase &) = delete;
             virtual ~AsyncDatabase();
 
             AsyncDatabase& operator=(const AsyncDatabase &) = delete;
-
-            void set(std::unique_ptr<IPhotoInfoCache> &&);
 
             virtual void update(const Photo::DataDelta &) override;
             virtual void store(const std::vector<Photo::DataDelta> &, const Callback<const std::vector<Photo::Id> &>&) override;
@@ -55,14 +74,25 @@ namespace Database
 
             virtual void execute(std::unique_ptr<ITask> &&) override;
 
+            IUtils*   utils() override;
+            IBackend* backend() override;
+
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
 
         private:
-            struct Impl;
-            std::unique_ptr<Impl> m_impl;
+            std::unique_ptr<IBackend> m_backend;
+            std::unique_ptr<IPhotoInfoCache> m_cache;
+            std::unique_ptr<Executor> m_executor;
+            std::thread m_thread;
+            Utils m_utils;
+            bool m_working;
+
+            //store task to be executed by thread
+            void addTask(std::unique_ptr<IThreadTask> &&);
+            void stopExecutor();
     };
 
 }
 
-#endif // DATABASETHREAD_H
+#endif // DATABASETHREAD_HPP

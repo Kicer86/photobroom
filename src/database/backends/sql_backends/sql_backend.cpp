@@ -1146,6 +1146,14 @@ namespace Database
     {
         const bool status = m_data->insert(data);
 
+        std::vector<Photo::Id> photos;
+        photos.reserve(data.size());
+
+        for(std::size_t i = 0; i < data.size(); i++)
+            photos.push_back(data[i].getId());
+
+        emit photosAdded(photos);
+
         return status;
     }
 
@@ -1165,7 +1173,10 @@ namespace Database
         bool status = false;
 
         if (m_data)
+        {
             status = m_data->update(data);
+            emit photoModified(data.getId());
+        }
         else
             m_data->m_logger->error("Database object does not exist.");
 
@@ -1465,6 +1476,8 @@ namespace Database
             QSqlQuery query(db);
 
             m_data->m_executor.exec(conversionQuery, &query);
+
+            emit photosMarkedAsReviewed(staged);
         }
 
         return staged;

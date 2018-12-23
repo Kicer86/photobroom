@@ -45,7 +45,7 @@ namespace Database
 
     //Low level database interface.
     //To be used by particular database backend
-    struct DATABASE_EXPORT IBackend
+    struct DATABASE_EXPORT IBackend: public QObject
     {
         virtual ~IBackend() = default;
 
@@ -90,6 +90,15 @@ namespace Database
 
         //close database connection
         virtual void closeConnections() = 0;
+
+    signals:
+        void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database
+        void photoModified(const Photo::Id &);                          // emited when photo updated
+        void photosRemoved(const std::vector<Photo::Id> &);             // emited after photos removal
+        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
+
+    private:
+        Q_OBJECT
     };
 }
 

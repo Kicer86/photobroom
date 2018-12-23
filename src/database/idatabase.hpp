@@ -51,20 +51,56 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
-    // for direct operating on backend (IDatabase::performCustomAction)
-    struct IBackendOperator: IBackend
-    {
-        virtual ~IBackendOperator() = default;
 
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;                                // get IPhotoInfo for given id
-        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;    // store photo
+    // class responsible for running tasks meant to be executed in db's thread on IBackend
+    struct DATABASE_EXPORT IDatabaseThread
+    {
+        virtual ~IDatabaseThread() = default;
+
+        template<typename Callable>
+        void exec(Callable&& f)
+        {
+            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
+            execute(std::move(task));
+        }
+
+        struct ITask
+        {
+            virtual ~ITask() = default;
+            virtual void run(IBackend *) = 0;
+        };
+
+        protected:
+            template<typename Callable>
+            struct Task: ITask
+            {
+                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+
+                void run(IBackend* backend) override
+                {
+                    m_f(backend);
+                }
+
+                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+                Callable_T m_f;
+            };
+
+            virtual void execute(std::unique_ptr<ITask> &&) = 0;
+    };
+
+    // High level utils to be used in db's thread
+    struct DATABASE_EXPORT IUtils
+    {
+        virtual ~IUtils() = default;
+
+        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;
+        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;
     };
 
 
     //Database interface.
     //A bridge between clients and backend.
-    // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
-    struct DATABASE_EXPORT IDatabase: public QObject
+    struct DATABASE_EXPORT IDatabase: IDatabaseThread
     {
         template <typename... Args>
         using Callback = std::function<void(Args...)>;
@@ -92,51 +128,15 @@ namespace Database
         // drop data
 
         // other
-        template<typename Callable>
-        void exec(Callable&& f)
-        {
-            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
-            execute(std::move(task));
-        }
+        virtual IUtils* utils() = 0;
+        virtual IBackend* backend() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
         //close database connection
         virtual void closeConnections() = 0;
-
-        struct ITask
-        {
-            virtual ~ITask() = default;
-            virtual void run(IBackendOperator *) = 0;
-        };
-
-    signals:
-        void photosAdded(const std::vector<IPhotoInfo::Ptr> &);  // emited after new photos were added to database
-        void photoModified(const IPhotoInfo::Ptr &);             // emited when photo updated
-        void photosRemoved(const std::vector<Photo::Id> &);      // emited after photos removal
-        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
-
-    protected:
-        template<typename Callable>
-        struct Task: ITask
-        {
-            Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
-
-            void run(IBackendOperator* backend) override
-            {
-                m_f(backend);
-            }
-
-            typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
-            Callable_T m_f;
-        };
-
-        virtual void execute(std::unique_ptr<ITask> &&) = 0;
-
-        Q_OBJECT
     };
-
 }
 
 #endif

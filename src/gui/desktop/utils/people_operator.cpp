@@ -69,8 +69,8 @@ FaceTask::~FaceTask()
 
 std::vector<QRect> FaceTask::fetchFacesFromDb() const
 {
-    return evaluate<std::vector<QRect>(Database::IBackendOperator*)>
-        (m_db, [id = m_id](Database::IBackendOperator* backend)
+    return evaluate<std::vector<QRect>(Database::IBackend*)>
+        (m_db, [id = m_id](Database::IBackend* backend)
     {
         std::vector<QRect> faces;
 
@@ -86,9 +86,10 @@ std::vector<QRect> FaceTask::fetchFacesFromDb() const
 
 QString FaceTask::getPhotoPath() const
 {
-    return evaluate<QString(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    return evaluate<QString(Database::IBackend *)>(m_db, [this, id = m_id](Database::IBackend *)
     {
-        auto photo = backend->getPhotoFor(id);
+        Database::IUtils* db_utils = m_db->utils();
+        auto photo = db_utils->getPhotoFor(id);
 
         return photo->getPath();
     });
@@ -213,8 +214,8 @@ void FaceRecognizer::perform()
 PersonName FaceRecognizer::personData(const Person::Id& id) const
 {
     const PersonName person =
-        evaluate<PersonName (Database::IBackendOperator *)>
-            (m_db, [id](Database::IBackendOperator* backend)
+        evaluate<PersonName (Database::IBackend *)>
+            (m_db, [id](Database::IBackend* backend)
     {
         const auto people = backend->person(id);
 
@@ -227,7 +228,7 @@ PersonName FaceRecognizer::personData(const Person::Id& id) const
 
 std::vector<PersonInfo> FaceRecognizer::fetchPeopleFromDb() const
 {
-    return evaluate<std::vector<PersonInfo>(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonInfo>(Database::IBackend *)>(m_db, [id = m_id](Database::IBackend* backend)
     {
         auto people = backend->listPeople(id);
 
@@ -238,7 +239,7 @@ std::vector<PersonInfo> FaceRecognizer::fetchPeopleFromDb() const
 
 bool FaceRecognizer::wasAnalyzed() const
 {
-    return evaluate<bool(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    return evaluate<bool(Database::IBackend *)>(m_db, [id = m_id](Database::IBackend* backend)
     {
         const auto value = backend->get(id, faces_recognized_flag);
         const bool result = value.has_value() && *value > 0;
@@ -271,7 +272,7 @@ std::string FetchUnassigned::name() const
 
 void FetchUnassigned::perform()
 {
-    const QStringList un = evaluate<QStringList(Database::IBackendOperator* backend)>(m_db, [id = m_id](Database::IBackendOperator* backend)
+    const QStringList un = evaluate<QStringList(Database::IBackend*)>(m_db, [id = m_id](Database::IBackend* backend)
     {
         const std::vector<PersonInfo> people = backend->listPeople(id);
         QStringList locatedPeople;
@@ -349,7 +350,7 @@ void FaceStore::perform()
                                        db = m_db,
                                        coreAccessor = m_coreAccessor,
                                        name]
-                                      (Database::IBackendOperator* op)
+                                      (Database::IBackend* op)
             {
                 PersonInfo personData = pi;
 
@@ -372,16 +373,16 @@ void FaceStore::perform()
         {
             const PersonInfo pinfo(it->id(), m_id, face_coords);
             m_db->exec([pinfo]
-                                      (Database::IBackendOperator* op)
+                                      (Database::IBackend* backend)
             {
                 // store person information
-                op->store(pinfo);
+                backend->store(pinfo);
             });
         }
     }
 
     // mark photo as analyzed
-    m_db->exec([ph_id = m_id](Database::IBackendOperator* op)
+    m_db->exec([ph_id = m_id](Database::IBackend* op)
     {
         op->set(ph_id, faces_recognized_flag, 1);
     });
@@ -390,7 +391,7 @@ void FaceStore::perform()
 
 std::vector<PersonName> FaceStore::fetchPeople()
 {
-    return evaluate<std::vector<PersonName>(Database::IBackendOperator* backend)>(m_db, [](Database::IBackendOperator* backend)
+    return evaluate<std::vector<PersonName>(Database::IBackend *)>(m_db, [](Database::IBackend* backend)
     {
         auto people = backend->listPeople();
 

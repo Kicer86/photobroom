@@ -1,0 +1,56 @@
+/*
+ * Utility for mapping IBackend's signals to signals with IPhotoInfo::Ptr
+ * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef SIGNALMAPPER_HPP
+#define SIGNALMAPPER_HPP
+
+#include <QObject>
+
+#include <database/iphoto_info.hpp>
+
+#include "database_export.h"
+
+namespace Database
+{
+    class IDatabase;
+
+    class DATABASE_EXPORT SignalMapper final: public QObject
+    {
+        Q_OBJECT
+
+        public:
+            SignalMapper(IDatabase* = nullptr);
+            ~SignalMapper() = default;
+
+            void set(IDatabase *);
+
+        signals:
+            void photosAdded(const std::vector<IPhotoInfo::Ptr> &) const;         // emited after new photos were added to database
+            void photoModified(const IPhotoInfo::Ptr &) const;                    // emited when photo updated
+            void photosRemoved(const std::vector<Photo::Id> &) const;             // emited after photos removal
+            void photosMarkedAsReviewed(const std::vector<Photo::Id> &) const;    // emited when done with photos marking
+
+        private:
+            IDatabase* m_db;
+
+            void i_photosAdded(const std::vector<Photo::Id> &) const;
+            void i_photoModified(const Photo::Id &) const;
+    };
+}
+
+#endif // SIGNALMAPPER_HPP

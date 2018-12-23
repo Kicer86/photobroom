@@ -30,6 +30,7 @@
 #include <core/itasks_view.hpp>
 #include <core/iview_task.hpp>
 #include <database/idatabase.hpp>
+#include <database/database_tools/signal_mapper.hpp>
 
 #include "photo_info_updater.hpp"
 
@@ -49,14 +50,16 @@ class PhotosAnalyzerImpl: public QObject
         void set(ITasksView* tasksView);
 
         Database::IDatabase* getDatabase();
+        Database::SignalMapper* getMapper();
 
         void addPhoto(const IPhotoInfo::Ptr& photo);
         void stop();
 
     private:
         PhotoInfoUpdater m_updater;
-        Database::IDatabase* m_database;
+        Database::SignalMapper m_signalMapper;
         QTimer m_timer;
+        Database::IDatabase* m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxTasks;

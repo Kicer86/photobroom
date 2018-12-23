@@ -12,7 +12,7 @@
 #include <core/task_executor.hpp>
 
 #include "photo_data.hpp"
-#include "iphoto_info_storekeeper.hpp"
+#include "idatabase.hpp"
 
 struct PhotoInfo::Data
 {
@@ -30,7 +30,7 @@ struct PhotoInfo::Data
 };
 
 
-PhotoInfo::PhotoInfo(const Photo::Data& data, IPhotoInfoStorekeeper* storekeeper):
+PhotoInfo::PhotoInfo(const Photo::Data& data, Database::IDatabase* storekeeper):
     m_data(nullptr),
     m_storekeeper(storekeeper)
 {

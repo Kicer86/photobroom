@@ -25,6 +25,9 @@ struct MockDatabase: Database::IDatabase
 
     MOCK_METHOD0(markStagedAsReviewed, void());
 
+    MOCK_METHOD0(utils,   Database::IUtils*());
+    MOCK_METHOD0(backend, Database::IBackend*());
+
     // TODO: not doesn't compile when MOCKED
     void execute(std::unique_ptr<Database::IDatabase::ITask> &&) {}
 

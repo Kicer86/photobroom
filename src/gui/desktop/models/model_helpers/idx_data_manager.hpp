@@ -91,7 +91,7 @@ private:
     void setupRootNode();
 
     // database custom actions (runned by database thread)
-    void getPhotosForParent(Database::IBackendOperator *, const QModelIndex &, const std::vector<Database::IFilter::Ptr> &);
+    void getPhotosForParent(Database::IBackend *, const QModelIndex &, const std::vector<Database::IFilter::Ptr> &);
 
     // database tasks callbacks:
     void gotNonmatchingPhotosForParent(const QModelIndex &, int);

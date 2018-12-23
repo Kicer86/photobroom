@@ -25,8 +25,8 @@
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory):
     m_updater(coreFactory),
-    m_database(nullptr),
     m_timer(),
+    m_database(nullptr),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
     m_maxTasks(0)
@@ -46,6 +46,7 @@ PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 {
     m_database = database;
+    m_signalMapper.set(database);
 
     m_updater.dropPendingTasks();
     m_updater.waitForActiveTasks();
@@ -82,6 +83,12 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 {
     return m_database;
+}
+
+
+Database::SignalMapper* PhotosAnalyzerImpl::getMapper()
+{
+    return &m_signalMapper;
 }
 
 
@@ -145,7 +152,7 @@ void PhotosAnalyzerImpl::refreshView()
 
 PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
 {
-
+    connect(m_data->getMapper(), &Database::SignalMapper::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
 }
 
 
@@ -157,18 +164,7 @@ PhotosAnalyzer::~PhotosAnalyzer()
 
 void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
 {
-    //disconnect current database
-    Database::IDatabase* cur_database = m_data->getDatabase();
-
-    if (cur_database)
-        cur_database->disconnect(this);
-
-    //setup new database
     m_data->setDatabase(new_database);
-
-    //and new connections
-    if (new_database)
-        connect(new_database, &Database::IDatabase::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
 }
 
 

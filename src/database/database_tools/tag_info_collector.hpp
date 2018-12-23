@@ -22,6 +22,8 @@
 
 #include <mutex>
 
+#include <database/database_tools/signal_mapper.hpp>
+
 #include "itag_info_collector.hpp"
 #include "../iphoto_info.hpp"
 #include "database_export.h"
@@ -45,6 +47,7 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
         const std::vector<TagValue>& get(const TagNameInfo &) const override;
 
     private:
+        Database::SignalMapper m_mapper;
         mutable std::map<TagNameInfo, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
         Database::IDatabase* m_database;
