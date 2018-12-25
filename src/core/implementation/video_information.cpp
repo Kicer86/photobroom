@@ -41,6 +41,12 @@ void VideoInformation::set(IConfiguration* configuration)
 }
 
 
+bool VideoInformation::canHandle(const QString& path) const
+{
+    return true;
+}
+
+
 QSize VideoInformation::size(const QString& path) const
 {
     assert(m_ffmpegPath.isEmpty() == false);

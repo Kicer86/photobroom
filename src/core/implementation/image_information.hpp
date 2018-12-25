@@ -39,6 +39,7 @@ class CORE_EXPORT ImageInformation: public IMediaInformation
 
         void set(IExifReaderFactory *);
 
+        bool canHandle(const QString & ) const override;
         virtual QSize size(const QString &) const override;
 
     private:

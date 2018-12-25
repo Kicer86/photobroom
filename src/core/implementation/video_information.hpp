@@ -40,6 +40,7 @@ class VideoInformation : public IMediaInformation
 
         void set(IConfiguration *);
 
+        bool canHandle(const QString & ) const override;
         QSize size(const QString &) const override;
 
     private:

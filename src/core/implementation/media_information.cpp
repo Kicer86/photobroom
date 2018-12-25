@@ -63,6 +63,13 @@ void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 }
 
 
+bool MediaInformation::canHandle(const QString& path) const
+{
+    return m_impl->m_image_info.canHandle(path) ||
+           m_impl->m_video_info.canHandle(path);
+}
+
+
 QSize MediaInformation::size(const QString& path) const
 {
     const QFileInfo fileInfo(path);
