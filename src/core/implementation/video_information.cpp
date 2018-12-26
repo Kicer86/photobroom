@@ -28,12 +28,12 @@
 #include "ffmpeg_video_details_reader.hpp"
 
 
-VideoInformation::VideoInformation(): m_ffmpegPath()
+FFmpegMediaInformation::FFmpegMediaInformation(): m_ffmpegPath()
 {
 }
 
 
-void VideoInformation::set(IConfiguration* configuration)
+void FFmpegMediaInformation::set(IConfiguration* configuration)
 {
     const QVariant ffmpegVar = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
 
@@ -41,13 +41,13 @@ void VideoInformation::set(IConfiguration* configuration)
 }
 
 
-bool VideoInformation::canHandle(const QString& path) const
+bool FFmpegMediaInformation::canHandle(const QString& path) const
 {
     return true;
 }
 
 
-QSize VideoInformation::size(const QString& path) const
+QSize FFmpegMediaInformation::size(const QString& path) const
 {
     assert(m_ffmpegPath.isEmpty() == false);
 

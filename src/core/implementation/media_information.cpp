@@ -34,7 +34,7 @@
 struct MediaInformation::Impl
 {
     Eviv2MediaInformation m_image_info;
-    VideoInformation m_video_info;
+    FFmpegMediaInformation m_video_info;
     std::unique_ptr<ILogger> m_logger;
 
     Impl(): m_image_info(), m_video_info(), m_logger(nullptr)
