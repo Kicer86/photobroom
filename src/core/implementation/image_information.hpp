@@ -27,15 +27,15 @@
 struct IExifReaderFactory;
 
 
-class CORE_EXPORT ImageInformation: public IMediaInformation
+class CORE_EXPORT Eviv2MediaInformation: public IMediaInformation
 {
     public:
-        ImageInformation();
-        ImageInformation (const ImageInformation &) = delete;
+        Eviv2MediaInformation();
+        Eviv2MediaInformation(const Eviv2MediaInformation &) = delete;
 
-        ImageInformation& operator=(const ImageInformation &) = delete;
+        Eviv2MediaInformation& operator=(const Eviv2MediaInformation &) = delete;
 
-        virtual ~ImageInformation();
+        virtual ~Eviv2MediaInformation();
 
         void set(IExifReaderFactory *);
 

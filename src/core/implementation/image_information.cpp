@@ -60,18 +60,18 @@ namespace
 }
 
 
-ImageInformation::ImageInformation(): m_exif(nullptr)
+Eviv2MediaInformation::Eviv2MediaInformation(): m_exif(nullptr)
 {
 
 }
 
 
-ImageInformation::~ImageInformation()
+Eviv2MediaInformation::~Eviv2MediaInformation()
 {
 }
 
 
-bool ImageInformation::canHandle(const QString& path) const
+bool Eviv2MediaInformation::canHandle(const QString& path) const
 {
     const QMimeType file_mime_type = QMimeDatabase().mimeTypeForFile(path);
     bool matches = false;
@@ -86,7 +86,7 @@ bool ImageInformation::canHandle(const QString& path) const
 }
 
 
-QSize ImageInformation::size(const QString& path) const
+QSize Eviv2MediaInformation::size(const QString& path) const
 {
     IExifReader* exif_reader = m_exif->get();
 
@@ -103,7 +103,7 @@ QSize ImageInformation::size(const QString& path) const
 }
 
 
-void ImageInformation::set(IExifReaderFactory* exif)
+void Eviv2MediaInformation::set(IExifReaderFactory* exif)
 {
     m_exif = exif;
 }

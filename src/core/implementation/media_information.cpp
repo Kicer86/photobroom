@@ -33,7 +33,7 @@
 
 struct MediaInformation::Impl
 {
-    ImageInformation m_image_info;
+    Eviv2MediaInformation m_image_info;
     VideoInformation m_video_info;
     std::unique_ptr<ILogger> m_logger;
 
