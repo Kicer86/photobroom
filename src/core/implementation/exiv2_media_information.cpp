@@ -17,7 +17,7 @@
  *
  */
 
-#include "image_information.hpp"
+#include "exiv2_media_information.hpp"
 
 #include <any>
 

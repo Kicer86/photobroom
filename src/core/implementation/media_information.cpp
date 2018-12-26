@@ -27,7 +27,7 @@
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
 #include "media_types.hpp"
-#include "implementation/image_information.hpp"
+#include "implementation/exiv2_media_information.hpp"
 #include "implementation/video_information.hpp"
 
 
