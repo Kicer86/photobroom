@@ -78,11 +78,13 @@ bool Eviv2MediaInformation::canHandle(const QString& path) const
 
     for(const QString& mimeType: supportedImageTypes)
     {
-        const bool matches = file_mime_type.inherits(mimeType);
+        matches = file_mime_type.inherits(mimeType);
 
         if (matches)
             break;
     }
+
+    return matches;
 }
 
 
