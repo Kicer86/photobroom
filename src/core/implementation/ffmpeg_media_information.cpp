@@ -17,7 +17,7 @@
  *
  */
 
-#include "video_information.hpp"
+#include "ffmpeg_media_information.hpp"
 
 #include <cassert>
 

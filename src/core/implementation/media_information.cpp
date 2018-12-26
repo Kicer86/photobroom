@@ -28,7 +28,7 @@
 #include "ilogger.hpp"
 #include "media_types.hpp"
 #include "implementation/exiv2_media_information.hpp"
-#include "implementation/video_information.hpp"
+#include "implementation/ffmpeg_media_information.hpp"
 
 
 struct MediaInformation::Impl
