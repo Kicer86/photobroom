@@ -22,41 +22,8 @@
 #include <any>
 
 #include <QImageReader>
-#include <QMimeDatabase>
 
 #include "iexif_reader.hpp"
-
-
-namespace
-{
-    // http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats
-    // TODO: http://dev.exiv2.org/projects/exiv2/wiki/Supported_video_formats
-    const QStringList supportedImageTypes =
-    {
-        "image/jpeg",
-        "image/x-exv",
-        "image/x-canon-cr2",
-        "image/x-canon-crw",
-        "image/x-minolta-mrw",
-        "image/tiff",
-        "image/webp",
-        "image/x-nikon-nef",
-        "image/x-pentax-pef",
-        "image/x-panasonic-rw2",
-        "image/x-samsung-srw",
-        "image/x-olympus-orf",
-        "image/png",
-        "image/pgf",
-        "image/x-fuji-raf",
-        "application/postscript",
-        "application/rdf+xml",
-        "image/gif",
-        "image/x-photoshop",
-        "image/targa",
-        "image/x-ms-bmp",
-        "image/jp2",
-    };
-}
 
 
 Eviv2MediaInformation::Eviv2MediaInformation(): m_exif(nullptr)
@@ -72,18 +39,9 @@ Eviv2MediaInformation::~Eviv2MediaInformation()
 
 bool Eviv2MediaInformation::canHandle(const QString& path) const
 {
-    const QMimeType file_mime_type = QMimeDatabase().mimeTypeForFile(path);
-    bool matches = false;
-
-    for(const QString& mimeType: supportedImageTypes)
-    {
-        matches = file_mime_type.inherits(mimeType);
-
-        if (matches)
-            break;
-    }
-
-    return matches;
+    IExifReader* exif_reader = m_exif->get();
+    const bool h = exif_reader->hasExif(path);
+    return h;
 }
 
 
