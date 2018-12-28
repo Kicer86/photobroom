@@ -109,8 +109,8 @@ namespace Database
 
         // store data
         virtual void update(const Photo::DataDelta &) = 0;
-        virtual void store(const std::vector<Photo::DataDelta> &,              // only path, flags and tags will be used to feed database
-                           const Callback<const std::vector<Photo::Id> &>& = Callback<const std::vector<Photo::Id> &>()) = 0;
+        virtual void store(const std::vector<Photo::DataDelta> &              // only path, flags and tags will be used to feed database
+                           ) = 0;
 
         virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) = 0;
 
