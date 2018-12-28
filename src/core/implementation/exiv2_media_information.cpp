@@ -40,7 +40,6 @@ namespace
         "image/x-minolta-mrw",
         "image/tiff",
         "image/webp",
-        "image/tiff (*)",
         "image/x-nikon-nef",
         "image/x-pentax-pef",
         "image/x-panasonic-rw2",
