@@ -17,27 +17,42 @@ namespace
 
 
 Exiv2ExifReader::Exiv2ExifReader():
-    m_exif_data()
+    m_exif_data(),
+    m_path()
 {
 
 }
 
 
+bool Exiv2ExifReader::hasExif(const QString& path)
+{
+    collect(path);
+
+    return m_exif_data.get() != nullptr;
+}
+
+
 void Exiv2ExifReader::collect(const QString& path)
 {
-    try
+    if (m_path != path)
     {
-        m_exif_data.reset();
+        try
+        {
+            m_exif_data.reset();
 
-        m_exif_data = Exiv2::ImageFactory::open(path.toStdString());
+            m_exif_data = Exiv2::ImageFactory::open(path.toStdString());
 
-        assert(m_exif_data.get() != 0);
-        m_exif_data->readMetadata();
+            assert(m_exif_data.get() != 0);
+            m_exif_data->readMetadata();
+        }
+        catch (Exiv2::AnyError& error)
+        {
+            return;
+        }
     }
-    catch (Exiv2::AnyError& error)
-    {
-        return;
-    }
+
+    // save path of file we are working on
+    m_path = path;
 }
 
 

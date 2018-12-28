@@ -26,6 +26,8 @@ struct CORE_EXPORT IExifReader
 
     virtual ~IExifReader() = default;
 
+    virtual bool hasExif(const QString& path) = 0;
+
     virtual Tag::TagsList getTagsFor(const QString& path) = 0;        // returns default set of tags
     virtual std::any get(const QString& path, const TagType &) = 0;   // access to optional data
 };

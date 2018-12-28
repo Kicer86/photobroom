@@ -20,10 +20,12 @@ class Exiv2ExifReader: public AExifReader
         Exiv2ExifReader& operator=(Exiv2ExifReader &&) = delete;
 
     private:
+        bool hasExif(const QString & path) override;
         virtual void collect(const QString &) override;
         virtual std::string read(TagType) const override;
 
         Exiv2::Image::AutoPtr m_exif_data;
+        QString m_path;
 };
 
 #endif
