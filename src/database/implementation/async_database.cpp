@@ -223,13 +223,11 @@ namespace Database
     }
 
 
-    void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos, const Callback<const std::vector<Photo::Id> &>& callback)
+    void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos)
     {
-        exec([this, photos, callback](IBackend *)
+        exec([this, photos](IBackend *)
         {
-             const std::vector<Photo::Id> status = m_utils.insertPhotos(photos);
-
-             callback(status);
+             m_utils.insertPhotos(photos);
         });
     }
 
