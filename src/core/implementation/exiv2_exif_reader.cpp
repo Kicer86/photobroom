@@ -28,7 +28,7 @@ bool Exiv2ExifReader::hasExif(const QString& path)
 {
     collect(path);
 
-    return m_exif_data.get() != nullptr;
+    return m_exif_data.get()->exifData().empty() == false;
 }
 
 
