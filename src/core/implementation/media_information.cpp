@@ -22,6 +22,7 @@
 #include <cassert>
 
 #include <QFileInfo>
+#include <QImageReader>
 
 #include "icore_factory_accessor.hpp"
 #include "ilogger_factory.hpp"
@@ -29,6 +30,18 @@
 #include "media_types.hpp"
 #include "implementation/exiv2_media_information.hpp"
 #include "implementation/ffmpeg_media_information.hpp"
+
+
+namespace
+{
+    QSize imageSize(const QString& path)
+    {
+        const QImageReader reader(path);
+        const QSize size = reader.size();
+
+        return size;
+    }
+}
 
 
 struct MediaInformation::Impl
@@ -77,8 +90,10 @@ QSize MediaInformation::size(const QString& path) const
 
     QSize result;
 
-    if (m_impl->m_exif_info.canHandle(full_path))
+    if (m_impl->m_exif_info.canHandle(full_path))               // try to use exif
         result = m_impl->m_exif_info.size(full_path);
+    else if (MediaTypes::isImageFile(full_path))                // no exif, but image file - read its dimensions from image properties
+        result = imageSize(full_path);
     else if (m_impl->m_ffmpeg_info.canHandle(full_path))
         result = m_impl->m_ffmpeg_info.size(full_path);
 
