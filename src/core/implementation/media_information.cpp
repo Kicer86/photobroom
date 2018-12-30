@@ -34,10 +34,10 @@
 struct MediaInformation::Impl
 {
     Eviv2MediaInformation m_exif_info;
-    FFmpegMediaInformation m_video_info;
+    FFmpegMediaInformation m_ffmpeg_info;
     std::unique_ptr<ILogger> m_logger;
 
-    Impl(): m_exif_info(), m_video_info(), m_logger(nullptr)
+    Impl(): m_exif_info(), m_ffmpeg_info(), m_logger(nullptr)
     {
 
     }
@@ -58,7 +58,7 @@ MediaInformation::~MediaInformation()
 void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 {
     m_impl->m_exif_info.set(coreFactory->getExifReaderFactory());
-    m_impl->m_video_info.set(coreFactory->getConfiguration());
+    m_impl->m_ffmpeg_info.set(coreFactory->getConfiguration());
     m_impl->m_logger = coreFactory->getLoggerFactory()->get("Media Information");
 }
 
@@ -66,7 +66,7 @@ void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 bool MediaInformation::canHandle(const QString& path) const
 {
     return m_impl->m_exif_info.canHandle(path) ||
-           m_impl->m_video_info.canHandle(path);
+           m_impl->m_ffmpeg_info.canHandle(path);
 }
 
 
@@ -80,7 +80,7 @@ QSize MediaInformation::size(const QString& path) const
     if (m_impl->m_exif_info.canHandle(full_path))
         result = m_impl->m_exif_info.size(full_path);
     else if (MediaTypes::isVideoFile(full_path))
-        result = m_impl->m_video_info.size(full_path);
+        result = m_impl->m_ffmpeg_info.size(full_path);
 
     if (result.isValid() == false)
     {
