@@ -79,7 +79,7 @@ QSize MediaInformation::size(const QString& path) const
 
     if (m_impl->m_exif_info.canHandle(full_path))
         result = m_impl->m_exif_info.size(full_path);
-    else if (MediaTypes::isVideoFile(full_path))
+    else if (m_impl->m_ffmpeg_info.canHandle(full_path))
         result = m_impl->m_ffmpeg_info.size(full_path);
 
     if (result.isValid() == false)
