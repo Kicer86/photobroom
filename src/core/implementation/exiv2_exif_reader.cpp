@@ -11,7 +11,9 @@ namespace
     {
         { AExifReader::TagType::DateTimeOriginal, "Exif.Photo.DateTimeOriginal" },
         { AExifReader::TagType::Orientation,      "Exif.Image.Orientation" },
-        { AExifReader::TagType::SequenceNumber,   "Exif.Sony1.SequenceNumber" }
+        { AExifReader::TagType::SequenceNumber,   "Exif.Sony1.SequenceNumber" },
+        { AExifReader::TagType::PixelXDimension,  "Exif.Photo.PixelXDimension" },
+        { AExifReader::TagType::PixelYDimension,  "Exif.Photo.PixelYDimension" }
     };
 }
 

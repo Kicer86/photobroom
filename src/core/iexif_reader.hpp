@@ -22,6 +22,8 @@ struct CORE_EXPORT IExifReader
         DateTimeOriginal,          // string
         Orientation,               // int
         SequenceNumber,            // int
+        PixelXDimension,           // long
+        PixelYDimension,           // long
     };
 
     virtual ~IExifReader() = default;

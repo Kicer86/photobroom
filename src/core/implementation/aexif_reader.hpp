@@ -53,6 +53,7 @@ class AExifReader: public IExifReader
         Tag::TagsList feedDateAndTime() const;
         int readInt(const TagType &) const;
         std::string readString(const TagType &) const;
+        long readLong(const TagType &) const;
 };
 
 #endif // A_EXIF_READER_HPP
