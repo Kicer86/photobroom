@@ -81,8 +81,6 @@ QSize MediaInformation::size(const QString& path) const
         result = m_impl->m_exif_info.size(full_path);
     else if (MediaTypes::isVideoFile(full_path))
         result = m_impl->m_video_info.size(full_path);
-    else
-        assert(!"unknown file type");
 
     if (result.isValid() == false)
     {
