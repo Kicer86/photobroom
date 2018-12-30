@@ -107,9 +107,11 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
                   const ThumbnailGenerator::Callback& callback,
+                  const QString& ffmpeg,
                   const QString& ffprobe):
         m_thumbnailInfo(info),
         m_callback(callback),
+        m_ffmpeg(ffmpeg),
         m_ffprobe(ffprobe)
     {
 
@@ -146,7 +148,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
             thumbnail_path
         };
 
-        ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
+        ffmpeg_process4thumbnail.start(m_ffmpeg, ffmpeg_thumbnail_args );
         const bool status = ffmpeg_process4thumbnail.waitForFinished();
 
         if (status)
@@ -159,6 +161,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 
     const ThumbnailInfo m_thumbnailInfo;
     const ThumbnailGenerator::Callback m_callback;
+    const QString m_ffmpeg;
     const QString m_ffprobe;
 };
 
@@ -227,13 +230,16 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     }
     else if (MediaTypes::isVideoFile(path))
     {
+        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+        const QString ffmpegPath = ffmpegVar.toString();
         const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
         const QString ffprobePath = ffprobeVar.toString();
-        const QFileInfo fileInfo(ffprobePath);
+        const QFileInfo mpegfileInfo(ffmpegPath);
+        const QFileInfo probefileInfo(ffprobePath);
 
-        if (fileInfo.isExecutable())
+        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
         {
-            auto task = std::make_unique<FromVideoTask>(info, callback, ffprobePath);
+            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath, ffprobePath);
             m_tasks->push(std::move(task));
         }
         else
