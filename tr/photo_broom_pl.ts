@@ -951,6 +951,11 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
     <message>
+        <location line="+23"/>
+        <source>FFProbe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
         <location line="+4"/>
         <source>Select executable</source>
@@ -965,6 +970,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
         <location line="+6"/>
         <location line="+2"/>
         <location line="+2"/>
+        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -972,7 +978,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+47"/>
+        <location line="+53"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
