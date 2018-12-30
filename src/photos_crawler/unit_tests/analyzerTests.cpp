@@ -29,8 +29,8 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                             AnalyzerExpectations{"image.jpg3",       false },
                             AnalyzerExpectations{"/home/image .jpg", true  },
                             AnalyzerExpectations{"/home/v .mp4",     true  },
-                            AnalyzerExpectations{".avi",             true  },
+                            AnalyzerExpectations{"a.avi",            true  },
                             AnalyzerExpectations{"mkv",              false },
-                            AnalyzerExpectations{"/home/.mkv",       true  }
+                            AnalyzerExpectations{"/home/q.mkv",      true  }
                         )
 );
