@@ -90,7 +90,7 @@ QSize MediaInformation::size(const QString& path) const
 
     QSize result;
 
-    if (m_impl->m_exif_info.canHandle(full_path))               // try to use exif
+    if (m_impl->m_exif_info.canHandle(full_path))               // try to use exif (so orientation will considered)
         result = m_impl->m_exif_info.size(full_path);
     else if (MediaTypes::isImageFile(full_path))                // no exif, but image file - read its dimensions from image properties
         result = imageSize(full_path);
