@@ -28,30 +28,32 @@
 #include "ffmpeg_video_details_reader.hpp"
 
 
-FFmpegMediaInformation::FFmpegMediaInformation(): m_ffmpegPath()
+FFmpegMediaInformation::FFmpegMediaInformation(): m_ffprobePath()
 {
 }
 
 
 void FFmpegMediaInformation::set(IConfiguration* configuration)
 {
-    const QVariant ffmpegVar = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+    const QVariant ffprobeVar = configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
 
-    m_ffmpegPath = ffmpegVar.toString();
+    m_ffprobePath = ffprobeVar.toString();
 }
 
 
 bool FFmpegMediaInformation::canHandle(const QString& path) const
 {
-    return true;
+    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
+
+    return videoDetailsReader.hasDetails(path);
 }
 
 
 QSize FFmpegMediaInformation::size(const QString& path) const
 {
-    assert(m_ffmpegPath.isEmpty() == false);
+    assert(m_ffprobePath.isEmpty() == false);
 
-    const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpegPath);
+    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
     const QSize resolution = videoDetailsReader.resolutionOf(path);
 
     return resolution;

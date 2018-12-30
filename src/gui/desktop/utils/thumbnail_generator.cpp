@@ -107,10 +107,10 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
                   const ThumbnailGenerator::Callback& callback,
-                  const QString& ffmpegPath):
+                  const QString& ffprobe):
         m_thumbnailInfo(info),
         m_callback(callback),
-        m_ffmpeg(ffmpegPath)
+        m_ffprobe(ffprobe)
     {
 
     }
@@ -125,7 +125,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
         const QFileInfo pathInfo(m_thumbnailInfo.path);
         const QString absolute_path = pathInfo.absoluteFilePath();
 
-        const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpeg);
+        const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
         const int seconds = videoDetailsReader.durationOf(absolute_path);
         const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
         QTemporaryFile thumbnail(thumbnail_path_pattern);
@@ -159,7 +159,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 
     const ThumbnailInfo m_thumbnailInfo;
     const ThumbnailGenerator::Callback m_callback;
-    const QString m_ffmpeg;
+    const QString m_ffprobe;
 };
 
 
@@ -227,13 +227,13 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     }
     else if (MediaTypes::isVideoFile(path))
     {
-        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-        const QString ffmpegPath = ffmpegVar.toString();
-        const QFileInfo fileInfo(ffmpegPath);
+        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
+        const QString ffprobePath = ffprobeVar.toString();
+        const QFileInfo fileInfo(ffprobePath);
 
         if (fileInfo.isExecutable())
         {
-            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
+            auto task = std::make_unique<FromVideoTask>(info, callback, ffprobePath);
             m_tasks->push(std::move(task));
         }
         else

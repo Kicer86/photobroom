@@ -44,7 +44,7 @@ class FFmpegMediaInformation : public IMediaInformation
         QSize size(const QString &) const override;
 
     private:
-        QString m_ffmpegPath;
+        QString m_ffprobePath;
 };
 
 #endif // VIDEOINFORMATION_HPP

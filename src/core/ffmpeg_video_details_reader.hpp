@@ -31,7 +31,7 @@
 class CORE_EXPORT FFMpegVideoDetailsReader
 {
     public:
-        FFMpegVideoDetailsReader(const QString& ffmpegPath);
+        FFMpegVideoDetailsReader(const QString& ffprobePath);
         FFMpegVideoDetailsReader(const FFMpegVideoDetailsReader &) = delete;
         FFMpegVideoDetailsReader(FFMpegVideoDetailsReader &&) = delete;
 
@@ -40,11 +40,13 @@ class CORE_EXPORT FFMpegVideoDetailsReader
 
         virtual ~FFMpegVideoDetailsReader() = default;
 
+        bool hasDetails(const QString &) const;                 // checks if given file contains any data to be read
+
         QSize resolutionOf(const QString& video_file) const;
         int durationOf(const QString& video_file) const;        // video duration in seconds
 
     private:
-        const QString m_ffmpegPath;
+        const QString m_ffprobePath;
 
         QStringList outputFor(const QString &) const;
         int rotation(const QStringList &) const;
