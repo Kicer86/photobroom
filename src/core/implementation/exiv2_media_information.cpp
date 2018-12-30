@@ -21,8 +21,6 @@
 
 #include <any>
 
-#include <QImageReader>
-
 #include "iexif_reader.hpp"
 
 
@@ -49,14 +47,13 @@ QSize Eviv2MediaInformation::size(const QString& path) const
 {
     IExifReader* exif_reader = m_exif->get();
 
-    const QImageReader reader(path);
-    QSize size = reader.size();
+    const std::any x_raw = exif_reader->get(path, IExifReader::TagType::PixelXDimension);
+    const std::any y_raw = exif_reader->get(path, IExifReader::TagType::PixelYDimension);
 
-    const std::any orientation_raw = exif_reader->get(path, IExifReader::TagType::Orientation);
-    const int orientation = std::any_cast<int>(orientation_raw);
+    const long x = std::any_cast<long>(x_raw);
+    const long y = std::any_cast<long>(y_raw);
 
-    if (orientation > 4) // orientations 5, 6, 7 and 8 require 90⁰ degree rotations which swap dimensions
-        size.transpose();
+    const QSize size(x, y);
 
     return size;
 }
