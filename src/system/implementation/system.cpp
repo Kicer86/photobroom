@@ -22,7 +22,7 @@ namespace
             {
                 const QString sub_path = QString("%2%3")
                                             .arg(name)
-                                            .arg(c++);
+                                            .arg(c);
                 QDir cd(base_dir);
                 const bool status = cd.mkdir(sub_path);
 
