@@ -22,7 +22,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
-#include <QTemporaryFile>
 
 #include <core/constants.hpp>
 #include <core/ffmpeg_video_details_reader.hpp>
@@ -129,12 +128,8 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 
         const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
         const int seconds = videoDetailsReader.durationOf(absolute_path);
-        const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
-        QTemporaryFile thumbnail(thumbnail_path_pattern);
-        thumbnail.open();                                // create file
-
-        const QString thumbnail_path = thumbnail.fileName();
-        thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
+        auto tmpDir = System::getTmpDir("FromVideoTask");
+        const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
 
         QProcess ffmpeg_process4thumbnail;
         const QStringList ffmpeg_thumbnail_args =
