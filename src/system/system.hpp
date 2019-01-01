@@ -29,10 +29,15 @@ struct SYSTEM_EXPORT System
     // Meant for heavy or fragile data
     static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);       // Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
     static ITmpDir* persistentTmpDir(const QString& utility);                // Returns dir in tmp dir for given utility. Removed when application is closed.
+
+    //
     static QString getTmpFile(const QString& dir, const QString& fileExt);   // Returns unique file name with given extension in given tmp dir
 
+    // Group of function returning temporary directories in system temporary dir (possibly ram disk)
+    // Meant for small or often changing files.
+    static std::unique_ptr<ITmpDir> getSysTmpDir(const QString& utility);    // Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
 
-
+    //
     static void cleanTemporaries();                                          // removes all temporary files
 };
 
