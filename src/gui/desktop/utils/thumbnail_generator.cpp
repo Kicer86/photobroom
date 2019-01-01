@@ -128,7 +128,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 
         const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
         const int seconds = videoDetailsReader.durationOf(absolute_path);
-        auto tmpDir = System::getTmpDir("FromVideoTask");
+        auto tmpDir = System::getSysTmpDir("FromVideoTask");
         const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
 
         QProcess ffmpeg_process4thumbnail;
