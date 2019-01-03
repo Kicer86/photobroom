@@ -20,7 +20,6 @@ struct SYSTEM_EXPORT System
 {
     static QString getApplicationConfigDir();
 
-    static std::string findProgram(const std::string& name);         // TODO: is is really necessary?
     static std::string userName();
 
     // Group of functions returning temporary files/dir created in user's home dir.

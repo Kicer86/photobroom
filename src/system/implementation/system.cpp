@@ -72,14 +72,6 @@ QString System::getApplicationConfigDir()
 }
 
 
-std::string System::findProgram(const std::string& name)
-{
-    const QString path = QStandardPaths::findExecutable(name.c_str());
-
-    return path.toStdString();
-}
-
-
 std::unique_ptr<ITmpDir> System::getTmpDir(const QString& utility)
 {
     std::unique_lock<std::mutex> l(g_dir_creation);
