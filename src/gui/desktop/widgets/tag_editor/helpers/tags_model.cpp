@@ -135,6 +135,8 @@ bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>&
     data = roles;
 
     emit dataChanged(index, index);
+
+    return true;
 }
 
 
