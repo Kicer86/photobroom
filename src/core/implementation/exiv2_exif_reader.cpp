@@ -30,7 +30,7 @@ bool Exiv2ExifReader::hasExif(const QString& path)
 {
     collect(path);
 
-    return m_exif_data.get()->exifData().empty() == false;
+    return m_exif_data.get() && m_exif_data.get()->exifData().empty() == false;
 }
 
 
