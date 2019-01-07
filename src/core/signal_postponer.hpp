@@ -30,8 +30,6 @@
 
 class CORE_EXPORT SignalPostponer: public QObject
 {
-        Q_OBJECT
-
     public:
         template<typename Fire>
         SignalPostponer(Fire fire, QObject* p):
