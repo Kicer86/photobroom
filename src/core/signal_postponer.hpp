@@ -30,6 +30,8 @@
 
 class CORE_EXPORT SignalPostponer: public QObject
 {
+        Q_OBJECT
+
     public:
         template<typename Fire>
         SignalPostponer(Fire fire, QObject* p):
@@ -47,6 +49,8 @@ class CORE_EXPORT SignalPostponer: public QObject
             m_lazinessTimer.setSingleShot(true);
             m_patienceTimer.setSingleShot(true);
         }
+
+        ~SignalPostponer() = default;
 
         void setDelay(const std::chrono::milliseconds &);
         void setPatiece(const std::chrono::milliseconds &);
