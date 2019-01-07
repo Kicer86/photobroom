@@ -62,9 +62,8 @@ void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
         const auto path2Person = saveFiles(pis);
 
         QStringList files;
-        std::copy(key_map_iterator<decltype(path2Person)>(path2Person.cbegin()),
-                  key_map_iterator<decltype(path2Person)>(path2Person.cend()),
-                  std::back_inserter(files));
+        for (const auto& d : path2Person)
+            files.append(d.first);
 
         const auto best_face_path = face_recognition.best(files);
 
