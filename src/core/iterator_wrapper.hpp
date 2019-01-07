@@ -26,6 +26,11 @@ struct iterator_wrapper: B
         return m_operation(*this);
     }
 
+    R operator*() 
+    {
+        return m_operation(*this);
+    }
+
     private:
         T m_operation;
 };
