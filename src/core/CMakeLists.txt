@@ -121,7 +121,10 @@ set(CORE_HEADERS
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)
-set(CORE_MOC_FILES disk_observer.hpp)
+set(CORE_MOC_FILES 
+		disk_observer.hpp 
+		signal_postponer.hpp
+)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
