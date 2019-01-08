@@ -52,6 +52,12 @@ class iterator_wrapper: private B
             return *this;
         }
 
+        iterator& operator--()
+        {
+            B::operator++();
+            return *this;
+        }
+
         bool operator==(const B& other) const
         {
             const B* base = this;
