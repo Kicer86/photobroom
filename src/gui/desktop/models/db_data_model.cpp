@@ -351,7 +351,7 @@ int DBDataModel::rowCount(const QModelIndex& _parent) const
 
         count = node->getChildren().size();
 
-        assert(count < std::numeric_limits<int>::max());
+        assert(count < static_cast<std::size_t>(std::numeric_limits<int>::max()));
     }
 
     return static_cast<int>(count);

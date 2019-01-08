@@ -41,7 +41,7 @@ void HDRGenerator::run()
     using GeneratorUtils::ConvertOutputAnalyzer;
 
     // rotate photos
-    const QStringList rotated = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, m_tmpDir->path());
+    const QStringList rotated = rotatePhotos(m_data.photos, m_tmpDir->path());
 
     // blend them!
     const int photos_count = m_data.photos.size();

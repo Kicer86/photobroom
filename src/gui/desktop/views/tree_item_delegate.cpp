@@ -203,9 +203,9 @@ QIcon::Mode TreeItemDelegate::iconMode(const QStyle::State& state) const
 {
     QIcon::Mode result;
 
-    if ( (state & QStyle::State_Enabled) == false)
+    if ( state.testFlag(QStyle::State_Enabled) == false)
         result = QIcon::Disabled;
-    if ( (state & QStyle::State_Selected) == true)
+    if ( state.testFlag(QStyle::State_Selected) == true)
         result = QIcon::Selected;
     else
         result = QIcon::Normal;

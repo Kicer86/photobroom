@@ -73,7 +73,8 @@ int FFMpegVideoDetailsReader::durationOf(const QString& video_file) const
 
     QRegExp duration_regex(".*Duration: ([0-9:\\.]+).*");
 
-    int duration;
+    int duration = -1;
+
     for(const QString& line: output)
     {
         const bool matched = duration_regex.exactMatch(line);

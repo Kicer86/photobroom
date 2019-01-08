@@ -32,7 +32,7 @@ int Stopwatch::read(bool reset)
     const auto diff = now - m_last;
     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
 
-    return diff_ms;
+    return static_cast<int>(diff_ms);
 }
 
 

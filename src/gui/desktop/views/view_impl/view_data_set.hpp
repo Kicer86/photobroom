@@ -128,7 +128,7 @@ class ViewDataSet final
             addItemsToRemovalList(parent, from, to);
         }
 
-        void rowsRemoved(const QModelIndex& _parent, int first, int last)
+        void rowsRemoved(const QModelIndex &, int, int)
         {
             for (const Key& key: m_removalInfo)
             {

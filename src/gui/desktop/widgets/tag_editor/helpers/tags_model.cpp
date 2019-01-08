@@ -125,8 +125,8 @@ bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>&
     const int r = index.row();
     const int c = index.column();
 
-    assert(r < m_keys.size());
-    assert(r < m_values.size());
+    assert(r < static_cast<int>(m_keys.size()));
+    assert(r < static_cast<int>(m_values.size()));
     assert(c == 0 || c == 1);
 
     auto& vec = c == 0? m_keys: m_values;
@@ -142,8 +142,8 @@ bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>&
 
 bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
 {
-    assert(row == m_keys.size());
-    assert(row == m_values.size());
+    assert(row == static_cast<int>(m_keys.size()));
+    assert(row == static_cast<int>(m_values.size()));
     assert(parent.isValid() == false);
 
     const std::size_t s = m_keys.size();
@@ -167,7 +167,7 @@ QVariant TagsModel::data(const QModelIndex& index, int role) const
 
     QVariant result;
 
-    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    if (r < static_cast<int>(m_keys.size()) && ( c == 0 || c == 1) )
     {
         const auto& vec = c == 0? m_keys: m_values;
         const auto& data  = vec[r];
@@ -184,7 +184,7 @@ Qt::ItemFlags TagsModel::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags flags = Qt::NoItemFlags;
 
-    if (index.isValid() && index.column() < 2 && index.row() < m_keys.size())
+    if (index.isValid() && index.column() < 2 && index.row() < static_cast<int>(m_keys.size()))
     {
         flags =
           Qt::ItemIsEnabled     |
@@ -211,7 +211,7 @@ QModelIndex TagsModel::index(int row, int column, const QModelIndex& parent) con
 }
 
 
-QModelIndex TagsModel::parent(const QModelIndex& child) const
+QModelIndex TagsModel::parent(const QModelIndex &) const
 {
     return QModelIndex();
 }
@@ -362,7 +362,7 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
 
     QVector<int> touchedRoles;
 
-    if (r < m_keys.size() && ( c == 0 || c == 1) )
+    if (r < static_cast<int>(m_keys.size()) && ( c == 0 || c == 1) )
     {
         touchedRoles.append(role);
 

@@ -200,8 +200,8 @@ void FaceRecognizer::perform()
 
         if (personPath.isEmpty() == false)
         {
-            const QFileInfo pathInfo(personPath);
-            const QString personId = pathInfo.baseName();
+            const QFileInfo personPathInfo(personPath);
+            const QString personId = personPathInfo.baseName();
             const Person::Id pid(personId.toInt());
             result = personData(pid);
         }

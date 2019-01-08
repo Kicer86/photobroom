@@ -258,9 +258,7 @@ namespace GeneratorUtils
     }
 
 
-    QStringList BreakableTask::rotatePhotos(const QStringList& photos,
-                                            const QString& covert,
-                                            ILogger* logger,
+    QStringList BreakableTask::rotatePhotos(const QStringList& photos,                                       
                                             const QString& storage)
     {
         emit operation(tr("Preparing photos"));
