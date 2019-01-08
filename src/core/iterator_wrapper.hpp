@@ -57,6 +57,12 @@ class iterator_wrapper: private B
             return *base == other;
         }
 
+        bool operator==(const iterator& other) const
+        {
+            const B* base = this;
+            return *base == other;
+        }
+
         bool operator!=(const B& other) const
         {
             const B* base = this;
@@ -67,6 +73,13 @@ class iterator_wrapper: private B
         {
             const B* base = this;
             return *base != other;
+        }
+
+        iterator& operator+=(int diff)
+        {
+            B::operator+=(diff);
+
+            return *this;
         }
 
     private:
