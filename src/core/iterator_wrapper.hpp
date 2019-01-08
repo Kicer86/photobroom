@@ -34,20 +34,49 @@ class iterator_wrapper: private B
             return m_operation(*this);
         }
 
+        int operator-(const B& other) const
+        {
+            const B* base = this;
+            return *base - other;
+        }
+
+        int operator-(const iterator& other) const
+        {
+            const B* base = this;
+            return *base - other;
+        }
+
         iterator operator++()
         {
             return B::operator++();
         }
 
-        template<typename O>
-        bool operator==(const O& other) const
+        bool operator==(const B& other) const
         {
             const B* base = this;
             return *base == other;
         }
 
+        bool operator!=(const B& other) const
+        {
+            const B* base = this;
+            return *base != other;
+        }
+
+        bool operator!=(const iterator& other) const
+        {
+            const B* base = this;
+            return *base != other;
+        }
+
     private:
         T m_operation;
+};
+
+template<typename R, typename B, typename T>
+struct std::iterator_traits<iterator_wrapper<R, B, T>>: std::iterator_traits<B>
+{
+
 };
 
 #endif
