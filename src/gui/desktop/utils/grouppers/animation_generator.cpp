@@ -90,7 +90,7 @@ QStringList AnimationGenerator::stabilize()
     // align_image_stack doesn't respect photo's rotation
     // generate rotated copies of original images
     auto dirForRotatedPhotos = System::getTmpDir("AG_rotate");
-    const QStringList rotated_photos = rotatePhotos(m_data.photos, m_data.convertPath, m_logger, dirForRotatedPhotos->path());
+    const QStringList rotated_photos = rotatePhotos(m_data.photos, dirForRotatedPhotos->path());
 
     AISOutputAnalyzer analyzer(m_logger, photos_count);
     connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);

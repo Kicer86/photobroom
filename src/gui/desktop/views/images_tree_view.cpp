@@ -179,7 +179,7 @@ int ImagesTreeView::verticalOffset() const
 }
 
 
-QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
+QModelIndex ImagesTreeView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers)
 {
     const QModelIndex current = selectionModel()->currentIndex();
     QModelIndex result = current;
@@ -207,7 +207,7 @@ void ImagesTreeView::scrollContentsBy(int dx, int dy)
 }
 
 
-void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint hint)
+void ImagesTreeView::scrollTo(const QModelIndex& index, QAbstractItemView::ScrollHint)
 {
     QPoint offset;
 

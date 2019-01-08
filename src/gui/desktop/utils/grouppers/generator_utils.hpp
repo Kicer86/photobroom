@@ -200,7 +200,7 @@ namespace GeneratorUtils
 
             virtual void run() = 0;
 
-            QStringList rotatePhotos(const QStringList& photos, const QString& covert, ILogger *, const QString& storage);
+            QStringList rotatePhotos(const QStringList& photos, const QString& storage);
 
         signals:
             void operation(const QString &) const;

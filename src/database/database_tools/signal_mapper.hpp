@@ -27,7 +27,7 @@
 
 namespace Database
 {
-    class IDatabase;
+    struct IDatabase;
 
     class DATABASE_EXPORT SignalMapper final: public QObject
     {
