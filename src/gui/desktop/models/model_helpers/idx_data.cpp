@@ -384,14 +384,8 @@ const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
 
 long IdxNodeData::getPositionOf(const IIdxData* child) const
 {
-    //convert unique_ptrs vector to raw pointers vector
-    std::vector<const IIdxData *> children;
-
-    for (const auto& c : m_children)
-        children.push_back(c.get());
-
-    auto begin = children.cbegin();
-    auto end = children.cend();
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
     const auto pos = std::find(begin, end, child);
 
@@ -405,15 +399,9 @@ long IdxNodeData::findPositionFor(const IIdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    //convert unique_ptrs vector to raw pointers vector
-    std::vector<const IIdxData *> children;
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
-    for (const auto& c : m_children)
-        children.push_back(c.get());
-
-    auto begin = children.cbegin();
-    auto end = children.cend();
-    
     const auto pos = std::upper_bound(begin, end, child, comparer);
 
     return pos - begin;
@@ -441,14 +429,8 @@ bool IdxNodeData::sortingRequired() const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 
-    //convert unique_ptrs vector to raw pointers vector
-    std::vector<const IIdxData *> children;
-
-    for (const auto& c : m_children)
-        children.push_back(c.get());
-
-    auto begin = children.cbegin();
-    auto end = children.cend();
+    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
     const bool sorted = std::is_sorted(begin, end, comparer);
     const bool required = !sorted;
