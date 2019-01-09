@@ -70,7 +70,7 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
 
         QImage image = QFile::exists(m_info.path)?
             Image::normalized(m_info.path, reader):
-            QImage(Images::error);
+            QImage(Images::missing);
 
         if (image.isNull())
         {
@@ -154,6 +154,8 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
             if (status)
                 result = QImage(thumbnail_path);
         }
+        else
+            result = QImage(Images::missing);
 
         m_callback(m_thumbnailInfo, result);
     }
