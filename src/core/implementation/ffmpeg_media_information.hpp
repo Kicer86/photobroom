@@ -26,24 +26,25 @@
 
 struct IConfiguration;
 
-class VideoInformation : public IMediaInformation
+class FFmpegMediaInformation : public IMediaInformation
 {
     public:
-        VideoInformation();
-        VideoInformation(const VideoInformation &) = delete;
-        VideoInformation(VideoInformation &&) = delete;
+        FFmpegMediaInformation();
+        FFmpegMediaInformation(const FFmpegMediaInformation &) = delete;
+        FFmpegMediaInformation(FFmpegMediaInformation &&) = delete;
 
-        VideoInformation& operator=(const VideoInformation &) = delete;
-        VideoInformation& operator=(VideoInformation &&) = delete;
+        FFmpegMediaInformation& operator=(const FFmpegMediaInformation &) = delete;
+        FFmpegMediaInformation& operator=(FFmpegMediaInformation &&) = delete;
 
-        virtual ~VideoInformation() = default;
+        virtual ~FFmpegMediaInformation() = default;
 
         void set(IConfiguration *);
 
+        bool canHandle(const QString & ) const override;
         QSize size(const QString &) const override;
 
     private:
-        QString m_ffmpegPath;
+        QString m_ffprobePath;
 };
 
 #endif // VIDEOINFORMATION_HPP

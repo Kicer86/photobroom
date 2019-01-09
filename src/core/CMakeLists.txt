@@ -36,10 +36,11 @@ set(CORE_SOURCES
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
     implementation/exiv2_exif_reader.cpp
+    implementation/exiv2_media_information.cpp
     implementation/ffmpeg_video_details_reader.cpp
+    implementation/ffmpeg_media_information.cpp
     implementation/file_lock.cpp
     implementation/ilogger.cpp
-    implementation/image_information.cpp
     implementation/image_tools.cpp
     implementation/log_file_rotator.cpp
     implementation/logger.cpp
@@ -56,7 +57,6 @@ set(CORE_SOURCES
     implementation/task_executor.cpp
     implementation/task_executor_utils.cpp
     implementation/time_guardian.cpp
-    implementation/video_information.cpp
 )
 
 
@@ -115,9 +115,9 @@ set(CORE_HEADERS
     implementation/aexif_reader.hpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp
-    implementation/image_information.hpp
+    implementation/exiv2_media_information.hpp
+    implementation/ffmpeg_media_information.hpp
     implementation/log_file_rotator.hpp
-    implementation/video_information.hpp
 )
 
 set(CORE_RESOURCE_FILES images/images.qrc)

@@ -22,22 +22,35 @@
 #include <cassert>
 
 #include <QFileInfo>
+#include <QImageReader>
 
 #include "icore_factory_accessor.hpp"
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
 #include "media_types.hpp"
-#include "implementation/image_information.hpp"
-#include "implementation/video_information.hpp"
+#include "implementation/exiv2_media_information.hpp"
+#include "implementation/ffmpeg_media_information.hpp"
+
+
+namespace
+{
+    QSize imageSize(const QString& path)
+    {
+        const QImageReader reader(path);
+        const QSize size = reader.size();
+
+        return size;
+    }
+}
 
 
 struct MediaInformation::Impl
 {
-    ImageInformation m_image_info;
-    VideoInformation m_video_info;
+    Eviv2MediaInformation m_exif_info;
+    FFmpegMediaInformation m_ffmpeg_info;
     std::unique_ptr<ILogger> m_logger;
 
-    Impl(): m_image_info(), m_video_info(), m_logger(nullptr)
+    Impl(): m_exif_info(), m_ffmpeg_info(), m_logger(nullptr)
     {
 
     }
@@ -57,9 +70,16 @@ MediaInformation::~MediaInformation()
 
 void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 {
-    m_impl->m_image_info.set(coreFactory->getExifReaderFactory());
-    m_impl->m_video_info.set(coreFactory->getConfiguration());
+    m_impl->m_exif_info.set(coreFactory->getExifReaderFactory());
+    m_impl->m_ffmpeg_info.set(coreFactory->getConfiguration());
     m_impl->m_logger = coreFactory->getLoggerFactory()->get("Media Information");
+}
+
+
+bool MediaInformation::canHandle(const QString& path) const
+{
+    return m_impl->m_exif_info.canHandle(path) ||
+           m_impl->m_ffmpeg_info.canHandle(path);
 }
 
 
@@ -70,12 +90,12 @@ QSize MediaInformation::size(const QString& path) const
 
     QSize result;
 
-    if (MediaTypes::isImageFile(full_path))
-        result = m_impl->m_image_info.size(full_path);
-    else if (MediaTypes::isVideoFile(full_path))
-        result = m_impl->m_video_info.size(full_path);
-    else
-        assert(!"unknown file type");
+    if (m_impl->m_exif_info.canHandle(full_path))               // try to use exif (so orientation will considered)
+        result = m_impl->m_exif_info.size(full_path);
+    else if (MediaTypes::isImageFile(full_path))                // no exif, but image file - read its dimensions from image properties
+        result = imageSize(full_path);
+    else if (m_impl->m_ffmpeg_info.canHandle(full_path))
+        result = m_impl->m_ffmpeg_info.size(full_path);
 
     if (result.isValid() == false)
     {

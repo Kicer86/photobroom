@@ -33,6 +33,7 @@
 #include <QFile>
 #include <QDir>
 #include <QTimer>
+#include <QStandardPaths>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -181,7 +182,7 @@ QString MySqlServer::getDaemonPath() const
 
     if (path.isEmpty())
     {
-        path = System::findProgram("mysqld").c_str();
+        path = QStandardPaths::findExecutable("mysqld");
 
         m_configuration->setEntry(MySQL_daemon, path);
     }
@@ -192,10 +193,10 @@ QString MySqlServer::getDaemonPath() const
 
 bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) const
 {
-    const std::string path = System::findProgram("mysql_install_db");
+    const QString path = QStandardPaths::findExecutable("mysql_install_db");
     bool status = false;
 
-    if (path.empty() == false)
+    if (path.isEmpty() == false)
     {
         QProcess init;
 
@@ -203,7 +204,7 @@ bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) cons
         const QString dataDirOption  = "--datadir=" + dbDir;
         const QString userNameOption = "--user=" + userName;
 
-        const QString installDBPath = path.c_str();
+        const QString installDBPath = path;
         const QFileInfo installDBPathInfo(installDBPath);
         QDir installDBDir = installDBPathInfo.absoluteDir();
         installDBDir.cdUp();

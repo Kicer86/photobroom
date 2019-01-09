@@ -111,6 +111,7 @@ void Gui::run()
     configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
     configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
     configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
+    configuration->setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
 
     const QVariant ffmpegPath = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
     const QFileInfo fileInfo(ffmpegPath.toString());

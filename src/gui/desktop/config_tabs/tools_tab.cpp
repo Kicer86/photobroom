@@ -31,6 +31,8 @@ ToolsTab::ToolsTab(QWidget *parent) :
     ui->convertPath->setBrowseCallback(chooseExecutable);
     ui->ffmpegPath->setBrowseButtonText(tr("Browse"));
     ui->ffmpegPath->setBrowseCallback(chooseExecutable);
+    ui->ffprobePath->setBrowseButtonText(tr("Browse"));
+    ui->ffprobePath->setBrowseCallback(chooseExecutable);
 }
 
 
@@ -55,6 +57,12 @@ QtExtChooseFile* ToolsTab::convertPath() const
 QtExtChooseFile* ToolsTab::ffmpegPath() const
 {
     return ui->ffmpegPath;
+}
+
+
+QtExtChooseFile* ToolsTab::ffprobePath() const
+{
+    return ui->ffprobePath;
 }
 
 
@@ -90,10 +98,12 @@ QWidget* ToolsTabController::constructTab()
     const QString aisPath = config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     const QString convertPath = config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     const QString ffmpegPath = config->getEntry(ExternalToolsConfigKeys::ffmpegPath).toString();
+    const QString ffprobePath = config->getEntry(ExternalToolsConfigKeys::ffprobePath).toString();
 
     tab->aisPath()->setValue(aisPath);
     tab->convertPath()->setValue(convertPath);
     tab->ffmpegPath()->setValue(ffmpegPath);
+    tab->ffprobePath()->setValue(ffprobePath);
 
     connect(tab, &QObject::destroyed, [this](QObject* t)
     {
@@ -113,12 +123,14 @@ void ToolsTabController::applyConfiguration()
     const QString aisPath = tab->aisPath()->value();
     const QString convertPath = tab->convertPath()->value();
     const QString ffmpegPath = tab->ffmpegPath()->value();
+    const QString ffprobePath = tab->ffprobePath()->value();
 
     IConfiguration* config = configuration();
 
     config->setEntry(ExternalToolsConfigKeys::aisPath, aisPath);
     config->setEntry(ExternalToolsConfigKeys::convertPath, convertPath);
     config->setEntry(ExternalToolsConfigKeys::ffmpegPath, ffmpegPath);
+    config->setEntry(ExternalToolsConfigKeys::ffprobePath, ffprobePath);
 }
 
 

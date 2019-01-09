@@ -22,7 +22,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
-#include <QTemporaryFile>
 
 #include <core/constants.hpp>
 #include <core/ffmpeg_video_details_reader.hpp>
@@ -107,10 +106,12 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
                   const ThumbnailGenerator::Callback& callback,
-                  const QString& ffmpegPath):
+                  const QString& ffmpeg,
+                  const QString& ffprobe):
         m_thumbnailInfo(info),
         m_callback(callback),
-        m_ffmpeg(ffmpegPath)
+        m_ffmpeg(ffmpeg),
+        m_ffprobe(ffprobe)
     {
 
     }
@@ -125,14 +126,10 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
         const QFileInfo pathInfo(m_thumbnailInfo.path);
         const QString absolute_path = pathInfo.absoluteFilePath();
 
-        const FFMpegVideoDetailsReader videoDetailsReader(m_ffmpeg);
+        const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
         const int seconds = videoDetailsReader.durationOf(absolute_path);
-        const QString thumbnail_path_pattern = System::getTempFilePatternFor("jpeg");
-        QTemporaryFile thumbnail(thumbnail_path_pattern);
-        thumbnail.open();                                // create file
-
-        const QString thumbnail_path = thumbnail.fileName();
-        thumbnail.close();                               // close but do not delete file. Just make sure it is not locked
+        auto tmpDir = System::getSysTmpDir("FromVideoTask");
+        const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
 
         QProcess ffmpeg_process4thumbnail;
         const QStringList ffmpeg_thumbnail_args =
@@ -146,7 +143,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
             thumbnail_path
         };
 
-        ffmpeg_process4thumbnail.start("ffmpeg", ffmpeg_thumbnail_args );
+        ffmpeg_process4thumbnail.start(m_ffmpeg, ffmpeg_thumbnail_args );
         const bool status = ffmpeg_process4thumbnail.waitForFinished();
 
         if (status)
@@ -160,6 +157,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
     const ThumbnailInfo m_thumbnailInfo;
     const ThumbnailGenerator::Callback m_callback;
     const QString m_ffmpeg;
+    const QString m_ffprobe;
 };
 
 
@@ -229,11 +227,14 @@ void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Call
     {
         const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
         const QString ffmpegPath = ffmpegVar.toString();
-        const QFileInfo fileInfo(ffmpegPath);
+        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
+        const QString ffprobePath = ffprobeVar.toString();
+        const QFileInfo mpegfileInfo(ffmpegPath);
+        const QFileInfo probefileInfo(ffprobePath);
 
-        if (fileInfo.isExecutable())
+        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
         {
-            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath);
+            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath, ffprobePath);
             m_tasks->push(std::move(task));
         }
         else

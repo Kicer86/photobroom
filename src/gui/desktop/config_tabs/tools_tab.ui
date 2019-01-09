@@ -56,6 +56,16 @@
       <item row="2" column="1">
        <widget class="QtExtChooseFile" name="ffmpegPath" native="true"/>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="ffprobeLabel">
+        <property name="text">
+         <string>FFProbe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QtExtChooseFile" name="ffprobePath" native="true"/>
+      </item>
      </layout>
     </widget>
    </item>

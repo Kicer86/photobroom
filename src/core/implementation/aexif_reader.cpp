@@ -82,6 +82,14 @@ std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
         case TagType::DateTimeOriginal:
             result = readString(TagType::DateTimeOriginal);
             break;
+
+        case TagType::PixelXDimension:
+            result = readLong(TagType::PixelXDimension);
+            break;
+
+        case TagType::PixelYDimension:
+            result = readLong(TagType::PixelYDimension);
+            break;
     }
 
     return result;
@@ -138,6 +146,25 @@ int AExifReader::readInt(const TagType& tagType) const
 std::string AExifReader::readString(const TagType& tagType) const
 {
     const std::string result = read(tagType);
+
+    return result;
+}
+
+
+long AExifReader::readLong(const IExifReader::TagType& tagType) const
+{
+    long result = 0;
+    const std::string valueRaw = read(tagType);
+
+    try
+    {
+        const long value = stol(valueRaw);
+
+        if (value > 0)
+            result = value;
+    }
+    catch(const std::invalid_argument &) {}
+    catch(const std::out_of_range &) {}
 
     return result;
 }

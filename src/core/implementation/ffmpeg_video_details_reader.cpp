@@ -26,10 +26,26 @@
 #include <QTime>
 
 
-FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffmpegPath(ffmpeg)
+FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffprobePath(ffmpeg)
 {
     assert(ffmpeg.isEmpty() == false);
 }
+
+
+bool FFMpegVideoDetailsReader::hasDetails(const QString& filePath) const
+{
+    QProcess ffprobe_process;
+    ffprobe_process.setProcessChannelMode(QProcess::MergedChannels);
+
+    const QStringList ffprobe_args = { filePath };
+
+    ffprobe_process.start(m_ffprobePath, ffprobe_args );
+    const bool status = ffprobe_process.waitForFinished() &&
+                        ffprobe_process.exitCode() == 0;
+
+    return status;
+}
+
 
 
 QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
@@ -96,23 +112,21 @@ int FFMpegVideoDetailsReader::durationOf(const QString& video_file) const
 
 QStringList FFMpegVideoDetailsReader::outputFor(const QString& video_file) const
 {
-    QProcess ffmpeg_process;
-    ffmpeg_process.setProcessChannelMode(QProcess::MergedChannels);
+    QProcess ffprobe_process;
+    ffprobe_process.setProcessChannelMode(QProcess::MergedChannels);
 
-    const QStringList ffmpeg_args = { "-i", video_file };
+    const QStringList ffprobe_args = { video_file };
 
-    ffmpeg_process.start(m_ffmpegPath, ffmpeg_args );
-    bool status = ffmpeg_process.waitForFinished();
+    ffprobe_process.start(m_ffprobePath, ffprobe_args );
+    bool status = ffprobe_process.waitForFinished();
 
     QStringList result;
     if (status)
-    {
-        while(ffmpeg_process.canReadLine())
+        while(ffprobe_process.canReadLine())
         {
-            const QByteArray line = ffmpeg_process.readLine();
+            const QByteArray line = ffprobe_process.readLine();
             result.append(line.constData());
         }
-    }
 
     return result;
 }
