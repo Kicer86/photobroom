@@ -124,34 +124,38 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
     void perform() override
     {
         const QFileInfo pathInfo(m_thumbnailInfo.path);
-        const QString absolute_path = pathInfo.absoluteFilePath();
 
-        const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
-        const int seconds = videoDetailsReader.durationOf(absolute_path);
-        auto tmpDir = System::getSysTmpDir("FromVideoTask");
-        const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
+        QImage result(Images::error);
 
-        QProcess ffmpeg_process4thumbnail;
-        const QStringList ffmpeg_thumbnail_args =
+        if (pathInfo.exists())
         {
-            "-y",                                        // overwrite file created with QTemporaryFile
-            "-ss", QString::number(seconds / 10),
-            "-i", absolute_path,
-            "-vframes", "1",
-            "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
-            "-q:v", "2",
-            thumbnail_path
-        };
+            const QString absolute_path = pathInfo.absoluteFilePath();
 
-        ffmpeg_process4thumbnail.start(m_ffmpeg, ffmpeg_thumbnail_args );
-        const bool status = ffmpeg_process4thumbnail.waitForFinished();
+            const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
+            const int seconds = videoDetailsReader.durationOf(absolute_path);
+            auto tmpDir = System::getSysTmpDir("FromVideoTask");
+            const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
 
-        if (status)
-        {
-            const QImage thumbnail_image(thumbnail_path);
+            QProcess ffmpeg_process4thumbnail;
+            const QStringList ffmpeg_thumbnail_args =
+            {
+                "-y",                                        // overwrite file created with QTemporaryFile
+                "-ss", QString::number(seconds / 10),
+                "-i", absolute_path,
+                "-vframes", "1",
+                "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
+                "-q:v", "2",
+                thumbnail_path
+            };
 
-            m_callback(m_thumbnailInfo, thumbnail_image);
+            ffmpeg_process4thumbnail.start(m_ffmpeg, ffmpeg_thumbnail_args );
+            const bool status = ffmpeg_process4thumbnail.waitForFinished();
+
+            if (status)
+                result = QImage(thumbnail_path);
         }
+
+        m_callback(m_thumbnailInfo, result);
     }
 
     const ThumbnailInfo m_thumbnailInfo;
