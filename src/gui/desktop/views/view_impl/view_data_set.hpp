@@ -30,7 +30,7 @@
 
 struct IViewDataSet
 {
-    virtual ~IViewDataSet();
+    virtual ~IViewDataSet() = default;
 
     virtual void rowsInserted(const QModelIndex &, int, int) = 0;
     virtual void rowsAboutToBeRemoved(const QModelIndex &, int, int) = 0;

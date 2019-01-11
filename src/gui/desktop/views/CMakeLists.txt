@@ -11,7 +11,6 @@ set(SRC
     view_impl/positions_calculator.cpp
     view_impl/positions_reseter.cpp
     view_impl/positions_translator.cpp
-    view_impl/view_data_set.cpp
     images_tree_view.cpp
     tree_item_delegate.cpp
     )
