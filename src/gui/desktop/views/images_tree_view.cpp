@@ -133,10 +133,8 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 }
 
 
-bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
+bool ImagesTreeView::isIndexHidden(const QModelIndex &) const
 {
-    (void) index;
-
     return false;
 }
 
