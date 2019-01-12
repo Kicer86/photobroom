@@ -51,7 +51,6 @@ class ViewDataSet final
             m_db_model = model;
         }
 
-
         T* find(const QModelIndex& index)
         {
             T* result = nullptr;
@@ -62,6 +61,13 @@ class ViewDataSet final
                 result = &(it.value());
 
             return result;
+        }
+
+        template<typename F>
+        void for_each(const F& f)
+        {
+            for(auto& item: m_model)
+                f(item);
         }
 
         // to be called by view:
@@ -120,7 +126,7 @@ class ViewDataSet final
             return m_model.size();
         }
 
-
+    private:
         typedef QPersistentModelIndex Key;
         std::vector<Key> m_removalInfo;
 

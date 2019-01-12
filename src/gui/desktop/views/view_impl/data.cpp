@@ -267,6 +267,12 @@ const QAbstractItemModel* Data::getQtModel() const
 }
 
 
+void Data::for_each(const std::function<void(ModelIndexInfo &)>& f)
+{
+    m_itemData->for_each(f);
+}
+
+
 std::size_t Data::size() const
 {
     return m_itemData->size();

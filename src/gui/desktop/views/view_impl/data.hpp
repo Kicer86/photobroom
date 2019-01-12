@@ -64,12 +64,7 @@ class Data: public QObject
 
         const QAbstractItemModel* getQtModel() const;
 
-        template<typename F>
-        void for_each(const F& f)
-        {
-            for(auto& item: m_itemData->m_model)
-                f(item);
-        }
+        void for_each(const std::function<void(ModelIndexInfo &)> &);
 
         std::size_t size() const;
 
