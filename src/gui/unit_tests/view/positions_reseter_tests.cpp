@@ -46,8 +46,7 @@ class PositionsReseterShould: public ::testing::Test
             child3_2(),
             child3_3(),
             child3_4(),
-            child3_5(),
-            mo()
+            child3_5()
         {
         }
 
@@ -60,7 +59,7 @@ class PositionsReseterShould: public ::testing::Test
 
             data.set(&model);
 
-            mo.reset( new ViewDataModelObserver(&data, &model) );
+            connectModelAndView(&model, &data);
 
             top = new QStandardItem("Empty");
             child1 = new QStandardItem(icon, "Empty1");
@@ -147,8 +146,6 @@ class PositionsReseterShould: public ::testing::Test
         QStandardItem* child3_3;
         QStandardItem* child3_4;
         QStandardItem* child3_5;
-
-        std::unique_ptr<ViewDataModelObserver> mo;
 };
 
 

@@ -54,7 +54,7 @@ TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     EXPECT_EQ(1, data.size());
 }
@@ -65,7 +65,7 @@ TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(info.valid(), false);
@@ -79,7 +79,7 @@ TEST_F(DataShould, SetInitialDataForRootItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
@@ -94,7 +94,7 @@ TEST_F(DataShould, StoreInfoAboutItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     ModelIndexInfo& info = data.get(QModelIndex());
     info.expanded = true;
@@ -113,7 +113,7 @@ TEST_F(DataShould, MarkTopItemsAsVisible)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     submodel.appendRow(top);
@@ -133,7 +133,7 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -191,7 +191,7 @@ TEST_F(DataShould, ReturnItemsByPoint)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -245,7 +245,7 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -314,7 +314,7 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -369,7 +369,7 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     data.set(&model);
     data.setThumbnailDesiredHeight(50);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -436,7 +436,7 @@ TEST_F(DataShould, ReturnItemsInRect)
     data.setImageMargin(0);
     data.setThumbnailDesiredHeight(10);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child0 = new QStandardItem(icon, "Empty0");

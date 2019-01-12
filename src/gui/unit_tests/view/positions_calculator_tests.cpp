@@ -61,7 +61,7 @@ TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, 100);
     calculator.updateItems();
@@ -99,7 +99,7 @@ TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
     const int margin  = data.getImageMargin();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, canvas_w);
     calculator.updateItems();
@@ -144,7 +144,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     const int header_h = 40;
     const int thumb_h = view_data.getThumbnailDesiredHeight();
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     // setup expectations
     Photo::Data photoDetails;
@@ -216,7 +216,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand second node to show children
     ModelIndexInfo& top_info2 = view_data.get(top_idx2->index());
@@ -274,7 +274,7 @@ TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand main node to show children
     ModelIndexInfo& top_info = view_data.get(top->index());
@@ -312,7 +312,8 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    //ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap(img);
     const QIcon icon(pixmap);
@@ -399,7 +400,7 @@ TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 
     const int spacing = data.getSpacing();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -460,7 +461,7 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     const int spacing = data.getSpacing();
     const int margin  = data.getImageMargin();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -551,7 +552,7 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand nodes to show children
     ModelIndexInfo& top_info1 = view_data.get(top_idx1->index());
@@ -584,7 +585,7 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     data.setImageMargin(0);
     data.setThumbnailDesiredHeight(10);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
 

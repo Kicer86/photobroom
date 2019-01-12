@@ -28,15 +28,6 @@
 #include <QModelIndex>
 #include <QRect>
 
-struct IViewDataSet
-{
-    virtual ~IViewDataSet() = default;
-
-    virtual void rowsInserted(const QModelIndex &, int, int) = 0;
-    virtual void rowsAboutToBeRemoved(const QModelIndex &, int, int) = 0;
-    virtual void modelReset() = 0;
-};
-
 
 template<typename T>
 class ViewDataSet final
@@ -192,53 +183,15 @@ class ViewDataSet final
 };
 
 
-// A helper class which purpose is to store  in tree any model change automatically
-// The only problem is that if owner of ViewDataSet (View) also connects
-// itself to model's signals and will try to access ViewDataSet in
-// for example rowsInserted, ViewDataSet may not be up to date yet.
-// In such case, do not use this class but call all ViewDataSet's functions
-// related to model changes manually.
-
-struct ViewDataModelObserver: public QObject
+template<typename Target>
+void connectModelAndView(QAbstractItemModel* model, Target* target)
 {
-    Q_OBJECT
+    QObject::connect(model, &QAbstractItemModel::rowsInserted, target, &Target::rowsInserted);
+    QObject::connect(model, &QAbstractItemModel::rowsAboutToBeRemoved, target, &Target::rowsAboutToBeRemoved);
+    QObject::connect(model, &QAbstractItemModel::modelReset, target, &Target::modelReset);
 
-    public:
-        explicit ViewDataModelObserver(IViewDataSet* viewDataSet, QAbstractItemModel* model, QObject* p = 0): QObject(p), m_db_model(nullptr), m_viewDataSet(viewDataSet)
-        {
-            set(model);
-        }
-
-        ViewDataModelObserver(const ViewDataModelObserver &) = delete;
-
-        ViewDataModelObserver& operator=(const ViewDataModelObserver &) = delete;
-
-        void set(QAbstractItemModel* model)
-        {
-            if (m_db_model != nullptr)
-                m_db_model->disconnect(this);
-
-            m_db_model = model;
-
-            if (m_db_model != nullptr)
-            {
-                connect(m_db_model, &QAbstractItemModel::rowsInserted, this, &ViewDataModelObserver::rowsInserted);
-                connect(m_db_model, &QAbstractItemModel::rowsAboutToBeRemoved, this, &ViewDataModelObserver::rowsAboutToBeRemoved);
-                connect(m_db_model, &QAbstractItemModel::modelReset, this, &ViewDataModelObserver::modelReset);
-            }
-
-            modelReset();
-        }
-
-    private:
-        virtual void rowsInserted(const QModelIndex& p, int f, int t)         { m_viewDataSet->rowsInserted(p, f, t); }
-        virtual void rowsAboutToBeRemoved(const QModelIndex& p, int f, int t) { m_viewDataSet->rowsAboutToBeRemoved(p, f, t); }
-        virtual void modelReset()                                             { m_viewDataSet->modelReset(); }
-
-    private:
-        QAbstractItemModel* m_db_model;
-        IViewDataSet* m_viewDataSet;
-};
+    target->modelReset();
+}
 
 
 #endif // VIEW_DATA_SET_HPP

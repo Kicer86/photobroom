@@ -34,7 +34,7 @@ struct IConfiguration;
 class APhotoInfoModel;
 
 
-class Data: public IViewDataSet
+class Data: public QObject
 {
     public:
         Data();
@@ -88,10 +88,10 @@ class Data: public IViewDataSet
         QModelIndex getFirst(const QModelIndex &) const;
         QModelIndex getLast(const QModelIndex &) const;
 
-        void modelReset() override;
-        void rowsAboutToBeRemoved(const QModelIndex & , int , int) override;
+        void modelReset();
+        void rowsAboutToBeRemoved(const QModelIndex & , int , int);
         void rowsRemoved(const QModelIndex &, int, int);
-        void rowsInserted(const QModelIndex & , int , int) override;
+        void rowsInserted(const QModelIndex & , int , int);
 
     private:
         typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
