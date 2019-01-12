@@ -64,7 +64,13 @@ class Data: public IViewDataSet
 
         const QAbstractItemModel* getQtModel() const;
 
-        void for_each(const std::function<void(ModelIndexInfo &)> &);
+        template<typename F>
+        void for_each(const F& f)
+        {
+            for(auto& item: m_itemData->m_model)
+                f(item);
+        }
+
         std::size_t size() const;
 
         int getSpacing() const;
@@ -88,11 +94,8 @@ class Data: public IViewDataSet
         void rowsInserted(const QModelIndex & , int , int) override;
 
     private:
-#ifdef UNIT_TESTS_BUILD
-        typedef ViewDataSet<ModelIndexInfo, QPersistentModelIndex, ViewData::constructPersistent> ModelIndexInfoSet;
-#else
-        typedef ViewDataSet<ModelIndexInfo, quintptr, ViewData::constructId> ModelIndexInfoSet;
-#endif
+        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
+
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         APhotoInfoModel* m_model;
         IConfiguration* m_configuration;

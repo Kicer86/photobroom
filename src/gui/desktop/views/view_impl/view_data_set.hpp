@@ -38,21 +38,7 @@ struct IViewDataSet
 };
 
 
-namespace ViewData
-{
-    inline quintptr constructId(const QModelIndex& idx)
-    {
-        return idx.internalId();
-    }
-
-    inline QPersistentModelIndex constructPersistent(const QModelIndex& idx)
-    {
-        return QPersistentModelIndex(idx);
-    }
-}
-
-
-template<typename T, typename Key, Key (*Constructor)(const QModelIndex &)>
+template<typename T>
 class ViewDataSet final
 {
     public:
@@ -61,30 +47,19 @@ class ViewDataSet final
             clear();
         }
 
-        ViewDataSet(const ViewDataSet<T, Key, Constructor> &) = delete;
+        ViewDataSet(const ViewDataSet<T> &) = delete;
 
         ~ViewDataSet()
         {
         }
 
-        ViewDataSet<T, Key, Constructor>& operator=(const ViewDataSet<T, Key, Constructor> &) = delete;
+        ViewDataSet<T>& operator=(const ViewDataSet<T> &) = delete;
 
         void set(QAbstractItemModel* model)
         {
             m_db_model = model;
         }
 
-        const T* find(const QModelIndex& index) const
-        {
-            T* result = nullptr;
-
-            auto it = m_model.find(getKey(index));
-
-            if (it != m_model.end())
-                result = &(*it);
-
-            return result;
-        }
 
         T* find(const QModelIndex& index)
         {
@@ -96,13 +71,6 @@ class ViewDataSet final
                 result = &(it.value());
 
             return result;
-        }
-
-        template<typename F>
-        void for_each(const F& f)
-        {
-            for(auto& item: m_model)
-                f(item);
         }
 
         // to be called by view:
@@ -161,7 +129,8 @@ class ViewDataSet final
             return m_model.size();
         }
 
-    private:
+
+        typedef QPersistentModelIndex Key;
         std::vector<Key> m_removalInfo;
 
         QHash<Key, T> m_model;
@@ -197,7 +166,7 @@ class ViewDataSet final
 
         Key getKey(const QModelIndex& idx) const
         {
-            return Constructor(idx);
+            return QPersistentModelIndex(idx);
         }
 
         void addItemsToRemovalList(const QModelIndex& parent, int from, int to)
