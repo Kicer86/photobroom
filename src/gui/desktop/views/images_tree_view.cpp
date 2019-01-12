@@ -52,17 +52,13 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent):
     m_viewStatus(nullptr),
     m_previouslySelectedItem(),
     m_regionSelectionStartPoint(),
-    m_dataDirty(true),
     m_regionSelectionActive(false)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
 
     m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 200ms);
-    connect(this, &ImagesTreeView::refreshView, [this]()
-    {
-        m_dataDirty = true;
-    });
+    connect(this, &ImagesTreeView::refreshView, this, &ImagesTreeView::updateView);
 
     setThumbnailHeight(120);
 
@@ -289,8 +285,6 @@ void ImagesTreeView::setModel(QAbstractItemModel* abstract_model)
 void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     TIME_GUARDIAN("ImagesTreeView::paintEvent", 100, "long paint");
-
-    updateView();
 
     const PositionsTranslator translator(m_data.get());
 
@@ -578,11 +572,6 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 
 void ImagesTreeView::updateView()
 {
-    if (m_dataDirty)
-    {
-        updateData();
-        updateGui();
-
-        m_dataDirty = false;
-    }
+    updateData();
+    updateGui();
 }

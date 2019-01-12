@@ -80,7 +80,6 @@ class ImagesTreeView: public QAbstractItemView
         SignalFilter m_viewStatus;
         QModelIndex m_previouslySelectedItem;
         QPoint m_regionSelectionStartPoint;
-        bool m_dataDirty;
         bool m_regionSelectionActive;
 
         // view stuff
