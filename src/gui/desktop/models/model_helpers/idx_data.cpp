@@ -334,7 +334,6 @@ IdxNodeData::~IdxNodeData()
 
 IIdxData* IdxNodeData::addChild(IIdxData::Ptr&& child)
 {
-    assert(isNode(this));                    // child (leaf) cannot accept any child
     assert(child->parent() == nullptr);      // child should not have parent
 
     const long pos = findPositionFor(child.get());
