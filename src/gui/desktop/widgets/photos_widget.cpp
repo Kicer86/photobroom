@@ -159,7 +159,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
     connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
-    connect(this, &PhotosWidget::performUpdate, m_view->viewport(), qOverload<>(&ImagesTreeView::update), Qt::QueuedConnection);
+    connect(this, &PhotosWidget::performUpdate, m_view->viewport(), qOverload<>(&QWidget::update), Qt::QueuedConnection);
     connect(zoomSlider, &QAbstractSlider::valueChanged, [this, updateZoomSizeLabel](int thumbnailHeight)
     {
         updateZoomSizeLabel(thumbnailHeight);
