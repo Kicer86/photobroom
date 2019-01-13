@@ -561,6 +561,8 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 
 void ImagesTreeView::updateView()
 {
+    TIME_GUARDIAN("ImagesTreeView::updateView", 100, "long view update");
+
     updateItemsPoisitons();
     adjustScrollbars();
 
