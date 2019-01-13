@@ -132,7 +132,6 @@ void FaceReviewer::fetchPeople(Database::IBackend* op) const
 void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
                                 const std::map<Photo::Id, QString>& paths)
 {
-    m_optimizer.set(paths);
     m_infos.clear();
 
     for(const auto& detail: details)
