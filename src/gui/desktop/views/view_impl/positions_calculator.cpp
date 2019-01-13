@@ -45,12 +45,6 @@ void PositionsCalculator::updateItems() const
 }
 
 
-void PositionsCalculator::updateChildrenOf(const QModelIndex& parent)
-{
-    updateItem(parent);
-}
-
-
 QRect PositionsCalculator::calcItemRect(const QModelIndex& idx) const
 {
     QRect result;
@@ -78,7 +72,6 @@ QRect PositionsCalculator::calcItemRect(const QModelIndex& idx) const
 
     return result;
 }
-
 
 QSize PositionsCalculator::calcItemSize(const QModelIndex& idx) const
 {
