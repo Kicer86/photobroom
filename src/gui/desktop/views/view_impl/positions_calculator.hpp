@@ -37,7 +37,7 @@ class PositionsCalculator
         ~PositionsCalculator();
         PositionsCalculator& operator=(const PositionsCalculator& other) = delete;
 
-        void updateItems() const;
+        void update() const;
 
     private:
         QRect calcItemRect(const QModelIndex &) const;

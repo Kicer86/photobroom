@@ -39,7 +39,7 @@ PositionsCalculator::~PositionsCalculator()
 }
 
 
-void PositionsCalculator::updateItems() const
+void PositionsCalculator::update() const
 {
     updateItem(QModelIndex());
 }

@@ -459,7 +459,7 @@ void ImagesTreeView::updateData()
     if (m != nullptr && m->rowCount() > 0)
     {
         PositionsCalculator calculator(m_data.get(), viewport()->width());
-        calculator.updateItems();
+        calculator.update();
     }
 }
 

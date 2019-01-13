@@ -160,7 +160,7 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect1 = translator.getAbsoluteRect(child1->index());
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
@@ -218,7 +218,7 @@ TEST_F(DataShould, ReturnItemsByPoint)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect1 = translator.getAbsoluteRect(child1->index());
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
@@ -270,7 +270,7 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const auto& f_info1 = data.get(child1->index());
     const auto& f_info2 = data.get(child2->index());
@@ -339,7 +339,7 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     //collapse top
     info.expanded = false;
@@ -402,10 +402,10 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     //// test
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect both images to get resized to match height = 50px
@@ -479,7 +479,7 @@ TEST_F(DataShould, ReturnItemsInRect)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 50);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
     const QRect rect3 = translator.getAbsoluteRect(child3->index());

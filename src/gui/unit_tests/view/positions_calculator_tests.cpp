@@ -64,7 +64,7 @@ TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, 100);
-    calculator.updateItems();
+    calculator.update();
 
     const ModelIndexInfo& info = data.get(top);
 
@@ -102,7 +102,7 @@ TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
     connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = data.get(QModelIndex());
@@ -160,7 +160,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = view_data.get(QModelIndex());
@@ -223,7 +223,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info2 = view_data.get(top_idx2->index());
@@ -281,7 +281,7 @@ TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = view_data.get(top->index());
@@ -366,7 +366,7 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     }
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     //// test
     ModelIndexInfo& top_info = data.get(top->index());
@@ -375,7 +375,7 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     PositionsReseter reseter(&model, &data);
     reseter.itemChanged(top->index());
 
-    calculator.updateItems();
+    calculator.update();
 
     //expectations
     {
@@ -433,7 +433,7 @@ TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect both images to get resized to match height = 50px
@@ -495,7 +495,7 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect first image to take whole row.
@@ -562,7 +562,7 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info1 = view_data.get(top1_child1_idx->index());
@@ -615,7 +615,7 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 50);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     std::vector<QRect> rects;
     const QRect rectt = translator.getAbsoluteRect(top->index());
