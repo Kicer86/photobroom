@@ -388,13 +388,14 @@ long IdxNodeData::getPositionOf(const IIdxData* child) const
 {
     // Finding position of child takes time.
     // So we use cache here
-
     long result = -1;
 
     const auto it = m_positionsCache.find(child);
 
     if (it == m_positionsCache.end())
     {
+        assert(sortingRequired() == false);
+
         auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
         auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
 
@@ -407,7 +408,15 @@ long IdxNodeData::getPositionOf(const IIdxData* child) const
         m_positionsCache.emplace(child, result);
     }
     else
+    {
+        assert(m_positionsCache.size() <= m_children.size());    // is cache corrupted?
+
         result = it->second;
+
+        assert(result >= 0);
+        assert(static_cast<std::size_t>(result) < m_children.size());
+        assert(m_children[result].get() == child);               // is cache corrupted?
+    }
 
     return result;
 }
