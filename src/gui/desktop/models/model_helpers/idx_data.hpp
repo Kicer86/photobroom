@@ -20,6 +20,9 @@
 #ifndef IDXDATA_HPP
 #define IDXDATA_HPP
 
+
+#include <unordered_map>
+
 #include <QMap>
 
 #include <database/photo_data.hpp>
@@ -128,6 +131,7 @@ class IdxNodeData: public IdxData
 
     private:
         std::vector<Ptr> m_children;
+        mutable std::unordered_map<const IIdxData *, long> m_positionsCache;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
 };

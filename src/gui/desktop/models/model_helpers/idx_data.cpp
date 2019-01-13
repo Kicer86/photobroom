@@ -340,6 +340,7 @@ IIdxData* IdxNodeData::addChild(IIdxData::Ptr&& child)
     const long pos = findPositionFor(child.get());
     child->setParent(this);
     m_children.insert(m_children.cbegin() + pos, std::move(child));
+    m_positionsCache.clear();               // not valid since this point
 
     IIdxData* item = m_children[pos].get();
     m_manager->idxDataCreated(item);
@@ -369,6 +370,7 @@ IIdxData::Ptr IdxNodeData::takeChild(IIdxData* child)
 
     IIdxData::Ptr childPtr = std::move(m_children[pos]);
     m_children.erase(m_children.cbegin() + pos);
+    m_positionsCache.clear();                               // position cache is not valid anymore
 
     childPtr->setParent(nullptr);
 
@@ -384,14 +386,30 @@ const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
 
 long IdxNodeData::getPositionOf(const IIdxData* child) const
 {
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+    // Finding position of child takes time.
+    // So we use cache here
 
-    const auto pos = std::find(begin, end, child);
+    long result = -1;
 
-    assert(pos != end);
+    const auto it = m_positionsCache.find(child);
 
-    return pos - begin;
+    if (it == m_positionsCache.end())
+    {
+        auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+        auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+        const auto pos = std::find(begin, end, child);
+
+        assert(pos != end);
+
+        result = pos - begin;
+
+        m_positionsCache.emplace(child, result);
+    }
+    else
+        result = it->second;
+
+    return result;
 }
 
 
