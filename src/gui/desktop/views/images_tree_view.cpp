@@ -51,9 +51,6 @@ ImagesTreeView::ImagesTreeView(QWidget* _parent):
     m_regionSelectionStartPoint(),
     m_regionSelectionActive(false)
 {
-    void (QWidget::*update_fn)() = &QWidget::update;
-    auto update_event = std::bind(update_fn, viewport());
-
     setThumbnailHeight(120);
 
     verticalScrollBar()->setSingleStep(60);
