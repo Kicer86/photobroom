@@ -61,13 +61,11 @@ class FaceReviewer: public QDialog
 
         void fetchPeople(Database::IBackend *) const;
 
-        void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &,
-                          const std::map<Photo::Id, QString> &);
+        void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &);
 
     // internal signals
     signals:
-        void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &,
-                           const std::map<Photo::Id, QString> &) const;
+        void gotPeopleInfo(const std::map<PersonName, std::vector<PersonInfo>> &) const;
 };
 
 #endif // FACEREVIEWER_HPP
