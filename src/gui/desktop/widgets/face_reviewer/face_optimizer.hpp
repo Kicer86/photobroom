@@ -48,7 +48,7 @@ class FaceOptimizer: public IModelFaceFinder
         void findBest(const std::vector<PersonInfo> &,
                       const std::function<void(const QString &)> &) override;
 
-        QString current(const Person::Id &) const override;
+        QString currentBest(const Person::Id &) const override;
 
     private:
         PeopleOperator* m_operator;

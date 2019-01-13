@@ -38,7 +38,7 @@ struct IModelFaceFinder
     virtual void findBest(const std::vector<PersonInfo> &,
                           const std::function<void(const QString &)> &) = 0;
 
-    virtual QString current(const Person::Id &) const = 0;
+    virtual QString currentBest(const Person::Id &) const = 0;
 };
 
 

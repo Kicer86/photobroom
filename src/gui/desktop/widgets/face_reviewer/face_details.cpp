@@ -58,7 +58,7 @@ FaceDetails::FaceDetails(const QString& name,
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
 
     if (pi.empty() == false)
-        apply(m_modelFaceFinder->current(pi.front().p_id));
+        apply(m_modelFaceFinder->currentBest(pi.front().p_id));
 
     occurences->setText(tr("On %n photo(s)", "", pi.size()));
 }

@@ -88,7 +88,7 @@ void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
 }
 
 
-QString FaceOptimizer::current(const Person::Id& id) const
+QString FaceOptimizer::currentBest(const Person::Id& id) const
 {
     return m_operator->getModelFace(id);
 }
