@@ -44,21 +44,15 @@
 #include "tree_item_delegate.hpp"
 
 
-using namespace std::literals::chrono_literals;
-
 ImagesTreeView::ImagesTreeView(QWidget* _parent):
     QAbstractItemView(_parent),
     m_data(new Data),
-    m_viewStatus(nullptr),
     m_previouslySelectedItem(),
     m_regionSelectionStartPoint(),
     m_regionSelectionActive(false)
 {
     void (QWidget::*update_fn)() = &QWidget::update;
     auto update_event = std::bind(update_fn, viewport());
-
-    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 200ms);
-    connect(this, &ImagesTreeView::refreshView, this, &ImagesTreeView::updateView);
 
     setThumbnailHeight(120);
 
@@ -96,7 +90,7 @@ void ImagesTreeView::invalidate()
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -402,7 +396,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
             PositionsReseter reseter(view_model, m_data.get());
             reseter.itemChanged(item);
 
-            emit refreshView();
+            updateView();
         }
     }
 }
@@ -416,7 +410,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -503,7 +497,7 @@ void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsChanged(items);
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -522,7 +516,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -543,7 +537,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     else
         reseter.itemsAdded(destinationParent, destinationRow - items, destinationRow - 1);   // (destinationRow + items - 1) - items
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -564,7 +558,7 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
     PositionsReseter reseter(model(), m_data.get());
     reseter.childRemoved(_parent, first);
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -572,4 +566,6 @@ void ImagesTreeView::updateView()
 {
     updateData();
     updateGui();
+
+    viewport()->update();
 }

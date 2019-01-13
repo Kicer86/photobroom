@@ -25,7 +25,6 @@
 #include <memory>
 #include <vector>
 
-#include <utils/signal_filter.hpp>
 
 class QTimer;
 
@@ -52,6 +51,9 @@ class ImagesTreeView: public QAbstractItemView
         int getThumbnailHeight() const;
         QRect childrenSize(const QModelIndex &) const;
 
+        // model updates
+        void updateView();
+
         // QAbstractItemView overrides:
         virtual QModelIndex indexAt(const QPoint& point) const override;
         virtual bool isIndexHidden(const QModelIndex& index) const override;
@@ -77,7 +79,6 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
-        SignalFilter m_viewStatus;
         QModelIndex m_previouslySelectedItem;
         QPoint m_regionSelectionStartPoint;
         bool m_regionSelectionActive;
@@ -101,11 +102,7 @@ class ImagesTreeView: public QAbstractItemView
         void rowsAboutToBeRemoved(const QModelIndex &, int, int) override;
         void rowsRemoved(const QModelIndex &, int, int);
 
-        // model updates
-        void updateView();
-
     signals:
-        void refreshView();
         void contentScrolled();
 };
 
