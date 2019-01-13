@@ -42,7 +42,7 @@ PositionsReseter::~PositionsReseter()
 }
 
 
-PositionsReseter::DirtyParents PositionsReseter::itemsAdded(const QModelIndex& parent, int /*from_pos*/, int to_pos) const
+void PositionsReseter::itemsAdded(const QModelIndex& parent, int /*from_pos*/, int to_pos) const
 {
     //invalidate parent
     invalidateItemOverallSize(parent);
@@ -50,23 +50,19 @@ PositionsReseter::DirtyParents PositionsReseter::itemsAdded(const QModelIndex& p
     //invalidate all items which are after 'to_pos'
     const QModelIndex item = m_model->index(to_pos, 0, parent);
     invalidateSiblingsPosition(item);
-
-    return {parent};
 }
 
 
-PositionsReseter::DirtyParents PositionsReseter::invalidateAll() const
+void PositionsReseter::invalidateAll() const
 {
     m_data->for_each([](ModelIndexInfo& info)
     {
         info.cleanRects();
     });
-
-    return {QModelIndex()};
 }
 
 
-PositionsReseter::DirtyParents PositionsReseter::itemChanged(const QModelIndex& idx)
+void PositionsReseter::itemChanged(const QModelIndex& idx)
 {
     //invalidate parent's overallRect + positions of parent's siblings
     const QModelIndex parent = idx.parent();
@@ -79,17 +75,13 @@ PositionsReseter::DirtyParents PositionsReseter::itemChanged(const QModelIndex& 
 
     //invalidate all items which are after 'pos'
     invalidateSiblingsPosition(idx);
-
-    return {parent};
 }
 
 
-PositionsReseter::DirtyParents PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
+void PositionsReseter::itemsChanged(const QItemSelection& selectedItems)
 {
     const QModelIndexList items = selectedItems.indexes();
     const int s = items.count();
-
-    DirtyParents dirty;
 
     if (s > 0)
     {
@@ -110,15 +102,11 @@ PositionsReseter::DirtyParents PositionsReseter::itemsChanged(const QItemSelecti
 
         //invalidate all items which are after 'pos'
         invalidateSiblingsPosition(last);
-
-        dirty.append(parent);
     }
-
-    return dirty;
 }
 
 
-PositionsReseter::DirtyParents PositionsReseter::childRemoved(const QModelIndex& parent, int pos)
+void PositionsReseter::childRemoved(const QModelIndex& parent, int pos)
 {
     //invalidate parent if expanded
     const ModelIndexInfo& parentInfo = m_data->get(parent);
@@ -129,8 +117,6 @@ PositionsReseter::DirtyParents PositionsReseter::childRemoved(const QModelIndex&
     //invalidate all items which are after 'pos'
     for(QModelIndex child = m_model->index(pos, 0, parent); child.isValid(); child = utils::next(child))
         resetPosition(child);
-
-    return {parent};
 }
 
 
