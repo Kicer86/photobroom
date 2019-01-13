@@ -74,6 +74,7 @@ class PeopleOperator final: public QObject
 
         // reading faces from photo
         void getFace(const PersonInfo &);
+        QImage getFaceSync(const PersonInfo &);
 
     signals:
         void system_status(const bool, const QString &) const;

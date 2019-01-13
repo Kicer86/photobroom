@@ -598,11 +598,20 @@ void PeopleOperator::getFace(const PersonInfo& pi)
 {
     runOn(m_coreFactory->getTaskExecutor(), [pi, this]
     {
-        const QString path = pathFor(m_db, pi.ph_id);
-        const QRect& faceRect = pi.rect;
-        const QImage photo = Image::normalized(path, m_coreFactory->getExifReaderFactory()->get());
-        const QImage faceImg = photo.copy(faceRect);
+        const QImage faceImg = getFaceSync(pi);
 
         emit face(pi, faceImg);
     });
 }
+
+
+QImage PeopleOperator::getFaceSync(const PersonInfo& pi)
+{
+    const QString path = pathFor(m_db, pi.ph_id);
+    const QRect& faceRect = pi.rect;
+    const QImage photo = Image::normalized(path, m_coreFactory->getExifReaderFactory()->get());
+    const QImage faceImg = photo.copy(faceRect);
+
+    return faceImg;
+}
+
