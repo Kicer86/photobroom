@@ -334,12 +334,12 @@ IdxNodeData::~IdxNodeData()
 
 IIdxData* IdxNodeData::addChild(IIdxData::Ptr&& child)
 {
-    assert(isNode(this));                    // child (leaf) cannot accept any child
     assert(child->parent() == nullptr);      // child should not have parent
 
     const long pos = findPositionFor(child.get());
     child->setParent(this);
     m_children.insert(m_children.cbegin() + pos, std::move(child));
+    m_positionsCache.clear();               // not valid since this point
 
     IIdxData* item = m_children[pos].get();
     m_manager->idxDataCreated(item);
@@ -369,6 +369,7 @@ IIdxData::Ptr IdxNodeData::takeChild(IIdxData* child)
 
     IIdxData::Ptr childPtr = std::move(m_children[pos]);
     m_children.erase(m_children.cbegin() + pos);
+    m_positionsCache.clear();                               // position cache is not valid anymore
 
     childPtr->setParent(nullptr);
 
@@ -382,20 +383,44 @@ const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
 }
 
 
-long IdxNodeData::getPositionOf(const IIdxData* child) const
+std::size_t IdxNodeData::getPositionOf(const IIdxData* child) const
 {
-    auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
-    auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+    // Finding position of child takes time.
+    // So we use cache here
+    std::size_t result = 0;
 
-    const auto pos = std::find(begin, end, child);
+    const auto it = m_positionsCache.find(child);
 
-    assert(pos != end);
+    if (it == m_positionsCache.end())
+    {
+        assert(sortingRequired() == false);
 
-    return pos - begin;
+        auto begin = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cbegin());
+        auto end = ptr_iterator<std::vector<IIdxData::Ptr>>(m_children.cend());
+
+        const auto pos = std::find(begin, end, child);
+
+        assert(pos != end);
+
+        result = static_cast<std::size_t>(pos - begin);
+
+        m_positionsCache.emplace(child, result);
+    }
+    else
+    {
+        assert(m_positionsCache.size() <= m_children.size());    // is cache corrupted?
+
+        result = it->second;
+
+        assert(result < m_children.size());
+        assert(m_children[result].get() == child);               // is cache corrupted?
+    }
+
+    return result;
 }
 
 
-long IdxNodeData::findPositionFor(const IIdxData* child) const
+std::size_t IdxNodeData::findPositionFor(const IIdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 

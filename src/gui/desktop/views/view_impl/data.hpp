@@ -34,7 +34,7 @@ struct IConfiguration;
 class APhotoInfoModel;
 
 
-class Data: public IViewDataSet
+class Data: public QObject
 {
     public:
         Data();
@@ -65,6 +65,7 @@ class Data: public IViewDataSet
         const QAbstractItemModel* getQtModel() const;
 
         void for_each(const std::function<void(ModelIndexInfo &)> &);
+
         std::size_t size() const;
 
         int getSpacing() const;
@@ -82,17 +83,14 @@ class Data: public IViewDataSet
         QModelIndex getFirst(const QModelIndex &) const;
         QModelIndex getLast(const QModelIndex &) const;
 
-        void modelReset() override;
-        void rowsAboutToBeRemoved(const QModelIndex & , int , int ) override;
+        void modelReset();
+        void rowsAboutToBeRemoved(const QModelIndex & , int , int);
         void rowsRemoved(const QModelIndex &, int, int);
-        void rowsInserted(const QModelIndex & , int , int ) override;
+        void rowsInserted(const QModelIndex & , int , int);
 
     private:
-#ifdef UNIT_TESTS_BUILD
-        typedef ViewDataSet<ModelIndexInfo, QPersistentModelIndex, ViewData::constructPersistent> ModelIndexInfoSet;
-#else
-        typedef ViewDataSet<ModelIndexInfo, quintptr, ViewData::constructId> ModelIndexInfoSet;
-#endif
+        typedef ViewDataSet<ModelIndexInfo> ModelIndexInfoSet;
+
         std::unique_ptr<ModelIndexInfoSet> m_itemData;
         APhotoInfoModel* m_model;
         IConfiguration* m_configuration;

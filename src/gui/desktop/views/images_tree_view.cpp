@@ -44,26 +44,13 @@
 #include "tree_item_delegate.hpp"
 
 
-using namespace std::literals::chrono_literals;
-
 ImagesTreeView::ImagesTreeView(QWidget* _parent):
     QAbstractItemView(_parent),
     m_data(new Data),
-    m_viewStatus(nullptr),
     m_previouslySelectedItem(),
     m_regionSelectionStartPoint(),
-    m_dataDirty(true),
     m_regionSelectionActive(false)
 {
-    void (QWidget::*update_fn)() = &QWidget::update;
-    auto update_event = std::bind(update_fn, viewport());
-
-    m_viewStatus.connect(this, SIGNAL(refreshView()), update_event, 200ms);
-    connect(this, &ImagesTreeView::refreshView, [this]()
-    {
-        m_dataDirty = true;
-    });
-
     setThumbnailHeight(120);
 
     verticalScrollBar()->setSingleStep(60);
@@ -100,7 +87,7 @@ void ImagesTreeView::invalidate()
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -133,10 +120,8 @@ QModelIndex ImagesTreeView::indexAt(const QPoint& point) const
 }
 
 
-bool ImagesTreeView::isIndexHidden(const QModelIndex& index) const
+bool ImagesTreeView::isIndexHidden(const QModelIndex &) const
 {
-    (void) index;
-
     return false;
 }
 
@@ -292,8 +277,6 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 {
     TIME_GUARDIAN("ImagesTreeView::paintEvent", 100, "long paint");
 
-    updateView();
-
     const PositionsTranslator translator(m_data.get());
 
     QPainter painter(viewport());
@@ -410,7 +393,7 @@ void ImagesTreeView::mouseReleaseEvent(QMouseEvent* e)
             PositionsReseter reseter(view_model, m_data.get());
             reseter.itemChanged(item);
 
-            emit refreshView();
+            updateView();
         }
     }
 }
@@ -424,7 +407,7 @@ void ImagesTreeView::resizeEvent(QResizeEvent* e)
     PositionsReseter reseter(model(), m_data.get());
     reseter.invalidateAll();
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -441,8 +424,6 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
 std::vector<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 {
-    updateView();
-
     QRect normalized_rect = _rect.normalized();
 
     const std::vector<QModelIndex> result = m_data->findInRect(normalized_rect);
@@ -470,7 +451,7 @@ void ImagesTreeView::setSelection(const QModelIndex& from, const QModelIndex& to
 }
 
 
-void ImagesTreeView::updateData()
+void ImagesTreeView::updateItemsPoisitons()
 {
     QAbstractItemModel* m = QAbstractItemView::model();
 
@@ -478,12 +459,12 @@ void ImagesTreeView::updateData()
     if (m != nullptr && m->rowCount() > 0)
     {
         PositionsCalculator calculator(m_data.get(), viewport()->width());
-        calculator.updateItems();
+        calculator.update();
     }
 }
 
 
-void ImagesTreeView::updateGui()
+void ImagesTreeView::adjustScrollbars()
 {
     const ModelIndexInfo& info = m_data->get(QModelIndex());
 
@@ -513,7 +494,7 @@ void ImagesTreeView::dataChanged(const QModelIndex& topLeft, const QModelIndex& 
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsChanged(items);
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -532,7 +513,7 @@ void ImagesTreeView::rowsInserted(const QModelIndex& _parent, int from, int to)
     PositionsReseter reseter(model(), m_data.get());
     reseter.itemsAdded(_parent, from, to);
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -553,7 +534,7 @@ void ImagesTreeView::rowsMoved(const QModelIndex & sourceParent, int sourceStart
     else
         reseter.itemsAdded(destinationParent, destinationRow - items, destinationRow - 1);   // (destinationRow + items - 1) - items
 
-    emit refreshView();
+    updateView();
 }
 
 
@@ -574,17 +555,16 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
     PositionsReseter reseter(model(), m_data.get());
     reseter.childRemoved(_parent, first);
 
-    emit refreshView();
+    updateView();
 }
 
 
 void ImagesTreeView::updateView()
 {
-    if (m_dataDirty)
-    {
-        updateData();
-        updateGui();
+    TIME_GUARDIAN("ImagesTreeView::updateView", 100, "long view update");
 
-        m_dataDirty = false;
-    }
+    updateItemsPoisitons();
+    adjustScrollbars();
+
+    viewport()->update();
 }

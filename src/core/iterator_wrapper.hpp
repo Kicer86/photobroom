@@ -43,7 +43,7 @@ class iterator_wrapper: private B
             return *base - other;
         }
 
-        int operator-(const iterator& other) const
+        typename B::difference_type operator-(const iterator& other) const
         {
             const B* base = this;
             return *base - other;

@@ -61,10 +61,10 @@ TEST_F(PositionsCalculatorShould, KeepTopItemSizeEmptyWhenModelIsEmpty)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, 100);
-    calculator.updateItems();
+    calculator.update();
 
     const ModelIndexInfo& info = data.get(top);
 
@@ -99,10 +99,10 @@ TEST_F(PositionsCalculatorShould, SetTopItemsSizeToEmptyEvenIfThereIsAChild)
 
     const int margin  = data.getImageMargin();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = data.get(QModelIndex());
@@ -144,7 +144,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     const int header_h = 40;
     const int thumb_h = view_data.getThumbnailDesiredHeight();
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     // setup expectations
     Photo::Data photoDetails;
@@ -160,7 +160,7 @@ TEST_F(PositionsCalculatorShould, SetMainNodeSizeToCoverItsChild)
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = view_data.get(QModelIndex());
@@ -216,14 +216,14 @@ TEST_F(PositionsCalculatorShould, SetMainNodesSizeToCoverItsChildren)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand second node to show children
     ModelIndexInfo& top_info2 = view_data.get(top_idx2->index());
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info2 = view_data.get(top_idx2->index());
@@ -274,14 +274,14 @@ TEST_F(PositionsCalculatorShould, MoveChildToNextRowIfThereIsNotEnoughtSpace)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand main node to show children
     ModelIndexInfo& top_info = view_data.get(top->index());
     top_info.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info = view_data.get(top->index());
@@ -312,7 +312,8 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    //ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap(img);
     const QIcon icon(pixmap);
@@ -365,7 +366,7 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     }
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     //// test
     ModelIndexInfo& top_info = data.get(top->index());
@@ -374,7 +375,7 @@ TEST_F(PositionsCalculatorShould, NotTakeIntoAccountInvisibleItemsWhenCalculatin
     PositionsReseter reseter(&model, &data);
     reseter.itemChanged(top->index());
 
-    calculator.updateItems();
+    calculator.update();
 
     //expectations
     {
@@ -399,7 +400,7 @@ TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
 
     const int spacing = data.getSpacing();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -432,7 +433,7 @@ TEST_F(PositionsCalculatorShould, FollowDatasThumbnailHeightHint)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect both images to get resized to match height = 50px
@@ -460,7 +461,7 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     const int spacing = data.getSpacing();
     const int margin  = data.getImageMargin();
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -494,7 +495,7 @@ TEST_F(PositionsCalculatorShould, HandleWideImages)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect first image to take whole row.
@@ -551,7 +552,7 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     EXPECT_CALL(model, getPhotoDetails(_)).WillRepeatedly(ReturnRef(photoDetails));
     //
 
-    ViewDataModelObserver mo(&view_data, &model);
+    connectModelAndView(&model, &view_data);
 
     //expand nodes to show children
     ModelIndexInfo& top_info1 = view_data.get(top_idx1->index());
@@ -561,7 +562,7 @@ TEST_F(PositionsCalculatorShould, SetChildrenPositionRelativeToParents)
     top_info2.expanded = true;
 
     PositionsCalculator calculator(&view_data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     {
         const ModelIndexInfo& info1 = view_data.get(top1_child1_idx->index());
@@ -584,7 +585,7 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     data.setImageMargin(0);
     data.setThumbnailDesiredHeight(10);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
 
@@ -614,7 +615,7 @@ TEST_F(PositionsCalculatorShould, SetRightPositionsToFramelessChildren)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 50);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     std::vector<QRect> rects;
     const QRect rectt = translator.getAbsoluteRect(top->index());

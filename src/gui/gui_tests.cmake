@@ -30,7 +30,6 @@ addTestTarget(gui
                     desktop/views/view_impl/positions_calculator.cpp
                     desktop/views/view_impl/positions_reseter.cpp
                     desktop/views/view_impl/positions_translator.cpp
-                    desktop/views/view_impl/view_data_set.cpp
 
                     desktop/utils/model_index_utils.cpp
 

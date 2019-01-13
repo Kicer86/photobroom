@@ -46,8 +46,7 @@ class PositionsReseterShould: public ::testing::Test
             child3_2(),
             child3_3(),
             child3_4(),
-            child3_5(),
-            mo()
+            child3_5()
         {
         }
 
@@ -60,7 +59,7 @@ class PositionsReseterShould: public ::testing::Test
 
             data.set(&model);
 
-            mo.reset( new ViewDataModelObserver(&data, &model) );
+            connectModelAndView(&model, &data);
 
             top = new QStandardItem("Empty");
             child1 = new QStandardItem(icon, "Empty1");
@@ -147,8 +146,6 @@ class PositionsReseterShould: public ::testing::Test
         QStandardItem* child3_3;
         QStandardItem* child3_4;
         QStandardItem* child3_5;
-
-        std::unique_ptr<ViewDataModelObserver> mo;
 };
 
 
@@ -156,7 +153,7 @@ TEST_F(PositionsReseterShould, BeConstructable)
 {
     EXPECT_NO_THROW({
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
 
         PositionsReseter reseter(&model, &data);
     });
@@ -174,7 +171,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNewChildIsAdded)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -229,7 +226,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildIsRemoved)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -292,7 +289,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenChildChanged)
 
     {
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -365,7 +362,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenNodeChanges)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -421,7 +418,7 @@ TEST_F(PositionsReseterShould, ResetAllItemsWhenAllAreToBeInvalidated)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -480,7 +477,7 @@ TEST_F(PositionsReseterShould, ResetProperItemsWhenParentChanged)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     //// test
@@ -544,7 +541,7 @@ TEST_F(PositionsReseterShould, ResetSiblingsWhenItemRemoved)
         top2_info.expanded = true;
 
         PositionsCalculator calculator(&data, canvas_w);
-        calculator.updateItems();
+        calculator.update();
     }
 
     // test
@@ -602,7 +599,7 @@ TEST_F(PositionsReseterShould, NotResetParentOrItsSiblingsWhenParentIsCollapsedA
 {
     //prepare data
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // test
     model.removeRow(0, top->index());
@@ -632,7 +629,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenNewOneAppear)
 {
     //prepare data
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // test
     QStandardItem* new_top0 = new QStandardItem("Empty");
@@ -666,7 +663,7 @@ TEST_F(PositionsReseterShould, InvalidateProperTopItemsWhenOneOfTopItemsIsBeingR
 {
     //prepare data
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     // test
     model.removeRow(1);

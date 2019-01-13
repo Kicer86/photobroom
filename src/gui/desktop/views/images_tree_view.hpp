@@ -25,7 +25,6 @@
 #include <memory>
 #include <vector>
 
-#include <utils/signal_filter.hpp>
 
 class QTimer;
 
@@ -77,10 +76,8 @@ class ImagesTreeView: public QAbstractItemView
 
     private:
         std::unique_ptr<Data> m_data;
-        SignalFilter m_viewStatus;
         QModelIndex m_previouslySelectedItem;
         QPoint m_regionSelectionStartPoint;
-        bool m_dataDirty;
         bool m_regionSelectionActive;
 
         // view stuff
@@ -90,8 +87,8 @@ class ImagesTreeView: public QAbstractItemView
         void setSelection(const QModelIndex &, const QModelIndex &, QItemSelectionModel::SelectionFlags);
 
         // widget operations
-        void updateData();
-        void updateGui();
+        void updateItemsPoisitons();
+        void adjustScrollbars();
         QPoint getOffset() const;
 
     private slots:
@@ -106,7 +103,6 @@ class ImagesTreeView: public QAbstractItemView
         void updateView();
 
     signals:
-        void refreshView();
         void contentScrolled();
 };
 

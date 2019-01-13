@@ -54,7 +54,7 @@ TEST_F(DataShould, ContainOnlyRootNodeAfterClear)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     EXPECT_EQ(1, data.size());
 }
@@ -65,7 +65,7 @@ TEST_F(DataShould, ReturnEmptyInfoStructWhenAskedAboutNotExistingItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(info.valid(), false);
@@ -79,7 +79,7 @@ TEST_F(DataShould, SetInitialDataForRootItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const ModelIndexInfo& info = data.get(QModelIndex());
     EXPECT_EQ(true, info.expanded);
@@ -94,7 +94,7 @@ TEST_F(DataShould, StoreInfoAboutItem)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     ModelIndexInfo& info = data.get(QModelIndex());
     info.expanded = true;
@@ -113,7 +113,7 @@ TEST_F(DataShould, MarkTopItemsAsVisible)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     submodel.appendRow(top);
@@ -133,7 +133,7 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -160,7 +160,7 @@ TEST_F(DataShould, NotReturnInvisibleItems)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect1 = translator.getAbsoluteRect(child1->index());
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
@@ -191,7 +191,7 @@ TEST_F(DataShould, ReturnItemsByPoint)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -218,7 +218,7 @@ TEST_F(DataShould, ReturnItemsByPoint)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect1 = translator.getAbsoluteRect(child1->index());
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
@@ -245,7 +245,7 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -270,7 +270,7 @@ TEST_F(DataShould, NotForgetItemSizeWhenParentCollapsedAndExpanded)
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const auto& f_info1 = data.get(child1->index());
     const auto& f_info2 = data.get(child2->index());
@@ -314,7 +314,7 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     Data data;
     data.set(&model);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child1 = new QStandardItem(icon, "Empty1");
@@ -339,7 +339,7 @@ TEST_F(DataShould, HideChildrenOfCollapsedNode)
     info.expanded = true;
 
     PositionsCalculator positions_calculator(&data, 100);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     //collapse top
     info.expanded = false;
@@ -369,7 +369,7 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     data.set(&model);
     data.setThumbnailDesiredHeight(50);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     const QPixmap pixmap1(img1);
     const QIcon icon1(pixmap1);
@@ -402,10 +402,10 @@ TEST_F(DataShould, ResizeImageAccordinglyToThumbnailHeightHint)
     //
 
     PositionsCalculator calculator(&data, canvas_w);
-    calculator.updateItems();
+    calculator.update();
 
     //// test
-    calculator.updateItems();
+    calculator.update();
 
     // Expectations:
     // We expect both images to get resized to match height = 50px
@@ -436,7 +436,7 @@ TEST_F(DataShould, ReturnItemsInRect)
     data.setImageMargin(0);
     data.setThumbnailDesiredHeight(10);
 
-    ViewDataModelObserver mo(&data, &model);
+    connectModelAndView(&model, &data);
 
     QStandardItem* top = new QStandardItem("Empty");
     QStandardItem* child0 = new QStandardItem(icon, "Empty0");
@@ -479,7 +479,7 @@ TEST_F(DataShould, ReturnItemsInRect)
     PositionsTranslator translator(&data);
 
     PositionsCalculator positions_calculator(&data, 50);
-    positions_calculator.updateItems();
+    positions_calculator.update();
 
     const QRect rect2 = translator.getAbsoluteRect(child2->index());
     const QRect rect3 = translator.getAbsoluteRect(child3->index());
