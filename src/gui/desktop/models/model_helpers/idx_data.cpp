@@ -383,11 +383,11 @@ const std::vector<IIdxData::Ptr>& IdxNodeData::getChildren() const
 }
 
 
-long IdxNodeData::getPositionOf(const IIdxData* child) const
+std::size_t IdxNodeData::getPositionOf(const IIdxData* child) const
 {
     // Finding position of child takes time.
     // So we use cache here
-    long result = -1;
+    std::size_t result = 0;
 
     const auto it = m_positionsCache.find(child);
 
@@ -402,7 +402,7 @@ long IdxNodeData::getPositionOf(const IIdxData* child) const
 
         assert(pos != end);
 
-        result = pos - begin;
+        result = static_cast<std::size_t>(pos - begin);
 
         m_positionsCache.emplace(child, result);
     }
@@ -412,8 +412,7 @@ long IdxNodeData::getPositionOf(const IIdxData* child) const
 
         result = it->second;
 
-        assert(result >= 0);
-        assert(static_cast<std::size_t>(result) < m_children.size());
+        assert(result < m_children.size());
         assert(m_children[result].get() == child);               // is cache corrupted?
     }
 
@@ -421,7 +420,7 @@ long IdxNodeData::getPositionOf(const IIdxData* child) const
 }
 
 
-long IdxNodeData::findPositionFor(const IIdxData* child) const
+std::size_t IdxNodeData::findPositionFor(const IIdxData* child) const
 {
     IdxDataComparer<TagValueComparer> comparer(m_order);
 

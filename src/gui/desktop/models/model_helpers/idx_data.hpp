@@ -121,8 +121,8 @@ class IdxNodeData: public IdxData
         IIdxData::Ptr takeChild(IIdxData* child);                  // function acts as removeChild but does not delete children
 
         const std::vector<Ptr>& getChildren() const;
-        long getPositionOf(const IIdxData* child) const;           // returns position of children
-        long findPositionFor(const IIdxData* child) const;         // returns position where child matches
+        std::size_t getPositionOf(const IIdxData* child) const;    // returns position of children
+        std::size_t findPositionFor(const IIdxData* child) const;  // returns position where child matches
         IIdxData* findChildWithBadPosition() const;                // returns first child which lies in a wrong place
         bool sortingRequired() const;
 
@@ -131,7 +131,7 @@ class IdxNodeData: public IdxData
 
     private:
         std::vector<Ptr> m_children;
-        mutable std::unordered_map<const IIdxData *, long> m_positionsCache;
+        mutable std::unordered_map<const IIdxData *, std::size_t> m_positionsCache;
 
         virtual void visitMe(IIdxDataVisitor *) const override;
 };
