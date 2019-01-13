@@ -41,7 +41,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
     m_operator(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition),
                prj->getDatabase(),
                core),
-    m_optimizer(prj->getDatabase(), core, &m_operator),
+    m_optimizer(core, &m_operator),
     m_tmpDir(System::getTmpDir("FaceReviewer")),
     m_db(prj->getDatabase()),
     m_core(core),

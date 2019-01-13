@@ -233,7 +233,6 @@ QSize PositionsCalculator::getItemSize(const QModelIndex& idx) const
 
 std::pair<int, int> PositionsCalculator::selectRowFor(const QModelIndex& idx) const
 {
-    std::pair<int, int> result;
     QModelIndex searchIdx = idx;
     QModelIndex firstIdx = idx;
     QModelIndex lastIdx = idx;

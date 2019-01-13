@@ -29,12 +29,10 @@
 #include "utils/people_operator.hpp"
 
 
-FaceOptimizer::FaceOptimizer(Database::IDatabase* db,
-                             ICoreFactoryAccessor* core,
+FaceOptimizer::FaceOptimizer(ICoreFactoryAccessor* core,
                              PeopleOperator* op):
     m_operator(op),
     m_tmpDir(System::getTmpDir("FaceOptimizer")),
-    m_db(db),
     m_core(core)
 {
 }

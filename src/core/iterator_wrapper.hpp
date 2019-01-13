@@ -96,7 +96,6 @@ class iterator_wrapper: private B
         T m_operation;
 };
 
-template<>
 template<typename R, typename B, typename T>
 struct std::iterator_traits<iterator_wrapper<R, B, T>>: std::iterator_traits<B> { };
 

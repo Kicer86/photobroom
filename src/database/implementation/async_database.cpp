@@ -215,7 +215,7 @@ namespace Database
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        exec([this, data](IBackend* backend)
+        exec([data](IBackend* backend)
         {
             const bool status = backend->update(data);
             assert(status);

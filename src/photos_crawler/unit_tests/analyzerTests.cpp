@@ -32,5 +32,5 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                             AnalyzerExpectations{"a.avi",            true  },
                             AnalyzerExpectations{"mkv",              false },
                             AnalyzerExpectations{"/home/q.mkv",      true  }
-                        )
+                        ),
 );

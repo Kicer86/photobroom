@@ -61,8 +61,7 @@ void runOn(ITaskExecutor* executor, Callable&& callable)
         }
 
         private:
-            typedef typename std::remove_reference<Callable>::type CallableT;
-            CallableT m_callable;
+            typename std::remove_reference<Callable>::type m_callable;
     };
 
     auto task = std::make_unique<GenericTask>(std::forward<Callable>(callable));

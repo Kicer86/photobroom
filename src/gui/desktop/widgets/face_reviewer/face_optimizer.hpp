@@ -38,8 +38,7 @@ class PeopleOperator;
 class FaceOptimizer: public IModelFaceFinder
 {
     public:
-        FaceOptimizer(Database::IDatabase *,
-                      ICoreFactoryAccessor *,
+        FaceOptimizer(ICoreFactoryAccessor *,
                       PeopleOperator *);
 
         ~ FaceOptimizer();
@@ -56,7 +55,6 @@ class FaceOptimizer: public IModelFaceFinder
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;
         std::map<Photo::Id, QString> m_photo2path;
-        Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_core;
 
         std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &);
