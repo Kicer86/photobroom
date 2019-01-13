@@ -69,7 +69,7 @@ class FaceDetails: public QGroupBox
         void setModelPhoto(const QImage &);
 
         void optimize();
-        void apply(const QString &);
+        void updateRepresentative(const QString &);
         void addFace(const PersonInfo &, const QImage &);
 };
 

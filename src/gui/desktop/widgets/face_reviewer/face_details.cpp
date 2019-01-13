@@ -66,7 +66,7 @@ FaceDetails::FaceDetails(const QString& name,
     connect(m_operator, &PeopleOperator::face, this, &FaceDetails::addFace);
 
     if (pi.empty() == false)
-        apply(m_modelFaceFinder->currentBest(pi.front().p_id));
+        updateRepresentative(m_modelFaceFinder->currentBest(pi.front().p_id));
 
     occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
 
@@ -95,14 +95,14 @@ void FaceDetails::optimize()
     m_optButton->clearFocus();
     m_optButton->setDisabled(true);
 
-    std::function<void(const QString &)> callback = std::bind(&FaceDetails::apply, this, _1);
+    std::function<void(const QString &)> callback = std::bind(&FaceDetails::updateRepresentative, this, _1);
     auto safe_callback = make_cross_thread_function<const QString &>(this, callback);
 
     m_modelFaceFinder->findBest(m_pi, safe_callback);
 }
 
 
-void FaceDetails::apply(const QString& path)
+void FaceDetails::updateRepresentative(const QString& path)
 {
     m_optButton->setEnabled(true);
 
