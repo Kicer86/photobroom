@@ -451,7 +451,7 @@ void ImagesTreeView::setSelection(const QModelIndex& from, const QModelIndex& to
 }
 
 
-void ImagesTreeView::updateData()
+void ImagesTreeView::updateItemsPoisitons()
 {
     QAbstractItemModel* m = QAbstractItemView::model();
 
@@ -464,7 +464,7 @@ void ImagesTreeView::updateData()
 }
 
 
-void ImagesTreeView::updateGui()
+void ImagesTreeView::adjustScrollbars()
 {
     const ModelIndexInfo& info = m_data->get(QModelIndex());
 
@@ -561,8 +561,8 @@ void ImagesTreeView::rowsRemoved(const QModelIndex& _parent, int first, int last
 
 void ImagesTreeView::updateView()
 {
-    updateData();
-    updateGui();
+    updateItemsPoisitons();
+    adjustScrollbars();
 
     viewport()->update();
 }

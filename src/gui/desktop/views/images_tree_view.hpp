@@ -87,8 +87,8 @@ class ImagesTreeView: public QAbstractItemView
         void setSelection(const QModelIndex &, const QModelIndex &, QItemSelectionModel::SelectionFlags);
 
         // widget operations
-        void updateData();
-        void updateGui();
+        void updateItemsPoisitons();
+        void adjustScrollbars();
         QPoint getOffset() const;
 
     private slots:
