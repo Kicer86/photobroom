@@ -44,12 +44,6 @@ FaceOptimizer::~FaceOptimizer()
 }
 
 
-void FaceOptimizer::set(const std::map<Photo::Id, QString>& paths)
-{
-    m_photo2path = paths;
-}
-
-
 void FaceOptimizer::findBest(const std::vector<PersonInfo>& pis,
                              const std::function<void(const QString &)>& callback)
 {
@@ -99,22 +93,12 @@ std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonI
     std::map<QString, PersonInfo> results;
     for(const PersonInfo& pi: pis)
     {
-        auto it = m_photo2path.find(pi.ph_id);
+        const QImage face = m_operator->getFaceSync(pi);
+        const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
-        assert(it != m_photo2path.end());
+        face.save(file_path);
 
-        if (it != m_photo2path.end())
-        {
-            const QString& path = it->second;
-            const QRect& faceRect = pi.rect;
-            const QImage photo = Image::normalized(path, m_core->getExifReaderFactory()->get());
-            const QImage face = photo.copy(faceRect);
-            const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
-
-            face.save(file_path);
-
-            results.emplace(file_path, pi);
-        }
+        results.emplace(file_path, pi);
     }
 
     return results;
