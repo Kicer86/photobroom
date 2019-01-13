@@ -72,12 +72,16 @@ class PeopleOperator final: public QObject
         void setModelFace(const PersonInfo &);
         void setModelFaceSync(const PersonInfo &);
 
+        // reading faces from photo
+        void getFace(const PersonInfo &);
+
     signals:
         void system_status(const bool, const QString &) const;
         void faces(const QVector<QRect> &) const;
         void recognized(const QRect &, const PersonName &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;
         void modelFaceSet(const Person::Id &) const;
+        void face(const PersonInfo &, const QImage &) const;
 
     private:
         const QString m_storage;

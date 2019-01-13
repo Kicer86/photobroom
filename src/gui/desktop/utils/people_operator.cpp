@@ -50,6 +50,17 @@ struct ExecutorTraits<Database::IDatabase, T>
 namespace
 {
     const QString faces_recognized_flag = QStringLiteral("faces_recognized");
+
+    QString pathFor(Database::IDatabase* db, const Photo::Id& id)
+    {
+        return evaluate<QString(Database::IBackend *)>(db, [id, db](Database::IBackend *)
+        {
+            Database::IUtils* db_utils = db->utils();
+            auto photo = db_utils->getPhotoFor(id);
+
+            return photo->getPath();
+        });
+    }
 }
 
 
@@ -580,4 +591,18 @@ void PeopleOperator::setModelFace(const PersonInfo& pi)
 void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
 {
     ModelFaceStore(pi, m_db, m_coreFactory, m_storage).perform();
+}
+
+
+void PeopleOperator::getFace(const PersonInfo& pi)
+{
+    runOn(m_coreFactory->getTaskExecutor(), [pi, this]
+    {
+        const QString path = pathFor(m_db, pi.ph_id);
+        const QRect& faceRect = pi.rect;
+        const QImage photo = Image::normalized(path, m_coreFactory->getExifReaderFactory()->get());
+        const QImage faceImg = photo.copy(faceRect);
+
+        emit face(pi, faceImg);
+    });
 }
