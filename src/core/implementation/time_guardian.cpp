@@ -46,7 +46,7 @@ TimeGuardian::~TimeGuardian()
     const auto diff = end - m_data->m_start;
     const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
 
-    if (diff_ms > m_data->m_limit)
+    if (diff_ms >= m_data->m_limit)
         std::cerr << m_data->m_title << ": " << diff_ms << "ms. " << m_data->m_limitMessage << std::endl;
 }
 
