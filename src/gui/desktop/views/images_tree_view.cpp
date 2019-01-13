@@ -433,8 +433,6 @@ const QRect ImagesTreeView::getItemRect(const QModelIndex& index) const
 
 std::vector<QModelIndex> ImagesTreeView::findItemsIn(const QRect& _rect)
 {
-    updateView();
-
     QRect normalized_rect = _rect.normalized();
 
     const std::vector<QModelIndex> result = m_data->findInRect(normalized_rect);
