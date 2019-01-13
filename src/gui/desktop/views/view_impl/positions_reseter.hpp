@@ -29,16 +29,18 @@ class QItemSelection;
 class PositionsReseter
 {
     public:
+        typedef QModelIndexList DirtyParents;
+
         PositionsReseter(QAbstractItemModel *, Data *);
         PositionsReseter(const PositionsReseter &) = delete;
         ~PositionsReseter();
         PositionsReseter& operator=(const PositionsReseter &) = delete;
 
-        void itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
-        void invalidateAll() const;
-        void itemChanged(const QModelIndex &);
-        void itemsChanged(const QItemSelection &);
-        void childRemoved(const QModelIndex& parent, int pos);
+        DirtyParents itemsAdded(const QModelIndex& parent, int from_pos, int to_pos) const;
+        DirtyParents invalidateAll() const;
+        DirtyParents itemChanged(const QModelIndex &);
+        DirtyParents itemsChanged(const QItemSelection &);
+        DirtyParents childRemoved(const QModelIndex& parent, int pos);
 
     private:
         Data* m_data;
