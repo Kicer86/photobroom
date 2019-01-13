@@ -27,12 +27,15 @@
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 
+#include "utils/people_operator.hpp"
+
 using namespace std::placeholders;
 
 
 FaceDetails::FaceDetails(const QString& name,
                          IModelFaceFinder* finder,
                          ITaskExecutor* executor,
+                         PeopleOperator* po,
                          const std::vector<PersonInfo>& pi,
                          QWidget* p):
     QGroupBox(name, p),
@@ -40,6 +43,7 @@ FaceDetails::FaceDetails(const QString& name,
     m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
+    m_operator(po),
     m_modelFaceFinder(finder)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
@@ -47,20 +51,29 @@ FaceDetails::FaceDetails(const QString& name,
     m_optButton = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
     QLabel* occurences = new QLabel(this);
+    QWidget* gallery = new QWidget(this);
+    m_gallery = new QHBoxLayout(gallery);
 
     dl->addWidget(occurences);
     dl->addWidget(m_optButton);
 
     l->addWidget(m_photo);
     l->addLayout(dl);
+    l->addWidget(gallery);
     l->addStretch();
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
+    connect(m_operator, &PeopleOperator::face, this, &FaceDetails::addFace);
 
     if (pi.empty() == false)
         apply(m_modelFaceFinder->currentBest(pi.front().p_id));
 
-    occurences->setText(tr("On %n photo(s)", "", pi.size()));
+    occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
+
+    for(const PersonInfo& info: m_pi)
+    {
+        m_operator->getFace(info);
+    }
 }
 
 
@@ -103,5 +116,19 @@ void FaceDetails::apply(const QString& path)
             // do not call slot directly - make sure it will be called from main thread
             QMetaObject::invokeMethod(this, "setModelPhoto", Q_ARG(QImage, scaled));
         });
+    }
+}
+
+
+void FaceDetails::addFace(const PersonInfo& pi, const QImage& image)
+{
+    if (m_pi.empty() == false && m_pi.front().p_id == pi.p_id)  // TODO: PeopleOperator will broadcast. This is not nice.
+    {
+        const QImage scaled = image.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        QPixmap facePx = QPixmap::fromImage(scaled);
+        QLabel* face = new QLabel(this);
+        face->setPixmap(facePx);
+
+        m_gallery->addWidget(face);
     }
 }

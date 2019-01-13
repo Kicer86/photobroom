@@ -147,6 +147,7 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
         FaceDetails* faceDetails = new FaceDetails(p_name.name(),
                                                    &m_optimizer,
                                                    m_core->getTaskExecutor(),
+                                                   &m_operator,
                                                    peopleInfo,
                                                    this);
         canvasLayout->addWidget(faceDetails);

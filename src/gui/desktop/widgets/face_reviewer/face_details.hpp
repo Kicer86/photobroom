@@ -25,11 +25,12 @@
 
 #include <database/person_data.hpp>
 
+class QHBoxLayout;
 class QLabel;
 class QPushButton;
 
 struct ITaskExecutor;
-
+class PeopleOperator;
 
 struct IModelFaceFinder
 {
@@ -50,6 +51,7 @@ class FaceDetails: public QGroupBox
         FaceDetails(const QString &,
                     IModelFaceFinder *,
                     ITaskExecutor *,
+                    PeopleOperator *,
                     const std::vector<PersonInfo> &,
                     QWidget *);
 
@@ -58,7 +60,9 @@ class FaceDetails: public QGroupBox
         ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;
+        PeopleOperator* m_operator;
         IModelFaceFinder* m_modelFaceFinder;
+        QHBoxLayout* m_gallery;
 
     private slots:
         void setModelPhoto(const QPixmap &);
@@ -66,6 +70,7 @@ class FaceDetails: public QGroupBox
 
         void optimize();
         void apply(const QString &);
+        void addFace(const PersonInfo &, const QImage &);
 };
 
 #endif // FACEDETAILS_HPP
