@@ -64,7 +64,6 @@ class FaceDetails: public QGroupBox
         IModelFaceFinder* m_modelFaceFinder;
         QHBoxLayout* m_gallery;
 
-    private slots:
         void setModelPhoto(const QPixmap &);
         void setModelPhoto(const QImage &);
 

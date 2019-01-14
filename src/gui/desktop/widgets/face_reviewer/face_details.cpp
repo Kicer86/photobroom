@@ -114,7 +114,10 @@ void FaceDetails::updateRepresentative(const QString& path)
             const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 
             // do not call slot directly - make sure it will be called from main thread
-            QMetaObject::invokeMethod(this, "setModelPhoto", Q_ARG(QImage, scaled));
+            QMetaObject::invokeMethod(this, [this, scaled]
+            {
+                setModelPhoto(scaled);
+            });
         });
     }
 }
