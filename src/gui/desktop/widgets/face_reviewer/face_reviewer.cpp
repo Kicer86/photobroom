@@ -139,6 +139,6 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
         canvasLayout->addWidget(faceDetails);
     }
 
-    delete m_canvas->layout();
+    m_canvas->layout()->deleteLater();
     m_canvas->setLayout(canvasLayout);
 }
