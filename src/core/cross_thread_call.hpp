@@ -36,6 +36,7 @@
 template<typename Obj, typename F, typename... Args>
 void invokeMethod(Obj* object, const F& method, Args&&... args)
 {
+    static_assert(std::is_base_of<QObject, Obj>::value, "Obj must be QObject");
     QMetaObject::invokeMethod(object, [object, method, args...]()
     {
         (object->*method)(args...);
