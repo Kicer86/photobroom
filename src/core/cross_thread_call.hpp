@@ -31,11 +31,6 @@
 #include "core_export.h"
 
 
-namespace FunctorCallConsumer
-{
-    CORE_EXPORT QObject * forThread(QThread *);
-}
-
 // TODO: use QMetaObject::invoke
 template<typename F, typename... Args>
 void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
