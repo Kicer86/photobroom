@@ -44,7 +44,6 @@ void invokeMethod(Obj* object, const F& method, Args&&... args)
 }
 
 
-// TODO: use QMetaObject::invoke
 template<typename F, typename... Args>
 void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
 {
