@@ -25,10 +25,22 @@
 
 #include <functional>
 
+#include <QMetaObject>
 #include <QObject>
 #include <QPointer>
 
 #include "core_export.h"
+
+
+// extends QMetaObject::invokeMethod by version with arguments
+template<typename Obj, typename F, typename... Args>
+void invokeMethod(Obj* object, const F& method, Args&&... args)
+{
+    QMetaObject::invokeMethod(object, [object, method, args...]()
+    {
+        (object->*method)(args...);
+    });
+}
 
 
 // TODO: use QMetaObject::invoke
