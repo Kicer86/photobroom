@@ -67,5 +67,23 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
     return result;
 }
 
+template<typename ObjT, typename R, typename ...Args>
+std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
+{
+    static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
+
+    QPointer<ObjT> objPtr(obj);
+
+    return [objPtr, method](Args... args)
+    {
+        if (objPtr.data())
+        {
+            ObjT* obj = objPtr.data();
+
+            invokeMethod(obj, method, args...);
+        }
+    };
+};
+
 
 #endif
