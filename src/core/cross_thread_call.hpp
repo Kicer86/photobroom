@@ -48,14 +48,10 @@ template<typename F, typename... Args>
 void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
 {
     if (object.data() != nullptr)
-    {
-        QObject signalSource;
-        QObject::connect(&signalSource, &QObject::destroyed,
-                         object.data(), [=](QObject *)
-                         {
-                             function(args...);
-                         }, Qt::AutoConnection);
-    }
+        QMetaObject::invokeMethod(object.data(), [function, args...]()
+        {
+            function(args...);
+        });
 }
 
 
