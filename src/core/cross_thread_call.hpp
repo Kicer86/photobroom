@@ -66,6 +66,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
     return result;
 }
 
+
 template<typename ObjT, typename R, typename ...Args>
 std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
