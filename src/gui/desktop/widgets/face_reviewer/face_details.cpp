@@ -98,10 +98,7 @@ void FaceDetails::optimize()
     m_optButton->clearFocus();
     m_optButton->setDisabled(true);
 
-    std::function<void(const QString &)> callback = std::bind(&FaceDetails::updateRepresentative, this, _1);
-    auto safe_callback = make_cross_thread_function<const QString &>(this, callback);
-
-    m_modelFaceFinder->findBest(m_pi, safe_callback);
+    m_modelFaceFinder->findBest(m_pi, slot(this, &FaceDetails::updateRepresentative));
 }
 
 
@@ -111,13 +108,19 @@ void FaceDetails::updateRepresentative(const QString& path)
 
     if (path.isEmpty() == false)
     {
-        runOn(m_executor, [this, path]
+        QPointer<FaceDetails> This(this);
+        runOn(m_executor, [This, path]
         {
-            const QImage faceImg(path);
-            const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            FaceDetails* fd = This.data();
 
-            // do not call slot directly - make sure it will be called from main thread
-            invokeMethod(this, qOverload<const QImage &>(&FaceDetails::setModelPhoto), scaled);
+            if (fd)
+            {
+                const QImage faceImg(path);
+                const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+
+                // do not call slot directly - make sure it will be called from main thread
+                invokeMethod(fd, qOverload<const QImage &>(&FaceDetails::setModelPhoto), scaled);
+            }
         });
     }
 }
