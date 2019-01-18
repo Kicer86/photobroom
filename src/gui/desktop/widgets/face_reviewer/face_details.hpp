@@ -25,6 +25,7 @@
 
 #include <database/person_data.hpp>
 
+
 class QHBoxLayout;
 class QLabel;
 class QPushButton;
@@ -55,6 +56,8 @@ class FaceDetails: public QGroupBox
                     const std::vector<PersonInfo> &,
                     QWidget *);
 
+        ~FaceDetails();
+
     private:
         const std::vector<PersonInfo> m_pi;
         ITaskExecutor* m_executor;
@@ -69,7 +72,7 @@ class FaceDetails: public QGroupBox
 
         void optimize();
         void updateRepresentative(const QString &);
-        void addFace(const PersonInfo &, const QImage &);
+        void addFace(const QImage &);
 };
 
 #endif // FACEDETAILS_HPP

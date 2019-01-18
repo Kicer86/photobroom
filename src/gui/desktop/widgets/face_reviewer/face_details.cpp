@@ -63,7 +63,6 @@ FaceDetails::FaceDetails(const QString& name,
     l->addStretch();
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
-    connect(m_operator, &PeopleOperator::face, this, &FaceDetails::addFace);
 
     if (pi.empty() == false)
         updateRepresentative(m_modelFaceFinder->currentBest(pi.front().p_id));
@@ -71,9 +70,13 @@ FaceDetails::FaceDetails(const QString& name,
     occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
 
     for(const PersonInfo& info: m_pi)
-    {
-        m_operator->getFace(info);
-    }
+        m_operator->getFace(info, slot(this, &FaceDetails::addFace));
+}
+
+
+FaceDetails::~FaceDetails()
+{
+
 }
 
 
@@ -114,24 +117,18 @@ void FaceDetails::updateRepresentative(const QString& path)
             const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 
             // do not call slot directly - make sure it will be called from main thread
-            QMetaObject::invokeMethod(this, [this, scaled]
-            {
-                setModelPhoto(scaled);
-            });
+            invokeMethod(this, qOverload<const QImage &>(&FaceDetails::setModelPhoto), scaled);
         });
     }
 }
 
 
-void FaceDetails::addFace(const PersonInfo& pi, const QImage& image)
+void FaceDetails::addFace(const QImage& image)
 {
-    if (m_pi.empty() == false && m_pi.front().p_id == pi.p_id)  // TODO: PeopleOperator will broadcast. This is not nice.
-    {
-        const QImage scaled = image.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        QPixmap facePx = QPixmap::fromImage(scaled);
-        QLabel* face = new QLabel(this);
-        face->setPixmap(facePx);
+    const QImage scaled = image.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    QPixmap facePx = QPixmap::fromImage(scaled);
+    QLabel* face = new QLabel(this);
+    face->setPixmap(facePx);
 
-        m_gallery->addWidget(face);
-    }
+    m_gallery->addWidget(face);
 }
