@@ -73,7 +73,7 @@ class PeopleOperator final: public QObject
         void setModelFaceSync(const PersonInfo &);
 
         // reading faces from photo
-        void getFace(const PersonInfo &);
+        void getFace(const PersonInfo &, const std::function<void(const QImage &)> &);
         QImage getFaceSync(const PersonInfo &);
 
     signals:
@@ -82,7 +82,6 @@ class PeopleOperator final: public QObject
         void recognized(const QRect &, const PersonName &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;
         void modelFaceSet(const Person::Id &) const;
-        void face(const PersonInfo &, const QImage &) const;
 
     private:
         const QString m_storage;
