@@ -126,6 +126,8 @@ int main(int argc, char **argv)
     gui.set(&coreFactory);
     gui.run();
 
+    taskExecutor.stop();
+
     System::cleanTemporaries();
 
     return 0;

@@ -41,8 +41,6 @@ struct CORE_EXPORT ITaskExecutor
     virtual void add(std::unique_ptr<ITask> &&) = 0;         // add short but heavy task (calculations)
     virtual void addLight(std::unique_ptr<ITask> &&) = 0;    // add long but light task  (awaiting results from other threads etc)
 
-    virtual void stop() = 0;
-
     virtual int heavyWorkers() const = 0;                    // return number of heavy task workers
 };
 

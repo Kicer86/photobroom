@@ -133,8 +133,4 @@ void Gui::run()
 
     mainWindow.show();
     m_app->exec();
-
-    //stop all tasks
-    ITaskExecutor* taskExecutor = m_coreFactory->getTaskExecutor();
-    taskExecutor->stop();
 }

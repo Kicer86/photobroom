@@ -95,12 +95,6 @@ int TasksQueue::heavyWorkers() const
 }
 
 
-void TasksQueue::stop()
-{
-    clear();
-}
-
-
 void TasksQueue::try_to_fire()
 {
     assert(m_tasksMutex.try_lock() == false);  // here we expect mutex to be locked

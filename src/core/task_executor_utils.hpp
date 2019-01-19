@@ -85,7 +85,6 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         void add(std::unique_ptr<ITask> && ) override;
         void addLight(std::unique_ptr<ITask> && ) override;
         int heavyWorkers() const override;
-        void stop() override;
 
     private:
         friend struct IntTask;

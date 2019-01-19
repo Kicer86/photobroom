@@ -41,9 +41,9 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void add(std::unique_ptr<ITask> &&) override;
     void addLight(std::unique_ptr<ITask> &&) override;
 
-    void stop() override;
-
     int heavyWorkers() const override;
+
+    void stop();
 
 private:
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
