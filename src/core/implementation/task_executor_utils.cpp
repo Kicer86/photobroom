@@ -7,7 +7,7 @@
 struct TasksQueue::IntTask: ITaskExecutor::ITask
 {
     IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
-        m_callable(std::move(callable)),
+        m_task(std::move(callable)),
         m_queue(queue)
     {
     }
@@ -20,7 +20,7 @@ struct TasksQueue::IntTask: ITaskExecutor::ITask
 
     void perform() override
     {
-        m_callable->perform();     // client's code
+        m_task->perform();         // client's code
         notify();                  // internal jobs
     }
 
@@ -29,7 +29,7 @@ struct TasksQueue::IntTask: ITaskExecutor::ITask
         return "TasksQueue::IntTask";
     }
 
-    std::unique_ptr<ITaskExecutor::ITask> m_callable;
+    std::unique_ptr<ITaskExecutor::ITask> m_task;
     TasksQueue* m_queue;
 };
 
