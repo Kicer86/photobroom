@@ -73,7 +73,7 @@ void runOn(ITaskExecutor* executor, Callable&& callable)
 // A subqueue for ITaskExecutor.
 // Its purpose is to have a queue of tasks to be executed by executor
 // but controled by client ( can be clean()ed )
-class CORE_EXPORT TasksQueue final
+class CORE_EXPORT TasksQueue final: public ITaskExecutor
 {
     public:
         TasksQueue(ITaskExecutor *);
@@ -81,6 +81,11 @@ class CORE_EXPORT TasksQueue final
 
         void push(std::unique_ptr<ITaskExecutor::ITask> &&);
         void clear();
+
+        void add(std::unique_ptr<ITask> && ) override;
+        void addLight(std::unique_ptr<ITask> && ) override;
+        int heavyWorkers() const override;
+        void stop() override;
 
     private:
         friend struct IntTask;

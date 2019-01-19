@@ -77,6 +77,30 @@ void TasksQueue::clear()
 }
 
 
+void TasksQueue::add(std::unique_ptr<ITask>&& task)
+{
+    push(std::move(task));
+}
+
+
+void TasksQueue::addLight(std::unique_ptr<ITask>&& task)
+{
+    m_tasksExecutor->addLight(std::move(task));
+}
+
+
+int TasksQueue::heavyWorkers() const
+{
+    return m_tasksExecutor->heavyWorkers();
+}
+
+
+void TasksQueue::stop()
+{
+    clear();
+}
+
+
 void TasksQueue::try_to_fire()
 {
     assert(m_tasksMutex.try_lock() == false);  // here we expect mutex to be locked
