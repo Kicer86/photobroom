@@ -26,7 +26,7 @@ struct TasksQueue::IntTask: ITaskExecutor::ITask
 
     std::string name() const override
     {
-        return "TasksQueue::IntTask";
+        return std::string("TasksQueue::IntTask: ") + m_task->name();
     }
 
     std::unique_ptr<ITaskExecutor::ITask> m_task;
