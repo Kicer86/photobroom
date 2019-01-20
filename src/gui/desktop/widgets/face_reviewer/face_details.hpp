@@ -66,6 +66,7 @@ class FaceDetails: public QGroupBox
         PeopleOperator* m_operator;
         IModelFaceFinder* m_modelFaceFinder;
         QHBoxLayout* m_gallery;
+        bool m_fetched;
 
         void setModelPhoto(const QPixmap &);
         void setModelPhoto(const QImage &);
@@ -73,6 +74,10 @@ class FaceDetails: public QGroupBox
         void optimize();
         void updateRepresentative(const QString &);
         void addFace(const QImage &);
+
+        void initialFetch();
+
+        void paintEvent(QPaintEvent *) override;
 };
 
 #endif // FACEDETAILS_HPP

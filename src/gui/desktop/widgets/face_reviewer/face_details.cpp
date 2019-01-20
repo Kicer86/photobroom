@@ -20,6 +20,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMetaObject>
 #include <QPushButton>
 #include <QVBoxLayout>
 
@@ -44,7 +45,8 @@ FaceDetails::FaceDetails(const QString& name,
     m_optButton(nullptr),
     m_photo(nullptr),
     m_operator(po),
-    m_modelFaceFinder(finder)
+    m_modelFaceFinder(finder),
+    m_fetched(false)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
@@ -64,13 +66,7 @@ FaceDetails::FaceDetails(const QString& name,
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
 
-    if (pi.empty() == false)
-        updateRepresentative(m_modelFaceFinder->currentBest(pi.front().p_id));
-
     occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
-
-    for(const PersonInfo& info: m_pi)
-        m_operator->getFace(info, slot(this, &FaceDetails::addFace));
 }
 
 
@@ -134,4 +130,26 @@ void FaceDetails::addFace(const QImage& image)
     face->setPixmap(facePx);
 
     m_gallery->addWidget(face);
+}
+
+
+void FaceDetails::initialFetch()
+{
+    if (m_pi.empty() == false)
+        updateRepresentative(m_modelFaceFinder->currentBest(m_pi.front().p_id));
+
+
+    for(const PersonInfo& info: m_pi)
+        m_operator->getFace(info, slot(this, &FaceDetails::addFace));
+}
+
+void FaceDetails::paintEvent(QPaintEvent* event)
+{
+    QGroupBox::paintEvent(event);
+
+    if (m_fetched == false)
+    {
+        QMetaObject::invokeMethod(this, &FaceDetails::initialFetch);
+        m_fetched = true;
+    }
 }
