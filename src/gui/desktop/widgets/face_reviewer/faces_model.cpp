@@ -29,3 +29,33 @@ FacesModel::~FacesModel()
 {
 
 }
+
+
+int FacesModel::columnCount(const QModelIndex& parent) const
+{
+
+}
+
+
+int FacesModel::rowCount(const QModelIndex& parent) const
+{
+
+}
+
+
+QModelIndex FacesModel::index(int row, int column, const QModelIndex& parent) const
+{
+
+}
+
+
+QModelIndex FacesModel::parent(const QModelIndex& child) const
+{
+
+}
+
+
+QVariant FacesModel::data(const QModelIndex& index, int role) const
+{
+
+}

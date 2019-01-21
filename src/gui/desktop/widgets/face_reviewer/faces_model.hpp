@@ -27,6 +27,13 @@ class FacesModel: public QAbstractItemModel
         FacesModel();
         ~FacesModel();
 
+        int columnCount(const QModelIndex & parent) const override;
+        int rowCount(const QModelIndex & parent) const override;
+        QModelIndex index(int row, int column, const QModelIndex & parent) const override;
+        QModelIndex parent(const QModelIndex & child) const override;
+        QVariant data(const QModelIndex & index, int role) const override;
+
+    private:
 
 };
 
