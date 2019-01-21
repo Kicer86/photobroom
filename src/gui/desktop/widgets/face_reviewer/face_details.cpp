@@ -36,7 +36,6 @@ using namespace std::placeholders;
 FaceDetails::FaceDetails(const QString& name,
                          IModelFaceFinder* finder,
                          ITaskExecutor* executor,
-                         PeopleOperator* po,
                          const std::vector<PersonInfo>& pi,
                          QWidget* p):
     QGroupBox(name, p),
@@ -44,7 +43,6 @@ FaceDetails::FaceDetails(const QString& name,
     m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
-    m_operator(po),
     m_modelFaceFinder(finder),
     m_fetched(false)
 {

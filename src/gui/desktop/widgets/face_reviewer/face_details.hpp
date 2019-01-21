@@ -51,7 +51,6 @@ class FaceDetails: public QGroupBox
         FaceDetails(const QString &,
                     IModelFaceFinder *,
                     ITaskExecutor *,
-                    PeopleOperator *,
                     const std::vector<PersonInfo> &,
                     QWidget *);
 
@@ -62,7 +61,6 @@ class FaceDetails: public QGroupBox
         ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;
-        PeopleOperator* m_operator;
         IModelFaceFinder* m_modelFaceFinder;
         bool m_fetched;
 
