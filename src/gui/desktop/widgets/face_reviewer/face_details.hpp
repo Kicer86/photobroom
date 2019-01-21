@@ -26,7 +26,6 @@
 #include <database/person_data.hpp>
 
 
-class QHBoxLayout;
 class QLabel;
 class QPushButton;
 
@@ -65,7 +64,6 @@ class FaceDetails: public QGroupBox
         QLabel* m_photo;
         PeopleOperator* m_operator;
         IModelFaceFinder* m_modelFaceFinder;
-        QHBoxLayout* m_gallery;
         bool m_fetched;
 
         void setModelPhoto(const QPixmap &);
@@ -73,7 +71,6 @@ class FaceDetails: public QGroupBox
 
         void optimize();
         void updateRepresentative(const QString &);
-        void addFace(const QImage &);
 
         void initialFetch();
 

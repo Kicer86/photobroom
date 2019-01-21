@@ -53,15 +53,12 @@ FaceDetails::FaceDetails(const QString& name,
     m_optButton = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
     QLabel* occurences = new QLabel(this);
-    QWidget* gallery = new QWidget(this);
-    m_gallery = new QHBoxLayout(gallery);
 
     dl->addWidget(occurences);
     dl->addWidget(m_optButton);
 
     l->addWidget(m_photo);
     l->addLayout(dl);
-    l->addWidget(gallery);
     l->addStretch();
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
@@ -122,26 +119,12 @@ void FaceDetails::updateRepresentative(const QString& path)
 }
 
 
-void FaceDetails::addFace(const QImage& image)
-{
-    const QImage scaled = image.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    QPixmap facePx = QPixmap::fromImage(scaled);
-    QLabel* face = new QLabel(this);
-    face->setPixmap(facePx);
-
-    m_gallery->addWidget(face);
-}
-
-
 void FaceDetails::initialFetch()
 {
     if (m_pi.empty() == false)
         updateRepresentative(m_modelFaceFinder->currentBest(m_pi.front().p_id));
-
-
-    for(const PersonInfo& info: m_pi)
-        m_operator->getFace(info, slot(this, &FaceDetails::addFace));
 }
+
 
 void FaceDetails::paintEvent(QPaintEvent* event)
 {
