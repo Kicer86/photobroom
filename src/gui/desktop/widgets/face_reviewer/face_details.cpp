@@ -132,7 +132,7 @@ void FaceDetails::paintEvent(QPaintEvent* event)
 
     if (m_fetched == false)
     {
-        QMetaObject::invokeMethod(this, &FaceDetails::initialFetch);
+        QMetaObject::invokeMethod(this, &FaceDetails::initialFetch, Qt::QueuedConnection);
         m_fetched = true;
     }
 }
