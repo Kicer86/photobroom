@@ -135,6 +135,7 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
                                                    m_core->getTaskExecutor(),
                                                    peopleInfo,
                                                    this);
+
         canvasLayout->addWidget(faceDetails);
     }
 

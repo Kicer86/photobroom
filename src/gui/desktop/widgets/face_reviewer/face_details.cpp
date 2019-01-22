@@ -20,6 +20,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMenu>
 #include <QMetaObject>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -50,6 +51,7 @@ FaceDetails::FaceDetails(const QString& name,
     QVBoxLayout* dl = new QVBoxLayout;
     m_optButton = new QPushButton(tr("Find better"), this);
     m_photo = new QLabel(this);
+    m_photo->setContextMenuPolicy(Qt::CustomContextMenu);
     QLabel* occurences = new QLabel(this);
 
     dl->addWidget(occurences);
@@ -60,6 +62,8 @@ FaceDetails::FaceDetails(const QString& name,
     l->addStretch();
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
+    connect(m_photo, &QWidget::customContextMenuRequested,
+            this, &FaceDetails::openContextMenu);
 
     occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
 }
@@ -132,5 +136,23 @@ void FaceDetails::paintEvent(QPaintEvent* event)
     {
         QMetaObject::invokeMethod(this, &FaceDetails::initialFetch, Qt::QueuedConnection);
         m_fetched = true;
+    }
+}
+
+
+void FaceDetails::openContextMenu(const QPoint& point)
+{
+    QMenu menu(this);
+    QAction* go    = menu.addAction(tr("Go to photo"));
+    QAction* wrong = menu.addAction(tr("Wrong face"));
+
+    const QPoint pos = this->mapToGlobal(point);
+    QAction* result = menu.exec(pos);
+
+    if (result == go)
+    {
+    }
+    else if (result == wrong)
+    {
     }
 }

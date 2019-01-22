@@ -117,18 +117,28 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>FaceDetails</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+51"/>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+52"/>
         <source>Find better</source>
         <translation>Znajdź lepsze</translation>
     </message>
     <message numerus="yes">
-        <location line="+13"/>
+        <location line="+16"/>
         <source>On %n photo(s)</source>
         <translation>
             <numerusform>Na %n zdjęciu</numerusform>
             <numerusform>Na %n zdjęciach</numerusform>
             <numerusform>Na %n zdjęciach</numerusform>
         </translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Go to photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Wrong face</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

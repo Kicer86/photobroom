@@ -73,6 +73,8 @@ class FaceDetails: public QGroupBox
         void initialFetch();
 
         void paintEvent(QPaintEvent *) override;
+
+        void openContextMenu(const QPoint &);
 };
 
 #endif // FACEDETAILS_HPP

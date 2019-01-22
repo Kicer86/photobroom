@@ -60,7 +60,6 @@ class FaceReviewer: public QDialog
         Project* m_project;
 
         void fetchPeople(Database::IBackend *) const;
-
         void updatePeople(const std::map<PersonName, std::vector<PersonInfo>> &);
 
     // internal signals
