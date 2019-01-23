@@ -58,6 +58,7 @@ class FaceDetails: public QGroupBox
 
     private:
         const std::vector<PersonInfo> m_pi;
+        QString m_name;
         ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;

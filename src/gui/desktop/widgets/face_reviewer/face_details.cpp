@@ -21,6 +21,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMetaObject>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -40,6 +41,7 @@ FaceDetails::FaceDetails(const QString& name,
                          const std::vector<PersonInfo>& pi,
                          QWidget* p):
     QGroupBox(name, p),
+    m_name(name),
     m_pi(pi),
     m_executor(executor),
     m_optButton(nullptr),
@@ -143,8 +145,8 @@ void FaceDetails::paintEvent(QPaintEvent* event)
 void FaceDetails::openContextMenu(const QPoint& point)
 {
     QMenu menu(this);
-    QAction* go    = menu.addAction(tr("Go to photo"));
-    QAction* wrong = menu.addAction(tr("Wrong face"));
+    QAction* go     = menu.addAction(tr("Go to photo"));
+    QAction* remove = menu.addAction(tr("Remove"));
 
     const QPoint pos = this->mapToGlobal(point);
     QAction* result = menu.exec(pos);
@@ -152,7 +154,14 @@ void FaceDetails::openContextMenu(const QPoint& point)
     if (result == go)
     {
     }
-    else if (result == wrong)
+    else if (result == remove)
     {
+        const QMessageBox::StandardButton answer =
+            QMessageBox::question(this,
+                              tr("Remove person from photo"),
+                              tr("Do you want to remove %1 from photo?").arg(m_name),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::No
+                             );
     }
 }

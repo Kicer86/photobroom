@@ -117,7 +117,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>FaceDetails</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+52"/>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+54"/>
         <source>Find better</source>
         <translation>Znajdź lepsze</translation>
     </message>
@@ -137,7 +137,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
     <message>
         <location line="+1"/>
-        <source>Wrong face</source>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Remove person from photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you want to remove %1 from photo?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
