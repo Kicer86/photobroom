@@ -13,6 +13,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+endif()
+
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
