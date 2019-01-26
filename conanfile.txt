@@ -1,0 +1,9 @@
+[requires]
+Exiv2/0.27@piponazo/testing
+
+[generators]
+cmake
+
+[options]
+Exiv2:xmp=False
+Exiv2:video=True
