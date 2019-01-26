@@ -24,7 +24,7 @@ class Exiv2ExifReader: public AExifReader
         virtual void collect(const QString &) override;
         virtual std::string read(TagType) const override;
 
-        Exiv2::Image::AutoPtr m_exif_data;
+        Exiv2::Image::UniquePtr m_exif_data;
         QString m_path;
 };
 
