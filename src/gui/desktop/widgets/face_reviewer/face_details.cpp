@@ -41,8 +41,8 @@ FaceDetails::FaceDetails(const QString& name,
                          const std::vector<PersonInfo>& pi,
                          QWidget* p):
     QGroupBox(name, p),
-    m_name(name),
     m_pi(pi),
+    m_name(name),
     m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
@@ -163,5 +163,14 @@ void FaceDetails::openContextMenu(const QPoint& point)
                               QMessageBox::Yes | QMessageBox::No,
                               QMessageBox::No
                              );
+
+        if (answer == QMessageBox::Yes)
+            removePerson();
     }
+}
+
+
+void FaceDetails::removePerson()
+{
+
 }
