@@ -1,6 +1,6 @@
 [requires]
 Exiv2/0.27@piponazo/testing
-OpenLibrary/2.1@demo/testing
+OpenLibrary/2.1@kicer/testing
 jsoncpp/1.8.4@theirix/stable
 pybind11/2.2.3@conan/stable
 
