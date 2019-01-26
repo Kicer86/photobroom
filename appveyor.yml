@@ -19,7 +19,6 @@ image: Visual Studio 2017
 cache:
     - c:\projects\install      -> appveyor.bat, tools/prepare_dependencies.py
     - c:\projects\googletest   -> appveyor.bat, tools/prepare_dependencies.py
-    - c:\program files\cmake   -> appveyor.bat, tools/prepare_dependencies.py
     - c:\Users\appveyor\conanCache  # Conan cache
 
 artifacts:

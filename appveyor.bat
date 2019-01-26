@@ -1,13 +1,6 @@
 
 echo ON
 
-rem update cmake if needed
-if EXIST "c:\program files\cmake\updated" goto :setup
-choco upgrade cmake
-copy /y nul "c:\program files\cmake\updated"
-
-:setup
-
 rem setup variables
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
