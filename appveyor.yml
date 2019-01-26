@@ -20,10 +20,36 @@ cache:
     - c:\projects\install      -> appveyor.bat, tools/prepare_dependencies.py
     - c:\projects\googletest   -> appveyor.bat, tools/prepare_dependencies.py
     - c:\program files\cmake   -> appveyor.bat, tools/prepare_dependencies.py
+    - c:\Users\appveyor\conanCache  # Conan cache
 
 artifacts:
   - path: build/PhotoBroom-1.3.0-*.exe
     name: PhotoBroom_installer
+
+
+before_build:
+    - cmd: cd %APPVEYOR_BUILD_FOLDER%
+    - cmd: if not exist envs mkdir envs
+    - cmd: cd envs
+    - cmd: if not exist conan python -m virtualenv conan
+    - cmd: conan/Scripts/activate
+    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan==1.11.1
+    - cmd: cd ..
+    - cmd: conan --version
+    - cmd: conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo
+    - cmd: conan remote add kicer https://api.bintray.com/conan/kicer86/kicer
+    - cmd: conan remote list
+    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
+    - cmd: conan profile new --detect default
+    - cmd: conan profile update settings.compiler.version=15 default
+    - cmd: if "%platform%"=="x64" (set ARCHITECTURE=x86_64) else (set ARCHITECTURE=x86)
+    - cmd: if "%CONFIGURATION%"=="Debug" (set RUNTIME=MDd) else (set RUNTIME=MD)
+    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
+    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
+    - cmd: conan profile update settings.build_type=%CONFIGURATION% default
+    - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
+    - cmd: cat c:\Users\appveyor\.conan\conan.conf
+    - cmd: cat c:\Users\appveyor\.conan\profiles\default
 
 before_build:
     - git submodule update --init --recursive
