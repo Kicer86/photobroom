@@ -63,7 +63,7 @@ endif()
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
-option(BUILD_UPDATER "Enable 'updater' module" WIN32)
+option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
 option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easier.")
 option(STATIC_PLUGINS "Build plugins as static" OFF)
 
