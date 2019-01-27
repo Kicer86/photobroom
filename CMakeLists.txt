@@ -55,6 +55,8 @@ if(MSVC_VERSION)
         if(MSVC_VERSION LESS 1916)
             add_definitions(-D__cpp_variable_templates=201304)
         endif()
+
+        add_definitions(-D_HAS_AUTO_PTR_ETC=1)
     else()
         message(FATAL_ERROR "Visual Studio 2017 is required")
     endif()
