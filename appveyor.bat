@@ -1,13 +1,6 @@
 
 echo ON
 
-rem update cmake if needed
-if EXIST "c:\program files\cmake\updated" goto :setup
-choco upgrade cmake
-copy /y nul "c:\program files\cmake\updated"
-
-:setup
-
 rem setup variables
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
@@ -24,13 +17,6 @@ set PATH=%python_path%;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\b
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
-if EXIST c:/projects/install goto :gtest
-
-rem third party stuff
-cd tools
-python ./prepare_dependencies.py -p jsoncpp -p openlibrary -p expat -p zlib -p exiv2 -p pybind11 -g %generator% -c %Configuration% c:/projects/install
-cd ..
-
 rem setup gmock and gtest
 :gtest
 if EXIST c:/projects/googletest goto :photo_broom
@@ -40,4 +26,5 @@ rem photo broom
 :photo_broom
 mkdir build
 cd build
+conan install .. --build missing
 cmake -G%generator% -DGTEST_DIR=%GTEST_PATH%/googletest -DGMOCK_DIR=%GTEST_PATH%/googlemock -DBUILD_UPDATER=ON -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=c:/projects/install/ ..

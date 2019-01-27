@@ -1,0 +1,12 @@
+[requires]
+Exiv2/0.27@piponazo/stable
+OpenLibrary/2.3@kicer/testing
+jsoncpp/1.8.4@theirix/stable
+pybind11/2.2.3@conan/stable
+
+[generators]
+cmake
+
+[options]
+Exiv2:xmp=False
+Exiv2:video=True

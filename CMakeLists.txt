@@ -13,6 +13,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+endif()
+
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
@@ -50,6 +55,8 @@ if(MSVC_VERSION)
         if(MSVC_VERSION LESS 1916)
             add_definitions(-D__cpp_variable_templates=201304)
         endif()
+
+        add_definitions(-D_HAS_AUTO_PTR_ETC=1)
     else()
         message(FATAL_ERROR "Visual Studio 2017 is required")
     endif()
@@ -58,7 +65,7 @@ endif()
 #options:
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
-option(BUILD_UPDATER "Enable 'updater' module" WIN32)
+option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
 option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easier.")
 option(STATIC_PLUGINS "Build plugins as static" OFF)
 
