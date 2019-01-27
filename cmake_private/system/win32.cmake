@@ -75,7 +75,7 @@ macro(addDeploymentActions)
     install_external_lib(NAME "OpenLibrary"
                          DLLFILES ${libs_OL}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${OpenLibrary_DIR}/../lib
+                               ${OpenLibrary_DIR}/../bin
     )
 
     install_external_lib(NAME "Exiv2"
