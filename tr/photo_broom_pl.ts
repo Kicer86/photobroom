@@ -122,18 +122,13 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Znajdź lepsze</translation>
     </message>
     <message numerus="yes">
-        <location line="+16"/>
+        <location line="+13"/>
         <source>On %n photo(s)</source>
         <translation>
             <numerusform>Na %n zdjęciu</numerusform>
             <numerusform>Na %n zdjęciach</numerusform>
             <numerusform>Na %n zdjęciach</numerusform>
         </translation>
-    </message>
-    <message>
-        <location line="+78"/>
-        <source>Go to photo</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
