@@ -76,12 +76,12 @@ std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
 
     return [objPtr, method](Args... args)
     {
-        ObjT* obj = objPtr.data();
+        ObjT* object = objPtr.data();
 
-        if (obj)
-            invokeMethod(obj, method, args...);
+        if (object)
+            invokeMethod(object, method, args...);
     };
-};
+}
 
 
 #endif
