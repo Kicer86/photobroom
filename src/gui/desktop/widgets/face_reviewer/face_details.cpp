@@ -146,31 +146,19 @@ void FaceDetails::openContextMenu(const QPoint& point)
 {
     QMenu menu(this);
     QAction* go     = menu.addAction(tr("Go to photo"));
-    QAction* remove = menu.addAction(tr("Remove"));
+
 
     const QPoint pos = this->mapToGlobal(point);
     QAction* result = menu.exec(pos);
 
     if (result == go)
     {
-    }
-    else if (result == remove)
-    {
-        const QMessageBox::StandardButton answer =
-            QMessageBox::question(this,
-                              tr("Remove person from photo"),
-                              tr("Do you want to remove %1 from photo?").arg(m_name),
-                              QMessageBox::Yes | QMessageBox::No,
-                              QMessageBox::No
-                             );
-
-        if (answer == QMessageBox::Yes)
-            removePerson();
+        gotoPerson();
     }
 }
 
 
-void FaceDetails::removePerson()
+void FaceDetails::gotoPerson()
 {
 
 }

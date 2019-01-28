@@ -76,7 +76,7 @@ class FaceDetails: public QGroupBox
         void paintEvent(QPaintEvent *) override;
 
         void openContextMenu(const QPoint &);
-        void removePerson();
+        void gotoPerson();
 };
 
 #endif // FACEDETAILS_HPP
