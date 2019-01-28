@@ -89,8 +89,6 @@ void FaceReviewer::fetchPeople(Database::IBackend* op) const
     auto people = op->listPeople();
 
     std::map<PersonName, std::vector<PersonInfo>> details;
-    std::map<Photo::Id, QString> photoToPath;
-    std::set<Photo::Id> touchedPhotos;
 
     // for each person
     for(const auto& person: people)
@@ -110,29 +108,16 @@ void FaceReviewer::fetchPeople(Database::IBackend* op) const
             // and find one for person we are insterested in
             for (const PersonInfo& pi: peopleInfo)
                 if (pi.p_id == p_id)
-                {
                     details[person].push_back(pi);
-                    touchedPhotos.insert(pi.ph_id);
-                }
         }
     }
 
-    Database::IUtils* db_utils = m_db->utils();
-
-    for(const Photo::Id& ph_id: touchedPhotos)
-    {
-        IPhotoInfo::Ptr photoInfo = db_utils->getPhotoFor(ph_id);
-        photoToPath[ph_id] = photoInfo->getPath();
-    }
-
-    emit gotPeopleInfo(details, photoToPath);
+    emit gotPeopleInfo(details);
 }
 
 
-void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details,
-                                const std::map<Photo::Id, QString>& paths)
+void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInfo> >& details)
 {
-    m_optimizer.set(paths);
     m_infos.clear();
 
     for(const auto& detail: details)
@@ -150,9 +135,10 @@ void FaceReviewer::updatePeople(const std::map<PersonName, std::vector<PersonInf
                                                    m_core->getTaskExecutor(),
                                                    peopleInfo,
                                                    this);
+
         canvasLayout->addWidget(faceDetails);
     }
 
-    delete m_canvas->layout();
+    assert(m_canvas->layout() == nullptr);
     m_canvas->setLayout(canvasLayout);
 }

@@ -82,6 +82,12 @@ void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
 }
 
 
+int TaskExecutor::heavyWorkers() const
+{
+    return m_threads;
+}
+
+
 void TaskExecutor::stop()
 {
     if (m_working)
@@ -101,12 +107,6 @@ void TaskExecutor::stop()
             return m_lightTasks == 0;
         });
     }
-}
-
-
-int TaskExecutor::heavyWorkers() const
-{
-    return m_threads;
 }
 
 

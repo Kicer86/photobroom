@@ -20,12 +20,17 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMenu>
+#include <QMessageBox>
+#include <QMetaObject>
 #include <QPushButton>
 #include <QVBoxLayout>
 
 #include <core/cross_thread_call.hpp>
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
+
+#include "utils/people_operator.hpp"
 
 using namespace std::placeholders;
 
@@ -37,10 +42,12 @@ FaceDetails::FaceDetails(const QString& name,
                          QWidget* p):
     QGroupBox(name, p),
     m_pi(pi),
+    m_name(name),
     m_executor(executor),
     m_optButton(nullptr),
     m_photo(nullptr),
-    m_modelFaceFinder(finder)
+    m_modelFaceFinder(finder),
+    m_fetched(false)
 {
     QHBoxLayout* l = new QHBoxLayout(this);
     QVBoxLayout* dl = new QVBoxLayout;
@@ -57,10 +64,13 @@ FaceDetails::FaceDetails(const QString& name,
 
     connect(m_optButton, &QPushButton::clicked, this, &FaceDetails::optimize);
 
-    if (pi.empty() == false)
-        apply(m_modelFaceFinder->current(pi.front().p_id));
+    occurences->setText(tr("On %n photo(s)", "", static_cast<int>(pi.size())));
+}
 
-    occurences->setText(tr("On %n photo(s)", "", pi.size()));
+
+FaceDetails::~FaceDetails()
+{
+
 }
 
 
@@ -82,26 +92,48 @@ void FaceDetails::optimize()
     m_optButton->clearFocus();
     m_optButton->setDisabled(true);
 
-    std::function<void(const QString &)> callback = std::bind(&FaceDetails::apply, this, _1);
-    auto safe_callback = make_cross_thread_function<const QString &>(this, callback);
-
-    m_modelFaceFinder->findBest(m_pi, safe_callback);
+    m_modelFaceFinder->findBest(m_pi, slot(this, &FaceDetails::updateRepresentative));
 }
 
 
-void FaceDetails::apply(const QString& path)
+void FaceDetails::updateRepresentative(const QString& path)
 {
     m_optButton->setEnabled(true);
 
     if (path.isEmpty() == false)
     {
-        runOn(m_executor, [this, path]
+        QPointer<FaceDetails> This(this);
+        runOn(m_executor, [This, path]
         {
-            const QImage faceImg(path);
-            const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            FaceDetails* fd = This.data();
 
-            // do not call slot directly - make sure it will be called from main thread
-            QMetaObject::invokeMethod(this, "setModelPhoto", Q_ARG(QImage, scaled));
+            if (fd)
+            {
+                const QImage faceImg(path);
+                const QImage scaled = faceImg.scaled(QSize(100, 100), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+
+                // do not call slot directly - make sure it will be called from main thread
+                invokeMethod(fd, qOverload<const QImage &>(&FaceDetails::setModelPhoto), scaled);
+            }
         });
+    }
+}
+
+
+void FaceDetails::initialFetch()
+{
+    if (m_pi.empty() == false)
+        updateRepresentative(m_modelFaceFinder->currentBest(m_pi.front().p_id));
+}
+
+
+void FaceDetails::paintEvent(QPaintEvent* event)
+{
+    QGroupBox::paintEvent(event);
+
+    if (m_fetched == false)
+    {
+        QMetaObject::invokeMethod(this, &FaceDetails::initialFetch, Qt::QueuedConnection);
+        m_fetched = true;
     }
 }

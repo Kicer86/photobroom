@@ -43,18 +43,15 @@ class FaceOptimizer: public IModelFaceFinder
 
         ~ FaceOptimizer();
 
-        void set(const std::map<Photo::Id, QString> &);
-
         void findBest(const std::vector<PersonInfo> &,
                       const std::function<void(const QString &)> &) override;
 
-        QString current(const Person::Id &) const override;
+        QString currentBest(const Person::Id &) const override;
 
     private:
         PeopleOperator* m_operator;
         safe_callback_ctrl m_safe_callback;
         std::unique_ptr<ITmpDir> m_tmpDir;
-        std::map<Photo::Id, QString> m_photo2path;
         ICoreFactoryAccessor* m_core;
 
         std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &);

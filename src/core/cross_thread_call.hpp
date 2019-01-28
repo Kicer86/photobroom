@@ -25,15 +25,22 @@
 
 #include <functional>
 
+#include <QMetaObject>
 #include <QObject>
 #include <QPointer>
 
 #include "core_export.h"
 
 
-namespace FunctorCallConsumer
+// extends QMetaObject::invokeMethod by version with arguments
+template<typename Obj, typename F, typename... Args>
+void invokeMethod(Obj* object, const F& method, Args&&... args)
 {
-    CORE_EXPORT QObject * forThread(QThread *);
+    static_assert(std::is_base_of<QObject, Obj>::value, "Obj must be QObject");
+    QMetaObject::invokeMethod(object, [object, method, args...]()
+    {
+        (object->*method)(args...);
+    });
 }
 
 
@@ -41,14 +48,10 @@ template<typename F, typename... Args>
 void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
 {
     if (object.data() != nullptr)
-    {
-        QObject signalSource;
-        QObject::connect(&signalSource, &QObject::destroyed,
-                         object.data(), [=](QObject *)
-                         {
-                             function(args...);
-                         }, Qt::AutoConnection);
-    }
+        QMetaObject::invokeMethod(object.data(), [function, args...]()
+        {
+            function(args...);
+        });
 }
 
 
@@ -61,6 +64,23 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
     };
 
     return result;
+}
+
+
+template<typename ObjT, typename R, typename ...Args>
+std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
+{
+    static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
+
+    QPointer<ObjT> objPtr(obj);
+
+    return [objPtr, method](Args... args)
+    {
+        ObjT* object = objPtr.data();
+
+        if (object)
+            invokeMethod(object, method, args...);
+    };
 }
 
 

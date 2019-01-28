@@ -25,11 +25,12 @@
 
 #include <database/person_data.hpp>
 
+
 class QLabel;
 class QPushButton;
 
 struct ITaskExecutor;
-
+class PeopleOperator;
 
 struct IModelFaceFinder
 {
@@ -38,7 +39,7 @@ struct IModelFaceFinder
     virtual void findBest(const std::vector<PersonInfo> &,
                           const std::function<void(const QString &)> &) = 0;
 
-    virtual QString current(const Person::Id &) const = 0;
+    virtual QString currentBest(const Person::Id &) const = 0;
 };
 
 
@@ -53,19 +54,26 @@ class FaceDetails: public QGroupBox
                     const std::vector<PersonInfo> &,
                     QWidget *);
 
+        ~FaceDetails();
+
     private:
         const std::vector<PersonInfo> m_pi;
+        QString m_name;
         ITaskExecutor* m_executor;
         QPushButton* m_optButton;
         QLabel* m_photo;
         IModelFaceFinder* m_modelFaceFinder;
+        bool m_fetched;
 
-    private slots:
         void setModelPhoto(const QPixmap &);
         void setModelPhoto(const QImage &);
 
         void optimize();
-        void apply(const QString &);
+        void updateRepresentative(const QString &);
+
+        void initialFetch();
+
+        void paintEvent(QPaintEvent *) override;
 };
 
 #endif // FACEDETAILS_HPP

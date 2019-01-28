@@ -72,6 +72,10 @@ class PeopleOperator final: public QObject
         void setModelFace(const PersonInfo &);
         void setModelFaceSync(const PersonInfo &);
 
+        // reading faces from photo
+        void getFace(const PersonInfo &, const std::function<void(const QImage &)> &);
+        QImage getFaceSync(const PersonInfo &);
+
     signals:
         void system_status(const bool, const QString &) const;
         void faces(const QVector<QRect> &) const;

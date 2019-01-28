@@ -49,7 +49,7 @@ class FaceTask: public ITaskExecutor::ITask
         Database::IDatabase* m_db;
 
         std::vector<QRect> fetchFacesFromDb() const;
-        QString getPhotoPath() const;
+        [[deprecated]] QString getPhotoPath() const;   // replace with pathFor
 };
 
 

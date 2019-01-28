@@ -50,6 +50,27 @@ struct ExecutorTraits<Database::IDatabase, T>
 namespace
 {
     const QString faces_recognized_flag = QStringLiteral("faces_recognized");
+
+    QString pathFor(Database::IDatabase* db, const Photo::Id& id)
+    {
+        return evaluate<QString(Database::IBackend *)>(db, [id, db](Database::IBackend *)
+        {
+            Database::IUtils* db_utils = db->utils();
+            auto photo = db_utils->getPhotoFor(id);
+
+            return photo->getPath();
+        });
+    }
+
+    QImage imageFor(Database::IDatabase* db, const PersonInfo& pi, IExifReaderFactory* exifFactory)
+    {
+        const QString path = pathFor(db, pi.ph_id);
+        const QRect& faceRect = pi.rect;
+        const QImage photo = Image::normalized(path, exifFactory->get());
+        const QImage faceImg = photo.copy(faceRect);
+
+        return faceImg;
+    }
 }
 
 
@@ -581,3 +602,22 @@ void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
 {
     ModelFaceStore(pi, m_db, m_coreFactory, m_storage).perform();
 }
+
+
+void PeopleOperator::getFace(const PersonInfo& pi, const std::function<void(const QImage &)>& callback)
+{
+    IExifReaderFactory* exifFactory = m_coreFactory->getExifReaderFactory();
+    runOn(m_coreFactory->getTaskExecutor(), [db = m_db, pi, callback, exifFactory]
+    {
+        const QImage faceImg = imageFor(db, pi, exifFactory);
+
+        callback(faceImg);
+    });
+}
+
+
+QImage PeopleOperator::getFaceSync(const PersonInfo& pi)
+{
+    return imageFor(m_db, pi, m_coreFactory->getExifReaderFactory());
+}
+

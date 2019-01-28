@@ -117,12 +117,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>FaceDetails</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+47"/>
+        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+54"/>
         <source>Find better</source>
         <translation>Znajdź lepsze</translation>
     </message>
     <message numerus="yes">
-        <location line="+16"/>
+        <location line="+13"/>
         <source>On %n photo(s)</source>
         <translation>
             <numerusform>Na %n zdjęciu</numerusform>
@@ -920,7 +920,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TestSystem</name>
     <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+467"/>
+        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+488"/>
         <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
 
 To install them, use &apos;python -m pip install %1&apos; (on Windows)

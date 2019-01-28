@@ -7,7 +7,7 @@
 struct TasksQueue::IntTask: ITaskExecutor::ITask
 {
     IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
-        m_callable(std::move(callable)),
+        m_task(std::move(callable)),
         m_queue(queue)
     {
     }
@@ -20,16 +20,16 @@ struct TasksQueue::IntTask: ITaskExecutor::ITask
 
     void perform() override
     {
-        m_callable->perform();     // client's code
+        m_task->perform();         // client's code
         notify();                  // internal jobs
     }
 
     std::string name() const override
     {
-        return "TasksQueue::IntTask";
+        return std::string("TasksQueue::IntTask: ") + m_task->name();
     }
 
-    std::unique_ptr<ITaskExecutor::ITask> m_callable;
+    std::unique_ptr<ITaskExecutor::ITask> m_task;
     TasksQueue* m_queue;
 };
 
@@ -74,6 +74,24 @@ void TasksQueue::clear()
 {
     std::lock_guard<std::mutex> guard(m_tasksMutex);
     m_waitingTasks.clear();
+}
+
+
+void TasksQueue::add(std::unique_ptr<ITask>&& task)
+{
+    push(std::move(task));
+}
+
+
+void TasksQueue::addLight(std::unique_ptr<ITask>&& task)
+{
+    m_tasksExecutor->addLight(std::move(task));
+}
+
+
+int TasksQueue::heavyWorkers() const
+{
+    return m_tasksExecutor->heavyWorkers();
 }
 
 
