@@ -11,8 +11,8 @@ addons:
   apt:
     packages:
       - libexiv2-dev
-      - qt57base
-      - qt57svg
+      - qt510base
+      - qt510svg
       - python3
       - g++-7
       - gcc-7
@@ -20,7 +20,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-5.0
-      - sourceline: 'ppa:beineri/opt-qt571-trusty'
+      - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
 
 notifications:
   on_failure: never
@@ -52,11 +52,11 @@ before_install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
-        brew install qt@5.7 exiv2;
+        brew install qt@5.10 exiv2;
         pyenv install 3.5.2;
         pyenv global 3.5.2;
         eval "$(pyenv init -)";
-        export PATH="/usr/local/opt/qt@5.7/bin:$PATH"
+        export PATH="/usr/local/opt/qt@5.10/bin:$PATH"
         export CMAKE_BIN=cmake;
         export PYTHON=python;
         sudo pip install virtualenv;
@@ -65,7 +65,7 @@ before_install:
     else
         pyenv install 3.6.0;
         pyenv global 3.6.0;
-        source /opt/qt57/bin/qt57-env.sh;
+        source /opt/qt5*/bin/qt5*-env.sh;
         wget https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh;
         chmod +x ./cmake-3.9.1-Linux-x86_64.sh;
         ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
