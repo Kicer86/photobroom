@@ -82,7 +82,7 @@ before_install:
       conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
       conan config set storage.path=~/conanData;
       conan profile new default --detect;
-      conan profile update settings.compiler.version=7 default
+      conan profile update settings.compiler.version=7.0 default
 
 before_script:
   - if [ "$CC" = "gcc" ]; then
