@@ -71,6 +71,7 @@ before_install:
         ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
         export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
         export PYTHON=`which python`;
+        export CXX=g++-7;
         echo $PYTHON;
     fi
 
@@ -82,7 +83,6 @@ before_install:
       conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
       conan config set storage.path=~/conanData;
       conan profile new default --detect;
-      conan profile update settings.compiler.version=7 default
 
 before_script:
   - if [ "$CC" = "gcc" ]; then
