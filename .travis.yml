@@ -72,6 +72,7 @@ before_install:
         export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
         export PYTHON=`which python`;
         export CXX=g++-7;
+        export C=gcc-7;
         echo $PYTHON;
     fi
 
