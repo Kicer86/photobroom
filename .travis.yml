@@ -71,27 +71,27 @@ before_install:
         ./cmake-3.9.1-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
         export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
         export PYTHON=`which python`;
-        export CXX=g++-7;
-        export C=gcc-7;
         echo $PYTHON;
     fi
 
-  - python --version;
-    pip install conan==1.11.1;
+  - pip install conan==1.11.1;
     pip install codecov;
-    conan --version;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
     conan config set storage.path=~/conanData;
-    conan profile new default --detect;
-    conan profile update settings.compiler.version=7 default
 
 before_script:
   - if [ "$CC" = "gcc" ]; then
         export COMPILER=g++-7;
+        export CXX=g++-7;
+        export C=gcc-7;
     else
         export COMPILER=clang++-5.0;
     fi
+
+  - conan profile new default --detect;
+    conan profile update settings.compiler.version=7 default;
+    cat c:\Users\appveyor\.conan\profiles\default;
 
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
 
