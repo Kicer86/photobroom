@@ -83,10 +83,10 @@ before_install:
 before_script:
   - if [ "$CC" = "gcc" ]; then
         export CXX=g++-7;
-        export C=gcc-7;
+        export CC=gcc-7;
     else
         export CXX=clang++-5.0;
-        export C=clang-5.0;
+        export CC=clang-5.0;
     fi
 
   - conan profile new default --detect;
