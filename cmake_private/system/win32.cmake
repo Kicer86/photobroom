@@ -15,6 +15,8 @@ function(install_external_lib)
     set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
   endif()
 
+  set(CopiedBinaries)
+
   foreach(lib ${EXTERNAL_LIB_DLLFILES})
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
 
@@ -28,14 +30,34 @@ function(install_external_lib)
         list(REMOVE_DUPLICATES hints)
     else()
         message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-
     endif()
+
+    if(DEVELOPER_BUILD)
+        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${lib}.dll
+                           COMMAND ${CMAKE_COMMAND} -E copy ${${LIB_PATH_VAR}} ${CMAKE_BINARY_DIR}/bin/)
+
+        list(APPEND CopiedBinaries ${CMAKE_BINARY_DIR}/bin/${lib}.dll)
+    endif()
+
   endforeach()
+
+  if(DEVELOPER_BUILD)
+    add_custom_target(CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME}
+                      DEPENDS ${CopiedBinaries})
+  endif()
+
+  add_dependencies(CopyExternalBinariesToBuild CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME})
 
 endfunction(install_external_lib)
 
 
 macro(addDeploymentActions)
+
+    if(DEVELOPER_BUILD)
+        add_custom_target(CopyExternalBinariesToBuild ALL
+            DEPENDS photo_broom
+        )
+    endif()
 
     find_package(PythonInterp REQUIRED)
 
