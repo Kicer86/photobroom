@@ -110,3 +110,4 @@ before_script:
 script:
   - make
   - ctest -V
+  - cat Testing/Temporary/LastTest.log
