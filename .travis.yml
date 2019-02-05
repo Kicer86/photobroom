@@ -110,5 +110,6 @@ before_script:
 
 script:
   - make
+  - find -name photos_crawler_base
   - ctest -V
   - cat Testing/Temporary/LastTest.log
