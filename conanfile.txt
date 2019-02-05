@@ -10,3 +10,4 @@ cmake
 [options]
 Exiv2:xmp=False
 Exiv2:video=True
+jsoncpp:fpic=True
