@@ -67,6 +67,7 @@ endif()
 if(MSVC_VERSION)
     #enable auto_ptr. Disabled by VS for c++17 but required by exiv 0.27
     add_definitions(-D_HAS_AUTO_PTR_ETC=1)
+    add_compile_options(/wd4251)
 endif()
 
 #options:
