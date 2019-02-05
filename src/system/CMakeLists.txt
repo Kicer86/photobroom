@@ -43,6 +43,7 @@ if(WIN32)
     if(DEVELOPER_BUILD)
         #Add installation path as a base path.
         set(BASE_PATH "${CMAKE_INSTALL_PREFIX}/")
+        string(REPLACE "\\" "/" BASE_PATH ${BASE_PATH})
     else()
         unset(BASE_PATH)
     endif()
