@@ -18,6 +18,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
 if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    set(ARGUMENTS_NO_OUTPUT_DIRS ON)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup()
 endif()
