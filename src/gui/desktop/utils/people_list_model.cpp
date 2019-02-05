@@ -95,13 +95,16 @@ void PeopleListModel::fill(const QStringList& names)
 {
     assert(m_names.empty());   // otherwise we need to call beginRemoveRows (or similar)
 
-    const int last = names.size() - 1;
+    if (names.empty() == false)
+    {
+        const int last = names.size() - 1;
 
-    beginInsertRows(QModelIndex(), 0, last);
+        beginInsertRows(QModelIndex(), 0, last);
 
-    m_names = names;
+        m_names = names;
 
-    endInsertRows();
+        endInsertRows();
+    }
 }
 
 
