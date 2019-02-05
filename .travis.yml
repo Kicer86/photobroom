@@ -95,14 +95,6 @@ before_script:
 
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
 
-  # third party stuff
-  #- if [ ! -e $TRAVIS_BUILD_DIR/usr/lib ]; then
-  #      pushd tools;
-  #      $PYTHON --version;
-  #      $PYTHON ./prepare_dependencies.py -p jsoncpp -p openlibrary -p pybind11 $TRAVIS_BUILD_DIR/usr;
-  #      popd;
-  #  fi
-
   # setup gmock and gtest
   - if [ ! -e $GTEST_PATH ]; then
         git clone https://github.com/google/googletest.git $GTEST_PATH;
