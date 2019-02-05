@@ -90,7 +90,6 @@ before_script:
     fi
 
   - conan profile new default --detect;
-    conan profile update settings.compiler.version=7 default;
     cat ~/.conan/profiles/default;
 
   - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
