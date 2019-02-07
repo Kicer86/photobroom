@@ -95,7 +95,7 @@ before_script:
 
   # setup gmock and gtest
   - if [ ! -e $GTEST_PATH ]; then
-        git clone --branch v1.8.1 --depth 1 https://github.com/google/googletest.git $GTEST_PATH;
+        git clone --branch release-1.8.1 --depth 1 https://github.com/google/googletest.git $GTEST_PATH;
     fi
   # photo broom
   - mkdir build && cd build
