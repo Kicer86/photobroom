@@ -13,7 +13,7 @@ add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(system)
 
-if (BUILD_UPDATER)
+if(BUILD_UPDATER)
     add_definitions(-DUPDATER_ENABLED)
     add_subdirectory(updater)
 endif()
