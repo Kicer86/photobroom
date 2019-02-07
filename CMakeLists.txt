@@ -17,13 +17,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
-message("TEST1 ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    set(ARGUMENTS_NO_OUTPUT_DIRS ON)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
+    conan_basic_setup(NO_OUTPUT_DIRS)
 endif()
-message("TEST2 ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake/FindGTest.cmake)
