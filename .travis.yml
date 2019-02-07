@@ -109,6 +109,4 @@ before_script:
 
 script:
   - make
-  - find -name core_tests_base
   - ctest -V
-  - cat Testing/Temporary/LastTest.log
