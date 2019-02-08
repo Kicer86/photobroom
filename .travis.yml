@@ -77,6 +77,7 @@ before_install:
     pip install codecov;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
+    conan remote add theirix https://api.bintray.com/conan/theirix/conan-repo;
     conan config set storage.path=~/conanData;
 
 before_script:

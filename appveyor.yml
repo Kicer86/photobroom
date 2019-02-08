@@ -37,6 +37,7 @@ before_build:
     - cmd: conan --version
     - cmd: conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo
     - cmd: conan remote add kicer https://api.bintray.com/conan/kicer86/kicer
+    - cmd: conan remote add theirix https://api.bintray.com/conan/theirix/conan-repo
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
