@@ -79,19 +79,27 @@ namespace
 
     QStringList missingModules()
     {
-        py::module system_test = py::module::import("system_test");
-        py::object missing = system_test.attr("detect_required_modules")();
-
-        auto missing_list = missing.cast<py::list>();
         QStringList result;
 
-        const std::size_t count = missing_list.size();
-        for(std::size_t i = 0; i < count; i++)
+        try
         {
-            auto item = missing_list[i];
+            py::module system_test = py::module::import("system_test");
+            py::object missing = system_test.attr("detect_required_modules")();
 
-            const std::string missing_module = item.cast<std::string>();
-            result.append(missing_module.c_str());
+            auto missing_list = missing.cast<py::list>();
+
+            const std::size_t count = missing_list.size();
+            for (std::size_t i = 0; i < count; i++)
+            {
+                auto item = missing_list[i];
+
+                const std::string missing_module = item.cast<std::string>();
+                result.append(missing_module.c_str());
+            }
+        }
+        catch (const std::exception& ex)
+        {
+            std::cout << ex.what() << std::endl;
         }
 
         return result;
