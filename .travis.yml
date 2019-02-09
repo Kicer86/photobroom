@@ -46,6 +46,7 @@ cache:
   directories:
     - $TRAVIS_BUILD_DIR/usr
     - $HOME/conanData           # Conan storage location
+    - conan                     # Conan installation folder
 
 before_install:
   # setup tools for particular system
