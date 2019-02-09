@@ -39,8 +39,7 @@ class CORE_EXPORT Eviv2MediaInformation: public IMediaInformation
 
         void set(IExifReaderFactory *);
 
-        bool canHandle(const QString & ) const override;
-        virtual QSize size(const QString &) const override;
+        virtual std::optional<QSize> size(const QString &) const override;
 
     private:
         IExifReaderFactory* m_exif;

@@ -20,6 +20,8 @@
 #ifndef FFMPEGVIDEODETAILSREADER_HPP
 #define FFMPEGVIDEODETAILSREADER_HPP
 
+#include <optional>
+
 #include <QSize>
 #include <QStringList>
 
@@ -42,7 +44,7 @@ class CORE_EXPORT FFMpegVideoDetailsReader
 
         bool hasDetails(const QString &) const;                 // checks if given file contains any data to be read
 
-        QSize resolutionOf(const QString& video_file) const;
+        std::optional<QSize> resolutionOf(const QString& video_file) const;
         int durationOf(const QString& video_file) const;        // video duration in seconds
 
     private:

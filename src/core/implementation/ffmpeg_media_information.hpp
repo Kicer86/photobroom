@@ -40,8 +40,7 @@ class FFmpegMediaInformation : public IMediaInformation
 
         void set(IConfiguration *);
 
-        bool canHandle(const QString & ) const override;
-        QSize size(const QString &) const override;
+        std::optional<QSize> size(const QString &) const override;
 
     private:
         QString m_ffprobePath;

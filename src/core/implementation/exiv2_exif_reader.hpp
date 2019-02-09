@@ -54,7 +54,7 @@ class Exiv2ExifReader: public AExifReader
     private:
         bool hasExif(const QString & path) override;
         virtual void collect(const QString &) override;
-        virtual std::string read(TagType) const override;
+        virtual std::optional<std::string> read(TagType) const override;
 
         Exiv2Helper<Exiv2::Image>::Ptr m_exif_data;
         QString m_path;

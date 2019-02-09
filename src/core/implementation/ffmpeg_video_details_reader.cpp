@@ -48,13 +48,13 @@ bool FFMpegVideoDetailsReader::hasDetails(const QString& filePath) const
 
 
 
-QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
+std::optional<QSize> FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
 {
     const QStringList output = outputFor(video_file);
 
     QRegExp resolution_regex(".*Stream [^ ]+ Video:.*, ([0-9]+)x([0-9]+).*");
 
-    QSize result;
+    std::optional<QSize> result;
     for(const QString& line: output)
     {
         const bool matched = resolution_regex.exactMatch(line);
@@ -73,7 +73,7 @@ QSize FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
             const int r = rotation(output);
 
             if (r == 90)
-                result.transpose();
+                result->transpose();
 
             break;
         }

@@ -40,10 +40,9 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
 
         virtual ~MediaInformation();
 
-        void set( ICoreFactoryAccessor *);
+        void set(ICoreFactoryAccessor *);
 
-        bool canHandle(const QString &) const override;
-        QSize size(const QString &) const override;
+        std::optional<QSize> size(const QString &) const override;
 
     private:
         struct Impl;

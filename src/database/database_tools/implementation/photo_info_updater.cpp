@@ -107,9 +107,10 @@ namespace
         virtual void perform() override
         {
             const QString path = m_photoInfo->getPath();
-            const QSize size = m_mediaInformation->size(path);
+            const std::optional<QSize> size = m_mediaInformation->size(path);
 
-            m_photoInfo->setGeometry(size);
+            if (size.has_value())
+                m_photoInfo->setGeometry(*size);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
