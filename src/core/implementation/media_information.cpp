@@ -81,7 +81,7 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
     const QFileInfo fileInfo(path);
     const QString full_path = fileInfo.absoluteFilePath();
 
-    std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will considered)
+    std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will be considered)
 
     if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
         result = imageSize(full_path);
