@@ -51,13 +51,16 @@ std::optional<QSize> Eviv2MediaInformation::size(const QString& path) const
 
     if (has)
     {
-        const std::any x_raw = exif_reader->get(path, IExifReader::TagType::PixelXDimension);
-        const std::any y_raw = exif_reader->get(path, IExifReader::TagType::PixelYDimension);
+        const std::optional<std::any> x_raw = exif_reader->get(path, IExifReader::TagType::PixelXDimension);
+        const std::optional<std::any> y_raw = exif_reader->get(path, IExifReader::TagType::PixelYDimension);
 
-        const long x = std::any_cast<long>(x_raw);
-        const long y = std::any_cast<long>(y_raw);
+        if (x_raw.has_value() && y_raw.has_value())
+        {
+            const long x = std::any_cast<long>(*x_raw);
+            const long y = std::any_cast<long>(*y_raw);
 
-        result = QSize(x, y);
+            result = QSize(x, y);
+        }
     }
 
     return result;

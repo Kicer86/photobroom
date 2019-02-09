@@ -30,6 +30,18 @@
 #include "base_tags.hpp"
 
 
+template<typename T>
+std::optional<std::any> exiv_result(const std::optional<T>& value)
+{
+    std::optional<std::any> result;
+
+    if (value.has_value())
+        result = *value;
+
+    return result;
+}
+
+
 
 AExifReader::AExifReader(): m_id(std::this_thread::get_id())
 {
@@ -72,23 +84,23 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
     switch(type)
     {
         case TagType::SequenceNumber:
-            result = readInt(TagType::SequenceNumber);
+            result = exiv_result(readInt(TagType::SequenceNumber));
             break;
 
         case TagType::Orientation:
-            result = readInt(TagType::Orientation);
+            result = exiv_result(readInt(TagType::Orientation));
             break;
 
         case TagType::DateTimeOriginal:
-            result = readString(TagType::DateTimeOriginal);
+            result = exiv_result(readString(TagType::DateTimeOriginal));
             break;
 
         case TagType::PixelXDimension:
-            result = readLong(TagType::PixelXDimension);
+            result = exiv_result(readLong(TagType::PixelXDimension));
             break;
 
         case TagType::PixelYDimension:
-            result = readLong(TagType::PixelYDimension);
+            result = exiv_result(readLong(TagType::PixelYDimension));
             break;
     }
 
