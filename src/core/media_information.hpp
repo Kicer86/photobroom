@@ -42,7 +42,7 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
 
         void set( ICoreFactoryAccessor *);
 
-        bool canHandle(const QString & ) const override;
+        bool canHandle(const QString &) const override;
         QSize size(const QString &) const override;
 
     private:
