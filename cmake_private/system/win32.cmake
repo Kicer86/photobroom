@@ -35,10 +35,10 @@ function(install_external_lib)
     if(DEVELOPER_BUILD)
         get_filename_component(lib_filename ${${LIB_PATH_VAR}} NAME)
 
-        add_custom_command(OUTPUT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${lib_filename}
-                           COMMAND ${CMAKE_COMMAND} -E copy ${${LIB_PATH_VAR}} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${lib_filename}
+                           COMMAND ${CMAKE_COMMAND} -E copy ${${LIB_PATH_VAR}} ${CMAKE_BINARY_DIR}/bin/)
 
-        list(APPEND CopiedBinaries ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${lib_filename})
+        list(APPEND CopiedBinaries ${CMAKE_BINARY_DIR}/bin/${lib}.dll)
     endif()
 
   endforeach()
