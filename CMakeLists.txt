@@ -44,7 +44,7 @@ include(CheckCXXCompilerFlag)
 # enable/disable concepts
 check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
 
-if (CONCEPTS_SUPPORTED)
+if(CONCEPTS_SUPPORTED)
     add_compile_options("-fconcepts")
     add_definitions(-DCONCEPTS_SUPPORTED)
 endif()
