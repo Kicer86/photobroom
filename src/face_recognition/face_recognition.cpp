@@ -79,19 +79,27 @@ namespace
 
     QStringList missingModules()
     {
-        py::module system_test = py::module::import("system_test");
-        py::object missing = system_test.attr("detect_required_modules")();
-
-        auto missing_list = missing.cast<py::list>();
         QStringList result;
 
-        const std::size_t count = missing_list.size();
-        for(std::size_t i = 0; i < count; i++)
+        try
         {
-            auto item = missing_list[i];
+            py::module system_test = py::module::import("system_test");
+            py::object missing = system_test.attr("detect_required_modules")();
 
-            const std::string missing_module = item.cast<std::string>();
-            result.append(missing_module.c_str());
+            auto missing_list = missing.cast<py::list>();
+
+            const std::size_t count = missing_list.size();
+            for (std::size_t i = 0; i < count; i++)
+            {
+                auto item = missing_list[i];
+
+                const std::string missing_module = item.cast<std::string>();
+                result.append(missing_module.c_str());
+            }
+        }
+        catch (const std::exception& ex)
+        {
+            std::cout << ex.what() << std::endl;
         }
 
         return result;
@@ -146,20 +154,27 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
             if (mm.empty())
             {
-                py::module find_faces = py::module::import("find_faces");
-                py::object locations = find_faces.attr("find_faces")(path.toStdString());
-
-                auto locations_list = locations.cast<py::list>();
-
-                const std::size_t facesCount = locations_list.size();
-                for(std::size_t i = 0; i < facesCount; i++)
+                try
                 {
-                    auto item = locations_list[i];
+                    py::module find_faces = py::module::import("find_faces");
+                    py::object locations = find_faces.attr("find_faces")(path.toStdString());
 
-                    const QRect rect = tupleToRect(item.cast<py::tuple>());
+                    auto locations_list = locations.cast<py::list>();
 
-                    if (rect.isValid())
-                        result.push_back(rect);
+                    const std::size_t facesCount = locations_list.size();
+                    for (std::size_t i = 0; i < facesCount; i++)
+                    {
+                        auto item = locations_list[i];
+
+                        const QRect rect = tupleToRect(item.cast<py::tuple>());
+
+                        if (rect.isValid())
+                            result.push_back(rect);
+                    }
+                }
+                catch (const std::exception& ex)
+                {
+                    std::cout << ex.what() << std::endl;
                 }
             }
 

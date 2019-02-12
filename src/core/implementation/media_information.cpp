@@ -76,28 +76,20 @@ void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
 }
 
 
-bool MediaInformation::canHandle(const QString& path) const
-{
-    return m_impl->m_exif_info.canHandle(path) ||
-           m_impl->m_ffmpeg_info.canHandle(path);
-}
-
-
-QSize MediaInformation::size(const QString& path) const
+std::optional<QSize> MediaInformation::size(const QString& path) const
 {
     const QFileInfo fileInfo(path);
     const QString full_path = fileInfo.absoluteFilePath();
 
-    QSize result;
+    std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will be considered)
 
-    if (m_impl->m_exif_info.canHandle(full_path))               // try to use exif (so orientation will considered)
-        result = m_impl->m_exif_info.size(full_path);
-    else if (MediaTypes::isImageFile(full_path))                // no exif, but image file - read its dimensions from image properties
+    if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
         result = imageSize(full_path);
-    else if (m_impl->m_ffmpeg_info.canHandle(full_path))
+
+    if (result.has_value() == false && MediaTypes::isVideoFile(full_path))  // still no data, and video file
         result = m_impl->m_ffmpeg_info.size(full_path);
 
-    if (result.isValid() == false)
+    if (result.has_value() == false)
     {
         std::string error = "Could not load image data from '";
         error += path.toStdString();
@@ -105,8 +97,6 @@ QSize MediaInformation::size(const QString& path) const
 
         m_impl->m_logger->error(error);
     }
-
-
 
     return result;
 }

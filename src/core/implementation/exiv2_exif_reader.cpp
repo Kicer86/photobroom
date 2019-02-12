@@ -58,9 +58,9 @@ void Exiv2ExifReader::collect(const QString& path)
 }
 
 
-std::string Exiv2ExifReader::read(AExifReader::TagType type) const
+std::optional<std::string> Exiv2ExifReader::read(AExifReader::TagType type) const
 {
-    std::string result;
+    std::optional<std::string> result;
 
     if (m_exif_data.get() != nullptr)
     {

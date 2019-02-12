@@ -40,20 +40,22 @@ class AExifReader: public IExifReader
 
     protected:
         virtual void collect(const QString &) = 0;
-        virtual std::string read(TagType) const = 0;
+        virtual std::optional<std::string> read(TagType) const = 0;
 
     private:
         std::thread::id m_id;
 
         // ITagFeeder:
         Tag::TagsList getTagsFor(const QString& path) override;
-        std::any get(const QString& path, const TagType &) override;
+        std::optional<std::any> get(const QString& path, const TagType &) override;
         //
 
         Tag::TagsList feedDateAndTime() const;
-        int readInt(const TagType &) const;
-        std::string readString(const TagType &) const;
-        long readLong(const TagType &) const;
+
+        // reading various tag types
+        std::optional<int> readInt(const TagType &) const;
+        std::optional<std::string> readString(const TagType &) const;
+        std::optional<long> readLong(const TagType &) const;
 };
 
 #endif // A_EXIF_READER_HPP

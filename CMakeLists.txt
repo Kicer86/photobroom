@@ -44,7 +44,7 @@ include(CheckCXXCompilerFlag)
 # enable/disable concepts
 check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
 
-if (CONCEPTS_SUPPORTED)
+if(CONCEPTS_SUPPORTED)
     add_compile_options("-fconcepts")
     add_definitions(-DCONCEPTS_SUPPORTED)
 endif()
@@ -59,11 +59,15 @@ if(MSVC_VERSION)
         if(MSVC_VERSION LESS 1916)
             add_definitions(-D__cpp_variable_templates=201304)
         endif()
-
-        add_definitions(-D_HAS_AUTO_PTR_ETC=1)
     else()
         message(FATAL_ERROR "Visual Studio 2017 is required")
     endif()
+endif()
+
+if(MSVC_VERSION)
+    #enable auto_ptr. Disabled by VS for c++17 but required by exiv 0.27
+    add_definitions(-D_HAS_AUTO_PTR_ETC=1)
+    add_compile_options(/wd4251)
 endif()
 
 #options:
@@ -91,6 +95,13 @@ if(UNIX OR CYGWIN)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 endif(UNIX OR CYGWIN)
 
 #base paths

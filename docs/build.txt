@@ -52,8 +52,7 @@ On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and
 defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
 
 Extra targets available for Windows:
-'deploy'  prepares extra dir with Qt's libraries and plugins required by PhotoBroom.
-'install' target will install not only PhotoBroom's files but also Qt's libraries and translations.
-          All necessary libraries will be also included.
+'deploy'  prepares extra dir with all external dependencies required by PhotoBroom.
+'install' install PhotoBroom with all external dependencies
 'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.

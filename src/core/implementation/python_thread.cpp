@@ -18,6 +18,8 @@
 
 #include "python_thread.hpp"
 
+#include <iostream>
+
 #include <pybind11/embed.h>
 
 #include <system/filesystem.hpp>
@@ -30,9 +32,16 @@ namespace
         const QString scripts_qstr = FileSystem().getScriptsPath();
         const std::string scripts_str = scripts_qstr.toStdString();
 
-        pybind11::module sys = pybind11::module::import("sys");
-        sys.attr("path").cast<pybind11::list>().append(scripts_str);
-        pybind11::print(sys.attr("path"));
+        try
+        {
+            pybind11::module sys = pybind11::module::import("sys");
+            sys.attr("path").cast<pybind11::list>().append(scripts_str);
+            pybind11::print(sys.attr("path"));
+        }
+        catch (const std::exception& err)
+        {
+            std::cout << err.what() << std::endl;
+        }
     }
 
     void deinit_python()

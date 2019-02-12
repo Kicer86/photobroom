@@ -4,6 +4,7 @@
 
 #include <any>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "tag.hpp"
@@ -30,8 +31,8 @@ struct CORE_EXPORT IExifReader
 
     virtual bool hasExif(const QString& path) = 0;
 
-    virtual Tag::TagsList getTagsFor(const QString& path) = 0;        // returns default set of tags
-    virtual std::any get(const QString& path, const TagType &) = 0;   // access to optional data
+    virtual Tag::TagsList getTagsFor(const QString& path) = 0;                       // returns default set of tags
+    virtual std::optional<std::any> get(const QString& path, const TagType &) = 0;   // access to optional data
 };
 
 

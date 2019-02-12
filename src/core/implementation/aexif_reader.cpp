@@ -30,6 +30,18 @@
 #include "base_tags.hpp"
 
 
+template<typename T>
+std::optional<std::any> exiv_result(const std::optional<T>& value)
+{
+    std::optional<std::any> result;
+
+    if (value.has_value())
+        result = *value;
+
+    return result;
+}
+
+
 
 AExifReader::AExifReader(): m_id(std::this_thread::get_id())
 {
@@ -58,7 +70,7 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 }
 
 
-std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
+std::optional<std::any> AExifReader::get(const QString& path, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
@@ -67,28 +79,28 @@ std::any AExifReader::get(const QString& path, const IExifReader::TagType& type)
 
     collect(full_path);
 
-    std::any result;
+    std::optional<std::any> result;
 
     switch(type)
     {
         case TagType::SequenceNumber:
-            result = readInt(TagType::SequenceNumber);
+            result = exiv_result(readInt(TagType::SequenceNumber));
             break;
 
         case TagType::Orientation:
-            result = readInt(TagType::Orientation);
+            result = exiv_result(readInt(TagType::Orientation));
             break;
 
         case TagType::DateTimeOriginal:
-            result = readString(TagType::DateTimeOriginal);
+            result = exiv_result(readString(TagType::DateTimeOriginal));
             break;
 
         case TagType::PixelXDimension:
-            result = readLong(TagType::PixelXDimension);
+            result = exiv_result(readLong(TagType::PixelXDimension));
             break;
 
         case TagType::PixelYDimension:
-            result = readLong(TagType::PixelYDimension);
+            result = exiv_result(readLong(TagType::PixelYDimension));
             break;
     }
 
@@ -100,71 +112,80 @@ Tag::TagsList AExifReader::feedDateAndTime() const
 {
     Tag::TagsList tagData;
 
-    const std::string dateTimeOrirignal = read(TagType::DateTimeOriginal);
+    const std::optional<std::string> dateTimeOrirignal = read(TagType::DateTimeOriginal);
 
-    const QString v(dateTimeOrirignal.c_str());
-    const QStringList time_splitted = v.split(" ");
-
-    if (time_splitted.size() == 2)
+    if (dateTimeOrirignal.has_value())
     {
-        QString date_raw = time_splitted[0];
-        const QString time_raw = time_splitted[1];
+        const QString v(dateTimeOrirignal->c_str());
+        const QStringList time_splitted = v.split(" ");
 
-        const QDate date = QDate::fromString(date_raw, "yyyy:MM:dd");
-        const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
+        if (time_splitted.size() == 2)
+        {
+            QString date_raw = time_splitted[0];
+            const QString time_raw = time_splitted[1];
 
-        if (date.isValid())
-            tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(date);
+            const QDate date = QDate::fromString(date_raw, "yyyy:MM:dd");
+            const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
 
-        if (time.isValid())
-            tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(time);
+            if (date.isValid())
+                tagData[TagNameInfo(BaseTagsList::Date)] = TagValue(date);
+
+            if (time.isValid())
+                tagData[TagNameInfo(BaseTagsList::Time)] = TagValue(time);
+        }
     }
 
     return tagData;
 }
 
 
-int AExifReader::readInt(const TagType& tagType) const
+std::optional<int> AExifReader::readInt(const TagType& tagType) const
 {
-    int result = 0;
-    const std::string valueRaw = read(tagType);
+    std::optional<int> result = 0;
+    const std::optional<std::string> valueRaw = read(tagType);
 
-    try
+    if (valueRaw.has_value())
     {
-        const int value = stoi(valueRaw);
+        try
+        {
+            const int value = stoi(*valueRaw);
 
-        if (value > 0)
-            result = value;
+            if (value > 0)
+                result = value;
+        }
+        catch(const std::invalid_argument &) {}
+        catch(const std::out_of_range &) {}
     }
-    catch(const std::invalid_argument &) {}
-    catch(const std::out_of_range &) {}
 
     return result;
 }
 
 
-std::string AExifReader::readString(const TagType& tagType) const
+std::optional<std::string> AExifReader::readString(const TagType& tagType) const
 {
-    const std::string result = read(tagType);
+    const std::optional<std::string> result = read(tagType);
 
     return result;
 }
 
 
-long AExifReader::readLong(const IExifReader::TagType& tagType) const
+std::optional<long> AExifReader::readLong(const IExifReader::TagType& tagType) const
 {
-    long result = 0;
-    const std::string valueRaw = read(tagType);
+    std::optional<long> result;
+    const std::optional<std::string> valueRaw = read(tagType);
 
-    try
+    if (valueRaw.has_value())
     {
-        const long value = stol(valueRaw);
+        try
+        {
+            const long value = stol(*valueRaw);
 
-        if (value > 0)
-            result = value;
+            if (value > 0)
+                result = value;
+        }
+        catch(const std::invalid_argument &) {}
+        catch(const std::out_of_range &) {}
     }
-    catch(const std::invalid_argument &) {}
-    catch(const std::out_of_range &) {}
 
     return result;
 }
