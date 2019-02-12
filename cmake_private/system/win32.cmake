@@ -46,9 +46,9 @@ function(install_external_lib)
   if(DEVELOPER_BUILD)
     add_custom_target(CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME}
                       DEPENDS ${CopiedBinaries})
-  endif()
 
-  add_dependencies(CopyExternalBinariesToBuild CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME})
+    add_dependencies(CopyExternalBinariesToBuild CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME})
+  endif()
 
 endfunction(install_external_lib)
 
