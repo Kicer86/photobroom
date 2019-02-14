@@ -25,57 +25,62 @@ endif()
 ##
 
 set(CORE_SOURCES
-    implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
-    base_tags.hpp                                           implementation/base_tags.cpp
-    configuration.hpp                                       implementation/configuration.cpp
-    implementation/configuration_p.hpp
-    constants.hpp                                           implementation/constants.cpp
-    containers_utils.hpp
-    core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
-    disk_observer.hpp                                       implementation/disk_observer.cpp
-    exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
-    features_manager.hpp                                    implementation/features_manager.cpp
-    implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
-    implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
-    ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
-    function_wrappers.hpp
-    implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
-    file_lock.hpp                                           implementation/file_lock.cpp
-    generic_concepts.hpp
+    #interfaces
     iconfiguration.hpp
     icore_factory_accessor.hpp
-    id.hpp
     ifeatures_manager.hpp
     ilogger.hpp
     ilogger_factory.hpp
     ilogger.hpp                                             implementation/ilogger.cpp
-    image_tools.hpp                                         implementation/image_tools.cpp
     imedia_information.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
+
+    #tiny utilities
+    containers_utils.hpp
+    function_wrappers.hpp
+    generic_concepts.hpp
+    id.hpp
     iterator_wrapper.hpp
-    implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
+    map_iterator.hpp
+    ptr_iterator.hpp
+    status.hpp
+
+    #utilities
+    base_tags.hpp                                           implementation/base_tags.cpp
+    configuration.hpp                                       implementation/configuration.cpp
+    constants.hpp                                           implementation/constants.cpp
+    core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
+    disk_observer.hpp                                       implementation/disk_observer.cpp
+    exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
+    ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
+    features_manager.hpp                                    implementation/features_manager.cpp
+    file_lock.hpp                                           implementation/file_lock.cpp
+    image_tools.hpp                                         implementation/image_tools.cpp
     logger.hpp                                              implementation/logger.cpp
     logger_factory.hpp                                      implementation/logger_factory.cpp
-    imedia_information.hpp                                  implementation/media_information.cpp
-    map_iterator.hpp
-    media_information.hpp
+    media_information.hpp                                   implementation/media_information.cpp
     media_types.hpp                                         implementation/media_types.cpp
-    ptr_iterator.hpp
     python_thread.hpp                                       implementation/python_thread.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
     qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
     search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
     signal_postponer.hpp                                    implementation/signal_postponer.cpp
-    status.hpp
     stopwatch.hpp                                           implementation/stopwatch.cpp
     tag.hpp                                                 implementation/tag.cpp
     task_executor.hpp                                       implementation/task_executor.cpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
+
+    implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
+    implementation/configuration_p.hpp
+    implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
+    implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
+    implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
+    implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
 )
 
 
