@@ -1,11 +1,11 @@
 
-find_package(OpenLibrary 2.3 REQUIRED putils)
-find_package(Qt5Core 5.10 REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Exiv2 REQUIRED)
-find_package(Threads REQUIRED)
-find_package(JsonCpp REQUIRED)
-find_package(pybind11 REQUIRED)
+find_package(OpenLibrary 2.3  REQUIRED putils)
+find_package(Qt5Core     5.10 REQUIRED)
+find_package(Qt5Gui           REQUIRED)
+find_package(Exiv2            REQUIRED)
+find_package(Threads          REQUIRED)
+find_package(JsonCpp          REQUIRED)
+find_package(pybind11         REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
