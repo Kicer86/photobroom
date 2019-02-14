@@ -1,6 +1,4 @@
 
-cmake_policy(SET CMP0020 NEW)
-
 configure_file(config.hpp.in ${CMAKE_BINARY_DIR}/config.hpp)
 
 add_subdirectory(core)
