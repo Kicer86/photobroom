@@ -56,12 +56,20 @@ struct PythonThread::Impl
     pybind11::scoped_interpreter m_py_interpreter;
     ol::TS_Queue<std::unique_ptr<ITask>> m_tasks;
 
-    Impl(): m_py_interpreter(), m_tasks(16) {}
+    Impl(): m_py_interpreter(), m_tasks(16)
+    {
+
+    }
 };
 
 
-PythonThread::PythonThread():m_impl(new Impl), m_pythonThread(std::bind(&PythonThread::thread, this))
+PythonThread::PythonThread(): m_impl(nullptr), m_pythonThread()
 {
+#ifdef OS_WIN
+    Py_NoSiteFlag = 1;
+#endif
+    m_impl = std::make_unique<Impl>();
+    m_pythonThread = std::thread(std::bind(&PythonThread::thread, this));
     execute(&init_python);
 }
 

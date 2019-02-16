@@ -5,11 +5,11 @@ rem setup variables
 if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
     set qt_arch=msvc2015
-    set python_path=C:\Python35
+    set python_path=C:\Python36
 ) else (
     set generator="Visual Studio 15 Win64"
     set qt_arch=msvc2017_64
-    set python_path=C:\Python35-x64
+    set python_path=C:\Python36-x64
 )
 
 set USE_QT_VER=5.11

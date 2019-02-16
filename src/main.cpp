@@ -27,6 +27,14 @@
 #include "paths.hpp"
 
 
+enum class CrashCatcherStatus
+{
+    Disabled,
+    Ok,
+    Error,
+};
+
+
 int main(int argc, char **argv)
 {
     Gui gui(argc, argv);
@@ -34,7 +42,6 @@ int main(int argc, char **argv)
     QCoreApplication* app = gui.getApp();
     app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
 
-    const bool status = CrashCatcher::init(argv[0]);
     const QString basePath = System::getApplicationConfigDir();
 
     // setup internal locations
@@ -54,8 +61,11 @@ int main(int argc, char **argv)
     QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
     crashTestOption.setHidden(true);
 
+    QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
+
     parser.addOption(logingLevelOption);
     parser.addOption(crashTestOption);
+    parser.addOption(disableCrashCatcher);
 
     parser.process(*app);
 
@@ -85,7 +95,14 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    const bool crashCatcherDisabled = parser.isSet(disableCrashCatcher);
+
     // build objects
+    CrashCatcherStatus status = CrashCatcherStatus::Disabled;
+
+    if (crashCatcherDisabled == false)
+        status = CrashCatcher::init(argv[0]) ? CrashCatcherStatus::Ok : CrashCatcherStatus::Error;
+
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
 
@@ -106,10 +123,20 @@ int main(int argc, char **argv)
 
     ProjectManager prjManager(&database_builder);
 
-    if (status)
-        logger_factory.get("CrashCatcher")->info("Initialization successful");
-    else
-        logger_factory.get("CrashCatcher")->error("Initialization failed");
+    switch (status)
+    {
+        case CrashCatcherStatus::Ok:
+            logger_factory.get("CrashCatcher")->info("Initialization successful");
+            break;
+    
+        case CrashCatcherStatus::Error:
+            logger_factory.get("CrashCatcher")->error("Initialization failed");
+            break;
+
+        case CrashCatcherStatus::Disabled:
+            logger_factory.get("CrashCatcher")->info("Disabled");
+            break;
+    }
 
     ExifReaderFactory exifReaderFactory;
 

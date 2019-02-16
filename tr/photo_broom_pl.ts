@@ -994,7 +994,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+49"/>
+        <location filename="../src/main.cpp" line="+56"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
         <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>
