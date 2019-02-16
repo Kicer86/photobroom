@@ -59,4 +59,4 @@ build:
   verbosity: minimal
 
 after_build:
-    - if "%CONFIGURATION%" == "Release"  cmake --build . --target PACKAGE --config %configuration%
+    - cmake --build . --target PACKAGE --config %configuration%
