@@ -74,10 +74,17 @@ macro(addDeploymentActions)
 
     elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
+        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+            set(redistributable_file_name vcredist_x64)
+        else()
+            set(redistributable_file_name vcredist_x86)
+        endif()
+
         find_program(VS_REDIST
-                     vcredist_x86
+                     ${redistributable_file_name}
                      DOC "Visual Studio redistributable package installer"
                      HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 15.0/VC/redist/"
+                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/*"
                     )
 
         if(VS_REDIST)
