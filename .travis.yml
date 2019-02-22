@@ -59,7 +59,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         eval "$(pyenv init -)";
-        export PATH="/usr/local/opt/qt@5.10/bin:$PATH"
+        export PATH="/usr/local/opt/qt/bin:$PATH"
         export CMAKE_BIN=cmake;
         export PYTHON=python;
         sudo pip install virtualenv;
