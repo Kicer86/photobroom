@@ -24,8 +24,9 @@ addons:
 
   homebrew:
     packages:
-      - qt@5.10
+      - qt5
       - exiv2
+    update: true
 
 notifications:
   on_failure: never
