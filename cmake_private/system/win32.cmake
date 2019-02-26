@@ -91,7 +91,7 @@ macro(addDeploymentActions)
             #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
             install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
 
-            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\vcredist_x86.exe\\\"'")
+            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\${redistributable_file_name}\\\"'")
         else()
             message(WARNING "Could not find Visual Studio redistributable package installer")
         endif()
