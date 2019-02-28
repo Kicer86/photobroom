@@ -7,7 +7,7 @@ function(install_external_lib)
   set(options)
   set(oneValueArgs NAME LOCATION)
   set(multiValueArgs DLLFILES HINTS)
-  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   set(hints ${EXTERNAL_LIB_HINTS})
 
@@ -121,20 +121,46 @@ macro(addDeploymentActions)
                          LOCATION "."
     )
 
-    install_external_lib(NAME "Python"
-                         DLLFILES ${libs_python}
-                         HINTS ${python_lib_dir}/../bin
-                               ${python_lib_dir}/..
-    )
-
-    #Qt5
+    # hierarchy setup
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-    find_program(WINDEPLOY windeployqt)
 
     add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_main
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/python_unzipped
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_main
                       )
+
+    # python interpreter download
+    if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+        set(arch "amd64")
+    else()
+        set(arch "win32")
+    endif()
+
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_embed.zip
+                       COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/InterpreterDownloader.py
+                           ARGS ${PYTHON_VERSION_MAJOR}
+                                ${PYTHON_VERSION_MINOR}
+                                ${arch}
+                                ${OUTPUT_PATH}/python_embed.zip
+    )
+
+    # extract python zip to get required components
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_unzipped/python.exe
+                       COMMAND ${CMAKE_COMMAND} -E tar -x ${OUTPUT_PATH}/python_embed.zip
+                       DEPENDS ${OUTPUT_PATH}/python_embed.zip
+                               ${OUTPUT_PATH}/deploy_main
+                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_unzipped
+    )
+
+    install(FILES
+                ${OUTPUT_PATH}/python_unzipped/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
+                ${OUTPUT_PATH}/python_unzipped/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.dll
+            DESTINATION ${PATH_LIBS}
+    )
+
+    # Qt5
+    find_program(WINDEPLOY windeployqt)
 
     if(WINDEPLOY)
 
@@ -195,7 +221,7 @@ macro(addDeploymentActions)
     endif(WINDEPLOY)
 
     #target
-    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
+    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5 ${OUTPUT_PATH}/python_unzipped/python.exe)
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
