@@ -70,11 +70,12 @@ def find_matching_version(versions, major, minor):
 
 if __name__ == "__main__":
 
-    assert len(sys.argv) == 4, "Expecting 3 arguments"   # script name + 3 additional args
+    assert len(sys.argv) == 5, "Expecting 4 arguments"   # script name + 4 additional args
 
     version_major = sys.argv[1]
     version_minor = sys.argv[2]
     arch          = sys.argv[3]   # win32 or amd64
+    output_dir    = sys.argv[4]
 
     assert re.match("\d+", version_major), "First argument should be a major version number"
     assert re.match("\d+", version_minor), "Second argument should be a minor version number"
@@ -88,12 +89,25 @@ if __name__ == "__main__":
     url += version
     files = list_content(url)
 
-    desired_file_name_pattern = "python-" + version + "-embed-" + arch + ".zip"
+    desired_file_name = "python-" + version + "-embed-" + arch + ".zip"
     pkg_file_url = ""
 
+    # check if desired file exists
     for file in files:
-        if file == desired_file_name_pattern:
+        if file == desired_file_name:
             pkg_file_url = url + "/" + file
             break
 
-    print(pkg_file_url)
+    output_file = output_dir + "/" + desired_file_name
+
+    # download file
+    if pkg_file_url:
+        connection_pool = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+        resp = connection_pool.request('GET', pkg_file_url, preload_content=False)
+        with open(output_file, 'wb') as output:
+            while True:
+                data = resp.read(4096)
+                if data:
+                    output.write(data)
+                else:
+                    break
