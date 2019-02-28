@@ -18,6 +18,7 @@ set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/
 set GTEST_PATH=c:\projects\googletest
 
 python -m pip install certifi
+python -m pip install urllib3
 
 rem setup gmock and gtest
 :gtest
