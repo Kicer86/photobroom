@@ -50,6 +50,7 @@ before_build:
     - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
     - cmd: cat c:\Users\appveyor\.conan\profiles\default
+    - cmd: python -m pip install certifi
     - git submodule update --init --recursive
     - call appveyor.bat
 
