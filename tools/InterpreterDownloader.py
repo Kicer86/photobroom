@@ -75,7 +75,7 @@ if __name__ == "__main__":
     version_major = sys.argv[1]
     version_minor = sys.argv[2]
     arch          = sys.argv[3]   # win32 or amd64
-    output_dir    = sys.argv[4]
+    output_file   = sys.argv[4]
 
     assert re.match("\d+", version_major), "First argument should be a major version number"
     assert re.match("\d+", version_minor), "Second argument should be a minor version number"
@@ -97,8 +97,6 @@ if __name__ == "__main__":
         if file == desired_file_name:
             pkg_file_url = url + "/" + file
             break
-
-    output_file = output_dir + "/" + desired_file_name
 
     # download file
     if pkg_file_url:
