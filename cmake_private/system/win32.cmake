@@ -126,7 +126,7 @@ macro(addDeploymentActions)
 
     add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_main
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/python_unzipped
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/python_embed
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_main
                       )
 
@@ -146,16 +146,28 @@ macro(addDeploymentActions)
     )
 
     # extract python zip to get required components
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_unzipped/python.exe
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_embed/python.exe
                        COMMAND ${CMAKE_COMMAND} -E tar -x ${OUTPUT_PATH}/python_embed.zip
                        DEPENDS ${OUTPUT_PATH}/python_embed.zip
                                ${OUTPUT_PATH}/deploy_main
-                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_unzipped
+                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_embed
     )
 
+    # some info about embeddable python and its limitations:
+    # https://stackoverflow.com/questions/42666121/pip-with-embedded-python
+    # https://bugs.python.org/issue33903
+
+    # add required python modules
+    find_program(PIP pip)
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules/modules.txt
+                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules dlib
+                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules face_recognition
+                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules face_recognition_models
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/python_modules/modules.txt)
+
     install(FILES
-                ${OUTPUT_PATH}/python_unzipped/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
-                ${OUTPUT_PATH}/python_unzipped/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.dll
+                ${OUTPUT_PATH}/python_embed/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
+                ${OUTPUT_PATH}/python_embed/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.dll
             DESTINATION ${PATH_LIBS}
     )
 
@@ -221,7 +233,10 @@ macro(addDeploymentActions)
     endif(WINDEPLOY)
 
     #target
-    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5 ${OUTPUT_PATH}/python_unzipped/python.exe)
+    add_custom_target(deploy ALL DEPENDS
+                                    ${OUTPUT_PATH}/deploy_qt5
+                                    ${OUTPUT_PATH}/python_embed/python.exe
+                                    ${OUTPUT_PATH}/python_modules/modules.txt)
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
