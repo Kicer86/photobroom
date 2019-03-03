@@ -10,6 +10,10 @@
 #include <QDir>
 #include <QTimer>
 
+#ifdef OS_WIN
+#include <Windows.h>
+#endif
+
 #include <core/configuration.hpp>
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
@@ -63,9 +67,16 @@ int main(int argc, char **argv)
 
     QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
 
+#ifdef OS_WIN
+    QCommandLineOption enableConsole("enable-console", "Opens console with app's output messages");
+    enableConsole.setHidden(true);
+#endif
+
+
     parser.addOption(logingLevelOption);
     parser.addOption(crashTestOption);
     parser.addOption(disableCrashCatcher);
+    parser.addOption(enableConsole);
 
     parser.process(*app);
 
@@ -96,6 +107,14 @@ int main(int argc, char **argv)
     }
 
     const bool crashCatcherDisabled = parser.isSet(disableCrashCatcher);
+
+#ifdef OS_WIN
+    if (parser.isSet(enableConsole) && (AttachConsole(ATTACH_PARENT_PROCESS) || AllocConsole()) )
+    {
+        freopen("CONOUT$", "w", stdout);
+        freopen("CONOUT$", "w", stderr);
+    }
+#endif
 
     // build objects
     CrashCatcherStatus status = CrashCatcherStatus::Disabled;
