@@ -158,11 +158,10 @@ macro(addDeploymentActions)
     # https://bugs.python.org/issue33903
 
     # add required python modules
-    find_program(PIP pip)
     add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules/modules.txt
-                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules dlib
-                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules face_recognition
-                       COMMAND ${PIP} install -t ${OUTPUT_PATH}/python_modules face_recognition_models
+                       COMMAND ${PYTHON_EXECUTABLE} -m pip install -t ${OUTPUT_PATH}/python_modules dlib
+                       COMMAND ${PYTHON_EXECUTABLE} -m pip install -t ${OUTPUT_PATH}/python_modules face_recognition
+                       COMMAND ${PYTHON_EXECUTABLE} -m pip install -t ${OUTPUT_PATH}/python_modules face_recognition_models
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/python_modules/modules.txt)
 
     install(FILES
