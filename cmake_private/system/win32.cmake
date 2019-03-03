@@ -171,6 +171,9 @@ macro(addDeploymentActions)
             DESTINATION ${PATH_LIBS}
     )
 
+    install(DIRECTORY ${OUTPUT_PATH}/python_modules
+            DESTINATION ${PATH_LIBS})
+
     # Qt5
     find_program(WINDEPLOY windeployqt)
 
