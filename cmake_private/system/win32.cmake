@@ -124,10 +124,10 @@ macro(addDeploymentActions)
     # hierarchy setup
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_main
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_dirs
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/python_embed
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_main
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
                       )
 
     # python interpreter download
@@ -149,7 +149,7 @@ macro(addDeploymentActions)
     add_custom_command(OUTPUT ${OUTPUT_PATH}/python_embed/python.exe
                        COMMAND ${CMAKE_COMMAND} -E tar -x ${OUTPUT_PATH}/python_embed.zip
                        DEPENDS ${OUTPUT_PATH}/python_embed.zip
-                               ${OUTPUT_PATH}/deploy_main
+                               ${OUTPUT_PATH}/deploy_dirs
                        WORKING_DIRECTORY ${OUTPUT_PATH}/python_embed
     )
 
@@ -202,7 +202,7 @@ macro(addDeploymentActions)
                                        $<TARGET_FILE:updater>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
-                               DEPENDS ${OUTPUT_PATH}/deploy_main
+                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
@@ -223,7 +223,7 @@ macro(addDeploymentActions)
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
-                               DEPENDS ${OUTPUT_PATH}/deploy_main
+                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
