@@ -235,7 +235,7 @@ macro(addDeploymentActions)
     endif(WINDEPLOY)
 
     #target
-    add_custom_target(deploy ALL DEPENDS
+    add_custom_target(deploy DEPENDS
                                     ${OUTPUT_PATH}/deploy_qt5
                                     ${OUTPUT_PATH}/python_embed/python.exe
                                     ${OUTPUT_PATH}/python_modules/modules.txt)
