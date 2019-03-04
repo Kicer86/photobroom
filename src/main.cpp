@@ -70,13 +70,13 @@ int main(int argc, char **argv)
 #ifdef OS_WIN
     QCommandLineOption enableConsole("enable-console", "Opens console with app's output messages");
     enableConsole.setHidden(true);
-#endif
 
+    parser.addOption(enableConsole);
+#endif
 
     parser.addOption(logingLevelOption);
     parser.addOption(crashTestOption);
     parser.addOption(disableCrashCatcher);
-    parser.addOption(enableConsole);
 
     parser.process(*app);
 
@@ -147,7 +147,7 @@ int main(int argc, char **argv)
         case CrashCatcherStatus::Ok:
             logger_factory.get("CrashCatcher")->info("Initialization successful");
             break;
-    
+
         case CrashCatcherStatus::Error:
             logger_factory.get("CrashCatcher")->error("Initialization failed");
             break;
