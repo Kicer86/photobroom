@@ -17,8 +17,8 @@ set PATH=%python_path%;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\b
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
 set GTEST_PATH=c:\projects\googletest
 
-python -m pip install certifi
-python -m pip install urllib3
+python -m pip install certifi urllib3
+python -m pip install twine wheel
 
 rem setup gmock and gtest
 :gtest

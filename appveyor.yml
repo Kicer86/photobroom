@@ -10,8 +10,8 @@ configuration:
     - Debug
 
 platform:
-    - Win32
     - x64
+    - Win32
 
 image: Visual Studio 2017
 
