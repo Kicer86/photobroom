@@ -3,12 +3,8 @@ from pathlib import Path
 import subprocess
 import sys
 
-if __name__ == "__main__":
 
-    assert len(sys.argv) == 2, "Expecting 1 arguments"   # script name + dlib path
-
-    wd = sys.argv[1]
-
+def build_dlib(wd: str):
     working_dir = Path(wd)
     subdirs = [d for d in working_dir.iterdir() if d.is_dir()]
 
@@ -29,6 +25,19 @@ if __name__ == "__main__":
         assert len(whl_files) == 1, "Expecting one whl file"
         whl = whl_files[0]
 
-        print(str(whl))
+        return str(whl)
     else:
         exit(1)
+
+
+def main():
+    assert len(sys.argv) == 2, "Expecting 1 arguments"   # script name + dlib path
+
+    wd = sys.argv[1]
+
+    whl_path = build_dlib(wd)
+    print(whl_path)
+
+
+if __name__ == "__main__":
+    main()

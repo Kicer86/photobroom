@@ -6,28 +6,28 @@ if "%platform%"=="Win32" (
     set generator="Visual Studio 15"
     set qt_arch=msvc2015
     set python_path=C:\Python36
+    set arch=win32
 ) else (
     set generator="Visual Studio 15 Win64"
     set qt_arch=msvc2017_64
     set python_path=C:\Python36-x64
+    set arch=amd64
 )
 
 set USE_QT_VER=5.11
 set PATH=%python_path%;C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
 set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/projects/install
-set GTEST_PATH=c:\projects\googletest
 
 python -m pip install certifi urllib3
 python -m pip install twine wheel
+mkdir c:\temp
 
-rem setup gmock and gtest
-:gtest
-if EXIST c:/projects/googletest goto :photo_broom
-git clone --branch release-1.8.1 --depth 1 https://github.com/google/googletest.git %GTEST_PATH%
+if EXIST python_embed.zip goto :photo_broom
+python ./ci/build_python_env.py python_embed.zip c:/temp 3 6 %arch%
 
 rem photo broom
 :photo_broom
 mkdir build
 cd build
 conan install .. --build missing
-cmake -G%generator% -DGTEST_DIR=%GTEST_PATH%/googletest -DGMOCK_DIR=%GTEST_PATH%/googlemock -DBUILD_UPDATER=ON -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=c:/projects/install/ ..
+cmake -G%generator% -DBUILD_UPDATER=ON -DBUILD_TESTS=OFF ..

@@ -6,19 +6,7 @@ import urllib3
 from PagesProcessor import list_content, find_versions, find_matching_version
 
 
-if __name__ == "__main__":
-
-    assert len(sys.argv) == 5, "Expecting 4 arguments"   # script name + 4 additional args
-
-    version_major = sys.argv[1]
-    version_minor = sys.argv[2]
-    arch          = sys.argv[3]   # win32 or amd64
-    output_file   = sys.argv[4]
-
-    assert re.match("\d+", version_major), "First argument should be a major version number"
-    assert re.match("\d+", version_minor), "Second argument should be a minor version number"
-    assert re.match("win32|amd64", arch),  "Third argument should be win32 or amd64"
-
+def download_python(version_major, version_minor, arch, output_file):
     url = 'http://www.python.org/ftp/python/'
     all_entries = list_content(url)
     all_versions = find_versions(all_entries)
@@ -47,3 +35,22 @@ if __name__ == "__main__":
                     output.write(data)
                 else:
                     break
+
+
+def main():
+    assert len(sys.argv) == 5, "Expecting 4 arguments"   # script name + 4 additional args
+
+    version_major = sys.argv[1]
+    version_minor = sys.argv[2]
+    arch          = sys.argv[3]   # win32 or amd64
+    output_file   = sys.argv[4]
+
+    assert re.match("\d+", version_major), "First argument should be a major version number"
+    assert re.match("\d+", version_minor), "Second argument should be a minor version number"
+    assert re.match("win32|amd64", arch),  "Third argument should be win32 or amd64"
+
+    download_python(version_major, version_minor, arch, output_file)
+
+
+if __name__ == "__main__":
+    main()

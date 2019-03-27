@@ -2,45 +2,6 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
-function(dlib_build_rules)
-    # download dlib
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/dlib.zip
-                       COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/DlibDownloader.py ${OUTPUT_PATH}/dlib.zip)
-
-    # unpack dlib
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/dlib/dlib.txt
-                       COMMAND ${CMAKE_COMMAND} -E tar -x ${OUTPUT_PATH}/dlib.zip
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/dlib/dlib.txt
-                       WORKING_DIRECTORY ${OUTPUT_PATH}/dlib
-                       DEPENDS ${OUTPUT_PATH}/dlib.zip)
-
-    # build dlib
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/dlib/dlib_build.txt
-                       COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/DlibBuilder.py ${OUTPUT_PATH}/dlib > ${OUTPUT_PATH}/dlib/dlib_build.txt
-                       VERBATIM
-                       DEPENDS ${OUTPUT_PATH}/dlib/dlib.txt)
-endfunction()
-
-
-function(setup_python_environment)
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_embed.zip
-                       COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/InterpreterDownloader.py
-                           ARGS ${PYTHON_VERSION_MAJOR}
-                                ${PYTHON_VERSION_MINOR}
-                                ${arch}
-                                ${OUTPUT_PATH}/python_embed.zip
-    )
-
-    # extract python zip to get required components
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/python.txt
-                       COMMAND ${CMAKE_COMMAND} -E tar -x ${OUTPUT_PATH}/python_embed.zip
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/python.txt
-                       DEPENDS ${OUTPUT_PATH}/python_embed.zip
-                               ${OUTPUT_PATH}/deploy_dirs
-                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_modules
-    )
-endfunction()
-
 
 function(setup_qt_environment)
     find_program(WINDEPLOY windeployqt)
@@ -229,7 +190,6 @@ macro(addDeploymentActions)
     add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_dirs
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/dlib
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/python_modules
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
                       )
 
@@ -240,23 +200,18 @@ macro(addDeploymentActions)
         set(arch "win32")
     endif()
 
-    setup_python_environment()
+    find_file(PYTHON_EMBED python_embed.zip
+              HINTS ${PROJECT_SOURCE_DIR}
+    )
 
     # some info about embeddable python and its limitations:
     # https://stackoverflow.com/questions/42666121/pip-with-embedded-python
     # https://bugs.python.org/issue33903
 
-    dlib_build_rules()
-
-    # add required python modules
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules.txt
-                       COMMAND ${PYTHON_EXECUTABLE} -m pip install --compile
-                                --target ${OUTPUT_PATH}/python_modules
-                                -r ${OUTPUT_PATH}/dlib/dlib_build.txt
-                                setuptools
-                                face_recognition
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/python_modules.txt
-                       DEPENDS ${OUTPUT_PATH}/dlib/dlib_build.txt)
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules/python.exe
+                       COMMAND ${CMAKE_COMMAND} -E tar -x ${PYTHON_EMBED}
+                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_modules
+    )
 
     install(FILES
                 ${OUTPUT_PATH}/python_modules/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
@@ -272,8 +227,7 @@ macro(addDeploymentActions)
     #target
     add_custom_target(deploy DEPENDS
                                     ${OUTPUT_PATH}/deploy_qt5
-                                    ${OUTPUT_PATH}/python.txt
-                                    ${OUTPUT_PATH}/python_modules.txt)
+                                    ${OUTPUT_PATH}/python_modules/python.exe)
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})

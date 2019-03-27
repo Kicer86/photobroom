@@ -17,10 +17,9 @@ image: Visual Studio 2017
 
 
 cache:
-    - c:\projects\install           -> appveyor.bat
-    - c:\projects\googletest        -> appveyor.bat
-    - c:\Users\appveyor\conanCache  -> appveyor.bat, conanfile.txt
-    - envs                          -> appveyor.bat, conanfile.txt  # conan installation
+    - c:\Users\appveyor\conanCache  -> ci/appveyor.bat, conanfile.txt
+    - envs                          -> ci/appveyor.bat, conanfile.txt  # conan installation
+    - python_embed.zip              -> ci/appveyor.bat, appveyor.yml   # python environment
 
 artifacts:
   - path: build/PhotoBroom-1.3.0-*.exe
@@ -51,7 +50,7 @@ before_build:
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
     - cmd: cat c:\Users\appveyor\.conan\profiles\default
     - git submodule update --init --recursive
-    - call appveyor.bat
+    - call ci/appveyor.bat
 
 build:
   project: build/PhotoBroom.sln

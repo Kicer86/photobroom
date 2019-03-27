@@ -15,12 +15,7 @@ class FileWithVersion(StrictVersion):
         StrictVersion.__init__(self, major + "." + minor)
 
 
-if __name__ == "__main__":
-
-    assert len(sys.argv) == 2, "Expecting 1 arguments"   # script name + download path
-
-    output_file = sys.argv[1]
-
+def download_dlib(output_file: str):
     url = 'http://dlib.net/files/'
     all_entries = list_content(url)
     files = find_files(all_entries, "dlib-.*zip")
@@ -40,3 +35,15 @@ if __name__ == "__main__":
                     output.write(data)
                 else:
                     break
+
+
+def main():
+    assert len(sys.argv) == 2, "Expecting 1 arguments"   # script name + download path
+
+    output_file = sys.argv[1]
+
+    download_dlib(output_file)
+
+
+if __name__ == "__main__":
+    main()
