@@ -2,12 +2,75 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
+
+function(setup_qt_environment)
+    find_program(WINDEPLOY windeployqt)
+
+    if(WINDEPLOY)
+        get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
+
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${WINDEPLOY}
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:gui>
+
+                               COMMAND ${WINDEPLOY}
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:sql_backend_base>
+
+                               COMMAND ${WINDEPLOY}
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:updater>
+
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
+                               DEPENDS photo_broom
+                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                              )
+        else()
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${WINDEPLOY}
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:photo_broom>
+
+                               COMMAND ${WINDEPLOY}
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
+                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                       --no-compiler-runtime
+                                       --release
+                                       $<TARGET_FILE:sql_backend_base>
+
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
+                               DEPENDS photo_broom
+                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
+                              )
+        endif()
+    else()
+        message(FATAL_ERROR "Could not find windeployqt")
+    endif(WINDEPLOY)
+endfunction()
+
+
 function(install_external_lib)
 
   set(options)
   set(oneValueArgs NAME LOCATION)
   set(multiValueArgs DLLFILES HINTS)
-  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   set(hints ${EXTERNAL_LIB_HINTS})
 
@@ -91,7 +154,7 @@ macro(addDeploymentActions)
             #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
             install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
 
-            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\vcredist_x86.exe\\\"'")
+            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\${redistributable_file_name}\\\"'")
         else()
             message(WARNING "Could not find Visual Studio redistributable package installer")
         endif()
@@ -121,81 +184,50 @@ macro(addDeploymentActions)
                          LOCATION "."
     )
 
-    install_external_lib(NAME "Python"
-                         DLLFILES ${libs_python}
-                         HINTS ${python_lib_dir}/../bin
-                               ${python_lib_dir}/..
-    )
-
-    #Qt5
+    # hierarchy setup
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-    find_program(WINDEPLOY windeployqt)
 
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_main
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_dirs
                        COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_main
+                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/dlib
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
                       )
 
-    if(WINDEPLOY)
-
-        get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
-
-        if(BUILD_SHARED_LIBS)
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
-                                       --release
-                                       $<TARGET_FILE:gui>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
-                                       --release
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
-                                       --release
-                                       $<TARGET_FILE:updater>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
-                               DEPENDS ${OUTPUT_PATH}/deploy_main
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        else()
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
-                                       --release
-                                       $<TARGET_FILE:photo_broom>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
-                                       --release
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
-                               DEPENDS ${OUTPUT_PATH}/deploy_main
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        endif()
+    # python interpreter download
+    if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+        set(arch "amd64")
     else()
-        message(FATAL_ERROR "Could not find windeployqt")
-    endif(WINDEPLOY)
+        set(arch "win32")
+    endif()
+
+    find_file(PYTHON_EMBED python_embed.zip
+              HINTS ${PROJECT_SOURCE_DIR}
+    )
+
+    # some info about embeddable python and its limitations:
+    # https://stackoverflow.com/questions/42666121/pip-with-embedded-python
+    # https://bugs.python.org/issue33903
+
+    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules/python.exe
+                       COMMAND ${CMAKE_COMMAND} -E tar -x ${PYTHON_EMBED}
+                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_modules
+    )
+
+    install(FILES
+                ${OUTPUT_PATH}/python_modules/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
+                ${OUTPUT_PATH}/python_modules/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.dll
+            DESTINATION ${PATH_LIBS}
+    )
+
+    install(DIRECTORY ${OUTPUT_PATH}/python_modules
+            DESTINATION ${PATH_LIBS})
+
+    setup_qt_environment()
 
     #target
-    add_custom_target(deploy ALL DEPENDS ${OUTPUT_PATH}/deploy_qt5)
+    add_custom_target(deploy DEPENDS
+                                    ${OUTPUT_PATH}/deploy_qt5
+                                    ${OUTPUT_PATH}/python_modules/python.exe)
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})

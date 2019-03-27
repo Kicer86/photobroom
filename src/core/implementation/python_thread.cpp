@@ -32,10 +32,15 @@ namespace
         const QString scripts_qstr = FileSystem().getScriptsPath();
         const std::string scripts_str = scripts_qstr.toStdString();
 
+        const QString libs_qstr = FileSystem().getLibrariesPath();
+        const std::string libs_str = libs_qstr.toStdString();
+        const std::string python_modules_str = libs_str + "/python_modules";
+
         try
         {
             pybind11::module sys = pybind11::module::import("sys");
             sys.attr("path").cast<pybind11::list>().append(scripts_str);
+            sys.attr("path").cast<pybind11::list>().append(python_modules_str);
             pybind11::print(sys.attr("path"));
         }
         catch (const std::exception& err)

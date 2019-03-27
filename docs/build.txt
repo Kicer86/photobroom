@@ -25,13 +25,9 @@ Required tools and libraries:
  - face_recognition_models
  - pillow
 
-* For convenience it is possible to use python script
-  for download, build and install all marked libraries
-  (python 3.5 at least is required).
-  If you want to use it run prepared_dependencies.py from tools directory.
-  Pass --help to get information about usage.
-  Exiv2 requires 'expat' and 'zlib' to build, so these two packages
-  are also available for convenience.
+* For convenience it is possible to use conan tool
+  for download, build and install all marked libraries.
+
 
 Tested compilers (with c++17 support):
 1. gcc (Linux and Windows)
