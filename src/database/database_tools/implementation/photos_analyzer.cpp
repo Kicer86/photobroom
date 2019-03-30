@@ -17,8 +17,6 @@
  *
  */
 
-#include <iostream>
-
 #include "../photos_analyzer.hpp"
 #include "photos_analyzer_p.hpp"
 
@@ -94,14 +92,10 @@ Database::SignalMapper* PhotosAnalyzerImpl::getMapper()
 
 void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 {
-    std::cout << "*** Adding photo with ID = " << photo->getID() << std::endl;
     assert(photo->isFullyInitialized() == false);
 
     if (photo->isSha256Loaded() == false)
-    {
-        std::cout << "*** Photo with ID = " << photo->getID() << " has no sha256" << std::endl;
         m_updater.updateSha256(photo);
-    }
 
     if (photo->isGeometryLoaded() == false)
         m_updater.updateGeometry(photo);

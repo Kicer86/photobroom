@@ -4,7 +4,6 @@
 #include <assert.h>
 
 #include <memory>
-#include <iostream>
 
 #include <QImage>
 #include <QFile>
@@ -76,8 +75,6 @@ namespace
             const QByteArray hexHash = rawHash.toHex();
 
             assert(hexHash.isEmpty() == false);
-
-            std::cout << "*** Setting sha256 on photo with ID = " << m_photoInfo->getID() << std::endl;
             m_photoInfo->setSha256(hexHash);
         }
 
