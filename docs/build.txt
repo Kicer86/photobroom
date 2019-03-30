@@ -32,7 +32,7 @@ Required tools and libraries:
 Tested compilers (with c++17 support):
 1. gcc (Linux and Windows)
 
-2. clang (Linux)
+2. clang (Linux)  - temporarily broken due to https://bugs.llvm.org/show_bug.cgi?id=38485
 
 3. Visual studio 2017 (Windows)
 
