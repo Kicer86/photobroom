@@ -74,13 +74,13 @@ endif()
 option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
-option(DEVELOPER_BUILD "Enable developer build. Enable it to make debugging easier.")
+option(DEVELOPER_BUILD "Enable developer build. Changes behavior of some components. Useful for developers")
 option(STATIC_PLUGINS "Build plugins as static" OFF)
 
 #options description:
 add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
 add_feature_info("Run unit test after build" RUN_TESTS_AFTER_BUILD "Runs unit tests after build. Feature controled by RUN_TESTS_AFTER_BUILD variable.")
-add_feature_info("Enable developer build" DEVELOPER_BUILD "Enable it to make debugging easier.")
+add_feature_info("Enable developer build" DEVELOPER_BUILD "Enable it to change behavior of some components. Useful for developers")
 add_feature_info("Enable 'updater' module" BUILD_UPDATER "Build module responsible for online version check.")
 add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static modules.")
 
