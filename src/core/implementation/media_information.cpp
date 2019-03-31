@@ -84,7 +84,11 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
     std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will be considered)
 
     if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
-        result = imageSize(full_path);
+    {
+        const QSize imgSize = imageSize(full_path);
+        if (imgSize.isValid())
+            result = imgSize;
+    }
 
     if (result.has_value() == false && MediaTypes::isVideoFile(full_path))  // still no data, and video file
         result = m_impl->m_ffmpeg_info.size(full_path);
