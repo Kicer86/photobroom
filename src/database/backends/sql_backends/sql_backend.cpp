@@ -353,7 +353,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id>  ASqlBackend::Data::dropPhotos(const std::vector<IFilter::Ptr>& filter) const
+    std::vector<Photo::Id> ASqlBackend::Data::dropPhotos(const std::vector<IFilter::Ptr>& filter) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 

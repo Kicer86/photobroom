@@ -33,7 +33,10 @@ namespace
 {
     QString geometryToStr(const QSize& geometry)
     {
-        const QString result = QObject::tr("%1×%2").arg(geometry.width()).arg(geometry.height());
+        const QString result = geometry.isValid()?
+            QObject::tr("%1×%2").arg(geometry.width()).arg(geometry.height()):
+            QObject::tr("?");
+
         return result;
     }
 
@@ -156,6 +159,7 @@ void PhotoProperties::refreshValues(const std::vector<Photo::Data>& photos) cons
         // update values
         m_locationValue->setText(cutPrj(filePath));
         m_sizeValue->setText(size_human);
+
         m_geometryValue->setText(geometry);
     }
     else
