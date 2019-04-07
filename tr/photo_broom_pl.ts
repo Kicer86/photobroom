@@ -906,7 +906,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+1"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
 </context>
 <context>
@@ -958,7 +958,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
     <message>
         <location line="+23"/>
         <source>FFProbe</source>
-        <translation type="unfinished"></translation>
+        <translation>FFProbe</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
