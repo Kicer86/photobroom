@@ -338,9 +338,9 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
     for(const Photo::Data& photo: photos)
     {
         const QString& path = photo.path;
-        const std::any sequence_number = exif->get(path, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> sequence_number = exif->get(path, IExifReader::TagType::SequenceNumber);
 
-        const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(sequence_number)): "-";
+        const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
 
         QStandardItem* pathItem = new QStandardItem(path);
         QStandardItem* sequenceItem = new QStandardItem(sequence_str);
