@@ -297,6 +297,8 @@ void MainWindow::setupView()
     setupReviewedPhotosView();
     setupNewPhotosView();
 
+    ui->menuTools->setDisabled(true);
+
     m_photosAnalyzer->set(ui->tasksWidget);
 
     // connect to docks
