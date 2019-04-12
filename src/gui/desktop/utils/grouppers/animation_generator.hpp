@@ -39,6 +39,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             QString convertPath;
             QString alignImageStackPath;
             QStringList photos;
+            QString format;
             double fps;
             double delay;
             double scale;
