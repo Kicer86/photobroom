@@ -201,7 +201,18 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QComboBox" name="formatComboBox"/>
+                 <widget class="QComboBox" name="formatComboBox">
+                  <item>
+                   <property name="text">
+                    <string>GIF</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>MNG</string>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
                </layout>
               </item>
