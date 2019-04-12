@@ -69,8 +69,7 @@ void AnimationGenerator::run()
     }
     catch(const QStringList& output)
     {
-        emit error(tr("Error occured during external program execution"),
-                   output);
+        emit error(tr("Error occured during external program execution"), output);
     }
 }
 
