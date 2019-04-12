@@ -142,7 +142,8 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
-    const QString location = System::getTmpFile(m_storage, "gif");
+    const QString extension = format();
+    const QString location = System::getTmpFile(m_storage, extension);
 
     ConvertOutputAnalyzer coa(m_logger, photos_count);
     connect(&coa, &ConvertOutputAnalyzer::operation, this, &AnimationGenerator::operation);
@@ -173,4 +174,18 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     //     from (0, 0) to (cropX, cropY). It results in a black border.
     //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
     //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
+}
+
+
+QString AnimationGenerator::format() const
+{
+    if (m_data.format == "GIF")
+        return "gif";
+    else if (m_data.format == "MNG")
+        return "mng";
+    else                    // fallback to gif, but this should not happend
+    {
+        assert(!"unexpected format");
+        return "gif";
+    }
 }

@@ -63,6 +63,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
 
         QStringList stabilize();
         QString generateAnimation(const QStringList &);
+        QString format() const;
 };
 
 
