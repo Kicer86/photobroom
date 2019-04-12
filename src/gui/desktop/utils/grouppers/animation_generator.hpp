@@ -39,6 +39,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             QString convertPath;
             QString alignImageStackPath;
             QStringList photos;
+            QString format;
             double fps;
             double delay;
             double scale;
@@ -61,7 +62,8 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
         ILogger* m_logger;
 
         QStringList stabilize();
-        QString generateGif(const QStringList &);
+        QString generateAnimation(const QStringList &);
+        QString format() const;
 };
 
 

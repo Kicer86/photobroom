@@ -1,5 +1,5 @@
 /*
- * tool for generating gif file from many images
+ * tool for generating animation file from many images
  * Copyright (C) 2017  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ AnimationGenerator::~AnimationGenerator()
 
 std::string AnimationGenerator::name() const
 {
-    return "GifGenerator";
+    return "AnimationGenerator";
 }
 
 
@@ -62,15 +62,14 @@ void AnimationGenerator::run()
                                             stabilize():
                                             m_data.photos;
 
-        // generate gif (if there was no cancel during stabilization)
-        const QString gif_path = generateGif(images_to_be_used);
+        // generate animation (if there was no cancel during stabilization)
+        const QString animation_path = generateAnimation(images_to_be_used);
 
-        emit finished(gif_path);
+        emit finished(animation_path);
     }
     catch(const QStringList& output)
     {
-        emit error(tr("Error occured during external program execution"),
-                   output);
+        emit error(tr("Error occured during external program execution"), output);
     }
 }
 
@@ -133,17 +132,18 @@ QStringList AnimationGenerator::stabilize()
 }
 
 
-QString AnimationGenerator::generateGif(const QStringList& photos)
+QString AnimationGenerator::generateAnimation(const QStringList& photos)
 {
     using GeneratorUtils::ConvertOutputAnalyzer;
 
-    // generate gif
+    // generate animation
     const int photos_count = m_data.photos.size();
     const double last_photo_exact_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
     const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
-    const QString location = System::getTmpFile(m_storage, "gif");
+    const QString extension = format();
+    const QString location = System::getTmpFile(m_storage, extension);
 
     ConvertOutputAnalyzer coa(m_logger, photos_count);
     connect(&coa, &ConvertOutputAnalyzer::operation, this, &AnimationGenerator::operation);
@@ -170,8 +170,22 @@ QString AnimationGenerator::generateGif(const QStringList& photos)
     return location;
 
     // [1] It seems that align_image_stack may safe information about crop it applied to images.
-    //     convert uses this information(?) and generates gif with frames moved
+    //     convert uses this information(?) and generates animation with frames moved
     //     from (0, 0) to (cropX, cropY). It results in a black border.
     //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
     //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
+}
+
+
+QString AnimationGenerator::format() const
+{
+    if (m_data.format == "GIF")
+        return "gif";
+    else if (m_data.format == "MNG")
+        return "mng";
+    else                    // fallback to gif, but this should not happend
+    {
+        assert(!"unexpected format");
+        return "gif";
+    }
 }

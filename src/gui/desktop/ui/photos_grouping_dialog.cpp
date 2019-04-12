@@ -235,6 +235,7 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
     generator_data.photos = getPhotos();
+    generator_data.format = ui->formatComboBox->currentText();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
     generator_data.delay = ui->delaySpinBox->value();
