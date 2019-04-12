@@ -62,7 +62,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
         ILogger* m_logger;
 
         QStringList stabilize();
-        QString generateGif(const QStringList &);
+        QString generateAnimation(const QStringList &);
 };
 
 
