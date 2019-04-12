@@ -13,7 +13,7 @@ namespace MediaTypes
     {
         const QMimeType mime = QMimeDatabase().mimeTypeForFile(file_path);
         const QString mimeName = mime.name();
-        const bool isImage = mimeName.left(6) == "image/";
+        const bool isImage = mimeName.left(6) == "image/" || mimeName == "video/x-mng";
 
         return isImage;
     }
@@ -22,7 +22,7 @@ namespace MediaTypes
     {
         const QMimeType mime = QMimeDatabase().mimeTypeForFile(file_path);
         const QString mimeName = mime.name();
-        const bool isAnimated = mimeName == "image/gif";
+        const bool isAnimated = mimeName == "image/gif" || mimeName == "video/x-mng";
 
         return isAnimated;
     }
@@ -31,7 +31,7 @@ namespace MediaTypes
     {
         const QMimeType mime = QMimeDatabase().mimeTypeForFile(file_path);
         const QString mimeName = mime.name();
-        const bool isVideo = mimeName.left(6) == "video/";
+        const bool isVideo = mimeName.left(6) == "video/" && mimeName != "video/x-mng";
 
         return isVideo;
     }
