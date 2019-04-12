@@ -9,7 +9,7 @@
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+11"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -19,7 +19,7 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+53"/>
         <source>Loading photos to be animated</source>
         <translation>Wczytywanie zdjęć</translation>
     </message>
@@ -663,12 +663,12 @@ Kod błędu: %1</translation>
         <translation>HDR</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+140"/>
         <source>Animation speed:</source>
         <translation>Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="-75"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
@@ -678,22 +678,37 @@ Kod błędu: %1</translation>
         <translation>Opóźnienie przed zapętleniem:</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+57"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-50"/>
         <source>Scale:</source>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+7"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+59"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>GIF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>MNG</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
@@ -719,7 +734,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <location line="+8"/>
         <location line="+41"/>
         <location line="+8"/>
