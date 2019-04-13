@@ -311,8 +311,15 @@ void MainWindow::setupView()
     viewChanged(ui->viewsStack->currentIndex());
 
     // connect to context menu for views
-    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->imagesView, p); });
-    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->newImagesView, p); });
+    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
+    {
+        this->showContextMenuFor(ui->imagesView, p);
+    });
+
+    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
+    {
+        this->showContextMenuFor(ui->newImagesView, p);
+    });
 }
 
 
