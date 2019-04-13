@@ -45,6 +45,22 @@ struct IConfiguration;
 
 namespace Database
 {
+#ifdef CONCEPTS_SUPPORTED
+
+    template<typename T>
+    concept bool BackendTask()
+    {
+        return requires(T p)
+        {
+            {
+                std::is_invocable<T, IBackend*>::value
+            };
+        };
+    }
+#else
+#define BackendTask typename
+#endif
+
 
     struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
@@ -57,7 +73,7 @@ namespace Database
     {
         virtual ~IDatabaseThread() = default;
 
-        template<typename Callable>
+        template<BackendTask Callable>
         void exec(Callable&& f)
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
@@ -137,5 +153,7 @@ namespace Database
         virtual void closeConnections() = 0;
     };
 }
+
+#undef BackendTask
 
 #endif
