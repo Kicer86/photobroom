@@ -46,19 +46,17 @@ struct IConfiguration;
 namespace Database
 {
 #ifdef CONCEPTS_SUPPORTED
-
+    // TODO: use std::Invocable when available
+    //       Also this concept doesnt work...
     template<typename T>
     concept bool BackendTask()
     {
-        return requires(T p)
+        return requires(T)
         {
-            {
-                std::is_invocable<T, IBackend*>::value
-            };
+            { std::is_invocable<T, IBackend *>::value == true };
         };
     }
-#else
-#define BackendTask typename
+
 #endif
 
 
@@ -73,9 +71,13 @@ namespace Database
     {
         virtual ~IDatabaseThread() = default;
 
-        template<BackendTask Callable>
+        template<typename Callable>
         void exec(Callable&& f)
         {
+            // as concept doesn't work, static_assert is used
+            // to give some idea how to use this method
+            static_assert(std::is_invocable<Callable, IBackend *>::value);
+
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));
         }
