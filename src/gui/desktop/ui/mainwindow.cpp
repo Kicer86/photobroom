@@ -478,13 +478,22 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
                         });
 
     QMenu contextMenu;
-    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
-    QAction* location    = contextMenu.addAction(tr("Open photo location"));
-    QAction* faces       = contextMenu.addAction(tr("Recognize people"));
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
+    QAction* location       = contextMenu.addAction(tr("Open photo location"));
+    QAction* faces          = contextMenu.addAction(tr("Recognize people"));
+
+    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
 
     groupPhotos->setEnabled(photos.size() > 1);
+    ungroupPhotos->setEnabled(isSingleGroup);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
+
+    if (isSingleGroup)
+        groupPhotos->setVisible(false);
+    else
+        ungroupPhotos->setVisible(false);
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
