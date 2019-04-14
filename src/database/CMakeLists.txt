@@ -35,6 +35,7 @@ set(DATABASE_HEADERS
     idatabase.hpp
     idatabase_builder.hpp
     idatabase_plugin.hpp
+    igroup_operator.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp
     person_data.hpp

@@ -18,6 +18,7 @@ include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS}
 
 set(SOURCES
         generic_sql_query_constructor.cpp
+        group_operator.cpp
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
@@ -29,6 +30,7 @@ set(SOURCES
 
 set(HEADERS
         generic_sql_query_constructor.hpp
+        group_operator.hpp
         isql_query_constructor.hpp
         isql_query_executor.hpp
         sql_backend.hpp
