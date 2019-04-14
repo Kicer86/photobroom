@@ -17,3 +17,9 @@
  */
 
 #include "group_operator.hpp"
+
+namespace Database
+{
+
+
+}

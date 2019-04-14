@@ -21,9 +21,11 @@
 
 #include <database/igroup_operator.hpp>
 
-
-class GroupOperator: public IGroupOperator
+namespace Database
 {
-};
+    class GroupOperator: public IGroupOperator
+    {
+    };
+}
 
 #endif // GROUPOPERATOR_HPP
