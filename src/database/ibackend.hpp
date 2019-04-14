@@ -36,8 +36,11 @@
 
 #include "database_export.h"
 
-struct ILoggerFactory;
+
 struct IConfiguration;
+struct IGroupOperator;
+struct ILoggerFactory;
+
 
 namespace Database
 {
@@ -45,6 +48,7 @@ namespace Database
 
     //Low level database interface.
     //To be used by particular database backend
+    // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
     struct DATABASE_EXPORT IBackend: public QObject
     {
         virtual ~IBackend() = default;
@@ -90,6 +94,8 @@ namespace Database
 
         //close database connection
         virtual void closeConnections() = 0;
+
+        //
 
     signals:
         void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database
