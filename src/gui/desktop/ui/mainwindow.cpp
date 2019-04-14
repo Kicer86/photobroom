@@ -523,6 +523,10 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             model->group(photos_ids, internalPathDecorated, type);
         }
     }
+    else if (chosenAction == ungroupPhotos)
+    {
+
+    }
     else if (chosenAction == location)
     {
         const Photo::Data& first = photos.front();
