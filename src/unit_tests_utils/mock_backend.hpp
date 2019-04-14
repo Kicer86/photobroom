@@ -54,6 +54,8 @@ struct MockBackend : public Database::IBackend
       Database::BackendStatus(const Database::ProjectInfo &));
   MOCK_METHOD0(closeConnections,
       void());
+
+  MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
 };
 
 

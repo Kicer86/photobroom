@@ -38,12 +38,12 @@
 
 
 struct IConfiguration;
-struct IGroupOperator;
 struct ILoggerFactory;
 
 
 namespace Database
 {
+    struct IGroupOperator;
     struct ProjectInfo;
 
     //Low level database interface.
@@ -95,7 +95,9 @@ namespace Database
         //close database connection
         virtual void closeConnections() = 0;
 
-        //
+        // TODO: a set of 'operators' which are about to replace methods above
+        //       in the name of interface segregation and repository pattern (see #272 on github)
+        virtual IGroupOperator* groupOperator() = 0;
 
     signals:
         void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database

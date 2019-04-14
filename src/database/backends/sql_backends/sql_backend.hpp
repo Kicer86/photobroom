@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "database/ibackend.hpp"
+#include "group_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
 
@@ -41,6 +42,7 @@ namespace Database
     class Entry;
     class InsertQueryData;
     struct IGenericSqlQueryGenerator;
+    struct IGroupOperator;
     struct TableDefinition;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
@@ -59,6 +61,8 @@ namespace Database
 
             const QString& getConnectionName() const;
 
+            virtual IGroupOperator* groupOperator() override;
+
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
@@ -76,6 +80,7 @@ namespace Database
 
         private:
             std::unique_ptr<Data> m_data;
+            GroupOperator m_groupOperator;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;

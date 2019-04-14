@@ -1053,6 +1053,12 @@ namespace Database
     }
 
 
+    IGroupOperator* ASqlBackend::groupOperator()
+    {
+        return &m_groupOperator;
+    }
+
+
     bool ASqlBackend::dbOpened()
     {
         return true;
