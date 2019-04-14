@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef ASQLBACKEND_H
-#define ASQLBACKEND_H
+#ifndef ASQLBACKEND_HPP
+#define ASQLBACKEND_HPP
 
 #include <memory>
 #include <vector>
@@ -120,5 +120,5 @@ namespace Database
 
 }
 
-#endif // ASQLBACKEND_H
+#endif // ASQLBACKEND_HPP
 
