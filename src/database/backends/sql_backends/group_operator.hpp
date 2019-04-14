@@ -19,12 +19,26 @@
 #ifndef GROUPOPERATOR_HPP
 #define GROUPOPERATOR_HPP
 
+#include <QString>
+
 #include <database/igroup_operator.hpp>
 
 namespace Database
 {
+    struct IGenericSqlQueryGenerator;
+    struct ISqlQueryExecutor;
+
     class GroupOperator: public IGroupOperator
     {
+        public:
+            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *);
+
+            Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override final;
+
+        private:
+            QString m_connectionName;
+            const IGenericSqlQueryGenerator* m_queryGenerator;
+            ISqlQueryExecutor* m_executor;
     };
 }
 

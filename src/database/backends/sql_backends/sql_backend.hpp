@@ -80,12 +80,11 @@ namespace Database
 
         private:
             std::unique_ptr<Data> m_data;
-            GroupOperator m_groupOperator;
+            std::unique_ptr<GroupOperator> m_groupOperator;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
             bool addPhotos(std::vector<Photo::DataDelta> &) override final;
-            Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override final;
             bool update(const Photo::DataDelta &) override final;
 
             std::vector<TagNameInfo> listTags() override final;

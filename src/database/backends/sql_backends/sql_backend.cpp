@@ -155,7 +155,6 @@ namespace Database
 
             bool insert(Photo::DataDelta &) const;
             bool insert(std::vector<Photo::DataDelta> &) const;
-            Group::Id addGroup(const Photo::Id& id, GroupInfo::Type) const;
             bool update(const Photo::DataDelta &) const;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
@@ -674,35 +673,6 @@ namespace Database
     }
 
 
-    Group::Id ASqlBackend::Data::addGroup(const Photo::Id& id, GroupInfo::Type type) const
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Group::Id grp_id;
-
-        InsertQueryData insertData(TAB_GROUPS);
-
-        insertData.setColumns("id", "representative_id", "type");
-        insertData.setValues(InsertQueryData::Value::Null, id, static_cast<int>(type));
-
-        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
-
-        bool status = m_executor.exec(query);
-
-        //update id
-        if (status)                                    //Get Id from database after insert
-        {
-            QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = group_id.isValid();
-
-            if (status)
-                grp_id = Group::Id(group_id.toInt());
-        }
-
-        return grp_id;
-    }
-
-
     bool ASqlBackend::Data::update(const Photo::DataDelta& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1017,7 +987,8 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////
 
 
-    ASqlBackend::ASqlBackend(ILoggerFactory* l): m_data(new Data(this))
+    ASqlBackend::ASqlBackend(ILoggerFactory* l):
+        m_data(new Data(this))
     {
         m_data->m_logger = l->get({"Database" ,"ASqlBackend"});
         m_data->m_executor.set(m_data->m_logger.get());
@@ -1055,7 +1026,15 @@ namespace Database
 
     IGroupOperator* ASqlBackend::groupOperator()
     {
-        return &m_groupOperator;
+        // this lazy initialization is kind of a workaround:
+        // getGenericQueryGenerator() may not work properly in
+        // ASqlBackend's constructor as it is virtual
+        if (m_groupOperator.get() == nullptr)
+            m_groupOperator = std::make_unique<GroupOperator>(m_data->m_connectionName,
+                                                              getGenericQueryGenerator(),
+                                                              &m_data->m_executor);
+
+        return m_groupOperator.get();
     }
 
 
@@ -1161,14 +1140,6 @@ namespace Database
         emit photosAdded(photos);
 
         return status;
-    }
-
-
-    Group::Id ASqlBackend::addGroup(const Photo::Id& id, GroupInfo::Type type)
-    {
-        const Group::Id group = m_data->addGroup(id, type);
-
-        return group;
     }
 
 

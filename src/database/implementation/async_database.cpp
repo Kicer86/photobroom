@@ -27,6 +27,7 @@
 #include <core/down_cast.hpp>
 
 #include "ibackend.hpp"
+#include "igroup_operator.hpp"
 #include "iphoto_info_cache.hpp"
 #include "photo_data.hpp"
 #include "photo_info.hpp"
@@ -236,7 +237,7 @@ namespace Database
     {
         exec([this, id, type, callback](IBackend* backend)
         {
-            const Group::Id gid = backend->addGroup(id, type);
+            const Group::Id gid = backend->groupOperator()->addGroup(id, type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
