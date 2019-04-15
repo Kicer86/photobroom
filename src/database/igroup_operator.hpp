@@ -9,7 +9,8 @@ namespace Database
 {
     struct IGroupOperator
     {
-        virtual Group::Id addGroup(const Photo::Id &, GroupInfo::Type) = 0;
+        virtual Group::Id addGroup(const Photo::Id& representative_photo, GroupInfo::Type) = 0;
+        virtual Photo::Id removeGroup(const Group::Id) = 0;
     };
 }
 

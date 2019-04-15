@@ -65,4 +65,47 @@ namespace Database
         return grp_id;
     }
 
+
+    Photo::Id Database::GroupOperator::removeGroup(const Group::Id)
+    {
+        Photo::Id representativePhoto;
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        const QString query_str =
+            QString("SELECT id, representative_id FROM %1").arg(TAB_GROUPS);
+
+        QSqlQuery query(db);
+        bool status = m_executor->exec(query_str, &query);
+
+        if (status && query.next())
+        {
+            const Group::Id g_id( query.value(0).toInt() );
+            const Photo::Id ph_id( query.value(1).toInt() );
+
+            status = db.transaction();
+
+            if (status)
+            {
+                const QString members_delete =
+                    QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id);
+
+                const QString group_delete =
+                    QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(g_id);
+
+                status = m_executor->exec(members_delete, &query) &&
+                         m_executor->exec(group_delete, &query);
+
+                if (status)
+                    status = db.commit();
+                else
+                    status = db.rollback();
+
+                if (status)
+                    representativePhoto = ph_id;
+            }
+        }
+
+        return representativePhoto;
+    }
+
 }
