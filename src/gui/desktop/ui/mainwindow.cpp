@@ -21,6 +21,7 @@
 #include <core/media_types.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
+#include <database/igroup_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/misc.hpp>
@@ -525,7 +526,14 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     }
     else if (chosenAction == ungroupPhotos)
     {
+        Database::IDatabase* db = m_currentPrj->getDatabase();
 
+        const Group::Id gid = photos.front().groupInfo.group_id;
+
+        db->exec([gid](Database::IBackend* backend)
+        {
+            backend->groupOperator()->removeGroup(gid);
+        });
     }
     else if (chosenAction == location)
     {
