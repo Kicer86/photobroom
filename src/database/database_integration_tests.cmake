@@ -38,6 +38,7 @@ addTestTarget(database_integration
                     # sql tests:
                     integration_tests/common.hpp
                     integration_tests/general_flags_tests.cpp
+                    integration_tests/groups_tests.cpp
                     integration_tests/people_tests.cpp
 
                     # main()
