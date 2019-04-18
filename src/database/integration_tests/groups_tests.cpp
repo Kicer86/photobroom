@@ -30,7 +30,6 @@ TEST_F(GroupsTest, groupCreation)
             pd2.insert<Photo::Field::Path>("photo2.jpeg");
             pd3.insert<Photo::Field::Path>("photo3.jpeg");
 
-            std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2, pd3 };
             ASSERT_TRUE(op->addPhotos(photos));
 
@@ -43,9 +42,9 @@ TEST_F(GroupsTest, groupCreation)
             // create group
             const Photo::Id& id1 = photos[0].getId();
             const Group::Id& gid = op->groupOperator()->addGroup(id1, GroupInfo::Type::Animation);
+            EXPECT_TRUE(gid.valid());
 
             // expect representative photo to be modified
-            EXPECT_TRUE(gid.valid());
             ASSERT_TRUE(modified_photo.valid());
             EXPECT_EQ(modified_photo, id1);
         });
