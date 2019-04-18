@@ -40,9 +40,11 @@ TEST_F(GroupsTest, groupCreation)
                 modified_photo = id;
             });
 
+            // create group
             const Photo::Id& id1 = photos[0].getId();
             const Group::Id& gid = op->groupOperator()->addGroup(id1, GroupInfo::Type::Animation);
 
+            // expect representative photo to be modified
             EXPECT_TRUE(gid.valid());
             ASSERT_TRUE(modified_photo.valid());
             EXPECT_EQ(modified_photo, id1);
