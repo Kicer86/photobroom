@@ -44,7 +44,7 @@ TEST_F(GroupsTest, groupCreation)
             const Group::Id& gid = op->groupOperator()->addGroup(id1, GroupInfo::Type::Animation);
 
             EXPECT_TRUE(gid.valid());
-
+            ASSERT_TRUE(modified_photo.valid());
             EXPECT_EQ(modified_photo, id1);
         });
     });
