@@ -49,6 +49,7 @@ namespace Database
     //Low level database interface.
     //To be used by particular database backend
     // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
+    //       Backend should be splitted into operator and itself should become a facade.
     struct DATABASE_EXPORT IBackend: public QObject
     {
         virtual ~IBackend() = default;
