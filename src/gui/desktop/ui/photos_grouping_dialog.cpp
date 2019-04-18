@@ -22,14 +22,14 @@
 
 namespace
 {
-    GroupInfo::Type comboboxToGroupType(int c)
+    Group::Type comboboxToGroupType(int c)
     {
         if (c == 0)
-            return GroupInfo::Animation;
+            return Group::Animation;
         else if (c == 1)
-            return GroupInfo::HDR;
+            return Group::HDR;
         else
-            return GroupInfo::Invalid;
+            return Group::Invalid;
     }
 }
 
@@ -45,7 +45,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     m_tmpDir(System::getTmpDir("PGD_wd")),
     m_sortProxy(),
     m_representativeFile(),
-    m_representativeType(GroupInfo::Invalid),
+    m_representativeType(Group::Invalid),
     ui(new Ui::PhotosGroupingDialog),
     m_preview(new MediaPreview(this)),
     m_exifReaderFactory(exifReader),
@@ -87,7 +87,7 @@ QString PhotosGroupingDialog::getRepresentative() const
 }
 
 
-GroupInfo::Type PhotosGroupingDialog::groupType() const
+Group::Type PhotosGroupingDialog::groupType() const
 {
     return m_representativeType;
 }
@@ -198,15 +198,15 @@ void PhotosGroupingDialog::previewPressed()
 
     switch(type)
     {
-        case GroupInfo::Animation:
+        case Group::Animation:
             makeAnimation();
             break;
 
-        case GroupInfo::HDR:
+        case Group::HDR:
             makeHDR();
             break;
 
-        case GroupInfo::Invalid:
+        case Group::Invalid:
             assert(!"I should not be here");
             break;
     }

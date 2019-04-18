@@ -817,7 +817,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT %1.id, %1.representative_id, %2.photo_id, %1.type FROM %1 "
+        QString queryStr = QString("SELECT %1.id, %1.representative_id, %2.photo_id FROM %1 "
                                    "JOIN %2 ON (%1.id = %2.group_id) "
                                    "WHERE (%1.representative_id = %3 OR %2.photo_id = %3)"
         );
@@ -834,25 +834,21 @@ namespace Database
             const QVariant groupVariant = query.value(0);
             const QVariant representativeVariant = query.value(1);
             const QVariant memberVariant = query.value(2);
-            const QVariant typeVariant = query.value(3);
 
             const int groupId = groupVariant.toInt();
             const int representativeId = representativeVariant.toInt();
             const int memberId = memberVariant.toInt();
-            const GroupInfo::Type type = static_cast<GroupInfo::Type>(typeVariant.toInt());
-
-            assert(type != GroupInfo::Invalid);
 
             const Group::Id gid(groupId);
 
             if (id == representativeId)
             {
-                result = GroupInfo(gid, GroupInfo::Representative, type);
+                result = GroupInfo(gid, GroupInfo::Representative);
                 break;
             }
             else if (id == memberId)
             {
-                result = GroupInfo(gid, GroupInfo::Member, type);
+                result = GroupInfo(gid, GroupInfo::Member);
                 break;
             }
         }
@@ -1671,7 +1667,7 @@ Database::BackendStatus Database::ASqlBackend::checkDBVersion()
 
                 const QString setValue = QString("UPDATE %1 SET type = %2")
                                             .arg(TAB_GROUPS)
-                                            .arg(static_cast<int>(GroupInfo::Type::Animation));
+                                            .arg(static_cast<int>(Group::Type::Animation));
 
                 status = m_data->m_executor.exec(setValue, &query);
                 if (status == false)

@@ -233,7 +233,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::createGroup(const Photo::Id& id, GroupInfo::Type type, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, Group::Type type, const Callback<Group::Id>& callback)
     {
         exec([this, id, type, callback](IBackend* backend)
         {
@@ -241,7 +241,7 @@ namespace Database
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
-            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, type);
+            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative);
             representative->setGroup(grpInfo);
 
             callback(gid);

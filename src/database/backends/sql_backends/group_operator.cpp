@@ -42,7 +42,7 @@ namespace Database
     }
 
 
-    Group::Id GroupOperator::addGroup(const Photo::Id& id, GroupInfo::Type type)
+    Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -73,7 +73,7 @@ namespace Database
     }
 
 
-    Photo::Id Database::GroupOperator::removeGroup(const Group::Id)
+    Photo::Id Database::GroupOperator::removeGroup(const Group::Id &)
     {
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -115,4 +115,25 @@ namespace Database
         return representativePhoto;
     }
 
+
+    Group::Type Database::GroupOperator::type(const Group::Id& id) const
+    {
+        Group::Type type = Group::Invalid;
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        const QString query_str =
+            QString("SELECT type FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(id);
+
+        QSqlQuery query(db);
+        bool status = m_executor->exec(query_str, &query);
+
+        if (status && query.next())
+        {
+            const QVariant typeVariant = query.value(0);
+            type = static_cast<Group::Type>(typeVariant.toInt());
+        }
+
+        return type;
+    }
 }

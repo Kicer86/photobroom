@@ -63,7 +63,7 @@ class PhotosGroupingDialog: public QDialog
         PhotosGroupingDialog& operator=(const PhotosGroupingDialog &) = delete;
 
         QString getRepresentative() const;
-        GroupInfo::Type groupType() const;
+        Group::Type groupType() const;
 
         void reject() override;
 
@@ -72,7 +72,7 @@ class PhotosGroupingDialog: public QDialog
         std::unique_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
-        GroupInfo::Type m_representativeType;
+        Group::Type m_representativeType;
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
         IExifReaderFactory* m_exifReaderFactory;

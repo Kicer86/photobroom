@@ -130,7 +130,7 @@ namespace Database
         virtual void update(const Photo::DataDelta &) = 0;
         virtual void store(const std::vector<Photo::DataDelta> &) = 0;        // only path, flags and tags will be used to feed database
 
-        virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) = 0;
+        virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) = 0;
 
         // read data
         virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters

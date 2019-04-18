@@ -55,7 +55,7 @@ struct DBDataModel::Grouper
         m_doneCallback = doneCallback;
     }
 
-    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, GroupInfo::Type type)
+    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, Group::Type type)
     {
         std::function<void(const Group::Id &)> group_created =
             std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
@@ -107,7 +107,7 @@ struct DBDataModel::Grouper
             {
                 for(const IPhotoInfo::Ptr& photoInfo: m_groupMembers)
                 {
-                    const GroupInfo groupInfo(m_grp_id, GroupInfo::Member, GroupInfo::Animation);
+                    const GroupInfo groupInfo(m_grp_id, GroupInfo::Member);
                     photoInfo->setGroup(groupInfo);
                 }
 
@@ -207,7 +207,7 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath, GroupInfo::Type type)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath, Group::Type type)
 {
     if (photos.empty() == false)
     {
@@ -231,7 +231,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
                 call_from_this_thread( this,
                                        std::bind( qOverload<const std::vector<Photo::Id>&,
                                                             const Photo::Id &,
-                                                            GroupInfo::Type>(&DBDataModel::group),
+                                                            Group::Type>(&DBDataModel::group),
                                                                         this,
                                                                         photos,
                                                                         stored.front(),
@@ -243,7 +243,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
 }
 
 
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, GroupInfo::Type type)
+void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, Group::Type type)
 {
     const auto emplaced = m_groupers.emplace( std::make_unique<Grouper>(m_database) );
     const auto grouperIt = emplaced.first;

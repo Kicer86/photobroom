@@ -61,7 +61,7 @@ namespace Database
 
             virtual void update(const Photo::DataDelta &) override;
             virtual void store(const std::vector<Photo::DataDelta> &) override;
-            virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) override;
+            virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) override;
 
             virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;

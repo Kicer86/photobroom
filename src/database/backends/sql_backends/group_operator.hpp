@@ -34,8 +34,9 @@ namespace Database
         public:
             GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, IBackend *);
 
-            Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override final;
-            Photo::Id removeGroup(const Group::Id ) override final;
+            Group::Id addGroup(const Photo::Id &, Group::Type) override final;
+            Photo::Id removeGroup(const Group::Id &) override final;
+            Group::Type type(const Group::Id &) const override final;
 
         private:
             QString m_connectionName;
