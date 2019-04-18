@@ -25,13 +25,14 @@
 
 namespace Database
 {
+    struct IBackend;
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
 
     class GroupOperator: public IGroupOperator
     {
         public:
-            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *);
+            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, IBackend *);
 
             Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override final;
             Photo::Id removeGroup(const Group::Id ) override final;
@@ -40,6 +41,7 @@ namespace Database
             QString m_connectionName;
             const IGenericSqlQueryGenerator* m_queryGenerator;
             ISqlQueryExecutor* m_executor;
+            IBackend* m_backend;
     };
 }
 

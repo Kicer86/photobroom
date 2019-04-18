@@ -21,6 +21,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "database/ibackend.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
 #include "query_structs.hpp"
@@ -29,10 +30,14 @@
 namespace Database
 {
 
-    GroupOperator::GroupOperator(const QString& name, const IGenericSqlQueryGenerator* generator, Database::ISqlQueryExecutor* executor):
+    GroupOperator::GroupOperator(const QString& name,
+                                 const IGenericSqlQueryGenerator* generator,
+                                 ISqlQueryExecutor* executor,
+                                 IBackend* backend):
         m_connectionName(name),
         m_queryGenerator(generator),
-        m_executor(executor)
+        m_executor(executor),
+        m_backend(backend)
     {
     }
 
@@ -60,6 +65,8 @@ namespace Database
 
             if (status)
                 grp_id = Group::Id(group_id.toInt());
+
+            emit m_backend->photoModified(id);        // photo is now a representative
         }
 
         return grp_id;

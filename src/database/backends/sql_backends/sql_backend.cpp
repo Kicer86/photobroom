@@ -1032,7 +1032,9 @@ namespace Database
         if (m_groupOperator.get() == nullptr)
             m_groupOperator = std::make_unique<GroupOperator>(m_data->m_connectionName,
                                                               getGenericQueryGenerator(),
-                                                              &m_data->m_executor);
+                                                              &m_data->m_executor,
+                                                              this
+                                                             );
 
         return m_groupOperator.get();
     }
