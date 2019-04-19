@@ -88,6 +88,8 @@ namespace Database
         {
             const Photo::Id ph_id( query.value(0).toInt() );
 
+            // add representative to modified_photos
+            // as it won't be part of the group anymore
             std::set<Photo::Id> modified_photos;
             modified_photos.insert(ph_id);
 
@@ -102,12 +104,16 @@ namespace Database
 
                 while(status && query.next())
                 {
+                    // add members to modified photos
+                    // as they won't be part of the group anymore
+
                     const Photo::Id mem_id(query.value(0).toInt());
                     modified_photos.insert(mem_id);
                 }
 
                 const QString members_delete =
                     QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+
 
                 const QString group_delete =
                     QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
