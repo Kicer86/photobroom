@@ -88,10 +88,24 @@ namespace Database
         {
             const Photo::Id ph_id( query.value(0).toInt() );
 
+            std::set<Photo::Id> modified_photos;
+            modified_photos.insert(ph_id);
+
             status = db.transaction();
 
             if (status)
             {
+                const QString members_list =
+                    QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+
+                status = m_executor->exec(members_list, &query);
+
+                while(status && query.next())
+                {
+                    const Photo::Id mem_id(query.value(0).toInt());
+                    modified_photos.insert(mem_id);
+                }
+
                 const QString members_delete =
                     QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
 
@@ -102,7 +116,12 @@ namespace Database
                          m_executor->exec(group_delete, &query);
 
                 if (status)
+                {
                     status = db.commit();
+
+                    for(const Photo::Id& id: modified_photos)
+                        emit m_backend->photoModified(id);
+                }
                 else
                     status = db.rollback();
 
