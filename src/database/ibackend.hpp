@@ -42,7 +42,7 @@ struct ILoggerFactory;
 
 
 #define DB_ERR_ON_FALSE(CALL)   \
-    if (CALL)                   \
+    if ( !(CALL) )              \
         throw db_error {}
 
 
