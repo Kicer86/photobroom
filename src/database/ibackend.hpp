@@ -41,10 +41,18 @@ struct IConfiguration;
 struct ILoggerFactory;
 
 
+#define DB_ERR_ON_FALSE(CALL)   \
+    if (CALL)                   \
+        throw db_error {}
+
+
 namespace Database
 {
     struct IGroupOperator;
     struct ProjectInfo;
+
+    // for internal usage
+    class db_error: std::exception {};
 
     //Low level database interface.
     //To be used by particular database backend
