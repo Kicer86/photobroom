@@ -78,14 +78,15 @@ namespace Database
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        const QString query_str =
-            QString("SELECT representative_id FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
-
-        QSqlQuery query(db);
-        bool status = m_executor->exec(query_str, &query);
-
-        if (status && query.next())
+        try
         {
+            const QString query_str =
+                QString("SELECT representative_id FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
+
+            QSqlQuery query(db);
+            DB_ERR_ON_FALSE(m_executor->exec(query_str, &query));
+            DB_ERR_ON_FALSE(query.next());
+
             const Photo::Id ph_id( query.value(0).toInt() );
 
             // add representative to modified_photos
@@ -93,47 +94,42 @@ namespace Database
             std::set<Photo::Id> modified_photos;
             modified_photos.insert(ph_id);
 
-            status = db.transaction();
+            DB_ERR_ON_FALSE(db.transaction());
 
-            if (status)
+            const QString members_list =
+                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+
+            DB_ERR_ON_FALSE(m_executor->exec(members_list, &query));
+
+            while(query.next())
             {
-                const QString members_list =
-                    QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+                // add members to modified photos
+                // as they won't be part of the group anymore
 
-                status = m_executor->exec(members_list, &query);
-
-                while(status && query.next())
-                {
-                    // add members to modified photos
-                    // as they won't be part of the group anymore
-
-                    const Photo::Id mem_id(query.value(0).toInt());
-                    modified_photos.insert(mem_id);
-                }
-
-                const QString members_delete =
-                    QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
-
-
-                const QString group_delete =
-                    QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
-
-                status = m_executor->exec(members_delete, &query) &&
-                         m_executor->exec(group_delete, &query);
-
-                if (status)
-                {
-                    status = db.commit();
-
-                    for(const Photo::Id& id: modified_photos)
-                        emit m_backend->photoModified(id);
-                }
-                else
-                    status = db.rollback();
-
-                if (status)
-                    representativePhoto = ph_id;
+                const Photo::Id mem_id(query.value(0).toInt());
+                modified_photos.insert(mem_id);
             }
+
+            const QString members_delete =
+                QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+
+
+            const QString group_delete =
+                QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
+
+            DB_ERR_ON_FALSE(m_executor->exec(members_delete, &query));
+            DB_ERR_ON_FALSE(m_executor->exec(group_delete, &query));
+
+            DB_ERR_ON_FALSE(db.commit());
+
+            for(const Photo::Id& id: modified_photos)
+                emit m_backend->photoModified(id);
+
+            representativePhoto = ph_id;
+        }
+        catch(const db_error& ex)
+        {
+            db.rollback();
         }
 
         return representativePhoto;
