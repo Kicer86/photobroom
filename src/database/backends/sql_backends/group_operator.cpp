@@ -113,7 +113,6 @@ namespace Database
             const QString members_delete =
                 QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
 
-
             const QString group_delete =
                 QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
 
