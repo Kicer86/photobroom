@@ -22,6 +22,7 @@ set(SOURCES
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
+        photo_operator.cpp
         query_structs.cpp
         sql_action_query_generator.cpp
         sql_filter_query_generator.cpp
@@ -36,6 +37,7 @@ set(HEADERS
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
+        photo_operator.hpp
         query_structs.hpp
         sql_action_query_generator.hpp
         sql_filter_query_generator.hpp
