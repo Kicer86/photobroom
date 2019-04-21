@@ -38,6 +38,7 @@ set(DATABASE_HEADERS
     igroup_operator.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp
+    iphoto_operator.hpp
     person_data.hpp
     photo_data.hpp
     photo_iterator.hpp
