@@ -56,6 +56,7 @@ struct MockBackend : public Database::IBackend
       void());
 
   MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
+  MOCK_METHOD0(photoOperator, Database::IPhotoOperator*());
 };
 
 

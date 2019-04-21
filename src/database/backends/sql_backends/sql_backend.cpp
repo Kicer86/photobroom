@@ -1035,6 +1035,17 @@ namespace Database
         return m_groupOperator.get();
     }
 
+    IPhotoOperator* ASqlBackend::photoOperator()
+    {
+        // this lazy initialization is kind of a workaround:
+        // getGenericQueryGenerator() may not work properly in
+        // ASqlBackend's constructor as it is virtual
+        if (m_photoOperator.get() == nullptr)
+            m_photoOperator = std::make_unique<PhotoOperator>();
+
+        return m_photoOperator.get();
+    }
+
 
     bool ASqlBackend::dbOpened()
     {

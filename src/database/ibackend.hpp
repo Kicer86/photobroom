@@ -49,6 +49,7 @@ struct ILoggerFactory;
 namespace Database
 {
     struct IGroupOperator;
+    struct IPhotoOperator;
     struct ProjectInfo;
 
     // for internal usage
@@ -104,6 +105,7 @@ namespace Database
         // TODO: a set of 'operators' which are about to replace methods above
         //       in the name of interface segregation and repository pattern (see #272 on github)
         virtual IGroupOperator* groupOperator() = 0;
+        virtual IPhotoOperator* photoOperator() = 0;
 
     signals:
         void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database
