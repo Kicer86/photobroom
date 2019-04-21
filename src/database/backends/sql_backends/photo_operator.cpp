@@ -17,3 +17,11 @@
  */
 
 #include "photo_operator.hpp"
+
+namespace Database
+{
+    bool PhotoOperator::removePhotos(const std::vector<Photo::Id>&)
+    {
+        return false;
+    }
+}

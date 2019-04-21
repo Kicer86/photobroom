@@ -25,6 +25,8 @@ namespace Database
 {
     class PhotoOperator: public IPhotoOperator
     {
+        public:
+            bool removePhotos(const std::vector<Photo::Id> & ) override;
     };
 }
 
