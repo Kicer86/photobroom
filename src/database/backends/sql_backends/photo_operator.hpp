@@ -19,14 +19,25 @@
 #ifndef PHOTO_OPERATOR_HPP
 #define PHOTO_OPERATOR_HPP
 
+#include <QString>
+
 #include <database/iphoto_operator.hpp>
+
 
 namespace Database
 {
+    struct ISqlQueryExecutor;
+
     class PhotoOperator: public IPhotoOperator
     {
         public:
+            PhotoOperator(const QString &, ISqlQueryExecutor *);
+
             bool removePhotos(const std::vector<Photo::Id> & ) override;
+
+        private:
+            QString m_connectionName;
+            ISqlQueryExecutor* m_executor;
     };
 }
 
