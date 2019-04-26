@@ -79,6 +79,8 @@ namespace Database
                     DB_ERR_ON_FALSE(m_executor->exec(query_str, &query));
                 }
 
+            DB_ERR_ON_FALSE(db.commit());
+
             emit m_backend->photosRemoved(ids);
         }
         catch(const db_error& ex)
