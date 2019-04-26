@@ -155,8 +155,10 @@ namespace Database
     {
         std::vector<Photo::Id> result;
 
-        std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
+        std::vector<Photo::DataDelta> data_set = dataDelta;
         const bool status = m_backend->addPhotos(data_set);
+
+        assert(status);
 
         if (status)
             for(std::size_t i = 0; i < data_set.size(); i++)

@@ -223,7 +223,7 @@ void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& rep
             data.insert<Photo::Field::Tags>(firstPhoto->getTags());
             data.insert<Photo::Field::Flags>(flags);
 
-            std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
+            const std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
 
             assert(stored.size() == 1);
 
