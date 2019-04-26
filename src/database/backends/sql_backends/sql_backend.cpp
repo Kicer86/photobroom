@@ -1039,7 +1039,8 @@ namespace Database
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_data->m_connectionName,
-                                                              &m_data->m_executor
+                                                              &m_data->m_executor,
+                                                              this
                                                              );
 
         return m_photoOperator.get();

@@ -44,9 +44,10 @@ namespace Database
     };
 
 
-    PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor):
+    PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor, IBackend* backend):
         m_connectionName(connection),
-        m_executor(executor)
+        m_executor(executor),
+        m_backend(backend)
     {
 
     }
@@ -77,6 +78,8 @@ namespace Database
 
                     DB_ERR_ON_FALSE(m_executor->exec(query_str, &query));
                 }
+
+            emit m_backend->photosRemoved(ids);
         }
         catch(const db_error& ex)
         {

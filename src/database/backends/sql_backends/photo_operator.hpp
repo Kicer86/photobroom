@@ -26,18 +26,20 @@
 
 namespace Database
 {
+    struct IBackend;
     struct ISqlQueryExecutor;
 
     class PhotoOperator: public IPhotoOperator
     {
         public:
-            PhotoOperator(const QString &, ISqlQueryExecutor *);
+            PhotoOperator(const QString &, ISqlQueryExecutor *, IBackend *);
 
             bool removePhotos(const std::vector<Photo::Id> & ) override;
 
         private:
             QString m_connectionName;
             ISqlQueryExecutor* m_executor;
+            IBackend* m_backend;
     };
 }
 
