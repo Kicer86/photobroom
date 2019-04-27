@@ -41,6 +41,7 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
@@ -496,6 +497,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     else
         ungroupPhotos->setVisible(false);
 
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
@@ -520,14 +523,11 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
-            DBDataModel* model = photosView->getModel();
-            model->group(photos_ids, internalPathDecorated, type);
+            GroupsManager::group(db, photos_ids, internalPathDecorated, type);
         }
     }
     else if (chosenAction == ungroupPhotos)
     {
-        Database::IDatabase* db = m_currentPrj->getDatabase();
-
         const Group::Id gid = photos.front().groupInfo.group_id;
 
         db->exec([gid](Database::IBackend* backend)

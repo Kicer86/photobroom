@@ -17,3 +17,52 @@
  */
 
 #include "groups_manager.hpp"
+
+#include <core/cross_thread_call.hpp>
+#include <database/idatabase.hpp>
+#include <database/igroup_operator.hpp>
+
+
+void GroupsManager::group(Database::IDatabase* database,
+                          const std::vector<Photo::Id>& photos,
+                          const QString& representativePath,
+                          Group::Type type)
+{
+    if (photos.empty() == false)
+    {
+        Database::IUtils* db_utils = database->utils();
+
+        database->exec([db_utils, photos, representativePath, type](Database::IBackend* backend)
+        {
+            // copy details of first member to representative
+            IPhotoInfo::Ptr firstPhoto = db_utils->getPhotoFor(photos[0]);
+
+            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
+            Photo::DataDelta data;
+            data.insert<Photo::Field::Path>(representativePath);
+            data.insert<Photo::Field::Tags>(firstPhoto->getTags());
+            data.insert<Photo::Field::Flags>(flags);
+
+            // store representative photo
+            const std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
+
+            // create group
+            assert(stored.size() == 1);
+            const Photo::Id representativeId = stored.front();
+
+            const auto groupId = backend->groupOperator()->addGroup(representativeId, type);
+
+            // update group information on each member
+            for(const auto memberId: photos)
+            {
+                GroupInfo grpInfo(groupId, GroupInfo::Member);
+
+                Photo::DataDelta memberData;
+                memberData.setId(memberId);
+                memberData.insert<Photo::Field::GroupInfo>(grpInfo);
+
+                backend->update(memberData);
+            }
+        });
+    }
+}

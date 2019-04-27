@@ -19,11 +19,22 @@
 #ifndef GROUPS_MANAGER_HPP
 #define GROUPS_MANAGER_HPP
 
+#include <database/photo_types.hpp>
+#include <database/group.hpp>
 
-class GroupsManager
+
+namespace Database
 {
-    public:
-        GroupsManager();
-};
+    struct IDatabase;
+}
+
+
+namespace GroupsManager
+{
+    void group(Database::IDatabase *,
+               const std::vector<Photo::Id> &,
+               const QString& representativePath,
+               Group::Type);                                 // group set of photos as one with given (external/generated) representative
+}
 
 #endif // GROUPS_MANAGER_HPP
