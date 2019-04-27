@@ -59,6 +59,7 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual bool isExifDataLoaded() const = 0;              // returns true is tags were loaded
 
     //setting data
+    virtual void setData(const Photo::Data &) = 0;          // sets all data
     virtual void setSha256(const Photo::Sha256sum &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags
     virtual void setTag(const TagNameInfo &, const TagValue &) = 0;   // set tag
