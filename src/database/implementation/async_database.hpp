@@ -32,7 +32,7 @@ namespace Database
     struct IThreadTask;
 
 
-    class Utils: public IUtils
+    class Utils: public QObject, public IUtils
     {
         public:
             Utils(IPhotoInfoCache *, IBackend *, IDatabase *);
@@ -47,6 +47,7 @@ namespace Database
             IDatabase* m_storeKeeper;
 
             IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
+            void photoModified(const Photo::Id &);
     };
 
 
