@@ -21,6 +21,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include <core/ilogger.hpp>
+
 #include "database/ibackend.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
@@ -33,10 +35,12 @@ namespace Database
     GroupOperator::GroupOperator(const QString& name,
                                  const IGenericSqlQueryGenerator* generator,
                                  ISqlQueryExecutor* executor,
+                                 ILogger* logger,
                                  IBackend* backend):
         m_connectionName(name),
         m_queryGenerator(generator),
         m_executor(executor),
+        m_logger(logger),
         m_backend(backend)
     {
     }
@@ -129,6 +133,8 @@ namespace Database
         catch(const db_error& ex)
         {
             db.rollback();
+
+            m_logger->error(ex.what());
         }
 
         return representativePhoto;

@@ -1029,17 +1029,20 @@ namespace Database
             m_groupOperator = std::make_unique<GroupOperator>(m_data->m_connectionName,
                                                               getGenericQueryGenerator(),
                                                               &m_data->m_executor,
+                                                              m_data->m_logger.get(),
                                                               this
                                                              );
 
         return m_groupOperator.get();
     }
 
+
     IPhotoOperator* ASqlBackend::photoOperator()
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_data->m_connectionName,
                                                               &m_data->m_executor,
+                                                              m_data->m_logger.get(),
                                                               this
                                                              );
 

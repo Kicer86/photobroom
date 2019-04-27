@@ -21,6 +21,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include <core/ilogger.hpp>
 #include <database/ibackend.hpp>
 
 #include "isql_query_executor.hpp"
@@ -44,9 +45,10 @@ namespace Database
     };
 
 
-    PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor, IBackend* backend):
+    PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor, ILogger* logger, IBackend* backend):
         m_connectionName(connection),
         m_executor(executor),
+        m_logger(logger),
         m_backend(backend)
     {
 
@@ -87,6 +89,8 @@ namespace Database
         {
             db.rollback();
             status = false;
+
+            m_logger->error(ex.what());
         }
 
         return status;

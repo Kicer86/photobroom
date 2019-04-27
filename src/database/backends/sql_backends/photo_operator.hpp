@@ -24,6 +24,8 @@
 #include <database/iphoto_operator.hpp>
 
 
+struct ILogger;
+
 namespace Database
 {
     struct IBackend;
@@ -32,13 +34,14 @@ namespace Database
     class PhotoOperator: public IPhotoOperator
     {
         public:
-            PhotoOperator(const QString &, ISqlQueryExecutor *, IBackend *);
+            PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *);
 
             bool removePhotos(const std::vector<Photo::Id> & ) override;
 
         private:
             QString m_connectionName;
             ISqlQueryExecutor* m_executor;
+            ILogger* m_logger;
             IBackend* m_backend;
     };
 }

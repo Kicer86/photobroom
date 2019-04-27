@@ -23,6 +23,9 @@
 
 #include <database/igroup_operator.hpp>
 
+
+struct ILogger;
+
 namespace Database
 {
     struct IBackend;
@@ -32,7 +35,7 @@ namespace Database
     class GroupOperator: public IGroupOperator
     {
         public:
-            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, IBackend *);
+            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
 
             Group::Id addGroup(const Photo::Id &, Group::Type) override final;
             Photo::Id removeGroup(const Group::Id &) override final;
@@ -42,6 +45,7 @@ namespace Database
             QString m_connectionName;
             const IGenericSqlQueryGenerator* m_queryGenerator;
             ISqlQueryExecutor* m_executor;
+            ILogger* m_logger;
             IBackend* m_backend;
     };
 }

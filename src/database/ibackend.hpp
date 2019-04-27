@@ -43,7 +43,7 @@ struct ILoggerFactory;
 
 #define DB_ERR_ON_FALSE(CALL)   \
     if ( !(CALL) )              \
-        throw db_error {}
+        throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__);
 
 
 namespace Database
@@ -53,7 +53,18 @@ namespace Database
     struct ProjectInfo;
 
     // for internal usage
-    class db_error: std::exception {};
+    class db_error: std::exception
+    {
+            std::string m_err;
+
+        public:
+            db_error(const std::string& err): m_err(err) {}
+
+            const char* what() const noexcept override
+            {
+                return m_err.c_str();
+            }
+    };
 
     //Low level database interface.
     //To be used by particular database backend
