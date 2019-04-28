@@ -22,6 +22,7 @@
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/misc.hpp>
@@ -532,7 +533,8 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
 
         db->exec([gid](Database::IBackend* backend)
         {
-            backend->groupOperator()->removeGroup(gid);
+            const Photo::Id repId = backend->groupOperator()->removeGroup(gid);
+            backend->photoOperator()->removePhotos( {repId} );
         });
     }
     else if (chosenAction == location)
