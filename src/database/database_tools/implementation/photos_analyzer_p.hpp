@@ -66,6 +66,7 @@ class PhotosAnalyzerImpl: public QObject
 
         void setupRefresher();
         void refreshView();
+        void newPhotosAdded(const std::vector<IPhotoInfo::Ptr> &);
 };
 
 #endif // PHOTOSANALYZER_PRIVATE_HPP
