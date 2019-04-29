@@ -43,6 +43,14 @@ PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 
 void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 {
+    if (m_database != nullptr)
+    {
+        bool status = disconnect(&m_signalMapper, &Database::SignalMapper::photosAdded,
+                                 this, &PhotosAnalyzerImpl::newPhotosAdded);
+
+        assert(status);
+    }
+
     m_database = database;
     m_signalMapper.set(database);
 
@@ -67,6 +75,12 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
         {
             for(const IPhotoInfo::Ptr& photo: photos)
                 addPhoto(photo);
+
+            // as all uninitialized photos were processed.
+            // start watching for any new photos added later.
+            connect(&m_signalMapper, &Database::SignalMapper::photosAdded,
+                    this, &PhotosAnalyzerImpl::newPhotosAdded,
+                    Qt::DirectConnection);
         });
     }
 }
@@ -102,6 +116,14 @@ void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 
     if (photo->isExifDataLoaded() == false)
         m_updater.updateTags(photo);
+}
+
+
+
+void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
+{
+    for(const IPhotoInfo::Ptr& photo: photos)
+        addPhoto(photo);
 }
 
 
@@ -146,13 +168,13 @@ void PhotosAnalyzerImpl::refreshView()
 
 PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
 {
-    connect(m_data->getMapper(), &Database::SignalMapper::photosAdded, this, &PhotosAnalyzer::photosAdded, Qt::DirectConnection);
+
 }
 
 
 PhotosAnalyzer::~PhotosAnalyzer()
 {
-    delete m_data, m_data = nullptr;
+
 }
 
 
@@ -171,11 +193,4 @@ void PhotosAnalyzer::set(ITasksView* tasksView)
 void PhotosAnalyzer::stop()
 {
     m_data->stop();
-}
-
-
-void PhotosAnalyzer::photosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
-{
-    for(const IPhotoInfo::Ptr& photo: photos)
-        m_data->addPhoto(photo);
 }
