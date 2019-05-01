@@ -19,6 +19,8 @@
 
 #include "animation_generator.hpp"
 
+#include <cassert>
+
 #include <QDirIterator>
 #include <QFileInfo>
 
