@@ -35,6 +35,8 @@ namespace GroupsManager
                const std::vector<Photo::Id> &,
                const QString& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
+
+    void ungroup(Database::IDatabase *, const Group::Id &);
 }
 
 #endif // GROUPS_MANAGER_HPP

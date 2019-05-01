@@ -21,6 +21,7 @@
 #include <core/cross_thread_call.hpp>
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
+#include <database/iphoto_operator.hpp>
 
 
 void GroupsManager::group(Database::IDatabase* database,
@@ -65,4 +66,17 @@ void GroupsManager::group(Database::IDatabase* database,
             }
         });
     }
+}
+
+
+void GroupsManager::ungroup(Database::IDatabase* db, const Group::Id& gid)
+{
+    db->exec([gid](Database::IBackend* backend)
+    {
+        // dissolve group
+        const Photo::Id repId = backend->groupOperator()->removeGroup(gid);
+
+        // remove representative from db
+        backend->photoOperator()->removePhotos( {repId} );
+    });
 }

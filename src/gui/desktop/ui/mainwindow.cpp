@@ -531,11 +531,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     {
         const Group::Id gid = photos.front().groupInfo.group_id;
 
-        db->exec([gid](Database::IBackend* backend)
-        {
-            const Photo::Id repId = backend->groupOperator()->removeGroup(gid);
-            backend->photoOperator()->removePhotos( {repId} );
-        });
+        GroupsManager::ungroup(db, gid);
     }
     else if (chosenAction == location)
     {
