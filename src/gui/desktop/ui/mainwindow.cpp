@@ -529,9 +529,14 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
     }
     else if (chosenAction == ungroupPhotos)
     {
-        const Group::Id gid = photos.front().groupInfo.group_id;
+        const Photo::Data& representative = photos.front();
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
 
         GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
     }
     else if (chosenAction == location)
     {
