@@ -72,6 +72,11 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
+    connect(m_preview, &MediaPreview::scalableContentAvailable, [this](bool av)
+    {
+        ui->previewScaleSlider->setEnabled(av);                          // enable only when content available
+        ui->previewScaleSlider->triggerAction(QSlider::SliderToMaximum); // reset slider's position
+    });
 }
 
 

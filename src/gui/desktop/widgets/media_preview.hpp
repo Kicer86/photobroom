@@ -25,6 +25,8 @@
 
 class MediaPreview : public QWidget
 {
+        Q_OBJECT
+
     public:
         MediaPreview(QWidget *);
         ~MediaPreview();
@@ -43,6 +45,9 @@ class MediaPreview : public QWidget
 
     private:
         IInternal* m_interior;
+
+    signals:
+        void scalableContentAvailable(bool);
 };
 
 #endif // MEDIAPREVIEW_HPP

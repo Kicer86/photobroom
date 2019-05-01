@@ -145,10 +145,13 @@ void MediaPreview::setMedia(const QString& path)
     }
     else
         assert(!"unknown file type");
+
+    emit scalableContentAvailable(m_interior != nullptr);
 }
 
 
 void MediaPreview::scale(double f)
 {
+    assert(m_interior != nullptr);
     m_interior->scale(f);
 }

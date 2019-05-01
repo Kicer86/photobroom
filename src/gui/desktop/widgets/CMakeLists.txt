@@ -59,6 +59,7 @@ set(HEADERS
 #set of file to be moced
 set(TO_MOC
     collection_dir_scan_dialog.hpp
+    media_preview.hpp
     filters_editor/level_editor.hpp
     photo_properties.hpp
     photos_widget.hpp

@@ -635,7 +635,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+119"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+141"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
@@ -708,7 +708,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+100"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+105"/>
         <location line="+120"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>

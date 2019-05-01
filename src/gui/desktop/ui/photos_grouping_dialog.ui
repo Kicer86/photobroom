@@ -346,6 +346,9 @@
             </item>
             <item>
              <widget class="QSlider" name="previewScaleSlider">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
