@@ -6,10 +6,7 @@ include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports
                     ${CMAKE_SOURCE_DIR}/src
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
-                    )
+)
 
 include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS})
 
@@ -27,6 +24,12 @@ set(HEADERS
 
 add_library(plugins OBJECT ${SRCS} ${HEADERS})
 set_target_properties(plugins PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(plugins
+                        PRIVATE
+                            core
+                            database
+                            system
+)
 
 generate_export_header(plugins)
 hideSymbols(plugins)
