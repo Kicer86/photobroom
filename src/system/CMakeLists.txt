@@ -3,10 +3,6 @@ include(GenerateExportHeader)
 
 find_package(Qt5Core 5.4 REQUIRED)
 
-include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(SYSTEM_SOURCES)
 
 # system related stuff
@@ -57,10 +53,14 @@ else()
 endif()
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
-target_include_directories(system PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(system PRIVATE
-                        Qt5::Core
-                     )
+target_include_directories(system
+                            PUBLIC
+                                ${CMAKE_CURRENT_BINARY_DIR}
+                                ${CMAKE_BINARY_DIR}
+                            PRIVATE
+                                ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_link_libraries(system PRIVATE Qt5::Core)
 
 hideSymbols(system)
 generate_export_header(system)
