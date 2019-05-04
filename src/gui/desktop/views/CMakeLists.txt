@@ -36,4 +36,10 @@ target_link_libraries(gui_views
                             core
                             database
                             photos_crawler
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_views
+                            SYSTEM PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
 )

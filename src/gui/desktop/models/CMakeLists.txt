@@ -34,3 +34,8 @@ target_link_libraries(gui_models
                             core
                             database
 )
+
+target_include_directories(gui_models
+                            PRIVATE
+                                ${CMAKE_CURRENT_SOURCE_DIR}
+)

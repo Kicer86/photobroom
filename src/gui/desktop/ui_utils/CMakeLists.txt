@@ -37,4 +37,11 @@ target_link_libraries(gui_ui_utils
                         PRIVATE
                             core
                             database
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_ui_utils
+                            PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                                ${CMAKE_CURRENT_SOURCE_DIR}
 )

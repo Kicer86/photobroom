@@ -68,13 +68,16 @@ addTestTarget(gui
                         photos_crawler
                         Qt5::Core
                         Qt5::Gui
+                        Qt5::Widgets
                         ${GMOCK_LIBRARY}
                         ${GTEST_LIBRARY}
                         ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES
                     PRIVATE
-                        desktop/models/model_helpers
+                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
+                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
+                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop
                         ${GMOCK_INCLUDE_DIRS}
                         ${GTEST_INCLUDE_DIRS}
 )

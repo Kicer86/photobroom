@@ -32,4 +32,15 @@ qt5_wrap_ui(CONFIG_TABS_WRAPPED_UI ${CONFIG_TABS_UI_FILES})
 
 add_library(gui_config_tabs OBJECT ${CONFIG_TABS_SOURCES} ${CONFIG_TABS_WRAPPED_CPP} ${CONFIG_TABS_HEADERS} ${CONFIG_TABS_WRAPPED_UI})
 set_target_properties(gui_config_tabs PROPERTIES POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(gui_config_tabs PRIVATE core)
+target_link_libraries(gui_config_tabs
+                        PRIVATE
+                            core
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_config_tabs
+                            PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                            SYSTEM PRIVATE
+                                ${OPENLIBRARY_INCLUDE_DIRS}
+)

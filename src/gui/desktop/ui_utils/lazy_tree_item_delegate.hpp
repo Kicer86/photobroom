@@ -20,7 +20,7 @@
 #ifndef LAZYTREEITEMDELEGATE_HPP
 #define LAZYTREEITEMDELEGATE_HPP
 
-#include "desktop/views/tree_item_delegate.hpp"
+#include "views/tree_item_delegate.hpp"
 
 struct IThumbnailAcquisitor;
 

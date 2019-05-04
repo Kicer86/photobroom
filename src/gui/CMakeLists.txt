@@ -6,19 +6,6 @@ find_package(OpenLibrary 2.2 REQUIRED putils QtExt)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}
-                    ${CMAKE_CURRENT_BINARY_DIR}
-                    ${CMAKE_SOURCE_DIR}/src
-                    ${CMAKE_SOURCE_DIR}/src/gui
-                    ${CMAKE_SOURCE_DIR}/src/gui/desktop
-)
-
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS}
-                           ${Qt5Widgets_INCLUDE_DIRS}
-                           ${Qt5Svg_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS}
-)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if(NOT BUILD_SHARED_LIBS)
@@ -80,7 +67,12 @@ target_link_libraries(gui
                             Qt5::Widgets
 )
 
-target_include_directories(gui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(gui
+                            PUBLIC
+                                ${CMAKE_CURRENT_BINARY_DIR}
+                            PRIVATE
+                                ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+)
 
 if (BUILD_UPDATER)
     target_link_libraries(gui PRIVATE updater)

@@ -28,8 +28,8 @@
 #include <database/photo_data.hpp>
 #include <database/filter.hpp>
 
-#include "models/db_data_model.hpp"
-#include "models/model_types.hpp"
+#include "db_data_model.hpp"
+#include "model_types.hpp"
 
 class QVariant;
 
