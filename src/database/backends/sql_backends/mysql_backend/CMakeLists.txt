@@ -14,6 +14,7 @@ set(BACKEND_HEADERS
         backend.hpp
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/src)   #required by moc
 
 if(STATIC_PLUGINS)
     add_definitions(-DSTATIC_PLUGINS)

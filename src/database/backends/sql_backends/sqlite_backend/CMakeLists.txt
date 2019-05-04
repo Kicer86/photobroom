@@ -11,6 +11,8 @@ if(STATIC_PLUGINS)
     add_definitions(-DSTATIC_PLUGINS)
 endif()
 
+include_directories(${CMAKE_SOURCE_DIR}/src)   #required by moc
+
 qt5_wrap_cpp(BACKEND_MOCS ${BACKEND_HEADERS})
 
 add_library(database_sqlite_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_MOCS})
