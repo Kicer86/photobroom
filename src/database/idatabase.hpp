@@ -45,6 +45,20 @@ struct IConfiguration;
 
 namespace Database
 {
+#ifdef CONCEPTS_SUPPORTED
+    // TODO: use std::Invocable when available
+    //       Also this concept doesnt work...
+    template<typename T>
+    concept bool BackendTask()
+    {
+        return requires(T)
+        {
+            { std::is_invocable<T, IBackend *>::value == true };
+        };
+    }
+
+#endif
+
 
     struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
@@ -60,6 +74,10 @@ namespace Database
         template<typename Callable>
         void exec(Callable&& f)
         {
+            // as concept doesn't work, static_assert is used
+            // to give some idea how to use this method
+            static_assert(std::is_invocable<Callable, IBackend *>::value);
+
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));
         }
@@ -100,6 +118,7 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
+    // TODO: remove most of this interface (user should work on backend directly) (see github issue #272)
     struct DATABASE_EXPORT IDatabase: IDatabaseThread
     {
         template <typename... Args>
@@ -111,7 +130,7 @@ namespace Database
         virtual void update(const Photo::DataDelta &) = 0;
         virtual void store(const std::vector<Photo::DataDelta> &) = 0;        // only path, flags and tags will be used to feed database
 
-        virtual void createGroup(const Photo::Id &, GroupInfo::Type, const Callback<Group::Id> &) = 0;
+        virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) = 0;
 
         // read data
         virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
@@ -137,5 +156,7 @@ namespace Database
         virtual void closeConnections() = 0;
     };
 }
+
+#undef BackendTask
 
 #endif

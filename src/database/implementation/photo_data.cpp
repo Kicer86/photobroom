@@ -55,6 +55,13 @@ namespace Photo
     }
 
 
+    void Photo::DataDelta::clear()
+    {
+        m_data.clear();
+        m_id = Photo::Id();
+    }
+
+
     bool Photo::DataDelta::has(Photo::Field field) const
     {
         auto it = m_data.find(field);

@@ -19,14 +19,16 @@
  *
  */
 
-#ifndef ASQLBACKEND_H
-#define ASQLBACKEND_H
+#ifndef ASQLBACKEND_HPP
+#define ASQLBACKEND_HPP
 
 #include <memory>
 #include <vector>
 #include <vector>
 
 #include "database/ibackend.hpp"
+#include "group_operator.hpp"
+#include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
 
@@ -59,6 +61,9 @@ namespace Database
 
             const QString& getConnectionName() const;
 
+            IGroupOperator* groupOperator() override;
+            IPhotoOperator* photoOperator() override;
+
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
@@ -76,11 +81,12 @@ namespace Database
 
         private:
             std::unique_ptr<Data> m_data;
+            std::unique_ptr<GroupOperator> m_groupOperator;
+            std::unique_ptr<PhotoOperator> m_photoOperator;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
             bool addPhotos(std::vector<Photo::DataDelta> &) override final;
-            Group::Id addGroup(const Photo::Id &, GroupInfo::Type) override final;
             bool update(const Photo::DataDelta &) override final;
 
             std::vector<TagNameInfo> listTags() override final;
@@ -116,5 +122,5 @@ namespace Database
 
 }
 
-#endif // ASQLBACKEND_H
+#endif // ASQLBACKEND_HPP
 

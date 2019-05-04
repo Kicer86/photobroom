@@ -21,6 +21,8 @@
 #include <core/media_types.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
+#include <database/igroup_operator.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/misc.hpp>
@@ -40,6 +42,7 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
+#include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
@@ -311,8 +314,15 @@ void MainWindow::setupView()
     viewChanged(ui->viewsStack->currentIndex());
 
     // connect to context menu for views
-    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->imagesView, p); });
-    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p) { this->showContextMenuFor(ui->newImagesView, p); });
+    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
+    {
+        this->showContextMenuFor(ui->imagesView, p);
+    });
+
+    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
+    {
+        this->showContextMenuFor(ui->newImagesView, p);
+    });
 }
 
 
@@ -471,13 +481,24 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
                         });
 
     QMenu contextMenu;
-    QAction* groupPhotos = contextMenu.addAction(tr("Group"));
-    QAction* location    = contextMenu.addAction(tr("Open photo location"));
-    QAction* faces       = contextMenu.addAction(tr("Recognize people"));
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
+    QAction* location       = contextMenu.addAction(tr("Open photo location"));
+    QAction* faces          = contextMenu.addAction(tr("Recognize people"));
+
+    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
 
     groupPhotos->setEnabled(photos.size() > 1);
+    ungroupPhotos->setEnabled(isSingleGroup);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
+
+    if (isSingleGroup)
+        groupPhotos->setVisible(false);
+    else
+        ungroupPhotos->setVisible(false);
+
+    Database::IDatabase* db = m_currentPrj->getDatabase();
 
     const QPoint globalPos = photosView->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
@@ -494,7 +515,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         if (status == QDialog::Accepted)
         {
             const QString photo = dialog.getRepresentative();
-            const GroupInfo::Type type = dialog.groupType();
+            const Group::Type type = dialog.groupType();
 
             std::vector<Photo::Id> photos_ids;
             for(std::size_t i = 0; i < photos.size(); i++)
@@ -503,9 +524,19 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
             const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
             const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
 
-            DBDataModel* model = photosView->getModel();
-            model->group(photos_ids, internalPathDecorated, type);
+            GroupsManager::group(db, photos_ids, internalPathDecorated, type);
         }
+    }
+    else if (chosenAction == ungroupPhotos)
+    {
+        const Photo::Data& representative = photos.front();
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
+
+        GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
     }
     else if (chosenAction == location)
     {

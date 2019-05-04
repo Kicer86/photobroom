@@ -116,6 +116,8 @@ namespace Photo
 
             void setId(const Photo::Id &);
 
+            void clear();
+
             bool has(Field) const;
             const std::any& get(Field) const;
 

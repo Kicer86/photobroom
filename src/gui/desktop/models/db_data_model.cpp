@@ -30,93 +30,6 @@
 #include "model_helpers/idx_data_manager.hpp"
 
 
-struct DBDataModel::Grouper
-{
-    Grouper(Database::IDatabase* db):
-        m_doneCallback(),
-        m_groupMembers(),
-        m_db(db),
-        m_grp_id(0),
-        m_flags(0)
-    {
-
-    }
-
-    ~Grouper()
-    {
-
-    }
-
-    Grouper(const Grouper &) = delete;
-    Grouper& operator=(const Grouper &) = delete;
-
-    void setDoneCallback(const std::function<void()>& doneCallback)
-    {
-        m_doneCallback = doneCallback;
-    }
-
-    void create(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, GroupInfo::Type type)
-    {
-        std::function<void(const Group::Id &)> group_created =
-            std::bind(&Grouper::groupCreated, this, std::placeholders::_1);
-
-        std::function<void(const std::vector<IPhotoInfo::Ptr> &)> photos_received =
-            std::bind(&Grouper::photosReceived, this, std::placeholders::_1);
-
-        m_db->createGroup(representativePhoto, type, group_created);
-        m_db->getPhotos(photos, photos_received);
-    }
-
-    private:
-        std::function<void()> m_doneCallback;
-        std::vector<IPhotoInfo::Ptr> m_groupMembers;
-        Database::IDatabase* m_db;
-        Group::Id m_grp_id;
-
-        enum Flags
-        {
-            GotGroupId         = 1,
-            GotPhotos          = 2
-        };
-
-        int m_flags;
-
-        void groupCreated(const Group::Id& id)
-        {
-            assert( (m_flags & GotGroupId) == 0 );
-
-            m_grp_id = id;
-            m_flags |= GotGroupId;
-
-            gotData();
-        }
-
-        void photosReceived(const std::vector<IPhotoInfo::Ptr>& photos)
-        {
-            assert( (m_flags & GotPhotos) == 0 );
-
-            m_groupMembers = photos;
-            m_flags |= GotPhotos;
-
-            gotData();
-        }
-
-        void gotData()
-        {
-            if ( m_flags == (GotGroupId | GotPhotos) )
-            {
-                for(const IPhotoInfo::Ptr& photoInfo: m_groupMembers)
-                {
-                    const GroupInfo groupInfo(m_grp_id, GroupInfo::Member, GroupInfo::Animation);
-                    photoInfo->setGroup(groupInfo);
-                }
-
-                m_doneCallback();
-            }
-        }
-};
-
-
 Hierarchy::Level::Level(): tagName(), order()
 {
 
@@ -170,8 +83,7 @@ DBDataModel::DBDataModel(QObject* p):
     APhotoInfoModel(p),
     m_idxDataManager(new IdxDataManager(this)),
     m_database(nullptr),
-    m_filters(),
-    m_groupers()
+    m_filters()
 {
     connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
@@ -204,60 +116,6 @@ void DBDataModel::deepFetch(const QModelIndex& top)
 {
     IIdxData* idx = m_idxDataManager->getIdxDataFor(top);
     m_idxDataManager->deepFetch(idx);
-}
-
-
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const QString& representativePath, GroupInfo::Type type)
-{
-    if (photos.empty() == false)
-    {
-        Database::IUtils* db_utils = m_database->utils();
-
-        m_database->exec([db_utils, photos, representativePath, type, this](Database::IBackend *)
-        {
-            IPhotoInfo::Ptr firstPhoto = db_utils->getPhotoFor(photos[0]);
-
-            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
-            Photo::DataDelta data;
-            data.insert<Photo::Field::Path>(representativePath);
-            data.insert<Photo::Field::Tags>(firstPhoto->getTags());
-            data.insert<Photo::Field::Flags>(flags);
-
-            std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
-
-            assert(stored.size() == 1);
-
-            if (stored.empty() == false)
-                call_from_this_thread( this,
-                                       std::bind( qOverload<const std::vector<Photo::Id>&,
-                                                            const Photo::Id &,
-                                                            GroupInfo::Type>(&DBDataModel::group),
-                                                                        this,
-                                                                        photos,
-                                                                        stored.front(),
-                                                                        type
-                                                )
-                );
-        });
-    }
-}
-
-
-void DBDataModel::group(const std::vector<Photo::Id>& photos, const Photo::Id& representativePhoto, GroupInfo::Type type)
-{
-    const auto emplaced = m_groupers.emplace( std::make_unique<Grouper>(m_database) );
-    const auto grouperIt = emplaced.first;
-    const std::unique_ptr<Grouper>& grouper = *grouperIt;
-
-    std::function<void()> doneCallbackFun = [this, grouperIt]()
-    {
-        m_groupers.erase(grouperIt);
-    };
-
-    auto doneCallback = make_cross_thread_function(this, doneCallbackFun);
-
-    grouper->setDoneCallback(doneCallback);
-    grouper->create(photos, representativePhoto, type);
 }
 
 

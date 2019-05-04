@@ -15,7 +15,7 @@ struct MockBackend : public Database::IBackend
   MOCK_METHOD1(addPhotos,
       bool(std::vector<Photo::DataDelta> &));
   MOCK_METHOD2(addGroup,
-      Group::Id(const Photo::Id &, GroupInfo::Type));
+      Group::Id(const Photo::Id &, Group::Type));
   MOCK_METHOD1(update,
       bool(const Photo::DataDelta &));
   MOCK_METHOD0(listTags,
@@ -54,6 +54,9 @@ struct MockBackend : public Database::IBackend
       Database::BackendStatus(const Database::ProjectInfo &));
   MOCK_METHOD0(closeConnections,
       void());
+
+  MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
+  MOCK_METHOD0(photoOperator, Database::IPhotoOperator*());
 };
 
 

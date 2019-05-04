@@ -27,6 +27,7 @@
 #include <core/down_cast.hpp>
 
 #include "ibackend.hpp"
+#include "igroup_operator.hpp"
 #include "iphoto_info_cache.hpp"
 #include "photo_data.hpp"
 #include "photo_info.hpp"
@@ -125,7 +126,7 @@ namespace Database
         m_backend(backend),
         m_storeKeeper(keeper)
     {
-
+        QObject::connect(backend, &IBackend::photoModified, this, &Utils::photoModified, Qt::DirectConnection);
     }
 
 
@@ -154,8 +155,10 @@ namespace Database
     {
         std::vector<Photo::Id> result;
 
-        std::vector<Photo::DataDelta> data_set(dataDelta.begin(), dataDelta.end());
+        std::vector<Photo::DataDelta> data_set = dataDelta;
         const bool status = m_backend->addPhotos(data_set);
+
+        assert(status);
 
         if (status)
             for(std::size_t i = 0; i < data_set.size(); i++)
@@ -172,6 +175,19 @@ namespace Database
         m_cache->introduce(photoInfo);
 
         return photoInfo;
+    }
+
+
+    void Utils::photoModified(const Photo::Id& id)
+    {
+        auto photoInfo = m_cache->find(id);
+
+        if (photoInfo.get() != nullptr)
+        {
+            const Photo::Data photoData = m_backend->getPhoto(id);
+
+            photoInfo->setData(photoData);
+        }
     }
 
 
@@ -232,15 +248,15 @@ namespace Database
     }
 
 
-    void AsyncDatabase::createGroup(const Photo::Id& id, GroupInfo::Type type, const Callback<Group::Id>& callback)
+    void AsyncDatabase::createGroup(const Photo::Id& id, Group::Type type, const Callback<Group::Id>& callback)
     {
         exec([this, id, type, callback](IBackend* backend)
         {
-            const Group::Id gid = backend->addGroup(id, type);
+            const Group::Id gid = backend->groupOperator()->addGroup(id, type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
-            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative, type);
+            const GroupInfo grpInfo = GroupInfo(gid, GroupInfo::Representative);
             representative->setGroup(grpInfo);
 
             callback(gid);

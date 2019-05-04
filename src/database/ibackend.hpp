@@ -36,24 +36,46 @@
 
 #include "database_export.h"
 
-struct ILoggerFactory;
+
 struct IConfiguration;
+struct ILoggerFactory;
+
+
+#define DB_ERR_ON_FALSE(CALL)   \
+    if ( !(CALL) )              \
+        throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__);
+
 
 namespace Database
 {
+    struct IGroupOperator;
+    struct IPhotoOperator;
     struct ProjectInfo;
+
+    // for internal usage
+    class db_error: std::exception
+    {
+            std::string m_err;
+
+        public:
+            db_error(const std::string& err): m_err(err) {}
+
+            const char* what() const noexcept override
+            {
+                return m_err.c_str();
+            }
+    };
 
     //Low level database interface.
     //To be used by particular database backend
+    // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
+    //       Backend should be splitted into operator and itself should become a facade.
     struct DATABASE_EXPORT IBackend: public QObject
     {
         virtual ~IBackend() = default;
 
         //add photo to database
         virtual bool addPhotos(std::vector<Photo::DataDelta> &) = 0;
-
-        // create group
-        virtual Group::Id addGroup(const Photo::Id &, GroupInfo::Type) = 0;
 
         //update data
         virtual bool update(const Photo::DataDelta &) = 0;
@@ -90,6 +112,11 @@ namespace Database
 
         //close database connection
         virtual void closeConnections() = 0;
+
+        // TODO: a set of 'operators' which are about to replace methods above
+        //       in the name of interface segregation and repository pattern (see #272 on github)
+        virtual IGroupOperator* groupOperator() = 0;
+        virtual IPhotoOperator* photoOperator() = 0;
 
     signals:
         void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database

@@ -12,9 +12,11 @@ find_package(OpenLibrary REQUIRED)
 
 set(SOURCES
         generic_sql_query_constructor.cpp
+        group_operator.cpp
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
+        photo_operator.cpp
         query_structs.cpp
         sql_action_query_generator.cpp
         sql_filter_query_generator.cpp
@@ -23,11 +25,13 @@ set(SOURCES
 
 set(HEADERS
         generic_sql_query_constructor.hpp
+        group_operator.hpp
         isql_query_constructor.hpp
         isql_query_executor.hpp
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
+        photo_operator.hpp
         query_structs.hpp
         sql_action_query_generator.hpp
         sql_filter_query_generator.hpp

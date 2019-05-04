@@ -31,9 +31,14 @@ set(DATABASE_HEADERS
     database_status.hpp
     filter.hpp
     group.hpp
+    ibackend.hpp
     idatabase.hpp
+    idatabase_builder.hpp
+    idatabase_plugin.hpp
+    igroup_operator.hpp
     iphoto_info.hpp
     iphoto_info_cache.hpp
+    iphoto_operator.hpp
     person_data.hpp
     photo_data.hpp
     photo_iterator.hpp

@@ -60,21 +60,23 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
     QString text;
 
+    /*
     if (details.groupInfo.role == GroupInfo::Representative)
         switch (details.groupInfo.type)
         {
-            case GroupInfo::Animation:
+            case Group::Animation:
                 text = "gif";
                 break;
 
-            case GroupInfo::HDR:
+            case Group::HDR:
                 text = "HDR";
                 break;
 
-            case GroupInfo::Invalid:
+            case Group::Invalid:
                 assert(!"not expected");
                 break;
         }
+    */
 
     if (MediaTypes::isVideoFile(details.path))
         text = "VID";

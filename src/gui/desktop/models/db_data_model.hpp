@@ -79,12 +79,6 @@ class DBDataModel: public APhotoInfoModel
         const std::vector<Database::IFilter::Ptr>& getStaticFilters() const;
 
         void deepFetch(const QModelIndex &);                     //loads provided index and all its children recursively
-        void group(const std::vector<Photo::Id> &,
-                   const QString& representativePath,
-                   GroupInfo::Type);                             // group set of photos as one with given (external/generated) representative
-        void group(const std::vector<Photo::Id> &,
-                   const Photo::Id& representativePhoto,
-                   GroupInfo::Type);                             // group set of photos as one with given (already existing) representative
         void setHierarchy(const Hierarchy &);
         void setDatabase(Database::IDatabase *);
         void set(ITaskExecutor *);
@@ -113,12 +107,9 @@ class DBDataModel: public APhotoInfoModel
         IIdxData* getRootIdxData();
 
     private:
-        struct Grouper;
-
         std::unique_ptr<IdxDataManager> m_idxDataManager;
         Database::IDatabase* m_database;
         std::vector<Database::IFilter::Ptr> m_filters;
-        std::set<std::unique_ptr<Grouper>> m_groupers;
 
         using QAbstractItemModel::createIndex;
         QModelIndex createIndex(IIdxData *) const;

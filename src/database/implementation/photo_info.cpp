@@ -107,6 +107,14 @@ bool PhotoInfo::isExifDataLoaded() const
 }
 
 
+void PhotoInfo::setData(const Photo::Data& data)
+{
+    auto locked_data = m_data->m_data.lock();
+
+    *locked_data = data;
+}
+
+
 void PhotoInfo::setSha256(const Photo::Sha256sum& sha256)
 {
     assert(isSha256Loaded() == false);

@@ -1,6 +1,7 @@
 
 set(UTILS_SOURCES
     config_tools.cpp
+    groups_manager.cpp
     model_index_utils.cpp
     painter_helpers.cpp
     people_list_model.cpp
@@ -19,6 +20,7 @@ set(UTILS_SOURCES
 
 set(UTILS_HEADERS
     config_tools.hpp
+    groups_manager.hpp
     ithumbnail_acquisitor.hpp
     ithumbnail_generator.hpp
     model_index_utils.hpp
