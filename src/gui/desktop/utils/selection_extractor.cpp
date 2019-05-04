@@ -27,8 +27,8 @@
 
 
 SelectionExtractor::SelectionExtractor():
-    m_selectionModel (nullptr),
-    m_photosModel (nullptr)
+    m_selectionModel(nullptr),
+    m_photosModel(nullptr)
 {
 }
 
