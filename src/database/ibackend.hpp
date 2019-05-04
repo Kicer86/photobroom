@@ -40,6 +40,9 @@
 struct IConfiguration;
 struct ILoggerFactory;
 
+#ifndef __PRETTY_FUNCTION__
+#define __PRETTY_FUNCTION__ __FUNCTION__
+#endif
 
 #define DB_ERR_ON_FALSE(CALL)   \
     if ( !(CALL) )              \
