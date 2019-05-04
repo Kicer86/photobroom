@@ -1,13 +1,4 @@
 
-include_directories(
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:face_recognition,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
 set(SRC
     configuration_dialog.cpp
     faces_dialog.cpp
@@ -43,3 +34,18 @@ qt5_wrap_ui(WRAPPED_UI ${UI_FILES})
 
 add_library(gui_ui OBJECT ${SRC} ${MOCED} ${WRAPPED_UI} ${HEADERS})
 set_target_properties(gui_ui PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(gui_ui
+                        PRIVATE
+                            core
+                            database
+                            face_recognition
+                            photos_crawler
+                            project_utils
+                            system
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_ui
+                            SYSTEM PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+)

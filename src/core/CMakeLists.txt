@@ -24,8 +24,6 @@ if (NOT QLONGLONG EQUAL JSON_INT64)
 endif()
 ##
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(CORE_SOURCES
     implementation/aexif_reader.cpp
     implementation/base_tags.cpp
@@ -145,13 +143,14 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Core_INCLUDE_DIRS}
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
+                                    ${CMAKE_SOURCE_DIR}/src
                                 SYSTEM PRIVATE
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EXIV2_INCLUDE_DIRS}
                                     ${JSONCPP_INCLUDE_DIRS}
                                 PRIVATE
-                                    ${CMAKE_SOURCE_DIR}/src
+                                    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 generate_export_header(core)

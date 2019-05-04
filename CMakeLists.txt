@@ -1,11 +1,9 @@
 
-cmake_minimum_required(VERSION 3.8)                           # due to CMAKE_CXX_STANDARD variables and c++17 support
+cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0063 NEW)
+cmake_policy(SET CMP0075 NEW)
 
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.12)
-    cmake_policy(SET CMP0075 NEW)
-endif()
 
 project(PhotoBroom VERSION 1.4.0)
 

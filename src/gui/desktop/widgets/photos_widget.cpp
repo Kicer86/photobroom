@@ -195,8 +195,8 @@ void PhotosWidget::set(IConfiguration* configuration)
 
     configuration->watchFor(ViewConfigKeys::itemsSpacing, [this](const QString &, const QVariant& value)
     {
-        const int spacing = value.toInt();
-        m_view->setSpacing(spacing);
+        const int spc = value.toInt();
+        m_view->setSpacing(spc);
         m_view->invalidate();
     });
 }

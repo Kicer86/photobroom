@@ -1,14 +1,4 @@
 
-
-include_directories($<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:face_recognition,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
-
 set(UTILS_SOURCES
     config_tools.cpp
     model_index_utils.cpp
@@ -66,3 +56,19 @@ qt5_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
 
 add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_WRAPPED_CPP} ${UTILS_HEADERS})
 set_target_properties(gui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(gui_utils
+                        PRIVATE
+                            core
+                            database
+                            face_recognition
+                            photos_crawler
+                            system
+                            project_utils
+)
+
+target_include_directories(gui_utils
+                            SYSTEM PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+)
+

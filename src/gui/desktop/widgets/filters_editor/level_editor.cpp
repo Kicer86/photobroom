@@ -50,7 +50,7 @@ namespace
 
         void addAt(const QPoint& /*point*/, QLabel* /*label*/)
         {
-            
+
         }
 
         std::vector<QLabel *>* m_widgets;
@@ -253,7 +253,7 @@ void LevelEditor::mousePressEvent(QMouseEvent *_event)
 
     QByteArray itemData;
     QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << reinterpret_cast<ptr_size>(child) << QPoint(_event->pos() - child->pos());
+    dataStream << reinterpret_cast<ptr_size>(child) << (_event->pos() - child->pos());
 
     QMimeData *mimeData = new QMimeData;
     mimeData->setData("application/x-dnditemdata", itemData);

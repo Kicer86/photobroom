@@ -22,15 +22,6 @@ find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 
-include_directories(${CMAKE_SOURCE_DIR}/src
-                    ${CMAKE_BINARY_DIR}
-)
-
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDES}
-                           ${Qt5Core_INCLUDE_DIRS}
-                           ${Qt5Gui_INCLUDE_DIRS}
-                   )
-
 set(BROOM_SOURCES main.cpp
                   $<TARGET_OBJECTS:plugins>
 )
@@ -39,7 +30,6 @@ if(WIN32)
 
     set(EXE_FLAGS WIN32)
     configure_file(env/PhotoBroom.hpp.cmake PhotoBroom.hpp @ONLY)
-    include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
     include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
     set(BROOM_SOURCES ${BROOM_SOURCES} env/PhotoBroom.rc)

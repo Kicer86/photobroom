@@ -1,14 +1,4 @@
 
-include_directories(
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:face_recognition,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:project_utils,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:system,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
-
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
@@ -80,3 +70,19 @@ qt5_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_widgets OBJECT ${SRCS} ${MOCED} ${HEADERS})
 set_target_properties(gui_widgets PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(gui_widgets
+                        PRIVATE
+                            core
+                            database
+                            face_recognition
+                            photos_crawler
+                            project_utils
+                            system
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_widgets
+                            SYSTEM PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+)

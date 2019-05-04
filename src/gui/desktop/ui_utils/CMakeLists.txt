@@ -1,9 +1,4 @@
 
-include_directories(
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
 set(UTILS_SOURCES
     completer_factory.cpp
     config_dialog_manager.cpp
@@ -38,3 +33,15 @@ qt5_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
 
 add_library(gui_ui_utils OBJECT ${UTILS_SOURCES} ${UTILS_WRAPPED_CPP} ${UTILS_HEADERS})
 set_target_properties(gui_ui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(gui_ui_utils
+                        PRIVATE
+                            core
+                            database
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_ui_utils
+                            PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                                ${CMAKE_CURRENT_SOURCE_DIR}
+)

@@ -30,4 +30,5 @@ addTestTarget(core
                     PRIVATE
                         ${CMAKE_SOURCE_DIR}/src
                         ${OPENLIBRARY_INCLUDE_DIRS}
+                        ${CMAKE_CURRENT_SOURCE_DIR}
 )

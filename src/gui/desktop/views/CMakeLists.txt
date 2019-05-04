@@ -1,10 +1,4 @@
 
-include_directories(
-                    $<TARGET_PROPERTY:core,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:database,INTERFACE_INCLUDE_DIRECTORIES>
-                    $<TARGET_PROPERTY:photos_crawler,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
 set(SRC
     view_impl/data.cpp
     view_impl/model_index_info.cpp
@@ -37,3 +31,15 @@ qt5_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_views OBJECT ${SRC} ${MOCED} ${HEADERS})
 set_target_properties(gui_views PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(gui_views
+                        PRIVATE
+                            core
+                            database
+                            photos_crawler
+                            Qt5::Widgets
+)
+
+target_include_directories(gui_views
+                            SYSTEM PRIVATE
+                                ${CMAKE_SOURCE_DIR}/src/gui/desktop
+)
