@@ -65,12 +65,18 @@ qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
-target_link_libraries(database PRIVATE core Qt5::Core Qt5::Gui ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(database
+                        PUBLIC
+                            Qt5::Gui
+                        PRIVATE
+                            core
+                            Qt5::Core
+                            ${CMAKE_THREAD_LIBS_INIT}
+)
 
 target_include_directories(database
                             SYSTEM PRIVATE
                                 ${OPENLIBRARY_INCLUDE_DIRS}
-                                ${Qt5Core_INCLUDE_DIRS}
                             PUBLIC
                                 ${CMAKE_CURRENT_BINARY_DIR}
                                 ${OPENLIBRARY_INCLUDE_DIRS}
