@@ -216,6 +216,12 @@ void PhotosWidget::set(ILoggerFactory* loggerFactory)
 }
 
 
+void PhotosWidget::setDB(Database::IDatabase* db)
+{
+    m_delegate->set(db);
+}
+
+
 void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;

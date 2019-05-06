@@ -23,6 +23,8 @@
 #include <QWidget>
 #include <QTimer>
 
+#include <database/idatabase.hpp>
+
 #include "utils/thumbnail_acquisitor.hpp"
 
 class QAbstractItemModel;
@@ -56,6 +58,7 @@ class PhotosWidget: public QWidget
         void set(IConfiguration *);
         void set(ICompleterFactory *);
         void set(ILoggerFactory *);
+        void setDB(Database::IDatabase *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel() const;
