@@ -23,15 +23,18 @@
 
 #include <core/down_cast.hpp>
 #include <core/media_types.hpp>
+#include <database/igroup_operator.hpp>
 
 #include "models/aphoto_info_model.hpp"
 #include "utils/ithumbnail_acquisitor.hpp"
+#include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_thumbnailAcquisitor()
+    m_thumbnailAcquisitor(),
+    m_groupCache(std::make_shared<TS_Cache>(1024))
 {
 
 }
@@ -49,6 +52,12 @@ void LazyTreeItemDelegate::set(IThumbnailAcquisitor* acquisitor)
 }
 
 
+void LazyTreeItemDelegate::set(Database::IDatabase* db)
+{
+    m_db = db;
+}
+
+
 QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
 {
     const QAbstractItemModel* model = idx.model();
@@ -60,9 +69,10 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
     QString text;
 
-    /*
     if (details.groupInfo.role == GroupInfo::Representative)
-        switch (details.groupInfo.type)
+    {
+        const Group::Type type = getGroupTypeFor(details.groupInfo.group_id);
+        switch(type)
         {
             case Group::Animation:
                 text = "gif";
@@ -73,10 +83,9 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
                 break;
 
             case Group::Invalid:
-                assert(!"not expected");
                 break;
         }
-    */
+    }
 
     if (MediaTypes::isVideoFile(details.path))
         text = "VID";
@@ -99,4 +108,30 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
     }
 
     return image;
+}
+
+
+Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
+{
+    Group::Type* grpType = nullptr;
+    {
+        auto locked_cache = m_groupCache->lock();
+
+        grpType = locked_cache->object(gid);
+    }
+
+    if (grpType == nullptr)
+    {
+        // get type from db and store in cache.
+        m_db->exec([gid, cache = this->m_groupCache](Database::IBackend* backend)
+        {
+            const Group::Type type = backend->groupOperator()->type(gid);
+
+            // update cache
+            auto locked_cache = cache->lock();
+            locked_cache->insert(gid, new Group::Type(type));
+        });
+    }
+
+    return grpType == nullptr? Group::Type::Invalid: *grpType;
 }
