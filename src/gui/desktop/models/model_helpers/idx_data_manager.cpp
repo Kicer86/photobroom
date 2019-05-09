@@ -30,8 +30,7 @@
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/base_tags.hpp>
-#include <core/callback_ptr.hpp>
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <database/iphoto_info.hpp>
 #include <database/database_tools/signal_mapper.hpp>
 

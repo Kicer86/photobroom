@@ -18,7 +18,7 @@
 
 #include "groups_manager.hpp"
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
 #include <database/iphoto_operator.hpp>

@@ -22,7 +22,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/down_cast.hpp>
 #include <database/filter.hpp>
 

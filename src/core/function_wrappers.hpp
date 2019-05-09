@@ -5,6 +5,8 @@
 #include <functional>
 #include <memory>
 
+#include <QPointer>
+
 #include <OpenLibrary/putils/ts_resource.hpp>
 
 
@@ -113,6 +115,59 @@ class safe_callback_ctrl final
             m_data.reset();
         }
 };
+
+
+
+// extends QMetaObject::invokeMethod by version with arguments
+template<typename Obj, typename F, typename... Args>
+void invokeMethod(Obj* object, const F& method, Args&&... args)
+{
+    static_assert(std::is_base_of<QObject, Obj>::value, "Obj must be QObject");
+    QMetaObject::invokeMethod(object, [object, method, args...]()
+    {
+        (object->*method)(args...);
+    });
+}
+
+
+template<typename F, typename... Args>
+void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
+{
+    if (object.data() != nullptr)
+        QMetaObject::invokeMethod(object.data(), [function, args...]()
+        {
+            function(args...);
+        });
+}
+
+
+template<typename... Args, typename F>
+std::function<void(Args...)> make_cross_thread_function(QObject* object, const F& function)
+{
+    std::function<void(Args...)> result = [=](Args&&... args)
+    {
+        call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
+    };
+
+    return result;
+}
+
+
+template<typename ObjT, typename R, typename ...Args>
+std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
+{
+    static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
+
+    QPointer<ObjT> objPtr(obj);
+
+    return [objPtr, method](Args... args)
+    {
+        ObjT* object = objPtr.data();
+
+        if (object)
+            invokeMethod(object, method, args...);
+    };
+}
 
 
 #endif

@@ -24,7 +24,7 @@
 #include <QDirIterator>
 #include <QFileInfo>
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <system/system.hpp>
 
 using std::placeholders::_1;
