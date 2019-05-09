@@ -91,6 +91,7 @@ set(CORE_HEADERS
     itasks_view.hpp
     iview_task.hpp
     iterator_wrapper.hpp
+    jobs_manager.hpp
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp

@@ -22,13 +22,25 @@
 #include <QPainter>
 
 #include <core/down_cast.hpp>
+#include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/igroup_operator.hpp>
 
 #include "models/aphoto_info_model.hpp"
 #include "utils/ithumbnail_acquisitor.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
+
+
+template<typename T>
+struct ExecutorTraits<Database::IDatabase, T>
+{
+    static void exec(Database::IDatabase* db, T&& t)
+    {
+        db->exec(std::forward<T>(t));
+    }
+};
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
@@ -123,14 +135,16 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
     if (grpType == nullptr)
     {
         // get type from db and store in cache.
-        m_db->exec([gid, cache = this->m_groupCache](Database::IBackend* backend)
+        job(m_db, [gid, cache = this->m_groupCache](Database::IBackend* backend)
         {
             const Group::Type type = backend->groupOperator()->type(gid);
 
             // update cache
             auto locked_cache = cache->lock();
             locked_cache->insert(gid, new Group::Type(type));
-        });
+
+            return 0;
+        }).wait<int(Database::IBackend*)>();
     }
 
     return grpType == nullptr? Group::Type::Invalid: *grpType;
