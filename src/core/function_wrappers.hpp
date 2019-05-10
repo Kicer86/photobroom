@@ -24,6 +24,8 @@ struct safe_callback_data
 // it will be a vaild functor as long as safe_callback_ctrl is valid object.
 // When safe_callback_ctrl is destroyed, all its safe_callbacks will become
 // empty. operator() will do nothing.
+// Usefull when callinc object's method from another thread
+// as we are sure target object exists (or nothing happens)
 template<typename T>
 class safe_callback
 {
@@ -33,9 +35,7 @@ class safe_callback
 
         safe_callback& operator=(const safe_callback<T> &) = default;
 
-        virtual ~safe_callback()
-        {
-        }
+        virtual ~safe_callback() = default;
 
         template<typename... Args>
         void operator() (Args... args)
@@ -165,7 +165,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
 
 // construct a functor which invoked will invoke a method
 // (slot) of given object. Will do nothing when given object is destroyed.
-// Similar to safe_callback_ctrl
+// Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
 std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
