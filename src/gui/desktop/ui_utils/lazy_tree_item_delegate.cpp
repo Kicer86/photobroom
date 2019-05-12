@@ -36,7 +36,7 @@
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
     m_thumbnailAcquisitor(),
-    m_groupCache(std::make_shared<TS_Cache>(1024))
+    m_groupCache(1024)
 {
 
 }
@@ -115,15 +115,11 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
 Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
 {
-    Group::Type* grpType = nullptr;
-    {
-        auto locked_cache = m_groupCache->lock();
-
-        grpType = locked_cache->object(gid);
-    }
+    Group::Type* grpType = m_groupCache.object(gid);;
 
     if (grpType == nullptr)
     {
+        // TODO: figure out how to get rid of this ugly cast
         LazyTreeItemDelegate* pThis = const_cast<LazyTreeItemDelegate *>(this);
 
         // get type from db and store in cache.
@@ -146,8 +142,7 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
         auto callback = make_cross_thread_function<const Group::Type &>(pThis, [gid, this](const Group::Type& type)
         {
             // update cache
-            auto locked_cache = m_groupCache->lock();
-            locked_cache->insert(gid, new Group::Type(type));
+            m_groupCache.insert(gid, new Group::Type(type));
         });
 
         m_db->exec([gid, callback](Database::IBackend* backend)

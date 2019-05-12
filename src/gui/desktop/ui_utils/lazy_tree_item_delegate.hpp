@@ -22,8 +22,6 @@
 
 #include <QCache>
 
-#include <OpenLibrary/putils/ts_resource.hpp>
-
 #include <database/group.hpp>
 #include <database/idatabase.hpp>
 #include "views/tree_item_delegate.hpp"
@@ -47,11 +45,9 @@ class LazyTreeItemDelegate: public TreeItemDelegate
 
     private:
         typedef QCache<Group::Id, Group::Type> Cache;
-        typedef ol::ThreadSafeResource<Cache> TS_Cache;
-        typedef std::shared_ptr<TS_Cache> SharedCache;
 
         IThumbnailAcquisitor* m_thumbnailAcquisitor;
-        mutable SharedCache m_groupCache;
+        mutable Cache m_groupCache;
         Database::IDatabase* m_db;
 
         Group::Type getGroupTypeFor(const Group::Id &) const;
