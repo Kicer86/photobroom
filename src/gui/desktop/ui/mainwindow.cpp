@@ -13,7 +13,7 @@
 #include <QTimer>
 
 #include <core/constants.hpp>
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>

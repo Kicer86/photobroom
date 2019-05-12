@@ -22,7 +22,9 @@
 #include <QPainter>
 
 #include <core/down_cast.hpp>
+#include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/igroup_operator.hpp>
 
 #include "models/aphoto_info_model.hpp"
@@ -34,7 +36,7 @@
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
     m_thumbnailAcquisitor(),
-    m_groupCache(std::make_shared<TS_Cache>(1024))
+    m_groupCache(1024)
 {
 
 }
@@ -113,23 +115,41 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
 
 Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
 {
-    Group::Type* grpType = nullptr;
-    {
-        auto locked_cache = m_groupCache->lock();
-
-        grpType = locked_cache->object(gid);
-    }
+    Group::Type* grpType = m_groupCache.object(gid);;
 
     if (grpType == nullptr)
     {
+        // TODO: figure out how to get rid of this ugly cast
+        LazyTreeItemDelegate* pThis = const_cast<LazyTreeItemDelegate *>(this);
+
         // get type from db and store in cache.
-        m_db->exec([gid, cache = this->m_groupCache](Database::IBackend* backend)
+
+        /*  TODO: fix it one day, when template master arrives
+        job(m_db, [gid](Database::IBackend* backend)
         {
             const Group::Type type = backend->groupOperator()->type(gid);
 
+            return type;
+        }).execute2<const Group::Type &>(pThis, [gid, cache = this->m_groupCache](const Group::Type& type)
+        {
             // update cache
             auto locked_cache = cache->lock();
             locked_cache->insert(gid, new Group::Type(type));
+        });
+        */
+
+        // TODO: make_cross_thread_function should guess function's args
+        auto callback = make_cross_thread_function<const Group::Type &>(pThis, [gid, this](const Group::Type& type)
+        {
+            // update cache
+            m_groupCache.insert(gid, new Group::Type(type));
+        });
+
+        m_db->exec([gid, callback](Database::IBackend* backend)
+        {
+            const Group::Type type = backend->groupOperator()->type(gid);
+
+            callback(type);
         });
     }
 
