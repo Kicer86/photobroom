@@ -4,6 +4,7 @@
 
 #include <future>
 
+#include "function_wrappers.hpp"
 #include "task_executor_utils.hpp"
 
 
@@ -37,15 +38,22 @@ class JobsManager
             return result;
         }
 
-        template<typename C>
-        void callback(C&& callback_function)
+        template<typename...Args, typename C>
+        void execute(C&& callback_function)
         {
-            auto p_task = [task = std::move(m_task), cf = std::move(callback_function)]()
+            auto p_task = [task = std::move(m_task), cf = std::move(callback_function), executor = m_executor]()
             {
-                cf(task());
+                cf(task(executor));
             };
 
             ExecutorTraits<E, decltype(p_task)>::exec(m_executor, std::move(p_task));
+        }
+
+        template<typename...Args, typename C>
+        void execute2(QObject* o, C&& callback)
+        {
+            auto ctf = make_cross_thread_function<Args...>(o, std::move(callback));
+            execute(ctf);
         }
 
     private:
