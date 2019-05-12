@@ -77,7 +77,7 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
         switch(type)
         {
             case Group::Animation:
-                text = "gif";
+                text = tr("stop motion");
                 break;
 
             case Group::HDR:
