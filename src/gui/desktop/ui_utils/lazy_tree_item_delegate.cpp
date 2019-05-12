@@ -33,16 +33,6 @@
 #include "utils/painter_helpers.hpp"
 
 
-template<typename T>
-struct ExecutorTraits<Database::IDatabase, T>
-{
-    static void exec(Database::IDatabase* db, T&& t)
-    {
-        db->exec(std::forward<T>(t));
-    }
-};
-
-
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
     m_thumbnailAcquisitor(),
@@ -134,17 +124,38 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
 
     if (grpType == nullptr)
     {
+        LazyTreeItemDelegate* pThis = const_cast<LazyTreeItemDelegate *>(this);
+
         // get type from db and store in cache.
-        job(m_db, [gid, cache = this->m_groupCache](Database::IBackend* backend)
+
+        /*  TODO: fix it one day, when template master arrives
+        job(m_db, [gid](Database::IBackend* backend)
         {
             const Group::Type type = backend->groupOperator()->type(gid);
 
+            return type;
+        }).execute2<const Group::Type &>(pThis, [gid, cache = this->m_groupCache](const Group::Type& type)
+        {
             // update cache
             auto locked_cache = cache->lock();
             locked_cache->insert(gid, new Group::Type(type));
+        });
+        */
 
-            return 0;
-        }).wait<int(Database::IBackend*)>();
+        // TODO: make_cross_thread_function should guess function's args
+        auto callback = make_cross_thread_function<const Group::Type &>(pThis, [gid, this](const Group::Type& type)
+        {
+            // update cache
+            auto locked_cache = m_groupCache->lock();
+            locked_cache->insert(gid, new Group::Type(type));
+        });
+
+        m_db->exec([gid, callback](Database::IBackend* backend)
+        {
+            const Group::Type type = backend->groupOperator()->type(gid);
+
+            callback(type);
+        });
     }
 
     return grpType == nullptr? Group::Type::Invalid: *grpType;
