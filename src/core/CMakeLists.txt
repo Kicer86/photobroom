@@ -85,6 +85,7 @@ set(CORE_HEADERS
     image_tools.hpp
     imedia_information.hpp
     iexif_reader.hpp
+    ifeatures_manager.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
