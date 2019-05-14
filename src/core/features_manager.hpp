@@ -19,15 +19,22 @@
 #ifndef FEATURESMANAGER_HPP
 #define FEATURESMANAGER_HPP
 
+#include <set>
+#include <vector>
+
 #include "ifeatures_manager.hpp"
 
 class FeaturesManager: public IFeaturesManager
 {
     public:
         void detect() override;
-        void add(IFeatureDetector* ) override;
+        void add(IFeatureDetector *) override;
 
-        bool has(const QString& ) const override;
+        bool has(const QString &) const override;
+
+    private:
+        std::vector<IFeatureDetector *> m_detectors;
+        std::set<QString> m_features;
 };
 
 #endif // FEATURESMANAGER_HPP

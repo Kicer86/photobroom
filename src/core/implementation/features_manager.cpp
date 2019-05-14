@@ -20,17 +20,27 @@
 
 void FeaturesManager::detect()
 {
+    std::set<QString> features;
 
+    for(IFeatureDetector* detector: m_detectors)
+    {
+        QStringList detector_features = detector->detect();
+        features.insert(detector_features.begin(), detector_features.end());
+    }
+
+    m_features.swap(features);
 }
 
 
-void FeaturesManager::add(IFeatureDetector* )
+void FeaturesManager::add(IFeatureDetector* detector)
 {
-
+    m_detectors.push_back(detector);
 }
 
 
-bool FeaturesManager::has(const QString& ) const
+bool FeaturesManager::has(const QString& feature) const
 {
+    auto it = m_features.find(feature);
 
+    return it != m_features.end();
 }
