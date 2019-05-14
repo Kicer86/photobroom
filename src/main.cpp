@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 #endif
 
     // build objects
-    FeaturesManager features_manager;
+    FeaturesManager featuresManager;
 
     CrashCatcherStatus status = CrashCatcherStatus::Disabled;
 
@@ -166,7 +166,8 @@ int main(int argc, char **argv)
                                     &exifReaderFactory,
                                     &configuration,
                                     &taskExecutor,
-                                    &pythonThread
+                                    &pythonThread,
+                                    &featuresManager
     );
 
     // start gui
