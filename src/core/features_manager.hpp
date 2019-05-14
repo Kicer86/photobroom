@@ -24,7 +24,9 @@
 
 #include "ifeatures_manager.hpp"
 
-class FeaturesManager: public IFeaturesManager
+#include "core_export.h"
+
+class CORE_EXPORT FeaturesManager: public IFeaturesManager
 {
     public:
         void detect() override;
