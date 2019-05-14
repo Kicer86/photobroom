@@ -19,6 +19,7 @@
 #ifndef FEATURESMANAGER_HPP
 #define FEATURESMANAGER_HPP
 
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -26,9 +27,16 @@
 
 #include "core_export.h"
 
-class CORE_EXPORT FeaturesManager: public IFeaturesManager
+struct ILogger;
+struct ILoggerFactory;
+
+
+class CORE_EXPORT FeaturesManager final: public IFeaturesManager
 {
     public:
+        FeaturesManager(ILoggerFactory *);
+        ~FeaturesManager();
+
         void detect() override;
         void add(IFeatureDetector *) override;
 
@@ -37,6 +45,7 @@ class CORE_EXPORT FeaturesManager: public IFeaturesManager
     private:
         std::vector<IFeatureDetector *> m_detectors;
         std::set<QString> m_features;
+        std::unique_ptr<ILogger> m_logger;
 };
 
 #endif // FEATURESMANAGER_HPP

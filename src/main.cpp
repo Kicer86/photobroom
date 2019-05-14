@@ -118,8 +118,6 @@ int main(int argc, char **argv)
 #endif
 
     // build objects
-    FeaturesManager featuresManager;
-
     CrashCatcherStatus status = CrashCatcherStatus::Disabled;
 
     if (crashCatcherDisabled == false)
@@ -127,6 +125,8 @@ int main(int argc, char **argv)
 
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
+
+    FeaturesManager featuresManager(&logger_factory);
 
     Configuration configuration;
 

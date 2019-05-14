@@ -18,6 +18,22 @@
 
 #include "features_manager.hpp"
 
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
+
+
+FeaturesManager::FeaturesManager(ILoggerFactory* loggerFactory)
+{
+    m_logger = loggerFactory->get("FeaturesManager");
+}
+
+
+FeaturesManager::~FeaturesManager()
+{
+
+}
+
+
 void FeaturesManager::detect()
 {
     std::set<QString> features;
@@ -26,6 +42,12 @@ void FeaturesManager::detect()
     {
         QStringList detector_features = detector->detect();
         features.insert(detector_features.begin(), detector_features.end());
+    }
+
+    for(const QString& feature: features)
+    {
+        const std::string msg = "feature " + feature.toStdString() + " enabled";
+        m_logger->debug(msg);
     }
 
     m_features.swap(features);
