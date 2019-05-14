@@ -34,6 +34,7 @@ set(CORE_SOURCES
     implementation/exif_reader_factory.cpp
     implementation/exiv2_exif_reader.cpp
     implementation/exiv2_media_information.cpp
+    implementation/features_manager.cpp
     implementation/ffmpeg_video_details_reader.cpp
     implementation/ffmpeg_media_information.cpp
     implementation/file_lock.cpp
@@ -74,6 +75,7 @@ set(CORE_HEADERS
     containers_utils.hpp
     core_factory_accessor.hpp
     disk_observer.hpp
+    features_manager.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
     generic_concepts.hpp
