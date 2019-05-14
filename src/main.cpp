@@ -17,6 +17,7 @@
 #include <core/configuration.hpp>
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
+#include <core/features_manager.hpp>
 #include <core/logger_factory.hpp>
 #include <core/python_thread.hpp>
 #include <core/task_executor.hpp>
@@ -117,6 +118,8 @@ int main(int argc, char **argv)
 #endif
 
     // build objects
+    FeaturesManager features_manager;
+
     CrashCatcherStatus status = CrashCatcherStatus::Disabled;
 
     if (crashCatcherDisabled == false)
