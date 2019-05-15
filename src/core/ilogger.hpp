@@ -2,6 +2,7 @@
 #ifndef ILOG_HPP
 #define ILOG_HPP
 
+#include <memory>
 #include <sstream>
 
 #include "core_export.h"
@@ -26,6 +27,8 @@ struct ILogger
     virtual void warning(const std::string &) = 0;
     virtual void error(const std::string &) = 0;
     virtual void debug(const std::string &) = 0;
+
+    virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) = 0;
 };
 
 

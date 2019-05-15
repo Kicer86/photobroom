@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #ifndef COREFACTORYACCESSOR_HPP
 #define COREFACTORYACCESSOR_HPP
 
@@ -31,7 +32,8 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
                             IExifReaderFactory *,
                             IConfiguration *,
                             ITaskExecutor *,
-                            IPythonThread *
+                            IPythonThread *,
+                            IFeaturesManager *
                            );
         ~CoreFactoryAccessor();
 
@@ -40,6 +42,7 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
         IConfiguration* getConfiguration() override;
         ITaskExecutor * getTaskExecutor() override;
         IPythonThread * getPythonThread() override;
+        IFeaturesManager * getFeaturesManager() override;
 
     private:
         ILoggerFactory* m_loggerFactory;
@@ -47,6 +50,7 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
         IConfiguration* m_configuration;
         ITaskExecutor* m_taskExecutor;
         IPythonThread* m_pythonThread;
+        IFeaturesManager* m_featuresManager;
 };
 
 #endif // COREFACTORYACCESSOR_HPP

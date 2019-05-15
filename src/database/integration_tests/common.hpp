@@ -50,6 +50,11 @@ namespace Tests
         void info(const std::string &) override {}
         void log(ILogger::Severity , const std::string &) override {}
         void warning(const std::string &) override {}
+
+        std::unique_ptr<ILogger> subLogger(const QString &) override
+        {
+            return std::make_unique<Logger>();
+        };
     };
 
     struct LoggerFactory: ILoggerFactory
