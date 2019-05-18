@@ -62,8 +62,7 @@ namespace Database
         ~Generator();
 
         QString parse(const std::vector<IFilter::Ptr> &);
-        bool canBeMerged(const FilterData &, const FilterData &) const;
-        QString nest(const QString& current, const FilterData& incoming);
+        QString nest(const FilterData& incoming);
         QString constructQuery(const FilterData &) const;
         QString getPhotoId() const;
 
@@ -272,68 +271,48 @@ namespace Database
         FilterData filterData;
         QString result;
 
+        std::vector<FilterData> datas;
+
         for (const IFilter::Ptr& filter: filters)
         {
-            FilterData currentfilterData = visitor.visit(filter);
-
-            const bool mergable = canBeMerged(currentfilterData, filterData);
-
-            if (mergable)
-            {
-                filterData.joins.insert(currentfilterData.joins.cbegin(), currentfilterData.joins.cend());
-                filterData.conditions.append(currentfilterData.conditions);
-            }
-            else   //flush filter to QString query
-            {
-                //flush current data
-                result = nest(result, filterData);
-
-                //apply new one
-                filterData = currentfilterData;
-            }
+            const FilterData currentfilterData = visitor.visit(filter);
+            datas.push_back(currentfilterData);
         }
 
-        //final flush
-        if (filterData.empty() == false || result.isEmpty())   //flush when there is somethign to be flushed or, we have empty queue (no filters case)
+        if (datas.empty())
+            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+        else if (datas.size() == 1)
+            result = nest(datas.front());
+        else
         {
-            result = nest(result, filterData);
-            filterData.clear();
+            QStringList results;
+
+            for(const auto& data: datas)
+                results.append(nest(data));
+
+            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS " WHERE ";
+
+            for(auto it = results.begin(); it != results.end();)
+            {
+                result += QString("photos.id IN (%1)").arg(*it);
+
+                ++it;
+                if (it != results.end())
+                    result += " AND ";
+            }
         }
 
         return result;
     }
 
 
-    bool Generator::canBeMerged(const FilterData& fd1, const FilterData& fd2) const
-    {
-        auto tf1 = fd1.joins.find(FilterData::TagsWithPhotos);
-        auto tf2 = fd2.joins.find(FilterData::TagsWithPhotos);
-
-        // there cannot be two joins for tags
-        const bool result = tf1 == fd1.joins.cend() || tf2 == fd2.joins.cend();
-
-        return result;
-    }
-
-
-    QString Generator::nest(const QString& current, const FilterData& incoming)
+    QString Generator::nest(const FilterData& incoming)
     {
         QString result;
 
-        if (current.isEmpty())
-        {
-            const QString partial = constructQuery(incoming);
-            result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-            result += partial;
-        }
-        else
-        {
-            result = "SELECT photos_id FROM ( " + current + ") AS level_%1_query";
-            result = result.arg(++level);
-
-            const QString partial = constructQuery(incoming);
-            result += partial;
-        }
+        const QString partial = constructQuery(incoming);
+        result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
+        result += partial;
 
         return result;
     }
