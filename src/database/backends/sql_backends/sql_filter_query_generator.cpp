@@ -271,33 +271,33 @@ namespace Database
         FilterData filterData;
         QString result;
 
-        std::vector<FilterData> datas;
+        std::vector<FilterData> filters_data;
 
         for (const IFilter::Ptr& filter: filters)
         {
             const FilterData currentfilterData = visitor.visit(filter);
-            datas.push_back(currentfilterData);
+            filters_data.push_back(currentfilterData);
         }
 
-        if (datas.empty())
+        if (filters_data.empty())
             result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS;
-        else if (datas.size() == 1)
-            result = nest(datas.front());
+        else if (filters_data.size() == 1)
+            result = nest(filters_data.front());
         else
         {
-            QStringList results;
+            QStringList partial_queries;
 
-            for(const auto& data: datas)
-                results.append(nest(data));
+            for(const auto& data: filters_data)
+                partial_queries.append(nest(data));
 
             result = "SELECT photos.id AS photos_id FROM " TAB_PHOTOS " WHERE ";
 
-            for(auto it = results.begin(); it != results.end();)
+            for(auto it = partial_queries.begin(); it != partial_queries.end();)
             {
                 result += QString("photos.id IN (%1)").arg(*it);
 
                 ++it;
-                if (it != results.end())
+                if (it != partial_queries.end())
                     result += " AND ";
             }
         }
