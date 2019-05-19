@@ -10,7 +10,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
     std::vector<Database::IFilter::Ptr> filters;
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id FROM photos", query);
+    EXPECT_EQ("SELECT id FROM photos", query);
 }
 
 
@@ -24,22 +24,22 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 
     filter->flags[Photo::FlagsE::ExifLoaded] = 1;
     QString query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::Sha256Loaded] = 2;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
+    EXPECT_EQ("SELECT id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::StagingArea] = 3;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
+    EXPECT_EQ("SELECT id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
 
     filter->flags.clear();
     filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
     query = generator.generate(filters);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
+    EXPECT_EQ("SELECT id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
 }
 
 
@@ -55,7 +55,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id FROM photos "
+    EXPECT_EQ("SELECT id FROM photos "
               "JOIN (tags) "
               "ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '3' AND tags.value = 'test_value'", query);
@@ -73,9 +73,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id FROM photos "
-              "WHERE photos.id NOT IN "
-              "(SELECT photos.id FROM photos "
+    EXPECT_EQ("SELECT id FROM photos "
+              "WHERE id NOT IN "
+              "(SELECT id FROM photos "
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '4')", query);
 }
@@ -93,7 +93,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id FROM photos "
+    EXPECT_EQ("SELECT id FROM photos "
               "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
               "WHERE sha256sums.sha256 = '1234567890'", query);
 }
@@ -111,7 +111,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 
     const QString query = generator.generate(filters);
 
-    EXPECT_EQ("SELECT photos.id FROM photos WHERE photos.id = '1234567890'", query);
+    EXPECT_EQ("SELECT id FROM photos WHERE id = '1234567890'", query);
 }
 
 
