@@ -272,10 +272,11 @@ namespace Database
         // from filtered photos, get info about tags used there
         // NOTE: filterQuery must go as a last item as it may contain '%X' which would ruin queryStr
         // TODO: consider DISTINCT removal, just do some post process
-        QString queryStr = "SELECT DISTINCT %2.value FROM (%3) AS distinct_select JOIN (%2) ON (photos_id=%2.photo_id) WHERE name='%1'";
+        QString queryStr = "SELECT DISTINCT %2.value FROM (%2) JOIN (%3) ON (%3.id = %2.photo_id) WHERE name='%1' AND photos.id IN(%4)";
 
         queryStr = queryStr.arg(tagName.getTag());
         queryStr = queryStr.arg(TAB_TAGS);
+        queryStr = queryStr.arg(TAB_PHOTOS);
         queryStr = queryStr.arg(filterQuery);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -918,7 +919,7 @@ namespace Database
 
         while (query.next())
         {
-            const Photo::Id id(query.value("photos_id").toInt());
+            const Photo::Id id(query.value("photos.id").toInt());
 
             collection.push_back(id);
         }
