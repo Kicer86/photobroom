@@ -230,13 +230,11 @@ namespace Database
                 break;
 
                 case FilterPhotosWithRole::Role::GroupRepresentative:
-                    m_filterResult = QString("SELECT groups.representative_id FROM groups")
-                                        .arg(TAB_PHOTOS);
+                    m_filterResult = QString("SELECT groups.representative_id FROM groups");
                 break;
 
                 case FilterPhotosWithRole::Role::GroupMember:
-                    m_filterResult = QString("SELECT groups_members.photo_id FROM groups_members")
-                                        .arg(TAB_PHOTOS);
+                    m_filterResult = QString("SELECT groups_members.photo_id FROM groups_members");
                 break;
             }
         }
