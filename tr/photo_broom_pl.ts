@@ -227,9 +227,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>IdxDataManager</name>
     <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+895"/>
+        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+894"/>
         <source>Unlabeled</source>
         <translation>Nieopisane</translation>
+    </message>
+</context>
+<context>
+    <name>LazyTreeItemDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+80"/>
+        <source>stop motion</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -452,7 +460,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+139"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+142"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -497,7 +505,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+221"/>
+        <location line="+223"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -558,7 +566,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-276"/>
+        <location line="-278"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -1009,7 +1017,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+60"/>
+        <location filename="../src/main.cpp" line="+61"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
         <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>

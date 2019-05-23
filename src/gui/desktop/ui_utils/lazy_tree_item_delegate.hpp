@@ -20,6 +20,10 @@
 #ifndef LAZYTREEITEMDELEGATE_HPP
 #define LAZYTREEITEMDELEGATE_HPP
 
+#include <QCache>
+
+#include <database/group.hpp>
+#include <database/idatabase.hpp>
 #include "views/tree_item_delegate.hpp"
 
 struct IThumbnailAcquisitor;
@@ -34,12 +38,19 @@ class LazyTreeItemDelegate: public TreeItemDelegate
         LazyTreeItemDelegate& operator=(const LazyTreeItemDelegate &) = delete;
 
         void set(IThumbnailAcquisitor *);
+        void set(Database::IDatabase *);
 
         // TreeItemDelegate:
         QImage getImage(const QModelIndex &, const QSize &) const override;
 
     private:
+        typedef QCache<Group::Id, Group::Type> Cache;
+
         IThumbnailAcquisitor* m_thumbnailAcquisitor;
+        mutable Cache m_groupCache;
+        Database::IDatabase* m_db;
+
+        Group::Type getGroupTypeFor(const Group::Id &) const;
 };
 
 #endif // LAZYTREEITEMDELEGATE_HPP

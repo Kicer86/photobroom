@@ -30,11 +30,11 @@ set(CORE_SOURCES
     implementation/configuration.cpp
     implementation/constants.cpp
     implementation/core_factory_accessor.cpp
-    implementation/cross_thread_callback.cpp
     implementation/disk_observer.cpp
     implementation/exif_reader_factory.cpp
     implementation/exiv2_exif_reader.cpp
     implementation/exiv2_media_information.cpp
+    implementation/features_manager.cpp
     implementation/ffmpeg_video_details_reader.cpp
     implementation/ffmpeg_media_information.cpp
     implementation/file_lock.cpp
@@ -69,13 +69,13 @@ endif()
 
 set(CORE_HEADERS
     base_tags.hpp
-    callback_ptr.hpp
+    function_wrappers.hpp
     configuration.hpp
     constants.hpp
     containers_utils.hpp
     core_factory_accessor.hpp
-    cross_thread_call.hpp
     disk_observer.hpp
+    features_manager.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
     generic_concepts.hpp
@@ -87,10 +87,12 @@ set(CORE_HEADERS
     image_tools.hpp
     imedia_information.hpp
     iexif_reader.hpp
+    ifeatures_manager.hpp
     itask_executor.hpp
     itasks_view.hpp
     iview_task.hpp
     iterator_wrapper.hpp
+    jobs_manager.hpp
     logger.hpp
     logger_factory.hpp
     map_iterator.hpp

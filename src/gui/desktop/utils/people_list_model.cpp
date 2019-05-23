@@ -18,7 +18,7 @@
 
 #include "people_list_model.hpp"
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
 
 #include <functional>

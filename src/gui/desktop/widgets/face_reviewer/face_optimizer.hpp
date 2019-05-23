@@ -21,7 +21,7 @@
 
 #include <QObject>
 
-#include <core/callback_ptr.hpp>
+#include <core/function_wrappers.hpp>
 #include <database/person_data.hpp>
 #include <system/system.hpp>
 

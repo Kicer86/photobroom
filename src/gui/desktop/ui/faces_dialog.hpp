@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include <core/callback_ptr.hpp>
+#include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
 #include <database/person_data.hpp>
 #include <face_recognition/face_recognition.hpp>

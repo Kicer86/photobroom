@@ -33,11 +33,14 @@
 class QIODevice;
 class QString;
 
+struct ILoggerFactory;
+
+
 class CORE_EXPORT Logger: public ILogger
 {
     public:
-        Logger(std::mutex &, std::ostream &, const QString& utility, Severity = Severity::Warning);
-        Logger(std::mutex &, std::ostream &, const QStringList& utility, Severity = Severity::Warning);
+        Logger(std::mutex &, std::ostream &, const QString& utility, Severity, const ILoggerFactory *);
+        Logger(std::mutex &, std::ostream &, const QStringList& utility, Severity, const ILoggerFactory *);
         Logger(const Logger& other) = delete;
         ~Logger() = default;
 
@@ -50,11 +53,14 @@ class CORE_EXPORT Logger: public ILogger
         void error(const std::string &) override;
         void debug(const std::string &) override;
 
+        std::unique_ptr<ILogger> subLogger(const QString & sub_utility) override;
+
     private:
-        const QString m_utility;
+        const QStringList m_utility;
         Severity m_severity;
         std::ostream& m_file;
         std::mutex& m_outputMutex;
+        const ILoggerFactory* m_loggerFactory;
 
         QString currentTime() const;
         QString currentDate() const;

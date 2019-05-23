@@ -3,12 +3,14 @@
 
 #include <QApplication>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QStandardPaths>
 #include <QTranslator>
 
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -19,6 +21,37 @@
 #endif
 
 #include "ui/mainwindow.hpp"
+#include "features.hpp"
+
+
+namespace
+{
+    struct ImagesDetector: IFeatureDetector
+    {
+        ImagesDetector(std::unique_ptr<ILogger> logger): m_logger(std::move(logger)) {}
+
+        QStringList detect() override
+        {
+            QStringList features;
+
+            QList<QByteArray> images = QImageReader::supportedImageFormats();
+
+            for(const QByteArray image: images)
+            {
+                const std::string msg = std::string("Qt supports ") + image.data() + " file format";
+
+                m_logger->debug(msg);
+
+                if (image == "mng")
+                    features.append(gui::features::MngFile);
+            }
+
+            return features;
+        }
+
+        std::unique_ptr<ILogger> m_logger;
+    };
+}
 
 
 Gui::Gui(int& argc, char **argv):
@@ -130,6 +163,12 @@ void Gui::run()
     Updater updater;
     mainWindow.set(&updater);
 #endif
+
+    // features
+    ImagesDetector img_det(gui_logger->subLogger("ImagesDetector"));
+    auto* detector = m_coreFactory->getFeaturesManager();
+    detector->add(&img_det);
+    detector->detect();
 
     mainWindow.show();
     m_app->exec();

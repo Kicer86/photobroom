@@ -17,6 +17,7 @@
 #include <core/configuration.hpp>
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
+#include <core/features_manager.hpp>
 #include <core/logger_factory.hpp>
 #include <core/python_thread.hpp>
 #include <core/task_executor.hpp>
@@ -125,6 +126,8 @@ int main(int argc, char **argv)
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
 
+    FeaturesManager featuresManager(&logger_factory);
+
     Configuration configuration;
 
     PythonThread pythonThread;
@@ -163,7 +166,8 @@ int main(int argc, char **argv)
                                     &exifReaderFactory,
                                     &configuration,
                                     &taskExecutor,
-                                    &pythonThread
+                                    &pythonThread,
+                                    &featuresManager
     );
 
     // start gui

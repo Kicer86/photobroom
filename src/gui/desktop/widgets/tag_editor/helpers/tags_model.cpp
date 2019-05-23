@@ -31,7 +31,7 @@
 
 #include <QItemSelectionModel>
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 #include "models/db_data_model.hpp"

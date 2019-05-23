@@ -1,2 +1,4 @@
 http://semver.org/   about versioning
 http://photoqt.org/  check this viewer
+
+https://ezgif.com/help/alternative-animated-image-formats  animated image formats

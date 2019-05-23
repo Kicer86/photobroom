@@ -29,18 +29,22 @@
 #include <QTime>
 #include <QDir>
 
+#include <core/ilogger_factory.hpp>
 
-Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QStringList& utility, Severity severity):
-    m_utility(utility.join(":")),
+
+Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QStringList& utility, Severity severity, const ILoggerFactory* factory):
+    m_utility(utility),
     m_severity(severity),
     m_file(stream),
-    m_outputMutex(output_mutex)
+    m_outputMutex(output_mutex),
+    m_loggerFactory(factory)
 {
 
 }
 
 
-Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QString& utility, Severity severity): Logger(output_mutex, stream, QStringList({utility}), severity)
+Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QString& utility, Severity severity, const ILoggerFactory* factory):
+    Logger(output_mutex, stream, QStringList({utility}), severity, factory)
 {
 
 }
@@ -55,7 +59,7 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
                         .arg(currentDate())
                         .arg(currentTime())
                         .arg(s)
-                        .arg(m_utility)
+                        .arg(m_utility.join(":"))
                         .arg(message.c_str());
 
     const std::string message_str = m.toStdString();
@@ -88,6 +92,15 @@ void Logger::error(const std::string& msg)
 void Logger::debug(const std::string& msg)
 {
     log(Severity::Debug, msg);
+}
+
+
+std::unique_ptr<ILogger> Logger::subLogger(const QString& sub_utility)
+{
+    QStringList sub_utility_name = m_utility;
+    sub_utility_name.append(sub_utility);
+
+    return m_loggerFactory->get(sub_utility_name);
 }
 
 

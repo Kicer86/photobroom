@@ -26,7 +26,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <core/cross_thread_call.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 
