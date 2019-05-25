@@ -140,7 +140,7 @@ namespace Database
 
     IPhotoInfo::Ptr Utils::getPhotoFor(const Photo::Id& id)
     {
-        IPhotoInfo::Ptr photoPtr = m_cache->find(id);
+        IPhotoInfo::Ptr photoPtr = findInCache(id);
 
         if (photoPtr.get() == nullptr)
         {
@@ -176,13 +176,16 @@ namespace Database
 
         m_cache->introduce(photoInfo);
 
+        const std::string insert_msg = std::string("Adding photo with id ") + std::to_string(data.id) + " to cache";
+        m_logger->debug(insert_msg);
+
         return photoInfo;
     }
 
 
     void Utils::photoModified(const Photo::Id& id)
     {
-        auto photoInfo = m_cache->find(id);
+        auto photoInfo = findInCache(id);
 
         if (photoInfo.get() != nullptr)
         {
@@ -190,6 +193,28 @@ namespace Database
 
             photoInfo->setData(photoData);
         }
+    }
+
+
+    IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
+    {
+        const std::string search_msg = std::string("Looking for photo with id ") + std::to_string(id) + " in cache";
+        m_logger->debug(search_msg);
+
+        auto photoInfo = m_cache->find(id);
+
+        if (photoInfo.get() == nullptr)
+        {
+            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " not found in cache";
+            m_logger->debug(result_msg);
+        }
+        else
+        {
+            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " found in cache";
+            m_logger->debug(result_msg);
+        }
+
+        return photoInfo;
     }
 
 

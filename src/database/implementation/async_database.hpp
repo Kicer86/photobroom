@@ -55,6 +55,7 @@ namespace Database
 
             IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
             void photoModified(const Photo::Id &);
+            IPhotoInfo::Ptr findInCache(const Photo::Id &);
     };
 
 
