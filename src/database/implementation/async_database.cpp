@@ -25,6 +25,7 @@
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include <core/down_cast.hpp>
+#include <core/logger_factory.hpp>
 
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
@@ -121,7 +122,8 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper):
+    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper, ILogger* logger):
+        m_logger(logger->subLogger("Utils")),
         m_cache(cache),
         m_backend(backend),
         m_storeKeeper(keeper)
@@ -194,11 +196,14 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, std::unique_ptr<IPhotoInfoCache>&& cache):
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
+                                 std::unique_ptr<IPhotoInfoCache>&& cache,
+                                 ILoggerFactory* loggerFactory):
+        m_logger(loggerFactory->get("AsyncDatabase")),
         m_backend(std::move(backend)),
         m_cache(std::move(cache)),
         m_executor(std::make_unique<Executor>(m_backend.get())),
-        m_utils(m_cache.get(), m_backend.get(), this),
+        m_utils(m_cache.get(), m_backend.get(), this, m_logger.get()),
         m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
