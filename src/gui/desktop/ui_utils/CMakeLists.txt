@@ -24,6 +24,7 @@ set(UTILS_HEADERS
 
 set(UTILS_FILES_TO_MOC
     editor_factory.hpp
+    lazy_tree_item_delegate.hpp
     photos_item_delegate.hpp
 )
 
