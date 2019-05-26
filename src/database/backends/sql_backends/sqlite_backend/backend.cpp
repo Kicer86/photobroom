@@ -45,7 +45,7 @@ namespace Database
     };
 
 
-    SQLiteBackend::SQLiteBackend(IConfiguration *, ILoggerFactory* l): ASqlBackend(l), m_data(new Data)
+    SQLiteBackend::SQLiteBackend(IConfiguration *, ILogger* l): ASqlBackend(l), m_data(new Data)
     {
 
     }
@@ -128,7 +128,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IBackend> SQLitePlugin::constructBackend(IConfiguration* c, ILoggerFactory* l)
+    std::unique_ptr<IBackend> SQLitePlugin::constructBackend(IConfiguration* c, ILogger* l)
     {
         return std::make_unique<SQLiteBackend>(c, l);
     }

@@ -223,8 +223,8 @@ namespace Database
 
     AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
                                  std::unique_ptr<IPhotoInfoCache>&& cache,
-                                 ILoggerFactory* loggerFactory):
-        m_logger(loggerFactory->get("AsyncDatabase")),
+                                 ILogger* logger):
+        m_logger(logger->subLogger("AsyncDatabase")),
         m_backend(std::move(backend)),
         m_cache(std::move(cache)),
         m_executor(std::make_unique<Executor>(m_backend.get())),

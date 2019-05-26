@@ -50,7 +50,7 @@ namespace Database
         public:
             struct Data;
 
-            ASqlBackend(ILoggerFactory *);
+            ASqlBackend(ILogger *);
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend();
 

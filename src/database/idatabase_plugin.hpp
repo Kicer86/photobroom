@@ -40,11 +40,11 @@ namespace Database
     {
         virtual ~IPlugin() {}
 
-        virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILoggerFactory *) = 0;  //return backend object
-        virtual QString backendName() const = 0;                                                     //return backend name
-        virtual ProjectInfo initPrjDir(const QString& dir, const QString& name) const = 0;           //prepares database in provided directory
-        virtual QLayout* buildDBOptions() = 0;                                                       //return QLayout for ProjectCreator dialog with options for specific backend
-        virtual char simplicity() const = 0;                                                         //simplicity of backend. 127 for very user friendly, -128 for complex
+        virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILogger *) = 0;      //return backend object
+        virtual QString backendName() const = 0;                                                  //return backend name
+        virtual ProjectInfo initPrjDir(const QString& dir, const QString& name) const = 0;        //prepares database in provided directory
+        virtual QLayout* buildDBOptions() = 0;                                                    //return QLayout for ProjectCreator dialog with options for specific backend
+        virtual char simplicity() const = 0;                                                      //simplicity of backend. 127 for very user friendly, -128 for complex
 
         Q_OBJECT
     };

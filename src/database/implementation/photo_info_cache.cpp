@@ -28,8 +28,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PhotoInfoCache::PhotoInfoCache(ILoggerFactory* lf):
-    m_logger(lf->get("PhotoInfoCache"))
+PhotoInfoCache::PhotoInfoCache(ILogger* l):
+    m_logger(l->subLogger("PhotoInfoCache"))
 {
 }
 

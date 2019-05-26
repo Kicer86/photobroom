@@ -28,7 +28,6 @@
 
 
 struct ILogger;
-struct ILoggerFactory;
 
 
 namespace Database
@@ -62,7 +61,7 @@ namespace Database
     class AsyncDatabase: public IDatabase
     {
         public:
-            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&, ILoggerFactory *);
+            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&, ILogger *);
             AsyncDatabase(const AsyncDatabase &) = delete;
             virtual ~AsyncDatabase();
 

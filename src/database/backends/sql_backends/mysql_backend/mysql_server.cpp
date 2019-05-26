@@ -164,9 +164,9 @@ void MySqlServer::set(IConfiguration* configuration)
 }
 
 
-void MySqlServer::set(ILoggerFactory* logger_factory)
+void MySqlServer::set(ILogger* logger)
 {
-    m_logger = logger_factory->get({"Database", "MySQL"});
+    m_logger = logger->subLogger({"MySQL"});
 }
 
 

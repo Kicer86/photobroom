@@ -33,12 +33,11 @@ namespace Database
 }
 
 struct ILogger;
-struct ILoggerFactory;
 
 class PhotoInfoCache: public Database::IPhotoInfoCache
 {
     public:
-        PhotoInfoCache(ILoggerFactory *);
+        PhotoInfoCache(ILogger *);
         PhotoInfoCache(const PhotoInfoCache& other) = delete;
         ~PhotoInfoCache();
 
