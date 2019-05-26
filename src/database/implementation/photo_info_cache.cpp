@@ -19,6 +19,8 @@
 
 #include "photo_info_cache.hpp"
 
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <database/iphoto_info.hpp>
 
 #include <idatabase.hpp>
@@ -26,7 +28,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PhotoInfoCache::PhotoInfoCache()
+PhotoInfoCache::PhotoInfoCache(ILoggerFactory* lf):
+    m_logger(lf->get("PhotoInfoCache"))
 {
 }
 
@@ -43,7 +46,15 @@ IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
     auto it = m_photo_cache.find(id);
 
     if (it != m_photo_cache.end())
+    {
         result = it->second.lock();
+
+        if (result.get() == nullptr)
+        {
+            const std::string msg = std::string("Photo with id ") + std::to_string(id) + " was recently used but has no clients at this moment.";
+            m_logger->debug(msg);
+        }
+    }
 
     return result;
 }

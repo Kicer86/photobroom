@@ -32,10 +32,13 @@ namespace Database
     struct IDatabase;
 }
 
+struct ILogger;
+struct ILoggerFactory;
+
 class PhotoInfoCache: public Database::IPhotoInfoCache
 {
     public:
-        PhotoInfoCache();
+        PhotoInfoCache(ILoggerFactory *);
         PhotoInfoCache(const PhotoInfoCache& other) = delete;
         ~PhotoInfoCache();
 
@@ -52,6 +55,7 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
         // All introduced photos need (?) to be remembered here, so where won't be more than one
         // independent IPhotoInfos which could damage DB when modified in parallel.
         std::unordered_map<Photo::Id, std::weak_ptr<IPhotoInfo>, Photo::IdHash> m_photo_cache;
+        std::unique_ptr<ILogger> m_logger;
 };
 
 #endif // PHOTOINFOMANAGER_H
