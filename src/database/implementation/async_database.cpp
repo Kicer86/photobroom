@@ -25,6 +25,7 @@
 #include <OpenLibrary/putils/ts_queue.hpp>
 
 #include <core/down_cast.hpp>
+#include <core/logger_factory.hpp>
 
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
@@ -121,7 +122,8 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper):
+    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper, ILogger* logger):
+        m_logger(logger->subLogger("Utils")),
         m_cache(cache),
         m_backend(backend),
         m_storeKeeper(keeper)
@@ -138,7 +140,7 @@ namespace Database
 
     IPhotoInfo::Ptr Utils::getPhotoFor(const Photo::Id& id)
     {
-        IPhotoInfo::Ptr photoPtr = m_cache->find(id);
+        IPhotoInfo::Ptr photoPtr = findInCache(id);
 
         if (photoPtr.get() == nullptr)
         {
@@ -174,13 +176,16 @@ namespace Database
 
         m_cache->introduce(photoInfo);
 
+        const std::string insert_msg = std::string("Adding photo with id ") + std::to_string(data.id) + " to cache";
+        m_logger->debug(insert_msg);
+
         return photoInfo;
     }
 
 
     void Utils::photoModified(const Photo::Id& id)
     {
-        auto photoInfo = m_cache->find(id);
+        auto photoInfo = findInCache(id);
 
         if (photoInfo.get() != nullptr)
         {
@@ -191,14 +196,39 @@ namespace Database
     }
 
 
+    IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
+    {
+        const std::string search_msg = std::string("Looking for photo with id ") + std::to_string(id) + " in cache";
+        m_logger->debug(search_msg);
+
+        auto photoInfo = m_cache->find(id);
+
+        if (photoInfo.get() == nullptr)
+        {
+            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " not found in cache";
+            m_logger->debug(result_msg);
+        }
+        else
+        {
+            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " found in cache";
+            m_logger->debug(result_msg);
+        }
+
+        return photoInfo;
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, std::unique_ptr<IPhotoInfoCache>&& cache):
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
+                                 std::unique_ptr<IPhotoInfoCache>&& cache,
+                                 ILogger* logger):
+        m_logger(logger->subLogger("AsyncDatabase")),
         m_backend(std::move(backend)),
         m_cache(std::move(cache)),
         m_executor(std::make_unique<Executor>(m_backend.get())),
-        m_utils(m_cache.get(), m_backend.get(), this),
+        m_utils(m_cache.get(), m_backend.get(), this, m_logger.get()),
         m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());

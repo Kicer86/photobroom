@@ -19,27 +19,17 @@
 
 #include "photo_info_cache.hpp"
 
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <database/iphoto_info.hpp>
-
-#include <unordered_map>
 
 #include <idatabase.hpp>
 
 
-struct PhotoInfoCache::Data
-{
-    Data(): m_photo_cache() {}
-    Data(const Data &) = delete;
-    Data& operator=(const Data &) = delete;
-
-    ~Data() {}
-
-    std::unordered_map<Photo::Id, std::weak_ptr<IPhotoInfo>, Photo::IdHash> m_photo_cache;
-};
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-PhotoInfoCache::PhotoInfoCache(): m_data(new Data)
+PhotoInfoCache::PhotoInfoCache(ILogger* l):
+    m_logger(l->subLogger("PhotoInfoCache"))
 {
 }
 
@@ -53,10 +43,18 @@ PhotoInfoCache::~PhotoInfoCache()
 IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
 {
     IPhotoInfo::Ptr result;
-    auto it = m_data->m_photo_cache.find(id);
+    auto it = m_photo_cache.find(id);
 
-    if (it != m_data->m_photo_cache.end())
+    if (it != m_photo_cache.end())
+    {
         result = it->second.lock();
+
+        if (result.get() == nullptr)
+        {
+            const std::string msg = std::string("Photo with id ") + std::to_string(id) + " was recently used but has no clients at this moment.";
+            m_logger->debug(msg);
+        }
+    }
 
     return result;
 }
@@ -65,14 +63,16 @@ IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
 void PhotoInfoCache::introduce(const IPhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
-    m_data->m_photo_cache[id] = ptr;
+
+    m_photo_cache[id] = ptr;
 }
 
 
 void PhotoInfoCache::forget(const Photo::Id& id)
 {
-    auto it = m_data->m_photo_cache.find(id);
+    auto it = m_photo_cache.find(id);
 
-    assert(it != m_data->m_photo_cache.end() );
-    m_data->m_photo_cache.erase(it);
+    assert(it != m_photo_cache.end() );
+
+    m_photo_cache.erase(it);
 }

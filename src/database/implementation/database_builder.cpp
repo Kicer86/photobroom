@@ -25,6 +25,8 @@
 #include <map>
 #include <memory>
 
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <plugins/plugin_loader.hpp>
 
 #include "async_database.hpp"
@@ -94,10 +96,12 @@ namespace Database
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);
 
-        std::unique_ptr<IBackend> backend = plugin->constructBackend(m_impl->m_configuration, m_impl->m_logger_factory);
+        auto logger = m_impl->m_logger_factory->get("Database");
 
-        auto cache = std::make_unique<PhotoInfoCache>();
-        auto database = std::make_unique<AsyncDatabase>(std::move(backend), std::move(cache));
+        std::unique_ptr<IBackend> backend = plugin->constructBackend(m_impl->m_configuration, logger.get());
+
+        auto cache = std::make_unique<PhotoInfoCache>(logger.get());
+        auto database = std::make_unique<AsyncDatabase>(std::move(backend), std::move(cache), logger.get());
 
         // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
         return std::move(database);

@@ -20,7 +20,7 @@ namespace Database
     class SQLiteBackend final: public ASqlBackend, GenericSqlQueryConstructor
     {
         public:
-            SQLiteBackend(IConfiguration *, ILoggerFactory *);
+            SQLiteBackend(IConfiguration *, ILogger *);
             virtual ~SQLiteBackend();
 
         private:
@@ -51,7 +51,7 @@ namespace Database
             SQLitePlugin();
             virtual ~SQLitePlugin();
 
-            virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILoggerFactory *) override;
+            virtual std::unique_ptr<IBackend> constructBackend(IConfiguration *, ILogger *) override;
             virtual QString backendName() const override;
             virtual ProjectInfo initPrjDir(const QString& dir, const QString& name) const override;
             virtual QLayout* buildDBOptions() override;

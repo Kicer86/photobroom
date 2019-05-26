@@ -26,35 +26,42 @@
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 
+
+struct ILogger;
+
+
 namespace Database
 {
     struct Executor;
     struct IThreadTask;
+    struct IPhotoInfoCache;
 
 
     class Utils: public QObject, public IUtils
     {
         public:
-            Utils(IPhotoInfoCache *, IBackend *, IDatabase *);
+            Utils(IPhotoInfoCache *, IBackend *, IDatabase *, ILogger *);
             ~Utils();
 
             IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
             std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
 
         private:
+            std::unique_ptr<ILogger> m_logger;
             IPhotoInfoCache* m_cache;
             IBackend* m_backend;
             IDatabase* m_storeKeeper;
 
             IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
             void photoModified(const Photo::Id &);
+            IPhotoInfo::Ptr findInCache(const Photo::Id &);
     };
 
 
     class AsyncDatabase: public IDatabase
     {
         public:
-            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&);
+            AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&, ILogger *);
             AsyncDatabase(const AsyncDatabase &) = delete;
             virtual ~AsyncDatabase();
 
@@ -82,6 +89,7 @@ namespace Database
             virtual void closeConnections() override;
 
         private:
+            std::unique_ptr<ILogger> m_logger;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<IPhotoInfoCache> m_cache;
             std::unique_ptr<Executor> m_executor;

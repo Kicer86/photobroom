@@ -69,7 +69,7 @@ endif()
 
 set(CORE_HEADERS
     base_tags.hpp
-    function_wrappers.hpp
+    cache.hpp
     configuration.hpp
     constants.hpp
     containers_utils.hpp
@@ -78,6 +78,7 @@ set(CORE_HEADERS
     features_manager.hpp
     ffmpeg_video_details_reader.hpp
     file_lock.hpp
+    function_wrappers.hpp
     generic_concepts.hpp
     iconfiguration.hpp
     icore_factory_accessor.hpp

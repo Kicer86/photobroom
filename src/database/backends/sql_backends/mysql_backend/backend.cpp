@@ -21,7 +21,7 @@ namespace Database
 
     struct MySqlBackend::Data
     {
-        Data(IConfiguration* c, ILoggerFactory* l): m_server(), m_dbLocation(), m_initialized(false)
+        Data(IConfiguration* c, ILogger* l): m_server(), m_dbLocation(), m_initialized(false)
         {
             m_server.set(c);
             m_server.set(l);
@@ -38,7 +38,7 @@ namespace Database
     };
 
 
-    MySqlBackend::MySqlBackend(IConfiguration* c, ILoggerFactory* l): ASqlBackend(l), m_data(new Data(c, l))
+    MySqlBackend::MySqlBackend(IConfiguration* c, ILogger* l): ASqlBackend(l), m_data(new Data(c, l))
     {
 
     }
@@ -126,7 +126,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IBackend> MySqlPlugin::constructBackend(IConfiguration* c, ILoggerFactory* l)
+    std::unique_ptr<IBackend> MySqlPlugin::constructBackend(IConfiguration* c, ILogger* l)
     {
         return std::make_unique<MySqlBackend>(c, l);
     }

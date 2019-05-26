@@ -984,10 +984,10 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////
 
 
-    ASqlBackend::ASqlBackend(ILoggerFactory* l):
+    ASqlBackend::ASqlBackend(ILogger* l):
         m_data(new Data(this))
     {
-        m_data->m_logger = l->get({"Database" ,"ASqlBackend"});
+        m_data->m_logger = l->subLogger({"ASqlBackend"});
         m_data->m_executor.set(m_data->m_logger.get());
     }
 
