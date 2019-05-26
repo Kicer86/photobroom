@@ -5,6 +5,8 @@
 #include <chrono>
 #include <unordered_map>
 
+
+// Cache container which removes old items.
 template<typename K, typename V, typename Hash>
 class Cache
 {
