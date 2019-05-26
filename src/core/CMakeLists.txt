@@ -69,6 +69,7 @@ endif()
 
 set(CORE_HEADERS
     base_tags.hpp
+    cache.hpp
     configuration.hpp
     constants.hpp
     containers_utils.hpp
