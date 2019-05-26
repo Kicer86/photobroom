@@ -21,6 +21,7 @@
 #define PHOTOINFOMANAGER_H
 
 #include <memory>
+#include <unordered_map>
 
 #include <database/iphoto_info.hpp>
 
@@ -45,8 +46,7 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
         void forget(const Photo::Id &) override;
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        std::unordered_map<Photo::Id, std::weak_ptr<IPhotoInfo>, Photo::IdHash> m_photo_cache;
 };
 
 #endif // PHOTOINFOMANAGER_H
