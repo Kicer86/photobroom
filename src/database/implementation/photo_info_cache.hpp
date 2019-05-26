@@ -46,6 +46,11 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
         void forget(const Photo::Id &) override;
 
     private:
+        // Cache for all introduced photos.
+        // Photos are kept as weak_ptrs so cache won't increase ref count and photo
+        // can be released when there no clients.
+        // All introduced photos need (?) to be remembered here, so where won't be more than one
+        // independent IPhotoInfos which could damage DB when modified in parallel.
         std::unordered_map<Photo::Id, std::weak_ptr<IPhotoInfo>, Photo::IdHash> m_photo_cache;
 };
 
