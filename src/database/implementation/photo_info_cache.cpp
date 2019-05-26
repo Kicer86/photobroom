@@ -29,7 +29,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 PhotoInfoCache::PhotoInfoCache(ILogger* l):
-    m_logger(l->subLogger("PhotoInfoCache"))
+    m_logger(l->subLogger("PhotoInfoCache")),
+    m_photo_strong_cache(128)
 {
 }
 
@@ -51,6 +52,11 @@ IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
 
         if (result.get() == nullptr)
         {
+            // as photo was not found in 'weak' cache, the more it should not be found in strong:
+            // if there is a photo stored in strong cache, it means photo has at least one client
+            // so weak cache should return it
+            assert(m_photo_strong_cache.find(id).has_value() == false);
+
             const std::string msg = std::string("Photo with id ") + std::to_string(id) + " was recently used but has no clients at this moment.";
             m_logger->debug(msg);
         }
@@ -63,7 +69,9 @@ IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
 void PhotoInfoCache::introduce(const IPhotoInfo::Ptr& ptr)
 {
     const auto id = ptr->getID();
+
     m_photo_cache[id] = ptr;
+    m_photo_strong_cache.insert(id, ptr);
 }
 
 
@@ -72,5 +80,7 @@ void PhotoInfoCache::forget(const Photo::Id& id)
     auto it = m_photo_cache.find(id);
 
     assert(it != m_photo_cache.end() );
+
     m_photo_cache.erase(it);
+    m_photo_strong_cache.erase(id);
 }

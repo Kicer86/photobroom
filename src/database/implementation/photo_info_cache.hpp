@@ -23,6 +23,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <core/cache.hpp>
 #include <database/iphoto_info.hpp>
 
 #include "iphoto_info_cache.hpp"
@@ -48,13 +49,17 @@ class PhotoInfoCache: public Database::IPhotoInfoCache
         void forget(const Photo::Id &) override;
 
     private:
+        std::unique_ptr<ILogger> m_logger;
+
         // Cache for all introduced photos.
         // Photos are kept as weak_ptrs so cache won't increase ref count and photo
         // can be released when there no clients.
         // All introduced photos need (?) to be remembered here, so where won't be more than one
         // independent IPhotoInfos which could damage DB when modified in parallel.
         std::unordered_map<Photo::Id, std::weak_ptr<IPhotoInfo>, Photo::IdHash> m_photo_cache;
-        std::unique_ptr<ILogger> m_logger;
+
+        // Strong cache
+        Cache<Photo::Id, IPhotoInfo::Ptr, Photo::IdHash> m_photo_strong_cache;
 };
 
 #endif // PHOTOINFOMANAGER_H
