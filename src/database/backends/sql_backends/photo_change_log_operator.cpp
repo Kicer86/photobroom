@@ -65,7 +65,7 @@ namespace Database
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
         bool status = m_executor->exec(query);
-
+        assert(status);
     }
 
 }
