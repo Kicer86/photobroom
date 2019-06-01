@@ -177,7 +177,7 @@ namespace Database
                                 { "id", "", ColDefinition::Purpose::ID },
                                 { "photo_id", "INTEGER NOT NULL"       },
                                 { "operation", "INTEGER"               },       // add/delete/modify
-                                { "field", "CHAR(64)"                  },       // tag? flag? person?
+                                { "field", "INTEGER"                   },       // tag? flag? person?
                                 { "data",  QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
                                 { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
                             }
