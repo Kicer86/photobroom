@@ -19,11 +19,45 @@
 #ifndef PHOTOCHANGELOGOPERATOR_HPP
 #define PHOTOCHANGELOGOPERATOR_HPP
 
-class PhotoChangeLogOperator final
+#include <QString>
+
+#include <database/photo_types.hpp>
+
+struct ILogger;
+
+namespace Database
 {
-    public:
-        PhotoChangeLogOperator();
-        ~PhotoChangeLogOperator();
-};
+    struct IBackend;
+    struct IGenericSqlQueryGenerator;
+    struct ISqlQueryExecutor;
+
+    class PhotoChangeLogOperator final
+    {
+        public:
+            enum Operation
+            {
+                Add     = 1,
+                Modify  = 2,
+                Remove  = 3,
+            };
+
+            enum Field
+            {
+                Tags    = 1,
+            };
+
+            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            ~PhotoChangeLogOperator();
+
+            void append(const Photo::Id &, Operation, Field, const QString& data);
+
+        private:
+            QString m_connectionName;
+            const IGenericSqlQueryGenerator* m_queryGenerator;
+            ISqlQueryExecutor* m_executor;
+            ILogger* m_logger;
+            IBackend* m_backend;
+    };
+}
 
 #endif // PHOTOCHANGELOGOPERATOR_HPP

@@ -19,13 +19,31 @@
 #include "photo_change_log_operator.hpp"
 
 
-PhotoChangeLogOperator::PhotoChangeLogOperator()
+namespace Database
 {
+    PhotoChangeLogOperator::PhotoChangeLogOperator(const QString& name,
+                                    const IGenericSqlQueryGenerator* generator,
+                                    ISqlQueryExecutor* executor,
+                                    ILogger* logger,
+                                    IBackend* backend):
+            m_connectionName(name),
+            m_queryGenerator(generator),
+            m_executor(executor),
+            m_logger(logger),
+            m_backend(backend)
+        {
+        }
 
-}
+
+    PhotoChangeLogOperator::~PhotoChangeLogOperator()
+    {
+
+    }
 
 
-PhotoChangeLogOperator::~PhotoChangeLogOperator()
-{
+    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data)
+    {
+
+    }
 
 }
