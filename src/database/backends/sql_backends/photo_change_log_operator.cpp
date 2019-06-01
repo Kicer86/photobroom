@@ -18,6 +18,14 @@
 
 #include "photo_change_log_operator.hpp"
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
+#include "query_structs.hpp"
+#include "tables.hpp"
+#include "isql_query_constructor.hpp"
+#include "isql_query_executor.hpp"
+
 
 namespace Database
 {
@@ -43,6 +51,20 @@ namespace Database
 
     void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data)
     {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        InsertQueryData insertData(TAB_PHOTOS_CHANGE_LOG);
+
+        insertData.setColumns("id", "photo_id", "operation", "field", "data");
+        insertData.setValues(InsertQueryData::Value::Null,
+                             ph_id,
+                             static_cast<int>(op),
+                             static_cast<int>(field),
+                             data);
+
+        QSqlQuery query = m_queryGenerator->insert(db, insertData);
+
+        bool status = m_executor->exec(query);
 
     }
 
