@@ -402,6 +402,8 @@ namespace Database
 
     bool ASqlBackend::Data::storeData(const Photo::DataDelta& data) const
     {
+        const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
+
         assert(data.getId());
 
         bool status = true;
