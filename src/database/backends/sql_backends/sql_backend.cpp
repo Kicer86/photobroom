@@ -656,7 +656,7 @@ namespace Database
 
     bool ASqlBackend::Data::insert(Photo::DataDelta& data) const noexcept
     {
-        insert({data});
+        return insert({data});
     }
 
 
