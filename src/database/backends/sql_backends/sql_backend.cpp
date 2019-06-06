@@ -167,7 +167,7 @@ namespace Database
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
-            bool introduce(Photo::DataDelta &) const;
+            void introduce(Photo::DataDelta &) const;
             bool storeData(const Photo::DataDelta &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
@@ -401,11 +401,9 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::introduce(Photo::DataDelta& data) const
+    void ASqlBackend::Data::introduce(Photo::DataDelta& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        bool status = true;
 
         //store path and date
         Photo::Id id = data.getId();
@@ -420,33 +418,23 @@ namespace Database
 
         QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
 
-        if (status)
-            status = m_executor.exec(query);
+        DB_ERR_ON_FALSE(m_executor.exec(query));
 
-        //update id
-        if (status)                                    //Get Id from database after insert
-        {
-            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
+        // update id
+        // Get Id from database after insert
 
-            if (status)
-                id = Photo::Id(photo_id.toInt());
-        }
+        QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+        DB_ERR_ON_FALSE(photo_id.isValid());
+
+        id = Photo::Id(photo_id.toInt());
 
         //make sure id is set
-        if (status)
-            status = id.valid();
+        DB_ERR_ON_FALSE(id.valid());
 
-        if (status)
-        {
-            assert(data.getId().valid() == false || data.getId() == id);
-            data.setId(id);
-        }
+        assert(data.getId().valid() == false || data.getId() == id);
+        data.setId(id);
 
-        if (status)
-            status = storeData(data);
-
-        return status;
+        DB_ERR_ON_FALSE(storeData(data));
     }
 
 
@@ -673,7 +661,7 @@ namespace Database
             DB_ERR_ON_FALSE(transaction.begin());
 
             for(Photo::DataDelta& data: data_set)
-                DB_ERR_ON_FALSE(introduce(data));
+                introduce(data);
 
             DB_ERR_ON_FALSE(transaction.commit());
         }
