@@ -153,9 +153,9 @@ namespace Database
 
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::DataDelta &) const;
-            bool insert(std::vector<Photo::DataDelta> &) const;
-            bool update(const Photo::DataDelta &) const;
+            bool insert(Photo::DataDelta &) const noexcept;
+            bool insert(std::vector<Photo::DataDelta> &) const noexcept;
+            bool update(const Photo::DataDelta &) const noexcept;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
 
@@ -167,6 +167,7 @@ namespace Database
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
+            bool introduce(Photo::DataDelta &) const;
             bool storeData(const Photo::DataDelta &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
@@ -400,6 +401,55 @@ namespace Database
     }
 
 
+    bool ASqlBackend::Data::introduce(Photo::DataDelta& data) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        bool status = true;
+
+        //store path and date
+        Photo::Id id = data.getId();
+        assert(id.valid() == false);
+
+        InsertQueryData insertData(TAB_PHOTOS);
+
+        insertData.setColumns("path", "store_date");
+        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
+        insertData.setColumns("id");
+        insertData.setValues(InsertQueryData::Value::Null);
+
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
+
+        if (status)
+            status = m_executor.exec(query);
+
+        //update id
+        if (status)                                    //Get Id from database after insert
+        {
+            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            status = photo_id.isValid();
+
+            if (status)
+                id = Photo::Id(photo_id.toInt());
+        }
+
+        //make sure id is set
+        if (status)
+            status = id.valid();
+
+        if (status)
+        {
+            assert(data.getId().valid() == false || data.getId() == id);
+            data.setId(id);
+        }
+
+        if (status)
+            status = storeData(data);
+
+        return status;
+    }
+
+
     bool ASqlBackend::Data::storeData(const Photo::DataDelta& data) const
     {
         const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
@@ -604,91 +654,59 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const
+    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const noexcept
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        bool status = true;
-
-        //store path and date
-        Photo::Id id = data.getId();
-        assert(id.valid() == false);
-
-        InsertQueryData insertData(TAB_PHOTOS);
-
-        insertData.setColumns("path", "store_date");
-        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
-        insertData.setColumns("id");
-        insertData.setValues(InsertQueryData::Value::Null);
-
-        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
-
-        if (status)
-            status = m_executor.exec(query);
-
-        //update id
-        if (status)                                    //Get Id from database after insert
-        {
-            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
-
-            if (status)
-                id = Photo::Id(photo_id.toInt());
-        }
-
-        //make sure id is set
-        if (status)
-            status = id.valid();
-
-        if (status)
-        {
-            assert(data.getId().valid() == false || data.getId() == id);
-            data.setId(id);
-        }
-
-        if (status)
-            status = storeData(data);
-
-        return status;
+        insert({data});
     }
 
 
-    bool ASqlBackend::Data::insert(std::vector<Photo::DataDelta>& data_set) const
+    bool ASqlBackend::Data::insert(std::vector<Photo::DataDelta>& data_set) const noexcept
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         Transaction transaction(db);
-        bool status = transaction.begin();
 
-        for(Photo::DataDelta& data: data_set)
+        bool status = true;
+
+        try
         {
-            if (status)
-                status = insert(data);
+            DB_ERR_ON_FALSE(transaction.begin());
 
-            if (status == false)
-                break;
+            for(Photo::DataDelta& data: data_set)
+                DB_ERR_ON_FALSE(introduce(data));
+
+            DB_ERR_ON_FALSE(transaction.commit());
         }
-
-        if (status)
-            status = transaction.commit();
+        catch(const db_error& error)
+        {
+            m_logger->error(error.what());
+            status = false;
+        }
 
         return status;
     }
 
 
-    bool ASqlBackend::Data::update(const Photo::DataDelta& data) const
+    bool ASqlBackend::Data::update(const Photo::DataDelta& data) const noexcept
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
         Transaction transaction(db);
-        bool status = transaction.begin();
 
-        if (status)
-            status = storeData(data);
+        bool status = true;
 
-        if (status)
-            status = transaction.commit();
+        try
+        {
+            DB_ERR_ON_FALSE(transaction.begin());
+            DB_ERR_ON_FALSE(storeData(data));
+            DB_ERR_ON_FALSE(transaction.commit());
+        }
+        catch(const db_error& error)
+        {
+            m_logger->error(error.what());
+            status = false;
+        }
 
         return status;
     }
