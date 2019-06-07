@@ -174,6 +174,7 @@ namespace Database
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
             bool storeGroup(const Photo::Id &, const GroupInfo &) const;
+            void storeDiff(const Photo::Data &, const Photo::DataDelta &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
@@ -478,6 +479,8 @@ namespace Database
             status = storeGroup(data.getId(), groupInfo);
         }
 
+        storeDiff(currentStateOfPhoto, data);
+
         return status;
     }
 
@@ -639,6 +642,12 @@ namespace Database
         }
 
         return status;
+    }
+
+
+    void ASqlBackend::Data::storeDiff(const Photo::Data& currentData, const Photo::DataDelta& newData) const
+    {
+
     }
 
 
