@@ -21,10 +21,26 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "database/ibackend.hpp"
 #include "query_structs.hpp"
 #include "tables.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
+
+
+namespace
+{
+    QString encodeTag(const TagNameInfo& tagInfo, const TagValue& value)
+    {
+        const QString encodedValue = value.rawValue().toUtf8().toBase64();
+
+        const QString encoded = QString("name: %1, value: %2")
+                                    .arg(tagInfo.getTag())
+                                    .arg(encodedValue);
+
+        return encoded;
+    }
+}
 
 
 namespace Database
@@ -49,8 +65,29 @@ namespace Database
     }
 
 
-    void PhotoChangeLogOperator::storeDifference(const Photo::Data &, const Photo::DataDelta &)
+    void PhotoChangeLogOperator::storeDifference(const Photo::Data& currentContent, const Photo::DataDelta& newContent)
     {
+        assert(currentContent.id == newContent.getId());
+
+        const Photo::Id& id = currentContent.id;
+
+        if (newContent.has(Photo::Field::Tags))
+        {
+            const auto& tagsRemoved = currentContent.tags;
+            const auto tagsAdded = newContent.get<Photo::Field::Tags>();
+
+            for(const auto& d: tagsRemoved)
+            {
+                const QString data = encodeTag(d.first, d.second);
+                append(id, Remove, Tags, data);
+            }
+
+            for(const auto& d: tagsAdded)
+            {
+                const QString data = encodeTag(d.first, d.second);
+                append(id, Add, Tags, data);
+            }
+        }
     }
 
 
@@ -69,8 +106,7 @@ namespace Database
 
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
-        bool status = m_executor->exec(query);
-        assert(status);
+        DB_ERR_ON_FALSE(m_executor->exec(query));
     }
 
 }
