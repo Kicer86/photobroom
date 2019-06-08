@@ -31,21 +31,26 @@ namespace Database
 {
     PhotoChangeLogOperator::PhotoChangeLogOperator(const QString& name,
                                     const IGenericSqlQueryGenerator* generator,
-                                    ISqlQueryExecutor* executor,
+                                    const ISqlQueryExecutor* executor,
                                     ILogger* logger,
                                     IBackend* backend):
-            m_connectionName(name),
-            m_queryGenerator(generator),
-            m_executor(executor),
-            m_logger(logger),
-            m_backend(backend)
-        {
-        }
+        m_connectionName(name),
+        m_queryGenerator(generator),
+        m_executor(executor),
+        m_logger(logger),
+        m_backend(backend)
+    {
+    }
 
 
     PhotoChangeLogOperator::~PhotoChangeLogOperator()
     {
 
+    }
+
+
+    void PhotoChangeLogOperator::storeDifference(const Photo::Data &, const Photo::DataDelta &)
+    {
     }
 
 

@@ -21,7 +21,8 @@
 
 #include <QString>
 
-#include <database/photo_types.hpp>
+#include <database/photo_data.hpp>
+
 
 struct ILogger;
 
@@ -34,14 +35,15 @@ namespace Database
     class PhotoChangeLogOperator final
     {
         public:
-            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
             ~PhotoChangeLogOperator();
 
+            void storeDifference(const Photo::Data &, const Photo::DataDelta &);
 
         private:
             QString m_connectionName;
             const IGenericSqlQueryGenerator* m_queryGenerator;
-            ISqlQueryExecutor* m_executor;
+            const ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
             IBackend* m_backend;
 
