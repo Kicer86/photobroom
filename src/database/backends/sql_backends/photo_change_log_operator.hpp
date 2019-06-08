@@ -34,6 +34,17 @@ namespace Database
     class PhotoChangeLogOperator final
     {
         public:
+            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            ~PhotoChangeLogOperator();
+
+
+        private:
+            QString m_connectionName;
+            const IGenericSqlQueryGenerator* m_queryGenerator;
+            ISqlQueryExecutor* m_executor;
+            ILogger* m_logger;
+            IBackend* m_backend;
+
             enum Operation
             {
                 Add     = 1,
@@ -46,17 +57,7 @@ namespace Database
                 Tags    = 1,
             };
 
-            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
-            ~PhotoChangeLogOperator();
-
             void append(const Photo::Id &, Operation, Field, const QString& data);
-
-        private:
-            QString m_connectionName;
-            const IGenericSqlQueryGenerator* m_queryGenerator;
-            ISqlQueryExecutor* m_executor;
-            ILogger* m_logger;
-            IBackend* m_backend;
     };
 }
 
