@@ -34,7 +34,7 @@ namespace
     {
         const QString encodedValue = value.rawValue().toUtf8().toBase64();
 
-        const QString encoded = QString("name: %1, value: %2")
+        const QString encoded = QString("%1 %2")
                                     .arg(tagInfo.getTag())
                                     .arg(encodedValue);
 
@@ -73,8 +73,19 @@ namespace Database
 
         if (newContent.has(Photo::Field::Tags))
         {
-            const auto& tagsRemoved = currentContent.tags;
-            const auto tagsAdded = newContent.get<Photo::Field::Tags>();
+            const auto& oldTags = currentContent.tags;
+            const auto newTags = newContent.get<Photo::Field::Tags>();
+
+            std::vector<std::pair<TagNameInfo, TagValue>> tagsRemoved;
+            std::vector<std::pair<TagNameInfo, TagValue>> tagsAdded;
+
+            std::set_difference(oldTags.cbegin(), oldTags.cend(),
+                                newTags.cbegin(), newTags.cend(),
+                                std::back_inserter(tagsRemoved));
+
+            std::set_difference(newTags.cbegin(), newTags.cend(),
+                                oldTags.cbegin(), oldTags.cend(),
+                                std::back_inserter(tagsAdded));
 
             for(const auto& d: tagsRemoved)
             {
