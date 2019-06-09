@@ -68,7 +68,6 @@ namespace Database
     void PhotoChangeLogOperator::storeDifference(const Photo::Data& currentContent, const Photo::DataDelta& newContent)
     {
         assert(currentContent.id == newContent.getId());
-
         const Photo::Id& id = currentContent.id;
 
         if (newContent.has(Photo::Field::Tags))
@@ -76,33 +75,12 @@ namespace Database
             const auto& oldTags = currentContent.tags;
             const auto newTags = newContent.get<Photo::Field::Tags>();
 
-            std::vector<std::pair<TagNameInfo, TagValue>> tagsRemoved;
-            std::vector<std::pair<TagNameInfo, TagValue>> tagsAdded;
-
-            std::set_difference(oldTags.cbegin(), oldTags.cend(),
-                                newTags.cbegin(), newTags.cend(),
-                                std::back_inserter(tagsRemoved));
-
-            std::set_difference(newTags.cbegin(), newTags.cend(),
-                                oldTags.cbegin(), oldTags.cend(),
-                                std::back_inserter(tagsAdded));
-
-            for(const auto& d: tagsRemoved)
-            {
-                const QString data = encodeTag(d.first, d.second);
-                append(id, Remove, Tags, data);
-            }
-
-            for(const auto& d: tagsAdded)
-            {
-                const QString data = encodeTag(d.first, d.second);
-                append(id, Add, Tags, data);
-            }
+            process(id, oldTags, newTags);
         }
     }
 
 
-    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data)
+    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -122,4 +100,30 @@ namespace Database
         DB_ERR_ON_FALSE(m_executor->exec(query));
     }
 
+
+    void Database::PhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
+    {
+        std::vector<std::pair<TagNameInfo, TagValue>> tagsRemoved;
+        std::vector<std::pair<TagNameInfo, TagValue>> tagsAdded;
+
+        std::set_difference(oldTags.cbegin(), oldTags.cend(),
+                            newTags.cbegin(), newTags.cend(),
+                            std::back_inserter(tagsRemoved));
+
+        std::set_difference(newTags.cbegin(), newTags.cend(),
+                            oldTags.cbegin(), oldTags.cend(),
+                            std::back_inserter(tagsAdded));
+
+        for(const auto& d: tagsRemoved)
+        {
+            const QString data = encodeTag(d.first, d.second);
+            append(id, Remove, Tags, data);
+        }
+
+        for(const auto& d: tagsAdded)
+        {
+            const QString data = encodeTag(d.first, d.second);
+            append(id, Add, Tags, data);
+        }
+    }
 }
