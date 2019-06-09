@@ -179,6 +179,7 @@ namespace Database
                                 { "operation", "INTEGER"               },       // add/delete/modify
                                 { "field", "INTEGER"                   },       // tag? flag? person?
                                 { "data",  QString("VARCHAR(%1)").arg(ConfigConsts::Constraints::database_tag_value_len) },
+                                { "date", "TIMESTAMP NOT NULL"         },
                                 { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
                             }
         );

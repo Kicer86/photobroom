@@ -108,12 +108,14 @@ namespace Database
 
         InsertQueryData insertData(TAB_PHOTOS_CHANGE_LOG);
 
-        insertData.setColumns("id", "photo_id", "operation", "field", "data");
+        insertData.setColumns("id", "photo_id", "operation", "field", "data", "date");
         insertData.setValues(InsertQueryData::Value::Null,
                              ph_id,
                              static_cast<int>(op),
                              static_cast<int>(field),
-                             data);
+                             data,
+                             InsertQueryData::Value::CurrentTime
+                            );
 
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
