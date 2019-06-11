@@ -21,6 +21,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "core/containers_utils.hpp"
 #include "database/ibackend.hpp"
 #include "query_structs.hpp"
 #include "tables.hpp"
@@ -30,13 +31,28 @@
 
 namespace
 {
-    QString encodeTag(const TagNameInfo& tagInfo, const TagValue& value)
+    QString encodeTag(const TagValue& value)
     {
         const QString encodedValue = value.rawValue().toUtf8().toBase64();
 
+        return encodedValue;
+    }
+
+    QString encodeTag(const TagNameInfo& tagInfo, const TagValue& value)
+    {
         const QString encoded = QString("%1 %2")
                                     .arg(tagInfo.getTag())
-                                    .arg(encodedValue);
+                                    .arg(encodeTag(value));
+
+        return encoded;
+    }
+
+    QString encodeTag(const TagNameInfo& tagInfo, const TagValue& valueOld, const TagValue& valueNew)
+    {
+        const QString encoded = QString("%1 %2 %3")
+                                    .arg(tagInfo.getTag())
+                                    .arg(encodeTag(valueOld))
+                                    .arg(encodeTag(valueNew));
 
         return encoded;
     }
@@ -104,20 +120,24 @@ namespace Database
     void Database::PhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
     {
         std::vector<std::pair<TagNameInfo, TagValue>> tagsRemoved;
+        std::vector<std::tuple<TagNameInfo, TagValue, TagValue>> tagsChanged;
         std::vector<std::pair<TagNameInfo, TagValue>> tagsAdded;
 
-        std::set_difference(oldTags.cbegin(), oldTags.cend(),
-                            newTags.cbegin(), newTags.cend(),
-                            std::back_inserter(tagsRemoved));
-
-        std::set_difference(newTags.cbegin(), newTags.cend(),
-                            oldTags.cbegin(), oldTags.cend(),
-                            std::back_inserter(tagsAdded));
+        compare(oldTags, newTags,
+                std::back_inserter(tagsRemoved),
+                std::back_inserter(tagsChanged),
+                std::back_inserter(tagsAdded));
 
         for(const auto& d: tagsRemoved)
         {
             const QString data = encodeTag(d.first, d.second);
             append(id, Remove, Tags, data);
+        }
+
+        for(const auto& d: tagsChanged)
+        {
+            const QString data = encodeTag(std::get<0>(d), std::get<1>(d), std::get<2>(d));
+            append(id, Modify, Tags, data);
         }
 
         for(const auto& d: tagsAdded)
