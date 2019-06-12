@@ -57,6 +57,7 @@ namespace Database
             enum Field
             {
                 Tags    = 1,
+                Group   = 2,
             };
 
             void append(const Photo::Id &, Operation, Field, const QString& data) const;

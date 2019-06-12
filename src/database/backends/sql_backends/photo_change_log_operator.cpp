@@ -155,8 +155,37 @@ namespace Database
         }
     }
 
-    void PhotoChangeLogOperator::process(const Photo::Id&, const GroupInfo&, const GroupInfo&) const
+
+    void PhotoChangeLogOperator::process(const Photo::Id& id, const GroupInfo& oldGroupInfo, const GroupInfo& newGroupInfo) const
     {
+        if (oldGroupInfo.group_id.valid() && newGroupInfo.group_id.valid())   // both valid -> modification
+        {
+            const QString data = QString("%1 %2, %3 %4")
+                                    .arg(oldGroupInfo.group_id)
+                                    .arg(newGroupInfo.group_id)
+                                    .arg(oldGroupInfo.role)
+                                    .arg(newGroupInfo.role);
+
+            append(id, Modify, Group, data);
+        }
+        else if (oldGroupInfo.group_id.valid() && !newGroupInfo.group_id)     // only old valid -> removal
+        {
+            const QString data = QString("%1, %3 %4")
+                                    .arg(oldGroupInfo.group_id)
+                                    .arg(oldGroupInfo.role)
+                                    .arg(newGroupInfo.role);
+
+            append(id, Remove, Group, data);
+        }
+        else if (!oldGroupInfo.group_id && newGroupInfo.group_id.valid())    // only new valid -> addition
+        {
+            const QString data = QString("%1, %3 %4")
+                                    .arg(newGroupInfo.group_id)
+                                    .arg(oldGroupInfo.role)
+                                    .arg(newGroupInfo.role);
+
+            append(id, Add, Group, data);
+        }
     }
 
 }
