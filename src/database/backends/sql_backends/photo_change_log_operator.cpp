@@ -89,7 +89,7 @@ namespace Database
         if (newContent.has(Photo::Field::Tags))
         {
             const auto& oldTags = currentContent.tags;
-            const auto newTags = newContent.get<Photo::Field::Tags>();
+            const auto& newTags = newContent.get<Photo::Field::Tags>();
 
             process(id, oldTags, newTags);
         }
@@ -97,7 +97,7 @@ namespace Database
         if (newContent.has(Photo::Field::GroupInfo))
         {
             const auto& oldGroupInfo = currentContent.groupInfo;
-            const auto newGroupInfo = newContent.get<Photo::Field::GroupInfo>();
+            const auto& newGroupInfo = newContent.get<Photo::Field::GroupInfo>();
 
             process(id, oldGroupInfo, newGroupInfo);
         }
