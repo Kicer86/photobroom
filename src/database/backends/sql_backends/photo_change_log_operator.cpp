@@ -125,7 +125,7 @@ namespace Database
     }
 
 
-    void Database::PhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
+    void PhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
     {
         std::vector<std::pair<TagNameInfo, TagValue>> tagsRemoved;
         std::vector<std::tuple<TagNameInfo, TagValue, TagValue>> tagsChanged;
