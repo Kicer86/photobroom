@@ -61,6 +61,7 @@ namespace Database
 
             void append(const Photo::Id &, Operation, Field, const QString& data) const;
             void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &) const;
+            void process(const Photo::Id &, const GroupInfo &, const GroupInfo &) const;
     };
 }
 

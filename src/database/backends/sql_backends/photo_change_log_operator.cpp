@@ -93,6 +93,14 @@ namespace Database
 
             process(id, oldTags, newTags);
         }
+
+        if (newContent.has(Photo::Field::GroupInfo))
+        {
+            const auto& oldGroupInfo = currentContent.groupInfo;
+            const auto newGroupInfo = newContent.get<Photo::Field::GroupInfo>();
+
+            process(id, oldGroupInfo, newGroupInfo);
+        }
     }
 
 
@@ -146,4 +154,9 @@ namespace Database
             append(id, Add, Tags, data);
         }
     }
+
+    void PhotoChangeLogOperator::process(const Photo::Id&, const GroupInfo&, const GroupInfo&) const
+    {
+    }
+
 }
