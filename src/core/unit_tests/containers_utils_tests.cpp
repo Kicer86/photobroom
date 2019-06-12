@@ -119,3 +119,61 @@ TEST(compareTest, changeDetection)
     EXPECT_EQ(std::get<2>(changed.back()), 'w');
 }
 
+
+TEST(compareTest, mixDetection)
+{
+    const std::map<int, char> l =
+    {
+        {1, 'a'},
+        {2, 'b'},
+        {3, 'c'},
+        {4, 'd'},
+        {5, 'e'},
+        {6, 'f'},
+    };
+
+    const std::map<int, char> r =
+    {
+        {0, '_'},
+        {1, 'a'},
+    //  {2, 'b'},
+        {3, 'q'},
+    //  {4, 'd'},
+        {5, 'e'},
+        {6, 'w'},
+        {7, '_'}
+    };
+
+    std::vector<std::pair<int, char>> removed, added;
+    std::vector<std::tuple<int, char, char>> changed;
+
+    compare(l, r,
+            std::back_inserter(removed),
+            std::back_inserter(changed),
+            std::back_inserter(added));
+
+
+    // removal
+    ASSERT_EQ(removed.size(), 2);
+    EXPECT_EQ(removed.front().first, 2);
+    EXPECT_EQ(removed.front().second, 'b');
+    EXPECT_EQ(removed.back().first, 4);
+    EXPECT_EQ(removed.back().second, 'd');
+
+    // addition
+    ASSERT_EQ(added.size(), 2);
+    EXPECT_EQ(added.front().first, 0);
+    EXPECT_EQ(added.front().second, '_');
+    EXPECT_EQ(added.back().first, 7);
+    EXPECT_EQ(added.back().second, '_');
+
+    // change
+    ASSERT_EQ(changed.size(), 2);
+    EXPECT_EQ(std::get<0>(changed.front()), 3);
+    EXPECT_EQ(std::get<1>(changed.front()), 'c');
+    EXPECT_EQ(std::get<2>(changed.front()), 'q');
+
+    EXPECT_EQ(std::get<0>(changed.back()), 6);
+    EXPECT_EQ(std::get<1>(changed.back()), 'f');
+    EXPECT_EQ(std::get<2>(changed.back()), 'w');
+}
