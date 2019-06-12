@@ -10,14 +10,18 @@ TEST(compareTest, removalDetection)
     {
         {1, 'a'},
         {2, 'b'},
-        {3, 'c'}
+        {3, 'c'},
+        {4, 'd'},
+        {5, 'e'}
     };
 
     const std::map<int, char> r =
     {
         {1, 'a'},
-    //  {2, 'b'},
-        {3, 'c'}
+      //{2, 'b'},
+        {3, 'c'},
+      //{4, 'd'},
+        {5, 'e'}
     };
 
     std::vector<std::pair<int, char>> removed, added;
@@ -31,9 +35,11 @@ TEST(compareTest, removalDetection)
     EXPECT_TRUE(added.empty());
     EXPECT_TRUE(changed.empty());
 
-    ASSERT_EQ(removed.size(), 1);
+    ASSERT_EQ(removed.size(), 2);
     EXPECT_EQ(removed.front().first, 2);
     EXPECT_EQ(removed.front().second, 'b');
+    EXPECT_EQ(removed.back().first, 4);
+    EXPECT_EQ(removed.back().second, 'd');
 }
 
 
@@ -48,6 +54,7 @@ TEST(compareTest, additionDetection)
 
     const std::map<int, char> r =
     {
+        {0, '_'},
         {1, 'a'},
         {2, 'b'},
         {3, 'c'},
@@ -65,9 +72,11 @@ TEST(compareTest, additionDetection)
     EXPECT_TRUE(removed.empty());
     EXPECT_TRUE(changed.empty());
 
-    ASSERT_EQ(added.size(), 1);
-    EXPECT_EQ(added.front().first, 4);
-    EXPECT_EQ(added.front().second, 'd');
+    ASSERT_EQ(added.size(), 2);
+    EXPECT_EQ(added.front().first, 0);
+    EXPECT_EQ(added.front().second, '_');
+    EXPECT_EQ(added.back().first, 4);
+    EXPECT_EQ(added.back().second, 'd');
 }
 
 
@@ -77,14 +86,16 @@ TEST(compareTest, changeDetection)
     {
         {1, 'a'},
         {2, 'b'},
-        {3, 'c'}
+        {3, 'c'},
+        {4, 'd'},
     };
 
     const std::map<int, char> r =
     {
         {1, 'a'},
         {2, 'q'},
-        {3, 'c'}
+        {3, 'w'},
+        {4, 'd'},
     };
 
     std::vector<std::pair<int, char>> removed, added;
@@ -98,9 +109,13 @@ TEST(compareTest, changeDetection)
     EXPECT_TRUE(removed.empty());
     EXPECT_TRUE(added.empty());
 
-    ASSERT_EQ(changed.size(), 1);
+    ASSERT_EQ(changed.size(), 2);
     EXPECT_EQ(std::get<0>(changed.front()), 2);
     EXPECT_EQ(std::get<1>(changed.front()), 'b');
     EXPECT_EQ(std::get<2>(changed.front()), 'q');
+
+    EXPECT_EQ(std::get<0>(changed.back()), 3);
+    EXPECT_EQ(std::get<1>(changed.back()), 'c');
+    EXPECT_EQ(std::get<2>(changed.back()), 'w');
 }
 
