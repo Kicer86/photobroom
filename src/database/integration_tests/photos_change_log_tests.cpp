@@ -39,6 +39,10 @@ TEST_F(PhotosChangeLog, personIntroduction)
             op->update(data_delta);
 
             //expect "tag added" entry in change log
+            QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
+
+            ASSERT_EQ(changeLog.size(), 1);
+            EXPECT_EQ(changeLog.front(), "photo id: 1. Tag added. Event: test event");
         });
     });
 }
