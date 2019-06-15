@@ -28,6 +28,7 @@
 
 #include "database/ibackend.hpp"
 #include "group_operator.hpp"
+#include "photo_change_log_operator.hpp"
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
@@ -63,6 +64,7 @@ namespace Database
 
             IGroupOperator* groupOperator() override;
             IPhotoOperator* photoOperator() override;
+            PhotoChangeLogOperator* photoChangeLogOperator() override;
 
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
@@ -83,6 +85,7 @@ namespace Database
             std::unique_ptr<Data> m_data;
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
+            std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;

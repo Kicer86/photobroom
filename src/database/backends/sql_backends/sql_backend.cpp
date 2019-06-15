@@ -47,7 +47,6 @@
 #include <database/project_info.hpp>
 
 #include "isql_query_constructor.hpp"
-#include "photo_change_log_operator.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_action_query_generator.hpp"
@@ -479,9 +478,7 @@ namespace Database
             status = storeGroup(data.getId(), groupInfo);
         }
 
-        PhotoChangeLogOperator op(m_connectionName, m_backend->getGenericQueryGenerator(), &m_executor, m_logger.get(), m_backend);
-
-        op.storeDifference(currentStateOfPhoto, data);
+        m_backend->photoChangeLogOperator()->storeDifference(currentStateOfPhoto, data);
 
         return status;
     }
@@ -1061,6 +1058,21 @@ namespace Database
                                                              );
 
         return m_photoOperator.get();
+    }
+
+
+    PhotoChangeLogOperator* ASqlBackend::photoChangeLogOperator()
+    {
+        if (m_photoChangeLogOperator.get() == nullptr)
+            m_photoChangeLogOperator =
+                std::make_unique<PhotoChangeLogOperator>(m_data->m_connectionName,
+                                                         getGenericQueryGenerator(),
+                                                         &m_data->m_executor,
+                                                         m_data->m_logger.get(),
+                                                         this
+                                                        );
+
+        return m_photoChangeLogOperator.get();
     }
 
 
