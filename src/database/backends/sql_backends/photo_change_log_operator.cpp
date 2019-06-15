@@ -56,6 +56,47 @@ namespace
 
         return encoded;
     }
+
+    QString decodeTag(const QString& encoded)
+    {
+        assert(encoded.split(" ").size() == 1);
+
+        const QByteArray array = QByteArray::fromBase64(encoded.toUtf8());
+
+        return array;
+    }
+
+    std::tuple<TagNameInfo, TagValue> decodeTag2(const QString& encoded)
+    {
+        const QStringList items = encoded.split(" ");
+        assert(items.size() == 2);
+
+        const QString& tagInfoStr = items.front();
+        const QString& tagValueStr = items.back();
+
+        const BaseTagsList tagType = static_cast<BaseTagsList>(tagInfoStr.toInt());
+        const TagNameInfo decodedTagInfo = TagNameInfo(tagType);
+        const QString decodedTagValue = decodeTag(tagValueStr);
+
+        return std::make_tuple(decodedTagInfo, decodedTagValue);
+    }
+
+    std::tuple<TagNameInfo, TagValue, TagValue> decodeTag3(const QString& encoded)
+    {
+        const QStringList items = encoded.split(" ");
+        assert(items.size() == 3);
+
+        const QString& tagInfoStr = items[0];
+        const QString& oldTagValueStr = items[1];
+        const QString& newTagValueStr = items[2];
+
+        const BaseTagsList tagType = static_cast<BaseTagsList>(tagInfoStr.toInt());
+        const TagNameInfo decodedTagInfo = TagNameInfo(tagType);
+        const QString decodedOldTagValue = decodeTag(oldTagValueStr);
+        const QString decodedNewTagValue = decodeTag(newTagValueStr);
+
+        return std::make_tuple(decodedTagInfo, decodedOldTagValue, decodedNewTagValue);
+    }
 }
 
 
@@ -101,6 +142,41 @@ namespace Database
 
             process(id, oldGroupInfo, newGroupInfo);
         }
+    }
+
+
+    QStringList PhotoChangeLogOperator::dumpChangeLog()
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        const QString queryStr = QString("SELECT photo_id, operation, field, data FROM %1").arg(TAB_PHOTOS_CHANGE_LOG);
+        QSqlQuery query(queryStr, db);
+
+        m_executor->exec(query);
+
+        QStringList results;
+        while(query.next())
+        {
+            const QVariant photoIdVar = query.value("photo_id");
+            const QVariant operationVar = query.value("operation");
+            const QVariant fieldVar = query.value("field");
+            const QVariant dataVar = query.value("data");
+
+            const int photoId = photoIdVar.toInt();
+            const Operation operation = static_cast<Operation>(operationVar.toInt());
+            const Field field = static_cast<Field>(fieldVar.toInt());
+            const QString data = dataVar.toString();
+
+            const QString result = QString("photo id: %1. %2 %3. %4")
+                                    .arg(photoId)
+                                    .arg(fieldToStr(field))
+                                    .arg(opToStr(operation))
+                                    .arg(dataToStr(field, operation, data));
+
+            results.append(result);
+        }
+
+        return results;
     }
 
 
@@ -186,6 +262,77 @@ namespace Database
 
             append(id, Add, Group, data);
         }
+    }
+
+
+    QString PhotoChangeLogOperator::fieldToStr(Field field)
+    {
+        switch(field)
+        {
+            case Tags:  return "Tag";
+            case Group: return "Group";
+        }
+
+        assert(!"unexpected");
+        return "";
+    }
+
+
+    QString PhotoChangeLogOperator::opToStr(Operation op)
+    {
+        switch(op)
+        {
+            case Add:    return "added";
+            case Modify: return "modified";
+            case Remove: return "removed";
+        }
+
+        assert(!"unexpected");
+        return "";
+    }
+
+
+    QString PhotoChangeLogOperator::dataToStr(PhotoChangeLogOperator::Field field,
+                                              PhotoChangeLogOperator::Operation op,
+                                              const QString& data)
+    {
+        QString result;
+
+        switch(field)
+        {
+            case Tags:
+                switch(op)
+                {
+                    case Add:
+                    case Remove:
+                    {
+                        auto encoded = decodeTag2(data);
+                        const TagNameInfo& tag_info = std::get<0>(encoded);
+                        const TagValue& tag_value = std::get<1>(encoded);
+
+                        result = QString("%1: %2")
+                                    .arg(tag_info.getName())
+                                    .arg(tag_value.rawValue());
+                    }
+                    break;
+
+                    case Modify:
+                    {
+                        auto encoded = decodeTag3(data);
+                        const TagNameInfo& tag_info = std::get<0>(encoded);
+                        const TagValue& old_tag_value = std::get<1>(encoded);
+                        const TagValue& new_tag_value = std::get<2>(encoded);
+
+                        result = QString("%1: %2 -> %3")
+                                    .arg(tag_info.getName())
+                                    .arg(old_tag_value.rawValue())
+                                    .arg(new_tag_value.rawValue());
+                    }
+                }
+                break;
+        }
+
+        return result;
     }
 
 }

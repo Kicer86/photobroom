@@ -21,7 +21,8 @@
 
 #include <QString>
 
-#include <database/photo_data.hpp>
+#include "database/photo_data.hpp"
+#include "database/iphoto_change_log_operator.hpp"
 
 
 struct ILogger;
@@ -32,13 +33,16 @@ namespace Database
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
 
-    class PhotoChangeLogOperator final
+    class PhotoChangeLogOperator final: public IPhotoChangeLogOperator
     {
         public:
             PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
             ~PhotoChangeLogOperator();
 
             void storeDifference(const Photo::Data &, const Photo::DataDelta &);
+
+            // for debug / tests
+            QStringList dumpChangeLog() override;
 
         private:
             QString m_connectionName;
@@ -63,6 +67,10 @@ namespace Database
             void append(const Photo::Id &, Operation, Field, const QString& data) const;
             void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &) const;
             void process(const Photo::Id &, const GroupInfo &, const GroupInfo &) const;
+
+            QString fieldToStr(Field);
+            QString opToStr(Operation);
+            QString dataToStr(Field, Operation, const QString &);
     };
 }
 
