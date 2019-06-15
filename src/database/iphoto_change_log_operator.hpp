@@ -5,6 +5,7 @@
 
 #include <QStringList>
 
+
 namespace Database
 {
     struct IPhotoChangeLogOperator
