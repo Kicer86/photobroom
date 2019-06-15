@@ -1031,7 +1031,7 @@ namespace Database
     }
 
 
-    IGroupOperator* ASqlBackend::groupOperator()
+    GroupOperator* ASqlBackend::groupOperator()
     {
         // this lazy initialization is kind of a workaround:
         // getGenericQueryGenerator() may not work properly in
@@ -1048,7 +1048,7 @@ namespace Database
     }
 
 
-    IPhotoOperator* ASqlBackend::photoOperator()
+    PhotoOperator* ASqlBackend::photoOperator()
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_data->m_connectionName,

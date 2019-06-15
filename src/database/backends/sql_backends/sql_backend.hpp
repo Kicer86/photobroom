@@ -62,8 +62,8 @@ namespace Database
 
             const QString& getConnectionName() const;
 
-            IGroupOperator* groupOperator() override;
-            IPhotoOperator* photoOperator() override;
+            GroupOperator* groupOperator() override;
+            PhotoOperator* photoOperator() override;
             PhotoChangeLogOperator* photoChangeLogOperator() override;
 
         protected:
