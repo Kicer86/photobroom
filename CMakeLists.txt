@@ -7,7 +7,7 @@ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.12)
     cmake_policy(SET CMP0075 NEW)
 endif()
 
-project(PhotoBroom VERSION 1.3.1)
+project(PhotoBroom VERSION 1.3.2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_private;${CMAKE_SOURCE_DIR}/cmake)
 
