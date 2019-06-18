@@ -15,7 +15,7 @@ struct PhotosChangeLog: Tests::DatabaseTest
 };
 
 
-TEST_F(PhotosChangeLog, personIntroduction)
+TEST_F(PhotosChangeLog, tagsManipulation)
 {
     for_all_db_plugins([](Database::IDatabase* db)
     {
@@ -31,22 +31,38 @@ TEST_F(PhotosChangeLog, personIntroduction)
             // read photo structure
             Photo::DataDelta data_delta(photos.front().getId());
 
-            // add tag
+            // add tags
             Tag::TagsList tags;
             tags[TagNameInfo(BaseTagsList::Event)] = TagValue("test event");
+
+            data_delta.insert<Photo::Field::Tags>(tags);
+            op->update(data_delta);
+
             tags[TagNameInfo(BaseTagsList::Place)] = TagValue("test place");
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);
 
-            //expect "tag added" entry in change log
-            QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
+            // modify tag
+            tags[TagNameInfo(BaseTagsList::Event)] = TagValue("test event 2");
 
-            changeLog.sort();
+            data_delta.insert<Photo::Field::Tags>(tags);
+            op->update(data_delta);
 
-            ASSERT_EQ(changeLog.size(), 2);
-            EXPECT_EQ(changeLog.front(), "photo id: 1. Tag added. Event: test event");
-            EXPECT_EQ(changeLog.back(),  "photo id: 1. Tag added. Place: test place");
+            // remove tag
+            tags.erase(TagNameInfo(BaseTagsList::Place));
+
+            data_delta.insert<Photo::Field::Tags>(tags);
+            op->update(data_delta);
+
+            // verify change log
+            const QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
+
+            ASSERT_EQ(changeLog.size(), 4);
+            EXPECT_EQ(changeLog[0], "photo id: 1. Tag added. Event: test event");
+            EXPECT_EQ(changeLog[1], "photo id: 1. Tag added. Place: test place");
+            EXPECT_EQ(changeLog[2], "photo id: 1. Tag modified. Event: test event -> test event 2");
+            EXPECT_EQ(changeLog[3], "photo id: 1. Tag removed. Place: test place");
         });
     });
 }
