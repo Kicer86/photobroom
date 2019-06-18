@@ -34,6 +34,7 @@ TEST_F(PhotosChangeLog, personIntroduction)
             // add tag
             Tag::TagsList tags;
             tags[TagNameInfo(BaseTagsList::Event)] = TagValue("test event");
+            tags[TagNameInfo(BaseTagsList::Place)] = TagValue("test place");
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);
@@ -41,8 +42,11 @@ TEST_F(PhotosChangeLog, personIntroduction)
             //expect "tag added" entry in change log
             QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
 
-            ASSERT_EQ(changeLog.size(), 1);
+            changeLog.sort();
+
+            ASSERT_EQ(changeLog.size(), 2);
             EXPECT_EQ(changeLog.front(), "photo id: 1. Tag added. Event: test event");
+            EXPECT_EQ(changeLog.back(),  "photo id: 1. Tag added. Place: test place");
         });
     });
 }
