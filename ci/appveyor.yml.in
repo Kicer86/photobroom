@@ -1,5 +1,5 @@
 
-version: 1.3.{build}
+version: @PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.{build}
 
 branches:
   except:
@@ -22,7 +22,7 @@ cache:
     - python_embed.zip              -> ci/appveyor.bat, appveyor.yml   # python environment
 
 artifacts:
-  - path: build/PhotoBroom-1.3.2-*.exe
+  - path: build/PhotoBroom-@PROJECT_VERSION@-*.exe
     name: PhotoBroom_installer
 
 
