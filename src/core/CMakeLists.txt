@@ -112,7 +112,6 @@ set(CORE_HEADERS
     task_executor.hpp
     task_executor_utils.hpp
     time_guardian.hpp
-    universal_operators.hpp
     implementation/aexif_reader.hpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp

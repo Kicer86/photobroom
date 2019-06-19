@@ -24,7 +24,6 @@
 #include <QRect>
 
 #include <core/id.hpp>
-#include <core/universal_operators.hpp>
 
 #include "photo_data.hpp"
 #include "database_export.h"
@@ -49,9 +48,7 @@ class DATABASE_EXPORT PersonName final
         PersonName& operator=(const PersonName &) = default;
         bool operator<(const PersonName& other) const
         {
-            return isLess(*this, other,
-                          &PersonName::m_id,
-                          &PersonName::m_name);
+            return std::tie(m_id, m_name) < std::tie(other.m_id, other.m_name);
         }
 
         const Person::Id& id() const;
