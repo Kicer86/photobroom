@@ -59,6 +59,9 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     connect(m_proxy, &QAbstractItemModel::rowsRemoved,
                  this, &TagsView::setupComboBox, Qt::QueuedConnection);
 
+    connect(m_proxy, &QAbstractItemModel::modelReset,
+                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
+
     m_proxy->enableAppending(false);
     QTableView::setModel(m_proxy);
 }
