@@ -117,9 +117,10 @@ bool AppendableModelProxy::setData(const QModelIndex& index, const QVariant& val
 {
     bool result = true;
 
+    // are we updating last row?
     if (index.isValid() && index.internalPointer() == this)
     {
-        assert( static_cast<int>(m_lastRowData.size()) > index.column());
+        assert(static_cast<int>(m_lastRowData.size()) > index.column());
         auto& col_data = m_lastRowData[index.column()];
         col_data[role] = value;
 
