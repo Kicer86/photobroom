@@ -90,6 +90,9 @@ class TagsModel: public QAbstractItemModel
         void syncData(const QModelIndex &, const QModelIndex &);
         QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
 
+        std::set<BaseTagsList> alreadyUsedTags() const;
+        std::vector<BaseTagsList> tagsNotUsed() const;
+
     signals:
         void emptyValueError();
 };

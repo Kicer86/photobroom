@@ -21,14 +21,12 @@
 
 #include <cassert>
 
-#include <QComboBox>
 #include <QHeaderView>
 #include <QStringListModel>
 
 #include <core/base_tags.hpp>
 
 #include "tags_item_delegate.hpp"
-#include "appendable_model_proxy.hpp"
 #include "tags_model.hpp"              // TODO: TagsView and TagModel will be probably always used together,
                                        //       yet it would be nice to keep abstraction here
 
@@ -36,9 +34,7 @@ using namespace std::chrono;
 
 TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     QTableView(p),
-    m_editorFactory(),
-    m_comboBox(nullptr),
-    m_proxy(new AppendableModelProxy(2, this))
+    m_editorFactory()
 {
     TagsItemDelegate* delegate = new TagsItemDelegate;
     delegate->setEditorFactory(editorFactory);
@@ -46,42 +42,6 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     verticalHeader()->hide();
     setItemDelegate(delegate);
     horizontalHeader()->setStretchLastSection(true);
-
-    connect(m_proxy, &QAbstractItemModel::columnsInserted,
-                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
-
-    connect(m_proxy, &QAbstractItemModel::columnsRemoved,
-                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
-
-    connect(m_proxy, &QAbstractItemModel::rowsInserted,
-                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
-
-    connect(m_proxy, &QAbstractItemModel::rowsRemoved,
-                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
-
-    connect(m_proxy, &QAbstractItemModel::modelReset,
-                 this, &TagsView::setupComboBox, Qt::QueuedConnection);
-
-    m_proxy->enableAppending(false);
-    QTableView::setModel(m_proxy);
-}
-
-
-TagsView::~TagsView()
-{
-    if (m_comboBox)
-        m_comboBox->disconnect(this);
-
-    m_comboBox = nullptr;
-}
-
-
-void TagsView::setModel(QAbstractItemModel* model)
-{
-    m_proxy->setSourceModel(model);
-    m_proxy->enableAppending(model != nullptr);
-
-    setupComboBox();
 }
 
 
@@ -113,45 +73,6 @@ void TagsView::rowsInserted(const QModelIndex& parent, int start, int end)
 }
 
 
-std::set<BaseTagsList> TagsView::alreadyUsedTags() const
-{
-    std::set<BaseTagsList> result;
-
-    const QAbstractItemModel* m = model();
-    const int rc = m->rowCount();
-    const int last_row = rc - (m_proxy->appendingEnabled()? 1: 0);  // do not collect data from row for appending
-
-    for (int r = 0; r < last_row; r++)
-    {
-        const QModelIndex tagTypeIdx = m->index(r, 1);
-        const QVariant tagInfoRoleRaw = tagTypeIdx.data(TagsModel::TagInfoRole);
-
-        assert(tagInfoRoleRaw.isValid());
-        const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
-        const BaseTagsList tag = tagInfoRole.getTag();
-
-        result.insert(tag);
-    }
-
-    return result;
-}
-
-
-std::vector<BaseTagsList> TagsView::tagsNotUsed() const
-{
-    std::vector<BaseTagsList> notUsed;
-
-    const std::set<BaseTagsList> used = alreadyUsedTags();
-    const auto tags = BaseTags::getAll();
-
-    for(const auto& tag: tags)
-        if (used.find(tag) == used.end())
-            notUsed.push_back(tag);
-
-    return notUsed;
-}
-
-
 int TagsView::sizeHintForRow(int row) const
 {
     // TODO: remove .05 when https://bugreports.qt.io/browse/QTBUG-55514 is fixed
@@ -173,115 +94,4 @@ void TagsView::updateRow(int row)
 
     if (t == QVariant::StringList)
         verticalHeader()->setSectionResizeMode(row, QHeaderView::ResizeToContents);
-}
-
-
-void TagsView::setupComboBox()
-{
-    QAbstractItemModel* m = model();
-
-    if (m == nullptr)
-        return;
-
-    // fetch available tags
-    const auto tags = tagsNotUsed();
-
-    if (tags.empty())      // no tags - no combo
-    {
-        dropComboBox();
-        m_proxy->enableAppending(false);
-    }
-    else
-    {
-        m_proxy->enableAppending(true);
-
-        if (m_comboBox == nullptr)
-        {
-            m_comboBox = new QComboBox(this);
-
-            connect(m_comboBox, &QComboBox::destroyed,
-                    this, &TagsView::comboBoxDestroyed);
-
-            connect(m_comboBox, qOverload<int>(&QComboBox::currentIndexChanged),
-                    this, &TagsView::comboBoxChanged);
-
-            placeWidget(m_comboBox);
-        }
-        else
-            m_comboBox->clear();
-
-        m_comboBox->addItem("", QVariant::fromValue(TagNameInfo()));  // defualt, empty value
-        applyTags(tags);
-    }
-
-    resizeColumnToContents(0);
-}
-
-
-void TagsView::dropComboBox()
-{
-    if (m_comboBox)
-        m_comboBox->disconnect(this);
-
-    m_comboBox = nullptr;
-}
-
-
-void TagsView::applyTags(const std::vector<BaseTagsList>& tags)
-{
-    for(const auto& tag: tags)
-    {
-        const TagNameInfo info(tag);
-
-        const QString text = BaseTags::getTr(tag);
-        m_comboBox->addItem(text, QVariant::fromValue(info));
-    }
-}
-
-
-void TagsView::placeWidget(QWidget* w)
-{
-    QAbstractItemModel* m = model();
-    const int rc = m->rowCount();
-
-    if (w)
-    {
-        if (rc > 0)
-        {
-            assert(m_proxy->appendingEnabled());     // when we add widget, there must be extra row (added by proxy when appending is enabled)
-            const int last_row = rc - 1;
-            const QModelIndex idx = m->index(last_row, 0);
-
-            setIndexWidget(idx, w);
-        }
-        else
-            w->deleteLater();
-    }
-}
-
-
-void TagsView::comboBoxChanged(int p)
-{
-    if (m_proxy->appendingEnabled() && m_comboBox)
-    {
-        const QVariant v = m_comboBox->itemData(p, TagsModel::TagInfoRole);
-        const QVariant n = m_comboBox->itemText(p);
-        const int rc = m_proxy->rowCount();
-        const int last_row = rc - 1;
-        const QModelIndex name_idx = m_proxy->index(last_row, 0);
-        const QModelIndex value_idx = m_proxy->index(last_row, 1);
-
-        m_proxy->setData(name_idx, n, Qt::DisplayRole);
-        m_proxy->setData(value_idx, v, TagsModel::TagInfoRole);
-    }
-}
-
-
-void TagsView::comboBoxDestroyed()
-{
-    m_comboBox = nullptr;
-
-    // combo box was destroyed (model update usually)
-    // recalculate where to place it now
-    setupComboBox();
 }

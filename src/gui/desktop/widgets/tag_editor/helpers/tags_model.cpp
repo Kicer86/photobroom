@@ -31,6 +31,7 @@
 
 #include <QItemSelectionModel>
 
+#include <core/base_tags.hpp>
 #include <core/cross_thread_call.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
@@ -386,4 +387,41 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
     }
 
     return touchedRoles;
+}
+
+
+std::set<BaseTagsList> TagsModel::alreadyUsedTags() const
+{
+    std::set<BaseTagsList> result;
+
+    const int rc = rowCount();
+
+    for (int r = 0; r < rc; r++)
+    {
+        const QModelIndex tagTypeIdx = index(r, 1);
+        const QVariant tagInfoRoleRaw = tagTypeIdx.data(TagsModel::TagInfoRole);
+
+        assert(tagInfoRoleRaw.isValid());
+        const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+        const BaseTagsList tag = tagInfoRole.getTag();
+
+        result.insert(tag);
+    }
+
+    return result;
+}
+
+
+std::vector<BaseTagsList> TagsModel::tagsNotUsed() const
+{
+    std::vector<BaseTagsList> notUsed;
+
+    const std::set<BaseTagsList> used = alreadyUsedTags();
+    const auto tags = BaseTags::getAll();
+
+    for(const auto& tag: tags)
+        if (used.find(tag) == used.end())
+            notUsed.push_back(tag);
+
+    return notUsed;
 }
