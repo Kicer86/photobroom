@@ -348,7 +348,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
     for (const QModelIndex& itemIndex: itemsList)
     {
         // Do not react on changes in first column.
-        // Such a change may be a reasult of new row appending.
+        // Such a change may be a result of new row appending.
         // Wait for the whole row to be filled.
         if (itemIndex.column() == 1)
         {
