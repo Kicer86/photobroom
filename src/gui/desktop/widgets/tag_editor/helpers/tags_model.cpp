@@ -304,37 +304,35 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     }
 
     assert(rowCount() == 0);
+    assert(tags.empty() == false);
 
-    if (tags.empty() == false)
+    const std::size_t tc = tags.size();
+    QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
+
+    m_keys.resize(tc);
+    m_values.resize(tc);
+
+    int row = 0;
+
+    for (const auto& tag: tags)
     {
-        const std::size_t tc = tags.size();
-        QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
+        const Tag::Info info(tag);
 
-        m_keys.resize(tc);
-        m_values.resize(tc);
+        QModelIndex name = index(row, 0);
+        QModelIndex value = index(row, 1);
 
-        int row = 0;
+        setDataInternal(name, info.displayName(), Qt::DisplayRole);
 
-        for (const auto& tag: tags)
-        {
-            const Tag::Info info(tag);
+        const QVariant dispRole = info.value().get();
+        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
 
-            QModelIndex name = index(row, 0);
-            QModelIndex value = index(row, 1);
+        setDataInternal(value, dispRole, Qt::DisplayRole);
+        setDataInternal(value, tagInfoRole, TagInfoRole);
 
-            setDataInternal(name, info.displayName(), Qt::DisplayRole);
-
-            const QVariant dispRole = info.value().get();
-            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
-
-            setDataInternal(value, dispRole, Qt::DisplayRole);
-            setDataInternal(value, tagInfoRole, TagInfoRole);
-
-            row++;
-        }
-
-        QAbstractItemModel::endInsertRows();
+        row++;
     }
+
+    QAbstractItemModel::endInsertRows();
 
     m_loadInProgress = false;
 }
