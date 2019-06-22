@@ -288,7 +288,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     const Tag::TagsList photo_tags = getTags();
     const std::vector<BaseTagsList> all_tags = BaseTags::getAll();
 
-    Tag::TagsList tags = photo_tags;
+    std::vector<std::pair<TagNameInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
 
     // to the list of photo's tags add rest if tags with empty values
     for (const BaseTagsList& base_tag: all_tags)
@@ -300,7 +300,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         });
 
         if (f == photo_tags.cend())
-            tags[TagNameInfo(base_tag)] = TagValue();
+            tags.emplace_back(TagNameInfo(base_tag), TagValue());
     }
 
     assert(rowCount() == 0);
