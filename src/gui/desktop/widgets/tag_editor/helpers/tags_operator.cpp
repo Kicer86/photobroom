@@ -96,7 +96,7 @@ void TagsOperator::insert(const TagNameInfo& name, const TagValue& value)
     Tag::TagsList tags = getTags();
     bool updated = false;
 
-    for(Tag::Info info: tags)
+    for(Tag::Info info: tags) // TODO: use std::find_if
     {
         if (info.getTypeInfo() == name)
         {
