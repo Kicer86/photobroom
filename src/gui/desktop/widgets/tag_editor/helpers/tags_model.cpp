@@ -76,7 +76,6 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
     m_selectionModel = selectionModel;
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
     lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
-    lazy_connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, 250ms, 500ms, Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
@@ -343,8 +342,6 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
     const QItemSelection items(topLeft, bottomRight);
     const QModelIndexList itemsList(items.indexes());
 
-    bool update_failed = false;
-
     for (const QModelIndex& itemIndex: itemsList)
     {
         // Do not react on changes in first column.
@@ -353,20 +350,16 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
         if (itemIndex.column() == 1)
         {
             const QVariant valueRaw = itemIndex.data();
-            const TagValue value = TagValue::fromQVariant(valueRaw);
+            const TagValue value = valueRaw.isNull()?
+                    TagValue():
+                    TagValue::fromQVariant(valueRaw);
 
             const QVariant nameRaw = itemIndex.data(TagInfoRole);
             const TagNameInfo nameInfo = nameRaw.value<TagNameInfo>();
 
-            if (value.rawValue().isEmpty())
-                update_failed = true;
-            else
-                m_tagsOperator->insert(nameInfo, value);
+            m_tagsOperator->insert(nameInfo, value);
         }
     }
-
-    if (update_failed)
-        emit emptyValueError();
 }
 
 

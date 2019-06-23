@@ -38,8 +38,6 @@ class DBDataModel;
 
 class TagsModel: public QAbstractItemModel
 {
-        Q_OBJECT
-
     public:
         enum Roles
         {
@@ -89,9 +87,6 @@ class TagsModel: public QAbstractItemModel
         void loadPhotos(const std::vector<IPhotoInfo::Ptr> &);
         void syncData(const QModelIndex &, const QModelIndex &);
         QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
-
-    signals:
-        void emptyValueError();
 };
 
 #endif // TAGSMODEL_HPP
