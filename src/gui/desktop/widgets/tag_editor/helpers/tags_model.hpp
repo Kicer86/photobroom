@@ -38,6 +38,8 @@ class DBDataModel;
 
 class TagsModel: public QAbstractItemModel
 {
+        Q_OBJECT
+
     public:
         enum Roles
         {
