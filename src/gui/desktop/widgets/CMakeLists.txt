@@ -17,6 +17,7 @@ set(SRCS
     multi_value_line_edit.cpp
     photo_properties.cpp
     photos_widget.cpp
+    qdate_edit_ex.cpp
     table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
     face_reviewer/face_details.cpp
@@ -39,6 +40,7 @@ set(HEADERS
     multi_value_line_edit.hpp
     photo_properties.hpp
     photos_widget.hpp
+    qdate_edit_ex.hpp
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
     face_reviewer/face_details.hpp
