@@ -49,8 +49,9 @@ class TagsView: public QTableView
 
         void updateRow(int);
 
-        // QTableViews:
+        // QTableView:
         int sizeHintForRow(int row) const override;
+        void keyPressEvent(QKeyEvent *) override;
 };
 
 #endif // TAGSVIEW_HPP

@@ -21,6 +21,7 @@
 
 #include <cassert>
 
+#include <QKeyEvent>
 #include <QHeaderView>
 #include <QStringListModel>
 
@@ -82,6 +83,24 @@ int TagsView::sizeHintForRow(int row) const
     const int result = std::max(default3, sizeHint);
 
     return result;
+}
+
+
+void TagsView::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key() == Qt::Key_Delete)
+    {
+        const QModelIndexList indexes = selectedIndexes();
+
+        QModelIndexList to_clean;
+
+        for (const QModelIndex& index: indexes)
+            if (index.column() == 1)
+                to_clean.append(index);
+
+        for(const QModelIndex& index: to_clean)
+            model()->setData(index, QVariant());
+    }
 }
 
 
