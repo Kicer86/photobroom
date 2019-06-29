@@ -21,17 +21,8 @@
 
 #include <QWidget>
 
-class QLineEdit;
-
-
 class QDateEditEx: public QWidget
 {
-    public:
-        QDateEditEx(QWidget* parent = nullptr);
-        ~QDateEditEx() = default;
-
-    private:
-        QLineEdit* m_lineEdit;
 };
 
 #endif // QDATEEDITEX_HPP
