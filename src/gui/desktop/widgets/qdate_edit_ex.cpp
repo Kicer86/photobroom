@@ -17,3 +17,26 @@
  */
 
 #include "qdate_edit_ex.hpp"
+
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+
+
+QDateEditEx::QDateEditEx(QWidget* p):
+    QWidget(p),
+    m_lineEdit(new QLineEdit(this))
+{
+    QHBoxLayout* l = new QHBoxLayout(this);
+    QPushButton* cb = new QPushButton(this);
+
+    l->addWidget(m_lineEdit);
+    l->addWidget(cb);
+
+    l->setMargin(0);
+    l->setSpacing(0);
+
+    m_lineEdit->setClearButtonEnabled(true);
+}
+
+
