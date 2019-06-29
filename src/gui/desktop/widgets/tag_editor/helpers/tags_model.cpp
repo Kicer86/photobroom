@@ -350,7 +350,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
         if (itemIndex.column() == 1)
         {
             const QVariant valueRaw = itemIndex.data();
-            const TagValue value = valueRaw.isNull()?
+            const TagValue value = valueRaw.isNull() || valueRaw == QString()?
                     TagValue():
                     TagValue::fromQVariant(valueRaw);
 
