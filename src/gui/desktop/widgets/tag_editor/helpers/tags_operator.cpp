@@ -37,6 +37,7 @@ void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
 
 Tag::TagsList TagsOperator::getTags() const
 {
+    // TODO: std::tie?
     struct
     {
         bool operator()(const std::pair<TagNameInfo, TagValue> &a,
