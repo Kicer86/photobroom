@@ -45,6 +45,8 @@ struct Hierarchy
 
         Level();
         Level(const TagNameInfo &, const Order &);
+
+        Level reversedOrder() const;
     };
 
     Hierarchy();

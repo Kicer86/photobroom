@@ -129,6 +129,26 @@ Hierarchy::Level::Level(const TagNameInfo& i, const Hierarchy::Level::Order& o):
 }
 
 
+Hierarchy::Level Hierarchy::Level::reversedOrder() const
+{
+    Level rev = *this;
+
+    switch(order)
+    {
+        case Order::ascending:
+            rev.order = Order::descending;
+            break;
+
+        case Order::descending:
+            rev.order = Order::ascending;
+            break;
+    }
+
+    return rev;
+}
+
+
+
 Hierarchy::Hierarchy(): levels()
 {
 
