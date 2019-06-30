@@ -37,6 +37,7 @@ void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
 
 Tag::TagsList TagsOperator::getTags() const
 {
+    // TODO: std::tie?
     struct
     {
         bool operator()(const std::pair<TagNameInfo, TagValue> &a,
@@ -96,7 +97,7 @@ void TagsOperator::insert(const TagNameInfo& name, const TagValue& value)
     Tag::TagsList tags = getTags();
     bool updated = false;
 
-    for(Tag::Info info: tags)
+    for(Tag::Info info: tags) // TODO: use std::find_if
     {
         if (info.getTypeInfo() == name)
         {

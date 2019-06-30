@@ -32,6 +32,7 @@
 #include <QItemSelectionModel>
 
 #include <core/function_wrappers.hpp>
+#include <core/base_tags.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 #include "models/db_data_model.hpp"
@@ -75,7 +76,6 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
     m_selectionModel = selectionModel;
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
     lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
-    lazy_connect(this, &TagsModel::emptyValueError, this, &TagsModel::refreshModel, 250ms, 500ms, Qt::QueuedConnection);   // refresh model on problems
 
     refreshModel();
 }
@@ -284,40 +284,54 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 {
     m_tagsOperator->operateOn(photos);
 
-    Tag::TagsList tags = getTags();
+    const Tag::TagsList photo_tags = getTags();
+    const std::vector<BaseTagsList> all_tags = BaseTags::getAll();
+
+    std::vector<std::pair<TagNameInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
+
+    // to the list of photo's tags add rest if tags with empty values
+    for (const BaseTagsList& base_tag: all_tags)
+    {
+        auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
+                              [base_tag](const Tag::TagsList::value_type& tag_data)
+        {
+            return tag_data.first.getTag() == base_tag;
+        });
+
+        if (f == photo_tags.cend())
+            tags.emplace_back(TagNameInfo(base_tag), TagValue());
+    }
 
     assert(rowCount() == 0);
+    assert(tags.empty() == false);
 
-    if (tags.empty() == false)
+    const std::size_t tc = tags.size();
+    QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
+
+    m_keys.resize(tc);
+    m_values.resize(tc);
+
+    int row = 0;
+
+    for (const auto& tag: tags)
     {
-        const std::size_t tc = tags.size();
-        QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
+        const Tag::Info info(tag);
 
-        m_keys.resize(tc);
-        m_values.resize(tc);
+        QModelIndex name = index(row, 0);
+        QModelIndex value = index(row, 1);
 
-        int row = 0;
+        setDataInternal(name, info.displayName(), Qt::DisplayRole);
 
-        for (const auto& tag: tags)
-        {
-            const Tag::Info info(tag);
+        const QVariant dispRole = info.value().get();
+        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
 
-            QModelIndex name = index(row, 0);
-            QModelIndex value = index(row, 1);
+        setDataInternal(value, dispRole, Qt::DisplayRole);
+        setDataInternal(value, tagInfoRole, TagInfoRole);
 
-            setDataInternal(name, info.displayName(), Qt::DisplayRole);
-
-            const QVariant dispRole = info.value().get();
-            const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
-
-            setDataInternal(value, dispRole, Qt::DisplayRole);
-            setDataInternal(value, tagInfoRole, TagInfoRole);
-
-            row++;
-        }
-
-        QAbstractItemModel::endInsertRows();
+        row++;
     }
+
+    QAbstractItemModel::endInsertRows();
 
     m_loadInProgress = false;
 }
@@ -328,30 +342,24 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
     const QItemSelection items(topLeft, bottomRight);
     const QModelIndexList itemsList(items.indexes());
 
-    bool update_failed = false;
-
     for (const QModelIndex& itemIndex: itemsList)
     {
         // Do not react on changes in first column.
-        // Such a change may be a reasult of new row appending.
+        // Such a change may be a result of new row appending.
         // Wait for the whole row to be filled.
         if (itemIndex.column() == 1)
         {
             const QVariant valueRaw = itemIndex.data();
-            const TagValue value = TagValue::fromQVariant(valueRaw);
+            const TagValue value = valueRaw.isNull() || valueRaw == QString()?
+                    TagValue():
+                    TagValue::fromQVariant(valueRaw);
 
             const QVariant nameRaw = itemIndex.data(TagInfoRole);
             const TagNameInfo nameInfo = nameRaw.value<TagNameInfo>();
 
-            if (value.rawValue().isEmpty())
-                update_failed = true;
-            else
-                m_tagsOperator->insert(nameInfo, value);
+            m_tagsOperator->insert(nameInfo, value);
         }
     }
-
-    if (update_failed)
-        emit emptyValueError();
 }
 
 
