@@ -63,12 +63,13 @@ def find_files(entries, pattern=".*"):
     return files
 
 
-def find_matching_version(versions, major, minor):
+def find_matching_version(versions, major, minor, patch=None):
     matching_versions = []
 
     for version in versions:
         # major.minor+not_a_number
-        is_wanted_version = re.match(major + '\.' + minor + '\D+.*', version)
+        is_wanted_version = re.match(major + '\.' + minor + '\D+.*', version) if patch is None else \
+                            re.match(major + '\.' + minor + '\.' + patch + '(?:\D+.*|$)', version)
 
         if is_wanted_version:
             matching_versions.append(version)
