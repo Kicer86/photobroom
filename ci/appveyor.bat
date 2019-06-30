@@ -23,7 +23,7 @@ python -m pip install twine wheel
 mkdir c:\temp
 
 if EXIST python_embed.zip goto :photo_broom
-python ./ci/build_python_env.py python_embed.zip c:/temp 3 6 %arch%
+python ./ci/build_python_env.py python_embed.zip c:/temp 3.6.8 %arch%
 
 rem photo broom
 :photo_broom
