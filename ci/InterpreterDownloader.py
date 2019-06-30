@@ -6,11 +6,11 @@ import urllib3
 from PagesProcessor import list_content, find_versions, find_matching_version
 
 
-def download_python(version_major, version_minor, arch, output_file):
+def download_python(version_major, version_minor, version_patch, arch, output_file):
     url = 'http://www.python.org/ftp/python/'
     all_entries = list_content(url)
     all_versions = find_versions(all_entries)
-    version = find_matching_version(all_versions, version_major, version_minor)
+    version = find_matching_version(all_versions, version_major, version_minor, version_patch)
 
     url += version
     files = list_content(url)

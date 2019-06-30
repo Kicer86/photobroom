@@ -28,10 +28,10 @@ def list_files(dir: str):
     return result
 
 
-def python_package(major_ver, minor_ver, arch, tmp_dir):
+def python_package(major_ver, minor_ver, patch_ver, arch, tmp_dir):
     # Download python embed package
     python_pkg = tmp_dir + "/python_embed.zip"
-    InterpreterDownloader.download_python(major_ver, minor_ver, arch, python_pkg)
+    InterpreterDownloader.download_python(major_ver, minor_ver, patch_ver, arch, python_pkg)
 
     # unzip package
     python_env = tmp_dir + "/python_embed"
@@ -65,15 +65,22 @@ def install_pkgs(dir, pkgs):
 
 
 def main():
-    assert len(sys.argv) == 6, "Expecting 5 arguments"
+    assert len(sys.argv) == 5, "Expecting 4 arguments"
 
     output_file = sys.argv[1]
     tmp_dir = sys.argv[2]       # temporary dir
-    major_ver = sys.argv[3]
-    minor_ver = sys.argv[4]
-    arch = sys.argv[5]
+    version = sys.argv[3]
+    arch = sys.argv[4]
 
-    python_env = python_package(major_ver, minor_ver, arch, tmp_dir)
+    version_splitted = version.split('.')
+
+    assert len(version_splitted) == 2 or len(version_splitted) == 3, "Version should be in format x.y or x.y.z"
+
+    major_ver = version_splitted[0]
+    minor_ver = version_splitted[1]
+    patch_ver = version_splitted[2] if len(version_splitted) == 3 else None
+
+    python_env = python_package(major_ver, minor_ver, patch_ver, arch, tmp_dir)
     dlib_whl = dlib_package(tmp_dir)
     install_pkgs(python_env, [dlib_whl, "setuptools", "face_recognition"])
 
