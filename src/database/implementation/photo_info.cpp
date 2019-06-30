@@ -140,7 +140,13 @@ void PhotoInfo::setGeometry(const QSize& geometry)
 void PhotoInfo::setTags(const Tag::TagsList& tags)
 {
     auto data = m_data->m_data.lock();
-    data->tags = tags;
+
+    // copy only non empty tags to data->tags
+    auto data_tags_ins = std::inserter(data->tags, data->tags.end());
+    std::copy_if(tags.cbegin(), tags.cend(), data_tags_ins, [](const auto& item)
+    {
+        return item.second.type() != TagValue::Type::Empty;
+    });
 
     Photo::DataDelta delta(data->id);
     delta.insert<Photo::Field::Tags>(data->tags);
@@ -151,7 +157,11 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
 void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 {
     auto data = m_data->m_data.lock();
-    data->tags[name] = value;
+
+    if (value.type() == TagValue::Type::Empty)
+        data->tags.erase(name);
+    else
+        data->tags[name] = value;
 
     Photo::DataDelta delta(data->id);
     delta.insert<Photo::Field::Tags>(data->tags);

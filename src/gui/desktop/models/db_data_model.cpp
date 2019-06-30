@@ -310,20 +310,23 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 
 QModelIndex DBDataModel::index(int row, int column, const QModelIndex& _parent) const
 {
-    assert(row >= 0);
-    const unsigned int urow = static_cast<unsigned int>(row);
-
     QModelIndex idx;
-    IIdxData* pDataRaw = m_idxDataManager->getIdxDataFor(_parent);
 
-    assert(::isNode(pDataRaw));
-    IdxNodeData* pData = static_cast<IdxNodeData *>(pDataRaw);
-
-    if (urow < pData->getChildren().size())             //row out of boundary?
+    if (column >= 0 && row >= 0)
     {
-        const std::vector<IIdxData::Ptr>& children = pData->getChildren();
-        IIdxData* cData = children[urow].get();
-        idx = createIndex(row, column, cData);
+        const unsigned int urow = static_cast<unsigned int>(row);
+
+        IIdxData* pDataRaw = m_idxDataManager->getIdxDataFor(_parent);
+
+        assert(::isNode(pDataRaw));
+        IdxNodeData* pData = static_cast<IdxNodeData *>(pDataRaw);
+
+        if (urow < pData->getChildren().size())             //row out of boundary?
+        {
+            const std::vector<IIdxData::Ptr>& children = pData->getChildren();
+            IIdxData* cData = children[urow].get();
+            idx = createIndex(row, column, cData);
+        }
     }
 
     return idx;
