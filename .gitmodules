@@ -1,12 +1,3 @@
-[submodule "cmake"]
-	path = cmake
+[submodule "cmake_modules"]
+	path = cmake_modules
 	url = https://github.com/Kicer86/cmake_modules.git
-[submodule "external/face_recognition"]
-	path = external/face_recognition
-	url = https://github.com/ageitgey/face_recognition.git
-[submodule "external/dlib"]
-	path = external/dlib
-	url = https://github.com/davisking/dlib.git
-[submodule "external/face_recognition_models"]
-	path = external/face_recognition_models
-	url = https://github.com/ageitgey/face_recognition_models
