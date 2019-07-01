@@ -236,7 +236,7 @@ namespace Database
     {
         if (oldGroupInfo.group_id.valid() && newGroupInfo.group_id.valid())   // both valid -> modification
         {
-            const QString data = QString("%1 %2, %3 %4")
+            const QString data = QString("%1 %2,%3 %4")
                                     .arg(oldGroupInfo.group_id)
                                     .arg(newGroupInfo.group_id)
                                     .arg(oldGroupInfo.role)
@@ -246,18 +246,16 @@ namespace Database
         }
         else if (oldGroupInfo.group_id.valid() && !newGroupInfo.group_id)     // only old valid -> removal
         {
-            const QString data = QString("%1, %3 %4")
+            const QString data = QString("%1,%2")
                                     .arg(oldGroupInfo.group_id)
-                                    .arg(oldGroupInfo.role)
-                                    .arg(newGroupInfo.role);
+                                    .arg(oldGroupInfo.role);
 
             append(id, Remove, Group, data);
         }
         else if (!oldGroupInfo.group_id && newGroupInfo.group_id.valid())    // only new valid -> addition
         {
-            const QString data = QString("%1, %3 %4")
+            const QString data = QString("%1,%2")
                                     .arg(newGroupInfo.group_id)
-                                    .arg(oldGroupInfo.role)
                                     .arg(newGroupInfo.role);
 
             append(id, Add, Group, data);
@@ -327,6 +325,35 @@ namespace Database
                                     .arg(tag_info.getName())
                                     .arg(old_tag_value.rawValue())
                                     .arg(new_tag_value.rawValue());
+                    }
+                }
+                break;
+
+            case Group:
+                switch(op)
+                {
+                    case Add:
+                    case Remove:
+                    {
+                        const QStringList id_type = data.split(",");
+
+                        result = QString("%1: %2")
+                                    .arg(id_type[0])
+                                    .arg(id_type[1]);
+                    }
+                    break;
+
+                    case Modify:
+                    {
+                        const QStringList ids_types = data.split(",");
+                        const QStringList ids = ids_types[0].split(" ");
+                        const QStringList types = ids_types[1].split(" ");
+
+                        result = QString("%1 -> %2, %3 -> %4")
+                                    .arg(ids[0])
+                                    .arg(ids[1])
+                                    .arg(types[0])
+                                    .arg(types[1]);
                     }
                 }
                 break;
