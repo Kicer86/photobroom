@@ -12,6 +12,8 @@ namespace Database
     {
         virtual ~IPhotoChangeLogOperator() = default;
 
+        virtual void storeDifference(const Photo::Data &, const Photo::DataDelta &) = 0;
+
         // for debug / tests
         virtual QStringList dumpChangeLog() = 0;
     };
