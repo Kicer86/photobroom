@@ -39,7 +39,7 @@ namespace Database
             PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
             ~PhotoChangeLogOperator();
 
-            void storeDifference(const Photo::Data &, const Photo::DataDelta &);
+            void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
 
             // for debug / tests
             QStringList dumpChangeLog() override;
