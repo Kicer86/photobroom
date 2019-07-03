@@ -97,7 +97,7 @@ namespace Database
 
             const Photo::Id ph_id( query.value(0).toInt() );
 
-            auto members = membersOf(gid);
+            const std::vector<Photo::Id> members = membersOf(gid);
             std::set<Photo::Id> modified_photos(members.cbegin(), members.cend());
 
             // add representative to modified_photos
@@ -118,6 +118,7 @@ namespace Database
             DB_ERR_ON_FALSE(db.commit());
 
             // TODO: I don't like it. notifications about photos should not be raised from groups module
+            m_backend->photoChangeLogOperator()->groupDeleted(gid, ph_id, members);
             for(const Photo::Id& id: modified_photos)
                 emit m_backend->photoModified(id);
 
