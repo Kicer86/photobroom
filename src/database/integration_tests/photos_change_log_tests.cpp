@@ -106,16 +106,16 @@ TEST_F(PhotosChangeLog, groupsManipulation)
 
             // delete group
             op->groupOperator()->removeGroup(gr1);
+            op->groupOperator()->removeGroup(gr2);
 
             // verify change log
             const QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
 
             ASSERT_EQ(changeLog.size(), 4);
-            EXPECT_EQ(changeLog[0], "photo id: 1. Group added. 1: 1");
-            EXPECT_EQ(changeLog[1], "photo id: 4. Group added. 2: 1");
-            EXPECT_EQ(changeLog[2], "photo id: 2. Group added. 1: 2");
-            EXPECT_EQ(changeLog[3], "photo id: 3. Group added. 1: 2");
-
+            EXPECT_EQ(changeLog[0], "photo id: 1. Group added. 1: 1");   // photo #1 added to group #1 as representative (1)
+            EXPECT_EQ(changeLog[1], "photo id: 4. Group added. 2: 1");   // photo #4 added to group #2 as representative (1)
+            EXPECT_EQ(changeLog[2], "photo id: 2. Group added. 1: 2");   // photo #2 added to group #1 as member (2)
+            EXPECT_EQ(changeLog[3], "photo id: 3. Group added. 1: 2");   // photo #3 added to group #1 as member (2)
         });
     });
 }
