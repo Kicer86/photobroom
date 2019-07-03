@@ -32,15 +32,15 @@ namespace Database
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
 
-    class GroupOperator: public IGroupOperator
+    class GroupOperator final: public IGroupOperator
     {
         public:
             GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
 
-            Group::Id addGroup(const Photo::Id &, Group::Type) override final;
-            Photo::Id removeGroup(const Group::Id &) override final;
-            Group::Type type(const Group::Id &) const override final;
-            std::vector<Photo::Id> membersOf(const Group::Id &) const override final;
+            Group::Id addGroup(const Photo::Id &, Group::Type) const override;
+            Photo::Id removeGroup(const Group::Id &) const override;
+            Group::Type type(const Group::Id &) const override;
+            std::vector<Photo::Id> membersOf(const Group::Id &) const override;
 
         private:
             QString m_connectionName;

@@ -47,7 +47,7 @@ namespace Database
     }
 
 
-    Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type)
+    Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -81,7 +81,7 @@ namespace Database
     }
 
 
-    Photo::Id GroupOperator::removeGroup(const Group::Id& gid)
+    Photo::Id GroupOperator::removeGroup(const Group::Id& gid) const
     {
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
