@@ -5,6 +5,7 @@
 
 #include <QStringList>
 
+#include "group.hpp"
 
 namespace Database
 {
@@ -13,6 +14,7 @@ namespace Database
         virtual ~IPhotoChangeLogOperator() = default;
 
         virtual void storeDifference(const Photo::Data &, const Photo::DataDelta &) = 0;
+        virtual void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) = 0;
 
         // for debug / tests
         virtual QStringList dumpChangeLog() = 0;

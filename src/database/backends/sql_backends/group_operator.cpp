@@ -24,6 +24,7 @@
 #include <core/ilogger.hpp>
 
 #include "database/ibackend.hpp"
+#include "database/iphoto_change_log_operator.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
 #include "query_structs.hpp"
@@ -62,15 +63,18 @@ namespace Database
         bool status = m_executor->exec(query);
 
         //update id
-        if (status)                                    //Get Id from database after insert
+        if (status)                                    // Get Id from database after insert
         {
             QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
             status = group_id.isValid();
 
             if (status)
+            {
                 grp_id = Group::Id(group_id.toInt());
 
-            emit m_backend->photoModified(id);        // photo is now a representative
+                m_backend->photoChangeLogOperator()->groupCreated(grp_id, type, id);
+                emit m_backend->photoModified(id);      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
+            }
         }
 
         return grp_id;

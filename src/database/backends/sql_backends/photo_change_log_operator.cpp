@@ -145,6 +145,12 @@ namespace Database
     }
 
 
+    void PhotoChangeLogOperator::groupCreated(const Group::Id& id, const Group::Type& type, const Photo::Id& representative_id)
+    {
+        process(representative_id, GroupInfo(), GroupInfo(id, GroupInfo::Role::Representative));
+    }
+
+
     QStringList PhotoChangeLogOperator::dumpChangeLog()
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);

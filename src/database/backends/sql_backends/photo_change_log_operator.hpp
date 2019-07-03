@@ -40,6 +40,7 @@ namespace Database
             ~PhotoChangeLogOperator();
 
             void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
+            void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) override;
 
             // for debug / tests
             QStringList dumpChangeLog() override;
