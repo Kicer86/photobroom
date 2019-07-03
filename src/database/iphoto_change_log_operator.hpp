@@ -15,6 +15,7 @@ namespace Database
 
         virtual void storeDifference(const Photo::Data &, const Photo::DataDelta &) = 0;
         virtual void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) = 0;
+        virtual void groupDeleted(const Group::Id &, const Photo::Id& representative, const std::vector<Photo::Id>& members) = 0;
 
         // for debug / tests
         virtual QStringList dumpChangeLog() = 0;

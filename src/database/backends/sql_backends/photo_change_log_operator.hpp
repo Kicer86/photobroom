@@ -41,6 +41,7 @@ namespace Database
 
             void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
             void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) override;
+            void groupDeleted(const Group::Id &, const Photo::Id& representative, const std::vector<Photo::Id>& members) override;
 
             // for debug / tests
             QStringList dumpChangeLog() override;

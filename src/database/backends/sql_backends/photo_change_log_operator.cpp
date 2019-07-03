@@ -151,6 +151,15 @@ namespace Database
     }
 
 
+    void PhotoChangeLogOperator::groupDeleted(const Group::Id& id, const Photo::Id& representative, const std::vector<Photo::Id>& members)
+    {
+        process(representative, GroupInfo(id, GroupInfo::Role::Representative), GroupInfo());
+
+        for(const Photo::Id& ph_id: members)
+            process(ph_id, GroupInfo(id, GroupInfo::Role::Member), GroupInfo());
+    }
+
+
     QStringList PhotoChangeLogOperator::dumpChangeLog()
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
