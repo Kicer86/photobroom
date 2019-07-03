@@ -96,20 +96,25 @@ TEST_F(PhotosChangeLog, groupsManipulation)
             Photo::DataDelta data_delta2(photos[2].getId());
 
             // add to group
-            const GroupInfo gr_info1 = { .group_id = gr1, .role = GroupInfo::Member };
+            const GroupInfo gr_info1 = { gr1, GroupInfo::Member };
             data_delta1.insert<Photo::Field::GroupInfo>(gr_info1);
             op->update(data_delta1);
 
-            const GroupInfo gr_info2 = { .group_id = gr1, .role = GroupInfo::Member };
+            const GroupInfo gr_info2 = { gr1, GroupInfo::Member };
             data_delta2.insert<Photo::Field::GroupInfo>(gr_info2);
             op->update(data_delta2);
+
+            // delete group
+            op->groupOperator()->removeGroup(gr1);
 
             // verify change log
             const QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
 
-            ASSERT_EQ(changeLog.size(), 2);
-            EXPECT_EQ(changeLog[0], "photo id: 2. Group added. 1: 2");
-            EXPECT_EQ(changeLog[1], "photo id: 3. Group added. 1: 2");
+            ASSERT_EQ(changeLog.size(), 4);
+            EXPECT_EQ(changeLog[0], "photo id: 1. Group added. 1: 1");
+            EXPECT_EQ(changeLog[1], "photo id: 4. Group added. 2: 1");
+            EXPECT_EQ(changeLog[2], "photo id: 2. Group added. 1: 2");
+            EXPECT_EQ(changeLog[3], "photo id: 3. Group added. 1: 2");
 
         });
     });
