@@ -129,6 +129,7 @@ namespace Database
 
             DB_ERR_ON_FALSE(db.commit());
 
+            // TODO: I don't like it. notifications about photos should not be raised from groups module
             for(const Photo::Id& id: modified_photos)
                 emit m_backend->photoModified(id);
 
