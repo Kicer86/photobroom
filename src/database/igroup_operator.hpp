@@ -12,6 +12,7 @@ namespace Database
         virtual Group::Id addGroup(const Photo::Id& representative_photo, Group::Type) = 0;
         virtual Photo::Id removeGroup(const Group::Id &) = 0;
         virtual Group::Type type(const Group::Id &) const = 0;
+        virtual std::vector<Photo::Id> membersOf(const Group::Id &) const = 0;
     };
 }
 

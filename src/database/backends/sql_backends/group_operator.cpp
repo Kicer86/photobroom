@@ -81,7 +81,7 @@ namespace Database
     }
 
 
-    Photo::Id Database::GroupOperator::removeGroup(const Group::Id& gid)
+    Photo::Id GroupOperator::removeGroup(const Group::Id& gid)
     {
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -97,26 +97,14 @@ namespace Database
 
             const Photo::Id ph_id( query.value(0).toInt() );
 
+            auto members = membersOf(gid);
+            std::set<Photo::Id> modified_photos(members.cbegin(), members.cend());
+
             // add representative to modified_photos
             // as it won't be part of the group anymore
-            std::set<Photo::Id> modified_photos;
             modified_photos.insert(ph_id);
 
             DB_ERR_ON_FALSE(db.transaction());
-
-            const QString members_list =
-                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
-
-            DB_ERR_ON_FALSE(m_executor->exec(members_list, &query));
-
-            while(query.next())
-            {
-                // add members to modified photos
-                // as they won't be part of the group anymore
-
-                const Photo::Id mem_id(query.value(0).toInt());
-                modified_photos.insert(mem_id);
-            }
 
             const QString members_delete =
                 QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
@@ -146,7 +134,7 @@ namespace Database
     }
 
 
-    Group::Type Database::GroupOperator::type(const Group::Id& id) const
+    Group::Type GroupOperator::type(const Group::Id& id) const
     {
         Group::Type type = Group::Invalid;
 
@@ -165,5 +153,30 @@ namespace Database
         }
 
         return type;
+    }
+
+
+    std::vector<Photo::Id> GroupOperator::membersOf(const Group::Id& g_id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const QString members_list =
+                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id);
+
+        DB_ERR_ON_FALSE(m_executor->exec(members_list, &query));
+
+        std::vector<Photo::Id> members;
+
+        while(query.next())
+        {
+            // add members to modified photos
+            // as they won't be part of the group anymore
+
+            const Photo::Id mem_id(query.value(0).toInt());
+            members.push_back(mem_id);
+        }
+
+        return members;
     }
 }

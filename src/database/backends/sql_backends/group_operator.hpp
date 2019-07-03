@@ -40,6 +40,7 @@ namespace Database
             Group::Id addGroup(const Photo::Id &, Group::Type) override final;
             Photo::Id removeGroup(const Group::Id &) override final;
             Group::Type type(const Group::Id &) const override final;
+            std::vector<Photo::Id> membersOf(const Group::Id &) const override final;
 
         private:
             QString m_connectionName;
