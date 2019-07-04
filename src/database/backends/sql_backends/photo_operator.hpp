@@ -36,7 +36,8 @@ namespace Database
         public:
             PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *);
 
-            bool removePhotos(const std::vector<Photo::Id> & ) override;
+            bool removePhoto(const Photo::Id &) override;
+            bool removePhotos(const std::vector<IFilter::Ptr> &) override;
 
         private:
             QString m_connectionName;

@@ -3,6 +3,7 @@
 #define IPHOTO_OPERATOR_HPP
 
 #include "photo_types.hpp"
+#include "filter.hpp"
 
 
 namespace Database
@@ -11,7 +12,8 @@ namespace Database
     {
         virtual ~IPhotoOperator() = default;
 
-        virtual bool removePhotos(const std::vector<Photo::Id> &) = 0;
+        virtual bool removePhoto(const Photo::Id &) = 0;
+        virtual bool removePhotos(const std::vector<IFilter::Ptr> &) = 0;
     };
 }
 

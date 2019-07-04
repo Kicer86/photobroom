@@ -25,6 +25,7 @@
 #include <database/ibackend.hpp>
 
 #include "isql_query_executor.hpp"
+#include "sql_filter_query_generator.hpp"
 #include "tables.hpp"
 
 
@@ -55,43 +56,61 @@ namespace Database
     }
 
 
-    bool PhotoOperator::removePhotos(const std::vector<Photo::Id>& ids)
+    bool PhotoOperator::removePhoto(const Photo::Id& id)
     {
-        bool status = true;
+        auto id_filter = std::make_shared<FilterPhotosWithId>();
+        id_filter->filter = id;
 
-        Photo::Id representativePhoto;
+        const std::vector<IFilter::Ptr> filters = {id_filter};
+
+        return removePhotos(filters);
+    }
+
+    bool PhotoOperator::removePhotos(const std::vector<IFilter::Ptr>& filter)
+    {
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
+
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
 
-        try
+        //collect ids of photos to be dropped
+        std::vector<Photo::Id> ids;
+        bool status = m_executor->exec(filterQuery, &query);
+
+        if (status)
         {
-            DB_ERR_ON_FALSE(db.transaction());
-            QSqlQuery query(db);
+            while(query.next())
+            {
+                const Photo::Id id(query.value(0).toUInt());
 
-            for(const Photo::Id& id: ids)
-                for(const auto& d: tables_to_clear)
-                {
-                    const char* name = d.first;
-                    const char* col  = d.second;
-
-                    const QString query_str = QString("DELETE FROM %1 WHERE %2=%3")
-                                                .arg(name)
-                                                .arg(col)
-                                                .arg(id);
-
-                    DB_ERR_ON_FALSE(m_executor->exec(query_str, &query));
-                }
-
-            DB_ERR_ON_FALSE(db.commit());
-
-            emit m_backend->photosRemoved(ids);
+                ids.push_back(id);
+            }
         }
-        catch(const db_error& ex)
+
+        //from filtered photos, get info about tags used there
+        std::vector<QString> queries =
         {
+            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
+            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (SELECT * FROM drop_indices)"),
+            QString("DROP TABLE drop_indices")
+        };
+
+        status = db.transaction();
+
+        if (status)
+            status = m_executor->exec(queries, &query);
+
+        if (status)
+            status = db.commit();
+        else
             db.rollback();
-            status = false;
 
-            m_logger->error(ex.what());
-        }
+        emit m_backend->photosRemoved(ids);
 
         return status;
     }

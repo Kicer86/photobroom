@@ -90,7 +90,6 @@ namespace Database
                                                        const std::vector<IFilter::Ptr> &) = 0;   // list all values of tag for photos matching provided filter
         virtual std::vector<Photo::Id>   getAllPhotos() = 0;                                     // list all photos
         virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
-        virtual std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) = 0;      // drop photos matching filter
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
         virtual std::vector<PersonName>  listPeople() = 0;                                       // list all people names

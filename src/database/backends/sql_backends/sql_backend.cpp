@@ -162,7 +162,6 @@ namespace Database
             void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
             std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
-            std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
@@ -351,53 +350,6 @@ namespace Database
             result = query.next()? 1: 0;
 
         return result;
-    }
-
-
-    std::vector<Photo::Id> ASqlBackend::Data::dropPhotos(const std::vector<IFilter::Ptr>& filter) const
-    {
-        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        //collect ids of photos to be dropped
-        std::vector<Photo::Id> ids;
-        bool status = m_executor.exec(filterQuery, &query);
-
-        if (status)
-        {
-            while(query.next())
-            {
-                Photo::Id id( query.value(0).toUInt() );
-
-                ids.push_back(id);
-            }
-        }
-
-        //from filtered photos, get info about tags used there
-        std::vector<QString> queries =
-        {
-            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
-            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (SELECT * FROM drop_indices)"),
-            QString("DROP TABLE drop_indices")
-        };
-
-        status = db.transaction();
-
-        if (status)
-            status = m_executor.exec(queries, &query);
-
-        if (status)
-            status = db.commit();
-        else
-            db.rollback();
-
-        return ids;
     }
 
 
@@ -1496,12 +1448,6 @@ namespace Database
         }
 
         return staged;
-    }
-
-
-    std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
-    {
-        return m_data->dropPhotos(filter);
     }
 
 
