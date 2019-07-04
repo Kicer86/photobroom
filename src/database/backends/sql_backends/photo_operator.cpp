@@ -91,17 +91,17 @@ namespace Database
         std::vector<QString> queries =
         {
             QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
-            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_GENERAL_FLAGS " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_GEOMETRY    " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_FLAGS             " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_GENERAL_FLAGS     " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_GEOMETRY          " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             // There should be no data in groups and group members TODO: check + remove group if not true
-            QString("DELETE FROM " TAB_PEOPLE      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_SHA256SUMS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
 
-            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHOTOS            " WHERE id IN (SELECT * FROM drop_indices)"),
             QString("DROP TABLE drop_indices")
         };
 
