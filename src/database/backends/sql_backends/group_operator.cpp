@@ -24,6 +24,7 @@
 #include <core/ilogger.hpp>
 
 #include "database/ibackend.hpp"
+#include "database/iphoto_change_log_operator.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
 #include "query_structs.hpp"
@@ -46,7 +47,7 @@ namespace Database
     }
 
 
-    Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type)
+    Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -62,22 +63,25 @@ namespace Database
         bool status = m_executor->exec(query);
 
         //update id
-        if (status)                                    //Get Id from database after insert
+        if (status)                                    // Get Id from database after insert
         {
             QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
             status = group_id.isValid();
 
             if (status)
+            {
                 grp_id = Group::Id(group_id.toInt());
 
-            emit m_backend->photoModified(id);        // photo is now a representative
+                m_backend->photoChangeLogOperator()->groupCreated(grp_id, type, id);
+                emit m_backend->photoModified(id);      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
+            }
         }
 
         return grp_id;
     }
 
 
-    Photo::Id Database::GroupOperator::removeGroup(const Group::Id& gid)
+    Photo::Id GroupOperator::removeGroup(const Group::Id& gid) const
     {
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -93,26 +97,14 @@ namespace Database
 
             const Photo::Id ph_id( query.value(0).toInt() );
 
+            const std::vector<Photo::Id> members = membersOf(gid);
+            std::set<Photo::Id> modified_photos(members.cbegin(), members.cend());
+
             // add representative to modified_photos
             // as it won't be part of the group anymore
-            std::set<Photo::Id> modified_photos;
             modified_photos.insert(ph_id);
 
             DB_ERR_ON_FALSE(db.transaction());
-
-            const QString members_list =
-                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
-
-            DB_ERR_ON_FALSE(m_executor->exec(members_list, &query));
-
-            while(query.next())
-            {
-                // add members to modified photos
-                // as they won't be part of the group anymore
-
-                const Photo::Id mem_id(query.value(0).toInt());
-                modified_photos.insert(mem_id);
-            }
 
             const QString members_delete =
                 QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
@@ -125,6 +117,8 @@ namespace Database
 
             DB_ERR_ON_FALSE(db.commit());
 
+            // TODO: I don't like it. notifications about photos should not be raised from groups module
+            m_backend->photoChangeLogOperator()->groupDeleted(gid, ph_id, members);
             for(const Photo::Id& id: modified_photos)
                 emit m_backend->photoModified(id);
 
@@ -141,7 +135,7 @@ namespace Database
     }
 
 
-    Group::Type Database::GroupOperator::type(const Group::Id& id) const
+    Group::Type GroupOperator::type(const Group::Id& id) const
     {
         Group::Type type = Group::Invalid;
 
@@ -160,5 +154,30 @@ namespace Database
         }
 
         return type;
+    }
+
+
+    std::vector<Photo::Id> GroupOperator::membersOf(const Group::Id& g_id) const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const QString members_list =
+                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id);
+
+        DB_ERR_ON_FALSE(m_executor->exec(members_list, &query));
+
+        std::vector<Photo::Id> members;
+
+        while(query.next())
+        {
+            // add members to modified photos
+            // as they won't be part of the group anymore
+
+            const Photo::Id mem_id(query.value(0).toInt());
+            members.push_back(mem_id);
+        }
+
+        return members;
     }
 }

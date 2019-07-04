@@ -16,6 +16,7 @@
 #define TAB_PEOPLE_NAMES         "people_names"
 #define TAB_PEOPLE               "people"
 #define TAB_GENERAL_FLAGS        "general_flags"
+#define TAB_PHOTOS_CHANGE_LOG    "photos_change_log"
 
 #define FLAG_STAGING_AREA  "staging_area"
 #define FLAG_TAGS_LOADED   "tags_loaded"

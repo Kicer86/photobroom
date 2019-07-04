@@ -52,6 +52,7 @@ struct ILoggerFactory;
 namespace Database
 {
     struct IGroupOperator;
+    struct IPhotoChangeLogOperator;
     struct IPhotoOperator;
     struct ProjectInfo;
 
@@ -89,7 +90,6 @@ namespace Database
                                                        const std::vector<IFilter::Ptr> &) = 0;   // list all values of tag for photos matching provided filter
         virtual std::vector<Photo::Id>   getAllPhotos() = 0;                                     // list all photos
         virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
-        virtual std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) = 0;      // drop photos matching filter
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
         virtual std::vector<PersonName>  listPeople() = 0;                                       // list all people names
@@ -120,6 +120,7 @@ namespace Database
         //       in the name of interface segregation and repository pattern (see #272 on github)
         virtual IGroupOperator* groupOperator() = 0;
         virtual IPhotoOperator* photoOperator() = 0;
+        virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
 
     signals:
         void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database

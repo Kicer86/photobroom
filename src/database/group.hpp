@@ -22,9 +22,9 @@ struct GroupInfo
 {
     enum Role
     {
-        None,
-        Representative,
-        Member,
+        None           = 0,
+        Representative = 1,
+        Member         = 2,
     };
 
     Group::Id group_id;      // valid if photo is part of group (if valid, role will be != None)

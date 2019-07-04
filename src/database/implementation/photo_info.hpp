@@ -66,9 +66,9 @@ class PhotoInfo final: public IPhotoInfo
         bool isValid() override;
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        mutable ol::ThreadSafeResource<Photo::Data> m_data;
         Database::IDatabase* m_storekeeper;
+        bool m_valid;
 };
 
 #endif

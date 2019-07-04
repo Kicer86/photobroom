@@ -111,7 +111,7 @@ namespace Photo
             template<Field field>
             void insert(const typename DeltaTypes<field>::Storage& value)
             {
-                m_data.emplace(field, value);
+                m_data.insert_or_assign(field, value);
             }
 
             void setId(const Photo::Id &);

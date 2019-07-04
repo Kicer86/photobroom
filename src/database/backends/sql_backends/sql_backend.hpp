@@ -28,6 +28,7 @@
 
 #include "database/ibackend.hpp"
 #include "group_operator.hpp"
+#include "photo_change_log_operator.hpp"
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
@@ -61,8 +62,9 @@ namespace Database
 
             const QString& getConnectionName() const;
 
-            IGroupOperator* groupOperator() override;
-            IPhotoOperator* photoOperator() override;
+            GroupOperator* groupOperator() override;
+            PhotoOperator* photoOperator() override;
+            PhotoChangeLogOperator* photoChangeLogOperator() override;
 
         protected:
             //will be called from init(). Prepare QSqlDatabase object here
@@ -83,6 +85,7 @@ namespace Database
             std::unique_ptr<Data> m_data;
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
+            std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
@@ -94,7 +97,6 @@ namespace Database
 
             std::vector<Photo::Id>   getAllPhotos() override final;
             std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
-            std::vector<Photo::Id>   dropPhotos(const std::vector<IFilter::Ptr> &) override final;
             Photo::Data              getPhoto(const Photo::Id &) override final;
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
             std::vector<PersonName>  listPeople() override final;

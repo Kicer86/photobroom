@@ -77,6 +77,6 @@ void GroupsManager::ungroup(Database::IDatabase* db, const Group::Id& gid)
         const Photo::Id repId = backend->groupOperator()->removeGroup(gid);
 
         // remove representative from db
-        backend->photoOperator()->removePhotos( {repId} );
+        backend->photoOperator()->removePhoto(repId);
     });
 }

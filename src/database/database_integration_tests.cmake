@@ -25,6 +25,7 @@ addTestTarget(database_integration
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
                     backends/sql_backends/group_operator.cpp
+                    backends/sql_backends/photo_change_log_operator.cpp
                     backends/sql_backends/photo_operator.cpp
                     backends/sql_backends/sql_action_query_generator.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
@@ -41,6 +42,7 @@ addTestTarget(database_integration
                     integration_tests/general_flags_tests.cpp
                     integration_tests/groups_tests.cpp
                     integration_tests/people_tests.cpp
+                    integration_tests/photos_change_log_tests.cpp
 
                     # main()
                     integration_tests/main.cpp

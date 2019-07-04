@@ -40,7 +40,7 @@ namespace Database
         private:
             QString m_result;
 
-            virtual void visit(ModifyFlagAction* action)
+            virtual void visit(ModifyFlagAction* action) override
             {
                 QStringList setActions;
 

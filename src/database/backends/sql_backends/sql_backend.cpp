@@ -153,20 +153,20 @@ namespace Database
 
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::DataDelta &) const;
-            bool insert(std::vector<Photo::DataDelta> &) const;
-            bool update(const Photo::DataDelta &) const;
+            bool insert(Photo::DataDelta &) const noexcept;
+            bool insert(std::vector<Photo::DataDelta> &) const noexcept;
+            bool update(const Photo::DataDelta &) const noexcept;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
 
             void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
             std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
-            std::vector<Photo::Id> dropPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
             int                    getPhotosCount(const std::vector<IFilter::Ptr> &) const;
 
         private:
+            void introduce(Photo::DataDelta &) const;
             bool storeData(const Photo::DataDelta &) const;
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
@@ -353,55 +353,47 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> ASqlBackend::Data::dropPhotos(const std::vector<IFilter::Ptr>& filter) const
+    void ASqlBackend::Data::introduce(Photo::DataDelta& data) const
     {
-        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
 
-        //collect ids of photos to be dropped
-        std::vector<Photo::Id> ids;
-        bool status = m_executor.exec(filterQuery, &query);
+        //store path and date
+        Photo::Id id = data.getId();
+        assert(id.valid() == false);
 
-        if (status)
-        {
-            while(query.next())
-            {
-                Photo::Id id( query.value(0).toUInt() );
+        InsertQueryData insertData(TAB_PHOTOS);
 
-                ids.push_back(id);
-            }
-        }
+        insertData.setColumns("path", "store_date");
+        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
+        insertData.setColumns("id");
+        insertData.setValues(InsertQueryData::Value::Null);
 
-        //from filtered photos, get info about tags used there
-        std::vector<QString> queries =
-        {
-            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
-            QString("DELETE FROM " TAB_FLAGS       " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_SHA256SUMS  " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_TAGS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_THUMBS      " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_PHOTOS      " WHERE id IN (SELECT * FROM drop_indices)"),
-            QString("DROP TABLE drop_indices")
-        };
+        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
 
-        status = db.transaction();
+        DB_ERR_ON_FALSE(m_executor.exec(query));
 
-        if (status)
-            status = m_executor.exec(queries, &query);
+        // update id
+        // Get Id from database after insert
 
-        if (status)
-            status = db.commit();
-        else
-            db.rollback();
+        QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+        DB_ERR_ON_FALSE(photo_id.isValid());
 
-        return ids;
+        id = Photo::Id(photo_id.toInt());
+
+        //make sure id is set
+        DB_ERR_ON_FALSE(id.valid());
+
+        assert(data.getId().valid() == false || data.getId() == id);
+        data.setId(id);
+
+        DB_ERR_ON_FALSE(storeData(data));
     }
 
 
     bool ASqlBackend::Data::storeData(const Photo::DataDelta& data) const
     {
+        const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
+
         assert(data.getId());
 
         bool status = true;
@@ -437,6 +429,8 @@ namespace Database
             const GroupInfo& groupInfo = data.get<Photo::Field::GroupInfo>();
             status = storeGroup(data.getId(), groupInfo);
         }
+
+        m_backend->photoChangeLogOperator()->storeDifference(currentStateOfPhoto, data);
 
         return status;
     }
@@ -602,91 +596,59 @@ namespace Database
     }
 
 
-    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const
+    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const noexcept
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        bool status = true;
-
-        //store path and date
-        Photo::Id id = data.getId();
-        assert(id.valid() == false);
-
-        InsertQueryData insertData(TAB_PHOTOS);
-
-        insertData.setColumns("path", "store_date");
-        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
-        insertData.setColumns("id");
-        insertData.setValues(InsertQueryData::Value::Null);
-
-        QSqlQuery query = m_backend->getGenericQueryGenerator()->insert(db, insertData);
-
-        if (status)
-            status = m_executor.exec(query);
-
-        //update id
-        if (status)                                    //Get Id from database after insert
-        {
-            QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            status = photo_id.isValid();
-
-            if (status)
-                id = Photo::Id(photo_id.toInt());
-        }
-
-        //make sure id is set
-        if (status)
-            status = id.valid();
-
-        if (status)
-        {
-            assert(data.getId().valid() == false || data.getId() == id);
-            data.setId(id);
-        }
-
-        if (status)
-            status = storeData(data);
-
-        return status;
+        return insert({data});
     }
 
 
-    bool ASqlBackend::Data::insert(std::vector<Photo::DataDelta>& data_set) const
+    bool ASqlBackend::Data::insert(std::vector<Photo::DataDelta>& data_set) const noexcept
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         Transaction transaction(db);
-        bool status = transaction.begin();
 
-        for(Photo::DataDelta& data: data_set)
+        bool status = true;
+
+        try
         {
-            if (status)
-                status = insert(data);
+            DB_ERR_ON_FALSE(transaction.begin());
 
-            if (status == false)
-                break;
+            for(Photo::DataDelta& data: data_set)
+                introduce(data);
+
+            DB_ERR_ON_FALSE(transaction.commit());
         }
-
-        if (status)
-            status = transaction.commit();
+        catch(const db_error& error)
+        {
+            m_logger->error(error.what());
+            status = false;
+        }
 
         return status;
     }
 
 
-    bool ASqlBackend::Data::update(const Photo::DataDelta& data) const
+    bool ASqlBackend::Data::update(const Photo::DataDelta& data) const noexcept
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
         Transaction transaction(db);
-        bool status = transaction.begin();
 
-        if (status)
-            status = storeData(data);
+        bool status = true;
 
-        if (status)
-            status = transaction.commit();
+        try
+        {
+            DB_ERR_ON_FALSE(transaction.begin());
+            DB_ERR_ON_FALSE(storeData(data));
+            DB_ERR_ON_FALSE(transaction.commit());
+        }
+        catch(const db_error& error)
+        {
+            m_logger->error(error.what());
+            status = false;
+        }
 
         return status;
     }
@@ -1021,7 +983,7 @@ namespace Database
     }
 
 
-    IGroupOperator* ASqlBackend::groupOperator()
+    GroupOperator* ASqlBackend::groupOperator()
     {
         // this lazy initialization is kind of a workaround:
         // getGenericQueryGenerator() may not work properly in
@@ -1038,7 +1000,7 @@ namespace Database
     }
 
 
-    IPhotoOperator* ASqlBackend::photoOperator()
+    PhotoOperator* ASqlBackend::photoOperator()
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_data->m_connectionName,
@@ -1048,6 +1010,21 @@ namespace Database
                                                              );
 
         return m_photoOperator.get();
+    }
+
+
+    PhotoChangeLogOperator* ASqlBackend::photoChangeLogOperator()
+    {
+        if (m_photoChangeLogOperator.get() == nullptr)
+            m_photoChangeLogOperator =
+                std::make_unique<PhotoChangeLogOperator>(m_data->m_connectionName,
+                                                         getGenericQueryGenerator(),
+                                                         &m_data->m_executor,
+                                                         m_data->m_logger.get(),
+                                                         this
+                                                        );
+
+        return m_photoChangeLogOperator.get();
     }
 
 
@@ -1471,12 +1448,6 @@ namespace Database
         }
 
         return staged;
-    }
-
-
-    std::vector<Photo::Id> ASqlBackend::dropPhotos(const std::vector<IFilter::Ptr>& filter)
-    {
-        return m_data->dropPhotos(filter);
     }
 
 
