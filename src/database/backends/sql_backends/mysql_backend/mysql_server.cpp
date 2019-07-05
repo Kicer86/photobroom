@@ -212,15 +212,19 @@ bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) cons
         init.setWorkingDirectory(installDBDir.path());
         init.start( installDBPath, {dataDirOption, userNameOption, extraOptions} );
         status = init.waitForStarted();
-        init.waitForFinished();
 
-        status = init.exitCode() == QProcess::NormalExit;
-
-        if (!status)
+        if (status)
         {
-            ErrorStream(m_logger.get()) << "MySQL Database Backend: database initialization failed:" << QString(init.readAll());
+            init.waitForFinished();
 
-            status = QDir().rmdir(dbDir);
+            status = init.exitCode() == QProcess::NormalExit;
+
+            if (!status)
+            {
+                ErrorStream(m_logger.get()) << "MySQL Database Backend: database initialization failed:" << QString(init.readAll());
+
+                status = QDir().rmdir(dbDir);
+            }
         }
     }
 
