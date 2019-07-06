@@ -118,6 +118,7 @@ script:
   - ctest -V
 
 after_success:
+  - echo "compiler: $CC"
   - if [ "$CC" -ne "clang" ]; then
         cd ${TRAVIS_BUILD_DIR}/build;
         make run_unit_tests_code_coverage;
@@ -125,4 +126,4 @@ after_success:
         lcov --remove coverage.info '/usr/*' --output-file coverage.info;
         lcov --list coverage.info;
         bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports";
-  - fi
+    fi
