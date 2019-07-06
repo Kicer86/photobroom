@@ -17,6 +17,7 @@ addons:
       - g++-7
       - gcc-7
       - clang-5.0
+      - lcov
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-5.0
