@@ -5,6 +5,7 @@ version: @PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.{build}
 
 branches:
   only:
+    - master
     - appveyor
 
 configuration:

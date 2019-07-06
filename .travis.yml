@@ -5,6 +5,7 @@ dist: trusty
 
 branches:
   only:
+    - master
     - travis_test
 
 addons:
