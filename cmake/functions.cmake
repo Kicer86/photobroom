@@ -18,6 +18,7 @@ macro(addTestTarget target)
 
     #add test executables
     add_executable(${test_bin}_base ${T_SOURCES})
+    add_executable(${test_bin}_cc ${T_SOURCES})
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         add_executable(${test_bin}_addr ${T_SOURCES})
@@ -25,6 +26,8 @@ macro(addTestTarget target)
         add_executable(${test_bin}_leak ${T_SOURCES})
         add_executable(${test_bin}_ub ${T_SOURCES})
     endif()
+
+    addFlags(${test_bin}_cc COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         # setup proper flags for sanitizers
@@ -64,6 +67,7 @@ macro(addTestTarget target)
 
     #link against proper libraries
     target_link_libraries(${test_bin}_base PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin}_cc PRIVATE ${T_LIBRARIES} gcov)
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         target_link_libraries(${test_bin}_addr PRIVATE ${T_LIBRARIES})
@@ -74,6 +78,7 @@ macro(addTestTarget target)
 
     #include dirs
     target_include_directories(${test_bin}_base ${T_INCLUDES})
+    target_include_directories(${test_bin}_cc ${T_INCLUDES})
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         target_include_directories(${test_bin}_addr ${T_INCLUDES})
@@ -85,6 +90,7 @@ macro(addTestTarget target)
     #definitions
     if(T_DEFINITIONS)
         target_compile_definitions(${test_bin}_base ${T_DEFINITIONS})
+        target_compile_definitions(${test_bin}_cc ${T_DEFINITIONS})
 
         if(ENABLE_SANITIZERS_FOR_TESTS)
             target_compile_definitions(${test_bin}_addr ${T_DEFINITIONS})
@@ -95,7 +101,10 @@ macro(addTestTarget target)
     endif()
 
     #enable code coverage
-    enableCodeCoverage(${test_bin}_base)
+    include(CodeCoverage)
+
+    setup_code_coverage()
+    setup_target_for_coverage(${test_bin}_run_unit_tests_code_coverage ${test_bin}_cc ${test_bin}_coverage)
 
     #add tests
     add_test(${target}_base ${test_bin}_base)
@@ -119,6 +128,12 @@ macro(addTestTarget target)
                         DEPENDS
                             ${test_binaries}
     )
+
+    if (NOT TARGET run_unit_tests_code_coverage)
+        add_custom_target(run_unit_tests_code_coverage)
+    endif()
+
+    add_dependencies(run_unit_tests_code_coverage ${test_bin}_run_unit_tests_code_coverage)
 
 endmacro(addTestTarget)
 

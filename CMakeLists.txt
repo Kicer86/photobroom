@@ -207,6 +207,7 @@ if(TARGET deploy)
 endif()
 if(BUILD_TESTS)
     message("test                   - runs tests (ctest command can be also used)")
+    message("run_unit_tests_code_coverage - runs tests and collects code coverage")
 endif()
 message("")
 
