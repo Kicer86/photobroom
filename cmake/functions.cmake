@@ -4,6 +4,7 @@
 #function will add executable with tests and will register it for ctest.
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
+option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 
 macro(addTestTarget target)
 
@@ -19,11 +20,19 @@ macro(addTestTarget target)
     #add test executables
     add_executable(${test_bin}_base ${T_SOURCES})
 
+    if(ENABLE_CODE_COVERAGE)
+        add_executable(${test_bin}_cc ${T_SOURCES})
+    endif()
+
     if(ENABLE_SANITIZERS_FOR_TESTS)
         add_executable(${test_bin}_addr ${T_SOURCES})
         add_executable(${test_bin}_thread ${T_SOURCES})
         add_executable(${test_bin}_leak ${T_SOURCES})
         add_executable(${test_bin}_ub ${T_SOURCES})
+    endif()
+
+    if(ENABLE_CODE_COVERAGE)
+        addFlags(${test_bin}_cc COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
@@ -65,6 +74,10 @@ macro(addTestTarget target)
     #link against proper libraries
     target_link_libraries(${test_bin}_base PRIVATE ${T_LIBRARIES})
 
+    if(ENABLE_CODE_COVERAGE)
+        target_link_libraries(${test_bin}_cc PRIVATE ${T_LIBRARIES} gcov)
+    endif()
+
     if(ENABLE_SANITIZERS_FOR_TESTS)
         target_link_libraries(${test_bin}_addr PRIVATE ${T_LIBRARIES})
         target_link_libraries(${test_bin}_thread PRIVATE ${T_LIBRARIES})
@@ -74,6 +87,10 @@ macro(addTestTarget target)
 
     #include dirs
     target_include_directories(${test_bin}_base ${T_INCLUDES})
+
+    if(ENABLE_CODE_COVERAGE)
+        target_include_directories(${test_bin}_cc ${T_INCLUDES})
+    endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         target_include_directories(${test_bin}_addr ${T_INCLUDES})
@@ -86,6 +103,10 @@ macro(addTestTarget target)
     if(T_DEFINITIONS)
         target_compile_definitions(${test_bin}_base ${T_DEFINITIONS})
 
+        if(ENABLE_CODE_COVERAGE)
+            target_compile_definitions(${test_bin}_cc ${T_DEFINITIONS})
+        endif()
+
         if(ENABLE_SANITIZERS_FOR_TESTS)
             target_compile_definitions(${test_bin}_addr ${T_DEFINITIONS})
             target_compile_definitions(${test_bin}_thread ${T_DEFINITIONS})
@@ -95,7 +116,19 @@ macro(addTestTarget target)
     endif()
 
     #enable code coverage
-    enableCodeCoverage(${test_bin}_base)
+    if(ENABLE_CODE_COVERAGE)
+        include(CodeCoverage)
+
+        setup_code_coverage()
+        setup_target_for_coverage(${test_bin}_run_unit_tests_code_coverage ${test_bin}_cc ${test_bin}_coverage)
+
+        if (NOT TARGET run_unit_tests_code_coverage)
+            add_custom_target(run_unit_tests_code_coverage)
+        endif()
+
+        add_dependencies(run_unit_tests_code_coverage ${test_bin}_run_unit_tests_code_coverage)
+
+    endif()
 
     #add tests
     add_test(${target}_base ${test_bin}_base)

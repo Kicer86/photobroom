@@ -1,9 +1,12 @@
 
+# Warning: File generated from ci/appveyor.yml.in
+
 version: @PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.{build}
 
 branches:
-  except:
-    - travis_test
+  only:
+    - master
+    - appveyor
 
 configuration:
     - Release

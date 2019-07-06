@@ -6,8 +6,6 @@ find_package(OpenLibrary 2.2 REQUIRED putils QtExt)
 
 include(GenerateExportHeader)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
@@ -73,6 +71,7 @@ target_include_directories(gui
                                 ${CMAKE_CURRENT_BINARY_DIR}
                             PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+                                ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if (BUILD_UPDATER)

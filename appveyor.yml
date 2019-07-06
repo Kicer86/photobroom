@@ -1,8 +1,11 @@
 
+# Warning: File generated from ci/appveyor.yml.in
+
 version: 1.4.{build}
 
 branches:
   only:
+    - master
     - appveyor
 
 configuration:

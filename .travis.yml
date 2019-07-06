@@ -5,7 +5,8 @@ dist: trusty
 
 branches:
   only:
-    - travis
+    - master
+    - travis_test
 
 addons:
   apt:
@@ -17,6 +18,7 @@ addons:
       - g++-7
       - gcc-7
       - clang-5.0
+      - lcov
     sources:
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-5.0
@@ -89,6 +91,7 @@ before_script:
   - if [ "$CC" = "gcc" ]; then
         export CXX=g++-7;
         export CC=gcc-7;
+        EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON";
     fi
 
   - conan profile new default --detect;
@@ -103,7 +106,7 @@ before_script:
   # photo broom
   - mkdir build && cd build
   - conan install .. --build
-  - $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ..
+  - $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ${EXTRA_CMAKE_OPTIONS} ..
   # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
   - if [ $TRAVIS_OS_NAME == 'linux' ]; then
         export DISPLAY=:99.0;
@@ -113,3 +116,13 @@ before_script:
 script:
   - make
   - ctest -V
+
+after_success:
+  - if [ "$CC" != "clang" ]; then
+        cd ${TRAVIS_BUILD_DIR}/build;
+        make run_unit_tests_code_coverage;
+        lcov --directory . --capture --output-file coverage.info;
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info;
+        lcov --list coverage.info;
+        bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports";
+    fi

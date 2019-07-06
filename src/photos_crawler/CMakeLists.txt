@@ -8,7 +8,6 @@ include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
@@ -40,8 +39,11 @@ target_link_libraries(photos_crawler
 )
 
 target_include_directories(photos_crawler
-                                PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-                                PRIVATE ${CMAKE_SOURCE_DIR}/src
+                                PUBLIC
+                                    ${CMAKE_CURRENT_BINARY_DIR}
+                                PRIVATE
+                                    ${CMAKE_SOURCE_DIR}/src
+                                    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 generate_export_header(photos_crawler)

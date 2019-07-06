@@ -4,7 +4,6 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0063 NEW)
 cmake_policy(SET CMP0075 NEW)
 
-
 project(PhotoBroom VERSION 1.4.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake;${CMAKE_SOURCE_DIR}/cmake_modules)
@@ -206,6 +205,7 @@ if(TARGET deploy)
 endif()
 if(BUILD_TESTS)
     message("test                   - runs tests (ctest command can be also used)")
+    message("run_unit_tests_code_coverage - runs tests and collects code coverage")
 endif()
 message("")
 
