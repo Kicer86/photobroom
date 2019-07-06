@@ -75,6 +75,8 @@ addTestTarget(gui
                         ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
                         ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
                         ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+                        ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
+                        ${CMAKE_CURRENT_SOURCE_DIR}
                         ${GMOCK_INCLUDE_DIRS}
                         ${GTEST_INCLUDE_DIRS}
 )
