@@ -12,7 +12,7 @@ import DlibDownloader
 import DlibBuilder
 
 
-def list_files(dir: str):
+def list_files(dir_name: str):
     result = []
     def _list_files(dir, cutoff):
         for entry in os.listdir(dir):
@@ -22,8 +22,8 @@ def list_files(dir: str):
             elif os.path.isdir(path):
                 _list_files(path, cutoff)
 
-    cutoff = len(dir) + 1
-    _list_files(dir, cutoff)
+    cutoff = len(dir_name) + 1
+    _list_files(dir_name, cutoff)
 
     return result
 
@@ -58,8 +58,8 @@ def dlib_package(tmp_dir):
     return dlib_whl
 
 
-def install_pkgs(dir, pkgs):
-    pip_args = ['install', '--compile', '--target', dir]
+def install_pkgs(dir_name, pkgs):
+    pip_args = ['install', '--compile', '--target', dir_name]
     pip_args.extend(pkgs)
     pipmain(pip_args)
 
