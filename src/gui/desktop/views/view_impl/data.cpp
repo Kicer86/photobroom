@@ -45,14 +45,12 @@ namespace
         QModelIndex parent = first.parent();
 
         QModelIndex it;
-        std::size_t step = 0;
         std::size_t count = last.row() - first.row();
 
         while (count > 0)
         {
-            it = first;
-            step = count / 2;
-            it = parent.child(it.row() + step, 0);
+            const std::size_t step = count / 2;
+            it = parent.child(first.row() + step, 0);
             if (comp(it, value))
             {
                 it = utils::next(it);

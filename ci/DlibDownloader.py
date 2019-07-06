@@ -4,7 +4,7 @@ import re
 import sys
 import urllib3
 from distutils.version import StrictVersion
-from PagesProcessor import list_content, find_versions, find_matching_version, find_files
+from PagesProcessor import list_content, find_versions, find_files
 
 
 class FileWithVersion(StrictVersion):

@@ -32,7 +32,7 @@ namespace Database
     {
         public:
             QueryList();
-            QueryList(const InterfaceContainer<IQuery> &);
+            explicit QueryList(const InterfaceContainer<IQuery> &);
             QueryList(const QueryList &) = default;
             ~QueryList();
             QueryList& operator=(const QueryList &) = default;

@@ -32,7 +32,7 @@ struct ILogger;
 
 struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
-    TaskExecutor(ILogger *);
+    explicit TaskExecutor(ILogger *);
     TaskExecutor(const TaskExecutor &) = delete;
     virtual ~TaskExecutor();
 

@@ -24,7 +24,7 @@ namespace Ui
 class SortingProxy: public QSortFilterProxyModel
 {
     public:
-        SortingProxy(QObject* p = nullptr): QSortFilterProxyModel(p) {}
+        explicit SortingProxy(QObject* p = nullptr): QSortFilterProxyModel(p) {}
 
     protected:
         bool lessThan(const QModelIndex& left, const QModelIndex& right) const override

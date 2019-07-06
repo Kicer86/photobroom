@@ -38,18 +38,24 @@ def download_python(version_major, version_minor, version_patch, arch, output_fi
 
 
 def main():
-    assert len(sys.argv) == 5, "Expecting 4 arguments"   # script name + 4 additional args
+    assert len(sys.argv) == 4, "Expecting 3 arguments"   # script name + 3 additional args
 
-    version_major = sys.argv[1]
-    version_minor = sys.argv[2]
-    arch          = sys.argv[3]   # win32 or amd64
-    output_file   = sys.argv[4]
+    version       = sys.argv[1]
+    arch          = sys.argv[2]   # win32 or amd64
+    output_file   = sys.argv[3]
 
-    assert re.match("\d+", version_major), "First argument should be a major version number"
-    assert re.match("\d+", version_minor), "Second argument should be a minor version number"
+    assert re.match("(?:\d+\.)+\d", version), "First argument should be a major version number"
     assert re.match("win32|amd64", arch),  "Third argument should be win32 or amd64"
 
-    download_python(version_major, version_minor, arch, output_file)
+    version_splitted = version.split('.')
+
+    assert len(version_splitted) == 2 or len(version_splitted) == 3, "Version should be in format x.y or x.y.z"
+
+    major_ver = version_splitted[0]
+    minor_ver = version_splitted[1]
+    patch_ver = version_splitted[2] if len(version_splitted) == 3 else None
+
+    download_python(major_ver, minor_ver, patch_ver, arch, output_file)
 
 
 if __name__ == "__main__":
