@@ -118,7 +118,6 @@ script:
   - ctest -V
 
 after_success:
-  - echo compiler_$CC
   - if [ "$CC" != "clang" ]; then
         cd ${TRAVIS_BUILD_DIR}/build;
         make run_unit_tests_code_coverage;
