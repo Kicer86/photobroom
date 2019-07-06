@@ -56,22 +56,22 @@ class LoggerStream: std::stringbuf, public std::ostream
 
 struct CORE_EXPORT InfoStream: LoggerStream<ILogger::Severity::Info>
 {
-    InfoStream(ILogger *);
+    explicit InfoStream(ILogger *);
 };
 
 struct CORE_EXPORT WarningStream: LoggerStream<ILogger::Severity::Warning>
 {
-    WarningStream(ILogger *);
+    explicit WarningStream(ILogger *);
 };
 
 struct CORE_EXPORT ErrorStream: LoggerStream<ILogger::Severity::Error>
 {
-    ErrorStream(ILogger *);
+    explicit ErrorStream(ILogger *);
 };
 
 struct CORE_EXPORT DebugStream: LoggerStream<ILogger::Severity::Debug>
 {
-    DebugStream(ILogger *);
+    explicit DebugStream(ILogger *);
 };
 
 CORE_EXPORT std::ostream& operator<<(std::ostream& os, const QString& str);

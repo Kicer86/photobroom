@@ -33,7 +33,7 @@
 class CORE_EXPORT FFMpegVideoDetailsReader
 {
     public:
-        FFMpegVideoDetailsReader(const QString& ffprobePath);
+        explicit FFMpegVideoDetailsReader(const QString& ffprobePath);
         FFMpegVideoDetailsReader(const FFMpegVideoDetailsReader &) = delete;
         FFMpegVideoDetailsReader(FFMpegVideoDetailsReader &&) = delete;
 
