@@ -28,6 +28,8 @@ addTestTarget(photos_crawler
                 INCLUDES
                     PRIVATE
                         ${CMAKE_SOURCE_DIR}/src
+                        ${CMAKE_CURRENT_SOURCE_DIR}
+                        ${CMAKE_CURRENT_BINARY_DIR}
                     SYSTEM PRIVATE
                         ${GMOCK_INCLUDE_DIRS}
                         ${GTEST_INCLUDE_DIRS}

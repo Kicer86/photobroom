@@ -8,7 +8,6 @@ include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
 include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
