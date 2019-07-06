@@ -1,10 +1,8 @@
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0063 NEW)
 cmake_policy(SET CMP0075 NEW)
-cmake_policy(SET CMP0076 NEW)
-cmake_policy(SET CMP0079 NEW)   # used by 'all_unit_tests' setup
 
 project(PhotoBroom VERSION 1.4.0)
 

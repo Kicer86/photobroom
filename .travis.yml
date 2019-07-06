@@ -68,7 +68,7 @@ before_install:
         virtualenv conan;
         source conan/bin/activate;
     else
-        CMAKE_VER=3.13;
+        CMAKE_VER=3.12;
         CMAKE_PATCH=4;
         source /opt/qt5*/bin/qt5*-env.sh;
         wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
