@@ -216,5 +216,5 @@ QIcon::Mode TreeItemDelegate::iconMode(const QStyle::State& state) const
 
 QIcon::State TreeItemDelegate::iconState(const QStyle::State& state) const
 {
-    return state & QStyle::State_Open ? QIcon::On : QIcon::Off;
+    return (state & QStyle::State_Open) ? QIcon::On : QIcon::Off;
 }
