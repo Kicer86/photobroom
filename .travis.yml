@@ -5,7 +5,7 @@ dist: trusty
 
 branches:
   only:
-    - travis
+    - travis_test
 
 addons:
   apt:
