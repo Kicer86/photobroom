@@ -118,7 +118,7 @@ script:
   - ctest -V
 
 after_success:
-  - if [ "$CC" = "gcc" ]; then
+  - if [ "$CC" -ne "clang" ]; then
         cd ${TRAVIS_BUILD_DIR}/build;
         make run_unit_tests_code_coverage;
         lcov --directory . --capture --output-file coverage.info;
