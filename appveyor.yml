@@ -2,8 +2,8 @@
 version: 1.4.{build}
 
 branches:
-  except:
-    - travis_test
+  only:
+    - appveyor
 
 configuration:
     - Release
