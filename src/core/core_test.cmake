@@ -10,6 +10,9 @@ find_package(Qt5Core REQUIRED)
 
 addTestTarget(core
                 SOURCES
+                    implementation/qmodelindex_selector.cpp
+                    implementation/qmodelindex_comparator.cpp
+
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp
                     unit_tests/ptr_iterator_tests.cpp
@@ -22,7 +25,6 @@ addTestTarget(core
                         ${GTEST_LIBRARY}
                         ${CMAKE_THREAD_LIBS_INIT}
                         Qt5::Core
-                        core
                 INCLUDES
                     SYSTEM PRIVATE
                         ${GMOCK_INCLUDE_DIRS}
@@ -32,4 +34,5 @@ addTestTarget(core
                         ${CMAKE_SOURCE_DIR}/src
                         ${OPENLIBRARY_INCLUDE_DIRS}
                         ${CMAKE_CURRENT_SOURCE_DIR}
+                        ${CMAKE_CURRENT_BINARY_DIR}
 )
