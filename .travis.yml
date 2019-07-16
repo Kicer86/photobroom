@@ -42,10 +42,17 @@ compiler:
   - gcc
   - clang
 
+env:
+  - DEBUG=0
+
 matrix:
   exclude:
     - os: osx
       compiler: gcc
+  include:
+    - os: linux
+      compiler: gcc
+      env: DEBUG=1
 
   allow_failures:
     - os: osx
@@ -91,13 +98,16 @@ before_script:
   - if [ "$CC" = "gcc" ]; then
         export CXX=g++-7;
         export CC=gcc-7;
-        EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON";
+    fi
+
+  - if [ $DEBUG -eq 1 ]; then
+        EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug";
     fi
 
   - conan profile new default --detect;
     cat ~/.conan/profiles/default;
 
-  - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
+  -
 
   # setup gmock and gtest
   - if [ ! -e $GTEST_PATH ]; then
@@ -118,7 +128,7 @@ script:
   - ctest -V
 
 after_success:
-  - if [ "$CC" != "clang" ]; then
+  - if [ $DEBUG -eq 1 ]; then
         cd ${TRAVIS_BUILD_DIR}/build;
         make run_unit_tests_code_coverage;
         lcov --directory . --capture --output-file coverage.info;
