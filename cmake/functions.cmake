@@ -31,10 +31,6 @@ macro(addTestTarget target)
         add_executable(${test_bin}_ub ${T_SOURCES})
     endif()
 
-    if(ENABLE_CODE_COVERAGE)
-        addFlags(${test_bin}_cc COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
-    endif()
-
     if(ENABLE_SANITIZERS_FOR_TESTS)
         # setup proper flags for sanitizers
         addFlags(${test_bin}_addr COMPILE_FLAGS "-fsanitize=address")
@@ -75,7 +71,7 @@ macro(addTestTarget target)
     target_link_libraries(${test_bin}_base PRIVATE ${T_LIBRARIES})
 
     if(ENABLE_CODE_COVERAGE)
-        target_link_libraries(${test_bin}_cc PRIVATE ${T_LIBRARIES} gcov)
+        target_link_libraries(${test_bin}_cc PRIVATE ${T_LIBRARIES})
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
@@ -117,14 +113,15 @@ macro(addTestTarget target)
 
     #enable code coverage
     if(ENABLE_CODE_COVERAGE)
-        include(CodeCoverage)
 
-        setup_code_coverage()
-        setup_target_for_coverage(${test_bin}_run_unit_tests_code_coverage ${test_bin}_cc ${test_bin}_coverage)
+        include(CodeCoverage)
 
         if (NOT TARGET run_unit_tests_code_coverage)
             add_custom_target(run_unit_tests_code_coverage)
         endif()
+
+        setup_target_for_coverage_lcov(NAME ${test_bin}_run_unit_tests_code_coverage
+                                       EXECUTABLE ${test_bin}_cc)
 
         add_dependencies(run_unit_tests_code_coverage ${test_bin}_run_unit_tests_code_coverage)
 
