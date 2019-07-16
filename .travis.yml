@@ -107,7 +107,7 @@ before_script:
   - conan profile new default --detect;
     cat ~/.conan/profiles/default;
 
-  -
+  - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
 
   # setup gmock and gtest
   - if [ ! -e $GTEST_PATH ]; then
