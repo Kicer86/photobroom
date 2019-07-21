@@ -5,6 +5,7 @@
 
 #include "tag.hpp"
 
+
 TEST(TagValueTest, EmptyAfterConstruciton)
 {
     const TagValue tv;
@@ -54,6 +55,52 @@ TEST(TagValueTest, StringSetter)
     EXPECT_EQ(tv.getString(), str);
     EXPECT_EQ(ctv.getString(), str);
     EXPECT_EQ(tv.rawValue(), str);
+}
+
+
+TEST(TagValueTest, CopyOperations)
+{
+    const TagValue tv1 = TagValue::fromQVariant(QDate::currentDate());
+    const TagValue tv2(tv1);
+    TagValue tv3;
+    tv3 = tv2;
+
+    EXPECT_EQ(tv1, tv2);
+    EXPECT_EQ(tv2, tv3);
+}
+
+
+TEST(TagValueTest, CompareOperation)
+{
+    const std::vector<TagValue> tag_values =
+    {
+        TagValue::fromQVariant(QDate::currentDate()),
+        TagValue::fromQVariant(QTime::currentTime()),
+        TagValue::fromQVariant(QString("test string"))
+    };
+
+    const std::size_t s = tag_values.size();
+
+    for(std::size_t i = 0; i < s; i++)
+        for(std::size_t j = 0; j < s; j++)
+        {
+            const TagValue& l = tag_values[i];
+            const TagValue& r = tag_values[j];
+
+            if (i == j)
+            {
+                EXPECT_TRUE(l == r);
+                EXPECT_FALSE(l != r);
+                EXPECT_FALSE(l < r);
+                EXPECT_FALSE(r < l);
+            }
+            else
+            {
+                EXPECT_FALSE(l == r);
+                EXPECT_TRUE(l != r);
+                EXPECT_NE(l < r, r < l);
+            }
+        }
 }
 
 
