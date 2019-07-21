@@ -1,5 +1,6 @@
 
 #include <QDate>
+#include <QModelIndex>
 
 #include <gmock/gmock.h>
 
@@ -101,6 +102,24 @@ TEST(TagValueTest, CompareOperation)
                 EXPECT_NE(l < r, r < l);
             }
         }
+}
+
+
+TEST(TagValueTest, MoveOperations)
+{
+    TagValue tv1 = TagValue::fromQVariant(QDate::currentDate());
+    const TagValue tv2 = tv1;
+    const TagValue tv3(std::move(tv1));
+
+    EXPECT_EQ(tv2, tv3);
+    EXPECT_EQ(tv1.type(), TagValue::Type::Empty);
+}
+
+
+TEST(TagValueTest, InvalidSetters)
+{
+    ASSERT_DEATH(TagValue::fromRaw("123", TagNameInfo::Type::Invalid), "");
+    ASSERT_DEATH(TagValue::fromQVariant(QModelIndex()), "");
 }
 
 
