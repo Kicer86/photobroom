@@ -93,6 +93,40 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         ),
 );
 
+
+typedef std::tuple<QVariant, TagValue::Type, QMetaType::Type> TagValueVariantTestExpectations;
+struct TagValueTest3: testing::TestWithParam<TagValueVariantTestExpectations> {};
+
+TEST_P(TagValueTest3, variantSetter)
+{
+    const auto parameters = GetParam();
+
+    const QVariant raw_value(std::get<0>(parameters));
+    TagValue tv = TagValue::fromQVariant(raw_value);
+
+    ASSERT_EQ(tv.type(), std::get<1>(parameters));
+    ASSERT_EQ(tv.get().type(), std::get<2>(parameters));
+    EXPECT_EQ(tv.get(), raw_value);
+}
+
+INSTANTIATE_TEST_CASE_P(ExtensionsTest,
+                        TagValueTest3,
+                        testing::Values(
+                            TagValueVariantTestExpectations{QVariant(QTime::currentTime()),
+                                                            TagValue::Type::Time,
+                                                            QMetaType::Type::QTime
+                            },
+                            TagValueVariantTestExpectations{QVariant(QDate::currentDate()),
+                                                            TagValue::Type::Date,
+                                                            QMetaType::Type::QDate
+                            },
+                            TagValueVariantTestExpectations{QVariant(QString("string test")),
+                                                            TagValue::Type::String,
+                                                            QMetaType::Type::QString
+                            }
+                        ),
+);
+
 /*
 typedef std::typle<QVariant, ???> TagValueTestExpectations;
 struct TagValueTest2: testing::TestWithParam<TagValueTestExpectations> {};
