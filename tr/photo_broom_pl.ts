@@ -27,7 +27,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+54"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+53"/>
         <source>Place</source>
         <translation>Miejsce</translation>
     </message>

@@ -10,8 +10,10 @@ find_package(Qt5Core REQUIRED)
 
 addTestTarget(core
                 SOURCES
+                    implementation/base_tags.cpp
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
+                    implementation/tag.cpp
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp
@@ -19,6 +21,7 @@ addTestTarget(core
                     unit_tests/qmodelindex_comparator_tests.cpp
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp
+                    unit_tests/tag_name_info_tests.cpp
                 LIBRARIES
                     PRIVATE
                         ${GMOCK_MAIN_LIBRARY}
