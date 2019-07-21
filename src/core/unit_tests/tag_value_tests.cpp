@@ -57,10 +57,10 @@ TEST(TagValueTest, StringSetter)
 }
 
 
-typedef std::tuple<QString, TagNameInfo::Type, TagValue::Type, QMetaType::Type> TagValueTestExpectations;
-struct TagValueTest2: testing::TestWithParam<TagValueTestExpectations> {};
+typedef std::tuple<QString, TagNameInfo::Type, TagValue::Type, QMetaType::Type> TagValueRawSetterTestExpectations;
+struct TagValueRawSetterTest: testing::TestWithParam<TagValueRawSetterTestExpectations> {};
 
-TEST_P(TagValueTest2, rawSetter)
+TEST_P(TagValueRawSetterTest, rawSetter)
 {
     const auto parameters = GetParam();
 
@@ -73,22 +73,22 @@ TEST_P(TagValueTest2, rawSetter)
 }
 
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,
-                        TagValueTest2,
+                        TagValueRawSetterTest,
                         testing::Values(
-                            TagValueTestExpectations{QString("12:34:56"),
-                                                     TagNameInfo::Type::Time,
-                                                     TagValue::Type::Time,
-                                                     QMetaType::Type::QTime
+                            TagValueRawSetterTestExpectations{QString("12:34:56"),
+                                                              TagNameInfo::Type::Time,
+                                                              TagValue::Type::Time,
+                                                              QMetaType::Type::QTime
                             },
-                            TagValueTestExpectations{QString("2134.11.03"),
-                                                     TagNameInfo::Type::Date,
-                                                     TagValue::Type::Date,
-                                                     QMetaType::Type::QDate
+                            TagValueRawSetterTestExpectations{QString("2134.11.03"),
+                                                              TagNameInfo::Type::Date,
+                                                              TagValue::Type::Date,
+                                                              QMetaType::Type::QDate
                             },
-                            TagValueTestExpectations{QString("string test"),
-                                                     TagNameInfo::Type::String,
-                                                     TagValue::Type::String,
-                                                     QMetaType::Type::QString
+                            TagValueRawSetterTestExpectations{QString("string test"),
+                                                              TagNameInfo::Type::String,
+                                                              TagValue::Type::String,
+                                                              QMetaType::Type::QString
                             }
                         ),
 );
