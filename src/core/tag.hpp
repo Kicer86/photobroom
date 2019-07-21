@@ -91,12 +91,10 @@ class CORE_EXPORT TagValue
 
         QVariant get() const;
         const QDate& getDate() const;
-        const std::vector<TagValue>& getList() const;
         const QString& getString() const;
         const QTime& getTime() const;
 
         QDate& getDate();
-        std::vector<TagValue>& getList();
         QString& getString();
         QTime& getTime();
 
