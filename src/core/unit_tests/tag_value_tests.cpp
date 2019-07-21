@@ -94,10 +94,10 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
 );
 
 
-typedef std::tuple<QVariant, TagValue::Type, QMetaType::Type> TagValueVariantTestExpectations;
-struct TagValueTest3: testing::TestWithParam<TagValueVariantTestExpectations> {};
+typedef std::tuple<QVariant, TagValue::Type, QMetaType::Type> TagValueVariantSetterTestExpectations;
+struct TagValueVariantSetterTest: testing::TestWithParam<TagValueVariantSetterTestExpectations> {};
 
-TEST_P(TagValueTest3, variantSetter)
+TEST_P(TagValueVariantSetterTest, variantSetter)
 {
     const auto parameters = GetParam();
 
@@ -110,19 +110,19 @@ TEST_P(TagValueTest3, variantSetter)
 }
 
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,
-                        TagValueTest3,
+                        TagValueVariantSetterTest,
                         testing::Values(
-                            TagValueVariantTestExpectations{QVariant(QTime::currentTime()),
-                                                            TagValue::Type::Time,
-                                                            QMetaType::Type::QTime
+                            TagValueVariantSetterTestExpectations{QVariant(QTime::currentTime()),
+                                                                  TagValue::Type::Time,
+                                                                  QMetaType::Type::QTime
                             },
-                            TagValueVariantTestExpectations{QVariant(QDate::currentDate()),
-                                                            TagValue::Type::Date,
-                                                            QMetaType::Type::QDate
+                            TagValueVariantSetterTestExpectations{QVariant(QDate::currentDate()),
+                                                                  TagValue::Type::Date,
+                                                                  QMetaType::Type::QDate
                             },
-                            TagValueVariantTestExpectations{QVariant(QString("string test")),
-                                                            TagValue::Type::String,
-                                                            QMetaType::Type::QString
+                            TagValueVariantSetterTestExpectations{QVariant(QString("string test")),
+                                                                  TagValue::Type::String,
+                                                                  QMetaType::Type::QString
                             }
                         ),
 );
