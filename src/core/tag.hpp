@@ -2,7 +2,7 @@
 #ifndef TAG_HPP
 #define TAG_HPP
 
-#include <assert.h>
+#include <cassert>
 
 #include <any>
 #include <vector>
