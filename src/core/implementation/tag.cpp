@@ -419,19 +419,6 @@ namespace Tag
 
     }
 
-    Info::Info(const TagNameInfo& n, const TagValue& v): m_name(n), m_value(v)
-    {
-
-    }
-
-    Info& Info::operator=(const std::pair<TagNameInfo, TagValue> &data)
-    {
-        m_name = data.first;
-        m_value = data.second;
-
-        return *this;
-    }
-
     QString Info::name() const
     {
         return m_name.getName();
