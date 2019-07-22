@@ -2,7 +2,7 @@
 #ifndef TAG_HPP
 #define TAG_HPP
 
-#include <assert.h>
+#include <cassert>
 
 #include <any>
 #include <vector>
@@ -91,12 +91,10 @@ class CORE_EXPORT TagValue
 
         QVariant get() const;
         const QDate& getDate() const;
-        const std::vector<TagValue>& getList() const;
         const QString& getString() const;
         const QTime& getTime() const;
 
         QDate& getDate();
-        std::vector<TagValue>& getList();
         QString& getString();
         QTime& getTime();
 
@@ -166,11 +164,7 @@ namespace Tag
 
     struct CORE_EXPORT Info
     {
-            Info(const TagsList::const_iterator &);
             Info(const std::pair<const TagNameInfo, TagValue> &data);
-            Info(const TagNameInfo &, const TagValue &);
-
-            Info& operator=(const std::pair<TagNameInfo, TagValue> &data);
 
             QString name() const;
             QString displayName() const;

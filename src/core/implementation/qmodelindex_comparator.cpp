@@ -6,7 +6,7 @@
 
 namespace
 {
-    std::vector<QModelIndex> getHierarchyOf(const QModelIndex& item)
+    std::vector<QModelIndex> getHierarchyOf(const QModelIndex& item) noexcept
     {
         std::vector<QModelIndex> result;
 
@@ -22,10 +22,10 @@ namespace
 
     bool isLess(const QModelIndex& lhs, const QModelIndex& rhs)
     {
-        return  lhs.row() <  rhs.row()
-            || (lhs.row() == rhs.row() && (lhs.column() <  rhs.column()
-                                       || (lhs.column() == rhs.column() && (lhs.internalId() <  rhs.internalId()
-                                                                        || (lhs.internalId() == rhs.internalId() && lhs.model() < rhs.model() )))));
+        const auto l = std::make_tuple(lhs.row(), lhs.column(), lhs.internalId(), lhs.model());
+        const auto r = std::make_tuple(rhs.row(), rhs.column(), rhs.internalId(), rhs.model());
+
+        return l < r;
     }
 }
 
