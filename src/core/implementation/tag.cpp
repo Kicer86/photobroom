@@ -414,11 +414,6 @@ TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& ty
 namespace Tag
 {
 
-    Info::Info(const Tag::TagsList::const_iterator &it): m_name(it->first), m_value(it->second)
-    {
-
-    }
-
     Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second)
     {
 
