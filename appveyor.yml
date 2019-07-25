@@ -21,8 +21,8 @@ image: Visual Studio 2017
 
 cache:
     - c:\Users\appveyor\conanCache  -> ci/appveyor.bat, conanfile.txt
-    - envs                          -> ci/appveyor.bat, conanfile.txt  # conan installation
-    - python_embed.zip              -> ci/appveyor.bat, appveyor.yml   # python environment
+    - envs                          -> ci/appveyor.bat, conanfile.txt        # conan installation
+    - python_embed.zip              -> ci/appveyor.bat, ci/appveyor.yml.in   # python environment
 
 artifacts:
   - path: build/PhotoBroom-1.4.0-*.exe
