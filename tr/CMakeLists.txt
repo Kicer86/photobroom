@@ -39,19 +39,22 @@ if(LUPDATE AND LRELEASE)
         # generate TS files from source files lists
         add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
                            COMMAND ${LUPDATE}
-                           ARGS @${CMAKE_CURRENT_BINARY_DIR}/sources.lst
-                                -I ${PROJECT_SOURCE_DIR}/src/core
-                                -I ${PROJECT_SOURCE_DIR}/src/database
-                                -I ${PROJECT_SOURCE_DIR}/src/photos_crawler
-                                -I ${PROJECT_SOURCE_DIR}/src/plugins
-                                -noobsolete
-                                -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
+                           ARGS    @${CMAKE_CURRENT_BINARY_DIR}/sources.lst
+                                   -I ${PROJECT_SOURCE_DIR}/src/core
+                                   -I ${PROJECT_SOURCE_DIR}/src/database
+                                   -I ${PROJECT_SOURCE_DIR}/src/photos_crawler
+                                   -I ${PROJECT_SOURCE_DIR}/src/plugins
+                                   -noobsolete
+                                   -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
                            DEPENDS ${source_files}
                                    ${CMAKE_CURRENT_BINARY_DIR}/sources.lst
         )
 
         add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
-                           COMMAND ${LUPDATE} @${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst -noobsolete -ts ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
+                           COMMAND ${LUPDATE}
+                           ARGS    @${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
+                                   -noobsolete -ts
+                                   ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
                            DEPENDS ${source_files}
                                    ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
         )
