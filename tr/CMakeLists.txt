@@ -36,6 +36,7 @@ if(LUPDATE AND LRELEASE)
 
     foreach(tr IN LISTS translations)
 
+        # generate TS files from source files lists
         add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
                            COMMAND ${LUPDATE} @${CMAKE_CURRENT_BINARY_DIR}/sources.lst -noobsolete -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
                            DEPENDS ${source_files}
@@ -48,6 +49,7 @@ if(LUPDATE AND LRELEASE)
                                    ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
         )
 
+        # mark files as generated
         set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts PROPERTIES GENERATED TRUE)
         set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts PROPERTIES GENERATED TRUE)
 
@@ -76,7 +78,7 @@ if(LUPDATE AND LRELEASE)
 
     endforeach()
 
-    # main target
+    # translations target to be attached to photo broom target
     add_custom_target(translations
                       DEPENDS ${tr_update_targets}
                       DEPENDS ${qm_files}
