@@ -77,15 +77,6 @@ before_install:
         virtualenv conan;
         source conan/bin/activate;
     else
-        CMAKE_VER=3.12;
-        CMAKE_PATCH=4;
-        source /opt/qt5*/bin/qt5*-env.sh;
-        if [ ! -e $HOME/tools/bin/cmake ]; then
-            wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-            chmod +x ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-            ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh --prefix=$HOME/tools --exclude-subdir --skip-license;
-        fi;
-        export CMAKE_BIN=$HOME/tools/bin/cmake;
         export PYTHON=`which python`;
         echo $PYTHON;
     fi
@@ -120,7 +111,7 @@ before_script:
   # photo broom
   - mkdir build && cd build
   - conan install .. --build
-  - $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ${EXTRA_CMAKE_OPTIONS} ..
+  - cmake -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ${EXTRA_CMAKE_OPTIONS} ..
   # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
   - if [ $TRAVIS_OS_NAME == 'linux' ]; then
         export DISPLAY=:99.0;
