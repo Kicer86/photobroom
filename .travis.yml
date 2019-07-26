@@ -75,8 +75,7 @@ before_install:
         echo $PYTHON;
     fi
 
-  - pip install conan==1.11.1;
-    pip install codecov;
+  - sudo pip install conan==1.11.1;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
     conan config set storage.path=$HOME/conanData;
