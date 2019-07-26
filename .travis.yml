@@ -15,13 +15,8 @@ addons:
       - qt510base
       - qt510svg
       - python3
-      - g++-7
-      - gcc-7
-      - clang-5.0
       - lcov
     sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-5.0
       - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
 
   homebrew:
