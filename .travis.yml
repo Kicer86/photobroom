@@ -61,6 +61,7 @@ cache:
   directories:
     - $TRAVIS_BUILD_DIR/usr
     - $HOME/conanData           # Conan storage location
+    - $HOME/tools               # tools like CMake
     - conan                     # Conan installation folder
 
 before_install:
@@ -78,10 +79,12 @@ before_install:
         CMAKE_VER=3.12;
         CMAKE_PATCH=4;
         source /opt/qt5*/bin/qt5*-env.sh;
-        wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-        chmod +x ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-        ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
-        export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
+        if [ ! -d $HOME/tools ]; then
+            wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
+            chmod +x ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
+            ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh --prefix=$HOME/tools --exclude-subdir --skip-license;
+        fi;
+        export CMAKE_BIN=$HOME/tools/bin/cmake;
         export PYTHON=`which python`;
         echo $PYTHON;
     fi
