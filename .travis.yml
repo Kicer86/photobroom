@@ -15,7 +15,7 @@ addons:
       - python3
       - lcov
     sources:
-      - sourceline: 'ppa:beineri/opt-qt-5.11.1-bionic'
+      - ppa:beineri/opt-qt-5.11.1-bionic
 
   homebrew:
     packages:
