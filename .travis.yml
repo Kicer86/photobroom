@@ -79,7 +79,7 @@ before_install:
         CMAKE_VER=3.12;
         CMAKE_PATCH=4;
         source /opt/qt5*/bin/qt5*-env.sh;
-        if [ ! -d $HOME/tools ]; then
+        if [ ! -e $HOME/tools/bin/cmake ]; then
             wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
             chmod +x ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
             ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh --prefix=$HOME/tools --exclude-subdir --skip-license;
