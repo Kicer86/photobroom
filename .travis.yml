@@ -58,7 +58,6 @@ cache:
     - $HOME/conanData           # Conan storage location
     - $HOME/tools               # tools like CMake
     - conan                     # Conan installation folder
-    - /opt/python               # cache python installations
 
 before_install:
   # setup tools for particular system
