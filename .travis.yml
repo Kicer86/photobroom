@@ -12,12 +12,12 @@ addons:
   apt:
     packages:
       - libexiv2-dev
-      - qt510base
-      - qt510svg
+      - qt511base
+      - qt511svg
       - python3
       - lcov
     sources:
-      - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
+      - sourceline: 'ppa:beineri/opt-qt-5.11.1-bionic'
 
   homebrew:
     packages:
