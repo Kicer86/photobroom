@@ -95,7 +95,7 @@ before_install:
     pip install codecov;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
-    conan config set storage.path=~/conanData;
+    conan config set storage.path=$HOME/conanData;
 
 before_script:
   - if [ "$CC" = "gcc" ]; then
