@@ -85,11 +85,6 @@ before_install:
     conan config set storage.path=$HOME/conanData;
 
 before_script:
-  - if [ "$CC" = "gcc" ]; then
-        export CXX=g++-7;
-        export CC=gcc-7;
-    fi
-
   - if [ $DEBUG -eq 1 ]; then
         EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug";
     fi
