@@ -10,7 +10,6 @@ branches:
 addons:
   apt:
     packages:
-      - libexiv2-dev
       - qt511base
       - qt511svg
       - python3
