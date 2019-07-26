@@ -76,9 +76,7 @@ before_install:
         echo $PYTHON;
     fi
 
-  - pyenv install 3.6.0;
-    pyenv global 3.6.0;
-    pip install conan==1.11.1;
+  - pip install conan==1.11.1;
     pip install codecov;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
