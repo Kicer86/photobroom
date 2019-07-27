@@ -115,7 +115,7 @@ before_script:
 
 script:
   - make
-  - xvfb-run ctest -V
+  - xvfb-run -e /dev/stdout ctest -V
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
