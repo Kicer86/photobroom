@@ -35,6 +35,9 @@ compiler:
   - gcc
   - clang
 
+services:
+  - xvfb
+
 env:
   - DEBUG=0
 
