@@ -99,7 +99,7 @@ before_script:
     fi
   # photo broom
   - mkdir build && cd build
-  - conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 > /dev/null
+  - conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null
   - cmake -DGTEST_DIR=$GTEST_PATH/googletest
           -DGMOCK_DIR=$GTEST_PATH/googlemock
           -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
