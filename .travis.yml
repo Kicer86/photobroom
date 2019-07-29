@@ -64,8 +64,6 @@ before_install:
         brew upgrade pyenv;
         eval "$(pyenv init -)";
         export PATH="/usr/local/opt/qt/bin:$PATH"
-        export CMAKE_BIN=cmake;
-        export PYTHON=python;
         sudo pip install virtualenv;
         virtualenv conan;
         source conan/bin/activate;
@@ -74,8 +72,6 @@ before_install:
         sudo apt install qt511base qt511svg libgl-dev python3 lcov;
         source /opt/qt5*/bin/qt5*-env.sh;
         pyenv global 3.7.1;
-        export PYTHON=`which python`;
-        echo $PYTHON;
     fi
 
   - sudo pip install conan;
