@@ -1,7 +1,6 @@
 
 language: cpp
-sudo: required
-dist: trusty
+dist: bionic
 
 branches:
   only:
@@ -11,18 +10,12 @@ branches:
 addons:
   apt:
     packages:
-      - libexiv2-dev
-      - qt510base
-      - qt510svg
+      - qt511base
+      - qt511svg
       - python3
-      - g++-7
-      - gcc-7
-      - clang-5.0
       - lcov
     sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-5.0
-      - sourceline: 'ppa:beineri/opt-qt-5.10.1-trusty'
+      - ppa:beineri/opt-qt-5.11.1-bionic
 
   homebrew:
     packages:
@@ -58,10 +51,12 @@ matrix:
     - os: osx
 
 cache:
-  directories:
-    - $TRAVIS_BUILD_DIR/usr
-    - $HOME/conanData           # Conan storage location
-    - conan                     # Conan installation folder
+    - ccache: true
+    -  directories:
+        - $TRAVIS_BUILD_DIR/usr
+        - $HOME/conanData           # Conan storage location
+        - $HOME/tools               # tools like CMake
+        - conan                     # Conan installation folder
 
 before_install:
   # setup tools for particular system
@@ -69,37 +64,22 @@ before_install:
         brew upgrade pyenv;
         eval "$(pyenv init -)";
         export PATH="/usr/local/opt/qt/bin:$PATH"
-        export CMAKE_BIN=cmake;
-        export PYTHON=python;
         sudo pip install virtualenv;
         virtualenv conan;
         source conan/bin/activate;
     else
-        CMAKE_VER=3.12;
-        CMAKE_PATCH=4;
+        sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
+        sudo apt install qt511base qt511svg libgl-dev python3 lcov;
         source /opt/qt5*/bin/qt5*-env.sh;
-        wget https://cmake.org/files/v$CMAKE_VER/cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-        chmod +x ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh;
-        ./cmake-$CMAKE_VER.$CMAKE_PATCH-Linux-x86_64.sh --prefix=$TRAVIS_BUILD_DIR/usr --exclude-subdir --skip-license;
-        export CMAKE_BIN=$TRAVIS_BUILD_DIR/usr/bin/cmake;
-        export PYTHON=`which python`;
-        echo $PYTHON;
+        pyenv global 3.7.1;
     fi
 
-  - pyenv install 3.6.0;
-    pyenv global 3.6.0;
-    pip install conan==1.11.1;
-    pip install codecov;
+  - sudo pip install conan;
     conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
-    conan config set storage.path=~/conanData;
+    conan config set storage.path=$HOME/conanData;
 
 before_script:
-  - if [ "$CC" = "gcc" ]; then
-        export CXX=g++-7;
-        export CC=gcc-7;
-    fi
-
   - if [ $DEBUG -eq 1 ]; then
         EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug";
     fi
@@ -115,22 +95,25 @@ before_script:
     fi
   # photo broom
   - mkdir build && cd build
-  - conan install .. --build
-  - $CMAKE_BIN -DGTEST_DIR=$GTEST_PATH/googletest -DGMOCK_DIR=$GTEST_PATH/googlemock -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr -DBUILD_UPDATER=ON -DBUILD_TESTS=ON ${EXTRA_CMAKE_OPTIONS} ..
-  # start virtual frame buffer for gui unit DBUILD_TESTS  (https://docs.travis-ci.com/user/gui-and-headless-browsers/)
-  - if [ $TRAVIS_OS_NAME == 'linux' ]; then
-        export DISPLAY=:99.0;
-        sh -e /etc/init.d/xvfb start;
-    fi
+  - conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null
+  - cmake -DGTEST_DIR=$GTEST_PATH/googletest
+          -DGMOCK_DIR=$GTEST_PATH/googlemock
+          -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
+          -DBUILD_UPDATER=ON
+          -DBUILD_TESTS=ON
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          ${EXTRA_CMAKE_OPTIONS}
+          ..
 
 script:
   - make
-  - ctest -V
+  - xvfb-run -e /dev/stdout ctest -V
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
         cd ${TRAVIS_BUILD_DIR}/build;
-        make run_unit_tests_code_coverage;
+        xvfb-run -e /dev/stdout make run_unit_tests_code_coverage;
         lcov --directory . --capture --output-file coverage.info;
         lcov --remove coverage.info '/usr/*' --output-file coverage.info;
         lcov --list coverage.info;
