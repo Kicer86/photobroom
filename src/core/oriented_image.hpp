@@ -19,8 +19,21 @@
 #ifndef ORIENTED_IMAGE_HPP
 #define ORIENTED_IMAGE_HPP
 
+#include <QImage>
+
+struct IExifReader;
+
+
 class OrientedImage
 {
+    public:
+        OrientedImage();
+        OrientedImage(IExifReader *, const QString& path);
+
+        QImage get() const;
+
+    private:
+        QImage m_oriented;
 };
 
 #endif // ORIENTED_IMAGE_HPP
