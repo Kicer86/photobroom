@@ -112,3 +112,9 @@ QImage OrientedImage::get() const
 {
     return m_oriented;
 }
+
+
+QImage OrientedImage::operator->() const
+{
+    return get();
+}

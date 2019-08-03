@@ -31,6 +31,7 @@ class OrientedImage
         OrientedImage(IExifReader *, const QString& path);
 
         QImage get() const;
+        QImage operator->() const;
 
     private:
         QImage m_oriented;
