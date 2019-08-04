@@ -12,7 +12,7 @@ find_package(Qt5Gui  REQUIRED)
 addTestTarget(core
                 SOURCES
                     implementation/base_tags.cpp
-                    implementation/oriented_image.cpp
+                    #implementation/oriented_image.cpp
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
                     implementation/tag.cpp
