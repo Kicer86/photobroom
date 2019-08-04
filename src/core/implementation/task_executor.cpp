@@ -26,6 +26,8 @@
 
 #include <QString>
 
+#include "thread_utils.hpp"
+
 
 TaskExecutor::TaskExecutor(ILogger* logger):
     m_tasks(),
@@ -67,6 +69,8 @@ void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
 
     auto light_task = std::thread( [this, lt = std::move(task)]
     {
+        set_thread_name("TE::LightTask");
+
         // do job
         lt->perform();
 
@@ -112,6 +116,8 @@ void TaskExecutor::stop()
 
 void TaskExecutor::eat()
 {
+    set_thread_name("TE::eater");
+
     using namespace std::chrono_literals;
 
     std::atomic<unsigned int> running_tasks(0);
@@ -130,6 +136,8 @@ void TaskExecutor::eat()
 
             std::thread thread([&]
             {
+                set_thread_name("TE::HeavyTask");
+
                 std::thread::id id = std::this_thread::get_id();
                 LoggerStream<ILogger::Severity::Debug>(m_logger) << "Starting TaskExecutor thread #" << id;
 
