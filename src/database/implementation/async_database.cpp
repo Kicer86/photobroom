@@ -26,6 +26,7 @@
 
 #include <core/down_cast.hpp>
 #include <core/logger_factory.hpp>
+#include <core/thread_utils.hpp>
 
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
@@ -61,6 +62,8 @@ namespace Database
         // run in a db thread started by AsyncDatabase::Impl
         void begin()
         {
+            set_thread_name("ADatabase");
+
             for(;;)
             {
                 std::optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();

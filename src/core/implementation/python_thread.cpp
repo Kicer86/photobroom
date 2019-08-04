@@ -22,6 +22,7 @@
 
 #include <pybind11/embed.h>
 
+#include <core/thread_utils.hpp>
 #include <system/filesystem.hpp>
 
 
@@ -95,6 +96,8 @@ void PythonThread::execute(std::unique_ptr<ITask>&& task)
 
 void PythonThread::thread()
 {
+    set_thread_name("Python");
+
     for(;;)
     {
         auto task = m_impl->m_tasks.pop();
