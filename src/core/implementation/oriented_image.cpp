@@ -114,7 +114,7 @@ QImage OrientedImage::get() const
 }
 
 
-QImage OrientedImage::operator->() const
+const QImage* OrientedImage::operator->() const
 {
-    return get();
+    return &m_oriented;
 }
