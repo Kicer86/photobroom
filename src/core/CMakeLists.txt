@@ -97,6 +97,8 @@ endif()
 
 if(CMAKE_USE_PTHREADS_INIT)
     set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_pthreads.cpp)
+else()
+    set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_null.cpp)
 endif()
 
 set(CORE_RESOURCE_FILES     images/images.qrc)
