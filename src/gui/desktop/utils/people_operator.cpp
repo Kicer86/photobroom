@@ -66,8 +66,8 @@ namespace
     {
         const QString path = pathFor(db, pi.ph_id);
         const QRect& faceRect = pi.rect;
-        const QImage photo = Image::normalized(path, exifFactory->get());
-        const QImage faceImg = photo.copy(faceRect);
+        const OrientedImage photo = Image::normalized(path, exifFactory->get());
+        const QImage faceImg = photo->copy(faceRect);
 
         return faceImg;
     }
@@ -446,8 +446,8 @@ std::string ModelFaceStore::name() const
 void ModelFaceStore::perform()
 {
     const QString photo_path = getPhotoPath();
-    const QImage image = Image::normalized(photo_path, m_coreAccessor->getExifReaderFactory()->get());
-    const QImage face = image.copy(m_pi.rect);
+    const OrientedImage image = Image::normalized(photo_path, m_coreAccessor->getExifReaderFactory()->get());
+    const QImage face = image->copy(m_pi.rect);
 
     const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
     face.save(face_path);
