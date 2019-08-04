@@ -25,7 +25,7 @@ addTestTarget(database
                     unit_tests/sql_action_query_generator_tests.cpp
 
                     # tools tests:
-
+                    unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp
 
                     # main()
