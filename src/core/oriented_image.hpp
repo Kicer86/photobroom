@@ -21,10 +21,12 @@
 
 #include <QImage>
 
+#include <core_export.h>
+
 struct IExifReader;
 
 
-class OrientedImage
+class CORE_EXPORT OrientedImage
 {
     public:
         OrientedImage();
