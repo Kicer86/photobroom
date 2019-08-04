@@ -69,7 +69,7 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
         stopwatch.start();
 
         QImage image = QFile::exists(m_info.path)?
-            Image::normalized(m_info.path, reader):
+            Image::normalized(m_info.path, reader).get():
             QImage(Images::missing);
 
         if (image.isNull())

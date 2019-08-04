@@ -64,6 +64,7 @@ set(CORE_SOURCES
     logger_factory.hpp                                      implementation/logger_factory.cpp
     media_information.hpp                                   implementation/media_information.cpp
     media_types.hpp                                         implementation/media_types.cpp
+    oriented_image.hpp                                      implementation/oriented_image.cpp
     python_thread.hpp                                       implementation/python_thread.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
     qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
@@ -75,6 +76,7 @@ set(CORE_SOURCES
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
 
+    # internal implementation
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp

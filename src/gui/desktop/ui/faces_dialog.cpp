@@ -168,19 +168,19 @@ void FacesDialog::systemStatus(bool status, const QString& message)
 
 void FacesDialog::updateImage()
 {
-    QImage image = Image::normalized(m_photoPath, m_exif);
+    const OrientedImage oriented_image = Image::normalized(m_photoPath, m_exif);
 
-    if (image.isNull())
+    if (oriented_image->isNull())
     {
         // TODO: display some empty image or something
     }
     else
     {
-        const QSize currentSize = image.size();
+        const QSize currentSize = oriented_image->size();
         const double scale = ui->scaleSlider->value() / 100.0;
 
         const QSize scaledSize = currentSize * scale;
-        image = image.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QImage image = oriented_image->scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         QVector<QRect> scaledFaces;
         for(const QRect& face: std::as_const(m_faces))
