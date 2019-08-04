@@ -348,7 +348,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -433,6 +433,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>Series detector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -455,7 +460,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-182"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-188"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
@@ -505,7 +510,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+229"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -566,7 +571,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-278"/>
+        <location line="-284"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>

@@ -110,6 +110,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionFace_organizer"/>
+    <addaction name="actionSeries_detector"/>
    </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
@@ -226,6 +227,11 @@
   <action name="actionFace_organizer">
    <property name="text">
     <string>&amp;Face organizer</string>
+   </property>
+  </action>
+  <action name="actionSeries_detector">
+   <property name="text">
+    <string>Series detector</string>
    </property>
   </action>
  </widget>
