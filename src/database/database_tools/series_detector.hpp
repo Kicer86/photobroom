@@ -19,8 +19,19 @@
 #ifndef SERIESDETECTOR_HPP
 #define SERIESDETECTOR_HPP
 
+namespace Database
+{
+    struct IBackend;
+}
+
+
 class SeriesDetector
 {
+    public:
+        SeriesDetector(Database::IBackend *);
+
+    private:
+        Database::IBackend* m_backend;
 };
 
 #endif // SERIESDETECTOR_HPP

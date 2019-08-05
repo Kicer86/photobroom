@@ -1,3 +1,4 @@
+
 /*
  * Tool for series detection
  * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
@@ -17,3 +18,8 @@
  */
 
 #include "../series_detector.hpp"
+
+
+SeriesDetector::SeriesDetector(Database::IBackend* backend): m_backend(backend)
+{
+}
