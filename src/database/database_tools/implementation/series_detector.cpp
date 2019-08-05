@@ -97,7 +97,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qi
         const int seqNum = std::get<0>(it->second);
         const Photo::Id& ph_id = std::get<1>(it->second);
 
-        if (seqNum != expected_seq || std::next(it) == data.cend())         // sequenceNumber does not match expectations? finish/skip group
+        if (seqNum != expected_seq || std::next(it) == data.cend())  // sequenceNumber does not match expectations? finish/skip group
         {
             if (group.empty() == false)
             {
