@@ -1,10 +1,12 @@
 
 #include <any>
 #include <optional>
+
 #include <gmock/gmock.h>
 
 #include <core/iexif_reader.hpp>
 
+#include "general.hpp"
 
 struct MockExifReader: IExifReader
 {
