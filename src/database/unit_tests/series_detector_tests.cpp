@@ -1,12 +1,69 @@
 
-#include <gmock/gmock.h>
+#include <QDate>
+#include <QTime>
+
+#include <unit_tests_utils/mock_backend.hpp>
+#include <unit_tests_utils/mock_exif_reader.hpp>
 
 #include "database_tools/series_detector.hpp"
+
+using testing::Invoke;
+using testing::NiceMock;
+using testing::Return;
+using testing::_;
 
 
 TEST(SeriesDetectorTest, constructor)
 {
     EXPECT_NO_THROW({
-        SeriesDetector sd;
+        MockBackend backend;
+        MockExifReader exif;
+
+        SeriesDetector sd(&backend, &exif);
     });
 }
+
+
+TEST(SeriesDetectorTest, animationDetection)
+{
+    NiceMock<MockBackend> backend;
+    NiceMock<MockExifReader> exif;
+
+    const std::vector<Photo::Id> all_photos =
+    {
+        Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
+    };
+
+    ON_CALL(backend, getAllPhotos).WillByDefault(Return(all_photos));
+    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    {
+        Photo::Data data;
+        data.id = id;
+        data.path = QString("path: %1").arg(id);
+        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));
+
+        return data;
+    }));
+
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    {
+        std::optional<std::any> result;
+
+        const QStringList pathSplitted = path.split(" ");
+        assert(pathSplitted.size() == 2);
+
+        const QString id_str = pathSplitted.back();
+        const int id = id_str.toInt();
+
+        result = std::any( (id - 1) % 3);   // id:1 -> 0, id:2 -> 1, id:3 -> 2, id:4 -> 0 ...
+
+        return result;
+    }));
+
+    const SeriesDetector sd(&backend, &exif);
+    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+
+    ASSERT_EQ(groupCanditates.size(), 2);
+}
+
