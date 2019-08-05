@@ -1,4 +1,6 @@
 
+#include <random>
+
 #include <QDate>
 #include <QTime>
 
@@ -33,10 +35,15 @@ TEST(SeriesDetectorTest, animationDetection)
     // divideded into two groups.
     // Each group has SequenceNumber in exif from 0 to 2
     // All photos are made at different time (1 second difference between photos)
-    const std::vector<Photo::Id> all_photos =
+    std::vector<Photo::Id> all_photos =
     {
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
+
+    // shuffle photos so they come in undefined order
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(all_photos.begin(), all_photos.end(), g);
 
     ON_CALL(backend, getAllPhotos).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
