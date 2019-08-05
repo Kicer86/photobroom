@@ -29,6 +29,10 @@ TEST(SeriesDetectorTest, animationDetection)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
 
+    // Mock 6 photos
+    // divideded into two groups.
+    // Each group has SequenceNumber in exif from 0 to 2
+    // All photos are made at different time (1 second difference between photos)
     const std::vector<Photo::Id> all_photos =
     {
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
@@ -39,13 +43,14 @@ TEST(SeriesDetectorTest, animationDetection)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);
+        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));
+        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
         return data;
     }));
 
+    // return sequence number basing on file name (file name contains photo id)
     ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
