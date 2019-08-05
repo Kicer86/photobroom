@@ -23,3 +23,11 @@
 SeriesDetector::SeriesDetector(Database::IBackend* backend): m_backend(backend)
 {
 }
+
+
+std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
+{
+    std::vector<Detection> result;
+
+    return result;
+}

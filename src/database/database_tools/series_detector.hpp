@@ -19,6 +19,10 @@
 #ifndef SERIESDETECTOR_HPP
 #define SERIESDETECTOR_HPP
 
+#include <database/group.hpp>
+#include <database/photo_types.hpp>
+
+
 namespace Database
 {
     struct IBackend;
@@ -28,7 +32,15 @@ namespace Database
 class SeriesDetector
 {
     public:
+        struct Detection
+        {
+            Group::Type type;
+            std::vector<Photo::Id> members;
+        };
+
         SeriesDetector(Database::IBackend *);
+
+        std::vector<Detection> listDetections() const;
 
     private:
         Database::IBackend* m_backend;
