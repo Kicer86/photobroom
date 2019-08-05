@@ -28,6 +28,8 @@ namespace Database
     struct IBackend;
 }
 
+struct IExifReader;
+
 
 class SeriesDetector
 {
@@ -38,12 +40,15 @@ class SeriesDetector
             std::vector<Photo::Id> members;
         };
 
-        SeriesDetector(Database::IBackend *);
+        SeriesDetector(Database::IBackend *, IExifReader *);
 
         std::vector<Detection> listDetections() const;
 
     private:
         Database::IBackend* m_backend;
+        IExifReader* m_exifReader;
+
+        std::vector<Detection> process(const std::map<qint64, std::tuple<int, Photo::Id>> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
