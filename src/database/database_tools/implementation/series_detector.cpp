@@ -89,34 +89,40 @@ std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qi
 {
     int expected_seq = 0;
     std::vector<Photo::Id> group;
-
     std::vector<Detection> results;
+
+    auto dumpGroup = [&results, &group]()
+    {
+        Detection detection;
+        detection.type = Group::Type::Animation;
+        detection.members = group;
+
+        results.push_back(detection);
+
+        group.clear();
+    };
 
     for(auto it = data.cbegin(); it != data.cend(); ++it)
     {
         const int seqNum = std::get<0>(it->second);
         const Photo::Id& ph_id = std::get<1>(it->second);
 
-        if (seqNum != expected_seq || std::next(it) == data.cend())  // sequenceNumber does not match expectations? finish/skip group
+        if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
         {
             if (group.empty() == false)
-            {
-                Detection detection;
-                detection.type = Group::Type::Animation;
-                detection.members = group;
+                dumpGroup();
 
-                results.push_back(detection);
-            }
-
-            group.clear();
             expected_seq = 0;
         }
 
-        if (seqNum == expected_seq)         // sequenceNumber matches expectations? begin/continue group
+        if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
         {
             group.push_back(ph_id);
             expected_seq++;
         }
+
+        if (std::next(it) == data.cend())
+            dumpGroup();
     }
 
     return results;
