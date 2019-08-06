@@ -684,8 +684,7 @@ void MainWindow::on_actionFace_organizer_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection* sd = new SeriesDetection;
-    sd->show();
+    SeriesDetection{}.exec();
 }
 
 

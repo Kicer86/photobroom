@@ -1,5 +1,5 @@
 /*
- * Widget for series detection
+ * Dialog for series detection
  * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,21 +18,26 @@
 
 #include "series_detection.hpp"
 
+#include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QTableView>
 
 
 SeriesDetection::SeriesDetection():
-    QWidget(nullptr),
+    QDialog(),
     m_tabView(nullptr)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok);
 
     layout->addWidget(detected);
+    layout->addWidget(buttons);
 
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
     m_tabView = new QTableView(detected);
     detectedLayout->addWidget(m_tabView);
+
+    connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
 }

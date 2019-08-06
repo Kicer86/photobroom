@@ -510,7 +510,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+230"/>
+        <location line="+229"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -571,7 +571,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-285"/>
+        <location line="-284"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -935,7 +935,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+31"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+32"/>
         <source>Detected series</source>
         <translation type="unfinished"></translation>
     </message>

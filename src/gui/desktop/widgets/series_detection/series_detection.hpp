@@ -1,5 +1,5 @@
 /*
- * Widget for series detection
+ * Dialog for series detection
  * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,11 +19,11 @@
 #ifndef SERIESDETECTION_HPP
 #define SERIESDETECTION_HPP
 
-#include <QWidget>
+#include <QDialog>
 
 class QTableView;
 
-class SeriesDetection: public QWidget
+class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
