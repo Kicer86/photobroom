@@ -141,7 +141,7 @@ Tag::TagsList AExifReader::feedDateAndTime() const
 
 std::optional<int> AExifReader::readInt(const TagType& tagType) const
 {
-    std::optional<int> result = 0;
+    std::optional<int> result;
     const std::optional<std::string> valueRaw = read(tagType);
 
     if (valueRaw.has_value())
