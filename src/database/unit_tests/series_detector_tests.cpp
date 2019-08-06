@@ -83,3 +83,60 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
 }
 
+
+TEST(SeriesDetectorTest, animationDetectionScenario2)
+{
+    NiceMock<MockBackend> backend;
+    NiceMock<MockExifReader> exif;
+
+    // Mock 6 photos
+    // divideded into two groups.
+    // Each group has SequenceNumber in exif from 1 to 3
+    // Photos within a group have the same time of take
+    std::vector<Photo::Id> all_photos =
+    {
+        Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
+    };
+
+    // shuffle photos so they come in undefined order
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(all_photos.begin(), all_photos.end(), g);
+
+    ON_CALL(backend, getAllPhotos).WillByDefault(Return(all_photos));
+    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    {
+        Photo::Data data;
+        data.id = id;
+        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+
+        return data;
+    }));
+
+    // return sequence number basing on file name (file name contains photo id)
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    {
+        std::optional<std::any> result;
+
+        const QStringList pathSplitted = path.split(" ");
+        assert(pathSplitted.size() == 2);
+
+        const QString id_str = pathSplitted.back();
+        const int id = id_str.toInt();
+
+        result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
+
+        return result;
+    }));
+
+    const SeriesDetector sd(&backend, &exif);
+    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+
+    ASSERT_EQ(groupCanditates.size(), 2);
+    ASSERT_EQ(groupCanditates.front().members.size(), 3);
+    ASSERT_EQ(groupCanditates.back().members.size(), 3);
+    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+}
