@@ -39,6 +39,7 @@
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/photos_widget.hpp"
+#include "widgets/series_detection/series_detection.hpp"
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/photos_collector.hpp"
@@ -683,7 +684,8 @@ void MainWindow::on_actionFace_organizer_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-
+    SeriesDetection* sd = new SeriesDetection;
+    sd->show();
 }
 
 
