@@ -167,7 +167,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
 // (slot) of given object. Will do nothing when given object is destroyed.
 // Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
-std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
+std::function<void(Args...)> queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
 
@@ -185,7 +185,7 @@ std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
 // construct a functor which invoked will invoke a method
 // (slot) of given object. Will do nothing when given object is destroyed.
 // Similar to safe_callback_ctrl (but uses Qt mechanism to guarantee (?) threadsafety)
-// Instead of slot() method is invoked in caller's thread
+// Instead of queued_slot() method is invoked in caller's thread
 template<typename ObjT, typename R, typename ...Args>
 std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
