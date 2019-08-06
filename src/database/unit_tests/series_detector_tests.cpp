@@ -33,7 +33,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
 
     // Mock 6 photos
     // divideded into two groups.
-    // Each group has SequenceNumber in exif from 0 to 2
+    // Each group has SequenceNumber in exif from 1 to 3
     // All photos are made at different time (1 second difference between photos)
     std::vector<Photo::Id> all_photos =
     {
