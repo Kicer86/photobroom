@@ -23,15 +23,23 @@
 
 class QTableView;
 
+namespace Database
+{
+    struct IDatabase;
+    struct IBackend;
+}
+
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection();
+        SeriesDetection(Database::IDatabase *);
 
     private:
         QTableView* m_tabView;
+
+        void fetch_series(Database::IBackend *);
 };
 
 #endif // SERIESDETECTION_HPP

@@ -684,7 +684,7 @@ void MainWindow::on_actionFace_organizer_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{}.exec();
+    SeriesDetection{m_currentPrj->getDatabase()}.exec();
 }
 
 

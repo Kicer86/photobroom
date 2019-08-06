@@ -23,8 +23,11 @@
 #include <QVBoxLayout>
 #include <QTableView>
 
+#include <core/function_wrappers.hpp>
+#include <database/idatabase.hpp>
 
-SeriesDetection::SeriesDetection():
+
+SeriesDetection::SeriesDetection(Database::IDatabase* db):
     QDialog(),
     m_tabView(nullptr)
 {
@@ -40,4 +43,12 @@ SeriesDetection::SeriesDetection():
     detectedLayout->addWidget(m_tabView);
 
     connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
+
+    db->exec(direct_slot(this, &SeriesDetection::fetch_series));
+}
+
+
+void SeriesDetection::fetch_series(Database::IBackend* backend)
+{
+
 }
