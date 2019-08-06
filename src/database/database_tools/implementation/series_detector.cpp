@@ -61,7 +61,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 
     const auto photos = m_backend->getAllPhotos();
 
-    std::map<qint64, std::tuple<int, Photo::Id>> sequences_by_time;
+    std::multiset<std::tuple<qint64, int, Photo::Id>> sequences_by_time;
 
     for (const Photo::Id& id: photos)
     {
@@ -75,7 +75,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
             const qint64 time = timestamp(data);
 
             if (time != -1)
-                sequences_by_time.emplace(time, std::make_tuple(seqNum, id));
+                sequences_by_time.emplace(std::make_tuple(time, seqNum, id));
         }
     }
 
@@ -85,7 +85,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 }
 
 
-std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qint64, std::tuple<int, Photo::Id>>& data) const
+std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::multiset<std::tuple<qint64, int, Photo::Id>>& data) const
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;
@@ -105,8 +105,8 @@ std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qi
 
     for(auto it = data.cbegin(); it != data.cend(); ++it)
     {
-        const int seqNum = std::get<0>(it->second);
-        const Photo::Id& ph_id = std::get<1>(it->second);
+        const int seqNum = std::get<1>(*it);
+        const Photo::Id& ph_id = std::get<2>(*it);
 
         if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
         {

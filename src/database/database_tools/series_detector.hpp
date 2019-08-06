@@ -19,6 +19,8 @@
 #ifndef SERIESDETECTOR_HPP
 #define SERIESDETECTOR_HPP
 
+#include <set>
+
 #include <database/group.hpp>
 #include <database/photo_types.hpp>
 
@@ -48,7 +50,7 @@ class SeriesDetector
         Database::IBackend* m_backend;
         IExifReader* m_exifReader;
 
-        std::vector<Detection> process(const std::map<qint64, std::tuple<int, Photo::Id>> &) const;
+        std::vector<Detection> process(const std::multiset<std::tuple<qint64, int, Photo::Id>> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
