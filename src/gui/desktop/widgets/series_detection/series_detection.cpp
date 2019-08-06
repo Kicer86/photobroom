@@ -18,10 +18,21 @@
 
 #include "series_detection.hpp"
 
+#include <QGroupBox>
 #include <QVBoxLayout>
+#include <QTableView>
 
 
-SeriesDetection::SeriesDetection()
+SeriesDetection::SeriesDetection():
+    QWidget(nullptr),
+    m_tabView(nullptr)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
+
+    layout->addWidget(detected);
+
+    QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
+    m_tabView = new QTableView(detected);
+    detectedLayout->addWidget(m_tabView);
 }

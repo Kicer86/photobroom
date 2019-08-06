@@ -438,7 +438,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+209"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -510,7 +510,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+230"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -571,7 +571,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-284"/>
+        <location line="-285"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -930,6 +930,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>?</source>
         <translation>?</translation>
+    </message>
+</context>
+<context>
+    <name>SeriesDetection</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+31"/>
+        <source>Detected series</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

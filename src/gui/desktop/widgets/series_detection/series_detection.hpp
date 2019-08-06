@@ -21,13 +21,17 @@
 
 #include <QWidget>
 
-/**
- * @todo write docs
- */
+class QTableView;
+
 class SeriesDetection: public QWidget
 {
+        Q_OBJECT
+
     public:
         SeriesDetection();
+
+    private:
+        QTableView* m_tabView;
 };
 
 #endif // SERIESDETECTION_HPP
