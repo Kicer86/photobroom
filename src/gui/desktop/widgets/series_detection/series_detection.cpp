@@ -23,17 +23,21 @@
 #include <QVBoxLayout>
 #include <QTableView>
 
+#include <core/iexif_reader.hpp>
 #include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
+#include <database/database_tools/series_detector.hpp>
 
 
-SeriesDetection::SeriesDetection(Database::IDatabase* db):
+SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif):
     QDialog(),
-    m_tabView(nullptr)
+    m_tabView(nullptr),
+    m_exif(exif)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
-    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok);
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok
+);
 
     layout->addWidget(detected);
     layout->addWidget(buttons);
@@ -50,5 +54,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db):
 
 void SeriesDetection::fetch_series(Database::IBackend* backend)
 {
+    SeriesDetector detector(backend, m_exif->get());
 
+    detector.listDetections();
 }

@@ -684,7 +684,8 @@ void MainWindow::on_actionFace_organizer_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase()}.exec();
+    IExifReaderFactory* exif = m_coreAccessor->getExifReaderFactory();
+    SeriesDetection{m_currentPrj->getDatabase(), exif}.exec();
 }
 
 

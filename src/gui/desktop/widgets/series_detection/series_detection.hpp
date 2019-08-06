@@ -29,15 +29,19 @@ namespace Database
     struct IBackend;
 }
 
+struct IExifReaderFactory;
+
+
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *);
+        SeriesDetection(Database::IDatabase *, IExifReaderFactory *);
 
     private:
         QTableView* m_tabView;
+        IExifReaderFactory* m_exif;
 
         void fetch_series(Database::IBackend *);
 };
