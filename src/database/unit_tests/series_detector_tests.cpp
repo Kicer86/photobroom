@@ -26,7 +26,7 @@ TEST(SeriesDetectorTest, constructor)
 }
 
 
-TEST(SeriesDetectorTest, animationDetection)
+TEST(SeriesDetectorTest, animationDetectionScenario1)
 {
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
