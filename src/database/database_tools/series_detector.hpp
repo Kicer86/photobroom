@@ -23,6 +23,7 @@
 
 #include <database/group.hpp>
 #include <database/photo_types.hpp>
+#include <database_export.h>
 
 
 namespace Database
@@ -33,7 +34,7 @@ namespace Database
 struct IExifReader;
 
 
-class SeriesDetector
+class DATABASE_EXPORT SeriesDetector
 {
     public:
         struct Detection
