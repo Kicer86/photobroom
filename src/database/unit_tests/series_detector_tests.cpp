@@ -68,7 +68,7 @@ TEST(SeriesDetectorTest, animationDetection)
         const QString id_str = pathSplitted.back();
         const int id = id_str.toInt();
 
-        result = std::any( (id - 1) % 3);   // id:1 -> 0, id:2 -> 1, id:3 -> 2, id:4 -> 0 ...
+        result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
 
         return result;
     }));

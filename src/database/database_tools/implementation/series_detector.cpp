@@ -87,7 +87,8 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 
 std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qint64, std::tuple<int, Photo::Id>>& data) const
 {
-    int expected_seq = 0;
+    const int initial_sequence_value = 1;
+    int expected_seq = initial_sequence_value;
     std::vector<Photo::Id> group;
     std::vector<Detection> results;
 
@@ -112,7 +113,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::map<qi
             if (group.empty() == false)
                 dumpGroup();
 
-            expected_seq = 0;
+            expected_seq = initial_sequence_value;
         }
 
         if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
