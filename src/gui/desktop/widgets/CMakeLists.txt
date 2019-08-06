@@ -56,6 +56,7 @@ set(TO_MOC
     face_reviewer/face_details.hpp
     face_reviewer/face_reviewer.hpp
     project_creator/project_creator_dialog.hpp
+    series_detection/series_detection.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
 )
