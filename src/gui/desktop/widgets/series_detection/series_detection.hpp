@@ -21,6 +21,7 @@
 
 #include <QDialog>
 
+#include <core/function_wrappers.hpp>
 #include <database/database_tools/series_detector.hpp>
 
 class QStandardItemModel;
@@ -40,8 +41,10 @@ class SeriesDetection: public QDialog
 
     public:
         SeriesDetection(Database::IDatabase *, IExifReaderFactory *);
+        ~SeriesDetection();
 
     private:
+        safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
         IExifReaderFactory* m_exif;
 

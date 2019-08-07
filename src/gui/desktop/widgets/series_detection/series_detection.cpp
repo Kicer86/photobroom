@@ -25,9 +25,10 @@
 #include <QStandardItemModel>
 
 #include <core/iexif_reader.hpp>
-#include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
 
+
+using namespace std::placeholders;
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif):
     QDialog(),
@@ -49,7 +50,15 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
 
     connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
 
-    db->exec(direct_slot(this, &SeriesDetection::fetch_series));
+    auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
+
+    db->exec(callback);
+}
+
+
+SeriesDetection::~SeriesDetection()
+{
+    m_callback_mgr.invalidate();
 }
 
 
