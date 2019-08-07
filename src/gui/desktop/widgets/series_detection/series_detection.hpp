@@ -21,7 +21,9 @@
 
 #include <QDialog>
 
-class QTableView;
+#include <database/database_tools/series_detector.hpp>
+
+class QStandardItemModel;
 
 namespace Database
 {
@@ -40,10 +42,11 @@ class SeriesDetection: public QDialog
         SeriesDetection(Database::IDatabase *, IExifReaderFactory *);
 
     private:
-        QTableView* m_tabView;
+        QStandardItemModel* m_tabModel;
         IExifReaderFactory* m_exif;
 
         void fetch_series(Database::IBackend *);
+        void load_series(const std::vector<SeriesDetector::Detection> &);
 };
 
 #endif // SERIESDETECTION_HPP

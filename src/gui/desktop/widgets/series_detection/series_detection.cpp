@@ -22,29 +22,30 @@
 #include <QGroupBox>
 #include <QVBoxLayout>
 #include <QTableView>
+#include <QStandardItemModel>
 
 #include <core/iexif_reader.hpp>
 #include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
-#include <database/database_tools/series_detector.hpp>
 
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif):
     QDialog(),
-    m_tabView(nullptr),
+    m_tabModel(new QStandardItemModel(this)),
     m_exif(exif)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
-    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok
-);
+    QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok);
 
     layout->addWidget(detected);
     layout->addWidget(buttons);
 
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
-    m_tabView = new QTableView(detected);
-    detectedLayout->addWidget(m_tabView);
+    QTableView* tabView = new QTableView(detected);
+    tabView->setModel(m_tabModel);
+
+    detectedLayout->addWidget(tabView);
 
     connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
 
@@ -56,5 +57,30 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
 {
     SeriesDetector detector(backend, m_exif->get());
 
-    detector.listDetections();
+    const auto detected = detector.listDetections();
+
+    // go back to main thread
+    invokeMethod(this, &SeriesDetection::load_series, detected);
+}
+
+
+void SeriesDetection::load_series(const std::vector<SeriesDetector::Detection>& detections)
+{
+    for(const SeriesDetector::Detection& detection: detections)
+    {
+        QList<QStandardItem *> row;
+
+        QString type;
+        switch (detection.type)
+        {
+            case Group::Type::Invalid:                           break;
+            case Group::Type::Animation: type = tr("Animation"); break;
+            case Group::Type::HDR:       type = tr("HDR");       break;
+        }
+
+        row.append(new QStandardItem(type));
+        row.append(new QStandardItem(QString::number(detection.members.size())));
+
+        m_tabModel->appendRow(row);
+    }
 }

@@ -939,6 +939,16 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <source>Detected series</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+39"/>
+        <source>Animation</source>
+        <translation type="unfinished">animacja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>HDR</source>
+        <translation type="unfinished">HDR</translation>
+    </message>
 </context>
 <context>
     <name>TagsModel</name>
