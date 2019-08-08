@@ -30,9 +30,9 @@ struct AThumbnailGenerator
     template<typename C>
     void generate(const QString& path, int desired_height, C&& c)
     {
-        struct Task: ITask
+        struct Callback: ICallback
         {
-            Task(C&& c): m_c(std::move(c)) {}
+            Callback(C&& c): m_c(std::move(c)) {}
 
             void result(const QImage& result) override
             {
@@ -46,14 +46,14 @@ struct AThumbnailGenerator
     }
 
     protected:
-        struct ITask
+        struct ICallback
         {
-            virtual ~ITask() = default;
+            virtual ~ICallback() = default;
 
             virtual void result(const QImage &) = 0;
         };
 
-        virtual void run(const QString &, int, std::unique_ptr<ITask>) = 0;
+        virtual void run(const QString &, int, std::unique_ptr<ICallback>) = 0;
 };
 
 class ThumbnailManager
