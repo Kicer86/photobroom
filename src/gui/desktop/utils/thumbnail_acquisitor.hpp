@@ -31,7 +31,7 @@
 struct IConfiguration;
 
 
-class ThumbnailAcquisitor: public IThumbnailAcquisitor
+class [[__deprecated__]] ThumbnailAcquisitor: public IThumbnailAcquisitor
 {
     public:
         typedef std::function<void(const ThumbnailInfo &, const QImage &)> Observer;
