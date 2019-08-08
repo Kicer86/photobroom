@@ -30,14 +30,14 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
 {
     const QString path = "/some/example/path";
     const int height = 100;
+    QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockResponse response;
-    EXPECT_CALL(response, result(height, _)).Times(1);
+    EXPECT_CALL(response, result(height, img)).Times(1);
 
     MockThumbnailGenerator generator;
-    EXPECT_CALL(generator, run(path, height, _)).Times(1).WillOnce([](const QString &, int h, std::unique_ptr<MockThumbnailGenerator::ICallback> callback)
+    EXPECT_CALL(generator, run(path, height, _)).Times(1).WillOnce([&img](const QString &, int, std::unique_ptr<MockThumbnailGenerator::ICallback> callback)
     {
-        QImage img(h, h, QImage::Format_RGB32);
         callback->result(img);
     });
 
