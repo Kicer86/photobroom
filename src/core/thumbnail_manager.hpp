@@ -42,7 +42,7 @@ struct AThumbnailGenerator
             C m_c;
         };
 
-        run(path, desired_height, std::make_unique<Task>(std::move(c)));
+        run(path, desired_height, std::make_unique<Callback>(std::move(c)));
     }
 
     protected:
