@@ -76,6 +76,7 @@ set(CORE_SOURCES
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
     thread_utils.hpp
+    thumbnail_manager.hpp                                   implementation/thumbnail_manager.cpp
 
     # internal implementation
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
