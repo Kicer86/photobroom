@@ -59,7 +59,7 @@ struct AThumbnailGenerator
 class ThumbnailManager
 {
     public:
-        ThumbnailManager();
+        ThumbnailManager(AThumbnailGenerator *);
 
         template<typename C>
         void fetch(const QString& path, int desired_height, C&& c)

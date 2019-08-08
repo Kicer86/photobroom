@@ -19,7 +19,8 @@
 #include "thumbnail_manager.hpp"
 
 
-ThumbnailManager::ThumbnailManager()
+ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
+    m_generator(gen)
 {
 }
 
