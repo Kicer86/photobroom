@@ -17,3 +17,20 @@
  */
 
 #include "thumbnail_manager.hpp"
+
+
+ThumbnailManager::ThumbnailManager()
+{
+}
+
+
+QImage ThumbnailManager::find(const QString& path, int height)
+{
+    return QImage {};
+}
+
+
+void ThumbnailManager::cache(const QString&, const QImage&)
+{
+}
+

@@ -16,6 +16,7 @@ addTestTarget(core
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
                     implementation/tag.cpp
+                    implementation/thumbnail_manager.cpp
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp

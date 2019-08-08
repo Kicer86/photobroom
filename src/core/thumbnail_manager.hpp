@@ -19,9 +19,69 @@
 #ifndef THUMBNAILMANAGER_HPP
 #define THUMBNAILMANAGER_HPP
 
+#include <memory>
+
+#include <QImage>
+
+struct AThumbnailGenerator
+{
+    virtual ~AThumbnailGenerator() = default;
+
+    template<typename C>
+    void generate(const QString& path, int desired_height, C&& c)
+    {
+        struct Task: ITask
+        {
+            Task(C&& c): m_c(std::move(c)) {}
+
+            void result(const QImage& result) override
+            {
+                m_c(result);
+            }
+
+            C m_c;
+        };
+
+        run(path, desired_height, std::make_unique<Task>(std::move(c)));
+    }
+
+    protected:
+        struct ITask
+        {
+            virtual ~ITask() = default;
+
+            virtual void result(const QImage &) = 0;
+        };
+
+        virtual void run(const QString &, int, std::unique_ptr<ITask>) = 0;
+};
 
 class ThumbnailManager
 {
+    public:
+        ThumbnailManager();
+
+        template<typename C>
+        void fetch(const QString& path, int desired_height, C&& c)
+        {
+            const QImage cached = find(path, desired_height);
+
+            if (cached.isNull())
+                m_generator->generate(path, desired_height, [this, &c, desired_height, path] (const QImage& img)
+                {
+                    assert(img.height() == desired_height);
+                    cache(path, img);
+                    c(desired_height, img);
+                });
+            else
+                c(desired_height, cached);
+        }
+
+    private:
+        AThumbnailGenerator* m_generator;
+
+        QImage find(const QString &, int);
+        void cache(const QString &, const QImage &);
 };
 
 #endif // THUMBNAILMANAGER_HPP
