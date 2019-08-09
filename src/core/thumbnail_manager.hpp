@@ -56,10 +56,22 @@ struct AThumbnailGenerator
         virtual void run(const QString &, int, std::unique_ptr<ICallback>) = 0;
 };
 
+
+struct IThumbnailCache
+{
+    virtual ~IThumbnailCache() = default;
+
+    virtual std::optional<QImage> find(const QString &, int) = 0;
+    virtual void store(const QString &, int, const QImage &) = 0;
+};
+
+
 class ThumbnailManager
 {
     public:
         ThumbnailManager(AThumbnailGenerator *);
+
+        void setCache(IThumbnailCache *);
 
         template<typename C>
         void fetch(const QString& path, int desired_height, C&& c)
@@ -70,7 +82,7 @@ class ThumbnailManager
                 m_generator->generate(path, desired_height, [this, &c, desired_height, path] (const QImage& img)
                 {
                     assert(img.height() == desired_height);
-                    cache(path, img);
+                    cache(path, desired_height, img);
                     c(desired_height, img);
                 });
             else
@@ -79,9 +91,10 @@ class ThumbnailManager
 
     private:
         AThumbnailGenerator* m_generator;
+        IThumbnailCache* m_cache;
 
         QImage find(const QString &, int);
-        void cache(const QString &, const QImage &);
+        void cache(const QString &, int, const QImage &);
 };
 
 #endif // THUMBNAILMANAGER_HPP

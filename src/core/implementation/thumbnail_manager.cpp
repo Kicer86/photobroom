@@ -25,13 +25,21 @@ ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
 }
 
 
+void ThumbnailManager::setCache(IThumbnailCache* cache)
+{
+    m_cache = cache;
+}
+
+
 QImage ThumbnailManager::find(const QString& path, int height)
 {
     return QImage {};
 }
 
 
-void ThumbnailManager::cache(const QString&, const QImage&)
+void ThumbnailManager::cache(const QString& path, int height, const QImage& img)
 {
+    if (m_cache)
+        m_cache->store(path, height, img);
 }
 
