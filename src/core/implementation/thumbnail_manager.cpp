@@ -20,7 +20,7 @@
 
 
 ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
-    m_generator(gen),
+    AThumbnailManager(gen),
     m_cache(nullptr)
 {
 }

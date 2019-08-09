@@ -25,7 +25,8 @@ endif()
 ##
 
 set(CORE_SOURCES
-    #interfaces
+    #interfaces and abstracts
+    athumbnail_manager.hpp
     iconfiguration.hpp
     icore_factory_accessor.hpp
     ifeatures_manager.hpp

@@ -23,38 +23,7 @@
 
 #include <QImage>
 
-struct AThumbnailGenerator
-{
-    virtual ~AThumbnailGenerator() = default;
-
-    template<typename C>
-    void generate(const QString& path, int desired_height, C&& c)
-    {
-        struct Callback: ICallback
-        {
-            Callback(C&& c): m_c(std::move(c)) {}
-
-            void result(const QImage& result) override
-            {
-                m_c(result);
-            }
-
-            C m_c;
-        };
-
-        run(path, desired_height, std::make_unique<Callback>(std::move(c)));
-    }
-
-    protected:
-        struct ICallback
-        {
-            virtual ~ICallback() = default;
-
-            virtual void result(const QImage &) = 0;
-        };
-
-        virtual void run(const QString &, int, std::unique_ptr<ICallback>) = 0;
-};
+#include "athumbnail_manager.hpp"
 
 
 struct IThumbnailCache
@@ -66,31 +35,14 @@ struct IThumbnailCache
 };
 
 
-class ThumbnailManager
+class ThumbnailManager: public AThumbnailManager
 {
     public:
         ThumbnailManager(AThumbnailGenerator *);
 
         void setCache(IThumbnailCache *);
 
-        template<typename C>
-        void fetch(const QString& path, int desired_height, C&& c)
-        {
-            const QImage cached = find(path, desired_height);
-
-            if (cached.isNull())
-                m_generator->generate(path, desired_height, [this, &c, desired_height, path] (const QImage& img)
-                {
-                    assert(img.height() == desired_height);
-                    cache(path, desired_height, img);
-                    c(desired_height, img);
-                });
-            else
-                c(desired_height, cached);
-        }
-
     private:
-        AThumbnailGenerator* m_generator;
         IThumbnailCache* m_cache;
 
         QImage find(const QString &, int);
