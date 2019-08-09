@@ -24,6 +24,7 @@
 #include <QImage>
 
 #include "athumbnail_manager.hpp"
+#include "core_export.h"
 
 
 struct IThumbnailCache
@@ -35,7 +36,7 @@ struct IThumbnailCache
 };
 
 
-class ThumbnailManager: public AThumbnailManager
+class CORE_EXPORT ThumbnailManager: public AThumbnailManager
 {
     public:
         ThumbnailManager(AThumbnailGenerator *);
