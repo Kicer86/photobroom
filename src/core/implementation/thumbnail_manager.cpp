@@ -34,7 +34,17 @@ void ThumbnailManager::setCache(IThumbnailCache* cache)
 
 QImage ThumbnailManager::find(const QString& path, int height)
 {
-    return QImage {};
+    QImage result;
+
+    if (m_cache)
+    {
+        const auto cached = m_cache->find(path, height);
+
+        if (cached.has_value())
+            result = *cached;
+    }
+
+    return result;
 }
 
 
