@@ -2,6 +2,12 @@
 #ifndef ITHUMBNAIL_MANAGER_HPP
 #define ITHUMBNAIL_MANAGER_HPP
 
+#include <memory>
+
+#include <QImage>
+#include <QString>
+
+
 struct AThumbnailGenerator
 {
     virtual ~AThumbnailGenerator() = default;
