@@ -178,7 +178,7 @@ std::function<void(Args...)> queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
         ObjT* object = objPtr.data();
 
         if (object)
-            invokeMethod(object, method, args...);
+            invokeMethod(object, method, std::forward<Args>(args)...);
     };
 }
 
@@ -198,7 +198,7 @@ std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
         ObjT* object = objPtr.data();
 
         if (object)
-            (object->*method)(args...);
+            (object->*method)(std::forward<Args>(args)...);
     };
 }
 
