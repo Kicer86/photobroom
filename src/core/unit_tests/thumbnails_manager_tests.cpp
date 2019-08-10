@@ -68,7 +68,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
-     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
+    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
 
