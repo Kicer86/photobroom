@@ -21,6 +21,7 @@
 
 #include "athumbnail_manager.hpp"
 
+#include "exif_reader_factory.hpp"
 #include "task_executor_utils.hpp"
 #include "core_export.h"
 
@@ -33,7 +34,7 @@ class ILogger;
 class CORE_EXPORT ThumbnailGenerator: public AThumbnailGenerator
 {
     public:
-        ThumbnailGenerator(ITaskExecutor *, ILogger *, IExifReaderFactory *, IConfiguration *);
+        ThumbnailGenerator(ITaskExecutor *, ILogger *, IConfiguration *);
         ThumbnailGenerator(const ThumbnailGenerator &) = delete;
         ~ThumbnailGenerator();
 
@@ -48,7 +49,7 @@ class CORE_EXPORT ThumbnailGenerator: public AThumbnailGenerator
     private:
         std::unique_ptr<TasksQueue> m_tasks;
         ILogger* m_logger;
-        IExifReaderFactory* m_exifReaderFactory;
+        mutable ExifReaderFactory m_exifReaderFactory;
         IConfiguration* m_configuration;
 
         struct FromImageTask;

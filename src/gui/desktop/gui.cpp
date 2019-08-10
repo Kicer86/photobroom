@@ -156,7 +156,7 @@ void Gui::run()
 
     //
     auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
-    ThumbnailGenerator thbGen(m_coreFactory->getTaskExecutor(), thumbnail_generator_logger.get(), nullptr, configuration);
+    ThumbnailGenerator thbGen(m_coreFactory->getTaskExecutor(), thumbnail_generator_logger.get(), configuration);
     ThumbnailManager thbMgr(&thbGen);
 
     // main window

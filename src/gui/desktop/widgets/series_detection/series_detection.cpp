@@ -77,7 +77,7 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
     for(const SeriesDetector::Detection& detection: detected)
     {
         const Photo::Data pd = backend->getPhoto(detection.members.front());
-        const ExDetection ex_detection { detection.type, detection.members, pd.path };
+        const ExDetection ex_detection { {detection.type, detection.members}, pd.path};
 
         ex_detections.push_back(ex_detection);
     }
@@ -92,6 +92,10 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
     for(std::size_t i = 0; i < detections.size(); i++)
     {
         const ExDetection& detection = detections[i];
+
+        auto setThumbnailCallback = make_cross_thread_function<int, const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1, _2));
+        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
+        m_thmMgr->fetch(detection.path, 64, setThumbnailCallbackSafe);
 
         QList<QStandardItem *> row;
 
@@ -109,4 +113,13 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
 
         m_tabModel->appendRow(row);
     }
+}
+
+void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
+{
+    QStandardItem* item = m_tabModel->item(row, 0);
+    const QPixmap pixmap = QPixmap::fromImage(img);
+    const QIcon icon(pixmap);
+
+    item->setIcon(icon);
 }

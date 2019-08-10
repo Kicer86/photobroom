@@ -61,7 +61,7 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
     {
         // TODO: use QTransform here to perform one transformation instead of many
 
-        IExifReader* reader = m_generator->m_exifReaderFactory->get();
+        IExifReader* reader = m_generator->m_exifReaderFactory.get();
 
         Stopwatch stopwatch;
         stopwatch.start();
@@ -168,10 +168,9 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 
 
 
-ThumbnailGenerator::ThumbnailGenerator(ITaskExecutor* executor, ILogger* logger, IExifReaderFactory* exif, IConfiguration* config):
+ThumbnailGenerator::ThumbnailGenerator(ITaskExecutor* executor, ILogger* logger, IConfiguration* config):
     m_tasks(std::make_unique<TasksQueue>(executor)),
     m_logger(logger),
-    m_exifReaderFactory(exif),
     m_configuration(config)
 {
 

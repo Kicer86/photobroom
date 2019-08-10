@@ -56,6 +56,7 @@ class SeriesDetection: public QDialog
 
         void fetch_series(Database::IBackend *);
         void load_series(const std::vector<ExDetection> &);
+        void setThumbnail(int, int, const QImage &);
 };
 
 #endif // SERIESDETECTION_HPP

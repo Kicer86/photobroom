@@ -438,7 +438,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+209"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+210"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -955,7 +955,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+53"/>
         <source>Animation</source>
         <translation type="unfinished">animacja</translation>
     </message>
