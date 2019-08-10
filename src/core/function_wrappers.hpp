@@ -43,7 +43,7 @@ class safe_callback
             std::lock_guard<std::mutex> lock(m_data->mutex);
 
             if (m_data->callbackAlive == true)
-                m_callback(args...);
+                m_callback(std::forward<Args>(args)...);
         }
 
     private:
@@ -152,9 +152,9 @@ void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&..
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
 template<typename... Args, typename F>
-std::function<void(Args...)> make_cross_thread_function(QObject* object, const F& function)
+auto make_cross_thread_function(QObject* object, const F& function)
 {
-    std::function<void(Args...)> result = [=](Args&&... args)
+    std::function result = [=](Args&&... args)
     {
         call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
     };
