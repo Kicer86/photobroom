@@ -50,7 +50,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager *, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thbMng, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -63,6 +63,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager *, Q
     m_updater(nullptr),
     m_executor(coreFactory->getTaskExecutor()),
     m_coreAccessor(coreFactory),
+    m_thumbnailManager(thbMng),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
