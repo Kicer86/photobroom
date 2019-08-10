@@ -24,7 +24,7 @@
 #include "ithumbnail_generator.hpp"
 
 
-struct [[__deprecated__]] IThumbnailAcquisitor
+struct [[deprecated]] IThumbnailAcquisitor
 {
     virtual ~IThumbnailAcquisitor() {}
 

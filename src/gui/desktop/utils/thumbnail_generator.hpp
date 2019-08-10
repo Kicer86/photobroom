@@ -35,7 +35,7 @@ struct IConfiguration;
 struct ILogger;
 
 
-class [[__deprecated__]] ThumbnailGeneratorOld: public IThumbnailGenerator
+class [[deprecated]] ThumbnailGeneratorOld: public IThumbnailGenerator
 {
     public:
         ThumbnailGeneratorOld();

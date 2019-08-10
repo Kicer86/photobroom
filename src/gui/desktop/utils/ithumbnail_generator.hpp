@@ -28,7 +28,7 @@
 
 
 
-struct [[__deprecated__]] ThumbnailInfo
+struct [[deprecated]] ThumbnailInfo
 {
     QString path;
     int height;
@@ -51,7 +51,7 @@ struct [[__deprecated__]] ThumbnailInfo
 };
 
 
-struct [[__deprecated__]] IThumbnailGenerator
+struct [[deprecated]] IThumbnailGenerator
 {
     // TODO: ThumbnailInfo here is not necessary. One can use proper std::binding if needs it
     typedef std::function<void(const ThumbnailInfo &, const QImage &)> Callback;
@@ -62,7 +62,7 @@ struct [[__deprecated__]] IThumbnailGenerator
 };
 
 
-struct [[__deprecated__]] IThumbnailCache
+struct [[deprecated]] IThumbnailCache
 {
     virtual ~IThumbnailCache() {}
 
