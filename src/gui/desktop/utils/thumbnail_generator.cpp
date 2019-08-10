@@ -37,11 +37,11 @@
 #include "images/images.hpp"
 
 
-struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
+struct ThumbnailGeneratorOld::FromImageTask: ITaskExecutor::ITask
 {
     FromImageTask(const ThumbnailInfo& info,
-                  const ThumbnailGenerator::Callback& callback,
-                  const ThumbnailGenerator* generator):
+                  const ThumbnailGeneratorOld::Callback& callback,
+                  const ThumbnailGeneratorOld* generator):
         m_info(info),
         m_callback(callback),
         m_generator(generator)
@@ -97,15 +97,15 @@ struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
     }
 
     ThumbnailInfo m_info;
-    ThumbnailGenerator::Callback m_callback;
-    const ThumbnailGenerator* m_generator;
+    ThumbnailGeneratorOld::Callback m_callback;
+    const ThumbnailGeneratorOld* m_generator;
 };
 
 
-struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
+struct ThumbnailGeneratorOld::FromVideoTask: ITaskExecutor::ITask
 {
     FromVideoTask(const ThumbnailInfo& info,
-                  const ThumbnailGenerator::Callback& callback,
+                  const ThumbnailGeneratorOld::Callback& callback,
                   const QString& ffmpeg,
                   const QString& ffprobe):
         m_thumbnailInfo(info),
@@ -161,7 +161,7 @@ struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
     }
 
     const ThumbnailInfo m_thumbnailInfo;
-    const ThumbnailGenerator::Callback m_callback;
+    const ThumbnailGeneratorOld::Callback m_callback;
     const QString m_ffmpeg;
     const QString m_ffprobe;
 };
@@ -173,7 +173,7 @@ uint qHash(const ThumbnailInfo& key, uint seed = 0)
 }
 
 
-ThumbnailGenerator::ThumbnailGenerator():
+ThumbnailGeneratorOld::ThumbnailGeneratorOld():
     m_videoImage(":/gui/video.svg"),
     m_tasks(),
     m_logger(nullptr),
@@ -184,43 +184,43 @@ ThumbnailGenerator::ThumbnailGenerator():
 }
 
 
-ThumbnailGenerator::~ThumbnailGenerator()
+ThumbnailGeneratorOld::~ThumbnailGeneratorOld()
 {
 
 }
 
 
-void ThumbnailGenerator::dismissPendingTasks()
+void ThumbnailGeneratorOld::dismissPendingTasks()
 {
     m_tasks->clear();
 }
 
 
-void ThumbnailGenerator::set(ITaskExecutor* executor)
+void ThumbnailGeneratorOld::set(ITaskExecutor* executor)
 {
     m_tasks = std::make_unique<TasksQueue>(executor);
 }
 
 
-void ThumbnailGenerator::set(ILogger* logger)
+void ThumbnailGeneratorOld::set(ILogger* logger)
 {
     m_logger = logger;
 }
 
 
-void ThumbnailGenerator::set(IExifReaderFactory* exifFactory)
+void ThumbnailGeneratorOld::set(IExifReaderFactory* exifFactory)
 {
     m_exifReaderFactory = exifFactory;
 }
 
 
-void ThumbnailGenerator::set(IConfiguration* configuration)
+void ThumbnailGeneratorOld::set(IConfiguration* configuration)
 {
     m_configuration = configuration;
 }
 
 
-void ThumbnailGenerator::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
+void ThumbnailGeneratorOld::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
 {
     const QString& path = info.path;
 

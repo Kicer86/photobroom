@@ -35,14 +35,14 @@ struct IConfiguration;
 struct ILogger;
 
 
-class [[__deprecated__]] ThumbnailGenerator: public IThumbnailGenerator
+class [[__deprecated__]] ThumbnailGeneratorOld: public IThumbnailGenerator
 {
     public:
-        ThumbnailGenerator();
-        ThumbnailGenerator(const ThumbnailGenerator &) = delete;
-        ~ThumbnailGenerator();
+        ThumbnailGeneratorOld();
+        ThumbnailGeneratorOld(const ThumbnailGeneratorOld &) = delete;
+        ~ThumbnailGeneratorOld();
 
-        ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
+        ThumbnailGeneratorOld& operator=(const ThumbnailGeneratorOld &) = delete;
 
         void dismissPendingTasks();
         void set(ITaskExecutor *);

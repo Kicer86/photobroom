@@ -56,7 +56,7 @@ class [[__deprecated__]] ThumbnailAcquisitor: public IThumbnailAcquisitor
         std::vector<Observer> m_observers;
         QImage m_inProgress;
         mutable std::mutex m_cacheAccessMutex;
-        ThumbnailGenerator m_generator;
+        ThumbnailGeneratorOld m_generator;
         mutable ThumbnailCache m_cache;
         mutable std::set<ThumbnailInfo> m_awaitingTasks;
         mutable ExifReaderFactory m_exifFactory;
