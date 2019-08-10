@@ -59,7 +59,9 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 {
     std::vector<Detection> result;
 
-    const auto photos = m_backend->getAllPhotos();
+    Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
+
+    const auto photos = m_backend->getPhotos( {group_filter} );
 
     std::multiset<std::tuple<qint64, int, Photo::Id>> sequences_by_time;
 

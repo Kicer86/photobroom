@@ -45,7 +45,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getAllPhotos).WillByDefault(Return(all_photos));
+    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -103,7 +103,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getAllPhotos).WillByDefault(Return(all_photos));
+    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
