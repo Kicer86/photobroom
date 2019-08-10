@@ -44,7 +44,7 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
     });
 
     ThumbnailManager tm(&generator);
-    tm.fetch(path, height, response);
+    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
 
@@ -68,7 +68,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
-    tm.fetch(path, height, response);
+     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
 
@@ -88,7 +88,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
-    tm.fetch(path, height, response);
+    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
 
@@ -113,5 +113,5 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
-    tm.fetch(path, height, response);
+    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
