@@ -50,7 +50,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager *, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -685,7 +685,7 @@ void MainWindow::on_actionFace_organizer_triggered()
 void MainWindow::on_actionSeries_detector_triggered()
 {
     IExifReaderFactory* exif = m_coreAccessor->getExifReaderFactory();
-    SeriesDetection{m_currentPrj->getDatabase(), exif}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), exif, m_thumbnailManager}.exec();
 }
 
 

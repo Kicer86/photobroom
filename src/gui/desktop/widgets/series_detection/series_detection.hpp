@@ -32,24 +32,30 @@ namespace Database
     struct IBackend;
 }
 
+struct AThumbnailManager;
 struct IExifReaderFactory;
-
 
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, IExifReaderFactory *);
+        SeriesDetection(Database::IDatabase *, IExifReaderFactory *, AThumbnailManager *);
         ~SeriesDetection();
 
     private:
+        struct ExDetection: SeriesDetector::Detection
+        {
+            QString path;
+        };
+
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
         IExifReaderFactory* m_exif;
+        AThumbnailManager* m_thmMgr;
 
         void fetch_series(Database::IBackend *);
-        void load_series(const std::vector<SeriesDetector::Detection> &);
+        void load_series(const std::vector<ExDetection> &);
 };
 
 #endif // SERIESDETECTION_HPP

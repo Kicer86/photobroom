@@ -24,16 +24,18 @@
 #include <QTableView>
 #include <QStandardItemModel>
 
+#include <core/athumbnail_manager.hpp>
 #include <core/iexif_reader.hpp>
 #include <database/idatabase.hpp>
 
 
 using namespace std::placeholders;
 
-SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif):
+SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif, AThumbnailManager* thmMgr):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
-    m_exif(exif)
+    m_exif(exif),
+    m_thmMgr(thmMgr)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
@@ -47,6 +49,8 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     tabView->setModel(m_tabModel);
 
     detectedLayout->addWidget(tabView);
+
+    m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
 
     connect(buttons, &QDialogButtonBox::accepted, this, &QDialog::accept);
 
@@ -68,15 +72,27 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
 
     const auto detected = detector.listDetections();
 
+    std::vector<ExDetection> ex_detections;
+    // collect one photo path for each detection
+    for(const SeriesDetector::Detection& detection: detected)
+    {
+        const Photo::Data pd = backend->getPhoto(detection.members.front());
+        const ExDetection ex_detection { detection.type, detection.members, pd.path };
+
+        ex_detections.push_back(ex_detection);
+    }
+
     // go back to main thread
-    invokeMethod(this, &SeriesDetection::load_series, detected);
+    invokeMethod(this, &SeriesDetection::load_series, ex_detections);
 }
 
 
-void SeriesDetection::load_series(const std::vector<SeriesDetector::Detection>& detections)
+void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
 {
-    for(const SeriesDetector::Detection& detection: detections)
+    for(std::size_t i = 0; i < detections.size(); i++)
     {
+        const ExDetection& detection = detections[i];
+
         QList<QStandardItem *> row;
 
         QString type;
@@ -87,6 +103,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::Detection>& 
             case Group::Type::HDR:       type = tr("HDR");       break;
         }
 
+        row.append(new QStandardItem);                  // placeholder for image
         row.append(new QStandardItem(type));
         row.append(new QStandardItem(QString::number(detection.members.size())));
 

@@ -14,6 +14,8 @@
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/thumbnail_generator.hpp>
+#include <core/thumbnail_manager.hpp>
 #include <system/filesystem.hpp>
 
 #ifdef UPDATER_ENABLED
@@ -152,8 +154,13 @@ void Gui::run()
     if (fileInfo.isExecutable() == false)
         gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
 
+    //
+    auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
+    ThumbnailGenerator thbGen(m_coreFactory->getTaskExecutor(), thumbnail_generator_logger.get(), nullptr, configuration);
+    ThumbnailManager thbMgr(&thbGen);
+
     // main window
-    MainWindow mainWindow(m_coreFactory);
+    MainWindow mainWindow(m_coreFactory, &thbMgr);
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);
