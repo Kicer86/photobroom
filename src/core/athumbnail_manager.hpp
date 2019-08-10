@@ -53,11 +53,11 @@ struct AThumbnailManager
         const QImage cached = find(path, desired_height);
 
         if (cached.isNull())
-            m_generator->generate(path, desired_height, [this, &c, desired_height, path] (const QImage& img)
+            m_generator->generate(path, desired_height, [this, callback{std::move(c)}, desired_height, path] (const QImage& img) mutable
             {
                 assert(img.height() == desired_height);
                 cache(path, desired_height, img);
-                c(desired_height, img);
+                callback(desired_height, img);
             });
         else
             c(desired_height, cached);
