@@ -25,6 +25,7 @@
 #include <database/database_tools/series_detector.hpp>
 
 class QStandardItemModel;
+class QTableView;
 
 namespace Database
 {
@@ -51,6 +52,7 @@ class SeriesDetection: public QDialog
 
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
+        QTableView* m_tabView;
         IExifReaderFactory* m_exif;
         AThumbnailManager* m_thmMgr;
 

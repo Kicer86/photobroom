@@ -34,9 +34,12 @@ using namespace std::placeholders;
 SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif, AThumbnailManager* thmMgr):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
+    m_tabView(nullptr),
     m_exif(exif),
     m_thmMgr(thmMgr)
 {
+    resize(320, 480);
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok);
@@ -45,10 +48,10 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     layout->addWidget(buttons);
 
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
-    QTableView* tabView = new QTableView(detected);
-    tabView->setModel(m_tabModel);
+    m_tabView = new QTableView(detected);
+    m_tabView->setModel(m_tabModel);
 
-    detectedLayout->addWidget(tabView);
+    detectedLayout->addWidget(m_tabView);
 
     m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
 
@@ -107,19 +110,24 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
             case Group::Type::HDR:       type = tr("HDR");       break;
         }
 
-        row.append(new QStandardItem);                  // placeholder for image
+        QStandardItem* thumb = new QStandardItem;
+        thumb->setData(QPixmap(":/gui/clock.svg"), Qt::DecorationRole);
+
+        row.append(thumb);
         row.append(new QStandardItem(type));
         row.append(new QStandardItem(QString::number(detection.members.size())));
 
         m_tabModel->appendRow(row);
     }
+
+    m_tabView->resizeRowsToContents();
+    m_tabView->resizeColumnsToContents();
 }
 
 void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
 {
-    QStandardItem* item = m_tabModel->item(row, 0);
+    QModelIndex item = m_tabModel->index(row, 0);
     const QPixmap pixmap = QPixmap::fromImage(img);
-    const QIcon icon(pixmap);
 
-    item->setIcon(icon);
+    m_tabModel->setData(item, pixmap, Qt::DecorationRole);
 }

@@ -935,7 +935,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+41"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+44"/>
         <source>Detected series</source>
         <translation type="unfinished"></translation>
     </message>
