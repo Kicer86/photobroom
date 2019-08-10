@@ -239,6 +239,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>stop motion</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+8"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
 </context>
 <context>
     <name>LevelEditor</name>
@@ -727,17 +732,17 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+105"/>
-        <location line="+120"/>
+        <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-124"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+124"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
@@ -963,6 +968,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>HDR</source>
         <translation type="unfinished">HDR</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

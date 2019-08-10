@@ -211,6 +211,10 @@ void PhotosGroupingDialog::previewPressed()
             makeHDR();
             break;
 
+        case Group::Generic:
+            assert(!"implement");
+            break;
+
         case Group::Invalid:
             assert(!"I should not be here");
             break;

@@ -84,6 +84,10 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
                 text = "HDR";
                 break;
 
+            case Group::Generic:
+                text = tr("Group");
+                break;
+
             case Group::Invalid:
                 break;
         }

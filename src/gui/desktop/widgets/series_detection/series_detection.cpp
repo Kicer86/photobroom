@@ -108,6 +108,7 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
             case Group::Type::Invalid:                           break;
             case Group::Type::Animation: type = tr("Animation"); break;
             case Group::Type::HDR:       type = tr("HDR");       break;
+            case Group::Type::Generic:   type = tr("Generic");   break;
         }
 
         QStandardItem* thumb = new QStandardItem;
