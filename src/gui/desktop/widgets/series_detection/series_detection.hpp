@@ -55,6 +55,7 @@ class SeriesDetection: public QDialog
         QTableView* m_tabView;
         IExifReaderFactory* m_exif;
         AThumbnailManager* m_thmMgr;
+        Database::IDatabase* m_db;
 
         void fetch_series(Database::IBackend *);
         void load_series(const std::vector<ExDetection> &);

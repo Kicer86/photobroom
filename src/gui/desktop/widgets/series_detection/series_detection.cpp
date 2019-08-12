@@ -39,7 +39,8 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     m_tabModel(new QStandardItemModel(this)),
     m_tabView(nullptr),
     m_exif(exif),
-    m_thmMgr(thmMgr)
+    m_thmMgr(thmMgr),
+    m_db(db)
 {
     // dialog top layout setup
     resize(320, 480);
@@ -81,7 +82,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
     auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
-    db->exec(callback);
+    m_db->exec(callback);
 }
 
 
