@@ -29,6 +29,8 @@
 #include <core/iexif_reader.hpp>
 #include <database/idatabase.hpp>
 
+#include "ui/photos_grouping_dialog.hpp"
+
 
 using namespace std::placeholders;
 
@@ -75,6 +77,8 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     {
         group_button->setDisabled(selected.isEmpty());
     });
+
+    connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
     auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
     db->exec(callback);
@@ -143,10 +147,20 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
     m_tabView->resizeColumnsToContents();
 }
 
+
 void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
 {
     QModelIndex item = m_tabModel->index(row, 0);
     const QPixmap pixmap = QPixmap::fromImage(img);
 
     m_tabModel->setData(item, pixmap, Qt::DecorationRole);
+}
+
+
+void SeriesDetection::group()
+{
+    hide();
+    PhotosGroupingDialog pgd({}, nullptr, nullptr, nullptr, nullptr);
+    pgd.exec();
+    show();
 }
