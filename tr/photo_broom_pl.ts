@@ -940,12 +940,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+44"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+46"/>
         <source>Detected series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>preview</source>
         <translation type="unfinished"></translation>
     </message>
@@ -960,7 +960,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+54"/>
         <source>Animation</source>
         <translation type="unfinished">animacja</translation>
     </message>

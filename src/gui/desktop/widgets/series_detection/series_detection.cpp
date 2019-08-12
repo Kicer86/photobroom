@@ -38,15 +38,18 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     m_exif(exif),
     m_thmMgr(thmMgr)
 {
+    // dialog top layout setup
     resize(320, 480);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
+
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
     layout->addWidget(detected);
     layout->addWidget(dialog_buttons);
 
+    // table view
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
     m_tabView = new QTableView(detected);
     m_tabView->setModel(m_tabModel);
@@ -57,6 +60,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
 
     m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
 
+    // wiring
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
 
     auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
