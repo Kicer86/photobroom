@@ -945,7 +945,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>preview</source>
         <translation type="unfinished"></translation>
     </message>
