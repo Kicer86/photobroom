@@ -44,9 +44,11 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     QVBoxLayout* layout = new QVBoxLayout(this);
 
     QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
+    QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
     layout->addWidget(detected);
+    layout->addLayout(buttons_layout);
     layout->addWidget(dialog_buttons);
 
     // table view
