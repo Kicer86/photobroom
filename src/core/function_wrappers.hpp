@@ -24,7 +24,7 @@ struct safe_callback_data
 // it will be a vaild functor as long as safe_callback_ctrl is valid object.
 // When safe_callback_ctrl is destroyed, all its safe_callbacks will become
 // empty. operator() will do nothing.
-// Usefull when callinc object's method from another thread
+// Usefull when calling object's method from another thread
 // as we are sure target object exists (or nothing happens)
 template<typename T>
 class safe_callback
