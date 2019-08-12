@@ -21,8 +21,9 @@
 #include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QVBoxLayout>
-#include <QTableView>
+#include <QPushButton>
 #include <QStandardItemModel>
+#include <QTableView>
 
 #include <core/athumbnail_manager.hpp>
 #include <core/iexif_reader.hpp>
@@ -62,11 +63,20 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
 
     m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
 
+    // buttons
+    QPushButton* group_button = new QPushButton(tr("Group"), this);
+    group_button->setDisabled(true);
+    buttons_layout->addWidget(group_button);
+    buttons_layout->addStretch();
+
     // wiring
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
+    connect(m_tabView->selectionModel(), &QItemSelectionModel::selectionChanged, [this, group_button](const QItemSelection &selected, const QItemSelection &)
+    {
+        group_button->setDisabled(selected.isEmpty());
+    });
 
     auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
-
     db->exec(callback);
 }
 
