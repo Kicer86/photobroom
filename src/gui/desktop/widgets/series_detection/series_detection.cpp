@@ -50,6 +50,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
     m_tabView = new QTableView(detected);
     m_tabView->setModel(m_tabModel);
+    m_tabView->setSelectionMode(QAbstractItemView::SingleSelection);
 
     detectedLayout->addWidget(m_tabView);
 
