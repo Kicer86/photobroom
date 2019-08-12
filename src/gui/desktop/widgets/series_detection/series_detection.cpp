@@ -71,7 +71,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* ex
 
     // wiring
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
-    connect(m_tabView->selectionModel(), &QItemSelectionModel::selectionChanged, [this, group_button](const QItemSelection &selected, const QItemSelection &)
+    connect(m_tabView->selectionModel(), &QItemSelectionModel::selectionChanged, [group_button](const QItemSelection &selected, const QItemSelection &)
     {
         group_button->setDisabled(selected.isEmpty());
     });
