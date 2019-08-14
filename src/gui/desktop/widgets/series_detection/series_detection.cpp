@@ -204,8 +204,6 @@ std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend*
 
 void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& data)
 {
-    hide();
-
     auto logger = m_core->getLoggerFactory()->get("PhotosGrouping");
 
     PhotosGroupingDialog pgd(
@@ -216,6 +214,4 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& da
         logger.get()
     );
     pgd.exec();
-
-    show();
 }
