@@ -23,6 +23,7 @@
 
 #include <core/function_wrappers.hpp>
 #include <database/database_tools/series_detector.hpp>
+#include <database/photo_data.hpp>
 
 class QStandardItemModel;
 class QTableView;
@@ -34,26 +35,26 @@ namespace Database
 }
 
 struct AThumbnailManager;
-struct IExifReaderFactory;
+struct ICoreFactoryAccessor;
 
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, IExifReaderFactory *, AThumbnailManager *);
+        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *);
         ~SeriesDetection();
 
-    private:
         struct ExDetection: SeriesDetector::Detection
         {
             QString path;
         };
 
+    private:
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
         QTableView* m_tabView;
-        IExifReaderFactory* m_exif;
+        ICoreFactoryAccessor* m_core;
         AThumbnailManager* m_thmMgr;
         Database::IDatabase* m_db;
 
@@ -61,6 +62,8 @@ class SeriesDetection: public QDialog
         void load_series(const std::vector<ExDetection> &);
         void setThumbnail(int, int, const QImage &);
         void group();
+        std::vector<Photo::Data> load_group_details(Database::IBackend *, const ExDetection &);
+        void launch_groupping_dialog(const std::vector<Photo::Data> &);
 };
 
 #endif // SERIESDETECTION_HPP

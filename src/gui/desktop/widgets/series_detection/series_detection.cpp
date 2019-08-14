@@ -26,19 +26,28 @@
 #include <QTableView>
 
 #include <core/athumbnail_manager.hpp>
+#include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/ilogger.hpp>
+#include <core/ilogger_factory.hpp>
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
 
+Q_DECLARE_METATYPE(SeriesDetection::ExDetection)
 
 using namespace std::placeholders;
 
-SeriesDetection::SeriesDetection(Database::IDatabase* db, IExifReaderFactory* exif, AThumbnailManager* thmMgr):
+namespace
+{
+    constexpr int DetailsRole = Qt::UserRole + 1;
+}
+
+SeriesDetection::SeriesDetection(Database::IDatabase* db, ICoreFactoryAccessor* core, AThumbnailManager* thmMgr):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
     m_tabView(nullptr),
-    m_exif(exif),
+    m_core(core),
     m_thmMgr(thmMgr),
     m_db(db)
 {
@@ -94,7 +103,8 @@ SeriesDetection::~SeriesDetection()
 
 void SeriesDetection::fetch_series(Database::IBackend* backend)
 {
-    SeriesDetector detector(backend, m_exif->get());
+    IExifReaderFactory* exif = m_core->getExifReaderFactory();
+    SeriesDetector detector(backend, exif->get());
 
     const auto detected = detector.listDetections();
 
@@ -136,6 +146,7 @@ void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
 
         QStandardItem* thumb = new QStandardItem;
         thumb->setData(QPixmap(":/gui/clock.svg"), Qt::DecorationRole);
+        thumb->setData(QVariant::fromValue(detection), DetailsRole);
 
         row.append(thumb);
         row.append(new QStandardItem(type));
@@ -160,8 +171,51 @@ void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
 
 void SeriesDetection::group()
 {
+    const QItemSelectionModel* selectionModel = m_tabView->selectionModel();
+    const QModelIndex selected = selectionModel->currentIndex();
+    const int row = selected.row();
+    const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
+    const ExDetection groupDetails = firstItemInRow.data(DetailsRole).value<ExDetection>();
+
+    auto task = [this, groupDetails](Database::IBackend* backend)
+    {
+        const std::vector<Photo::Data> data = load_group_details(backend, groupDetails);
+        invokeMethod(this, &SeriesDetection::launch_groupping_dialog, data);
+    };
+
+    auto db_task = m_callback_mgr.make_safe_callback<void(Database::IBackend *)>(task);
+    m_db->exec(db_task);
+}
+
+
+std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const ExDetection& details)
+{
+    std::vector<Photo::Data> data;
+
+    for(const Photo::Id& id: details.members)
+    {
+        const Photo::Data ph_d = backend->getPhoto(id);
+        data.push_back(ph_d);
+    }
+
+    return data;
+}
+
+
+void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& data)
+{
     hide();
-    PhotosGroupingDialog pgd({}, nullptr, nullptr, nullptr, nullptr);
+
+    auto logger = m_core->getLoggerFactory()->get("PhotosGrouping");
+
+    PhotosGroupingDialog pgd(
+        data,
+        m_core->getExifReaderFactory(),
+        m_core->getTaskExecutor(),
+        m_core->getConfiguration(),
+        logger.get()
+    );
     pgd.exec();
+
     show();
 }
