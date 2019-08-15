@@ -81,13 +81,13 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
         }
     }
 
-    result = process(sequences_by_time);
+    result = split_into_groups(sequences_by_time);
 
     return result;
 }
 
 
-std::vector<SeriesDetector::Detection> SeriesDetector::process(const std::multiset<std::tuple<qint64, int, Photo::Id>>& data) const
+std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, Photo::Id>>& data) const
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;

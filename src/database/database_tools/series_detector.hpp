@@ -51,7 +51,7 @@ class DATABASE_EXPORT SeriesDetector
         Database::IBackend* m_backend;
         IExifReader* m_exifReader;
 
-        std::vector<Detection> process(const std::multiset<std::tuple<qint64, int, Photo::Id>> &) const;
+        std::vector<Detection> split_into_groups(const std::multiset<std::tuple<qint64, int, Photo::Id>> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
