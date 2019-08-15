@@ -55,6 +55,7 @@ class PhotosGroupingDialog: public QDialog
                                       ITaskExecutor *,
                                       IConfiguration *,
                                       ILogger *,
+                                      Group::Type = Group::Type::Invalid,
                                       QWidget *parent = 0);
 
         PhotosGroupingDialog(const PhotosGroupingDialog &) = delete;

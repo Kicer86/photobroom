@@ -31,6 +31,18 @@ namespace
         else
             return Group::Invalid;
     }
+
+    int groupTypeTocombobox(Group::Type type)
+    {
+        switch(type)
+        {
+            case Group::Type::Invalid:   return -1;
+            case Group::Type::Animation: return 0;
+            case Group::Type::HDR:       return 1;
+        }
+
+        return -1;
+    }
 }
 
 
@@ -39,6 +51,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
                                            ILogger* logger,
+                                           Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
@@ -69,6 +82,9 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
+
+    if (type != Group::Type::Invalid)
+        ui->groupingType->setCurrentIndex(groupTypeTocombobox(type));
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
