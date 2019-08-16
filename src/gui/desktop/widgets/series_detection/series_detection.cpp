@@ -107,7 +107,7 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
     IExifReaderFactory* exif = m_core->getExifReaderFactory();
     SeriesDetector detector(backend, exif->get());
 
-    const auto detected = detector.listDetections();
+    const auto detected = detector.listCandidates();
 
     std::vector<ExGroupCandidate> ex_detections;
     // collect one photo path for each detection

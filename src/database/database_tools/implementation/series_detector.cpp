@@ -55,7 +55,7 @@ SeriesDetector::SeriesDetector(Database::IBackend* backend, IExifReader* exif):
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() const
 {
     std::vector<GroupCandidate> result;
 

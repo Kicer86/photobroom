@@ -45,7 +45,7 @@ class DATABASE_EXPORT SeriesDetector
 
         SeriesDetector(Database::IBackend *, IExifReader *);
 
-        std::vector<GroupCandidate> listDetections() const;
+        std::vector<GroupCandidate> listCandidates() const;
 
     private:
         struct PhotosWithSequence
