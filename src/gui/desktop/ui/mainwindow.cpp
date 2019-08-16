@@ -13,7 +13,6 @@
 #include <QTimer>
 
 #include <core/constants.hpp>
-#include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -21,11 +20,8 @@
 #include <core/media_types.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
-#include <database/igroup_operator.hpp>
-#include <database/iphoto_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
-#include <project_utils/misc.hpp>
 #include <project_utils/project.hpp>
 
 #include "config.hpp"
@@ -38,11 +34,9 @@
 #include "widgets/face_reviewer/face_reviewer.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
-#include "widgets/photos_widget.hpp"
 #include "widgets/series_detection/series_detection.hpp"
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
-#include "utils/photos_collector.hpp"
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
