@@ -72,6 +72,7 @@ class DATABASE_EXPORT SeriesDetector
         Database::IBackend* m_backend;
         IExifReader* m_exifReader;
 
+        const std::multiset<PhotosWithSequence> analyze_photos(const std::vector<Photo::Id> &) const;
         std::vector<GroupCandidate> split_into_groups(const std::multiset<PhotosWithSequence> &) const;
         void determine_type(std::vector<GroupCandidate> &) const;
 };

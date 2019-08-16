@@ -63,9 +63,21 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() con
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
     const auto photos = m_backend->getPhotos( {group_filter} );
 
+    // collect photos with SequenceNumber and timestamp in exif
+    std::multiset<PhotosWithSequence> sequences_by_time = analyze_photos(photos);
+    auto sequence_groups = split_into_groups(sequences_by_time);
+    determine_type(sequence_groups);
+
+    result = sequence_groups;
+
+    return result;
+}
+
+
+const std::multiset<SeriesDetector::PhotosWithSequence> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos) const
+{
     std::multiset<PhotosWithSequence> sequences_by_time;
 
-    // collect photos with SequenceNumber and timestamp in exif
     for (const Photo::Id& id: photos)
     {
         const Photo::Data data = m_backend->getPhoto(id);
@@ -86,12 +98,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() con
         }
     }
 
-    auto sequence_groups = split_into_groups(sequences_by_time);
-    determine_type(sequence_groups);
-
-    result = sequence_groups;
-
-    return result;
+    return sequences_by_time;
 }
 
 
