@@ -84,4 +84,10 @@ namespace Photo
         return m_id;
     }
 
+
+    bool DataDelta::operator<(const DataDelta& other) const
+    {
+        return m_id < other.m_id;
+    }
+
 }
