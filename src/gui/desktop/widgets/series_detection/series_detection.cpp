@@ -180,8 +180,8 @@ void SeriesDetection::group()
 
     auto task = [this, groupDetails](Database::IBackend* backend)
     {
-        const std::vector<Photo::Data> data = load_group_details(backend, groupDetails);
-        invokeMethod(this, &SeriesDetection::launch_groupping_dialog, data, groupDetails.type);
+        const std::vector<Photo::Data> ph_data = load_group_details(backend, groupDetails);
+        invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
     };
 
     auto db_task = m_callback_mgr.make_safe_callback<void(Database::IBackend *)>(task);
