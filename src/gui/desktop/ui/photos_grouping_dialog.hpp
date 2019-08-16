@@ -10,6 +10,7 @@
 
 
 class MediaPreview;
+class Project;
 struct IConfiguration;
 struct IExifReaderFactory;
 struct ILogger;
@@ -19,6 +20,11 @@ struct ITmpDir;
 namespace Ui
 {
     class PhotosGroupingDialog;
+}
+
+namespace Database
+{
+    struct IDatabase;
 }
 
 class SortingProxy: public QSortFilterProxyModel
@@ -66,6 +72,8 @@ class PhotosGroupingDialog: public QDialog
         QString getRepresentative() const;
         Group::Type groupType() const;
 
+        const std::vector<Photo::Data>& photos() const;
+
         void reject() override;
 
     private:
@@ -73,6 +81,7 @@ class PhotosGroupingDialog: public QDialog
         std::unique_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
+        std::vector<Photo::Data> m_photos;
         Group::Type m_representativeType;
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
@@ -102,5 +111,11 @@ class PhotosGroupingDialog: public QDialog
     signals:
         void cancel();
 };
+
+
+namespace PhotosGroupingDialogUtils
+{
+    void createGroup(PhotosGroupingDialog *, Project *, Database::IDatabase *);
+}
 
 #endif // PHOTOS_GROUPING_DIALOG_HPP

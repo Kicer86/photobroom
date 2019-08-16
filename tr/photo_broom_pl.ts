@@ -475,7 +475,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+221"/>
+        <location line="+209"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -485,7 +485,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-116"/>
+        <location line="-104"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -515,7 +515,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+217"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -576,12 +576,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-284"/>
+        <location line="-272"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+165"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -731,7 +731,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+121"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+156"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>

@@ -518,19 +518,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)
-        {
-            const QString photo = dialog.getRepresentative();
-            const Group::Type type = dialog.groupType();
-
-            std::vector<Photo::Id> photos_ids;
-            for(std::size_t i = 0; i < photos.size(); i++)
-                photos_ids.push_back(photos[i].id);
-
-            const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
-            const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
-
-            GroupsManager::group(db, photos_ids, internalPathDecorated, type);
-        }
+            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
     }
     else if (chosenAction == ungroupPhotos)
     {
