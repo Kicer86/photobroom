@@ -13,7 +13,8 @@ namespace
         { AExifReader::TagType::Orientation,      "Exif.Image.Orientation" },
         { AExifReader::TagType::SequenceNumber,   "Exif.Sony1.SequenceNumber" },
         { AExifReader::TagType::PixelXDimension,  "Exif.Photo.PixelXDimension" },
-        { AExifReader::TagType::PixelYDimension,  "Exif.Photo.PixelYDimension" }
+        { AExifReader::TagType::PixelYDimension,  "Exif.Photo.PixelYDimension" },
+        { AExifReader::TagType::Exposure,         "Exif.Photo.ExposureBiasValue" },
     };
 }
 

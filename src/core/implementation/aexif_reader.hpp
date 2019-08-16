@@ -56,6 +56,7 @@ class AExifReader: public IExifReader
         std::optional<int> readInt(const TagType &) const;
         std::optional<std::string> readString(const TagType &) const;
         std::optional<long> readLong(const TagType &) const;
+        std::optional<float> readRational(const TagType &) const;
 };
 
 #endif // A_EXIF_READER_HPP

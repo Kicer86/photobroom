@@ -25,6 +25,7 @@ struct CORE_EXPORT IExifReader
         SequenceNumber,            // int
         PixelXDimension,           // long
         PixelYDimension,           // long
+        Exposure,                  // float
     };
 
     virtual ~IExifReader() = default;
