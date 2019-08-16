@@ -59,12 +59,13 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() con
 {
     std::vector<GroupCandidate> result;
 
+    // find photos which are not part of any group
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
-
     const auto photos = m_backend->getPhotos( {group_filter} );
 
     std::multiset<std::tuple<qint64, int, float, Photo::Id>> sequences_by_time;
 
+    // collect photos with SequenceNumber and timestamp in exif
     for (const Photo::Id& id: photos)
     {
         const Photo::Data data = m_backend->getPhoto(id);
