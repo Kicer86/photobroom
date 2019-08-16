@@ -39,7 +39,7 @@ struct IThumbnailCache
 class CORE_EXPORT ThumbnailManager: public AThumbnailManager
 {
     public:
-        ThumbnailManager(AThumbnailGenerator *);
+        explicit ThumbnailManager(AThumbnailGenerator *);
 
         void setCache(IThumbnailCache *);
 

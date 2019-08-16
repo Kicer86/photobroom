@@ -17,7 +17,7 @@ struct AThumbnailGenerator
     {
         struct Callback: ICallback
         {
-            Callback(C&& c): m_c(std::move(c)) {}
+            explicit Callback(C&& c): m_c(std::move(c)) {}
 
             void result(const QImage& result) override
             {
