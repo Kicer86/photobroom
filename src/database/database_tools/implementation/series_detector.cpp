@@ -63,7 +63,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() con
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
     const auto photos = m_backend->getPhotos( {group_filter} );
 
-    std::multiset<std::tuple<qint64, int, float, Photo::Id>> sequences_by_time;
+    std::multiset<PhotosWithSequence> sequences_by_time;
 
     // collect photos with SequenceNumber and timestamp in exif
     for (const Photo::Id& id: photos)
@@ -82,7 +82,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() con
                 const std::optional<std::any> exposureRaw = m_exifReader->get(data.path, IExifReader::TagType::Exposure);
                 const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
 
-                sequences_by_time.emplace(std::make_tuple(time, seqNum, exposure, id));
+                sequences_by_time.emplace(time, seqNum, exposure, id);
             }
         }
     }
@@ -93,7 +93,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() con
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>>& data) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(const std::multiset<PhotosWithSequence>& data) const
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;
@@ -116,9 +116,9 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(co
 
     for(auto it = data.cbegin(); it != data.cend(); ++it)
     {
-        const int seqNum = std::get<1>(*it);
-        const float exposure = std::get<2>(*it);
-        const Photo::Id& ph_id = std::get<3>(*it);
+        const int& seqNum = it->sequence;
+        const float& exposure = it->exposure;
+        const Photo::Id& ph_id = it->id;
 
         if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
         {

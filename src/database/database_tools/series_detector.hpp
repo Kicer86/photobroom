@@ -48,10 +48,33 @@ class DATABASE_EXPORT SeriesDetector
         std::vector<GroupCandidate> listDetections() const;
 
     private:
+        struct PhotosWithSequence
+        {
+            PhotosWithSequence(qint64 t, int s, float e, Photo::Id i):
+                timestamp(t),
+                sequence(s),
+                exposure(e),
+                id(i)
+            {
+
+            }
+
+            bool operator<(const PhotosWithSequence& other) const
+            {
+                return std::tie(timestamp, sequence, id) <
+                       std::tie(other.timestamp, other.sequence, other.id);
+            }
+
+            qint64 timestamp;
+            int sequence;
+            float exposure;
+            Photo::Id id;
+        };
+
         Database::IBackend* m_backend;
         IExifReader* m_exifReader;
 
-        std::vector<GroupCandidate> split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>> &) const;
+        std::vector<GroupCandidate> split_into_groups(const std::multiset<PhotosWithSequence> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
