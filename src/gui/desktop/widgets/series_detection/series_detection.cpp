@@ -190,24 +190,24 @@ void SeriesDetection::group()
 
 std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const ExGroupCandidate& details)
 {
-    std::vector<Photo::Data> data;
+    std::vector<Photo::Data> ph_data;
 
     for(const Photo::Id& id: details.members)
     {
         const Photo::Data ph_d = backend->getPhoto(id);
-        data.push_back(ph_d);
+        ph_data.push_back(ph_d);
     }
 
-    return data;
+    return ph_data;
 }
 
 
-void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& data, Group::Type type)
+void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph_data, Group::Type type)
 {
     auto logger = m_core->getLoggerFactory()->get("PhotosGrouping");
 
     PhotosGroupingDialog pgd(
-        data,
+        ph_data,
         m_core->getExifReaderFactory(),
         m_core->getTaskExecutor(),
         m_core->getConfiguration(),
