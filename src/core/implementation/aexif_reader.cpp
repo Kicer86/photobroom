@@ -214,7 +214,8 @@ std::optional<float> AExifReader::readRational(const IExifReader::TagType& tagTy
                 const float nom = std::stof(nomStr);
                 const float den = std::stof(denStr);
 
-                result = nom/den;
+                if (std::abs(den) > 0.0001f)
+                    result = nom/den;
             }
         }
         catch(const std::invalid_argument &) {}
