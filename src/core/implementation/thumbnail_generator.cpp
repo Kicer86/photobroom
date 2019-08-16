@@ -1,6 +1,6 @@
 /*
- * Thumbnail generator.
- * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Tool for generating thumbnails
+ * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "thumbnail_generator.hpp"
@@ -23,27 +22,26 @@
 #include <QFileInfo>
 #include <QProcess>
 
-#include <core/constants.hpp>
-#include <core/ffmpeg_video_details_reader.hpp>
-#include <core/iconfiguration.hpp>
-#include <core/iexif_reader.hpp>
-#include <core/image_tools.hpp>
-#include <core/itask_executor.hpp>
-#include <core/ilogger.hpp>
-#include <core/media_types.hpp>
-#include <core/stopwatch.hpp>
 #include <system/system.hpp>
+#include "constants.hpp"
+#include "ffmpeg_video_details_reader.hpp"
+#include "iconfiguration.hpp"
+#include "iexif_reader.hpp"
+#include "ilogger.hpp"
+#include "image_tools.hpp"
+#include "media_types.hpp"
+#include "stopwatch.hpp"
 
-#include "images/images.hpp"
 
-
-struct ThumbnailGeneratorOld::FromImageTask: ITaskExecutor::ITask
+struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
 {
-    FromImageTask(const ThumbnailInfo& info,
-                  const ThumbnailGeneratorOld::Callback& callback,
-                  const ThumbnailGeneratorOld* generator):
-        m_info(info),
-        m_callback(callback),
+    FromImageTask(const QString& path,
+                  int height,
+                  std::unique_ptr<ICallback> callback,
+                  const ThumbnailGenerator* generator):
+        m_path(path),
+        m_height(height),
+        m_callback(std::move(callback)),
         m_generator(generator)
     {
 
@@ -63,27 +61,27 @@ struct ThumbnailGeneratorOld::FromImageTask: ITaskExecutor::ITask
     {
         // TODO: use QTransform here to perform one transformation instead of many
 
-        IExifReader* reader = m_generator->m_exifReaderFactory->get();
+        IExifReader* reader = m_generator->m_exifReaderFactory.get();
 
         Stopwatch stopwatch;
         stopwatch.start();
 
-        QImage image = QFile::exists(m_info.path)?
-            Image::normalized(m_info.path, reader).get():
-            QImage(Images::missing);
+        QImage image;
+
+        if(QFile::exists(m_path))
+            image = Image::normalized(m_path, reader).get();
 
         if (image.isNull())
         {
-            const QString error = QString("Broken image: %1").arg(m_info.path);
+            const QString error = QString("Broken image: %1").arg(m_path);
 
             m_generator->m_logger->error(error.toStdString());
-            image = QImage(Images::error);
         }
 
         const int photo_read = stopwatch.read(true);
 
-        if (image.height() != m_info.height)
-            image = image.scaledToHeight(m_info.height, Qt::SmoothTransformation);
+        if (image.height() != m_height)
+            image = image.scaledToHeight(m_height, Qt::SmoothTransformation);
 
         const int photo_scaling = stopwatch.stop();
 
@@ -93,23 +91,26 @@ struct ThumbnailGeneratorOld::FromImageTask: ITaskExecutor::ITask
         const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
         m_generator->m_logger->debug(scaling_time_message);
 
-        m_callback(m_info, image);
+        m_callback->result(image);
     }
 
-    ThumbnailInfo m_info;
-    ThumbnailGeneratorOld::Callback m_callback;
-    const ThumbnailGeneratorOld* m_generator;
+    const QString m_path;
+    const int m_height;
+    const std::unique_ptr<ICallback> m_callback;
+    const ThumbnailGenerator* m_generator;
 };
 
 
-struct ThumbnailGeneratorOld::FromVideoTask: ITaskExecutor::ITask
+struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
 {
-    FromVideoTask(const ThumbnailInfo& info,
-                  const ThumbnailGeneratorOld::Callback& callback,
+    FromVideoTask(const QString& path,
+                  int height,
+                  std::unique_ptr<ICallback> callback,
                   const QString& ffmpeg,
                   const QString& ffprobe):
-        m_thumbnailInfo(info),
-        m_callback(callback),
+        m_path(path),
+        m_height(height),
+        m_callback(std::move(callback)),
         m_ffmpeg(ffmpeg),
         m_ffprobe(ffprobe)
     {
@@ -123,9 +124,9 @@ struct ThumbnailGeneratorOld::FromVideoTask: ITaskExecutor::ITask
 
     void perform() override
     {
-        const QFileInfo pathInfo(m_thumbnailInfo.path);
+        const QFileInfo pathInfo(m_path);
 
-        QImage result(Images::error);
+        QImage result;
 
         if (pathInfo.exists())
         {
@@ -143,7 +144,7 @@ struct ThumbnailGeneratorOld::FromVideoTask: ITaskExecutor::ITask
                 "-ss", QString::number(seconds / 10),
                 "-i", absolute_path,
                 "-vframes", "1",
-                "-vf", QString("scale=-1:%1").arg(m_thumbnailInfo.height),
+                "-vf", QString("scale=-1:%1").arg(m_height),
                 "-q:v", "2",
                 thumbnail_path
             };
@@ -154,79 +155,45 @@ struct ThumbnailGeneratorOld::FromVideoTask: ITaskExecutor::ITask
             if (status)
                 result = QImage(thumbnail_path);
         }
-        else
-            result = QImage(Images::missing);
 
-        m_callback(m_thumbnailInfo, result);
+        m_callback->result(result);
     }
 
-    const ThumbnailInfo m_thumbnailInfo;
-    const ThumbnailGeneratorOld::Callback m_callback;
+    const QString m_path;
+    const int m_height;
+    const std::unique_ptr<ICallback> m_callback;
     const QString m_ffmpeg;
     const QString m_ffprobe;
 };
 
 
-uint qHash(const ThumbnailInfo& key, uint seed = 0)
-{
-    return qHash(key.path) ^ qHash(key.height) ^ seed;
-}
 
-
-ThumbnailGeneratorOld::ThumbnailGeneratorOld():
-    m_videoImage(":/gui/video.svg"),
-    m_tasks(),
-    m_logger(nullptr),
-    m_exifReaderFactory(nullptr),
-    m_configuration(nullptr)
+ThumbnailGenerator::ThumbnailGenerator(ITaskExecutor* executor, ILogger* logger, IConfiguration* config):
+    m_tasks(std::make_unique<TasksQueue>(executor)),
+    m_logger(logger),
+    m_configuration(config)
 {
 
 }
 
 
-ThumbnailGeneratorOld::~ThumbnailGeneratorOld()
+ThumbnailGenerator::~ThumbnailGenerator()
 {
 
 }
 
 
-void ThumbnailGeneratorOld::dismissPendingTasks()
+void ThumbnailGenerator::dismissPendingTasks()
 {
     m_tasks->clear();
 }
 
 
-void ThumbnailGeneratorOld::set(ITaskExecutor* executor)
+void ThumbnailGenerator::run(const QString& path, int height, std::unique_ptr<ICallback> callback)
 {
-    m_tasks = std::make_unique<TasksQueue>(executor);
-}
-
-
-void ThumbnailGeneratorOld::set(ILogger* logger)
-{
-    m_logger = logger;
-}
-
-
-void ThumbnailGeneratorOld::set(IExifReaderFactory* exifFactory)
-{
-    m_exifReaderFactory = exifFactory;
-}
-
-
-void ThumbnailGeneratorOld::set(IConfiguration* configuration)
-{
-    m_configuration = configuration;
-}
-
-
-void ThumbnailGeneratorOld::generateThumbnail(const ThumbnailInfo& info, const Callback& callback) const
-{
-    const QString& path = info.path;
-
     if (MediaTypes::isImageFile(path))
     {
-        auto task = std::make_unique<FromImageTask>(info, callback, this);
+        auto task = std::make_unique<FromImageTask>(path, height, std::move(callback), this);
         m_tasks->push(std::move(task));
     }
     else if (MediaTypes::isVideoFile(path))
@@ -240,56 +207,12 @@ void ThumbnailGeneratorOld::generateThumbnail(const ThumbnailInfo& info, const C
 
         if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
         {
-            auto task = std::make_unique<FromVideoTask>(info, callback, ffmpegPath, ffprobePath);
+            auto task = std::make_unique<FromVideoTask>(path, height, std::move(callback), ffmpegPath, ffprobePath);
             m_tasks->push(std::move(task));
         }
         else
-            callback(info, m_videoImage);
+            callback->result(QImage{});
     }
     else
         assert(!"unknown file type");
-}
-
-
-ThumbnailCache::ThumbnailCache():
-    m_cacheMutex(),
-    m_cache(2048)
-{
-
-}
-
-
-ThumbnailCache::~ThumbnailCache()
-{
-
-}
-
-
-void ThumbnailCache::add(const ThumbnailInfo& info, const QImage& img)
-{
-    std::lock_guard<std::mutex> lock(m_cacheMutex);
-
-    QImage* new_img = new QImage(img);
-
-    m_cache.insert(info, new_img);
-}
-
-
-std::optional<QImage> ThumbnailCache::get(const ThumbnailInfo& info) const
-{
-    std::optional<QImage> result;
-
-    std::lock_guard<std::mutex> lock(m_cacheMutex);
-
-    if (m_cache.contains(info))
-        result = *m_cache[info];
-
-    return result;
-}
-
-
-void ThumbnailCache::clear()
-{
-    std::lock_guard<std::mutex> lock(m_cacheMutex);
-    m_cache.clear();
 }

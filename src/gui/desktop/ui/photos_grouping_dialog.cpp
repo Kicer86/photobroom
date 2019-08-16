@@ -12,9 +12,12 @@
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
 #include <system/system.hpp>
+#include <project_utils/project.hpp>
+#include <project_utils/misc.hpp>
 
 #include "ui_photos_grouping_dialog.h"
 
+#include "utils/groups_manager.hpp"
 #include "utils/grouppers/animation_generator.hpp"
 #include "utils/grouppers/hdr_generator.hpp"
 #include "widgets/media_preview.hpp"
@@ -31,7 +34,44 @@ namespace
         else
             return Group::Invalid;
     }
+
+    int groupTypeTocombobox(Group::Type type)
+    {
+        switch(type)
+        {
+            case Group::Type::Invalid:   return -1;
+            case Group::Type::Animation: return 0;
+            case Group::Type::HDR:       return 1;
+        }
+
+        return -1;
+    }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+namespace PhotosGroupingDialogUtils
+{
+    void createGroup(PhotosGroupingDialog* dialog, Project* project, Database::IDatabase* db)
+    {
+        const auto& photos = dialog->photos();
+        const QString photo = dialog->getRepresentative();
+        const Group::Type type = dialog->groupType();
+
+        std::vector<Photo::Id> photos_ids;
+        for(std::size_t i = 0; i < photos.size(); i++)
+            photos_ids.push_back(photos[i].id);
+
+        const QString internalPath = copyFileToPrivateMediaLocation(project->getProjectInfo(), photo);
+        const QString internalPathDecorated = project->makePathRelative(internalPath);
+
+        GroupsManager::group(db, photos_ids, internalPathDecorated, type);
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
@@ -39,12 +79,14 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            ITaskExecutor* executor,
                                            IConfiguration* configuration,
                                            ILogger* logger,
+                                           Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
     m_model(),
     m_tmpDir(System::getTmpDir("PGD_wd")),
     m_sortProxy(),
     m_representativeFile(),
+    m_photos(photos),
     m_representativeType(Group::Invalid),
     ui(new Ui::PhotosGroupingDialog),
     m_preview(new MediaPreview(this)),
@@ -69,6 +111,9 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
+
+    if (type != Group::Type::Invalid)
+        ui->groupingType->setCurrentIndex(groupTypeTocombobox(type));
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
@@ -95,6 +140,12 @@ QString PhotosGroupingDialog::getRepresentative() const
 Group::Type PhotosGroupingDialog::groupType() const
 {
     return m_representativeType;
+}
+
+
+const std::vector<Photo::Data>& PhotosGroupingDialog::photos() const
+{
+    return m_photos;
 }
 
 
@@ -209,6 +260,10 @@ void PhotosGroupingDialog::previewPressed()
 
         case Group::HDR:
             makeHDR();
+            break;
+
+        case Group::Generic:
+            assert(!"implement");
             break;
 
         case Group::Invalid:

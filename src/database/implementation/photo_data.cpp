@@ -48,21 +48,21 @@ namespace Photo
     }
 
 
-    void Photo::DataDelta::setId(const Photo::Id& id)
+    void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
         m_id = id;
     }
 
 
-    void Photo::DataDelta::clear()
+    void DataDelta::clear()
     {
         m_data.clear();
         m_id = Photo::Id();
     }
 
 
-    bool Photo::DataDelta::has(Photo::Field field) const
+    bool DataDelta::has(Photo::Field field) const
     {
         auto it = m_data.find(field);
 
@@ -70,7 +70,7 @@ namespace Photo
     }
 
 
-    const std::any& Photo::DataDelta::get(Photo::Field field) const
+    const std::any& DataDelta::get(Photo::Field field) const
     {
         assert(has(field));
         auto it = m_data.find(field);
@@ -79,9 +79,15 @@ namespace Photo
     }
 
 
-    const Photo::Id & Photo::DataDelta::getId() const
+    const Id & DataDelta::getId() const
     {
         return m_id;
+    }
+
+
+    bool DataDelta::operator<(const DataDelta& other) const
+    {
+        return m_id < other.m_id;
     }
 
 }

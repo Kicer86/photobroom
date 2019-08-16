@@ -145,7 +145,7 @@ namespace Database
     }
 
 
-    void PhotoChangeLogOperator::groupCreated(const Group::Id& id, const Group::Type& type, const Photo::Id& representative_id)
+    void PhotoChangeLogOperator::groupCreated(const Group::Id& id, const Group::Type &, const Photo::Id& representative_id)
     {
         process(representative_id, GroupInfo(), GroupInfo(id, GroupInfo::Role::Representative));
     }

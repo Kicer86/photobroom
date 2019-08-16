@@ -64,7 +64,7 @@ int main(int argc, char **argv)
                        );
 
     QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
-    crashTestOption.setHidden(true);
+    crashTestOption.setFlags(QCommandLineOption::HiddenFromHelp);
 
     QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
 

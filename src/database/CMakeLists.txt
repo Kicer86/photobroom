@@ -23,6 +23,7 @@ set(DATABASE_SOURCES
     database_tools/implementation/synchronous_database.cpp
     database_tools/implementation/tag_info_collector.cpp
     database_tools/implementation/signal_mapper.cpp
+    database_tools/implementation/series_detector.cpp
 )
 
 set(DATABASE_HEADERS
@@ -55,6 +56,7 @@ set(DATABASE_HEADERS
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photo_duplicates_finder.hpp
     database_tools/implementation/synchronous_database.hpp
+    database_tools/series_detector.hpp
 )
 
 set(DATABASE_MOC

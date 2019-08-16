@@ -92,7 +92,7 @@ void FaceDetails::optimize()
     m_optButton->clearFocus();
     m_optButton->setDisabled(true);
 
-    m_modelFaceFinder->findBest(m_pi, slot(this, &FaceDetails::updateRepresentative));
+    m_modelFaceFinder->findBest(m_pi, queued_slot(this, &FaceDetails::updateRepresentative));
 }
 
 

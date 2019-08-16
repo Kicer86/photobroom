@@ -185,8 +185,8 @@ namespace GeneratorUtils
         QEventLoop loop;
 
         connect(this, &ProcessRunner::stop, &pr, &QProcess::terminate);
-        connect(&pr, qOverload<int>(&QProcess::finished), &loop, &QEventLoop::exit);
-        connect(&pr, qOverload<int>(&QProcess::finished), this, &ProcessRunner::exitCode, Qt::DirectConnection);
+        connect(&pr, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), &loop, &QEventLoop::exit);
+        connect(&pr, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this, &ProcessRunner::exitCode, Qt::DirectConnection);
 
         if (m_work)
         {
@@ -258,7 +258,7 @@ namespace GeneratorUtils
     }
 
 
-    QStringList BreakableTask::rotatePhotos(const QStringList& photos,                                       
+    QStringList BreakableTask::rotatePhotos(const QStringList& photos,
                                             const QString& storage)
     {
         emit operation(tr("Preparing photos"));

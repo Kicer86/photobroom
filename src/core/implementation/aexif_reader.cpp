@@ -102,6 +102,10 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
         case TagType::PixelYDimension:
             result = exiv_result(readLong(TagType::PixelYDimension));
             break;
+
+        case TagType::Exposure:
+            result = exiv_result(readRational(TagType::Exposure));
+            break;
     }
 
     return result;
@@ -141,7 +145,7 @@ Tag::TagsList AExifReader::feedDateAndTime() const
 
 std::optional<int> AExifReader::readInt(const TagType& tagType) const
 {
-    std::optional<int> result = 0;
+    std::optional<int> result;
     const std::optional<std::string> valueRaw = read(tagType);
 
     if (valueRaw.has_value())
@@ -189,3 +193,35 @@ std::optional<long> AExifReader::readLong(const IExifReader::TagType& tagType) c
 
     return result;
 }
+
+
+std::optional<float> AExifReader::readRational(const IExifReader::TagType& tagType) const
+{
+    std::optional<float> result;
+    const std::optional<std::string> valueRaw = read(tagType);
+
+    if (valueRaw.has_value())
+    {
+        try
+        {
+            const std::string& valueStr = *valueRaw;
+            const std::size_t p = valueStr.find("/");
+
+            if (p != std::string::npos)
+            {
+                const std::string nomStr = valueStr.substr(0, p);
+                const std::string denStr = valueStr.substr(p + 1);
+                const float nom = std::stof(nomStr);
+                const float den = std::stof(denStr);
+
+                if (std::abs(den) > 0.0001f)
+                    result = nom/den;
+            }
+        }
+        catch(const std::invalid_argument &) {}
+        catch(const std::out_of_range &) {}
+    }
+
+    return result;
+}
+

@@ -16,6 +16,7 @@ addTestTarget(core
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
                     implementation/tag.cpp
+                    implementation/thumbnail_manager.cpp
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp
@@ -27,6 +28,7 @@ addTestTarget(core
                     unit_tests/tag_info_tests.cpp
                     unit_tests/tag_name_info_tests.cpp
                     unit_tests/tag_value_tests.cpp
+                    unit_tests/thumbnails_manager_tests.cpp
                 LIBRARIES
                     PRIVATE
                         ${GMOCK_MAIN_LIBRARY}

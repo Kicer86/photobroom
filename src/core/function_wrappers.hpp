@@ -24,7 +24,7 @@ struct safe_callback_data
 // it will be a vaild functor as long as safe_callback_ctrl is valid object.
 // When safe_callback_ctrl is destroyed, all its safe_callbacks will become
 // empty. operator() will do nothing.
-// Usefull when callinc object's method from another thread
+// Usefull when calling object's method from another thread
 // as we are sure target object exists (or nothing happens)
 template<typename T>
 class safe_callback
@@ -43,7 +43,7 @@ class safe_callback
             std::lock_guard<std::mutex> lock(m_data->mutex);
 
             if (m_data->callbackAlive == true)
-                m_callback(args...);
+                m_callback(std::forward<Args>(args)...);
         }
 
     private:
@@ -152,9 +152,9 @@ void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&..
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
 template<typename... Args, typename F>
-std::function<void(Args...)> make_cross_thread_function(QObject* object, const F& function)
+auto make_cross_thread_function(QObject* object, const F& function)
 {
-    std::function<void(Args...)> result = [=](Args&&... args)
+    std::function result = [=](Args&&... args)
     {
         call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
     };
@@ -167,7 +167,7 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
 // (slot) of given object. Will do nothing when given object is destroyed.
 // Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
-std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
+std::function<void(Args...)> queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
 
@@ -178,9 +178,28 @@ std::function<void(Args...)> slot(ObjT* obj, R(ObjT::*method)(Args...))
         ObjT* object = objPtr.data();
 
         if (object)
-            invokeMethod(object, method, args...);
+            invokeMethod(object, method, std::forward<Args>(args)...);
     };
 }
 
+// construct a functor which invoked will invoke a method
+// (slot) of given object. Will do nothing when given object is destroyed.
+// Similar to safe_callback_ctrl (but uses Qt mechanism to guarantee (?) threadsafety)
+// Instead of queued_slot() method is invoked in caller's thread
+template<typename ObjT, typename R, typename ...Args>
+std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
+{
+    static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
+
+    QPointer<ObjT> objPtr(obj);
+
+    return [objPtr, method](Args... args)
+    {
+        ObjT* object = objPtr.data();
+
+        if (object)
+            (object->*method)(std::forward<Args>(args)...);
+    };
+}
 
 #endif

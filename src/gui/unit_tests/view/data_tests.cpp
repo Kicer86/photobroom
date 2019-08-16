@@ -119,7 +119,6 @@ TEST_F(DataShould, MarkTopItemsAsVisible)
     submodel.appendRow(top);
 
     const QModelIndex top_idx = top->index();
-    const ModelIndexInfo& top_info = data.get(top_idx);
 
     EXPECT_EQ(true, data.isVisible(top_idx));
 }

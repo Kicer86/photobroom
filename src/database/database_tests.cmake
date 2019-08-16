@@ -13,6 +13,7 @@ addTestTarget(database
                     backends/sql_backends/sql_action_query_generator.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
+                    database_tools/implementation/series_detector.cpp
                     implementation/action.cpp
                     implementation/filter.cpp
                     implementation/photo_data.cpp
@@ -25,7 +26,7 @@ addTestTarget(database
                     unit_tests/sql_action_query_generator_tests.cpp
 
                     # tools tests:
-
+                    unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp
 
                     # main()

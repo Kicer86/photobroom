@@ -136,6 +136,8 @@ namespace Photo
 
             const Photo::Id& getId() const;
 
+            bool operator<(const DataDelta &) const;
+
         private:
             Photo::Id                 m_id;
             std::map<Field, std::any> m_data;

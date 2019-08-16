@@ -13,7 +13,6 @@
 #include <QTimer>
 
 #include <core/constants.hpp>
-#include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -21,11 +20,8 @@
 #include <core/media_types.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
-#include <database/igroup_operator.hpp>
-#include <database/iphoto_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
 #include <project_utils/iproject_manager.hpp>
-#include <project_utils/misc.hpp>
 #include <project_utils/project.hpp>
 
 #include "config.hpp"
@@ -38,10 +34,9 @@
 #include "widgets/face_reviewer/face_reviewer.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
-#include "widgets/photos_widget.hpp"
+#include "widgets/series_detection/series_detection.hpp"
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
-#include "utils/photos_collector.hpp"
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "ui_mainwindow.h"
@@ -49,7 +44,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thbMng, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -62,6 +57,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, QWidget *p): QMainWind
     m_updater(nullptr),
     m_executor(coreFactory->getTaskExecutor()),
     m_coreAccessor(coreFactory),
+    m_thumbnailManager(thbMng),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
@@ -516,19 +512,7 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)
-        {
-            const QString photo = dialog.getRepresentative();
-            const Group::Type type = dialog.groupType();
-
-            std::vector<Photo::Id> photos_ids;
-            for(std::size_t i = 0; i < photos.size(); i++)
-                photos_ids.push_back(photos[i].id);
-
-            const QString internalPath = copyFileToPrivateMediaLocation(m_currentPrj->getProjectInfo(), photo);
-            const QString internalPathDecorated = m_currentPrj->makePathRelative(internalPath);
-
-            GroupsManager::group(db, photos_ids, internalPathDecorated, type);
-        }
+            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
     }
     else if (chosenAction == ungroupPhotos)
     {
@@ -678,6 +662,12 @@ void MainWindow::on_actionFace_organizer_triggered()
     FaceReviewer organizer(m_currentPrj.get(), m_coreAccessor, this);
     organizer.setModal(true);
     organizer.exec();
+}
+
+
+void MainWindow::on_actionSeries_detector_triggered()
+{
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailManager, m_currentPrj.get()}.exec();
 }
 
 

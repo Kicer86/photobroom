@@ -239,6 +239,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>stop motion</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+8"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
 </context>
 <context>
     <name>LevelEditor</name>
@@ -348,7 +353,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -433,7 +438,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
+        <location line="+5"/>
+        <source>Series detector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -455,7 +465,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-182"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-188"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
@@ -465,7 +475,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+221"/>
+        <location line="+209"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -475,7 +485,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-116"/>
+        <location line="-104"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -505,7 +515,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+217"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -566,12 +576,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-278"/>
+        <location line="-272"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+165"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -721,18 +731,18 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+105"/>
-        <location line="+120"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+156"/>
+        <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-124"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+124"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
@@ -925,6 +935,49 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>?</source>
         <translation>?</translation>
+    </message>
+</context>
+<context>
+    <name>SeriesDetection</name>
+    <message>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+64"/>
+        <source>Detected series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+55"/>
+        <source>Animation</source>
+        <translation type="unfinished">animacja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>HDR</source>
+        <translation type="unfinished">HDR</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
