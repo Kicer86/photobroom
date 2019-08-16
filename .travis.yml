@@ -10,12 +10,9 @@ branches:
 addons:
   apt:
     packages:
-      - qt511base
-      - qt511svg
       - python3
       - lcov
     sources:
-      - ppa:beineri/opt-qt-5.11.1-bionic
 
   homebrew:
     packages:
