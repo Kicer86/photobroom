@@ -34,7 +34,7 @@
 
 #include "ui/photos_grouping_dialog.hpp"
 
-Q_DECLARE_METATYPE(SeriesDetection::ExDetection)
+Q_DECLARE_METATYPE(SeriesDetection::ExGroupCandidate)
 
 using namespace std::placeholders;
 
@@ -108,12 +108,12 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
 
     const auto detected = detector.listDetections();
 
-    std::vector<ExDetection> ex_detections;
+    std::vector<ExGroupCandidate> ex_detections;
     // collect one photo path for each detection
     for(const SeriesDetector::GroupCandidate& detection: detected)
     {
         const Photo::Data pd = backend->getPhoto(detection.members.front());
-        const ExDetection ex_detection { {detection.type, detection.members}, pd.path};
+        const ExGroupCandidate ex_detection { {detection.type, detection.members}, pd.path};
 
         ex_detections.push_back(ex_detection);
     }
@@ -123,11 +123,11 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
 }
 
 
-void SeriesDetection::load_series(const std::vector<ExDetection>& detections)
+void SeriesDetection::load_series(const std::vector<ExGroupCandidate>& detections)
 {
     for(std::size_t i = 0; i < detections.size(); i++)
     {
-        const ExDetection& detection = detections[i];
+        const ExGroupCandidate& detection = detections[i];
 
         auto setThumbnailCallback = make_cross_thread_function<int, const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1, _2));
         auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
@@ -175,7 +175,7 @@ void SeriesDetection::group()
     const QModelIndex selected = selectionModel->currentIndex();
     const int row = selected.row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
-    const ExDetection groupDetails = firstItemInRow.data(DetailsRole).value<ExDetection>();
+    const ExGroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<ExGroupCandidate>();
 
     auto task = [this, groupDetails](Database::IBackend* backend)
     {
@@ -188,7 +188,7 @@ void SeriesDetection::group()
 }
 
 
-std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const ExDetection& details)
+std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const ExGroupCandidate& details)
 {
     std::vector<Photo::Data> data;
 
