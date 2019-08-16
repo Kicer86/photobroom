@@ -44,13 +44,17 @@ namespace
     constexpr int thumbnail_size = 64;
 }
 
-SeriesDetection::SeriesDetection(Database::IDatabase* db, ICoreFactoryAccessor* core, AThumbnailManager* thmMgr):
+SeriesDetection::SeriesDetection(Database::IDatabase* db,
+                                 ICoreFactoryAccessor* core,
+                                 AThumbnailManager* thmMgr,
+                                 Project* project):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
     m_tabView(nullptr),
     m_core(core),
     m_thmMgr(thmMgr),
-    m_db(db)
+    m_db(db),
+    m_project(project)
 {
     // dialog top layout setup
     resize(320, 480);
@@ -209,6 +213,8 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph
 
     if (exit_code == QDialog::Accepted)
     {
+        PhotosGroupingDialogUtils::createGroup(&pgd, m_project, m_db);
+
         const int row = selected_row();
         m_tabModel->removeRow(row);
     }

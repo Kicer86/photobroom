@@ -34,6 +34,7 @@ namespace Database
     struct IBackend;
 }
 
+class Project;
 struct AThumbnailManager;
 struct ICoreFactoryAccessor;
 
@@ -42,7 +43,7 @@ class SeriesDetection: public QDialog
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *);
+        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *, Project *);
         ~SeriesDetection();
 
     private:
@@ -52,6 +53,7 @@ class SeriesDetection: public QDialog
         ICoreFactoryAccessor* m_core;
         AThumbnailManager* m_thmMgr;
         Database::IDatabase* m_db;
+        Project* m_project;
 
         void fetch_series(Database::IBackend *);
         void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
