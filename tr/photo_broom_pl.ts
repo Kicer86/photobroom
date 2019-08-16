@@ -965,7 +965,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished">Grupuj</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+55"/>
         <source>Animation</source>
         <translation type="unfinished">animacja</translation>
     </message>

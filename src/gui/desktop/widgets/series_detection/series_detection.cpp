@@ -34,7 +34,7 @@
 
 #include "ui/photos_grouping_dialog.hpp"
 
-Q_DECLARE_METATYPE(SeriesDetection::ExGroupCandidate)
+Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
 
 using namespace std::placeholders;
 
@@ -107,37 +107,29 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
     IExifReaderFactory* exif = m_core->getExifReaderFactory();
     SeriesDetector detector(backend, exif->get());
 
-    const auto detected = detector.listCandidates();
-
-    std::vector<ExGroupCandidate> ex_detections;
-    // collect one photo path for each detection
-    for(const SeriesDetector::GroupCandidate& detection: detected)
-    {
-        const Photo::Data pd = backend->getPhoto(detection.members.front());
-        const ExGroupCandidate ex_detection { {detection.type, detection.members}, pd.path};
-
-        ex_detections.push_back(ex_detection);
-    }
+    const auto candidates = detector.listCandidates();
 
     // go back to main thread
-    invokeMethod(this, &SeriesDetection::load_series, ex_detections);
+    invokeMethod(this, &SeriesDetection::load_series, candidates);
 }
 
 
-void SeriesDetection::load_series(const std::vector<ExGroupCandidate>& detections)
+void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandidate>& candidates)
 {
-    for(std::size_t i = 0; i < detections.size(); i++)
+    for(std::size_t i = 0; i < candidates.size(); i++)
     {
-        const ExGroupCandidate& detection = detections[i];
+        const SeriesDetector::GroupCandidate& candidate = candidates[i];
 
         auto setThumbnailCallback = make_cross_thread_function<int, const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1, _2));
         auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
-        m_thmMgr->fetch(detection.path, thumbnail_size, setThumbnailCallbackSafe);
+
+        const QString& path = candidate.members.front().get<Photo::Field::Path>();
+        m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
 
         QList<QStandardItem *> row;
 
         QString type;
-        switch (detection.type)
+        switch (candidate.type)
         {
             case Group::Type::Invalid:                           break;
             case Group::Type::Animation: type = tr("Animation"); break;
@@ -147,11 +139,11 @@ void SeriesDetection::load_series(const std::vector<ExGroupCandidate>& detection
 
         QStandardItem* thumb = new QStandardItem;
         thumb->setData(QPixmap(":/gui/clock.svg"), Qt::DecorationRole);
-        thumb->setData(QVariant::fromValue(detection), DetailsRole);
+        thumb->setData(QVariant::fromValue(candidate), DetailsRole);
 
         row.append(thumb);
         row.append(new QStandardItem(type));
-        row.append(new QStandardItem(QString::number(detection.members.size())));
+        row.append(new QStandardItem(QString::number(candidate.members.size())));
 
         m_tabModel->appendRow(row);
     }
@@ -176,7 +168,7 @@ void SeriesDetection::group()
     const QModelIndex selected = selectionModel->currentIndex();
     const int row = selected.row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
-    const ExGroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<ExGroupCandidate>();
+    const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
 
     auto task = [this, groupDetails](Database::IBackend* backend)
     {
@@ -189,13 +181,13 @@ void SeriesDetection::group()
 }
 
 
-std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const ExGroupCandidate& details)
+std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const SeriesDetector::GroupCandidate& details)
 {
     std::vector<Photo::Data> ph_data;
 
-    for(const Photo::Id& id: details.members)
+    for(const Photo::DataDelta& delta: details.members)
     {
-        const Photo::Data ph_d = backend->getPhoto(id);
+        const Photo::Data ph_d = backend->getPhoto(delta.getId());
         ph_data.push_back(ph_d);
     }
 

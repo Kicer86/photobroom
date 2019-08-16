@@ -45,11 +45,6 @@ class SeriesDetection: public QDialog
         SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *);
         ~SeriesDetection();
 
-        struct ExGroupCandidate: SeriesDetector::GroupCandidate
-        {
-            QString path;
-        };
-
     private:
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
@@ -59,10 +54,10 @@ class SeriesDetection: public QDialog
         Database::IDatabase* m_db;
 
         void fetch_series(Database::IBackend *);
-        void load_series(const std::vector<ExGroupCandidate> &);
+        void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
         void setThumbnail(int, int, const QImage &);
         void group();
-        std::vector<Photo::Data> load_group_details(Database::IBackend *, const ExGroupCandidate &);
+        std::vector<Photo::Data> load_group_details(Database::IBackend *, const SeriesDetector::GroupCandidate &);
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
 };
 
