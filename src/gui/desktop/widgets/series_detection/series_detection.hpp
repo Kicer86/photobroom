@@ -45,7 +45,7 @@ class SeriesDetection: public QDialog
         SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *);
         ~SeriesDetection();
 
-        struct ExDetection: SeriesDetector::Detection
+        struct ExDetection: SeriesDetector::GroupCandidate
         {
             QString path;
         };

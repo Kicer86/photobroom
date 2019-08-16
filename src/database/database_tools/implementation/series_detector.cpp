@@ -55,9 +55,9 @@ SeriesDetector::SeriesDetector(Database::IBackend* backend, IExifReader* exif):
 }
 
 
-std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listDetections() const
 {
-    std::vector<Detection> result;
+    std::vector<GroupCandidate> result;
 
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
 
@@ -92,7 +92,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 }
 
 
-std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>>& data) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>>& data) const
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;
@@ -100,11 +100,11 @@ std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const s
     bool exposure_changes = false;
 
     std::vector<Photo::Id> group;
-    std::vector<Detection> results;
+    std::vector<GroupCandidate> results;
 
     auto dumpGroup = [&results, &group, &exposure_changes]()
     {
-        Detection detection;
+        GroupCandidate detection;
         detection.type = exposure_changes? Group::Type::HDR : Group::Type::Animation;
         detection.members = group;
 

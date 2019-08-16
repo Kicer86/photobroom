@@ -74,7 +74,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     }));
 
     const SeriesDetector sd(&backend, &exif);
-    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listDetections();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -132,7 +132,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     }));
 
     const SeriesDetector sd(&backend, &exif);
-    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listDetections();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -193,7 +193,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
     const SeriesDetector sd(&backend, &exif);
-    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listDetections();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -268,7 +268,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     const SeriesDetector sd(&backend, &exif);
-    const std::vector<SeriesDetector::Detection> groupCanditates = sd.listDetections();
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listDetections();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);

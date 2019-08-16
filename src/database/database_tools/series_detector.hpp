@@ -37,7 +37,7 @@ struct IExifReader;
 class DATABASE_EXPORT SeriesDetector
 {
     public:
-        struct Detection
+        struct GroupCandidate
         {
             Group::Type type;
             std::vector<Photo::Id> members;
@@ -45,13 +45,13 @@ class DATABASE_EXPORT SeriesDetector
 
         SeriesDetector(Database::IBackend *, IExifReader *);
 
-        std::vector<Detection> listDetections() const;
+        std::vector<GroupCandidate> listDetections() const;
 
     private:
         Database::IBackend* m_backend;
         IExifReader* m_exifReader;
 
-        std::vector<Detection> split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>> &) const;
+        std::vector<GroupCandidate> split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

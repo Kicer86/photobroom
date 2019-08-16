@@ -110,7 +110,7 @@ void SeriesDetection::fetch_series(Database::IBackend* backend)
 
     std::vector<ExDetection> ex_detections;
     // collect one photo path for each detection
-    for(const SeriesDetector::Detection& detection: detected)
+    for(const SeriesDetector::GroupCandidate& detection: detected)
     {
         const Photo::Data pd = backend->getPhoto(detection.members.front());
         const ExDetection ex_detection { {detection.type, detection.members}, pd.path};
