@@ -73,6 +73,7 @@ class DATABASE_EXPORT SeriesDetector
         IExifReader* m_exifReader;
 
         std::vector<GroupCandidate> split_into_groups(const std::multiset<PhotosWithSequence> &) const;
+        void determine_type(std::vector<GroupCandidate> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

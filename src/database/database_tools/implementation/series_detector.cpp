@@ -87,24 +87,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() con
     }
 
     auto sequence_groups = split_into_groups(sequences_by_time);
-
-    for(SeriesDetector::GroupCandidate& group: sequence_groups)
-    {
-        std::vector<float> exposures;
-
-        for(const Photo::DataDelta& member: group.members)
-        {
-            const QString& path = member.get<Photo::Field::Path>();
-            const std::optional<std::any> exposureRaw = m_exifReader->get(path, IExifReader::TagType::Exposure);
-            const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
-
-            exposures.push_back(exposure);
-        }
-
-        const bool constant_exposure = std::equal(exposures.cbegin() + 1, exposures.cend(), exposures.cbegin());
-
-        group.type = constant_exposure? Group::Type::Animation: Group::Type::HDR;
-    }
+    determine_type(sequence_groups);
 
     result = sequence_groups;
 
@@ -155,4 +138,26 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(co
     }
 
     return results;
+}
+
+
+void SeriesDetector::determine_type(std::vector<GroupCandidate>& sequence_groups) const
+{
+    for(SeriesDetector::GroupCandidate& group: sequence_groups)
+    {
+        std::vector<float> exposures;
+
+        for(const Photo::DataDelta& member: group.members)
+        {
+            const QString& path = member.get<Photo::Field::Path>();
+            const std::optional<std::any> exposureRaw = m_exifReader->get(path, IExifReader::TagType::Exposure);
+            const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
+
+            exposures.push_back(exposure);
+        }
+
+        const bool constant_exposure = std::equal(exposures.cbegin() + 1, exposures.cend(), exposures.cbegin());
+
+        group.type = constant_exposure? Group::Type::Animation: Group::Type::HDR;
+    }
 }
