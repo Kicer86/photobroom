@@ -59,6 +59,7 @@ class SeriesDetection: public QDialog
         void group();
         std::vector<Photo::Data> load_group_details(Database::IBackend *, const SeriesDetector::GroupCandidate &);
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
+        int selected_row() const;
 };
 
 #endif // SERIESDETECTION_HPP

@@ -164,9 +164,7 @@ void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
 
 void SeriesDetection::group()
 {
-    const QItemSelectionModel* selectionModel = m_tabView->selectionModel();
-    const QModelIndex selected = selectionModel->currentIndex();
-    const int row = selected.row();
+    const int row = selected_row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
     const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
 
@@ -207,5 +205,21 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph
         logger.get(),
         type
     );
-    pgd.exec();
+    const int exit_code = pgd.exec();
+
+    if (exit_code == QDialog::Accepted)
+    {
+        const int row = selected_row();
+        m_tabModel->removeRow(row);
+    }
+}
+
+
+int SeriesDetection::selected_row() const
+{
+    const QItemSelectionModel* selectionModel = m_tabView->selectionModel();
+    const QModelIndex selected = selectionModel->currentIndex();
+    const int row = selected.row();
+
+    return row;
 }
