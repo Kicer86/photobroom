@@ -26,9 +26,9 @@
 #include "core_export.h"
 
 
-class IConfiguration;
-class IExifReaderFactory;
-class ILogger;
+struct IConfiguration;
+struct IExifReaderFactory;
+struct ILogger;
 
 
 class CORE_EXPORT ThumbnailGenerator: public AThumbnailGenerator

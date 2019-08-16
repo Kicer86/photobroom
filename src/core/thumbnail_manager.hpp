@@ -20,6 +20,7 @@
 #define THUMBNAILMANAGER_HPP
 
 #include <memory>
+#include <optional>
 
 #include <QImage>
 
