@@ -79,15 +79,34 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() con
 
             if (time != -1)
             {
-                const std::optional<std::any> exposureRaw = m_exifReader->get(data.path, IExifReader::TagType::Exposure);
-                const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
-
-                sequences_by_time.emplace(time, seqNum, exposure, id);
+                Photo::DataDelta delta(id);
+                delta.insert<Photo::Field::Path>(data.path);
+                sequences_by_time.emplace(time, seqNum, delta);
             }
         }
     }
 
-    result = split_into_groups(sequences_by_time);
+    auto sequence_groups = split_into_groups(sequences_by_time);
+
+    for(SeriesDetector::GroupCandidate& group: sequence_groups)
+    {
+        std::vector<float> exposures;
+
+        for(const Photo::DataDelta& member: group.members)
+        {
+            const QString& path = member.get<Photo::Field::Path>();
+            const std::optional<std::any> exposureRaw = m_exifReader->get(path, IExifReader::TagType::Exposure);
+            const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
+
+            exposures.push_back(exposure);
+        }
+
+        const bool constant_exposure = std::equal(exposures.cbegin() + 1, exposures.cend(), exposures.cbegin());
+
+        group.type = constant_exposure? Group::Type::Animation: Group::Type::HDR;
+    }
+
+    result = sequence_groups;
 
     return result;
 }
@@ -97,16 +116,14 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(co
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;
-    float expected_exposure = 0;
-    bool exposure_changes = false;
 
-    std::vector<Photo::Id> group;
+    std::vector<Photo::DataDelta> group;
     std::vector<GroupCandidate> results;
 
-    auto dumpGroup = [&results, &group, &exposure_changes]()
+    auto dumpGroup = [&results, &group]()
     {
         GroupCandidate detection;
-        detection.type = exposure_changes? Group::Type::HDR : Group::Type::Animation;
+        detection.type = Group::Type::Invalid;
         detection.members = group;
 
         results.push_back(detection);
@@ -117,8 +134,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(co
     for(auto it = data.cbegin(); it != data.cend(); ++it)
     {
         const int& seqNum = it->sequence;
-        const float& exposure = it->exposure;
-        const Photo::Id& ph_id = it->id;
+        const Photo::DataDelta& ph_data = it->data;
 
         if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
         {
@@ -126,18 +142,11 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(co
                 dumpGroup();
 
             expected_seq = initial_sequence_value;
-            expected_exposure = 0;
-            exposure_changes = false;
         }
 
         if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
         {
-            if (group.empty())
-                expected_exposure = exposure;
-            else if ( std::abs(expected_exposure - exposure) > 0.0001f )
-                exposure_changes = true;
-
-            group.push_back(ph_id);
+            group.push_back(ph_data);
             expected_seq++;
         }
 

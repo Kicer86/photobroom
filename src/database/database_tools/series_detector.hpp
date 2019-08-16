@@ -22,7 +22,7 @@
 #include <set>
 
 #include <database/group.hpp>
-#include <database/photo_types.hpp>
+#include <database/photo_data.hpp>
 #include <database_export.h>
 
 
@@ -40,7 +40,7 @@ class DATABASE_EXPORT SeriesDetector
         struct GroupCandidate
         {
             Group::Type type;
-            std::vector<Photo::Id> members;
+            std::vector<Photo::DataDelta> members;
         };
 
         SeriesDetector(Database::IBackend *, IExifReader *);
@@ -50,25 +50,23 @@ class DATABASE_EXPORT SeriesDetector
     private:
         struct PhotosWithSequence
         {
-            PhotosWithSequence(qint64 t, int s, float e, Photo::Id i):
+            PhotosWithSequence(qint64 t, int s, const Photo::DataDelta& d):
                 timestamp(t),
                 sequence(s),
-                exposure(e),
-                id(i)
+                data(d)
             {
 
             }
 
             bool operator<(const PhotosWithSequence& other) const
             {
-                return std::tie(timestamp, sequence, id) <
-                       std::tie(other.timestamp, other.sequence, other.id);
+                return std::tie(timestamp, sequence, data) <
+                       std::tie(other.timestamp, other.sequence, other.data);
             }
 
             qint64 timestamp;
             int sequence;
-            float exposure;
-            Photo::Id id;
+            Photo::DataDelta data;
         };
 
         Database::IBackend* m_backend;
