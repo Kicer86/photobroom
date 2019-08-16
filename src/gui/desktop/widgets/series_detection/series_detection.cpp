@@ -41,6 +41,7 @@ using namespace std::placeholders;
 namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
+    constexpr int thumbnail_size = 64;
 }
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db, ICoreFactoryAccessor* core, AThumbnailManager* thmMgr):
@@ -131,7 +132,7 @@ void SeriesDetection::load_series(const std::vector<ExGroupCandidate>& detection
 
         auto setThumbnailCallback = make_cross_thread_function<int, const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1, _2));
         auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
-        m_thmMgr->fetch(detection.path, 64, setThumbnailCallbackSafe);
+        m_thmMgr->fetch(detection.path, thumbnail_size, setThumbnailCallbackSafe);
 
         QList<QStandardItem *> row;
 
