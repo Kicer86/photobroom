@@ -63,7 +63,7 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 
     const auto photos = m_backend->getPhotos( {group_filter} );
 
-    std::multiset<std::tuple<qint64, int, Photo::Id>> sequences_by_time;
+    std::multiset<std::tuple<qint64, int, float, Photo::Id>> sequences_by_time;
 
     for (const Photo::Id& id: photos)
     {
@@ -77,7 +77,12 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
             const qint64 time = timestamp(data);
 
             if (time != -1)
-                sequences_by_time.emplace(std::make_tuple(time, seqNum, id));
+            {
+                const std::optional<std::any> exposureRaw = m_exifReader->get(data.path, IExifReader::TagType::Exposure);
+                const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
+
+                sequences_by_time.emplace(std::make_tuple(time, seqNum, exposure, id));
+            }
         }
     }
 
@@ -87,17 +92,20 @@ std::vector<SeriesDetector::Detection> SeriesDetector::listDetections() const
 }
 
 
-std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, Photo::Id>>& data) const
+std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const std::multiset<std::tuple<qint64, int, float, Photo::Id>>& data) const
 {
     const int initial_sequence_value = 1;
     int expected_seq = initial_sequence_value;
+    float expected_exposure = 0;
+    bool exposure_changes = false;
+
     std::vector<Photo::Id> group;
     std::vector<Detection> results;
 
-    auto dumpGroup = [&results, &group]()
+    auto dumpGroup = [&results, &group, &exposure_changes]()
     {
         Detection detection;
-        detection.type = Group::Type::Animation;
+        detection.type = exposure_changes? Group::Type::HDR : Group::Type::Animation;
         detection.members = group;
 
         results.push_back(detection);
@@ -108,7 +116,8 @@ std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const s
     for(auto it = data.cbegin(); it != data.cend(); ++it)
     {
         const int seqNum = std::get<1>(*it);
-        const Photo::Id& ph_id = std::get<2>(*it);
+        const float exposure = std::get<2>(*it);
+        const Photo::Id& ph_id = std::get<3>(*it);
 
         if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
         {
@@ -116,10 +125,17 @@ std::vector<SeriesDetector::Detection> SeriesDetector::split_into_groups(const s
                 dumpGroup();
 
             expected_seq = initial_sequence_value;
+            expected_exposure = 0;
+            exposure_changes = false;
         }
 
         if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
         {
+            if (group.empty())
+                expected_exposure = exposure;
+            else if ( std::abs(expected_exposure - exposure) > 0.0001f )
+                exposure_changes = true;
+
             group.push_back(ph_id);
             expected_seq++;
         }
