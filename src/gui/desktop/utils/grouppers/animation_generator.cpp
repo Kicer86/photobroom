@@ -108,7 +108,7 @@ QStringList AnimationGenerator::stabilize()
             m_runner,
             "-C",
             "-v",                              // for align_image_stack_output_analizer
-            "--use-given-order",
+            "--align-to-first",                // use first as base, implies --use-given-order
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
             "-a", output_prefix,
