@@ -59,7 +59,7 @@ namespace GeneratorUtils
             addMessage(lineTrimmed);
             m_logger->debug(message.toStdString());
 
-            processMessage(message);
+            processMessage(lineTrimmed);
         }
     }
 
