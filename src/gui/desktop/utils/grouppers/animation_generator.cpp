@@ -61,8 +61,8 @@ void AnimationGenerator::run()
     try
     {
         const QStringList images_to_be_used = m_data.stabilize?
-                                            stabilize():
-                                            m_data.photos;
+                                              stabilize():
+                                              m_data.photos;
 
         // generate animation (if there was no cancel during stabilization)
         const QString animation_path = generateAnimation(images_to_be_used);
@@ -108,7 +108,7 @@ QStringList AnimationGenerator::stabilize()
             m_runner,
             "-C",
             "-v",                              // for align_image_stack_output_analizer
-            "--use-given-order",
+            "--align-to-first",                // use first as base, implies --use-given-order
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
             "-a", output_prefix,
