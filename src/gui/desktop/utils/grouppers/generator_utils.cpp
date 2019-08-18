@@ -31,7 +31,7 @@ namespace
     const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
     const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
 
-    const QRegExp cp_regExp   = QRegExp("^(Creating control points between|Optimizing Variables).*");
+    const QRegExp cp_regExp   = QRegExp("^(?:Creating control points between|Optimizing Variables).*");
     const QRegExp run_regExp  = QRegExp("^Run called.*");
     const QRegExp save_regExp = QRegExp("^saving.*");
 }
