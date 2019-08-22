@@ -21,6 +21,7 @@
 
 #include <QPainter>
 
+#include <core/athumbnail_manager.hpp>
 #include <core/down_cast.hpp>
 #include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
@@ -31,6 +32,7 @@
 #include "utils/ithumbnail_acquisitor.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
+#include "../../images/images.hpp"
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
@@ -48,7 +50,7 @@ LazyTreeItemDelegate::~LazyTreeItemDelegate()
 }
 
 
-void LazyTreeItemDelegate::set(IThumbnailAcquisitor* acquisitor)
+void LazyTreeItemDelegate::set(AThumbnailManager* acquisitor)
 {
     m_thumbnailAcquisitor = acquisitor;
 }
@@ -63,11 +65,11 @@ void LazyTreeItemDelegate::set(Database::IDatabase* db)
 QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
 {
     const QAbstractItemModel* model = idx.model();
-    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
+    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);       // TODO: not nice (see issue #177)
     const Photo::Data& details = photoInfoModel->getPhotoDetails(idx);
 
-    const ThumbnailInfo info = { details.path, size.height() };
-    QImage image = m_thumbnailAcquisitor->getThumbnail(info);
+    QImage image(Images::clock);
+    m_thumbnailAcquisitor->fetch(details.path, size.height(), [](int, const QImage &){} );  // TODO: implement properly
 
     QString text;
 

@@ -25,13 +25,13 @@
 
 #include <database/idatabase.hpp>
 
-#include "utils/thumbnail_acquisitor.hpp"
 
 class QAbstractItemModel;
 class QItemSelectionModel;
 class QLineEdit;
 class QVBoxLayout;
 
+class AThumbnailManager;
 class DBDataModel;
 class PhotosItemDelegate;
 class MultiValueLineEdit;
@@ -40,7 +40,6 @@ class ImagesTreeView;
 
 struct ICompleterFactory;
 struct IConfiguration;
-struct ILoggerFactory;
 struct ITaskExecutor;
 
 
@@ -54,10 +53,10 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void set(AThumbnailManager *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);
-        void set(ILoggerFactory *);
         void setDB(Database::IDatabase *);
         void setModel(DBDataModel *);
 
@@ -68,8 +67,7 @@ class PhotosWidget: public QWidget
 
     private:
         QTimer m_timer;
-        ThumbnailAcquisitor m_thumbnailAcquisitor;
-        std::unique_ptr<ILogger> m_thumbnailsLogger;
+        AThumbnailManager* m_thumbnailAcquisitor;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
@@ -80,7 +78,7 @@ class PhotosWidget: public QWidget
         void searchExpressionChanged(const QString &);
         void viewScrolled();
         void applySearchExpression();
-        void thumbnailUpdated(const ThumbnailInfo &, const QImage &);
+        void thumbnailUpdated(int, const QImage &);
 
     signals:
         void performUpdate();

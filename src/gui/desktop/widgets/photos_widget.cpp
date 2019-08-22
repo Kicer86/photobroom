@@ -33,12 +33,14 @@
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
-#include "images/images.hpp"
 #include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
 #include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
+
+
+using namespace std::placeholders;
 
 namespace
 {
@@ -48,8 +50,7 @@ namespace
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
-    m_thumbnailAcquisitor(),
-    m_thumbnailsLogger(),
+    m_thumbnailAcquisitor(nullptr),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
@@ -57,17 +58,11 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_bottomHintLayout(nullptr),
     m_executor(nullptr)
 {
-    using namespace std::placeholders;
-    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
-    const QImage image(Images::clock);
-    m_thumbnailAcquisitor.setInProgressThumbnail(image);
-    m_thumbnailAcquisitor.setObserver(thumbUpdate);
-
     // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
 
-    m_delegate->set(&m_thumbnailAcquisitor);
+    m_delegate->set(m_thumbnailAcquisitor);
     m_view->setItemDelegate(m_delegate);
 
     // search panel
@@ -165,7 +160,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
         updateZoomSizeLabel(thumbnailHeight);
         m_view->setThumbnailHeight(thumbnailHeight);
         m_view->invalidate();
-        m_thumbnailAcquisitor.dismissPendingTasks();
     });
 }
 
@@ -175,10 +169,15 @@ PhotosWidget::~PhotosWidget()
 
 }
 
+void PhotosWidget::set(AThumbnailManager* thbMgr)
+{
+    m_thumbnailAcquisitor = thbMgr;
+    m_delegate->set(thbMgr);
+}
+
 
 void PhotosWidget::set(ITaskExecutor* executor)
 {
-    m_thumbnailAcquisitor.set(executor);
     m_executor = executor;
 }
 
@@ -191,7 +190,6 @@ void PhotosWidget::set(IConfiguration* configuration)
 
     m_view->setSpacing(spacing);
     m_delegate->set(configuration);
-    m_thumbnailAcquisitor.set(configuration);
 
     configuration->watchFor(ViewConfigKeys::itemsSpacing, [this](const QString &, const QVariant& value)
     {
@@ -209,13 +207,6 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 }
 
 
-void PhotosWidget::set(ILoggerFactory* loggerFactory)
-{
-    m_thumbnailsLogger = loggerFactory->get("Thumbnails generator");
-    m_thumbnailAcquisitor.set(m_thumbnailsLogger.get());
-}
-
-
 void PhotosWidget::setDB(Database::IDatabase* db)
 {
     m_delegate->set(db);
@@ -226,11 +217,6 @@ void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;
     m_view->setModel(m);
-
-    connect(m, &DBDataModel::modelReset, [this]()
-    {
-        m_thumbnailAcquisitor.flush();
-    });
 }
 
 
@@ -271,7 +257,7 @@ void PhotosWidget::searchExpressionChanged(const QString &)
 
 void PhotosWidget::viewScrolled()
 {
-    m_thumbnailAcquisitor.dismissPendingTasks();
+
 }
 
 
@@ -284,7 +270,7 @@ void PhotosWidget::applySearchExpression()
 }
 
 
-void PhotosWidget::thumbnailUpdated(const ThumbnailInfo &, const QImage &)
+void PhotosWidget::thumbnailUpdated(int, const QImage &)
 {
     // TODO: do it smarter (find QModelIndex for provided info)
     emit performUpdate();

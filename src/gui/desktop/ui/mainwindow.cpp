@@ -105,9 +105,9 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thb
     // Views will use completer factories immediately after set.
     // So factories need log factory before it.
     ui->imagesView->set(&m_completerFactory);
-    ui->imagesView->set(m_loggerFactory);
+    ui->imagesView->set(m_thumbnailManager);
     ui->newImagesView->set(&m_completerFactory);
-    ui->newImagesView->set(m_loggerFactory);
+    ui->newImagesView->set(m_thumbnailManager);
     ui->tagEditor->set(&m_completerFactory);
 
     // TODO: nothing useful in help mentu at this moment
