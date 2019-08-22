@@ -148,7 +148,7 @@ namespace GeneratorUtils
                     stabilization_data.stabilization_step++;
 
                     emit progress( stabilization_data.stabilization_step * 100 /
-                                    stabilization_data.stabilization_steps);
+                                   stabilization_data.stabilization_steps);
                 }
                 else if (run_regExp.exactMatch(line))
                 {
