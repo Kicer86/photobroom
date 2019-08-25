@@ -4,7 +4,7 @@
 #include <QImage>
 
 #include "unit_tests_utils/mock_athumbnail_generator.hpp"
-#include "unit_tests_utils/mock_thumbnail_cache.hpp"
+#include "unit_tests_utils/mock_image_cache.hpp"
 #include "thumbnail_manager.hpp"
 
 
@@ -57,7 +57,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     MockResponse response;
     EXPECT_CALL(response, result(height, img)).Times(1);
 
-    MockThumbnailCache cache;
+    MockImageCache cache;
     EXPECT_CALL(cache, store(path, height, img)).Times(1);
 
     MockThumbnailGenerator generator;
@@ -81,7 +81,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     MockResponse response;
     EXPECT_CALL(response, result(height, img)).Times(1);
 
-    MockThumbnailCache cache;
+    MockImageCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(img));
 
     MockThumbnailGenerator generator;
@@ -101,7 +101,7 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     MockResponse response;
     EXPECT_CALL(response, result(height, img)).Times(1);
 
-    MockThumbnailCache cache;
+    MockImageCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(QImage()));
     EXPECT_CALL(cache, store(path, height, img)).Times(1);
 

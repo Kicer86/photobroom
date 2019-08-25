@@ -33,6 +33,7 @@ set(CORE_SOURCES
     ilogger.hpp
     ilogger_factory.hpp
     ilogger.hpp                                             implementation/ilogger.cpp
+    iimage_cache.hpp
     imedia_information.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
