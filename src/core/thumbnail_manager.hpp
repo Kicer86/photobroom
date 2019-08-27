@@ -28,17 +28,17 @@
 #include "core_export.h"
 
 
-struct IImageCache;
+struct IThumbnailsCache;
 
 class CORE_EXPORT ThumbnailManager: public AThumbnailManager
 {
     public:
         explicit ThumbnailManager(AThumbnailGenerator *);
 
-        void setCache(IImageCache *);
+        void setCache(IThumbnailsCache *);
 
     private:
-        IImageCache* m_cache;
+        IThumbnailsCache* m_cache;
 
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);

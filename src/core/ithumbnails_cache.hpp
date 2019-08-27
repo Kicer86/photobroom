@@ -5,9 +5,9 @@
 #include <QImage>
 
 
-struct IImageCache
+struct IThumbnailsCache
 {
-    virtual ~IImageCache() = default;
+    virtual ~IThumbnailsCache() = default;
 
     virtual std::optional<QImage> find(const QString &, int) = 0;
     virtual void store(const QString &, int, const QImage &) = 0;

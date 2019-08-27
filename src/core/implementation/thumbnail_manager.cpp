@@ -18,7 +18,7 @@
 
 #include "thumbnail_manager.hpp"
 
-#include "iimage_cache.hpp"
+#include "ithumbnails_cache.hpp"
 
 
 ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
@@ -28,7 +28,7 @@ ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
 }
 
 
-void ThumbnailManager::setCache(IImageCache* cache)
+void ThumbnailManager::setCache(IThumbnailsCache* cache)
 {
     m_cache = cache;
 }
