@@ -21,4 +21,13 @@ struct IThumbnailsGenerator
     virtual QImage generate(const QString &, int) = 0;
 };
 
+
+struct IThumbnailsUtils
+{
+    virtual ~IThumbnailsUtils() = default;
+
+    virtual IThumbnailsGenerator* generator() = 0;
+    virtual IThumbnailsCache* cache() = 0;
+};
+
 #endif
