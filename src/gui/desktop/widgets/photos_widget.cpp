@@ -62,7 +62,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
 
-    m_delegate->set(m_thumbnailAcquisitor);
+    m_delegate->set(static_cast<IImageFetcher*>(nullptr));
     m_view->setItemDelegate(m_delegate);
 
     // search panel
@@ -172,7 +172,6 @@ PhotosWidget::~PhotosWidget()
 void PhotosWidget::set(AThumbnailManager* thbMgr)
 {
     m_thumbnailAcquisitor = thbMgr;
-    m_delegate->set(thbMgr);
 }
 
 

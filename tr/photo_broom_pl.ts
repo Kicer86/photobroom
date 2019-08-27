@@ -235,7 +235,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>LazyTreeItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+82"/>
+        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+83"/>
         <source>stop motion</source>
         <translation type="unfinished"></translation>
     </message>

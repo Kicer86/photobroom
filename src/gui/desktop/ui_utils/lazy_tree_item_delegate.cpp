@@ -23,6 +23,7 @@
 
 #include <core/athumbnail_manager.hpp>
 #include <core/down_cast.hpp>
+#include <core/ithumbnails_cache.hpp>
 #include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
@@ -37,7 +38,7 @@
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_thumbnailAcquisitor(),
+    m_imageFetcher(nullptr),
     m_groupCache(1024)
 {
 
@@ -50,9 +51,9 @@ LazyTreeItemDelegate::~LazyTreeItemDelegate()
 }
 
 
-void LazyTreeItemDelegate::set(AThumbnailManager* acquisitor)
+void LazyTreeItemDelegate::set(IImageFetcher* acquisitor)
 {
-    m_thumbnailAcquisitor = acquisitor;
+    m_imageFetcher = acquisitor;
 }
 
 
@@ -68,8 +69,8 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);       // TODO: not nice (see issue #177)
     const Photo::Data& details = photoInfoModel->getPhotoDetails(idx);
 
-    QImage image(Images::clock);
-    m_thumbnailAcquisitor->fetch(details.path, size.height(), [](int, const QImage &){} );  // TODO: implement properly
+    std::optional cached_image = m_imageFetcher->fetch(details.path, size.height());
+    QImage image = cached_image.has_value()? *cached_image: QImage(Images::clock);
 
     QString text;
 
