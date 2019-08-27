@@ -13,4 +13,12 @@ struct IThumbnailsCache
     virtual void store(const QString &, int, const QImage &) = 0;
 };
 
+
+struct IThumbnailsGenerator
+{
+    virtual ~IThumbnailsGenerator() = default;
+
+    virtual QImage generate(const QString &, int) = 0;
+};
+
 #endif
