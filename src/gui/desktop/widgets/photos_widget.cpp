@@ -29,6 +29,7 @@
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/ithumbnails_cache.hpp>
 #include <core/base_tags.hpp>
 
 #include "config_keys.hpp"
@@ -50,7 +51,7 @@ namespace
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
-    m_thumbnailAcquisitor(nullptr),
+    m_thumbnailManager(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
@@ -169,9 +170,9 @@ PhotosWidget::~PhotosWidget()
 
 }
 
-void PhotosWidget::set(AThumbnailManager* thbMgr)
+void PhotosWidget::set(IThumbnailUtils* thbUtils)
 {
-    m_thumbnailAcquisitor = thbMgr;
+    m_thumbnailManager = std::make_unique<ThumbnailManager>(thbUtils->generator(), thbUtils->cache());
 }
 
 

@@ -24,24 +24,45 @@
 
 #include <QImage>
 
-#include "athumbnail_manager.hpp"
+#include "ithumbnails_cache.hpp"
 #include "core_export.h"
 
 
 struct IThumbnailsCache;
 
-class CORE_EXPORT ThumbnailManager: public AThumbnailManager
+class CORE_EXPORT ThumbnailManager
 {
     public:
-        explicit ThumbnailManager(AThumbnailGenerator *);
+        explicit ThumbnailManager(IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
         void setCache(IThumbnailsCache *);
 
+        template<typename C>
+        void fetch(const QString& path, int desired_height, C&& callback)
+        {
+            const QImage cached = find(path, desired_height);
+
+            if (cached.isNull())        // TODO: move to thread
+            {
+                const QImage img = m_generator->generate(path, desired_height);
+
+                const int height = img.height();
+                assert(height == desired_height || img.isNull());
+
+                cache(path, height, img);
+                callback(height, img);
+            }
+            else
+                callback(desired_height, cached);
+        }
+
     private:
         IThumbnailsCache* m_cache;
+        IThumbnailsGenerator* m_generator;
 
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);
 };
 
 #endif // THUMBNAILMANAGER_HPP
+

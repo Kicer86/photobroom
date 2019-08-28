@@ -235,7 +235,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>LazyTreeItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+83"/>
+        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+82"/>
         <source>stop motion</source>
         <translation type="unfinished"></translation>
     </message>
@@ -826,7 +826,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+69"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+70"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
@@ -940,7 +940,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+64"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+63"/>
         <source>Detected series</source>
         <translation type="unfinished"></translation>
     </message>

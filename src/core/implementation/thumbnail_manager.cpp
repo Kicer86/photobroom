@@ -21,9 +21,9 @@
 #include "ithumbnails_cache.hpp"
 
 
-ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
-    AThumbnailManager(gen),
-    m_cache(nullptr)
+ThumbnailManager::ThumbnailManager(IThumbnailsGenerator* gen, IThumbnailsCache* cache):
+    m_cache(cache),
+    m_generator(gen)
 {
 }
 

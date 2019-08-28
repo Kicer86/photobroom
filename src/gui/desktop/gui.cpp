@@ -53,6 +53,26 @@ namespace
 
         std::unique_ptr<ILogger> m_logger;
     };
+
+    struct ThumbnailUtils: IThumbnailUtils
+    {
+        ThumbnailUtils(ILogger* logger, IConfiguration* config): m_gen(logger, config)
+        {
+
+        }
+
+        IThumbnailsCache* cache() override
+        {
+            return nullptr;
+        }
+
+        IThumbnailsGenerator* generator() override
+        {
+            return &m_gen;
+        }
+
+        ThumbnailGenerator m_gen;
+    };
 }
 
 
@@ -156,11 +176,10 @@ void Gui::run()
 
     //
     auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
-    ThumbnailGenerator thbGen(m_coreFactory->getTaskExecutor(), thumbnail_generator_logger.get(), configuration);
-    ThumbnailManager thbMgr(&thbGen);
+    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), configuration);
 
     // main window
-    MainWindow mainWindow(m_coreFactory, &thbMgr);
+    MainWindow mainWindow(m_coreFactory, &thbUtils);
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);

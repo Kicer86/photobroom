@@ -23,6 +23,7 @@
 #include <QWidget>
 #include <QTimer>
 
+#include <core/thumbnail_manager.hpp>
 #include <database/idatabase.hpp>
 
 
@@ -31,7 +32,7 @@ class QItemSelectionModel;
 class QLineEdit;
 class QVBoxLayout;
 
-class AThumbnailManager;
+class IThumbnailUtils;
 class DBDataModel;
 class PhotosItemDelegate;
 class MultiValueLineEdit;
@@ -53,7 +54,7 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
-        void set(AThumbnailManager *);
+        void set(IThumbnailUtils *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);
@@ -67,7 +68,7 @@ class PhotosWidget: public QWidget
 
     private:
         QTimer m_timer;
-        AThumbnailManager* m_thumbnailAcquisitor;
+        std::unique_ptr<ThumbnailManager> m_thumbnailManager;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;

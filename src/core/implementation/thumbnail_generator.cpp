@@ -33,143 +33,7 @@
 #include "stopwatch.hpp"
 
 
-struct ThumbnailGenerator::FromImageTask: ITaskExecutor::ITask
-{
-    FromImageTask(const QString& path,
-                  int height,
-                  std::unique_ptr<ICallback> callback,
-                  const ThumbnailGenerator* generator):
-        m_path(path),
-        m_height(height),
-        m_callback(std::move(callback)),
-        m_generator(generator)
-    {
-
-    }
-
-    virtual ~FromImageTask() {}
-
-    FromImageTask(const FromImageTask &) = delete;
-    FromImageTask& operator=(const FromImageTask &) = delete;
-
-    virtual std::string name() const override
-    {
-        return "Image thumbnail generation";
-    }
-
-    virtual void perform() override
-    {
-        // TODO: use QTransform here to perform one transformation instead of many
-
-        IExifReader* reader = m_generator->m_exifReaderFactory.get();
-
-        Stopwatch stopwatch;
-        stopwatch.start();
-
-        QImage image;
-
-        if(QFile::exists(m_path))
-            image = Image::normalized(m_path, reader).get();
-
-        if (image.isNull())
-        {
-            const QString error = QString("Broken image: %1").arg(m_path);
-
-            m_generator->m_logger->error(error.toStdString());
-        }
-
-        const int photo_read = stopwatch.read(true);
-
-        if (image.height() != m_height)
-            image = image.scaledToHeight(m_height, Qt::SmoothTransformation);
-
-        const int photo_scaling = stopwatch.stop();
-
-        const std::string read_time_message = std::string("photo read time: ") + std::to_string(photo_read) + "ms";
-        m_generator->m_logger->debug(read_time_message);
-
-        const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
-        m_generator->m_logger->debug(scaling_time_message);
-
-        m_callback->result(image);
-    }
-
-    const QString m_path;
-    const int m_height;
-    const std::unique_ptr<ICallback> m_callback;
-    const ThumbnailGenerator* m_generator;
-};
-
-
-struct ThumbnailGenerator::FromVideoTask: ITaskExecutor::ITask
-{
-    FromVideoTask(const QString& path,
-                  int height,
-                  std::unique_ptr<ICallback> callback,
-                  const QString& ffmpeg,
-                  const QString& ffprobe):
-        m_path(path),
-        m_height(height),
-        m_callback(std::move(callback)),
-        m_ffmpeg(ffmpeg),
-        m_ffprobe(ffprobe)
-    {
-
-    }
-
-    std::string name() const override
-    {
-        return "Video thumbnail generation";
-    }
-
-    void perform() override
-    {
-        const QFileInfo pathInfo(m_path);
-
-        QImage result;
-
-        if (pathInfo.exists())
-        {
-            const QString absolute_path = pathInfo.absoluteFilePath();
-
-            const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobe);
-            const int seconds = videoDetailsReader.durationOf(absolute_path);
-            auto tmpDir = System::getSysTmpDir("FromVideoTask");
-            const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
-
-            QProcess ffmpeg_process4thumbnail;
-            const QStringList ffmpeg_thumbnail_args =
-            {
-                "-y",                                        // overwrite file created with QTemporaryFile
-                "-ss", QString::number(seconds / 10),
-                "-i", absolute_path,
-                "-vframes", "1",
-                "-vf", QString("scale=-1:%1").arg(m_height),
-                "-q:v", "2",
-                thumbnail_path
-            };
-
-            ffmpeg_process4thumbnail.start(m_ffmpeg, ffmpeg_thumbnail_args );
-            const bool status = ffmpeg_process4thumbnail.waitForFinished();
-
-            if (status)
-                result = QImage(thumbnail_path);
-        }
-
-        m_callback->result(result);
-    }
-
-    const QString m_path;
-    const int m_height;
-    const std::unique_ptr<ICallback> m_callback;
-    const QString m_ffmpeg;
-    const QString m_ffprobe;
-};
-
-
-
-ThumbnailGenerator::ThumbnailGenerator(ITaskExecutor* executor, ILogger* logger, IConfiguration* config):
-    m_tasks(std::make_unique<TasksQueue>(executor)),
+ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IConfiguration* config):
     m_logger(logger),
     m_configuration(config)
 {
@@ -183,19 +47,12 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
-void ThumbnailGenerator::dismissPendingTasks()
+QImage ThumbnailGenerator::generate(const QString& path, int height)
 {
-    m_tasks->clear();
-}
+    QImage image;
 
-
-void ThumbnailGenerator::run(const QString& path, int height, std::unique_ptr<ICallback> callback)
-{
     if (MediaTypes::isImageFile(path))
-    {
-        auto task = std::make_unique<FromImageTask>(path, height, std::move(callback), this);
-        m_tasks->push(std::move(task));
-    }
+        image = fromImage(path, height);
     else if (MediaTypes::isVideoFile(path))
     {
         const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
@@ -206,13 +63,86 @@ void ThumbnailGenerator::run(const QString& path, int height, std::unique_ptr<IC
         const QFileInfo probefileInfo(ffprobePath);
 
         if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
-        {
-            auto task = std::make_unique<FromVideoTask>(path, height, std::move(callback), ffmpegPath, ffprobePath);
-            m_tasks->push(std::move(task));
-        }
-        else
-            callback->result(QImage{});
+            image = fromVideo(path, height, ffprobePath, ffmpegPath);
     }
     else
         assert(!"unknown file type");
+
+    return image;
+}
+
+
+QImage ThumbnailGenerator::fromImage(const QString& path, int height)
+{
+    // TODO: use QTransform here to perform one transformation instead of many
+
+    IExifReader* reader = m_exifReaderFactory.get();
+
+    Stopwatch stopwatch;
+    stopwatch.start();
+
+    QImage image;
+
+    if(QFile::exists(path))
+        image = Image::normalized(path, reader).get();
+
+    if (image.isNull())
+    {
+        const QString error = QString("Broken image: %1").arg(path);
+
+        m_logger->error(error.toStdString());
+    }
+
+    const int photo_read = stopwatch.read(true);
+
+    if (image.height() != height)
+        image = image.scaledToHeight(height, Qt::SmoothTransformation);
+
+    const int photo_scaling = stopwatch.stop();
+
+    const std::string read_time_message = std::string("photo read time: ") + std::to_string(photo_read) + "ms";
+    m_logger->debug(read_time_message);
+
+    const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
+    m_logger->debug(scaling_time_message);
+
+    return image;
+}
+
+
+QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QString& ffprobe, const QString& ffmpeg)
+{
+    const QFileInfo pathInfo(path);
+
+    QImage result;
+
+    if (pathInfo.exists())
+    {
+        const QString absolute_path = pathInfo.absoluteFilePath();
+
+        const FFMpegVideoDetailsReader videoDetailsReader(ffprobe);
+        const int seconds = videoDetailsReader.durationOf(absolute_path);
+        auto tmpDir = System::getSysTmpDir("FromVideoTask");
+        const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
+
+        QProcess ffmpeg_process4thumbnail;
+        const QStringList ffmpeg_thumbnail_args =
+        {
+            "-y",                                        // overwrite file created with QTemporaryFile
+            "-ss", QString::number(seconds / 10),
+            "-i", absolute_path,
+            "-vframes", "1",
+            "-vf", QString("scale=-1:%1").arg(height),
+            "-q:v", "2",
+            thumbnail_path
+        };
+
+        ffmpeg_process4thumbnail.start(ffmpeg, ffmpeg_thumbnail_args );
+        const bool status = ffmpeg_process4thumbnail.waitForFinished();
+
+        if (status)
+            result = QImage(thumbnail_path);
+    }
+
+    return result;
 }

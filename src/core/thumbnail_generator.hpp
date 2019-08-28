@@ -19,10 +19,9 @@
 #ifndef THUMBNAILGENERATOR_HPP
 #define THUMBNAILGENERATOR_HPP
 
-#include "athumbnail_manager.hpp"
+#include "ithumbnails_cache.hpp"
 
 #include "exif_reader_factory.hpp"
-#include "task_executor_utils.hpp"
 #include "core_export.h"
 
 
@@ -31,32 +30,26 @@ struct IExifReaderFactory;
 struct ILogger;
 
 
-class CORE_EXPORT ThumbnailGenerator: public AThumbnailGenerator
+class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
 {
     public:
-        ThumbnailGenerator(ITaskExecutor *, ILogger *, IConfiguration *);
+        ThumbnailGenerator(ILogger *, IConfiguration *);
         ThumbnailGenerator(const ThumbnailGenerator &) = delete;
         ~ThumbnailGenerator();
 
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
-        void dismissPendingTasks();
-
         // IThumbnailGenerator:
         //void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
-        void run(const QString & , int , std::unique_ptr<ICallback> ) override;
+        QImage generate(const QString &, int) override;
 
     private:
-        std::unique_ptr<TasksQueue> m_tasks;
         ILogger* m_logger;
         mutable ExifReaderFactory m_exifReaderFactory;
         IConfiguration* m_configuration;
 
-        struct FromImageTask;
-        friend struct FromImageTask;
-
-        struct FromVideoTask;
-        friend struct FromVideoTask;
+        QImage fromImage(const QString& path, int height);
+        QImage fromVideo(const QString& path, int height, const QString& ffprobe, const QString& ffmpeg);
 };
 
 #endif // THUMBNAILGENERATOR_HPP

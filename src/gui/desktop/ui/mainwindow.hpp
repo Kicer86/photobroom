@@ -29,7 +29,7 @@ struct IView;
 class DBDataModel;
 class Project;
 struct ProjectInfo;
-struct AThumbnailManager;
+struct IThumbnailUtils;
 
 namespace Ui
 {
@@ -41,7 +41,7 @@ class MainWindow: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit MainWindow( ICoreFactoryAccessor *, AThumbnailManager *, QWidget *parent = 0);
+        explicit MainWindow( ICoreFactoryAccessor *, IThumbnailUtils *, QWidget *parent = 0);
         MainWindow(const MainWindow &) = delete;
         virtual ~MainWindow();
 
@@ -64,7 +64,7 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ITaskExecutor*            m_executor;
         ICoreFactoryAccessor*     m_coreAccessor;
-        AThumbnailManager*        m_thumbnailManager;
+        IThumbnailUtils*         m_thumbnailUtils;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;

@@ -3,7 +3,7 @@
 
 #include <QImage>
 
-#include "unit_tests_utils/mock_athumbnail_generator.hpp"
+#include "unit_tests_utils/mock_thumbnails_generator.hpp"
 #include "unit_tests_utils/mock_thumbnails_cache.hpp"
 #include "thumbnail_manager.hpp"
 
@@ -37,11 +37,8 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
     MockResponse response;
     EXPECT_CALL(response, result(height, img)).Times(1);
 
-    MockThumbnailGenerator generator;
-    EXPECT_CALL(generator, run(path, height, _)).Times(1).WillOnce([&img](const QString &, int, std::unique_ptr<MockThumbnailGenerator::ICallback> callback)
-    {
-        callback->result(img);
-    });
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator);
     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
@@ -60,11 +57,8 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, store(path, height, img)).Times(1);
 
-    MockThumbnailGenerator generator;
-    EXPECT_CALL(generator, run(path, height, _)).Times(1).WillOnce([&img](const QString &, int, std::unique_ptr<MockThumbnailGenerator::ICallback> callback)
-    {
-        callback->result(img);
-    });
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
@@ -84,7 +78,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(img));
 
-    MockThumbnailGenerator generator;
+    MockThumbnailsGenerator generator;
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);
@@ -105,11 +99,8 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(QImage()));
     EXPECT_CALL(cache, store(path, height, img)).Times(1);
 
-    MockThumbnailGenerator generator;
-    EXPECT_CALL(generator, run(path, height, _)).Times(1).WillOnce([&img](const QString &, int, std::unique_ptr<MockThumbnailGenerator::ICallback> callback)
-    {
-        callback->result(img);
-    });
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator);
     tm.setCache(&cache);

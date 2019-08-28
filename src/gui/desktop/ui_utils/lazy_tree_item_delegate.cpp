@@ -21,7 +21,6 @@
 
 #include <QPainter>
 
-#include <core/athumbnail_manager.hpp>
 #include <core/down_cast.hpp>
 #include <core/ithumbnails_cache.hpp>
 #include <core/jobs_manager.hpp>

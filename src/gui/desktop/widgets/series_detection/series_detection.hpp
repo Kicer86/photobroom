@@ -22,6 +22,7 @@
 #include <QDialog>
 
 #include <core/function_wrappers.hpp>
+#include <core/thumbnail_manager.hpp>
 #include <database/database_tools/series_detector.hpp>
 #include <database/photo_data.hpp>
 
@@ -35,15 +36,15 @@ namespace Database
 }
 
 class Project;
-struct AThumbnailManager;
 struct ICoreFactoryAccessor;
+struct IThumbnailUtils;
 
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, AThumbnailManager *, Project *);
+        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, IThumbnailUtils *, Project *);
         ~SeriesDetection();
 
     private:
@@ -51,7 +52,7 @@ class SeriesDetection: public QDialog
         QStandardItemModel* m_tabModel;
         QTableView* m_tabView;
         ICoreFactoryAccessor* m_core;
-        AThumbnailManager* m_thmMgr;
+        ThumbnailManager m_thmMgr;
         Database::IDatabase* m_db;
         Project* m_project;
 

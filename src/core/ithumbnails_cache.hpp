@@ -22,9 +22,9 @@ struct IThumbnailsGenerator
 };
 
 
-struct IThumbnailsUtils
+struct IThumbnailUtils
 {
-    virtual ~IThumbnailsUtils() = default;
+    virtual ~IThumbnailUtils() = default;
 
     virtual IThumbnailsGenerator* generator() = 0;
     virtual IThumbnailsCache* cache() = 0;
