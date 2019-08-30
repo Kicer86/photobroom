@@ -40,7 +40,6 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
         // IThumbnailGenerator:
-        //void generateThumbnail(const ThumbnailInfo &, const Callback &) const override;
         QImage generate(const QString &, int) override;
 
     private:
