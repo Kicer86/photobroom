@@ -2,6 +2,7 @@
 #ifndef IIMAGE_CACHE_HPP
 #define IIMAGE_CACHE_HPP
 
+#include <optional>
 #include <QImage>
 
 
