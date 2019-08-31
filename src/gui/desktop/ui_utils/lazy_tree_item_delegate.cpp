@@ -22,9 +22,9 @@
 #include <QPainter>
 
 #include <core/down_cast.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/ithumbnails_cache.hpp>
 #include <core/ithumbnails_manager.hpp>
-#include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/igroup_operator.hpp>
@@ -130,20 +130,6 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
         LazyTreeItemDelegate* pThis = const_cast<LazyTreeItemDelegate *>(this);
 
         // get type from db and store in cache.
-
-        /*  TODO: fix it one day, when template master arrives
-        job(m_db, [gid](Database::IBackend* backend)
-        {
-            const Group::Type type = backend->groupOperator()->type(gid);
-
-            return type;
-        }).execute2<const Group::Type &>(pThis, [gid, cache = this->m_groupCache](const Group::Type& type)
-        {
-            // update cache
-            auto locked_cache = cache->lock();
-            locked_cache->insert(gid, new Group::Type(type));
-        });
-        */
 
         // TODO: make_cross_thread_function should guess function's args
         auto callback = make_cross_thread_function<const Group::Type &>(pThis, [gid, this](const Group::Type& type)
