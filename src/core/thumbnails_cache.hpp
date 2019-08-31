@@ -23,7 +23,9 @@
 
 #include <QCache>
 
-class ThumbnailsCache : public IThumbnailsCache
+#include "core_export.h"
+
+class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
 {
     public:
         std::optional<QImage> find(const QString &, int) override;
