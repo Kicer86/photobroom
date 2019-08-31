@@ -53,7 +53,6 @@ set(CORE_SOURCES
 
     #utilities
     base_tags.hpp                                           implementation/base_tags.cpp
-    cache.hpp
     chain_controller.hpp
     configuration.hpp                                       implementation/configuration.cpp
     constants.hpp                                           implementation/constants.cpp
