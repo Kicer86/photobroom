@@ -40,11 +40,10 @@ std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
     std::optional img = m_cache->find(path, height);
 
     if (img.has_value() == false)
-        generate(path, height, [](int, const QImage &){});   // no extra action here
+        generate(path, height, [](int, const QImage &){});   // no extra action required here
 
     return img;
 }
-
 
 
 QImage ThumbnailManager::find(const QString& path, int height)

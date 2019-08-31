@@ -37,6 +37,7 @@ class CORE_EXPORT ThumbnailManager
 
         void setCache(IThumbnailsCache *);
 
+        // call 'callback' when thumbnail is ready (it may happend immediately when found in cache)
         template<typename C>
         void fetch(const QString& path, int desired_height, C&& callback)
         {
@@ -48,6 +49,8 @@ class CORE_EXPORT ThumbnailManager
                 callback(desired_height, cached);
         }
 
+        // return required thumbnail (if in cache).
+        // Otherwise returns empty result and generates thumbnail in background for later use.
         std::optional<QImage> fetch(const QString& path, int height);
 
     private:
