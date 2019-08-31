@@ -16,6 +16,7 @@
 #include <core/ilogger_factory.hpp>
 #include <core/thumbnail_generator.hpp>
 #include <core/thumbnail_manager.hpp>
+#include <core/thumbnails_cache.hpp>
 #include <system/filesystem.hpp>
 
 #ifdef UPDATER_ENABLED
@@ -63,7 +64,7 @@ namespace
 
         IThumbnailsCache* cache() override
         {
-            return nullptr;
+            return &m_cache;
         }
 
         IThumbnailsGenerator* generator() override
@@ -71,6 +72,7 @@ namespace
             return &m_gen;
         }
 
+        ThumbnailsCache m_cache;
         ThumbnailGenerator m_gen;
     };
 }
