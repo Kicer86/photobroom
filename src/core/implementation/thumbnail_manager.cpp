@@ -29,12 +29,6 @@ ThumbnailManager::ThumbnailManager(IThumbnailsGenerator* gen, IThumbnailsCache* 
 }
 
 
-void ThumbnailManager::setCache(IThumbnailsCache* cache)
-{
-    m_cache = cache;
-}
-
-
 void ThumbnailManager::fetch(const QString& path, int desired_height, const std::function<void(int, const QImage &)>& callback)
 {
     const QImage cached = find(path, desired_height);

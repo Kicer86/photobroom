@@ -61,8 +61,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     MockThumbnailsGenerator generator;
     EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
-    ThumbnailManager tm(&generator);
-    tm.setCache(&cache);
+    ThumbnailManager tm(&generator, &cache);
     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
@@ -81,8 +80,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
 
     MockThumbnailsGenerator generator;
 
-    ThumbnailManager tm(&generator);
-    tm.setCache(&cache);
+    ThumbnailManager tm(&generator, &cache);
     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
@@ -103,8 +101,7 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     MockThumbnailsGenerator generator;
     EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
-    ThumbnailManager tm(&generator);
-    tm.setCache(&cache);
+    ThumbnailManager tm(&generator, &cache);
     tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
 }
 
