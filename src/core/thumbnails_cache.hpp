@@ -25,7 +25,8 @@
 class ThumbnailsCache : public IThumbnailsCache
 {
     public:
-        void store(const QString&, int , const QImage& ) override;
+        std::optional<QImage> find(const QString &, int) override;
+        void store(const QString &, int , const QImage &) override;
 };
 
 #endif
