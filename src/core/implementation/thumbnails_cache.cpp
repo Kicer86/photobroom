@@ -18,6 +18,15 @@
 
 #include "thumbnails_cache.hpp"
 
+
+std::optional<QImage> ThumbnailsCache::find(const QString&, int)
+{
+    std::optional<QImage> result;
+
+    return result;
+}
+
+
 void ThumbnailsCache::store(const QString& , int , const QImage& )
 {
 
