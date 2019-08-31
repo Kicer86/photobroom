@@ -2,6 +2,8 @@
 #ifndef ITHUMBNAILS_MANAGER_HPP
 #define ITHUMBNAILS_MANAGER_HPP
 
+#include <functional>
+
 struct IThumbnailsManager
 {
     virtual ~IThumbnailsManager() = default;
