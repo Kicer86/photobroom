@@ -21,12 +21,16 @@
 
 #include "ithumbnails_cache.hpp"
 
+#include <QCache>
 
 class ThumbnailsCache : public IThumbnailsCache
 {
     public:
         std::optional<QImage> find(const QString &, int) override;
         void store(const QString &, int , const QImage &) override;
+
+    private:
+        QCache<std::tuple<QString, int>, QImage> m_cache;
 };
 
 #endif

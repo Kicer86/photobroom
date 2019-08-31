@@ -18,16 +18,30 @@
 
 #include "thumbnails_cache.hpp"
 
+uint qHash(const std::tuple<QString, int>& key)
+{
+    const QString& path = std::get<0>(key);
+    const int height = std::get<1>(key);
 
-std::optional<QImage> ThumbnailsCache::find(const QString&, int)
+    return qHash(path) ^ qHash(height);
+}
+
+
+std::optional<QImage> ThumbnailsCache::find(const QString& path, int height)
 {
     std::optional<QImage> result;
+
+    QImage* img = m_cache[std::tie(path, height)];
+
+    if (img)
+        result = *img;
 
     return result;
 }
 
 
-void ThumbnailsCache::store(const QString& , int , const QImage& )
+void ThumbnailsCache::store(const QString& path, int height, const QImage& img)
 {
-
+    QImage* copy = new QImage(img);
+    m_cache.insert(std::tie(path, height), copy);
 }
