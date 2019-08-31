@@ -177,9 +177,10 @@ void Gui::run()
     //
     auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
     ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), configuration);
+    ThumbnailManager thbMgr(thbUtils.generator(), thbUtils.cache());
 
     // main window
-    MainWindow mainWindow(m_coreFactory, &thbUtils);
+    MainWindow mainWindow(m_coreFactory, &thbMgr);
 
     mainWindow.set(m_prjManager);
     mainWindow.set(m_pluginLoader);

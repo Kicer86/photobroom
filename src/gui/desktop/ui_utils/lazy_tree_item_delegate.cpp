@@ -23,6 +23,7 @@
 
 #include <core/down_cast.hpp>
 #include <core/ithumbnails_cache.hpp>
+#include <core/ithumbnails_manager.hpp>
 #include <core/jobs_manager.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
@@ -50,9 +51,9 @@ LazyTreeItemDelegate::~LazyTreeItemDelegate()
 }
 
 
-void LazyTreeItemDelegate::set(IImageFetcher* acquisitor)
+void LazyTreeItemDelegate::set(IThumbnailsManager* manager)
 {
-    m_imageFetcher = acquisitor;
+    m_imageFetcher = manager;
 }
 
 

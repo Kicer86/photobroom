@@ -32,7 +32,6 @@ class QItemSelectionModel;
 class QLineEdit;
 class QVBoxLayout;
 
-class IThumbnailUtils;
 class DBDataModel;
 class PhotosItemDelegate;
 class MultiValueLineEdit;
@@ -42,6 +41,7 @@ class ImagesTreeView;
 struct ICompleterFactory;
 struct IConfiguration;
 struct ITaskExecutor;
+struct IThumbnailsManager;
 
 
 class PhotosWidget: public QWidget
@@ -54,7 +54,7 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
-        void set(IThumbnailUtils *);
+        void set(IThumbnailsManager *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);

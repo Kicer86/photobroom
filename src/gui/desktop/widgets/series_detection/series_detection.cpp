@@ -45,13 +45,13 @@ namespace
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  ICoreFactoryAccessor* core,
-                                 IThumbnailUtils* thbUtils,
+                                 IThumbnailsManager* thbMgr,
                                  Project* project):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
     m_tabView(nullptr),
     m_core(core),
-    m_thmMgr(thbUtils->generator(), thbUtils->cache()),
+    m_thmMgr(thbMgr),
     m_db(db),
     m_project(project)
 {
@@ -127,7 +127,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
 
         const QString& path = candidate.members.front().get<Photo::Field::Path>();
-        m_thmMgr.fetch(path, thumbnail_size, setThumbnailCallbackSafe);
+        m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
 
         QList<QStandardItem *> row;
 

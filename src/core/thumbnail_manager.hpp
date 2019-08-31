@@ -25,12 +25,13 @@
 #include <QImage>
 
 #include "ithumbnails_cache.hpp"
+#include "ithumbnails_manager.hpp"
 #include "core_export.h"
 
 
 struct IThumbnailsCache;
 
-class CORE_EXPORT ThumbnailManager
+class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 {
     public:
         explicit ThumbnailManager(IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
@@ -38,16 +39,7 @@ class CORE_EXPORT ThumbnailManager
         void setCache(IThumbnailsCache *);
 
         // call 'callback' when thumbnail is ready (it may happend immediately when found in cache)
-        template<typename C>
-        void fetch(const QString& path, int desired_height, C&& callback)
-        {
-            const QImage cached = find(path, desired_height);
-
-            if (cached.isNull())
-                generate(path, desired_height, std::forward<C>(callback));
-            else
-                callback(desired_height, cached);
-        }
+        void fetch(const QString& path, int desired_height, const std::function<void(int, const QImage &)> &);
 
         // return required thumbnail (if in cache).
         // Otherwise returns empty result and generates thumbnail in background for later use.
