@@ -3,6 +3,7 @@
 #define ITHUMBNAILS_MANAGER_HPP
 
 #include <functional>
+#include <optional>
 
 struct IThumbnailsManager
 {
