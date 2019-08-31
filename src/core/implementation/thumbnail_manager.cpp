@@ -20,6 +20,7 @@
 
 #include "ithumbnails_cache.hpp"
 
+using namespace std::placeholders;
 
 ThumbnailManager::ThumbnailManager(IThumbnailsGenerator* gen, IThumbnailsCache* cache):
     m_cache(cache),
@@ -32,6 +33,18 @@ void ThumbnailManager::setCache(IThumbnailsCache* cache)
 {
     m_cache = cache;
 }
+
+
+std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
+{
+    std::optional img = m_cache->find(path, height);
+
+    if (img.has_value() == false)
+        generate(path, height, [](int, const QImage &){});   // no extra action here
+
+    return img;
+}
+
 
 
 QImage ThumbnailManager::find(const QString& path, int height)

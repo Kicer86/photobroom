@@ -42,19 +42,13 @@ class CORE_EXPORT ThumbnailManager
         {
             const QImage cached = find(path, desired_height);
 
-            if (cached.isNull())        // TODO: move to thread
-            {
-                const QImage img = m_generator->generate(path, desired_height);
-
-                const int height = img.height();
-                assert(height == desired_height || img.isNull());
-
-                cache(path, height, img);
-                callback(height, img);
-            }
+            if (cached.isNull())
+                generate(path, desired_height, std::forward<C>(callback));
             else
                 callback(desired_height, cached);
         }
+
+        std::optional<QImage> fetch(const QString& path, int height);
 
     private:
         IThumbnailsCache* m_cache;
@@ -62,6 +56,19 @@ class CORE_EXPORT ThumbnailManager
 
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);
+
+        template<typename C>
+        void generate(const QString& path, int desired_height, C&& callback)
+        {
+            // TODO: move to thread
+            const QImage img = m_generator->generate(path, desired_height);
+
+            const int height = img.height();
+            assert(height == desired_height || img.isNull());
+
+            cache(path, height, img);
+            callback(height, img);
+        }
 };
 
 #endif // THUMBNAILMANAGER_HPP
