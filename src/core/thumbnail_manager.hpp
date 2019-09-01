@@ -55,8 +55,8 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
             const int height = img.height();
             assert(height == desired_height || img.isNull());
 
-            cache(path, height, img);
-            callback(height, img);
+            cache(path, desired_height, img);
+            callback(desired_height, img);
         }
 };
 
