@@ -33,12 +33,11 @@
 #include "utils/ithumbnail_acquisitor.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
-#include "../../images/images.hpp"
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_imageFetcher(nullptr),
+    m_imagesSource(nullptr),
     m_groupCache(1024)
 {
 
@@ -51,9 +50,9 @@ LazyTreeItemDelegate::~LazyTreeItemDelegate()
 }
 
 
-void LazyTreeItemDelegate::set(IThumbnailsManager* manager)
+void LazyTreeItemDelegate::set(IImagesSource* imgSrc)
 {
-    m_imageFetcher = manager;
+    m_imagesSource = imgSrc;
 }
 
 
@@ -69,10 +68,8 @@ QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size)
     const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);       // TODO: not nice (see issue #177)
     const Photo::Data& details = photoInfoModel->getPhotoDetails(idx);
 
-    std::optional cached_image = m_imageFetcher->fetch(details.path, size.height());
-    QImage image = cached_image.has_value()? *cached_image: QImage(Images::clock);
-
     QString text;
+    QImage image = m_imagesSource->image(idx, size);
 
     if (details.groupInfo.role == GroupInfo::Representative)
     {

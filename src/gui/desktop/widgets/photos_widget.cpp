@@ -39,6 +39,7 @@
 #include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
+#include "../../images/images.hpp"
 
 
 using namespace std::placeholders;
@@ -51,17 +52,18 @@ namespace
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
-    m_thumbnailManager(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr),
-    m_executor(nullptr)
+    m_executor(nullptr),
+    m_thumbnailsManager(nullptr)
 {
     // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
+    m_delegate->set(this);
 
     m_view->setItemDelegate(m_delegate);
 
@@ -171,7 +173,7 @@ PhotosWidget::~PhotosWidget()
 
 void PhotosWidget::set(IThumbnailsManager* manager)
 {
-    m_delegate->set(manager);
+    m_thumbnailsManager = manager;
 }
 
 
@@ -274,3 +276,17 @@ void PhotosWidget::thumbnailUpdated(int, const QImage &)
     // TODO: do it smarter (find QModelIndex for provided info)
     emit performUpdate();
 }
+
+
+QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
+{
+    const Photo::Data& ph_data = m_model->getPhotoDetails(idx);
+    const std::optional image = m_thumbnailsManager->fetch(ph_data.path, size.height());
+    const QImage result = image.has_value()? image.value(): QImage(Images::clock);
+
+    if (image.has_value() == false)
+        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2));
+
+    return result;
+}
+

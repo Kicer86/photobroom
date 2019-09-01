@@ -26,6 +26,8 @@
 #include <core/thumbnail_manager.hpp>
 #include <database/idatabase.hpp>
 
+#include "ui_utils/lazy_tree_item_delegate.hpp"
+
 
 class QAbstractItemModel;
 class QItemSelectionModel;
@@ -44,7 +46,7 @@ struct ITaskExecutor;
 struct IThumbnailsManager;
 
 
-class PhotosWidget: public QWidget
+class PhotosWidget: public QWidget, IImagesSource
 {
         Q_OBJECT
 
@@ -64,22 +66,25 @@ class PhotosWidget: public QWidget
         QItemSelectionModel* viewSelectionModel() const;
         DBDataModel* getModel() const;
 
-        void setBottomHintWidget( InfoBalloonWidget *);
+        void setBottomHintWidget(InfoBalloonWidget *);
 
     private:
         QTimer m_timer;
-        std::unique_ptr<ThumbnailManager> m_thumbnailManager;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
         MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
         ITaskExecutor* m_executor;
+        IThumbnailsManager* m_thumbnailsManager;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();
         void applySearchExpression();
         void thumbnailUpdated(int, const QImage &);
+
+        // IImagesSource:
+        QImage image(const QModelIndex &, const QSize &) override;
 
     signals:
         void performUpdate();
