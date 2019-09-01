@@ -18,6 +18,7 @@ addTestTarget(core
                     implementation/tag.cpp
                     implementation/thumbnail_manager.cpp
                     implementation/thumbnails_cache.cpp
+                    implementation/task_executor_utils.cpp
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp

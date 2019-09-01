@@ -26,20 +26,25 @@
 
 #include "ithumbnails_cache.hpp"
 #include "ithumbnails_manager.hpp"
+#include "task_executor_utils.hpp"
+
 #include "core_export.h"
 
 
+struct ITaskExecutor;
 struct IThumbnailsCache;
+
 
 class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
+        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
         void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &);
         std::optional<QImage> fetch(const QString& path, int height);
 
     private:
+        TasksQueue m_tasks;
         IThumbnailsCache* m_cache;
         IThumbnailsGenerator* m_generator;
 

@@ -22,7 +22,9 @@
 
 using namespace std::placeholders;
 
-ThumbnailManager::ThumbnailManager(IThumbnailsGenerator* gen, IThumbnailsCache* cache):
+
+ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator* gen, IThumbnailsCache* cache):
+    m_tasks(executor),
     m_cache(cache),
     m_generator(gen)
 {
