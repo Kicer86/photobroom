@@ -142,3 +142,24 @@ TEST(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
 
     EXPECT_FALSE(fetchedImg.has_value());
 }
+
+
+TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
+{
+    const QString path = "/some/example/path";
+    const int requested_height = 100;
+    QImage img;                         // emulate broken image with no height
+
+    MockThumbnailsCache cache;
+    EXPECT_CALL(cache, find(path, requested_height)).Times(1).WillOnce(Return(std::optional<QImage>{}));
+    EXPECT_CALL(cache, store(path, requested_height, img)).Times(1);
+
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, requested_height)).Times(1).WillOnce(Return(img));
+
+    MockResponse response;
+    EXPECT_CALL(response, result(requested_height, img)).Times(1);
+
+    ThumbnailManager tm(&generator, &cache);
+    tm.fetch(path, requested_height, [&response](int _h, const QImage& _img){response(_h, _img);});
+}
