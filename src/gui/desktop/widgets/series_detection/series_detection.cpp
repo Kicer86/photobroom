@@ -123,8 +123,8 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
     {
         const SeriesDetector::GroupCandidate& candidate = candidates[i];
 
-        auto setThumbnailCallback = make_cross_thread_function<int, const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1, _2));
-        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(int, const QImage &)>(setThumbnailCallback);
+        auto setThumbnailCallback = make_cross_thread_function< const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1));
+        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(const QImage &)>(setThumbnailCallback);
 
         const QString& path = candidate.members.front().get<Photo::Field::Path>();
         m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
@@ -156,7 +156,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
 }
 
 
-void SeriesDetection::setThumbnail(int row, int /* height */, const QImage& img)
+void SeriesDetection::setThumbnail(int row, const QImage& img)
 {
     QModelIndex item = m_tabModel->index(row, 0);
     const QPixmap pixmap = QPixmap::fromImage(img);

@@ -81,7 +81,7 @@ class PhotosWidget: public QWidget, IImagesSource
         void searchExpressionChanged(const QString &);
         void viewScrolled();
         void applySearchExpression();
-        void thumbnailUpdated(int, const QImage &);
+        void thumbnailUpdated(const QImage &);
 
         // IImagesSource:
         QImage image(const QModelIndex &, const QSize &) override;

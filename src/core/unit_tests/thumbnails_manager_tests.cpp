@@ -13,9 +13,9 @@ using testing::Return;
 
 struct MockResponse
 {
-    MOCK_METHOD2(result, void(int, QImage));
+    MOCK_METHOD1(result, void(QImage));
 
-    void operator()(int h, const QImage& img) { result(h, img); }
+    void operator()(const QImage& img) { result(img); }
 };
 
 
@@ -35,13 +35,13 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockResponse response;
-    EXPECT_CALL(response, result(height, img)).Times(1);
+    EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsGenerator generator;
     EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator);
-    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
+    tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
@@ -52,7 +52,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockResponse response;
-    EXPECT_CALL(response, result(height, img)).Times(1);
+    EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(std::optional<QImage>{}));
@@ -62,7 +62,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator, &cache);
-    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
+    tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
@@ -73,7 +73,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockResponse response;
-    EXPECT_CALL(response, result(height, img)).Times(1);
+    EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(img));
@@ -81,7 +81,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     MockThumbnailsGenerator generator;
 
     ThumbnailManager tm(&generator, &cache);
-    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
+    tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
@@ -92,7 +92,7 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockResponse response;
-    EXPECT_CALL(response, result(height, img)).Times(1);
+    EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(QImage()));
@@ -102,7 +102,7 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&generator, &cache);
-    tm.fetch(path, height, [&response](int _h, const QImage& _img){response(_h, _img);});  // mock cannot be used here directly
+    tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
@@ -158,8 +158,8 @@ TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
     EXPECT_CALL(generator, generate(path, requested_height)).Times(1).WillOnce(Return(img));
 
     MockResponse response;
-    EXPECT_CALL(response, result(requested_height, img)).Times(1);
+    EXPECT_CALL(response, result(img)).Times(1);
 
     ThumbnailManager tm(&generator, &cache);
-    tm.fetch(path, requested_height, [&response](int _h, const QImage& _img){response(_h, _img);});
+    tm.fetch(path, requested_height, [&response](const QImage& _img){response(_img);});
 }

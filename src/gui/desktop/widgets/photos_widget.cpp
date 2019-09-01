@@ -271,7 +271,7 @@ void PhotosWidget::applySearchExpression()
 }
 
 
-void PhotosWidget::thumbnailUpdated(int, const QImage &)
+void PhotosWidget::thumbnailUpdated(const QImage &)
 {
     // TODO: do it smarter (find QModelIndex for provided info)
     emit performUpdate();
@@ -285,7 +285,7 @@ QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
     const QImage result = image.has_value()? image.value(): QImage(Images::clock);
 
     if (image.has_value() == false)
-        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2));
+        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, _1));
 
     return result;
 }

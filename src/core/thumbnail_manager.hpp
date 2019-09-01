@@ -36,7 +36,7 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
     public:
         explicit ThumbnailManager(IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
-        void fetch(const QString& path, int desired_height, const std::function<void(int, const QImage &)> &);
+        void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &);
         std::optional<QImage> fetch(const QString& path, int height);
 
     private:
@@ -56,7 +56,7 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
             assert(height == desired_height || img.isNull());
 
             cache(path, desired_height, img);
-            callback(desired_height, img);
+            callback(img);
         }
 };
 

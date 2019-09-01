@@ -29,14 +29,14 @@ ThumbnailManager::ThumbnailManager(IThumbnailsGenerator* gen, IThumbnailsCache* 
 }
 
 
-void ThumbnailManager::fetch(const QString& path, int desired_height, const std::function<void(int, const QImage &)>& callback)
+void ThumbnailManager::fetch(const QString& path, int desired_height, const std::function<void(const QImage &)>& callback)
 {
     const QImage cached = find(path, desired_height);
 
     if (cached.isNull())
         generate(path, desired_height, callback);
     else
-        callback(desired_height, cached);
+        callback(cached);
 }
 
 
@@ -45,7 +45,7 @@ std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
     std::optional img = m_cache->find(path, height);
 
     if (img.has_value() == false)
-        generate(path, height, [](int, const QImage &){});   // no extra action required here
+        generate(path, height, [](const QImage &){});   // no extra action required here
 
     return img;
 }

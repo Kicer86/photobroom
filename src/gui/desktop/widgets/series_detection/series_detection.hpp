@@ -58,7 +58,7 @@ class SeriesDetection: public QDialog
 
         void fetch_series(Database::IBackend *);
         void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
-        void setThumbnail(int, int, const QImage &);
+        void setThumbnail(int, const QImage &);
         void group();
         std::vector<Photo::Data> load_group_details(Database::IBackend *, const SeriesDetector::GroupCandidate &);
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
