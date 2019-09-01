@@ -36,11 +36,7 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
     public:
         explicit ThumbnailManager(IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
-        // call 'callback' when thumbnail is ready (it may happend immediately when found in cache)
         void fetch(const QString& path, int desired_height, const std::function<void(int, const QImage &)> &);
-
-        // return required thumbnail (if in cache).
-        // Otherwise returns empty result and generates thumbnail in background for later use.
         std::optional<QImage> fetch(const QString& path, int height);
 
     private:
