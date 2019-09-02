@@ -27,6 +27,11 @@ uint qHash(const std::tuple<QString, int>& key)
 }
 
 
+ThumbnailsCache::ThumbnailsCache(): m_cache(1024)
+{
+}
+
+
 std::optional<QImage> ThumbnailsCache::find(const QString& path, int height)
 {
     std::optional<QImage> result;

@@ -30,6 +30,8 @@
 class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
 {
     public:
+        ThumbnailsCache();
+
         std::optional<QImage> find(const QString &, int) override;
         void store(const QString &, int , const QImage &) override;
 
