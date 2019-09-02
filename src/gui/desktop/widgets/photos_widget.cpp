@@ -26,6 +26,7 @@
 #include <QShortcut>
 #include <QVBoxLayout>
 
+#include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
@@ -156,7 +157,6 @@ PhotosWidget::PhotosWidget(QWidget* p):
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
     connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
-    connect(this, &PhotosWidget::performUpdate, m_view->viewport(), qOverload<>(&QWidget::update), Qt::QueuedConnection);
     connect(zoomSlider, &QAbstractSlider::valueChanged, [this, updateZoomSizeLabel](int thumbnailHeight)
     {
         updateZoomSizeLabel(thumbnailHeight);
@@ -271,10 +271,10 @@ void PhotosWidget::applySearchExpression()
 }
 
 
-void PhotosWidget::thumbnailUpdated(const QImage &)
+void PhotosWidget::thumbnailUpdated(const QModelIndex& idx)
 {
-    // TODO: do it smarter (find QModelIndex for provided info)
-    emit performUpdate();
+    // this method can be called from non gui thread, postpone update()
+    invokeMethod(m_view, qOverload<const QModelIndex &>(&QAbstractItemView::update), idx);
 }
 
 
@@ -285,7 +285,7 @@ QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
     const QImage result = image.has_value()? image.value(): QImage(Images::clock);
 
     if (image.has_value() == false)
-        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, _1));
+        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, idx));
 
     return result;
 }
