@@ -95,13 +95,13 @@ QImage ThumbnailGenerator::fromImage(const QString& path, int height)
 
     const int photo_read = stopwatch.read(true);
 
-    if (image.height() != height)
+    if (image.isNull() == false && image.height() != height)
         image = image.scaledToHeight(height, Qt::SmoothTransformation);
 
     const int photo_scaling = stopwatch.stop();
 
-    const std::string read_time_message = std::string("photo read time: ") + std::to_string(photo_read) + "ms";
-    m_logger->debug(read_time_message);
+    const QString read_time_message = QString("photo %1 read time: %2ms").arg(path).arg(photo_read);
+    m_logger->debug(read_time_message.toStdString());
 
     const std::string scaling_time_message = std::string("photo scaling time: ") + std::to_string(photo_scaling) + "ms";
     m_logger->debug(scaling_time_message);
