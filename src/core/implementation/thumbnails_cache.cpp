@@ -31,7 +31,7 @@ std::optional<QImage> ThumbnailsCache::find(const QString& path, int height)
 {
     std::optional<QImage> result;
 
-    QImage* img = m_cache[std::tie(path, height)];
+    QImage* img = m_cache.lock()->object(std::tie(path, height));
 
     if (img)
         result = *img;
@@ -43,5 +43,5 @@ std::optional<QImage> ThumbnailsCache::find(const QString& path, int height)
 void ThumbnailsCache::store(const QString& path, int height, const QImage& img)
 {
     QImage* copy = new QImage(img);
-    m_cache.insert(std::tie(path, height), copy);
+    m_cache.lock()->insert(std::tie(path, height), copy);
 }

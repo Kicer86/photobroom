@@ -23,6 +23,8 @@
 
 #include <QCache>
 
+#include <OpenLibrary/putils/ts_resource.hpp>
+
 #include "core_export.h"
 
 class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
@@ -32,7 +34,8 @@ class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
         void store(const QString &, int , const QImage &) override;
 
     private:
-        QCache<std::tuple<QString, int>, QImage> m_cache;
+        typedef QCache<std::tuple<QString, int>, QImage> CacheContainer;
+        ol::ThreadSafeResource<CacheContainer> m_cache;
 };
 
 #endif
