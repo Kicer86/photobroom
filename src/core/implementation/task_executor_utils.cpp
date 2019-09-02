@@ -115,8 +115,8 @@ void TasksQueue::fire()
     auto task = std::move(m_waitingTasks.front());
     m_waitingTasks.pop_front();
 
-    m_tasksExecutor->add(std::move(task));
     m_executingTasks++;
+    m_tasksExecutor->add(std::move(task));
 }
 
 
