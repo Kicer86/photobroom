@@ -273,7 +273,7 @@ void ImagesTreeView::setModel(QAbstractItemModel* abstract_model)
 }
 
 
-void ImagesTreeView::paintEvent(QPaintEvent *)
+void ImagesTreeView::paintEvent(QPaintEvent* pe)
 {
     TIME_GUARDIAN("ImagesTreeView::paintEvent", 100, "long paint");
 
@@ -281,12 +281,12 @@ void ImagesTreeView::paintEvent(QPaintEvent *)
 
     QPainter painter(viewport());
     const QPoint offset = getOffset();
-    QRect visible_area = viewport()->rect();
+    QRect dirtyRect = pe->rect();
 
-    visible_area.moveTo(offset);
+    dirtyRect.translate(offset);
     painter.translate(-offset);
 
-    std::vector<QModelIndex> items = findItemsIn(visible_area);
+    std::vector<QModelIndex> items = findItemsIn(dirtyRect);
 
     for (const QModelIndex& item: items)
     {
