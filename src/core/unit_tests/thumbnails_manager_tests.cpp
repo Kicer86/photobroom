@@ -30,7 +30,7 @@ TEST(ThumbnailManagerTest, constructs)
 }
 
 
-TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
+TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNotCache)
 {
     const QString path = "/some/example/path";
     const int height = 100;
@@ -144,10 +144,10 @@ TEST(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
 
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(path, height)).Times(1).WillOnce(Return(std::optional<QImage>{}));
-    EXPECT_CALL(cache, store(path, height, img)).Times(1);
+    EXPECT_CALL(cache, store(path, height, img)).Times(0);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, height)).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generate(path, height)).Times(0);
 
     FakeTaskExecutor executor;
 

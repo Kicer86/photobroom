@@ -51,20 +51,7 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);
 
-        template<typename C>
-        void generate(const QString& path, int desired_height, C&& callback)
-        {
-            runOn(&m_tasks, [=]
-            {
-                const QImage img = m_generator->generate(path, desired_height);
-
-                const int height = img.height();
-                assert(height == desired_height || img.isNull());
-
-                cache(path, desired_height, img);
-                callback(img);
-            });
-        }
+        void generate(const QString &, int, const std::function<void(const QImage &)> &);
 };
 
 #endif // THUMBNAILMANAGER_HPP
