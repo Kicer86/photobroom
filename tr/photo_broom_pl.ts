@@ -826,7 +826,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+71"/>
+        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+72"/>
         <source>Search:</source>
         <translation>Szukaj:</translation>
     </message>
