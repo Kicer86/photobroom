@@ -235,7 +235,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>LazyTreeItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+80"/>
+        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+79"/>
         <source>stop motion</source>
         <translation type="unfinished"></translation>
     </message>
@@ -813,7 +813,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosItemDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+84"/>
+        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+83"/>
         <source>Loading</source>
         <translation>Wczytywanie</translation>
     </message>

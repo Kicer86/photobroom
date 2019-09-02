@@ -30,7 +30,6 @@
 #include <database/igroup_operator.hpp>
 
 #include "models/aphoto_info_model.hpp"
-#include "utils/ithumbnail_acquisitor.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
 
