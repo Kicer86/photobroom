@@ -21,6 +21,7 @@
 #define PHOTOSWIDGET_HPP
 
 #include <QWidget>
+#include <QSet>
 #include <QTimer>
 
 #include <core/thumbnail_manager.hpp>
@@ -70,6 +71,7 @@ class PhotosWidget: public QWidget, IImagesSource
 
     private:
         QTimer m_timer;
+        QSet<QModelIndex> m_waitingForThumbnails;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;

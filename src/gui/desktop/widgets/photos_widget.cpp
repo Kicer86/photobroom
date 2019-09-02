@@ -273,6 +273,7 @@ void PhotosWidget::applySearchExpression()
 
 void PhotosWidget::thumbnailUpdated(const QModelIndex& idx)
 {
+    m_waitingForThumbnails.remove(idx);
     // this method can be called from non gui thread, postpone update()
     invokeMethod(m_view, qOverload<const QModelIndex &>(&QAbstractItemView::update), idx);
 }
@@ -285,7 +286,16 @@ QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
     const QImage result = image.has_value()? image.value(): QImage(Images::clock);
 
     if (image.has_value() == false)
-        m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, idx));
+    {
+        // It may happend that ThumbnailsManager will be asked for the same thumbnail over and over
+        // (it view updates before previous request for thumbnail was finished).
+        // Do not punch it.
+        if (m_waitingForThumbnails.contains(idx) == false)
+        {
+            m_waitingForThumbnails.insert(idx);
+            m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, idx));
+        }
+    }
 
     return result;
 }
