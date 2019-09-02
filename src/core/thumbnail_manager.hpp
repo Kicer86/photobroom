@@ -54,14 +54,16 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
         template<typename C>
         void generate(const QString& path, int desired_height, C&& callback)
         {
-            // TODO: move to thread
-            const QImage img = m_generator->generate(path, desired_height);
+            runOn(&m_tasks, [=]
+            {
+                const QImage img = m_generator->generate(path, desired_height);
 
-            const int height = img.height();
-            assert(height == desired_height || img.isNull());
+                const int height = img.height();
+                assert(height == desired_height || img.isNull());
 
-            cache(path, desired_height, img);
-            callback(img);
+                cache(path, desired_height, img);
+                callback(img);
+            });
         }
 };
 
