@@ -90,9 +90,9 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         friend struct IntTask;
         struct IntTask;
 
-        std::mutex m_tasksMutex;
+        std::recursive_mutex m_tasksMutex;
         std::deque<std::unique_ptr<ITaskExecutor::ITask>> m_waitingTasks;
-        std::condition_variable m_noWork;
+        std::condition_variable_any m_noWork;
         ITaskExecutor* m_tasksExecutor;
         int m_maxTasks;
         int m_executingTasks;
