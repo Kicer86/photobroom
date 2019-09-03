@@ -26,7 +26,6 @@
 
 #include "config_keys.hpp"
 #include "utils/config_tools.hpp"
-#include "utils/ithumbnail_acquisitor.hpp"
 
 #include "models/db_data_model.hpp"
 

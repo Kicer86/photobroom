@@ -10,8 +10,6 @@ set(UTILS_SOURCES
     selection_extractor.cpp
     signal_filter.cpp
     tag_value_model.cpp
-    thumbnail_acquisitor.cpp
-    thumbnail_generator.cpp
     variant_display.cpp
     grouppers/animation_generator.cpp
     grouppers/generator_utils.cpp
@@ -21,8 +19,6 @@ set(UTILS_SOURCES
 set(UTILS_HEADERS
     config_tools.hpp
     groups_manager.hpp
-    ithumbnail_acquisitor.hpp
-    ithumbnail_generator.hpp
     model_index_utils.hpp
     painter_helpers.hpp
     people_list_model.hpp
@@ -32,8 +28,6 @@ set(UTILS_HEADERS
     selection_extractor.hpp
     signal_filter.hpp
     tag_value_model.hpp
-    thumbnail_acquisitor.hpp
-    thumbnail_generator.hpp
     variant_display.hpp
     grouppers/animation_generator.hpp
     grouppers/generator_utils.hpp

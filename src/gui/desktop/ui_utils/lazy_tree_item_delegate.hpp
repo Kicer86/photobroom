@@ -26,7 +26,13 @@
 #include <database/idatabase.hpp>
 #include "views/tree_item_delegate.hpp"
 
-struct IThumbnailAcquisitor;
+struct IImagesSource
+{
+    virtual ~IImagesSource() = default;
+
+    virtual QImage image(const QModelIndex &, const QSize &) = 0;
+};
+
 
 class LazyTreeItemDelegate: public TreeItemDelegate
 {
@@ -39,7 +45,7 @@ class LazyTreeItemDelegate: public TreeItemDelegate
 
         LazyTreeItemDelegate& operator=(const LazyTreeItemDelegate &) = delete;
 
-        void set(IThumbnailAcquisitor *);
+        void set(IImagesSource *);
         void set(Database::IDatabase *);
 
         // TreeItemDelegate:
@@ -48,7 +54,7 @@ class LazyTreeItemDelegate: public TreeItemDelegate
     private:
         typedef QCache<Group::Id, Group::Type> Cache;
 
-        IThumbnailAcquisitor* m_thumbnailAcquisitor;
+        IImagesSource* m_imagesSource;
         mutable Cache m_groupCache;
         Database::IDatabase* m_db;
 

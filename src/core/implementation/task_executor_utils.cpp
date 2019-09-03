@@ -51,7 +51,7 @@ TasksQueue::~TasksQueue()
     clear();  // drop all tasks awaiting
 
     // wait for tasks being executed
-    std::unique_lock<std::mutex> lock(m_tasksMutex);
+    std::unique_lock<std::recursive_mutex> lock(m_tasksMutex);
     m_noWork.wait(lock, [this]
     {
         return m_executingTasks == 0;
@@ -61,7 +61,7 @@ TasksQueue::~TasksQueue()
 
 void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
 {
-    std::lock_guard<std::mutex> guard(m_tasksMutex);
+    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
 
     auto task = std::make_unique<IntTask>(std::move(callable), this);
     m_waitingTasks.push_back(std::move(task));
@@ -72,7 +72,7 @@ void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
 
 void TasksQueue::clear()
 {
-    std::lock_guard<std::mutex> guard(m_tasksMutex);
+    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
     m_waitingTasks.clear();
 }
 
@@ -97,7 +97,7 @@ int TasksQueue::heavyWorkers() const
 
 void TasksQueue::try_to_fire()
 {
-    assert(m_tasksMutex.try_lock() == false);  // here we expect mutex to be locked
+    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
 
     // Do not put all waiting tasks to executor.
     while (m_maxTasks > m_executingTasks && m_waitingTasks.empty() == false)
@@ -109,20 +109,23 @@ void TasksQueue::try_to_fire()
 
 void TasksQueue::fire()
 {
-    assert(m_tasksMutex.try_lock() == false);  // here we expect mutex to be locked
+    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
     assert(m_waitingTasks.empty() == false);
 
     auto task = std::move(m_waitingTasks.front());
     m_waitingTasks.pop_front();
 
-    m_tasksExecutor->add(std::move(task));
     m_executingTasks++;
+    m_tasksExecutor->add(std::move(task));
 }
 
 
 void TasksQueue::task_finished()
 {
-    std::lock_guard<std::mutex> guard(m_tasksMutex);
+    // It is possible that in this function TasksQueue::fire() will be on stack
+    // of current thread (if m_tasksExecutor->add(std::move(task)); executes task immediately)
+    // That's why we need recursive mutex here
+    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
 
     assert(m_executingTasks > 0);
     m_executingTasks--;

@@ -24,7 +24,6 @@
 
 #include "lazy_tree_item_delegate.hpp"
 
-struct IThumbnailAcquisitor;
 
 class PhotosItemDelegate: public LazyTreeItemDelegate
 {

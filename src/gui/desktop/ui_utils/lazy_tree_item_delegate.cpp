@@ -22,20 +22,21 @@
 #include <QPainter>
 
 #include <core/down_cast.hpp>
-#include <core/jobs_manager.hpp>
+#include <core/function_wrappers.hpp>
+#include <core/ithumbnails_cache.hpp>
+#include <core/ithumbnails_manager.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/igroup_operator.hpp>
 
 #include "models/aphoto_info_model.hpp"
-#include "utils/ithumbnail_acquisitor.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/painter_helpers.hpp"
 
 
 LazyTreeItemDelegate::LazyTreeItemDelegate(ImagesTreeView* view):
     TreeItemDelegate(view),
-    m_thumbnailAcquisitor(),
+    m_imagesSource(nullptr),
     m_groupCache(1024)
 {
 
@@ -48,9 +49,9 @@ LazyTreeItemDelegate::~LazyTreeItemDelegate()
 }
 
 
-void LazyTreeItemDelegate::set(IThumbnailAcquisitor* acquisitor)
+void LazyTreeItemDelegate::set(IImagesSource* imgSrc)
 {
-    m_thumbnailAcquisitor = acquisitor;
+    m_imagesSource = imgSrc;
 }
 
 
@@ -63,13 +64,11 @@ void LazyTreeItemDelegate::set(Database::IDatabase* db)
 QImage LazyTreeItemDelegate::getImage(const QModelIndex& idx, const QSize& size) const
 {
     const QAbstractItemModel* model = idx.model();
-    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);      // TODO: not nice (see issue #177)
+    const APhotoInfoModel* photoInfoModel = down_cast<const APhotoInfoModel*>(model);       // TODO: not nice (see issue #177)
     const Photo::Data& details = photoInfoModel->getPhotoDetails(idx);
 
-    const ThumbnailInfo info = { details.path, size.height() };
-    QImage image = m_thumbnailAcquisitor->getThumbnail(info);
-
     QString text;
+    QImage image = m_imagesSource->image(idx, size);
 
     if (details.groupInfo.role == GroupInfo::Representative)
     {
@@ -127,20 +126,6 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
         LazyTreeItemDelegate* pThis = const_cast<LazyTreeItemDelegate *>(this);
 
         // get type from db and store in cache.
-
-        /*  TODO: fix it one day, when template master arrives
-        job(m_db, [gid](Database::IBackend* backend)
-        {
-            const Group::Type type = backend->groupOperator()->type(gid);
-
-            return type;
-        }).execute2<const Group::Type &>(pThis, [gid, cache = this->m_groupCache](const Group::Type& type)
-        {
-            // update cache
-            auto locked_cache = cache->lock();
-            locked_cache->insert(gid, new Group::Type(type));
-        });
-        */
 
         // TODO: make_cross_thread_function should guess function's args
         auto callback = make_cross_thread_function<const Group::Type &>(pThis, [gid, this](const Group::Type& type)

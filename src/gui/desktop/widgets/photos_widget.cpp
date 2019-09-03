@@ -26,19 +26,24 @@
 #include <QShortcut>
 #include <QVBoxLayout>
 
+#include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
+#include <core/ithumbnails_cache.hpp>
 #include <core/base_tags.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
-#include "images/images.hpp"
 #include "multi_value_line_edit.hpp"
 #include "models/db_data_model.hpp"
 #include "ui_utils/icompleter_factory.hpp"
 #include "ui_utils/photos_item_delegate.hpp"
 #include "views/images_tree_view.hpp"
+#include "../../images/images.hpp"
+
+
+using namespace std::placeholders;
 
 namespace
 {
@@ -48,26 +53,19 @@ namespace
 PhotosWidget::PhotosWidget(QWidget* p):
     QWidget(p),
     m_timer(),
-    m_thumbnailAcquisitor(),
-    m_thumbnailsLogger(),
     m_model(nullptr),
     m_view(nullptr),
     m_delegate(nullptr),
     m_searchExpression(nullptr),
     m_bottomHintLayout(nullptr),
-    m_executor(nullptr)
+    m_executor(nullptr),
+    m_thumbnailsManager(nullptr)
 {
-    using namespace std::placeholders;
-    auto thumbUpdate = std::bind(&PhotosWidget::thumbnailUpdated, this, _1, _2);
-    const QImage image(Images::clock);
-    m_thumbnailAcquisitor.setInProgressThumbnail(image);
-    m_thumbnailAcquisitor.setObserver(thumbUpdate);
-
     // photos view
     m_view = new ImagesTreeView(this);
     m_delegate = new PhotosItemDelegate(m_view);
+    m_delegate->set(this);
 
-    m_delegate->set(&m_thumbnailAcquisitor);
     m_view->setItemDelegate(m_delegate);
 
     // search panel
@@ -159,13 +157,11 @@ PhotosWidget::PhotosWidget(QWidget* p):
     //
     connect(m_searchExpression, &QLineEdit::textEdited, this, &PhotosWidget::searchExpressionChanged);
     connect(m_view, &ImagesTreeView::contentScrolled, this, &PhotosWidget::viewScrolled);
-    connect(this, &PhotosWidget::performUpdate, m_view->viewport(), qOverload<>(&QWidget::update), Qt::QueuedConnection);
     connect(zoomSlider, &QAbstractSlider::valueChanged, [this, updateZoomSizeLabel](int thumbnailHeight)
     {
         updateZoomSizeLabel(thumbnailHeight);
         m_view->setThumbnailHeight(thumbnailHeight);
         m_view->invalidate();
-        m_thumbnailAcquisitor.dismissPendingTasks();
     });
 }
 
@@ -175,10 +171,14 @@ PhotosWidget::~PhotosWidget()
 
 }
 
+void PhotosWidget::set(IThumbnailsManager* manager)
+{
+    m_thumbnailsManager = manager;
+}
+
 
 void PhotosWidget::set(ITaskExecutor* executor)
 {
-    m_thumbnailAcquisitor.set(executor);
     m_executor = executor;
 }
 
@@ -191,7 +191,6 @@ void PhotosWidget::set(IConfiguration* configuration)
 
     m_view->setSpacing(spacing);
     m_delegate->set(configuration);
-    m_thumbnailAcquisitor.set(configuration);
 
     configuration->watchFor(ViewConfigKeys::itemsSpacing, [this](const QString &, const QVariant& value)
     {
@@ -209,13 +208,6 @@ void PhotosWidget::set(ICompleterFactory* completerFactory)
 }
 
 
-void PhotosWidget::set(ILoggerFactory* loggerFactory)
-{
-    m_thumbnailsLogger = loggerFactory->get("Thumbnails generator");
-    m_thumbnailAcquisitor.set(m_thumbnailsLogger.get());
-}
-
-
 void PhotosWidget::setDB(Database::IDatabase* db)
 {
     m_delegate->set(db);
@@ -226,11 +218,6 @@ void PhotosWidget::setModel(DBDataModel* m)
 {
     m_model = m;
     m_view->setModel(m);
-
-    connect(m, &DBDataModel::modelReset, [this]()
-    {
-        m_thumbnailAcquisitor.flush();
-    });
 }
 
 
@@ -271,7 +258,7 @@ void PhotosWidget::searchExpressionChanged(const QString &)
 
 void PhotosWidget::viewScrolled()
 {
-    m_thumbnailAcquisitor.dismissPendingTasks();
+
 }
 
 
@@ -284,8 +271,32 @@ void PhotosWidget::applySearchExpression()
 }
 
 
-void PhotosWidget::thumbnailUpdated(const ThumbnailInfo &, const QImage &)
+void PhotosWidget::thumbnailUpdated(const QModelIndex& idx)
 {
-    // TODO: do it smarter (find QModelIndex for provided info)
-    emit performUpdate();
+    m_waitingForThumbnails.remove(idx);
+    // this method can be called from non gui thread, postpone update()
+    invokeMethod(m_view, qOverload<const QModelIndex &>(&QAbstractItemView::update), idx);
 }
+
+
+QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
+{
+    const Photo::Data& ph_data = m_model->getPhotoDetails(idx);
+    const std::optional image = m_thumbnailsManager->fetch(ph_data.path, size.height());
+    const QImage result = image.has_value()? image.value(): QImage(Images::clock);
+
+    if (image.has_value() == false)
+    {
+        // It may happend that ThumbnailsManager will be asked for the same thumbnail over and over
+        // (it view updates before previous request for thumbnail was finished).
+        // Do not punch it.
+        if (m_waitingForThumbnails.contains(idx) == false)
+        {
+            m_waitingForThumbnails.insert(idx);
+            m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, idx));
+        }
+    }
+
+    return result;
+}
+

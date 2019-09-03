@@ -44,7 +44,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thbMng, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -57,7 +57,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thb
     m_updater(nullptr),
     m_executor(coreFactory->getTaskExecutor()),
     m_coreAccessor(coreFactory),
-    m_thumbnailManager(thbMng),
+    m_thumbnailsManager(thbMgr),
     m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
@@ -105,9 +105,9 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, AThumbnailManager* thb
     // Views will use completer factories immediately after set.
     // So factories need log factory before it.
     ui->imagesView->set(&m_completerFactory);
-    ui->imagesView->set(m_loggerFactory);
+    ui->imagesView->set(m_thumbnailsManager);
     ui->newImagesView->set(&m_completerFactory);
-    ui->newImagesView->set(m_loggerFactory);
+    ui->newImagesView->set(m_thumbnailsManager);
     ui->tagEditor->set(&m_completerFactory);
 
     // TODO: nothing useful in help mentu at this moment
@@ -667,7 +667,7 @@ void MainWindow::on_actionFace_organizer_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailManager, m_currentPrj.get()}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailsManager, m_currentPrj.get()}.exec();
 }
 
 

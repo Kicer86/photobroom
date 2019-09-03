@@ -21,11 +21,14 @@
 #define PHOTOSWIDGET_HPP
 
 #include <QWidget>
+#include <QSet>
 #include <QTimer>
 
+#include <core/thumbnail_manager.hpp>
 #include <database/idatabase.hpp>
 
-#include "utils/thumbnail_acquisitor.hpp"
+#include "ui_utils/lazy_tree_item_delegate.hpp"
+
 
 class QAbstractItemModel;
 class QItemSelectionModel;
@@ -40,11 +43,11 @@ class ImagesTreeView;
 
 struct ICompleterFactory;
 struct IConfiguration;
-struct ILoggerFactory;
 struct ITaskExecutor;
+struct IThumbnailsManager;
 
 
-class PhotosWidget: public QWidget
+class PhotosWidget: public QWidget, IImagesSource
 {
         Q_OBJECT
 
@@ -54,33 +57,36 @@ class PhotosWidget: public QWidget
         ~PhotosWidget();
         PhotosWidget& operator=(const PhotosWidget &) = delete;
 
+        void set(IThumbnailsManager *);
         void set(ITaskExecutor *);
         void set(IConfiguration *);
         void set(ICompleterFactory *);
-        void set(ILoggerFactory *);
         void setDB(Database::IDatabase *);
         void setModel(DBDataModel *);
 
         QItemSelectionModel* viewSelectionModel() const;
         DBDataModel* getModel() const;
 
-        void setBottomHintWidget( InfoBalloonWidget *);
+        void setBottomHintWidget(InfoBalloonWidget *);
 
     private:
         QTimer m_timer;
-        ThumbnailAcquisitor m_thumbnailAcquisitor;
-        std::unique_ptr<ILogger> m_thumbnailsLogger;
+        QSet<QModelIndex> m_waitingForThumbnails;
         DBDataModel* m_model;
         ImagesTreeView* m_view;
         PhotosItemDelegate* m_delegate;
         MultiValueLineEdit* m_searchExpression;
         QVBoxLayout* m_bottomHintLayout;
         ITaskExecutor* m_executor;
+        IThumbnailsManager* m_thumbnailsManager;
 
         void searchExpressionChanged(const QString &);
         void viewScrolled();
         void applySearchExpression();
-        void thumbnailUpdated(const ThumbnailInfo &, const QImage &);
+        void thumbnailUpdated(const QModelIndex &);
+
+        // IImagesSource:
+        QImage image(const QModelIndex &, const QSize &) override;
 
     signals:
         void performUpdate();

@@ -25,14 +25,15 @@ endif()
 ##
 
 set(CORE_SOURCES
-    #interfaces and abstracts
-    athumbnail_manager.hpp
+    #interfaces
     iconfiguration.hpp
     icore_factory_accessor.hpp
     ifeatures_manager.hpp
     ilogger.hpp
     ilogger_factory.hpp
     ilogger.hpp                                             implementation/ilogger.cpp
+    ithumbnails_cache.hpp
+    ithumbnails_manager.hpp
     imedia_information.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
@@ -52,8 +53,6 @@ set(CORE_SOURCES
 
     #utilities
     base_tags.hpp                                           implementation/base_tags.cpp
-    cache.hpp
-    chain_controller.hpp
     configuration.hpp                                       implementation/configuration.cpp
     constants.hpp                                           implementation/constants.cpp
     core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
@@ -79,6 +78,7 @@ set(CORE_SOURCES
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
     thread_utils.hpp
+    thumbnails_cache.hpp                                    implementation/thumbnails_cache.cpp
     thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
     thumbnail_manager.hpp                                   implementation/thumbnail_manager.cpp
 

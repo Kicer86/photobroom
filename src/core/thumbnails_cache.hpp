@@ -1,6 +1,6 @@
 /*
- * Interface for thumbnail acquisitor.
- * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
+ * Simple memory cache for thumbnails.
+ * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,21 +14,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef ITHUMBNAIL_ACQUISITOR_HPP
-#define ITHUMBNAIL_ACQUISITOR_HPP
+#ifndef THUMBNAILS_CACHE_HPP
+#define THUMBNAILS_CACHE_HPP
 
+#include "ithumbnails_cache.hpp"
 
-#include "ithumbnail_generator.hpp"
+#include <QCache>
 
+#include <OpenLibrary/putils/ts_resource.hpp>
 
-struct [[deprecated]] IThumbnailAcquisitor
+#include "core_export.h"
+
+class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
 {
-    virtual ~IThumbnailAcquisitor() {}
+    public:
+        ThumbnailsCache();
 
-    virtual QImage getThumbnail(const ThumbnailInfo &) const = 0;
+        std::optional<QImage> find(const QString &, int) override;
+        void store(const QString &, int , const QImage &) override;
+
+    private:
+        typedef QCache<std::tuple<QString, int>, QImage> CacheContainer;
+        ol::ThreadSafeResource<CacheContainer> m_cache;
 };
 
-#endif // ITHUMBNAIL_ACQUISITOR_HPP
+#endif

@@ -16,6 +16,7 @@
 #include <core/ilogger_factory.hpp>
 #include <core/thumbnail_generator.hpp>
 #include <core/thumbnail_manager.hpp>
+#include <core/thumbnails_cache.hpp>
 #include <system/filesystem.hpp>
 
 #ifdef UPDATER_ENABLED
@@ -52,6 +53,27 @@ namespace
         }
 
         std::unique_ptr<ILogger> m_logger;
+    };
+
+    struct ThumbnailUtils: IThumbnailUtils
+    {
+        ThumbnailUtils(ILogger* logger, IConfiguration* config): m_gen(logger, config)
+        {
+
+        }
+
+        IThumbnailsCache* cache() override
+        {
+            return &m_cache;
+        }
+
+        IThumbnailsGenerator* generator() override
+        {
+            return &m_gen;
+        }
+
+        ThumbnailsCache m_cache;
+        ThumbnailGenerator m_gen;
     };
 }
 
@@ -156,8 +178,8 @@ void Gui::run()
 
     //
     auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
-    ThumbnailGenerator thbGen(m_coreFactory->getTaskExecutor(), thumbnail_generator_logger.get(), configuration);
-    ThumbnailManager thbMgr(&thbGen);
+    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), configuration);
+    ThumbnailManager thbMgr(m_coreFactory->getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
 
     // main window
     MainWindow mainWindow(m_coreFactory, &thbMgr);

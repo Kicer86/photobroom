@@ -18,17 +18,35 @@
 
 #include "thumbnail_manager.hpp"
 
+#include "ithumbnails_cache.hpp"
 
-ThumbnailManager::ThumbnailManager(AThumbnailGenerator* gen):
-    AThumbnailManager(gen),
-    m_cache(nullptr)
+using namespace std::placeholders;
+
+
+ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator* gen, IThumbnailsCache* cache):
+    m_tasks(executor),
+    m_cache(cache),
+    m_generator(gen)
 {
 }
 
 
-void ThumbnailManager::setCache(IThumbnailCache* cache)
+void ThumbnailManager::fetch(const QString& path, int desired_height, const std::function<void(const QImage &)>& callback)
 {
-    m_cache = cache;
+    const QImage cached = find(path, desired_height);
+
+    if (cached.isNull())
+        generate(path, desired_height, callback);
+    else
+        callback(cached);
+}
+
+
+std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
+{
+    std::optional img = m_cache->find(path, height);
+
+    return img;
 }
 
 
@@ -52,5 +70,20 @@ void ThumbnailManager::cache(const QString& path, int height, const QImage& img)
 {
     if (m_cache)
         m_cache->store(path, height, img);
+}
+
+
+void ThumbnailManager::generate(const QString& path, int desired_height, const std::function<void(const QImage &)>& callback)
+{
+    runOn(&m_tasks, [=]
+    {
+        const QImage img = m_generator->generate(path, desired_height);
+
+        const int height = img.height();
+        assert(height == desired_height || img.isNull());
+
+        cache(path, desired_height, img);
+        callback(img);
+    });
 }
 

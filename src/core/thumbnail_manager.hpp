@@ -24,31 +24,35 @@
 
 #include <QImage>
 
-#include "athumbnail_manager.hpp"
+#include "ithumbnails_cache.hpp"
+#include "ithumbnails_manager.hpp"
+#include "task_executor_utils.hpp"
+
 #include "core_export.h"
 
 
-struct IThumbnailCache
-{
-    virtual ~IThumbnailCache() = default;
-
-    virtual std::optional<QImage> find(const QString &, int) = 0;
-    virtual void store(const QString &, int, const QImage &) = 0;
-};
+struct ITaskExecutor;
+struct IThumbnailsCache;
 
 
-class CORE_EXPORT ThumbnailManager: public AThumbnailManager
+class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(AThumbnailGenerator *);
+        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
-        void setCache(IThumbnailCache *);
+        void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &);
+        std::optional<QImage> fetch(const QString& path, int height);
 
     private:
-        IThumbnailCache* m_cache;
+        TasksQueue m_tasks;
+        IThumbnailsCache* m_cache;
+        IThumbnailsGenerator* m_generator;
 
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);
+
+        void generate(const QString &, int, const std::function<void(const QImage &)> &);
 };
 
 #endif // THUMBNAILMANAGER_HPP
+
