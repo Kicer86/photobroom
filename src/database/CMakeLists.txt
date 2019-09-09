@@ -7,7 +7,6 @@ find_package(Qt5Gui REQUIRED)
 find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
-    implementation/action.cpp
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
@@ -27,7 +26,6 @@ set(DATABASE_SOURCES
 )
 
 set(DATABASE_HEADERS
-    action.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp

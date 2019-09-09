@@ -42,14 +42,12 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/map_iterator.hpp>
-#include <database/action.hpp>
 #include <database/filter.hpp>
 #include <database/project_info.hpp>
 
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
-#include "sql_action_query_generator.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "sql_query_executor.hpp"
 
@@ -158,8 +156,6 @@ namespace Database
             bool update(const Photo::DataDelta &) const noexcept;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
-
-            void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
             std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
@@ -300,22 +296,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    void ASqlBackend::Data::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& actions) const
-    {
-        for(auto action: actions)
-        {
-            const QString queryStr = SqlFilterQueryGenerator().generate(filter);
-            const QString actionStr = SqlActionQueryGenerator().generate(action);
-            const QString finalQuery = actionStr.arg(queryStr);
-
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-            QSqlQuery query(db);
-
-            m_executor.exec(finalQuery, &query);
-        }
     }
 
 
@@ -1417,12 +1397,6 @@ namespace Database
             result = query.value(0).toInt();
 
         return result;
-    }
-
-
-    void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
-    {
-        return m_data->perform(filter, action);
     }
 
 

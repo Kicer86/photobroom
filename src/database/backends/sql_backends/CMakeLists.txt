@@ -19,7 +19,6 @@ set(SOURCES
         photo_change_log_operator.cpp
         photo_operator.cpp
         query_structs.cpp
-        sql_action_query_generator.cpp
         sql_filter_query_generator.cpp
         sql_query_executor.cpp
     )
@@ -35,7 +34,6 @@ set(HEADERS
         photo_change_log_operator.hpp
         photo_operator.hpp
         query_structs.hpp
-        sql_action_query_generator.hpp
         sql_filter_query_generator.hpp
         sql_query_executor.hpp
     )

@@ -27,7 +27,6 @@
 
 #include <core/tag.hpp>
 
-#include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
@@ -104,7 +103,6 @@ namespace Database
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
 
         // modify data
-        virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
         virtual std::vector<Photo::Id> markStagedAsReviewed() = 0;
 
         // write extra data

@@ -27,7 +27,6 @@ addTestTarget(database_integration
                     backends/sql_backends/group_operator.cpp
                     backends/sql_backends/photo_change_log_operator.cpp
                     backends/sql_backends/photo_operator.cpp
-                    backends/sql_backends/sql_action_query_generator.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/sql_query_executor.cpp
                     backends/sql_backends/query_structs.cpp
