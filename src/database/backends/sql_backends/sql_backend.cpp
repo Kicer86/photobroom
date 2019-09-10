@@ -62,7 +62,7 @@ namespace Database
 
         struct Transaction
         {
-            explicit Transaction(QSqlDatabase& db): m_db(db), m_begun (false), m_finished(false)
+            explicit Transaction(QSqlDatabase& db): m_db(db), m_begun(false), m_finished(false)
             {
 
             }

@@ -16,6 +16,7 @@ set(SOURCES
         sql_backend.cpp
         table_definition.cpp
         tables.cpp
+        transaction.cpp
         photo_change_log_operator.cpp
         photo_operator.cpp
         query_structs.cpp
@@ -31,6 +32,7 @@ set(HEADERS
         sql_backend.hpp
         table_definition.hpp
         tables.hpp
+        transaction.hpp
         photo_change_log_operator.hpp
         photo_operator.hpp
         query_structs.hpp
