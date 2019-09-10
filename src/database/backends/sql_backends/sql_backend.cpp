@@ -112,21 +112,6 @@ namespace Database
             bool m_finished;
         };
 
-
-        std::vector<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
-        {
-            std::vector<std::pair<TagNameInfo, TagValue>> result;
-
-            for(const auto& tag: tagsList)
-            {
-                const TagValue& tagValue = tag.second;
-
-                result.emplace_back(tag.first, tagValue);
-            }
-
-            return result;
-        }
-
     }
 
 
@@ -468,12 +453,9 @@ namespace Database
                 currentIds.push_back(id);
             }
 
-            // convert map with possible lists into flat list of pairs
-            const std::vector<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
-
             // difference between current set in db and new set of tags
             const int currentIdsSize = static_cast<int>( currentIds.size() );
-            const int tagsListSize   = static_cast<int>( tagsFlatList.size() );
+            const int tagsListSize   = static_cast<int>( tagsList.size() );
             const int diff = currentIdsSize - tagsListSize;
 
             // more tags in db?, delete surplus
@@ -495,7 +477,7 @@ namespace Database
             // override existing tags and then insert (if nothing left to override)
             std::size_t counter = 0;
 
-            for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
+            for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it, counter++)
             {
                 const TagValue& value = it->second;
                 const int name = it->first.getTag();
