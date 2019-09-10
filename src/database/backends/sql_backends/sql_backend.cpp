@@ -28,7 +28,6 @@
 #include <sstream>
 #include <thread>
 
-#include <QBuffer>
 #include <QDate>
 #include <QSqlDatabase>
 #include <QSqlError>
