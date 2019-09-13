@@ -57,67 +57,6 @@
 
 namespace Database
 {
-    namespace
-    {
-
-        struct Transaction
-        {
-            explicit Transaction(QSqlDatabase& db): m_db(db), m_begun(false), m_finished(false)
-            {
-
-            }
-
-            ~Transaction()
-            {
-                if ( m_begun && m_finished == false)
-                    rollback();
-            }
-
-            Transaction(const Transaction &) = delete;
-            Transaction& operator=(const Transaction &) = delete;
-
-            BackendStatus begin()
-            {
-                const BackendStatus status = m_db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
-                m_begun = status;
-
-                return status;
-            }
-
-            BackendStatus commit()
-            {
-                assert( m_begun );
-
-                const BackendStatus status = m_db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                m_finished = true;
-
-                return status;
-            }
-
-            BackendStatus rollback()
-            {
-                assert( m_begun );
-
-                const BackendStatus status = m_db.rollback()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                m_finished = true;
-
-                return status;
-            }
-
-        private:
-            QSqlDatabase& m_db;
-            bool m_begun;
-            bool m_finished;
-        };
-
-    }
-
-
-    /*****************************************************************************/
-
-
     // TODO: deprecated, move code to ASqlBackend (no reason for this impl)
     struct ASqlBackend::Data
     {
@@ -567,7 +506,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Transaction transaction(db);
+        Transaction transaction(m_backend->m_tr_db);
 
         bool status = true;
 
@@ -595,7 +534,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        Transaction transaction(db);
+        Transaction transaction(m_backend->m_tr_db);
 
         bool status = true;
 
@@ -1054,6 +993,7 @@ namespace Database
         //store thread id for further validation
         m_data->m_executor.set( std::this_thread::get_id() );
         m_data->m_connectionName = prjInfo.databaseLocation;
+        m_tr_db.setConnectionName(m_data->m_connectionName);
 
         BackendStatus status = prepareDB(prjInfo);
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
@@ -1433,44 +1373,42 @@ namespace Database
 
     BackendStatus ASqlBackend::checkStructure()
     {
+        BackendStatus status;
+
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        Transaction transaction(db);
+        Transaction transaction(m_tr_db);
 
-        BackendStatus status = transaction.begin();
-
-        //check tables existance
-        if (status)
-            for (const auto& table: tables)
-            {
-                status = ensureTableExists(table.second);
-
-                if (!status)
-                    break;
-            }
-
-        QSqlQuery query(db);
-
-        // table 'version' cannot be empty
-        if (status)
-            status = m_data->m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
-
-        if (status)
-            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
-
-        const QVariant rows = status? query.value(0): QVariant(0);
-
-        //insert first entry
-        if (status)
+        try
         {
-            if (rows == 0)
-                status = m_data->m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
-                                      .arg(db_version), &query);
-            else
-                status = checkDBVersion();
-        }
+            DB_ERROR_ON_FALSE(transaction.begin(), StatusCodes::TransactionFailed);
 
-        if (status)
-            status &= transaction.commit();
+            //check tables existance
+            for (const auto& table: tables)
+                DB_ERR_ON_FALSE(ensureTableExists(table.second));
+
+            QSqlQuery query(db);
+
+            // table 'version' cannot be empty
+            DB_ERROR_ON_FALSE(m_data->m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+
+            DB_ERR_ON_FALSE(query.next());
+
+            const QVariant rows = query.value(0);
+
+            //insert first entry
+            if (rows == 0)
+                DB_ERR_ON_FALSE(m_data->m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                                                         .arg(db_version), &query))
+            else
+                DB_ERR_ON_FALSE(checkDBVersion());
+
+            DB_ERROR_ON_FALSE(transaction.commit(), StatusCodes::TransactionCommitFailed);
+        }
+        catch(const db_error& err)
+        {
+            m_data->m_logger->error(err.what());
+            status = err.status();
+        }
 
         return status;
     }

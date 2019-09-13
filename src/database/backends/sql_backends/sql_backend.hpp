@@ -32,6 +32,7 @@
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
+#include "transaction.hpp"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -86,6 +87,7 @@ namespace Database
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
+            TransactionalDatabase m_tr_db;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
