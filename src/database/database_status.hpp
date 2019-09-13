@@ -10,6 +10,7 @@ namespace Database
     enum class StatusCodes
     {
         Ok,
+        GeneralError,                       // generic error code
         BadVersion,                         // db format is unknown (newer that supported)
         OpenFailed,
         ProjectLocked,
