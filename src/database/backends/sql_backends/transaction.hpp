@@ -30,10 +30,13 @@ class Transaction final
         Transaction(TransactionalDatabase &);
         ~Transaction();
 
+        bool begin();
+        bool commit();
         void rollback();
 
     private:
         TransactionalDatabase& m_db;
+        bool m_commited;
 };
 
 
@@ -51,9 +54,9 @@ class TransactionalDatabase final
         int m_level;
         bool m_clean;
 
-        void tr_begin();
-        void tr_commit();
-        void tr_rollback();
+        bool tr_begin();
+        bool tr_commit();
+        bool tr_rollback();
 };
 
 #endif

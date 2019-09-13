@@ -20,7 +20,9 @@
 #include <QSqlDatabase>
 
 
-Transaction::Transaction(TransactionalDatabase& db): m_db(db)
+Transaction::Transaction(TransactionalDatabase& db):
+    m_db(db),
+    m_commited(false)
 {
     m_db.tr_begin();
 }
@@ -28,7 +30,20 @@ Transaction::Transaction(TransactionalDatabase& db): m_db(db)
 
 Transaction::~Transaction()
 {
-    m_db.tr_commit();
+    if (m_commited == false)
+        m_db.tr_rollback();
+}
+
+
+bool Transaction::begin()
+{
+    return m_db.tr_begin();
+}
+
+
+bool Transaction::commit()
+{
+    return m_db.tr_commit();
 }
 
 
@@ -39,6 +54,7 @@ TransactionalDatabase::TransactionalDatabase():
 {
 
 }
+
 
 void Transaction::rollback()
 {
@@ -52,21 +68,26 @@ void TransactionalDatabase::setConnectionName(const QString& name)
 }
 
 
-void TransactionalDatabase::tr_begin()
+bool TransactionalDatabase::tr_begin()
 {
+    bool status = false;
     m_level++;
 
     if (m_level == 1)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connection_name);
-        m_clean = db.transaction();
-
+        status = db.transaction();
+        m_clean = status;
     }
+
+    return status;
 }
 
-void TransactionalDatabase::tr_commit()
+bool TransactionalDatabase::tr_commit()
 {
     assert(m_level > 0);
+
+    bool status = false;
     m_level--;
 
     if (m_level == 0)
@@ -74,16 +95,20 @@ void TransactionalDatabase::tr_commit()
         QSqlDatabase db = QSqlDatabase::database(m_connection_name);
 
         if (m_clean)
-            db.commit();
+            status = db.commit();
         else
             db.rollback();
     }
+    else
+        status = true;
+
+    return status;
 }
 
 
-void TransactionalDatabase::tr_rollback()
+bool TransactionalDatabase::tr_rollback()
 {
     m_clean = false;
-    tr_commit();
+    return tr_commit();
 }
 
