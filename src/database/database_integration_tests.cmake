@@ -33,6 +33,7 @@ addTestTarget(database_integration
                     backends/sql_backends/sql_backend.cpp
                     backends/sql_backends/table_definition.cpp
                     backends/sql_backends/tables.cpp
+                    backends/sql_backends/transaction.cpp
                     $<TARGET_OBJECTS:plugins>
                     ${moced_cpps}
 
