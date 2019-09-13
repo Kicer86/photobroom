@@ -43,9 +43,13 @@ struct ILoggerFactory;
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
 
-#define DB_ERR_ON_FALSE(CALL)   \
-    if ( !(CALL) )              \
-        throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__);
+#define DB_ERROR_ON_FALSE(CALL, ERRCODE)       \
+    {                                          \
+        if ( !(CALL) )                         \
+            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE);  \
+    }
+
+#define DB_ERR_ON_FALSE(CALL) DB_ERROR_ON_FALSE(CALL, StatusCodes::GeneralError)
 
 
 namespace Database
@@ -59,9 +63,20 @@ namespace Database
     class db_error: std::exception
     {
             std::string m_err;
+            StatusCodes m_status;
 
         public:
-            db_error(const std::string& err): m_err(err) {}
+            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError):
+                m_err(err),
+                m_status(status)
+            {
+
+            }
+
+            StatusCodes status() const noexcept
+            {
+                return m_status;
+            }
 
             const char* what() const noexcept override
             {
