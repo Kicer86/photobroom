@@ -26,3 +26,25 @@ TEST(WordReaderTest, emptyInput)
 
     EXPECT_TRUE(w1.empty());
 }
+
+
+TEST(WordReaderTest, oneWord)
+{
+    std::stringstream str("qwerty");
+
+    const std::string w1 = read_word(str);
+
+    EXPECT_EQ(w1, "qwerty");
+}
+
+
+TEST(WordReaderTest, manyWhitespaces)
+{
+    std::stringstream str("   \n\tabc\t\t\r\ndef\r\n\r\n \t");
+
+    const std::string w1 = read_word(str);
+    const std::string w2 = read_word(str);
+
+    EXPECT_EQ(w1, "abc");
+    EXPECT_EQ(w2, "def");
+}
