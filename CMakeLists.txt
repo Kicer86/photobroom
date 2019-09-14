@@ -84,6 +84,13 @@ add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static mo
 #tests
 if(BUILD_TESTS)
     enable_testing()
+
+    if(${RUN_TESTS_AFTER_BUILD})
+        set(run_ut ALL)
+    endif()
+
+    add_custom_target(RunUnitTests ${run_ut}
+                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest)
 endif(BUILD_TESTS)
 
 #system related definitions
@@ -168,19 +175,6 @@ if(BUILD_TESTS)
         endif()
     endforeach()
 
-    if(${RUN_TESTS_AFTER_BUILD})
-        set(run_ut ALL)
-    endif()
-
-    add_custom_target(RunUnitTests ${run_ut}
-                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest
-                      DEPENDS core_tests
-                              database_tests
-                              database_integration_tests
-                              gui_tests
-                              photos_crawler_tests
-                              system_tests
-                     )
 endif()
 
 #installation steps
