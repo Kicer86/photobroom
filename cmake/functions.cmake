@@ -150,6 +150,8 @@ macro(addTestTarget target)
                             ${test_binaries}
     )
 
+    add_dependencies(RunUnitTests ${test_bin})
+
 endmacro(addTestTarget)
 
 
