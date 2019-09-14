@@ -2,10 +2,6 @@
 #include <cstring>
 #include <fstream>
 
-namespace
-{
-    const char* const whitespaces = "\n\r\t ";
-}
 
 std::string read_word(std::istream& input)
 {
@@ -17,7 +13,7 @@ std::string read_word(std::istream& input)
         const auto ch = input.get();
         if (ch != std::ifstream::traits_type::eof())
         {
-            if (strchr(whitespaces, ch))
+            if (isspace(ch))
                 continue;
             else
             {
@@ -33,7 +29,7 @@ std::string read_word(std::istream& input)
         const auto ch = input.get();
         if (ch != std::ifstream::traits_type::eof())
         {
-            if (strchr(whitespaces, ch))
+            if (isspace(ch))
                 break;
             else
                 word += static_cast<char>(ch);
