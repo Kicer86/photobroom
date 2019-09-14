@@ -24,7 +24,7 @@ Transaction::Transaction(TransactionalDatabase& db):
     m_db(db),
     m_commited(false)
 {
-    m_db.tr_begin();
+
 }
 
 
@@ -43,7 +43,14 @@ bool Transaction::begin()
 
 bool Transaction::commit()
 {
+    m_commited = true;
     return m_db.tr_commit();
+}
+
+
+void Transaction::rollback()
+{
+    m_db.tr_rollback();
 }
 
 
@@ -56,12 +63,6 @@ TransactionalDatabase::TransactionalDatabase():
 }
 
 
-void Transaction::rollback()
-{
-    m_db.tr_rollback();
-}
-
-
 void TransactionalDatabase::setConnectionName(const QString& name)
 {
     m_connection_name = name;
@@ -70,7 +71,7 @@ void TransactionalDatabase::setConnectionName(const QString& name)
 
 bool TransactionalDatabase::tr_begin()
 {
-    bool status = false;
+    bool status = true;
     m_level++;
 
     if (m_level == 1)
