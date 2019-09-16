@@ -63,3 +63,15 @@ TEST(EnumFinderTest, emptyEnum)
     EXPECT_EQ(r.front().name, "E");
     EXPECT_TRUE(r.front().entries.empty());
 }
+
+
+TEST(EnumFinderTest, emptyEnumClass)
+{
+    std::stringstream str("enum class E {};");
+
+    auto r = find_enum(str);
+
+    ASSERT_EQ(r.size(), 1);
+    EXPECT_EQ(r.front().name, "E");
+    EXPECT_TRUE(r.front().entries.empty());
+}
