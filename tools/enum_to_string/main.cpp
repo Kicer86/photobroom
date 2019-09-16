@@ -20,4 +20,6 @@ int main(int argc, char** argv)
     const std::string output = argv[2];
 
     const bool status = parse(input);
+
+    return status? 0: 1;
 }
