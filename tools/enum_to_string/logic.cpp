@@ -1,6 +1,14 @@
 
 #include <cstring>
 #include <fstream>
+#include <vector>
+
+
+struct Enum
+{
+    std::string name;
+    std::vector<std::string> entries;
+};
 
 
 std::string read_word(std::istream& input)
@@ -38,6 +46,29 @@ std::string read_word(std::istream& input)
 
     return word;
 }
+
+
+std::vector<Enum> find_enum(std::istream& data)
+{
+    std::vector<Enum> results;
+
+    while(data.good())
+    {
+        std::string w = read_word(data);
+
+        if (w == "enum")
+        {
+            std::string name = read_word(data);
+            if (name == "class")
+                name = read_word(data);
+
+            results.emplace_back(Enum{name, {}});
+        }
+    }
+
+    return results;
+}
+
 
 bool parse(const std::string& input_file_path)
 {
