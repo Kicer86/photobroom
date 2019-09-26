@@ -3,12 +3,56 @@
 #include <fstream>
 #include <vector>
 
-
 struct Enum
 {
     std::string name;
     std::vector<std::string> entries;
 };
+
+
+namespace
+{
+    class EnumStateMachine
+    {
+        public:
+            void take(const std::string& word)
+            {
+                switch (m_state)
+                {
+                    case WaitingForEnum:
+                        if (word == "enum")
+                        {
+                            m_enums.emplace_back(Enum{});
+                            m_state = WaitingForClassOrName;
+                        }
+                        break;
+
+                    case WaitingForClassOrName:
+                        if (word == "class")
+                            break;
+
+                        m_enums.back().name = word;
+                        m_state = WaitingForBody;
+                        break;
+                }
+            }
+
+            const std::vector<Enum>& enums() const
+            {
+                return m_enums;
+            }
+
+        private:
+            enum
+            {
+                WaitingForEnum,
+                WaitingForClassOrName,
+                WaitingForBody,
+            } m_state = WaitingForEnum;
+
+            std::vector<Enum> m_enums;
+    };
+}
 
 
 std::string read_word(std::istream& input)
@@ -50,23 +94,16 @@ std::string read_word(std::istream& input)
 
 std::vector<Enum> find_enum(std::istream& data)
 {
-    std::vector<Enum> results;
+    EnumStateMachine state_machine;
 
     while(data.good())
     {
-        std::string w = read_word(data);
+        const std::string w = read_word(data);
 
-        if (w == "enum")
-        {
-            std::string name = read_word(data);
-            if (name == "class")
-                name = read_word(data);
-
-            results.emplace_back(Enum{name, {}});
-        }
+        state_machine.take(w);
     }
 
-    return results;
+    return state_machine.enums();
 }
 
 
