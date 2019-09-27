@@ -1,5 +1,18 @@
 
-add_executable(enum_to_string main.cpp)
+find_package(FLEX REQUIRED)
+find_package(BISON REQUIRED)
+
+flex_target(enumFlex enum.l ${CMAKE_CURRENT_BINARY_DIR}/enum.yy.cc
+    COMPILE_FLAGS "-CF --header-file=${CMAKE_CURRENT_BINARY_DIR}/enum.yy.hh")
+
+bison_target(enumBison enum.y ${CMAKE_CURRENT_BINARY_DIR}/enum.tab.cc)
+add_flex_bison_dependency(enumFlex enumBison)
+
+add_executable(enum_to_string
+                ${FLEX_enumFlex_OUTPUTS}
+                ${BISON_enumBison_OUTPUTS}
+                main.cpp
+)
 
 if(BUILD_TESTS)
     include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)

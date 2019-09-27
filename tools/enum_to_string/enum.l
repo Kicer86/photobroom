@@ -1,0 +1,32 @@
+%{
+  #define YYSTYPE std::string    //container for lexer data
+
+  #include <iostream>
+
+  #include "enum.tab.hh"         //include bison's definitions
+%}
+
+%option nounistd
+%option never-interactive
+%option reentrant
+%option bison-bridge
+%option noyywrap
+%option prefix="enum_"
+
+
+%%
+
+[[:alnum:]_-]+  {   // word
+                    std::cout << "enum lexer: got " << yytext << "\n";
+
+                    *yylval=yytext;
+                    return TEXT;
+                }
+
+.               {   //some character
+                    std::cout << "enum lexer: got character: " << yytext[0] << "\n";
+
+                    return yytext[0];
+                }
+
+%%
