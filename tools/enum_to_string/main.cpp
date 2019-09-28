@@ -30,11 +30,13 @@ int main(int argc, char** argv)
 
     for(const Enum& e: enums)
     {
-        output_stream << "std::map<" << e.name << ", std::string> " << e.name << "_strings = \n";
+        const std::string enum_in_namespace = e.namespace_name + e.name;
+
+        output_stream << "std::map<" << enum_in_namespace << ", std::string> " << e.name << "_strings = \n";
         output_stream << "{\n";
 
         for (const std::string& entry: e.entries)
-            output_stream << "\t{ " << entry << ", \"" << entry << "\" },\n";
+            output_stream << "\t{ " << enum_in_namespace + "::" + entry << ", \"" << entry << "\" },\n";
 
         output_stream << "};\n";
     }
