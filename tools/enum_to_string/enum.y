@@ -39,6 +39,7 @@
 input:    /* empty */;
 input:    input enum_definition;
 
+
 enum_definition:    enum_header '{' entries '}' ';'  {}
 
 
@@ -70,6 +71,7 @@ entries: entries entry
 
 entry:  entry_name
 entry:  entry_name ','
+
 
 entry_name: WORD                {
                                     enums->back().entries.push_back($1);
