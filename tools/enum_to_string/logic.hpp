@@ -14,6 +14,6 @@ struct Enum
 using Enums = std::vector<Enum>;
 
 Enums find_enum(std::istream& data);
-bool parse(const std::string& input_file_path);
+Enums parse(const std::string& input_file_path);
 
 #endif

@@ -1,5 +1,5 @@
 
-#include <cstring>
+#include <cassert>
 #include <fstream>
 #include <vector>
 
@@ -35,10 +35,14 @@ Enums find_enum(std::istream& data)
 }
 
 
-bool parse(const std::string& input_file_path)
+Enums parse(const std::string& input_file_path)
 {
     std::ifstream input(input_file_path);
+    assert(input.is_open());
+    assert(input.good());
 
-    return true;
+    Enums enums = find_enum(input);
+
+    return enums;
 }
 
