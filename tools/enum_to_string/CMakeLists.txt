@@ -14,6 +14,7 @@ add_executable(enum_to_string
                 ${FLEX_enumFlex_OUTPUTS}
                 ${BISON_enumBison_OUTPUTS}
                 main.cpp
+                logic.cpp
 )
 
 
@@ -25,6 +26,7 @@ if(BUILD_TESTS)
                         ${FLEX_enumFlex_OUTPUTS}
                         ${BISON_enumBison_OUTPUTS}
                         unit_test.cpp
+                        logic.cpp
                     LIBRARIES
                         PRIVATE
                             ${GMOCK_MAIN_LIBRARY}
