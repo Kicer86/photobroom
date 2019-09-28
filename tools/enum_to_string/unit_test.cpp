@@ -87,8 +87,6 @@ TEST(EnumFinderTest, enumInCppCode)
 
     ASSERT_EQ(r.size(), 1);
 
-    ASSERT_EQ(r.size(), 1);
-
     const Enum& e = r.front();
     EXPECT_EQ(e.name, "En");
 
