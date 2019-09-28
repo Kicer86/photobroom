@@ -47,3 +47,21 @@ TEST(EnumFinderTest, enumWithEntries)
     EXPECT_EQ(ents[1], "b");
     EXPECT_EQ(ents[2], "c");
 }
+
+
+TEST(EnumFinderTest, mixedEnums)
+{
+    std::stringstream str("enum Abc {}; enum class QWE {q, w, e, qqqq}; enum E {a, b, c,};");
+
+    auto r = find_enum(str);
+
+    ASSERT_EQ(r.size(), 3);
+
+    EXPECT_EQ(r[0].name, "Abc");
+    EXPECT_EQ(r[1].name, "QWE");
+    EXPECT_EQ(r[2].name, "E");
+
+    EXPECT_EQ(r[0].entries.size(), 0);
+    EXPECT_EQ(r[1].entries.size(), 4);
+    EXPECT_EQ(r[2].entries.size(), 3);
+}
