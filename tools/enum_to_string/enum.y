@@ -38,6 +38,7 @@
 //eat lines
 input:    /* empty */;
 input:    input enum_definition;
+input:    input error;              // allow errors, this is not full c++ parser.
 
 
 enum_definition:    enum_header '{' entries '}' ';'  {}
