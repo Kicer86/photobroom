@@ -9,7 +9,7 @@
 #include "enum.yy.hh"
 
 
-std::vector<Enum> find_enum(std::istream& data)
+Enums find_enum(std::istream& data)
 {
   YY_BUFFER_STATE bp;
 
@@ -17,19 +17,21 @@ std::vector<Enum> find_enum(std::istream& data)
   enum_debug=0;
 #endif
 
+  Enums enums;
+
   const std::string stream(std::istreambuf_iterator<char>(data), {});
 
   yyscan_t scanner;
-  enum_lex_init_extra(nullptr, &scanner);
+  enum_lex_init_extra(&enums, &scanner);
 
   bp = enum__scan_string(stream.data(), scanner);
   enum__switch_to_buffer(bp, scanner);
-  enum_parse(scanner);
+  enum_parse(&enums, scanner);
 
   enum__delete_buffer(bp, scanner);
   enum_lex_destroy(scanner);
 
-  return {};
+  return enums;
 }
 
 

@@ -3,6 +3,8 @@
 
   #include <iostream>
 
+  #include "logic.hpp"
+
   #include "enum.tab.hh"         //include bison's definitions
 %}
 

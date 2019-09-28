@@ -1,6 +1,7 @@
 
 %pure_parser
 %error-verbose
+%parse-param {Enums* enums }
 %parse-param {void *scanner}
 %lex-param {yyscan_t *scanner}
 %name-prefix="enum_"
@@ -20,14 +21,12 @@
 
     #include "logic.hpp"
 
-    int enum_error(yyscan_t scanner, char const* s)
+    int enum_error(Enums*, yyscan_t, char const* s)
     {
         std::cout << "error: " << s << std::endl;
         return 1;
     }
 
-    Enum current_enum;
-    std::vector<Enum> enums;
 %}
 
 %token ENUM
@@ -47,20 +46,20 @@ enum_header:        enum_keyword enum_name {}
 
 
 enum_keyword:       ENUM            {
-                                        enums.push_back(Enum{});
+                                        enums->push_back(Enum{});
                                     }
 
 
 enum_name:          CLASS WORD  {
-                                    enums.back().name = $2;
+                                    enums->back().name = $2;
                                 }
 
 enum_name:          WORD        {
-                                    enums.back().name = $1;
+                                    enums->back().name = $1;
                                 }
 
 enum_name:                      {
-                                    enums.back().name = "";
+                                    enums->back().name = "";
                                 }
 
 
