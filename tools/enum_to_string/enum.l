@@ -16,12 +16,28 @@
 
 %%
 
+enum            {   // enum keyword
+                    std::cout << "enum lexer: got \"enum\"\n";
+
+                    *yylval=yytext;
+                    return ENUM;
+                }
+
+class           {   // class keyword
+                    std::cout << "enum lexer: got \"class\"\n";
+
+                    *yylval=yytext;
+                    return CLASS;
+                }
+
 [[:alnum:]_-]+  {   // word
                     std::cout << "enum lexer: got \"" << yytext << "\"\n";
 
                     *yylval=yytext;
-                    return TEXT;
+                    return WORD;
                 }
+
+[[:blank:]$]+ {} //remove blanks
 
 .               {   //some character
                     std::cout << "enum lexer: got character: '" << yytext[0] << "'\n";

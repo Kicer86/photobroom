@@ -26,14 +26,22 @@
 
 %}
 
-%token TEXT
+%token ENUM
+%token CLASS
+%token WORD
 
 %%
 
 //eat lines
 input:    /* empty */;
-input:    input word;
+input:    input enum_definition;
 
-word:     TEXT     {}
+enum_definition:     ENUM  CLASS WORD '{' entries '}' ';'  {}
+enum_definition:     ENUM  WORD '{' entries '}' ';'  {}
+enum_definition:     ENUM '{' entries '}' ';'  {}
+
+entries:
+entries:    WORD
+entries:    WORD ',' entries
 
 %%
