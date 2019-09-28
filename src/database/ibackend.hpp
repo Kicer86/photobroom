@@ -34,6 +34,7 @@
 #include "photo_data.hpp"
 
 #include "database_export.h"
+#include "database_status.strings.hpp"
 
 
 struct IConfiguration;
@@ -67,10 +68,10 @@ namespace Database
 
         public:
             db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError):
-                m_err(err),
+                m_err(),
                 m_status(status)
             {
-
+                m_err += err + ": " + get_entry(m_status);
             }
 
             StatusCodes status() const noexcept
