@@ -65,3 +65,38 @@ TEST(EnumFinderTest, mixedEnums)
     EXPECT_EQ(r[1].entries.size(), 4);
     EXPECT_EQ(r[2].entries.size(), 3);
 }
+
+
+/*
+TEST(EnumFinderTest, enumInCppCode)
+{
+    std::stringstream str("#include <string>\n"
+                          "\n"
+                          "struct Qwe\n"
+                          "{\n"
+                          "    int a;\n"
+                          "};\n"
+                          "\n"
+                          "enum En\n"
+                          "{\n"
+                          "    a123,\n"
+                          "    beeee\n"
+                          "};\n"
+    );
+
+    auto r = find_enum(str);
+
+    ASSERT_EQ(r.size(), 1);
+
+    ASSERT_EQ(r.size(), 1);
+
+    const Enum& e = r.front();
+    EXPECT_EQ(e.name, "En");
+
+    const auto& ents = e.entries;
+    ASSERT_EQ(ents.size(), 2);
+
+    EXPECT_EQ(ents[0], "a123");
+    EXPECT_EQ(ents[1], "beee");
+}
+*/
