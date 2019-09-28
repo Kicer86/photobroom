@@ -67,7 +67,6 @@ TEST(EnumFinderTest, mixedEnums)
 }
 
 
-/*
 TEST(EnumFinderTest, enumInCppCode)
 {
     std::stringstream str("#include <string>\n"
@@ -97,6 +96,5 @@ TEST(EnumFinderTest, enumInCppCode)
     ASSERT_EQ(ents.size(), 2);
 
     EXPECT_EQ(ents[0], "a123");
-    EXPECT_EQ(ents[1], "beee");
+    EXPECT_EQ(ents[1], "beeee");
 }
-*/
