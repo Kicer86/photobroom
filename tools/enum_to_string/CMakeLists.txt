@@ -2,6 +2,8 @@
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
 flex_target(enumFlex enum.l ${CMAKE_CURRENT_BINARY_DIR}/enum.yy.cc
     COMPILE_FLAGS "-CF --header-file=${CMAKE_CURRENT_BINARY_DIR}/enum.yy.hh")
 
@@ -12,11 +14,6 @@ add_executable(enum_to_string
                 ${FLEX_enumFlex_OUTPUTS}
                 ${BISON_enumBison_OUTPUTS}
                 main.cpp
-)
-
-target_include_directories(enum_to_string
-                            PRIVATE
-                                ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 
@@ -38,7 +35,5 @@ if(BUILD_TESTS)
                         SYSTEM PRIVATE
                             ${GMOCK_INCLUDE_DIRS}
                             ${GTEST_INCLUDE_DIRS}
-                        PRIVATE
-                            ${CMAKE_CURRENT_BINARY_DIR}
     )
 endif()
