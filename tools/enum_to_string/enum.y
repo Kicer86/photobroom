@@ -1,10 +1,10 @@
 
-%pure_parser
-%error-verbose
+%define api.pure
+%define parse.error verbose
+%name-prefix="enum_"
 %parse-param {Enums* enums }
 %parse-param {void *scanner}
 %lex-param {yyscan_t *scanner}
-%name-prefix="enum_"
 
 %{
 
@@ -63,8 +63,15 @@ enum_name:                      {
                                 }
 
 
-entries:
-entries:    WORD
-entries:    WORD ',' entries
+entries: entry
+entries: entries entry
+
+
+entry:  entry_name
+entry:  entry_name ','
+
+entry_name: WORD                {
+                                    enums->back().entries.push_back($1);
+                                }
 
 %%
