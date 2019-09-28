@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include <sstream>
 
-#include "logic.cpp"
+#include "logic.hpp"
 
 
 TEST(EnumFinderTest, emptyEnum)
@@ -28,7 +28,7 @@ TEST(EnumFinderTest, emptyEnumClass)
     EXPECT_TRUE(r.front().entries.empty());
 }
 
-/*
+
 TEST(EnumFinderTest, enumWithEntries)
 {
     std::stringstream str("enum E {a, b, c};");
@@ -47,4 +47,3 @@ TEST(EnumFinderTest, enumWithEntries)
     EXPECT_EQ(ents[1], "b");
     EXPECT_EQ(ents[2], "c");
 }
-*/
