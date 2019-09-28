@@ -19,6 +19,10 @@ add_executable(enum_to_string
 
 
 if(BUILD_TESTS)
+    find_package(Threads REQUIRED)
+    find_package(GMock REQUIRED)
+    find_package(GTest REQUIRED)
+
     include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
     addTestTarget(enum_to_string
