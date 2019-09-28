@@ -32,13 +32,17 @@ int main(int argc, char** argv)
     {
         const std::string enum_in_namespace = e.namespace_name + e.name;
 
-        output_stream << "std::map<" << enum_in_namespace << ", std::string> " << e.name << "_strings = \n";
+        output_stream << "inline std::string get_entry(" << enum_in_namespace << " entry)\n";
         output_stream << "{\n";
+        output_stream << "\tswitch(entry)\n";
+        output_stream << "\t{\n";
 
         for (const std::string& entry: e.entries)
-            output_stream << "\t{ " << enum_in_namespace + "::" + entry << ", \"" << entry << "\" },\n";
+            output_stream << "\t\tcase " << enum_in_namespace + "::" + entry << ": return \"" << entry << "\";\n";
 
-        output_stream << "};\n";
+        output_stream << "\t\tdefault: return {};\n";
+        output_stream << "\t};\n";
+        output_stream << "}\n";
     }
 
     return 0;
