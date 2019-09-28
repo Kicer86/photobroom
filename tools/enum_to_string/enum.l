@@ -41,6 +41,10 @@ namespace       {   // namespace keyword
                     return NAMESPACE;
                 }
 
+
+\/\/.*\n          {}  // comment
+
+
 [[:alnum:]_-]+  {   // word
                     DBG("enum lexer: got \"" << yytext << "\"");
 
