@@ -18,7 +18,6 @@
 %option noyywrap
 %option prefix="enum_"
 
-
 %%
 
 enum            {   // enum keyword
@@ -33,6 +32,13 @@ class           {   // class keyword
 
                     *yylval=yytext;
                     return CLASS;
+                }
+
+namespace       {   // namespace keyword
+                    DBG("enum lexer: got \"namespace\"");
+
+                    *yylval=yytext;
+                    return NAMESPACE;
                 }
 
 [[:alnum:]_-]+  {   // word

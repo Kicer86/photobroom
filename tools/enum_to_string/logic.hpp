@@ -7,6 +7,7 @@
 
 struct Enum
 {
+    std::string namespace_name;
     std::string name;
     std::vector<std::string> entries;
 };

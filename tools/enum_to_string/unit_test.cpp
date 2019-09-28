@@ -96,3 +96,22 @@ TEST(EnumFinderTest, enumInCppCode)
     EXPECT_EQ(ents[0], "a123");
     EXPECT_EQ(ents[1], "beeee");
 }
+
+
+TEST(EnumFinderTest, namespacedEnums)
+{
+    std::stringstream str("namespace Abc { enum class QWE {q, w, e, qqqq}; } enum E {a, b, c,};");
+
+    auto r = find_enum(str);
+
+    ASSERT_EQ(r.size(), 2);
+
+    EXPECT_EQ(r[0].name, "QWE");
+    EXPECT_EQ(r[1].name, "E");
+
+    EXPECT_EQ(r[0].namespace_name, "Abc::");
+    EXPECT_EQ(r[1].namespace_name, "");
+
+    EXPECT_EQ(r[0].entries.size(), 4);
+    EXPECT_EQ(r[1].entries.size(), 3);
+}
