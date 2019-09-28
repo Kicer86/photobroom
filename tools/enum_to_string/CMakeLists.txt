@@ -14,11 +14,19 @@ add_executable(enum_to_string
                 main.cpp
 )
 
+target_include_directories(enum_to_string
+                            PRIVATE
+                                ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+
 if(BUILD_TESTS)
     include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
     addTestTarget(enum_to_string
                     SOURCES
+                        ${FLEX_enumFlex_OUTPUTS}
+                        ${BISON_enumBison_OUTPUTS}
                         unit_test.cpp
                     LIBRARIES
                         PRIVATE
@@ -30,5 +38,7 @@ if(BUILD_TESTS)
                         SYSTEM PRIVATE
                             ${GMOCK_INCLUDE_DIRS}
                             ${GTEST_INCLUDE_DIRS}
+                        PRIVATE
+                            ${CMAKE_CURRENT_BINARY_DIR}
     )
 endif()
