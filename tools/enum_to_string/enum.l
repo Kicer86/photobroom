@@ -39,7 +39,7 @@ class           {   // class keyword
                     return WORD;
                 }
 
-[[:blank:]$]+ {} //remove blanks
+[[:blank:]$]+   {} //remove blanks
 
 .               {   //some character
                     std::cout << "enum lexer: got character: '" << yytext[0] << "'\n";
