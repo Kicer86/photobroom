@@ -17,14 +17,14 @@
 %%
 
 [[:alnum:]_-]+  {   // word
-                    std::cout << "enum lexer: got " << yytext << "\n";
+                    std::cout << "enum lexer: got \"" << yytext << "\"\n";
 
                     *yylval=yytext;
                     return TEXT;
                 }
 
 .               {   //some character
-                    std::cout << "enum lexer: got character: " << yytext[0] << "\n";
+                    std::cout << "enum lexer: got character: '" << yytext[0] << "'\n";
 
                     return yytext[0];
                 }
