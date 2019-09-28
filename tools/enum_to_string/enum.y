@@ -23,7 +23,7 @@
 
     int enum_error(Enums*, yyscan_t, char const* s)
     {
-        std::cout << "error: " << s << std::endl;
+        //std::cout << "error: " << s << std::endl;
         return 1;
     }
 

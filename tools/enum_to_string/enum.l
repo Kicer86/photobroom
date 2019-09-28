@@ -6,6 +6,9 @@
   #include "logic.hpp"
 
   #include "enum.tab.hh"         //include bison's definitions
+
+  //#define DBG(MSG) std::cout << MSG << "\n"
+  #define DBG(MSG) //
 %}
 
 %option nounistd
@@ -19,21 +22,21 @@
 %%
 
 enum            {   // enum keyword
-                    std::cout << "enum lexer: got \"enum\"\n";
+                    DBG("enum lexer: got \"enum\"\n");
 
                     *yylval=yytext;
                     return ENUM;
                 }
 
 class           {   // class keyword
-                    std::cout << "enum lexer: got \"class\"\n";
+                    DBG("enum lexer: got \"class\"");
 
                     *yylval=yytext;
                     return CLASS;
                 }
 
 [[:alnum:]_-]+  {   // word
-                    std::cout << "enum lexer: got \"" << yytext << "\"\n";
+                    DBG("enum lexer: got \"" << yytext << "\"");
 
                     *yylval=yytext;
                     return WORD;
@@ -42,9 +45,10 @@ class           {   // class keyword
 [[:blank:]$]+   {} //remove blanks
 
 .               {   //some character
-                    std::cout << "enum lexer: got character: '" << yytext[0] << "'\n";
+                    DBG("enum lexer: got character: '" << yytext[0] << "'");
 
                     return yytext[0];
                 }
 
+<*>\n           {}  //eat endl
 %%
