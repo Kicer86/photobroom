@@ -28,7 +28,7 @@ std::vector<Enum> find_enum(std::istream& data)
   yyscan_t scanner;
   enum_lex_init_extra(nullptr, &scanner);
 
-  bp=enum__scan_string(stream.data(), scanner);
+  bp = enum__scan_string(stream.data(), scanner);
   enum__switch_to_buffer(bp, scanner);
   enum_parse(scanner);
 
