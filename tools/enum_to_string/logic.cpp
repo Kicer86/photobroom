@@ -3,16 +3,10 @@
 #include <fstream>
 #include <vector>
 
+#include "logic.hpp"
 
 #include "enum.tab.hh"
 #include "enum.yy.hh"
-
-
-struct Enum
-{
-    std::string name;
-    std::vector<std::string> entries;
-};
 
 
 std::vector<Enum> find_enum(std::istream& data)
