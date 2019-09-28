@@ -7,23 +7,27 @@
 
 %{
 
-  #define YYSTYPE std::string
+    #define YYSTYPE std::string
 
-  //define this macro to satisfy VisualStudio
-  #define YY_NO_UNISTD_H
+    //define this macro to satisfy VisualStudio
+    #define YY_NO_UNISTD_H
 
-  #include <iostream>
-  #include <string>
-  #include <vector>
+    #include <iostream>
+    #include <string>
+    #include <vector>
 
-  #include "enum.yy.hh"
+    #include "enum.yy.hh"
 
-  int enum_error(yyscan_t scanner, char const* s)
-  {
-    std::cout << "error: " << s << std::endl;
-    return 1;
-  }
+    #include "logic.hpp"
 
+    int enum_error(yyscan_t scanner, char const* s)
+    {
+        std::cout << "error: " << s << std::endl;
+        return 1;
+    }
+
+    Enum current_enum;
+    std::vector<Enum> enums;
 %}
 
 %token ENUM
@@ -36,9 +40,29 @@
 input:    /* empty */;
 input:    input enum_definition;
 
-enum_definition:     ENUM  CLASS WORD '{' entries '}' ';'  {}
-enum_definition:     ENUM  WORD '{' entries '}' ';'  {}
-enum_definition:     ENUM '{' entries '}' ';'  {}
+enum_definition:    enum_header '{' entries '}' ';'  {}
+
+
+enum_header:        enum_keyword enum_name {}
+
+
+enum_keyword:       ENUM            {
+                                        enums.push_back(Enum{});
+                                    }
+
+
+enum_name:          CLASS WORD  {
+                                    enums.back().name = $2;
+                                }
+
+enum_name:          WORD        {
+                                    enums.back().name = $1;
+                                }
+
+enum_name:                      {
+                                    enums.back().name = "";
+                                }
+
 
 entries:
 entries:    WORD
