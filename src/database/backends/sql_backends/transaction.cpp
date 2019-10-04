@@ -20,7 +20,7 @@
 #include <QSqlDatabase>
 
 
-Transaction::Transaction(TransactionalDatabase& db):
+Transaction::Transaction(NestedTransaction& db):
     m_db(db),
     m_commited(false)
 {
@@ -54,7 +54,7 @@ void Transaction::rollback()
 }
 
 
-TransactionalDatabase::TransactionalDatabase():
+NestedTransaction::NestedTransaction():
     m_connection_name(),
     m_level(0),
     m_clean(true)
@@ -63,13 +63,13 @@ TransactionalDatabase::TransactionalDatabase():
 }
 
 
-void TransactionalDatabase::setConnectionName(const QString& name)
+void NestedTransaction::setConnectionName(const QString& name)
 {
     m_connection_name = name;
 }
 
 
-bool TransactionalDatabase::tr_begin()
+bool NestedTransaction::tr_begin()
 {
     bool status = true;
     m_level++;
@@ -84,7 +84,7 @@ bool TransactionalDatabase::tr_begin()
     return status;
 }
 
-bool TransactionalDatabase::tr_commit()
+bool NestedTransaction::tr_commit()
 {
     assert(m_level > 0);
 
@@ -107,7 +107,7 @@ bool TransactionalDatabase::tr_commit()
 }
 
 
-bool TransactionalDatabase::tr_rollback()
+bool NestedTransaction::tr_rollback()
 {
     m_clean = false;
     return tr_commit();

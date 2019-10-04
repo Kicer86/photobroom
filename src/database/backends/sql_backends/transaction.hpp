@@ -21,13 +21,13 @@
 
 #include <QString>
 
-class TransactionalDatabase;
+class NestedTransaction;
 
 
 class Transaction final
 {
     public:
-        Transaction(TransactionalDatabase &);
+        Transaction(NestedTransaction &);
         ~Transaction();
 
         bool begin();
@@ -35,15 +35,15 @@ class Transaction final
         void rollback();
 
     private:
-        TransactionalDatabase& m_db;
+        NestedTransaction& m_db;
         bool m_commited;
 };
 
 
-class TransactionalDatabase final
+class NestedTransaction final
 {
     public:
-        TransactionalDatabase();
+        NestedTransaction();
 
         void setConnectionName(const QString &);
 
