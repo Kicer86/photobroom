@@ -17,6 +17,10 @@ add_executable(enum_to_string
                 logic.cpp
 )
 
+if(WIN32)
+    target_compile_definitions(enum_to_string PRIVATE YY_NO_UNISTD_H)
+endif()
+
 
 if(BUILD_TESTS)
     find_package(Threads REQUIRED)
