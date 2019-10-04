@@ -995,24 +995,27 @@ namespace Database
         m_data->m_connectionName = prjInfo.databaseLocation;
         m_tr_db.setConnectionName(m_data->m_connectionName);
 
-        BackendStatus status = prepareDB(prjInfo);
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        BackendStatus status = StatusCodes::Ok;
+        QSqlDatabase db;
 
-        m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
-
-        if (status)
+        try
         {
+            DB_ERROR_ON_FALSE(prepareDB(prjInfo), StatusCodes::OpenFailed);
+
+            db = QSqlDatabase::database(m_data->m_connectionName);
+
+            m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
             m_data->m_dbOpen = db.open();
-            status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
+
+            DB_ERROR_ON_FALSE(m_data->m_dbOpen, StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE(dbOpened(), StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE(checkStructure(), StatusCodes::GeneralError);
         }
-
-        if (status)
-            status = dbOpened()? StatusCodes::Ok: StatusCodes::OpenFailed;
-
-        if (status)
-            status = checkStructure();
-        else
+        catch(const db_error& err)
+        {
             ErrorStream(m_data->m_logger.get()) << "Error opening database: " << db.lastError().text();
+            status = err.status();
+        }
 
         return status;
     }
