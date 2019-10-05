@@ -27,7 +27,7 @@ class NestedTransaction;
 class Transaction final
 {
     public:
-        Transaction(NestedTransaction &);
+        explicit Transaction(NestedTransaction &);
         ~Transaction();
 
         bool begin();
