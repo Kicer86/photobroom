@@ -4,10 +4,10 @@ find_package(BISON REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-flex_target(enumFlex enum.l ${CMAKE_CURRENT_BINARY_DIR}/enum.yy.cc
+flex_target(enumFlex ${CMAKE_CURRENT_SOURCE_DIR}/enum.l ${CMAKE_CURRENT_BINARY_DIR}/enum.yy.cc
     COMPILE_FLAGS "-CF --header-file=${CMAKE_CURRENT_BINARY_DIR}/enum.yy.hh")
 
-bison_target(enumBison enum.y ${CMAKE_CURRENT_BINARY_DIR}/enum.tab.cc)
+bison_target(enumBison ${CMAKE_CURRENT_SOURCE_DIR}/enum.y ${CMAKE_CURRENT_BINARY_DIR}/enum.tab.cc)
 add_flex_bison_dependency(enumFlex enumBison)
 
 add_executable(enum_to_string
