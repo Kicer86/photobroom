@@ -7,7 +7,6 @@ find_package(Qt5Gui REQUIRED)
 find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
-    implementation/action.cpp
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
@@ -27,7 +26,6 @@ set(DATABASE_SOURCES
 )
 
 set(DATABASE_HEADERS
-    action.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp
@@ -70,9 +68,11 @@ set(DATABASE_MOC
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
+stringify_enums(STRINGIFIED_ENUMS database_status.hpp)
+
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
+add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED} ${STRINGIFIED_ENUMS})
 target_link_libraries(database
                         PUBLIC
                             Qt5::Gui

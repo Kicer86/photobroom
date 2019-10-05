@@ -28,8 +28,16 @@ artifacts:
   - path: build/PhotoBroom-1.4.0-*.exe
     name: PhotoBroom_installer
 
+environment:
+    WINFLEXBISON_ARCHIVE: win_flex_bison3-latest.zip
+
 
 before_build:
+    - if not exist "%WINFLEXBISON_ARCHIVE%" appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/%WINFLEXBISON_ARCHIVE%"
+    - 7z x -y -owinflexbison\ "%WINFLEXBISON_ARCHIVE%" > nul
+    - set Path=%CD%\winflexbison;%Path%
+    - win_flex --version
+    - win_bison --version
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if not exist envs mkdir envs
     - cmd: cd envs

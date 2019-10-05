@@ -27,7 +27,6 @@
 
 #include <core/tag.hpp>
 
-#include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
@@ -35,6 +34,7 @@
 #include "photo_data.hpp"
 
 #include "database_export.h"
+#include "database_status.strings.hpp"
 
 
 struct IConfiguration;
@@ -44,9 +44,13 @@ struct ILoggerFactory;
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
 
-#define DB_ERR_ON_FALSE(CALL)   \
-    if ( !(CALL) )              \
-        throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__);
+#define DB_ERROR_ON_FALSE(CALL, ERRCODE)       \
+    {                                          \
+        if ( !(CALL) )                         \
+            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE);  \
+    }
+
+#define DB_ERR_ON_FALSE(CALL) DB_ERROR_ON_FALSE(CALL, StatusCodes::GeneralError)
 
 
 namespace Database
@@ -60,9 +64,20 @@ namespace Database
     class db_error: std::exception
     {
             std::string m_err;
+            StatusCodes m_status;
 
         public:
-            db_error(const std::string& err): m_err(err) {}
+            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError):
+                m_err(),
+                m_status(status)
+            {
+                m_err += err + ": " + get_entry(m_status);
+            }
+
+            StatusCodes status() const noexcept
+            {
+                return m_status;
+            }
 
             const char* what() const noexcept override
             {
@@ -104,7 +119,6 @@ namespace Database
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
 
         // modify data
-        virtual void perform(const std::vector<Database::IFilter::Ptr> &, const std::vector<Database::IAction::Ptr> &) = 0;
         virtual std::vector<Photo::Id> markStagedAsReviewed() = 0;
 
         // write extra data

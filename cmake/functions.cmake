@@ -150,6 +150,8 @@ macro(addTestTarget target)
                             ${test_binaries}
     )
 
+    add_dependencies(RunUnitTests ${test_bin})
+
 endmacro(addTestTarget)
 
 
@@ -180,3 +182,21 @@ macro(qt5_wrap_cpp_for_ut OUTVAR)
     qt5_wrap_cpp(${OUTVAR} ${new_files})
 
 endmacro(qt5_wrap_cpp_for_ut)
+
+
+function(stringify_enums output input)
+
+    get_filename_component(input_file_name ${input} NAME_WE)
+    set(generated_file_name "${input_file_name}.strings.hpp")
+
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name}
+                       COMMAND enum_to_string ${CMAKE_CURRENT_SOURCE_DIR}/${input} ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name}
+                       DEPENDS enum_to_string
+                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${input}
+    )
+
+    set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name} PROPERTIES GENERATED TRUE)
+
+    set(${output} ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name} PARENT_SCOPE)
+
+endfunction()

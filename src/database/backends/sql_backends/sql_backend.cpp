@@ -28,7 +28,6 @@
 #include <sstream>
 #include <thread>
 
-#include <QBuffer>
 #include <QDate>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -42,14 +41,12 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/map_iterator.hpp>
-#include <database/action.hpp>
 #include <database/filter.hpp>
 #include <database/project_info.hpp>
 
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"
 #include "query_structs.hpp"
-#include "sql_action_query_generator.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "sql_query_executor.hpp"
 
@@ -60,82 +57,6 @@
 
 namespace Database
 {
-    namespace
-    {
-
-        struct Transaction
-        {
-            explicit Transaction(QSqlDatabase& db): m_db(db), m_begun (false), m_finished(false)
-            {
-
-            }
-
-            ~Transaction()
-            {
-                if ( m_begun && m_finished == false)
-                    rollback();
-            }
-
-            Transaction(const Transaction &) = delete;
-            Transaction& operator=(const Transaction &) = delete;
-
-            BackendStatus begin()
-            {
-                const BackendStatus status = m_db.transaction()? StatusCodes::Ok: StatusCodes::TransactionFailed;
-                m_begun = status;
-
-                return status;
-            }
-
-            BackendStatus commit()
-            {
-                assert( m_begun );
-
-                const BackendStatus status = m_db.commit()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                m_finished = true;
-
-                return status;
-            }
-
-            BackendStatus rollback()
-            {
-                assert( m_begun );
-
-                const BackendStatus status = m_db.rollback()? StatusCodes::Ok: StatusCodes::TransactionCommitFailed;
-
-                m_finished = true;
-
-                return status;
-            }
-
-        private:
-            QSqlDatabase& m_db;
-            bool m_begun;
-            bool m_finished;
-        };
-
-
-        std::vector<std::pair<TagNameInfo, TagValue>> flatten(const Tag::TagsList& tagsList)
-        {
-            std::vector<std::pair<TagNameInfo, TagValue>> result;
-
-            for(const auto& tag: tagsList)
-            {
-                const TagValue& tagValue = tag.second;
-
-                result.emplace_back(tag.first, tagValue);
-            }
-
-            return result;
-        }
-
-    }
-
-
-    /*****************************************************************************/
-
-
     // TODO: deprecated, move code to ASqlBackend (no reason for this impl)
     struct ASqlBackend::Data
     {
@@ -158,8 +79,6 @@ namespace Database
             bool update(const Photo::DataDelta &) const noexcept;
 
             std::vector<TagValue>  listTagValues(const TagNameInfo &, const std::vector<IFilter::Ptr> &) const;
-
-            void                   perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) const;
 
             std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) const;
             Photo::Data            getPhoto(const Photo::Id &) const;
@@ -300,22 +219,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    void ASqlBackend::Data::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& actions) const
-    {
-        for(auto action: actions)
-        {
-            const QString queryStr = SqlFilterQueryGenerator().generate(filter);
-            const QString actionStr = SqlActionQueryGenerator().generate(action);
-            const QString finalQuery = actionStr.arg(queryStr);
-
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-            QSqlQuery query(db);
-
-            m_executor.exec(finalQuery, &query);
-        }
     }
 
 
@@ -489,12 +392,9 @@ namespace Database
                 currentIds.push_back(id);
             }
 
-            // convert map with possible lists into flat list of pairs
-            const std::vector<std::pair<TagNameInfo, TagValue>> tagsFlatList = flatten(tagsList);
-
             // difference between current set in db and new set of tags
             const int currentIdsSize = static_cast<int>( currentIds.size() );
-            const int tagsListSize   = static_cast<int>( tagsFlatList.size() );
+            const int tagsListSize   = static_cast<int>( tagsList.size() );
             const int diff = currentIdsSize - tagsListSize;
 
             // more tags in db?, delete surplus
@@ -516,7 +416,7 @@ namespace Database
             // override existing tags and then insert (if nothing left to override)
             std::size_t counter = 0;
 
-            for (auto it = tagsFlatList.begin(); status && it != tagsFlatList.end(); ++it, counter++)
+            for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it, counter++)
             {
                 const TagValue& value = it->second;
                 const int name = it->first.getTag();
@@ -606,7 +506,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        Transaction transaction(db);
+        Transaction transaction(m_backend->m_tr_db);
 
         bool status = true;
 
@@ -634,7 +534,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        Transaction transaction(db);
+        Transaction transaction(m_backend->m_tr_db);
 
         bool status = true;
 
@@ -1093,25 +993,29 @@ namespace Database
         //store thread id for further validation
         m_data->m_executor.set( std::this_thread::get_id() );
         m_data->m_connectionName = prjInfo.databaseLocation;
+        m_tr_db.setConnectionName(m_data->m_connectionName);
 
-        BackendStatus status = prepareDB(prjInfo);
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        BackendStatus status = StatusCodes::Ok;
+        QSqlDatabase db;
 
-        m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
-
-        if (status)
+        try
         {
+            DB_ERROR_ON_FALSE(prepareDB(prjInfo), StatusCodes::OpenFailed);
+
+            db = QSqlDatabase::database(m_data->m_connectionName);
+
+            m_data->m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
             m_data->m_dbOpen = db.open();
-            status = m_data->m_dbOpen? StatusCodes::Ok: StatusCodes::OpenFailed;
+
+            DB_ERROR_ON_FALSE(m_data->m_dbOpen, StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE(dbOpened(), StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE(checkStructure(), StatusCodes::GeneralError);
         }
-
-        if (status)
-            status = dbOpened()? StatusCodes::Ok: StatusCodes::OpenFailed;
-
-        if (status)
-            status = checkStructure();
-        else
+        catch(const db_error& err)
+        {
             ErrorStream(m_data->m_logger.get()) << "Error opening database: " << db.lastError().text();
+            status = err.status();
+        }
 
         return status;
     }
@@ -1420,12 +1324,6 @@ namespace Database
     }
 
 
-    void ASqlBackend::perform(const std::vector<IFilter::Ptr>& filter, const std::vector<IAction::Ptr>& action)
-    {
-        return m_data->perform(filter, action);
-    }
-
-
     std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
         auto filter = std::make_shared<FilterPhotosWithFlags>();
@@ -1478,44 +1376,42 @@ namespace Database
 
     BackendStatus ASqlBackend::checkStructure()
     {
+        BackendStatus status;
+
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        Transaction transaction(db);
+        Transaction transaction(m_tr_db);
 
-        BackendStatus status = transaction.begin();
-
-        //check tables existance
-        if (status)
-            for (const auto& table: tables)
-            {
-                status = ensureTableExists(table.second);
-
-                if (!status)
-                    break;
-            }
-
-        QSqlQuery query(db);
-
-        // table 'version' cannot be empty
-        if (status)
-            status = m_data->m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query);
-
-        if (status)
-            status = query.next()? StatusCodes::Ok: StatusCodes::QueryFailed;
-
-        const QVariant rows = status? query.value(0): QVariant(0);
-
-        //insert first entry
-        if (status)
+        try
         {
-            if (rows == 0)
-                status = m_data->m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
-                                      .arg(db_version), &query);
-            else
-                status = checkDBVersion();
-        }
+            DB_ERROR_ON_FALSE(transaction.begin(), StatusCodes::TransactionFailed);
 
-        if (status)
-            status &= transaction.commit();
+            //check tables existance
+            for (const auto& table: tables)
+                DB_ERR_ON_FALSE(ensureTableExists(table.second));
+
+            QSqlQuery query(db);
+
+            // table 'version' cannot be empty
+            DB_ERROR_ON_FALSE(m_data->m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+
+            DB_ERR_ON_FALSE(query.next());
+
+            const QVariant rows = query.value(0);
+
+            //insert first entry
+            if (rows == 0)
+                DB_ERR_ON_FALSE(m_data->m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                                                         .arg(db_version), &query))
+            else
+                DB_ERR_ON_FALSE(checkDBVersion());
+
+            DB_ERROR_ON_FALSE(transaction.commit(), StatusCodes::TransactionCommitFailed);
+        }
+        catch(const db_error& err)
+        {
+            m_data->m_logger->error(err.what());
+            status = err.status();
+        }
 
         return status;
     }

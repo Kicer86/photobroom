@@ -32,6 +32,7 @@
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
 #include "table_definition.hpp"
+#include "transaction.hpp"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -86,6 +87,7 @@ namespace Database
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
+            NestedTransaction m_tr_db;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
@@ -107,7 +109,6 @@ namespace Database
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
-            void perform(const std::vector<IFilter::Ptr> &, const std::vector<IAction::Ptr> &) override final;
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 

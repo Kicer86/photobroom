@@ -30,7 +30,6 @@
 
 #include <core/tag.hpp>
 
-#include "action.hpp"
 #include "database_status.hpp"
 #include "filter.hpp"
 #include "group.hpp"
