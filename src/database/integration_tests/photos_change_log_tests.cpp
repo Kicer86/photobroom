@@ -6,9 +6,6 @@
 #include <core/base_tags.hpp>
 
 
-// TODO: reenable
-
-
 struct PhotosChangeLog: Tests::DatabaseTest
 {
 
