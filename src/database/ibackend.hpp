@@ -85,32 +85,69 @@ namespace Database
             }
     };
 
-    //Low level database interface.
-    //To be used by particular database backend
-    // TODO: divide into smaller interfaces and use repository pattern (see github issue #272)
-    //       Backend should be splitted into operator and itself should become a facade.
+    /** \brief Low level database interface.
+     *
+     * It defines way of communication with database backend.\n
+     * \todo Divide into smaller interfaces and use repository pattern (see github issue #272)\n
+     *       Backend should be splitted into operator and itself should become a facade.
+     */
     struct DATABASE_EXPORT IBackend: public QObject
     {
         virtual ~IBackend() = default;
 
-        //add photo to database
-        virtual bool addPhotos(std::vector<Photo::DataDelta> &) = 0;
+        /** \brief Add photos to database
+         *  \arg photos details of photos to be stored. At least id and path need to be valid. \see Photo::DataDelta
+         *  \return true if successful.
+         *
+         *  If operation is sucessful photosAdded() signal is emited.
+         */
+        virtual bool addPhotos(std::vector<Photo::DataDelta>& photos) = 0;
 
         //update data
         virtual bool update(const Photo::DataDelta &) = 0;
 
         //read data
-        virtual std::vector<TagNameInfo> listTags() = 0;                                         // list all stored tag names
+
+        /// list all stored tag names
+        virtual std::vector<TagNameInfo> listTags() = 0;
+
+        /// list all values of tag for photos matching provided filter
         virtual std::vector<TagValue>    listTagValues(const TagNameInfo &,
-                                                       const std::vector<IFilter::Ptr> &) = 0;   // list all values of tag for photos matching provided filter
-        virtual std::vector<Photo::Id>   getAllPhotos() = 0;                                     // list all photos
-        virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;       // find all photos matching filter
-        virtual Photo::Data              getPhoto(const Photo::Id &) = 0;                        // get particular photo
-        virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;  // is there any photo matching filters?
-        virtual std::vector<PersonName>  listPeople() = 0;                                       // list all people names
-        virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;                      // list people on photo
-        virtual PersonName               person(const Person::Id &) = 0;                         // person data
-        virtual Person::Id               store(const PersonName &) = 0;                          // store or update person
+                                                       const std::vector<IFilter::Ptr> &) = 0;
+
+        /// list all photos
+        virtual std::vector<Photo::Id>   getAllPhotos() = 0;
+
+        /// find all photos matching filter
+        virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;
+
+        /// get particular photo
+        virtual Photo::Data              getPhoto(const Photo::Id &) = 0;
+
+        /// Count photos matching filter
+        virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;
+
+        /// list all people names
+        virtual std::vector<PersonName>  listPeople() = 0;
+
+        /// list people on photo
+        virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
+
+        ///< person data
+        virtual PersonName               person(const Person::Id &) = 0;
+
+        /**
+         * \brief Store or update person
+         * \arg pn Details about person name to be stored.
+         * \return id of created or updated person.
+         *
+         * If \a pn has valid id then person name will be updated in database   \n
+         * If id is not valid and \a pn holds name already existing in database \n
+         * then method will return id of that person.                             \n
+         * If id is not valid and name was not found in database then             \n
+         * new person will be added to database and its id will be returned.      \n
+         */
+        virtual Person::Id               store(const PersonName& pn) = 0;
         virtual PersonInfo::Id           store(const PersonInfo &) = 0;                          // store or update person details
         virtual void                     set(const Photo::Id &, const QString &, int value) = 0; // set flag for photo to given value
         virtual std::optional<int>       get(const Photo::Id &, const QString &) = 0;            // get flag value
@@ -124,10 +161,10 @@ namespace Database
         // write extra data
         //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo
 
-        //init backend - connect to database or create new one
+        /// \brief init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;
 
-        //close database connection
+        /// \brief close database connection
         virtual void closeConnections() = 0;
 
         // TODO: a set of 'operators' which are about to replace methods above
@@ -137,10 +174,17 @@ namespace Database
         virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
 
     signals:
-        void photosAdded(const std::vector<Photo::Id> &);               // emited after new photos were added to database
-        void photoModified(const Photo::Id &);                          // emited when photo updated
-        void photosRemoved(const std::vector<Photo::Id> &);             // emited after photos removal
-        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);    // emited when done with photos marking
+        /// emited after new photos were added to database
+        void photosAdded(const std::vector<Photo::Id> &);
+
+        ///< emited when photo updated
+        void photoModified(const Photo::Id &);
+
+        ///< emited after photos removal
+        void photosRemoved(const std::vector<Photo::Id> &);
+
+        ///< emited when done with photos marking
+        void photosMarkedAsReviewed(const std::vector<Photo::Id> &);
 
     private:
         Q_OBJECT
