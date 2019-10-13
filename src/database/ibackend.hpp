@@ -143,12 +143,24 @@ namespace Database
          *
          * If \a pn has valid id then person name will be updated in database   \n
          * If id is not valid and \a pn holds name already existing in database \n
-         * then method will return id of that person.                             \n
-         * If id is not valid and name was not found in database then             \n
-         * new person will be added to database and its id will be returned.      \n
+         * then method will return id of that person.                           \n
+         * If id is not valid and name was not found in database then           \n
+         * new person will be added to database and its id will be returned.    \n
          */
-        virtual Person::Id               store(const PersonName& pn) = 0;
-        virtual PersonInfo::Id           store(const PersonInfo &) = 0;                          // store or update person details
+        virtual Person::Id               store(const PersonName& pn) noexcept = 0;
+
+        /**
+         * \brief Store or update person details
+         * \arg pi Details about person. It needs to refer to a valid photo id.  \n
+         *         Also at least one of \a rect, \a person or \a id need to be valid
+         *
+         * If \a pi has valid id and rect is invalid and person is is not valid, \n
+         * then information about person is removed.                             \n
+         * if \a pi has invalid id then database will be searched for exisiting  \n
+         * rect or person matching information in \a pi. If found, id will be    \n
+         * updated and any not stored detail (rect or person) will be updated.
+         */
+        virtual PersonInfo::Id           store(const PersonInfo& pi) noexcept = 0;
         virtual void                     set(const Photo::Id &, const QString &, int value) = 0; // set flag for photo to given value
         virtual std::optional<int>       get(const Photo::Id &, const QString &) = 0;            // get flag value
 
