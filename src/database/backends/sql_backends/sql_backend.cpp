@@ -1280,7 +1280,7 @@ namespace Database
             }
 
             if (to_store.id.valid() && to_store.rect.isValid() == false && to_store.p_id.valid() == false)
-                dropPersonInfo (fd.id);
+                dropPersonInfo(fd.id);
             else
                 result = storePerson(to_store);
         }
