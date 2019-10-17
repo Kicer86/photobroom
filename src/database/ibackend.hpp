@@ -103,8 +103,17 @@ namespace Database
          */
         virtual bool addPhotos(std::vector<Photo::DataDelta>& photos) = 0;
 
-        //update data
-        virtual bool update(const Photo::DataDelta &) = 0;
+        /**
+         * \brief update photo details
+         * \arg delta set of photo details to be updated
+         *
+         * Method updates (modifies or removes) photo details \n
+         * provided in \a delta                               \n
+         * If particular Photo::Field is not stored in delta  \n
+         * it won't be modified.
+         * \see Photo::Field
+         */
+        virtual bool update(const Photo::DataDelta& delta) = 0;
 
         //read data
 
@@ -133,7 +142,11 @@ namespace Database
         /// list people on photo
         virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
 
-        ///< person data
+        /**
+         * \brief get person details
+         * \arg id person id
+         * \return PersonName struct
+         */
         virtual PersonName               person(const Person::Id &) = 0;
 
         /**
@@ -161,13 +174,39 @@ namespace Database
          * updated and any not stored detail (rect or person) will be updated.
          */
         virtual PersonInfo::Id           store(const PersonInfo& pi) noexcept = 0;
-        virtual void                     set(const Photo::Id &, const QString &, int value) = 0; // set flag for photo to given value
-        virtual std::optional<int>       get(const Photo::Id &, const QString &) = 0;            // get flag value
+
+        /**
+         * \brief set flag for photo to given value
+         * \arg id id of photo
+         * \arg name flag name
+         * \arg value flag value to set
+         *
+         * Method sets flag with given value on photo with given id.
+         */
+        virtual void                     set(const Photo::Id& id, const QString& name, int value) = 0;
+
+        /**
+         * \brief get flag value
+         * \arg id id of photo
+         * \arg name flag name
+         * \return flag value
+         *
+         * Method reads flag value for given photo.
+         */
+        virtual std::optional<int>       get(const Photo::Id& id, const QString& name) = 0;
 
         // reading extra data
         //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
 
         // modify data
+
+        /**
+         * \brief mark all staged photos as reviewed.
+         * \return list of touched photos
+         *
+         * Method for massive marking photos as reviewed.   \n
+         * When done, photosMarkedAsReviewed() signal is emited.
+         */
         virtual std::vector<Photo::Id> markStagedAsReviewed() = 0;
 
         // write extra data
@@ -181,8 +220,23 @@ namespace Database
 
         // TODO: a set of 'operators' which are about to replace methods above
         //       in the name of interface segregation and repository pattern (see #272 on github)
+
+        /**
+         * \brief get group operator
+         * \return group operator
+         */
         virtual IGroupOperator* groupOperator() = 0;
+
+        /**
+         * \brief get photo operator
+         * \return photo operator
+         */
         virtual IPhotoOperator* photoOperator() = 0;
+
+        /**
+         * \brief get changelog operator
+         * \return changelog operator
+         */
         virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
 
     signals:
