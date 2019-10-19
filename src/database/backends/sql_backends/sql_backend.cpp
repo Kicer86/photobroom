@@ -1197,7 +1197,7 @@ namespace Database
     }
 
 
-    Person::Id ASqlBackend::store(const PersonName& d)
+    Person::Id ASqlBackend::store(const PersonName& d) noexcept
     {
         QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
         Person::Id id(d.id());
@@ -1243,7 +1243,7 @@ namespace Database
     }
 
 
-    PersonInfo::Id ASqlBackend::store(const PersonInfo& fd)
+    PersonInfo::Id ASqlBackend::store(const PersonInfo& fd) noexcept
     {
         assert(fd.ph_id);
         assert(fd.rect.isValid() || fd.p_id.valid() || fd.id.valid());  // if rect is invalid and person is invalid then at least id must be valid (removal operation)
@@ -1280,7 +1280,7 @@ namespace Database
             }
 
             if (to_store.id.valid() && to_store.rect.isValid() == false && to_store.p_id.valid() == false)
-                dropPersonInfo (fd.id);
+                dropPersonInfo(fd.id);
             else
                 result = storePerson(to_store);
         }

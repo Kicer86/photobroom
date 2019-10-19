@@ -74,5 +74,5 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                             TagNameInfoExpectations{BaseTagsList::Place, TagNameInfo::Type::String },
                             TagNameInfoExpectations{BaseTagsList::Date,  TagNameInfo::Type::Date   },
                             TagNameInfoExpectations{BaseTagsList::Time,  TagNameInfo::Type::Time   }
-                        ),
+                        )
 );
