@@ -49,7 +49,7 @@ matrix:
 
 cache:
     - ccache: true
-    -  directories:
+    - directories:
         - $TRAVIS_BUILD_DIR/usr
         - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
