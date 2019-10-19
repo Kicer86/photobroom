@@ -156,7 +156,7 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                                                               TagValue::Type::String,
                                                               QMetaType::Type::QString
                             }
-                        ),
+                        )
 );
 
 
@@ -190,7 +190,7 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                                                                   TagValue::Type::String,
                                                                   QMetaType::Type::QString
                             }
-                        ),
+                        )
 );
 
 /*
