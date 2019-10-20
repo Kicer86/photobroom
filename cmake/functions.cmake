@@ -104,17 +104,17 @@ macro(addTestTarget target)
 
     #definitions
     if(T_DEFINITIONS)
-        target_compile_definitions(${test_bin}_base ${T_DEFINITIONS})
+        target_compile_definitions(${test_bin}_base PRIVATE ${T_DEFINITIONS})
 
         if(ENABLE_CODE_COVERAGE)
-            target_compile_definitions(${test_bin}_cc ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_cc PRIVATE ${T_DEFINITIONS})
         endif()
 
         if(ENABLE_SANITIZERS_FOR_TESTS)
-            target_compile_definitions(${test_bin}_addr ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_thread ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_leak ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_ub ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_addr PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_thread PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_leak PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_ub PRIVATE ${T_DEFINITIONS})
         endif()
     endif()
 
