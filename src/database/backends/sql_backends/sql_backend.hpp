@@ -104,8 +104,8 @@ namespace Database
             std::vector<PersonName>  listPeople() override final;
             std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
             PersonName               person(const Person::Id &) override final;
-            Person::Id               store(const PersonName &) noexcept override final;
-            PersonInfo::Id           store(const PersonInfo &) noexcept override final;
+            Person::Id               store(const PersonName &) override final;
+            PersonInfo::Id           store(const PersonInfo &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
