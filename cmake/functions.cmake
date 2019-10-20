@@ -9,7 +9,7 @@ option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 macro(addTestTarget target)
 
     #get sources
-    set(multiValueArgs SOURCES LIBRARIES INCLUDES DEFINITIONS)
+    set(multiValueArgs SOURCES LIBRARIES SYSTEM_INCLUDES INCLUDES DEFINITIONS)
     cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
 
     list(APPEND T_DEFINITIONS PRIVATE UNIT_TESTS_BUILD)
@@ -83,9 +83,11 @@ macro(addTestTarget target)
 
     #include dirs
     target_include_directories(${test_bin}_base PRIVATE ${T_INCLUDES})
+    target_include_directories(${test_bin}_base SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
 
     if(ENABLE_CODE_COVERAGE)
         target_include_directories(${test_bin}_cc PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_cc SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
@@ -93,6 +95,11 @@ macro(addTestTarget target)
         target_include_directories(${test_bin}_thread PRIVATE ${T_INCLUDES})
         target_include_directories(${test_bin}_leak PRIVATE ${T_INCLUDES})
         target_include_directories(${test_bin}_ub PRIVATE ${T_INCLUDES})
+
+        target_include_directories(${test_bin}_addr   SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_thread SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_leak   SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_ub     SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
     endif()
 
     #definitions
