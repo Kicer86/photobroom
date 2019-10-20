@@ -12,20 +12,19 @@ addTestTarget(system
                     unit_tests/common_path.cpp
                     implementation/filesystem.cpp
                 LIBRARIES
-                    PRIVATE
-                        ${GMOCK_MAIN_LIBRARY}
-                        ${GMOCK_LIBRARY}
-                        ${GTEST_LIBRARY}
-                        ${CMAKE_THREAD_LIBS_INIT}
-                        Qt5::Core
+                    ${GMOCK_MAIN_LIBRARY}
+                    ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
+                    ${CMAKE_THREAD_LIBS_INIT}
+                    Qt5::Core
+
+                SYSTEM_INCLUDES
+                    ${GMOCK_INCLUDE_DIRS}
+                    ${GTEST_INCLUDE_DIRS}
+                    ${Qt5Core_INCLUDE_DIRS}
                 INCLUDES
-                    SYSTEM PRIVATE
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
-                        ${Qt5Core_INCLUDE_DIRS}
-                    PRIVATE
-                        ${CMAKE_SOURCE_DIR}/src
-                        ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}
-                        ${CMAKE_BINARY_DIR}
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}
+                    ${CMAKE_BINARY_DIR}
 )

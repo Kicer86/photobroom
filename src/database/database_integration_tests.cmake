@@ -48,30 +48,28 @@ addTestTarget(database_integration
                     integration_tests/main.cpp
 
                 LIBRARIES
-                    PRIVATE
-                        core
-                        database
-                        system
-                        Qt5::Core
-                        Qt5::Gui
-                        Qt5::Sql
-                        ${GMOCK_LIBRARY}
-                        ${GTEST_LIBRARY}
-                        ${CMAKE_THREAD_LIBS_INIT}
+                    core
+                    database
+                    system
+                    Qt5::Core
+                    Qt5::Gui
+                    Qt5::Sql
+                    ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
+                    ${CMAKE_THREAD_LIBS_INIT}
+
+
+                SYSTEM_INCLUDES
+                    ${GMOCK_INCLUDE_DIRS}
+                    ${GTEST_INCLUDE_DIRS}
 
                 INCLUDES
-                    SYSTEM PRIVATE
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
-
-                    PRIVATE
-                        ${CMAKE_SOURCE_DIR}/src
-                        ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
-                        ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/sqlite_backend
-                        ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/mysql_backend
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/sqlite_backend
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/mysql_backend
 
                 DEFINITIONS
-                    PRIVATE
-                        STATIC_PLUGINS
+                    STATIC_PLUGINS
 )
