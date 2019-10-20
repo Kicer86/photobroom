@@ -9,7 +9,7 @@
 
 struct MockThumbnailsGenerator: IThumbnailsGenerator
 {
-  MOCK_METHOD2(generate, QImage(const QString &, int));
+  MOCK_METHOD(QImage, generate, (const QString &, int), (override));
 };
 
 #endif

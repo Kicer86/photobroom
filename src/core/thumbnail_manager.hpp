@@ -40,8 +40,8 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
     public:
         explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
 
-        void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &);
-        std::optional<QImage> fetch(const QString& path, int height);
+        void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &) override;
+        std::optional<QImage> fetch(const QString& path, int height) override;
 
     private:
         TasksQueue m_tasks;
