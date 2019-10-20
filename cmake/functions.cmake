@@ -82,17 +82,17 @@ macro(addTestTarget target)
     endif()
 
     #include dirs
-    target_include_directories(${test_bin}_base ${T_INCLUDES})
+    target_include_directories(${test_bin}_base PRIVATE ${T_INCLUDES})
 
     if(ENABLE_CODE_COVERAGE)
-        target_include_directories(${test_bin}_cc ${T_INCLUDES})
+        target_include_directories(${test_bin}_cc PRIVATE ${T_INCLUDES})
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
-        target_include_directories(${test_bin}_addr ${T_INCLUDES})
-        target_include_directories(${test_bin}_thread ${T_INCLUDES})
-        target_include_directories(${test_bin}_leak ${T_INCLUDES})
-        target_include_directories(${test_bin}_ub ${T_INCLUDES})
+        target_include_directories(${test_bin}_addr PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_thread PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_leak PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_ub PRIVATE ${T_INCLUDES})
     endif()
 
     #definitions
