@@ -31,6 +31,7 @@
 #include "photo_change_log_operator.hpp"
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
+#include "sql_query_executor.hpp"
 #include "table_definition.hpp"
 #include "transaction.hpp"
 
@@ -51,8 +52,6 @@ namespace Database
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
-            struct Data;
-
             ASqlBackend(ILogger *);
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend();
@@ -84,11 +83,15 @@ namespace Database
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
 
         private:
-            std::unique_ptr<Data> m_data;
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
             mutable NestedTransaction m_tr_db;
+            QString m_connectionName;
+            std::unique_ptr<ILogger> m_logger;
+            SqlQueryExecutor m_executor;
+            bool m_dbHasSizeFeature;
+            bool m_dbOpen;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
