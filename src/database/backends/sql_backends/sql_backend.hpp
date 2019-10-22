@@ -42,7 +42,6 @@ struct IPhotoInfoManager;
 
 namespace Database
 {
-
     class Entry;
     class InsertQueryData;
     class UpdateQueryData;
@@ -150,7 +149,6 @@ namespace Database
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
             bool doesPhotoExist(const Photo::Id &) const;
     };
-
 }
 
 #endif // ASQLBACKEND_HPP
