@@ -670,31 +670,6 @@ namespace Database
     }
 
 
-    PersonName ASqlBackend::person(const QString& name) const
-    {
-        PersonName result;
-
-        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
-        QSqlQuery query(db);
-
-        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg( TAB_PEOPLE_NAMES );
-        m_data->m_executor.prepare(s, &query);
-        query.bindValue(":name", name);
-
-        m_data->m_executor.exec(query);
-
-        if (query.next())
-        {
-            const Person::Id id( query.value(0).toInt() );
-            const QString p_name( query.value(1).toString() );
-
-            result = PersonName (id, p_name);
-        }
-
-        return result;
-    }
-
-
     BackendStatus ASqlBackend::checkStructure()
     {
         BackendStatus status;
@@ -894,6 +869,31 @@ namespace Database
         }
 
         return status;
+    }
+
+
+    PersonName ASqlBackend::person(const QString& name) const
+    {
+        PersonName result;
+
+        QSqlDatabase db = QSqlDatabase::database(m_data->m_connectionName);
+        QSqlQuery query(db);
+
+        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg( TAB_PEOPLE_NAMES );
+        m_data->m_executor.prepare(s, &query);
+        query.bindValue(":name", name);
+
+        m_data->m_executor.exec(query);
+
+        if (query.next())
+        {
+            const Person::Id id( query.value(0).toInt() );
+            const QString p_name( query.value(1).toString() );
+
+            result = PersonName (id, p_name);
+        }
+
+        return result;
     }
 
 

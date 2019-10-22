@@ -113,12 +113,13 @@ namespace Database
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 
-            PersonName    person(const QString &) const;
+            // general helpers
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
             bool updateOrInsert(const UpdateQueryData &) const;
 
-            //
+            // helpers for sql operations
+            PersonName    person(const QString &) const;
             std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
             PersonInfo::Id storePerson(const PersonInfo &);
             void dropPersonInfo(const PersonInfo::Id &);
