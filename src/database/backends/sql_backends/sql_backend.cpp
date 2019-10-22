@@ -74,7 +74,6 @@ namespace Database
 
             bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
 
-            bool insert(Photo::DataDelta &) const noexcept;
             bool insert(std::vector<Photo::DataDelta> &) const noexcept;
             bool update(const Photo::DataDelta &) const noexcept;
 
@@ -493,12 +492,6 @@ namespace Database
         }
 
         return status;
-    }
-
-
-    bool ASqlBackend::Data::insert(Photo::DataDelta& data) const noexcept
-    {
-        return insert({data});
     }
 
 
