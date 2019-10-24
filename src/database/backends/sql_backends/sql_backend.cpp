@@ -857,6 +857,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief get details of person
+     * \arg name person name
+     * \return person details
+     */
     PersonName ASqlBackend::person(const QString& name) const
     {
         PersonName result;
@@ -882,6 +887,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief list all people associated with photos
+     * \arg ids of photos
+     * \return details of people associated to given list of photos
+     */
     std::vector<PersonInfo> ASqlBackend::listPeople(const std::vector<Photo::Id>& ids)
     {
         std::vector<PersonInfo> all_people;
