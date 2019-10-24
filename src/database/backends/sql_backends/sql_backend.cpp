@@ -858,9 +858,8 @@ namespace Database
 
 
     /**
-     * \brief get details of person
      * \arg name person name
-     * \return person details
+     * \return person name details
      */
     PersonName ASqlBackend::person(const QString& name) const
     {
@@ -888,7 +887,6 @@ namespace Database
 
 
     /**
-     * \brief list all people associated with photos
      * \arg ids of photos
      * \return details of people associated to given list of photos
      */
