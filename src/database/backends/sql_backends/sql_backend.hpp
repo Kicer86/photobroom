@@ -60,6 +60,15 @@ namespace Database
 
             void closeConnections() override;
 
+            /**
+             * \brief Get connection name
+             * \return connection name
+             *
+             * Method gives access to connection name.
+             * It can be used to establish connection
+             * with database with QSqlDatabase or to create
+             * new connection. \see prepareDB()
+             */
             const QString& getConnectionName() const;
 
             GroupOperator* groupOperator() override;
@@ -67,18 +76,44 @@ namespace Database
             PhotoChangeLogOperator* photoChangeLogOperator() override;
 
         protected:
-            //will be called from init(). Prepare QSqlDatabase object here
+            /**
+             * \brief database preparation
+             * \arg location where database should be created.
+             *
+             * Method called from init().
+             * Its purpose is to create new database connection named by
+             * getConnectionName() with QSqlDatabase::addDatabase().             *
+             */
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
-            // called when db opened. Backend may perform some extra setup
+            /**
+             * \brief called when DB was opened.
+             * \return operation status
+             *
+             * Called by init()
+             * Backend may perform some extra setup.
+             * If false is returned init() exists with StatusCodes::OpenFailed.
+             */
             virtual bool dbOpened();
 
-            //make sure table exists. Makes sure a table maching TableDefinition exists in database
+            /**
+             * \brief Makes sure all required tables exist in database
+             * \return operation status
+             */
             BackendStatus ensureTableExists(const TableDefinition &) const;
 
-            //execute query. Function for inheriting classes
-            virtual bool exec(const QString &, QSqlQuery *) const;
+            /**
+             * \brief Execute query
+             * \arg SQL query
+             * \arg query_obj instance of QSqlQuery object
+             * \return true if succeed
+             */
+            virtual bool exec(const QString& query, QSqlQuery* query_obj) const;
 
+            /**
+             * \brief IGenericSqlQueryGenerator accessor
+             * \return instance of IGenericSqlQueryGenerator
+             */
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
 
         private:
