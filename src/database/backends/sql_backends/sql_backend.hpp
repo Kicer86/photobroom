@@ -121,11 +121,7 @@ namespace Database
             bool updateOrInsert(const UpdateQueryData &) const;
 
             // helpers for sql operations
-
-            /// Return person name details for person name
-            PersonName    person(const QString &) const;
-
-            /// List all people associated with photos
+            PersonName person(const QString &) const;
             std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
             PersonInfo::Id storePerson(const PersonInfo &);
             void dropPersonInfo(const PersonInfo::Id &);
