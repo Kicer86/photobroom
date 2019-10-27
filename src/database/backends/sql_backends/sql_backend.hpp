@@ -48,6 +48,7 @@ namespace Database
     struct IGenericSqlQueryGenerator;
     struct TableDefinition;
 
+
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
