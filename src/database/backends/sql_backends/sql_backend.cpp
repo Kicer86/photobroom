@@ -1040,6 +1040,10 @@ namespace Database
     }
 
 
+    /**
+     * \brief create new entry for photo in database
+     * \throws db_error when any error during communication with database occurs
+     */
     void ASqlBackend::introduce(Photo::DataDelta& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1077,6 +1081,9 @@ namespace Database
     }
 
 
+    /**
+     * \brief store photo data
+     */
     bool ASqlBackend::storeData(const Photo::DataDelta& data)
     {
         const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
@@ -1122,7 +1129,10 @@ namespace Database
         return status;
     }
 
-
+    /**
+     * \brief store photo's dimensions
+     * \return false on error
+     */
     bool ASqlBackend::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
     {
         UpdateQueryData data(TAB_GEOMETRY);
@@ -1136,6 +1146,10 @@ namespace Database
     }
 
 
+    /**
+     * \brief store photo's sha256 checksum
+     * \return false on error
+     */
     bool ASqlBackend::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
     {
         UpdateQueryData data(TAB_SHA256SUMS);
@@ -1148,7 +1162,10 @@ namespace Database
         return status;
     }
 
-
+    /**
+     * \brief store photo's tags in database
+     * \return false on error
+     */
     bool ASqlBackend::storeTags(int photo_id, const Tag::TagsList& tagsList) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1215,6 +1232,10 @@ namespace Database
     }
 
 
+    /**
+     * \brief store photo's flags
+     * \return false on error
+     */
     bool ASqlBackend::storeFlags(const Photo::Id& id, const Photo::FlagValues& flags) const
     {
         auto get_flag = [&flags](Photo::FlagsE flag)
@@ -1242,6 +1263,10 @@ namespace Database
     }
 
 
+    /**
+     * \brief store photo's group details
+     * \return false on error
+     */
     bool ASqlBackend::storeGroup(const Photo::Id& id, const GroupInfo& groupInfo) const
     {
         bool status = true;
