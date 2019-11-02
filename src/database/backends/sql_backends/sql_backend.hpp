@@ -31,6 +31,7 @@
 #include "photo_change_log_operator.hpp"
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
+#include "sql_query_executor.hpp"
 #include "table_definition.hpp"
 #include "transaction.hpp"
 
@@ -41,17 +42,16 @@ struct IPhotoInfoManager;
 
 namespace Database
 {
-
     class Entry;
     class InsertQueryData;
+    class UpdateQueryData;
     struct IGenericSqlQueryGenerator;
     struct TableDefinition;
+
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
         public:
-            struct Data;
-
             ASqlBackend(ILogger *);
             ASqlBackend(const ASqlBackend& other) = delete;
             virtual ~ASqlBackend();
@@ -61,6 +61,15 @@ namespace Database
 
             void closeConnections() override;
 
+            /**
+             * \brief Get connection name
+             * \return connection name
+             *
+             * Method gives access to connection name.
+             * It can be used to establish connection
+             * with database with QSqlDatabase or to create
+             * new connection. \see prepareDB()
+             */
             const QString& getConnectionName() const;
 
             GroupOperator* groupOperator() override;
@@ -68,26 +77,59 @@ namespace Database
             PhotoChangeLogOperator* photoChangeLogOperator() override;
 
         protected:
-            //will be called from init(). Prepare QSqlDatabase object here
+            /**
+             * \brief database preparation
+             * \param location where database should be created.
+             *
+             * Method called from init().
+             * Its purpose is to create new database connection named by
+             * getConnectionName() with QSqlDatabase::addDatabase().             *
+             */
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
-            // called when db opened. Backend may perform some extra setup
+            /**
+             * \brief called when DB was opened.
+             * \return operation status
+             *
+             * Called by init()
+             * Backend may perform some extra setup.
+             * If false is returned init() exists with StatusCodes::OpenFailed.
+             */
             virtual bool dbOpened();
 
-            //make sure table exists. Makes sure a table maching TableDefinition exists in database
+
+            /**
+            * \brief Make sure given table exists in database
+            * \return true on success
+            *
+            * If table does not exists, will be created.
+            */
             BackendStatus ensureTableExists(const TableDefinition &) const;
 
-            //execute query. Function for inheriting classes
-            virtual bool exec(const QString &, QSqlQuery *) const;
+            /**
+             * \brief Execute query
+             * \param SQL query
+             * \param query_obj instance of QSqlQuery object
+             * \return true if succeed
+             */
+            virtual bool exec(const QString& query, QSqlQuery* query_obj) const;
 
+            /**
+             * \brief IGenericSqlQueryGenerator accessor
+             * \return instance of IGenericSqlQueryGenerator
+             */
             virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
 
         private:
-            std::unique_ptr<Data> m_data;
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
-            NestedTransaction m_tr_db;
+            mutable NestedTransaction m_tr_db;
+            QString m_connectionName;
+            std::unique_ptr<ILogger> m_logger;
+            SqlQueryExecutor m_executor;
+            bool m_dbHasSizeFeature;
+            bool m_dbOpen;
 
             // Database::IBackend:
             BackendStatus init(const ProjectInfo &) override final;
@@ -104,25 +146,48 @@ namespace Database
             std::vector<PersonName>  listPeople() override final;
             std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
             PersonName               person(const Person::Id &) override final;
-            Person::Id               store(const PersonName &) noexcept override final;
-            PersonInfo::Id           store(const PersonInfo &) noexcept override final;
+            Person::Id               store(const PersonName &) override final;
+            PersonInfo::Id           store(const PersonInfo &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 
-            PersonName    person(const QString &) const;
+            // general helpers
             BackendStatus checkStructure();
             Database::BackendStatus checkDBVersion();
+            bool updateOrInsert(const UpdateQueryData &) const;
 
+            // helpers for sql operations
+            PersonName person(const QString &) const;
             std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
             PersonInfo::Id storePerson(const PersonInfo &);
             void dropPersonInfo(const PersonInfo::Id &);
 
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
-    };
 
+            bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
+
+            bool insert(std::vector<Photo::DataDelta> &);
+
+            void introduce(Photo::DataDelta &);
+            bool storeData(const Photo::DataDelta &);
+            bool storeGeometryFor(const Photo::Id &, const QSize &) const;
+            bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
+            bool storeTags(int photo_id, const Tag::TagsList &) const;
+            bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
+            bool storeGroup(const Photo::Id &, const GroupInfo &) const;
+
+            Tag::TagsList        getTagsFor(const Photo::Id &) const;
+            QSize                getGeometryFor(const Photo::Id &) const;
+            std::optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
+            GroupInfo            getGroupFor(const Photo::Id &) const;
+            void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
+            QString getPathFor(const Photo::Id &) const;
+            std::vector<Photo::Id> fetch(QSqlQuery &) const;
+            bool doesPhotoExist(const Photo::Id &) const;
+    };
 }
 
 #endif // ASQLBACKEND_HPP

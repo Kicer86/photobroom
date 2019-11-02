@@ -9,11 +9,11 @@
 
 struct MockQAbstractItemModel: QAbstractItemModel
 {
-    MOCK_CONST_METHOD3(index, QModelIndex(int, int, const QModelIndex &));
-    MOCK_CONST_METHOD1(parent, QModelIndex(const QModelIndex &));
-    MOCK_CONST_METHOD1(rowCount, int(const QModelIndex &));
-    MOCK_CONST_METHOD1(columnCount, int(const QModelIndex &));
-    MOCK_CONST_METHOD2(data, QVariant(const QModelIndex &, int));
+    MOCK_METHOD(QModelIndex, index,       (int, int, const QModelIndex &), (const, override));
+    MOCK_METHOD(QModelIndex, parent,      (const QModelIndex &),           (const, override));
+    MOCK_METHOD(int,         rowCount,    (const QModelIndex &),           (const, override));
+    MOCK_METHOD(int,         columnCount, (const QModelIndex &),           (const, override));
+    MOCK_METHOD(QVariant,    data,        (const QModelIndex &, int),      (const, override));
 
     // for convenience:
     QModelIndex constructIndex(int r, int c, void* ptr = nullptr)

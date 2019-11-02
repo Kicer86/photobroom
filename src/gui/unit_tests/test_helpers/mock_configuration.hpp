@@ -11,11 +11,11 @@
 
 struct MockConfiguration: IConfiguration
 {
-    MOCK_METHOD1(getEntry, QVariant(const QString &));
+    MOCK_METHOD(QVariant, getEntry, (const QString &), (override));
 
-    MOCK_METHOD2(setEntry, void(const QString &, const QVariant &));
-    MOCK_METHOD2(setDefaultValue, void(const QString &, const QVariant &));
-    MOCK_METHOD2(watchFor, void(const QString &, const Watcher &));
+    MOCK_METHOD(void, setEntry, (const QString &, const QVariant &), (override));
+    MOCK_METHOD(void, setDefaultValue, (const QString &, const QVariant &), (override));
+    MOCK_METHOD(void, watchFor, (const QString &, const Watcher &), (override));
 };
 
 #endif

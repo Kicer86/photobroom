@@ -160,7 +160,7 @@ namespace Database
          * If id is not valid and name was not found in database then           \n
          * new person will be added to database and its id will be returned.    \n
          */
-        virtual Person::Id               store(const PersonName& pn) noexcept = 0;
+        virtual Person::Id               store(const PersonName& pn) = 0;
 
         /**
          * \brief Store or update person details
@@ -173,7 +173,7 @@ namespace Database
          * rect or person matching information in \a pi. If found, id will be    \n
          * updated and any not stored detail (rect or person) will be updated.
          */
-        virtual PersonInfo::Id           store(const PersonInfo& pi) noexcept = 0;
+        virtual PersonInfo::Id           store(const PersonInfo& pi) = 0;
 
         /**
          * \brief set flag for photo to given value

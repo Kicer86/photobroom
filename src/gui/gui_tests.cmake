@@ -59,24 +59,24 @@ addTestTarget(gui
                     unit_tests/main.cpp
 
                 LIBRARIES
-                     PRIVATE
-                        core
-                        database
-                        photos_crawler
-                        Qt5::Core
-                        Qt5::Gui
-                        Qt5::Widgets
-                        ${GMOCK_LIBRARY}
-                        ${GTEST_LIBRARY}
-                        ${CMAKE_THREAD_LIBS_INIT}
+                    core
+                    database
+                    photos_crawler
+                    Qt5::Core
+                    Qt5::Gui
+                    Qt5::Widgets
+                    ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
+                    ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES
-                    PRIVATE
-                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
-                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
-                        ${CMAKE_CURRENT_SOURCE_DIR}/desktop
-                        ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
-                        ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
+                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
+                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
+                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+                    ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+
+                SYSTEM_INCLUDES
+                    ${GMOCK_INCLUDE_DIRS}
+                    ${GTEST_INCLUDE_DIRS}
 )

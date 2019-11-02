@@ -9,7 +9,7 @@ option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 macro(addTestTarget target)
 
     #get sources
-    set(multiValueArgs SOURCES LIBRARIES INCLUDES DEFINITIONS)
+    set(multiValueArgs SOURCES LIBRARIES SYSTEM_INCLUDES INCLUDES DEFINITIONS)
     cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
 
     list(APPEND T_DEFINITIONS PRIVATE UNIT_TESTS_BUILD)
@@ -82,32 +82,39 @@ macro(addTestTarget target)
     endif()
 
     #include dirs
-    target_include_directories(${test_bin}_base ${T_INCLUDES})
+    target_include_directories(${test_bin}_base PRIVATE ${T_INCLUDES})
+    target_include_directories(${test_bin}_base SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
 
     if(ENABLE_CODE_COVERAGE)
-        target_include_directories(${test_bin}_cc ${T_INCLUDES})
+        target_include_directories(${test_bin}_cc PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_cc SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
-        target_include_directories(${test_bin}_addr ${T_INCLUDES})
-        target_include_directories(${test_bin}_thread ${T_INCLUDES})
-        target_include_directories(${test_bin}_leak ${T_INCLUDES})
-        target_include_directories(${test_bin}_ub ${T_INCLUDES})
+        target_include_directories(${test_bin}_addr PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_thread PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_leak PRIVATE ${T_INCLUDES})
+        target_include_directories(${test_bin}_ub PRIVATE ${T_INCLUDES})
+
+        target_include_directories(${test_bin}_addr   SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_thread SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_leak   SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+        target_include_directories(${test_bin}_ub     SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
     endif()
 
     #definitions
     if(T_DEFINITIONS)
-        target_compile_definitions(${test_bin}_base ${T_DEFINITIONS})
+        target_compile_definitions(${test_bin}_base PRIVATE ${T_DEFINITIONS})
 
         if(ENABLE_CODE_COVERAGE)
-            target_compile_definitions(${test_bin}_cc ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_cc PRIVATE ${T_DEFINITIONS})
         endif()
 
         if(ENABLE_SANITIZERS_FOR_TESTS)
-            target_compile_definitions(${test_bin}_addr ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_thread ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_leak ${T_DEFINITIONS})
-            target_compile_definitions(${test_bin}_ub ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_addr PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_thread PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_leak PRIVATE ${T_DEFINITIONS})
+            target_compile_definitions(${test_bin}_ub PRIVATE ${T_DEFINITIONS})
         endif()
     endif()
 

@@ -170,8 +170,8 @@ if(BUILD_TESTS)
 
     #disable compilation warnings for googletest
     foreach(gtest_target gtest gtest-main gmock gmock-main)
-        if(TARGET gtest)
-            disableWarnings(gtest)
+        if(TARGET ${gtest_target})
+            disableWarnings(${gtest_target})
         endif()
     endforeach()
 

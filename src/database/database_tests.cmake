@@ -30,25 +30,23 @@ addTestTarget(database
                     unit_tests/main.cpp
 
                 LIBRARIES
-                    PRIVATE
-                        core
-                        database
-                        Qt5::Core
-                        Qt5::Gui
-                        Qt5::Sql
-                        ${GMOCK_LIBRARY}
-                        ${GTEST_LIBRARY}
-                        ${CMAKE_THREAD_LIBS_INIT}
+                    core
+                    database
+                    Qt5::Core
+                    Qt5::Gui
+                    Qt5::Sql
+                    ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
+                    ${CMAKE_THREAD_LIBS_INIT}
+
+                SYSTEM_INCLUDES
+                    ${GMOCK_INCLUDE_DIRS}
+                    ${GTEST_INCLUDE_DIRS}
+                    ${Qt5Sql_INCLUDE_DIRS}
 
                 INCLUDES
-                    SYSTEM PRIVATE
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
-                        ${Qt5Sql_INCLUDE_DIRS}
-
-                    PRIVATE
-                        backends/sql_backends
-                        ${CMAKE_SOURCE_DIR}/src
-                        ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
+                    backends/sql_backends
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
 )

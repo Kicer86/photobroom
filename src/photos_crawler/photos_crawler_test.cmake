@@ -17,20 +17,18 @@ addTestTarget(photos_crawler
                     unit_tests/photo_crawler_builder_tests.cpp
 
                 LIBRARIES
-                    PRIVATE
-                        core
-                        Qt5::Core
-                        ${GMOCK_MAIN_LIBRARY}
-                        ${GMOCK_LIBRARY}
-                        ${GTEST_LIBRARY}
-                        ${CMAKE_THREAD_LIBS_INIT}
+                    core
+                    Qt5::Core
+                    ${GMOCK_MAIN_LIBRARY}
+                    ${GMOCK_LIBRARY}
+                    ${GTEST_LIBRARY}
+                    ${CMAKE_THREAD_LIBS_INIT}
 
                 INCLUDES
-                    PRIVATE
-                        ${CMAKE_SOURCE_DIR}/src
-                        ${CMAKE_CURRENT_SOURCE_DIR}
-                        ${CMAKE_CURRENT_BINARY_DIR}
-                    SYSTEM PRIVATE
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${GTEST_INCLUDE_DIRS}
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}
+                SYSTEM_INCLUDES
+                    ${GMOCK_INCLUDE_DIRS}
+                    ${GTEST_INCLUDE_DIRS}
 )
