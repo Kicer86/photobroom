@@ -75,8 +75,12 @@ namespace Database
     }
 
 
+    /**
+     * \brief close database connection
+     */
     void ASqlBackend::closeConnections()
     {
+        // use scope here so all Qt objects are destroyed before removeDatabase call
         {
             QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -149,6 +153,12 @@ namespace Database
     }
 
 
+    /**
+     * \brief Make sure given table exists in database
+     * \return true on success
+     *
+     * If table does not exists, will be created.
+     */
     BackendStatus ASqlBackend::ensureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -203,6 +213,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief initialize database connection
+     * \arg prjInfo database details
+     * \return operation status
+     */
     BackendStatus ASqlBackend::init(const ProjectInfo& prjInfo)
     {
         //store thread id for further validation
@@ -478,6 +493,9 @@ namespace Database
     }
 
 
+    /**
+     * \brief get person name for given person id
+     */
     PersonName ASqlBackend::person(const Person::Id& p_id)
     {
         const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
@@ -655,6 +673,9 @@ namespace Database
     }
 
 
+    /**
+     * \brief validate database consistency
+     */
     BackendStatus ASqlBackend::checkStructure()
     {
         BackendStatus status;
@@ -698,16 +719,18 @@ namespace Database
     }
 
 
+    /**
+     * \brief check current db version and upgrade structures if required
+     * \return operation status
+     */
     BackendStatus ASqlBackend::checkDBVersion()
     {
         // WARNING: use raw SQL here. Do not use high level functions for data storage
         //          as they will save data using current algorithms which may
         //          break conversion chain.
         //
-        //          Functions storing people for database in version X
-        //          may store data in the different way than it was when db was in version 3.
-        //          If used during upgrade from v2 to v3 it may be impossible to perform one of
-        //          next steps (v5 -> v6 as example).
+        //          Functions storing people for database in version n
+        //          may store data in the different way than it was when db was in version n-3.
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -857,6 +880,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief get person name structure for person name
+     * \param name person name as string
+     * \return detailed name structure
+     */
     PersonName ASqlBackend::person(const QString& name) const
     {
         PersonName result;
@@ -882,6 +910,10 @@ namespace Database
     }
 
 
+    /**
+     * \brief get people details for given people ids
+     * \return vector of person details structure
+     */
     std::vector<PersonInfo> ASqlBackend::listPeople(const std::vector<Photo::Id>& ids)
     {
         std::vector<PersonInfo> all_people;
@@ -898,6 +930,14 @@ namespace Database
     }
 
 
+    /**
+     * \brief store or update person details in database
+     * \param fd person details
+     * \return id assigned for person
+     *
+     * If fd contains valid id, person data will be updated. \n
+     * If fd has no valid id, new person will be created.
+     */
     PersonInfo::Id ASqlBackend::storePerson(const PersonInfo& fd)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -952,6 +992,12 @@ namespace Database
     }
 
 
+    /**
+     * \brief drop person details from database
+     * \param id if of person to be dropped
+     *
+     * \todo no reaction on error
+     */
     void ASqlBackend::dropPersonInfo(const PersonInfo::Id& id)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -965,6 +1011,9 @@ namespace Database
     }
 
 
+    /**
+     * \brief prepare sql statement for KEY creation
+     */
     bool ASqlBackend::createKey(const TableDefinition::KeyDefinition& key, const QString& tableName, QSqlQuery& query) const
     {
         QString indexDesc;
@@ -980,8 +1029,13 @@ namespace Database
     }
 
 
-
-
+    /**
+     * \brief add tag to photo
+     * \param tagValue tag value
+     * \param photo_id id of photo
+     * \param name_id id of tag name (tag type)
+     * \param tag_id id of existing entry for value update.\n -1 if new entry is to be created.
+     */
     bool ASqlBackend::store(const TagValue& tagValue, int photo_id, int name_id, int tag_id) const
     {
         //store tag values
@@ -1305,6 +1359,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief insert set of photos to database
+     * \param data_set vector of photo details to be stored
+     * \return true on success.
+     */
     bool ASqlBackend::insert(std::vector<Photo::DataDelta>& data_set)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1332,6 +1391,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief get all tags assigned to photo
+     * \param photoId id of photo
+     * \return list of tags for given photo
+     */
     Tag::TagsList ASqlBackend::getTagsFor(const Photo::Id& photoId) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1369,6 +1433,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief read photo's geometry
+     * \param id photo id
+     * \return photo size
+     */
     QSize ASqlBackend::getGeometryFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1397,6 +1466,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief read photo's checksum
+     * \param id photo id
+     * \return photo's checksum
+     */
     std::optional<Photo::Sha256sum> ASqlBackend::getSha256For(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1420,6 +1494,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief read details about group
+     * \param id photo id
+     * \return group details
+     */
     GroupInfo ASqlBackend::getGroupFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1464,6 +1543,13 @@ namespace Database
     }
 
 
+    /**
+     * \brief read flags for photo
+     * \param photoData input parameter - photo details
+     * \param id photo id
+     *
+     * Method will modify flags in \p photoData parameter. Other entries will not be touched
+     */
     void ASqlBackend::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1494,7 +1580,11 @@ namespace Database
         }
     }
 
-
+    /**
+     * \brief read photo path
+     * \param id photo id
+     * \return path to photo
+     */
     QString ASqlBackend::getPathFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1519,6 +1609,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief collect photo ids SELECTed by SQL query
+     * \param query SQL SELECT query which returns photo ids
+     * \return unique list of photo ids
+     */
     std::vector<Photo::Id> ASqlBackend::fetch(QSqlQuery& query) const
     {
         std::vector<Photo::Id> collection;
@@ -1539,6 +1634,9 @@ namespace Database
     }
 
 
+    /**
+     * \brief check if \param id is a valid photo id.
+     */
     bool ASqlBackend::doesPhotoExist(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -1564,6 +1662,11 @@ namespace Database
     }
 
 
+    /**
+     * \brief insert data to database or upgrade existing entries.
+     * \arg queryInfo data to be inserted with rules when to update.
+     * \return true on success
+     */
     bool ASqlBackend::updateOrInsert(const UpdateQueryData& queryInfo) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
