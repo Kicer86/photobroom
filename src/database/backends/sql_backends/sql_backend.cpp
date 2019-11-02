@@ -153,12 +153,6 @@ namespace Database
     }
 
 
-    /**
-     * \brief Make sure given table exists in database
-     * \return true on success
-     *
-     * If table does not exists, will be created.
-     */
     BackendStatus ASqlBackend::ensureTableExists(const TableDefinition& definition) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -215,7 +209,7 @@ namespace Database
 
     /**
      * \brief initialize database connection
-     * \arg prjInfo database details
+     * \param prjInfo database details
      * \return operation status
      */
     BackendStatus ASqlBackend::init(const ProjectInfo& prjInfo)
@@ -1664,7 +1658,7 @@ namespace Database
 
     /**
      * \brief insert data to database or upgrade existing entries.
-     * \arg queryInfo data to be inserted with rules when to update.
+     * \param queryInfo data to be inserted with rules when to update.
      * \return true on success
      */
     bool ASqlBackend::updateOrInsert(const UpdateQueryData& queryInfo) const

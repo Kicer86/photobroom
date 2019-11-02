@@ -79,7 +79,7 @@ namespace Database
         protected:
             /**
              * \brief database preparation
-             * \arg location where database should be created.
+             * \param location where database should be created.
              *
              * Method called from init().
              * Its purpose is to create new database connection named by
@@ -97,16 +97,19 @@ namespace Database
              */
             virtual bool dbOpened();
 
+
             /**
-             * \brief Makes sure all required tables exist in database
-             * \return operation status
-             */
+            * \brief Make sure given table exists in database
+            * \return true on success
+            *
+            * If table does not exists, will be created.
+            */
             BackendStatus ensureTableExists(const TableDefinition &) const;
 
             /**
              * \brief Execute query
-             * \arg SQL query
-             * \arg query_obj instance of QSqlQuery object
+             * \param SQL query
+             * \param query_obj instance of QSqlQuery object
              * \return true if succeed
              */
             virtual bool exec(const QString& query, QSqlQuery* query_obj) const;
