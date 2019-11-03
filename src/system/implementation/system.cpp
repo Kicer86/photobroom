@@ -1,11 +1,13 @@
 
 #include "../system.hpp"
 
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <mutex>
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QFile>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
@@ -117,13 +119,15 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
                     .arg(v++, 6, 16, QLatin1Char('0'))
                     .arg(fileExt);
 
+        const std::string full_path_str = result.toStdString();
+
         // TODO: use QIODevice::NewOnly with QFile in future (when Qt5.11 is more popular)
         // see commit ef8d5f8dfd8cde2138525101aac4fb1ad52dc864
+        const int fd = open(full_path_str.c_str(), O_CREAT | O_EXCL, 0644);
 
-        if (QFile::exists(result) == false)
+        if (fd != -1)
         {
-            QFile c(result);
-            c.open(QIODevice::WriteOnly);
+            close(fd);
             break;
         }
     }
