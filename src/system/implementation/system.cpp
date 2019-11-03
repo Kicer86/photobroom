@@ -129,6 +129,9 @@ std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
 
 std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions flags)
 {
+    // Either only Generic was set or anything but Generic.
+    assert(flags == Generic || ((flags & Generic) == 0));
+
     if (flags == Confidential)
     {
         std::unique_lock<std::mutex> l(g_dir_creation);
