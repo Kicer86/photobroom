@@ -12,6 +12,12 @@
 
 namespace
 {
+
+    std::mutex g_dir_creation;
+    std::map<QString, std::shared_ptr<ITmpDir>> g_persistentTmps;
+    QString g_systemTmp;
+
+
     QString createUniqueDir(const QString& base_dir, const QString& name)
     {
         // create sub dir
@@ -58,9 +64,35 @@ namespace
         QDir m_dir;
     };
 
-    std::mutex g_dir_creation;
-    std::map<QString, std::shared_ptr<ITmpDir>> g_persistentTmps;
-    QString g_systemTmp;
+    std::unique_ptr<ITmpDir> createUserHomeDirTmpDir(const QString& utility)
+    {
+        std::unique_lock<std::mutex> l(g_dir_creation);
+
+        const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        const QString wd = "working_dir";
+        const QDir base_dir(base);
+
+        if (base_dir.exists(wd) == false)
+            base_dir.mkdir(wd);
+
+        const QString full = base + "/" + wd;
+
+        return std::make_unique<TmpDir>(full, utility);
+    }
+
+    std::unique_ptr<ITmpDir> createSystemLevelTmpDir(const QString& utility)
+    {
+        std::unique_lock<std::mutex> l(g_dir_creation);
+
+        if (g_systemTmp.isEmpty())
+        {
+            const QString base = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+            const QString name = QCoreApplication::applicationName();
+            g_systemTmp = createUniqueDir(base, name);
+        }
+
+        return std::unique_ptr<TmpDir>(g_systemTmp, utility);
+    }
 }
 
 
@@ -107,41 +139,17 @@ std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions
 
     // Generic - no big files or sensistive data, put stuff in system temporary location which may be in RAM.
     if (flags == Generic)
-    {
-         std::unique_lock<std::mutex> l(g_dir_creation);
-
-        if (g_systemTmp.isEmpty())
-        {
-            const QString base = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-            const QString name = QCoreApplication::applicationName();
-            g_systemTmp = createUniqueDir(base, name);
-        }
-
-        return std::make_shared<TmpDir>(g_systemTmp, utility);
-    }
+        return createSystemLevelTmpDir(utility);
     // Confidental or big data - store in use home dir
     else if ((flags & Confidential) || (flags & BigFiles))
-    {
-        std::unique_lock<std::mutex> l(g_dir_creation);
-
-        const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        const QString wd = "working_dir";
-        const QDir base_dir(base);
-
-        if (base_dir.exists(wd) == false)
-            base_dir.mkdir(wd);
-
-        const QString full = base + "/" + wd;
-
-        return std::make_unique<TmpDir>(full, utility);
-    }
+        return createUserHomeDirTmpDir(utility);
     else if (flags & Persistent)
     {
         auto it = g_persistentTmps.find(utility);
 
         if (it == g_persistentTmps.end())
         {
-            auto i_it = g_persistentTmps.emplace(utility, createTmpDir(utility, Confidential)); // create shared, confidential tmp dir
+            auto i_it = g_persistentTmps.emplace(utility, createUserHomeDirTmpDir(utility));
 
             it = i_it.first;
         }
