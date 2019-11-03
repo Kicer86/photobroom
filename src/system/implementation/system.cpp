@@ -149,6 +149,36 @@ std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
 
 std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions flags)
 {
+    if (flags == Confidential)
+    {
+        std::unique_lock<std::mutex> l(g_dir_creation);
+
+        const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        const QString wd = "working_dir";
+        const QDir base_dir(base);
+
+        if (base_dir.exists(wd) == false)
+            base_dir.mkdir(wd);
+
+        const QString full = base + "/" + wd;
+
+        return std::make_unique<TmpDir>(full, utility);
+    }
+    else if (flags == Persistent)
+    {
+        auto it = g_persistentTmps.find(utility);
+
+        if (it == g_persistentTmps.end())
+        {
+            auto i_it = g_persistentTmps.emplace(utility, getTmpDir(utility));
+
+            it = i_it.first;
+        }
+
+        return it->second;
+    }
+
+    assert(!"unhandled flags");
     return nullptr;
 }
 
