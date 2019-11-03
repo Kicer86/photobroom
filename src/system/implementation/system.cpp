@@ -147,6 +147,12 @@ std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
 }
 
 
+std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions flags)
+{
+    return nullptr;
+}
+
+
 void System::cleanTemporaries()
 {
     std::unique_lock<std::mutex> l(g_dir_creation);

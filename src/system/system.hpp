@@ -18,11 +18,15 @@ struct ITmpDir
 
 struct SYSTEM_EXPORT System
 {
+    /**
+     * Flags to be used for temporary directory creation.
+     */
     enum TmpOptions
     {
-        Confidential = 1,
-        Persistent   = 2,
-        BigFiles     = 4,
+        Generic      = 0,       ///< generic temporary dir without any special requirements
+        Confidential = 1,       ///< directory will be used for user private data. No system wide tmp dir should be used as a base.
+        Persistent   = 2,       ///< use persistent location which will be reused when called for the same util name.
+        BigFiles     = 4,       ///< big files will be stored in tmp dir. RAM tmp dirs won't be used.
     };
 
     /**
@@ -79,6 +83,20 @@ struct SYSTEM_EXPORT System
      * Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
      */
     static std::shared_ptr<ITmpDir> getSysTmpDir(const QString& utility);
+
+
+    /**
+     * \brief temporary dir creator
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
+     * \param flags temporary dir options. Can be combined.
+     * \return temporary structure describing temporary dir.
+     *
+     * Returned structure will keep temporary dir alive.\n
+     * When it is destroyed, temporary directory gets deleted.\n
+     * Some temporary directories may be shared and won't\n
+     * be deleted until last client releases it.
+     */
+    static std::shared_ptr<ITmpDir> createTmpDir(const QString& utility, TmpOptions flags = Generic);
 
     /**
      * \brief remove all temporary files
