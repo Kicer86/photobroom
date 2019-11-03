@@ -5,7 +5,6 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QFile>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
@@ -108,27 +107,23 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
 {
     static int v = 0;
 
-    QString result;
+    QFile f;
 
     for(;;)
     {
-        result = QString("%1/%2.%3")
-                    .arg(path)
-                    .arg(v++, 6, 16, QLatin1Char('0'))
-                    .arg(fileExt);
+        const QString full_path = QString("%1/%2.%3")
+                                    .arg(path)
+                                    .arg(v++, 6, 16, QLatin1Char('0'))
+                                    .arg(fileExt);
 
-        // TODO: use QIODevice::NewOnly with QFile in future (when Qt5.11 is more popular)
-        // see commit ef8d5f8dfd8cde2138525101aac4fb1ad52dc864
+        f.setFileName(full_path);
+        const bool s = f.open(QIODevice::NewOnly);
 
-        if (QFile::exists(result) == false)
-        {
-            QFile c(result);
-            c.open(QIODevice::WriteOnly);
+        if (s)
             break;
-        }
     }
 
-    return result;
+    return f.fileName();
 }
 
 
