@@ -59,7 +59,7 @@ namespace
     };
 
     std::mutex g_dir_creation;
-    std::map<QString, std::unique_ptr<ITmpDir>> g_persistentTmps;
+    std::map<QString, std::shared_ptr<ITmpDir>> g_persistentTmps;
     QString g_systemTmp;
 }
 
@@ -72,7 +72,7 @@ QString System::getApplicationConfigDir()
 }
 
 
-std::unique_ptr<ITmpDir> System::getTmpDir(const QString& utility)
+std::shared_ptr<ITmpDir> System::getTmpDir(const QString& utility)
 {
     std::unique_lock<std::mutex> l(g_dir_creation);
 
@@ -89,7 +89,7 @@ std::unique_ptr<ITmpDir> System::getTmpDir(const QString& utility)
 }
 
 
-ITmpDir* System::persistentTmpDir(const QString& utility)
+std::shared_ptr<ITmpDir> System::persistentTmpDir(const QString& utility)
 {
     auto it = g_persistentTmps.find(utility);
 
@@ -100,7 +100,7 @@ ITmpDir* System::persistentTmpDir(const QString& utility)
         it = i_it.first;
     }
 
-    return it->second.get();
+    return it->second;
 }
 
 
@@ -132,7 +132,7 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
 }
 
 
-std::unique_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
+std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
 {
     std::unique_lock<std::mutex> l(g_dir_creation);
 
@@ -143,7 +143,7 @@ std::unique_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
         g_systemTmp = createUniqueDir(base, name);
     }
 
-    return  std::make_unique<TmpDir>(g_systemTmp, utility);
+    return std::make_shared<TmpDir>(g_systemTmp, utility);
 }
 
 

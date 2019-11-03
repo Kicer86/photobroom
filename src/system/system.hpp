@@ -35,12 +35,12 @@ struct SYSTEM_EXPORT System
 
     /**
      * \brief get temporary dir
-     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
-     * \return unique_ptr with temporary dir details.
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.fgfgbghn
+     * \return shared_ptr with temporary dir details.
      *
      * Returns dir in tmp dir for given utility. Removed when returned ITmpDir is deleted
      */
-    static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);
+    static std::shared_ptr<ITmpDir> getTmpDir(const QString& utility);
 
     /**
      * \brief get temporary dir
@@ -49,7 +49,7 @@ struct SYSTEM_EXPORT System
      *
      * Returns dir in tmp dir for given utility. Removed when application is closed.
      */
-    static ITmpDir* persistentTmpDir(const QString& utility);
+    static std::shared_ptr<ITmpDir> persistentTmpDir(const QString& utility);
 
     /**
      * \brief generate unique file name
@@ -67,11 +67,11 @@ struct SYSTEM_EXPORT System
     /**
      * \brief create temporary dir in system temporary dir
      * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
-     * \return unique_ptr with temporary dir details.
+     * \return shared_ptr with temporary dir details.
      *
      * Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
      */
-    static std::unique_ptr<ITmpDir> getSysTmpDir(const QString& utility);
+    static std::shared_ptr<ITmpDir> getSysTmpDir(const QString& utility);
 
     /**
      * \brief remove all temporary files
