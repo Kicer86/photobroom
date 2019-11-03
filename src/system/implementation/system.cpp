@@ -72,18 +72,6 @@ QString System::getApplicationConfigDir()
 }
 
 
-std::shared_ptr<ITmpDir> System::getTmpDir(const QString& utility)
-{
-    return createTmpDir(utility, Confidential);
-}
-
-
-std::shared_ptr<ITmpDir> System::persistentTmpDir(const QString& utility)
-{
-    return createTmpDir(utility, Persistent);
-}
-
-
 QString System::getTmpFile(const QString& path, const QString& fileExt)
 {
     static int v = 0;
@@ -109,12 +97,6 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
     }
 
     return result;
-}
-
-
-std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
-{
-    return createTmpDir(utility);
 }
 
 

@@ -45,24 +45,6 @@ struct SYSTEM_EXPORT System
     // Meant for heavy or fragile data
 
     /**
-     * \brief get temporary dir
-     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
-     * \return shared_ptr with temporary dir details.
-     *
-     * Returns dir in tmp dir for given utility. Removed when returned ITmpDir is deleted
-     */
-    static std::shared_ptr<ITmpDir> getTmpDir(const QString& utility);
-
-    /**
-     * \brief get temporary dir
-     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
-     * \return pointer to temporary dir details
-     *
-     * Returns dir in tmp dir for given utility. Removed when application is closed.
-     */
-    static std::shared_ptr<ITmpDir> persistentTmpDir(const QString& utility);
-
-    /**
      * \brief generate unique file name
      * \param directory where file is to be created
      * \param fileExt file extension
@@ -71,19 +53,6 @@ struct SYSTEM_EXPORT System
      * Returns unique file name with given extension in given tmp dir
      */
     static QString getTmpFile(const QString& dir, const QString& fileExt);
-
-    // Group of function returning temporary directories in system temporary dir (possibly ram disk)
-    // Meant for small or often changing files.
-
-    /**
-     * \brief create temporary dir in system temporary dir
-     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
-     * \return shared_ptr with temporary dir details.
-     *
-     * Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
-     */
-    static std::shared_ptr<ITmpDir> getSysTmpDir(const QString& utility);
-
 
     /**
      * \brief temporary dir creator
