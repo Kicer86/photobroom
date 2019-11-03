@@ -74,33 +74,13 @@ QString System::getApplicationConfigDir()
 
 std::shared_ptr<ITmpDir> System::getTmpDir(const QString& utility)
 {
-    std::unique_lock<std::mutex> l(g_dir_creation);
-
-    const QString base = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    const QString wd = "working_dir";
-    const QDir base_dir(base);
-
-    if (base_dir.exists(wd) == false)
-        base_dir.mkdir(wd);
-
-    const QString full = base + "/" + wd;
-
-    return std::make_unique<TmpDir>(full, utility);
+    return createTmpDir(utility, Confidential);
 }
 
 
 std::shared_ptr<ITmpDir> System::persistentTmpDir(const QString& utility)
 {
-    auto it = g_persistentTmps.find(utility);
-
-    if (it == g_persistentTmps.end())
-    {
-        auto i_it = g_persistentTmps.emplace(utility, getTmpDir(utility));
-
-        it = i_it.first;
-    }
-
-    return it->second;
+    return createTmpDir(utility, Persistent);
 }
 
 
