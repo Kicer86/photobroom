@@ -23,7 +23,7 @@ struct SYSTEM_EXPORT System
      */
     enum TmpOptions
     {
-        Generic      = 0,       ///< generic temporary dir without any special requirements
+        Generic      = 0,       ///< generic temporary dir without any special requirements. This option cannot be combined with others.
         Confidential = 1,       ///< directory will be used for user private data. No system wide tmp dir should be used as a base.
         Persistent   = 2,       ///< use persistent location which will be reused when called for the same util name.
         BigFiles     = 4,       ///< big files will be stored in tmp dir. RAM tmp dirs won't be used.
