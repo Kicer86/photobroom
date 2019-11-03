@@ -42,7 +42,7 @@ FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p)
                prj->getDatabase(),
                core),
     m_optimizer(core, &m_operator),
-    m_tmpDir(System::getTmpDir("FaceReviewer")),
+    m_tmpDir(System::createTmpDir("FaceReviewer", System::Confidential)),
     m_db(prj->getDatabase()),
     m_core(core),
     m_canvas(nullptr),

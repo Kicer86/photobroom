@@ -51,7 +51,7 @@ class FaceOptimizer: public IModelFaceFinder
     private:
         PeopleOperator* m_operator;
         safe_callback_ctrl m_safe_callback;
-        std::unique_ptr<ITmpDir> m_tmpDir;
+        std::shared_ptr<ITmpDir> m_tmpDir;
         ICoreFactoryAccessor* m_core;
 
         std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &);

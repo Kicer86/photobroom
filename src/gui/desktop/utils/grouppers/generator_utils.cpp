@@ -224,7 +224,7 @@ namespace GeneratorUtils
 
     BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory* exif):
         QObject(),
-        m_tmpDir(System::getTmpDir("BT_tmp")),
+        m_tmpDir(System::createTmpDir("BT_tmp", System::Confidential)),
         m_storage(storage),
         m_runner(),
         m_exif(exif)

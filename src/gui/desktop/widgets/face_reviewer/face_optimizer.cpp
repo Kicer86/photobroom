@@ -32,7 +32,7 @@
 FaceOptimizer::FaceOptimizer(ICoreFactoryAccessor* core,
                              PeopleOperator* op):
     m_operator(op),
-    m_tmpDir(System::getTmpDir("FaceOptimizer")),
+    m_tmpDir(System::createTmpDir("FaceOptimizer", System::Confidential)),
     m_core(core)
 {
 }

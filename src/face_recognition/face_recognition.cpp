@@ -108,7 +108,7 @@ namespace
 
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_tmpDir(System::getTmpDir("FaceRecognition")),
+    m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential)),
     m_pythonThread(coreAccessor->getPythonThread()),
     m_exif(coreAccessor->getExifReaderFactory()->get())
 {
@@ -240,7 +240,7 @@ QString FaceRecognition::best(const QStringList& faces)
 
         if (mm.empty())
         {
-            auto tmp_dir = System::getTmpDir("FaceRecognition_best");
+            auto tmp_dir = System::createTmpDir("FaceRecognition_best", System::Confidential);
 
             std::vector<std::string> face_files;
             face_files.reserve(faces.size());

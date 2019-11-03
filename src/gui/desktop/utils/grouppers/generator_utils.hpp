@@ -193,7 +193,7 @@ namespace GeneratorUtils
             void cancel();
 
         protected:
-            std::unique_ptr<ITmpDir> m_tmpDir;
+            std::shared_ptr<ITmpDir> m_tmpDir;
             const QString m_storage;
             ProcessRunner m_runner;
             IExifReaderFactory* m_exif;

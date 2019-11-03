@@ -53,7 +53,7 @@ class FaceReviewer: public QDialog
         FaceOptimizer m_optimizer;
         std::map<Person::Id, std::vector<PersonInfo> > m_infos;
         safe_callback_ctrl m_safe_callback;
-        std::unique_ptr<ITmpDir> m_tmpDir;
+        std::shared_ptr<ITmpDir> m_tmpDir;
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_core;
         QWidget* m_canvas;

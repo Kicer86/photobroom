@@ -78,7 +78,7 @@ class PhotosGroupingDialog: public QDialog
 
     private:
         QStandardItemModel m_model;
-        std::unique_ptr<ITmpDir> m_tmpDir;
+        std::shared_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
         std::vector<Photo::Data> m_photos;
