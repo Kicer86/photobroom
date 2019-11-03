@@ -91,7 +91,7 @@ namespace
             g_systemTmp = createUniqueDir(base, name);
         }
 
-        return std::unique_ptr<TmpDir>(g_systemTmp, utility);
+        return std::make_unique<TmpDir>(g_systemTmp, utility);
     }
 }
 
