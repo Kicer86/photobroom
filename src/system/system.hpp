@@ -46,7 +46,7 @@ struct SYSTEM_EXPORT System
 
     /**
      * \brief get temporary dir
-     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.fgfgbghn
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
      * \return shared_ptr with temporary dir details.
      *
      * Returns dir in tmp dir for given utility. Removed when returned ITmpDir is deleted
