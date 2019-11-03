@@ -114,16 +114,7 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
 
 std::shared_ptr<ITmpDir> System::getSysTmpDir(const QString& utility)
 {
-    std::unique_lock<std::mutex> l(g_dir_creation);
-
-    if (g_systemTmp.isEmpty())
-    {
-        const QString base = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-        const QString name = QCoreApplication::applicationName();
-        g_systemTmp = createUniqueDir(base, name);
-    }
-
-    return std::make_shared<TmpDir>(g_systemTmp, utility);
+    return createTmpDir(utility);
 }
 
 
@@ -132,7 +123,20 @@ std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions
     // Either only Generic was set or anything but Generic.
     assert(flags == Generic || ((flags & Generic) == 0));
 
-    if (flags == Confidential)
+    if (flags == Generic)
+    {
+         std::unique_lock<std::mutex> l(g_dir_creation);
+
+        if (g_systemTmp.isEmpty())
+        {
+            const QString base = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+            const QString name = QCoreApplication::applicationName();
+            g_systemTmp = createUniqueDir(base, name);
+        }
+
+        return std::make_shared<TmpDir>(g_systemTmp, utility);
+    }
+    else if (flags == Confidential)
     {
         std::unique_lock<std::mutex> l(g_dir_creation);
 
