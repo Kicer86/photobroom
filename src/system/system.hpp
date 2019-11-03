@@ -18,6 +18,13 @@ struct ITmpDir
 
 struct SYSTEM_EXPORT System
 {
+    enum TmpOptions
+    {
+        Confidential = 1,
+        Persistent   = 2,
+        BigFiles     = 4,
+    };
+
     /**
      * \brief get dir for config files
      * \return path to directory with conbfiguration files
