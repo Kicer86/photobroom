@@ -18,24 +18,65 @@ struct ITmpDir
 
 struct SYSTEM_EXPORT System
 {
+    /**
+     * \brief get dir for config files
+     * \return path to directory with conbfiguration files
+     */
     static QString getApplicationConfigDir();
 
+    /**
+     * \brief get user name
+     * \return user name
+     */
     static std::string userName();
 
     // Group of functions returning temporary files/dir created in user's home dir.
     // Meant for heavy or fragile data
-    static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);       // Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
-    static ITmpDir* persistentTmpDir(const QString& utility);                // Returns dir in tmp dir for given utility. Removed when application is closed.
 
-    //
-    static QString getTmpFile(const QString& dir, const QString& fileExt);   // Returns unique file name with given extension in given tmp dir
+    /**
+     * \brief get temporary dir
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
+     * \return unique_ptr with temporary dir details.
+     *
+     * Returns dir in tmp dir for given utility. Removed when returned ITmpDir is deleted
+     */
+    static std::unique_ptr<ITmpDir> getTmpDir(const QString& utility);
+
+    /**
+     * \brief get temporary dir
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
+     * \return pointer to temporary dir details
+     *
+     * Returns dir in tmp dir for given utility. Removed when application is closed.
+     */
+    static ITmpDir* persistentTmpDir(const QString& utility);
+
+    /**
+     * \brief generate unique file name
+     * \param directory where file is to be created
+     * \param fileExt file extension
+     * \return complete file path
+     *
+     * Returns unique file name with given extension in given tmp dir
+     */
+    static QString getTmpFile(const QString& dir, const QString& fileExt);
 
     // Group of function returning temporary directories in system temporary dir (possibly ram disk)
     // Meant for small or often changing files.
-    static std::unique_ptr<ITmpDir> getSysTmpDir(const QString& utility);    // Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
 
-    //
-    static void cleanTemporaries();                                          // removes all temporary files
+    /**
+     * \brief create temporary dir in system temporary dir
+     * \param utility temporary dir purpose. It will be used as a part of subdir in temporary directory.
+     * \return unique_ptr with temporary dir details.
+     *
+     * Returns dir in tmp dir for given utility. Removed when ITmpDir is deleted
+     */
+    static std::unique_ptr<ITmpDir> getSysTmpDir(const QString& utility);
+
+    /**
+     * \brief remove all temporary files
+     */
+    static void cleanTemporaries();
 };
 
 
