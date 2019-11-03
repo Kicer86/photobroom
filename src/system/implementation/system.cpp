@@ -123,6 +123,7 @@ std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions
     // Either only Generic was set or anything but Generic.
     assert(flags == Generic || ((flags & Generic) == 0));
 
+    // Generic - no big files or sensistive data, put stuff in system temporary location which may be in RAM.
     if (flags == Generic)
     {
          std::unique_lock<std::mutex> l(g_dir_creation);
@@ -136,7 +137,8 @@ std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions
 
         return std::make_shared<TmpDir>(g_systemTmp, utility);
     }
-    else if (flags == Confidential)
+    // Confidental or big data - store in use home dir
+    else if ((flags & Confidential) || (flags & BigFiles))
     {
         std::unique_lock<std::mutex> l(g_dir_creation);
 
@@ -151,13 +153,13 @@ std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions
 
         return std::make_unique<TmpDir>(full, utility);
     }
-    else if (flags == Persistent)
+    else if (flags & Persistent)
     {
         auto it = g_persistentTmps.find(utility);
 
         if (it == g_persistentTmps.end())
         {
-            auto i_it = g_persistentTmps.emplace(utility, getTmpDir(utility));
+            auto i_it = g_persistentTmps.emplace(utility, createTmpDir(utility, Confidential)); // create shared, confidential tmp dir
 
             it = i_it.first;
         }
