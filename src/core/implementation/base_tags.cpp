@@ -30,6 +30,8 @@ std::vector<BaseTagsList> BaseTags::getAll()
         BaseTagsList::Place,
         BaseTagsList::Date,
         BaseTagsList::Time,
+        BaseTagsList::Rating,
+        BaseTagsList::Category,
     };
 
     return tags;
@@ -59,6 +61,14 @@ QString BaseTags::getTr(BaseTagsList tag)
 
         case BaseTagsList::Time:
             result = tr("Time");
+            break;
+
+        case BaseTagsList::Rating:
+            result = tr("Rating");
+            break;
+
+        case BaseTagsList::Category:
+            result = tr("Category");
             break;
     }
 
@@ -91,6 +101,14 @@ QString BaseTags::getName(BaseTagsList tag)
         case BaseTagsList::Time:
             result = "Time";
             break;
+
+        case BaseTagsList::Rating:
+            result = "Rating";
+            break;
+
+        case BaseTagsList::Category:
+            result = "Category";
+            break;
     }
 
     return result;
@@ -117,6 +135,14 @@ TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
 
         case BaseTagsList::Time:
             result = TagNameInfo::Type::Time;
+            break;
+
+        case BaseTagsList::Rating:
+            result = TagNameInfo::Type::Float;
+            break;
+
+        case BaseTagsList::Category:
+            result = TagNameInfo::Type::RGB;
             break;
     }
 

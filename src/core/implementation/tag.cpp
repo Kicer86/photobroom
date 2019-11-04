@@ -13,6 +13,8 @@ namespace
     typedef QDate   DateType;
     typedef QTime   TimeType;
     typedef QString StringType;
+    typedef double  FloatType;
+    typedef quint64 Uint64Type;
 }
 
 
@@ -150,6 +152,14 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
         case QVariant::Time:
             result = TagValue( variant.toTime() );
             break;
+
+        case QVariant::Double:
+            result = TagValue( variant.toDouble() );
+            break;
+
+        case QVariant::ULongLong:
+            result = TagValue( variant.toULongLong() );
+            break;
     }
 
     return result;
@@ -201,6 +211,14 @@ QVariant TagValue::get() const
 
         case Type::Time:
             result = get<TimeType>();
+            break;
+
+        case Type::Float:
+            result = get<FloatType>();
+            break;
+
+        case Type::Uint64:
+            result = get<Uint64Type>();
             break;
     }
 
@@ -299,6 +317,20 @@ QString TagValue::string() const
             result = v.toString("HH:mm:ss");
             break;
         }
+
+        case Type::Float:
+        {
+            const FloatType v = get<FloatType>();
+            result = QString::number(v);
+            break;
+        }
+
+        case Type::Uint64:
+        {
+            const Uint64Type v = get<Uint64Type>();
+            result = QString::number(v);
+            break;
+        }
     }
 
     return result;
@@ -319,6 +351,14 @@ TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& ty
 
         case TagNameInfo::Type::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
+            break;
+
+        case TagNameInfo::Type::Float:
+            set( value.toDouble() );
+            break;
+
+        case TagNameInfo::Type::RGB:
+            set( value.toULongLong() );
             break;
 
         case TagNameInfo::Type::Invalid:

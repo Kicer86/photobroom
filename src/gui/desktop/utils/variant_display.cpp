@@ -56,6 +56,14 @@ QString localize(const QVariant& v, const QLocale& l)
             result = v.toStringList().join(", ");
             break;
 
+        case QVariant::Double:
+            result = QString::number(v.toDouble());
+            break;
+
+        case QVariant::ULongLong:
+            result = QString::number(v.toULongLong());
+            break;
+
         default:
             assert(!"unexpected type");
             break;

@@ -32,6 +32,7 @@
 #include <core/down_cast.hpp>
 #include "widgets/tag_editor/helpers/tags_model.hpp"
 #include "icompleter_factory.hpp"
+#include <QDoubleSpinBox>
 
 
 namespace
@@ -102,6 +103,14 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
             result = new TimeEditor(parent);
             break;
 
+        case TagNameInfo::Type::Float:
+            result = new QDoubleSpinBox(parent);
+            break;
+
+        case TagNameInfo::Type::RGB:
+            result = new QLineEdit(parent);
+            break;
+
         case TagNameInfo::Type::Invalid:
             assert(!"Unexpected call");
             break;
@@ -127,6 +136,14 @@ QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
 
         case TagNameInfo::Type::Time:
             result = "time";
+            break;
+
+        case TagNameInfo::Type::Float:
+            result = "value";
+            break;
+
+        case TagNameInfo::Type::RGB:
+            result = "text";
             break;
 
         case TagNameInfo::Type::Invalid:

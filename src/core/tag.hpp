@@ -27,6 +27,8 @@ enum BaseTagsList
     Date    = 3,
     Time    = 4,
     _People [[deprecated]] = 5,        // not valid anymore
+    Rating  = 6,
+    Category = 7,
 };
 
 
@@ -41,6 +43,8 @@ struct CORE_EXPORT TagNameInfo
             String,
             Date,
             Time,
+            Float,
+            RGB,
         };
 
         TagNameInfo();
@@ -77,6 +81,8 @@ class CORE_EXPORT TagValue
             String,
             Date,
             Time,
+            Float,
+            Uint64,
         };
 
         TagValue();
@@ -164,6 +170,22 @@ struct TagValueTraits<QTime>
 {
     typedef QTime StorageType;
     constexpr static auto type = TagValue::Type::Time;
+};
+
+
+template<>
+struct TagValueTraits<double>
+{
+    typedef double StorageType;
+    constexpr static auto type = TagValue::Type::Float;
+};
+
+
+template<>
+struct TagValueTraits<quint64>
+{
+    typedef quint64 StorageType;
+    constexpr static auto type = TagValue::Type::Uint64;
 };
 
 

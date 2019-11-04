@@ -67,6 +67,12 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Category), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
@@ -93,6 +99,17 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     ASSERT_EQ(places.size(), 2);
     EXPECT_EQ(places[0].getString(), "12");
     EXPECT_EQ(places[1].getString(), "23");
+
+    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagNameInfo(BaseTagsList::Rating) );
+    ASSERT_EQ(ratings.size(), 3);
+    EXPECT_EQ(ratings[0].get<double>(), 5.0);
+    EXPECT_EQ(ratings[1].get<double>(), 1.5);
+    EXPECT_EQ(ratings[2].get<double>(), 0.0);
+
+    const std::vector<TagValue>& categories = tagInfoCollector.get( TagNameInfo(BaseTagsList::Category) );
+    ASSERT_EQ(categories.size(), 2);
+    EXPECT_EQ(categories[0].get<quint64>(), 0x110055);
+    EXPECT_EQ(categories[1].get<quint64>(), 0xff00ff);
 }
 
 
@@ -113,6 +130,12 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>()) );
 
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Rating), std::vector<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Category), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Category), std::vector<TagValue>()) );
+
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
@@ -130,6 +153,12 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
 
     const std::vector<TagValue>& places = tagInfoCollector.get( TagNameInfo(BaseTagsList::Place) );
     EXPECT_TRUE(places.empty());
+
+    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagNameInfo(BaseTagsList::Rating) );
+    EXPECT_TRUE(ratings.empty());
+
+    const std::vector<TagValue>& categories = tagInfoCollector.get( TagNameInfo(BaseTagsList::Category) );
+    EXPECT_TRUE(categories.empty());
 }
 
 
@@ -150,6 +179,12 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Rating), std::vector<TagValue>()) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Category), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Category), std::vector<TagValue>()) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -200,6 +235,13 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
         .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+
+    EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Category), _))
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+
+
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
 
@@ -208,10 +250,10 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     Observer observer;
 
-    // called 4 times by TagInfoCollector for each of TagName after database is set
+    // called 6 times by TagInfoCollector for each of TagName after database is set
     //      + 2 times after photo modification (for each tag name)
     EXPECT_CALL(observer, event(_))
-        .Times(6);
+        .Times(8);
 
     TagInfoCollector tagInfoCollector;
     QObject::connect(&tagInfoCollector, &TagInfoCollector::setOfValuesChanged,
