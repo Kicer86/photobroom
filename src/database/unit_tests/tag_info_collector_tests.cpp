@@ -56,16 +56,16 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     NiceMock<MockDatabase> database;
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>({QDate(0, 1, 2), QDate(1, 2, 3)})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::vector<TagValue>({QString("event1"), QString("event2")})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>({QTime(2, 3), QTime(3, 4), QTime(11, 18)})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>({QString("12"), QString("23")})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -162,7 +162,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-        { TagNameInfo(BaseTagsList::_People), TagValue("person123") }
+        { TagNameInfo(BaseTagsList::_People), TagValue(QString("person123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -189,16 +189,16 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     NiceMock<MockDatabase> database;
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>({QDate(0, 1, 2), QDate(1, 2, 3)})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::vector<TagValue>({QString("event1"), QString("event2")})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>({QTime(2, 3), QTime(3, 4), QTime(11, 18)})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
 
     EXPECT_CALL(database, listTagValues(TagNameInfo(BaseTagsList::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>({QString("12"), QString("23")})) );
+        .WillOnce( InvokeArgument<1>(TagNameInfo(BaseTagsList::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -222,7 +222,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
                             { TagNameInfo(BaseTagsList::Time), TagValue(QTime(20,21)) },
-                            { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
+                            { TagNameInfo(BaseTagsList::Event), TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -256,7 +256,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
                             { TagNameInfo(BaseTagsList::Time), TagValue(QTime(2, 5)) },
-                            { TagNameInfo(BaseTagsList::Event), TagValue("event123") }
+                            { TagNameInfo(BaseTagsList::Event), TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo.get(), getTags())

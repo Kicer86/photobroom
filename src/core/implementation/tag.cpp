@@ -8,6 +8,13 @@
 
 #include "base_tags.hpp"
 
+namespace
+{
+    typedef QDate   DateType;
+    typedef QTime   TimeType;
+    typedef QString StringType;
+}
+
 
 TagNameInfo::TagNameInfo(): m_tag(BaseTagsList::Invalid)
 {
@@ -114,24 +121,6 @@ TagValue::TagValue(TagValue&& other): TagValue()
 }
 
 
-TagValue::TagValue(const QDate& date): TagValue()
-{
-    set(date);
-}
-
-
-TagValue::TagValue(const QTime& time): TagValue()
-{
-    set(time);
-}
-
-
-TagValue::TagValue(const QString& string): TagValue()
-{
-    set(string);
-}
-
-
 TagValue TagValue::fromRaw(const QString& raw, const TagNameInfo::Type& type)
 {
     return TagValue().fromString(raw, type);
@@ -193,27 +182,6 @@ TagValue& TagValue::operator=(TagValue&& other)
 }
 
 
-void TagValue::set(const QDate& date)
-{
-    m_value = date;
-    m_type = Type::Date;
-}
-
-
-void TagValue::set(const QTime& time)
-{
-    m_value = time;
-    m_type = Type::Time;
-}
-
-
-void TagValue::set(const QString& string)
-{
-    m_value = string;
-    m_type = Type::String;
-}
-
-
 QVariant TagValue::get() const
 {
     QVariant result;
@@ -224,15 +192,15 @@ QVariant TagValue::get() const
             break;
 
         case Type::Date:
-            result = * get<TagValueTraits<Type::Date>::StorageType>();
+            result = get<DateType>();
             break;
 
         case Type::String:
-            result = * get<TagValueTraits<Type::String>::StorageType>();
+            result = get<StringType>();
             break;
 
         case Type::Time:
-            result = * get<TagValueTraits<Type::Time>::StorageType>();
+            result = get<TimeType>();
             break;
     }
 
@@ -242,49 +210,25 @@ QVariant TagValue::get() const
 
 const QDate& TagValue::getDate() const
 {
-    auto* v = get<TagValueTraits<Type::Date>::StorageType>();
+    const auto& v = get<DateType>();
 
-    return *v;
+    return v;
 }
 
 
 const QString& TagValue::getString() const
 {
-    auto* v = get<TagValueTraits<Type::String>::StorageType>();
+    const auto& v = get<StringType>();
 
-    return *v;
+    return v;
 }
 
 
 const QTime& TagValue::getTime() const
 {
-    auto* v = get<TagValueTraits<Type::Time>::StorageType>();
+    const auto& v = get<TimeType>();
 
-    return *v;
-}
-
-
-QDate& TagValue::getDate()
-{
-    auto* v = get<TagValueTraits<Type::Date>::StorageType>();
-
-    return *v;
-}
-
-
-QString& TagValue::getString()
-{
-    auto* v = get<TagValueTraits<Type::String>::StorageType>();
-
-    return *v;
-}
-
-
-QTime& TagValue::getTime()
-{
-    auto* v = get<TagValueTraits<Type::Time>::StorageType>();
-
-    return *v;
+    return v;
 }
 
 
@@ -327,27 +271,6 @@ bool TagValue::operator<(const TagValue& other) const
 }
 
 
-template<>
-bool TagValue::validate<QDate>() const
-{
-    return m_type == Type::Date && m_value.has_value() && m_value.type() == typeid(QDate);
-}
-
-
-template<>
-bool TagValue::validate<QTime>() const
-{
-    return m_type == Type::Time && m_value.has_value() && m_value.type() == typeid(QTime);
-}
-
-
-template<>
-bool TagValue::validate<QString>() const
-{
-    return m_type == Type::String && m_value.has_value() && m_value.type() == typeid(QString);
-}
-
-
 QString TagValue::string() const
 {
     QString result;
@@ -359,22 +282,21 @@ QString TagValue::string() const
 
         case Type::Date:
         {
-            const QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
-            result = v->toString("yyyy.MM.dd");
+            const DateType& v = get<DateType>();
+            result = v.toString("yyyy.MM.dd");
             break;
         }
 
         case Type::String:
         {
-            const QString* v = get<TagValueTraits<Type::String>::StorageType>();
-            result = *v;
+            result = get<StringType>();
             break;
         }
 
         case Type::Time:
         {
-            const QTime* v = get<TagValueTraits<TagValue::Type::Time>::StorageType>();
-            result = v->toString("HH:mm:ss");
+            const TimeType& v = get<TimeType>();
+            result = v.toString("HH:mm:ss");
             break;
         }
     }

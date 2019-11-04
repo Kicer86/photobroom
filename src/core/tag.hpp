@@ -10,12 +10,14 @@
 #include <set>
 #include <memory>
 
-
 #include <QString>
 #include <QVariant>
 
 #include "core_export.h"
 
+/**
+ * \brief List of tag types
+ */
 enum BaseTagsList
 {
     // indexed, as those values will be stored in db and should not change without a reason.
@@ -30,6 +32,9 @@ enum BaseTagsList
 
 struct CORE_EXPORT TagNameInfo
 {
+        /**
+         * \brief types for holding particular tag type
+         */
         enum class Type
         {
             Invalid,
@@ -58,6 +63,11 @@ struct CORE_EXPORT TagNameInfo
 };
 
 
+
+template<typename T>
+struct TagValueTraits {};
+
+
 class CORE_EXPORT TagValue
 {
     public:
@@ -73,9 +83,11 @@ class CORE_EXPORT TagValue
         TagValue(const TagValue &);
         TagValue(TagValue &&);
 
-        TagValue(const QDate &);
-        TagValue(const QTime &);
-        TagValue(const QString &);
+        template<typename T>
+        TagValue(const T& value)
+        {
+            set(value);
+        }
 
         static TagValue fromRaw(const QString &, const TagNameInfo::Type &);    // tag's value as stored in db
         static TagValue fromQVariant(const QVariant &);
@@ -85,18 +97,30 @@ class CORE_EXPORT TagValue
         TagValue& operator=(const TagValue &);
         TagValue& operator=(TagValue &&);
 
-        void set(const QDate &);
-        void set(const QTime &);
-        void set(const QString &);
+        template<typename T>
+        void set(const T& value)
+        {
+            static_assert(sizeof(typename TagValueTraits<T>::StorageType) > 0, "Unexpected type");
+
+            m_value = value;
+            m_type = TagValueTraits<T>::type;
+        }
 
         QVariant get() const;
         const QDate& getDate() const;
         const QString& getString() const;
         const QTime& getTime() const;
 
-        QDate& getDate();
-        QString& getString();
-        QTime& getTime();
+        template<typename T>
+        const T& get() const
+        {
+            static_assert(sizeof(typename TagValueTraits<T>::StorageType) > 0, "Unexpected type");
+            assert( validate<T>() );
+
+            const T* v = std::any_cast<T>(&m_value);
+
+            return *v;
+        }
 
         Type type() const;
         QString rawValue() const;                                               // tag's value as stored in db
@@ -110,51 +134,36 @@ class CORE_EXPORT TagValue
         std::any m_value;
 
         template<typename T>
-        bool validate() const;
-
-        template<typename T>
-        const T* get() const
+        bool validate() const
         {
-            assert( validate<T>() );
-
-            const T* v = std::any_cast<T>(&m_value);
-
-            return v;
-        }
-
-        template<typename T>
-        T* get()
-        {
-            assert( validate<T>() );
-
-            T* v = std::any_cast<T>(&m_value);
-
-            return v;
+            return m_type == TagValueTraits<T>::type && m_value.has_value() && m_value.type() == typeid(T);
         }
 
         QString string() const;
         TagValue& fromString(const QString &, const TagNameInfo::Type &);
 };
 
-template<TagValue::Type T>
-struct TagValueTraits {};
 
 template<>
-struct TagValueTraits<TagValue::Type::Date>
-{
-    typedef QDate StorageType;
-};
-
-template<>
-struct TagValueTraits<TagValue::Type::String>
+struct TagValueTraits<QString>
 {
     typedef QString StorageType;
+    constexpr static auto type = TagValue::Type::String;
 };
 
 template<>
-struct TagValueTraits<TagValue::Type::Time>
+struct TagValueTraits<QDate>
+{
+    typedef QDate StorageType;
+    constexpr static auto type = TagValue::Type::Date;
+};
+
+
+template<>
+struct TagValueTraits<QTime>
 {
     typedef QTime StorageType;
+    constexpr static auto type = TagValue::Type::Time;
 };
 
 
