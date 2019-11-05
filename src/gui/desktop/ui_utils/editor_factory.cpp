@@ -133,27 +133,27 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
 
     switch(tagType)
     {
-        case Tag::Type::String:
+        case Tag::ValueType::String:
             result = "text";
             break;
 
-        case Tag::Type::Date:
+        case Tag::ValueType::Date:
             result = "date";
             break;
 
-        case Tag::Type::Time:
+        case Tag::ValueType::Time:
             result = "time";
             break;
 
-        case Tag::Type::Float:
+        case Tag::ValueType::Float:
             result = "value";
             break;
 
-        case Tag::Type::Uint64:
+        case Tag::ValueType::Uint64:
             result = "text";
             break;
 
-        case Tag::Type::Empty:
+        case Tag::ValueType::Empty:
             assert(!"Unexpected call");
             break;
     }

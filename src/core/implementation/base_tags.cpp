@@ -115,9 +115,9 @@ QString BaseTags::getName(TagTypes tag)
 }
 
 
-Tag::Type BaseTags::getType(TagTypes tag)
+Tag::ValueType BaseTags::getType(TagTypes tag)
 {
-    Tag::Type result = Tag::Type::Empty;
+    Tag::ValueType result = Tag::ValueType::Empty;
 
     switch (tag)
     {
@@ -126,23 +126,23 @@ Tag::Type BaseTags::getType(TagTypes tag)
 
         case TagTypes::Event:
         case TagTypes::Place:
-            result = Tag::Type::String;
+            result = Tag::ValueType::String;
             break;
 
         case TagTypes::Date:
-            result = Tag::Type::Date;
+            result = Tag::ValueType::Date;
             break;
 
         case TagTypes::Time:
-            result = Tag::Type::Time;
+            result = Tag::ValueType::Time;
             break;
 
         case TagTypes::Rating:
-            result = Tag::Type::Float;
+            result = Tag::ValueType::Float;
             break;
 
         case TagTypes::Category:
-            result = Tag::Type::Uint64;
+            result = Tag::ValueType::Uint64;
             break;
     }
 

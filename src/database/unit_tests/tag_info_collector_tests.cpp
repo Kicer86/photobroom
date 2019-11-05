@@ -315,6 +315,6 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
     auto event = tagInfoCollector.get(TagTypeInfo(TagTypes::Event));
 
     ASSERT_EQ(event.size(), 1);
-    ASSERT_EQ(event[0].type(), Tag::Type::String);
+    ASSERT_EQ(event[0].type(), Tag::ValueType::String);
     EXPECT_EQ(event[0].getString(), "event123");
 }

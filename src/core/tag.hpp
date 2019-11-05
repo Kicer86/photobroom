@@ -36,7 +36,7 @@ namespace Tag
     /**
      * @brief List of possible tag value types
      */
-    enum class Type
+    enum class ValueType
     {
         Empty,
         String,
@@ -88,7 +88,7 @@ class CORE_EXPORT TagValue
             set(value);
         }
 
-        static TagValue fromRaw(const QString &, const Tag::Type &);    // tag's value as stored in db
+        static TagValue fromRaw(const QString &, const Tag::ValueType &);    // tag's value as stored in db
         static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
@@ -121,7 +121,7 @@ class CORE_EXPORT TagValue
             return *v;
         }
 
-        Tag::Type type() const;
+        Tag::ValueType type() const;
         QString rawValue() const;                                               // tag's value as stored in db
 
         bool operator==(const TagValue &) const;
@@ -129,7 +129,7 @@ class CORE_EXPORT TagValue
         bool operator<(const TagValue &) const;
 
     private:
-        Tag::Type m_type;
+        Tag::ValueType m_type;
         std::any m_value;
 
         template<typename T>
@@ -139,7 +139,7 @@ class CORE_EXPORT TagValue
         }
 
         QString string() const;
-        TagValue& fromString(const QString &, const Tag::Type &);
+        TagValue& fromString(const QString &, const Tag::ValueType &);
 };
 
 
@@ -147,14 +147,14 @@ template<>
 struct TagValueTraits<QString>
 {
     typedef QString StorageType;
-    constexpr static auto type = Tag::Type::String;
+    constexpr static auto type = Tag::ValueType::String;
 };
 
 template<>
 struct TagValueTraits<QDate>
 {
     typedef QDate StorageType;
-    constexpr static auto type = Tag::Type::Date;
+    constexpr static auto type = Tag::ValueType::Date;
 };
 
 
@@ -162,7 +162,7 @@ template<>
 struct TagValueTraits<QTime>
 {
     typedef QTime StorageType;
-    constexpr static auto type = Tag::Type::Time;
+    constexpr static auto type = Tag::ValueType::Time;
 };
 
 
@@ -170,7 +170,7 @@ template<>
 struct TagValueTraits<double>
 {
     typedef double StorageType;
-    constexpr static auto type = Tag::Type::Float;
+    constexpr static auto type = Tag::ValueType::Float;
 };
 
 
@@ -178,7 +178,7 @@ template<>
 struct TagValueTraits<quint64>
 {
     typedef quint64 StorageType;
-    constexpr static auto type = Tag::Type::Uint64;
+    constexpr static auto type = Tag::ValueType::Uint64;
 };
 
 

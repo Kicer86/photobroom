@@ -77,7 +77,7 @@ namespace Database
         {
             QString condition;
 
-            if (desciption->tagValue.type() != Tag::Type::Empty)
+            if (desciption->tagValue.type() != Tag::ValueType::Empty)
                 condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
                                         .arg(desciption->tagName.getTag() )
                                         .arg(desciption->tagValue.rawValue());

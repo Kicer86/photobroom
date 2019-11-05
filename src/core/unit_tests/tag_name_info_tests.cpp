@@ -53,7 +53,7 @@ TEST(TagNameInfoTest, compareOperation)
         }
 }
 
-typedef std::pair<TagTypes, Tag::Type> TagNameInfoExpectations;
+typedef std::pair<TagTypes, Tag::ValueType> TagNameInfoExpectations;
 struct TagNameInfoTest2: testing::TestWithParam<TagNameInfoExpectations> {};
 
 TEST_P(TagNameInfoTest2, ProperValues)
@@ -69,9 +69,9 @@ TEST_P(TagNameInfoTest2, ProperValues)
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         TagNameInfoTest2,
                         testing::Values(
-                            TagNameInfoExpectations{TagTypes::Event, Tag::Type::String },
-                            TagNameInfoExpectations{TagTypes::Place, Tag::Type::String },
-                            TagNameInfoExpectations{TagTypes::Date,  Tag::Type::Date   },
-                            TagNameInfoExpectations{TagTypes::Time,  Tag::Type::Time   }
+                            TagNameInfoExpectations{TagTypes::Event, Tag::ValueType::String },
+                            TagNameInfoExpectations{TagTypes::Place, Tag::ValueType::String },
+                            TagNameInfoExpectations{TagTypes::Date,  Tag::ValueType::Date   },
+                            TagNameInfoExpectations{TagTypes::Time,  Tag::ValueType::Time   }
                         )
 );

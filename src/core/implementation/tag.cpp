@@ -95,7 +95,7 @@ TagTypes TagTypeInfo::getTag() const
 //////////////////////////////////////////////////////////////
 
 
-TagValue::TagValue(): m_type(Tag::Type::Empty), m_value()
+TagValue::TagValue(): m_type(Tag::ValueType::Empty), m_value()
 {
 
 }
@@ -111,13 +111,13 @@ TagValue::TagValue(const TagValue& other): TagValue()
 TagValue::TagValue(TagValue&& other): TagValue()
 {
     m_type = other.m_type;
-    other.m_type = Tag::Type::Empty;
+    other.m_type = Tag::ValueType::Empty;
 
     std::swap(m_value, other.m_value);
 }
 
 
-TagValue TagValue::fromRaw(const QString& raw, const Tag::Type& type)
+TagValue TagValue::fromRaw(const QString& raw, const Tag::ValueType& type)
 {
     return TagValue().fromString(raw, type);
 }
@@ -178,7 +178,7 @@ TagValue& TagValue::operator=(const TagValue& other)
 TagValue& TagValue::operator=(TagValue&& other)
 {
     m_type = other.m_type;
-    other.m_type = Tag::Type::Empty;
+    other.m_type = Tag::ValueType::Empty;
 
     std::swap(m_value, other.m_value);
 
@@ -192,26 +192,26 @@ QVariant TagValue::get() const
 
     switch (m_type)
     {
-        case Tag::Type::Empty:
+        case Tag::ValueType::Empty:
             break;
 
-        case Tag::Type::Date:
+        case Tag::ValueType::Date:
             result = get<DateType>();
             break;
 
-        case Tag::Type::String:
+        case Tag::ValueType::String:
             result = get<StringType>();
             break;
 
-        case Tag::Type::Time:
+        case Tag::ValueType::Time:
             result = get<TimeType>();
             break;
 
-        case Tag::Type::Float:
+        case Tag::ValueType::Float:
             result = get<FloatType>();
             break;
 
-        case Tag::Type::Uint64:
+        case Tag::ValueType::Uint64:
             result = get<Uint64Type>();
             break;
     }
@@ -244,7 +244,7 @@ const QTime& TagValue::getTime() const
 }
 
 
-Tag::Type TagValue::type() const
+Tag::ValueType TagValue::type() const
 {
     return m_type;
 }
@@ -289,37 +289,37 @@ QString TagValue::string() const
 
     switch(m_type)
     {
-        case Tag::Type::Empty:
+        case Tag::ValueType::Empty:
             break;
 
-        case Tag::Type::Date:
+        case Tag::ValueType::Date:
         {
             const DateType& v = get<DateType>();
             result = v.toString("yyyy.MM.dd");
             break;
         }
 
-        case Tag::Type::String:
+        case Tag::ValueType::String:
         {
             result = get<StringType>();
             break;
         }
 
-        case Tag::Type::Time:
+        case Tag::ValueType::Time:
         {
             const TimeType& v = get<TimeType>();
             result = v.toString("HH:mm:ss");
             break;
         }
 
-        case Tag::Type::Float:
+        case Tag::ValueType::Float:
         {
             const FloatType v = get<FloatType>();
             result = QString::number(v);
             break;
         }
 
-        case Tag::Type::Uint64:
+        case Tag::ValueType::Uint64:
         {
             const Uint64Type v = get<Uint64Type>();
             result = QString::number(v);
@@ -331,31 +331,31 @@ QString TagValue::string() const
 }
 
 
-TagValue& TagValue::fromString(const QString& value, const Tag::Type& type)
+TagValue& TagValue::fromString(const QString& value, const Tag::ValueType& type)
 {
     switch(type)
     {
-        case Tag::Type::String:
+        case Tag::ValueType::String:
             set( value );
             break;
 
-        case Tag::Type::Date:
+        case Tag::ValueType::Date:
             set( QDate::fromString(value, "yyyy.MM.dd") );
             break;
 
-        case Tag::Type::Time:
+        case Tag::ValueType::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
             break;
 
-        case Tag::Type::Float:
+        case Tag::ValueType::Float:
             set( value.toDouble() );
             break;
 
-        case Tag::Type::Uint64:
+        case Tag::ValueType::Uint64:
             set( value.toULongLong() );
             break;
 
-        case Tag::Type::Empty:
+        case Tag::ValueType::Empty:
             assert(!"Unexpected switch");
             break;
     }
