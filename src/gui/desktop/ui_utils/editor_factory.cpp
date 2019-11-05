@@ -39,7 +39,7 @@ namespace
 {
     struct TimeEditor: QTimeEdit
     {
-        explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+        explicit TimeEditor(QWidget* parent_widget = nullptr): QTimeEdit(parent_widget)
         {
             setDisplayFormat("hh:mm:ss");
         }
