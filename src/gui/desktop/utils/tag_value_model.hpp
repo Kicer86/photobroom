@@ -30,7 +30,7 @@ struct ITagInfoCollector;
 class TagValueModel: public QAbstractListModel
 {
     public:
-        TagValueModel(const std::set<TagNameInfo> &);
+        TagValueModel(const std::set<TagTypeInfo> &);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
@@ -44,12 +44,12 @@ class TagValueModel: public QAbstractListModel
 
     private:
         std::vector<TagValue> m_values;
-        std::set<TagNameInfo> m_tagInfos;
+        std::set<TagTypeInfo> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
 
         void updateData();
-        void collectorNotification(const TagNameInfo &);
+        void collectorNotification(const TagTypeInfo &);
 };
 
 #endif // TAGVALUEMODEL_HPP

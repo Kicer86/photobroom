@@ -52,7 +52,7 @@ bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger tri
     const int last_row = rc - 1;
     const bool is_last_item = index.row() == last_row;
     const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
 
     // allow edit in 2nd column and whole last row (if tag type is valid)
     // It can be invalid when empty value was chosen in combo box

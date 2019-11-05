@@ -21,7 +21,7 @@ using ::testing::NiceMock;
 
 struct Observer: QObject
 {
-    MOCK_METHOD1(event, void(const TagNameInfo &));
+    MOCK_METHOD1(event, void(const TagTypeInfo &));
 };
 
 
@@ -42,7 +42,7 @@ TEST(TagInfoCollectorTest, GetWithoutDatabase)
 
     for(const TagTypes& tag: tags)
     {
-        const TagNameInfo info(tag);
+        const TagTypeInfo info(tag);
         const std::vector<TagValue>& values = tagInfoCollector.get(info);
 
         EXPECT_EQ(values.empty(), true);
@@ -55,23 +55,23 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Date), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Event), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Time), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Place), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -79,34 +79,34 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    const std::vector<TagValue>& dates = tagInfoCollector.get( TagNameInfo(TagTypes::Date) );
+    const std::vector<TagValue>& dates = tagInfoCollector.get( TagTypeInfo(TagTypes::Date) );
     ASSERT_EQ(dates.size(), 2);
     EXPECT_EQ(dates[0].getDate(), QDate(0, 1, 2));
     EXPECT_EQ(dates[1].getDate(), QDate(1, 2, 3));
 
-    const std::vector<TagValue>& events = tagInfoCollector.get( TagNameInfo(TagTypes::Event) );
+    const std::vector<TagValue>& events = tagInfoCollector.get( TagTypeInfo(TagTypes::Event) );
     ASSERT_EQ(events.size(), 2);
     EXPECT_EQ(events[0].getString(), "event1");
     EXPECT_EQ(events[1].getString(), "event2");
 
-    const std::vector<TagValue>& times = tagInfoCollector.get( TagNameInfo(TagTypes::Time) );
+    const std::vector<TagValue>& times = tagInfoCollector.get( TagTypeInfo(TagTypes::Time) );
     ASSERT_EQ(times.size(), 3);
     EXPECT_EQ(times[0].getTime(), QTime(2, 3));
     EXPECT_EQ(times[1].getTime(), QTime(3, 4));
     EXPECT_EQ(times[2].getTime(), QTime(11, 18));
 
-    const std::vector<TagValue>& places = tagInfoCollector.get( TagNameInfo(TagTypes::Place) );
+    const std::vector<TagValue>& places = tagInfoCollector.get( TagTypeInfo(TagTypes::Place) );
     ASSERT_EQ(places.size(), 2);
     EXPECT_EQ(places[0].getString(), "12");
     EXPECT_EQ(places[1].getString(), "23");
 
-    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagNameInfo(TagTypes::Rating) );
+    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagTypeInfo(TagTypes::Rating) );
     ASSERT_EQ(ratings.size(), 3);
     EXPECT_EQ(ratings[0].get<double>(), 5.0);
     EXPECT_EQ(ratings[1].get<double>(), 1.5);
     EXPECT_EQ(ratings[2].get<double>(), 0.0);
 
-    const std::vector<TagValue>& categories = tagInfoCollector.get( TagNameInfo(TagTypes::Category) );
+    const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
     ASSERT_EQ(categories.size(), 2);
     EXPECT_EQ(categories[0].get<quint64>(), 0x110055);
     EXPECT_EQ(categories[1].get<quint64>(), 0xff00ff);
@@ -118,23 +118,23 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Date), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Date), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Date), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Event), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Event), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Event), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Time), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Time), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Time), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Place), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Place), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Rating), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Category), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>()) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -142,22 +142,22 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    const std::vector<TagValue>& dates = tagInfoCollector.get( TagNameInfo(TagTypes::Date) );
+    const std::vector<TagValue>& dates = tagInfoCollector.get( TagTypeInfo(TagTypes::Date) );
     EXPECT_TRUE(dates.empty());
 
-    const std::vector<TagValue>& events = tagInfoCollector.get( TagNameInfo(TagTypes::Event) );
+    const std::vector<TagValue>& events = tagInfoCollector.get( TagTypeInfo(TagTypes::Event) );
     EXPECT_TRUE(events.empty());
 
-    const std::vector<TagValue>& times = tagInfoCollector.get( TagNameInfo(TagTypes::Time) );
+    const std::vector<TagValue>& times = tagInfoCollector.get( TagTypeInfo(TagTypes::Time) );
     EXPECT_TRUE(times.empty());
 
-    const std::vector<TagValue>& places = tagInfoCollector.get( TagNameInfo(TagTypes::Place) );
+    const std::vector<TagValue>& places = tagInfoCollector.get( TagTypeInfo(TagTypes::Place) );
     EXPECT_TRUE(places.empty());
 
-    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagNameInfo(TagTypes::Rating) );
+    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagTypeInfo(TagTypes::Rating) );
     EXPECT_TRUE(ratings.empty());
 
-    const std::vector<TagValue>& categories = tagInfoCollector.get( TagNameInfo(TagTypes::Category) );
+    const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
     EXPECT_TRUE(categories.empty());
 }
 
@@ -168,23 +168,23 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Date), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Date), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Date), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Event), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Event), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Event), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Time), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Time), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Time), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Place), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Place), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Rating), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>()) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Category), std::vector<TagValue>()) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>()) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -197,7 +197,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-        { TagNameInfo(TagTypes::_People), TagValue(QString("person123")) }
+        { TagTypeInfo(TagTypes::_People), TagValue(QString("person123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -211,7 +211,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     emit backend.photoModified(photoInfo->getID());
 
-    const std::vector<TagValue>& people = tagInfoCollector.get( TagNameInfo(TagTypes::_People) );
+    const std::vector<TagValue>& people = tagInfoCollector.get( TagTypeInfo(TagTypes::_People) );
     ASSERT_EQ(people.size(), 1);
     EXPECT_EQ(people[0].getString(), "person123");
 }
@@ -223,23 +223,23 @@ TEST(TagInfoCollectorTest, ObserversNotification)
     MockBackend backend;
     NiceMock<MockDatabase> database;
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Date), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Date), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Date), std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Event), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Event), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Event), std::vector<TagValue>{QString("event1"), QString("event2")}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Time), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Time), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Time), std::vector<TagValue>{QTime(2, 3), QTime(3, 4), QTime(11, 18)}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Place), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Place), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
 
-    EXPECT_CALL(database, listTagValues(TagNameInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagNameInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+    EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
 
 
     ON_CALL(database, backend)
@@ -263,8 +263,8 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-                            { TagNameInfo(TagTypes::Time), TagValue(QTime(20,21)) },
-                            { TagNameInfo(TagTypes::Event), TagValue(QString("event123")) }
+                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(20,21)) },
+                            { TagTypeInfo(TagTypes::Event), TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -297,8 +297,8 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-                            { TagNameInfo(TagTypes::Time), TagValue(QTime(2, 5)) },
-                            { TagNameInfo(TagTypes::Event), TagValue(QString("event123")) }
+                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(2, 5)) },
+                            { TagTypeInfo(TagTypes::Event), TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo.get(), getTags())
@@ -312,7 +312,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     emit backend.photoModified(photoInfo->getID());
 
-    auto event = tagInfoCollector.get(TagNameInfo(TagTypes::Event));
+    auto event = tagInfoCollector.get(TagTypeInfo(TagTypes::Event));
 
     ASSERT_EQ(event.size(), 1);
     ASSERT_EQ(event[0].type(), Tag::Type::String);

@@ -30,24 +30,24 @@ TEST_F(PhotosChangeLog, tagsManipulation)
 
             // add tags
             Tag::TagsList tags;
-            tags[TagNameInfo(TagTypes::Event)] = TagValue(QString("test event"));
+            tags[TagTypeInfo(TagTypes::Event)] = TagValue(QString("test event"));
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);
 
-            tags[TagNameInfo(TagTypes::Place)] = TagValue(QString("test place"));
+            tags[TagTypeInfo(TagTypes::Place)] = TagValue(QString("test place"));
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);
 
             // modify tag
-            tags[TagNameInfo(TagTypes::Event)] = TagValue(QString("test event 2"));
+            tags[TagTypeInfo(TagTypes::Event)] = TagValue(QString("test event 2"));
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);
 
             // remove tag
-            tags.erase(TagNameInfo(TagTypes::Place));
+            tags.erase(TagTypeInfo(TagTypes::Place));
 
             data_delta.insert<Photo::Field::Tags>(tags);
             op->update(data_delta);

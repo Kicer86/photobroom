@@ -146,7 +146,7 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
 }
 
 
-void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
+void PhotoInfo::setTag(const TagTypeInfo& name, const TagValue& value)
 {
     auto data = m_data.lock();
 

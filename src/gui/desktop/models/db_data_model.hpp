@@ -35,7 +35,7 @@ struct Hierarchy
 {
     struct Level
     {
-        TagNameInfo tagName;
+        TagTypeInfo tagName;
 
         enum class Order
         {
@@ -44,7 +44,7 @@ struct Hierarchy
         } order;
 
         Level();
-        Level(const TagNameInfo &, const Order &);
+        Level(const TagTypeInfo &, const Order &);
     };
 
     Hierarchy();

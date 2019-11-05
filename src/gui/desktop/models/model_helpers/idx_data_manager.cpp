@@ -102,8 +102,8 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 
     //default hierarchy
     const Hierarchy hierarchy = {
-                                  { TagNameInfo(TagTypes::Date), Hierarchy::Level::Order::ascending },
-                                  { TagNameInfo(TagTypes::Time), Hierarchy::Level::Order::ascending }
+                                  { TagTypeInfo(TagTypes::Date), Hierarchy::Level::Order::ascending },
+                                  { TagTypeInfo(TagTypes::Time), Hierarchy::Level::Order::ascending }
                                 };
 
     setHierarchy(hierarchy);
@@ -299,14 +299,14 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
     {
         std::vector<Database::IFilter::Ptr> filter;
 
-        const TagNameInfo& tagNameInfo = m_data->m_hierarchy.getNodeInfo(level).tagName;
+        const TagTypeInfo& tagNameInfo = m_data->m_hierarchy.getNodeInfo(level).tagName;
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
         using namespace std::placeholders;
         auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagNameInfo &, const std::vector<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagTypeInfo &, const std::vector<TagValue> &) >(callback);
 
         m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
@@ -690,7 +690,7 @@ IdxNodeData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const 
             result = _parent;
         else
         {
-            const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
+            const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
             auto photoTagIt = photoTags.find(tagName);
 
             //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
@@ -894,7 +894,7 @@ IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
     IdxData::Ptr node = std::make_unique<IdxNodeData>(this, tr("Unlabeled"));
 
     const size_t level = _parent->getLevel();
-    const TagNameInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
+    const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
     auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(filterTag);

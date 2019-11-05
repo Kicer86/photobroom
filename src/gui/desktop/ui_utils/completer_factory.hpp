@@ -47,8 +47,8 @@ class CompleterFactory: public ICompleterFactory
         void set(Database::IDatabase *);
         void set(ILoggerFactory *);
 
-        QCompleter* createCompleter(const TagNameInfo &) override;
-        QCompleter* createCompleter(const std::set<TagNameInfo> &) override;
+        QCompleter* createCompleter(const TagTypeInfo &) override;
+        QCompleter* createCompleter(const std::set<TagTypeInfo> &) override;
         QCompleter* createPeopleCompleter() override;
 
     private:
@@ -56,11 +56,11 @@ class CompleterFactory: public ICompleterFactory
         typedef std::pair<ModelPtr, ModelPtr> ModelPair;
 
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagNameInfo>, ModelPair> m_tagValueModels;
+        std::map<std::set<TagTypeInfo>, ModelPair> m_tagValueModels;
         PeopleListModel* m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
-        QAbstractItemModel* getModelFor(const std::set<TagNameInfo> &);
+        QAbstractItemModel* getModelFor(const std::set<TagTypeInfo> &);
         QAbstractItemModel* getModelForPeople();
 };
 

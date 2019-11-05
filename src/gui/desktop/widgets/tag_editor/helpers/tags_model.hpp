@@ -58,7 +58,7 @@ class TagsModel: public QAbstractItemModel
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
-        void addTag(const TagNameInfo &, const TagValue &);
+        void addTag(const TagTypeInfo &, const TagValue &);
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;

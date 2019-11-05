@@ -47,7 +47,7 @@ namespace
     };
 
     template<typename T>
-    T* make_editor(ICompleterFactory* completerFactory, const TagNameInfo& info, QWidget* parent)
+    T* make_editor(ICompleterFactory* completerFactory, const TagTypeInfo& info, QWidget* parent)
     {
         T* editor = new T(parent);
         QCompleter* completer = completerFactory->createCompleter(info);
@@ -80,13 +80,13 @@ void EditorFactory::set(ICompleterFactory* completerFactory)
 QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
 {
     const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
 
     return createEditor(tagInfoRole, parent);
 }
 
 
-QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
+QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
@@ -125,7 +125,7 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
+QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
 {
     QByteArray result;
 

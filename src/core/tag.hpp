@@ -48,18 +48,18 @@ namespace Tag
 }
 
 
-class CORE_EXPORT TagNameInfo
+class CORE_EXPORT TagTypeInfo
 {
     public:
-        TagNameInfo();
-        explicit TagNameInfo(const TagTypes &);
-        TagNameInfo(const TagNameInfo& other);
+        TagTypeInfo();
+        explicit TagTypeInfo(const TagTypes &);
+        TagTypeInfo(const TagTypeInfo& other);
 
         //operator QString() const;
-        bool operator==(const TagNameInfo& other) const;
-        bool operator<(const TagNameInfo& other) const;
-        bool operator>(const TagNameInfo& other) const;
-        TagNameInfo& operator=(const TagNameInfo& other);
+        bool operator==(const TagTypeInfo& other) const;
+        bool operator<(const TagTypeInfo& other) const;
+        bool operator>(const TagTypeInfo& other) const;
+        TagTypeInfo& operator=(const TagTypeInfo& other);
 
         QString getName() const;
         QString getDisplayName() const;
@@ -184,26 +184,26 @@ struct TagValueTraits<quint64>
 
 namespace Tag
 {
-    typedef std::map<TagNameInfo, TagValue> TagsList;
+    typedef std::map<TagTypeInfo, TagValue> TagsList;
 
     struct CORE_EXPORT Info
     {
-            Info(const std::pair<const TagNameInfo, TagValue> &data);
+            Info(const std::pair<const TagTypeInfo, TagValue> &data);
 
             QString name() const;
             QString displayName() const;
 
-            const TagNameInfo& getTypeInfo() const;
+            const TagTypeInfo& getTypeInfo() const;
             const TagValue& value() const;
 
             void setValue(const TagValue &);
 
         private:
-            TagNameInfo m_name;
+            TagTypeInfo m_name;
             TagValue m_value;
     };
 }
 
-Q_DECLARE_METATYPE(TagNameInfo)
+Q_DECLARE_METATYPE(TagTypeInfo)
 
 #endif

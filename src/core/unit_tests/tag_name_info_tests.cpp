@@ -7,7 +7,7 @@
 
 TEST(TagNameInfoTest, emptyAfterConstruction)
 {
-    const TagNameInfo info;
+    const TagTypeInfo info;
 
     EXPECT_EQ(info.getName(), QString());
     EXPECT_EQ(info.getDisplayName(), QString());
@@ -17,10 +17,10 @@ TEST(TagNameInfoTest, emptyAfterConstruction)
 
 TEST(TagNameInfoTest, copyOperation)
 {
-    const TagNameInfo info(TagTypes::Date);
-    const TagNameInfo info2(info);
+    const TagTypeInfo info(TagTypes::Date);
+    const TagTypeInfo info2(info);
 
-    TagNameInfo info3;
+    TagTypeInfo info3;
     info3 = info;
 
     EXPECT_EQ(info, info2);
@@ -36,8 +36,8 @@ TEST(TagNameInfoTest, compareOperation)
     for (std::size_t i = 0; i < s; i++)
         for (std::size_t j = 0; j < s; j++)
         {
-            const TagNameInfo l(tags[i]);
-            const TagNameInfo r(tags[j]);
+            const TagTypeInfo l(tags[i]);
+            const TagTypeInfo r(tags[j]);
 
             if (i == j)
             {
@@ -58,7 +58,7 @@ struct TagNameInfoTest2: testing::TestWithParam<TagNameInfoExpectations> {};
 
 TEST_P(TagNameInfoTest2, ProperValues)
 {
-    const TagNameInfo info(GetParam().first);
+    const TagTypeInfo info(GetParam().first);
 
     EXPECT_NE(info.getName(),                   QString());
     EXPECT_NE(info.getDisplayName(),            QString());

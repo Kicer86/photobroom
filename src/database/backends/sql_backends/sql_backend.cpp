@@ -291,14 +291,14 @@ namespace Database
     }
 
 
-    std::vector<TagNameInfo> ASqlBackend::listTags()
+    std::vector<TagTypeInfo> ASqlBackend::listTags()
     {
         assert(!"Not implemented");
-        return std::vector<TagNameInfo>();
+        return std::vector<TagTypeInfo>();
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypeInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
         std::vector<TagValue> result;
 
@@ -1413,7 +1413,7 @@ namespace Database
         {
             const TagTypes tagNameType = static_cast<TagTypes>( query.value(1).toInt() );
             const QVariant value = query.value(2);
-            const TagNameInfo tagName(tagNameType);
+            const TagTypeInfo tagName(tagNameType);
 
             // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);

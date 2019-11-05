@@ -54,7 +54,7 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     MockBackend backend;
     NiceMock<MockDatabase> db;
 
-    const TagNameInfo dateTag(TagTypes::Date);
+    const TagTypeInfo dateTag(TagTypes::Date);
     const std::vector<TagValue> dates = { QDate(2017, 05, 30) };
 
     EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))

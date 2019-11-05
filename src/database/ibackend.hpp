@@ -118,10 +118,10 @@ namespace Database
         //read data
 
         /// list all stored tag names
-        virtual std::vector<TagNameInfo> listTags() = 0;
+        virtual std::vector<TagTypeInfo> listTags() = 0;
 
         /// list all values of tag for photos matching provided filter
-        virtual std::vector<TagValue>    listTagValues(const TagNameInfo &,
+        virtual std::vector<TagValue>    listTagValues(const TagTypeInfo &,
                                                        const std::vector<IFilter::Ptr> &) = 0;
 
         /// list all photos

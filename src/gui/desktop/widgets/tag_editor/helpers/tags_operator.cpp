@@ -40,8 +40,8 @@ Tag::TagsList TagsOperator::getTags() const
     // TODO: std::tie?
     struct
     {
-        bool operator()(const std::pair<TagNameInfo, TagValue> &a,
-                        const std::pair<TagNameInfo, TagValue> &b) const
+        bool operator()(const std::pair<TagTypeInfo, TagValue> &a,
+                        const std::pair<TagTypeInfo, TagValue> &b) const
         {
             if (a.first < b.first)
                 return true;
@@ -77,7 +77,7 @@ Tag::TagsList TagsOperator::getTags() const
 }
 
 
-void TagsOperator::setTag(const TagNameInfo& name, const TagValue& values)
+void TagsOperator::setTag(const TagTypeInfo& name, const TagValue& values)
 {
     for (auto& photo: m_photos)
         photo->setTag(name, values);
@@ -91,7 +91,7 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::insert(const TagNameInfo& name, const TagValue& value)
+void TagsOperator::insert(const TagTypeInfo& name, const TagValue& value)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();

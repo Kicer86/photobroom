@@ -49,7 +49,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(TagTypes::Date), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Date), QString("test_value"));
 
     filters.push_back(filter);
 
@@ -67,7 +67,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     Database::SqlFilterQueryGenerator generator;
     std::vector<Database::IFilter::Ptr> filters;
 
-    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(TagTypes::Time));
+    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time));
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
     filters.push_back(filter);
 
@@ -127,7 +127,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(TagTypes::_People), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::_People), QString("test_value"));
 
     filters.push_back(tag_filter);
 
@@ -167,13 +167,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 
     // #1 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(TagTypes::Place), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Place), QString("test_value"));
 
     filters.push_back(tag1_filter);
 
     // #2 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagNameInfo(TagTypes::Event), QString("test_value2"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Event), QString("test_value2"));
 
     filters.push_back(tag2_filter);
 

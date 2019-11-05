@@ -4,14 +4,14 @@
 
 class QCompleter;
 
-struct TagNameInfo;
+struct TagTypeInfo;
 
 struct ICompleterFactory
 {
     virtual ~ICompleterFactory() {}
 
-    virtual QCompleter* createCompleter(const TagNameInfo &) = 0;
-    virtual QCompleter* createCompleter(const std::set<TagNameInfo> &) = 0;
+    virtual QCompleter* createCompleter(const TagTypeInfo &) = 0;
+    virtual QCompleter* createCompleter(const std::set<TagTypeInfo> &) = 0;
 
     virtual QCompleter* createPeopleCompleter() = 0;
 };

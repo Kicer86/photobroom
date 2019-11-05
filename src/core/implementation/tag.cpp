@@ -18,19 +18,19 @@ namespace
 }
 
 
-TagNameInfo::TagNameInfo(): m_tag(TagTypes::Invalid)
+TagTypeInfo::TagTypeInfo(): m_tag(TagTypes::Invalid)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const TagTypes& tag): m_tag(tag)
+TagTypeInfo::TagTypeInfo(const TagTypes& tag): m_tag(tag)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const TagNameInfo& other): m_tag(other.m_tag)
+TagTypeInfo::TagTypeInfo(const TagTypeInfo& other): m_tag(other.m_tag)
 {
 
 }
@@ -42,7 +42,7 @@ TagNameInfo::operator QString() const
 }
 */
 
-bool TagNameInfo::operator==(const TagNameInfo& other) const
+bool TagTypeInfo::operator==(const TagTypeInfo& other) const
 {
     const bool result = getName() == other.getName();
 
@@ -50,7 +50,7 @@ bool TagNameInfo::operator==(const TagNameInfo& other) const
 }
 
 
-bool TagNameInfo::operator<(const TagNameInfo& other) const
+bool TagTypeInfo::operator<(const TagTypeInfo& other) const
 {
     const bool result = getName() < other.getName();
 
@@ -58,7 +58,7 @@ bool TagNameInfo::operator<(const TagNameInfo& other) const
 }
 
 
-bool TagNameInfo::operator>(const TagNameInfo& other) const
+bool TagTypeInfo::operator>(const TagTypeInfo& other) const
 {
     const bool result = getName() > other.getName();
 
@@ -66,7 +66,7 @@ bool TagNameInfo::operator>(const TagNameInfo& other) const
 }
 
 
-TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
+TagTypeInfo& TagTypeInfo::operator=(const TagTypeInfo& other)
 {
     m_tag = other.m_tag;
 
@@ -74,19 +74,19 @@ TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 }
 
 
-QString TagNameInfo::getName() const
+QString TagTypeInfo::getName() const
 {
     return BaseTags::getName(m_tag);
 }
 
 
-QString TagNameInfo::getDisplayName() const
+QString TagTypeInfo::getDisplayName() const
 {
     return BaseTags::getTr(m_tag);
 }
 
 
-TagTypes TagNameInfo::getTag() const
+TagTypes TagTypeInfo::getTag() const
 {
     return m_tag;
 }
@@ -370,7 +370,7 @@ TagValue& TagValue::fromString(const QString& value, const Tag::Type& type)
 namespace Tag
 {
 
-    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second)
+    Info::Info(const std::pair<const TagTypeInfo, TagValue> &data): m_name(data.first), m_value(data.second)
     {
 
     }
@@ -385,7 +385,7 @@ namespace Tag
         return m_name.getDisplayName();
     }
 
-    const TagNameInfo& Info::getTypeInfo() const
+    const TagTypeInfo& Info::getTypeInfo() const
     {
         return m_name;
     }
