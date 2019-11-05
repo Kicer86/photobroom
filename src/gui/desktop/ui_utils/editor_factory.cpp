@@ -90,31 +90,33 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
-    const auto tagType = BaseTags::getType(info.getTag());
+    const auto tagType = info.getTag();
 
     switch(tagType)
     {
-        case Tag::Type::String:
+        case BaseTagsList::Event:
+        case BaseTagsList::Place:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
-        case Tag::Type::Date:
+        case BaseTagsList::Date:
             result = new QDateEdit(parent);
             break;
 
-        case Tag::Type::Time:
+        case BaseTagsList::Time:
             result = new TimeEditor(parent);
             break;
 
-        case Tag::Type::Float:
+        case BaseTagsList::Rating:
             result = new QDoubleSpinBox(parent);
             break;
 
-        case Tag::Type::Uint64:
+        case BaseTagsList::Category:
             result = new QLineEdit(parent);
             break;
 
-        case Tag::Type::Empty:
+        case BaseTagsList::Invalid:
+        case BaseTagsList::_People:
             assert(!"Unexpected call");
             break;
     }
