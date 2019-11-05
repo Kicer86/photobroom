@@ -86,12 +86,6 @@ QString TagNameInfo::getDisplayName() const
 }
 
 
-Tag::Type TagNameInfo::getType() const
-{
-    return BaseTags::getType(m_tag);
-}
-
-
 BaseTagsList TagNameInfo::getTag() const
 {
     return m_tag;

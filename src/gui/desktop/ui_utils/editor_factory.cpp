@@ -29,6 +29,7 @@
 #include <QTimeEdit>
 #include <QTimer>
 
+#include <core/base_tags.hpp>
 #include <core/down_cast.hpp>
 #include "widgets/tag_editor/helpers/tags_model.hpp"
 #include "icompleter_factory.hpp"
@@ -89,7 +90,9 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
-    switch(info.getType())
+    const auto tagType = BaseTags::getType(info.getTag());
+
+    switch(tagType)
     {
         case Tag::Type::String:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
@@ -124,7 +127,9 @@ QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
 {
     QByteArray result;
 
-    switch(info.getType())
+    const auto tagType = BaseTags::getType(info.getTag());
+
+    switch(tagType)
     {
         case Tag::Type::String:
             result = "text";

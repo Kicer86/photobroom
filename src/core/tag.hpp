@@ -63,7 +63,6 @@ class CORE_EXPORT TagNameInfo
 
         QString getName() const;
         QString getDisplayName() const;
-        Tag::Type getType() const;
         BaseTagsList getTag() const;
 
     private:

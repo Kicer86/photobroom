@@ -11,7 +11,6 @@ TEST(TagNameInfoTest, emptyAfterConstruction)
 
     EXPECT_EQ(info.getName(), QString());
     EXPECT_EQ(info.getDisplayName(), QString());
-    EXPECT_EQ(info.getType(), Tag::Type::Empty);
     EXPECT_EQ(info.getTag(), BaseTagsList::Invalid);
 }
 
@@ -61,10 +60,10 @@ TEST_P(TagNameInfoTest2, ProperValues)
 {
     const TagNameInfo info(GetParam().first);
 
-    EXPECT_NE(info.getName(),        QString());
-    EXPECT_NE(info.getDisplayName(), QString());
-    EXPECT_EQ(info.getType(),        GetParam().second);
-    EXPECT_EQ(info.getTag(),         GetParam().first);
+    EXPECT_NE(info.getName(),                   QString());
+    EXPECT_NE(info.getDisplayName(),            QString());
+    EXPECT_EQ(BaseTags::getType(info.getTag()), GetParam().second);
+    EXPECT_EQ(info.getTag(),                    GetParam().first);
 }
 
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,

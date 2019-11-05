@@ -36,6 +36,7 @@
 #include <QVariant>
 #include <QPixmap>
 
+#include <core/base_tags.hpp>
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -323,7 +324,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
@@ -1420,7 +1421,7 @@ namespace Database
                 continue;
 
             const QString raw_value = value.toString();
-            const TagValue tagValue = TagValue::fromRaw(raw_value, tagName.getType());
+            const TagValue tagValue = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
 
             tagData[tagName] = tagValue;
         }
