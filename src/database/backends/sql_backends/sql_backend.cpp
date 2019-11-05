@@ -1034,19 +1034,19 @@ namespace Database
     {
         //store tag values
         bool status = true;
-        const TagValue::Type type = tagValue.type();
+        const Tag::Type type = tagValue.type();
 
         switch (type)
         {
-            case TagValue::Type::Empty:
+            case Tag::Type::Empty:
                 assert(!"Empty tag value!");
                 break;
 
-            case TagValue::Type::Date:
-            case TagValue::Type::String:
-            case TagValue::Type::Time:
-            case TagValue::Type::Float:
-            case TagValue::Type::Uint64:
+            case Tag::Type::Date:
+            case Tag::Type::String:
+            case Tag::Type::Time:
+            case Tag::Type::Float:
+            case Tag::Type::Uint64:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);

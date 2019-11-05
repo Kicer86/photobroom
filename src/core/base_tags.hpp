@@ -46,7 +46,7 @@ class CORE_EXPORT BaseTags
         static QString getName(BaseTagsList);
 
         /// Get structure describing tag
-        static TagNameInfo::Type getType(BaseTagsList);
+        static Tag::Type getType(BaseTagsList);
 };
 
 #endif // BASETAGS_HPP

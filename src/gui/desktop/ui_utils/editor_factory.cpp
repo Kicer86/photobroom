@@ -91,27 +91,27 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 
     switch(info.getType())
     {
-        case TagNameInfo::Type::String:
+        case Tag::Type::String:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
-        case TagNameInfo::Type::Date:
+        case Tag::Type::Date:
             result = new QDateEdit(parent);
             break;
 
-        case TagNameInfo::Type::Time:
+        case Tag::Type::Time:
             result = new TimeEditor(parent);
             break;
 
-        case TagNameInfo::Type::Float:
+        case Tag::Type::Float:
             result = new QDoubleSpinBox(parent);
             break;
 
-        case TagNameInfo::Type::RGB:
+        case Tag::Type::Uint64:
             result = new QLineEdit(parent);
             break;
 
-        case TagNameInfo::Type::Invalid:
+        case Tag::Type::Empty:
             assert(!"Unexpected call");
             break;
     }
@@ -126,27 +126,27 @@ QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
 
     switch(info.getType())
     {
-        case TagNameInfo::Type::String:
+        case Tag::Type::String:
             result = "text";
             break;
 
-        case TagNameInfo::Type::Date:
+        case Tag::Type::Date:
             result = "date";
             break;
 
-        case TagNameInfo::Type::Time:
+        case Tag::Type::Time:
             result = "time";
             break;
 
-        case TagNameInfo::Type::Float:
+        case Tag::Type::Float:
             result = "value";
             break;
 
-        case TagNameInfo::Type::RGB:
+        case Tag::Type::Uint64:
             result = "text";
             break;
 
-        case TagNameInfo::Type::Invalid:
+        case Tag::Type::Empty:
             assert(!"Unexpected call");
             break;
     }

@@ -31,22 +31,26 @@ enum BaseTagsList
     Category = 7,
 };
 
-
-struct CORE_EXPORT TagNameInfo
+namespace Tag
 {
-        /**
-         * \brief types for holding particular tag type
-         */
-        enum class Type
-        {
-            Invalid,
-            String,
-            Date,
-            Time,
-            Float,
-            RGB,
-        };
+    /**
+     * @brief List of possible tag value types
+     */
+    enum class Type
+    {
+        Empty,
+        String,
+        Date,
+        Time,
+        Float,
+        Uint64,
+    };
+}
 
+
+class CORE_EXPORT TagNameInfo
+{
+    public:
         TagNameInfo();
         explicit TagNameInfo(const BaseTagsList &);
         TagNameInfo(const TagNameInfo& other);
@@ -59,7 +63,7 @@ struct CORE_EXPORT TagNameInfo
 
         QString getName() const;
         QString getDisplayName() const;
-        Type getType() const;
+        Tag::Type getType() const;
         BaseTagsList getTag() const;
 
     private:
@@ -75,16 +79,6 @@ struct TagValueTraits {};
 class CORE_EXPORT TagValue
 {
     public:
-        enum class Type
-        {
-            Empty,
-            String,
-            Date,
-            Time,
-            Float,
-            Uint64,
-        };
-
         TagValue();
         TagValue(const TagValue &);
         TagValue(TagValue &&);
@@ -95,7 +89,7 @@ class CORE_EXPORT TagValue
             set(value);
         }
 
-        static TagValue fromRaw(const QString &, const TagNameInfo::Type &);    // tag's value as stored in db
+        static TagValue fromRaw(const QString &, const Tag::Type &);    // tag's value as stored in db
         static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
@@ -128,7 +122,7 @@ class CORE_EXPORT TagValue
             return *v;
         }
 
-        Type type() const;
+        Tag::Type type() const;
         QString rawValue() const;                                               // tag's value as stored in db
 
         bool operator==(const TagValue &) const;
@@ -136,7 +130,7 @@ class CORE_EXPORT TagValue
         bool operator<(const TagValue &) const;
 
     private:
-        Type m_type;
+        Tag::Type m_type;
         std::any m_value;
 
         template<typename T>
@@ -146,7 +140,7 @@ class CORE_EXPORT TagValue
         }
 
         QString string() const;
-        TagValue& fromString(const QString &, const TagNameInfo::Type &);
+        TagValue& fromString(const QString &, const Tag::Type &);
 };
 
 
@@ -154,14 +148,14 @@ template<>
 struct TagValueTraits<QString>
 {
     typedef QString StorageType;
-    constexpr static auto type = TagValue::Type::String;
+    constexpr static auto type = Tag::Type::String;
 };
 
 template<>
 struct TagValueTraits<QDate>
 {
     typedef QDate StorageType;
-    constexpr static auto type = TagValue::Type::Date;
+    constexpr static auto type = Tag::Type::Date;
 };
 
 
@@ -169,7 +163,7 @@ template<>
 struct TagValueTraits<QTime>
 {
     typedef QTime StorageType;
-    constexpr static auto type = TagValue::Type::Time;
+    constexpr static auto type = Tag::Type::Time;
 };
 
 
@@ -177,7 +171,7 @@ template<>
 struct TagValueTraits<double>
 {
     typedef double StorageType;
-    constexpr static auto type = TagValue::Type::Float;
+    constexpr static auto type = Tag::Type::Float;
 };
 
 
@@ -185,7 +179,7 @@ template<>
 struct TagValueTraits<quint64>
 {
     typedef quint64 StorageType;
-    constexpr static auto type = TagValue::Type::Uint64;
+    constexpr static auto type = Tag::Type::Uint64;
 };
 
 

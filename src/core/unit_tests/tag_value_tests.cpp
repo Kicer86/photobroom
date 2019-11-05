@@ -11,7 +11,7 @@ TEST(TagValueTest, EmptyAfterConstruciton)
 {
     const TagValue tv;
 
-    EXPECT_EQ(tv.type(), TagValue::Type::Empty);
+    EXPECT_EQ(tv.type(), Tag::Type::Empty);
     EXPECT_TRUE(tv.get().isNull());
     EXPECT_EQ(tv.rawValue(), QString());
 }
@@ -23,7 +23,7 @@ TEST(TagValueTest, DateSetter)
     TagValue tv(date);
     const TagValue ctv(date);
 
-    ASSERT_EQ(tv.type(), TagValue::Type::Date);
+    ASSERT_EQ(tv.type(), Tag::Type::Date);
     ASSERT_EQ(tv.get().type(), QMetaType::QDate);
     EXPECT_EQ(tv.getDate(), date);
     EXPECT_EQ(ctv.getDate(), date);
@@ -37,7 +37,7 @@ TEST(TagValueTest, TimeSetter)
     TagValue tv(time);
     const TagValue ctv(time);
 
-    ASSERT_EQ(tv.type(), TagValue::Type::Time);
+    ASSERT_EQ(tv.type(), Tag::Type::Time);
     ASSERT_EQ(tv.get().type(), QMetaType::QTime);
     EXPECT_EQ(tv.getTime(), time);
     EXPECT_EQ(ctv.getTime(), time);
@@ -51,7 +51,7 @@ TEST(TagValueTest, StringSetter)
     TagValue tv(str);
     const TagValue ctv(str);
 
-    ASSERT_EQ(tv.type(), TagValue::Type::String);
+    ASSERT_EQ(tv.type(), Tag::Type::String);
     ASSERT_EQ(tv.get().type(), QMetaType::QString);
     EXPECT_EQ(tv.getString(), str);
     EXPECT_EQ(ctv.getString(), str);
@@ -112,18 +112,18 @@ TEST(TagValueTest, MoveOperations)
     const TagValue tv3(std::move(tv1));
 
     EXPECT_EQ(tv2, tv3);
-    EXPECT_EQ(tv1.type(), TagValue::Type::Empty);
+    EXPECT_EQ(tv1.type(), Tag::Type::Empty);
 }
 
 
 TEST(TagValueTest, InvalidSetters)
 {
-    ASSERT_DEATH(TagValue::fromRaw("123", TagNameInfo::Type::Invalid), "");
+    ASSERT_DEATH(TagValue::fromRaw("123", Tag::Type::Empty), "");
     ASSERT_DEATH(TagValue::fromQVariant(QModelIndex()), "");
 }
 
 
-typedef std::tuple<QString, TagNameInfo::Type, TagValue::Type, QMetaType::Type> TagValueRawSetterTestExpectations;
+typedef std::tuple<QString, Tag::Type, Tag::Type, QMetaType::Type> TagValueRawSetterTestExpectations;
 struct TagValueRawSetterTest: testing::TestWithParam<TagValueRawSetterTestExpectations> {};
 
 TEST_P(TagValueRawSetterTest, rawSetter)
@@ -142,25 +142,25 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         TagValueRawSetterTest,
                         testing::Values(
                             TagValueRawSetterTestExpectations{QString("12:34:56"),
-                                                              TagNameInfo::Type::Time,
-                                                              TagValue::Type::Time,
+                                                              Tag::Type::Time,
+                                                              Tag::Type::Time,
                                                               QMetaType::Type::QTime
                             },
                             TagValueRawSetterTestExpectations{QString("2134.11.03"),
-                                                              TagNameInfo::Type::Date,
-                                                              TagValue::Type::Date,
+                                                              Tag::Type::Date,
+                                                              Tag::Type::Date,
                                                               QMetaType::Type::QDate
                             },
                             TagValueRawSetterTestExpectations{QString("string test"),
-                                                              TagNameInfo::Type::String,
-                                                              TagValue::Type::String,
+                                                              Tag::Type::String,
+                                                              Tag::Type::String,
                                                               QMetaType::Type::QString
                             }
                         )
 );
 
 
-typedef std::tuple<QVariant, TagValue::Type, QMetaType::Type> TagValueVariantSetterTestExpectations;
+typedef std::tuple<QVariant, Tag::Type, QMetaType::Type> TagValueVariantSetterTestExpectations;
 struct TagValueVariantSetterTest: testing::TestWithParam<TagValueVariantSetterTestExpectations> {};
 
 TEST_P(TagValueVariantSetterTest, variantSetter)
@@ -179,15 +179,15 @@ INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         TagValueVariantSetterTest,
                         testing::Values(
                             TagValueVariantSetterTestExpectations{QVariant(QTime::currentTime()),
-                                                                  TagValue::Type::Time,
+                                                                  Tag::Type::Time,
                                                                   QMetaType::Type::QTime
                             },
                             TagValueVariantSetterTestExpectations{QVariant(QDate::currentDate()),
-                                                                  TagValue::Type::Date,
+                                                                  Tag::Type::Date,
                                                                   QMetaType::Type::QDate
                             },
                             TagValueVariantSetterTestExpectations{QVariant(QString("string test")),
-                                                                  TagValue::Type::String,
+                                                                  Tag::Type::String,
                                                                   QMetaType::Type::QString
                             }
                         )
@@ -207,7 +207,7 @@ TEST_P(TagValueTest2, ProperValues)
     TagValue tv(str);
     const TagValue ctv(str);
 
-    ASSERT_EQ(tv.type(), TagValue::Type::String);
+    ASSERT_EQ(tv.type(), Tag::Type::String);
     ASSERT_EQ(tv.get().type(), QMetaType::QString);
     EXPECT_EQ(tv.getString(), str);
     EXPECT_EQ(ctv.getString(), str);

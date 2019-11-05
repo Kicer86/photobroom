@@ -137,7 +137,7 @@ void PhotoInfo::setTags(const Tag::TagsList& tags)
     auto data_tags_ins = std::inserter(data->tags, data->tags.end());
     std::copy_if(tags.cbegin(), tags.cend(), data_tags_ins, [](const auto& item)
     {
-        return item.second.type() != TagValue::Type::Empty;
+        return item.second.type() != Tag::Type::Empty;
     });
 
     Photo::DataDelta delta(data->id);
@@ -150,7 +150,7 @@ void PhotoInfo::setTag(const TagNameInfo& name, const TagValue& value)
 {
     auto data = m_data.lock();
 
-    if (value.type() == TagValue::Type::Empty)
+    if (value.type() == Tag::Type::Empty)
         data->tags.erase(name);
     else
         data->tags[name] = value;

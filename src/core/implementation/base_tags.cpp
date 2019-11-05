@@ -115,9 +115,9 @@ QString BaseTags::getName(BaseTagsList tag)
 }
 
 
-TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
+Tag::Type BaseTags::getType(BaseTagsList tag)
 {
-    TagNameInfo::Type result = TagNameInfo::Type::Invalid;
+    Tag::Type result = Tag::Type::Empty;
 
     switch (tag)
     {
@@ -126,23 +126,23 @@ TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
 
         case BaseTagsList::Event:
         case BaseTagsList::Place:
-            result = TagNameInfo::Type::String;
+            result = Tag::Type::String;
             break;
 
         case BaseTagsList::Date:
-            result = TagNameInfo::Type::Date;
+            result = Tag::Type::Date;
             break;
 
         case BaseTagsList::Time:
-            result = TagNameInfo::Type::Time;
+            result = Tag::Type::Time;
             break;
 
         case BaseTagsList::Rating:
-            result = TagNameInfo::Type::Float;
+            result = Tag::Type::Float;
             break;
 
         case BaseTagsList::Category:
-            result = TagNameInfo::Type::RGB;
+            result = Tag::Type::Uint64;
             break;
     }
 
