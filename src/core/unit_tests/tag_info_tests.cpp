@@ -8,7 +8,7 @@
 
 TEST(TagInfoTest, fromPairConstruction)
 {
-    const TagNameInfo tni(BaseTagsList::Date);
+    const TagNameInfo tni(TagTypes::Date);
     const TagValue tv(QDate::currentDate());
     const Tag::Info ti( std::make_pair(tni, tv) );
 
@@ -24,7 +24,7 @@ TEST(TagInfoTest, setter)
     const QDate d1 = QDate::fromString("2019.11.06", "yyyy.MM.dd");
     const QDate d2 = QDate::fromString("2119.03.02", "yyyy.MM.dd");
 
-    const TagNameInfo tni(BaseTagsList::Date);
+    const TagNameInfo tni(TagTypes::Date);
     const TagValue tv(d1);
 
     Tag::Info ti( std::make_pair(tni, tv) );

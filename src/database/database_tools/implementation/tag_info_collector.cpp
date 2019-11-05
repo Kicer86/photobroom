@@ -107,7 +107,7 @@ void TagInfoCollector::updateAllTags()
 {
     auto tagNames = BaseTags::getAll();
 
-    for(const BaseTagsList& baseTagName: tagNames)
+    for(const TagTypes& baseTagName: tagNames)
     {
         const TagNameInfo tagName(baseTagName);
         updateValuesFor(tagName);

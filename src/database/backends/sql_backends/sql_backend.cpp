@@ -761,7 +761,7 @@ namespace Database
                     // collect existing data
                     const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
                                                     .arg(TAB_TAGS)
-                                                    .arg(BaseTagsList::_People);
+                                                    .arg(TagTypes::_People);
 
                     status = m_executor.exec(find_query, &query);
 
@@ -824,7 +824,7 @@ namespace Database
                     {
                         const QString drop_query = QString("DELETE FROM %1 WHERE name=%2")
                                                     .arg(TAB_TAGS)
-                                                    .arg(BaseTagsList::_People);
+                                                    .arg(TagTypes::_People);
 
                         QSqlQuery q(db);
                         m_executor.exec(drop_query, &query);
@@ -1411,7 +1411,7 @@ namespace Database
 
         while(status && query.next())
         {
-            const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
+            const TagTypes tagNameType = static_cast<TagTypes>( query.value(1).toInt() );
             const QVariant value = query.value(2);
             const TagNameInfo tagName(tagNameType);
 

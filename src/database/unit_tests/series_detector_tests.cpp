@@ -51,8 +51,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         Photo::Data data;
         data.id = id;
         data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
+        data.tags.emplace(TagNameInfo(TagTypes::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(TagTypes::Time), QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
         return data;
     }));
@@ -109,8 +109,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         Photo::Data data;
         data.id = id;
         data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        data.tags.emplace(TagNameInfo(TagTypes::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(TagTypes::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
         return data;
     }));
@@ -168,8 +168,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
         Photo::Data data;
         data.id = id;
         data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        data.tags.emplace(TagNameInfo(TagTypes::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(TagTypes::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
         return data;
     }));
@@ -229,8 +229,8 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         Photo::Data data;
         data.id = id;
         data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(TagNameInfo(BaseTagsList::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(TagNameInfo(BaseTagsList::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        data.tags.emplace(TagNameInfo(TagTypes::Date), QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagNameInfo(TagTypes::Time), QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
         return data;
     }));

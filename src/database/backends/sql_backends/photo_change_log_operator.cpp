@@ -74,7 +74,7 @@ namespace
         const QString& tagInfoStr = items.front();
         const QString& tagValueStr = items.back();
 
-        const BaseTagsList tagType = static_cast<BaseTagsList>(tagInfoStr.toInt());
+        const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
         const TagNameInfo decodedTagInfo = TagNameInfo(tagType);
         const QString decodedTagValue = decodeTag(tagValueStr);
 
@@ -90,7 +90,7 @@ namespace
         const QString& oldTagValueStr = items[1];
         const QString& newTagValueStr = items[2];
 
-        const BaseTagsList tagType = static_cast<BaseTagsList>(tagInfoStr.toInt());
+        const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
         const TagNameInfo decodedTagInfo = TagNameInfo(tagType);
         const QString decodedOldTagValue = decodeTag(oldTagValueStr);
         const QString decodedNewTagValue = decodeTag(newTagValueStr);

@@ -285,12 +285,12 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     m_tagsOperator->operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
-    const std::vector<BaseTagsList> all_tags = BaseTags::getAll();
+    const std::vector<TagTypes> all_tags = BaseTags::getAll();
 
     std::vector<std::pair<TagNameInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
 
     // to the list of photo's tags add rest if tags with empty values
-    for (const BaseTagsList& base_tag: all_tags)
+    for (const TagTypes& base_tag: all_tags)
     {
         auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
                               [base_tag](const Tag::TagsList::value_type& tag_data)

@@ -18,7 +18,7 @@
 /**
  * \brief List of tag types
  */
-enum BaseTagsList
+enum TagTypes
 {
     // indexed, as those values will be stored in db and should not change without a reason.
     Invalid = 0,
@@ -52,7 +52,7 @@ class CORE_EXPORT TagNameInfo
 {
     public:
         TagNameInfo();
-        explicit TagNameInfo(const BaseTagsList &);
+        explicit TagNameInfo(const TagTypes &);
         TagNameInfo(const TagNameInfo& other);
 
         //operator QString() const;
@@ -63,10 +63,10 @@ class CORE_EXPORT TagNameInfo
 
         QString getName() const;
         QString getDisplayName() const;
-        BaseTagsList getTag() const;
+        TagTypes getTag() const;
 
     private:
-        BaseTagsList m_tag;
+        TagTypes m_tag;
 };
 
 

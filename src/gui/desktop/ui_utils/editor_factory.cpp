@@ -94,29 +94,29 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 
     switch(tagType)
     {
-        case BaseTagsList::Event:
-        case BaseTagsList::Place:
+        case TagTypes::Event:
+        case TagTypes::Place:
             result = make_editor<QLineEdit>(m_completerFactory, info, parent);
             break;
 
-        case BaseTagsList::Date:
+        case TagTypes::Date:
             result = new QDateEdit(parent);
             break;
 
-        case BaseTagsList::Time:
+        case TagTypes::Time:
             result = new TimeEditor(parent);
             break;
 
-        case BaseTagsList::Rating:
+        case TagTypes::Rating:
             result = new QDoubleSpinBox(parent);
             break;
 
-        case BaseTagsList::Category:
+        case TagTypes::Category:
             result = new QLineEdit(parent);
             break;
 
-        case BaseTagsList::Invalid:
-        case BaseTagsList::_People:
+        case TagTypes::Invalid:
+        case TagTypes::_People:
             assert(!"Unexpected call");
             break;
     }
