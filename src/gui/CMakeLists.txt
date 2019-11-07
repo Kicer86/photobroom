@@ -3,6 +3,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Gui 5.5 REQUIRED)
 find_package(Qt5Svg REQUIRED)
 find_package(OpenLibrary 2.2 REQUIRED putils QtExt)
+find_package(KF5WidgetsAddons REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -64,6 +65,7 @@ target_link_libraries(gui
                             Qt5::Gui
                             Qt5::Svg
                             Qt5::Widgets
+                            KF5::WidgetsAddons
 )
 
 target_include_directories(gui

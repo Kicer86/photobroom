@@ -28,12 +28,13 @@
 #include <QTableWidget>
 #include <QTimeEdit>
 #include <QTimer>
+#include <QDoubleSpinBox>
+#include <KF5/KWidgetsAddons/KRatingWidget>
 
+#include "icompleter_factory.hpp"
 #include <core/base_tags.hpp>
 #include <core/down_cast.hpp>
 #include "widgets/tag_editor/helpers/tags_model.hpp"
-#include "icompleter_factory.hpp"
-#include <QDoubleSpinBox>
 
 
 namespace
@@ -108,7 +109,7 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
 
         case TagTypes::Rating:
-            result = new QDoubleSpinBox(parent);
+            result = new KRatingWidget(parent);
             break;
 
         case TagTypes::Category:
