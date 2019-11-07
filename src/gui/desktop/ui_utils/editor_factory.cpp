@@ -148,7 +148,7 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
             break;
 
         case TagTypes::Rating:
-            result = "value";
+            result = "rating";
             break;
 
         case TagTypes::Category:
