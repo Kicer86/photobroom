@@ -130,31 +130,33 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
 {
     QByteArray result;
 
-    const auto tagType = BaseTags::getType(info.getTag());
+    const auto tagType = info.getTag();
 
     switch(tagType)
     {
-        case Tag::ValueType::String:
+        case TagTypes::Event:
+        case TagTypes::Place:
             result = "text";
             break;
 
-        case Tag::ValueType::Date:
+        case TagTypes::Date:
             result = "date";
             break;
 
-        case Tag::ValueType::Time:
+        case TagTypes::Time:
             result = "time";
             break;
 
-        case Tag::ValueType::Float:
+        case TagTypes::Rating:
             result = "value";
             break;
 
-        case Tag::ValueType::Uint64:
+        case TagTypes::Category:
             result = "text";
             break;
 
-        case Tag::ValueType::Empty:
+        case TagTypes::Invalid:
+        case TagTypes::_People:
             assert(!"Unexpected call");
             break;
     }
