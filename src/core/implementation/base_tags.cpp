@@ -138,7 +138,7 @@ Tag::ValueType BaseTags::getType(TagTypes tag)
             break;
 
         case TagTypes::Rating:
-            result = Tag::ValueType::Float;
+            result = Tag::ValueType::Int;
             break;
 
         case TagTypes::Category:

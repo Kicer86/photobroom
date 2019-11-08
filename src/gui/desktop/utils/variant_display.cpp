@@ -56,8 +56,8 @@ QString localize(const QVariant& v, const QLocale& l)
             result = v.toStringList().join(", ");
             break;
 
-        case QVariant::Double:
-            result = QString::number(v.toDouble());
+        case QVariant::Int:
+            result = QString::number(v.toInt());
             break;
 
         case QVariant::ULongLong:

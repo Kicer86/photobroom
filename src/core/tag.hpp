@@ -42,7 +42,7 @@ namespace Tag
         String,
         Date,
         Time,
-        Float,
+        Int,
         Uint64,
     };
 }
@@ -167,10 +167,10 @@ struct TagValueTraits<QTime>
 
 
 template<>
-struct TagValueTraits<double>
+struct TagValueTraits<int>
 {
-    typedef double StorageType;
-    constexpr static auto type = Tag::ValueType::Float;
+    typedef int StorageType;
+    constexpr static auto type = Tag::ValueType::Int;
 };
 
 
