@@ -19,9 +19,10 @@
 
 #include "tags_item_delegate.hpp"
 
+#include <QCompleter>
 #include <QItemEditorFactory>
 #include <QLineEdit>
-#include <QCompleter>
+#include <QPainter>
 #include <KF5/KWidgetsAddons/KRatingPainter>
 
 #include "ui_utils/ieditor_factory.hpp"
@@ -89,6 +90,13 @@ void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
         {
             const QVariant value = index.data(Qt::EditRole);
             KRatingPainter().paint(painter, option.rect, value.toInt());
+        }
+        else if (tagType == TagTypes::Category)
+        {
+            const QVariant value = index.data(Qt::EditRole);
+            const QColor color = value.value<QColor>();
+            painter->setBrush(color);
+            painter->drawRect(option.rect);
         }
         else
             QStyledItemDelegate::paint(painter, option, index);
