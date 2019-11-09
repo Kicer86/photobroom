@@ -33,11 +33,11 @@
 
 using namespace std::chrono;
 
-TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
+TagsView::TagsView(IEditorFactory& editorFactory, QWidget* p):
     QTableView(p),
     m_editorFactory()
 {
-    TagsItemDelegate* delegate = new TagsItemDelegate(*editorFactory);
+    TagsItemDelegate* delegate = new TagsItemDelegate(editorFactory);
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
