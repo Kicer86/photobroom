@@ -1,6 +1,7 @@
 
 #include "tag.hpp"
 
+#include <QColor>
 #include <QDate>
 #include <QString>
 #include <QStringList>
@@ -151,9 +152,15 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
             result = TagValue( variant.toInt() );
             break;
 
-        case QVariant::ULongLong:
-            result = TagValue( variant.toULongLong() );
+        case QVariant::Color:
+        {
+            const QColor color = variant.value<QColor>();
+            const QRgba64 rgba64 = color.rgba64();
+            const quint64 rgba = rgba64;
+
+            result = TagValue(rgba);
             break;
+        }
     }
 
     return result;
