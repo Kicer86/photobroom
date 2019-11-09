@@ -37,8 +37,7 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
     QTableView(p),
     m_editorFactory()
 {
-    TagsItemDelegate* delegate = new TagsItemDelegate;
-    delegate->setEditorFactory(editorFactory);
+    TagsItemDelegate* delegate = new TagsItemDelegate(*editorFactory);
 
     verticalHeader()->hide();
     setItemDelegate(delegate);

@@ -25,10 +25,11 @@
 
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
+#include "tags_model.hpp"
 
 
-TagsItemDelegate::TagsItemDelegate():
-    m_editorFactory(nullptr)
+TagsItemDelegate::TagsItemDelegate(IEditorFactory& editorFactory):
+    m_editorFactory(editorFactory)
 {
 
 }
@@ -40,15 +41,9 @@ TagsItemDelegate::~TagsItemDelegate()
 }
 
 
-void TagsItemDelegate::setEditorFactory(IEditorFactory* editorFactory)
-{
-    m_editorFactory = editorFactory;
-}
-
-
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem &, const QModelIndex& index) const
 {
-    QWidget* const result = m_editorFactory->createEditor(index, parent_widget);
+    QWidget* const result = m_editorFactory.createEditor(index, parent_widget);
 
     return result;
 }
@@ -57,4 +52,24 @@ QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOpti
 QString TagsItemDelegate::displayText(const QVariant& value, const QLocale& locale) const
 {
     return localize(value, locale);
+}
+
+
+void TagsItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+
+    model->setData(index, editor->property(property), Qt::EditRole);
+}
+
+void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+    const QVariant value = index.data(Qt::EditRole);
+
+    editor->setProperty(property, value);
 }
