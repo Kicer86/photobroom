@@ -188,7 +188,7 @@ namespace Tag
 
     struct CORE_EXPORT Info
     {
-            explicit Info(const std::pair<const TagTypeInfo, TagValue> &data);
+            Info(const std::pair<const TagTypeInfo, TagValue> &data);
 
             QString name() const;
             QString displayName() const;
