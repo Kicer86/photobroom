@@ -43,7 +43,7 @@ namespace Tag
         Date,
         Time,
         Int,
-        Uint64,
+        Color,
     };
 }
 
@@ -175,10 +175,10 @@ struct TagValueTraits<int>
 
 
 template<>
-struct TagValueTraits<quint64>
+struct TagValueTraits<QColor>
 {
-    typedef quint64 StorageType;
-    constexpr static auto type = Tag::ValueType::Uint64;
+    typedef QColor StorageType;
+    constexpr static auto type = Tag::ValueType::Color;
 };
 
 

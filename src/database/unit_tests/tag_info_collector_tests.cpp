@@ -71,7 +71,7 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5, 2, 0}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{QColor(Qt::red), QColor(Qt::blue)}) );
 
     ON_CALL(database, backend)
         .WillByDefault(Return(&backend));
@@ -108,8 +108,8 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 
     const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
     ASSERT_EQ(categories.size(), 2);
-    EXPECT_EQ(categories[0].get<quint64>(), 0x110055);
-    EXPECT_EQ(categories[1].get<quint64>(), 0xff00ff);
+    EXPECT_EQ(categories[0].get<QColor>(), Qt::red);
+    EXPECT_EQ(categories[1].get<QColor>(), Qt::blue);
 }
 
 
@@ -239,7 +239,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5, 2, 0}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
-        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{QColor(Qt::yellow), QColor(Qt::cyan)}) );
 
 
     ON_CALL(database, backend)

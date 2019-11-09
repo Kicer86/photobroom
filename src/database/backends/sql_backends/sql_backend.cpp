@@ -1047,7 +1047,7 @@ namespace Database
             case Tag::ValueType::String:
             case Tag::ValueType::Time:
             case Tag::ValueType::Int:
-            case Tag::ValueType::Uint64:
+            case Tag::ValueType::Color:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);

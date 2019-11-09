@@ -142,7 +142,7 @@ Tag::ValueType BaseTags::getType(TagTypes tag)
             break;
 
         case TagTypes::Category:
-            result = Tag::ValueType::Uint64;
+            result = Tag::ValueType::Color;
             break;
     }
 

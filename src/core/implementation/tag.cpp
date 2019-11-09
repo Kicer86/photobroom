@@ -15,7 +15,7 @@ namespace
     typedef QTime   TimeType;
     typedef QString StringType;
     typedef int     IntType;
-    typedef quint64 Uint64Type;
+    typedef QColor  ColorType;
 }
 
 
@@ -155,10 +155,8 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
         case QVariant::Color:
         {
             const QColor color = variant.value<QColor>();
-            const QRgba64 rgba64 = color.rgba64();
-            const quint64 rgba = rgba64;
 
-            result = TagValue(rgba);
+            result = TagValue(color);
             break;
         }
     }
@@ -218,8 +216,8 @@ QVariant TagValue::get() const
             result = get<IntType>();
             break;
 
-        case Tag::ValueType::Uint64:
-            result = get<Uint64Type>();
+        case Tag::ValueType::Color:
+            result = get<ColorType>();
             break;
     }
 
@@ -326,10 +324,11 @@ QString TagValue::string() const
             break;
         }
 
-        case Tag::ValueType::Uint64:
+        case Tag::ValueType::Color:
         {
-            const Uint64Type v = get<Uint64Type>();
-            result = QString::number(v);
+            const QColor color = get<ColorType>();
+            const QRgba64 rgba = color.rgba64();
+            result = QString::number(rgba);
             break;
         }
     }
@@ -358,9 +357,14 @@ TagValue& TagValue::fromString(const QString& value, const Tag::ValueType& type)
             set( value.toInt() );
             break;
 
-        case Tag::ValueType::Uint64:
-            set( value.toULongLong() );
+        case Tag::ValueType::Color:
+        {
+            const quint64 rgba = value.toULongLong();
+            const QRgba64 rgba64 = QRgba64::fromRgba64(rgba);
+            const QColor color(rgba64);
+            set(color);
             break;
+        }
 
         case Tag::ValueType::Empty:
             assert(!"Unexpected switch");
