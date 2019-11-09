@@ -79,15 +79,18 @@ void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) 
 
 void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
-    const TagTypes tagType = tagInfoRole.getTag();
-
-    if (tagType == TagTypes::Rating)
+    if ( (option.state & QStyle::State_Editing) == 0)
     {
-        const QVariant value = index.data(Qt::EditRole);
-        KRatingPainter().paint(painter, option.rect, value.toInt());
+        const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+        const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+        const TagTypes tagType = tagInfoRole.getTag();
+
+        if (tagType == TagTypes::Rating)
+        {
+            const QVariant value = index.data(Qt::EditRole);
+            KRatingPainter().paint(painter, option.rect, value.toInt());
+        }
+        else
+            QStyledItemDelegate::paint(painter, option, index);
     }
-    else
-        QStyledItemDelegate::paint(painter, option, index);
 }
