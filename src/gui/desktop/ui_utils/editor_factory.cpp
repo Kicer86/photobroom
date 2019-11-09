@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QDoubleSpinBox>
 #include <KF5/KWidgetsAddons/KRatingWidget>
+#include <KF5/KWidgetsAddons/KColorCombo>
 
 #include "icompleter_factory.hpp"
 #include <core/base_tags.hpp>
@@ -113,7 +114,7 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
 
         case TagTypes::Category:
-            result = new QLineEdit(parent);
+            result = new KColorCombo(parent);
             break;
 
         case TagTypes::Invalid:
@@ -152,7 +153,7 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
             break;
 
         case TagTypes::Category:
-            result = "text";
+            result = "color";
             break;
 
         case TagTypes::Invalid:
