@@ -43,8 +43,7 @@ class EditorFactory: public IEditorFactory
 
         QWidget* createEditor(const QModelIndex &, QWidget* parent) override;
         QWidget* createEditor(const TagTypeInfo &, QWidget* parent) override;
-
-        QByteArray valuePropertyName(const TagTypeInfo &) const;
+        QByteArray valuePropertyName(const TagTypeInfo &) const override;
 
     private:
         ICompleterFactory* m_completerFactory;
