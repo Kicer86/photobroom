@@ -115,8 +115,23 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
 
         case TagTypes::Category:
-            result = new KColorCombo(parent);
+        {
+            KColorCombo* combo = new KColorCombo(parent);
+
+            combo->setColors({
+                              Qt::yellow,
+                              Qt::red,
+                              Qt::green,
+                              Qt::cyan,
+                              Qt::blue,
+                              Qt::magenta,
+                              Qt::gray,
+                              Qt::black
+            });
+
+            result = combo;
             break;
+        }
 
         case TagTypes::Invalid:
         case TagTypes::_People:
