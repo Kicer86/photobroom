@@ -41,7 +41,7 @@ class TagsItemDelegate : public QStyledItemDelegate
          * TagsItemDelegate does not use Qt's QItemEditorFactory as it is cell type oriented.
          * IEditorFactory provides editors basing of tag type.
          */
-        TagsItemDelegate(IEditorFactory& factory);
+        explicit TagsItemDelegate(IEditorFactory& factory);
         TagsItemDelegate(const TagsItemDelegate &) = delete;
         ~TagsItemDelegate();
 

@@ -83,9 +83,9 @@ class CORE_EXPORT TagValue
         TagValue(TagValue &&);
 
         template<typename T>
-        TagValue(const T& value)
+        TagValue(const T& value): m_type(TagValueTraits<T>::type), m_value(value)
         {
-            set(value);
+            static_assert(sizeof(typename TagValueTraits<T>::StorageType) > 0, "Unexpected type");
         }
 
         static TagValue fromRaw(const QString &, const Tag::ValueType &);    // tag's value as stored in db
@@ -188,7 +188,7 @@ namespace Tag
 
     struct CORE_EXPORT Info
     {
-            Info(const std::pair<const TagTypeInfo, TagValue> &data);
+            explicit Info(const std::pair<const TagTypeInfo, TagValue> &data);
 
             QString name() const;
             QString displayName() const;
