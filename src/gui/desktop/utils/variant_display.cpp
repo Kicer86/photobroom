@@ -64,6 +64,9 @@ QString localize(const QVariant& v, const QLocale& l)
             result = QString::number(v.toULongLong());
             break;
 
+        case QVariant::Color:
+            break;
+
         default:
             assert(!"unexpected type");
             break;
