@@ -22,6 +22,7 @@
 #include <QItemEditorFactory>
 #include <QLineEdit>
 #include <QCompleter>
+#include <KF5/KWidgetsAddons/KRatingPainter>
 
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
@@ -64,6 +65,7 @@ void TagsItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, 
     model->setData(index, editor->property(property), Qt::EditRole);
 }
 
+
 void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
     const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
@@ -72,4 +74,20 @@ void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) 
     const QVariant value = index.data(Qt::EditRole);
 
     editor->setProperty(property, value);
+}
+
+
+void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const TagTypes tagType = tagInfoRole.getTag();
+
+    if (tagType == TagTypes::Rating)
+    {
+        const QVariant value = index.data(Qt::EditRole);
+        KRatingPainter().paint(painter, option.rect, value.toInt());
+    }
+    else
+        QStyledItemDelegate::paint(painter, option, index);
 }
