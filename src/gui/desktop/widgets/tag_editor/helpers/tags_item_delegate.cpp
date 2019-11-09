@@ -90,14 +90,20 @@ void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
         if (tagType == TagTypes::Rating)
         {
             const QVariant value = index.data(Qt::EditRole);
-            KRatingPainter().paint(painter, option.rect, value.toInt());
+
+            if (value.isNull() == false)
+                KRatingPainter().paint(painter, option.rect, value.toInt());
         }
         else if (tagType == TagTypes::Category)
         {
             const QVariant value = index.data(Qt::EditRole);
-            const QColor color = value.value<QColor>();
-            painter->setBrush(color);
-            painter->drawRect(option.rect);
+
+            if (value.isNull() == false)
+            {
+                const QColor color = value.value<QColor>();
+                painter->setBrush(color);
+                painter->drawRect(option.rect);
+            }
         }
         else
             QStyledItemDelegate::paint(painter, option, index);
