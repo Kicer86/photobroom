@@ -68,7 +68,7 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5, 2, 0}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
@@ -102,9 +102,9 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 
     const std::vector<TagValue>& ratings = tagInfoCollector.get( TagTypeInfo(TagTypes::Rating) );
     ASSERT_EQ(ratings.size(), 3);
-    EXPECT_EQ(ratings[0].get<double>(), 5.0);
-    EXPECT_EQ(ratings[1].get<double>(), 1.5);
-    EXPECT_EQ(ratings[2].get<double>(), 0.0);
+    EXPECT_EQ(ratings[0].get<int>(), 5);
+    EXPECT_EQ(ratings[1].get<int>(), 2);
+    EXPECT_EQ(ratings[2].get<int>(), 0);
 
     const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
     ASSERT_EQ(categories.size(), 2);
@@ -236,7 +236,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Place), std::vector<TagValue>{QString("12"), QString("23")}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Rating), _))
-        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5.0, 1.5, 0.0}) );
+        .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Rating), std::vector<TagValue>{5, 2, 0}) );
 
     EXPECT_CALL(database, listTagValues(TagTypeInfo(TagTypes::Category), _))
         .WillOnce( InvokeArgument<1>(TagTypeInfo(TagTypes::Category), std::vector<TagValue>{0x110055llu, 0xff00ffllu}) );
@@ -263,7 +263,7 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(20,21)) },
+                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(20, 21)) },
                             { TagTypeInfo(TagTypes::Event), TagValue(QString("event123")) }
     };
 
