@@ -29,8 +29,9 @@
 #include <QTimeEdit>
 #include <QTimer>
 #include <QDoubleSpinBox>
-#include <KF5/KWidgetsAddons/KRatingWidget>
-#include <KF5/KWidgetsAddons/KColorCombo>
+
+#include <kratingwidget.h>
+#include <kcolorcombo.h>
 
 #include "icompleter_factory.hpp"
 #include <core/base_tags.hpp>

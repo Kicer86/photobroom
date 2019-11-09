@@ -1,6 +1,4 @@
 
-find_package(KF5WidgetsAddons REQUIRED)
-
 set(UTILS_SOURCES
     completer_factory.cpp
     config_dialog_manager.cpp
@@ -40,8 +38,8 @@ target_link_libraries(gui_ui_utils
                         PRIVATE
                             core
                             database
+                            KWidgetsAddons
                             Qt5::Widgets
-                            KF5::WidgetsAddons
 )
 
 target_include_directories(gui_ui_utils

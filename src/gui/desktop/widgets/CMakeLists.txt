@@ -1,6 +1,4 @@
 
-find_package(KF5WidgetsAddons REQUIRED)
-
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
@@ -81,8 +79,8 @@ target_link_libraries(gui_widgets
                             photos_crawler
                             project_utils
                             system
+                            KWidgetsAddons
                             Qt5::Widgets
-                            KF5::WidgetsAddons
 )
 
 target_include_directories(gui_widgets

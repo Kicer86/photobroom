@@ -23,7 +23,8 @@
 #include <QItemEditorFactory>
 #include <QLineEdit>
 #include <QPainter>
-#include <KF5/KWidgetsAddons/KRatingPainter>
+
+#include <kratingpainter.h>
 
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
