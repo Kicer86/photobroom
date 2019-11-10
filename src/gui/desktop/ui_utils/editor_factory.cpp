@@ -33,10 +33,12 @@
 #include <kratingwidget.h>
 #include <kcolorcombo.h>
 
-#include "icompleter_factory.hpp"
 #include <core/base_tags.hpp>
 #include <core/down_cast.hpp>
+
+#include "utils/model_index_utils.hpp"
 #include "widgets/tag_editor/helpers/tags_model.hpp"
+#include "icompleter_factory.hpp"
 
 
 namespace
@@ -117,17 +119,19 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
         case TagTypes::Category:
         {
             KColorCombo* combo = new KColorCombo(parent);
+            QAbstractItemModel* model = m_completerFactory->accessModel(TagTypes::Category);
 
-            combo->setColors({
-                              Qt::yellow,
-                              Qt::red,
-                              Qt::green,
-                              Qt::cyan,
-                              Qt::blue,
-                              Qt::magenta,
-                              Qt::gray,
-                              Qt::black
-            });
+            QList<QColor> colors;
+            for(auto it = utils::first(*model); it.isValid(); it = utils::next(it))
+            {
+                const QVariant data = it.data();
+                const auto rgba = data.toString().toULongLong();
+                const QRgba64 rgba64 = QRgba64::fromRgba64(rgba);
+                const QColor color(rgba64);
+                colors.push_back(color);
+            }
+
+            combo->setColors(colors);
 
             result = combo;
             break;
