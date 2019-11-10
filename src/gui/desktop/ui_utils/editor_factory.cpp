@@ -125,8 +125,8 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             for(auto it = utils::first(*model); it.isValid(); it = utils::next(it))
             {
                 const QVariant data = it.data();
-                const auto rgba = data.toString().toULongLong();
-                const QRgba64 rgba64 = QRgba64::fromRgba64(rgba);
+                const auto rgba_str = data.toString();
+                const QRgba64 rgba64 = QRgba64::fromRgba64(rgba_str.toULongLong());
                 const QColor color(rgba64);
                 colors.push_back(color);
             }
