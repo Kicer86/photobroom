@@ -48,6 +48,9 @@ namespace Tag
 }
 
 
+/**
+ * \brief details about tag type
+ */
 class CORE_EXPORT TagTypeInfo
 {
     public:
@@ -55,20 +58,32 @@ class CORE_EXPORT TagTypeInfo
         explicit TagTypeInfo(const TagTypes &);
         TagTypeInfo(const TagTypeInfo& other);
 
-        //operator QString() const;
         bool operator==(const TagTypeInfo& other) const;
         bool operator<(const TagTypeInfo& other) const;
         bool operator>(const TagTypeInfo& other) const;
         TagTypeInfo& operator=(const TagTypeInfo& other);
 
+        /**
+        * \brief Return raw tag name
+        * \return result of Base::getName
+        */
         QString getName() const;
+
+        /**
+        * \brief Return localized tag name
+        * \return result of Base::getTr
+        */
         QString getDisplayName() const;
+
+        /**
+        * \brief Return tag type
+        * \return tag type
+        */
         TagTypes getTag() const;
 
     private:
         TagTypes m_tag;
 };
-
 
 
 template<typename T>

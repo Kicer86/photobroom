@@ -76,7 +76,6 @@ QString BaseTags::getTr(TagTypes tag)
 }
 
 
-
 QString BaseTags::getName(TagTypes tag)
 {
     QString result;
