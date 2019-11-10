@@ -95,13 +95,13 @@ void CompleterFactory::set(ILoggerFactory* lf)
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const TagTypeInfo& info)
+QCompleter* CompleterFactory::createCompleter(const TagTypes& info)
 {
-    return createCompleter( std::set<TagTypeInfo>({info}) );
+    return createCompleter( std::set<TagTypes>({info}) );
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const std::set<TagTypeInfo>& infos)
+QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 {
     QAbstractItemModel* model = getModelFor(infos);
 
@@ -116,7 +116,7 @@ QCompleter* CompleterFactory::createPeopleCompleter()
 }
 
 
-QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypeInfo>& infos)
+QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 

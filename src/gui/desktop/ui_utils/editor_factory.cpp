@@ -50,10 +50,10 @@ namespace
     };
 
     template<typename T>
-    T* make_editor(ICompleterFactory* completerFactory, const TagTypeInfo& info, QWidget* parent)
+    T* make_editor(ICompleterFactory* completerFactory, const TagTypes& tagType, QWidget* parent)
     {
         T* editor = new T(parent);
-        QCompleter* completer = completerFactory->createCompleter(info);
+        QCompleter* completer = completerFactory->createCompleter(tagType);
         completer->setParent(editor);
         editor->setCompleter(completer);
 
@@ -99,7 +99,7 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
     {
         case TagTypes::Event:
         case TagTypes::Place:
-            result = make_editor<QLineEdit>(m_completerFactory, info, parent);
+            result = make_editor<QLineEdit>(m_completerFactory, tagType, parent);
             break;
 
         case TagTypes::Date:

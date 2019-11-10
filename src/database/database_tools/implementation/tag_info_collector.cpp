@@ -52,20 +52,20 @@ void TagInfoCollector::set(Database::IDatabase* db)
 }
 
 
-const std::vector<TagValue>& TagInfoCollector::get(const TagTypeInfo& info) const
+const std::vector<TagValue>& TagInfoCollector::get(const TagTypes& info) const
 {
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     return m_tags[info];
 }
 
 
-void TagInfoCollector::gotTagValues(const TagTypeInfo& name, const std::vector<TagValue>& values)
+void TagInfoCollector::gotTagValues(const TagTypeInfo& tagType, const std::vector<TagValue>& values)
 {
     std::unique_lock<std::mutex> lock(m_tags_mutex);
-    m_tags[name] = values;
+    m_tags[tagType.getTag()] = values;
     lock.unlock();
 
-    emit setOfValuesChanged(name);
+    emit setOfValuesChanged(tagType.getTag());
 }
 
 
@@ -84,7 +84,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
         const TagTypeInfo& tagNameInfo = tag.first;
         const TagValue& tagValue = tag.second;
 
-        std::vector<TagValue>& values = m_tags[tagNameInfo];
+        std::vector<TagValue>& values = m_tags[tagNameInfo.getTag()];
         auto found = std::find(values.begin(), values.end(), tagValue);
 
         if (found == values.end())
@@ -98,7 +98,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     {
         const TagTypeInfo& tagNameInfo = tag.first;
 
-        emit setOfValuesChanged(tagNameInfo);
+        emit setOfValuesChanged(tagNameInfo.getTag());
     }
 }
 
@@ -115,12 +115,12 @@ void TagInfoCollector::updateAllTags()
 }
 
 
-void TagInfoCollector::updateValuesFor(const TagTypeInfo& name)
+void TagInfoCollector::updateValuesFor(const TagTypeInfo& tagType)
 {
     if (m_database != nullptr)
     {
         using namespace std::placeholders;
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-        m_database->listTagValues(name, result);
+        m_database->listTagValues(tagType, result);
     }
 }

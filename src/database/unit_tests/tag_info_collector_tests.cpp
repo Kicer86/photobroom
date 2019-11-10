@@ -21,7 +21,7 @@ using ::testing::NiceMock;
 
 struct Observer: QObject
 {
-    MOCK_METHOD1(event, void(const TagTypeInfo &));
+    MOCK_METHOD1(event, void(const TagTypes &));
 };
 
 
@@ -43,7 +43,7 @@ TEST(TagInfoCollectorTest, GetWithoutDatabase)
     for(const TagTypes& tag: tags)
     {
         const TagTypeInfo info(tag);
-        const std::vector<TagValue>& values = tagInfoCollector.get(info);
+        const std::vector<TagValue>& values = tagInfoCollector.get(info.getTag());
 
         EXPECT_EQ(values.empty(), true);
     }
@@ -79,34 +79,34 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    const std::vector<TagValue>& dates = tagInfoCollector.get( TagTypeInfo(TagTypes::Date) );
+    const std::vector<TagValue>& dates = tagInfoCollector.get(TagTypes::Date);
     ASSERT_EQ(dates.size(), 2);
     EXPECT_EQ(dates[0].getDate(), QDate(0, 1, 2));
     EXPECT_EQ(dates[1].getDate(), QDate(1, 2, 3));
 
-    const std::vector<TagValue>& events = tagInfoCollector.get( TagTypeInfo(TagTypes::Event) );
+    const std::vector<TagValue>& events = tagInfoCollector.get(TagTypes::Event);
     ASSERT_EQ(events.size(), 2);
     EXPECT_EQ(events[0].getString(), "event1");
     EXPECT_EQ(events[1].getString(), "event2");
 
-    const std::vector<TagValue>& times = tagInfoCollector.get( TagTypeInfo(TagTypes::Time) );
+    const std::vector<TagValue>& times = tagInfoCollector.get(TagTypes::Time);
     ASSERT_EQ(times.size(), 3);
     EXPECT_EQ(times[0].getTime(), QTime(2, 3));
     EXPECT_EQ(times[1].getTime(), QTime(3, 4));
     EXPECT_EQ(times[2].getTime(), QTime(11, 18));
 
-    const std::vector<TagValue>& places = tagInfoCollector.get( TagTypeInfo(TagTypes::Place) );
+    const std::vector<TagValue>& places = tagInfoCollector.get(TagTypes::Place);
     ASSERT_EQ(places.size(), 2);
     EXPECT_EQ(places[0].getString(), "12");
     EXPECT_EQ(places[1].getString(), "23");
 
-    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagTypeInfo(TagTypes::Rating) );
+    const std::vector<TagValue>& ratings = tagInfoCollector.get(TagTypes::Rating);
     ASSERT_EQ(ratings.size(), 3);
     EXPECT_EQ(ratings[0].get<int>(), 5);
     EXPECT_EQ(ratings[1].get<int>(), 2);
     EXPECT_EQ(ratings[2].get<int>(), 0);
 
-    const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
+    const std::vector<TagValue>& categories = tagInfoCollector.get(TagTypes::Category);
     ASSERT_EQ(categories.size(), 2);
     EXPECT_EQ(categories[0].get<QColor>(), Qt::red);
     EXPECT_EQ(categories[1].get<QColor>(), Qt::blue);
@@ -142,22 +142,22 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
-    const std::vector<TagValue>& dates = tagInfoCollector.get( TagTypeInfo(TagTypes::Date) );
+    const std::vector<TagValue>& dates = tagInfoCollector.get(TagTypes::Date);
     EXPECT_TRUE(dates.empty());
 
-    const std::vector<TagValue>& events = tagInfoCollector.get( TagTypeInfo(TagTypes::Event) );
+    const std::vector<TagValue>& events = tagInfoCollector.get(TagTypes::Event);
     EXPECT_TRUE(events.empty());
 
-    const std::vector<TagValue>& times = tagInfoCollector.get( TagTypeInfo(TagTypes::Time) );
+    const std::vector<TagValue>& times = tagInfoCollector.get(TagTypes::Time);
     EXPECT_TRUE(times.empty());
 
-    const std::vector<TagValue>& places = tagInfoCollector.get( TagTypeInfo(TagTypes::Place) );
+    const std::vector<TagValue>& places = tagInfoCollector.get(TagTypes::Place);
     EXPECT_TRUE(places.empty());
 
-    const std::vector<TagValue>& ratings = tagInfoCollector.get( TagTypeInfo(TagTypes::Rating) );
+    const std::vector<TagValue>& ratings = tagInfoCollector.get(TagTypes::Rating);
     EXPECT_TRUE(ratings.empty());
 
-    const std::vector<TagValue>& categories = tagInfoCollector.get( TagTypeInfo(TagTypes::Category) );
+    const std::vector<TagValue>& categories = tagInfoCollector.get(TagTypes::Category);
     EXPECT_TRUE(categories.empty());
 }
 
@@ -211,7 +211,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     emit backend.photoModified(photoInfo->getID());
 
-    const std::vector<TagValue>& people = tagInfoCollector.get( TagTypeInfo(TagTypes::_People) );
+    const std::vector<TagValue>& people = tagInfoCollector.get(TagTypes::_People);
     ASSERT_EQ(people.size(), 1);
     EXPECT_EQ(people[0].getString(), "person123");
 }
@@ -312,7 +312,7 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     emit backend.photoModified(photoInfo->getID());
 
-    auto event = tagInfoCollector.get(TagTypeInfo(TagTypes::Event));
+    auto event = tagInfoCollector.get(TagTypes::Event);
 
     ASSERT_EQ(event.size(), 1);
     ASSERT_EQ(event[0].type(), Tag::ValueType::String);

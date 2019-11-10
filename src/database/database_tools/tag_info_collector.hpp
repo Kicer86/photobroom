@@ -44,11 +44,11 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 
         void set(Database::IDatabase *);
 
-        const std::vector<TagValue>& get(const TagTypeInfo &) const override;
+        const std::vector<TagValue>& get(const TagTypes &) const override;
 
     private:
         Database::SignalMapper m_mapper;
-        mutable std::map<TagTypeInfo, std::vector<TagValue>> m_tags;
+        mutable std::map<TagTypes, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
         Database::IDatabase* m_database;
         int m_observerId;

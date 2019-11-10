@@ -36,6 +36,11 @@ namespace Database
 struct ILoggerFactory;
 class PeopleListModel;
 
+/**
+ * @brief Factory for QCompleters
+ *
+ * Created QCompleters will be filled with possible values for given tag type
+ */
 class CompleterFactory: public ICompleterFactory
 {
     public:
@@ -47,8 +52,8 @@ class CompleterFactory: public ICompleterFactory
         void set(Database::IDatabase *);
         void set(ILoggerFactory *);
 
-        QCompleter* createCompleter(const TagTypeInfo &) override;
-        QCompleter* createCompleter(const std::set<TagTypeInfo> &) override;
+        QCompleter* createCompleter(const TagTypes &) override;
+        QCompleter* createCompleter(const std::set<TagTypes> &) override;
         QCompleter* createPeopleCompleter() override;
 
     private:
@@ -56,11 +61,11 @@ class CompleterFactory: public ICompleterFactory
         typedef std::pair<ModelPtr, ModelPtr> ModelPair;
 
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagTypeInfo>, ModelPair> m_tagValueModels;
+        std::map<std::set<TagTypes>, ModelPair> m_tagValueModels;
         PeopleListModel* m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
-        QAbstractItemModel* getModelFor(const std::set<TagTypeInfo> &);
+        QAbstractItemModel* getModelFor(const std::set<TagTypes> &);
         QAbstractItemModel* getModelForPeople();
 };
 
