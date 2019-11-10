@@ -21,10 +21,11 @@
 
 #include <cassert>
 
-#include <QVariant>
-#include <QLocale>
+#include <QColor>
 #include <QDate>
+#include <QLocale>
 #include <QTime>
+#include <QVariant>
 
 
 QString localize(const QVariant& v, const QLocale& l)
@@ -65,6 +66,7 @@ QString localize(const QVariant& v, const QLocale& l)
             break;
 
         case QVariant::Color:
+            result = QString::number(v.value<QColor>().rgba64());
             break;
 
         default:
