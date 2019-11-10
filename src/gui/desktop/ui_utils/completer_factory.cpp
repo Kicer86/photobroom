@@ -131,9 +131,7 @@ QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& info
         auto proxy_model = std::make_unique<VariantToStringModelProxy>(tags_model.get());
 
         ModelPair models = ModelPair( std::move(proxy_model), std::move(tags_model) );
-        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
-
-        it = insert_it.first;
+        std::tie(it, std::ignore) = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
     }
 
     return it->second.first.get();
