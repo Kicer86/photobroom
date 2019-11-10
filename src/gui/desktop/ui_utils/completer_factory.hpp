@@ -55,6 +55,7 @@ class CompleterFactory: public ICompleterFactory
         QCompleter* createCompleter(const TagTypes &) override;
         QCompleter* createCompleter(const std::set<TagTypes> &) override;
         QCompleter* createPeopleCompleter() override;
+        QAbstractItemModel* accessModel(const TagTypes & ) override;
 
     private:
         typedef std::unique_ptr<QAbstractItemModel> ModelPtr;

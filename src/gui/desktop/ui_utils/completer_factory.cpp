@@ -116,6 +116,12 @@ QCompleter* CompleterFactory::createPeopleCompleter()
 }
 
 
+QAbstractItemModel* CompleterFactory::accessModel(const TagTypes& tagType)
+{
+    return getModelFor({tagType});
+}
+
+
 QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
 {
     auto it = m_tagValueModels.find(infos);

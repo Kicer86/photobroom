@@ -3,6 +3,7 @@
 #define ICOMPLETER_FACTORY_HPP
 
 class QCompleter;
+class QAbstractItemModel;
 
 struct TagTypeInfo;
 
@@ -27,6 +28,12 @@ struct ICompleterFactory
      * \return Pointer to QCompleter. It is client's responsibility to delete it
      */
     virtual QCompleter* createPeopleCompleter() = 0;
+
+    /**
+     * @brief access model with values for given tag type
+     * \return Pointer to QAbstractItemModel - completition list.
+     */
+    virtual QAbstractItemModel* accessModel(const TagTypes &) = 0;
 };
 
 #endif
