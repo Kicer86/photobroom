@@ -36,6 +36,7 @@
 #include <QVariant>
 #include <QPixmap>
 
+#include <core/base_tags.hpp>
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -290,14 +291,14 @@ namespace Database
     }
 
 
-    std::vector<TagNameInfo> ASqlBackend::listTags()
+    std::vector<TagTypeInfo> ASqlBackend::listTags()
     {
         assert(!"Not implemented");
-        return std::vector<TagNameInfo>();
+        return std::vector<TagTypeInfo>();
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagNameInfo& tagName, const std::vector<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypeInfo& tagName, const std::vector<IFilter::Ptr>& filter)
     {
         std::vector<TagValue> result;
 
@@ -323,7 +324,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, tagName.getType());
+                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
@@ -760,7 +761,7 @@ namespace Database
                     // collect existing data
                     const QString find_query = QString("SELECT value, photo_id FROM %1 WHERE name=%2")
                                                     .arg(TAB_TAGS)
-                                                    .arg(BaseTagsList::_People);
+                                                    .arg(TagTypes::_People);
 
                     status = m_executor.exec(find_query, &query);
 
@@ -823,7 +824,7 @@ namespace Database
                     {
                         const QString drop_query = QString("DELETE FROM %1 WHERE name=%2")
                                                     .arg(TAB_TAGS)
-                                                    .arg(BaseTagsList::_People);
+                                                    .arg(TagTypes::_People);
 
                         QSqlQuery q(db);
                         m_executor.exec(drop_query, &query);
@@ -1034,17 +1035,19 @@ namespace Database
     {
         //store tag values
         bool status = true;
-        const TagValue::Type type = tagValue.type();
+        const Tag::ValueType type = tagValue.type();
 
         switch (type)
         {
-            case TagValue::Type::Empty:
+            case Tag::ValueType::Empty:
                 assert(!"Empty tag value!");
                 break;
 
-            case TagValue::Type::Date:
-            case TagValue::Type::String:
-            case TagValue::Type::Time:
+            case Tag::ValueType::Date:
+            case Tag::ValueType::String:
+            case Tag::ValueType::Time:
+            case Tag::ValueType::Int:
+            case Tag::ValueType::Color:
             {
                 QSqlDatabase db = QSqlDatabase::database(m_connectionName);
                 QSqlQuery query(db);
@@ -1408,9 +1411,9 @@ namespace Database
 
         while(status && query.next())
         {
-            const BaseTagsList tagNameType = static_cast<BaseTagsList>( query.value(1).toInt() );
+            const TagTypes tagNameType = static_cast<TagTypes>( query.value(1).toInt() );
             const QVariant value = query.value(2);
-            const TagNameInfo tagName(tagNameType);
+            const TagTypeInfo tagName(tagNameType);
 
             // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);
@@ -1418,7 +1421,7 @@ namespace Database
                 continue;
 
             const QString raw_value = value.toString();
-            const TagValue tagValue = TagValue::fromRaw(raw_value, tagName.getType());
+            const TagValue tagValue = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
 
             tagData[tagName] = tagValue;
         }

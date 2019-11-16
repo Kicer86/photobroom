@@ -79,6 +79,7 @@ target_link_libraries(gui_widgets
                             photos_crawler
                             project_utils
                             system
+                            KWidgetsAddons
                             Qt5::Widgets
 )
 

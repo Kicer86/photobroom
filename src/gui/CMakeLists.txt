@@ -60,6 +60,7 @@ target_link_libraries(gui
                             photos_crawler
                             project_utils
                             system
+                            KWidgetsAddons
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Gui
                             Qt5::Svg

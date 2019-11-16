@@ -100,7 +100,7 @@ Tag::TagsList TagsModel::getTags() const
 }
 
 
-void TagsModel::addTag(const TagNameInfo& info, const TagValue& value)
+void TagsModel::addTag(const TagTypeInfo& info, const TagValue& value)
 {
     m_tagsOperator->setTag(info, value);
 
@@ -285,12 +285,12 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     m_tagsOperator->operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
-    const std::vector<BaseTagsList> all_tags = BaseTags::getAll();
+    const std::vector<TagTypes> all_tags = BaseTags::getAll();
 
-    std::vector<std::pair<TagNameInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
+    std::vector<std::pair<TagTypeInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
 
     // to the list of photo's tags add rest if tags with empty values
-    for (const BaseTagsList& base_tag: all_tags)
+    for (const TagTypes& base_tag: all_tags)
     {
         auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
                               [base_tag](const Tag::TagsList::value_type& tag_data)
@@ -299,7 +299,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         });
 
         if (f == photo_tags.cend())
-            tags.emplace_back(TagNameInfo(base_tag), TagValue());
+            tags.emplace_back(TagTypeInfo(base_tag), TagValue());
     }
 
     assert(rowCount() == 0);
@@ -355,7 +355,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
                     TagValue::fromQVariant(valueRaw);
 
             const QVariant nameRaw = itemIndex.data(TagInfoRole);
-            const TagNameInfo nameInfo = nameRaw.value<TagNameInfo>();
+            const TagTypeInfo nameInfo = nameRaw.value<TagTypeInfo>();
 
             m_tagsOperator->insert(nameInfo, value);
         }

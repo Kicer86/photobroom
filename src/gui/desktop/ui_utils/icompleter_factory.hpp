@@ -3,17 +3,37 @@
 #define ICOMPLETER_FACTORY_HPP
 
 class QCompleter;
+class QAbstractItemModel;
 
-struct TagNameInfo;
+struct TagTypeInfo;
 
 struct ICompleterFactory
 {
     virtual ~ICompleterFactory() {}
 
-    virtual QCompleter* createCompleter(const TagNameInfo &) = 0;
-    virtual QCompleter* createCompleter(const std::set<TagNameInfo> &) = 0;
+    /**
+     * @brief create QCompleter for given type
+     * \return Pointer to QCompleter. It is client's responsibility to delete it
+     */
+    virtual QCompleter* createCompleter(const TagTypes &) = 0;
 
+    /**
+     * @brief create QCompleter for given set of types
+     * \return Pointer to QCompleter. It is client's responsibility to delete it
+     */
+    virtual QCompleter* createCompleter(const std::set<TagTypes> &) = 0;
+
+    /**
+     * @brief create QCompleter with people names
+     * \return Pointer to QCompleter. It is client's responsibility to delete it
+     */
     virtual QCompleter* createPeopleCompleter() = 0;
+
+    /**
+     * @brief access model with values for given tag type
+     * \return Pointer to QAbstractItemModel - completition list.
+     */
+    virtual QAbstractItemModel* accessModel(const TagTypes &) = 0;
 };
 
 #endif

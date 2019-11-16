@@ -27,7 +27,7 @@
 <context>
     <name>BaseTags</name>
     <message>
-        <location filename="../src/core/implementation/base_tags.cpp" line="+53"/>
+        <location filename="../src/core/implementation/base_tags.cpp" line="+55"/>
         <source>Place</source>
         <translation>Miejsce</translation>
     </message>
@@ -42,7 +42,17 @@
         <translation>Godzina</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="+4"/>
+        <source>Rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-20"/>
         <source>Event</source>
         <translation>Wydarzenie</translation>
     </message>

@@ -27,22 +27,34 @@
 
 struct IEditorFactory;
 
+
+/**
+ * \brief Delegate for tags editor.
+ */
 class TagsItemDelegate : public QStyledItemDelegate
 {
     public:
-        TagsItemDelegate();
+        /**
+         * \brief Constrguctor
+         * \arg factory editor factory
+         *
+         * TagsItemDelegate does not use Qt's QItemEditorFactory as it is cell type oriented.
+         * IEditorFactory provides editors basing of tag type.
+         */
+        explicit TagsItemDelegate(IEditorFactory& factory);
         TagsItemDelegate(const TagsItemDelegate &) = delete;
         ~TagsItemDelegate();
 
         TagsItemDelegate& operator=(const TagsItemDelegate &) = delete;
 
-        void setEditorFactory(IEditorFactory *);
-
     private:
-        IEditorFactory* m_editorFactory;
+        IEditorFactory& m_editorFactory;
 
         QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
         QString displayText(const QVariant& value, const QLocale& locale) const override;
+        void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+        void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+        void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif // TAGSITEMDELEGATE_HPP

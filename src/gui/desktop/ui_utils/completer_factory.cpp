@@ -95,13 +95,13 @@ void CompleterFactory::set(ILoggerFactory* lf)
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const TagNameInfo& info)
+QCompleter* CompleterFactory::createCompleter(const TagTypes& info)
 {
-    return createCompleter( std::set<TagNameInfo>({info}) );
+    return createCompleter( std::set<TagTypes>({info}) );
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const std::set<TagNameInfo>& infos)
+QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 {
     QAbstractItemModel* model = getModelFor(infos);
 
@@ -116,7 +116,13 @@ QCompleter* CompleterFactory::createPeopleCompleter()
 }
 
 
-QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& infos)
+QAbstractItemModel* CompleterFactory::accessModel(const TagTypes& tagType)
+{
+    return getModelFor({tagType});
+}
+
+
+QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 
@@ -131,9 +137,7 @@ QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagNameInfo>& i
         auto proxy_model = std::make_unique<VariantToStringModelProxy>(tags_model.get());
 
         ModelPair models = ModelPair( std::move(proxy_model), std::move(tags_model) );
-        auto insert_it = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
-
-        it = insert_it.first;
+        std::tie(it, std::ignore) = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
     }
 
     return it->second.first.get();

@@ -28,8 +28,15 @@
 #include <QTableWidget>
 #include <QTimeEdit>
 #include <QTimer>
+#include <QDoubleSpinBox>
 
+#include <kratingwidget.h>
+#include <kcolorcombo.h>
+
+#include <core/base_tags.hpp>
 #include <core/down_cast.hpp>
+
+#include "utils/model_index_utils.hpp"
 #include "widgets/tag_editor/helpers/tags_model.hpp"
 #include "icompleter_factory.hpp"
 
@@ -38,17 +45,17 @@ namespace
 {
     struct TimeEditor: QTimeEdit
     {
-        explicit TimeEditor(QWidget* parent_widget = 0): QTimeEdit(parent_widget)
+        explicit TimeEditor(QWidget* parent_widget = nullptr): QTimeEdit(parent_widget)
         {
             setDisplayFormat("hh:mm:ss");
         }
     };
 
     template<typename T>
-    T* make_editor(ICompleterFactory* completerFactory, const TagNameInfo& info, QWidget* parent)
+    T* make_editor(ICompleterFactory* completerFactory, const TagTypes& tagType, QWidget* parent)
     {
         T* editor = new T(parent);
-        QCompleter* completer = completerFactory->createCompleter(info);
+        QCompleter* completer = completerFactory->createCompleter(tagType);
         completer->setParent(editor);
         editor->setCompleter(completer);
 
@@ -78,31 +85,60 @@ void EditorFactory::set(ICompleterFactory* completerFactory)
 QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
 {
     const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
 
     return createEditor(tagInfoRole, parent);
 }
 
 
-QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
+QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
 {
     QWidget* result = nullptr;
 
-    switch(info.getType())
+    const auto tagType = info.getTag();
+
+    switch(tagType)
     {
-        case TagNameInfo::Type::String:
-            result = make_editor<QLineEdit>(m_completerFactory, info, parent);
+        case TagTypes::Event:
+        case TagTypes::Place:
+            result = make_editor<QLineEdit>(m_completerFactory, tagType, parent);
             break;
 
-        case TagNameInfo::Type::Date:
+        case TagTypes::Date:
             result = new QDateEdit(parent);
             break;
 
-        case TagNameInfo::Type::Time:
+        case TagTypes::Time:
             result = new TimeEditor(parent);
             break;
 
-        case TagNameInfo::Type::Invalid:
+        case TagTypes::Rating:
+            result = new KRatingWidget(parent);
+            break;
+
+        case TagTypes::Category:
+        {
+            KColorCombo* combo = new KColorCombo(parent);
+            QAbstractItemModel* model = m_completerFactory->accessModel(TagTypes::Category);
+
+            QList<QColor> colors;
+            for(auto it = utils::first(*model); it.isValid(); it = utils::next(it))
+            {
+                const QVariant data = it.data();
+                const auto rgba_str = data.toString();
+                const QRgba64 rgba64 = QRgba64::fromRgba64(rgba_str.toULongLong());
+                const QColor color(rgba64);
+                colors.push_back(color);
+            }
+
+            combo->setColors(colors);
+
+            result = combo;
+            break;
+        }
+
+        case TagTypes::Invalid:
+        case TagTypes::_People:
             assert(!"Unexpected call");
             break;
     }
@@ -111,25 +147,37 @@ QWidget* EditorFactory::createEditor(const TagNameInfo& info, QWidget* parent)
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagNameInfo& info) const
+QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
 {
     QByteArray result;
 
-    switch(info.getType())
+    const auto tagType = info.getTag();
+
+    switch(tagType)
     {
-        case TagNameInfo::Type::String:
+        case TagTypes::Event:
+        case TagTypes::Place:
             result = "text";
             break;
 
-        case TagNameInfo::Type::Date:
+        case TagTypes::Date:
             result = "date";
             break;
 
-        case TagNameInfo::Type::Time:
+        case TagTypes::Time:
             result = "time";
             break;
 
-        case TagNameInfo::Type::Invalid:
+        case TagTypes::Rating:
+            result = "rating";
+            break;
+
+        case TagTypes::Category:
+            result = "color";
+            break;
+
+        case TagTypes::Invalid:
+        case TagTypes::_People:
             assert(!"Unexpected call");
             break;
     }

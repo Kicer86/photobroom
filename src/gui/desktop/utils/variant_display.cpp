@@ -21,10 +21,11 @@
 
 #include <cassert>
 
-#include <QVariant>
-#include <QLocale>
+#include <QColor>
 #include <QDate>
+#include <QLocale>
 #include <QTime>
+#include <QVariant>
 
 
 QString localize(const QVariant& v, const QLocale& l)
@@ -54,6 +55,18 @@ QString localize(const QVariant& v, const QLocale& l)
 
         case QVariant::StringList:
             result = v.toStringList().join(", ");
+            break;
+
+        case QVariant::Int:
+            result = QString::number(v.toInt());
+            break;
+
+        case QVariant::ULongLong:
+            result = QString::number(v.toULongLong());
+            break;
+
+        case QVariant::Color:
+            result = QString::number(v.value<QColor>().rgba64());
             break;
 
         default:

@@ -73,9 +73,9 @@ namespace Database
 
             virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
-            virtual void listTagNames( const Callback<const std::vector<TagNameInfo> &> & ) override;
-            virtual void listTagValues( const TagNameInfo&, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
-            virtual void listTagValues( const TagNameInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagNameInfo &, const std::vector<TagValue> &> &) override;
+            virtual void listTagNames( const Callback<const std::vector<TagTypeInfo> &> & ) override;
+            virtual void listTagValues( const TagTypeInfo&, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
+            virtual void listTagValues( const TagTypeInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
             virtual void markStagedAsReviewed() override;

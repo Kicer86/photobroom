@@ -19,16 +19,20 @@
 
 #include "tags_item_delegate.hpp"
 
+#include <QCompleter>
 #include <QItemEditorFactory>
 #include <QLineEdit>
-#include <QCompleter>
+#include <QPainter>
+
+#include <kratingpainter.h>
 
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
+#include "tags_model.hpp"
 
 
-TagsItemDelegate::TagsItemDelegate():
-    m_editorFactory(nullptr)
+TagsItemDelegate::TagsItemDelegate(IEditorFactory& editorFactory):
+    m_editorFactory(editorFactory)
 {
 
 }
@@ -40,15 +44,9 @@ TagsItemDelegate::~TagsItemDelegate()
 }
 
 
-void TagsItemDelegate::setEditorFactory(IEditorFactory* editorFactory)
-{
-    m_editorFactory = editorFactory;
-}
-
-
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem &, const QModelIndex& index) const
 {
-    QWidget* const result = m_editorFactory->createEditor(index, parent_widget);
+    QWidget* const result = m_editorFactory.createEditor(index, parent_widget);
 
     return result;
 }
@@ -57,4 +55,57 @@ QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOpti
 QString TagsItemDelegate::displayText(const QVariant& value, const QLocale& locale) const
 {
     return localize(value, locale);
+}
+
+
+void TagsItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+
+    model->setData(index, editor->property(property), Qt::EditRole);
+}
+
+
+void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+{
+    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+    const QVariant value = index.data(Qt::EditRole);
+
+    editor->setProperty(property, value);
+}
+
+
+void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+    if ( (option.state & QStyle::State_Editing) == 0)
+    {
+        const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
+        const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+        const TagTypes tagType = tagInfoRole.getTag();
+
+        if (tagType == TagTypes::Rating)
+        {
+            const QVariant value = index.data(Qt::EditRole);
+
+            if (value.isNull() == false)
+                KRatingPainter().paint(painter, option.rect, value.toInt());
+        }
+        else if (tagType == TagTypes::Category)
+        {
+            const QVariant value = index.data(Qt::EditRole);
+
+            if (value.isNull() == false)
+            {
+                const QColor color = value.value<QColor>();
+                painter->setBrush(color);
+                painter->drawRect(option.rect);
+            }
+        }
+        else
+            QStyledItemDelegate::paint(painter, option, index);
+    }
 }

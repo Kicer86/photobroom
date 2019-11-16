@@ -31,12 +31,12 @@ namespace
     {
         qint64 timestamp = -1;
 
-        const auto dateIt = data.tags.find(TagNameInfo(BaseTagsList::Date));
+        const auto dateIt = data.tags.find(TagTypeInfo(TagTypes::Date));
 
         if (dateIt != data.tags.end())
         {
             const QDate date = dateIt->second.getDate();
-            const auto timeIt = data.tags.find(TagNameInfo(BaseTagsList::Time));
+            const auto timeIt = data.tags.find(TagTypeInfo(TagTypes::Time));
             const QTime time = timeIt != data.tags.end()? timeIt->second.getTime(): QTime();
             const QDateTime dateTime(date, time);
 

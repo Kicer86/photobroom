@@ -43,7 +43,7 @@ TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
     m_model = new TagsModel(this);
     m_model->set(&m_tagsOperator);
 
-    m_view = new TagsView(&m_editorFactory, this);
+    m_view = new TagsView(m_editorFactory, this);
     m_view->setModel(m_model);
 
     QVBoxLayout* l = new QVBoxLayout(this);

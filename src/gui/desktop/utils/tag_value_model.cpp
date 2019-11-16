@@ -19,6 +19,7 @@
 
 #include "tag_value_model.hpp"
 
+#include <core/base_tags.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
@@ -52,13 +53,13 @@ namespace
 }
 
 
-TagValueModel::TagValueModel(const std::set<TagNameInfo>& infos):
+TagValueModel::TagValueModel(const std::set<TagTypes>& infos):
     m_values(),
     m_tagInfos(infos),
     m_tagInfoCollector(nullptr),
     m_loggerFactory(nullptr)
 {
-    qRegisterMetaType<TagNameInfo>("TagNameInfo");
+    qRegisterMetaType<TagTypes>("TagTypes");
 }
 
 
@@ -116,14 +117,14 @@ void TagValueModel::updateData()
 
     QString combined_name;
 
-    for(const TagNameInfo& info: m_tagInfos)
+    for(const TagTypes& info: m_tagInfos)
     {
         const auto& values = m_tagInfoCollector->get(info);
         std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
 
         combined_name += combined_name.isEmpty()?
-            info.getName() :
-            ", " + info.getName();
+            BaseTags::getName(info) :
+            ", " + BaseTags::getName(info);
     }
 
     const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
@@ -139,8 +140,8 @@ void TagValueModel::updateData()
 }
 
 
-void TagValueModel::collectorNotification(const TagNameInfo& tagInfo)
+void TagValueModel::collectorNotification(const TagTypes& tagType)
 {
-    if ( m_tagInfos.find(tagInfo) != m_tagInfos.end())
+    if ( m_tagInfos.find(tagType) != m_tagInfos.end())
         updateData();
 }

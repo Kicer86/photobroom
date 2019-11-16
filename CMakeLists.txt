@@ -139,6 +139,7 @@ add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
 add_subdirectory(tools)
+add_subdirectory(external)
 
 #system dependent stuff
 if(UNIX OR CYGWIN)

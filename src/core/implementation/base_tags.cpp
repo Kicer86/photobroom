@@ -22,43 +22,53 @@
 #include <QObject>
 
 
-std::vector<BaseTagsList> BaseTags::getAll()
+std::vector<TagTypes> BaseTags::getAll()
 {
-    const std::vector<BaseTagsList> tags =
+    const std::vector<TagTypes> tags =
     {
-        BaseTagsList::Event,
-        BaseTagsList::Place,
-        BaseTagsList::Date,
-        BaseTagsList::Time,
+        TagTypes::Event,
+        TagTypes::Place,
+        TagTypes::Date,
+        TagTypes::Time,
+        TagTypes::Rating,
+        TagTypes::Category,
     };
 
     return tags;
 }
 
 
-QString BaseTags::getTr(BaseTagsList tag)
+QString BaseTags::getTr(TagTypes tag)
 {
     QString result;
 
     switch (tag)
     {
-        case BaseTagsList::Invalid:
+        case TagTypes::Invalid:
             break;
 
-        case BaseTagsList::Event:
+        case TagTypes::Event:
             result = tr("Event");
             break;
 
-        case BaseTagsList::Place:
+        case TagTypes::Place:
             result = tr("Place");
             break;
 
-        case BaseTagsList::Date:
+        case TagTypes::Date:
             result = tr("Date");
             break;
 
-        case BaseTagsList::Time:
+        case TagTypes::Time:
             result = tr("Time");
+            break;
+
+        case TagTypes::Rating:
+            result = tr("Rating");
+            break;
+
+        case TagTypes::Category:
+            result = tr("Category");
             break;
     }
 
@@ -66,30 +76,37 @@ QString BaseTags::getTr(BaseTagsList tag)
 }
 
 
-
-QString BaseTags::getName(BaseTagsList tag)
+QString BaseTags::getName(TagTypes tag)
 {
     QString result;
 
     switch (tag)
     {
-        case BaseTagsList::Invalid:
+        case TagTypes::Invalid:
             break;
 
-        case BaseTagsList::Event:
+        case TagTypes::Event:
             result = "Event";
             break;
 
-        case BaseTagsList::Place:
+        case TagTypes::Place:
             result = "Place";
             break;
 
-        case BaseTagsList::Date:
+        case TagTypes::Date:
             result = "Date";
             break;
 
-        case BaseTagsList::Time:
+        case TagTypes::Time:
             result = "Time";
+            break;
+
+        case TagTypes::Rating:
+            result = "Rating";
+            break;
+
+        case TagTypes::Category:
+            result = "Category";
             break;
     }
 
@@ -97,26 +114,34 @@ QString BaseTags::getName(BaseTagsList tag)
 }
 
 
-TagNameInfo::Type BaseTags::getType(BaseTagsList tag)
+Tag::ValueType BaseTags::getType(TagTypes tag)
 {
-    TagNameInfo::Type result = TagNameInfo::Type::Invalid;
+    Tag::ValueType result = Tag::ValueType::Empty;
 
     switch (tag)
     {
-        case BaseTagsList::Invalid:
+        case TagTypes::Invalid:
             break;
 
-        case BaseTagsList::Event:
-        case BaseTagsList::Place:
-            result = TagNameInfo::Type::String;
+        case TagTypes::Event:
+        case TagTypes::Place:
+            result = Tag::ValueType::String;
             break;
 
-        case BaseTagsList::Date:
-            result = TagNameInfo::Type::Date;
+        case TagTypes::Date:
+            result = Tag::ValueType::Date;
             break;
 
-        case BaseTagsList::Time:
-            result = TagNameInfo::Type::Time;
+        case TagTypes::Time:
+            result = Tag::ValueType::Time;
+            break;
+
+        case TagTypes::Rating:
+            result = Tag::ValueType::Int;
+            break;
+
+        case TagTypes::Category:
+            result = Tag::ValueType::Color;
             break;
     }
 

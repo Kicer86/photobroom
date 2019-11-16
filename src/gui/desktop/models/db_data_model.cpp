@@ -36,7 +36,7 @@ Hierarchy::Level::Level(): tagName(), order()
 }
 
 
-Hierarchy::Level::Level(const TagNameInfo& i, const Hierarchy::Level::Order& o): tagName(i), order(o)
+Hierarchy::Level::Level(const TagTypeInfo& i, const Hierarchy::Level::Order& o): tagName(i), order(o)
 {
 
 }

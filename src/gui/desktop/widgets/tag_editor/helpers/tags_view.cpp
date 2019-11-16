@@ -33,12 +33,11 @@
 
 using namespace std::chrono;
 
-TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
+TagsView::TagsView(IEditorFactory& editorFactory, QWidget* p):
     QTableView(p),
     m_editorFactory()
 {
-    TagsItemDelegate* delegate = new TagsItemDelegate;
-    delegate->setEditorFactory(editorFactory);
+    TagsItemDelegate* delegate = new TagsItemDelegate(editorFactory);
 
     verticalHeader()->hide();
     setItemDelegate(delegate);
@@ -48,15 +47,8 @@ TagsView::TagsView(IEditorFactory* editorFactory, QWidget* p):
 
 bool TagsView::edit(const QModelIndex& index, QAbstractItemView::EditTrigger trigger, QEvent* e)
 {
-    const int rc = model()->rowCount();
-    const int last_row = rc - 1;
-    const bool is_last_item = index.row() == last_row;
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagNameInfo tagInfoRole = tagInfoRoleRaw.value<TagNameInfo>();
-
-    // allow edit in 2nd column and whole last row (if tag type is valid)
-    // It can be invalid when empty value was chosen in combo box
-    const bool status = (index.column() == 1 || is_last_item) && tagInfoRole.getTag() != Invalid?
+    // allow edit in 2nd column
+    const bool status = index.column() == 1?
             QTableView::edit(index, trigger, e):
             false;
 

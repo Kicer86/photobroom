@@ -1,6 +1,7 @@
 
 #include "tag.hpp"
 
+#include <QColor>
 #include <QDate>
 #include <QString>
 #include <QStringList>
@@ -8,20 +9,29 @@
 
 #include "base_tags.hpp"
 
+namespace
+{
+    typedef QDate   DateType;
+    typedef QTime   TimeType;
+    typedef QString StringType;
+    typedef int     IntType;
+    typedef QColor  ColorType;
+}
 
-TagNameInfo::TagNameInfo(): m_tag(BaseTagsList::Invalid)
+
+TagTypeInfo::TagTypeInfo(): m_tag(TagTypes::Invalid)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const BaseTagsList& tag): m_tag(tag)
+TagTypeInfo::TagTypeInfo(const TagTypes& tag): m_tag(tag)
 {
 
 }
 
 
-TagNameInfo::TagNameInfo(const TagNameInfo& other): m_tag(other.m_tag)
+TagTypeInfo::TagTypeInfo(const TagTypeInfo& other): m_tag(other.m_tag)
 {
 
 }
@@ -33,7 +43,7 @@ TagNameInfo::operator QString() const
 }
 */
 
-bool TagNameInfo::operator==(const TagNameInfo& other) const
+bool TagTypeInfo::operator==(const TagTypeInfo& other) const
 {
     const bool result = getName() == other.getName();
 
@@ -41,7 +51,7 @@ bool TagNameInfo::operator==(const TagNameInfo& other) const
 }
 
 
-bool TagNameInfo::operator<(const TagNameInfo& other) const
+bool TagTypeInfo::operator<(const TagTypeInfo& other) const
 {
     const bool result = getName() < other.getName();
 
@@ -49,7 +59,7 @@ bool TagNameInfo::operator<(const TagNameInfo& other) const
 }
 
 
-bool TagNameInfo::operator>(const TagNameInfo& other) const
+bool TagTypeInfo::operator>(const TagTypeInfo& other) const
 {
     const bool result = getName() > other.getName();
 
@@ -57,7 +67,7 @@ bool TagNameInfo::operator>(const TagNameInfo& other) const
 }
 
 
-TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
+TagTypeInfo& TagTypeInfo::operator=(const TagTypeInfo& other)
 {
     m_tag = other.m_tag;
 
@@ -65,25 +75,19 @@ TagNameInfo& TagNameInfo::operator=(const TagNameInfo& other)
 }
 
 
-QString TagNameInfo::getName() const
+QString TagTypeInfo::getName() const
 {
     return BaseTags::getName(m_tag);
 }
 
 
-QString TagNameInfo::getDisplayName() const
+QString TagTypeInfo::getDisplayName() const
 {
     return BaseTags::getTr(m_tag);
 }
 
 
-TagNameInfo::Type TagNameInfo::getType() const
-{
-    return BaseTags::getType(m_tag);
-}
-
-
-BaseTagsList TagNameInfo::getTag() const
+TagTypes TagTypeInfo::getTag() const
 {
     return m_tag;
 }
@@ -92,7 +96,7 @@ BaseTagsList TagNameInfo::getTag() const
 //////////////////////////////////////////////////////////////
 
 
-TagValue::TagValue(): m_type(Type::Empty), m_value()
+TagValue::TagValue(): m_type(Tag::ValueType::Empty), m_value()
 {
 
 }
@@ -108,31 +112,13 @@ TagValue::TagValue(const TagValue& other): TagValue()
 TagValue::TagValue(TagValue&& other): TagValue()
 {
     m_type = other.m_type;
-    other.m_type = Type::Empty;
+    other.m_type = Tag::ValueType::Empty;
 
     std::swap(m_value, other.m_value);
 }
 
 
-TagValue::TagValue(const QDate& date): TagValue()
-{
-    set(date);
-}
-
-
-TagValue::TagValue(const QTime& time): TagValue()
-{
-    set(time);
-}
-
-
-TagValue::TagValue(const QString& string): TagValue()
-{
-    set(string);
-}
-
-
-TagValue TagValue::fromRaw(const QString& raw, const TagNameInfo::Type& type)
+TagValue TagValue::fromRaw(const QString& raw, const Tag::ValueType& type)
 {
     return TagValue().fromString(raw, type);
 }
@@ -161,6 +147,18 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
         case QVariant::Time:
             result = TagValue( variant.toTime() );
             break;
+
+        case QVariant::Int:
+            result = TagValue( variant.toInt() );
+            break;
+
+        case QVariant::Color:
+        {
+            const QColor color = variant.value<QColor>();
+
+            result = TagValue(color);
+            break;
+        }
     }
 
     return result;
@@ -185,32 +183,11 @@ TagValue& TagValue::operator=(const TagValue& other)
 TagValue& TagValue::operator=(TagValue&& other)
 {
     m_type = other.m_type;
-    other.m_type = Type::Empty;
+    other.m_type = Tag::ValueType::Empty;
 
     std::swap(m_value, other.m_value);
 
     return *this;
-}
-
-
-void TagValue::set(const QDate& date)
-{
-    m_value = date;
-    m_type = Type::Date;
-}
-
-
-void TagValue::set(const QTime& time)
-{
-    m_value = time;
-    m_type = Type::Time;
-}
-
-
-void TagValue::set(const QString& string)
-{
-    m_value = string;
-    m_type = Type::String;
 }
 
 
@@ -220,19 +197,27 @@ QVariant TagValue::get() const
 
     switch (m_type)
     {
-        case Type::Empty:
+        case Tag::ValueType::Empty:
             break;
 
-        case Type::Date:
-            result = * get<TagValueTraits<Type::Date>::StorageType>();
+        case Tag::ValueType::Date:
+            result = get<DateType>();
             break;
 
-        case Type::String:
-            result = * get<TagValueTraits<Type::String>::StorageType>();
+        case Tag::ValueType::String:
+            result = get<StringType>();
             break;
 
-        case Type::Time:
-            result = * get<TagValueTraits<Type::Time>::StorageType>();
+        case Tag::ValueType::Time:
+            result = get<TimeType>();
+            break;
+
+        case Tag::ValueType::Int:
+            result = get<IntType>();
+            break;
+
+        case Tag::ValueType::Color:
+            result = get<ColorType>();
             break;
     }
 
@@ -242,53 +227,29 @@ QVariant TagValue::get() const
 
 const QDate& TagValue::getDate() const
 {
-    auto* v = get<TagValueTraits<Type::Date>::StorageType>();
+    const auto& v = get<DateType>();
 
-    return *v;
+    return v;
 }
 
 
 const QString& TagValue::getString() const
 {
-    auto* v = get<TagValueTraits<Type::String>::StorageType>();
+    const auto& v = get<StringType>();
 
-    return *v;
+    return v;
 }
 
 
 const QTime& TagValue::getTime() const
 {
-    auto* v = get<TagValueTraits<Type::Time>::StorageType>();
+    const auto& v = get<TimeType>();
 
-    return *v;
+    return v;
 }
 
 
-QDate& TagValue::getDate()
-{
-    auto* v = get<TagValueTraits<Type::Date>::StorageType>();
-
-    return *v;
-}
-
-
-QString& TagValue::getString()
-{
-    auto* v = get<TagValueTraits<Type::String>::StorageType>();
-
-    return *v;
-}
-
-
-QTime& TagValue::getTime()
-{
-    auto* v = get<TagValueTraits<Type::Time>::StorageType>();
-
-    return *v;
-}
-
-
-TagValue::Type TagValue::type() const
+Tag::ValueType TagValue::type() const
 {
     return m_type;
 }
@@ -327,54 +288,47 @@ bool TagValue::operator<(const TagValue& other) const
 }
 
 
-template<>
-bool TagValue::validate<QDate>() const
-{
-    return m_type == Type::Date && m_value.has_value() && m_value.type() == typeid(QDate);
-}
-
-
-template<>
-bool TagValue::validate<QTime>() const
-{
-    return m_type == Type::Time && m_value.has_value() && m_value.type() == typeid(QTime);
-}
-
-
-template<>
-bool TagValue::validate<QString>() const
-{
-    return m_type == Type::String && m_value.has_value() && m_value.type() == typeid(QString);
-}
-
-
 QString TagValue::string() const
 {
     QString result;
 
     switch(m_type)
     {
-        case Type::Empty:
+        case Tag::ValueType::Empty:
             break;
 
-        case Type::Date:
+        case Tag::ValueType::Date:
         {
-            const QDate* v = get<TagValueTraits<Type::Date>::StorageType>();
-            result = v->toString("yyyy.MM.dd");
-            break;
-        }
-
-        case Type::String:
-        {
-            const QString* v = get<TagValueTraits<Type::String>::StorageType>();
-            result = *v;
+            const DateType& v = get<DateType>();
+            result = v.toString("yyyy.MM.dd");
             break;
         }
 
-        case Type::Time:
+        case Tag::ValueType::String:
         {
-            const QTime* v = get<TagValueTraits<TagValue::Type::Time>::StorageType>();
-            result = v->toString("HH:mm:ss");
+            result = get<StringType>();
+            break;
+        }
+
+        case Tag::ValueType::Time:
+        {
+            const TimeType& v = get<TimeType>();
+            result = v.toString("HH:mm:ss");
+            break;
+        }
+
+        case Tag::ValueType::Int:
+        {
+            const IntType v = get<IntType>();
+            result = QString::number(v);
+            break;
+        }
+
+        case Tag::ValueType::Color:
+        {
+            const QColor color = get<ColorType>();
+            const QRgba64 rgba = color.rgba64();
+            result = QString::number(rgba);
             break;
         }
     }
@@ -383,23 +337,36 @@ QString TagValue::string() const
 }
 
 
-TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& type)
+TagValue& TagValue::fromString(const QString& value, const Tag::ValueType& type)
 {
     switch(type)
     {
-        case TagNameInfo::Type::String:
+        case Tag::ValueType::String:
             set( value );
             break;
 
-        case TagNameInfo::Type::Date:
+        case Tag::ValueType::Date:
             set( QDate::fromString(value, "yyyy.MM.dd") );
             break;
 
-        case TagNameInfo::Type::Time:
+        case Tag::ValueType::Time:
             set( QTime::fromString(value, "HH:mm:ss") );
             break;
 
-        case TagNameInfo::Type::Invalid:
+        case Tag::ValueType::Int:
+            set( value.toInt() );
+            break;
+
+        case Tag::ValueType::Color:
+        {
+            const quint64 rgba = value.toULongLong();
+            const QRgba64 rgba64 = QRgba64::fromRgba64(rgba);
+            const QColor color(rgba64);
+            set(color);
+            break;
+        }
+
+        case Tag::ValueType::Empty:
             assert(!"Unexpected switch");
             break;
     }
@@ -414,7 +381,7 @@ TagValue& TagValue::fromString(const QString& value, const TagNameInfo::Type& ty
 namespace Tag
 {
 
-    Info::Info(const std::pair<const TagNameInfo, TagValue> &data): m_name(data.first), m_value(data.second)
+    Info::Info(const std::pair<const TagTypeInfo, TagValue> &data): m_name(data.first), m_value(data.second)
     {
 
     }
@@ -429,7 +396,7 @@ namespace Tag
         return m_name.getDisplayName();
     }
 
-    const TagNameInfo& Info::getTypeInfo() const
+    const TagTypeInfo& Info::getTypeInfo() const
     {
         return m_name;
     }

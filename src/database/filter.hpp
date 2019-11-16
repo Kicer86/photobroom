@@ -88,10 +88,10 @@ namespace Database
 
         FILTER_COMMAND();
 
-        const TagNameInfo tagName;
+        const TagTypeInfo tagName;
         const TagValue tagValue;
 
-        FilterPhotosWithTag(const TagNameInfo &, const TagValue & = TagValue());
+        FilterPhotosWithTag(const TagTypeInfo &, const TagValue & = TagValue());
     };
 
     struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
