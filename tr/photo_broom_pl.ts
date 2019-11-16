@@ -44,12 +44,12 @@
     <message>
         <location line="+4"/>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocena</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategoria</translation>
     </message>
     <message>
         <location line="-20"/>
@@ -246,13 +246,13 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <name>LazyTreeItemDelegate</name>
     <message>
         <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+79"/>
-        <source>stop motion</source>
-        <translation type="unfinished"></translation>
+        <source>animation</source>
+        <translation>animacja</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupa</translation>
     </message>
 </context>
 <context>
@@ -450,7 +450,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+5"/>
         <source>Series detector</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
@@ -512,7 +512,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+1"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozbij grupę</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -728,7 +728,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+59"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ pliku:</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -952,42 +952,42 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+63"/>
         <source>Detected series</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykryte serie</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>preview</source>
-        <translation type="unfinished"></translation>
+        <translation>podgląd</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>type</source>
-        <translation type="unfinished"></translation>
+        <translation>rodzaj</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>photos</source>
-        <translation type="unfinished"></translation>
+        <translation>zdjęcia</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+55"/>
         <source>Animation</source>
-        <translation type="unfinished">animacja</translation>
+        <translation>Animacja</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>HDR</source>
-        <translation type="unfinished">HDR</translation>
+        <translation>HDR</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Generic</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwykła grupa</translation>
     </message>
 </context>
 <context>
