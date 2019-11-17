@@ -25,6 +25,7 @@
 #include <core/tag.hpp>
 #include <database/database_tools/tag_info_collector.hpp>
 #include "icompleter_factory.hpp"
+#include "utils/people_list_model.hpp"
 
 class QAbstractItemModel;
 
@@ -63,7 +64,7 @@ class CompleterFactory: public ICompleterFactory
 
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagTypes>, ModelPair> m_tagValueModels;
-        PeopleListModel* m_peopleListModel;
+        PeopleListModel m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
         QAbstractItemModel* getModelFor(const std::set<TagTypes> &);
