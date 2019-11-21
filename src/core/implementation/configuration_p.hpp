@@ -23,13 +23,12 @@
 #include <functional>
 #include <set>
 
+#include <QJsonObject>
 #include <QTimer>
-
-#include <json/value.h>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
 
-
+class QJsonValueRef;
 struct IConfigObserver;
 
 class ConfigurationPrivate: public QObject
@@ -47,7 +46,7 @@ class ConfigurationPrivate: public QObject
         void watchFor(const QString &, const IConfiguration::Watcher &);
 
     private:
-        ol::ThreadSafeResource<Json::Value> m_json;
+        ol::ThreadSafeResource<QJsonObject> m_json;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
 
@@ -55,7 +54,7 @@ class ConfigurationPrivate: public QObject
         void markDataDirty();
         void saveData();
 
-        void solve(const QString &, std::function<void(Json::Value &)>);
+        void solve(const QString &, std::function<void(QJsonValueRef &)>);
 };
 
 #endif // CONFIGURATIONPRIVATE_HPP

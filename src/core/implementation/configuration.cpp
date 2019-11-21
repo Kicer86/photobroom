@@ -64,20 +64,9 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
     QVariant v_result;
 
-    solve(entry, [&](Json::Value& value)
+    solve(entry, [&](QJsonValueRef& value)
     {
-        if (value.isString())
-            v_result = value.asCString();
-        else if (value.isInt())
-            v_result = value.asInt();
-        else if (value.isInt64())
-            v_result = static_cast<qint64>( value.asInt64() );
-        else if (value.isBool())
-            v_result = value.asBool();
-        else if(value.isNull())
-        {}
-        else
-            assert(!"not implemented");
+        v_result = value.toVariant();
     });
 
     return v_result;
@@ -86,22 +75,9 @@ QVariant ConfigurationPrivate::getEntry(const QString& entry)
 
 void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_value)
 {
-    solve(entry, [&](Json::Value& value)
+    solve(entry, [&](QJsonValueRef& value)
     {
-        if (entry_value.type() == QVariant::String)
-            value = entry_value.toString().toStdString();
-        else if (entry_value.type() == QVariant::Int)
-            value = entry_value.toInt();
-        else if (entry_value.type() == QVariant::ByteArray)
-            value = entry_value.toByteArray().data();
-        else if (entry_value.type() == QVariant::LongLong)
-            value = static_cast<Json::Value::Int64>( entry_value.toLongLong() );
-        else if (entry_value.type() == QVariant::Bool)
-            value = entry_value.toBool();
-        else if (entry_value.type() == QVariant::UInt)
-            value = entry_value.toUInt();
-        else
-            assert(!"unsupported type");
+        value = QJsonValue::fromVariant(entry_value);
     });
 
     const auto w_it = m_watchers.find(entry);
@@ -123,14 +99,18 @@ void ConfigurationPrivate::watchFor(const QString& key, const IConfiguration::Wa
 void ConfigurationPrivate::loadData()
 {
     const QString path = System::getApplicationConfigDir();
-    const QString configFile = path + "/" + "config.json";
+    const QString configFilePath = path + "/" + "config.json";
 
-    if (QFile::exists(configFile))
+    if (QFile::exists(configFilePath))
     {
-        std::ifstream config(configFile.toStdString(), std::ifstream::binary);
+        QFile configFile(configFilePath);
+        configFile.open(QIODevice::ReadOnly);
+
+        const QByteArray configFileContent = configFile.readAll();
+        const QJsonDocument jsonDoc = QJsonDocument::fromJson(configFileContent);
 
         auto locked_config = m_json.lock();
-        config >> *locked_config;
+        *locked_config = jsonDoc.object();
     }
     else
     {
@@ -148,21 +128,25 @@ void ConfigurationPrivate::markDataDirty()
 void ConfigurationPrivate::saveData()
 {
     const QString path = System::getApplicationConfigDir();
-    const QString configFile = path + "/" + "config.json";
-    const QFileInfo configPathInfo(configFile);
+    const QString configFilePath = path + "/" + "config.json";
+    const QFileInfo configPathInfo(configFilePath);
     const QDir configDir(configPathInfo.absolutePath());
 
     if (configDir.exists() == false)
         configDir.mkpath(".");
 
-    std::ofstream config(configFile.toStdString(), std::ofstream::binary);
-
     auto locked_config = m_json.lock();
-    config << *locked_config;
+
+    QJsonDocument jsonDoc(*locked_config);
+
+    QFile configFile(configFilePath);
+
+    configFile.open(QIODevice::WriteOnly);
+    configFile.write(jsonDoc.toJson());
 }
 
 
-void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::Value &)> f)
+void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonValueRef &)> f)
 {
     if (entry.isEmpty() == false)
     {
@@ -170,19 +154,35 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::
 
         const QStringList levels = entry.split("::");
 
-        Json::Value& obj = config.get();
-        Json::Value* value = &obj;
+        std::function<void(QJsonObject& jsonObj, QStringList levels)> traverser;
 
-        for(QStringList::const_iterator it = levels.begin(); it != levels.end(); ++it)
+        traverser = [&f, &traverser](QJsonObject& jsonObj, QStringList levels) -> void
         {
-            const std::string level_value = it->toStdString();
-            Json::Value& value_ref = *value;
-            Json::Value& sub_value = value_ref[level_value];
+            const QString& name = levels.front();
+            QJsonValueRef value = jsonObj[name];
 
-            value = &sub_value;
-        }
+            if (levels.size() == 1)
+            {
+                assert(value.isObject() == false);
+                assert(value.isUndefined() == false);
+                assert(value.isNull() == false);
 
-        f(*value);
+                f(value);
+            }
+            else
+            {
+                assert(value.isObject());
+                QJsonObject obj = value.toObject();
+                QStringList levelsReduced = levels;
+                levelsReduced.pop_front();
+
+                traverser(obj, levelsReduced);
+
+                value = obj;
+            }
+        };
+
+        traverser(*config, levels);
     }
 }
 
