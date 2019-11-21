@@ -4,25 +4,10 @@ find_package(Qt5Core     5.10 REQUIRED)
 find_package(Qt5Gui           REQUIRED)
 find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
-find_package(JsonCpp          REQUIRED)
 find_package(pybind11         REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
-
-# check some required things
-include(CheckTypeSize)
-set(CMAKE_REQUIRED_INCLUDES   ${Qt5Core_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIRS})
-set(CMAKE_EXTRA_INCLUDE_FILES QtGlobal json/config.h)
-set(CMAKE_REQUIRED_LIBRARIES  Qt5::Core)
-
-check_type_size("qlonglong"   QLONGLONG  LANGUAGE CXX)
-check_type_size("Json::Int64" JSON_INT64 LANGUAGE CXX)
-
-if (NOT QLONGLONG EQUAL JSON_INT64)
-    message(FATAL_ERROR "qlonglong and Json::Int64 do not have same size")
-endif()
-##
 
 set(CORE_SOURCES
     #interfaces
@@ -123,7 +108,6 @@ target_link_libraries(core
                             Qt5::Gui
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
-                            ${JSONCPP_LIBRARIES}
                             pybind11::embed
 )
 
@@ -136,7 +120,6 @@ target_include_directories(core SYSTEM PUBLIC
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EXIV2_INCLUDE_DIRS}
-                                    ${JSONCPP_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )

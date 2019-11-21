@@ -28,9 +28,6 @@
 #include <QJsonDocument>
 #include <QVariant>
 
-#include <json/reader.h>
-#include <json/writer.h>
-
 #include <system/system.hpp>
 
 #include "constants.hpp"
