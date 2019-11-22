@@ -143,43 +143,42 @@ void ConfigurationPrivate::saveData()
 }
 
 
-void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonValueRef &)> f)
+void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonValueRef &)> operation)
 {
     if (entry.isEmpty() == false)
     {
         auto config = m_json.lock();
 
-        const QStringList levels = entry.split("::");
+        const QStringList config_entries = entry.split("::");
 
-        std::function<void(QJsonObject& jsonObj, QStringList levels)> traverser;
+        std::function<void(QJsonObject& jsonObj, const QStringList& levels)> traverser;
 
-        traverser = [&f, &traverser](QJsonObject& jsonObj, QStringList levels) -> void
+        traverser = [&operation, &traverser](QJsonObject& jsonObj, QStringList entries) -> void
         {
-            const QString& name = levels.front();
+            const QString& name = entries.front();
             QJsonValueRef value = jsonObj[name];
 
-            if (levels.size() == 1)
+            if (entries.size() == 1)
             {
                 assert(value.isObject() == false);
                 assert(value.isUndefined() == false);
                 assert(value.isNull() == false);
 
-                f(value);
+                operation(value);
             }
             else
             {
                 assert(value.isObject());
                 QJsonObject obj = value.toObject();
-                QStringList levelsReduced = levels;
-                levelsReduced.pop_front();
+                entries.pop_front();
 
-                traverser(obj, levelsReduced);
+                traverser(obj, entries);
 
                 value = obj;
             }
         };
 
-        traverser(*config, levels);
+        traverser(*config, config_entries);
     }
 }
 
