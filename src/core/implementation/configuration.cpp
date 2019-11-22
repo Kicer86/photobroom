@@ -151,9 +151,8 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonV
 
         const QStringList config_entries = entry.split("::");
 
-        std::function<void(QJsonObject& jsonObj, const QStringList& levels)> traverser;
-
-        traverser = [&operation, &traverser](QJsonObject& jsonObj, QStringList entries) -> void
+        const std::function<void(QJsonObject& jsonObj, const QStringList& levels)> traverser =
+            [&operation, &traverser](QJsonObject& jsonObj, QStringList entries)
         {
             const QString& name = entries.front();
             QJsonValueRef value = jsonObj[name];
