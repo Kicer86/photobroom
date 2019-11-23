@@ -96,12 +96,9 @@ void ConfigurationPrivate::watchFor(const QString& key, const IConfiguration::Wa
 
 void ConfigurationPrivate::loadData()
 {
-    const QString path = System::getApplicationConfigDir();
-    const QString configFilePath = path + "/" + "config.json";
-
-    if (QFile::exists(configFilePath))
+    if (QFile::exists(m_configFile))
     {
-        QFile configFile(configFilePath);
+        QFile configFile(m_configFile);
         configFile.open(QIODevice::ReadOnly);
 
         const QByteArray configFileContent = configFile.readAll();
@@ -125,9 +122,7 @@ void ConfigurationPrivate::markDataDirty()
 
 void ConfigurationPrivate::saveData()
 {
-    const QString path = System::getApplicationConfigDir();
-    const QString configFilePath = path + "/" + "config.json";
-    const QFileInfo configPathInfo(configFilePath);
+    const QFileInfo configPathInfo(m_configFile);
     const QDir configDir(configPathInfo.absolutePath());
 
     if (configDir.exists() == false)
@@ -137,7 +132,7 @@ void ConfigurationPrivate::saveData()
 
     QJsonDocument jsonDoc(*locked_config);
 
-    QFile configFile(configFilePath);
+    QFile configFile(m_configFile);
 
     configFile.open(QIODevice::WriteOnly);
     configFile.write(jsonDoc.toJson());
