@@ -23,7 +23,6 @@
 #include <functional>
 #include <set>
 
-#include <QJsonObject>
 #include <QTimer>
 
 #include <OpenLibrary/putils/ts_resource.hpp>
@@ -50,15 +49,13 @@ class ConfigurationPrivate: public QObject
 
     private:
         const QString m_configFile;
-        ol::ThreadSafeResource<QJsonObject> m_json;
+        ol::ThreadSafeResource<IConfigStorage::Content> m_entries;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
 
         void loadData();
         void markDataDirty();
         void saveData();
-
-        void solve(const QString &, std::function<void(QJsonValueRef &)>);
 };
 
 #endif // CONFIGURATIONPRIVATE_HPP

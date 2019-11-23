@@ -26,16 +26,74 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QVariant>
 
 #include <system/system.hpp>
 
 #include "constants.hpp"
 
+namespace
+{
+    void writeTo(QJsonObject& obj, QStringList configPath, const QVariant& value)
+    {
+        const QString entryName = configPath.front();
+
+        if (configPath.size() == 1)
+        {
+            const QJsonValue json_value = QJsonValue::fromVariant(value);
+            assert(json_value.isUndefined() == false);
+            assert(json_value.isNull() == false);
+
+            obj[entryName] = json_value;
+        }
+        else
+        {
+            configPath.takeFirst();
+            QJsonValueRef jsonValue = obj[entryName];
+            assert(jsonValue.isNull() || jsonValue.isObject());
+
+            QJsonObject subObj = jsonValue.toObject();
+            writeTo(subObj, configPath, value);
+
+            jsonValue = subObj;
+        }
+    }
+
+    IConfigStorage::Content readNode(const QJsonObject& obj, const QString& entry_namespace = {})
+    {
+        IConfigStorage::Content content;
+
+        for(auto it = obj.constBegin(); it != obj.constEnd(); ++it)
+        {
+            const QString name = it.key();
+            const QJsonValue value = it.value();
+
+            assert(value.isArray() == false);
+            assert(value.isNull() == false);
+
+            const QString sub_namespace = entry_namespace + (entry_namespace.isEmpty()? name : QString("::%1").arg(name));
+
+            if (value.isObject())
+            {
+                const QJsonObject sub_obj = value.toObject();
+                const IConfigStorage::Content sub_content = readNode(sub_obj, sub_namespace);
+
+                content.insert(sub_content.cbegin(), sub_content.cend());
+            }
+            else
+                content.emplace(sub_namespace, value);
+        }
+
+        return content;
+    }
+}
+
 
 ConfigurationPrivate::ConfigurationPrivate(const QString& configFile):
     m_configFile(configFile),
-    m_json(),
+    m_entries(),
     m_dumpTimer(),
     m_watchers()
 {
@@ -60,23 +118,17 @@ ConfigurationPrivate::~ConfigurationPrivate()
 
 QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
-    QVariant v_result;
+    auto config = m_entries.lock();
+    const QVariant value = (*config)[entry];
 
-    solve(entry, [&](QJsonValueRef& value)
-    {
-        v_result = value.toVariant();
-    });
-
-    return v_result;
+    return value;
 }
 
 
 void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_value)
 {
-    solve(entry, [&](QJsonValueRef& value)
-    {
-        value = QJsonValue::fromVariant(entry_value);
-    });
+    auto config = m_entries.lock();
+    (*config)[entry] = entry_value;
 
     const auto w_it = m_watchers.find(entry);
 
@@ -104,8 +156,9 @@ void ConfigurationPrivate::loadData()
         const QByteArray configFileContent = configFile.readAll();
         const QJsonDocument jsonDoc = QJsonDocument::fromJson(configFileContent);
 
-        auto locked_config = m_json.lock();
-        *locked_config = jsonDoc.object();
+        auto locked_config = m_entries.lock();
+        const QJsonObject configJsonObj = jsonDoc.object();
+        *locked_config = readNode(configJsonObj);
     }
     else
     {
@@ -128,53 +181,22 @@ void ConfigurationPrivate::saveData()
     if (configDir.exists() == false)
         configDir.mkpath(".");
 
-    auto locked_config = m_json.lock();
+    auto locked_config = m_entries.lock();
 
-    QJsonDocument jsonDoc(*locked_config);
+    QJsonObject configurationObject;
+
+    for(const auto& [key, value]: *locked_config)
+    {
+        const QStringList entries = key.split("::");
+        writeTo(configurationObject, entries, value);
+    }
+
+    QJsonDocument jsonDoc(configurationObject);
 
     QFile configFile(m_configFile);
 
     configFile.open(QIODevice::WriteOnly);
     configFile.write(jsonDoc.toJson());
-}
-
-
-void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonValueRef &)> operation)
-{
-    if (entry.isEmpty() == false)
-    {
-        auto config = m_json.lock();
-
-        const QStringList config_entries = entry.split("::");
-
-        const std::function<void(QJsonObject& jsonObj, const QStringList& levels)> traverser =
-            [&operation, &traverser](QJsonObject& jsonObj, QStringList entries)
-        {
-            const QString& name = entries.front();
-            QJsonValueRef value = jsonObj[name];
-
-            if (entries.size() == 1)
-            {
-                assert(value.isObject() == false);
-                assert(value.isUndefined() == false);
-                assert(value.isNull() == false);
-
-                operation(value);
-            }
-            else
-            {
-                assert(value.isObject());
-                QJsonObject obj = value.toObject();
-                entries.pop_front();
-
-                traverser(obj, entries);
-
-                value = obj;
-            }
-        };
-
-        traverser(*config, config_entries);
-    }
 }
 
 

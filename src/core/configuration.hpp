@@ -22,7 +22,7 @@
 
 #include "iconfiguration.hpp"
 
-#include <QHash>
+#include <map>
 
 #include "core_export.h"
 
@@ -31,7 +31,7 @@
  */
 struct IConfigStorage
 {
-    typedef QHash<QString, QString> Content;
+    typedef std::map<QString, QVariant> Content;
 
     virtual ~IConfigStorage() = default;
 
