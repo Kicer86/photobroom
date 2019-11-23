@@ -33,7 +33,8 @@
 #include "constants.hpp"
 
 
-ConfigurationPrivate::ConfigurationPrivate():
+ConfigurationPrivate::ConfigurationPrivate(const QString& configFile):
+    m_configFile(configFile),
     m_json(),
     m_dumpTimer(),
     m_watchers()
@@ -185,8 +186,8 @@ void ConfigurationPrivate::solve(const QString& entry, std::function<void(QJsonV
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Configuration::Configuration():
-    d(new ConfigurationPrivate)
+Configuration::Configuration(const QString& configFilePath):
+    d(new ConfigurationPrivate(configFilePath))
 {
 
 }

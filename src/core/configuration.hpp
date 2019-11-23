@@ -27,7 +27,13 @@
 class CORE_EXPORT Configuration: public IConfiguration
 {
     public:
-        Configuration();
+        /**
+         * @brief Constructor
+         * @param configFilePath path to configuration file
+         *
+         * If path does not exist, it will be created.
+         */
+        Configuration(const QString& configFilePath);
         Configuration(const Configuration &) = delete;
         ~Configuration();
 

@@ -128,7 +128,9 @@ int main(int argc, char **argv)
 
     FeaturesManager featuresManager(&logger_factory);
 
-    Configuration configuration;
+    const QString configFileDir = System::getApplicationConfigDir();
+    const QString configFilePath = configFileDir + "/" + "config.json";
+    Configuration configuration(configFilePath);
 
     PythonThread pythonThread;
 

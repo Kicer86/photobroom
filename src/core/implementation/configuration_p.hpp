@@ -34,7 +34,10 @@ struct IConfigObserver;
 class ConfigurationPrivate: public QObject
 {
     public:
-        ConfigurationPrivate();
+        /**
+         * @param configFile path to configuration file
+         */
+        ConfigurationPrivate(const QString& configFile);
         ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
 
@@ -46,6 +49,7 @@ class ConfigurationPrivate: public QObject
         void watchFor(const QString &, const IConfiguration::Watcher &);
 
     private:
+        const QString m_configFile;
         ol::ThreadSafeResource<QJsonObject> m_json;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
