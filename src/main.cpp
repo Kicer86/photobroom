@@ -49,7 +49,7 @@ namespace
     class ConfigStorage: public IConfigStorage
     {
     public:
-        ConfigStorage(const QString& configFile): m_configFile(configFile) {}
+        explicit ConfigStorage(const QString& configFile): m_configFile(configFile) {}
 
         IConfigStorage::Content load() override
         {

@@ -56,7 +56,7 @@ class CORE_EXPORT Configuration: public IConfiguration
          * @brief Constructor
          * @param configStorage object responsible to data storage and load
          */
-        Configuration(IConfigStorage& configStorage);
+        explicit Configuration(IConfigStorage& configStorage);
         Configuration(const Configuration &) = delete;
         ~Configuration();
 

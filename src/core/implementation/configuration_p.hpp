@@ -36,7 +36,7 @@ class ConfigurationPrivate: public QObject
         /**
          * @param param configStorage object responsible for storing and restoring configuration
          */
-        ConfigurationPrivate(IConfigStorage& configStorage);
+        explicit ConfigurationPrivate(IConfigStorage& configStorage);
         ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
 
