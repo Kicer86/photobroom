@@ -22,12 +22,41 @@
 
 #include "iconfiguration.hpp"
 
+#include <map>
+
 #include "core_export.h"
+
+/**
+ * @brief Configuration load/save
+ */
+struct IConfigStorage
+{
+    typedef std::map<QString, QVariant> Content;
+
+    virtual ~IConfigStorage() = default;
+
+    /**
+     * @brief Load configuration
+     * @return object containing loaded configuration
+     */
+    virtual Content load() = 0;
+
+    /**
+     * @brief Save configuration
+     * @param configuration entries to be stored
+     */
+    virtual void save(const Content& configuration) = 0;
+};
+
 
 class CORE_EXPORT Configuration: public IConfiguration
 {
     public:
-        Configuration();
+        /**
+         * @brief Constructor
+         * @param configStorage object responsible to data storage and load
+         */
+        explicit Configuration(IConfigStorage& configStorage);
         Configuration(const Configuration &) = delete;
         ~Configuration();
 

@@ -25,19 +25,16 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QJsonDocument>
 #include <QVariant>
-
-#include <json/reader.h>
-#include <json/writer.h>
 
 #include <system/system.hpp>
 
 #include "constants.hpp"
 
 
-ConfigurationPrivate::ConfigurationPrivate():
-    m_json(),
+ConfigurationPrivate::ConfigurationPrivate(IConfigStorage& configStorage):
+    m_configStorage(configStorage),
+    m_entries(),
     m_dumpTimer(),
     m_watchers()
 {
@@ -62,47 +59,20 @@ ConfigurationPrivate::~ConfigurationPrivate()
 
 QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
-    QVariant v_result;
 
-    solve(entry, [&](Json::Value& value)
-    {
-        if (value.isString())
-            v_result = value.asCString();
-        else if (value.isInt())
-            v_result = value.asInt();
-        else if (value.isInt64())
-            v_result = static_cast<qint64>( value.asInt64() );
-        else if (value.isBool())
-            v_result = value.asBool();
-        else if(value.isNull())
-        {}
-        else
-            assert(!"not implemented");
-    });
+    auto config = m_entries.lock();
+    auto it = config->find(entry);
 
-    return v_result;
+    const QVariant value = it != config->end()? it->second: QVariant();
+
+    return value;
 }
 
 
 void ConfigurationPrivate::setEntry(const QString& entry, const QVariant& entry_value)
 {
-    solve(entry, [&](Json::Value& value)
-    {
-        if (entry_value.type() == QVariant::String)
-            value = entry_value.toString().toStdString();
-        else if (entry_value.type() == QVariant::Int)
-            value = entry_value.toInt();
-        else if (entry_value.type() == QVariant::ByteArray)
-            value = entry_value.toByteArray().data();
-        else if (entry_value.type() == QVariant::LongLong)
-            value = static_cast<Json::Value::Int64>( entry_value.toLongLong() );
-        else if (entry_value.type() == QVariant::Bool)
-            value = entry_value.toBool();
-        else if (entry_value.type() == QVariant::UInt)
-            value = entry_value.toUInt();
-        else
-            assert(!"unsupported type");
-    });
+    auto config = m_entries.lock();
+    (*config)[entry] = entry_value;
 
     const auto w_it = m_watchers.find(entry);
 
@@ -122,20 +92,8 @@ void ConfigurationPrivate::watchFor(const QString& key, const IConfiguration::Wa
 
 void ConfigurationPrivate::loadData()
 {
-    const QString path = System::getApplicationConfigDir();
-    const QString configFile = path + "/" + "config.json";
-
-    if (QFile::exists(configFile))
-    {
-        std::ifstream config(configFile.toStdString(), std::ifstream::binary);
-
-        auto locked_config = m_json.lock();
-        config >> *locked_config;
-    }
-    else
-    {
-        //load default data
-    }
+    auto locked_config = m_entries.lock();
+    *locked_config = m_configStorage.load();
 }
 
 
@@ -147,51 +105,16 @@ void ConfigurationPrivate::markDataDirty()
 
 void ConfigurationPrivate::saveData()
 {
-    const QString path = System::getApplicationConfigDir();
-    const QString configFile = path + "/" + "config.json";
-    const QFileInfo configPathInfo(configFile);
-    const QDir configDir(configPathInfo.absolutePath());
-
-    if (configDir.exists() == false)
-        configDir.mkpath(".");
-
-    std::ofstream config(configFile.toStdString(), std::ofstream::binary);
-
-    auto locked_config = m_json.lock();
-    config << *locked_config;
-}
-
-
-void ConfigurationPrivate::solve(const QString& entry, std::function<void(Json::Value &)> f)
-{
-    if (entry.isEmpty() == false)
-    {
-        auto config = m_json.lock();
-
-        const QStringList levels = entry.split("::");
-
-        Json::Value& obj = config.get();
-        Json::Value* value = &obj;
-
-        for(QStringList::const_iterator it = levels.begin(); it != levels.end(); ++it)
-        {
-            const std::string level_value = it->toStdString();
-            Json::Value& value_ref = *value;
-            Json::Value& sub_value = value_ref[level_value];
-
-            value = &sub_value;
-        }
-
-        f(*value);
-    }
+    auto locked_config = m_entries.lock();
+    m_configStorage.save(*locked_config);
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
 
-Configuration::Configuration():
-    d(new ConfigurationPrivate)
+Configuration::Configuration(IConfigStorage& configStorage):
+    d(new ConfigurationPrivate(configStorage))
 {
 
 }

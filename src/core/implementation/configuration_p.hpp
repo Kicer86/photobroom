@@ -25,17 +25,18 @@
 
 #include <QTimer>
 
-#include <json/value.h>
-
 #include <OpenLibrary/putils/ts_resource.hpp>
 
-
+class QJsonValueRef;
 struct IConfigObserver;
 
 class ConfigurationPrivate: public QObject
 {
     public:
-        ConfigurationPrivate();
+        /**
+         * @param param configStorage object responsible for storing and restoring configuration
+         */
+        explicit ConfigurationPrivate(IConfigStorage& configStorage);
         ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
 
@@ -47,15 +48,14 @@ class ConfigurationPrivate: public QObject
         void watchFor(const QString &, const IConfiguration::Watcher &);
 
     private:
-        ol::ThreadSafeResource<Json::Value> m_json;
+        IConfigStorage& m_configStorage;
+        ol::ThreadSafeResource<IConfigStorage::Content> m_entries;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
 
         void loadData();
         void markDataDirty();
         void saveData();
-
-        void solve(const QString &, std::function<void(Json::Value &)>);
 };
 
 #endif // CONFIGURATIONPRIVATE_HPP
