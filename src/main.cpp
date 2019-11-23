@@ -35,16 +35,17 @@
 #include "paths.hpp"
 
 
-enum class CrashCatcherStatus
-{
-    Disabled,
-    Ok,
-    Error,
-};
-
-
 namespace
 {
+
+    enum class CrashCatcherStatus
+    {
+        Disabled,
+        Ok,
+        Error,
+    };
+
+
     class ConfigStorage: public IConfigStorage
     {
     public:
