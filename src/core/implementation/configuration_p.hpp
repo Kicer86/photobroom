@@ -34,9 +34,9 @@ class ConfigurationPrivate: public QObject
 {
     public:
         /**
-         * @param configFile path to configuration file
+         * @param param configStorage object responsible for storing and restoring configuration
          */
-        ConfigurationPrivate(const QString& configFile);
+        ConfigurationPrivate(IConfigStorage& configStorage);
         ConfigurationPrivate(const ConfigurationPrivate &) = delete;
         virtual ~ConfigurationPrivate();
 
@@ -48,7 +48,7 @@ class ConfigurationPrivate: public QObject
         void watchFor(const QString &, const IConfiguration::Watcher &);
 
     private:
-        const QString m_configFile;
+        IConfigStorage& m_configStorage;
         ol::ThreadSafeResource<IConfigStorage::Content> m_entries;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
