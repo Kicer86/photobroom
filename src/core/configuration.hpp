@@ -22,7 +22,32 @@
 
 #include "iconfiguration.hpp"
 
+#include <QHash>
+
 #include "core_export.h"
+
+/**
+ * @brief Configuration load/save
+ */
+struct IConfigStorage
+{
+    typedef QHash<QString, QString> Content;
+
+    virtual ~IConfigStorage() = default;
+
+    /**
+     * @brief Load configuration
+     * @return object containing loaded configuration
+     */
+    virtual Content load() = 0;
+
+    /**
+     * @brief Save configuration
+     * @param configuration entries to be stored
+     */
+    virtual void save(const Content& configuration) = 0;
+};
+
 
 class CORE_EXPORT Configuration: public IConfiguration
 {
