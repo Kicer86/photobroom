@@ -402,7 +402,7 @@ void MainWindow::loadGeometry()
     const QVariant geometry = m_configuration->getEntry("gui::geometry");
     if (geometry.isValid())
     {
-        const QByteArray base64 = geometry.toByteArray();
+        const QByteArray base64 = geometry.toString().toLatin1();
         const QByteArray geometryData = QByteArray::fromBase64(base64);
         restoreGeometry(geometryData);
     }
