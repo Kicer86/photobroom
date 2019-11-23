@@ -59,8 +59,11 @@ ConfigurationPrivate::~ConfigurationPrivate()
 
 QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
+
     auto config = m_entries.lock();
-    const QVariant value = (*config)[entry];
+    auto it = config->find(entry);
+
+    const QVariant value = it != config->end()? it->second: QVariant();
 
     return value;
 }
