@@ -26,7 +26,9 @@ int ModelCompositor::rowCount(const QModelIndex& parent) const
 }
 
 
-QVariant ModelCompositor::data(const QModelIndex &, int) const
+QVariant ModelCompositor::data(const QModelIndex& parent, int) const
 {
+    assert(parent.isValid() == false);
+
     return {};
 }
