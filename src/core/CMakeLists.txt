@@ -20,6 +20,7 @@ set(CORE_SOURCES
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     imedia_information.hpp
+    imodel_compositor_data_source.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
     itask_executor.hpp
