@@ -13,6 +13,7 @@ addTestTarget(core
                 SOURCES
                     implementation/base_tags.cpp
                     #implementation/oriented_image.cpp
+                    implementation/model_compositor.cpp
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
                     implementation/tag.cpp
@@ -22,6 +23,7 @@ addTestTarget(core
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp
+                    unit_tests/model_compositor_tests.cpp
                     #unit_tests/oriented_image_tests.cpp
                     unit_tests/ptr_iterator_tests.cpp
                     unit_tests/qmodelindex_comparator_tests.cpp

@@ -51,6 +51,7 @@ set(CORE_SOURCES
     logger_factory.hpp                                      implementation/logger_factory.cpp
     media_information.hpp                                   implementation/media_information.cpp
     media_types.hpp                                         implementation/media_types.cpp
+    model_compositor.hpp                                    implementation/model_compositor.cpp
     oriented_image.hpp                                      implementation/oriented_image.cpp
     python_thread.hpp                                       implementation/python_thread.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
