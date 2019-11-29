@@ -6,7 +6,7 @@
 
 struct IModelCompositorDataSource
 {
-    virtual const QStringList& data() const;
+    virtual const QStringList& data() const = 0;
 };
 
 
