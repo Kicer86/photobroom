@@ -7,17 +7,8 @@ find_package(GTest REQUIRED)
 
 include_directories(unit_tests)
 
-qt5_wrap_cpp_for_ut(moced_cpps
-                        desktop/models/model_helpers/idx_data_manager.hpp
-                        desktop/models/model_helpers/idxdata_deepfetcher.hpp
-                        desktop/views/view_impl/view_data_set.hpp
-)
-
-
 addTestTarget(gui
                 SOURCES
-                    ${moced_cpps}
-
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/db_data_model.cpp
                     desktop/models/model_helpers/idx_data.cpp

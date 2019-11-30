@@ -9,11 +9,6 @@ find_package(Qt5Sql REQUIRED)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
-qt5_wrap_cpp_for_ut(moced_cpps
-                        backends/sql_backends/sqlite_backend/backend.hpp
-                        backends/sql_backends/mysql_backend/backend.hpp
-)
-
 addTestTarget(database_integration
                 SOURCES
 
@@ -35,7 +30,6 @@ addTestTarget(database_integration
                     backends/sql_backends/tables.cpp
                     backends/sql_backends/transaction.cpp
                     $<TARGET_OBJECTS:plugins>
-                    ${moced_cpps}
 
                     # sql tests:
                     integration_tests/common.hpp
