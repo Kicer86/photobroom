@@ -107,23 +107,7 @@ TEST(ModelCompositorTest, sourceDataIsReturned)
     model_compositor.add(&dataSourceMock3);
 
     // test
-    const auto row_count = model_compositor.rowCount();
-
-    QStringList read_values;
-    for(int i = 0; i < row_count; i++)
-    {
-        const QModelIndex idx = model_compositor.index(i, 0);
-        const QVariant value = idx.data();
-
-        read_values.append(value.toString());
-    }
-
-    QStringList combined_expectations = data + data2 + data3;
-
-    combined_expectations.sort();
-    read_values.sort();
-
-    EXPECT_EQ(combined_expectations, read_values);
+    compare_content(model_compositor, data + data2 + data3);
 }
 
 
