@@ -9,6 +9,7 @@
 
 
 using testing::ReturnRef;
+using testing::NiceMock;
 
 
 namespace
@@ -47,7 +48,7 @@ TEST(ModelCompositorTest, properRowCountForSingleSource)
 {
     const QStringList data = {"a", "b", "cc"};
 
-    ModelCompositorDataSourceMock dataSourceMock;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock;
     ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
 
     ModelCompositor model_compositor;
@@ -64,13 +65,13 @@ TEST(ModelCompositorTest, properRowCountForManySources)
     const QStringList data2 = {"q", "w", "ee", "rrrrrrrr"};
     const QStringList data3 = {"1111", "222", "3333", "5", "444444"};
 
-    ModelCompositorDataSourceMock dataSourceMock;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock;
     ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
 
-    ModelCompositorDataSourceMock dataSourceMock2;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock2;
     ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2));
 
-    ModelCompositorDataSourceMock dataSourceMock3;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock3;
     ON_CALL(dataSourceMock3, data).WillByDefault(ReturnRef(data3));
 
     ModelCompositor model_compositor;
@@ -90,13 +91,13 @@ TEST(ModelCompositorTest, sourceDataIsReturned)
     const QStringList data2 = {"q", "w", "ee", "rrrrrrrr"};
     const QStringList data3 = {"1111", "222", "3333", "5", "444444"};
 
-    ModelCompositorDataSourceMock dataSourceMock;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock;
     ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
 
-    ModelCompositorDataSourceMock dataSourceMock2;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock2;
     ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2));
 
-    ModelCompositorDataSourceMock dataSourceMock3;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock3;
     ON_CALL(dataSourceMock3, data).WillByDefault(ReturnRef(data3));
 
     ModelCompositor model_compositor;
@@ -130,7 +131,7 @@ TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
 {
     const QStringList data = {"a", "b", "cc"};
 
-    ModelCompositorDataSourceMock dataSourceMock;
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock;
     ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
 
     ModelCompositor model_compositor;
