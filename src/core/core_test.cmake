@@ -7,6 +7,7 @@ find_package(GTest REQUIRED)
 find_package(OpenLibrary 2.1 REQUIRED utils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui  REQUIRED)
+find_package(Qt5Test REQUIRED)
 
 
 addTestTarget(core
@@ -20,6 +21,7 @@ addTestTarget(core
                     implementation/thumbnail_manager.cpp
                     implementation/thumbnails_cache.cpp
                     implementation/task_executor_utils.cpp
+                    imodel_compositor_data_source.hpp
 
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/map_iterator_tests.cpp
@@ -41,6 +43,7 @@ addTestTarget(core
                     ${CMAKE_THREAD_LIBS_INIT}
                     Qt5::Core
                     Qt5::Gui
+                    Qt5::Test
                 SYSTEM_INCLUDES
                     ${GMOCK_INCLUDE_DIRS}
                     ${GTEST_INCLUDE_DIRS}
