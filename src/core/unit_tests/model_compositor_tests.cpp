@@ -9,6 +9,30 @@
 using testing::ReturnRef;
 
 
+namespace
+{
+    void compare_content(const QAbstractListModel& model, const QStringList& data)
+    {
+        const auto row_count = model.rowCount();
+
+        QStringList read_values;
+        for(int i = 0; i < row_count; i++)
+        {
+            const QModelIndex idx = model.index(i, 0);
+            const QVariant value = idx.data();
+
+            read_values.append(value.toString());
+        }
+
+        QStringList expectations = data;
+        expectations.sort();
+        read_values.sort();
+
+        EXPECT_EQ(expectations, read_values);
+    }
+}
+
+
 TEST(ModelCompositorTest, emptiness)
 {
     ModelCompositor model_compositor;
