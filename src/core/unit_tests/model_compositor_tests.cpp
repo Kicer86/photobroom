@@ -29,3 +29,28 @@ TEST(ModelCompositorTest, properRowCountForSingleSource)
 
     EXPECT_EQ(model_compositor.rowCount(), 3);
 }
+
+
+TEST(ModelCompositorTest, properRowCountForManySources)
+{
+    const QStringList data = {"a", "b", "cc"};
+    const QStringList data2 = {"q", "w", "ee", "rrrrrrrr"};
+    const QStringList data3 = {"1111", "222", "3333", "5", "444444"};
+
+    ModelCompositorDataSourceMock dataSourceMock;
+    ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
+
+    ModelCompositorDataSourceMock dataSourceMock2;
+    ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2));
+
+    ModelCompositorDataSourceMock dataSourceMock3;
+    ON_CALL(dataSourceMock3, data).WillByDefault(ReturnRef(data3));
+
+    ModelCompositor model_compositor;
+
+    model_compositor.add(&dataSourceMock);
+    model_compositor.add(&dataSourceMock2);
+    model_compositor.add(&dataSourceMock3);
+
+    EXPECT_EQ(model_compositor.rowCount(), 12);
+}
