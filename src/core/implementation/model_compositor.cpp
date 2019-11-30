@@ -38,9 +38,27 @@ int ModelCompositor::rowCount(const QModelIndex& parent) const
 }
 
 
-QVariant ModelCompositor::data(const QModelIndex& parent, int) const
+QVariant ModelCompositor::data(const QModelIndex& idx, int) const
 {
-    assert(parent.isValid() == false);
+    assert(idx.isValid());
+    assert(idx.column() == 0);
 
-    return {};
+    QVariant result;
+
+    int row_in_data_source = idx.row();
+
+    for (IModelCompositorDataSource* data_source: m_sources)
+    {
+        const auto data_source_size = data_source->data().size();
+
+        if (row_in_data_source < data_source_size)
+        {
+            result = data_source->data().at(row_in_data_source);
+            break;
+        }
+        else
+            row_in_data_source -= data_source_size;
+    }
+
+    return result;
 }
