@@ -1,6 +1,8 @@
 
 #include <gmock/gmock.h>
 
+#include <QSignalSpy>
+
 #include "model_compositor.hpp"
 #include "unit_tests_utils/mock_model_compositor_data_source.hpp"
 #include "unit_tests_utils/printers.hpp"
@@ -121,4 +123,45 @@ TEST(ModelCompositorTest, sourceDataIsReturned)
     read_values.sort();
 
     EXPECT_EQ(combined_expectations, read_values);
+}
+
+
+TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
+{
+    const QStringList data = {"a", "b", "cc"};
+
+    ModelCompositorDataSourceMock dataSourceMock;
+    ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data));
+
+    ModelCompositor model_compositor;
+    QSignalSpy rows_removed_spy(&model_compositor, &QAbstractItemModel::rowsRemoved);
+    QSignalSpy rows_inserted_spy(&model_compositor, &QAbstractItemModel::rowsInserted);
+
+    // adding data - items should be inserted
+    model_compositor.add(&dataSourceMock);
+    ASSERT_EQ(rows_removed_spy.count(), 0);
+    ASSERT_EQ(rows_inserted_spy.count(), 1);
+
+    // 3 items inserted
+    EXPECT_EQ(rows_inserted_spy.at(0).at(0).value<QModelIndex>(), QModelIndex());
+    EXPECT_EQ(rows_inserted_spy.at(0).at(1).toInt(), 0);
+    EXPECT_EQ(rows_inserted_spy.at(0).at(2).toInt(), 2);
+
+    // changing dataset
+    const QStringList data2 = {"1", "3", "5", "7"};
+    ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data2));
+    dataSourceMock.dataChanged();
+
+    ASSERT_EQ(rows_removed_spy.count(), 1);
+    ASSERT_EQ(rows_inserted_spy.count(), 2);
+
+    // 3 items removed
+    EXPECT_EQ(rows_removed_spy.at(0).at(0).value<QModelIndex>(), QModelIndex());
+    EXPECT_EQ(rows_removed_spy.at(0).at(1).toInt(), 0);
+    EXPECT_EQ(rows_removed_spy.at(0).at(2).toInt(), 2);
+
+    // 4 items inserted
+    EXPECT_EQ(rows_inserted_spy.at(1).at(0).value<QModelIndex>(), QModelIndex());
+    EXPECT_EQ(rows_inserted_spy.at(1).at(1).toInt(), 0);
+    EXPECT_EQ(rows_inserted_spy.at(1).at(2).toInt(), 3);
 }

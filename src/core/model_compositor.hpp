@@ -34,7 +34,7 @@ class ModelCompositor : public QAbstractListModel
         virtual QVariant data(const QModelIndex &, int) const override;
 
     private:
-        std::vector<IModelCompositorDataSource *> m_sources;
+        std::map<IModelCompositorDataSource *, int> m_sources;
 };
 
 #endif // MODELCOMPOSITOR_HPP

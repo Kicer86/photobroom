@@ -21,7 +21,46 @@
 
 void ModelCompositor::add(IModelCompositorDataSource* dataSource)
 {
-    m_sources.push_back(dataSource);
+    const auto current_size = rowCount();
+    const bool is_data_source_empty = dataSource->data().empty();
+
+    if (is_data_source_empty == false)
+        beginInsertRows(QModelIndex(), current_size, current_size + dataSource->data().size() - 1);
+
+    m_sources.emplace(dataSource, dataSource->data().size());
+
+    if (is_data_source_empty == false)
+        endInsertRows();
+
+    connect(dataSource, &IModelCompositorDataSource::dataChanged, [changed_source = dataSource, this]()
+    {
+        int begin = 0;
+        for (auto& [data_source, data_source_size]: m_sources)
+        {
+            if (data_source == changed_source)
+            {
+                if (data_source_size > 0)
+                {
+                    beginRemoveRows(QModelIndex(), begin, begin + data_source_size - 1);
+                    data_source_size = 0;
+                    endRemoveRows();
+                }
+
+                const auto changed_source_size = changed_source->data().size();
+
+                if (changed_source_size > 0)
+                {
+                    beginInsertRows(QModelIndex(), begin, begin + changed_source_size - 1);
+                    data_source_size = changed_source_size;
+                    endInsertRows();
+                }
+
+                break;
+            }
+            else
+                begin += data_source_size;
+        }
+    });
 }
 
 
@@ -31,7 +70,7 @@ int ModelCompositor::rowCount(const QModelIndex& parent) const
 
     const auto count = std::accumulate(m_sources.begin(), m_sources.end(), 0, [](const auto& c, const auto& i)
     {
-        return c + std::size(i->data());
+        return c + i.second;
     });
 
     return count;
@@ -47,10 +86,8 @@ QVariant ModelCompositor::data(const QModelIndex& idx, int) const
 
     int row_in_data_source = idx.row();
 
-    for (IModelCompositorDataSource* data_source: m_sources)
+    for (const auto& [data_source, data_source_size]: m_sources)
     {
-        const auto data_source_size = data_source->data().size();
-
         if (row_in_data_source < data_source_size)
         {
             result = data_source->data().at(row_in_data_source);
