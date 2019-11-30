@@ -94,14 +94,13 @@ else()
 endif()
 
 set(CORE_RESOURCE_FILES     images/images.qrc)
-set(CORE_MOC_FILES          disk_observer.hpp)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_WRAPPED})
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
                         PRIVATE
                             system
@@ -125,6 +124,8 @@ target_include_directories(core SYSTEM PUBLIC
                                 PRIVATE
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+set_target_properties(core PROPERTIES AUTOMOC TRUE)
 
 generate_export_header(core)
 hideSymbols(core)
