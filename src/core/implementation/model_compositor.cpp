@@ -17,12 +17,24 @@
 
 #include "model_compositor.hpp"
 
+#include <numeric>
+
+void ModelCompositor::add(IModelCompositorDataSource* dataSource)
+{
+    m_sources.push_back(dataSource);
+}
+
 
 int ModelCompositor::rowCount(const QModelIndex& parent) const
 {
     assert(parent.isValid() == false);
 
-    return 0;
+    const auto count = std::accumulate(m_sources.begin(), m_sources.end(), 0, [](const auto& c, const auto& i)
+    {
+        return c + std::size(i->data());
+    });
+
+    return count;
 }
 
 

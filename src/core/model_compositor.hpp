@@ -20,15 +20,21 @@
 
 #include <QAbstractListModel>
 
+#include "imodel_compositor_data_source.hpp"
+
 /**
  * @brief Unite many data sources into one
  */
 class ModelCompositor : public QAbstractListModel
 {
     public:
+        void add(IModelCompositorDataSource *);
 
         virtual int rowCount(const QModelIndex & = {}) const override;
         virtual QVariant data(const QModelIndex &, int) const override;
+
+    private:
+        std::vector<IModelCompositorDataSource *> m_sources;
 };
 
 #endif // MODELCOMPOSITOR_HPP
