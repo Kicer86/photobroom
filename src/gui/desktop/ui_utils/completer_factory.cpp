@@ -67,12 +67,14 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 {
     IModelCompositorDataSource* model = getModelFor(infos);
 
-    QStringListModel* string_model = new QStringListModel(model->data());
-    QCompleter* result = new QCompleter(string_model);
+    QCompleter* completer = new QCompleter;
 
-    string_model->setParent(result);
+    ModelCompositor* model_compositor = new ModelCompositor(completer);
+    model_compositor->add(model);
 
-    return result;
+    completer->setModel(model_compositor);
+
+    return completer;
 }
 
 
