@@ -60,14 +60,12 @@ class CompleterFactory: public ICompleterFactory
         IModelCompositorDataSource* accessModel(const TagTypes &) override;
 
     private:
-
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagTypes>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
         PeopleListModel m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
         IModelCompositorDataSource* getModelFor(const std::set<TagTypes> &);
-        QAbstractItemModel* getModelForPeople();
 };
 
 #endif // COMPLETERFACTORY_HPP

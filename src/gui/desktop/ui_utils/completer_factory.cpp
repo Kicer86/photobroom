@@ -22,6 +22,7 @@
 #include <QCompleter>
 #include <QStringListModel>
 
+#include <core/model_compositor.hpp>
 #include <database/database_tools/tag_info_collector.hpp>
 
 #include "utils/tag_value_model.hpp"
@@ -77,7 +78,14 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 
 QCompleter* CompleterFactory::createPeopleCompleter()
 {
-    return new QCompleter(&m_peopleListModel);
+    QCompleter* completer = new QCompleter;
+
+    ModelCompositor* model_compositor = new ModelCompositor(completer);
+    model_compositor->add(&m_peopleListModel);
+
+    completer->setModel(model_compositor);
+
+    return completer;
 }
 
 
@@ -103,10 +111,4 @@ IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<TagType
     }
 
     return it->second.get();
-}
-
-
-QAbstractItemModel* CompleterFactory::getModelForPeople()
-{
-    return &m_peopleListModel;
 }
