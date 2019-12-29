@@ -155,9 +155,8 @@ TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
     ASSERT_EQ(rows_inserted_spy.count(), 1);
 
     // 3 items inserted
-    EXPECT_EQ(rows_inserted_spy.at(0).at(0).value<QModelIndex>(), QModelIndex());
-    EXPECT_EQ(rows_inserted_spy.at(0).at(1).toInt(), 0);
-    EXPECT_EQ(rows_inserted_spy.at(0).at(2).toInt(), 2);
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 0), QModelIndex());
+    EXPECT_EQ(rows_range(rows_inserted_spy, 0), std::make_pair(0, 2));
 
     // changing dataset
     const QStringList data2 = {"1", "3", "5", "7"};
@@ -168,14 +167,12 @@ TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
     ASSERT_EQ(rows_inserted_spy.count(), 2);
 
     // 3 items removed
-    EXPECT_EQ(rows_removed_spy.at(0).at(0).value<QModelIndex>(), QModelIndex());
-    EXPECT_EQ(rows_removed_spy.at(0).at(1).toInt(), 0);
-    EXPECT_EQ(rows_removed_spy.at(0).at(2).toInt(), 2);
+    EXPECT_EQ(rows_parent(rows_removed_spy, 0), QModelIndex());
+    EXPECT_EQ(rows_range(rows_removed_spy, 0), std::make_pair(0, 2));
 
     // 4 items inserted
-    EXPECT_EQ(rows_inserted_spy.at(1).at(0).value<QModelIndex>(), QModelIndex());
-    EXPECT_EQ(rows_inserted_spy.at(1).at(1).toInt(), 0);
-    EXPECT_EQ(rows_inserted_spy.at(1).at(2).toInt(), 3);
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 1), QModelIndex());
+    EXPECT_EQ(rows_range(rows_inserted_spy, 1), std::make_pair(0, 3));
 }
 
 
