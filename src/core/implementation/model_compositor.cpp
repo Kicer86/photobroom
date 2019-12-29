@@ -58,24 +58,27 @@ int ModelCompositor::rowCount(const QModelIndex& parent) const
 }
 
 
-QVariant ModelCompositor::data(const QModelIndex& idx, int) const
+QVariant ModelCompositor::data(const QModelIndex& idx, int role) const
 {
     assert(idx.isValid());
     assert(idx.column() == 0);
 
     QVariant result;
 
-    int row_in_data_source = idx.row();
-
-    for (const auto& [data_source, data_source_size]: m_sources)
+    if (role == Qt::EditRole || role == Qt::DisplayRole)
     {
-        if (row_in_data_source < data_source_size)
+        int row_in_data_source = idx.row();
+
+        for (const auto& [data_source, data_source_size]: m_sources)
         {
-            result = data_source->data().at(row_in_data_source);
-            break;
+            if (row_in_data_source < data_source_size)
+            {
+                result = data_source->data().at(row_in_data_source);
+                break;
+            }
+            else
+                row_in_data_source -= data_source_size;
         }
-        else
-            row_in_data_source -= data_source_size;
     }
 
     return result;
