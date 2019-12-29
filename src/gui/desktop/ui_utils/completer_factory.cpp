@@ -20,48 +20,11 @@
 #include "completer_factory.hpp"
 
 #include <QCompleter>
-#include <QLocale>
+#include <QStringListModel>
 
 #include <database/database_tools/tag_info_collector.hpp>
 
 #include "utils/tag_value_model.hpp"
-#include "utils/variant_display.hpp"
-
-
-namespace
-{
-    class VariantToStringModelProxy final: public QAbstractListModel
-    {
-        public:
-            VariantToStringModelProxy(QAbstractItemModel* model):
-                QAbstractListModel(),
-                m_model(model)
-            {
-            }
-
-            ~VariantToStringModelProxy() = default;
-
-            QVariant data(const QModelIndex& index, int role) const override
-            {
-                const QLocale locale;
-                const QVariant d = m_model->data(index, role);
-
-                const QVariant result = role == Qt::DisplayRole || role == Qt::EditRole?
-                    localize(d, locale):
-                    d;
-
-                return result;
-            }
-
-            int rowCount(const QModelIndex& parent) const override
-            {
-                return m_model->rowCount(parent);
-            }
-
-        private:
-            QAbstractItemModel* m_model;
-    };
-}
 
 
 CompleterFactory::CompleterFactory():
@@ -101,9 +64,13 @@ QCompleter* CompleterFactory::createCompleter(const TagTypes& info)
 
 QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 {
-    QAbstractItemModel* model = getModelFor(infos);
+    IModelCompositorDataSource* model = getModelFor(infos);
 
-    QCompleter* result = new QCompleter(model);
+    QStringListModel* string_model = new QStringListModel(model->data());
+    QCompleter* result = new QCompleter(string_model);
+
+    string_model->setParent(result);
+
     return result;
 }
 
@@ -114,13 +81,13 @@ QCompleter* CompleterFactory::createPeopleCompleter()
 }
 
 
-QAbstractItemModel* CompleterFactory::accessModel(const TagTypes& tagType)
+IModelCompositorDataSource* CompleterFactory::accessModel(const TagTypes& tagType)
 {
     return getModelFor({tagType});
 }
 
 
-QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
+IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 
@@ -132,13 +99,10 @@ QAbstractItemModel* CompleterFactory::getModelFor(const std::set<TagTypes>& info
         tags_model->set(m_loggerFactory);
         tags_model->set(&m_tagInfoCollector);
 
-        auto proxy_model = std::make_unique<VariantToStringModelProxy>(tags_model.get());
-
-        ModelPair models = ModelPair( std::move(proxy_model), std::move(tags_model) );
-        std::tie(it, std::ignore) = m_tagValueModels.insert( std::make_pair(infos, std::move(models)) );
+        std::tie(it, std::ignore) = m_tagValueModels.emplace(infos, std::move(tags_model));
     }
 
-    return it->second.first.get();
+    return it->second.get();
 }
 
 

@@ -6,6 +6,8 @@ class QCompleter;
 class QAbstractItemModel;
 
 struct TagTypeInfo;
+struct IModelCompositorDataSource;
+
 
 struct ICompleterFactory
 {
@@ -33,7 +35,7 @@ struct ICompleterFactory
      * @brief access model with values for given tag type
      * \return Pointer to QAbstractItemModel - completition list.
      */
-    virtual QAbstractItemModel* accessModel(const TagTypes &) = 0;
+    virtual IModelCompositorDataSource* accessModel(const TagTypes &) = 0;
 };
 
 #endif
