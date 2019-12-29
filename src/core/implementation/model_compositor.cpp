@@ -32,35 +32,8 @@ void ModelCompositor::add(IModelCompositorDataSource* dataSource)
     if (is_data_source_empty == false)
         endInsertRows();
 
-    connect(dataSource, &IModelCompositorDataSource::dataChanged, [changed_source = dataSource, this]()
-    {
-        int begin = 0;
-        for (auto& [data_source, data_source_size]: m_sources)
-        {
-            if (data_source == changed_source)
-            {
-                if (data_source_size > 0)
-                {
-                    beginRemoveRows(QModelIndex(), begin, begin + data_source_size - 1);
-                    data_source_size = 0;
-                    endRemoveRows();
-                }
-
-                const auto changed_source_size = changed_source->data().size();
-
-                if (changed_source_size > 0)
-                {
-                    beginInsertRows(QModelIndex(), begin, begin + changed_source_size - 1);
-                    data_source_size = changed_source_size;
-                    endInsertRows();
-                }
-
-                break;
-            }
-            else
-                begin += data_source_size;
-        }
-    });
+    connect(dataSource, &IModelCompositorDataSource::dataChanged,
+            std::bind(&ModelCompositor::dataSourceChanged, this, dataSource));
 }
 
 
@@ -98,4 +71,35 @@ QVariant ModelCompositor::data(const QModelIndex& idx, int) const
     }
 
     return result;
+}
+
+
+void ModelCompositor::dataSourceChanged(IModelCompositorDataSource* changed_source)
+{
+    int begin = 0;
+    for (auto& [data_source, data_source_size]: m_sources)
+    {
+        if (data_source == changed_source)
+        {
+            if (data_source_size > 0)
+            {
+                beginRemoveRows(QModelIndex(), begin, begin + data_source_size - 1);
+                data_source_size = 0;
+                endRemoveRows();
+            }
+
+            const auto changed_source_size = changed_source->data().size();
+
+            if (changed_source_size > 0)
+            {
+                beginInsertRows(QModelIndex(), begin, begin + changed_source_size - 1);
+                data_source_size = changed_source_size;
+                endInsertRows();
+            }
+
+            break;
+        }
+        else
+            begin += data_source_size;
+    }
 }

@@ -35,6 +35,8 @@ class ModelCompositor : public QAbstractListModel
 
     private:
         std::map<IModelCompositorDataSource *, int> m_sources;
+
+        void dataSourceChanged(IModelCompositorDataSource *);
 };
 
 #endif // MODELCOMPOSITOR_HPP
