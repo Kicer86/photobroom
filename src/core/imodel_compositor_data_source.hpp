@@ -5,7 +5,10 @@
 
 #include <QObject>
 
-class IModelCompositorDataSource: public QObject
+#include "core_export.h"
+
+
+class CORE_EXPORT IModelCompositorDataSource: public QObject
 {
     Q_OBJECT
 
