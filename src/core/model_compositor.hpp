@@ -22,10 +22,12 @@
 
 #include "imodel_compositor_data_source.hpp"
 
+#include "core_export.h"
+
 /**
  * @brief Unite many data sources into one
  */
-class ModelCompositor: public QAbstractListModel
+class CORE_EXPORT ModelCompositor: public QAbstractListModel
 {
     public:
         ModelCompositor(QObject* parent = nullptr);
