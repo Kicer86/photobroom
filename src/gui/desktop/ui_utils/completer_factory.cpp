@@ -28,6 +28,22 @@
 #include "utils/tag_value_model.hpp"
 
 
+namespace
+{
+    QCompleter* buildCompleterFor(IModelCompositorDataSource* source)
+    {
+        QCompleter* completer = new QCompleter;
+
+        ModelCompositor* model_compositor = new ModelCompositor(completer);
+        model_compositor->add(source);
+
+        completer->setModel(model_compositor);
+
+        return completer;
+    }
+}
+
+
 CompleterFactory::CompleterFactory():
     m_tagInfoCollector(),
     m_tagValueModels(),
@@ -67,27 +83,13 @@ QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
 {
     IModelCompositorDataSource* model = getModelFor(infos);
 
-    QCompleter* completer = new QCompleter;
-
-    ModelCompositor* model_compositor = new ModelCompositor(completer);
-    model_compositor->add(model);
-
-    completer->setModel(model_compositor);
-
-    return completer;
+    return buildCompleterFor(model);
 }
 
 
 QCompleter* CompleterFactory::createPeopleCompleter()
 {
-    QCompleter* completer = new QCompleter;
-
-    ModelCompositor* model_compositor = new ModelCompositor(completer);
-    model_compositor->add(&m_peopleListModel);
-
-    completer->setModel(model_compositor);
-
-    return completer;
+    return buildCompleterFor(&m_peopleListModel);
 }
 
 
