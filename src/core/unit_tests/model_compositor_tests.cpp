@@ -33,6 +33,33 @@ namespace
 
         EXPECT_EQ(expectations, read_values);
     }
+
+    std::pair<int, int> rows_range(const QSignalSpy& spy, int entry)
+    {
+        EXPECT_LE(entry, spy.size());
+
+        auto insertion_data = spy.at(entry);
+        EXPECT_EQ(insertion_data.size(), 3);                       // tree parameters of signal - parent, first row and last row
+
+        return std::make_pair(insertion_data.at(1).toInt(), insertion_data.at(2).toInt());
+    }
+
+    QModelIndex rows_parent(const QSignalSpy& spy, int entry)
+    {
+        EXPECT_LE(entry, spy.size());
+
+        auto insertion_data = spy.at(entry);
+        EXPECT_EQ(insertion_data.size(), 3);                       // tree parameters of signal - parent, first row and last row
+
+        return insertion_data.at(0).value<QModelIndex>();
+    }
+
+    int rows_count(const QSignalSpy& spy, int entry)
+    {
+        const auto range = rows_range(spy, entry);
+
+        return range.second - range.first + 1;
+    }
 }
 
 
@@ -149,4 +176,61 @@ TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
     EXPECT_EQ(rows_inserted_spy.at(1).at(0).value<QModelIndex>(), QModelIndex());
     EXPECT_EQ(rows_inserted_spy.at(1).at(1).toInt(), 0);
     EXPECT_EQ(rows_inserted_spy.at(1).at(2).toInt(), 3);
+}
+
+
+TEST(ModelCompositorTest, complexDataSourceSignalsEmission)
+{
+    const QStringList data1 = {"a", "b", "cc"};
+    const QStringList data2 = {"1", "2", "3", "4"};
+    const QStringList data3 = {"qwe", "rty", "asd", "gfd", "zxc", "bnm"};
+
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock1;
+    ON_CALL(dataSourceMock1, data).WillByDefault(ReturnRef(data1));
+
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock2;
+    ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2));
+
+    NiceMock<ModelCompositorDataSourceMock> dataSourceMock3;
+    ON_CALL(dataSourceMock3, data).WillByDefault(ReturnRef(data3));
+
+    ModelCompositor model_compositor;
+    QSignalSpy rows_removed_spy(&model_compositor, &QAbstractItemModel::rowsRemoved);
+    QSignalSpy rows_inserted_spy(&model_compositor, &QAbstractItemModel::rowsInserted);
+
+    // adding data - items should be inserted
+    model_compositor.add(&dataSourceMock1);
+    model_compositor.add(&dataSourceMock2);
+    model_compositor.add(&dataSourceMock3);
+    ASSERT_EQ(rows_removed_spy.count(), 0);
+    ASSERT_EQ(rows_inserted_spy.count(), 3);
+
+    // validate number of inserted items
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 0), QModelIndex());
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 1), QModelIndex());
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 2), QModelIndex());
+
+    const int items_inserted = rows_count(rows_inserted_spy, 0) +
+                               rows_count(rows_inserted_spy, 1) +
+                               rows_count(rows_inserted_spy, 2);
+
+    EXPECT_EQ(items_inserted, 3 + 4 + 6);
+
+    // changing dataset
+    const QStringList data2_2 = {"1", "3", "5", "7", "9"};
+    ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2_2));
+    dataSourceMock2.dataChanged();
+
+    ASSERT_EQ(rows_removed_spy.count(), 1);
+    ASSERT_EQ(rows_inserted_spy.count(), 4);
+
+    // 4 items removed
+    EXPECT_EQ(rows_parent(rows_removed_spy, 0), QModelIndex());
+    EXPECT_EQ(rows_count(rows_removed_spy, 0), 4);
+
+    // 5 items inserted
+    EXPECT_EQ(rows_parent(rows_inserted_spy, 3), QModelIndex());
+    EXPECT_EQ(rows_count(rows_inserted_spy, 3), 5);
+
+    compare_content(model_compositor, data1 + data2_2 + data3);
 }
