@@ -25,9 +25,11 @@
 /**
  * @brief Unite many data sources into one
  */
-class ModelCompositor : public QAbstractListModel
+class ModelCompositor: public QAbstractListModel
 {
     public:
+        ModelCompositor(QObject* parent = nullptr);
+
         void add(IModelCompositorDataSource *);
 
         virtual int rowCount(const QModelIndex & = {}) const override;

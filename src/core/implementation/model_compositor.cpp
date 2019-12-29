@@ -19,6 +19,14 @@
 
 #include <numeric>
 
+
+
+ModelCompositor::ModelCompositor(QObject* parent)
+    : QAbstractListModel(parent)
+{
+}
+
+
 void ModelCompositor::add(IModelCompositorDataSource* dataSource)
 {
     const auto current_size = rowCount();
