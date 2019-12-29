@@ -27,6 +27,13 @@ ModelCompositor::ModelCompositor(QObject* parent)
 }
 
 
+ModelCompositor::~ModelCompositor()
+{
+    for(auto& connection: m_connections)
+        QObject::disconnect(connection);
+}
+
+
 void ModelCompositor::add(IModelCompositorDataSource* dataSource)
 {
     const auto current_size = rowCount();
@@ -40,8 +47,10 @@ void ModelCompositor::add(IModelCompositorDataSource* dataSource)
     if (is_data_source_empty == false)
         endInsertRows();
 
-    connect(dataSource, &IModelCompositorDataSource::dataChanged,
-            std::bind(&ModelCompositor::dataSourceChanged, this, dataSource));
+    auto connection = connect(dataSource, &IModelCompositorDataSource::dataChanged,
+                              std::bind(&ModelCompositor::dataSourceChanged, this, dataSource));
+
+    m_connections.push_back(connection);
 }
 
 

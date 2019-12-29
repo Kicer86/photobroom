@@ -31,6 +31,7 @@ class CORE_EXPORT ModelCompositor: public QAbstractListModel
 {
     public:
         ModelCompositor(QObject* parent = nullptr);
+        ~ModelCompositor();
 
         void add(IModelCompositorDataSource *);
 
@@ -39,6 +40,7 @@ class CORE_EXPORT ModelCompositor: public QAbstractListModel
 
     private:
         std::map<IModelCompositorDataSource *, int> m_sources;
+        std::vector<QMetaObject::Connection> m_connections;
 
         void dataSourceChanged(IModelCompositorDataSource *);
 };
