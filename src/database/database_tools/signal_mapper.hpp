@@ -1,5 +1,5 @@
 /*
- * Utility for mapping IBackend's signals to signals with IPhotoInfo::Ptr
+ * Photo Broom - photos management tool.
  * Copyright (C) 2018  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

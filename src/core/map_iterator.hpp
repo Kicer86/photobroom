@@ -1,6 +1,5 @@
-
 /*
-    Wraper for std::map::iterator which itself behaves as iterator over map's keys
+ * Photo Broom - photos management tool.
 */
 
 

@@ -1,6 +1,5 @@
-
 /*
-    Wraper for iterator over smart pointers collection.
+ * Photo Broom - photos management tool.
     Behaves as iterator over raw pointers.
 */
 

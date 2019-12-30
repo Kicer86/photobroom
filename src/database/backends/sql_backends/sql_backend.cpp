@@ -1,5 +1,5 @@
 /*
- * Base for SQL-based backends
+ * Photo Broom - photos management tool.
  * This class is meant to be included to each project using it.
  *
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>

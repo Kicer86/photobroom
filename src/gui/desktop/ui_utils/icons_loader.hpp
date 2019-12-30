@@ -1,5 +1,5 @@
 /*
- * Default (system) icons loader.
+ * Photo Broom - photos management tool.
  * Copyright (C) 2015  <copyright holder> <email>
  *
  * This program is free software: you can redistribute it and/or modify

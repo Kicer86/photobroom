@@ -1,6 +1,5 @@
-
 /*
-    Interface which needs to be implemented by database plugins.
+ * Photo Broom - photos management tool.
 
     Copyright (C) 2013  Michał Walenciak <MichalWalenciak@gmail.com>
 
