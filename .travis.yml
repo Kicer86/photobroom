@@ -66,9 +66,9 @@ before_install:
         source conan/bin/activate;
     else
         sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
-        sudo apt install qt511base qt511svg libgl-dev python3 lcov;
+        sudo apt install qt511base qt511svg libgl-dev lcov;
         source /opt/qt5*/bin/qt5*-env.sh;
-        pyenv global 3.7.1;
+        pyenv global 3.7;
     fi
 
   - sudo pip install conan;
