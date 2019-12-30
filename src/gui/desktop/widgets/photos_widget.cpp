@@ -19,6 +19,7 @@
 
 #include "photos_widget.hpp"
 
+#include <QCompleter>
 #include <QMenu>
 #include <QLineEdit>
 #include <QLayoutItem>
@@ -26,12 +27,13 @@
 #include <QShortcut>
 #include <QVBoxLayout>
 
+#include <core/base_tags.hpp>
 #include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ithumbnails_cache.hpp>
-#include <core/base_tags.hpp>
+#include <core/model_compositor.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
@@ -191,7 +193,16 @@ void PhotosWidget::set(IConfiguration* configuration)
 
 void PhotosWidget::set(ICompleterFactory* completerFactory)
 {
-    QCompleter* completer = completerFactory->createPeopleCompleter();
+    ModelCompositor* model = new ModelCompositor(this);
+
+    for(const TagTypes& type: {TagTypes::Place, TagTypes::Event})
+        model->add(completerFactory->accessModel(type));
+
+    model->add(&completerFactory->accessPeopleModel());
+
+    QCompleter* completer = new QCompleter(this);
+    completer->setModel(model);
+
     m_searchExpression->setCompleter(completer);
 }
 
