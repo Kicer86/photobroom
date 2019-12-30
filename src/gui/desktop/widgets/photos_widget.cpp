@@ -77,19 +77,7 @@ PhotosWidget::PhotosWidget(QWidget* p):
             "<pre>"
             "Filter photos matching given expression.\n\n"
             "Expression can be one or more words.\n"
-            "All photos which don't match it will be hidden.\n\n"
-            "Example:\n"
-            "If you want to find photos of John Smith\n"
-            "just type <b>John Smith</b> here.\n\n"
-            "Your expression doesn't need to be exact.\n"
-            "If you type <b>Smith</b> all photos with this word will be found.\n"
-            "Remember that proper informations need to be added to photos.\n\n"
-            "If you wish to find photos that match any of a few expressions\n"
-            "split expressions with comma.\n\n"
-            "Example:\n"
-            "<b>Anderson, Smith</b> will find all photos\n"
-            "described with <b>Anderson</b> or <b>Smith</b>."
-            "</pre>"
+            "Photos which do not match will be hidden.\n"
         )
     );
 
