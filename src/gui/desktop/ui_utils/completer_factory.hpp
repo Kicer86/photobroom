@@ -58,6 +58,7 @@ class CompleterFactory: public ICompleterFactory
         QCompleter* createCompleter(const std::set<TagTypes> &) override;
         QCompleter* createPeopleCompleter() override;
         IModelCompositorDataSource* accessModel(const TagTypes &) override;
+        const IModelCompositorDataSource& accessPeopleModel() override;
 
     private:
         TagInfoCollector m_tagInfoCollector;

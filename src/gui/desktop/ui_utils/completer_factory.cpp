@@ -99,6 +99,12 @@ IModelCompositorDataSource* CompleterFactory::accessModel(const TagTypes& tagTyp
 }
 
 
+const IModelCompositorDataSource& CompleterFactory::accessPeopleModel()
+{
+    return m_peopleListModel;
+}
+
+
 IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
 {
     auto it = m_tagValueModels.find(infos);
