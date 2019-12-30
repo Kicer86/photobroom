@@ -33,16 +33,16 @@ class CORE_EXPORT ModelCompositor: public QAbstractListModel
         ModelCompositor(QObject* parent = nullptr);
         ~ModelCompositor();
 
-        void add(IModelCompositorDataSource *);
+        void add(const IModelCompositorDataSource *);
 
         virtual int rowCount(const QModelIndex & = {}) const override;
         virtual QVariant data(const QModelIndex &, int) const override;
 
     private:
-        std::map<IModelCompositorDataSource *, int> m_sources;
+        std::map<const IModelCompositorDataSource *, int> m_sources;
         std::vector<QMetaObject::Connection> m_connections;
 
-        void dataSourceChanged(IModelCompositorDataSource *);
+        void dataSourceChanged(const IModelCompositorDataSource *);
 };
 
 #endif // MODELCOMPOSITOR_HPP

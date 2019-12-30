@@ -34,7 +34,7 @@ ModelCompositor::~ModelCompositor()
 }
 
 
-void ModelCompositor::add(IModelCompositorDataSource* dataSource)
+void ModelCompositor::add(const IModelCompositorDataSource* dataSource)
 {
     const auto current_size = rowCount();
     const bool is_data_source_empty = dataSource->data().empty();
@@ -94,7 +94,7 @@ QVariant ModelCompositor::data(const QModelIndex& idx, int role) const
 }
 
 
-void ModelCompositor::dataSourceChanged(IModelCompositorDataSource* changed_source)
+void ModelCompositor::dataSourceChanged(const IModelCompositorDataSource* changed_source)
 {
     int begin = 0;
     for (auto& [data_source, data_source_size]: m_sources)
