@@ -76,10 +76,9 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_searchExpression->setClearButtonEnabled(true);
     m_searchExpression->setToolTip(
         tr(
-            "<pre>"
             "Filter photos matching given expression.\n\n"
             "Expression can be one or more words.\n"
-            "Photos which do not match will be hidden.\n"
+            "Photos which do not match will be hidden."
         )
     );
 
