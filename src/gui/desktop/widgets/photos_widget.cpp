@@ -19,6 +19,7 @@
 
 #include "photos_widget.hpp"
 
+#include <QCompleter>
 #include <QMenu>
 #include <QLineEdit>
 #include <QLayoutItem>
@@ -26,12 +27,13 @@
 #include <QShortcut>
 #include <QVBoxLayout>
 
+#include <core/base_tags.hpp>
 #include <core/function_wrappers.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ithumbnails_cache.hpp>
-#include <core/base_tags.hpp>
+#include <core/model_compositor.hpp>
 
 #include "config_keys.hpp"
 #include "info_widget.hpp"
@@ -74,22 +76,9 @@ PhotosWidget::PhotosWidget(QWidget* p):
     m_searchExpression->setClearButtonEnabled(true);
     m_searchExpression->setToolTip(
         tr(
-            "<pre>"
             "Filter photos matching given expression.\n\n"
             "Expression can be one or more words.\n"
-            "All photos which don't match it will be hidden.\n\n"
-            "Example:\n"
-            "If you want to find photos of John Smith\n"
-            "just type <b>John Smith</b> here.\n\n"
-            "Your expression doesn't need to be exact.\n"
-            "If you type <b>Smith</b> all photos with this word will be found.\n"
-            "Remember that proper informations need to be added to photos.\n\n"
-            "If you wish to find photos that match any of a few expressions\n"
-            "split expressions with comma.\n\n"
-            "Example:\n"
-            "<b>Anderson, Smith</b> will find all photos\n"
-            "described with <b>Anderson</b> or <b>Smith</b>."
-            "</pre>"
+            "Photos which do not match will be hidden."
         )
     );
 
@@ -203,7 +192,16 @@ void PhotosWidget::set(IConfiguration* configuration)
 
 void PhotosWidget::set(ICompleterFactory* completerFactory)
 {
-    QCompleter* completer = completerFactory->createPeopleCompleter();
+    ModelCompositor* model = new ModelCompositor(this);
+
+    for(const TagTypes& type: {TagTypes::Place, TagTypes::Event})
+        model->add(completerFactory->accessModel(type));
+
+    model->add(&completerFactory->accessPeopleModel());
+
+    QCompleter* completer = new QCompleter(this);
+    completer->setModel(model);
+
     m_searchExpression->setCompleter(completer);
 }
 

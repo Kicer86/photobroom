@@ -69,25 +69,9 @@ void PeopleListModel::setDB(Database::IDatabase* db)
 }
 
 
-QVariant PeopleListModel::data(const QModelIndex& index, int role) const
+const QStringList& PeopleListModel::data() const
 {
-    QVariant result;
-
-    if ( (role == Qt::EditRole || role == Qt::DisplayRole) &&
-         index.column() == 0 && index.row() < rowCount(index.parent()))
-    {
-        result = m_names[index.row()];
-    }
-
-    return result;
-}
-
-
-int PeopleListModel::rowCount(const QModelIndex& parent) const
-{
-    const int count = parent.isValid()? 0: m_names.size();
-
-    return count;
+    return m_names;
 }
 
 
@@ -97,22 +81,16 @@ void PeopleListModel::fill(const QStringList& names)
 
     if (names.empty() == false)
     {
-        const int last = names.size() - 1;
-
-        beginInsertRows(QModelIndex(), 0, last);
-
         m_names = names;
 
-        endInsertRows();
+        emit dataChanged();
     }
 }
 
 
 void PeopleListModel::clear()
 {
-    beginResetModel();
-
     m_names.clear();
 
-    endResetModel();
+    emit dataChanged();
 }

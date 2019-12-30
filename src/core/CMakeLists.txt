@@ -20,6 +20,7 @@ set(CORE_SOURCES
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     imedia_information.hpp
+    imodel_compositor_data_source.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
     itask_executor.hpp
@@ -51,6 +52,7 @@ set(CORE_SOURCES
     logger_factory.hpp                                      implementation/logger_factory.cpp
     media_information.hpp                                   implementation/media_information.cpp
     media_types.hpp                                         implementation/media_types.cpp
+    model_compositor.hpp                                    implementation/model_compositor.cpp
     oriented_image.hpp                                      implementation/oriented_image.cpp
     python_thread.hpp                                       implementation/python_thread.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
@@ -92,14 +94,13 @@ else()
 endif()
 
 set(CORE_RESOURCE_FILES     images/images.qrc)
-set(CORE_MOC_FILES          disk_observer.hpp)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
-add_library(core ${CORE_SOURCES} ${CORE_RESOURCES} ${CORE_WRAPPED})
+add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
                         PRIVATE
                             system
@@ -123,6 +124,8 @@ target_include_directories(core SYSTEM PUBLIC
                                 PRIVATE
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+set_target_properties(core PROPERTIES AUTOMOC TRUE)
 
 generate_export_header(core)
 hideSymbols(core)

@@ -35,6 +35,7 @@
 
 #include <core/base_tags.hpp>
 #include <core/down_cast.hpp>
+#include <core/imodel_compositor_data_source.hpp>
 
 #include "utils/model_index_utils.hpp"
 #include "widgets/tag_editor/helpers/tags_model.hpp"
@@ -119,14 +120,13 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
         case TagTypes::Category:
         {
             KColorCombo* combo = new KColorCombo(parent);
-            QAbstractItemModel* model = m_completerFactory->accessModel(TagTypes::Category);
+            IModelCompositorDataSource* model = m_completerFactory->accessModel(TagTypes::Category);
+            const QStringList& colorsList = model->data();
 
             QList<QColor> colors;
-            for(auto it = utils::first(*model); it.isValid(); it = utils::next(it))
+            for(const QString& colorStr: colorsList)
             {
-                const QVariant data = it.data();
-                const auto rgba_str = data.toString();
-                const QRgba64 rgba64 = QRgba64::fromRgba64(rgba_str.toULongLong());
+                const QRgba64 rgba64 = QRgba64::fromRgba64(colorStr.toULongLong());
                 const QColor color(rgba64);
                 colors.push_back(color);
             }

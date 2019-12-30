@@ -23,11 +23,13 @@
 #include <QAbstractListModel>
 
 #include <core/tag.hpp>
+#include <core/imodel_compositor_data_source.hpp>
 
 struct ILoggerFactory;
 struct ITagInfoCollector;
 
-class TagValueModel: public QAbstractListModel
+
+class TagValueModel: public IModelCompositorDataSource
 {
     public:
         TagValueModel(const std::set<TagTypes> &);
@@ -38,12 +40,10 @@ class TagValueModel: public QAbstractListModel
         void set(ITagInfoCollector *);
         void set(ILoggerFactory *);
 
-        // QAbstractListModel:
-        virtual int rowCount(const QModelIndex &) const override;
-        virtual QVariant data(const QModelIndex &, int) const override;
+        const QStringList& data() const override;
 
     private:
-        std::vector<TagValue> m_values;
+        QStringList m_values;
         std::set<TagTypes> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;

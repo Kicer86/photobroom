@@ -19,10 +19,14 @@
 
 #include "tag_value_model.hpp"
 
+#include <QLocale>
+
 #include <core/base_tags.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <database/database_tools/itag_info_collector.hpp>
+
+#include "utils/variant_display.hpp"
 
 
 namespace
@@ -86,33 +90,14 @@ void TagValueModel::set(ILoggerFactory* loggerFactory)
 }
 
 
-int TagValueModel::rowCount(const QModelIndex& index) const
+const QStringList& TagValueModel::data() const
 {
-    const std::size_t result = index.isValid()? 0: m_values.size();
-
-    return static_cast<int>(result);
-}
-
-
-QVariant TagValueModel::data(const QModelIndex& index, int role) const
-{
-    assert(index.isValid());
-    assert(index.column() == 0);
-    assert(static_cast<std::size_t>(index.row()) < m_values.size());
-
-    QVariant result;
-
-    if (role == Qt::EditRole || role == Qt::DisplayRole)
-        result = m_values[index.row()].get();
-
-    return result;
+    return m_values;
 }
 
 
 void TagValueModel::updateData()
 {
-    beginResetModel();
-
     m_values.clear();
 
     QString combined_name;
@@ -120,7 +105,11 @@ void TagValueModel::updateData()
     for(const TagTypes& info: m_tagInfos)
     {
         const auto& values = m_tagInfoCollector->get(info);
-        std::copy( values.begin(), values.end(), std::back_inserter(m_values) );
+        std::transform( values.begin(), values.end(), std::back_inserter(m_values), [](const TagValue& value){
+            const QLocale locale;
+
+            return localize(value.get(), locale);
+        });
 
         combined_name += combined_name.isEmpty()?
             BaseTags::getName(info) :
@@ -136,7 +125,7 @@ void TagValueModel::updateData()
     auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
     DebugStream(logger.get()) << logMessage;
 
-    endResetModel();
+    emit dataChanged();
 }
 
 

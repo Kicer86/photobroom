@@ -25,6 +25,7 @@
 #include <core/tag.hpp>
 #include <database/database_tools/tag_info_collector.hpp>
 #include "icompleter_factory.hpp"
+#include "utils/people_list_model.hpp"
 
 class QAbstractItemModel;
 
@@ -33,6 +34,7 @@ namespace Database
     struct IDatabase;
 }
 
+struct IModelCompositorDataSource;
 struct ILoggerFactory;
 class PeopleListModel;
 
@@ -55,19 +57,16 @@ class CompleterFactory: public ICompleterFactory
         QCompleter* createCompleter(const TagTypes &) override;
         QCompleter* createCompleter(const std::set<TagTypes> &) override;
         QCompleter* createPeopleCompleter() override;
-        QAbstractItemModel* accessModel(const TagTypes & ) override;
+        IModelCompositorDataSource* accessModel(const TagTypes &) override;
+        const IModelCompositorDataSource& accessPeopleModel() override;
 
     private:
-        typedef std::unique_ptr<QAbstractItemModel> ModelPtr;
-        typedef std::pair<ModelPtr, ModelPtr> ModelPair;
-
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagTypes>, ModelPair> m_tagValueModels;
-        PeopleListModel* m_peopleListModel;
+        std::map<std::set<TagTypes>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
+        PeopleListModel m_peopleListModel;
         ILoggerFactory* m_loggerFactory;
 
-        QAbstractItemModel* getModelFor(const std::set<TagTypes> &);
-        QAbstractItemModel* getModelForPeople();
+        IModelCompositorDataSource* getModelFor(const std::set<TagTypes> &);
 };
 
 #endif // COMPLETERFACTORY_HPP

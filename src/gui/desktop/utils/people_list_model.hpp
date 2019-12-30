@@ -19,14 +19,16 @@
 #ifndef PEOPLELISTMODEL_HPP
 #define PEOPLELISTMODEL_HPP
 
-#include <QAbstractListModel>
+
+#include <core/imodel_compositor_data_source.hpp>
+
 
 namespace Database
 {
     struct IDatabase;
 }
 
-class PeopleListModel: public QAbstractListModel
+class PeopleListModel: public IModelCompositorDataSource
 {
     public:
         PeopleListModel();
@@ -34,8 +36,7 @@ class PeopleListModel: public QAbstractListModel
 
         void setDB(Database::IDatabase *);
 
-        QVariant data(const QModelIndex & index, int role) const override;
-        int rowCount(const QModelIndex & parent) const override;
+        const QStringList& data() const override;
 
     private:
         QStringList m_names;
