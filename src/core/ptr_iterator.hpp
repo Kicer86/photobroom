@@ -12,6 +12,13 @@
 #include "iterator_wrapper.hpp"
 #include "generic_concepts.hpp"
 
+
+/*
+    Wraper for iterator over smart pointers collection.
+    Behaves as iterator over raw pointers.
+*/
+
+
 #ifdef CONCEPTS_SUPPORTED
 
 template<typename T>
