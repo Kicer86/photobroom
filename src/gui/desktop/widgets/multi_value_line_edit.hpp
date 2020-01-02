@@ -1,5 +1,5 @@
 /*
- * Multi value line edit - for multi completition
+ * Photo Broom - photos management tool.
  * Copyright (C) 2016  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

@@ -1,5 +1,5 @@
 /*
- * Model for particular TagNameInfo values
+ * Photo Broom - photos management tool.
  * Copyright (C) 2016  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

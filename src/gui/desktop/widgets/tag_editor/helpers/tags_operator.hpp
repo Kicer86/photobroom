@@ -1,5 +1,5 @@
 /*
- * Tags operator
+ * Photo Broom - photos management tool.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

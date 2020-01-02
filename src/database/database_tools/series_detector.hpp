@@ -1,5 +1,5 @@
 /*
- * Tool for series detection
+ * Photo Broom - photos management tool.
  * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

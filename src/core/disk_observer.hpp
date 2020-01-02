@@ -1,5 +1,5 @@
 /*
- * Disk watching utility
+ * Photo Broom - photos management tool.
  * Copyright (C) 2015  Michał Walenciak <MichalWalenciak@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
