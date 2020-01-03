@@ -80,7 +80,7 @@ namespace dlib_api
         };
 
 
-        std::vector<QRect> raw_face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
+        QVector<QRect> raw_face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
         {
             if (model == "cnn")
             {
@@ -91,19 +91,39 @@ namespace dlib_api
             }
             else
             {
-                //auto face_detector = dlib::get_frontal_face_detector();
-                //face_detector(img, number_of_times_to_upsample);
+                // Copy the data into dlib based objects
+                const QRect size = img.rect();
+                dlib::matrix<dlib::rgb_pixel> image;
+                image.set_size(size.height(), size.width());
 
-                return {};
+                for(int r = 0; r < size.height(); r++)
+                    for(int c = 0; c < size.width(); c++)
+                    {
+                        const QRgb rgb = img.pixel(c, r);
+                        image(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
+                    }
+
+                auto face_detector = dlib::get_frontal_face_detector();
+                auto dlib_results = face_detector(image, number_of_times_to_upsample);
+
+                QVector<QRect> faces;
+                for (const auto& rect: dlib_results)
+                {
+                    const QRect face(rect.left(), rect.top(),
+                                     rect.right() - rect.left(), rect.bottom() - rect.top());
+                    faces.push_back(face);
+                }
+
+                return faces;
             }
         }
     }
 
-    std::vector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
+    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
     {
         if (model == "cnn")
-            return {}; //[_trim_css_to_bounds(_rect_to_css(face.rect), img.shape) for face in _raw_face_locations(img, number_of_times_to_upsample, "cnn")];
+            return raw_face_locations(img, number_of_times_to_upsample, "cnn");
         else
-            return {}; //[_trim_css_to_bounds(_rect_to_css(face), img.shape) for face in _raw_face_locations(img, number_of_times_to_upsample, model)];
+            return raw_face_locations(img, number_of_times_to_upsample, model);
     }
 }
