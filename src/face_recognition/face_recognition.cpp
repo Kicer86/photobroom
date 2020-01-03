@@ -41,6 +41,8 @@
 #include <system/filesystem.hpp>
 #include <system/system.hpp>
 
+#include "dlib_wrapper/dlib_face_recognition_api.hpp"
+
 
 namespace py = pybind11;
 using namespace std::placeholders;
@@ -147,46 +149,8 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
     if (s)
     {
-        std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
-        {
-            QVector<QRect> result;
-            const QStringList mm = missingModules();
-
-            if (mm.empty())
-            {
-                try
-                {
-                    py::module find_faces = py::module::import("find_faces");
-                    py::object locations = find_faces.attr("find_faces")(path.toStdString());
-
-                    auto locations_list = locations.cast<py::list>();
-
-                    const std::size_t facesCount = locations_list.size();
-                    for (std::size_t i = 0; i < facesCount; i++)
-                    {
-                        auto item = locations_list[i];
-
-                        const QRect rect = tupleToRect(item.cast<py::tuple>());
-
-                        if (rect.isValid())
-                            result.push_back(rect);
-                    }
-                }
-                catch (const std::exception& ex)
-                {
-                    std::cout << ex.what() << std::endl;
-                }
-            }
-
-            return result;
-        });
-
-        auto fetch_future = fetch_task.get_future();
-        m_pythonThread->execute(fetch_task);
-
-        fetch_future.wait();
-
-        result = fetch_future.get();
+        QImage image(normalizedPhotoPath);
+        result = dlib_api::face_locations(image);
     }
 
     return result;
