@@ -2,6 +2,7 @@
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(pybind11 REQUIRED)
+find_package(dlib REQUIRED)
 
 add_library(face_recognition
     face_recognition.cpp
@@ -15,6 +16,7 @@ target_include_directories(face_recognition
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                 PRIVATE
                                     ${CMAKE_SOURCE_DIR}/src
+                                    ${DLIB_INCLUDE_DIRS}
 )
 
 target_link_libraries(face_recognition
@@ -26,6 +28,7 @@ target_link_libraries(face_recognition
                                 database
                                 system
                                 pybind11::embed
+                                ${DLIB_LIBRARIES}
 )
 
 target_compile_definitions(face_recognition PRIVATE DQT_NO_KEYWORDS)
