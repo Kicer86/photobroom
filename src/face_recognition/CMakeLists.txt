@@ -30,7 +30,7 @@ target_link_libraries(face_recognition
                                 database
                                 system
                                 pybind11::embed
-                                ${DLIB_LIBRARIES}
+                                dlib
 )
 
 target_compile_definitions(face_recognition PRIVATE DQT_NO_KEYWORDS)
