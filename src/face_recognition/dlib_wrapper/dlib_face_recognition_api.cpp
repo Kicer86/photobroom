@@ -126,7 +126,6 @@ namespace dlib_api
 
                 auto face_detector = dlib::get_frontal_face_detector();
                 const auto dlib_results = face_detector(image, number_of_times_to_upsample);
-
                 const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
 
                 return faces;
