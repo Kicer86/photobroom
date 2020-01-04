@@ -30,6 +30,7 @@ struct SYSTEM_EXPORT FileSystem
         QString getTranslationsPath() const;
         QString getLibrariesPath() const;
         QString getScriptsPath() const;
+        QString getDataPath() const;
 
         QString commonPath(const QString &, const QString &) const;
 
