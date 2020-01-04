@@ -106,35 +106,29 @@ namespace dlib_api
 
             net_type net;
         };
-
-
-        QVector<QRect> raw_face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
-        {
-            if (model == cnn)
-            {
-                cnn_face_detection_model_v1 cnn_face_detector("");
-
-                const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
-                const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
-
-                return faces;
-            }
-            else
-            {
-                // Copy the data into dlib based objects
-                dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
-
-                auto face_detector = dlib::get_frontal_face_detector();
-                const auto dlib_results = face_detector(image, number_of_times_to_upsample);
-                const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
-
-                return faces;
-            }
-        }
     }
 
-    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample, Model model)
+    QVector<QRect> face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
     {
-        return raw_face_locations(img, number_of_times_to_upsample, model);
+        if (model == cnn)
+        {
+            cnn_face_detection_model_v1 cnn_face_detector("");
+
+            const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
+            const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+            return faces;
+        }
+        else
+        {
+            // Copy the data into dlib based objects
+            dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+
+            auto face_detector = dlib::get_frontal_face_detector();
+            const auto dlib_results = face_detector(image, number_of_times_to_upsample);
+            const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+            return faces;
+        }
     }
 }
