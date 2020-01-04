@@ -16,20 +16,5 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ENCODEDFACESCACHE_HPP
-#define ENCODEDFACESCACHE_HPP
+#include "faces_encoder.hpp"
 
-#include <QString>
-
-/**
- * @brief Cache for encoded faces
- */
-class EncodedFacesCache
-{
-    public:
-        EncodedFacesCache(const QString& cacheDir);
-
-
-};
-
-#endif // ENCODEDFACESCACHE_HPP

@@ -16,5 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "encoded_faces_cache.hpp"
+#ifndef FACES_ENCODER_HPP
+#define FACES_ENCODER_HPP
 
+#include <QString>
+
+/**
+ * @brief tool for encoding photos
+ */
+class FacesEncoder
+{
+    public:
+
+
+};
+
+#endif

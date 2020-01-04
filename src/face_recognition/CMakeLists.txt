@@ -5,10 +5,10 @@ find_package(pybind11 REQUIRED)
 find_package(dlib REQUIRED)
 
 add_library(face_recognition
-    encoded_faces_cache.cpp
-    encoded_faces_cache.hpp
     face_recognition.cpp
     face_recognition.hpp
+    faces_encoder.cpp
+    faces_encoder.hpp
     dlib_wrapper/dlib_face_recognition_api.cpp
     dlib_wrapper/dlib_face_recognition_api.hpp
 )
