@@ -29,6 +29,18 @@ namespace dlib_api
             return matrix;
         }
 
+        QVector<QRect> dlib_rects_to_qrects(const std::vector<dlib::rectangle>& dlib_rects)
+        {
+            QVector<QRect> qrects;
+            for (const auto& rect: dlib_rects)
+            {
+                const QRect qrect(rect.left(), rect.top(),
+                                  rect.right() - rect.left(), rect.bottom() - rect.top());
+                qrects.push_back(qrect);
+            }
+
+            return qrects;
+        }
 
         // based on:
         // https://github.com/davisking/dlib/blob/6b581d91f6b9b847a8163420630ef947e7cc88db/tools/python/src/cnn_face_detector.cpp
@@ -103,15 +115,9 @@ namespace dlib_api
                 dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
                 auto face_detector = dlib::get_frontal_face_detector();
-                auto dlib_results = face_detector(image, number_of_times_to_upsample);
+                const auto dlib_results = face_detector(image, number_of_times_to_upsample);
 
-                QVector<QRect> faces;
-                for (const auto& rect: dlib_results)
-                {
-                    const QRect face(rect.left(), rect.top(),
-                                     rect.right() - rect.left(), rect.bottom() - rect.top());
-                    faces.push_back(face);
-                }
+                const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
 
                 return faces;
             }
