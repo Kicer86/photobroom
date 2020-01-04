@@ -103,6 +103,7 @@ namespace dlib_api
         };
     }
 
+
     QVector<QRect> face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
     {
         if (model == cnn)
@@ -124,5 +125,16 @@ namespace dlib_api
 
             return faces;
         }
+    }
+
+
+    QByteArray face_encodings(const QString& file_with_face, EncodingsModel model)
+    {
+        // here we assume, that given image is a face extraceted from image with help of face_locations()
+        const QImage image(file_with_face);
+        const QSize size = image.size();
+
+        //predictor_68_point_model = face_recognition_models.pose_predictor_model_location()
+        //auto pose_predictor_68_point = dlib::shape_predictor(predictor_68_point_model)
     }
 }
