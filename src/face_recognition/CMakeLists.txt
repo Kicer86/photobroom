@@ -51,3 +51,12 @@ install(FILES
         DESTINATION
             ${PATH_SCRIPTS}
 )
+
+
+file(GLOB models face_recognition_models/face_recognition_models/models/*.dat)
+
+install(FILES
+            ${models}
+        DESTINATION
+            ${PATH_DATA}/face_recognition_models
+)
