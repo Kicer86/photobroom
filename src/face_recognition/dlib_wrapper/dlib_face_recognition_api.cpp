@@ -29,13 +29,21 @@ namespace dlib_api
             return matrix;
         }
 
-        QVector<QRect> dlib_rects_to_qrects(const std::vector<dlib::rectangle>& dlib_rects)
+        QRect dlib_rect_to_qrect(const dlib::rectangle& rect)
+        {
+            const QRect qrect(rect.left(), rect.top(),
+                              rect.right() - rect.left(), rect.bottom() - rect.top());
+
+            return qrect;
+        }
+
+        template<typename DlibRect>
+        QVector<QRect> dlib_rects_to_qrects(const std::vector<DlibRect>& dlib_rects)
         {
             QVector<QRect> qrects;
             for (const auto& rect: dlib_rects)
             {
-                const QRect qrect(rect.left(), rect.top(),
-                                  rect.right() - rect.left(), rect.bottom() - rect.top());
+                const QRect qrect = dlib_rect_to_qrect(rect);
                 qrects.push_back(qrect);
             }
 
@@ -105,9 +113,11 @@ namespace dlib_api
             if (model == "cnn")
             {
                 cnn_face_detection_model_v1 cnn_face_detector("");
-                cnn_face_detector.detect(qimage, number_of_times_to_upsample);
 
-                return {};
+                const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
+                const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+                return faces;
             }
             else
             {
