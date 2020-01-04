@@ -74,12 +74,8 @@ namespace dlib_api
 
                 // Upsampling the image will allow us to detect smaller faces but will cause the
                 // program to use more RAM and run longer.
-                unsigned int levels = upsample_num_times;
-                while (levels > 0)
-                {
-                    levels--;
+                for (int i = 0; i < upsample_num_times; i++)
                     pyramid_up(image, pyr);
-                }
 
                 auto dets = net(image);
 
