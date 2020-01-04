@@ -7,14 +7,13 @@
 #include <dlib/image_transforms.h>
 #include <QRgb>
 
-// based on:
-// https://github.com/davisking/dlib/blob/6b581d91f6b9b847a8163420630ef947e7cc88db/tools/python/src/cnn_face_detector.cpp
 
 namespace dlib_api
 {
     namespace
     {
-
+        // based on:
+        // https://github.com/davisking/dlib/blob/6b581d91f6b9b847a8163420630ef947e7cc88db/tools/python/src/cnn_face_detector.cpp
         class cnn_face_detection_model_v1
         {
 
