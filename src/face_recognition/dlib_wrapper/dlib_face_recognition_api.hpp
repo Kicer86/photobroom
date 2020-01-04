@@ -12,7 +12,13 @@
 
 namespace dlib_api
 {
-    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample=1, const std::string& model="hog");
+    enum Model
+    {
+        hog,
+        cnn,
+    };
+
+    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample=1, Model = hog);
 }
 
 #endif // DLIB_FACE_RECOGNITION_API_HPP_INCLUDED

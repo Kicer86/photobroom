@@ -150,7 +150,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     if (s)
     {
         QImage image(normalizedPhotoPath);
-        result = dlib_api::face_locations(image, 0);
+        result = dlib_api::face_locations(image, 0, dlib_api::hog);
     }
 
     return result;

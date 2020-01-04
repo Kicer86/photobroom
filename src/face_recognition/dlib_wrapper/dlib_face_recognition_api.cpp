@@ -108,9 +108,9 @@ namespace dlib_api
         };
 
 
-        QVector<QRect> raw_face_locations(const QImage& qimage, int number_of_times_to_upsample, const std::string& model)
+        QVector<QRect> raw_face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
         {
-            if (model == "cnn")
+            if (model == cnn)
             {
                 cnn_face_detection_model_v1 cnn_face_detector("");
 
@@ -133,11 +133,8 @@ namespace dlib_api
         }
     }
 
-    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
+    QVector<QRect> face_locations(const QImage& img, int number_of_times_to_upsample, Model model)
     {
-        if (model == "cnn")
-            return raw_face_locations(img, number_of_times_to_upsample, "cnn");
-        else
-            return raw_face_locations(img, number_of_times_to_upsample, model);
+        return raw_face_locations(img, number_of_times_to_upsample, model);
     }
 }
