@@ -100,7 +100,6 @@ namespace dlib_api
             else
             {
                 // Copy the data into dlib based objects
-                const QRect size = qimage.rect();
                 dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
                 auto face_detector = dlib::get_frontal_face_detector();
