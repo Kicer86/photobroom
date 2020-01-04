@@ -12,6 +12,24 @@ namespace dlib_api
 {
     namespace
     {
+        dlib::matrix<dlib::rgb_pixel> qimage_to_dlib_matrix(const QImage& qimage)
+        {
+            dlib::matrix<dlib::rgb_pixel> matrix;
+
+            const QRect size = qimage.rect();
+            matrix.set_size(size.height(), size.width());
+
+            for(int r = 0; r < size.height(); r++)
+                for(int c = 0; c < size.width(); c++)
+                {
+                    const QRgb rgb = qimage.pixel(c, r);
+                    matrix(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
+                }
+
+            return matrix;
+        }
+
+
         // based on:
         // https://github.com/davisking/dlib/blob/6b581d91f6b9b847a8163420630ef947e7cc88db/tools/python/src/cnn_face_detector.cpp
         class cnn_face_detection_model_v1
@@ -33,16 +51,7 @@ namespace dlib_api
                 std::vector<dlib::mmod_rect> face_rects;
 
                 // Copy the data into dlib based objects
-                const QRect size = qimage.rect();
-                dlib::matrix<dlib::rgb_pixel> image;
-                image.set_size(size.height(), size.width());
-
-                for(int r = 0; r < size.height(); r++)
-                    for(int c = 0; c < size.width(); c++)
-                    {
-                        const QRgb rgb = qimage.pixel(c, r);
-                        image(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
-                    }
+                dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
                 // Upsampling the image will allow us to detect smaller faces but will cause the
                 // program to use more RAM and run longer.
@@ -92,15 +101,7 @@ namespace dlib_api
             {
                 // Copy the data into dlib based objects
                 const QRect size = qimage.rect();
-                dlib::matrix<dlib::rgb_pixel> image;
-                image.set_size(size.height(), size.width());
-
-                for(int r = 0; r < size.height(); r++)
-                    for(int c = 0; c < size.width(); c++)
-                    {
-                        const QRgb rgb = qimage.pixel(c, r);
-                        image(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
-                    }
+                dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
                 auto face_detector = dlib::get_frontal_face_detector();
                 auto dlib_results = face_detector(image, number_of_times_to_upsample);
