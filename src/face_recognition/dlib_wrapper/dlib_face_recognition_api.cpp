@@ -350,7 +350,7 @@ namespace dlib_api
     }
 
 
-    QByteArray face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
+    QString face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
@@ -369,6 +369,13 @@ namespace dlib_api
         auto face_recognition_model = models_path() + "/dlib_face_recognition_resnet_model_v1.dat";
         face_recognition_model_v1 face_encoder(face_recognition_model.toStdString());
 
-        face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
+        auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
+
+        QStringList result;
+        for(int r = 0; r < encodings.nr(); r++)
+            for(int c = 0; c < encodings.nc(); c++)
+                result.append(QString::number(encodings(r, c)));
+
+        return result.join(",");
     }
 }
