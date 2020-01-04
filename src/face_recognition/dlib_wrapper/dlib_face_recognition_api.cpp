@@ -26,22 +26,22 @@ namespace dlib_api
             }
 
             std::vector<dlib::mmod_rect> detect (
-                const QImage& pyimage,
+                const QImage& qimage,
                 const int upsample_num_times
             )
             {
                 dlib::pyramid_down<2> pyr;
-                std::vector<dlib::mmod_rect> rects;
+                std::vector<dlib::mmod_rect> face_rects;
 
                 // Copy the data into dlib based objects
-                const QRect size = pyimage.rect();
+                const QRect size = qimage.rect();
                 dlib::matrix<dlib::rgb_pixel> image;
                 image.set_size(size.height(), size.width());
 
                 for(int r = 0; r < size.height(); r++)
                     for(int c = 0; c < size.width(); c++)
                     {
-                        const QRgb rgb = pyimage.pixel(c, r);
+                        const QRgb rgb = qimage.pixel(c, r);
                         image(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
                     }
 
@@ -60,10 +60,10 @@ namespace dlib_api
                 // if the image was upscaled.
                 for (auto&& d : dets) {
                     d.rect = pyr.rect_down(d.rect, upsample_num_times);
-                    rects.push_back(d);
+                    face_rects.push_back(d);
                 }
 
-                return rects;
+                return face_rects;
             }
 
         private:
@@ -80,26 +80,26 @@ namespace dlib_api
         };
 
 
-        QVector<QRect> raw_face_locations(const QImage& img, int number_of_times_to_upsample, const std::string& model)
+        QVector<QRect> raw_face_locations(const QImage& qimage, int number_of_times_to_upsample, const std::string& model)
         {
             if (model == "cnn")
             {
                 cnn_face_detection_model_v1 cnn_face_detector("");
-                cnn_face_detector.detect(img, number_of_times_to_upsample);
+                cnn_face_detector.detect(qimage, number_of_times_to_upsample);
 
                 return {};
             }
             else
             {
                 // Copy the data into dlib based objects
-                const QRect size = img.rect();
+                const QRect size = qimage.rect();
                 dlib::matrix<dlib::rgb_pixel> image;
                 image.set_size(size.height(), size.width());
 
                 for(int r = 0; r < size.height(); r++)
                     for(int c = 0; c < size.width(); c++)
                     {
-                        const QRgb rgb = img.pixel(c, r);
+                        const QRgb rgb = qimage.pixel(c, r);
                         image(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
                     }
 
