@@ -70,7 +70,6 @@ namespace dlib_api
                 dlib::pyramid_down<2> pyr;
                 std::vector<dlib::mmod_rect> face_rects;
 
-                // Copy the data into dlib based objects
                 dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
                 // Upsampling the image will allow us to detect smaller faces but will cause the
@@ -121,7 +120,6 @@ namespace dlib_api
         }
         else
         {
-            // Copy the data into dlib based objects
             dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
             auto face_detector = dlib::get_frontal_face_detector();
