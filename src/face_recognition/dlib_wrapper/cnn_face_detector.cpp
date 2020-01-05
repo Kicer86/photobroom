@@ -17,3 +17,42 @@
  */
 
 #include "cnn_face_detector.hpp"
+
+#include <dlib/image_processing/frontal_face_detector.h>
+#include <dlib/matrix.h>
+#include <dlib/image_transforms.h>
+
+#include "helpers.hpp"
+
+cnn_face_detection_model_v1::cnn_face_detection_model_v1(const std::string& model_filename)
+{
+    dlib::deserialize(model_filename) >> net;
+}
+
+
+std::vector<dlib::mmod_rect> cnn_face_detection_model_v1::detect(
+    const QImage& qimage,
+    const int upsample_num_times
+)
+{
+    dlib::pyramid_down<2> pyr;
+    std::vector<dlib::mmod_rect> face_rects;
+
+    dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+
+    // Upsampling the image will allow us to detect smaller faces but will cause the
+    // program to use more RAM and run longer.
+    for (int i = 0; i < upsample_num_times; i++)
+        pyramid_up(image, pyr);
+
+    auto dets = net(image);
+
+    // Scale the detection locations back to the original image size
+    // if the image was upscaled.
+    for (auto&& d : dets) {
+        d.rect = pyr.rect_down(d.rect, upsample_num_times);
+        face_rects.push_back(d);
+    }
+
+    return face_rects;
+}

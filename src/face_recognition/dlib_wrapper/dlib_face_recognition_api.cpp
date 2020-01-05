@@ -9,6 +9,8 @@
 
 #include <system/filesystem.hpp>
 
+#include "cnn_face_detector.hpp"
+
 
 namespace dlib_api
 {
@@ -67,58 +69,6 @@ namespace dlib_api
 
             return qrects;
         }
-
-        // based on:
-        // https://github.com/davisking/dlib/blob/6b581d91f6b9b847a8163420630ef947e7cc88db/tools/python/src/cnn_face_detector.cpp
-        class cnn_face_detection_model_v1
-        {
-
-        public:
-
-            cnn_face_detection_model_v1(const std::string& model_filename)
-            {
-                dlib::deserialize(model_filename) >> net;
-            }
-
-            std::vector<dlib::mmod_rect> detect (
-                const QImage& qimage,
-                const int upsample_num_times
-            )
-            {
-                dlib::pyramid_down<2> pyr;
-                std::vector<dlib::mmod_rect> face_rects;
-
-                dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
-
-                // Upsampling the image will allow us to detect smaller faces but will cause the
-                // program to use more RAM and run longer.
-                for (int i = 0; i < upsample_num_times; i++)
-                    pyramid_up(image, pyr);
-
-                auto dets = net(image);
-
-                // Scale the detection locations back to the original image size
-                // if the image was upscaled.
-                for (auto&& d : dets) {
-                    d.rect = pyr.rect_down(d.rect, upsample_num_times);
-                    face_rects.push_back(d);
-                }
-
-                return face_rects;
-            }
-
-        private:
-
-            template <long num_filters, typename SUBNET> using con5d = dlib::con<num_filters,5,5,2,2,SUBNET>;
-            template <long num_filters, typename SUBNET> using con5  = dlib::con<num_filters,5,5,1,1,SUBNET>;
-
-            template <typename SUBNET> using downsampler  = dlib::relu<dlib::affine<con5d<32, dlib::relu<dlib::affine<con5d<32, dlib::relu<dlib::affine<con5d<16,SUBNET>>>>>>>>>;
-            template <typename SUBNET> using rcon5  = dlib::relu<dlib::affine<con5<45,SUBNET>>>;
-
-            using net_type = dlib::loss_mmod<dlib::con<1,9,9,1,1,rcon5<rcon5<rcon5<downsampler<dlib::input_rgb_image_pyramid<dlib::pyramid_down<6>>>>>>>>;
-
-            net_type net;
-        };
 
         // based on:
         // https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae4235fc5742779808/tools/python/src/face_recognition.cpp
