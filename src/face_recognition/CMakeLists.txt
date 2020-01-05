@@ -7,6 +7,8 @@ find_package(dlib REQUIRED)
 add_library(face_recognition
     face_recognition.cpp
     face_recognition.hpp
+    dlib_wrapper/cnn_face_detector.cpp
+    dlib_wrapper/cnn_face_detector.hpp
     dlib_wrapper/dlib_face_recognition_api.cpp
     dlib_wrapper/dlib_face_recognition_api.hpp
 )
