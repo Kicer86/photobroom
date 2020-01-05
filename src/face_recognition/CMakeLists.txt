@@ -13,6 +13,8 @@ add_library(face_recognition
     dlib_wrapper/dlib_face_recognition_api.hpp
     dlib_wrapper/face_recognition.cpp
     dlib_wrapper/face_recognition.hpp
+    dlib_wrapper/helpers.cpp
+    dlib_wrapper/helpers.hpp
 )
 
 target_include_directories(face_recognition
