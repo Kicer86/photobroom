@@ -11,6 +11,8 @@ add_library(face_recognition
     dlib_wrapper/cnn_face_detector.hpp
     dlib_wrapper/dlib_face_recognition_api.cpp
     dlib_wrapper/dlib_face_recognition_api.hpp
+    dlib_wrapper/face_recognition.cpp
+    dlib_wrapper/face_recognition.hpp
 )
 
 target_include_directories(face_recognition
