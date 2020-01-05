@@ -28,7 +28,7 @@ namespace dlib_api
     QVector<QRect> face_locations(const QImage &, int number_of_times_to_upsample = 1, Model = hog);
 
     // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
-    QString face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = large);
+    std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = large);
 }
 
 #endif // DLIB_FACE_RECOGNITION_API_HPP_INCLUDED
