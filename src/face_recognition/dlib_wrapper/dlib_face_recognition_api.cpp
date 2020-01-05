@@ -69,8 +69,6 @@ namespace dlib_api
 
             return qrects;
         }
-
-
     }
 
 
