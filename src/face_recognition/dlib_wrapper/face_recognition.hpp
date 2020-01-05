@@ -25,15 +25,13 @@
 
 class QImage;
 
-/**
- * @brief tool for face recognition
- * based on:
- * https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae4235fc5742779808/tools/python/src/face_recognition.cpp
- */
-
 namespace dlib_api
 {
-
+    /**
+    * @brief tool for face recognition
+    * based on:
+    * https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae4235fc5742779808/tools/python/src/face_recognition.cpp
+    */
     class face_recognition_model_v1
     {
 
