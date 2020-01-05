@@ -78,7 +78,8 @@ namespace dlib_api
     {
         if (model == cnn)
         {
-            cnn_face_detection_model_v1 cnn_face_detector("");
+            auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+            cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
 
             const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
             const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
