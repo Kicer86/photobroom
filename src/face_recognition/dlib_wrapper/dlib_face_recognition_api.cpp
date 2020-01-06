@@ -2,7 +2,6 @@
 #include "dlib_face_recognition_api.hpp"
 
 #include <dlib/image_processing/frontal_face_detector.h>
-#include <dlib/matrix.h>
 #include <dlib/dnn.h>
 #include <QRgb>
 
