@@ -28,9 +28,51 @@
 namespace dlib_api
 {
 
-    face_recognition_model_v1::face_recognition_model_v1(const std::string& model_filename)
+    struct face_recognition_model_v1::data
     {
-        dlib::deserialize(model_filename) >> net;
+        dlib::rand rnd;
+
+        template <template <int,template<typename>class,int,typename> class block, int N, template<typename>class BN, typename SUBNET>
+        using residual = dlib::add_prev1<block<N,BN,1,dlib::tag1<SUBNET>>>;
+
+        template <template <int,template<typename>class,int,typename> class block, int N, template<typename>class BN, typename SUBNET>
+        using residual_down = dlib::add_prev2<dlib::avg_pool<2,2,2,2,dlib::skip1<dlib::tag2<block<N,BN,2,dlib::tag1<SUBNET>>>>>>;
+
+        template <int N, template <typename> class BN, int stride, typename SUBNET>
+        using block  = BN<dlib::con<N,3,3,1,1,dlib::relu<BN<dlib::con<N,3,3,stride,stride,SUBNET>>>>>;
+
+        template <int N, typename SUBNET> using ares      = dlib::relu<residual<block,N,dlib::affine,SUBNET>>;
+        template <int N, typename SUBNET> using ares_down = dlib::relu<residual_down<block,N,dlib::affine,SUBNET>>;
+
+        template <typename SUBNET> using alevel0 = ares_down<256,SUBNET>;
+        template <typename SUBNET> using alevel1 = ares<256,ares<256,ares_down<256,SUBNET>>>;
+        template <typename SUBNET> using alevel2 = ares<128,ares<128,ares_down<128,SUBNET>>>;
+        template <typename SUBNET> using alevel3 = ares<64,ares<64,ares<64,ares_down<64,SUBNET>>>>;
+        template <typename SUBNET> using alevel4 = ares<32,ares<32,ares<32,SUBNET>>>;
+
+        using anet_type = dlib::loss_metric<dlib::fc_no_bias<128,dlib::avg_pool_everything<
+                                            alevel0<
+                                            alevel1<
+                                            alevel2<
+                                            alevel3<
+                                            alevel4<
+                                            dlib::max_pool<3,3,2,2,dlib::relu<dlib::affine<dlib::con<32,7,7,2,2,
+                                            dlib::input_rgb_image_sized<150>
+                                            >>>>>>>>>>>>;
+        anet_type net;
+    };
+
+
+    face_recognition_model_v1::face_recognition_model_v1(const std::string& model_filename)
+        :m_data(std::make_unique<data>())
+    {
+        dlib::deserialize(model_filename) >> m_data->net;
+    }
+
+
+    face_recognition_model_v1::~face_recognition_model_v1()
+    {
+
     }
 
 
@@ -96,7 +138,7 @@ namespace dlib_api
         if (num_jitters <= 1)
         {
             // extract descriptors and convert from float vectors to double vectors
-            auto descriptors = net(face_chips, 16);
+            auto descriptors = m_data->net(face_chips, 16);
             auto next = std::begin(descriptors);
             for (int i = 0; i < batch_faces.size(); ++i)
             {
@@ -115,7 +157,7 @@ namespace dlib_api
             {
                 for (int j = 0; j < batch_faces[i].size(); ++j)
                 {
-                    auto& r = mean(mat(net(jitter_image(*fimg++, num_jitters), 16)));
+                    auto& r = mean(mat(m_data->net(jitter_image(*fimg++, num_jitters), 16)));
                     face_descriptors[i].push_back(dlib::matrix_cast<double>(r));
                 }
             }
@@ -146,7 +188,7 @@ namespace dlib_api
         if (num_jitters <= 1)
         {
             // extract descriptors and convert from float vectors to double vectors
-            auto descriptors = net(face_chips, 16);
+            auto descriptors = m_data->net(face_chips, 16);
 
             for (auto& des: descriptors) {
                 face_descriptors.push_back(dlib::matrix_cast<double>(des));
@@ -156,7 +198,7 @@ namespace dlib_api
         {
             // extract descriptors and convert from float vectors to double vectors
             for (auto& fimg : face_chips) {
-                auto& r = dlib::mean(mat(net(jitter_image(fimg, num_jitters), 16)));
+                auto& r = dlib::mean(mat(m_data->net(jitter_image(fimg, num_jitters), 16)));
                 face_descriptors.push_back(dlib::matrix_cast<double>(r));
             }
         }
@@ -168,7 +210,7 @@ namespace dlib_api
     {
         std::vector<dlib::matrix<dlib::rgb_pixel>> crops;
         for (int i = 0; i < num_jitters; ++i)
-            crops.push_back(dlib::jitter_image(img,rnd));
+            crops.push_back(dlib::jitter_image(img,m_data->rnd));
         return crops;
     }
 
