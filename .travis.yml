@@ -12,7 +12,6 @@ addons:
     packages:
       - python3
       - lcov
-      - dlib
     sources:
 
   homebrew:
