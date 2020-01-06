@@ -12,12 +12,14 @@ addons:
     packages:
       - python3
       - lcov
+      - dlib
     sources:
 
   homebrew:
     packages:
       - qt5
       - exiv2
+      - dlib
     update: true
 
 notifications:
