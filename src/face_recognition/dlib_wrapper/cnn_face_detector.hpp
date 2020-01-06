@@ -36,7 +36,7 @@ namespace dlib_api
 
     public:
 
-        cnn_face_detection_model_v1(const std::string& model_filename);
+        explicit cnn_face_detection_model_v1(const std::string& model_filename);
         ~cnn_face_detection_model_v1();
 
         std::vector<dlib::mmod_rect> detect (

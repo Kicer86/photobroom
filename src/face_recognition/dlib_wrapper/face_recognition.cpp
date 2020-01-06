@@ -104,10 +104,8 @@ namespace dlib_api
         if (batch_imgs.size() != batch_faces.size())
             throw dlib::error("The array of images and the array of array of locations must be of the same size");
 
-        int total_chips = 0;
         for (const auto& faces : batch_faces)
         {
-            total_chips += faces.size();
             for (const auto& f : faces)
             {
                 if (f.num_parts() != 68 && f.num_parts() != 5)

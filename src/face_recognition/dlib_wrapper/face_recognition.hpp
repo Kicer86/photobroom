@@ -37,7 +37,7 @@ namespace dlib_api
 
     public:
 
-        face_recognition_model_v1(const std::string& model_filename);
+        explicit face_recognition_model_v1(const std::string& model_filename);
         ~face_recognition_model_v1();
 
         dlib::matrix<double,0,1> compute_face_descriptor (
