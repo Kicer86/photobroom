@@ -18,9 +18,9 @@
 
 #include "face_recognition.hpp"
 
-#include <dlib/matrix.h>
 #include <dlib/dnn.h>
 #include <dlib/image_transforms.h>
+#include <dlib/matrix.h>
 #include <QImage>
 
 #include "helpers.hpp"

@@ -21,7 +21,7 @@
 
 #include <string>
 #include <vector>
-#include <dlib/dnn.h>
+#include <dlib/image_processing/full_object_detection.h>
 
 class QImage;
 

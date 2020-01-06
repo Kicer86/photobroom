@@ -20,8 +20,8 @@
 #define FACE_RECOGNITION_MODEL_V1_HPP
 
 #include <string>
+#include <dlib/image_processing/full_object_detection.h>
 #include <dlib/matrix.h>
-#include <dlib/dnn.h>
 
 class QImage;
 

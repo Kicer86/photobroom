@@ -18,9 +18,10 @@
 
 #include "cnn_face_detector.hpp"
 
+#include <dlib/dnn.h>
 #include <dlib/image_processing/frontal_face_detector.h>
-#include <dlib/matrix.h>
 #include <dlib/image_transforms.h>
+#include <dlib/matrix.h>
 
 #include "helpers.hpp"
 
