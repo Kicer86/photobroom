@@ -142,6 +142,13 @@ QStringList FaceRecognition::verifySystem() const
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
+    {
+        QImage img("/home/michal/temp/photo_broom/photo_broom_test1_files/known_faces/3.jpg");
+        std::vector<double> encodings = dlib_api::face_encodings(img);
+
+        encodings.push_back(0);
+    }
+
     QVector<QRect> result;
 
     const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");

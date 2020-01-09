@@ -15,6 +15,8 @@ namespace dlib_api
 {
     namespace
     {
+        // helpers
+
         QString models_path()
         {
             const QString path = FileSystem().getDataPath() + "/face_recognition_models";
@@ -68,6 +70,38 @@ namespace dlib_api
 
             return qrects;
         }
+
+        //
+
+        std::vector<double> face_distance(const std::vector<FaceEncodings>& face_encodings, const FaceEncodings& face_to_compare)
+        {
+            std::vector<double> results;
+            results.reserve(face_encodings.size());
+
+            for(const FaceEncodings& face_encoding: face_encodings)
+            {
+                const std::size_t size = std::min(face_encoding.size(), face_to_compare.size());
+                std::vector<double> diff(0.0, size);
+
+                for(std::size_t i = 0; i < size; i++)
+                    diff[i] = face_encoding[i] - face_to_compare[i];
+
+                // calculating 2-norm from `diff` as in original python code
+                // https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm
+                // https://en.wikipedia.org/wiki/Norm_(mathematics)  -> p-norm
+
+                const double norm_squared = std::accumulate(diff.begin(), diff.end(), 0.0, [](double sum, double v)
+                {
+                    return sum + std::fabs(v) * std::fabs(v);
+                });
+
+                const double norm = std::sqrt(norm_squared);
+
+                results.push_back(norm);
+            }
+
+            return results;
+        }
     }
 
 
@@ -119,5 +153,19 @@ namespace dlib_api
         const std::vector<double> result(encodings.begin(), encodings.end());
 
         return result;
+    }
+
+
+    std::vector<bool> compare_faces(const std::vector<FaceEncodings>& known_face_encodings, const FaceEncodings& face_encoding_to_check, double tolerance)
+    {
+        const std::size_t faces = known_face_encodings.size();
+        const std::vector<double> distances = face_distance(known_face_encodings, face_encoding_to_check);
+
+        std::vector<bool> results(false, faces);
+
+        for(std::size_t i = 0; i < faces; i++)
+            results[i] = distances[i] >= tolerance;
+
+        return results;
     }
 }
