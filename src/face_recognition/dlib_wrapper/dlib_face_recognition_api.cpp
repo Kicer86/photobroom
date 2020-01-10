@@ -70,40 +70,6 @@ namespace dlib_api
 
             return qrects;
         }
-
-        //
-
-        std::vector<double> face_distance(const std::vector<FaceEncodings>& face_encodings, const FaceEncodings& face_to_compare)
-        {
-            std::vector<double> results;
-            results.reserve(face_encodings.size());
-
-            for(const FaceEncodings& face_encoding: face_encodings)
-            {
-                const std::size_t size = std::min(face_encoding.size(), face_to_compare.size());
-                assert(size == 128);
-
-                std::vector<double> diff(size, 0.0);
-
-                for(std::size_t i = 0; i < size; i++)
-                    diff[i] = face_encoding[i] - face_to_compare[i];
-
-                // calculating 2-norm from `diff` as in original python code
-                // https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm
-                // https://en.wikipedia.org/wiki/Norm_(mathematics)  -> p-norm
-
-                const double norm_squared = std::accumulate(diff.begin(), diff.end(), 0.0, [](double sum, double v)
-                {
-                    return sum + std::fabs(v) * std::fabs(v);
-                });
-
-                const double norm = std::sqrt(norm_squared);
-
-                results.push_back(norm);
-            }
-
-            return results;
-        }
     }
 
 
@@ -167,6 +133,39 @@ namespace dlib_api
 
         for(std::size_t i = 0; i < faces; i++)
             results[i] = distances[i] <= tolerance;
+
+        return results;
+    }
+
+
+    std::vector<double> face_distance(const std::vector<FaceEncodings>& face_encodings, const FaceEncodings& face_to_compare)
+    {
+        std::vector<double> results;
+        results.reserve(face_encodings.size());
+
+        for(const FaceEncodings& face_encoding: face_encodings)
+        {
+            const std::size_t size = std::min(face_encoding.size(), face_to_compare.size());
+            assert(size == 128);
+
+            std::vector<double> diff(size, 0.0);
+
+            for(std::size_t i = 0; i < size; i++)
+                diff[i] = face_encoding[i] - face_to_compare[i];
+
+            // calculating 2-norm from `diff` as in original python code
+            // https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm
+            // https://en.wikipedia.org/wiki/Norm_(mathematics)  -> p-norm
+
+            const double norm_squared = std::accumulate(diff.begin(), diff.end(), 0.0, [](double sum, double v)
+            {
+                return sum + std::fabs(v) * std::fabs(v);
+            });
+
+            const double norm = std::sqrt(norm_squared);
+
+            results.push_back(norm);
+        }
 
         return results;
     }
