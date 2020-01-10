@@ -226,7 +226,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
     assert(distance.size() == known_faces_names.size());
 
     const auto closest_distance = std::min_element(distance.cbegin(), distance.cend());
-    const std::size_t pos = std::distance(distance.cbegin(), closest_distance);
+    const auto pos = std::distance(distance.cbegin(), closest_distance);
 
     const QString best_face_file = distance[pos] <= 0.6? known_faces_names[pos]: QString();
 
