@@ -81,7 +81,9 @@ namespace dlib_api
             for(const FaceEncodings& face_encoding: face_encodings)
             {
                 const std::size_t size = std::min(face_encoding.size(), face_to_compare.size());
-                std::vector<double> diff(0.0, size);
+                assert(size == 128);
+
+                std::vector<double> diff(size, 0.0);
 
                 for(std::size_t i = 0; i < size; i++)
                     diff[i] = face_encoding[i] - face_to_compare[i];
@@ -161,10 +163,10 @@ namespace dlib_api
         const std::size_t faces = known_face_encodings.size();
         const std::vector<double> distances = face_distance(known_face_encodings, face_encoding_to_check);
 
-        std::vector<bool> results(false, faces);
+        std::vector<bool> results(faces, false);
 
         for(std::size_t i = 0; i < faces; i++)
-            results[i] = distances[i] >= tolerance;
+            results[i] = distances[i] <= tolerance;
 
         return results;
     }
