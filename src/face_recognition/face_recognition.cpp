@@ -27,10 +27,12 @@
 #include <pybind11/stl.h>
 
 #include <QByteArray>
+#include <QDirIterator>
 #include <QImage>
 #include <QFileInfo>
 #include <QString>
 #include <QRect>
+#include <QSaveFile>
 #include <QTemporaryFile>
 
 #include <core/icore_factory_accessor.hpp>
@@ -49,6 +51,8 @@ using namespace std::placeholders;
 
 namespace
 {
+    std::mutex g_dlibMutex;   // global mutex for dlib usage.
+
     QRect tupleToRect(const py::tuple& tuple)
     {
         QRect result;
@@ -142,13 +146,7 @@ QStringList FaceRecognition::verifySystem() const
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
-    {
-        QImage img("/home/michal/temp/photo_broom/photo_broom_test1_files/known_faces/3.jpg");
-        std::vector<double> encodings = dlib_api::face_encodings(img);
-
-        encodings.push_back(0);
-    }
-
+    std::lock_guard lock(g_dlibMutex);
     QVector<QRect> result;
 
     const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
@@ -166,39 +164,63 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
+    std::lock_guard lock(g_dlibMutex);
+
+    QDirIterator di(storage, { "*.jpg" });
+
+    std::vector<dlib_api::FaceEncodings> known_faces;
+
+    while(di.hasNext())
+    {
+        const QString filePath = di.next();
+        const QFileInfo fileInfo(filePath);
+        const QString fileName = fileInfo.baseName();
+        const QString encodingsFilePath = storage + "/" + fileName + ".enc";
+
+        dlib_api::FaceEncodings faceEncodings;
+
+        if (QFile::exists(encodingsFilePath))
+        {
+            QFile encodingsFile(encodingsFilePath);
+            encodingsFile.open(QFile::ReadOnly);
+
+            while(encodingsFile.atEnd() == false)
+            {
+                const QByteArray line = encodingsFile.readLine();
+                const double value = line.toDouble();
+
+                faceEncodings.push_back(value);
+            }
+        }
+        else
+        {
+            const QImage faceImage(filePath);
+            faceEncodings = dlib_api::face_encodings(faceImage);
+
+            QSaveFile encodingsFile(encodingsFilePath);
+            encodingsFile.open(QFile::WriteOnly);
+
+            for(double v: faceEncodings)
+            {
+                const QByteArray line = QByteArray::number(v) + '\n';
+                encodingsFile.write(line);
+            }
+
+            encodingsFile.commit();
+        }
+
+        known_faces.push_back(faceEncodings);
+    }
+
     const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
     Image::normalize(path, normalizedPhotoPath, m_exif);
 
-    std::packaged_task<QString()> recognize_task([path = normalizedPhotoPath, face, storage]()
-    {
-        QString fresult;
-        const QStringList mm = missingModules();
+    const QImage photo(normalizedPhotoPath);
+    const QImage face_photo = photo.copy(face);
 
-        if (mm.empty())
-        {
-            QTemporaryFile tmpFile;
+    const dlib_api::FaceEncodings unknown_face_encodings = dlib_api::face_encodings(face_photo);
 
-            const QImage photo(path);
-            const QImage face_photo = photo.copy(face);
-            face_photo.save(&tmpFile, "JPEG");
-
-            py::module find_faces = py::module::import("recognize_face");
-            py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                                  storage.toStdString());
-
-            const std::string result_str = result.cast<py::str>();
-            fresult = QString::fromStdString(result_str);
-        }
-
-        return fresult;
-    });
-
-    auto recognize_future = recognize_task.get_future();
-    m_pythonThread->execute(recognize_task);
-
-    recognize_future.wait();
-
-    return recognize_future.get();
+    dlib_api::compare_faces(known_faces, unknown_face_encodings);
 }
 
 
