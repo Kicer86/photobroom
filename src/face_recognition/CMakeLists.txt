@@ -52,7 +52,6 @@ endif()
 install(FILES
             scripts/_utils.py
             scripts/choose_best.py
-            scripts/system_test.py
         DESTINATION
             ${PATH_SCRIPTS}
 )

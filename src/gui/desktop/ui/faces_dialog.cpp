@@ -83,14 +83,14 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(&m_people, &PeopleOperator::unassigned,
             this, &FacesDialog::applyUnassigned);
 
-    connect(&m_people, &PeopleOperator::system_status,
-            this, &FacesDialog::systemStatus);
-
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
     ui->statusLabel->setText(tr("Locating faces..."));
-    m_people.testSystem();
+
+    m_people.fetchFaces(m_id);
+    m_people.getUnassignedPeople(m_id);
+
     updateImage();
 }
 
@@ -153,16 +153,6 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
     }
 
     setUnassignedVisible(count > 0);
-}
-
-
-void FacesDialog::systemStatus(bool status, const QString& message)
-{
-    if (!status)
-        QMessageBox::warning(this, tr("Missing libraries"), message);
-
-    m_people.fetchFaces(m_id);
-    m_people.getUnassignedPeople(m_id);
 }
 
 

@@ -128,22 +128,6 @@ FaceRecognition::~FaceRecognition()
 }
 
 
-QStringList FaceRecognition::verifySystem() const
-{
-    std::packaged_task<QStringList()> test_task([]()
-    {
-        return missingModules();
-    });
-
-    auto test_future = test_task.get_future();
-    m_pythonThread->execute(test_task);
-
-    test_future.wait();
-
-    return test_future.get();
-}
-
-
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     std::lock_guard lock(g_dlibMutex);

@@ -43,8 +43,6 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
-        QStringList verifySystem() const;
-
         // Locate faces on given photo.
         QVector<QRect> fetchFaces(const QString &) const;
 
