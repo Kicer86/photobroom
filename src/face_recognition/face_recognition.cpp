@@ -101,7 +101,6 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
     {
         const QString filePath = di.next();
         const QFileInfo fileInfo(filePath);
-        const QString fileName = fileInfo.baseName();
 
         const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(filePath);
 
