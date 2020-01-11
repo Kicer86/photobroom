@@ -482,7 +482,7 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
     connect(task.get(), &FacesFetcher::faces,
             this, &PeopleOperator::faces);
 
-    executor->addLight(std::move(task));
+    executor->add(std::move(task));
 }
 
 
@@ -494,7 +494,7 @@ void PeopleOperator::recognize(const PeopleOperator::FaceLocation& face) const
     connect(task.get(), &FaceRecognizer::recognized,
             this, &PeopleOperator::recognized);
 
-    executor->addLight(std::move(task));
+    executor->add(std::move(task));
 }
 
 
