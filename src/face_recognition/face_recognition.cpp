@@ -190,38 +190,52 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 
 QString FaceRecognition::best(const QStringList& faces)
 {
-    std::packaged_task<QString()> optimize_task([faces]()
+    if (faces.size() < 3)           // we need at least 3 faces to do any serious job
+        return {};
+
+    std::map<QString, dlib_api::FaceEncodings> encoded_faces;
+    for (const QString& face_path: faces)
     {
-        QString fresult;
-        const QStringList mm = missingModules();
+        const auto encoded_face = encodingForFace(face_path);
+        encoded_faces[face_path] = encoded_face;
+    }
 
-        if (mm.empty())
+    std::map<QString, double> average_distances;
+    for(const auto& [face_path, face_encoding]: encoded_faces)
+    {
+        double total_distance = 0.0;
+        int count = 0;
+
+        for(const auto& [face_path2, face_encoding2]: encoded_faces)
         {
-            auto tmp_dir = System::createTmpDir("FaceRecognition_best", System::Confidential);
+            if (face_path == face_path2)
+                continue;
 
-            std::vector<std::string> face_files;
-            face_files.reserve(faces.size());
+            const auto distance = dlib_api::face_distance({face_encoding}, face_encoding2);
 
-            for (const QString& face: faces)
-                face_files.push_back(face.toStdString());
-
-            py::module find_faces = py::module::import("choose_best");
-            py::object result = find_faces.attr("choose_best")(face_files,
-                                                               tmp_dir->path().toStdString());
-
-            const std::string result_str = result.cast<py::str>();
-            fresult = QString::fromStdString(result_str);
+            total_distance += distance.front();
+            count++;
         }
 
-        return fresult;
-    });
+        if (count > 0)
+        {
+            const double avg_distance = total_distance / count;
+            average_distances[face_path] = avg_distance;
+        }
+    }
 
-    auto optimize_future = optimize_task.get_future();
-    m_pythonThread->execute(optimize_task);
+    QString best_photo;
+    if (average_distances.empty() == false)
+    {
+        const auto pos_of_best = std::min_element(average_distances.cbegin(), average_distances.cend(), [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.second < rhs.second;
+        });
 
-    optimize_future.wait();
+        best_photo = pos_of_best->first;
+    }
 
-    return optimize_future.get();
+    return best_photo;
 }
 
 
