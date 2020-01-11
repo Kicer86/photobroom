@@ -48,6 +48,12 @@ using namespace std::placeholders;
 namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
+
+    dlib_api::FaceEncodings encodingsForFace(const QString& face_image_path)
+    {
+        const QImage faceImage(face_image_path);
+        return dlib_api::face_encodings(faceImage);
+    }
 }
 
 
@@ -133,7 +139,7 @@ QString FaceRecognition::best(const QStringList& faces)
     std::map<QString, dlib_api::FaceEncodings> encoded_faces;
     for (const QString& face_path: faces)
     {
-        const auto encoded_face = cachedEncodingForFace(face_path);
+        const auto encoded_face = encodingsForFace(face_path);
         encoded_faces[face_path] = encoded_face;
     }
 
@@ -200,8 +206,7 @@ dlib_api::FaceEncodings FaceRecognition::cachedEncodingForFace(const QString& fa
     }
     else
     {
-        const QImage faceImage(face_image_path);
-        faceEncodings = dlib_api::face_encodings(faceImage);
+        faceEncodings = encodingsForFace(face_image_path);
 
         QSaveFile encodingsFile(encodingsFilePath);
         encodingsFile.open(QFile::WriteOnly);
