@@ -1,14 +1,13 @@
 
-/*
-    Wraper for std::map::iterator which itself behaves as iterator over map's keys
-*/
-
-
-
 #ifndef MAP_ITERATOR_HPP
 #define MAP_ITERATOR_HPP
 
 #include "iterator_wrapper.hpp"
+
+
+/*
+ * Wraper for std::map::iterator which itself behaves as iterator over map's keys
+ */
 
 template<typename T>
 struct MapKeyAccessor

@@ -1,5 +1,5 @@
 /*
- * class used for finding right place in tree for new photos
+ * Photo Broom - photos management tool.
  * Copyright (C) 2014  Michał Walenciak <email>
  *
  * This program is free software: you can redistribute it and/or modify
