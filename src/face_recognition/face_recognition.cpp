@@ -16,15 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
+
 #include "face_recognition.hpp"
 
 #include <cassert>
 #include <future>
 #include <memory>
 #include <string>
-
-#include <pybind11/embed.h>
-#include <pybind11/stl.h>
 
 #include <QByteArray>
 #include <QDirIterator>
@@ -160,39 +161,8 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const QString filePath = di.next();
         const QFileInfo fileInfo(filePath);
         const QString fileName = fileInfo.baseName();
-        const QString encodingsFilePath = storage + "/" + fileName + ".enc";
 
-        dlib_api::FaceEncodings faceEncodings;
-
-        if (QFile::exists(encodingsFilePath))
-        {
-            QFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::ReadOnly);
-
-            while(encodingsFile.atEnd() == false)
-            {
-                const QByteArray line = encodingsFile.readLine();
-                const double value = line.toDouble();
-
-                faceEncodings.push_back(value);
-            }
-        }
-        else
-        {
-            const QImage faceImage(filePath);
-            faceEncodings = dlib_api::face_encodings(faceImage);
-
-            QSaveFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::WriteOnly);
-
-            for(double v: faceEncodings)
-            {
-                const QByteArray line = QByteArray::number(v) + '\n';
-                encodingsFile.write(line);
-            }
-
-            encodingsFile.commit();
-        }
+        const dlib_api::FaceEncodings faceEncodings = encodingForFace(filePath);
 
         known_faces.push_back(faceEncodings);
         known_faces_names.push_back(fileInfo.fileName());
@@ -252,4 +222,47 @@ QString FaceRecognition::best(const QStringList& faces)
     optimize_future.wait();
 
     return optimize_future.get();
+}
+
+
+dlib_api::FaceEncodings FaceRecognition::encodingForFace(const QString& face_image_path) const
+{
+    dlib_api::FaceEncodings faceEncodings;
+
+    const QFileInfo fileInfo(face_image_path);
+    const QString fileName = fileInfo.baseName();
+    const QString storage = fileInfo.absolutePath();
+    const QString encodingsFilePath = storage + "/" + fileName + ".enc";
+
+    if (QFile::exists(encodingsFilePath))
+    {
+        QFile encodingsFile(encodingsFilePath);
+        encodingsFile.open(QFile::ReadOnly);
+
+        while(encodingsFile.atEnd() == false)
+        {
+            const QByteArray line = encodingsFile.readLine();
+            const double value = line.toDouble();
+
+            faceEncodings.push_back(value);
+        }
+    }
+    else
+    {
+        const QImage faceImage(face_image_path);
+        faceEncodings = dlib_api::face_encodings(faceImage);
+
+        QSaveFile encodingsFile(encodingsFilePath);
+        encodingsFile.open(QFile::WriteOnly);
+
+        for(double v: faceEncodings)
+        {
+            const QByteArray line = QByteArray::number(v) + '\n';
+            encodingsFile.write(line);
+        }
+
+        encodingsFile.commit();
+    }
+
+    return faceEncodings;
 }

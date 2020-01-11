@@ -24,6 +24,7 @@
 #include <system/system.hpp>
 
 #include "face_recognition_export.h"
+#include "dlib_wrapper/dlib_face_recognition_api.hpp"
 
 class QString;
 class QRect;
@@ -59,6 +60,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         std::shared_ptr<ITmpDir> m_tmpDir;
         IPythonThread* m_pythonThread;
         IExifReader* m_exif;
+
+        dlib_api::FaceEncodings encodingForFace(const QString& face_image_name) const;
 };
 
 #endif // FACERECOGNITION_HPP
