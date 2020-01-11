@@ -16,10 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <pybind11/embed.h>
-#include <pybind11/stl.h>
-
 #include "face_recognition.hpp"
 
 #include <cassert>
@@ -47,70 +43,11 @@
 #include "dlib_wrapper/dlib_face_recognition_api.hpp"
 
 
-namespace py = pybind11;
 using namespace std::placeholders;
 
 namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
-
-    QRect tupleToRect(const py::tuple& tuple)
-    {
-        QRect result;
-
-        std::vector<long> rect;
-        const std::size_t coordinates = tuple.size();
-
-        if (coordinates == 4)
-        {
-            for(std::size_t i = 0; i < coordinates; i++)
-            {
-                auto part = tuple[i];
-
-                const long n = part.cast<long>();
-                rect.push_back(n);
-            }
-
-            const int top = rect[0];
-            const int right = rect[1];
-            const int bottom = rect[2];
-            const int left = rect[3];
-            const int width = right - left;
-            const int height = bottom - top;
-
-            result = QRect(left, top, width, height);
-        }
-
-        return result;
-    }
-
-    QStringList missingModules()
-    {
-        QStringList result;
-
-        try
-        {
-            py::module system_test = py::module::import("system_test");
-            py::object missing = system_test.attr("detect_required_modules")();
-
-            auto missing_list = missing.cast<py::list>();
-
-            const std::size_t count = missing_list.size();
-            for (std::size_t i = 0; i < count; i++)
-            {
-                auto item = missing_list[i];
-
-                const std::string missing_module = item.cast<std::string>();
-                result.append(missing_module.c_str());
-            }
-        }
-        catch (const std::exception& ex)
-        {
-            std::cout << ex.what() << std::endl;
-        }
-
-        return result;
-    }
 }
 
 

@@ -1,7 +1,6 @@
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
-find_package(pybind11 REQUIRED)
 find_package(dlib REQUIRED)
 
 add_library(face_recognition
@@ -35,7 +34,6 @@ target_link_libraries(face_recognition
                                 core
                                 database
                                 system
-                                pybind11::embed
                                 dlib
 )
 
@@ -49,14 +47,7 @@ if(BUILD_SHARED_LIBS)
                                      LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
-install(FILES
-            scripts/_utils.py
-            scripts/choose_best.py
-        DESTINATION
-            ${PATH_SCRIPTS}
-)
-
-
+# face recognition models
 file(GLOB models face_recognition_models/face_recognition_models/models/*.dat)
 
 install(FILES
