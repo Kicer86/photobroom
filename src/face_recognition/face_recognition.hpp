@@ -61,7 +61,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         IPythonThread* m_pythonThread;
         IExifReader* m_exif;
 
-        dlib_api::FaceEncodings encodingForFace(const QString& face_image_name) const;
+        dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_name) const;
 };
 
 #endif // FACERECOGNITION_HPP

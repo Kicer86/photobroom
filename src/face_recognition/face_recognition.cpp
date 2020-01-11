@@ -99,7 +99,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const QFileInfo fileInfo(filePath);
         const QString fileName = fileInfo.baseName();
 
-        const dlib_api::FaceEncodings faceEncodings = encodingForFace(filePath);
+        const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(filePath);
 
         known_faces.push_back(faceEncodings);
         known_faces_names.push_back(fileInfo.fileName());
@@ -133,7 +133,7 @@ QString FaceRecognition::best(const QStringList& faces)
     std::map<QString, dlib_api::FaceEncodings> encoded_faces;
     for (const QString& face_path: faces)
     {
-        const auto encoded_face = encodingForFace(face_path);
+        const auto encoded_face = cachedEncodingForFace(face_path);
         encoded_faces[face_path] = encoded_face;
     }
 
@@ -176,7 +176,7 @@ QString FaceRecognition::best(const QStringList& faces)
 }
 
 
-dlib_api::FaceEncodings FaceRecognition::encodingForFace(const QString& face_image_path) const
+dlib_api::FaceEncodings FaceRecognition::cachedEncodingForFace(const QString& face_image_path) const
 {
     dlib_api::FaceEncodings faceEncodings;
 
