@@ -31,7 +31,6 @@ class QRect;
 
 struct ICoreFactoryAccessor;
 struct IExifReader;
-struct IPythonThread;
 struct FacesData;
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
@@ -58,7 +57,6 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
     private:
         std::shared_ptr<ITmpDir> m_tmpDir;
-        IPythonThread* m_pythonThread;
         IExifReader* m_exif;
 
         dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_name) const;

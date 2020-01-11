@@ -15,7 +15,6 @@ class QTableWidgetItem;
 
 struct ICoreFactoryAccessor;
 struct IExifReader;
-struct IPythonThread;
 
 namespace Ui {
     class FacesDialog;
@@ -38,7 +37,6 @@ class FacesDialog: public QDialog
         QVector<QRect> m_faces;
         QString m_photoPath;
         Ui::FacesDialog *ui;
-        IPythonThread* m_pythonThread;
         IExifReader* m_exif;
         int m_facesToAnalyze;
 

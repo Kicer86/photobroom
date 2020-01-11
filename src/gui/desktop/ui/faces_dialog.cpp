@@ -14,7 +14,6 @@
 #include <core/iexif_reader.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/image_tools.hpp>
-#include <core/ipython_thread.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
@@ -59,7 +58,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
-    m_pythonThread(coreAccessor->getPythonThread()),
     m_exif(coreAccessor->getExifReaderFactory()->get()),
     m_facesToAnalyze(0)
 {

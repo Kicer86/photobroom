@@ -35,7 +35,6 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
-#include <core/ipython_thread.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
 #include <system/system.hpp>
@@ -59,7 +58,6 @@ namespace
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
     m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential)),
-    m_pythonThread(coreAccessor->getPythonThread()),
     m_exif(coreAccessor->getExifReaderFactory()->get())
 {
 

@@ -164,7 +164,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+89"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+87"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
@@ -1028,7 +1028,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+179"/>
+        <location filename="../src/main.cpp" line="+178"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
         <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>

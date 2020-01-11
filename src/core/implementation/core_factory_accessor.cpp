@@ -24,14 +24,12 @@ CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory* loggerFactory,
                          IExifReaderFactory* exifReader,
                          IConfiguration* configuration,
                          ITaskExecutor* taskExecutor,
-                         IPythonThread* pythonThread,
                          IFeaturesManager* featuresManager
                         ):
     m_loggerFactory(loggerFactory),
     m_exifReaderFactory(exifReader),
     m_configuration(configuration),
     m_taskExecutor(taskExecutor),
-    m_pythonThread(pythonThread),
     m_featuresManager(featuresManager)
 {
 
@@ -65,12 +63,6 @@ IConfiguration * CoreFactoryAccessor::getConfiguration()
 ITaskExecutor * CoreFactoryAccessor::getTaskExecutor()
 {
     return m_taskExecutor;
-}
-
-
-IPythonThread * CoreFactoryAccessor::getPythonThread()
-{
-    return m_pythonThread;
 }
 
 
