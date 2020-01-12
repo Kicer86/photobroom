@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile
 
 class PhotoBroomConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
