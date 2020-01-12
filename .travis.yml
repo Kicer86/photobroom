@@ -12,6 +12,8 @@ addons:
     packages:
       - python3
       - lcov
+      # - libdlib-dev    - enable in future, current version is too old
+      - nasm
     sources:
 
   homebrew:
