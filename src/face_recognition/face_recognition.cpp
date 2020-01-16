@@ -108,23 +108,28 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         known_faces_names.push_back(fileInfo.fileName());
     }
 
-    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-    Image::normalize(path, normalizedPhotoPath, m_exif);
+    if (known_faces.empty())
+        return {};
+    else
+    {
+        const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+        Image::normalize(path, normalizedPhotoPath, m_exif);
 
-    const QImage photo(normalizedPhotoPath);
-    const QImage face_photo = photo.copy(face);
+        const QImage photo(normalizedPhotoPath);
+        const QImage face_photo = photo.copy(face);
 
-    const dlib_api::FaceEncodings unknown_face_encodings = dlib_api::face_encodings(face_photo);
-    const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
+        const dlib_api::FaceEncodings unknown_face_encodings = dlib_api::face_encodings(face_photo);
+        const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-    assert(distance.size() == known_faces_names.size());
+        assert(distance.size() == known_faces_names.size());
 
-    const auto closest_distance = std::min_element(distance.cbegin(), distance.cend());
-    const auto pos = std::distance(distance.cbegin(), closest_distance);
+        const auto closest_distance = std::min_element(distance.cbegin(), distance.cend());
+        const auto pos = std::distance(distance.cbegin(), closest_distance);
 
-    const QString best_face_file = distance[pos] <= 0.6? known_faces_names[pos]: QString();
+        const QString best_face_file = distance[pos] <= 0.6? known_faces_names[pos]: QString();
 
-    return best_face_file;
+        return best_face_file;
+    }
 }
 
 
