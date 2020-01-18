@@ -32,3 +32,7 @@ set(KWidgetsAddonsMacros
 
 generate_export_header(KWidgetsAddons
                        CUSTOM_CONTENT_FROM_VARIABLE KWidgetsAddonsMacros)
+
+install(TARGETS KWidgetsAddons RUNTIME DESTINATION ${PATH_LIBS}
+                               LIBRARY DESTINATION ${PATH_LIBS})
+                               
