@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QShortcut>
 #include <QVBoxLayout>
+#include <QThread>
 
 #include <core/base_tags.hpp>
 #include <core/function_wrappers.hpp>
@@ -269,11 +270,18 @@ void PhotosWidget::applySearchExpression()
 }
 
 
-void PhotosWidget::thumbnailUpdated(const QModelIndex& idx)
+void PhotosWidget::thumbnailUpdated(const QPersistentModelIndex& idx)
 {
-    m_waitingForThumbnails.remove(idx);
-    // this method can be called from non gui thread, postpone update()
-    invokeMethod(m_view, qOverload<const QModelIndex &>(&QAbstractItemView::update), idx);
+    // this method can be called from non gui thread, if so, re-call itself from main thread
+    if (this->thread() == QThread::currentThread())
+    {
+        m_waitingForThumbnails.remove(idx);
+
+        if (idx.isValid())
+            m_view->update(idx);
+    }
+    else
+        invokeMethod(this, &PhotosWidget::thumbnailUpdated, idx);
 }
 
 
@@ -290,8 +298,9 @@ QImage PhotosWidget::image(const QModelIndex& idx, const QSize& size)
         // Do not punch it.
         if (m_waitingForThumbnails.contains(idx) == false)
         {
-            m_waitingForThumbnails.insert(idx);
-            m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, idx));
+            const QPersistentModelIndex persistentIdx = idx;
+            m_waitingForThumbnails.insert(persistentIdx);
+            m_thumbnailsManager->fetch(ph_data.path, size.height(), std::bind(&PhotosWidget::thumbnailUpdated, this, persistentIdx));
         }
     }
 
