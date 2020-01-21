@@ -4,7 +4,6 @@ find_package(Qt5Core     5.10 REQUIRED)
 find_package(Qt5Gui           REQUIRED)
 find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
-find_package(pybind11         REQUIRED)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
@@ -54,7 +53,6 @@ set(CORE_SOURCES
     media_types.hpp                                         implementation/media_types.cpp
     model_compositor.hpp                                    implementation/model_compositor.cpp
     oriented_image.hpp                                      implementation/oriented_image.cpp
-    python_thread.hpp                                       implementation/python_thread.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
     qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
     search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
@@ -109,7 +107,6 @@ target_link_libraries(core
                             Qt5::Gui
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
-                            pybind11::embed
 )
 
 target_include_directories(core SYSTEM PUBLIC

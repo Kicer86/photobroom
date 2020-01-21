@@ -164,12 +164,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+87"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
     <message numerus="yes">
-        <location line="+14"/>
+        <location line="+17"/>
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
@@ -190,11 +190,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <location line="+33"/>
         <source>All known faces recognized.</source>
         <translation>Wszystkie znane osoby rozpoznane.</translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>Missing libraries</source>
-        <translation>Brakujące biblioteki</translation>
     </message>
 </context>
 <context>
@@ -973,22 +968,6 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>TestSystem</name>
-    <message>
-        <location filename="../src/gui/desktop/utils/people_operator.cpp" line="+488"/>
-        <source>Automatic face detection and people recognition functionality is disabled due to missing Python modules.
-
-To install them, use &apos;python -m pip install %1&apos; (on Windows)
-or use package system for your Linux distro.
-</source>
-        <translation>Automatyczne rozpoznawanie twarzy nie będzie działać ze względu na brakujące moduły dla Pythona.
-
-Aby je zainstalować użyj &quot;python -m pip install %1&quot; (na Windowsie)
-lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
-</translation>
-    </message>
-</context>
-<context>
     <name>ToolsTab</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+20"/>
@@ -1049,7 +1028,7 @@ lub użyj menadżera pakietów swojej dystrybucji Linuksowej.
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+179"/>
+        <location filename="../src/main.cpp" line="+178"/>
         <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
         <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
     </message>

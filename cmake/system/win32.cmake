@@ -124,12 +124,9 @@ macro(addDeploymentActions)
         )
     endif()
 
-    find_package(PythonInterp REQUIRED)
-
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2)
-    set(libs_python python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR})
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -164,7 +161,6 @@ macro(addDeploymentActions)
     endif()
 
     get_filename_component(exiv2_lib_dir "${EXIV2_LIBRARY}" DIRECTORY)
-    get_filename_component(python_lib_dir "${PYTHON_LIBRARIES}" DIRECTORY)
 
     install_external_lib(NAME "OpenLibrary"
                          DLLFILES ${libs_OL}
@@ -193,41 +189,11 @@ macro(addDeploymentActions)
                        COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
                       )
 
-    # python interpreter download
-    if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-        set(arch "amd64")
-    else()
-        set(arch "win32")
-    endif()
-
-    find_file(PYTHON_EMBED python_embed.zip
-              HINTS ${PROJECT_SOURCE_DIR}
-    )
-
-    # some info about embeddable python and its limitations:
-    # https://stackoverflow.com/questions/42666121/pip-with-embedded-python
-    # https://bugs.python.org/issue33903
-
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/python_modules/python.exe
-                       COMMAND ${CMAKE_COMMAND} -E tar -x ${PYTHON_EMBED}
-                       WORKING_DIRECTORY ${OUTPUT_PATH}/python_modules
-    )
-
-    install(FILES
-                ${OUTPUT_PATH}/python_modules/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.zip
-                ${OUTPUT_PATH}/python_modules/python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}.dll
-            DESTINATION ${PATH_LIBS}
-    )
-
-    install(DIRECTORY ${OUTPUT_PATH}/python_modules
-            DESTINATION ${PATH_LIBS})
-
     setup_qt_environment()
 
     #target
     add_custom_target(deploy DEPENDS
-                                    ${OUTPUT_PATH}/deploy_qt5
-                                    ${OUTPUT_PATH}/python_modules/python.exe)
+                                    ${OUTPUT_PATH}/deploy_qt5)
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})

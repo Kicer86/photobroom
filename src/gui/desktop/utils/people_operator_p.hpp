@@ -163,23 +163,4 @@ class ModelFaceStore final: public QObject, public FaceTask
         void done(const Person::Id &) const;
 };
 
-
-class TestSystem: public QObject, public ITaskExecutor::ITask
-{
-        Q_OBJECT
-
-    public:
-        TestSystem(ICoreFactoryAccessor *);
-        ~TestSystem();
-
-        std::string name() const override;
-        void perform() override;
-
-    private:
-        ICoreFactoryAccessor* m_core;
-
-    signals:
-        void status(const bool, const QString &) const;
-};
-
 #endif // PEOPLEOPERATOR_P_HPP

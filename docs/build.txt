@@ -12,17 +12,11 @@ Required tools and libraries:
  - Qt5 - version 5.7 or higher
  - exiv2*
  - OpenLibrary*
- - pybind11*
+ - dlib*
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
  - GMock and GTest  (unit tests)
-
- Optional python modules required for face recognition:
- - dlib
- - face_recognition
- - face_recognition_models
- - pillow
 
 * For convenience it is possible to use conan tool
   for download, build and install all marked libraries.

@@ -241,7 +241,7 @@ namespace Database
 
         void visit(Database::FilterPhotosWithPerson* personFilter) override
         {
-            m_filterResult = QString("SELECT id FROM %1 JOIN (%2) AS (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
+            m_filterResult = QString("SELECT photos.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
                                 .arg(TAB_PHOTOS)
                                 .arg(TAB_PEOPLE)
                                 .arg(personFilter->person_id);

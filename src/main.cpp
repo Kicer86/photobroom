@@ -22,7 +22,6 @@
 #include <core/exif_reader_factory.hpp>
 #include <core/features_manager.hpp>
 #include <core/logger_factory.hpp>
-#include <core/python_thread.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <crash_catcher/crash_catcher.hpp>
@@ -251,8 +250,6 @@ int main(int argc, char **argv)
     ConfigStorage configStorage(configFilePath);
     Configuration configuration(configStorage);
 
-    PythonThread pythonThread;
-
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);
 
@@ -287,7 +284,6 @@ int main(int argc, char **argv)
                                     &exifReaderFactory,
                                     &configuration,
                                     &taskExecutor,
-                                    &pythonThread,
                                     &featuresManager
     );
 

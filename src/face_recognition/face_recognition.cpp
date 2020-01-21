@@ -23,93 +23,41 @@
 #include <memory>
 #include <string>
 
-#include <pybind11/embed.h>
-#include <pybind11/stl.h>
-
 #include <QByteArray>
+#include <QDirIterator>
 #include <QImage>
 #include <QFileInfo>
 #include <QString>
 #include <QRect>
+#include <QSaveFile>
 #include <QTemporaryFile>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
-#include <core/ipython_thread.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
 #include <system/system.hpp>
 
+#include "dlib_wrapper/dlib_face_recognition_api.hpp"
 
-namespace py = pybind11;
+
 using namespace std::placeholders;
 
 namespace
 {
-    QRect tupleToRect(const py::tuple& tuple)
+    std::mutex g_dlibMutex;   // global mutex for dlib usage.
+
+    dlib_api::FaceEncodings encodingsForFace(const QString& face_image_path)
     {
-        QRect result;
-
-        std::vector<long> rect;
-        const std::size_t coordinates = tuple.size();
-
-        if (coordinates == 4)
-        {
-            for(std::size_t i = 0; i < coordinates; i++)
-            {
-                auto part = tuple[i];
-
-                const long n = part.cast<long>();
-                rect.push_back(n);
-            }
-
-            const int top = rect[0];
-            const int right = rect[1];
-            const int bottom = rect[2];
-            const int left = rect[3];
-            const int width = right - left;
-            const int height = bottom - top;
-
-            result = QRect(left, top, width, height);
-        }
-
-        return result;
-    }
-
-    QStringList missingModules()
-    {
-        QStringList result;
-
-        try
-        {
-            py::module system_test = py::module::import("system_test");
-            py::object missing = system_test.attr("detect_required_modules")();
-
-            auto missing_list = missing.cast<py::list>();
-
-            const std::size_t count = missing_list.size();
-            for (std::size_t i = 0; i < count; i++)
-            {
-                auto item = missing_list[i];
-
-                const std::string missing_module = item.cast<std::string>();
-                result.append(missing_module.c_str());
-            }
-        }
-        catch (const std::exception& ex)
-        {
-            std::cout << ex.what() << std::endl;
-        }
-
-        return result;
+        const QImage faceImage(face_image_path);
+        return dlib_api::face_encodings(faceImage);
     }
 }
 
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
     m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential)),
-    m_pythonThread(coreAccessor->getPythonThread()),
     m_exif(coreAccessor->getExifReaderFactory()->get())
 {
 
@@ -122,24 +70,9 @@ FaceRecognition::~FaceRecognition()
 }
 
 
-QStringList FaceRecognition::verifySystem() const
-{
-    std::packaged_task<QStringList()> test_task([]()
-    {
-        return missingModules();
-    });
-
-    auto test_future = test_task.get_future();
-    m_pythonThread->execute(test_task);
-
-    test_future.wait();
-
-    return test_future.get();
-}
-
-
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
+    std::lock_guard lock(g_dlibMutex);
     QVector<QRect> result;
 
     const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
@@ -147,46 +80,8 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
     if (s)
     {
-        std::packaged_task<QVector<QRect>()> fetch_task([path = normalizedPhotoPath]()
-        {
-            QVector<QRect> result;
-            const QStringList mm = missingModules();
-
-            if (mm.empty())
-            {
-                try
-                {
-                    py::module find_faces = py::module::import("find_faces");
-                    py::object locations = find_faces.attr("find_faces")(path.toStdString());
-
-                    auto locations_list = locations.cast<py::list>();
-
-                    const std::size_t facesCount = locations_list.size();
-                    for (std::size_t i = 0; i < facesCount; i++)
-                    {
-                        auto item = locations_list[i];
-
-                        const QRect rect = tupleToRect(item.cast<py::tuple>());
-
-                        if (rect.isValid())
-                            result.push_back(rect);
-                    }
-                }
-                catch (const std::exception& ex)
-                {
-                    std::cout << ex.what() << std::endl;
-                }
-            }
-
-            return result;
-        });
-
-        auto fetch_future = fetch_task.get_future();
-        m_pythonThread->execute(fetch_task);
-
-        fetch_future.wait();
-
-        result = fetch_future.get();
+        QImage image(normalizedPhotoPath);
+        result = dlib_api::face_locations(image, 0, dlib_api::hog);
     }
 
     return result;
@@ -195,74 +90,137 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
-    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-    Image::normalize(path, normalizedPhotoPath, m_exif);
+    std::lock_guard lock(g_dlibMutex);
 
-    std::packaged_task<QString()> recognize_task([path = normalizedPhotoPath, face, storage]()
+    QDirIterator di(storage, { "*.jpg" });
+
+    std::vector<dlib_api::FaceEncodings> known_faces;
+    std::vector<QString> known_faces_names;
+
+    while(di.hasNext())
     {
-        QString fresult;
-        const QStringList mm = missingModules();
+        const QString filePath = di.next();
+        const QFileInfo fileInfo(filePath);
 
-        if (mm.empty())
-        {
-            QTemporaryFile tmpFile;
+        const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(filePath);
 
-            const QImage photo(path);
-            const QImage face_photo = photo.copy(face);
-            face_photo.save(&tmpFile, "JPEG");
+        known_faces.push_back(faceEncodings);
+        known_faces_names.push_back(fileInfo.fileName());
+    }
 
-            py::module find_faces = py::module::import("recognize_face");
-            py::object result = find_faces.attr("recognize_face")(tmpFile.fileName().toStdString(),
-                                                                  storage.toStdString());
+    if (known_faces.empty())
+        return {};
+    else
+    {
+        const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+        Image::normalize(path, normalizedPhotoPath, m_exif);
 
-            const std::string result_str = result.cast<py::str>();
-            fresult = QString::fromStdString(result_str);
-        }
+        const QImage photo(normalizedPhotoPath);
+        const QImage face_photo = photo.copy(face);
 
-        return fresult;
-    });
+        const dlib_api::FaceEncodings unknown_face_encodings = dlib_api::face_encodings(face_photo);
+        const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-    auto recognize_future = recognize_task.get_future();
-    m_pythonThread->execute(recognize_task);
+        assert(distance.size() == known_faces_names.size());
 
-    recognize_future.wait();
+        const auto closest_distance = std::min_element(distance.cbegin(), distance.cend());
+        const auto pos = std::distance(distance.cbegin(), closest_distance);
 
-    return recognize_future.get();
+        const QString best_face_file = distance[pos] <= 0.6? known_faces_names[pos]: QString();
+
+        return best_face_file;
+    }
 }
 
 
 QString FaceRecognition::best(const QStringList& faces)
 {
-    std::packaged_task<QString()> optimize_task([faces]()
+    if (faces.size() < 3)           // we need at least 3 faces to do any serious job
+        return {};
+
+    std::map<QString, dlib_api::FaceEncodings> encoded_faces;
+    for (const QString& face_path: faces)
     {
-        QString fresult;
-        const QStringList mm = missingModules();
+        const auto encoded_face = encodingsForFace(face_path);
+        encoded_faces[face_path] = encoded_face;
+    }
 
-        if (mm.empty())
+    std::map<QString, double> average_distances;
+    for(const auto& [face_path, face_encoding]: encoded_faces)
+    {
+        double total_distance = 0.0;
+        int count = 0;
+
+        for(const auto& [face_path2, face_encoding2]: encoded_faces)
         {
-            auto tmp_dir = System::createTmpDir("FaceRecognition_best", System::Confidential);
+            if (face_path == face_path2)
+                continue;
 
-            std::vector<std::string> face_files;
-            face_files.reserve(faces.size());
+            const auto distance = dlib_api::face_distance({face_encoding}, face_encoding2);
 
-            for (const QString& face: faces)
-                face_files.push_back(face.toStdString());
-
-            py::module find_faces = py::module::import("choose_best");
-            py::object result = find_faces.attr("choose_best")(face_files,
-                                                               tmp_dir->path().toStdString());
-
-            const std::string result_str = result.cast<py::str>();
-            fresult = QString::fromStdString(result_str);
+            total_distance += distance.front();
+            count++;
         }
 
-        return fresult;
-    });
+        if (count > 0)
+        {
+            const double avg_distance = total_distance / count;
+            average_distances[face_path] = avg_distance;
+        }
+    }
 
-    auto optimize_future = optimize_task.get_future();
-    m_pythonThread->execute(optimize_task);
+    QString best_photo;
+    if (average_distances.empty() == false)
+    {
+        const auto pos_of_best = std::min_element(average_distances.cbegin(), average_distances.cend(), [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.second < rhs.second;
+        });
 
-    optimize_future.wait();
+        best_photo = pos_of_best->first;
+    }
 
-    return optimize_future.get();
+    return best_photo;
+}
+
+
+dlib_api::FaceEncodings FaceRecognition::cachedEncodingForFace(const QString& face_image_path) const
+{
+    dlib_api::FaceEncodings faceEncodings;
+
+    const QFileInfo fileInfo(face_image_path);
+    const QString fileName = fileInfo.baseName();
+    const QString storage = fileInfo.absolutePath();
+    const QString encodingsFilePath = storage + "/" + fileName + ".enc";
+
+    if (QFile::exists(encodingsFilePath))
+    {
+        QFile encodingsFile(encodingsFilePath);
+        encodingsFile.open(QFile::ReadOnly);
+
+        while(encodingsFile.atEnd() == false)
+        {
+            const QByteArray line = encodingsFile.readLine();
+            const double value = line.toDouble();
+
+            faceEncodings.push_back(value);
+        }
+    }
+    else
+    {
+        faceEncodings = encodingsForFace(face_image_path);
+
+        QSaveFile encodingsFile(encodingsFilePath);
+        encodingsFile.open(QFile::WriteOnly);
+
+        for(double v: faceEncodings)
+        {
+            const QByteArray line = QByteArray::number(v) + '\n';
+            encodingsFile.write(line);
+        }
+
+        encodingsFile.commit();
+    }
+
+    return faceEncodings;
 }

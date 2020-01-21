@@ -459,46 +459,6 @@ void ModelFaceStore::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-TestSystem::TestSystem(ICoreFactoryAccessor* core): m_core(core)
-{
-}
-
-
-TestSystem::~TestSystem()
-{
-}
-
-
-std::string TestSystem::name() const
-{
-    return "TestSystem";
-}
-
-
-void TestSystem::perform()
-{
-    FaceRecognition r(m_core);
-    const QStringList modules = r.verifySystem();
-
-    if (modules.empty())
-        emit status(true, QString());
-    else
-    {
-        const QString py_mods = modules.join(", ");
-        const QString msg = tr("Automatic face detection and people recognition functionality is disabled due to missing Python modules.\n\n"
-                               "To install them, use 'python -m pip install %1' (on Windows)\n"
-                               "or use package system for your Linux distro.\n")
-                            .arg(py_mods);
-
-        emit status(false, msg);
-    }
-}
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, ICoreFactoryAccessor* ca):
     m_storage(storage),
     m_db(db),
@@ -514,20 +474,6 @@ PeopleOperator::~PeopleOperator()
 }
 
 
-// TODO: move it app initialization. No need doing it everytime.
-// 3rd party apps are already detected once when gui starts.
-void PeopleOperator::testSystem() const
-{
-    ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<TestSystem>(m_coreFactory);
-
-    connect(task.get(), &TestSystem::status,
-            this, &PeopleOperator::system_status);
-
-    executor->addLight(std::move(task));
-}
-
-
 void PeopleOperator::fetchFaces(const Photo::Id& id) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
@@ -536,7 +482,7 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
     connect(task.get(), &FacesFetcher::faces,
             this, &PeopleOperator::faces);
 
-    executor->addLight(std::move(task));
+    executor->add(std::move(task));
 }
 
 
@@ -548,7 +494,7 @@ void PeopleOperator::recognize(const PeopleOperator::FaceLocation& face) const
     connect(task.get(), &FaceRecognizer::recognized,
             this, &PeopleOperator::recognized);
 
-    executor->addLight(std::move(task));
+    executor->add(std::move(task));
 }
 
 

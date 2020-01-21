@@ -46,10 +46,6 @@ class PeopleOperator final: public QObject
         PeopleOperator(const QString& storage, Database::IDatabase *, ICoreFactoryAccessor *);
         ~PeopleOperator();
 
-        // test if face recognition tools are available.
-        // returns list of missing python modules
-        void testSystem() const;
-
         // Locate faces on given photo.
         void fetchFaces(const Photo::Id &) const;
 
@@ -77,7 +73,6 @@ class PeopleOperator final: public QObject
         QImage getFaceSync(const PersonInfo &);
 
     signals:
-        void system_status(const bool, const QString &) const;
         void faces(const QVector<QRect> &) const;
         void recognized(const QRect &, const PersonName &) const;
         void unassigned(const Photo::Id &, const QStringList &) const;

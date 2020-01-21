@@ -32,7 +32,6 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
                             IExifReaderFactory *,
                             IConfiguration *,
                             ITaskExecutor *,
-                            IPythonThread *,
                             IFeaturesManager *
                            );
         ~CoreFactoryAccessor();
@@ -41,7 +40,6 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
         IExifReaderFactory* getExifReaderFactory() override;
         IConfiguration* getConfiguration() override;
         ITaskExecutor * getTaskExecutor() override;
-        IPythonThread * getPythonThread() override;
         IFeaturesManager * getFeaturesManager() override;
 
     private:
@@ -49,7 +47,6 @@ class CORE_EXPORT CoreFactoryAccessor final: public ICoreFactoryAccessor
         IExifReaderFactory* m_exifReaderFactory;
         IConfiguration* m_configuration;
         ITaskExecutor* m_taskExecutor;
-        IPythonThread* m_pythonThread;
         IFeaturesManager* m_featuresManager;
 };
 

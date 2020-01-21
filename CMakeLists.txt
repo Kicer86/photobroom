@@ -16,7 +16,7 @@ set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::an
 
 if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS)
+    conan_basic_setup(NO_OUTPUT_DIRS TARGETS)
 endif()
 
 #check if git modules are setup
@@ -117,6 +117,7 @@ if(UNIX OR CYGWIN)
         set(PATH_DOCS     "share/photo_broom/docs")
         set(PATH_ICONS    "share/photo_broom/icons")
         set(PATH_SCRIPTS  "share/photo_broom/scripts")
+        set(PATH_DATA     "share/photo_broom/")
 elseif(WIN32)
         set(PATH_BIN      ".")
         set(PATH_LIBS     ".")
@@ -125,6 +126,7 @@ elseif(WIN32)
         set(PATH_DOCS     "docs")
         set(PATH_ICONS    "icons")
         set(PATH_SCRIPTS  "scripts")
+        set(PATH_DATA     ".")
 endif(UNIX OR CYGWIN)
 
 # RPATH

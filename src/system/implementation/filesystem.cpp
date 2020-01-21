@@ -47,6 +47,12 @@ QString FileSystem::getScriptsPath() const
 }
 
 
+QString FileSystem::getDataPath() const
+{
+    return read(Paths::data);
+}
+
+
 QString FileSystem::commonPath(const QString& p1, const QString& p2 ) const
 {
     int common_part = 0;

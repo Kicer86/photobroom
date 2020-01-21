@@ -14,7 +14,6 @@
 #include <core/iexif_reader.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/image_tools.hpp>
-#include <core/ipython_thread.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
@@ -59,7 +58,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
-    m_pythonThread(coreAccessor->getPythonThread()),
     m_exif(coreAccessor->getExifReaderFactory()->get()),
     m_facesToAnalyze(0)
 {
@@ -83,14 +81,14 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(&m_people, &PeopleOperator::unassigned,
             this, &FacesDialog::applyUnassigned);
 
-    connect(&m_people, &PeopleOperator::system_status,
-            this, &FacesDialog::systemStatus);
-
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
     ui->statusLabel->setText(tr("Locating faces..."));
-    m_people.testSystem();
+
+    m_people.fetchFaces(m_id);
+    m_people.getUnassignedPeople(m_id);
+
     updateImage();
 }
 
@@ -153,16 +151,6 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
     }
 
     setUnassignedVisible(count > 0);
-}
-
-
-void FacesDialog::systemStatus(bool status, const QString& message)
-{
-    if (!status)
-        QMessageBox::warning(this, tr("Missing libraries"), message);
-
-    m_people.fetchFaces(m_id);
-    m_people.getUnassignedPeople(m_id);
 }
 
 
