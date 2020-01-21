@@ -59,7 +59,7 @@ namespace dlib_api
     std::vector<dlib::mmod_rect> cnn_face_detection_model_v1::detect(
         const QImage& qimage,
         const int upsample_num_times
-    )
+    ) const
     {
         dlib::pyramid_down<2> pyr;
         std::vector<dlib::mmod_rect> face_rects;

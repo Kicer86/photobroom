@@ -77,8 +77,8 @@ namespace dlib_api
         {
             std::optional<QVector<QRect>> faces;
 
-            static auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
-            static cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
+            static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+            static const cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
 
             try
             {
@@ -127,14 +127,14 @@ namespace dlib_api
         const QSize size = qimage.size();
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
 
-        static auto predictor_68_point_model = models_path() + "/shape_predictor_68_face_landmarks.dat";
-        static auto predictor_5_point_model = models_path() + "/shape_predictor_5_face_landmarks.dat";
-        static auto predictor_68_point = deserialize_from_file<dlib::shape_predictor>(predictor_68_point_model);
-        static auto predictor_5_point = deserialize_from_file<dlib::shape_predictor>(predictor_5_point_model);
+        static const auto predictor_68_point_model = models_path() + "/shape_predictor_68_face_landmarks.dat";
+        static const auto predictor_5_point_model = models_path() + "/shape_predictor_5_face_landmarks.dat";
+        static const auto predictor_68_point = deserialize_from_file<dlib::shape_predictor>(predictor_68_point_model);
+        static const auto predictor_5_point = deserialize_from_file<dlib::shape_predictor>(predictor_5_point_model);
 
-        dlib::shape_predictor& pose_predictor = model == large?
-                                                predictor_68_point :
-                                                predictor_5_point;
+        const dlib::shape_predictor& pose_predictor = model == large?
+                                                      predictor_68_point :
+                                                      predictor_5_point;
 
         const auto image = qimage_to_dlib_matrix(qimage);
         const auto object_detection = pose_predictor(image, face_location);
