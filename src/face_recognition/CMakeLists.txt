@@ -1,4 +1,6 @@
 
+add_subdirectory(learning_tests)
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 
