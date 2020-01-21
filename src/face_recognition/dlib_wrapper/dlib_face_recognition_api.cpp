@@ -142,8 +142,17 @@ namespace dlib_api
         auto face_recognition_model = models_path() + "/dlib_face_recognition_resnet_model_v1.dat";
         face_recognition_model_v1 face_encoder(face_recognition_model.toStdString());
 
-        const auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
-        const std::vector<double> result(encodings.begin(), encodings.end());
+        std::vector<double> result;
+
+        try
+        {
+            const auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
+            result = std::vector(encodings.begin(), encodings.end());
+        }
+        catch(const dlib::cuda_error& err)
+        {
+            std::cerr << err.what() << std::endl;
+        }
 
         return result;
     }
