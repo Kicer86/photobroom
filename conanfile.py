@@ -8,4 +8,4 @@ class PhotoBroomConan(ConanFile):
 
     def configure(self):
         if self.settings.os == "Linux":
-            self.requires.add("dlib/19.19@omaralvarez/stable")
+            self.requires.add("dlib/19.19@kicer/stable")
