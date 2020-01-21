@@ -107,7 +107,6 @@ namespace dlib_api
 
         static auto predictor_68_point_model = models_path() + "/shape_predictor_68_face_landmarks.dat";
         static auto predictor_5_point_model = models_path() + "/shape_predictor_5_face_landmarks.dat";
-
         static auto predictor_68_point = deserialize_from_file<dlib::shape_predictor>(predictor_68_point_model);
         static auto predictor_5_point = deserialize_from_file<dlib::shape_predictor>(predictor_5_point_model);
 
