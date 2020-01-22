@@ -4,6 +4,9 @@ find_program(WGET wget)
 
 if(WGET)
 
+    find_package(Threads REQUIRED)
+    find_package(GMock REQUIRED)
+
     # download two fake faces from https://thispersondoesnotexist.com
     add_custom_command(OUTPUT face1.jpg face2.jpg
                     COMMAND ${WGET}
@@ -23,9 +26,30 @@ if(WGET)
                                 https://thispersondoesnotexist.com/image
     )
 
-    add_custom_target(face_recognition_learning_tests
+    add_executable(face_scaling_tests face_scaling.cpp)
+
+    target_link_libraries(face_scaling_tests
+                            PRIVATE
+                                ${GTEST_LIBRARY}
+                                ${GTEST_MAIN_LIBRARY}
+                                ${CMAKE_THREAD_LIBS_INIT}
+    )
+
+    target_include_directories(face_scaling_tests
+                                PRIVATE
+                                    ${GTEST_INCLUDE_DIRS}
+    )
+
+    target_compile_definitions(face_scaling_tests
+                                PRIVATE
+                                    FACES_DIR=${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+    add_custom_target(face_images
                       DEPENDS face1.jpg
                               face2.jpg
     )
+
+    add_dependencies(face_scaling_tests face_images)
 
 endif()
