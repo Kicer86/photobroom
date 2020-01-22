@@ -101,5 +101,4 @@ TEST(FaceScalingTest, scaledFaceDistance)
 
         EXPECT_LT(distance, 0.25);
     }
-
 }
