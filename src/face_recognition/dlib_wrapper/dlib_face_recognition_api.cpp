@@ -117,7 +117,7 @@ namespace dlib_api
         if (model == hog || (model == automatic && faces.has_value() == false) )
             faces = face_locations_hog(qimage, number_of_times_to_upsample);
 
-        return faces.value();
+        return faces.has_value()? faces.value(): QVector<QRect>();
     }
 
 
