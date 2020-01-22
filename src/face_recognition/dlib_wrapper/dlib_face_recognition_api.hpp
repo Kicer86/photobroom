@@ -14,8 +14,8 @@ namespace dlib_api
 {
     enum Model
     {
-        hog,
-        cnn,
+        hog,            // cpu based
+        cnn,            // gpu based (may return empty set in case of gpu error like memory allocation problems)
     };
 
     enum EncodingsModel
