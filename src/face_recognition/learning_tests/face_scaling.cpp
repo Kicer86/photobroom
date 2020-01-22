@@ -14,7 +14,7 @@
 #define PATH(path) STRING(path)
 
 const QString face1Path = QString(PATH(FACES_DIR)) + "/face1.jpg";
-const QString face2Path = QString(PATH(FACES_DIR)) + "/face1.jpg";
+const QString face2Path = QString(PATH(FACES_DIR)) + "/face2.jpg";
 
 QImage downsize(const QImage& source, int factor)
 {
