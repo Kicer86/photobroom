@@ -111,10 +111,10 @@ namespace dlib_api
     {
         std::optional<QVector<QRect>> faces;
 
-        if (model == cnn)
+        if (model == cnn || model == automatic)
             faces = face_locations_cnn(qimage, number_of_times_to_upsample);
 
-        if (model == hog || faces.has_value() == false)
+        if (model == hog || (model == automatic && faces.has_value() == false) )
             faces = face_locations_hog(qimage, number_of_times_to_upsample);
 
         return faces.value();

@@ -16,6 +16,7 @@ namespace dlib_api
     {
         hog,            // cpu based
         cnn,            // gpu based (may return empty set in case of gpu error like memory allocation problems)
+        automatic,      // uses gpu model, and if it fails, uses cpu
     };
 
     enum EncodingsModel
