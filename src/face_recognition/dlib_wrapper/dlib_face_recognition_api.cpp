@@ -147,7 +147,7 @@ namespace dlib_api
         try
         {
             const auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
-            result = std::vector(encodings.begin(), encodings.end());
+            result = std::vector<double>(encodings.begin(), encodings.end());
         }
         catch(const dlib::cuda_error& err)
         {
