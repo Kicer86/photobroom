@@ -31,8 +31,8 @@ target_include_directories(face_recognition
                                     ${Qt5Core_INCLUDE_DIRS}
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_BINARY_DIR}
-                                PRIVATE
                                     ${CMAKE_SOURCE_DIR}/src
+                                PRIVATE
                                     ${DLIB_INCLUDE_DIRS}
 )
 
