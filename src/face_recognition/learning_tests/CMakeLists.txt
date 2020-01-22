@@ -6,6 +6,8 @@ if(WGET)
 
     find_package(Threads REQUIRED)
     find_package(GMock REQUIRED)
+    find_package(Qt5Core REQUIRED)
+    find_package(Qt5Gui REQUIRED)
 
     # download two fake faces from https://thispersondoesnotexist.com
     add_custom_command(OUTPUT face1.jpg face2.jpg
@@ -33,6 +35,9 @@ if(WGET)
                                 ${GTEST_LIBRARY}
                                 ${GTEST_MAIN_LIBRARY}
                                 ${CMAKE_THREAD_LIBS_INIT}
+                                dlib_wrapper
+                                Qt5::Core
+                                Qt5::Gui
     )
 
     target_include_directories(face_scaling_tests
