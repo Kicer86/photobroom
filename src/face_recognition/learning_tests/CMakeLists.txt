@@ -43,6 +43,8 @@ if(WGET)
     target_include_directories(face_scaling_tests
                                 PRIVATE
                                     ${GTEST_INCLUDE_DIRS}
+                                    ${Qt5Core_INCLUDE_DIRS}
+                                    ${Qt5Gui_INCLUDE_DIRS}
     )
 
     target_compile_definitions(face_scaling_tests
