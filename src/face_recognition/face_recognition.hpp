@@ -20,8 +20,7 @@
 #define FACERECOGNITION_HPP
 
 #include <QVector>
-
-#include <system/system.hpp>
+#include <memory>
 
 #include "face_recognition_export.h"
 #include "dlib_wrapper/dlib_face_recognition_api.hpp"
@@ -31,6 +30,7 @@ class QRect;
 
 struct ICoreFactoryAccessor;
 struct IExifReader;
+struct ITmpDir;
 struct FacesData;
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
