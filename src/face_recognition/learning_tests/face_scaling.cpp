@@ -26,11 +26,19 @@ QImage downsize(const QImage& source, int factor)
 }
 
 
+TEST(FaceScalingTest, prerequisites)
+{
+    const QImage img1(face1Path);
+    const QImage img2(face2Path);
+
+    ASSERT_EQ(img1.size(), QSize(1024, 1024));
+    ASSERT_EQ(img2.size(), QSize(1024, 1024));
+}
+
+
 TEST(FaceScalingTest, faceDetectionForCnn)
 {
     const QImage img(face1Path);
-
-    ASSERT_EQ(img.size(), QSize(1024, 1024));
 
     // original image size
     {
