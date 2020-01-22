@@ -53,6 +53,48 @@ namespace
         const QImage faceImage(face_image_path);
         return dlib_api::face_encodings(faceImage);
     }
+
+
+    dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_path)
+    {
+        dlib_api::FaceEncodings faceEncodings;
+
+        const QFileInfo fileInfo(face_image_path);
+        const QString fileName = fileInfo.baseName();
+        const QString storage = fileInfo.absolutePath();
+        const QString encodingsFilePath = storage + "/" + fileName + ".enc";
+
+        if (QFile::exists(encodingsFilePath))
+        {
+            QFile encodingsFile(encodingsFilePath);
+            encodingsFile.open(QFile::ReadOnly);
+
+            while(encodingsFile.atEnd() == false)
+            {
+                const QByteArray line = encodingsFile.readLine();
+                const double value = line.toDouble();
+
+                faceEncodings.push_back(value);
+            }
+        }
+        else
+        {
+            faceEncodings = encodingsForFace(face_image_path);
+
+            QSaveFile encodingsFile(encodingsFilePath);
+            encodingsFile.open(QFile::WriteOnly);
+
+            for(double v: faceEncodings)
+            {
+                const QByteArray line = QByteArray::number(v) + '\n';
+                encodingsFile.write(line);
+            }
+
+            encodingsFile.commit();
+        }
+
+        return faceEncodings;
+    }
 }
 
 
@@ -181,46 +223,4 @@ QString FaceRecognition::best(const QStringList& faces)
     }
 
     return best_photo;
-}
-
-
-dlib_api::FaceEncodings FaceRecognition::cachedEncodingForFace(const QString& face_image_path) const
-{
-    dlib_api::FaceEncodings faceEncodings;
-
-    const QFileInfo fileInfo(face_image_path);
-    const QString fileName = fileInfo.baseName();
-    const QString storage = fileInfo.absolutePath();
-    const QString encodingsFilePath = storage + "/" + fileName + ".enc";
-
-    if (QFile::exists(encodingsFilePath))
-    {
-        QFile encodingsFile(encodingsFilePath);
-        encodingsFile.open(QFile::ReadOnly);
-
-        while(encodingsFile.atEnd() == false)
-        {
-            const QByteArray line = encodingsFile.readLine();
-            const double value = line.toDouble();
-
-            faceEncodings.push_back(value);
-        }
-    }
-    else
-    {
-        faceEncodings = encodingsForFace(face_image_path);
-
-        QSaveFile encodingsFile(encodingsFilePath);
-        encodingsFile.open(QFile::WriteOnly);
-
-        for(double v: faceEncodings)
-        {
-            const QByteArray line = QByteArray::number(v) + '\n';
-            encodingsFile.write(line);
-        }
-
-        encodingsFile.commit();
-    }
-
-    return faceEncodings;
 }

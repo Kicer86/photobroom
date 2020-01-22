@@ -4,6 +4,6 @@
 [submodule "external/kwidgetsaddons"]
 	path = external/kwidgetsaddons
 	url = git://anongit.kde.org/kwidgetsaddons.git
-[submodule "src/face_recognition/face_recognition_models"]
-	path = src/face_recognition/face_recognition_models
+[submodule "src/face_recognition/dlib_wrapper/face_recognition_models"]
+	path = src/face_recognition/dlib_wrapper/face_recognition_models
 	url = https://github.com/ageitgey/face_recognition_models.git

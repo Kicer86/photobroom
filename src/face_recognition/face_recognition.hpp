@@ -23,7 +23,6 @@
 #include <memory>
 
 #include "face_recognition_export.h"
-#include "dlib_wrapper/dlib_face_recognition_api.hpp"
 
 class QString;
 class QRect;
@@ -58,8 +57,6 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
     private:
         std::shared_ptr<ITmpDir> m_tmpDir;
         IExifReader* m_exif;
-
-        dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_name) const;
 };
 
 #endif // FACERECOGNITION_HPP
