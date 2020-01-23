@@ -7,8 +7,22 @@ set(dlib_target dlib)
 if(TARGET CONAN_PKG::dlib)
     set(dlib_target CONAN_PKG::dlib)
 else()
-    find_package(dlib REQUIRED)
-    set(dlib_target dlib)
+    find_package(dlib QUIET)
+    # using conan here would be nice but due to https://github.com/omaralvarez/conan_dlib/issues/5 it cannot be used (always)
+    # So instead dlib is being downloaded and build
+    if(dlib_FOUND)
+        set(dlib_target dlib)
+    else()
+        # based on http://dlib.net/examples/CMakeLists.txt.html
+        cmake_minimum_required(VERSION 3.14)
+        include(FetchContent)
+        FetchContent_Declare(dlib
+            GIT_REPOSITORY https://github.com/davisking/dlib.git
+            GIT_TAG        v19.19
+        )
+        FetchContent_MakeAvailable(dlib)
+        set(dlib_target dlib::dlib)
+    endif()
 endif()
 
 add_library(dlib_wrapper

@@ -5,7 +5,6 @@ add_subdirectory(dlib_wrapper)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 
-
 add_library(face_recognition
     face_recognition.cpp
     face_recognition.hpp
