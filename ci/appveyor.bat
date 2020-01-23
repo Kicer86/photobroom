@@ -19,4 +19,4 @@ set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;C:\Libraries\boost_1_64_0;c:/
 mkdir build
 cd build
 conan install .. --build missing
-cmake -G%generator% -DBUILD_UPDATER=ON -DBUILD_TESTS=OFF ..
+cmake -G%generator% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF ..
