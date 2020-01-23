@@ -38,6 +38,32 @@ namespace
 
         return faceImg;
     }
+
+    void faceDetectionTest(const QImage& img, dlib_api::Model model)
+    {
+        // original image size
+        {
+            QVector faces = dlib_api::face_locations(img, 0, model);
+            EXPECT_EQ(faces.size(), 1);
+        }
+
+        // double size
+        if (model == dlib_api::hog)         // cnn may fail due to memory allocation error
+        {
+            QVector faces = dlib_api::face_locations(img, 1, model);
+            EXPECT_EQ(faces.size(), 1);
+        }
+
+        // downsize by factor of powers of 2 - minimal image size is 128x128, detected face size is left: 12, right: 90, top: 28, bottom: 106
+        for(int scale = 2; scale <= 64; scale *= 2)
+        {
+            const QImage small = downsize(img, scale);
+            QVector faces = dlib_api::face_locations(small, 0, model);
+            EXPECT_EQ(faces.size(), 1);
+        }
+
+        // it may be imposible to find face on smaller images
+    }
 }
 
 
@@ -53,34 +79,21 @@ TEST(FaceScalingTest, prerequisites)
 
 TEST(FaceScalingTest, faceDetectionForCnn)
 {
-    const QImage img(face1Path);
+    const QImage img1(face1Path);
+    const QImage img2(face2Path);
 
-    // original image size
-    {
-        QVector faces = dlib_api::face_locations(img, 0, dlib_api::cnn);
-        EXPECT_EQ(faces.size(), 1);
-    }
+    faceDetectionTest(img1, dlib_api::cnn);
+    faceDetectionTest(img2, dlib_api::cnn);
+}
 
-    // double size  ( disabled as out of memory exception breaks next detection )
-    //{
-    //    QVector faces = dlib_api::face_locations(img, 1, dlib_api::cnn);
-    //    EXPECT_EQ(faces.size(), 0);     // fail expected due to memory consumption
-    //}
 
-    // downsize by factor of powers of 2 - minimal image size is 128x128, detected face size is left: 12, right: 90, top: 28, bottom: 106
-    for(int scale = 2; scale <= 64; scale *= 2)
-    {
-        const QImage small = downsize(img, scale);
-        QVector faces = dlib_api::face_locations(small, 0, dlib_api::cnn);
-        EXPECT_EQ(faces.size(), 1);
-    }
+TEST(FaceScalingTest, faceDetectionForHog)
+{
+    const QImage img1(face1Path);
+    const QImage img2(face2Path);
 
-    // downsize by factor of 128  - image size 91x91 - too small to detect face
-    {
-        const QImage small = downsize(img, 128);
-        QVector faces = dlib_api::face_locations(small, 0, dlib_api::cnn);
-        EXPECT_EQ(faces.size(), 0);
-    }
+    faceDetectionTest(img1, dlib_api::hog);
+    faceDetectionTest(img2, dlib_api::hog);
 }
 
 
