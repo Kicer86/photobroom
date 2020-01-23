@@ -132,6 +132,6 @@ if(BUILD_SHARED_LIBS)
                          LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     include(core_test.cmake)
 endif()

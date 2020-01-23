@@ -71,6 +71,6 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     include(system_tests.cmake)
 endif()
