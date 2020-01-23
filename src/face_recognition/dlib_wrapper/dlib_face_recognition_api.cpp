@@ -4,6 +4,7 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/dnn.h>
 #include <QRgb>
+#include <optional>
 
 #include <system/filesystem.hpp>
 
