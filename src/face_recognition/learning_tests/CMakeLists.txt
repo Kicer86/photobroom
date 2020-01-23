@@ -5,7 +5,7 @@ find_program(WGET wget)
 if(WGET)
 
     find_package(Threads REQUIRED)
-    find_package(GMock REQUIRED)
+    find_package(GTest REQUIRED)
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
 
