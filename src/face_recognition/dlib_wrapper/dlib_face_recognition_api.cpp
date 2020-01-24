@@ -162,7 +162,7 @@ namespace dlib_api
     std::vector<bool> compare_faces(const std::vector<FaceEncodings>& known_face_encodings, const FaceEncodings& face_encoding_to_check, double tolerance)
     {
         const std::size_t faces = known_face_encodings.size();
-        const std::vector<double> distances = face_distance(known_face_encodings, face_encoding_to_check);
+        const std::vector distances = face_distance(known_face_encodings, face_encoding_to_check);
 
         std::vector<bool> results(faces, false);
 
