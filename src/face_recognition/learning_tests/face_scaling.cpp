@@ -104,7 +104,7 @@ TEST(FaceScalingTest, scaledFaceDistance)
     const QImage face = extractFace(img);
     const auto face_encodings = dlib_api::face_encodings(face);
 
-    std::vector faces_encodings = { face_encodings };
+    std::vector<dlib_api::FaceEncodings> faces_encodings = { face_encodings };
 
     // downsize by factor of powers of 2
     // minimal image size is 128x128, detected face size is left: ~12, right: ~90, top: ~28, bottom: ~106
