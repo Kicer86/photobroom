@@ -145,6 +145,7 @@ macro(addTestTarget target)
 
     #add tests
     add_test(${target}_base ${test_bin}_base)
+    set_tests_properties(${target}_base PROPERTIES LABELS "UnitTest")
     set(test_binaries ${test_bin}_base)
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
@@ -152,6 +153,11 @@ macro(addTestTarget target)
         add_test(${target}_thread ${test_bin}_thread)
         add_test(${target}_leak ${test_bin}_leak)
         add_test(${target}_ub ${test_bin}_ub)
+
+        set_tests_properties(${target}_addr PROPERTIES LABELS "UnitTest;Sanitizer;Address")
+        set_tests_properties(${target}_thread PROPERTIES LABELS "UnitTest;Sanitizer;Thread")
+        set_tests_properties(${target}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
+        set_tests_properties(${target}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
 
         list(APPEND test_binaries
             ${test_bin}_addr
@@ -161,12 +167,8 @@ macro(addTestTarget target)
         )
     endif()
 
-    add_custom_target(${test_bin}
-                        DEPENDS
-                            ${test_binaries}
-    )
-
-    add_dependencies(RunUnitTests ${test_bin})
+    # make sure all test will be build before running them after build
+    add_dependencies(RunUnitTests ${test_binaries})
 
 endmacro(addTestTarget)
 
