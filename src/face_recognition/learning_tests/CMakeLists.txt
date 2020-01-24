@@ -28,7 +28,10 @@ if(WGET)
                                 https://thispersondoesnotexist.com/image
     )
 
-    add_executable(face_scaling_tests face_scaling.cpp)
+    add_executable(face_scaling_tests
+                   face_locations.cpp
+                   face_scaling.cpp
+    )
 
     target_link_libraries(face_scaling_tests
                             PRIVATE
