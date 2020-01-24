@@ -58,5 +58,9 @@ if(WGET)
     )
 
     add_dependencies(face_scaling_tests face_images)
+    add_test(NAME dlib_face_scaling
+             COMMAND face_scaling_tests)
+
+    set_tests_properties(dlib_face_scaling PROPERTIES LABELS "LearningTest")
 
 endif()
