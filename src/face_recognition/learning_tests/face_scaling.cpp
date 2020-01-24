@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <algorithm>
 #include <gtest/gtest.h>
 #include <QImage>
 #include <QString>
@@ -103,15 +104,56 @@ TEST(FaceScalingTest, scaledFaceDistance)
     const QImage face = extractFace(img);
     const auto face_encodings = dlib_api::face_encodings(face);
 
-    // downsize by factor of powers of 2 - minimal image size is 128x128, detected face size is left: 12, right: 90, top: 28, bottom: 106
+    std::vector faces_encodings = { face_encodings };
+
+    // downsize by factor of powers of 2
+    // minimal image size is 128x128, detected face size is left: ~12, right: ~90, top: ~28, bottom: ~106
     for(int scale = 2; scale <= 64; scale *= 2)
     {
         const QImage small_image = downsize(img, scale);
+
         const QImage small_face = extractFace(small_image);
         const auto small_face_encodings = dlib_api::face_encodings(small_face);
-        const std::vector distances = dlib_api::face_distance( {small_face_encodings}, face_encodings );
-        const double distance = distances.front();
-
-        EXPECT_LT(distance, 0.25);
+        faces_encodings.push_back(small_face_encodings);
     }
+
+    // compare distance between each image
+    const std::size_t s = faces_encodings.size();
+    std::vector<std::vector<double>> distances_matrix(s, std::vector<double>());
+
+    for(std::size_t i = 0; i < s; i++)
+        for(std::size_t j = i + 1; j < s; j++)
+        {
+            const auto& lhs = faces_encodings[i];
+            const auto& rhs = faces_encodings[j];
+
+            const std::vector distances = dlib_api::face_distance( {lhs}, rhs );
+            const double distance = distances.front();
+
+            distances_matrix[i].push_back(distance);
+            distances_matrix[j].push_back(distance);
+        }
+
+    // calculate mean, min and max for each face
+    std::vector<double> means;
+    std::vector<double> mins;
+    std::vector<double> maxs;
+
+    for(const auto& distances: distances_matrix)
+    {
+        const auto [min, max] = std::minmax_element(distances.cbegin(), distances.cend());
+        const double sum = std::accumulate(distances.cbegin(), distances.cend(), 0.0);
+        const double mean = sum/distances.size();
+
+        means.push_back(mean);
+        mins.push_back(*min);
+        maxs.push_back(*max);
+    }
+
+    // it seams that photos 512x512 (downsize by 2) ÷ 181x181 (downsize by 32) have best means
+    auto mean_best = std::min_element(means.cbegin(), means.cend());
+    const std::size_t pos = std::distance(means.cbegin(), mean_best);
+
+    EXPECT_NE(pos, 0);      // 1024x1024 has high mean
+    EXPECT_NE(pos, s-1);    // 128x128 also has high mean
 }
