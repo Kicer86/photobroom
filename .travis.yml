@@ -100,7 +100,6 @@ before_script:
           -DGMOCK_DIR=$GTEST_PATH/googlemock
           -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
           -DBUILD_UPDATER=ON
-          -DBUILD_TESTS=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
           ${EXTRA_CMAKE_OPTIONS}
@@ -108,7 +107,7 @@ before_script:
 
 script:
   - make
-  - xvfb-run -e /dev/stdout ctest -V
+  - xvfb-run -e /dev/stdout ctest -V -L UnitTest
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
