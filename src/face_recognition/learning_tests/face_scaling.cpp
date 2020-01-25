@@ -132,7 +132,7 @@ TEST(FaceScalingTest, scaledFaceDistance)
 
     // it seams that photos 512x512 (downsize by 2) ÷ 181x181 (downsize by 32) have best means
     auto mean_best = std::min_element(means.cbegin(), means.cend());
-    const std::size_t pos = std::distance(means.cbegin(), mean_best);
+    const int pos = std::distance(means.cbegin(), mean_best);
 
     EXPECT_NE(pos, 0);      // 1024x1024 has high mean
     EXPECT_NE(pos, s-1);    // 128x128 also has high mean
