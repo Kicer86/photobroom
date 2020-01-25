@@ -29,8 +29,8 @@ if(WGET)
     )
 
     add_executable(face_scaling_tests
-                   face_locations.cpp
-                   face_scaling.cpp
+                   face_locations_tests.cpp
+                   face_scaling_tests.cpp
                    utils.cpp
                    utils.hpp
     )
