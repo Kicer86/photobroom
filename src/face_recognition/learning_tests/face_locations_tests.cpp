@@ -11,8 +11,10 @@ namespace
     {
         const QImage small_img = utils::downsize(img, 4);
 
-        QVector facesCnn = dlib_api::face_locations(small_img, 0, dlib_api::cnn);
-        QVector facesHog = dlib_api::face_locations(small_img, 0, dlib_api::hog);
+        dlib_api::FaceLocator faceLocator;
+
+        QVector facesCnn = faceLocator.face_locations(small_img, 0, dlib_api::cnn);
+        QVector facesHog = faceLocator.face_locations(small_img, 0, dlib_api::hog);
 
         ASSERT_EQ(facesCnn.size(), 1);
         ASSERT_EQ(facesHog.size(), 1);

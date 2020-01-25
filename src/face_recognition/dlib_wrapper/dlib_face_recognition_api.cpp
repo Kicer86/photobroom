@@ -108,7 +108,13 @@ namespace dlib_api
     }
 
 
-    QVector<QRect> face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
+    FaceLocator::FaceLocator()
+    {
+
+    }
+
+
+    QVector<QRect> FaceLocator::face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
     {
         std::optional<QVector<QRect>> faces;
 

@@ -123,7 +123,8 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     if (s)
     {
         QImage image(normalizedPhotoPath);
-        result = dlib_api::face_locations(image, 0, dlib_api::cnn);
+
+        result = dlib_api::FaceLocator().face_locations(image, 0, dlib_api::cnn);
     }
 
     return result;

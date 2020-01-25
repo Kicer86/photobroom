@@ -11,7 +11,7 @@ namespace
 {
     QImage extractFace(const QImage& photo)
     {
-        QVector faces = dlib_api::face_locations(photo, 0, dlib_api::cnn);
+        QVector faces = dlib_api::FaceLocator().face_locations(photo, 0, dlib_api::cnn);
         assert(faces.size() == 1);
 
         const QRect faceRect = faces.front();
@@ -22,16 +22,18 @@ namespace
 
     void faceDetectionTest(const QImage& img, dlib_api::Model model)
     {
+        dlib_api::FaceLocator faceLocator;
+
         // original image size
         {
-            QVector faces = dlib_api::face_locations(img, 0, model);
+            QVector faces = faceLocator.face_locations(img, 0, model);
             EXPECT_EQ(faces.size(), 1);
         }
 
         // double size
         if (model == dlib_api::hog)         // cnn may fail due to memory allocation error
         {
-            QVector faces = dlib_api::face_locations(img, 1, model);
+            QVector faces = faceLocator.face_locations(img, 1, model);
             EXPECT_EQ(faces.size(), 1);
         }
 
@@ -39,7 +41,7 @@ namespace
         for(int scale = 2; scale <= 64; scale *= 2)
         {
             const QImage small = utils::downsize(img, scale);
-            QVector faces = dlib_api::face_locations(small, 0, model);
+            QVector faces = faceLocator.face_locations(small, 0, model);
             EXPECT_EQ(faces.size(), 1);
         }
 
