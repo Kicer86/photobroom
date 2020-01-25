@@ -31,6 +31,8 @@ if(WGET)
     add_executable(face_scaling_tests
                    face_locations.cpp
                    face_scaling.cpp
+                   utils.cpp
+                   utils.hpp
     )
 
     target_link_libraries(face_scaling_tests

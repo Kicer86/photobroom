@@ -1,34 +1,14 @@
 
-#include <cmath>
 #include <algorithm>
 #include <gtest/gtest.h>
 #include <QImage>
 #include <QString>
 
 #include "face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp"
-
-#ifndef FACES_DIR
-#error FACES_DIR is not set
-#endif
-
-#define STRING(s) #s
-#define PATH(path) STRING(path)
+#include "utils.hpp"
 
 namespace
 {
-    const QString face1Path = QString(PATH(FACES_DIR)) + "/face1.jpg";
-    const QString face2Path = QString(PATH(FACES_DIR)) + "/face2.jpg";
-
-    QImage downsize(const QImage& source, int factor)
-    {
-        const QSize size = source.size();
-        const qreal scaleFactor = std::sqrt(factor);
-        const QSize scaledSize = size / scaleFactor;
-
-        return source.scaled(scaledSize);
-    }
-
-
     QImage extractFace(const QImage& photo)
     {
         QVector faces = dlib_api::face_locations(photo, 0, dlib_api::cnn);
@@ -58,7 +38,7 @@ namespace
         // downsize by factor of powers of 2 - minimal image size is 128x128, detected face size is left: 12, right: 90, top: 28, bottom: 106
         for(int scale = 2; scale <= 64; scale *= 2)
         {
-            const QImage small = downsize(img, scale);
+            const QImage small = utils::downsize(img, scale);
             QVector faces = dlib_api::face_locations(small, 0, model);
             EXPECT_EQ(faces.size(), 1);
         }
@@ -70,8 +50,8 @@ namespace
 
 TEST(FaceScalingTest, prerequisites)
 {
-    const QImage img1(face1Path);
-    const QImage img2(face2Path);
+    const QImage img1(utils::photoPath(1));
+    const QImage img2(utils::photoPath(2));
 
     ASSERT_EQ(img1.size(), QSize(1024, 1024));
     ASSERT_EQ(img2.size(), QSize(1024, 1024));
@@ -80,8 +60,8 @@ TEST(FaceScalingTest, prerequisites)
 
 TEST(FaceScalingTest, faceDetectionForCnn)
 {
-    const QImage img1(face1Path);
-    const QImage img2(face2Path);
+    const QImage img1(utils::photoPath(1));
+    const QImage img2(utils::photoPath(2));
 
     faceDetectionTest(img1, dlib_api::cnn);
     faceDetectionTest(img2, dlib_api::cnn);
@@ -90,8 +70,8 @@ TEST(FaceScalingTest, faceDetectionForCnn)
 
 TEST(FaceScalingTest, faceDetectionForHog)
 {
-    const QImage img1(face1Path);
-    const QImage img2(face2Path);
+    const QImage img1(utils::photoPath(1));
+    const QImage img2(utils::photoPath(2));
 
     faceDetectionTest(img1, dlib_api::hog);
     faceDetectionTest(img2, dlib_api::hog);
@@ -100,7 +80,7 @@ TEST(FaceScalingTest, faceDetectionForHog)
 
 TEST(FaceScalingTest, scaledFaceDistance)
 {
-    const QImage img(face1Path);
+    const QImage img(utils::photoPath(1));
     const QImage face = extractFace(img);
     const auto face_encodings = dlib_api::face_encodings(face);
 
@@ -110,7 +90,7 @@ TEST(FaceScalingTest, scaledFaceDistance)
     // minimal image size is 128x128, detected face size is left: ~12, right: ~90, top: ~28, bottom: ~106
     for(int scale = 2; scale <= 64; scale *= 2)
     {
-        const QImage small_image = downsize(img, scale);
+        const QImage small_image = utils::downsize(img, scale);
 
         const QImage small_face = extractFace(small_image);
         const auto small_face_encodings = dlib_api::face_encodings(small_face);
