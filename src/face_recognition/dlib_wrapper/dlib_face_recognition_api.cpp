@@ -71,40 +71,6 @@ namespace dlib_api
 
             return qrects;
         }
-
-        //
-
-        std::optional<QVector<QRect>> face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
-        {
-            std::optional<QVector<QRect>> faces;
-
-            static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
-            static const cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
-
-            try
-            {
-                const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
-                faces = dlib_rects_to_qrects(dlib_results);
-            }
-            catch(const dlib::cuda_error& err)
-            {
-                std::cerr << err.what() << std::endl;
-            }
-
-            return faces;
-        }
-
-        QVector<QRect> face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
-        {
-            dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
-
-            static auto face_detector = dlib::get_frontal_face_detector();
-
-            const auto dlib_results = face_detector(image, number_of_times_to_upsample);
-            const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
-
-            return faces;
-        }
     }
 
 
@@ -125,6 +91,40 @@ namespace dlib_api
             faces = face_locations_hog(qimage, number_of_times_to_upsample);
 
         return faces.has_value()? faces.value(): QVector<QRect>();
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        std::optional<QVector<QRect>> faces;
+
+        static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+        static const cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
+
+        try
+        {
+            const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
+            faces = dlib_rects_to_qrects(dlib_results);
+        }
+        catch(const dlib::cuda_error& err)
+        {
+            std::cerr << err.what() << std::endl;
+        }
+
+        return faces;
+    }
+
+
+    QVector<QRect> FaceLocator::face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+
+        static auto face_detector = dlib::get_frontal_face_detector();
+
+        const auto dlib_results = face_detector(image, number_of_times_to_upsample);
+        const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+        return faces;
     }
 
 

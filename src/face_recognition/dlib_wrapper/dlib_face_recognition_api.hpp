@@ -37,6 +37,10 @@ namespace dlib_api
 
             // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L108
             QVector<QRect> face_locations(const QImage &, int number_of_times_to_upsample = 1, Model = cnn);
+
+        private:
+            std::optional<QVector<QRect>> face_locations_cnn(const QImage &, int);
+            QVector<QRect> face_locations_hog(const QImage &, int);
     };
 
     // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
