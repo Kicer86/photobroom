@@ -84,9 +84,11 @@ namespace dlib_api
     struct FaceLocator::Data
     {
         lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
+        lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
 
         Data()
             : cnn_face_detector(&construct_cnn_face_detector)
+            , hog_face_detector(&dlib::get_frontal_face_detector)
         {
         }
     };
@@ -141,9 +143,7 @@ namespace dlib_api
     {
         dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
 
-        static auto face_detector = dlib::get_frontal_face_detector();
-
-        const auto dlib_results = face_detector(image, number_of_times_to_upsample);
+        const auto dlib_results = (*m_data->hog_face_detector)(image, number_of_times_to_upsample);
         const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
 
         return faces;
