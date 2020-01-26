@@ -6,6 +6,7 @@
 #include <QRgb>
 #include <optional>
 
+#include <core/lazy_ptr.hpp>
 #include <system/filesystem.hpp>
 
 #include "cnn_face_detector.hpp"
@@ -71,10 +72,34 @@ namespace dlib_api
 
             return qrects;
         }
+
+        cnn_face_detection_model_v1* construct_cnn_face_detector()
+        {
+            static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+            return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
+        }
     }
 
 
-    FaceLocator::FaceLocator()
+    struct FaceLocator::Data
+    {
+        lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
+
+        Data()
+            : cnn_face_detector(&construct_cnn_face_detector)
+        {
+        }
+    };
+
+
+    FaceLocator::FaceLocator():
+        m_data(std::make_unique<Data>())
+    {
+
+    }
+
+
+    FaceLocator::~FaceLocator()
     {
 
     }
@@ -98,12 +123,9 @@ namespace dlib_api
     {
         std::optional<QVector<QRect>> faces;
 
-        static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
-        static const cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
-
         try
         {
-            const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
+            const auto dlib_results = m_data->cnn_face_detector->detect(qimage, number_of_times_to_upsample);
             faces = dlib_rects_to_qrects(dlib_results);
         }
         catch(const dlib::cuda_error& err)
