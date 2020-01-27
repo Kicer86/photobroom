@@ -9,7 +9,7 @@ class lazy_ptr
 {
     public:
         template<typename CC>
-        lazy_ptr(CC&& constructor)
+        explicit lazy_ptr(CC&& constructor)
             : m_constructor(constructor)
         {
 
