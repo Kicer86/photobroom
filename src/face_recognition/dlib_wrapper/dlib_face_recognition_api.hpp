@@ -7,6 +7,7 @@
 #include <QRect>
 #include <QVector>
 #include <memory>
+#include <optional>
 
 #include "dlib_wrapper_export.h"
 

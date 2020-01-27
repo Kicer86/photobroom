@@ -4,7 +4,6 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/dnn.h>
 #include <QRgb>
-#include <optional>
 
 #include <core/lazy_ptr.hpp>
 #include <system/filesystem.hpp>
@@ -90,6 +89,7 @@ namespace dlib_api
             : cnn_face_detector(&construct_cnn_face_detector)
             , hog_face_detector(&dlib::get_frontal_face_detector)
         {
+
         }
     };
 
