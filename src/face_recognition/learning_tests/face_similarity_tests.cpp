@@ -82,9 +82,11 @@ TEST(FaceScalingTest, faceDetectionForHog)
 
 TEST(FaceScalingTest, scaledFaceDistance)
 {
+    dlib_api::FaceEncoder faceEncoder;
+
     const QImage img(utils::photoPath(1));
     const QImage face = extractFace(img);
-    const auto face_encodings = dlib_api::face_encodings(face);
+    const auto face_encodings = faceEncoder.face_encodings(face);
 
     std::vector<dlib_api::FaceEncodings> faces_encodings = { face_encodings };
 
@@ -95,7 +97,7 @@ TEST(FaceScalingTest, scaledFaceDistance)
         const QImage small_image = utils::downsize(img, scale);
 
         const QImage small_face = extractFace(small_image);
-        const auto small_face_encodings = dlib_api::face_encodings(small_face);
+        const auto small_face_encodings = faceEncoder.face_encodings(small_face);
         faces_encodings.push_back(small_face_encodings);
     }
 

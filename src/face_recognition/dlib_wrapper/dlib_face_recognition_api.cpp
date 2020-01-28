@@ -150,7 +150,26 @@ namespace dlib_api
     }
 
 
-    std::vector<double> face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
+    struct FaceEncoder::Data
+    {
+
+    };
+
+
+    FaceEncoder::FaceEncoder()
+        : m_data(std::make_unique<Data>())
+    {
+
+    }
+
+
+    FaceEncoder::~FaceEncoder()
+    {
+
+    }
+
+
+    std::vector<double> FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();

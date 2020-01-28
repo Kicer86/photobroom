@@ -48,14 +48,14 @@ namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
 
-    dlib_api::FaceEncodings encodingsForFace(const QString& face_image_path)
+    dlib_api::FaceEncodings encodingsForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
     {
         const QImage faceImage(face_image_path);
-        return dlib_api::face_encodings(faceImage);
+        return faceEndoder.face_encodings(faceImage);
     }
 
 
-    dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_path)
+    dlib_api::FaceEncodings cachedEncodingForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
     {
         dlib_api::FaceEncodings faceEncodings;
 
@@ -79,7 +79,7 @@ namespace
         }
         else
         {
-            faceEncodings = encodingsForFace(face_image_path);
+            faceEncodings = encodingsForFace(faceEndoder, face_image_path);
 
             QSaveFile encodingsFile(encodingsFilePath);
             encodingsFile.open(QFile::WriteOnly);
@@ -134,6 +134,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
 {
     std::lock_guard lock(g_dlibMutex);
+    dlib_api::FaceEncoder faceEndoder;
 
     QDirIterator di(storage, { "*.jpg" });
 
@@ -145,7 +146,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const QString filePath = di.next();
         const QFileInfo fileInfo(filePath);
 
-        const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(filePath);
+        const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(faceEndoder, filePath);
 
         known_faces.push_back(faceEncodings);
         known_faces_names.push_back(fileInfo.fileName());
@@ -161,7 +162,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const QImage photo(normalizedPhotoPath);
         const QImage face_photo = photo.copy(face);
 
-        const dlib_api::FaceEncodings unknown_face_encodings = dlib_api::face_encodings(face_photo);
+        const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
         const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
         assert(distance.size() == known_faces_names.size());
@@ -181,10 +182,12 @@ QString FaceRecognition::best(const QStringList& faces)
     if (faces.size() < 3)           // we need at least 3 faces to do any serious job
         return {};
 
+    dlib_api::FaceEncoder faceEndoder;
+
     std::map<QString, dlib_api::FaceEncodings> encoded_faces;
     for (const QString& face_path: faces)
     {
-        const auto encoded_face = encodingsForFace(face_path);
+        const auto encoded_face = encodingsForFace(faceEndoder, face_path);
         encoded_faces[face_path] = encoded_face;
     }
 

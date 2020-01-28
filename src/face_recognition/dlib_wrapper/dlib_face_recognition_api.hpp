@@ -49,8 +49,19 @@ namespace dlib_api
             QVector<QRect> face_locations_hog(const QImage &, int);
     };
 
-    // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
-    DLIB_WRAPPER_EXPORT std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = large);
+    class DLIB_WRAPPER_EXPORT FaceEncoder
+    {
+        public:
+            FaceEncoder();
+            ~FaceEncoder();
+
+            // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
+            std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = large);
+
+        private:
+            struct Data;
+            std::unique_ptr<Data> m_data;
+    };
 
     // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L217
     DLIB_WRAPPER_EXPORT std::vector<bool> compare_faces(const std::vector<FaceEncodings>& known_face_encodings, const FaceEncodings& face_encoding_to_check, double tolerance = .6);
