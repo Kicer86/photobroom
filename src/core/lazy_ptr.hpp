@@ -8,8 +8,7 @@ template<typename T, typename C>
 class lazy_ptr
 {
     public:
-        template<typename CC>
-        explicit lazy_ptr(CC&& constructor)
+        explicit lazy_ptr(C& constructor)
             : m_constructor(constructor)
         {
 
