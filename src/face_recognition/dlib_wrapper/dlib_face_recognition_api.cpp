@@ -82,12 +82,12 @@ namespace dlib_api
 
     struct FaceLocator::Data
     {
-        lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
-        lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
+        lazy_ptr<cnn_face_detection_model_v1, decltype(construct_cnn_face_detector)> cnn_face_detector;
+        lazy_ptr<dlib::frontal_face_detector, decltype(dlib::get_frontal_face_detector)> hog_face_detector;
 
         Data()
-            : cnn_face_detector(&construct_cnn_face_detector)
-            , hog_face_detector(&dlib::get_frontal_face_detector)
+            : cnn_face_detector(construct_cnn_face_detector)
+            , hog_face_detector(dlib::get_frontal_face_detector)
         {
 
         }
