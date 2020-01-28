@@ -31,7 +31,7 @@ namespace dlib_api
 
     typedef std::vector<double> FaceEncodings;
 
-    // FaceLocator may be very heavy object. Delete it as soon as it is not needed.
+    // FaceLocator may be a very heavy object. Delete it as soon as it is not needed.
     class DLIB_WRAPPER_EXPORT FaceLocator
     {
         public:
