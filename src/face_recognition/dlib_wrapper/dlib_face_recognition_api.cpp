@@ -152,7 +152,12 @@ namespace dlib_api
 
     struct FaceEncoder::Data
     {
+        Data()
+            : face_encoder( QString(models_path() + "/dlib_face_recognition_resnet_model_v1.dat").toStdString() )
+        {
+        }
 
+        face_recognition_model_v1 face_encoder;
     };
 
 
@@ -187,14 +192,11 @@ namespace dlib_api
         const auto image = qimage_to_dlib_matrix(qimage);
         const auto object_detection = pose_predictor(image, face_location);
 
-        auto face_recognition_model = models_path() + "/dlib_face_recognition_resnet_model_v1.dat";
-        face_recognition_model_v1 face_encoder(face_recognition_model.toStdString());
-
         std::vector<double> result;
 
         try
         {
-            const auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
+            const auto encodings = m_data->face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
             result = std::vector<double>(encodings.begin(), encodings.end());
         }
         catch(const dlib::cuda_error& err)
