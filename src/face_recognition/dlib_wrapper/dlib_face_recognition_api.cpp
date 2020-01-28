@@ -74,7 +74,7 @@ namespace dlib_api
 
         cnn_face_detection_model_v1* construct_cnn_face_detector()
         {
-            static const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+            const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
             return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
         }
     }
