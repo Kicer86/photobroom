@@ -8,6 +8,12 @@ template<typename T, typename C>
 class lazy_ptr
 {
     public:
+        lazy_ptr()
+            : m_constructor()
+        {
+
+        }
+
         explicit lazy_ptr(C& constructor)
             : m_constructor(constructor)
         {
@@ -25,8 +31,10 @@ class lazy_ptr
         }
 
     private:
+        typedef typename std::conditional<std::is_copy_constructible<C>::value, C, C&>::type CType;
+
         std::unique_ptr<T> m_object;
-        C& m_constructor;
+        CType m_constructor;
 
         // used when C::operator() returns pointer
         struct PtrCreator
