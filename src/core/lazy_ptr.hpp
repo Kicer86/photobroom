@@ -31,15 +31,17 @@ class lazy_ptr
         }
 
     private:
+        // When C can be copied, then keep C by value.
+        // Otherwise keep C as reference
         typedef typename std::conditional<std::is_copy_constructible<C>::value, C, C&>::type CType;
 
         std::unique_ptr<T> m_object;
         CType m_constructor;
 
-        // used when C::operator() returns pointer
+        // used when C::operator() returns raw pointer
         struct PtrCreator
         {
-            std::unique_ptr<T> operator()(C& constructor)
+            std::unique_ptr<T> operator()(C& constructor) const
             {
                 return std::unique_ptr<T>(constructor());
             }
@@ -48,7 +50,7 @@ class lazy_ptr
         // used when C::operator() returns value
         struct CopyCreator
         {
-            std::unique_ptr<T> operator()(C& constructor)
+            std::unique_ptr<T> operator()(C& constructor) const
             {
                 return std::make_unique<T>(constructor());
             }
@@ -59,7 +61,7 @@ class lazy_ptr
             if (m_object.get() == nullptr)
             {
                 typedef typename std::conditional<std::is_pointer<decltype(m_constructor())>::value, PtrCreator, CopyCreator>::type Creator;
-                Creator creator;
+                const Creator creator;
 
                 m_object = creator(m_constructor);
             }
