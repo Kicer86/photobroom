@@ -18,6 +18,8 @@ namespace dlib_api
     {
         constexpr char predictor_5_point_model[] = "shape_predictor_5_face_landmarks.dat";
         constexpr char predictor_68_point_model[] = "shape_predictor_68_face_landmarks.dat";
+        constexpr char human_face_model[] = "mmod_human_face_detector.dat";
+        constexpr char face_recognition_model[] = "dlib_face_recognition_resnet_model_v1.dat";
 
         // helpers
 
@@ -36,6 +38,34 @@ namespace dlib_api
 
             return object;
         }
+
+        template<const char* name>
+        struct ModelAccessor
+        {
+            QString path() const
+            {
+                const QString full_path = models_path() + "/" + name;
+
+                return full_path;
+            }
+
+            QString operator()() const
+            {
+                return path();
+            }
+        };
+
+        template<typename T, typename M>
+        struct ObjectDeserializer
+        {
+            T operator()() const
+            {
+                const M model;
+                const QString model_path = model();
+
+                return deserialize_from_file<T>(model_path);
+            }
+        };
 
         dlib::matrix<dlib::rgb_pixel> qimage_to_dlib_matrix(const QImage& qimage)
         {
@@ -77,32 +107,9 @@ namespace dlib_api
 
         cnn_face_detection_model_v1* construct_cnn_face_detector()
         {
-            const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
+            const auto cnn_face_detection_model = ModelAccessor<human_face_model>().path();
             return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
         }
-
-        template<const char* name>
-        struct ModelAccessor
-        {
-            QString operator()() const
-            {
-                const QString full_path = models_path() + "/" + name;
-
-                return full_path;
-            }
-        };
-
-        template<typename T, typename M>
-        struct ObjectDeserializer
-        {
-            T operator()() const
-            {
-                const M model;
-                const QString model_path = model();
-
-                return deserialize_from_file<T>(model_path);
-            }
-        };
     }
 
 
@@ -179,7 +186,7 @@ namespace dlib_api
     struct FaceEncoder::Data
     {
         Data()
-            : face_encoder( (models_path() + "/dlib_face_recognition_resnet_model_v1.dat").toStdString() )
+            : face_encoder( ModelAccessor<face_recognition_model>().path().toStdString() )
         {
         }
 
