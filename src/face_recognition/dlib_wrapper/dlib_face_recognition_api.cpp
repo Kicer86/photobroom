@@ -40,28 +40,19 @@ namespace dlib_api
         }
 
         template<const char* name>
-        struct ModelAccessor
+        QString modelPath()
         {
-            QString path() const
-            {
-                const QString full_path = models_path() + "/" + name;
+            const QString full_path = models_path() + "/" + name;
 
-                return full_path;
-            }
+            return full_path;
+        }
 
-            QString operator()() const
-            {
-                return path();
-            }
-        };
-
-        template<typename T, typename M>
+        template<typename T, const char* model>
         struct ObjectDeserializer
         {
             T operator()() const
             {
-                const M model;
-                const QString model_path = model();
+                const QString model_path = modelPath<model>();
 
                 return deserialize_from_file<T>(model_path);
             }
@@ -107,7 +98,7 @@ namespace dlib_api
 
         cnn_face_detection_model_v1* construct_cnn_face_detector()
         {
-            const auto cnn_face_detection_model = ModelAccessor<human_face_model>().path();
+            const auto cnn_face_detection_model = modelPath<human_face_model>();
             return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
         }
     }
@@ -186,14 +177,14 @@ namespace dlib_api
     struct FaceEncoder::Data
     {
         Data()
-            : face_encoder( ModelAccessor<face_recognition_model>().path().toStdString() )
+            : face_encoder( modelPath<face_recognition_model>().toStdString() )
         {
         }
 
         face_recognition_model_v1 face_encoder;
 
-        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, ModelAccessor<predictor_5_point_model>>> predictor_5_point;
-        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, ModelAccessor<predictor_68_point_model>>> predictor_68_point;
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>> predictor_5_point;
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>> predictor_68_point;
     };
 
 
