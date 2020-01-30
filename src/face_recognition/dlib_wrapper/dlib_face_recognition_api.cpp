@@ -16,6 +16,9 @@ namespace dlib_api
 {
     namespace
     {
+        constexpr char predictor_5_point_model[] = "shape_predictor_5_face_landmarks.dat";
+        constexpr char predictor_68_point_model[] = "shape_predictor_68_face_landmarks.dat";
+
         // helpers
 
         QString models_path()
@@ -77,6 +80,29 @@ namespace dlib_api
             const auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
             return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
         }
+
+        template<const char* name>
+        struct ModelAccessor
+        {
+            QString operator()() const
+            {
+                const QString full_path = models_path() + "/" + name;
+
+                return full_path;
+            }
+        };
+
+        template<typename T, typename M>
+        struct ObjectDeserializer
+        {
+            T operator()() const
+            {
+                const M model;
+                const QString model_path = model();
+
+                return deserialize_from_file<T>(model_path);
+            }
+        };
     }
 
 
@@ -153,18 +179,20 @@ namespace dlib_api
     struct FaceEncoder::Data
     {
         Data()
-            : face_encoder( QString(models_path() + "/dlib_face_recognition_resnet_model_v1.dat").toStdString() )
+            : face_encoder( (models_path() + "/dlib_face_recognition_resnet_model_v1.dat").toStdString() )
         {
         }
 
         face_recognition_model_v1 face_encoder;
+
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, ModelAccessor<predictor_5_point_model>>> predictor_5_point;
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, ModelAccessor<predictor_68_point_model>>> predictor_68_point;
     };
 
 
     FaceEncoder::FaceEncoder()
         : m_data(std::make_unique<Data>())
     {
-
     }
 
 
@@ -179,15 +207,9 @@ namespace dlib_api
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
-
-        static const auto predictor_68_point_model = models_path() + "/shape_predictor_68_face_landmarks.dat";
-        static const auto predictor_5_point_model = models_path() + "/shape_predictor_5_face_landmarks.dat";
-        static const auto predictor_68_point = deserialize_from_file<dlib::shape_predictor>(predictor_68_point_model);
-        static const auto predictor_5_point = deserialize_from_file<dlib::shape_predictor>(predictor_5_point_model);
-
         const dlib::shape_predictor& pose_predictor = model == large?
-                                                      predictor_68_point :
-                                                      predictor_5_point;
+                                                      *m_data->predictor_68_point :
+                                                      *m_data->predictor_5_point;
 
         const auto image = qimage_to_dlib_matrix(qimage);
         const auto object_detection = pose_predictor(image, face_location);
