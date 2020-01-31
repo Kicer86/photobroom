@@ -134,7 +134,7 @@ TEST(FaceScalingTest, scaledFaceDistance)
         maxs.push_back(*max);
     }
 
-    // it seams that photos 512x512 (downsize by 2) ÷ 181x181 (downsize by 32) have best means
+    // it seams that photos 512x512 (downsized by 2) ÷ 181x181 (downsized by 32) have best means
     auto mean_best = std::min_element(means.cbegin(), means.cend());
     const int pos = std::distance(means.cbegin(), mean_best);
 
