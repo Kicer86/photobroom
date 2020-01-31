@@ -14,7 +14,7 @@ class lazy_ptr
 
         }
 
-        explicit lazy_ptr(C& constructor)
+        explicit lazy_ptr(const C& constructor)
             : m_constructor(constructor)
         {
 
@@ -31,12 +31,8 @@ class lazy_ptr
         }
 
     private:
-        // When C can be copied, then keep C by value.
-        // Otherwise keep C as reference
-        typedef typename std::conditional<std::is_copy_constructible<C>::value, C, C&>::type CType;
-
         std::unique_ptr<T> m_object;
-        CType m_constructor;
+        C m_constructor;
 
         // used when C::operator() returns raw pointer
         struct PtrCreator
@@ -69,5 +65,12 @@ class lazy_ptr
             return m_object.get();
         }
 };
+
+
+template<typename T, typename C>
+lazy_ptr<T, C> make_lazy_ptr(const C& c)
+{
+    return lazy_ptr<T, C>(c);
+}
 
 #endif // LAZY_PTR_HPP_INCLUDED
