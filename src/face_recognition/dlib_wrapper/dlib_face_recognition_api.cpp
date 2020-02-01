@@ -154,6 +154,17 @@ namespace dlib_api
     }
 
 
+    QVector<QRect> FaceLocator::face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+
+        const auto dlib_results = (*m_data->hog_face_detector)(image, number_of_times_to_upsample);
+        const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+        return faces;
+    }
+
+
     std::optional<QVector<QRect>> FaceLocator::_face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
     {
         std::optional<QVector<QRect>> faces;
@@ -166,17 +177,6 @@ namespace dlib_api
         {
             std::cerr << err.what() << std::endl;
         }
-
-        return faces;
-    }
-
-
-    QVector<QRect> FaceLocator::face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
-    {
-        dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
-
-        const auto dlib_results = (*m_data->hog_face_detector)(image, number_of_times_to_upsample);
-        const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
 
         return faces;
     }

@@ -42,13 +42,13 @@ namespace dlib_api
             QVector<QRect> face_locations(const QImage &, int number_of_times_to_upsample = 1, Model = cnn);
 
             QVector<QRect> face_locations_cnn(const QImage &, int number_of_times_to_upsample = 1);   // may throw an exception
+            QVector<QRect> face_locations_hog(const QImage &, int);
 
         private:
             struct Data;
             std::unique_ptr<Data> m_data;
 
             std::optional<QVector<QRect>> _face_locations_cnn(const QImage &, int);
-            QVector<QRect> face_locations_hog(const QImage &, int);
     };
 
     class DLIB_WRAPPER_EXPORT FaceEncoder
