@@ -136,7 +136,7 @@ namespace dlib_api
         std::optional<QVector<QRect>> faces;
 
         if (model == cnn || model == automatic)
-            faces = face_locations_cnn(qimage, number_of_times_to_upsample);
+            faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
         if (model == hog || (model == automatic && faces.has_value() == false) )
             faces = face_locations_hog(qimage, number_of_times_to_upsample);
@@ -145,14 +145,22 @@ namespace dlib_api
     }
 
 
-    std::optional<QVector<QRect>> FaceLocator::face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
+    QVector<QRect> FaceLocator::face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        const auto dlib_results = m_data->cnn_face_detector->detect(qimage, number_of_times_to_upsample);
+        const auto faces = dlib_rects_to_qrects(dlib_results);
+
+        return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
     {
         std::optional<QVector<QRect>> faces;
 
         try
         {
-            const auto dlib_results = m_data->cnn_face_detector->detect(qimage, number_of_times_to_upsample);
-            faces = dlib_rects_to_qrects(dlib_results);
+            faces = face_locations_cnn(qimage, number_of_times_to_upsample);
         }
         catch(const dlib::cuda_error& err)
         {
