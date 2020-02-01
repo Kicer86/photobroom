@@ -24,7 +24,7 @@ TEST(LazyPtrTest, noConstructionWhenNotNeeded)
     ConstructorMock<int> constructor;
     EXPECT_CALL(constructor, build).Times(0);
 
-    lazy_ptr ptr = make_lazy_ptr<int>(std::ref(constructor));
+    make_lazy_ptr<int>(std::ref(constructor));
 }
 
 
