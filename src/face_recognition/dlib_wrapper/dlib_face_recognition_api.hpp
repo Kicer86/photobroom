@@ -16,13 +16,6 @@
 
 namespace dlib_api
 {
-    enum Model
-    {
-        hog,            // cpu based
-        cnn,            // gpu based (may return empty set in case of gpu error like memory allocation problems)
-        automatic,      // uses gpu model, and if it fails, uses cpu
-    };
-
     enum EncodingsModel
     {
         small,
@@ -40,7 +33,9 @@ namespace dlib_api
             FaceLocator();
             ~FaceLocator();
 
-            QVector<QRect> face_locations(const QImage &, int number_of_times_to_upsample = 1, Model = cnn);
+            // Smart face locator.
+            // both cnn and hog will be used to get optimal results
+            QVector<QRect> face_locations(const QImage &, int number_of_times_to_upsample = 1);
 
             QVector<QRect> face_locations_cnn(const QImage &, int number_of_times_to_upsample = 1);   // may throw an exception
             QVector<QRect> face_locations_hog(const QImage &, int);

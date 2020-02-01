@@ -13,8 +13,8 @@ namespace
 
         dlib_api::FaceLocator faceLocator;
 
-        QVector facesCnn = faceLocator.face_locations(small_img, 0, dlib_api::cnn);
-        QVector facesHog = faceLocator.face_locations(small_img, 0, dlib_api::hog);
+        QVector facesCnn = faceLocator.face_locations_cnn(small_img, 0);
+        QVector facesHog = faceLocator.face_locations_hog(small_img, 0);
 
         ASSERT_EQ(facesCnn.size(), 1);
         ASSERT_EQ(facesHog.size(), 1);

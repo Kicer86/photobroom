@@ -131,14 +131,13 @@ namespace dlib_api
     }
 
 
-    QVector<QRect> FaceLocator::face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
+    QVector<QRect> FaceLocator::face_locations(const QImage& qimage, int number_of_times_to_upsample)
     {
         std::optional<QVector<QRect>> faces;
 
-        if (model == cnn || model == automatic)
-            faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
+        faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
-        if (model == hog || (model == automatic && faces.has_value() == false) )
+        if (faces.has_value() == false)
             faces = face_locations_hog(qimage, number_of_times_to_upsample);
 
         return faces.has_value()? faces.value(): QVector<QRect>();

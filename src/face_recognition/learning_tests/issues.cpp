@@ -11,7 +11,7 @@ TEST(DlibIssuesTest, outOfMemory)
     const QImage img1(utils::photoPath(1));
 
     dlib_api::FaceLocator faceLocator;
-    QVector facesCnn = faceLocator.face_locations(img1, 0, dlib_api::cnn);
+    QVector facesCnn = faceLocator.face_locations_cnn(img1, 0);
     ASSERT_EQ(facesCnn.size(), 1);
 
     ASSERT_THROW({

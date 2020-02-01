@@ -11,7 +11,7 @@ namespace
 {
     QImage extractFace(const QImage& photo)
     {
-        QVector faces = dlib_api::FaceLocator().face_locations(photo, 0, dlib_api::cnn);
+        QVector faces = dlib_api::FaceLocator().face_locations_cnn(photo, 0);
         assert(faces.size() == 1);
 
         const QRect faceRect = faces.front();
@@ -20,20 +20,21 @@ namespace
         return faceImg;
     }
 
-    void faceDetectionTest(const QImage& img, dlib_api::Model model)
+
+    void faceDetectionTest(const QImage& img, QVector<QRect>(dlib_api::FaceLocator::*face_locator)(const QImage &, int))
     {
         dlib_api::FaceLocator faceLocator;
 
         // original image size
         {
-            QVector faces = faceLocator.face_locations(img, 0, model);
+            QVector faces = (faceLocator.*face_locator)(img, 0);
             EXPECT_EQ(faces.size(), 1);
         }
 
         // double size
-        if (model == dlib_api::hog)         // cnn may fail due to memory allocation error
+        if (face_locator == &dlib_api::FaceLocator::face_locations_hog)         // cnn may fail due to memory allocation error
         {
-            QVector faces = faceLocator.face_locations(img, 1, model);
+            QVector faces = faceLocator.face_locations_hog(img, 1);
             EXPECT_EQ(faces.size(), 1);
         }
 
@@ -41,7 +42,7 @@ namespace
         for(int scale = 2; scale <= 64; scale *= 2)
         {
             const QImage small = utils::downsize(img, scale);
-            QVector faces = faceLocator.face_locations(small, 0, model);
+            QVector faces = (faceLocator.*face_locator)(img, 0);
             EXPECT_EQ(faces.size(), 1);
         }
 
@@ -55,8 +56,8 @@ TEST(FaceScalingTest, faceDetectionForCnn)
     const QImage img1(utils::photoPath(1));
     const QImage img2(utils::photoPath(2));
 
-    faceDetectionTest(img1, dlib_api::cnn);
-    faceDetectionTest(img2, dlib_api::cnn);
+    faceDetectionTest(img1, &dlib_api::FaceLocator::face_locations_cnn);
+    faceDetectionTest(img2, &dlib_api::FaceLocator::face_locations_cnn);
 }
 
 
@@ -65,8 +66,8 @@ TEST(FaceScalingTest, faceDetectionForHog)
     const QImage img1(utils::photoPath(1));
     const QImage img2(utils::photoPath(2));
 
-    faceDetectionTest(img1, dlib_api::hog);
-    faceDetectionTest(img2, dlib_api::hog);
+    faceDetectionTest(img1, &dlib_api::FaceLocator::face_locations_hog);
+    faceDetectionTest(img2, &dlib_api::FaceLocator::face_locations_hog);
 }
 
 
