@@ -3,6 +3,7 @@
 #define DATABASE_TABLES_HPP
 
 #include <map>
+#include <string>
 
 #define TAB_VER                  "version"
 #define TAB_PHOTOS               "photos"
