@@ -31,6 +31,7 @@ if(WGET)
     add_executable(face_scaling_tests
                    face_locations_tests.cpp
                    face_similarity_tests.cpp
+                   prerequisites.cpp
                    utils.cpp
                    utils.hpp
     )
