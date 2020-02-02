@@ -16,10 +16,24 @@ Required tools and libraries:
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
- - GMock and GTest  (unit tests)
+
+ Packages, libraries and other components kept as git submodules:
+ - https://github.com/google/googletest.git                     - GMock and GTest  (unit tests)
+ - https://github.com/Kicer86/cmake_modules.git                 - various cmake modules and package finders
+ - https://github.com/ageitgey/face_recognition_models.git      - modules for face recognition
+ - git://anongit.kde.org/kwidgetsaddons.git                     - kdewidgets
 
 * For convenience it is possible to use conan tool
   for download, build and install all marked libraries.
+
+  Conan setup:
+  - Required conan repositories:
+    conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
+    conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
+
+  - running conan:
+    Go to build dir and execute:
+    conan install /source/dir --build
 
 
 Tested compilers (with c++17 support):
@@ -28,7 +42,7 @@ Tested compilers (with c++17 support):
 2. clang (Linux)
     - broken due to https://bugs.llvm.org/show_bug.cgi?id=38485
 
-3. Visual studio 2017 (Windows)
+3. Visual studio 2019 (Windows)
 
 
 PhotoBroom cannot be run from build directory without installation step.
@@ -40,7 +54,8 @@ in location relative to exe file.
 There is CMake DEVELOPER_BUILD variable available to ease debugging.
 On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and translations in location
 defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
-Has no effect on Linux.
+This will allow you to launch PhotoBroom from build directory after 'install' step.
+
 
 
 Extra targets available for Windows:

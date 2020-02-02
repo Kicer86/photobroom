@@ -7,3 +7,6 @@
 [submodule "src/face_recognition/dlib_wrapper/face_recognition_models"]
 	path = src/face_recognition/dlib_wrapper/face_recognition_models
 	url = https://github.com/ageitgey/face_recognition_models.git
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest.git
