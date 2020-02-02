@@ -83,6 +83,13 @@ add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static mo
 
 #tests
 if(BUILD_TESTS)
+
+    # setup paths for finders
+    set(GMOCK_DIR "${PROJECT_SOURCE_DIR}/external/googletest/googlemock")
+    set(GTEST_DIR "${PROJECT_SOURCE_DIR}/external/googletest/googletest")
+    set(GMOCK_FORCE_SOURCES TRUE)
+    set(GTEST_FORCE_SOURCES TRUE)
+
     enable_testing()
 
     if(${RUN_TESTS_AFTER_BUILD})
