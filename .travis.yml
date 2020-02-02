@@ -53,7 +53,6 @@ matrix:
 cache:
     - ccache: true
     - directories:
-        - $TRAVIS_BUILD_DIR/usr
         - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
         - conan                     # Conan installation folder
@@ -87,18 +86,10 @@ before_script:
   - conan profile new default --detect;
     cat ~/.conan/profiles/default;
 
-  - GTEST_PATH=$TRAVIS_BUILD_DIR/usr/src/googletest
-
-  # setup gmock and gtest
-  - if [ ! -e $GTEST_PATH ]; then
-        git clone --branch release-1.10.0 --depth 1 https://github.com/google/googletest.git $GTEST_PATH;
-    fi
   # photo broom
   - mkdir build && cd build
   - conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null
-  - cmake -DGTEST_DIR=$GTEST_PATH/googletest
-          -DGMOCK_DIR=$GTEST_PATH/googlemock
-          -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
+  - cmake -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
           -DBUILD_UPDATER=ON
           -DBUILD_TESTS=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
