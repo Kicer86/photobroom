@@ -42,7 +42,7 @@ namespace
         for(int scale = 2; scale <= 64; scale *= 2)
         {
             const QImage small = utils::downsize(img, scale);
-            QVector faces = (faceLocator.*face_locator)(img, 0);
+            QVector faces = (faceLocator.*face_locator)(small, 0);
             EXPECT_EQ(faces.size(), 1);
         }
 
