@@ -9,12 +9,10 @@ namespace
 {
     void faceLocationTest(const QImage& img)
     {
-        const QImage small_img = utils::downsize(img, 4);
-
         dlib_api::FaceLocator faceLocator;
 
-        QVector facesCnn = faceLocator.face_locations_cnn(small_img, 0);
-        QVector facesHog = faceLocator.face_locations_hog(small_img, 0);
+        QVector facesCnn = faceLocator.face_locations_cnn(img, 0);
+        QVector facesHog = faceLocator.face_locations_hog(img, 0);
 
         ASSERT_EQ(facesCnn.size(), 1);
         ASSERT_EQ(facesHog.size(), 1);
