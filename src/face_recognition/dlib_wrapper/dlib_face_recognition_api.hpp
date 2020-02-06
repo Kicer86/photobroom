@@ -45,6 +45,7 @@ namespace dlib_api
             std::unique_ptr<Data> m_data;
 
             std::optional<QVector<QRect>> _face_locations_cnn(const QImage &, int);
+            std::optional<QVector<QRect>> _face_locations_hog(const QImage &, int);
     };
 
     class DLIB_WRAPPER_EXPORT FaceEncoder

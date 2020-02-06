@@ -138,7 +138,7 @@ namespace dlib_api
         faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
         if (faces.has_value() == false)
-            faces = face_locations_hog(qimage, number_of_times_to_upsample);
+            faces = _face_locations_hog(qimage, number_of_times_to_upsample);
 
         return faces.has_value()? faces.value(): QVector<QRect>();
     }
@@ -178,6 +178,12 @@ namespace dlib_api
         }
 
         return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        return face_locations_hog(qimage, number_of_times_to_upsample);
     }
 
 
