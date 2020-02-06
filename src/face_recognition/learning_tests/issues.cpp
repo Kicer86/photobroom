@@ -23,4 +23,8 @@ TEST(DlibIssuesTest, outOfMemory)
         faceLocator.face_locations_cnn(img1, 0);       // dlib 19.19 throws even for valid images if it threw previously
     },
     dlib::cuda_error);
+
+    EXPECT_NO_THROW({
+        faceLocator.face_locations_cnn(img1, 0);       // but does not throw for yet another call
+    });
 }
