@@ -174,7 +174,18 @@ namespace dlib_api
         }
         catch(const dlib::cuda_error& err)
         {
-            std::cerr << err.what() << std::endl;
+            // image was too big for being processed
+            // due to an issue in dlib, we just need to call face_locations_cnn here again
+            QImage empty_image;
+            try
+            {
+                face_locations_cnn(empty_image, 0);
+            }
+            catch(const dlib::cuda_error& err)
+            {
+                // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
+                // covered by learning tests
+            }
         }
 
         return faces;
