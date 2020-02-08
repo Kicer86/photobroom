@@ -1,15 +1,19 @@
 
 #include <gtest/gtest.h>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include "face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp"
 #include "utils.hpp"
 
 
+
 namespace
 {
+    EmptyLogger logger;
+
     void faceLocationTest(const QImage& img)
     {
-        dlib_api::FaceLocator faceLocator;
+        dlib_api::FaceLocator faceLocator(&logger);
 
         QVector facesCnn = faceLocator.face_locations_cnn(img, 0);
         QVector facesHog = faceLocator.face_locations_hog(img, 0);

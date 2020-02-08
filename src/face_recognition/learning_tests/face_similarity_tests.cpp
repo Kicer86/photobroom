@@ -4,14 +4,17 @@
 #include <QImage>
 #include <QString>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include "face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp"
 #include "utils.hpp"
 
 namespace
 {
+    EmptyLogger logger;
+
     QImage extractFace(const QImage& photo)
     {
-        QVector faces = dlib_api::FaceLocator().face_locations_cnn(photo, 0);
+        QVector faces = dlib_api::FaceLocator(&logger).face_locations_cnn(photo, 0);
         assert(faces.size() == 1);
 
         const QRect faceRect = faces.front();
@@ -23,7 +26,7 @@ namespace
 
     void faceDetectionTest(const QImage& img, QVector<QRect>(dlib_api::FaceLocator::*face_locator)(const QImage &, int))
     {
-        dlib_api::FaceLocator faceLocator;
+        dlib_api::FaceLocator faceLocator(&logger);
 
         // original image size
         {

@@ -3,14 +3,22 @@
 #include <QImage>
 #include <dlib/cuda/cuda_errors.h>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include "face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp"
 #include "utils.hpp"
+
+
+namespace
+{
+    EmptyLogger logger;
+}
+
 
 TEST(DlibIssuesTest, outOfMemory)
 {
     const QImage img1(utils::photoPath(1));
 
-    dlib_api::FaceLocator faceLocator;
+    dlib_api::FaceLocator faceLocator(&logger);
     QVector facesCnn = faceLocator.face_locations_cnn(img1, 0);
     ASSERT_EQ(facesCnn.size(), 1);
 
@@ -35,7 +43,7 @@ TEST(DlibIssuesTest, outOfMemoryEvenWhenResourcesAreAvailable)
     const QImage img1(utils::photoPath(1));
 
     {
-        dlib_api::FaceLocator faceLocator;
+        dlib_api::FaceLocator faceLocator(&logger);
         QVector facesCnn = faceLocator.face_locations_cnn(img1, 0);
         ASSERT_EQ(facesCnn.size(), 1);
 
@@ -46,7 +54,7 @@ TEST(DlibIssuesTest, outOfMemoryEvenWhenResourcesAreAvailable)
     }
 
     {
-        dlib_api::FaceLocator faceLocator;
+        dlib_api::FaceLocator faceLocator(&logger);
 
         EXPECT_THROW({
             faceLocator.face_locations_cnn(img1, 0);       // another instance of FaceLocator so we should be fine here, but well, surprise

@@ -118,7 +118,7 @@ namespace dlib_api
     };
 
 
-    FaceLocator::FaceLocator():
+    FaceLocator::FaceLocator(ILogger *):
         m_data(std::make_unique<Data>())
     {
 

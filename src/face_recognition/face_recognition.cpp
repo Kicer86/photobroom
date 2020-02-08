@@ -34,6 +34,8 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <core/image_tools.hpp>
 #include <database/filter.hpp>
 #include <system/filesystem.hpp>
@@ -100,6 +102,7 @@ namespace
 
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
     m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential)),
+    m_logger(coreAccessor->getLoggerFactory()->get("FaceRecognition")),
     m_exif(coreAccessor->getExifReaderFactory()->get())
 {
 
@@ -124,7 +127,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     {
         QImage image(normalizedPhotoPath);
 
-        result = dlib_api::FaceLocator().face_locations(image, 0);
+        result = dlib_api::FaceLocator(m_logger.get()).face_locations(image, 0);
     }
 
     return result;

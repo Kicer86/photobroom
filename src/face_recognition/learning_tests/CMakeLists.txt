@@ -42,6 +42,7 @@ if(WGET)
                                 ${GTEST_LIBRARY}
                                 ${GTEST_MAIN_LIBRARY}
                                 ${CMAKE_THREAD_LIBS_INIT}
+                                core
                                 dlib_wrapper
                                 Qt5::Core
                                 Qt5::Gui

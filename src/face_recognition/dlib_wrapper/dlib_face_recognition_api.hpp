@@ -11,6 +11,8 @@
 
 #include "dlib_wrapper_export.h"
 
+struct ILogger;
+
 // based on:
 // https://github.com/ageitgey/face_recognition/blob/master/face_recognition/api.py
 
@@ -30,7 +32,7 @@ namespace dlib_api
     class DLIB_WRAPPER_EXPORT FaceLocator
     {
         public:
-            FaceLocator();
+            FaceLocator(ILogger *);
             ~FaceLocator();
 
             // Smart face locator.

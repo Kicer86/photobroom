@@ -29,6 +29,7 @@ class QRect;
 
 struct ICoreFactoryAccessor;
 struct IExifReader;
+struct ILogger;
 struct ITmpDir;
 struct FacesData;
 
@@ -56,6 +57,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
     private:
         std::shared_ptr<ITmpDir> m_tmpDir;
+        std::unique_ptr<ILogger> m_logger;
         IExifReader* m_exif;
 };
 
