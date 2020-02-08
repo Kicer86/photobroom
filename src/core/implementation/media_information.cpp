@@ -95,9 +95,7 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
 
     if (result.has_value() == false)
     {
-        std::string error = "Could not load image data from '";
-        error += path.toStdString();
-        error += "'. File format unknown or file corrupted";
+        const QString error = QString("Could not load image data from '%1'. File format unknown or file corrupted").arg(path);
 
         m_impl->m_logger->error(error);
     }

@@ -51,7 +51,7 @@ IPhotoInfo::Ptr PhotoInfoCache::find(const Photo::Id& id) const
 
         if (result.get() == nullptr)
         {
-            const std::string msg = std::string("Photo with id ") + std::to_string(id) + " was recently used but has no clients at this moment.";
+            const QString msg = QString("Photo with id %1 was recently used but has no clients at this moment.").arg(id);
             m_logger->debug(msg);
         }
     }

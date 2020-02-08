@@ -46,7 +46,7 @@ void FeaturesManager::detect()
 
     for(const QString& feature: features)
     {
-        const std::string msg = "feature " + feature.toStdString() + " enabled";
+        const QString msg = QString("feature %1 enabled").arg(feature);
         m_logger->debug(msg);
     }
 

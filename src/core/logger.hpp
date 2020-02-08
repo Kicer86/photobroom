@@ -46,12 +46,12 @@ class CORE_EXPORT Logger: public ILogger
 
         Logger& operator=(const Logger& other) = delete;
 
-        void log(Severity, const std::string& message) override;
+        void log(Severity, const QString& message) override;
 
-        void info(const std::string &) override;
-        void warning(const std::string &) override;
-        void error(const std::string &) override;
-        void debug(const std::string &) override;
+        void info(const QString &) override;
+        void warning(const QString &) override;
+        void error(const QString &) override;
+        void debug(const QString &) override;
 
         std::unique_ptr<ILogger> subLogger(const QString & sub_utility) override;
 

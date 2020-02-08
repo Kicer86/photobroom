@@ -1078,7 +1078,7 @@ namespace Database
                         binded_values.append(it.key() + " = " + it.value().toString());
 
                     const QString binded_values_msg = "Binded values: " + binded_values.join(", ");
-                    m_logger->debug(binded_values_msg.toStdString());
+                    m_logger->debug(binded_values_msg);
 
                     status = m_executor.exec(query);
                 }

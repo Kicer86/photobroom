@@ -4,10 +4,10 @@
 
 #include <memory>
 #include <sstream>
+#include <QString>
+
 
 #include "core_export.h"
-
-class QString;
 
 struct ILogger
 {
@@ -21,12 +21,12 @@ struct ILogger
         Debug,
     };
 
-    virtual void log(Severity, const std::string& message) = 0;
+    virtual void log(Severity, const QString& message) = 0;
 
-    virtual void info(const std::string &) = 0;
-    virtual void warning(const std::string &) = 0;
-    virtual void error(const std::string &) = 0;
-    virtual void debug(const std::string &) = 0;
+    virtual void info(const QString &) = 0;
+    virtual void warning(const QString &) = 0;
+    virtual void error(const QString &) = 0;
+    virtual void debug(const QString &) = 0;
 
     virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) = 0;
 };
@@ -47,7 +47,7 @@ class LoggerStream: std::stringbuf, public std::ostream
         ~LoggerStream()
         {
             const std::string str = std::stringbuf::str();
-            m_logger->log(severity, str);
+            m_logger->log(severity, QString::fromStdString(str));
         }
 
     private:

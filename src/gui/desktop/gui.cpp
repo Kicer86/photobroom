@@ -41,7 +41,7 @@ namespace
 
             for(const QByteArray image: images)
             {
-                const std::string msg = std::string("Qt supports ") + image.data() + " file format";
+                const QString msg = QString("Qt supports %1 file format").arg(image.data());
 
                 m_logger->debug(msg);
 
@@ -146,12 +146,12 @@ void Gui::run()
     const QLocale locale;
 
     const QString info = QString("System language: %1").arg(locale.name());
-    gui_logger->debug(info.toStdString());
+    gui_logger->debug(info);
 
     const auto uiLangs = locale.uiLanguages();
     const QString uiLangsStr = uiLangs.join(", ");
     const QString language_details = QString("List of UI langauges: %1").arg(uiLangsStr);
-    gui_logger->debug(language_details.toStdString());
+    gui_logger->debug(language_details);
 
     bool translations_status = false;
     QTranslator translator;

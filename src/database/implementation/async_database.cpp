@@ -179,7 +179,7 @@ namespace Database
 
         m_cache->introduce(photoInfo);
 
-        const std::string insert_msg = std::string("Adding photo with id ") + std::to_string(data.id) + " to cache";
+        const QString insert_msg = QString("Adding photo with id %1 to cache").arg(data.id);
         m_logger->debug(insert_msg);
 
         return photoInfo;
@@ -201,19 +201,19 @@ namespace Database
 
     IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
     {
-        const std::string search_msg = std::string("Looking for photo with id ") + std::to_string(id) + " in cache";
+        const QString search_msg = QString("Looking for photo with id %1 in cache").arg(id);
         m_logger->debug(search_msg);
 
         auto photoInfo = m_cache->find(id);
 
         if (photoInfo.get() == nullptr)
         {
-            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " not found in cache";
+            const QString result_msg = QString("Photo with id %1 not found in cache").arg(id);
             m_logger->debug(result_msg);
         }
         else
         {
-            const std::string result_msg = std::string("Photo with id ") + std::to_string(id) + " found in cache";
+            const QString result_msg = QString("Photo with id %1 found in cache").arg(id);
             m_logger->debug(result_msg);
         }
 

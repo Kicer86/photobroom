@@ -5,12 +5,12 @@
 class EmptyLogger: public ILogger
 {
     public:
-        void log(Severity, const std::string &) override {}
+        void log(Severity, const QString &) override {}
 
-        void info(const std::string &) override {}
-        void warning(const std::string &) override {}
-        void error(const std::string &) override {}
-        void debug(const std::string &) override {}
+        void info(const QString &) override {}
+        void warning(const QString &) override {}
+        void error(const QString &) override {}
+        void debug(const QString &) override {}
 
         std::unique_ptr<ILogger> subLogger(const QString &)
         {

@@ -117,7 +117,7 @@ namespace Database
                                         .arg(query)
                                         .arg(result->lastError().text());
 
-            m_logger->error(message.toStdString());
+            m_logger->error(message);
         }
 
         return status;
