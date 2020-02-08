@@ -135,10 +135,27 @@ namespace dlib_api
     {
         std::optional<QVector<QRect>> faces;
 
+        // Use cnn by default as it is fast and most accurate.
+        // However it may fail (returned optional will be empty)
         faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
         if (faces.has_value() == false)
+        {
             faces = _face_locations_hog(qimage, number_of_times_to_upsample);
+
+            // use faces found by hog to retry cnn search for more accurate results
+            if (faces.has_value())
+                for(QRect& face: faces.value())
+                {
+                    auto cnn_faces = _face_locations_cnn(qimage, face);
+
+                    if (cnn_faces.has_value() && cnn_faces->size() == 1)
+                    {
+                        // replace hog face with cnn face
+                        face = cnn_faces->front();
+                    }
+                }
+        }
 
         return faces.has_value()? faces.value(): QVector<QRect>();
     }
@@ -186,6 +203,35 @@ namespace dlib_api
                 // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
                 // covered by learning tests
             }
+        }
+
+        return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_cnn(const QImage& image, const QRect& rect)
+    {
+        // enlarge original rect by some margins so we won't miss face
+        const int width = rect.width();
+        const int height = rect.height();
+        const int horizontalMargin = static_cast<int>(width * .2);
+        const int verticalMargin = static_cast<int>(height * .2);
+
+        const QPoint origin(rect.left() - horizontalMargin, rect.top() - verticalMargin);
+        const QSize faceWithMarginsSize(width + horizontalMargin * 2, height + verticalMargin *2);
+        const QRect rectWithMargins(origin, faceWithMarginsSize);
+        const QImage imageWithMargins = image.copy(rectWithMargins);
+
+        auto faces = _face_locations_cnn(imageWithMargins, 0);
+
+        if (faces.has_value())
+        {
+            // there can be 0 if cnn failed to find face(should not happend) or more than 1 (due to margins possibly)
+            // at this moment only one face is being handled
+            if (faces->size() == 1)
+                faces->front().translate(origin);
+            else
+                faces.reset();
         }
 
         return faces;
