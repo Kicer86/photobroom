@@ -5,6 +5,7 @@
 #include <dlib/dnn.h>
 #include <QRgb>
 
+#include <core/ilogger.hpp>
 #include <core/lazy_ptr.hpp>
 #include <system/filesystem.hpp>
 
@@ -108,18 +109,20 @@ namespace dlib_api
     {
         lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
         lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
+        std::unique_ptr<ILogger> logger;
 
-        Data()
+        Data(ILogger* l)
             : cnn_face_detector(&construct_cnn_face_detector)
             , hog_face_detector(&dlib::get_frontal_face_detector)
+            , logger(l->subLogger("FaceLocator"))
         {
 
         }
     };
 
 
-    FaceLocator::FaceLocator(ILogger *):
-        m_data(std::make_unique<Data>())
+    FaceLocator::FaceLocator(ILogger* logger):
+        m_data(std::make_unique<Data>(logger))
     {
 
     }
@@ -137,27 +140,52 @@ namespace dlib_api
 
         // Use cnn by default as it is fast and most accurate.
         // However it may fail (returned optional will be empty)
+        m_data->logger->debug(QString("Looking for faces with cnn in image of size %1x%2")
+                                .arg(qimage.width())
+                                .arg(qimage.height()));
         faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
         if (faces.has_value() == false)
         {
+            m_data->logger->debug("Image too big for cnn, trying hog");
             faces = _face_locations_hog(qimage, number_of_times_to_upsample);
 
             // use faces found by hog to retry cnn search for more accurate results
             if (faces.has_value())
+            {
+                m_data->logger->debug(QString("Found %1 face(s). Trying cnn to improve faces positions").arg(faces->size()));
+
                 for(QRect& face: faces.value())
                 {
+                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%5x%6)")
+                                .arg(face.left())
+                                .arg(face.top())
+                                .arg(face.width())
+                                .arg(face.height()));
+
                     auto cnn_faces = _face_locations_cnn(qimage, face);
 
                     if (cnn_faces.has_value() && cnn_faces->size() == 1)
                     {
                         // replace hog face with cnn face
                         face = cnn_faces->front();
+
+                        m_data->logger->debug(QString("Improved face position to %1,%2 - %3,%4")
+                                .arg(face.left())
+                                .arg(face.top())
+                                .arg(face.right())
+                                .arg(face.bottom()));
                     }
+                    else
+                        m_data->logger->debug("Face too big for cnn");
                 }
+            }
         }
 
-        return faces.has_value()? faces.value(): QVector<QRect>();
+        QVector<QRect> facesFound = faces.has_value()? faces.value(): QVector<QRect>();
+        m_data->logger->debug(QString("Found %1 face(s)").arg(facesFound.size()));
+
+        return facesFound;
     }
 
 

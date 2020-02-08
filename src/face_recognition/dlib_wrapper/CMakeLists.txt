@@ -52,6 +52,7 @@ target_link_libraries(dlib_wrapper
                                 Qt5::Gui
                             PRIVATE
                                 ${dlib_target}
+                                core
                                 system
 )
 
