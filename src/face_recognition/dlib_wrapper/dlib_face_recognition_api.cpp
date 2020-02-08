@@ -221,7 +221,7 @@ namespace dlib_api
         {
             // image was too big for being processed
             // due to an issue in dlib, we just need to call face_locations_cnn here again
-            QImage empty_image;
+            QImage empty_image(10, 10, QImage::Format_Mono);
             try
             {
                 face_locations_cnn(empty_image, 0);
