@@ -157,7 +157,7 @@ namespace dlib_api
 
                 for(QRect& face: faces.value())
                 {
-                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%5x%6)")
+                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%3x%4)")
                                 .arg(face.left())
                                 .arg(face.top())
                                 .arg(face.width())
@@ -170,11 +170,11 @@ namespace dlib_api
                         // replace hog face with cnn face
                         face = cnn_faces->front();
 
-                        m_data->logger->debug(QString("Improved face position to %1,%2 - %3,%4")
+                        m_data->logger->debug(QString("Improved face position to %1,%2 (%3x%4)")
                                 .arg(face.left())
                                 .arg(face.top())
-                                .arg(face.right())
-                                .arg(face.bottom()));
+                                .arg(face.width())
+                                .arg(face.height()));
                     }
                     else
                         m_data->logger->debug("Face too big for cnn");
