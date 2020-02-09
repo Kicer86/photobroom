@@ -97,6 +97,30 @@ namespace
 
         return faceEncodings;
     }
+
+    std::tuple<std::vector<dlib_api::FaceEncodings>,
+               std::vector<QString>
+              >
+    loadKnownFaces(const QString& knownFacesStorage, dlib_api::FaceEncoder& faceEndoder)
+    {
+        QDirIterator di(knownFacesStorage, { "*.jpg" });
+
+        std::vector<dlib_api::FaceEncodings> known_faces;
+        std::vector<QString> known_faces_names;
+
+        while(di.hasNext())
+        {
+            const QString filePath = di.next();
+            const QFileInfo fileInfo(filePath);
+
+            const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(faceEndoder, filePath);
+
+            known_faces.push_back(faceEncodings);
+            known_faces_names.push_back(fileInfo.fileName());
+        }
+
+        return { known_faces, known_faces_names };
+    }
 }
 
 
@@ -141,19 +165,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 
     QDirIterator di(knownFacesStorage, { "*.jpg" });
 
-    std::vector<dlib_api::FaceEncodings> known_faces;
-    std::vector<QString> known_faces_names;
-
-    while(di.hasNext())
-    {
-        const QString filePath = di.next();
-        const QFileInfo fileInfo(filePath);
-
-        const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(faceEndoder, filePath);
-
-        known_faces.push_back(faceEncodings);
-        known_faces_names.push_back(fileInfo.fileName());
-    }
+    auto [known_faces, known_faces_names] = loadKnownFaces(knownFacesStorage, faceEndoder);
 
     if (known_faces.empty())
         return {};
