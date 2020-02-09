@@ -121,6 +121,33 @@ namespace
 
         return { known_faces, known_faces_names };
     }
+
+
+    QString chooseBest(const std::vector<double>& distances, const std::vector<QString>& names, ILogger& logger)
+    {
+        assert(distances.size() == names.size());
+
+        std::vector<std::pair<double, QString>> names_and_distances;
+        std::size_t items = std::min(distances.size(), names.size());
+
+        for(std::size_t i = 0; i < items; i++)
+            names_and_distances.push_back( { distances[i], names[i] } );
+
+        // sort items by distances
+        std::sort(names_and_distances.begin(), names_and_distances.end());
+
+        // log best 5 results
+        std::size_t to_log = std::min<std::size_t>(5, items);
+        for(std::size_t i = 0; i < to_log; i++)
+            logger.debug(QString("face %1 distance %2").arg(names_and_distances[i].second).arg(names_and_distances[i].first));
+
+        const bool is_acceptable = items == 0? false: names_and_distances.front().first <= 0.6;
+
+        if (is_acceptable == false)
+            logger.debug("No result with distance <= 0.6");
+
+        return is_acceptable? names_and_distances.front().second: QString();
+    }
 }
 
 
@@ -180,12 +207,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
         const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-        assert(distance.size() == known_faces_names.size());
-
-        const auto closest_distance = std::min_element(distance.cbegin(), distance.cend());
-        const auto pos = std::distance(distance.cbegin(), closest_distance);
-
-        const QString best_face_file = distance[pos] <= 0.6? known_faces_names[pos]: QString();
+        const QString best_face_file = chooseBest(distance, known_faces_names, *m_logger.get());
 
         return best_face_file;
     }
