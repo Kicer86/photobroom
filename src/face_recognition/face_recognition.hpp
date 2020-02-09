@@ -49,7 +49,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // Try to recognize person on given photo and face.
         // Second parameter is a face located by fetchFaces()
         // Third parameter is a path to directory with known faces
-        QString recognize(const QString &, const QRect &, const QString& storage) const;
+        QString recognize(const QString &, const QRect &, const QString& knownFacesStorage) const;
 
         // Optimize representative photo
         // from given set of faces, choose one with best parameters

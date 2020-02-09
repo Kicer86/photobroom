@@ -134,12 +134,12 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 }
 
 
-QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& storage) const
+QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& knownFacesStorage) const
 {
     std::lock_guard lock(g_dlibMutex);
     dlib_api::FaceEncoder faceEndoder;
 
-    QDirIterator di(storage, { "*.jpg" });
+    QDirIterator di(knownFacesStorage, { "*.jpg" });
 
     std::vector<dlib_api::FaceEncodings> known_faces;
     std::vector<QString> known_faces_names;
