@@ -142,11 +142,27 @@ namespace
             logger.debug(QString("face %1 distance %2").arg(names_and_distances[i].second).arg(names_and_distances[i].first));
 
         const bool is_acceptable = items == 0? false: names_and_distances.front().first <= 0.6;
+        const int matching = std::count_if(names_and_distances.cbegin(), names_and_distances.cend(), [](const auto& item)
+        {
+            return item.first <= 0.6;
+        });
 
-        if (is_acceptable == false)
-            logger.debug("No result with distance <= 0.6");
+        logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(matching));
 
+        // return best matching
         return is_acceptable? names_and_distances.front().second: QString();
+    }
+
+
+    QString faceToString(const QRect& face)
+    {
+        const auto string = QString("%1,%2 (%3x%4)")
+                                .arg(face.left())
+                                .arg(face.top())
+                                .arg(face.width())
+                                .arg(face.height());
+
+        return string;
     }
 }
 
@@ -212,6 +228,9 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         return {};
     else
     {
+        const QString msg = QString("Trying to recognize face %1 from %2").arg(faceToString(face)).arg(path);
+        m_data->m_logger->debug(msg);
+
         const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
         Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
 
