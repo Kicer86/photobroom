@@ -151,10 +151,24 @@ namespace
 }
 
 
+struct FaceRecognition::Data
+{
+    Data(ICoreFactoryAccessor* coreAccessor)
+        : m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential))
+        , m_logger(coreAccessor->getLoggerFactory()->get("FaceRecognition"))
+        , m_exif(coreAccessor->getExifReaderFactory()->get())
+    {
+
+    }
+
+    std::shared_ptr<ITmpDir> m_tmpDir;
+    std::unique_ptr<ILogger> m_logger;
+    IExifReader* m_exif;
+};
+
+
 FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential)),
-    m_logger(coreAccessor->getLoggerFactory()->get("FaceRecognition")),
-    m_exif(coreAccessor->getExifReaderFactory()->get())
+    m_data(std::make_unique<Data>(coreAccessor))
 {
 
 }
@@ -171,14 +185,14 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     std::lock_guard lock(g_dlibMutex);
     QVector<QRect> result;
 
-    const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-    const bool s = Image::normalize(path, normalizedPhotoPath, m_exif);
+    const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
+    const bool s = Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
 
     if (s)
     {
         QImage image(normalizedPhotoPath);
 
-        result = dlib_api::FaceLocator(m_logger.get()).face_locations(image, 0);
+        result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(image, 0);
     }
 
     return result;
@@ -198,8 +212,8 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         return {};
     else
     {
-        const QString normalizedPhotoPath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-        Image::normalize(path, normalizedPhotoPath, m_exif);
+        const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
+        Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
 
         const QImage photo(normalizedPhotoPath);
         const QImage face_photo = photo.copy(face);
@@ -207,7 +221,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
         const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-        const QString best_face_file = chooseBest(distance, known_faces_names, *m_logger.get());
+        const QString best_face_file = chooseBest(distance, known_faces_names, *m_data->m_logger.get());
 
         return best_face_file;
     }

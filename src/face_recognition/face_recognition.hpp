@@ -56,9 +56,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         QString best(const QStringList& faces);
 
     private:
-        std::shared_ptr<ITmpDir> m_tmpDir;
-        std::unique_ptr<ILogger> m_logger;
-        IExifReader* m_exif;
+        struct Data;
+        std::unique_ptr<Data> m_data;
 };
 
 #endif // FACERECOGNITION_HPP
