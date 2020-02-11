@@ -25,6 +25,8 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <core/image_tools.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
@@ -173,6 +175,7 @@ void FacesFetcher::perform()
 
 FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
     FaceTask(face.first, db),
+    m_logger(core->getLoggerFactory()->get("FaceRecognizer")),
     m_data(face),
     m_patterns(patterns),
     m_coreFactory(core)
@@ -225,6 +228,9 @@ void FaceRecognizer::perform()
             const QString personId = personPathInfo.baseName();
             const Person::Id pid(personId.toInt());
             result = personData(pid);
+
+            const QString msg = QString("%1 recognized on photo").arg(result.name());
+            m_logger->debug(msg);
         }
     }
 

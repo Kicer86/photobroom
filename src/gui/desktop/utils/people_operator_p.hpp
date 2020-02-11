@@ -84,6 +84,7 @@ class FaceRecognizer final: public QObject, public FaceTask
         void perform() override;
 
     private:
+        std::unique_ptr<ILogger> m_logger;
         const PeopleOperator::FaceLocation m_data;
         const QString m_patterns;
         ICoreFactoryAccessor* m_coreFactory;
