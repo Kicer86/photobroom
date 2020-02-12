@@ -165,7 +165,9 @@ namespace dlib_api
 
                     auto cnn_faces = _face_locations_cnn(qimage, face);
 
-                    if (cnn_faces.has_value() && cnn_faces->size() == 1)
+                    if (cnn_faces.has_value() == false)
+                        m_data->logger->debug("Face too big for cnn");
+                    else if (cnn_faces->size() == 1)
                     {
                         // replace hog face with cnn face
                         face = cnn_faces->front();
@@ -176,8 +178,6 @@ namespace dlib_api
                                 .arg(face.width())
                                 .arg(face.height()));
                     }
-                    else
-                        m_data->logger->debug("Face too big for cnn");
                 }
             }
         }
@@ -250,16 +250,23 @@ namespace dlib_api
         const QRect rectWithMargins(origin, faceWithMarginsSize);
         const QImage imageWithMargins = image.copy(rectWithMargins);
 
-        auto faces = _face_locations_cnn(imageWithMargins, 0);
-
-        if (faces.has_value())
+        std::optional< QVector< QRect > > faces;
+        for (int upsample = 0; upsample < 3; upsample++)
         {
-            // there can be 0 if cnn failed to find face(should not happend) or more than 1 (due to margins possibly)
-            // at this moment only one face is being handled
-            if (faces->size() == 1)
-                faces->front().translate(origin);
-            else
-                faces.reset();
+            faces = _face_locations_cnn(imageWithMargins, upsample);
+
+            if (faces.has_value())
+            {
+                // there can be 0 if cnn failed to find face(should not happend) or more than 1 (due to margins possibly)
+                // at this moment only one face is being handled
+                if (faces->size() == 1)
+                {
+                    faces->front().translate(origin);
+                    break;
+                }
+                else
+                    faces.reset();
+            }
         }
 
         return faces;
