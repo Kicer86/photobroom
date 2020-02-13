@@ -122,8 +122,7 @@ namespace
         return { known_faces, known_faces_names };
     }
 
-
-    QString chooseBest(const std::vector<double>& distances, const std::vector<QString>& names, ILogger& logger)
+    std::vector<std::pair<double, QString>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<QString>& names)
     {
         assert(distances.size() == names.size());
 
@@ -133,24 +132,36 @@ namespace
         for(std::size_t i = 0; i < items; i++)
             names_and_distances.push_back( { distances[i], names[i] } );
 
-        // sort items by distances
+        return names_and_distances;
+    }
+
+
+    void dropNotMatching(std::vector<std::pair<double, QString>>& names_and_distances)
+    {
+        names_and_distances.erase(std::remove_if(names_and_distances.begin(),
+                                            names_and_distances.end(),
+                                            [](const auto& nd) { return nd.first > 0.6; }),
+                            names_and_distances.end());
+    }
+
+
+    QString chooseClosestMatching(const std::vector<double>& distances, const std::vector<QString>& names, ILogger& logger)
+    {
+        auto names_and_distances = zipNamesWithDistances(distances, names);
+        dropNotMatching(names_and_distances);
+
         std::sort(names_and_distances.begin(), names_and_distances.end());
 
-        // log best 5 results
-        std::size_t to_log = std::min<std::size_t>(5, items);
+        // log best 3 results
+        const auto items = names_and_distances.size();
+        std::size_t to_log = std::min<std::size_t>(3, items);
         for(std::size_t i = 0; i < to_log; i++)
             logger.debug(QString("face %1 distance %2").arg(names_and_distances[i].second).arg(names_and_distances[i].first));
 
-        const bool is_acceptable = items == 0? false: names_and_distances.front().first <= 0.6;
-        const int matching = std::count_if(names_and_distances.cbegin(), names_and_distances.cend(), [](const auto& item)
-        {
-            return item.first <= 0.6;
-        });
-
-        logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(matching));
+        logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(items));
 
         // return best matching
-        return is_acceptable? names_and_distances.front().second: QString();
+        return names_and_distances.empty()? QString() : names_and_distances.front().second;
     }
 
 
@@ -240,7 +251,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
         const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-        const QString best_face_file = chooseBest(distance, known_faces_names, *m_data->m_logger.get());
+        const QString best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
 
         return best_face_file;
     }
