@@ -28,6 +28,18 @@ if(WGET)
                                 https://thispersondoesnotexist.com/image
     )
 
+    # download face dataset from vis-www.cs.umass.edu/lfw/
+    # another datasets: https://www.researchgate.net/post/Does_anyone_know_of_a_downloadable_large_faces_dataset
+    add_custom_command(OUTPUT lfw.tgz
+                       COMMAND ${WGET} http://vis-www.cs.umass.edu/lfw/lfw.tgz
+                                    -O ${CMAKE_CURRENT_BINARY_DIR}/lfw.tgz
+    )
+
+    add_custom_command(OUTPUT lfw/George_W_Bush/George_W_Bush_0518.jpg
+                       COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_CURRENT_BINARY_DIR}/lfw.tgz
+                       DEPENDS lfw.tgz
+    )
+
     add_executable(face_scaling_tests
                    face_locations_tests.cpp
                    face_similarity_tests.cpp
@@ -63,6 +75,7 @@ if(WGET)
     add_custom_target(face_images
                       DEPENDS face1.jpg
                               face2.jpg
+                              lfw/George_W_Bush/George_W_Bush_0518.jpg
     )
 
     add_dependencies(face_scaling_tests face_images)
