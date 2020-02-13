@@ -33,6 +33,7 @@ namespace Database
 }
 
 struct ICoreFactoryAccessor;
+struct ILogger;
 class PeopleOperator;
 
 class FaceOptimizer: public IModelFaceFinder
@@ -49,9 +50,10 @@ class FaceOptimizer: public IModelFaceFinder
         QString currentBest(const Person::Id &) const override;
 
     private:
-        PeopleOperator* m_operator;
+        std::unique_ptr<ILogger> m_logger;
         safe_callback_ctrl m_safe_callback;
         std::shared_ptr<ITmpDir> m_tmpDir;
+        PeopleOperator* m_operator;
         ICoreFactoryAccessor* m_core;
 
         std::map<QString, PersonInfo> saveFiles(const std::vector<PersonInfo> &);

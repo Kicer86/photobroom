@@ -19,6 +19,8 @@
 #include "face_optimizer.hpp"
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
 #include <core/map_iterator.hpp>
@@ -30,8 +32,9 @@
 
 FaceOptimizer::FaceOptimizer(ICoreFactoryAccessor* core,
                              PeopleOperator* op):
-    m_operator(op),
+    m_logger(core->getLoggerFactory()->get("FaceOptimizer")),
     m_tmpDir(System::createTmpDir("FaceOptimizer", System::Confidential)),
+    m_operator(op),
     m_core(core)
 {
 }
@@ -93,11 +96,28 @@ std::map<QString, PersonInfo> FaceOptimizer::saveFiles(const std::vector<PersonI
     for(const PersonInfo& pi: pis)
     {
         const QImage face = m_operator->getFaceSync(pi);
-        const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
-        face.save(file_path);
+        if (face.isNull() == false)
+        {
+            const QString file_path = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
-        results.emplace(file_path, pi);
+            face.save(file_path);
+
+            results.emplace(file_path, pi);
+        }
+        else
+        {
+            const QRect& faceRect = pi.rect;
+            const QPoint& faceCenter = faceRect.center();
+            const QString msg = QString("Error when accessing face for optimization. "
+                                        "Photo id: %1, person id: %2, face location: %3x%4")
+                                .arg(pi.ph_id)
+                                .arg(pi.p_id)
+                                .arg(faceCenter.x())
+                                .arg(faceCenter.y());
+
+            m_logger->error(msg);
+        }
     }
 
     return results;

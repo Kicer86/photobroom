@@ -98,6 +98,19 @@ namespace
         return faceEncodings;
     }
 
+
+    std::map<QString, dlib_api::FaceEncodings> encodingsForFaces(const QStringList& faces, dlib_api::FaceEncoder& faceEncoder)
+    {
+        std::map<QString, dlib_api::FaceEncodings> encoded_faces;
+        for (const QString& face_path: faces)
+        {
+            const auto encoded_face = encodingsForFace(faceEncoder, face_path);
+            encoded_faces[face_path] = encoded_face;
+        }
+
+        return encoded_faces;
+    }
+
     std::tuple<std::vector<dlib_api::FaceEncodings>,
                std::vector<QString>
               >
@@ -261,16 +274,14 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
 QString FaceRecognition::best(const QStringList& faces)
 {
     if (faces.size() < 3)           // we need at least 3 faces to do any serious job
+    {
+        m_data->m_logger->info("Not enought faces to find best one.");
         return {};
+    }
 
     dlib_api::FaceEncoder faceEndoder;
 
-    std::map<QString, dlib_api::FaceEncodings> encoded_faces;
-    for (const QString& face_path: faces)
-    {
-        const auto encoded_face = encodingsForFace(faceEndoder, face_path);
-        encoded_faces[face_path] = encoded_face;
-    }
+    const std::map<QString, dlib_api::FaceEncodings> encoded_faces = encodingsForFaces(faces, faceEndoder);
 
     std::map<QString, double> average_distances;
     for(const auto& [face_path, face_encoding]: encoded_faces)
@@ -294,6 +305,12 @@ QString FaceRecognition::best(const QStringList& faces)
             const double avg_distance = total_distance / count;
             average_distances[face_path] = avg_distance;
         }
+    }
+
+    for(auto& [path, avg_dist]: average_distances)
+    {
+        const QString msg = QString("Average distance for face %1 to other faces: %2").arg(path).arg(avg_dist);
+        m_data->m_logger->debug(msg);
     }
 
     QString best_photo;
