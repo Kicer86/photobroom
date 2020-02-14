@@ -44,6 +44,7 @@ if(WGET)
                    face_locations_tests.cpp
                    face_similarity_tests.cpp
                    issues.cpp
+                   person_recognition_tests.cpp
                    prerequisites.cpp
                    utils.cpp
                    utils.hpp
