@@ -24,6 +24,7 @@
 
 namespace utils
 {
+    QString photoSetPath();
     QString photoPath(int n);      // n is a photo number. At this moment 1 or 2
     QImage downsize(const QImage& source, int factor);
 }

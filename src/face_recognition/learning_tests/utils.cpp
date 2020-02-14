@@ -31,9 +31,14 @@
 namespace utils
 {
 
+    QString photoSetPath()
+    {
+        return PATH(FACES_DIR);
+    }
+
     QString photoPath(int n)
     {
-        const QString path = QString(PATH(FACES_DIR)) + QString("/face%1.jpg").arg(n);
+        const QString path = photoSetPath() + QString("/face%1.jpg").arg(n);
 
         return path;
     }
