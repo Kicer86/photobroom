@@ -40,7 +40,7 @@ if(WGET)
                        DEPENDS lfw.tgz
     )
 
-    add_executable(face_scaling_tests
+    add_executable(dlib_behaviour_tests
                    face_locations_tests.cpp
                    face_similarity_tests.cpp
                    issues.cpp
@@ -50,7 +50,7 @@ if(WGET)
                    utils.hpp
     )
 
-    target_link_libraries(face_scaling_tests
+    target_link_libraries(dlib_behaviour_tests
                             PRIVATE
                                 ${GTEST_LIBRARY}
                                 ${GTEST_MAIN_LIBRARY}
@@ -61,14 +61,14 @@ if(WGET)
                                 Qt5::Gui
     )
 
-    target_include_directories(face_scaling_tests
+    target_include_directories(dlib_behaviour_tests
                                 PRIVATE
                                     ${GTEST_INCLUDE_DIRS}
                                     ${Qt5Core_INCLUDE_DIRS}
                                     ${Qt5Gui_INCLUDE_DIRS}
     )
 
-    target_compile_definitions(face_scaling_tests
+    target_compile_definitions(dlib_behaviour_tests
                                 PRIVATE
                                     FACES_DIR=${CMAKE_CURRENT_BINARY_DIR}
     )
@@ -79,10 +79,10 @@ if(WGET)
                               lfw/George_W_Bush/George_W_Bush_0518.jpg
     )
 
-    add_dependencies(face_scaling_tests face_images)
-    add_test(NAME dlib_face_scaling
-             COMMAND face_scaling_tests)
+    add_dependencies(dlib_behaviour_tests face_images)
+    add_test(NAME dlib_behaviour
+             COMMAND dlib_behaviour_tests)
 
-    set_tests_properties(dlib_face_scaling PROPERTIES LABELS "LearningTest")
+    set_tests_properties(dlib_behaviour PROPERTIES LABELS "LearningTest")
 
 endif()
