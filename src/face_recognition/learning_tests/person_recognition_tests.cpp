@@ -53,6 +53,11 @@ TEST(PersonRecognitionTest, GeorgeWBushRecognition)
 
     const auto distances = dlib_api::face_distance(testedFacesEncodings, referenceFaceEncoding);
 
-    for(double distance: distances)
-        EXPECT_LE(distance, 0.6);
+    const auto matching = std::count_if(distances.cbegin(), distances.cend(), [](const auto& distance)
+    {
+        return distance <= 0.6;
+    });
+
+    // There are 530 photos of George W Bush. With current implementation and settings only 510 are matching
+    EXPECT_EQ(matching, 510);
 }
