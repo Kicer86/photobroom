@@ -32,7 +32,7 @@ namespace dlib_api
     class DLIB_WRAPPER_EXPORT FaceLocator
     {
         public:
-            FaceLocator(ILogger *);
+            explicit FaceLocator(ILogger *);
             ~FaceLocator();
 
             // Smart face locator.

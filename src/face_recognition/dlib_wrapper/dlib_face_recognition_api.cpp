@@ -111,7 +111,7 @@ namespace dlib_api
         lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
         std::unique_ptr<ILogger> logger;
 
-        Data(ILogger* l)
+        explicit Data(ILogger* l)
             : cnn_face_detector(&construct_cnn_face_detector)
             , hog_face_detector(&dlib::get_frontal_face_detector)
             , logger(l->subLogger("FaceLocator"))
