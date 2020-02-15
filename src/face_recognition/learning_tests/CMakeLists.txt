@@ -42,10 +42,10 @@ if(WGET)
 
     add_executable(dlib_behaviour_tests
                    face_locations_tests.cpp
-                   face_similarity_tests.cpp
                    issues.cpp
                    person_recognition_tests.cpp
                    prerequisites.cpp
+                   scaled_face_similarity_tests.cpp
                    utils.cpp
                    utils.hpp
     )
