@@ -238,7 +238,7 @@ namespace Database
         }
         catch(const db_error& err)
         {
-            ErrorStream(m_logger.get()) << "Error opening database: " << db.lastError().text();
+            m_logger->error(QString("Error opening database: %1").arg(db.lastError().text()));
             status = err.status();
         }
 

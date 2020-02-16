@@ -31,49 +31,4 @@ struct ILogger
     virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) = 0;
 };
 
-
-template<ILogger::Severity severity>
-class LoggerStream: std::stringbuf, public std::ostream
-{
-    public:
-        explicit LoggerStream(ILogger* logger): std::stringbuf(), std::ostream(this), m_logger(logger)
-        {
-
-        }
-
-        LoggerStream(const LoggerStream<severity> &) = delete;
-        LoggerStream& operator=(const LoggerStream<severity> &) = delete;
-
-        ~LoggerStream()
-        {
-            const std::string str = std::stringbuf::str();
-            m_logger->log(severity, QString::fromStdString(str));
-        }
-
-    private:
-        ILogger* m_logger;
-};
-
-struct CORE_EXPORT InfoStream: LoggerStream<ILogger::Severity::Info>
-{
-    explicit InfoStream(ILogger *);
-};
-
-struct CORE_EXPORT WarningStream: LoggerStream<ILogger::Severity::Warning>
-{
-    explicit WarningStream(ILogger *);
-};
-
-struct CORE_EXPORT ErrorStream: LoggerStream<ILogger::Severity::Error>
-{
-    explicit ErrorStream(ILogger *);
-};
-
-struct CORE_EXPORT DebugStream: LoggerStream<ILogger::Severity::Debug>
-{
-    explicit DebugStream(ILogger *);
-};
-
-CORE_EXPORT std::ostream& operator<<(std::ostream& os, const QString& str);
-
 #endif

@@ -15,7 +15,7 @@ set(CORE_SOURCES
     ifeatures_manager.hpp
     ilogger.hpp
     ilogger_factory.hpp
-    ilogger.hpp                                             implementation/ilogger.cpp
+    ilogger.hpp
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     imedia_information.hpp

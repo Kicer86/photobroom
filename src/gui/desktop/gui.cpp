@@ -140,7 +140,7 @@ void Gui::run()
     auto photos_manager_logger = loggerFactory->get("Photos manager");
 
     const QString tr_path = FileSystem().getTranslationsPath();
-    InfoStream( gui_logger.get()) << QString("Searching for translations in: %1").arg(tr_path);
+    gui_logger->info(QString("Searching for translations in: %1").arg(tr_path));
 
     // translations
     const QLocale locale;
