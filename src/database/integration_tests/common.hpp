@@ -7,6 +7,7 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include "backends/sql_backends/sqlite_backend/backend.hpp"
 #include "backends/sql_backends/mysql_backend/backend.hpp"
 #include "database_builder.hpp"
@@ -43,30 +44,16 @@ namespace Tests
         Database::MySqlPlugin m_mysqlPlugin;
     };
 
-    struct Logger: ILogger
-    {
-        void debug(const std::string &) override {}
-        void error(const std::string &) override {}
-        void info(const std::string &) override {}
-        void log(ILogger::Severity , const std::string &) override {}
-        void warning(const std::string &) override {}
-
-        std::unique_ptr<ILogger> subLogger(const QString &) override
-        {
-            return std::make_unique<Logger>();
-        };
-    };
-
     struct LoggerFactory: ILoggerFactory
     {
         std::unique_ptr<ILogger> get(const QString &) const override
         {
-            return std::make_unique<Logger>();
+            return std::make_unique<EmptyLogger>();
         }
 
         std::unique_ptr<ILogger> get(const QStringList &) const override
         {
-            return std::make_unique<Logger>();
+            return std::make_unique<EmptyLogger>();
         }
     };
 

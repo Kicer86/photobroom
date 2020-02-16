@@ -52,25 +52,25 @@ macro(addTestTarget target)
         addFlags(${test_bin}_leak LINK_FLAGS "-fsanitize=leak")
 
         addFlags(${test_bin}_ub COMPILE_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all"
-                                            "-fsanitize-undefined-trap-on-error"
-                                            "-fsanitize=shift "
-                                            "-fsanitize=integer-divide-by-zero "
-                                            "-fsanitize=unreachable "
-                                            "-fsanitize=vla-bound "
-                                            "-fsanitize=null "
-                                            "-fsanitize=return "
-                                            "-fsanitize=signed-integer-overflow "
-                                            "-fsanitize=bounds "
-                                            "-fsanitize=bounds-strict "
-                                            "-fsanitize=alignment "
-                                            "-fsanitize=object-size "
-                                            "-fsanitize=float-divide-by-zero "
-                                            "-fsanitize=float-cast-overflow "
-                                            "-fsanitize=nonnull-attribute "
-                                            "-fsanitize=returns-nonnull-attribute "
-                                            "-fsanitize=bool "
-                                            "-fsanitize=enum "
-                                            "-fsanitize=vptr"
+                                              "-fsanitize-undefined-trap-on-error"
+                                              "-fsanitize=shift "
+                                              "-fsanitize=integer-divide-by-zero "
+                                              "-fsanitize=unreachable "
+                                              "-fsanitize=vla-bound "
+                                              "-fsanitize=null "
+                                              "-fsanitize=return "
+                                              "-fsanitize=signed-integer-overflow "
+                                              "-fsanitize=bounds "
+                                              "-fsanitize=bounds-strict "
+                                              "-fsanitize=alignment "
+                                              "-fsanitize=object-size "
+                                              "-fsanitize=float-divide-by-zero "
+                                              "-fsanitize=float-cast-overflow "
+                                              "-fsanitize=nonnull-attribute "
+                                              "-fsanitize=returns-nonnull-attribute "
+                                              "-fsanitize=bool "
+                                              "-fsanitize=enum "
+                                              "-fsanitize=vptr"
         )
 
         addFlags(${test_bin}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all")
@@ -145,6 +145,7 @@ macro(addTestTarget target)
 
     #add tests
     add_test(${target}_base ${test_bin}_base)
+    set_tests_properties(${target}_base PROPERTIES LABELS "UnitTest")
     set(test_binaries ${test_bin}_base)
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
@@ -152,6 +153,11 @@ macro(addTestTarget target)
         add_test(${target}_thread ${test_bin}_thread)
         add_test(${target}_leak ${test_bin}_leak)
         add_test(${target}_ub ${test_bin}_ub)
+
+        set_tests_properties(${target}_addr PROPERTIES LABELS "UnitTest;Sanitizer;Address")
+        set_tests_properties(${target}_thread PROPERTIES LABELS "UnitTest;Sanitizer;Thread")
+        set_tests_properties(${target}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
+        set_tests_properties(${target}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
 
         list(APPEND test_binaries
             ${test_bin}_addr
@@ -161,12 +167,8 @@ macro(addTestTarget target)
         )
     endif()
 
-    add_custom_target(${test_bin}
-                        DEPENDS
-                            ${test_binaries}
-    )
-
-    add_dependencies(RunUnitTests ${test_bin})
+    # make sure all test will be build before running them after build
+    add_dependencies(RunUnitTests ${test_binaries})
 
 endmacro(addTestTarget)
 

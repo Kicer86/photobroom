@@ -35,8 +35,10 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/gpl-3.0.txt)
 #include modules
 include(FeatureSummary)
 include(GenerateExportHeader)
-include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 include(CheckCXXCompilerFlag)
+include(CTest)
+include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake_modules/DeveloperTools.cmake)
 
 # enable/disable concepts
 check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
@@ -68,21 +70,17 @@ if(MSVC_VERSION)
 endif()
 
 #options:
-option(BUILD_TESTS "Build tests. Set to ON to build tests.")
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
-option(DEVELOPER_BUILD "Enable developer build. Changes behavior of some components. Useful for developers")
 option(STATIC_PLUGINS "Build plugins as static" OFF)
 
 #options description:
-add_feature_info("Build tests" BUILD_TESTS "Enables build of tests. Feature controled by BUILD_TESTS variable.")
 add_feature_info("Run unit test after build" RUN_TESTS_AFTER_BUILD "Runs unit tests after build. Feature controled by RUN_TESTS_AFTER_BUILD variable.")
-add_feature_info("Enable developer build" DEVELOPER_BUILD "Enable it to change behavior of some components. Useful for developers")
 add_feature_info("Enable 'updater' module" BUILD_UPDATER "Build module responsible for online version check.")
 add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static modules.")
 
 #tests
-if(BUILD_TESTS)
+if(BUILD_TESTING)
 
     # setup paths for finders
     set(GMOCK_DIR "${PROJECT_SOURCE_DIR}/external/googletest/googlemock")
@@ -97,8 +95,8 @@ if(BUILD_TESTS)
     endif()
 
     add_custom_target(RunUnitTests ${run_ut}
-                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest)
-endif(BUILD_TESTS)
+                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest -L UnitTest)
+endif(BUILD_TESTING)
 
 #system related definitions
 if(UNIX OR CYGWIN)
@@ -176,7 +174,7 @@ set(SVG_ICONS images/photo_broom.svg)
 configure_file(${CMAKE_SOURCE_DIR}/ci/appveyor.yml.in ${CMAKE_SOURCE_DIR}/appveyor.yml @ONLY)
 
 #unit tests
-if(BUILD_TESTS)
+if(BUILD_TESTING)
 
     #disable compilation warnings for googletest
     foreach(gtest_target gtest gtest-main gmock gmock-main)
@@ -207,8 +205,8 @@ message("package                - generates broom installer")
 if(TARGET deploy)
     message("deploy                 - generates list of external libraries used by project and adds them to instalation (and package). Run manually before package on Windows")
 endif()
-if(BUILD_TESTS)
-    message("test                   - runs tests (ctest command can be also used)")
+if(BUILD_TESTING)
+    message("test                   - runs tests (ctest command can also be used)")
     message("run_unit_tests_code_coverage - runs tests and collects code coverage")
 endif()
 message("")

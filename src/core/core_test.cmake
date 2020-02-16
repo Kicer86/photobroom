@@ -24,6 +24,7 @@ addTestTarget(core
                     imodel_compositor_data_source.hpp
 
                     unit_tests/containers_utils_tests.cpp
+                    unit_tests/lazy_ptr_tests.cpp
                     unit_tests/map_iterator_tests.cpp
                     unit_tests/model_compositor_tests.cpp
                     #unit_tests/oriented_image_tests.cpp

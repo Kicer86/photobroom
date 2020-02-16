@@ -66,8 +66,7 @@ namespace GeneratorUtils
         pr.setProgram(executable);
         pr.setArguments(arguments);
 
-        const std::string info_message =
-            QString("Executing %1 %2").arg(executable).arg(arguments.join(" ")).toStdString();
+        const QString info_message = QString("Executing %1 %2").arg(executable).arg(arguments.join(" "));
 
         logger->info(info_message);
 

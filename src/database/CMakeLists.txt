@@ -99,7 +99,7 @@ hideSymbols(database)
 install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}
                          LIBRARY DESTINATION ${PATH_LIBS})
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     include(database_tests.cmake)
     include(database_integration_tests.cmake)
 endif()

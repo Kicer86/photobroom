@@ -65,7 +65,7 @@ namespace
                 pluginsDir.cd("database");
                 QFileInfoList db_plugins = pluginsDir.entryInfoList(QStringList(), QDir::Files);
 
-                InfoStream(m_logger.get()) << "Searching for plugins in: " << pluginsDir.path();
+                m_logger->info(QString("Searching for plugins in: %1").arg(pluginsDir.path()));
 
                 m_found = true;
 
@@ -73,7 +73,7 @@ namespace
                 {
                     const QString path = info.absoluteFilePath();
 
-                    InfoStream(m_logger.get()) << "Found database plugin: " << path;
+                    m_logger->info(QString("Found database plugin: %1").arg(path));
 
                     QObject* raw_plugin = load(path);
 
@@ -113,12 +113,12 @@ namespace
     private:
         QObject* load(const QString& path)
         {
-            InfoStream(m_logger.get()) << "Loading database plugin: " << path;
+            m_logger->info(QString("Loading database plugin: %1").arg(path));
             QPluginLoader loader(path);
             QObject* plugin = loader.instance();
 
             if (plugin == nullptr)
-                ErrorStream(m_logger.get()) << "\tError: " << loader.errorString();
+                m_logger->error(QString("\tError: %1").arg(loader.errorString()));
 
             return plugin;
         }

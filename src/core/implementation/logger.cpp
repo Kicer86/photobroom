@@ -50,7 +50,7 @@ Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QString& ut
 }
 
 
-void Logger::log(ILogger::Severity sev, const std::string& message)
+void Logger::log(ILogger::Severity sev, const QString& message)
 {
     std::lock_guard<std::mutex> lock(m_outputMutex);
 
@@ -60,7 +60,7 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
                         .arg(currentTime())
                         .arg(s)
                         .arg(m_utility.join(":"))
-                        .arg(message.c_str());
+                        .arg(message);
 
     const std::string message_str = m.toStdString();
 
@@ -71,25 +71,25 @@ void Logger::log(ILogger::Severity sev, const std::string& message)
 }
 
 
-void Logger::info(const std::string& msg)
+void Logger::info(const QString& msg)
 {
     log(Severity::Info, msg);
 }
 
 
-void Logger::warning(const std::string& msg)
+void Logger::warning(const QString& msg)
 {
     log(Severity::Warning, msg);
 }
 
 
-void Logger::error(const std::string& msg)
+void Logger::error(const QString& msg)
 {
     log(Severity::Error, msg);
 }
 
 
-void Logger::debug(const std::string& msg)
+void Logger::debug(const QString& msg)
 {
     log(Severity::Debug, msg);
 }

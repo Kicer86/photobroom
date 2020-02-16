@@ -37,7 +37,7 @@ TaskExecutor::TaskExecutor(ILogger* logger):
     m_lightTasks(0),
     m_working(true)
 {
-    DebugStream(m_logger) << "TaskExecutor: " << m_threads << " threads detected.";
+    m_logger->info(QString("TaskExecutor: %1 threads detected.").arg(m_threads));
 
     m_taskEater = std::thread( [&]
     {
@@ -138,8 +138,7 @@ void TaskExecutor::eat()
             {
                 set_thread_name("TE::HeavyTask");
 
-                std::thread::id id = std::this_thread::get_id();
-                LoggerStream<ILogger::Severity::Debug>(m_logger) << "Starting TaskExecutor thread #" << id;
+                m_logger->debug("Starting TaskExecutor thread");
 
                 while(true)
                 {
@@ -159,7 +158,7 @@ void TaskExecutor::eat()
                 }
 
                 --running_tasks;
-                DebugStream(m_logger) << "Quitting TaskExecutor thread #" << id;
+                m_logger->debug("Quitting TaskExecutor thread");
 
                 // notify manager that thread is gone
                 free_worker.notify_one();
@@ -183,7 +182,7 @@ void TaskExecutor::eat()
         return running_tasks == 0;
     });
 
-    DebugStream(m_logger) << "TaskExecutor: shutting down.";
+    m_logger->info("TaskExecutor: shutting down.");
 }
 
 

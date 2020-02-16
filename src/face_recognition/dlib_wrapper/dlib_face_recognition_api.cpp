@@ -5,6 +5,8 @@
 #include <dlib/dnn.h>
 #include <QRgb>
 
+#include <core/ilogger.hpp>
+#include <core/lazy_ptr.hpp>
 #include <system/filesystem.hpp>
 
 #include "cnn_face_detector.hpp"
@@ -15,6 +17,11 @@ namespace dlib_api
 {
     namespace
     {
+        constexpr char predictor_5_point_model[] = "shape_predictor_5_face_landmarks.dat";
+        constexpr char predictor_68_point_model[] = "shape_predictor_68_face_landmarks.dat";
+        constexpr char human_face_model[] = "mmod_human_face_detector.dat";
+        constexpr char face_recognition_model[] = "dlib_face_recognition_resnet_model_v1.dat";
+
         // helpers
 
         QString models_path()
@@ -32,6 +39,25 @@ namespace dlib_api
 
             return object;
         }
+
+        template<const char* name>
+        QString modelPath()
+        {
+            const QString full_path = models_path() + "/" + name;
+
+            return full_path;
+        }
+
+        template<typename T, const char* model>
+        struct ObjectDeserializer
+        {
+            T operator()() const
+            {
+                const QString model_path = modelPath<model>();
+
+                return deserialize_from_file<T>(model_path);
+            }
+        };
 
         dlib::matrix<dlib::rgb_pixel> qimage_to_dlib_matrix(const QImage& qimage)
         {
@@ -70,55 +96,238 @@ namespace dlib_api
 
             return qrects;
         }
+
+        cnn_face_detection_model_v1* construct_cnn_face_detector()
+        {
+            const auto cnn_face_detection_model = modelPath<human_face_model>();
+            return new cnn_face_detection_model_v1(cnn_face_detection_model.toStdString());
+        }
     }
 
 
-    QVector<QRect> face_locations(const QImage& qimage, int number_of_times_to_upsample, Model model)
+    struct FaceLocator::Data
     {
-        if (model == cnn)
+        lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
+        lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
+        std::unique_ptr<ILogger> logger;
+
+        explicit Data(ILogger* l)
+            : cnn_face_detector(&construct_cnn_face_detector)
+            , hog_face_detector(&dlib::get_frontal_face_detector)
+            , logger(l->subLogger("FaceLocator"))
         {
-            auto cnn_face_detection_model = models_path() + "/mmod_human_face_detector.dat";
-            cnn_face_detection_model_v1 cnn_face_detector(cnn_face_detection_model.toStdString());
 
-            const auto dlib_results = cnn_face_detector.detect(qimage, number_of_times_to_upsample);
-            const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
-
-            return faces;
         }
-        else
-        {
-            dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+    };
 
-            auto face_detector = dlib::get_frontal_face_detector();
-            const auto dlib_results = face_detector(image, number_of_times_to_upsample);
-            const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
 
-            return faces;
-        }
+    FaceLocator::FaceLocator(ILogger* logger):
+        m_data(std::make_unique<Data>(logger))
+    {
+
     }
 
 
-    std::vector<double> face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
+    FaceLocator::~FaceLocator()
+    {
+
+    }
+
+
+    QVector<QRect> FaceLocator::face_locations(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        std::optional<QVector<QRect>> faces;
+
+        // Use cnn by default as it is fast and most accurate.
+        // However it may fail (returned optional will be empty)
+        m_data->logger->debug(QString("Looking for faces with cnn in image of size %1x%2")
+                                .arg(qimage.width())
+                                .arg(qimage.height()));
+        faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
+
+        if (faces.has_value() == false)
+        {
+            m_data->logger->debug("Image too big for cnn, trying hog");
+            faces = _face_locations_hog(qimage, number_of_times_to_upsample);
+
+            // use faces found by hog to retry cnn search for more accurate results
+            if (faces.has_value())
+            {
+                m_data->logger->debug(QString("Found %1 face(s). Trying cnn to improve faces positions").arg(faces->size()));
+
+                for(QRect& face: faces.value())
+                {
+                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%3x%4)")
+                                .arg(face.left())
+                                .arg(face.top())
+                                .arg(face.width())
+                                .arg(face.height()));
+
+                    auto cnn_faces = _face_locations_cnn(qimage, face);
+
+                    if (cnn_faces.has_value() == false)
+                        m_data->logger->debug("Face too big for cnn");
+                    else if (cnn_faces->size() == 1)
+                    {
+                        // replace hog face with cnn face
+                        face = cnn_faces->front();
+
+                        m_data->logger->debug(QString("Improved face position to %1,%2 (%3x%4)")
+                                .arg(face.left())
+                                .arg(face.top())
+                                .arg(face.width())
+                                .arg(face.height()));
+                    }
+                }
+            }
+        }
+
+        QVector<QRect> facesFound = faces.has_value()? faces.value(): QVector<QRect>();
+        m_data->logger->debug(QString("Found %1 face(s)").arg(facesFound.size()));
+
+        return facesFound;
+    }
+
+
+    QVector<QRect> FaceLocator::face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        const auto dlib_results = m_data->cnn_face_detector->detect(qimage, number_of_times_to_upsample);
+        const auto faces = dlib_rects_to_qrects(dlib_results);
+
+        return faces;
+    }
+
+
+    QVector<QRect> FaceLocator::face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        dlib::matrix<dlib::rgb_pixel> image = qimage_to_dlib_matrix(qimage);
+
+        const auto dlib_results = (*m_data->hog_face_detector)(image, number_of_times_to_upsample);
+        const QVector<QRect> faces = dlib_rects_to_qrects(dlib_results);
+
+        return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_cnn(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        std::optional<QVector<QRect>> faces;
+
+        try
+        {
+            faces = face_locations_cnn(qimage, number_of_times_to_upsample);
+        }
+        catch(const dlib::cuda_error& err)
+        {
+            // image was too big for being processed
+            // due to an issue in dlib, we just need to call face_locations_cnn here again
+            QImage empty_image(10, 10, QImage::Format_Mono);
+            try
+            {
+                face_locations_cnn(empty_image, 0);
+            }
+            catch(const dlib::cuda_error& err)
+            {
+                // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
+                // covered by learning tests
+            }
+        }
+
+        return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_cnn(const QImage& image, const QRect& rect)
+    {
+        // enlarge original rect by some margins so we won't miss face
+        const int width = rect.width();
+        const int height = rect.height();
+        const int horizontalMargin = static_cast<int>(width * .2);
+        const int verticalMargin = static_cast<int>(height * .2);
+
+        const QPoint origin(rect.left() - horizontalMargin, rect.top() - verticalMargin);
+        const QSize faceWithMarginsSize(width + horizontalMargin * 2, height + verticalMargin *2);
+        const QRect rectWithMargins(origin, faceWithMarginsSize);
+        const QImage imageWithMargins = image.copy(rectWithMargins);
+
+        std::optional< QVector< QRect > > faces;
+        for (int upsample = 0; upsample < 3; upsample++)
+        {
+            faces = _face_locations_cnn(imageWithMargins, upsample);
+
+            if (faces.has_value())
+            {
+                // there can be 0 if cnn failed to find face(should not happend) or more than 1 (due to margins possibly)
+                // at this moment only one face is being handled
+                if (faces->size() == 1)
+                {
+                    faces->front().translate(origin);
+                    break;
+                }
+                else
+                    faces.reset();
+            }
+        }
+
+        return faces;
+    }
+
+
+    std::optional<QVector<QRect>> FaceLocator::_face_locations_hog(const QImage& qimage, int number_of_times_to_upsample)
+    {
+        return face_locations_hog(qimage, number_of_times_to_upsample);
+    }
+
+
+    struct FaceEncoder::Data
+    {
+        Data()
+            : face_encoder( modelPath<face_recognition_model>().toStdString() )
+        {
+        }
+
+        face_recognition_model_v1 face_encoder;
+
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>> predictor_5_point;
+        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>> predictor_68_point;
+    };
+
+
+    FaceEncoder::FaceEncoder()
+        : m_data(std::make_unique<Data>())
+    {
+    }
+
+
+    FaceEncoder::~FaceEncoder()
+    {
+
+    }
+
+
+    std::vector<double> FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
-
-        auto predictor_68_point_model = models_path() + "/shape_predictor_68_face_landmarks.dat";
-        auto predictor_5_point_model = models_path() + "/shape_predictor_5_face_landmarks.dat";
-
-        dlib::shape_predictor pose_predictor = model == large?
-                                               deserialize_from_file<dlib::shape_predictor>(predictor_68_point_model) :
-                                               deserialize_from_file<dlib::shape_predictor>(predictor_5_point_model);
+        const dlib::shape_predictor& pose_predictor = model == large?
+                                                      *m_data->predictor_68_point :
+                                                      *m_data->predictor_5_point;
 
         const auto image = qimage_to_dlib_matrix(qimage);
         const auto object_detection = pose_predictor(image, face_location);
 
-        auto face_recognition_model = models_path() + "/dlib_face_recognition_resnet_model_v1.dat";
-        face_recognition_model_v1 face_encoder(face_recognition_model.toStdString());
+        std::vector<double> result;
 
-        const auto encodings = face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
-        const std::vector<double> result(encodings.begin(), encodings.end());
+        try
+        {
+            const auto encodings = m_data->face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
+            result = std::vector<double>(encodings.begin(), encodings.end());
+        }
+        catch(const dlib::cuda_error& err)
+        {
+            std::cerr << err.what() << std::endl;
+        }
 
         return result;
     }
@@ -127,7 +336,7 @@ namespace dlib_api
     std::vector<bool> compare_faces(const std::vector<FaceEncodings>& known_face_encodings, const FaceEncodings& face_encoding_to_check, double tolerance)
     {
         const std::size_t faces = known_face_encodings.size();
-        const std::vector<double> distances = face_distance(known_face_encodings, face_encoding_to_check);
+        const std::vector distances = face_distance(known_face_encodings, face_encoding_to_check);
 
         std::vector<bool> results(faces, false);
 

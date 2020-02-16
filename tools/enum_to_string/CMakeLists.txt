@@ -22,7 +22,7 @@ if(WIN32)
 endif()
 
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     find_package(Threads REQUIRED)
     find_package(GMock REQUIRED)
     find_package(GTest REQUIRED)

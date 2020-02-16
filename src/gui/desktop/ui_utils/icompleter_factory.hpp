@@ -5,8 +5,8 @@
 class QCompleter;
 class QAbstractItemModel;
 
-struct TagTypeInfo;
-struct IModelCompositorDataSource;
+class TagTypeInfo;
+class IModelCompositorDataSource;
 
 
 struct ICompleterFactory

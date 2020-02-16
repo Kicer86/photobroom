@@ -42,7 +42,7 @@ namespace dlib_api
         std::vector<dlib::mmod_rect> detect (
             const QImage& qimage,
             const int upsample_num_times
-        );
+        ) const;
 
     private:
 

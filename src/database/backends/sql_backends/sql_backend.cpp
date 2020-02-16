@@ -238,7 +238,7 @@ namespace Database
         }
         catch(const db_error& err)
         {
-            ErrorStream(m_logger.get()) << "Error opening database: " << db.lastError().text();
+            m_logger->error(QString("Error opening database: %1").arg(db.lastError().text()));
             status = err.status();
         }
 
@@ -1078,7 +1078,7 @@ namespace Database
                         binded_values.append(it.key() + " = " + it.value().toString());
 
                     const QString binded_values_msg = "Binded values: " + binded_values.join(", ");
-                    m_logger->debug(binded_values_msg.toStdString());
+                    m_logger->debug(binded_values_msg);
 
                     status = m_executor.exec(query);
                 }

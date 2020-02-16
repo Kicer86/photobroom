@@ -15,7 +15,7 @@ set(CORE_SOURCES
     ifeatures_manager.hpp
     ilogger.hpp
     ilogger_factory.hpp
-    ilogger.hpp                                             implementation/ilogger.cpp
+    ilogger.hpp
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     imedia_information.hpp
@@ -32,6 +32,7 @@ set(CORE_SOURCES
     generic_concepts.hpp
     id.hpp
     iterator_wrapper.hpp
+    lazy_ptr.hpp
     map_iterator.hpp
     ptr_iterator.hpp
     status.hpp
@@ -132,6 +133,6 @@ if(BUILD_SHARED_LIBS)
                          LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     include(core_test.cmake)
 endif()

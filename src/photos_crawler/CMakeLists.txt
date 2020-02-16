@@ -54,6 +54,6 @@ if(BUILD_SHARED_LIBS)
                                    LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
-if(BUILD_TESTS)
+if(BUILD_TESTING)
     include(photos_crawler_test.cmake)
 endif()

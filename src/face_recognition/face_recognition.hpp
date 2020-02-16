@@ -20,17 +20,17 @@
 #define FACERECOGNITION_HPP
 
 #include <QVector>
-
-#include <system/system.hpp>
+#include <memory>
 
 #include "face_recognition_export.h"
-#include "dlib_wrapper/dlib_face_recognition_api.hpp"
 
 class QString;
 class QRect;
 
 struct ICoreFactoryAccessor;
 struct IExifReader;
+struct ILogger;
+struct ITmpDir;
 struct FacesData;
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
@@ -49,17 +49,15 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // Try to recognize person on given photo and face.
         // Second parameter is a face located by fetchFaces()
         // Third parameter is a path to directory with known faces
-        QString recognize(const QString &, const QRect &, const QString& storage) const;
+        QString recognize(const QString &, const QRect &, const QString& knownFacesStorage) const;
 
         // Optimize representative photo
         // from given set of faces, choose one with best parameters
         QString best(const QStringList& faces);
 
     private:
-        std::shared_ptr<ITmpDir> m_tmpDir;
-        IExifReader* m_exif;
-
-        dlib_api::FaceEncodings cachedEncodingForFace(const QString& face_image_name) const;
+        struct Data;
+        std::unique_ptr<Data> m_data;
 };
 
 #endif // FACERECOGNITION_HPP

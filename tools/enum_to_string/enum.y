@@ -1,6 +1,5 @@
 
 %define api.pure
-%define parse.error verbose
 %name-prefix="enum_"
 %parse-param {Enums* enums }
 %parse-param {void *scanner}

@@ -72,7 +72,6 @@ namespace dlib_api
         );
 
     private:
-
         struct data;
         std::unique_ptr<data> m_data;
 

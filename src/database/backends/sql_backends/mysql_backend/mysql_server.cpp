@@ -221,7 +221,7 @@ bool MySqlServer::initDB(const QString& dbDir, const QString& extraOptions) cons
 
             if (!status)
             {
-                ErrorStream(m_logger.get()) << "MySQL Database Backend: database initialization failed:" << QString(init.readAll());
+                m_logger->error(QString("MySQL Database Backend: database initialization failed: %1").arg(init.readAll().constData()));
 
                 status = QDir().rmdir(dbDir);
             }
@@ -263,7 +263,7 @@ bool MySqlServer::waitForServerToStart(const QString& socketPath) const
     else
         logMsg += "timeout error.";
 
-    InfoStream(m_logger.get()) << logMsg;
+    m_logger->info(logMsg);
 
     return status;
 }
@@ -338,7 +338,7 @@ QString MySqlServer::startProcess(const QString& daemonPath, const QString& base
             m_serverProcess->setArguments(args);
             m_serverProcess->closeWriteChannel();
 
-            DebugStream(m_logger.get()) << "MySQL Database Backend: " << daemonPath << " " << args.join(" ");
+            m_logger->info(QString("MySQL Database Backend: %1 %2").arg(daemonPath).arg(args.join(" ")));
 
             m_serverProcess->start();
             status = m_serverProcess->waitForStarted();

@@ -57,7 +57,7 @@ namespace GeneratorUtils
             const QString message = "tool output: " + lineTrimmed;
 
             addMessage(lineTrimmed);
-            m_logger->debug(message.toStdString());
+            m_logger->debug(message);
 
             processMessage(lineTrimmed);
         }

@@ -33,7 +33,7 @@ namespace Database
 }
 
 struct ICoreFactoryAccessor;
-
+struct ILogger;
 
 class PeopleOperator final: public QObject
 {
