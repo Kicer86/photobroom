@@ -16,6 +16,7 @@
 #define TAB_GROUPS_MEMBERS       "groups_members"
 #define TAB_PEOPLE_NAMES         "people_names"
 #define TAB_PEOPLE               "people"
+#define TAB_FACES_FINGERPRINTS   "faces_fingerprints"
 #define TAB_GENERAL_FLAGS        "general_flags"
 #define TAB_PHOTOS_CHANGE_LOG    "photos_change_log"
 

@@ -161,6 +161,16 @@ namespace Database
         );
 
         TableDefinition
+        table_faces_fingerprints(TAB_FACES_FINGERPRINTS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "location_id", "INTEGER NOT NULL"    },
+                        { "fingerprint", "BLOB"                },
+                        { "FOREIGN KEY(location_id) REFERENCES " TAB_PEOPLE "(id)", ""  },
+                    }
+        );
+
+        TableDefinition
         table_general_flags(TAB_GENERAL_FLAGS,
                             {
                                 { "id", "", ColDefinition::Purpose::ID },
@@ -198,6 +208,7 @@ namespace Database
             { TAB_GROUPS_MEMBERS,       table_groups_members },
             { TAB_PEOPLE_NAMES,         table_people },
             { TAB_PEOPLE,               table_people_locations },
+            { TAB_FACES_FINGERPRINTS,   table_faces_fingerprints },
             { TAB_GENERAL_FLAGS,        table_general_flags },
             { TAB_PHOTOS_CHANGE_LOG,    table_photos_change_log },
         };
