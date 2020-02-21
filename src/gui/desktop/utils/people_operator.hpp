@@ -43,7 +43,7 @@ class PeopleOperator final: public QObject
         typedef std::pair<QRect, QString> FaceInfo;
         typedef std::pair<Photo::Id, QRect> FaceLocation;
 
-        PeopleOperator(const QString& storage, Database::IDatabase *, ICoreFactoryAccessor *);
+        PeopleOperator(Database::IDatabase *, ICoreFactoryAccessor *);
         ~PeopleOperator();
 
         // Locate faces on given photo.
@@ -79,7 +79,6 @@ class PeopleOperator final: public QObject
         void modelFaceSet(const Person::Id &) const;
 
     private:
-        const QString m_storage;
         Database::IDatabase* m_db;
         ICoreFactoryAccessor* m_coreFactory;
 };

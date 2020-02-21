@@ -22,6 +22,7 @@
 #include <QVector>
 #include <memory>
 
+#include <database/person_data.hpp>
 #include "face_recognition_export.h"
 
 class QString;
@@ -32,6 +33,11 @@ struct IExifReader;
 struct ILogger;
 struct ITmpDir;
 struct FacesData;
+
+namespace Database
+{
+    struct IDatabase;
+}
 
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
@@ -49,7 +55,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // Try to recognize person on given photo and face.
         // Second parameter is a face located by fetchFaces()
         // Third parameter is a path to directory with known faces
-        QString recognize(const QString &, const QRect &, const QString& knownFacesStorage) const;
+        Person::Id recognize(const QString &, const QRect &, Database::IDatabase *) const;
 
         // Optimize representative photo
         // from given set of faces, choose one with best parameters

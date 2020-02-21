@@ -173,11 +173,10 @@ void FacesFetcher::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face, const QString& patterns, ICoreFactoryAccessor* core, Database::IDatabase* db):
+FaceRecognizer::FaceRecognizer(const PeopleOperator::FaceLocation& face, ICoreFactoryAccessor* core, Database::IDatabase* db):
     FaceTask(face.first, db),
     m_logger(core->getLoggerFactory()->get("FaceRecognizer")),
     m_data(face),
-    m_patterns(patterns),
     m_coreFactory(core)
 {
 
@@ -220,13 +219,10 @@ void FaceRecognizer::perform()
         const QString full_path = pathInfo.absoluteFilePath();
 
         FaceRecognition face_recognition(m_coreFactory);
-        const QString personPath = face_recognition.recognize(full_path, m_data.second, m_patterns);
+        const Person::Id pid = face_recognition.recognize(full_path, m_data.second, m_db);
 
-        if (personPath.isEmpty() == false)
+        if (pid)
         {
-            const QFileInfo personPathInfo(personPath);
-            const QString personId = personPathInfo.baseName();
-            const Person::Id pid(personId.toInt());
             result = personData(pid);
 
             const QString msg = QString("%1 recognized on photo").arg(result.name());
@@ -327,12 +323,10 @@ FaceStore::FaceStore(const Photo::Id& id,
                      const std::vector<PeopleOperator::FaceInfo>& known_people,
                      const QStringList& unknown_people,
                      Database::IDatabase* db,
-                     ICoreFactoryAccessor* coreAccessor,
-                     const QString& patterns):
+                     ICoreFactoryAccessor* coreAccessor):
     FaceTask(id, db),
     m_knownPeople(known_people),
     m_unknownPeople(unknown_people),
-    m_patterns(patterns),
     m_coreAccessor(coreAccessor)
 {
 
@@ -372,8 +366,7 @@ void FaceStore::perform()
         {
             PersonInfo pi(Person::Id(), m_id, face_coords);
 
-            m_db->exec([base_path = m_patterns,
-                                       pi,
+            m_db->exec([               pi,
                                        db = m_db,
                                        coreAccessor = m_coreAccessor,
                                        name]
@@ -388,7 +381,7 @@ void FaceStore::perform()
                     personData.p_id = op->store(d);
 
                     // save representative photo
-                    ModelFaceStore mfs(personData, db, coreAccessor, base_path);
+                    ModelFaceStore mfs(personData, db, coreAccessor);
                     mfs.perform();
                 }
 
@@ -432,12 +425,10 @@ std::vector<PersonName> FaceStore::fetchPeople()
 
 ModelFaceStore::ModelFaceStore(const PersonInfo& pi,
                                Database::IDatabase* db,
-                               ICoreFactoryAccessor* coreAccessor,
-                               const QString& storage
+                               ICoreFactoryAccessor* coreAccessor
                               ):
     FaceTask(pi.ph_id, db),
     m_pi(pi),
-    m_storage(storage),
     m_coreAccessor(coreAccessor)
 {
 }
@@ -455,8 +446,10 @@ void ModelFaceStore::perform()
     const OrientedImage image = Image::normalized(photo_path, m_coreAccessor->getExifReaderFactory()->get());
     const QImage face = image->copy(m_pi.rect);
 
-    const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
-    face.save(face_path);
+    assert(!"reimplement");
+
+    //const QString face_path = QString("%1/%2.jpg").arg(m_storage).arg(QString::number(m_pi.p_id.value()));
+    //face.save(face_path);
 
     emit done(m_pi.p_id);
 }
@@ -465,8 +458,7 @@ void ModelFaceStore::perform()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PeopleOperator::PeopleOperator(const QString& storage, Database::IDatabase* db, ICoreFactoryAccessor* ca):
-    m_storage(storage),
+PeopleOperator::PeopleOperator(Database::IDatabase* db, ICoreFactoryAccessor* ca):
     m_db(db),
     m_coreFactory(ca)
 {
@@ -495,7 +487,7 @@ void PeopleOperator::fetchFaces(const Photo::Id& id) const
 void PeopleOperator::recognize(const PeopleOperator::FaceLocation& face) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FaceRecognizer>(face, m_storage, m_coreFactory, m_db);
+    auto task = std::make_unique<FaceRecognizer>(face, m_coreFactory, m_db);
 
     connect(task.get(), &FaceRecognizer::recognized,
             this, &PeopleOperator::recognized);
@@ -521,7 +513,7 @@ void PeopleOperator::store(const Photo::Id& id,
                            const QStringList& unknown_people) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_coreFactory, m_storage);
+    auto task = std::make_unique<FaceStore>(id, known_people, unknown_people, m_db, m_coreFactory);
 
     executor->addLight(std::move(task));
 }
@@ -531,17 +523,16 @@ QString PeopleOperator::getModelFace(const Person::Id& p_id) const
 {
     assert(p_id.valid());
 
-    const QString path = QString("%1/%2.jpg").arg(m_storage).arg(p_id.value());
-    const QString result = QFile::exists(path)? path: QString();
+    assert(!"reimplement");
 
-    return result;
+    return "";
 }
 
 
 void PeopleOperator::setModelFace(const PersonInfo& pi)
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
-    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_coreFactory, m_storage);
+    auto task = std::make_unique<ModelFaceStore>(pi, m_db, m_coreFactory);
 
     connect(task.get(), &ModelFaceStore::done,
             this, &PeopleOperator::modelFaceSet);
@@ -552,7 +543,7 @@ void PeopleOperator::setModelFace(const PersonInfo& pi)
 
 void PeopleOperator::setModelFaceSync(const PersonInfo& pi)
 {
-    ModelFaceStore(pi, m_db, m_coreFactory, m_storage).perform();
+    ModelFaceStore(pi, m_db, m_coreFactory).perform();
 }
 
 

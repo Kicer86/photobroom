@@ -77,7 +77,7 @@ class FaceRecognizer final: public QObject, public FaceTask
         Q_OBJECT
 
     public:
-        FaceRecognizer(const PeopleOperator::FaceLocation &, const QString& patterns, ICoreFactoryAccessor *, Database::IDatabase *);
+        FaceRecognizer(const PeopleOperator::FaceLocation &, ICoreFactoryAccessor *, Database::IDatabase *);
         virtual ~FaceRecognizer();
 
         std::string name() const override;
@@ -86,7 +86,6 @@ class FaceRecognizer final: public QObject, public FaceTask
     private:
         std::unique_ptr<ILogger> m_logger;
         const PeopleOperator::FaceLocation m_data;
-        const QString m_patterns;
         ICoreFactoryAccessor* m_coreFactory;
 
         PersonName personData(const Person::Id &) const;
@@ -125,8 +124,7 @@ class FaceStore final: public FaceTask
                   const std::vector<PeopleOperator::FaceInfo> &,
                   const QStringList& unknownPeople,
                   Database::IDatabase *,
-                  ICoreFactoryAccessor *,
-                  const QString& patterns);
+                  ICoreFactoryAccessor *);
         ~FaceStore();
 
         std::string name() const override;
@@ -135,7 +133,6 @@ class FaceStore final: public FaceTask
     private:
         const std::vector<PeopleOperator::FaceInfo> m_knownPeople;
         const QStringList m_unknownPeople;
-        const QString m_patterns;
         ICoreFactoryAccessor* m_coreAccessor;
 
         std::vector<PersonName> fetchPeople();
@@ -149,15 +146,13 @@ class ModelFaceStore final: public QObject, public FaceTask
     public:
         ModelFaceStore(const PersonInfo &,
                        Database::IDatabase *,
-                       ICoreFactoryAccessor *,
-                       const QString& storage);
+                       ICoreFactoryAccessor *);
 
         std::string name() const override;
         void perform() override;
 
     private:
         const PersonInfo m_pi;
-        const QString m_storage;
         ICoreFactoryAccessor* m_coreAccessor;
 
     signals:

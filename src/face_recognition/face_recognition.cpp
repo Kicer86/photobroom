@@ -37,7 +37,10 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/image_tools.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/filter.hpp>
+#include <database/ibackend.hpp>
+#include <database/idatabase.hpp>
 #include <system/filesystem.hpp>
 #include <system/system.hpp>
 
@@ -45,6 +48,15 @@
 
 
 using namespace std::placeholders;
+
+template<typename T>
+struct ExecutorTraits<Database::IDatabase, T>
+{
+    static void exec(Database::IDatabase* db, T&& t)
+    {
+        db->exec(std::forward<T>(t));
+    }
+};
 
 namespace
 {
@@ -135,11 +147,11 @@ namespace
         return { known_faces, known_faces_names };
     }
 
-    std::vector<std::pair<double, QString>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<QString>& names)
+    std::vector<std::pair<double, Person::Id>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<Person::Id>& names)
     {
         assert(distances.size() == names.size());
 
-        std::vector<std::pair<double, QString>> names_and_distances;
+        std::vector<std::pair<double, Person::Id>> names_and_distances;
         std::size_t items = std::min(distances.size(), names.size());
 
         for(std::size_t i = 0; i < items; i++)
@@ -149,7 +161,7 @@ namespace
     }
 
 
-    void dropNotMatching(std::vector<std::pair<double, QString>>& names_and_distances)
+    void dropNotMatching(std::vector<std::pair<double, Person::Id>>& names_and_distances)
     {
         names_and_distances.erase(std::remove_if(names_and_distances.begin(),
                                             names_and_distances.end(),
@@ -158,7 +170,7 @@ namespace
     }
 
 
-    QString chooseClosestMatching(const std::vector<double>& distances, const std::vector<QString>& names, ILogger& logger)
+    Person::Id chooseClosestMatching(const std::vector<double>& distances, const std::vector<Person::Id>& names, ILogger& logger)
     {
         auto names_and_distances = zipNamesWithDistances(distances, names);
         dropNotMatching(names_and_distances);
@@ -174,7 +186,7 @@ namespace
         logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(items));
 
         // return best matching
-        return names_and_distances.empty()? QString() : names_and_distances.front().second;
+        return names_and_distances.empty()? Person::Id() : names_and_distances.front().second;
     }
 
 
@@ -239,14 +251,21 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 }
 
 
-QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& knownFacesStorage) const
+Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Database::IDatabase* db) const
 {
     std::lock_guard lock(g_dlibMutex);
     dlib_api::FaceEncoder faceEndoder;
 
-    QDirIterator di(knownFacesStorage, { "*.jpg" });
+    typedef std::tuple<std::vector<dlib_api::FaceEncodings>, std::vector<Person::Id>> FacesFingerprints;
+    auto [known_faces, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, [](Database::IBackend *)
+    {
+        std::vector<dlib_api::FaceEncodings> encodings;
+        std::vector<Person::Id> people;
 
-    auto [known_faces, known_faces_names] = loadKnownFaces(knownFacesStorage, faceEndoder);
+        assert(!"implement");
+
+        return std::tuple(encodings, people);
+    });
 
     if (known_faces.empty())
         return {};
@@ -264,7 +283,7 @@ QString FaceRecognition::recognize(const QString& path, const QRect& face, const
         const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
         const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
 
-        const QString best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
+        const Person::Id best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
 
         return best_face_file;
     }

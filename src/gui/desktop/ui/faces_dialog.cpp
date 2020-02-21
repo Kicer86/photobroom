@@ -54,7 +54,7 @@ namespace
 FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFactory, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
     m_id(data.id),
-    m_people(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition), prj->getDatabase(), coreAccessor),
+    m_people(prj->getDatabase(), coreAccessor),
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),

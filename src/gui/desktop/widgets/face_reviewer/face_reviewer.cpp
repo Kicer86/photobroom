@@ -38,8 +38,7 @@ using namespace std::placeholders;
 
 FaceReviewer::FaceReviewer(Project* prj, ICoreFactoryAccessor* core, QWidget* p):
     QDialog(p),
-    m_operator(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition),
-               prj->getDatabase(),
+    m_operator(prj->getDatabase(),
                core),
     m_optimizer(core, &m_operator),
     m_tmpDir(System::createTmpDir("FaceReviewer", System::Confidential)),

@@ -541,7 +541,6 @@ void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
         const QString relative_path = first.path;
         const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
         const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
-        const QString faceStorage = prjInfo.getInternalLocation(ProjectInfo::FaceRecognition);
 
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();

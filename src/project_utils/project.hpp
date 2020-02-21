@@ -41,7 +41,6 @@ struct PROJECT_UTILS_EXPORT ProjectInfo
         {
             Database,
             PrivateMultimedia,
-            FaceRecognition,
         };
 
         ProjectInfo(const QString& path);
