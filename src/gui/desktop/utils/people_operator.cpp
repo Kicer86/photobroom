@@ -221,7 +221,7 @@ void FaceRecognizer::perform()
         FaceRecognition face_recognition(m_coreFactory);
         const Person::Id pid = face_recognition.recognize(full_path, m_data.second, m_db);
 
-        if (pid)
+        if (pid.valid())
         {
             result = personData(pid);
 
