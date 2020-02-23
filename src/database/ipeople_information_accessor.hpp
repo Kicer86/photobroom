@@ -11,6 +11,8 @@ namespace Database
     {
         public:
             virtual ~IPeopleInformationAccessor() = default;
+
+            virtual std::vector<QByteArray> fingerprintsFor(const Person::Id &) = 0;
     };
 }
 
