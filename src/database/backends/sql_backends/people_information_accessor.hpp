@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PEOPLE_INFORMATION_ACCESOR_HPP
+#ifndef PEOPLE_INFORMATION_ACCESSOR_HPP
 #define PEOPLE_INFORMATION_ACCESSOR_HPP
 
 #include <vector>
@@ -25,7 +25,7 @@
 
 namespace Database
 {
-    class PeopleInformationAccessor : public IPeopleInformationAccessor
+    class PeopleInformationAccessor: public IPeopleInformationAccessor
     {
         public:
             PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &);
@@ -36,4 +36,4 @@ namespace Database
     };
 }
 
-#endif // PEOPLE_INFORMATION_ACCESOR_HPP
+#endif // PEOPLE_INFORMATION_ACCESSOR_HPP

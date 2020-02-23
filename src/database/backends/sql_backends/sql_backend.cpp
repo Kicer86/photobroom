@@ -49,6 +49,7 @@
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_filter_query_generator.hpp"
+#include "people_information_accessor.hpp"
 
 
 // useful links
@@ -59,6 +60,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
+        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor); }),
         m_connectionName(""),
         m_logger(nullptr),
         m_executor(),
@@ -145,6 +147,12 @@ namespace Database
                                                         );
 
         return m_photoChangeLogOperator.get();
+    }
+
+
+    IPeopleInformationAccessor& ASqlBackend::peopleInformationAccessor()
+    {
+        return *m_peopleInfoAccessor;
     }
 
 
