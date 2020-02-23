@@ -81,48 +81,6 @@ namespace
     }
 
 
-    dlib_api::FaceEncodings cachedEncodingForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
-    {
-        dlib_api::FaceEncodings faceEncodings;
-
-        const QFileInfo fileInfo(face_image_path);
-        const QString fileName = fileInfo.baseName();
-        const QString storage = fileInfo.absolutePath();
-        const QString encodingsFilePath = storage + "/" + fileName + ".enc";
-
-        if (QFile::exists(encodingsFilePath))
-        {
-            QFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::ReadOnly);
-
-            while(encodingsFile.atEnd() == false)
-            {
-                const QByteArray line = encodingsFile.readLine();
-                const double value = line.toDouble();
-
-                faceEncodings.push_back(value);
-            }
-        }
-        else
-        {
-            faceEncodings = encodingsForFace(faceEndoder, face_image_path);
-
-            QSaveFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::WriteOnly);
-
-            for(double v: faceEncodings)
-            {
-                const QByteArray line = QByteArray::number(v) + '\n';
-                encodingsFile.write(line);
-            }
-
-            encodingsFile.commit();
-        }
-
-        return faceEncodings;
-    }
-
-
     std::map<QString, dlib_api::FaceEncodings> encodingsForFaces(const QStringList& faces, dlib_api::FaceEncoder& faceEncoder)
     {
         std::map<QString, dlib_api::FaceEncodings> encoded_faces;
@@ -133,30 +91,6 @@ namespace
         }
 
         return encoded_faces;
-    }
-
-    std::tuple<std::vector<dlib_api::FaceEncodings>,
-               std::vector<QString>
-              >
-    loadKnownFaces(const QString& knownFacesStorage, dlib_api::FaceEncoder& faceEndoder)
-    {
-        QDirIterator di(knownFacesStorage, { "*.jpg" });
-
-        std::vector<dlib_api::FaceEncodings> known_faces;
-        std::vector<QString> known_faces_names;
-
-        while(di.hasNext())
-        {
-            const QString filePath = di.next();
-            const QFileInfo fileInfo(filePath);
-
-            const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(faceEndoder, filePath);
-
-            known_faces.push_back(faceEncodings);
-            known_faces_names.push_back(fileInfo.fileName());
-        }
-
-        return { known_faces, known_faces_names };
     }
 
     std::vector<std::pair<double, Person::Id>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<Person::Id>& names)
