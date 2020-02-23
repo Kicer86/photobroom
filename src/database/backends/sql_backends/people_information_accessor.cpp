@@ -16,6 +16,18 @@
  */
 
 
-#include "people_information_accesor.hpp"
+#include "people_information_accessor.hpp"
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
+#include "tables.hpp"
+
+namespace Database
+{
+    PeopleInformationAccessor::PeopleInformationAccessor(const QString& connectionName, Database::ISqlQueryExecutor& queryExecutor)
+        : m_connectionName(connectionName)
+        , m_executor(queryExecutor)
+    {
+    }
+}

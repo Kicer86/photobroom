@@ -18,11 +18,22 @@
 #ifndef PEOPLE_INFORMATION_ACCESOR_HPP
 #define PEOPLE_INFORMATION_ACCESSOR_HPP
 
+#include <vector>
 
 #include "database/ipeople_information_accessor.hpp"
+#include "isql_query_executor.hpp"
 
-class PeopleInformationAccessor : public IPeopleInformationAccessor
+namespace Database
 {
-};
+    class PeopleInformationAccessor : public IPeopleInformationAccessor
+    {
+        public:
+            PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &);
+
+        private:
+            const QString m_connectionName;
+            Database::ISqlQueryExecutor& m_executor;
+    };
+}
 
 #endif // PEOPLE_INFORMATION_ACCESOR_HPP
