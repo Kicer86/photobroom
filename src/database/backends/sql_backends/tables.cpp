@@ -164,9 +164,7 @@ namespace Database
         table_faces_fingerprints(TAB_FACES_FINGERPRINTS,
                     {
                         { "id", "", ColDefinition::Purpose::ID },
-                        { "location_id", "INTEGER NOT NULL"    },
                         { "fingerprint", "BLOB"                },
-                        { "FOREIGN KEY(location_id) REFERENCES " TAB_PEOPLE "(id)", ""  },
                     }
         );
 
