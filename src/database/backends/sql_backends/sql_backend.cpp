@@ -862,7 +862,34 @@ namespace Database
 
                 } [[fallthrough]];
 
-                case 4:             // current version, break updgrades chain
+                case 4:             // add new column to TAB_PEOPLE
+                {
+                    const QString rename_people = QString("ALTER TABLE %1 RENAME TO temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(rename_people, &query);
+                    if (status == false)
+                        break;
+
+                    // recreate TAB_PEOPLE
+                    auto tab_people = tables.find(TAB_PEOPLE);
+                    if (tab_people == tables.end())
+                        break;
+
+                    status = ensureTableExists(tab_people->second);
+                    if (status == false)
+                        break;
+
+                    // fill fresh instance of TAB_PEOPLE
+                    const QString fill_people = QString("INSERT INTO %1(id, photo_id, person_id, location) SELECT id, photo_id, person_id, location FROM temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(fill_people, &query);
+                    if (status == false)
+                        break;
+                }
+
+                case 5:             // current version, break updgrades chain
                     break;
 
                 default:
