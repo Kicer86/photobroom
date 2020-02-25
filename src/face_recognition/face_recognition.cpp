@@ -93,6 +93,30 @@ namespace
         return encoded_faces;
     }
 
+
+    auto fetchPeopleAndEncodings(Database::IBackend* backend)
+    {
+        std::vector<dlib_api::FaceEncodings> encodings;
+        std::vector<Person::Id> people;
+
+        const auto all_people = backend->listPeople();
+        for(const auto& person: all_people)
+        {
+            const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
+
+            if (fingerprints.empty() == false)
+            {
+                const dlib_api::FaceEncodings face_encodings = fingerprintToEncodings(fingerprints.front());
+
+                encodings.push_back(face_encodings);
+                people.push_back(person.id());
+            }
+        }
+
+        return std::tuple(encodings, people);
+    }
+
+
     std::vector<std::pair<double, Person::Id>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<Person::Id>& names)
     {
         assert(distances.size() == names.size());
@@ -203,27 +227,7 @@ Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Da
     dlib_api::FaceEncoder faceEndoder;
 
     typedef std::tuple<std::vector<dlib_api::FaceEncodings>, std::vector<Person::Id>> FacesFingerprints;
-    auto [known_faces, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, [](Database::IBackend* backend)
-    {
-        std::vector<dlib_api::FaceEncodings> encodings;
-        std::vector<Person::Id> people;
-
-        const auto all_people = backend->listPeople();
-        for(const auto& person: all_people)
-        {
-            const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
-
-            if (fingerprints.empty() == false)
-            {
-                const dlib_api::FaceEncodings face_encodings = fingerprintToEncodings(fingerprints.front());
-
-                encodings.push_back(face_encodings);
-                people.push_back(person.id());
-            }
-        }
-
-        return std::tuple(encodings, people);
-    });
+    auto [known_faces, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, &fetchPeopleAndEncodings);
 
     if (known_faces.empty())
         return {};
