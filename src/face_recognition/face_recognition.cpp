@@ -227,9 +227,9 @@ Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Da
     dlib_api::FaceEncoder faceEndoder;
 
     typedef std::tuple<std::vector<dlib_api::FaceEncodings>, std::vector<Person::Id>> FacesFingerprints;
-    auto [known_faces, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, &fetchPeopleAndEncodings);
+    auto [known_faces_encodings, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, &fetchPeopleAndEncodings);
 
-    if (known_faces.empty())
+    if (known_faces_encodings.empty())
         return {};
     else
     {
@@ -243,7 +243,7 @@ Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Da
         const QImage face_photo = photo.copy(face);
 
         const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
-        const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
+        const std::vector<double> distance = dlib_api::face_distance(known_faces_encodings, unknown_face_encodings);
 
         const Person::Id best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
 
