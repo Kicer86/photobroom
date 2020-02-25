@@ -231,24 +231,22 @@ Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Da
 
     if (known_faces_encodings.empty())
         return {};
-    else
-    {
-        const QString msg = QString("Trying to recognize face %1 from %2").arg(faceToString(face)).arg(path);
-        m_data->m_logger->debug(msg);
 
-        const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
-        Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
+    const QString msg = QString("Trying to recognize face %1 from %2").arg(faceToString(face)).arg(path);
+    m_data->m_logger->debug(msg);
 
-        const QImage photo(normalizedPhotoPath);
-        const QImage face_photo = photo.copy(face);
+    const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
 
-        const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
-        const std::vector<double> distance = dlib_api::face_distance(known_faces_encodings, unknown_face_encodings);
+    const QImage photo(normalizedPhotoPath);
+    const QImage face_photo = photo.copy(face);
 
-        const Person::Id best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
+    const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
+    const std::vector<double> distance = dlib_api::face_distance(known_faces_encodings, unknown_face_encodings);
 
-        return best_face_file;
-    }
+    const Person::Id best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
+
+    return best_face_file;
 }
 
 
