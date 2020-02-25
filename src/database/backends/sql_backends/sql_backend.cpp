@@ -725,6 +725,7 @@ namespace Database
     /**
      * \brief check current db version and upgrade structures if required
      * \return operation status
+     * \todo extract
      */
     BackendStatus ASqlBackend::checkDBVersion()
     {
