@@ -128,7 +128,7 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 
     if (it != m_faces.cend())
     {
-        const std::size_t idx = std::distance(m_faces.cbegin(), it);
+        const long idx = std::distance(m_faces.cbegin(), it);
         ui->peopleList->setItem(idx, 0, new QTableWidgetItem(name));
     }
 
