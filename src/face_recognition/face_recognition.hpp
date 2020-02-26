@@ -63,6 +63,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
         Person::Fingerprint getFingerprint(const QImage& face);
 
+        int recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known);
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;

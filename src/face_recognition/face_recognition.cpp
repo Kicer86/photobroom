@@ -160,6 +160,14 @@ namespace
     }
 
 
+    int chooseClosestMatching(const std::vector<double>& distances)
+    {
+        auto closest = std::min_element(distances.cbegin(), distances.cend());
+
+        return *closest > 0.6? -1 : static_cast<int>(std::distance(distances.cbegin(), closest));
+    }
+
+
     QString faceToString(const QRect& face)
     {
         const auto string = QString("%1,%2 (%3x%4)")
@@ -313,4 +321,13 @@ Person::Fingerprint FaceRecognition::getFingerprint(const QImage& face)
     const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
 
     return face_encodings;
+}
+
+
+int FaceRecognition::recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known)
+{
+    const std::vector<double> distance = dlib_api::face_distance(known, unknown);
+    const auto closestMatching = chooseClosestMatching(distance);
+
+    return closestMatching;
 }
