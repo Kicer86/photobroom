@@ -33,6 +33,7 @@ namespace Person
 {
     DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
+    typedef std::vector<double> Fingerprint;
 }
 
 
