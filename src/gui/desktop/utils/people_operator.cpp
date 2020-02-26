@@ -352,8 +352,8 @@ void FaceStore::perform()
     // store people data
     for (const auto& person: m_knownPeople )
     {
-        const QString& name = person.second;
-        const QRect& face_coords = person.first;
+        const QString& name = person.name;
+        const QRect& face_coords = person.rect;
 
         auto it = std::find_if(people.cbegin(),
                                people.cend(),
@@ -372,21 +372,21 @@ void FaceStore::perform()
                                        name]
                                       (Database::IBackend* op)
             {
-                PersonInfo personData = pi;
+                PersonInfo personInfo = pi;
 
                 if (name.isEmpty() == false)
                 {
                     // anounce new person, get id for it
                     const PersonName d(Person::Id(), name);
-                    personData.p_id = op->store(d);
+                    personInfo.p_id = op->store(d);
 
                     // save representative photo
-                    ModelFaceStore mfs(personData, db, coreAccessor);
+                    ModelFaceStore mfs(personInfo, db, coreAccessor);
                     mfs.perform();
                 }
 
                 // store person information
-                op->store(personData);
+                op->store(personInfo);
             });
         }
         else                                // someone known

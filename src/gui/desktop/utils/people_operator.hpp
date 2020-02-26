@@ -40,7 +40,21 @@ class PeopleOperator final: public QObject
         Q_OBJECT
 
     public:
-        typedef std::pair<QRect, QString> FaceInfo;
+        struct FaceInfo
+        {
+            QRect rect;
+            QString name;
+            Person::Fingerprint fingerprint;
+
+            FaceInfo(const QRect& r, const QString& n, const Person::Fingerprint& f)
+                : rect(r)
+                , name(n)
+                , fingerprint(f)
+            {
+
+            }
+        };
+
         typedef std::pair<Photo::Id, QRect> FaceLocation;
 
         PeopleOperator(Database::IDatabase *, ICoreFactoryAccessor *);
