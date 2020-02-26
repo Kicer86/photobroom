@@ -305,3 +305,12 @@ QString FaceRecognition::best(const QStringList& faces)
 
     return best_photo;
 }
+
+
+Person::Fingerprint FaceRecognition::getFingerprint(const QImage& face)
+{
+    dlib_api::FaceEncoder faceEndoder;
+    const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
+
+    return face_encodings;
+}

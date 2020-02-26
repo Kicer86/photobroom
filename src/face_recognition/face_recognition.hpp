@@ -61,6 +61,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // from given set of faces, choose one with best parameters
         [[deprecated]] QString best(const QStringList& faces);
 
+        Person::Fingerprint getFingerprint(const QImage& face);
+
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
