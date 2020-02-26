@@ -383,7 +383,7 @@ void FaceStore::perform()
 
         if (it == people.cend())  // we do not know that person
         {
-            PersonInfo pi(Person::Id(), m_id, face_coords);
+            const PersonInfo pi(Person::Id(), m_id, face_coords);
 
             auto storeNewPersonDetails = std::bind(storeNewPerson, pi, m_db, m_coreAccessor, name, _1);
             m_db->exec(storeNewPersonDetails);
