@@ -50,7 +50,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
         // Locate faces on given photo.
-        [[deprecated]] QVector<QRect> fetchFaces(const QString &) const;
+        QVector<QRect> fetchFaces(const QString &) const;
 
         // Try to recognize person on given photo and face.
         // Second parameter is a face located by fetchFaces()
