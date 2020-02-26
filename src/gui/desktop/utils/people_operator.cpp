@@ -470,7 +470,7 @@ PeopleOperator::~PeopleOperator()
 }
 
 
-void PeopleOperator::fetchFaces(const Photo::Id& id) const
+void PeopleOperator::findFaces(const Photo::Id& id) const
 {
     ITaskExecutor* executor = m_coreFactory->getTaskExecutor();
     auto task = std::make_unique<FacesFetcher>(id, m_coreFactory, m_db);

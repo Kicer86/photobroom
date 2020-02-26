@@ -61,7 +61,7 @@ class PeopleOperator final: public QObject
         ~PeopleOperator();
 
         // Locate faces on given photo.
-        void fetchFaces(const Photo::Id &) const;
+        void findFaces(const Photo::Id &) const;
 
         // Try to recognize person with given face.
         // Parameter is a face located by fetchFaces()

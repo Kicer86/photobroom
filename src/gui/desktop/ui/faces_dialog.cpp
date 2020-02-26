@@ -86,7 +86,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
 
     ui->statusLabel->setText(tr("Locating faces..."));
 
-    m_people.fetchFaces(m_id);
+    m_people.findFaces(m_id);
     m_people.getUnassignedPeople(m_id);
 
     updateImage();
