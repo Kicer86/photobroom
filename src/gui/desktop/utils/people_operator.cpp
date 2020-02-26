@@ -74,7 +74,7 @@ namespace
         return faceImg;
     }
 
-    void storeNewPerson(const PersonInfo& pi, Database::IDatabase* db, ICoreFactoryAccessor* coreAccessor, const QString& name, Database::IBackend* op)
+    void storeNewPersonInDb(const PersonInfo& pi, Database::IDatabase* db, ICoreFactoryAccessor* coreAccessor, const QString& name, Database::IBackend* op)
     {
         PersonInfo personInfo = pi;
 
@@ -385,7 +385,7 @@ void FaceStore::perform()
         {
             const PersonInfo pi(Person::Id(), m_id, face_coords);
 
-            auto storeNewPersonDetails = std::bind(storeNewPerson, pi, m_db, m_coreAccessor, name, _1);
+            auto storeNewPersonDetails = std::bind(storeNewPersonInDb, pi, m_db, m_coreAccessor, name, _1);
             m_db->exec(storeNewPersonDetails);
         }
         else                                // someone known
