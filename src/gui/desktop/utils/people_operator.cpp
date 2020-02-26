@@ -168,7 +168,7 @@ void FacesFetcher::perform()
 
     if (list_of_faces.empty())
     {
-        const QString path = getPhotoPath();
+        const QString path = pathFor(m_db, m_id);
         const QFileInfo pathInfo(path);
         const QString full_path = pathInfo.absoluteFilePath();
 
