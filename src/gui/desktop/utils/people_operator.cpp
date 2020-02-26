@@ -73,6 +73,25 @@ namespace
 
         return faceImg;
     }
+
+    void storeNewPerson(const PersonInfo& pi, Database::IDatabase* db, ICoreFactoryAccessor* coreAccessor, const QString& name, Database::IBackend* op)
+    {
+        PersonInfo personInfo = pi;
+
+        if (name.isEmpty() == false)
+        {
+            // anounce new person, get id for it
+            const PersonName d(Person::Id(), name);
+            personInfo.p_id = op->store(d);
+
+            // save representative photo
+            ModelFaceStore mfs(personInfo, db, coreAccessor);
+            mfs.perform();
+        }
+
+        // store person information
+        op->store(personInfo);
+    }
 }
 
 
@@ -366,34 +385,13 @@ void FaceStore::perform()
         {
             PersonInfo pi(Person::Id(), m_id, face_coords);
 
-            m_db->exec([               pi,
-                                       db = m_db,
-                                       coreAccessor = m_coreAccessor,
-                                       name]
-                                      (Database::IBackend* op)
-            {
-                PersonInfo personInfo = pi;
-
-                if (name.isEmpty() == false)
-                {
-                    // anounce new person, get id for it
-                    const PersonName d(Person::Id(), name);
-                    personInfo.p_id = op->store(d);
-
-                    // save representative photo
-                    ModelFaceStore mfs(personInfo, db, coreAccessor);
-                    mfs.perform();
-                }
-
-                // store person information
-                op->store(personInfo);
-            });
+            auto storeNewPersonDetails = std::bind(storeNewPerson, pi, m_db, m_coreAccessor, name, _1);
+            m_db->exec(storeNewPersonDetails);
         }
         else                                // someone known
         {
             const PersonInfo pinfo(it->id(), m_id, face_coords);
-            m_db->exec([pinfo]
-                                      (Database::IBackend* backend)
+            m_db->exec([pinfo](Database::IBackend* backend)
             {
                 // store person information
                 backend->store(pinfo);
