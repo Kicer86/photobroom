@@ -30,7 +30,6 @@ class QLabel;
 class QPushButton;
 
 struct ITaskExecutor;
-class PeopleOperator;
 
 struct IModelFaceFinder
 {
