@@ -35,7 +35,7 @@ namespace Database
 
     std::vector<QByteArray> PeopleInformationAccessor::fingerprintsFor(const Person::Id& id)
     {
-        const QString sql_query = QString("SELECT fingerprint FROM %1 JOIN %2 ON %2.location = %1.location_id WHERE %2.person_id = %3")
+        const QString sql_query = QString("SELECT fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.person_id = %3")
                                     .arg(TAB_FACES_FINGERPRINTS)
                                     .arg(TAB_PEOPLE)
                                     .arg(id);
