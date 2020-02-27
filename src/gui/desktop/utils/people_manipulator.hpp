@@ -18,9 +18,34 @@
 #ifndef PEOPLEMANIPULATOR_HPP
 #define PEOPLEMANIPULATOR_HPP
 
+#include <core/function_wrappers.hpp>
+#include <database/photo_types.hpp>
+#include <database/idatabase.hpp>
 
-class PeopleManipulator
+struct ICoreFactoryAccessor;
+
+class PeopleManipulator: public QObject
 {
+    public:
+        PeopleManipulator(const Photo::Id &, Database::IDatabase &, ICoreFactoryAccessor &);
+
+    private:
+        struct FaceInfo
+        {
+            QRect rect;
+
+            FaceInfo(const QRect& r): rect(r) {}
+        };
+
+        safe_callback_ctrl m_callback_ctrl;
+        std::vector<FaceInfo> m_faces;
+        Photo::Id m_pid;
+        ICoreFactoryAccessor& m_core;
+        Database::IDatabase& m_db;
+
+        void findFaces();
+        void findFaces_thrd();
+        void findFaces_result(const QVector<QRect> &);
 };
 
 #endif // PEOPLEMANIPULATOR_HPP
