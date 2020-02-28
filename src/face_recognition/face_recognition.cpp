@@ -106,9 +106,7 @@ namespace
 
             if (fingerprints.empty() == false)
             {
-                const dlib_api::FaceEncodings face_encodings = fingerprintToEncodings(fingerprints.front());
-
-                encodings.push_back(face_encodings);
+                encodings.push_back(fingerprints.front());
                 people.push_back(person.id());
             }
         }
