@@ -315,8 +315,10 @@ QString FaceRecognition::best(const QStringList& faces)
 }
 
 
-Person::Fingerprint FaceRecognition::getFingerprint(const QImage& face)
+Person::Fingerprint FaceRecognition::getFingerprint(const OrientedImage& image, const QRect& face_rect)
 {
+    const QImage face = face_rect.isEmpty()? image.get(): image.get().copy(face_rect);
+
     dlib_api::FaceEncoder faceEndoder;
     const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
 

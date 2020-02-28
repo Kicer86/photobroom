@@ -33,6 +33,7 @@ struct IExifReader;
 struct ILogger;
 struct ITmpDir;
 struct FacesData;
+class OrientedImage;
 
 namespace Database
 {
@@ -61,7 +62,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // from given set of faces, choose one with best parameters
         [[deprecated]] QString best(const QStringList& faces);
 
-        Person::Fingerprint getFingerprint(const QImage& face);
+        Person::Fingerprint getFingerprint(const OrientedImage& image, const QRect& face = QRect());
 
         int recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known);
 
