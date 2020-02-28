@@ -162,7 +162,7 @@ namespace
     {
         auto closest = std::min_element(distances.cbegin(), distances.cend());
 
-        return *closest > 0.6? -1 : static_cast<int>(std::distance(distances.cbegin(), closest));
+        return (closest == distances.cend() || *closest > 0.6)? -1 : static_cast<int>(std::distance(distances.cbegin(), closest));
     }
 
 
