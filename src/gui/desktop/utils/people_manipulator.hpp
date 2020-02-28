@@ -43,9 +43,15 @@ class PeopleManipulator: public QObject
         ICoreFactoryAccessor& m_core;
         Database::IDatabase& m_db;
 
+        void runOnThread(void (PeopleManipulator::*)());
+
         void findFaces();
         void findFaces_thrd();
         void findFaces_result(const QVector<QRect> &);
+
+        void recognizeFaces();
+        void recognizeFaces_thrd();
+        void recognizeFaces_result();
 };
 
 #endif // PEOPLEMANIPULATOR_HPP

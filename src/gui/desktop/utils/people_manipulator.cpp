@@ -20,6 +20,8 @@
 #include <QFileInfo>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/iexif_reader.hpp>
+#include <core/oriented_image.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -37,6 +39,8 @@ struct ExecutorTraits<Database::IDatabase, T>
 
 namespace
 {
+    const QString faces_recognized_flag = QStringLiteral("faces_recognized");
+
     std::vector<QRect> fetchFacesFromDb(Database::IDatabase& db, Photo::Id id)
     {
         return evaluate<std::vector<QRect>(Database::IBackend*)>
@@ -50,6 +54,68 @@ namespace
                     faces.push_back(person.rect);
 
             return faces;
+        });
+    }
+
+    std::vector<PersonInfo> fetchPeopleFromDb(Database::IDatabase& db, Photo::Id id)
+    {
+        return evaluate<std::vector<PersonInfo>(Database::IBackend *)>
+            (&db, [id](Database::IBackend* backend)
+        {
+            auto people = backend->listPeople(id);
+
+            return people;
+        });
+    }
+
+    auto fetchPeopleAndFingerprints(Database::IDatabase& db)
+    {
+        typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
+
+        return evaluate<Result(Database::IBackend *)>
+                                                (&db, [](Database::IBackend* backend)
+        {
+            std::vector<Person::Fingerprint> people_fingerprints;
+            std::vector<Person::Id> people;
+
+            const auto all_people = backend->listPeople();
+            for(const auto& person: all_people)
+            {
+                const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
+
+                if (fingerprints.empty() == false)
+                {
+                    people_fingerprints.push_back(fingerprints.front());
+                    people.push_back(person.id());
+                }
+            }
+
+            return std::tuple(people_fingerprints, people);
+        });
+    }
+
+    PersonName personData(Database::IDatabase& db, const Person::Id& id)
+    {
+        const PersonName person =evaluate<PersonName (Database::IBackend *)>
+            (&db, [id](Database::IBackend* backend)
+        {
+            const auto people = backend->person(id);
+
+            return people;
+        });
+
+        return person;
+    }
+
+    bool wasAnalyzed(Database::IDatabase& db, const Photo::Id& id)
+    {
+        return evaluate<bool(Database::IBackend *)>
+            (&db, [id](Database::IBackend* backend)
+        {
+            const auto value = backend->get(id, faces_recognized_flag);
+            const bool result = value.has_value() && *value > 0;
+
+            return result;
         });
     }
 
@@ -78,13 +144,19 @@ PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& 
 }
 
 
-void PeopleManipulator::findFaces()
+void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
-    auto task = std::bind(&PeopleManipulator::findFaces_thrd, this);
+    auto task = std::bind(method, this);
     auto safe_task = m_callback_ctrl.make_safe_callback<void()>(task);
     auto executor = m_core.getTaskExecutor();
 
     runOn(executor, safe_task);
+}
+
+
+void PeopleManipulator::findFaces()
+{
+    runOnThread(&PeopleManipulator::findFaces_thrd);
 }
 
 
@@ -121,4 +193,62 @@ void PeopleManipulator::findFaces_result(const QVector<QRect>& faces)
     m_faces.reserve(faces.size());
 
     std::copy(faces.cbegin(), faces.cend(), std::back_inserter(m_faces));
+
+    recognizeFaces();
+}
+
+
+void PeopleManipulator::recognizeFaces()
+{
+    runOnThread(&PeopleManipulator::recognizeFaces_thrd);
+}
+
+
+void PeopleManipulator::recognizeFaces_thrd()
+{
+    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb(m_db, m_pid);
+    const QString path = pathFor(&m_db, m_pid);
+    const QFileInfo pathInfo(path);
+    const QString full_path = pathInfo.absoluteFilePath();
+    const OrientedImage img(m_core.getExifReaderFactory()->get(), full_path);
+    const auto people_fingerprints = fetchPeopleAndFingerprints(m_db);
+
+    PersonName result;
+
+    for (FaceInfo& faceInfo: m_faces)
+    {
+        // check if we have data for given face rect in db
+        auto person_it = std::find_if(peopleData.cbegin(), peopleData.cend(), [faceInfo](const PersonInfo& pi)
+        {
+            return pi.rect == faceInfo.rect;
+        });
+
+        if (person_it != peopleData.cend() && person_it->p_id)   // rect matches and person name is set
+            result = personData(m_db, person_it->p_id);          // use stored name
+        else if (wasAnalyzed(m_db, m_pid) == false)              // we do not have data, try to guess if we havn't tried in the past
+        {
+            FaceRecognition face_recognition(&m_core);
+
+            const auto fingerprint = face_recognition.getFingerprint(img, faceInfo.rect);
+            const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
+            const int pos = face_recognition.recognize(fingerprint, known_fingerprints);
+
+            if (pos >= 0)
+            {
+                const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
+                const Person::Id found_person = known_people[pos];
+                result = personData(m_db, found_person);
+
+                //const QString msg = QString("%1 recognized on photo").arg(result.name());
+                //m_logger->debug(msg);
+            }
+        }
+        else                                                    // No match in db, also we already tried FaceRecognition for this photo. Nothing else we can do here
+        {}
+    }
+}
+
+
+void PeopleManipulator::recognizeFaces_result()
+{
 }
