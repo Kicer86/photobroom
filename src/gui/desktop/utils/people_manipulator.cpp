@@ -94,6 +94,19 @@ namespace
         });
     }
 
+    auto fetchFingerprints(Database::IDatabase& db, const std::vector<PersonInfo::Id>& ids)
+    {
+        typedef std::map<PersonInfo::Id, Person::Fingerprint> Result;
+
+        return evaluate<Result(Database::IBackend *)>
+                        (&db, [ids](Database::IBackend* backend)
+        {
+            const Result result = backend->peopleInformationAccessor().fingerprintsFor(ids);
+
+            return result;
+        });
+    }
+
     PersonName personData(Database::IDatabase& db, const Person::Id& id)
     {
         const PersonName person =evaluate<PersonName (Database::IBackend *)>
@@ -204,6 +217,29 @@ void PeopleManipulator::recognizeFaces()
 }
 
 
+void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
+{
+    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb(m_db, m_pid);
+
+    for (FaceInfo& faceInfo: m_faces)
+    {
+        // check if we have data for given face rect in db
+        auto person_it = std::find_if(peopleData.cbegin(), peopleData.cend(), [faceInfo](const PersonInfo& pi)
+        {
+            return pi.rect == faceInfo.face.rect;
+        });
+
+        if (person_it != peopleData.cend())   // rect matches
+        {
+            if (person_it->p_id)
+                faceInfo.name = personData(m_db, person_it->p_id);     // fill name
+
+            faceInfo.face = *person_it;
+        }
+    }
+}
+
+
 void PeopleManipulator::recognizeFaces_thrd()
 {
     const std::vector<PersonInfo> peopleData = fetchPeopleFromDb(m_db, m_pid);
@@ -220,7 +256,7 @@ void PeopleManipulator::recognizeFaces_thrd()
         // check if we have data for given face rect in db
         auto person_it = std::find_if(peopleData.cbegin(), peopleData.cend(), [faceInfo](const PersonInfo& pi)
         {
-            return pi.rect == faceInfo.rect;
+            return pi.rect == faceInfo.face.rect;
         });
 
         if (person_it != peopleData.cend() && person_it->p_id)   // rect matches and person name is set
@@ -229,7 +265,7 @@ void PeopleManipulator::recognizeFaces_thrd()
         {
             FaceRecognition face_recognition(&m_core);
 
-            const auto fingerprint = face_recognition.getFingerprint(img, faceInfo.rect);
+            const auto fingerprint = face_recognition.getFingerprint(img, faceInfo.face.rect);
             const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
             const int pos = face_recognition.recognize(fingerprint, known_fingerprints);
 

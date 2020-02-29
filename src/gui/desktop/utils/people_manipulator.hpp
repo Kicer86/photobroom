@@ -32,9 +32,14 @@ class PeopleManipulator: public QObject
     private:
         struct FaceInfo
         {
-            QRect rect;
+            PersonInfo face;
+            PersonName name;
+            Person::Fingerprint fingerprint;
 
-            FaceInfo(const QRect& r): rect(r) {}
+            FaceInfo(const QRect& r)
+            {
+                face.rect = r;
+            }
         };
 
         safe_callback_ctrl m_callback_ctrl;
@@ -50,6 +55,7 @@ class PeopleManipulator: public QObject
         void findFaces_result(const QVector<QRect> &);
 
         void recognizeFaces();
+        void recognizeFaces_thrd_fetch_from_db();
         void recognizeFaces_thrd();
         void recognizeFaces_result();
 };
