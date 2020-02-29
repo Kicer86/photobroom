@@ -21,7 +21,6 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
-#include <core/oriented_image.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -176,14 +175,16 @@ void PeopleManipulator::findFaces()
 void PeopleManipulator::findFaces_thrd()
 {
     QVector<QRect> result;
+
+    const QString path = pathFor(&m_db, m_pid);
+    const QFileInfo pathInfo(path);
+    const QString full_path = pathInfo.absoluteFilePath();
+    m_image = OrientedImage(m_core.getExifReaderFactory()->get(), full_path);
+
     const std::vector<QRect> list_of_faces = fetchFacesFromDb(m_db, m_pid);
 
     if (list_of_faces.empty())
     {
-        const QString path = pathFor(&m_db, m_pid);
-        const QFileInfo pathInfo(path);
-        const QString full_path = pathInfo.absoluteFilePath();
-
         FaceRecognition face_recognition(&m_core);
         const auto faces = face_recognition.fetchFaces(full_path);
 
@@ -254,6 +255,41 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
 
             if (it != fingerprints.end())
                 faceInfo.fingerprint = it->second;
+        }
+}
+
+
+void PeopleManipulator::recognizeFaces_calculate_missing_fingerprints()
+{
+    for (FaceInfo& faceInfo: m_faces)
+        if (faceInfo.fingerprint.empty())
+        {
+            FaceRecognition face_recognition(&m_core);
+
+            const auto fingerprint = face_recognition.getFingerprint(m_image, faceInfo.face.rect);
+
+            faceInfo.fingerprint = fingerprint;
+        }
+}
+
+
+void PeopleManipulator::recognizeFaces_recognize_people()
+{
+    FaceRecognition face_recognition(&m_core);
+    const auto people_fingerprints = fetchPeopleAndFingerprints(m_db);
+    const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
+
+    for (FaceInfo& faceInfo: m_faces)
+        if (faceInfo.name.name().isEmpty())
+        {
+            const int pos = face_recognition.recognize(faceInfo.fingerprint, known_fingerprints);
+
+            if (pos >=0)
+            {
+                const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
+                const Person::Id found_person = known_people[pos];
+                faceInfo.name = personData(m_db, found_person);
+            }
         }
 }
 

@@ -19,6 +19,7 @@
 #define PEOPLEMANIPULATOR_HPP
 
 #include <core/function_wrappers.hpp>
+#include <core/oriented_image.hpp>
 #include <database/photo_types.hpp>
 #include <database/idatabase.hpp>
 
@@ -44,6 +45,7 @@ class PeopleManipulator: public QObject
 
         safe_callback_ctrl m_callback_ctrl;
         std::vector<FaceInfo> m_faces;
+        OrientedImage m_image;
         Photo::Id m_pid;
         ICoreFactoryAccessor& m_core;
         Database::IDatabase& m_db;
@@ -56,6 +58,8 @@ class PeopleManipulator: public QObject
 
         void recognizeFaces();
         void recognizeFaces_thrd_fetch_from_db();
+        void recognizeFaces_calculate_missing_fingerprints();
+        void recognizeFaces_recognize_people();
         void recognizeFaces_thrd();
         void recognizeFaces_result();
 };
