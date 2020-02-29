@@ -237,6 +237,24 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
             faceInfo.face = *person_it;
         }
     }
+
+    // collect faces and try to access theirs fingerprints
+    std::vector<PersonInfo::Id> faces_ids;
+
+    for (FaceInfo& faceInfo: m_faces)
+        if (faceInfo.face.id.valid())
+            faces_ids.push_back(faceInfo.face.id);
+
+    const auto fingerprints = fetchFingerprints(m_db, faces_ids);
+
+    for (FaceInfo& faceInfo: m_faces)
+        if (faceInfo.face.id.valid())
+        {
+            auto it = fingerprints.find(faceInfo.face.id);
+
+            if (it != fingerprints.end())
+                faceInfo.fingerprint = it->second;
+        }
 }
 
 
