@@ -64,22 +64,27 @@ namespace Database
     }
 
 
-    std::vector<Person::Fingerprint> PeopleInformationAccessor::fingerprintsFor(const PersonInfo::Id& id)
+    std::map<PersonInfo::Id, Person::Fingerprint> PeopleInformationAccessor::fingerprintsFor(const std::vector<PersonInfo::Id>& ids)
     {
-        const QString sql_query = QString("SELECT fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.id = %3")
+        QStringList ids_list;
+        for(const auto& id: ids)
+            ids_list.append(QString::number(id));
+
+        const QString sql_query = QString("SELECT %2.id, fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.id IN(%3)")
                                     .arg(TAB_FACES_FINGERPRINTS)
                                     .arg(TAB_PEOPLE)
-                                    .arg(id);
+                                    .arg(ids_list.join(","));
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
         m_executor.exec(sql_query, &query);
 
-        std::vector<Person::Fingerprint> result;
+        std::map<PersonInfo::Id, Person::Fingerprint> result;
 
         while(query.next())
         {
-            const QByteArray raw_fingerprint = query.value(0).toByteArray();
+            const PersonInfo::Id id(query.value(0).toInt());
+            const QByteArray raw_fingerprint = query.value(1).toByteArray();
             const QList<QByteArray> splitted = raw_fingerprint.split(' ');
 
             Person::Fingerprint fingerprint;
@@ -88,7 +93,7 @@ namespace Database
             for(const QByteArray& component: splitted)
                 fingerprint.push_back(component.toDouble());
 
-            result.push_back(fingerprint);
+            result.emplace(id, fingerprint);
         }
 
         return result;

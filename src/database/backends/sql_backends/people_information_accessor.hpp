@@ -31,7 +31,7 @@ namespace Database
             PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &);
 
             std::vector<Person::Fingerprint> fingerprintsFor(const Person::Id &) override;
-            std::vector<Person::Fingerprint> fingerprintsFor(const PersonInfo::Id &) override;
+            std::map<PersonInfo::Id, Person::Fingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
 
         private:
             const QString m_connectionName;
