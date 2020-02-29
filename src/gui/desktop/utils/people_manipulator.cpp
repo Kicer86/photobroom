@@ -296,46 +296,9 @@ void PeopleManipulator::recognizeFaces_recognize_people()
 
 void PeopleManipulator::recognizeFaces_thrd()
 {
-    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb(m_db, m_pid);
-    const QString path = pathFor(&m_db, m_pid);
-    const QFileInfo pathInfo(path);
-    const QString full_path = pathInfo.absoluteFilePath();
-    const OrientedImage img(m_core.getExifReaderFactory()->get(), full_path);
-    const auto people_fingerprints = fetchPeopleAndFingerprints(m_db);
-
-    PersonName result;
-
-    for (FaceInfo& faceInfo: m_faces)
-    {
-        // check if we have data for given face rect in db
-        auto person_it = std::find_if(peopleData.cbegin(), peopleData.cend(), [faceInfo](const PersonInfo& pi)
-        {
-            return pi.rect == faceInfo.face.rect;
-        });
-
-        if (person_it != peopleData.cend() && person_it->p_id)   // rect matches and person name is set
-            result = personData(m_db, person_it->p_id);          // use stored name
-        else if (wasAnalyzed(m_db, m_pid) == false)              // we do not have data, try to guess if we havn't tried in the past
-        {
-            FaceRecognition face_recognition(&m_core);
-
-            const auto fingerprint = face_recognition.getFingerprint(img, faceInfo.face.rect);
-            const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
-            const int pos = face_recognition.recognize(fingerprint, known_fingerprints);
-
-            if (pos >= 0)
-            {
-                const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
-                const Person::Id found_person = known_people[pos];
-                result = personData(m_db, found_person);
-
-                //const QString msg = QString("%1 recognized on photo").arg(result.name());
-                //m_logger->debug(msg);
-            }
-        }
-        else                                                    // No match in db, also we already tried FaceRecognition for this photo. Nothing else we can do here
-        {}
-    }
+    recognizeFaces_thrd_fetch_from_db();
+    recognizeFaces_calculate_missing_fingerprints();
+    recognizeFaces_recognize_people();
 }
 
 
