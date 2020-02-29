@@ -63,4 +63,35 @@ namespace Database
         return result;
     }
 
+
+    std::vector<Person::Fingerprint> PeopleInformationAccessor::fingerprintsFor(const PersonInfo::Id& id)
+    {
+        const QString sql_query = QString("SELECT fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.id = %3")
+                                    .arg(TAB_FACES_FINGERPRINTS)
+                                    .arg(TAB_PEOPLE)
+                                    .arg(id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+        m_executor.exec(sql_query, &query);
+
+        std::vector<Person::Fingerprint> result;
+
+        while(query.next())
+        {
+            const QByteArray raw_fingerprint = query.value(0).toByteArray();
+            const QList<QByteArray> splitted = raw_fingerprint.split(' ');
+
+            Person::Fingerprint fingerprint;
+            fingerprint.reserve(splitted.size());
+
+            for(const QByteArray& component: splitted)
+                fingerprint.push_back(component.toDouble());
+
+            result.push_back(fingerprint);
+        }
+
+        return result;
+    }
+
 }

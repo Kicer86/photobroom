@@ -13,6 +13,7 @@ namespace Database
             virtual ~IPeopleInformationAccessor() = default;
 
             virtual std::vector<Person::Fingerprint> fingerprintsFor(const Person::Id &) = 0;
+            virtual std::vector<Person::Fingerprint> fingerprintsFor(const PersonInfo::Id &) = 0;
     };
 }
 
