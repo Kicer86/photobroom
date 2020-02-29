@@ -299,6 +299,8 @@ void PeopleManipulator::recognizeFaces_thrd()
     recognizeFaces_thrd_fetch_from_db();
     recognizeFaces_calculate_missing_fingerprints();
     recognizeFaces_recognize_people();
+
+    invokeMethod(this, &PeopleManipulator::recognizeFaces_result);
 }
 
 
