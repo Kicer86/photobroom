@@ -106,9 +106,19 @@ namespace
         });
     }
 
+    std::vector<PersonName> fetchPeople(Database::IDatabase& db)
+    {
+        return evaluate<std::vector<PersonName>(Database::IBackend *)>(&db, [](Database::IBackend* backend)
+        {
+            auto people = backend->listPeople();
+
+            return people;
+        });
+    }
+
     PersonName personData(Database::IDatabase& db, const Person::Id& id)
     {
-        const PersonName person =evaluate<PersonName (Database::IBackend *)>
+        const PersonName person = evaluate<PersonName (Database::IBackend *)>
             (&db, [id](Database::IBackend* backend)
         {
             const auto people = backend->person(id);
@@ -119,16 +129,17 @@ namespace
         return person;
     }
 
-    bool wasAnalyzed(Database::IDatabase& db, const Photo::Id& id)
+    PersonName storeNewPerson(Database::IDatabase& db, const QString& name)
     {
-        return evaluate<bool(Database::IBackend *)>
-            (&db, [id](Database::IBackend* backend)
+        const PersonName person = evaluate<PersonName (Database::IBackend *)>
+                (&db, [name](Database::IBackend* backend)
         {
-            const auto value = backend->get(id, faces_recognized_flag);
-            const bool result = value.has_value() && *value > 0;
-
-            return result;
+            const PersonName d(Person::Id(), name);
+            const auto id = backend->store(d);
+            return PersonName(id, name);
         });
+
+        return person;
     }
 
     QString pathFor(Database::IDatabase* db, const Photo::Id& id)
@@ -186,7 +197,40 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 
 void PeopleManipulator::store()
 {
+    const std::vector<PersonName> people = fetchPeople(m_db);
 
+    // make sure each name is known (exists in db)
+    for (auto& face: m_faces)
+        if (face.name.id().valid() == false && face.name.name().isEmpty() == false)  // no id + name set
+        {
+            const QString& name = face.name.name();
+
+            auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
+            {
+                return d.name() == name;
+            });
+
+            if (it == people.cend())        // new name, store it in db
+                face.name = storeNewPerson(m_db, name);
+            else
+                face.name = *it;
+        }
+
+    // update names assigned to face locations
+    for (auto& face: m_faces)
+        if (face.name.id())
+            face.face.p_id = face.name.id();
+
+    // store face locations
+    for (const auto& face: m_faces)
+    {
+        const PersonInfo& faceInfo = face.face;
+
+        m_db.exec([faceInfo](Database::IBackend* backend)
+        {
+            backend->store(faceInfo);
+        });
+    }
 }
 
 
