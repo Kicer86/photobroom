@@ -21,21 +21,25 @@
 #include <vector>
 
 #include "database/ipeople_information_accessor.hpp"
-#include "isql_query_executor.hpp"
 
 namespace Database
 {
+    struct ISqlQueryExecutor;
+    struct IGenericSqlQueryGenerator;
+
     class PeopleInformationAccessor: public IPeopleInformationAccessor
     {
         public:
-            PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &);
+            PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &, const IGenericSqlQueryGenerator &);
 
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
+            void assign(const PersonInfo::Id &, const PersonFingerprint &) override;
 
         private:
             const QString m_connectionName;
             Database::ISqlQueryExecutor& m_executor;
+            const IGenericSqlQueryGenerator& m_query_generator;
     };
 }
 

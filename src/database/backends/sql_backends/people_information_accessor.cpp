@@ -21,13 +21,19 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "isql_query_executor.hpp"
+#include "isql_query_constructor.hpp"
 #include "tables.hpp"
+#include "query_structs.hpp"
 
 namespace Database
 {
-    PeopleInformationAccessor::PeopleInformationAccessor(const QString& connectionName, Database::ISqlQueryExecutor& queryExecutor)
+    PeopleInformationAccessor::PeopleInformationAccessor(const QString& connectionName,
+                                                         Database::ISqlQueryExecutor& queryExecutor,
+                                                         const IGenericSqlQueryGenerator& query_generator)
         : m_connectionName(connectionName)
         , m_executor(queryExecutor)
+        , m_query_generator(query_generator)
     {
 
     }
@@ -99,6 +105,67 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    void PeopleInformationAccessor::assign(const PersonInfo::Id& pid, const PersonFingerprint& fingerprint)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        QStringList fingerprint_list;
+        for(double b: fingerprint.fingerprint())
+            fingerprint_list.append(QString::number(b));
+
+        const QString fingerprint_raw = fingerprint_list.join(" ");
+
+        PersonFingerprint::Id fid;
+
+        if (fingerprint.id().valid())
+        {
+            if (fingerprint.fingerprint().empty())
+            {
+                const QString delete_query = QString ("DELETE from %1 WHERE id = %2")
+                                                .arg(TAB_FACES_FINGERPRINTS)
+                                                .arg(fingerprint.id());
+
+                QSqlQuery query(db);
+                m_executor.exec(delete_query, &query);
+            }
+            else
+            {
+                UpdateQueryData updateData(TAB_FACES_FINGERPRINTS);
+                updateData.addColumn("fingerprint");
+                updateData.addValue(fingerprint_raw);
+                updateData.addCondition("id", QString::number(fingerprint.id()));
+
+                QSqlQuery query(db);
+                query = m_query_generator.update(db, updateData);
+
+                m_executor.exec(query);
+            }
+        }
+        else
+        {
+            InsertQueryData insertData(TAB_FACES_FINGERPRINTS);
+            insertData.addColumn("fingerprint");
+            insertData.addValue(fingerprint_raw);
+
+            QSqlQuery query(db);
+            query = m_query_generator.insert(db, insertData);
+
+            m_executor.exec(query);
+            fid = PersonFingerprint::Id(query.lastInsertId().toInt());
+        }
+
+        UpdateQueryData updateData(TAB_PEOPLE);
+        updateData.addColumn("fingerprint_id");
+        updateData.addValue(fid.valid()? QString::number(fid.value()) : QString());
+        updateData.addCondition("id", QString::number(pid));
+
+        QSqlQuery query(db);
+        query = m_query_generator.update(db, updateData);
+
+        m_executor.exec(query);
     }
 
 }

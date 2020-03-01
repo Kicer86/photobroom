@@ -221,14 +221,16 @@ void PeopleManipulator::store()
         if (face.name.id().valid())
             face.face.p_id = face.name.id();
 
-    // store face locations
+    // store face locations with fingerprints
     for (const auto& face: m_faces)
     {
         const PersonInfo& faceInfo = face.face;
+        const PersonFingerprint& fingerprint = face.fingerprint;
 
-        m_db.exec([faceInfo](Database::IBackend* backend)
+        m_db.exec([faceInfo, fingerprint](Database::IBackend* backend)
         {
-            backend->store(faceInfo);
+            const PersonInfo::Id pid = backend->store(faceInfo);
+            backend->peopleInformationAccessor().assign(pid, fingerprint);
         });
     }
 }

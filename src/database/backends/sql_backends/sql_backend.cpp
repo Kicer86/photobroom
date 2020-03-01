@@ -60,7 +60,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
-        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor); }),
+        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
         m_executor(),
