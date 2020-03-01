@@ -95,7 +95,6 @@ endif()
 set(CORE_RESOURCE_FILES     images/images.qrc)
 
 qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
-qt5_wrap_cpp(CORE_WRAPPED ${CORE_MOC_FILES})
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 
