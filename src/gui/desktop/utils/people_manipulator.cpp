@@ -218,7 +218,7 @@ void PeopleManipulator::store()
 
     // update names assigned to face locations
     for (auto& face: m_faces)
-        if (face.name.id())
+        if (face.name.id().valid())
             face.face.p_id = face.name.id();
 
     // store face locations
