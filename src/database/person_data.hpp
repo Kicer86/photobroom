@@ -60,6 +60,7 @@ class DATABASE_EXPORT PersonName final
         QString m_name;
 };
 
+
 class DATABASE_EXPORT PersonInfo
 {
         static const char Name[16];
@@ -99,6 +100,26 @@ class DATABASE_EXPORT PersonInfo
                    ph_id == other.ph_id &&
                    rect == other.rect;
         }
+};
+
+
+class PersonFingerprint
+{
+        static constexpr char Name[16] = "Fingerprint";
+
+    public:
+        typedef ::Id<int, Name> Id;
+
+        PersonFingerprint() {}
+        PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
+        PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+
+        const Id& id() const { return m_id; }
+        const Person::Fingerprint& fingerprint() const { return m_fingerprint; }
+
+    private:
+        Person::Fingerprint m_fingerprint;
+        Id m_id;
 };
 
 Q_DECLARE_METATYPE( PersonName )
