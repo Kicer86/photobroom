@@ -313,7 +313,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
 
         if (person_it != peopleData.cend())   // rect matches
         {
-            if (person_it->p_id)
+            if (person_it->p_id.valid())
                 faceInfo.name = personData(m_db, person_it->p_id);     // fill name
 
             faceInfo.face = *person_it;
