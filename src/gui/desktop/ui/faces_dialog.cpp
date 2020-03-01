@@ -58,8 +58,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
-    m_exif(coreAccessor->getExifReaderFactory()->get()),
-    m_facesToAnalyze(0)
+    m_exif(coreAccessor->getExifReaderFactory()->get())
 {
     ui->setupUi(this);
     ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
@@ -125,11 +124,6 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
         const long idx = std::distance(m_faces.cbegin(), it);
         ui->peopleList->setItem(idx, 0, new QTableWidgetItem(name));
     }
-
-    m_facesToAnalyze--;
-
-    if (m_facesToAnalyze == 0)
-        ui->statusLabel->setText(tr("All known faces recognized."));
 }
 
 
