@@ -306,4 +306,5 @@ void PeopleManipulator::recognizeFaces_thrd()
 
 void PeopleManipulator::recognizeFaces_result()
 {
+    emit facesAnalyzed();
 }

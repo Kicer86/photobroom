@@ -27,8 +27,13 @@ struct ICoreFactoryAccessor;
 
 class PeopleManipulator: public QObject
 {
+        Q_OBJECT
+
     public:
         PeopleManipulator(const Photo::Id &, Database::IDatabase &, ICoreFactoryAccessor &);
+
+    signals:
+        void facesAnalyzed() const;
 
     private:
         struct FaceInfo
