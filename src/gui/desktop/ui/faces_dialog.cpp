@@ -54,7 +54,7 @@ namespace
 FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFactory, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
     m_id(data.id),
-    m_people(prj->getDatabase(), coreAccessor),
+    m_peopleManipulator(data.id, *prj->getDatabase(), *coreAccessor),
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
@@ -72,22 +72,13 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(ui->scaleSlider, &QSlider::valueChanged,
             this, &FacesDialog::updateImage);
 
-    connect(&m_people, &PeopleOperator::faces,
-            this, &FacesDialog::applyFacesLocations);
-
-    connect(&m_people, &PeopleOperator::recognized,
-            this, &FacesDialog::applyFaceName);
-
-    connect(&m_people, &PeopleOperator::unassigned,
-            this, &FacesDialog::applyUnassigned);
+    connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
+            this, &FacesDialog::updateFaceInformation);
 
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
     ui->statusLabel->setText(tr("Locating faces..."));
-
-    m_people.findFaces(m_id);
-    m_people.getUnassignedPeople(m_id);
 
     updateImage();
 }
@@ -99,23 +90,26 @@ FacesDialog::~FacesDialog()
 }
 
 
-void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
+void FacesDialog::updateFaceInformation()
 {
-    const QString status = faces.isEmpty()? tr("Found %n face(s).", "", faces.size()) :
-                                            tr("Found %n face(s). Recognizing people...", "", faces.size());
+    const auto faces_count = m_peopleManipulator.facesCount();
+    const QString status = tr("Found %n face(s).", "", faces_count);
 
     ui->statusLabel->setText(status);
 
-    m_faces = faces;
+    m_faces.clear();
+    for(std::size_t i = 0; i < faces_count; i++)
+        m_faces.push_back(m_peopleManipulator.position(i));
+
     updateImage();
     updatePeopleList();
 
-    m_facesToAnalyze = faces.size();
-
-    for(const QRect& face: faces)
+    for(std::size_t i = 0; i < faces_count; i++)
     {
-        PeopleOperator::FaceLocation fl(m_id, face);
-        m_people.recognize(fl);
+        const QRect& pos = m_peopleManipulator.position(i);
+        const QString& name = m_peopleManipulator.name(i);
+
+        applyFaceName(pos, name);
     }
 }
 
@@ -227,6 +221,7 @@ void FacesDialog::setUnassignedVisible(bool visible)
 
 void FacesDialog::apply()
 {
+    /*
     std::vector<PeopleOperator::FaceInfo> known_faces;
     QStringList unknownPeople;
 
@@ -254,4 +249,5 @@ void FacesDialog::apply()
     }
 
     m_people.store(m_id, known_faces, unknownPeople);
+    */
 }

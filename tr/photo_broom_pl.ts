@@ -164,12 +164,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+87"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+81"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
     <message numerus="yes">
-        <location line="+17"/>
+        <location line="+15"/>
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
@@ -177,17 +177,8 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
             <numerusform>Znaleziono %n twarzy.</numerusform>
         </translation>
     </message>
-    <message numerus="yes">
-        <location line="+1"/>
-        <source>Found %n face(s). Recognizing people...</source>
-        <translation>
-            <numerusform>Znaleziono %n twarz. Rozpoznawanie ludzi...</numerusform>
-            <numerusform>Znaleziono %n twarze. Rozpoznawanie ludzi...</numerusform>
-            <numerusform>Znaleziono %n twarzy. Rozpoznawanie ludzi...</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="+33"/>
+        <location line="+36"/>
         <source>All known faces recognized.</source>
         <translation>Wszystkie znane osoby rozpoznane.</translation>
     </message>

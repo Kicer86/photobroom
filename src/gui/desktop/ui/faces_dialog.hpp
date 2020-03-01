@@ -8,7 +8,7 @@
 #include <database/person_data.hpp>
 #include <face_recognition/face_recognition.hpp>
 
-#include "utils/people_operator.hpp"
+#include "utils/people_manipulator.hpp"
 
 
 class QTableWidgetItem;
@@ -33,14 +33,14 @@ class FacesDialog: public QDialog
 
     private:
         const Photo::Id m_id;
-        PeopleOperator m_people;
+        PeopleManipulator m_peopleManipulator;
         QVector<QRect> m_faces;
         QString m_photoPath;
         Ui::FacesDialog *ui;
         IExifReader* m_exif;
         int m_facesToAnalyze;
 
-        void applyFacesLocations(const QVector<QRect> &);
+        void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);
         void applyUnassigned(const Photo::Id &, const QStringList &);
         void updateImage();
