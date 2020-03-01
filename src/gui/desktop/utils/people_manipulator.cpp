@@ -174,6 +174,13 @@ const QRect& PeopleManipulator::position(std::size_t n) const
 }
 
 
+void PeopleManipulator::setName(std::size_t n, const QString& name)
+{
+    if (n < m_faces.size())
+        m_faces[n].name.setName(name);
+}
+
+
 void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
     auto task = std::bind(method, this);
