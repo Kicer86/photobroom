@@ -54,6 +54,7 @@ class DATABASE_EXPORT PersonName final
 
         const Person::Id& id() const;
         const QString& name() const;
+        void setName(const QString &);
 
     private:
         Person::Id m_id;

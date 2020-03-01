@@ -68,3 +68,9 @@ const QString& PersonName::name() const
 {
     return m_name;
 }
+
+
+void PersonName::setName(const QString& name)
+{
+    m_name = name;
+}
