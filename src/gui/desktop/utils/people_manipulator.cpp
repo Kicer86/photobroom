@@ -156,9 +156,9 @@ PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& 
 }
 
 
-int PeopleManipulator::facesCount() const
+std::size_t PeopleManipulator::facesCount() const
 {
-    return static_cast<int>(m_faces.size());
+    return m_faces.size();
 }
 
 
