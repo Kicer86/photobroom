@@ -74,6 +74,9 @@ class PeopleManipulator: public QObject
         void recognizeFaces_recognize_people();
         void recognizeFaces_thrd();
         void recognizeFaces_result();
+
+        void store_people_names();
+        void store_people_information();
 };
 
 #endif // PEOPLEMANIPULATOR_HPP

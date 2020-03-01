@@ -197,42 +197,14 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 
 void PeopleManipulator::store()
 {
-    const std::vector<PersonName> people = fetchPeople(m_db);
-
-    // make sure each name is known (exists in db)
-    for (auto& face: m_faces)
-        if (face.name.id().valid() == false && face.name.name().isEmpty() == false)  // no id + name set
-        {
-            const QString& name = face.name.name();
-
-            auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
-            {
-                return d.name() == name;
-            });
-
-            if (it == people.cend())        // new name, store it in db
-                face.name = storeNewPerson(m_db, name);
-            else
-                face.name = *it;
-        }
+    store_people_names();
 
     // update names assigned to face locations
     for (auto& face: m_faces)
         if (face.name.id().valid())
             face.face.p_id = face.name.id();
 
-    // store face locations with fingerprints
-    for (const auto& face: m_faces)
-    {
-        const PersonInfo& faceInfo = face.face;
-        const PersonFingerprint& fingerprint = face.fingerprint;
-
-        m_db.exec([faceInfo, fingerprint](Database::IBackend* backend)
-        {
-            const PersonInfo::Id pid = backend->store(faceInfo);
-            backend->peopleInformationAccessor().assign(pid, fingerprint);
-        });
-    }
+    store_people_information();
 }
 
 
@@ -390,4 +362,44 @@ void PeopleManipulator::recognizeFaces_thrd()
 void PeopleManipulator::recognizeFaces_result()
 {
     emit facesAnalyzed();
+}
+
+
+void PeopleManipulator::store_people_names()
+{
+    const std::vector<PersonName> people = fetchPeople(m_db);
+
+    // make sure each name is known (exists in db)
+    for (auto& face: m_faces)
+        if (face.name.id().valid() == false && face.name.name().isEmpty() == false)  // no id + name set
+        {
+            const QString& name = face.name.name();
+
+            auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
+            {
+                return d.name() == name;
+            });
+
+            if (it == people.cend())        // new name, store it in db
+                face.name = storeNewPerson(m_db, name);
+            else
+                face.name = *it;
+        }
+
+}
+
+
+void PeopleManipulator::store_people_information()
+{
+    for (const auto& face: m_faces)
+    {
+        const PersonInfo& faceInfo = face.face;
+        const PersonFingerprint& fingerprint = face.fingerprint;
+
+        m_db.exec([faceInfo, fingerprint](Database::IBackend* backend)
+        {
+            const PersonInfo::Id pid = backend->store(faceInfo);
+            backend->peopleInformationAccessor().assign(pid, fingerprint);
+        });
+    }
 }
