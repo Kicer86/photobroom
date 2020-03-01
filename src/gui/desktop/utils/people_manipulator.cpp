@@ -176,13 +176,17 @@ const QRect& PeopleManipulator::position(std::size_t n) const
 
 void PeopleManipulator::setName(std::size_t n, const QString& name)
 {
-    if (n < m_faces.size())
-        m_faces[n].name.setName(name);
+    if (n < m_faces.size() && m_faces[n].name.name() != name)
+    {
+        PersonName new_name(name);
+        m_faces[n].name = new_name;
+    }
 }
 
 
 void PeopleManipulator::store()
 {
+
 }
 
 
