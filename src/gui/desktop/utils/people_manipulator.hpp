@@ -37,6 +37,7 @@ class PeopleManipulator: public QObject
         const QRect& position(std::size_t) const;
 
         void setName(std::size_t, const QString &);
+        void store();
 
     signals:
         void facesAnalyzed() const;

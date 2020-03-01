@@ -181,6 +181,11 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 }
 
 
+void PeopleManipulator::store()
+{
+}
+
+
 void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
     auto task = std::bind(method, this);
