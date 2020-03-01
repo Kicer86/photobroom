@@ -32,6 +32,10 @@ class PeopleManipulator: public QObject
     public:
         PeopleManipulator(const Photo::Id &, Database::IDatabase &, ICoreFactoryAccessor &);
 
+        int facesCount() const;
+        const QString& name(std::size_t) const;
+        const QRect& position(std::size_t) const;
+
     signals:
         void facesAnalyzed() const;
 

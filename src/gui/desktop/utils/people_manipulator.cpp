@@ -156,6 +156,24 @@ PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& 
 }
 
 
+int PeopleManipulator::facesCount() const
+{
+    return static_cast<int>(m_faces.size());
+}
+
+
+const QString& PeopleManipulator::name(std::size_t n) const
+{
+    return m_faces[n].name.name();
+}
+
+
+const QRect& PeopleManipulator::position(std::size_t n) const
+{
+    return m_faces[n].face.rect;
+}
+
+
 void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
     auto task = std::bind(method, this);
