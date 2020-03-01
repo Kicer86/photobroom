@@ -286,6 +286,9 @@ void PeopleManipulator::findFaces_result(const QVector<QRect>& faces)
 
     std::copy(faces.cbegin(), faces.cend(), std::back_inserter(m_faces));
 
+    for (auto& face: m_faces)
+        face.face.ph_id = m_pid;
+
     recognizeFaces();
 }
 
