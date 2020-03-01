@@ -77,6 +77,9 @@ class PeopleManipulator: public QObject
 
         void store_people_names();
         void store_people_information();
+
+        std::vector<QRect> fetchFacesFromDb() const;
+        std::vector<PersonInfo> fetchPeopleFromDb() const;
 };
 
 #endif // PEOPLEMANIPULATOR_HPP

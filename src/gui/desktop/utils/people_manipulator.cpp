@@ -40,33 +40,6 @@ namespace
 {
     const QString faces_recognized_flag = QStringLiteral("faces_recognized");
 
-    std::vector<QRect> fetchFacesFromDb(Database::IDatabase& db, Photo::Id id)
-    {
-        return evaluate<std::vector<QRect>(Database::IBackend*)>
-            (&db, [id](Database::IBackend* backend)
-        {
-            std::vector<QRect> faces;
-
-            const auto people = backend->listPeople(id);
-            for(const auto& person: people)
-                if (person.rect.isValid())
-                    faces.push_back(person.rect);
-
-            return faces;
-        });
-    }
-
-    std::vector<PersonInfo> fetchPeopleFromDb(Database::IDatabase& db, Photo::Id id)
-    {
-        return evaluate<std::vector<PersonInfo>(Database::IBackend *)>
-            (&db, [id](Database::IBackend* backend)
-        {
-            auto people = backend->listPeople(id);
-
-            return people;
-        });
-    }
-
     auto fetchPeopleAndFingerprints(Database::IDatabase& db)
     {
         typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
@@ -233,7 +206,7 @@ void PeopleManipulator::findFaces_thrd()
     const QString full_path = pathInfo.absoluteFilePath();
     m_image = OrientedImage(m_core.getExifReaderFactory()->get(), full_path);
 
-    const std::vector<QRect> list_of_faces = fetchFacesFromDb(m_db, m_pid);
+    const std::vector<QRect> list_of_faces = fetchFacesFromDb();
 
     if (list_of_faces.empty())
     {
@@ -275,7 +248,7 @@ void PeopleManipulator::recognizeFaces()
 
 void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
 {
-    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb(m_db, m_pid);
+    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb();
 
     for (FaceInfo& faceInfo: m_faces)
     {
@@ -402,4 +375,33 @@ void PeopleManipulator::store_people_information()
             backend->peopleInformationAccessor().assign(pid, fingerprint);
         });
     }
+}
+
+
+std::vector<QRect> PeopleManipulator::fetchFacesFromDb() const
+{
+    return evaluate<std::vector<QRect>(Database::IBackend*)>
+        (&m_db, [id = m_pid](Database::IBackend* backend)
+    {
+        std::vector<QRect> faces;
+
+        const auto people = backend->listPeople(id);
+        for(const auto& person: people)
+            if (person.rect.isValid())
+                faces.push_back(person.rect);
+
+        return faces;
+    });
+}
+
+
+std::vector<PersonInfo> PeopleManipulator::fetchPeopleFromDb() const
+{
+    return evaluate<std::vector<PersonInfo>(Database::IBackend *)>
+        (&m_db, [id = m_pid](Database::IBackend* backend)
+    {
+        auto people = backend->listPeople(id);
+
+        return people;
+    });
 }
