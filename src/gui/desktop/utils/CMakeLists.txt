@@ -36,23 +36,10 @@ set(UTILS_HEADERS
     grouppers/hdr_generator.hpp
 )
 
-
-set(UTILS_FILES_TO_MOC
-    people_operator.hpp
-    people_operator_p.hpp
-    photos_collector.hpp
-    selection_extractor.hpp
-    signal_filter.hpp
-    grouppers/animation_generator.hpp
-    grouppers/generator_utils.hpp
-    grouppers/hdr_generator.hpp
-)
-
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-qt5_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
-
-add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_WRAPPED_CPP} ${UTILS_HEADERS})
+add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_HEADERS})
+set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 set_target_properties(gui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_utils
                         PRIVATE
