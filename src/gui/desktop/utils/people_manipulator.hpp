@@ -47,7 +47,7 @@ class PeopleManipulator: public QObject
         {
             PersonInfo face;
             PersonName name;
-            Person::Fingerprint fingerprint;
+            PersonFingerprint fingerprint;
 
             FaceInfo(const QRect& r)
             {

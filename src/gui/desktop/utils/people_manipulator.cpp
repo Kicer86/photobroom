@@ -84,7 +84,7 @@ namespace
 
                 if (fingerprints.empty() == false)
                 {
-                    people_fingerprints.push_back(fingerprints.front());
+                    people_fingerprints.push_back(fingerprints.front().fingerprint());
                     people.push_back(person.id());
                 }
             }
@@ -95,7 +95,7 @@ namespace
 
     auto fetchFingerprints(Database::IDatabase& db, const std::vector<PersonInfo::Id>& ids)
     {
-        typedef std::map<PersonInfo::Id, Person::Fingerprint> Result;
+        typedef std::map<PersonInfo::Id, PersonFingerprint> Result;
 
         return evaluate<Result(Database::IBackend *)>
                         (&db, [ids](Database::IBackend* backend)
@@ -343,7 +343,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
 void PeopleManipulator::recognizeFaces_calculate_missing_fingerprints()
 {
     for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.fingerprint.empty())
+        if (faceInfo.fingerprint.id().valid() == false)
         {
             FaceRecognition face_recognition(&m_core);
 
@@ -363,7 +363,7 @@ void PeopleManipulator::recognizeFaces_recognize_people()
     for (FaceInfo& faceInfo: m_faces)
         if (faceInfo.name.name().isEmpty())
         {
-            const int pos = face_recognition.recognize(faceInfo.fingerprint, known_fingerprints);
+            const int pos = face_recognition.recognize(faceInfo.fingerprint.fingerprint(), known_fingerprints);
 
             if (pos >=0)
             {

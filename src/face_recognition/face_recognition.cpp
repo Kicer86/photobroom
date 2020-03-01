@@ -106,7 +106,7 @@ namespace
 
             if (fingerprints.empty() == false)
             {
-                encodings.push_back(fingerprints.front());
+                encodings.push_back(fingerprints.front().fingerprint());
                 people.push_back(person.id());
             }
         }
