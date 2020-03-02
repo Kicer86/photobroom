@@ -70,8 +70,8 @@ class PeopleManipulator: public QObject
 
         void recognizeFaces();
         void recognizeFaces_thrd_fetch_from_db();
-        void recognizeFaces_calculate_missing_fingerprints();
-        void recognizeFaces_recognize_people();
+        void recognizeFaces_thrd_calculate_missing_fingerprints();
+        void recognizeFaces_thrd_recognize_people();
         void recognizeFaces_thrd();
         void recognizeFaces_result();
 

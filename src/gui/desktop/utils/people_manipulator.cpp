@@ -44,8 +44,7 @@ namespace
     {
         typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
 
-        return evaluate<Result(Database::IBackend *)>
-                                                (&db, [](Database::IBackend* backend)
+        return evaluate<Result(Database::IBackend *)>(&db, [](Database::IBackend* backend)
         {
             std::vector<Person::Fingerprint> people_fingerprints;
             std::vector<Person::Id> people;
@@ -287,7 +286,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
 }
 
 
-void PeopleManipulator::recognizeFaces_calculate_missing_fingerprints()
+void PeopleManipulator::recognizeFaces_thrd_calculate_missing_fingerprints()
 {
     for (FaceInfo& faceInfo: m_faces)
         if (faceInfo.fingerprint.id().valid() == false)
@@ -301,7 +300,7 @@ void PeopleManipulator::recognizeFaces_calculate_missing_fingerprints()
 }
 
 
-void PeopleManipulator::recognizeFaces_recognize_people()
+void PeopleManipulator::recognizeFaces_thrd_recognize_people()
 {
     FaceRecognition face_recognition(&m_core);
     const auto people_fingerprints = fetchPeopleAndFingerprints(m_db);
@@ -325,8 +324,8 @@ void PeopleManipulator::recognizeFaces_recognize_people()
 void PeopleManipulator::recognizeFaces_thrd()
 {
     recognizeFaces_thrd_fetch_from_db();
-    recognizeFaces_calculate_missing_fingerprints();
-    recognizeFaces_recognize_people();
+    recognizeFaces_thrd_calculate_missing_fingerprints();
+    recognizeFaces_thrd_recognize_people();
 
     invokeMethod(this, &PeopleManipulator::recognizeFaces_result);
 }
