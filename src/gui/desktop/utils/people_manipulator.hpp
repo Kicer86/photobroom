@@ -76,6 +76,7 @@ class PeopleManipulator: public QObject
         void recognizeFaces_result();
 
         void store_people_names();
+        void store_fingerprints();
         void store_people_information();
 
         std::vector<QRect> fetchFacesFromDb() const;

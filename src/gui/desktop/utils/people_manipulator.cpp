@@ -40,6 +40,29 @@ namespace
 {
     const QString faces_recognized_flag = QStringLiteral("faces_recognized");
 
+    Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
+    {
+        if (faces.empty())
+            return {};
+
+        if (faces.size() == 1)
+            return faces.front().fingerprint();
+
+        const std::size_t items = faces.front().fingerprint().size();
+        const std::size_t faces_count = faces.size();
+
+        Person::Fingerprint avg_face(items, 0.0);
+
+        for(std::size_t i = 0; i < items; i++)
+        {
+            const double sum = std::accumulate(faces.cbegin(), faces.cend(), 0.0, [i](double s, const auto& v) { return s + v.fingerprint()[i]; });
+            const double avg = sum / faces_count;
+            avg_face[i] = avg;
+        }
+
+        return avg_face;
+    }
+
     auto fetchPeopleAndFingerprints(Database::IDatabase& db)
     {
         typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
@@ -56,7 +79,7 @@ namespace
 
                 if (fingerprints.empty() == false)
                 {
-                    people_fingerprints.push_back(fingerprints.front().fingerprint());
+                    people_fingerprints.push_back(average_fingerprint(fingerprints));
                     people.push_back(person.id());
                 }
             }
@@ -170,11 +193,17 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 void PeopleManipulator::store()
 {
     store_people_names();
+    store_fingerprints();
 
     // update names assigned to face locations
     for (auto& face: m_faces)
         if (face.name.id().valid())
             face.face.p_id = face.name.id();
+
+    // update fingerprints assigned to face locations
+    for (auto& face: m_faces)
+        if (face.face.f_id.valid() == false)
+            face.face.f_id = face.fingerprint.id();
 
     store_people_information();
 }
@@ -324,8 +353,14 @@ void PeopleManipulator::recognizeFaces_thrd_recognize_people()
 void PeopleManipulator::recognizeFaces_thrd()
 {
     recognizeFaces_thrd_fetch_from_db();
-    recognizeFaces_thrd_calculate_missing_fingerprints();
-    recognizeFaces_thrd_recognize_people();
+
+    const bool missing_fingerprints = std::any_of(m_faces.cbegin(), m_faces.cend(), [](const auto& face){ return face.fingerprint.id().valid() == false; });
+
+    if (missing_fingerprints)
+    {
+        recognizeFaces_thrd_calculate_missing_fingerprints();
+        recognizeFaces_thrd_recognize_people();
+    }
 
     invokeMethod(this, &PeopleManipulator::recognizeFaces_result);
 }
@@ -357,7 +392,23 @@ void PeopleManipulator::store_people_names()
             else
                 face.name = *it;
         }
+}
 
+
+void PeopleManipulator::store_fingerprints()
+{
+    for (auto& face: m_faces)
+        if (face.fingerprint.id().valid() == false)
+        {
+            const PersonFingerprint::Id fid =
+                evaluate<PersonFingerprint::Id(Database::IBackend*)>(&m_db, [fingerprint = face.fingerprint](Database::IBackend* backend)
+            {
+                return backend->peopleInformationAccessor().store(fingerprint);
+            });
+
+            const PersonFingerprint fingerprint(fid, face.fingerprint.fingerprint());
+            face.fingerprint = fingerprint;
+        }
 }
 
 
@@ -370,8 +421,7 @@ void PeopleManipulator::store_people_information()
 
         m_db.exec([faceInfo, fingerprint](Database::IBackend* backend)
         {
-            const PersonInfo::Id pid = backend->store(faceInfo);
-            backend->peopleInformationAccessor().assign(pid, fingerprint);
+            backend->store(faceInfo);
         });
     }
 }
