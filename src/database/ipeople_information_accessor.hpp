@@ -14,7 +14,7 @@ namespace Database
 
             virtual std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) = 0;
             virtual std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) = 0;
-            virtual void assign(const PersonInfo::Id &, const PersonFingerprint &) = 0;
+            virtual void store(const PersonFingerprint &) = 0;
     };
 }
 

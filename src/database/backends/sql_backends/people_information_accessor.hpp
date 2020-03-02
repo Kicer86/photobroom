@@ -34,7 +34,7 @@ namespace Database
 
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
-            void assign(const PersonInfo::Id &, const PersonFingerprint &) override;
+            PersonFingerprint::Id store(const PersonFingerprint &) override;
 
         private:
             const QString m_connectionName;
