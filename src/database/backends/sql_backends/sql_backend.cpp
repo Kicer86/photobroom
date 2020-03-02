@@ -453,7 +453,7 @@ namespace Database
 
     std::vector<PersonInfo> ASqlBackend::listPeople(const Photo::Id& ph_id )
     {
-        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location, %1.fingerprint_id FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE)
                                     .arg(ph_id);
 
@@ -476,6 +476,10 @@ namespace Database
                                            Person::Id():
                                            Person::Id(query.value(1).toInt());
 
+                const PersonFingerprint::Id f_id = query.isNull(3)?
+                            PersonFingerprint::Id():
+                            PersonFingerprint::Id(query.value(3).toInt());
+
                 QRect location;
 
                 if (query.isNull(2) == false)
@@ -488,7 +492,7 @@ namespace Database
                                      location_list[3].toInt());
                 }
 
-                result.emplace_back(id, pid, ph_id, location);
+                result.emplace_back(id, pid, ph_id, f_id, location);
             }
         }
 
@@ -997,6 +1001,13 @@ namespace Database
 
         queryData.addColumn("person_id");
         queryData.addValue(person_id);
+
+        const QString fingerprint_id = fd.f_id.valid()?
+                                    QString::number(fd.f_id):
+                                    QString();
+
+        queryData.addColumn("fingerprint_id");
+        queryData.addValue(fingerprint_id);
 
         QSqlQuery query;
 

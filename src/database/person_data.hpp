@@ -61,49 +61,7 @@ class DATABASE_EXPORT PersonName final
 };
 
 
-class DATABASE_EXPORT PersonInfo
-{
-        static const char Name[16];
-
-    public:
-        typedef ::Id<int, Name> Id;
-
-        Id id;
-        Person::Id p_id;
-        Photo::Id ph_id;
-        QRect rect;
-
-        PersonInfo(): id(), p_id(), ph_id(), rect()
-        {
-        }
-
-        PersonInfo(const PersonInfo::Id& _id,
-                   const Person::Id& _p_id,
-                   const Photo::Id& _ph_id,
-                   const QRect& _rect):
-            id(_id), p_id(_p_id), ph_id(_ph_id), rect(_rect)
-        {}
-
-        PersonInfo(const Person::Id& _p_id,
-                   const Photo::Id& _ph_id,
-                   const QRect& _rect):
-            id(), p_id(_p_id), ph_id(_ph_id), rect(_rect)
-        {}
-
-        PersonInfo(const PersonInfo &) = default;
-        PersonInfo& operator=(const PersonInfo &) = default;
-
-        bool operator==(const PersonInfo& other) const
-        {
-            return id == other.id       &&
-                   p_id == other.p_id   &&
-                   ph_id == other.ph_id &&
-                   rect == other.rect;
-        }
-};
-
-
-class PersonFingerprint
+class DATABASE_EXPORT PersonFingerprint
 {
         static constexpr char Name[16] = "Fingerprint";
 
@@ -120,6 +78,52 @@ class PersonFingerprint
     private:
         Person::Fingerprint m_fingerprint;
         Id m_id;
+};
+
+
+class DATABASE_EXPORT PersonInfo
+{
+        static const char Name[16];
+
+    public:
+        typedef ::Id<int, Name> Id;
+
+        Id id;
+        Person::Id p_id;
+        Photo::Id ph_id;
+        PersonFingerprint::Id f_id;
+        QRect rect;
+
+        PersonInfo(): id(), p_id(), ph_id(), f_id(), rect()
+        {
+        }
+
+        PersonInfo(const PersonInfo::Id& _id,
+                   const Person::Id& _p_id,
+                   const Photo::Id& _ph_id,
+                   const PersonFingerprint::Id& _f_id,
+                   const QRect& _rect):
+            id(_id), p_id(_p_id), ph_id(_ph_id), f_id(_f_id), rect(_rect)
+        {}
+
+        PersonInfo(const Person::Id& _p_id,
+                   const Photo::Id& _ph_id,
+                   const PersonFingerprint::Id& _f_id,
+                   const QRect& _rect):
+            id(), p_id(_p_id), ph_id(_ph_id), f_id(_f_id), rect(_rect)
+        {}
+
+        PersonInfo(const PersonInfo &) = default;
+        PersonInfo& operator=(const PersonInfo &) = default;
+
+        bool operator==(const PersonInfo& other) const
+        {
+            return id == other.id       &&
+                   p_id == other.p_id   &&
+                   ph_id == other.ph_id &&
+                   f_id == other.f_id   &&
+                   rect == other.rect;
+        }
 };
 
 Q_DECLARE_METATYPE( PersonName )
