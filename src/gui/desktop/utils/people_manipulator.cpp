@@ -162,6 +162,12 @@ PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& 
 }
 
 
+PeopleManipulator::~PeopleManipulator()
+{
+    m_callback_ctrl.invalidate();
+}
+
+
 std::size_t PeopleManipulator::facesCount() const
 {
     return m_faces.size();

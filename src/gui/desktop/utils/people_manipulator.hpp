@@ -31,6 +31,7 @@ class PeopleManipulator: public QObject
 
     public:
         PeopleManipulator(const Photo::Id &, Database::IDatabase &, ICoreFactoryAccessor &);
+        ~PeopleManipulator();
 
         std::size_t facesCount() const;
         const QString& name(std::size_t) const;
