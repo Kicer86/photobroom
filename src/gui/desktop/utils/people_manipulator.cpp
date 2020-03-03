@@ -203,8 +203,7 @@ void PeopleManipulator::store()
 
     // update names assigned to face locations
     for (auto& face: m_faces)
-        if (face.name.id().valid())
-            face.face.p_id = face.name.id();
+        face.face.p_id = face.name.id();
 
     // update fingerprints assigned to face locations
     for (auto& face: m_faces)
@@ -398,6 +397,8 @@ void PeopleManipulator::store_people_names()
             else
                 face.name = *it;
         }
+        else if (face.name.id().valid() && face.name.name().isEmpty())              // id set + empty name
+            face.name = PersonName();                                               // clear name completely
 }
 
 
