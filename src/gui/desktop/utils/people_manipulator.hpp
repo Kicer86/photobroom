@@ -47,7 +47,7 @@ class PeopleManipulator: public QObject
         struct FaceInfo
         {
             PersonInfo face;
-            PersonName name;
+            PersonName person;
             PersonFingerprint fingerprint;
 
             FaceInfo(const QRect& r)

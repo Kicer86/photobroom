@@ -176,7 +176,7 @@ std::size_t PeopleManipulator::facesCount() const
 
 const QString& PeopleManipulator::name(std::size_t n) const
 {
-    return m_faces[n].name.name();
+    return m_faces[n].person.name();
 }
 
 
@@ -190,10 +190,10 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 {
     const QString trimmed_name = name.trimmed();
 
-    if (n < m_faces.size() && m_faces[n].name.name() != trimmed_name)
+    if (n < m_faces.size() && m_faces[n].person.name() != trimmed_name)
     {
         PersonName new_name(trimmed_name);
-        m_faces[n].name = new_name;
+        m_faces[n].person = new_name;
     }
 }
 
@@ -205,7 +205,7 @@ void PeopleManipulator::store()
 
     // update names assigned to face locations
     for (auto& face: m_faces)
-        face.face.p_id = face.name.id();
+        face.face.p_id = face.person.id();
 
     // update fingerprints assigned to face locations
     for (auto& face: m_faces)
@@ -296,7 +296,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
         if (person_it != peopleData.cend())   // rect matches
         {
             if (person_it->p_id.valid())
-                faceInfo.name = personData(m_db, person_it->p_id);     // fill name
+                faceInfo.person = personData(m_db, person_it->p_id);     // fill name
 
             faceInfo.face = *person_it;
         }
@@ -343,7 +343,7 @@ void PeopleManipulator::recognizeFaces_thrd_recognize_people()
     const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
 
     for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.name.name().isEmpty())
+        if (faceInfo.person.name().isEmpty())
         {
             const int pos = face_recognition.recognize(faceInfo.fingerprint.fingerprint(), known_fingerprints);
 
@@ -351,7 +351,7 @@ void PeopleManipulator::recognizeFaces_thrd_recognize_people()
             {
                 const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
                 const Person::Id found_person = known_people[pos];
-                faceInfo.name = personData(m_db, found_person);
+                faceInfo.person = personData(m_db, found_person);
             }
         }
 }
@@ -385,9 +385,9 @@ void PeopleManipulator::store_people_names()
 
     // make sure each name is known (exists in db)
     for (auto& face: m_faces)
-        if (face.name.id().valid() == false && face.name.name().isEmpty() == false)  // no id + name set
+        if (face.person.id().valid() == false && face.person.name().isEmpty() == false)  // no id + name set
         {
-            const QString& name = face.name.name();
+            const QString& name = face.person.name();
 
             auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
             {
@@ -395,12 +395,12 @@ void PeopleManipulator::store_people_names()
             });
 
             if (it == people.cend())        // new name, store it in db
-                face.name = storeNewPerson(m_db, name);
+                face.person = storeNewPerson(m_db, name);
             else
-                face.name = *it;
+                face.person = *it;
         }
-        else if (face.name.id().valid() && face.name.name().isEmpty())              // id set + empty name
-            face.name = PersonName();                                               // clear name completely
+        else if (face.person.id().valid() && face.person.name().isEmpty())              // id set + empty name
+            face.person = PersonName();                                               // clear name completely
 }
 
 
