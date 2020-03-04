@@ -76,6 +76,24 @@ void compare(const MapT& lhs, const MapT& rhs,
 
 }
 
+template<typename T>
+std::vector<T> operator+(const std::vector<T>& lhs, const std::vector<T>& rhs)
+{
+    const std::size_t size = std::max(lhs.size(), rhs.size());
+
+    std::vector<T> result(size);
+
+    for(std::size_t i = 0; i < size; i++)
+    {
+        const T l = i < lhs.size()? lhs[i]: T();
+        const T r = i < rhs.size()? rhs[i]: T();
+
+        result[i] = l + r;
+    }
+
+    return result;
+}
+
 #ifndef CONCEPTS_SUPPORTED
 #undef Container
 #endif
