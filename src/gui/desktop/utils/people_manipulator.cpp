@@ -399,8 +399,6 @@ void PeopleManipulator::store_people_names()
             else
                 face.person = *it;
         }
-        else if (face.person.id().valid() && face.person.name().isEmpty())              // id set + empty name
-            face.person = PersonName();                                               // clear name completely
 }
 
 
