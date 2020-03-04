@@ -115,6 +115,15 @@ std::vector<T> operator/(const std::vector<T>& lhs, const P& rhs)
     return result;
 }
 
+
+template<typename T, typename P>
+std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
+{
+    lhs = lhs / rhs;
+
+    return lhs;
+}
+
 #ifndef CONCEPTS_SUPPORTED
 #undef Container
 #endif
