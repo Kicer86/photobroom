@@ -94,6 +94,14 @@ std::vector<T> operator+(const std::vector<T>& lhs, const std::vector<T>& rhs)
     return result;
 }
 
+template<typename T>
+std::vector<T>& operator+=(std::vector<T>& lhs, const std::vector<T>& rhs)
+{
+    lhs = lhs + rhs;
+
+    return lhs;
+}
+
 #ifndef CONCEPTS_SUPPORTED
 #undef Container
 #endif

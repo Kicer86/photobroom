@@ -203,3 +203,31 @@ TEST(VectorAdditionTest, secondShorter)
     const std::vector<int> expected_sum{3, 6, 12, 24, 48, 32};
     EXPECT_EQ(s, expected_sum);
 }
+
+
+TEST(VectorAdditionAndAssignTest, firstShorter)
+{
+    std::vector<int> l = {1, 2, 4, 8};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+
+    l += r;
+
+    ASSERT_EQ(l.size(), 5);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 32};
+    EXPECT_EQ(l, expected_sum);
+}
+
+
+TEST(VectorAdditionAndAssignTest, secondShorter)
+{
+    std::vector<int> l = {1, 2, 4, 8, 16, 32};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+
+    l += r;
+
+    ASSERT_EQ(l.size(), 6);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 48, 32};
+    EXPECT_EQ(l, expected_sum);
+}
