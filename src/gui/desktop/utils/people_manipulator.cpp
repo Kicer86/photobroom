@@ -51,6 +51,8 @@ namespace
         for(const PersonFingerprint& fingerprint: faces)
             avg_face += fingerprint.fingerprint();
 
+        avg_face /= faces.size();
+
         return avg_face;
     }
 
