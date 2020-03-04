@@ -231,3 +231,15 @@ TEST(VectorAdditionAndAssignTest, secondShorter)
     const std::vector<int> expected_sum{3, 6, 12, 24, 48, 32};
     EXPECT_EQ(l, expected_sum);
 }
+
+
+TEST(VectorDivisionTest, byInt)
+{
+    const std::vector<int> l = {2, 4, 8, 16, 32};
+    const std::vector r = l / 2;
+
+    ASSERT_EQ(r.size(), 5);
+
+    const std::vector<int> expected_sum{1, 2, 4, 8, 16};
+    EXPECT_EQ(r, expected_sum);
+}

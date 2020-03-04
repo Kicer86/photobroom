@@ -102,6 +102,19 @@ std::vector<T>& operator+=(std::vector<T>& lhs, const std::vector<T>& rhs)
     return lhs;
 }
 
+
+template<typename T, typename P>
+std::vector<T> operator/(const std::vector<T>& lhs, const P& rhs)
+{
+    const std::size_t size = lhs.size();
+    std::vector<T> result(size);
+
+    for(std::size_t i = 0; i < size; i++)
+        result[i] = lhs[i] / rhs;
+
+    return result;
+}
+
 #ifndef CONCEPTS_SUPPORTED
 #undef Container
 #endif
