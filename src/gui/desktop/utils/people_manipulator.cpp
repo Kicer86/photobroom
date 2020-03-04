@@ -19,6 +19,7 @@
 
 #include <QFileInfo>
 
+#include <core/containers_utils.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/task_executor_utils.hpp>
@@ -45,20 +46,10 @@ namespace
         if (faces.empty())
             return {};
 
-        if (faces.size() == 1)
-            return faces.front().fingerprint();
+        Person::Fingerprint avg_face;
 
-        const std::size_t items = faces.front().fingerprint().size();
-        const std::size_t faces_count = faces.size();
-
-        Person::Fingerprint avg_face(items, 0.0);
-
-        for(std::size_t i = 0; i < items; i++)
-        {
-            const double sum = std::accumulate(faces.cbegin(), faces.cend(), 0.0, [i](double s, const auto& v) { return s + v.fingerprint()[i]; });
-            const double avg = sum / faces_count;
-            avg_face[i] = avg;
-        }
+        for(const PersonFingerprint& fingerprint: faces)
+            avg_face += fingerprint.fingerprint();
 
         return avg_face;
     }
