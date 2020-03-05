@@ -6,7 +6,6 @@ set(UTILS_SOURCES
     painter_helpers.cpp
     people_list_model.cpp
     people_manipulator.cpp
-    people_operator.cpp
     photos_collector.cpp
     selection_extractor.cpp
     signal_filter.cpp
@@ -24,8 +23,6 @@ set(UTILS_HEADERS
     painter_helpers.hpp
     people_list_model.hpp
     people_manipulator.hpp
-    people_operator.hpp
-    people_operator_p.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
