@@ -55,91 +55,6 @@ namespace
 
         return avg_face;
     }
-
-    auto fetchPeopleAndFingerprints(Database::IDatabase& db)
-    {
-        typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
-
-        return evaluate<Result(Database::IBackend *)>(&db, [](Database::IBackend* backend)
-        {
-            std::vector<Person::Fingerprint> people_fingerprints;
-            std::vector<Person::Id> people;
-
-            const auto all_people = backend->listPeople();
-            for(const auto& person: all_people)
-            {
-                const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
-
-                if (fingerprints.empty() == false)
-                {
-                    people_fingerprints.push_back(average_fingerprint(fingerprints));
-                    people.push_back(person.id());
-                }
-            }
-
-            return std::tuple(people_fingerprints, people);
-        });
-    }
-
-    auto fetchFingerprints(Database::IDatabase& db, const std::vector<PersonInfo::Id>& ids)
-    {
-        typedef std::map<PersonInfo::Id, PersonFingerprint> Result;
-
-        return evaluate<Result(Database::IBackend *)>
-                        (&db, [ids](Database::IBackend* backend)
-        {
-            const Result result = backend->peopleInformationAccessor().fingerprintsFor(ids);
-
-            return result;
-        });
-    }
-
-    std::vector<PersonName> fetchPeople(Database::IDatabase& db)
-    {
-        return evaluate<std::vector<PersonName>(Database::IBackend *)>(&db, [](Database::IBackend* backend)
-        {
-            auto people = backend->listPeople();
-
-            return people;
-        });
-    }
-
-    PersonName personData(Database::IDatabase& db, const Person::Id& id)
-    {
-        const PersonName person = evaluate<PersonName (Database::IBackend *)>
-            (&db, [id](Database::IBackend* backend)
-        {
-            const auto people = backend->person(id);
-
-            return people;
-        });
-
-        return person;
-    }
-
-    PersonName storeNewPerson(Database::IDatabase& db, const QString& name)
-    {
-        const PersonName person = evaluate<PersonName (Database::IBackend *)>
-                (&db, [name](Database::IBackend* backend)
-        {
-            const PersonName d(Person::Id(), name);
-            const auto id = backend->store(d);
-            return PersonName(id, name);
-        });
-
-        return person;
-    }
-
-    QString pathFor(Database::IDatabase* db, const Photo::Id& id)
-    {
-        return evaluate<QString(Database::IBackend *)>(db, [id, db](Database::IBackend *)
-        {
-            Database::IUtils* db_utils = db->utils();
-            auto photo = db_utils->getPhotoFor(id);
-
-            return photo->getPath();
-        });
-    }
 }
 
 
@@ -229,7 +144,7 @@ void PeopleManipulator::findFaces_thrd()
 {
     QVector<QRect> result;
 
-    const QString path = pathFor(&m_db, m_pid);
+    const QString path = pathFor(m_pid);
     const QFileInfo pathInfo(path);
     const QString full_path = pathInfo.absoluteFilePath();
     m_image = OrientedImage(m_core.getExifReaderFactory()->get(), full_path);
@@ -289,7 +204,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
         if (person_it != peopleData.cend())   // rect matches
         {
             if (person_it->p_id.valid())
-                faceInfo.person = personData(m_db, person_it->p_id);     // fill name
+                faceInfo.person = personData(person_it->p_id);     // fill name
 
             faceInfo.face = *person_it;
         }
@@ -302,7 +217,7 @@ void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
         if (faceInfo.face.id.valid())
             faces_ids.push_back(faceInfo.face.id);
 
-    const auto fingerprints = fetchFingerprints(m_db, faces_ids);
+    const auto fingerprints = fetchFingerprints(faces_ids);
 
     for (FaceInfo& faceInfo: m_faces)
         if (faceInfo.face.id.valid())
@@ -332,7 +247,7 @@ void PeopleManipulator::recognizeFaces_thrd_calculate_missing_fingerprints()
 void PeopleManipulator::recognizeFaces_thrd_recognize_people()
 {
     FaceRecognition face_recognition(&m_core);
-    const auto people_fingerprints = fetchPeopleAndFingerprints(m_db);
+    const auto people_fingerprints = fetchPeopleAndFingerprints();
     const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
 
     for (FaceInfo& faceInfo: m_faces)
@@ -344,7 +259,7 @@ void PeopleManipulator::recognizeFaces_thrd_recognize_people()
             {
                 const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
                 const Person::Id found_person = known_people[pos];
-                faceInfo.person = personData(m_db, found_person);
+                faceInfo.person = personData(found_person);
             }
         }
 }
@@ -374,7 +289,7 @@ void PeopleManipulator::recognizeFaces_result()
 
 void PeopleManipulator::store_people_names()
 {
-    const std::vector<PersonName> people = fetchPeople(m_db);
+    const std::vector<PersonName> people = fetchPeople();
 
     // make sure each name is known (exists in db)
     for (auto& face: m_faces)
@@ -388,7 +303,7 @@ void PeopleManipulator::store_people_names()
             });
 
             if (it == people.cend())        // new name, store it in db
-                face.person = storeNewPerson(m_db, name);
+                face.person = storeNewPerson(name);
             else
                 face.person = *it;
         }
@@ -452,5 +367,96 @@ std::vector<PersonInfo> PeopleManipulator::fetchPeopleFromDb() const
         auto people = backend->listPeople(id);
 
         return people;
+    });
+}
+
+
+std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> PeopleManipulator::fetchPeopleAndFingerprints() const
+{
+    typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
+
+    return evaluate<Result(Database::IBackend *)>(&m_db, [](Database::IBackend* backend)
+    {
+        std::vector<Person::Fingerprint> people_fingerprints;
+        std::vector<Person::Id> people;
+
+        const auto all_people = backend->listPeople();
+        for(const auto& person: all_people)
+        {
+            const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
+
+            if (fingerprints.empty() == false)
+            {
+                people_fingerprints.push_back(average_fingerprint(fingerprints));
+                people.push_back(person.id());
+            }
+        }
+
+        return std::tuple(people_fingerprints, people);
+    });
+}
+
+
+std::map<PersonInfo::Id, PersonFingerprint> PeopleManipulator::fetchFingerprints(const std::vector<PersonInfo::Id>& ids) const
+{
+    typedef std::map<PersonInfo::Id, PersonFingerprint> Result;
+
+    return evaluate<Result(Database::IBackend *)>
+                    (&m_db, [ids](Database::IBackend* backend)
+    {
+        const Result result = backend->peopleInformationAccessor().fingerprintsFor(ids);
+
+        return result;
+    });
+}
+
+
+std::vector<PersonName> PeopleManipulator::fetchPeople() const
+{
+    return evaluate<std::vector<PersonName>(Database::IBackend *)>(&m_db, [](Database::IBackend* backend)
+    {
+        auto people = backend->listPeople();
+
+        return people;
+    });
+}
+
+
+PersonName PeopleManipulator::personData(const Person::Id& id) const
+{
+    const PersonName person = evaluate<PersonName (Database::IBackend *)>
+        (&m_db, [id](Database::IBackend* backend)
+    {
+        const auto people = backend->person(id);
+
+        return people;
+    });
+
+    return person;
+}
+
+
+PersonName PeopleManipulator::storeNewPerson(const QString& name) const
+{
+    const PersonName person = evaluate<PersonName (Database::IBackend *)>
+            (&m_db, [name](Database::IBackend* backend)
+    {
+        const PersonName d(Person::Id(), name);
+        const auto id = backend->store(d);
+        return PersonName(id, name);
+    });
+
+    return person;
+}
+
+
+QString PeopleManipulator::pathFor(const Photo::Id& id) const
+{
+    return evaluate<QString(Database::IBackend *)>(&m_db, [id, db = &m_db](Database::IBackend *)
+    {
+        Database::IUtils* db_utils = db->utils();
+        auto photo = db_utils->getPhotoFor(id);
+
+        return photo->getPath();
     });
 }

@@ -82,6 +82,12 @@ class PeopleManipulator: public QObject
 
         std::vector<QRect> fetchFacesFromDb() const;
         std::vector<PersonInfo> fetchPeopleFromDb() const;
+        std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> fetchPeopleAndFingerprints() const;
+        std::map<PersonInfo::Id, PersonFingerprint> fetchFingerprints(const std::vector<PersonInfo::Id>& ids) const;
+        std::vector<PersonName> fetchPeople() const;
+        PersonName personData(const Person::Id& id) const;
+        PersonName storeNewPerson(const QString& name) const;
+        QString pathFor(const Photo::Id& id) const;
 };
 
 #endif // PEOPLEMANIPULATOR_HPP
