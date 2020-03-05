@@ -31,7 +31,6 @@
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
-#include "widgets/face_reviewer/face_reviewer.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/series_detection/series_detection.hpp"
@@ -653,14 +652,6 @@ void MainWindow::on_actionPhoto_properties_triggered()
     const bool state = ui->actionPhoto_properties->isChecked();
 
     ui->photoPropertiesDockWidget->setVisible(state);
-}
-
-
-void MainWindow::on_actionFace_organizer_triggered()
-{
-    FaceReviewer organizer(m_currentPrj.get(), m_coreAccessor, this);
-    organizer.setModal(true);
-    organizer.exec();
 }
 
 

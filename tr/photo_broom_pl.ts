@@ -125,23 +125,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>FaceDetails</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+54"/>
-        <source>Find better</source>
-        <translation>Znajdź lepsze</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+13"/>
-        <source>On %n photo(s)</source>
-        <translation>
-            <numerusform>Na %n zdjęciu</numerusform>
-            <numerusform>Na %n zdjęciach</numerusform>
-            <numerusform>Na %n zdjęciach</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
@@ -344,7 +327,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -434,7 +417,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -456,7 +439,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-188"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-187"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
@@ -506,7 +489,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+208"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -567,7 +550,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-271"/>
+        <location line="-263"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
