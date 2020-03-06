@@ -17,6 +17,7 @@ set(SOURCES
         table_definition.cpp
         tables.cpp
         transaction.cpp
+        people_information_accessor.cpp
         photo_change_log_operator.cpp
         photo_operator.cpp
         query_structs.cpp
@@ -33,6 +34,7 @@ set(HEADERS
         table_definition.hpp
         tables.hpp
         transaction.hpp
+        people_information_accessor.hpp
         photo_change_log_operator.hpp
         photo_operator.hpp
         query_structs.hpp

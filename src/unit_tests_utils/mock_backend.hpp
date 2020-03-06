@@ -10,7 +10,7 @@
 #include <database/project_info.hpp>
 
 
-struct MockBackend : public Database::IBackend
+struct MockBackend: public Database::IBackend
 {
   MOCK_METHOD1(addPhotos,
       bool(std::vector<Photo::DataDelta> &));
@@ -54,6 +54,7 @@ struct MockBackend : public Database::IBackend
   MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
   MOCK_METHOD0(photoOperator, Database::IPhotoOperator*());
   MOCK_METHOD0(photoChangeLogOperator, Database::IPhotoChangeLogOperator*());
+  MOCK_METHOD(Database::IPeopleInformationAccessor&, peopleInformationAccessor, (), (override));
 };
 
 

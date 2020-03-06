@@ -49,6 +49,7 @@
 #include "tables.hpp"
 #include "query_structs.hpp"
 #include "sql_filter_query_generator.hpp"
+#include "people_information_accessor.hpp"
 
 
 // useful links
@@ -59,6 +60,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
+        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
         m_executor(),
@@ -145,6 +147,12 @@ namespace Database
                                                         );
 
         return m_photoChangeLogOperator.get();
+    }
+
+
+    IPeopleInformationAccessor& ASqlBackend::peopleInformationAccessor()
+    {
+        return *m_peopleInfoAccessor;
     }
 
 
@@ -445,7 +453,7 @@ namespace Database
 
     std::vector<PersonInfo> ASqlBackend::listPeople(const Photo::Id& ph_id )
     {
-        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location FROM %1 WHERE %1.photo_id = %2")
+        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location, %1.fingerprint_id FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE)
                                     .arg(ph_id);
 
@@ -468,6 +476,10 @@ namespace Database
                                            Person::Id():
                                            Person::Id(query.value(1).toInt());
 
+                const PersonFingerprint::Id f_id = query.isNull(3)?
+                            PersonFingerprint::Id():
+                            PersonFingerprint::Id(query.value(3).toInt());
+
                 QRect location;
 
                 if (query.isNull(2) == false)
@@ -480,7 +492,7 @@ namespace Database
                                      location_list[3].toInt());
                 }
 
-                result.emplace_back(id, pid, ph_id, location);
+                result.emplace_back(id, pid, ph_id, f_id, location);
             }
         }
 
@@ -717,6 +729,7 @@ namespace Database
     /**
      * \brief check current db version and upgrade structures if required
      * \return operation status
+     * \todo extract
      */
     BackendStatus ASqlBackend::checkDBVersion()
     {
@@ -854,7 +867,34 @@ namespace Database
 
                 } [[fallthrough]];
 
-                case 4:             // current version, break updgrades chain
+                case 4:             // add new column to TAB_PEOPLE
+                {
+                    const QString rename_people = QString("ALTER TABLE %1 RENAME TO temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(rename_people, &query);
+                    if (status == false)
+                        break;
+
+                    // recreate TAB_PEOPLE
+                    auto tab_people = tables.find(TAB_PEOPLE);
+                    if (tab_people == tables.end())
+                        break;
+
+                    status = ensureTableExists(tab_people->second);
+                    if (status == false)
+                        break;
+
+                    // fill fresh instance of TAB_PEOPLE
+                    const QString fill_people = QString("INSERT INTO %1(id, photo_id, person_id, location) SELECT id, photo_id, person_id, location FROM temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(fill_people, &query);
+                    if (status == false)
+                        break;
+                }
+
+                case 5:             // current version, break updgrades chain
                     break;
 
                 default:
@@ -961,6 +1001,13 @@ namespace Database
 
         queryData.addColumn("person_id");
         queryData.addValue(person_id);
+
+        const QString fingerprint_id = fd.f_id.valid()?
+                                    QString::number(fd.f_id):
+                                    QString();
+
+        queryData.addColumn("fingerprint_id");
+        queryData.addValue(fingerprint_id);
 
         QSqlQuery query;
 

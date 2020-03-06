@@ -5,7 +5,7 @@ set(UTILS_SOURCES
     model_index_utils.cpp
     painter_helpers.cpp
     people_list_model.cpp
-    people_operator.cpp
+    people_manipulator.cpp
     photos_collector.cpp
     selection_extractor.cpp
     signal_filter.cpp
@@ -22,8 +22,7 @@ set(UTILS_HEADERS
     model_index_utils.hpp
     painter_helpers.hpp
     people_list_model.hpp
-    people_operator.hpp
-    people_operator_p.hpp
+    people_manipulator.hpp
     photos_collector.hpp
     selection_extractor.hpp
     signal_filter.hpp
@@ -34,23 +33,10 @@ set(UTILS_HEADERS
     grouppers/hdr_generator.hpp
 )
 
-
-set(UTILS_FILES_TO_MOC
-    people_operator.hpp
-    people_operator_p.hpp
-    photos_collector.hpp
-    selection_extractor.hpp
-    signal_filter.hpp
-    grouppers/animation_generator.hpp
-    grouppers/generator_utils.hpp
-    grouppers/hdr_generator.hpp
-)
-
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-qt5_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
-
-add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_WRAPPED_CPP} ${UTILS_HEADERS})
+add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_HEADERS})
+set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 set_target_properties(gui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_utils
                         PRIVATE

@@ -37,7 +37,10 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/image_tools.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/filter.hpp>
+#include <database/ibackend.hpp>
+#include <database/idatabase.hpp>
 #include <system/filesystem.hpp>
 #include <system/system.hpp>
 
@@ -46,56 +49,35 @@
 
 using namespace std::placeholders;
 
+template<typename T>
+struct ExecutorTraits<Database::IDatabase, T>
+{
+    static void exec(Database::IDatabase* db, T&& t)
+    {
+        db->exec(std::forward<T>(t));
+    }
+};
+
 namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
+
+
+    dlib_api::FaceEncodings fingerprintToEncodings(const QByteArray& fingerprint)
+    {
+        dlib_api::FaceEncodings encodings;
+
+        QList<QByteArray> data = fingerprint.split(',');
+        for(const QByteArray& d: data)
+            encodings.push_back(d.toDouble());
+
+        return encodings;
+    }
 
     dlib_api::FaceEncodings encodingsForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
     {
         const QImage faceImage(face_image_path);
         return faceEndoder.face_encodings(faceImage);
-    }
-
-
-    dlib_api::FaceEncodings cachedEncodingForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
-    {
-        dlib_api::FaceEncodings faceEncodings;
-
-        const QFileInfo fileInfo(face_image_path);
-        const QString fileName = fileInfo.baseName();
-        const QString storage = fileInfo.absolutePath();
-        const QString encodingsFilePath = storage + "/" + fileName + ".enc";
-
-        if (QFile::exists(encodingsFilePath))
-        {
-            QFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::ReadOnly);
-
-            while(encodingsFile.atEnd() == false)
-            {
-                const QByteArray line = encodingsFile.readLine();
-                const double value = line.toDouble();
-
-                faceEncodings.push_back(value);
-            }
-        }
-        else
-        {
-            faceEncodings = encodingsForFace(faceEndoder, face_image_path);
-
-            QSaveFile encodingsFile(encodingsFilePath);
-            encodingsFile.open(QFile::WriteOnly);
-
-            for(double v: faceEncodings)
-            {
-                const QByteArray line = QByteArray::number(v) + '\n';
-                encodingsFile.write(line);
-            }
-
-            encodingsFile.commit();
-        }
-
-        return faceEncodings;
     }
 
 
@@ -111,35 +93,33 @@ namespace
         return encoded_faces;
     }
 
-    std::tuple<std::vector<dlib_api::FaceEncodings>,
-               std::vector<QString>
-              >
-    loadKnownFaces(const QString& knownFacesStorage, dlib_api::FaceEncoder& faceEndoder)
+
+    auto fetchPeopleAndEncodings(Database::IBackend* backend)
     {
-        QDirIterator di(knownFacesStorage, { "*.jpg" });
+        std::vector<dlib_api::FaceEncodings> encodings;
+        std::vector<Person::Id> people;
 
-        std::vector<dlib_api::FaceEncodings> known_faces;
-        std::vector<QString> known_faces_names;
-
-        while(di.hasNext())
+        const auto all_people = backend->listPeople();
+        for(const auto& person: all_people)
         {
-            const QString filePath = di.next();
-            const QFileInfo fileInfo(filePath);
+            const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
 
-            const dlib_api::FaceEncodings faceEncodings = cachedEncodingForFace(faceEndoder, filePath);
-
-            known_faces.push_back(faceEncodings);
-            known_faces_names.push_back(fileInfo.fileName());
+            if (fingerprints.empty() == false)
+            {
+                encodings.push_back(fingerprints.front().fingerprint());
+                people.push_back(person.id());
+            }
         }
 
-        return { known_faces, known_faces_names };
+        return std::tuple(encodings, people);
     }
 
-    std::vector<std::pair<double, QString>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<QString>& names)
+
+    std::vector<std::pair<double, Person::Id>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<Person::Id>& names)
     {
         assert(distances.size() == names.size());
 
-        std::vector<std::pair<double, QString>> names_and_distances;
+        std::vector<std::pair<double, Person::Id>> names_and_distances;
         std::size_t items = std::min(distances.size(), names.size());
 
         for(std::size_t i = 0; i < items; i++)
@@ -149,7 +129,7 @@ namespace
     }
 
 
-    void dropNotMatching(std::vector<std::pair<double, QString>>& names_and_distances)
+    void dropNotMatching(std::vector<std::pair<double, Person::Id>>& names_and_distances)
     {
         names_and_distances.erase(std::remove_if(names_and_distances.begin(),
                                             names_and_distances.end(),
@@ -158,7 +138,7 @@ namespace
     }
 
 
-    QString chooseClosestMatching(const std::vector<double>& distances, const std::vector<QString>& names, ILogger& logger)
+    Person::Id chooseClosestMatching(const std::vector<double>& distances, const std::vector<Person::Id>& names, ILogger& logger)
     {
         auto names_and_distances = zipNamesWithDistances(distances, names);
         dropNotMatching(names_and_distances);
@@ -174,7 +154,15 @@ namespace
         logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(items));
 
         // return best matching
-        return names_and_distances.empty()? QString() : names_and_distances.front().second;
+        return names_and_distances.empty()? Person::Id() : names_and_distances.front().second;
+    }
+
+
+    int chooseClosestMatching(const std::vector<double>& distances)
+    {
+        auto closest = std::min_element(distances.cbegin(), distances.cend());
+
+        return (closest == distances.cend() || *closest > 0.6)? -1 : static_cast<int>(std::distance(distances.cbegin(), closest));
     }
 
 
@@ -239,35 +227,32 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 }
 
 
-QString FaceRecognition::recognize(const QString& path, const QRect& face, const QString& knownFacesStorage) const
+Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Database::IDatabase* db) const
 {
     std::lock_guard lock(g_dlibMutex);
     dlib_api::FaceEncoder faceEndoder;
 
-    QDirIterator di(knownFacesStorage, { "*.jpg" });
+    typedef std::tuple<std::vector<dlib_api::FaceEncodings>, std::vector<Person::Id>> FacesFingerprints;
+    auto [known_faces_encodings, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, &fetchPeopleAndEncodings);
 
-    auto [known_faces, known_faces_names] = loadKnownFaces(knownFacesStorage, faceEndoder);
-
-    if (known_faces.empty())
+    if (known_faces_encodings.empty())
         return {};
-    else
-    {
-        const QString msg = QString("Trying to recognize face %1 from %2").arg(faceToString(face)).arg(path);
-        m_data->m_logger->debug(msg);
 
-        const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
-        Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
+    const QString msg = QString("Trying to recognize face %1 from %2").arg(faceToString(face)).arg(path);
+    m_data->m_logger->debug(msg);
 
-        const QImage photo(normalizedPhotoPath);
-        const QImage face_photo = photo.copy(face);
+    const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
+    Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
 
-        const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
-        const std::vector<double> distance = dlib_api::face_distance(known_faces, unknown_face_encodings);
+    const QImage photo(normalizedPhotoPath);
+    const QImage face_photo = photo.copy(face);
 
-        const QString best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
+    const dlib_api::FaceEncodings unknown_face_encodings = faceEndoder.face_encodings(face_photo);
+    const std::vector<double> distance = dlib_api::face_distance(known_faces_encodings, unknown_face_encodings);
 
-        return best_face_file;
-    }
+    const Person::Id best_face_file = chooseClosestMatching(distance, known_faces_names, *m_data->m_logger.get());
+
+    return best_face_file;
 }
 
 
@@ -325,4 +310,24 @@ QString FaceRecognition::best(const QStringList& faces)
     }
 
     return best_photo;
+}
+
+
+Person::Fingerprint FaceRecognition::getFingerprint(const OrientedImage& image, const QRect& face_rect)
+{
+    const QImage face = face_rect.isEmpty()? image.get(): image.get().copy(face_rect);
+
+    dlib_api::FaceEncoder faceEndoder;
+    const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
+
+    return face_encodings;
+}
+
+
+int FaceRecognition::recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known)
+{
+    const std::vector<double> distance = dlib_api::face_distance(known, unknown);
+    const auto closestMatching = chooseClosestMatching(distance);
+
+    return closestMatching;
 }

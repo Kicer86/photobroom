@@ -125,23 +125,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>FaceDetails</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/face_reviewer/face_details.cpp" line="+54"/>
-        <source>Find better</source>
-        <translation>Znajdź lepsze</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+13"/>
-        <source>On %n photo(s)</source>
-        <translation>
-            <numerusform>Na %n zdjęciu</numerusform>
-            <numerusform>Na %n zdjęciach</numerusform>
-            <numerusform>Na %n zdjęciach</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
@@ -164,32 +147,18 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+87"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+80"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
     <message numerus="yes">
-        <location line="+17"/>
+        <location line="+15"/>
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
             <numerusform>Znaleziono %n tware.</numerusform>
             <numerusform>Znaleziono %n twarzy.</numerusform>
         </translation>
-    </message>
-    <message numerus="yes">
-        <location line="+1"/>
-        <source>Found %n face(s). Recognizing people...</source>
-        <translation>
-            <numerusform>Znaleziono %n twarz. Rozpoznawanie ludzi...</numerusform>
-            <numerusform>Znaleziono %n twarze. Rozpoznawanie ludzi...</numerusform>
-            <numerusform>Znaleziono %n twarzy. Rozpoznawanie ludzi...</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location line="+33"/>
-        <source>All known faces recognized.</source>
-        <translation>Wszystkie znane osoby rozpoznane.</translation>
     </message>
 </context>
 <context>
@@ -358,7 +327,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+14"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -448,7 +417,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -470,7 +439,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-188"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-187"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
@@ -480,7 +449,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+209"/>
+        <location line="+208"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -490,7 +459,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-104"/>
+        <location line="-103"/>
         <source>Above you can view new photos and describe them.</source>
         <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
@@ -520,7 +489,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+217"/>
+        <location line="+208"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -581,12 +550,12 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-272"/>
+        <location line="-263"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+164"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

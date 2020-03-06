@@ -32,7 +32,7 @@
 #include "group.hpp"
 #include "person_data.hpp"
 #include "photo_data.hpp"
-
+#include "ipeople_information_accessor.hpp"
 #include "database_export.h"
 #include "database_status.strings.hpp"
 
@@ -238,6 +238,8 @@ namespace Database
          * \return changelog operator
          */
         virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
+
+        virtual IPeopleInformationAccessor& peopleInformationAccessor() = 0;
 
     signals:
         /// emited after new photos were added to database

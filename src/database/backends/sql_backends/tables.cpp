@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 4;
+        const int db_version = 5;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -154,9 +154,19 @@ namespace Database
                         { "id", "", ColDefinition::Purpose::ID },
                         { "photo_id", "INTEGER NOT NULL"       },
                         { "person_id", "INTEGER"               }, // may be null when only face was found but noone was assigned
+                        { "fingerprint_id", "INTEGER"          }, // null if fingerprint not calculated
                         { "location", "CHAR(64)"               }, // format: (x),(y) (w)x(h); may be null if person was assigned, but we do not know location
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
                         { "FOREIGN KEY(person_id) REFERENCES " TAB_PEOPLE_NAMES "(id)", "" },
+                        { "FOREIGN KEY(fingerprint_id) REFERENCES " TAB_FACES_FINGERPRINTS "(id)", "" },
+                    }
+        );
+
+        TableDefinition
+        table_faces_fingerprints(TAB_FACES_FINGERPRINTS,
+                    {
+                        { "id", "", ColDefinition::Purpose::ID },
+                        { "fingerprint", "BLOB"                },
                     }
         );
 
@@ -198,6 +208,7 @@ namespace Database
             { TAB_GROUPS_MEMBERS,       table_groups_members },
             { TAB_PEOPLE_NAMES,         table_people },
             { TAB_PEOPLE,               table_people_locations },
+            { TAB_FACES_FINGERPRINTS,   table_faces_fingerprints },
             { TAB_GENERAL_FLAGS,        table_general_flags },
             { TAB_PHOTOS_CHANGE_LOG,    table_photos_change_log },
         };

@@ -109,7 +109,6 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionFace_organizer"/>
     <addaction name="actionSeries_detector"/>
    </widget>
    <addaction name="menuCollection"/>

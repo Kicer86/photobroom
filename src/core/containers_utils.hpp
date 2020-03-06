@@ -76,6 +76,54 @@ void compare(const MapT& lhs, const MapT& rhs,
 
 }
 
+template<typename T>
+std::vector<T> operator+(const std::vector<T>& lhs, const std::vector<T>& rhs)
+{
+    const std::size_t size = std::max(lhs.size(), rhs.size());
+
+    std::vector<T> result(size);
+
+    for(std::size_t i = 0; i < size; i++)
+    {
+        const T l = i < lhs.size()? lhs[i]: T();
+        const T r = i < rhs.size()? rhs[i]: T();
+
+        result[i] = l + r;
+    }
+
+    return result;
+}
+
+template<typename T>
+std::vector<T>& operator+=(std::vector<T>& lhs, const std::vector<T>& rhs)
+{
+    lhs = lhs + rhs;
+
+    return lhs;
+}
+
+
+template<typename T, typename P>
+std::vector<T> operator/(const std::vector<T>& lhs, const P& rhs)
+{
+    const std::size_t size = lhs.size();
+    std::vector<T> result(size);
+
+    for(std::size_t i = 0; i < size; i++)
+        result[i] = lhs[i] / rhs;
+
+    return result;
+}
+
+
+template<typename T, typename P>
+std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
+{
+    lhs = lhs / rhs;
+
+    return lhs;
+}
+
 #ifndef CONCEPTS_SUPPORTED
 #undef Container
 #endif

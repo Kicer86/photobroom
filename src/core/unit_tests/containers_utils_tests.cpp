@@ -177,3 +177,81 @@ TEST(compareTest, mixDetection)
     EXPECT_EQ(std::get<1>(changed.back()), 'f');
     EXPECT_EQ(std::get<2>(changed.back()), 'w');
 }
+
+
+TEST(VectorAdditionTest, firstShorter)
+{
+    const std::vector<int> l = {1, 2, 4, 8};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+    const std::vector<int> s = l + r;
+
+    ASSERT_EQ(s.size(), 5);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 32};
+    EXPECT_EQ(s, expected_sum);
+}
+
+
+TEST(VectorAdditionTest, secondShorter)
+{
+    const std::vector<int> l = {1, 2, 4, 8, 16, 32};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+    const std::vector<int> s = l + r;
+
+    ASSERT_EQ(s.size(), 6);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 48, 32};
+    EXPECT_EQ(s, expected_sum);
+}
+
+
+TEST(VectorAdditionAndAssignTest, firstShorter)
+{
+    std::vector<int> l = {1, 2, 4, 8};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+
+    l += r;
+
+    ASSERT_EQ(l.size(), 5);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 32};
+    EXPECT_EQ(l, expected_sum);
+}
+
+
+TEST(VectorAdditionAndAssignTest, secondShorter)
+{
+    std::vector<int> l = {1, 2, 4, 8, 16, 32};
+    const std::vector<int> r = {2, 4, 8, 16, 32};
+
+    l += r;
+
+    ASSERT_EQ(l.size(), 6);
+
+    const std::vector<int> expected_sum{3, 6, 12, 24, 48, 32};
+    EXPECT_EQ(l, expected_sum);
+}
+
+
+TEST(VectorDivisionTest, byInt)
+{
+    const std::vector<int> l = {2, 4, 8, 16, 32};
+    const std::vector r = l / 2;
+
+    ASSERT_EQ(r.size(), 5);
+
+    const std::vector<int> expected_sum{1, 2, 4, 8, 16};
+    EXPECT_EQ(r, expected_sum);
+}
+
+
+TEST(VectorDivisionAndAssignTest, byInt)
+{
+    std::vector l = {2, 4, 8, 16, 32};
+    l /= 2;
+
+    ASSERT_EQ(l.size(), 5);
+
+    const std::vector expected_sum = {1, 2, 4, 8, 16};
+    EXPECT_EQ(l, expected_sum);
+}

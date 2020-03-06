@@ -54,12 +54,11 @@ namespace
 FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFactory, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
     m_id(data.id),
-    m_people(prj->getProjectInfo().getInternalLocation(ProjectInfo::FaceRecognition), prj->getDatabase(), coreAccessor),
+    m_peopleManipulator(data.id, *prj->getDatabase(), *coreAccessor),
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
-    m_exif(coreAccessor->getExifReaderFactory()->get()),
-    m_facesToAnalyze(0)
+    m_exif(coreAccessor->getExifReaderFactory()->get())
 {
     ui->setupUi(this);
     ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
@@ -72,22 +71,13 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(ui->scaleSlider, &QSlider::valueChanged,
             this, &FacesDialog::updateImage);
 
-    connect(&m_people, &PeopleOperator::faces,
-            this, &FacesDialog::applyFacesLocations);
-
-    connect(&m_people, &PeopleOperator::recognized,
-            this, &FacesDialog::applyFaceName);
-
-    connect(&m_people, &PeopleOperator::unassigned,
-            this, &FacesDialog::applyUnassigned);
+    connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
+            this, &FacesDialog::updateFaceInformation);
 
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
     ui->statusLabel->setText(tr("Locating faces..."));
-
-    m_people.fetchFaces(m_id);
-    m_people.getUnassignedPeople(m_id);
 
     updateImage();
 }
@@ -99,23 +89,26 @@ FacesDialog::~FacesDialog()
 }
 
 
-void FacesDialog::applyFacesLocations(const QVector<QRect>& faces)
+void FacesDialog::updateFaceInformation()
 {
-    const QString status = faces.isEmpty()? tr("Found %n face(s).", "", faces.size()) :
-                                            tr("Found %n face(s). Recognizing people...", "", faces.size());
+    const auto faces_count = m_peopleManipulator.facesCount();
+    const QString status = tr("Found %n face(s).", "", faces_count);
 
     ui->statusLabel->setText(status);
 
-    m_faces = faces;
+    m_faces.clear();
+    for(std::size_t i = 0; i < faces_count; i++)
+        m_faces.push_back(m_peopleManipulator.position(i));
+
     updateImage();
     updatePeopleList();
 
-    m_facesToAnalyze = faces.size();
-
-    for(const QRect& face: faces)
+    for(std::size_t i = 0; i < faces_count; i++)
     {
-        PeopleOperator::FaceLocation fl(m_id, face);
-        m_people.recognize(fl);
+        const QRect& pos = m_peopleManipulator.position(i);
+        const QString& name = m_peopleManipulator.name(i);
+
+        applyFaceName(pos, name);
     }
 }
 
@@ -128,14 +121,9 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 
     if (it != m_faces.cend())
     {
-        const std::size_t idx = std::distance(m_faces.cbegin(), it);
+        const long idx = std::distance(m_faces.cbegin(), it);
         ui->peopleList->setItem(idx, 0, new QTableWidgetItem(name));
     }
-
-    m_facesToAnalyze--;
-
-    if (m_facesToAnalyze == 0)
-        ui->statusLabel->setText(tr("All known faces recognized."));
 }
 
 
@@ -227,9 +215,6 @@ void FacesDialog::setUnassignedVisible(bool visible)
 
 void FacesDialog::apply()
 {
-    std::vector<std::pair<QRect, QString>> known_faces;
-    QStringList unknownPeople;
-
     const int known_count = ui->peopleList->rowCount();
     assert( known_count == m_faces.size());
 
@@ -238,20 +223,8 @@ void FacesDialog::apply()
         const auto person = ui->peopleList->item(i, 0);
         const QString name = person == nullptr? QString(): person->text();
 
-        auto face_data = std::make_pair(m_faces[i], name);
-        known_faces.push_back(face_data);
+        m_peopleManipulator.setName(static_cast<std::size_t>(i), name);
     }
 
-    const int unknown_count = ui->unassignedList->rowCount();
-
-    for(int i = 0; i < unknown_count; i++)
-    {
-        const auto person = ui->unassignedList->item(i, 0);
-        const QString name = person == nullptr? QString(): person->text();
-
-        if (name.isEmpty() == false)
-            unknownPeople.append(name);
-    }
-
-    m_people.store(m_id, known_faces, unknownPeople);
+    m_peopleManipulator.store();
 }

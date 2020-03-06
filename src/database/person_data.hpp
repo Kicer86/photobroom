@@ -33,6 +33,7 @@ namespace Person
 {
     DATABASE_EXPORT extern const char Name[16];
     typedef Id<int, Name> Id;
+    typedef std::vector<double> Fingerprint;
 }
 
 
@@ -59,6 +60,27 @@ class DATABASE_EXPORT PersonName final
         QString m_name;
 };
 
+
+class DATABASE_EXPORT PersonFingerprint
+{
+        static constexpr char Name[16] = "Fingerprint";
+
+    public:
+        typedef ::Id<int, Name> Id;
+
+        PersonFingerprint() {}
+        PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
+        PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+
+        const Id& id() const { return m_id; }
+        const Person::Fingerprint& fingerprint() const { return m_fingerprint; }
+
+    private:
+        Person::Fingerprint m_fingerprint;
+        Id m_id;
+};
+
+
 class DATABASE_EXPORT PersonInfo
 {
         static const char Name[16];
@@ -69,23 +91,26 @@ class DATABASE_EXPORT PersonInfo
         Id id;
         Person::Id p_id;
         Photo::Id ph_id;
+        PersonFingerprint::Id f_id;
         QRect rect;
 
-        PersonInfo(): id(), p_id(), ph_id(), rect()
+        PersonInfo(): id(), p_id(), ph_id(), f_id(), rect()
         {
         }
 
         PersonInfo(const PersonInfo::Id& _id,
                    const Person::Id& _p_id,
                    const Photo::Id& _ph_id,
+                   const PersonFingerprint::Id& _f_id,
                    const QRect& _rect):
-            id(_id), p_id(_p_id), ph_id(_ph_id), rect(_rect)
+            id(_id), p_id(_p_id), ph_id(_ph_id), f_id(_f_id), rect(_rect)
         {}
 
         PersonInfo(const Person::Id& _p_id,
                    const Photo::Id& _ph_id,
+                   const PersonFingerprint::Id& _f_id,
                    const QRect& _rect):
-            id(), p_id(_p_id), ph_id(_ph_id), rect(_rect)
+            id(), p_id(_p_id), ph_id(_ph_id), f_id(_f_id), rect(_rect)
         {}
 
         PersonInfo(const PersonInfo &) = default;
@@ -96,6 +121,7 @@ class DATABASE_EXPORT PersonInfo
             return id == other.id       &&
                    p_id == other.p_id   &&
                    ph_id == other.ph_id &&
+                   f_id == other.f_id   &&
                    rect == other.rect;
         }
 };

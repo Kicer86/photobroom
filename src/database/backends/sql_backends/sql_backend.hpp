@@ -26,8 +26,10 @@
 #include <vector>
 #include <vector>
 
+#include "core/lazy_ptr.hpp"
 #include "database/ibackend.hpp"
 #include "group_operator.hpp"
+#include "people_information_accessor.hpp"
 #include "photo_change_log_operator.hpp"
 #include "photo_operator.hpp"
 #include "sql_backend_base_export.h"
@@ -75,6 +77,7 @@ namespace Database
             GroupOperator* groupOperator() override;
             PhotoOperator* photoOperator() override;
             PhotoChangeLogOperator* photoChangeLogOperator() override;
+            IPeopleInformationAccessor& peopleInformationAccessor() override;
 
         protected:
             /**
@@ -124,6 +127,7 @@ namespace Database
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
+            lazy_ptr<IPeopleInformationAccessor, std::function<IPeopleInformationAccessor*()>> m_peopleInfoAccessor;
             mutable NestedTransaction m_tr_db;
             QString m_connectionName;
             std::unique_ptr<ILogger> m_logger;
