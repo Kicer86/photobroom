@@ -28,7 +28,7 @@ TEST_F(PeopleTest, personIntroduction)
         db->exec([](Database::IBackend* op)
         {
             const PersonName p1(Person::Id(), "P 1");
-            const Person::Id p1_id = op->store(p1);
+            const Person::Id p1_id = op->peopleInformationAccessor().store(p1);
 
             const PersonName p1_r = op->peopleInformationAccessor().person(p1_id);
 
@@ -39,7 +39,7 @@ TEST_F(PeopleTest, personIntroduction)
         db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(123), "P 2");
-            const Person::Id p2_id = op->store(p2);
+            const Person::Id p2_id = op->peopleInformationAccessor().store(p2);
 
             EXPECT_FALSE(p2_id.valid());     // p2 was nonexistent person (id 123 doesn't exist in db), we should get an error
 
@@ -51,10 +51,10 @@ TEST_F(PeopleTest, personIntroduction)
         db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(), "P 2");
-            const Person::Id p2_id = op->store(p2);
+            const Person::Id p2_id = op->peopleInformationAccessor().store(p2);
 
             const PersonName p2_dup(Person::Id(), "P 2");
-            const Person::Id p2_dup_id = op->store(p2_dup);
+            const Person::Id p2_dup_id = op->peopleInformationAccessor().store(p2_dup);
 
             EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
         });
@@ -72,7 +72,7 @@ TEST_F(PeopleTest, massivePersonIntroduction)
             for(int i = 0; i < 8; i++)
             {
                 const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
-                const Person::Id pn_id = op->store(pn);
+                const Person::Id pn_id = op->peopleInformationAccessor().store(pn);
                 const PersonName f_pn(pn_id, pn.name());     // construct PersonName with full info
 
                 people.insert(f_pn);
@@ -269,13 +269,13 @@ TEST_F(PeopleTest, alteringPersonData)
             const Photo::Id& ph_id = ids.front();
 
             // store person without rect
-            const Person::Id p_id = op->store(PersonName("person 25"));
-            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, {}, QRect()));
+            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
 
             // update rect info
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(pi_id, p_id, ph_id, {}, pr);
-            const PersonInfo::Id pi_id_full = op->store(pi_full);
+            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
 
             EXPECT_EQ(pi_id, pi_id_full);
 
@@ -295,7 +295,7 @@ TEST_F(PeopleTest, alteringPersonData)
 
             // remove person name
             const PersonInfo pi_no_person(pi_id, Person::Id(), ph_id, {}, pr);
-            op->store(pi_no_person);
+            op->peopleInformationAccessor().store(pi_no_person);
 
             // person should not be removed from people list, but should not be assigned to photo anymore.
             // Rect with face should stay
@@ -314,7 +314,7 @@ TEST_F(PeopleTest, alteringPersonData)
 
             // remove rect
             const PersonInfo pi_no_person_no_rect(pi_id, Person::Id(), ph_id, {}, QRect());
-            op->store(pi_no_person_no_rect);
+            op->peopleInformationAccessor().store(pi_no_person_no_rect);
 
             // person should not be removed from people list, but should be totally removed from photo
             {
@@ -351,12 +351,12 @@ TEST_F(PeopleTest, rectIsMoreImportantThanName)
             const Photo::Id& ph_id = ids.front();
 
             // store person with rect
-            const Person::Id p_id = op->store(PersonName("person 25"));
-            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
+            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
 
             // store the same person with another rect
-            const Person::Id p_id2 = op->store(PersonName("person 25"));
-            const PersonInfo::Id pi_id2 = op->store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
+            const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
+            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
 
             EXPECT_EQ(p_id, p_id2);   // same person
             EXPECT_NE(pi_id, pi_id2); // different entries on photo
@@ -384,12 +384,12 @@ TEST_F(PeopleTest, inteligentRectUpdate)
             const Photo::Id& ph_id = ids.front();
 
             // store people without rects
-            const Person::Id p_id = op->store(PersonName("person 15"));
-            const PersonInfo::Id pi_id = op->store(PersonInfo(p_id, ph_id, {}, QRect()));
-            const Person::Id p_id2 = op->store(PersonName("person 25"));
-            const PersonInfo::Id pi_id2 = op->store(PersonInfo(p_id2, ph_id, {}, QRect()));
-            const Person::Id p_id3 = op->store(PersonName("person 35"));
-            const PersonInfo::Id pi_id3 = op->store(PersonInfo(p_id3, ph_id, {}, QRect()));
+            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 15"));
+            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+            const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
+            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id2, ph_id, {}, QRect()));
+            const Person::Id p_id3 = op->peopleInformationAccessor().store(PersonName("person 35"));
+            const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(p_id3, ph_id, {}, QRect()));
 
             EXPECT_NE(pi_id, pi_id2);
             EXPECT_NE(pi_id2, pi_id3);
@@ -397,7 +397,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
             // update rect info omitting pi_id (backend should guess which person needs update)
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(p_id2, ph_id, {}, pr);
-            const PersonInfo::Id pi_id_full = op->store(pi_full);
+            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
 
             EXPECT_EQ(pi_id2, pi_id_full);
 
@@ -437,17 +437,17 @@ TEST_F(PeopleTest, inteligentNameUpdate)
             const QRect r1(12, 34, 56, 78);
             const QRect r2(23, 45, 67, 89);
             const QRect r3(34, 56, 78, 90);
-            const PersonInfo::Id pi_id = op->store(PersonInfo(Person::Id(), ph_id, {}, r1));
-            const PersonInfo::Id pi_id2 = op->store(PersonInfo(Person::Id(), ph_id, {}, r2));
-            const PersonInfo::Id pi_id3 = op->store(PersonInfo(Person::Id(), ph_id, {}, r3));
+            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+            const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
             EXPECT_NE(pi_id, pi_id2);
             EXPECT_NE(pi_id2, pi_id3);
 
             // update name ommiting pi_id (backend should guess which person needs update)
-            const Person::Id pn_id = op->store(PersonName("per 12345"));
+            const Person::Id pn_id = op->peopleInformationAccessor().store(PersonName("per 12345"));
             const PersonInfo pi_full(pn_id, ph_id, {}, r2);
-            const PersonInfo::Id pi_id_full = op->store(pi_full);
+            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
 
             EXPECT_EQ(pi_id2, pi_id_full);
 
@@ -489,9 +489,9 @@ TEST_F(PeopleTest, photoTagsWhenNoName)
             const QRect r1(12, 34, 56, 78);
             const QRect r2(23, 45, 67, 89);
             const QRect r3(34, 56, 78, 90);
-            op->store(PersonInfo(Person::Id(), ph_id, {}, r1));
-            op->store(PersonInfo(Person::Id(), ph_id, {}, r2));
-            op->store(PersonInfo(Person::Id(), ph_id, {}, r3));
+            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
             const auto photo = db_utils->getPhotoFor(ph_id);
             const auto tags = photo->getTags();
@@ -519,12 +519,12 @@ TEST_F(PeopleTest, inteligentPersonNameRemoval)
             ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
-            const Person::Id p_id = op->store(PersonName("person 25"));
+            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
 
             // store person with full data
             const QRect pr(34, 56, 78, 90);
             const PersonInfo pi_full(p_id, ph_id, {}, pr);
-            const PersonInfo::Id pi_id = op->store(pi_full);
+            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(pi_full);
 
             // expect one person in db with full data
             {
@@ -542,7 +542,7 @@ TEST_F(PeopleTest, inteligentPersonNameRemoval)
 
             // remove person name (Omit PersonInfo::Id)
             const PersonInfo pi_no_person(Person::Id(), ph_id, {}, pr);
-            op->store(pi_no_person);
+            op->peopleInformationAccessor().store(pi_no_person);
 
             // person should not be removed from people list, but should not be assigned to photo anymore.
             // Rect with face should stay

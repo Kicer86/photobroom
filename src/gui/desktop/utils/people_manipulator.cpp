@@ -336,7 +336,7 @@ void PeopleManipulator::store_people_information()
 
         m_db.exec([faceInfo, fingerprint](Database::IBackend* backend)
         {
-            backend->store(faceInfo);
+            backend->peopleInformationAccessor().store(faceInfo);
         });
     }
 }
@@ -442,7 +442,7 @@ PersonName PeopleManipulator::storeNewPerson(const QString& name) const
             (&m_db, [name](Database::IBackend* backend)
     {
         const PersonName d(Person::Id(), name);
-        const auto id = backend->store(d);
+        const auto id = backend->peopleInformationAccessor().store(d);
         return PersonName(id, name);
     });
 

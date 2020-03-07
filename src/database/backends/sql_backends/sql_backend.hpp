@@ -147,8 +147,6 @@ namespace Database
             std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
             Photo::Data              getPhoto(const Photo::Id &) override final;
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
-            Person::Id               store(const PersonName &) override final;
-            PersonInfo::Id           store(const PersonInfo &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
@@ -161,10 +159,7 @@ namespace Database
             bool updateOrInsert(const UpdateQueryData &) const;
 
             // helpers for sql operations
-            PersonName person(const QString &) const;
             std::vector<PersonInfo> listPeople(const std::vector<Photo::Id> &);
-            PersonInfo::Id storePerson(const PersonInfo &);
-            void dropPersonInfo(const PersonInfo::Id &);
 
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
 
