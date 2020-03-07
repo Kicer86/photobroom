@@ -427,7 +427,7 @@ PersonName PeopleManipulator::personData(const Person::Id& id) const
     const PersonName person = evaluate<PersonName (Database::IBackend *)>
         (&m_db, [id](Database::IBackend* backend)
     {
-        const auto people = backend->person(id);
+        const auto people = backend->peopleInformationAccessor().person(id);
 
         return people;
     });

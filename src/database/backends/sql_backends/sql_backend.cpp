@@ -421,35 +421,6 @@ namespace Database
     }
 
 
-
-    /**
-     * \brief get person name for given person id
-     */
-    PersonName ASqlBackend::person(const Person::Id& p_id)
-    {
-        const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
-                                    .arg( TAB_PEOPLE_NAMES )
-                                    .arg(p_id);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        PersonName result;
-        const bool status = m_executor.exec(findQuery, &query);
-
-        if (status && query.next())
-        {
-            const int id = query.value(0).toInt();
-            const QString name = query.value(1).toString();
-            const Person::Id pid(id);
-
-            result = PersonName (pid, name);
-        }
-
-        return result;
-    }
-
-
     Person::Id ASqlBackend::store(const PersonName& d)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);

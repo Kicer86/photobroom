@@ -30,7 +30,7 @@ TEST_F(PeopleTest, personIntroduction)
             const PersonName p1(Person::Id(), "P 1");
             const Person::Id p1_id = op->store(p1);
 
-            const PersonName p1_r = op->person(p1_id);
+            const PersonName p1_r = op->peopleInformationAccessor().person(p1_id);
 
             EXPECT_EQ(p1_r.name(), p1.name());
             EXPECT_EQ(p1_r.id(), p1_id);
@@ -43,7 +43,7 @@ TEST_F(PeopleTest, personIntroduction)
 
             EXPECT_FALSE(p2_id.valid());     // p2 was nonexistent person (id 123 doesn't exist in db), we should get an error
 
-            const PersonName p2_r = op->person(Person::Id(123));
+            const PersonName p2_r = op->peopleInformationAccessor().person(Person::Id(123));
 
             EXPECT_FALSE(p2_r.id().valid()); // make sure there is no entry with given id
         });

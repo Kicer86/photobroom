@@ -121,6 +121,34 @@ namespace Database
     }
 
 
+    /**
+     * \brief get person name for given person id
+     */
+    PersonName PeopleInformationAccessor::person(const Person::Id& p_id)
+    {
+        const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
+                                    .arg( TAB_PEOPLE_NAMES )
+                                    .arg(p_id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        PersonName result;
+        const bool status = m_executor.exec(findQuery, &query);
+
+        if (status && query.next())
+        {
+            const int id = query.value(0).toInt();
+            const QString name = query.value(1).toString();
+            const Person::Id pid(id);
+
+            result = PersonName (pid, name);
+        }
+
+        return result;
+    }
+
+
     std::vector<PersonFingerprint> PeopleInformationAccessor::fingerprintsFor(const Person::Id& id)
     {
         const QString sql_query = QString("SELECT %1.id, fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.person_id = %3")

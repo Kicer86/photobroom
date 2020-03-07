@@ -18,8 +18,16 @@ namespace Database
             /// list people on photo
             virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
 
+            /**
+            * \brief get person details
+            * \arg id person id
+            * \return PersonName struct
+            */
+            virtual PersonName               person(const Person::Id &) = 0;
+
             virtual std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) = 0;
             virtual std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) = 0;
+
             virtual PersonFingerprint::Id store(const PersonFingerprint &) = 0;
     };
 }

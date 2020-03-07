@@ -34,6 +34,7 @@ namespace Database
 
             std::vector<PersonName>  listPeople() override final;
             std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
+            PersonName               person(const Person::Id &) override final;
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
             PersonFingerprint::Id store(const PersonFingerprint &) override;

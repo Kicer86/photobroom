@@ -137,13 +137,6 @@ namespace Database
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;
 
         /**
-         * \brief get person details
-         * \arg id person id
-         * \return PersonName struct
-         */
-        virtual PersonName               person(const Person::Id &) = 0;
-
-        /**
          * \brief Store or update person
          * \arg pn Details about person name to be stored.
          * \return id of created or updated person.
