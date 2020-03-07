@@ -212,7 +212,7 @@ namespace Database
 
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
-        DB_ERR_ON_FALSE(m_executor->exec(query));
+        DB_ERROR_ON_FALSE1(m_executor->exec(query));
     }
 
 
