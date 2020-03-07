@@ -44,6 +44,12 @@ struct ILoggerFactory;
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
 
+#define DB_ERROR_ON_FALSE3(CALL, ERRCODE, DETAILS) \
+    {                                              \
+        if ( !(CALL) )                             \
+            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);  \
+    }
+
 #define DB_ERROR_ON_FALSE(CALL, ERRCODE)       \
     {                                          \
         if ( !(CALL) )                         \
