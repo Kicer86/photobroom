@@ -73,11 +73,14 @@ namespace Database
             StatusCodes m_status;
 
         public:
-            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError):
+            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError, const std::string& details = std::string()):
                 m_err(),
                 m_status(status)
             {
                 m_err += err + ": " + get_entry(m_status);
+
+                if (details.empty() == false)
+                    m_err += ", " + details;
             }
 
             StatusCodes status() const noexcept
