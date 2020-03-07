@@ -242,11 +242,16 @@ namespace Database
 
             DB_ERROR_ON_FALSE(m_dbOpen, StatusCodes::OpenFailed);
             DB_ERROR_ON_FALSE(dbOpened(), StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::BLOB), StatusCodes::OpenFailed, "DB driver does not support BLOB");
+            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::LastInsertId), StatusCodes::OpenFailed, "DB driver does not support LastInsertId");
             DB_ERROR_ON_FALSE(checkStructure(), StatusCodes::GeneralError);
         }
         catch(const db_error& err)
         {
-            m_logger->error(QString("Error opening database: %1").arg(db.lastError().text()));
+            const QSqlError sql_error = db.lastError();
+            const QString error_message = sql_error.type() == QSqlError::NoError? err.what(): db.lastError().text();
+
+            m_logger->error(QString("Error opening database: %1").arg(error_message));
             status = err.status();
         }
 
