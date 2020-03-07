@@ -32,6 +32,8 @@ namespace Database
         public:
             PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &, const IGenericSqlQueryGenerator &);
 
+            std::vector<PersonName>  listPeople() override final;
+            std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
             PersonFingerprint::Id store(const PersonFingerprint &) override;
@@ -40,6 +42,7 @@ namespace Database
             const QString m_connectionName;
             Database::ISqlQueryExecutor& m_executor;
             const IGenericSqlQueryGenerator& m_query_generator;
+            bool m_dbHasSizeFeature;
     };
 }
 

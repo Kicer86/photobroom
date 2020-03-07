@@ -147,8 +147,6 @@ namespace Database
             std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
             Photo::Data              getPhoto(const Photo::Id &) override final;
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
-            std::vector<PersonName>  listPeople() override final;
-            std::vector<PersonInfo>  listPeople(const Photo::Id &) override final;
             PersonName               person(const Person::Id &) override final;
             Person::Id               store(const PersonName &) override final;
             PersonInfo::Id           store(const PersonInfo &) override final;

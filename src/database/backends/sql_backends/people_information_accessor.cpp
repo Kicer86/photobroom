@@ -19,6 +19,7 @@
 #include "people_information_accessor.hpp"
 
 #include <QSqlDatabase>
+#include <QSqlDriver>
 #include <QSqlQuery>
 
 #include "isql_query_executor.hpp"
@@ -34,8 +35,89 @@ namespace Database
         : m_connectionName(connectionName)
         , m_executor(queryExecutor)
         , m_query_generator(query_generator)
+        , m_dbHasSizeFeature(false)
     {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
+    }
 
+
+    std::vector<PersonName> PeopleInformationAccessor::listPeople()
+    {
+        const QString findQuery = QString("SELECT id, name FROM %1")
+                                    .arg( TAB_PEOPLE_NAMES );
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        std::vector<PersonName> result;
+        const bool status = m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_dbHasSizeFeature)
+                result.reserve(static_cast<std::size_t>(query.size()));
+
+            while(query.next())
+            {
+                const int id = query.value(0).toInt();
+                const QString name = query.value(1).toString();
+                const Person::Id pid(id);
+
+                result.emplace_back(pid, name);
+            }
+        }
+
+        return result;
+    }
+
+
+    std::vector<PersonInfo> PeopleInformationAccessor::listPeople(const Photo::Id& ph_id )
+    {
+        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location, %1.fingerprint_id FROM %1 WHERE %1.photo_id = %2")
+                                    .arg(TAB_PEOPLE)
+                                    .arg(ph_id);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        std::vector<PersonInfo> result;
+        const bool status = m_executor.exec(findQuery, &query);
+
+        if (status)
+        {
+            if (m_dbHasSizeFeature)
+                result.reserve(static_cast<std::size_t>(query.size()));
+
+            while(query.next())
+            {
+                const int id_raw = query.value(0).toInt();
+                const PersonInfo::Id id(id_raw);
+                const Person::Id pid = query.isNull(1)?
+                                           Person::Id():
+                                           Person::Id(query.value(1).toInt());
+
+                const PersonFingerprint::Id f_id = query.isNull(3)?
+                            PersonFingerprint::Id():
+                            PersonFingerprint::Id(query.value(3).toInt());
+
+                QRect location;
+
+                if (query.isNull(2) == false)
+                {
+                    const QVariant location_raw = query.value(2);
+                    const QStringList location_list = location_raw.toString().split(QRegExp("[ ,x]"));
+                    location = QRect(location_list[0].toInt(),
+                                     location_list[1].toInt(),
+                                     location_list[2].toInt(),
+                                     location_list[3].toInt());
+                }
+
+                result.emplace_back(id, pid, ph_id, f_id, location);
+            }
+        }
+
+        return result;
     }
 
 

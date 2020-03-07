@@ -136,12 +136,6 @@ namespace Database
         /// Count photos matching filter
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;
 
-        /// list all people names
-        virtual std::vector<PersonName>  listPeople() = 0;
-
-        /// list people on photo
-        virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
-
         /**
          * \brief get person details
          * \arg id person id

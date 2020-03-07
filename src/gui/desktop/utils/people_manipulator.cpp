@@ -349,7 +349,7 @@ std::vector<QRect> PeopleManipulator::fetchFacesFromDb() const
     {
         std::vector<QRect> faces;
 
-        const auto people = backend->listPeople(id);
+        const auto people = backend->peopleInformationAccessor().listPeople(id);
         for(const auto& person: people)
             if (person.rect.isValid())
                 faces.push_back(person.rect);
@@ -364,7 +364,7 @@ std::vector<PersonInfo> PeopleManipulator::fetchPeopleFromDb() const
     return evaluate<std::vector<PersonInfo>(Database::IBackend *)>
         (&m_db, [id = m_pid](Database::IBackend* backend)
     {
-        auto people = backend->listPeople(id);
+        auto people = backend->peopleInformationAccessor().listPeople(id);
 
         return people;
     });
@@ -380,7 +380,7 @@ std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> PeopleMani
         std::vector<Person::Fingerprint> people_fingerprints;
         std::vector<Person::Id> people;
 
-        const auto all_people = backend->listPeople();
+        const auto all_people = backend->peopleInformationAccessor().listPeople();
         for(const auto& person: all_people)
         {
             const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
@@ -415,7 +415,7 @@ std::vector<PersonName> PeopleManipulator::fetchPeople() const
 {
     return evaluate<std::vector<PersonName>(Database::IBackend *)>(&m_db, [](Database::IBackend* backend)
     {
-        auto people = backend->listPeople();
+        auto people = backend->peopleInformationAccessor().listPeople();
 
         return people;
     });

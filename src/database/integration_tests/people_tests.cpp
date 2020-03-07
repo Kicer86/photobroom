@@ -78,7 +78,7 @@ TEST_F(PeopleTest, massivePersonIntroduction)
                 people.insert(f_pn);
             }
 
-            const std::vector<PersonName> pns_r = op->listPeople();
+            const std::vector<PersonName> pns_r = op->peopleInformationAccessor().listPeople();
 
             // we expect that all inserted people will appear in pns_r
             for (const PersonName& pn: pns_r)
@@ -128,14 +128,14 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
             photo2->setTag(pi2, pv2);
 
             // verify if people's name were stored
-            const auto all_people = op->listPeople();
+            const auto all_people = op->peopleInformationAccessor().listPeople();
             ASSERT_EQ(all_people.size(), 3);
             EXPECT_EQ(all_people[0].name(), "person 1");
             EXPECT_EQ(all_people[1].name(), "person 2");
             EXPECT_EQ(all_people[2].name(), "person 3");
 
             // verify people assigned to photo1
-            const auto photo1_people = op->listPeople(photo1->getID());
+            const auto photo1_people = op->peopleInformationAccessor().listPeople(photo1->getID());
             ASSERT_EQ(photo1_people.size(), 2);
             EXPECT_EQ(photo1_people[0].p_id, all_people[0].id());
             EXPECT_EQ(photo1_people[0].ph_id, photo1->getID());
@@ -146,7 +146,7 @@ TEST_F(PeopleTest, simpleAssignmentToPhoto)
             EXPECT_FALSE(photo1_people[1].rect.isValid());
 
             // verify people assigned to photo2
-            const auto photo2_people = op->listPeople(photo2->getID());
+            const auto photo2_people = op->peopleInformationAccessor().listPeople(photo2->getID());
             ASSERT_EQ(photo2_people.size(), 2);
             EXPECT_EQ(photo2_people[0].p_id, all_people[1].id());
             EXPECT_EQ(photo2_people[0].ph_id, photo2->getID());
@@ -211,7 +211,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 
             // verify if person was successfully stored
             {
-                const auto people = op->listPeople(ids[0]);
+                const auto people = op->peopleInformationAccessor().listPeople(ids[0]);
                 ASSERT_EQ(people.size(), 1);
                 EXPECT_TRUE(people[0].id.valid());
                 EXPECT_EQ(people[0].p_id, p_id);
@@ -231,7 +231,7 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 
             // verify if original person wasn't touched, and if we have a new companion
             {
-                const auto people = op->listPeople(ids[0]);
+                const auto people = op->peopleInformationAccessor().listPeople(ids[0]);
                 ASSERT_EQ(people.size(), 2);
 
                 EXPECT_TRUE(people[0].id.valid());
@@ -281,12 +281,12 @@ TEST_F(PeopleTest, alteringPersonData)
 
             // expect one person in db with full data
             {
-                const auto ppl = op->listPeople();
+                const auto ppl = op->peopleInformationAccessor().listPeople();
                 ASSERT_EQ(ppl.size(), 1);
                 EXPECT_EQ(ppl[0].id(), pi_id);
                 EXPECT_EQ(ppl[0].name(), "person 25");
 
-                const auto ph_ppl = op->listPeople(ph_id);
+                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ph_ppl.size(), 1);
                 EXPECT_EQ(ph_ppl[0].id, pi_id);
                 EXPECT_EQ(ph_ppl[0].p_id, p_id);
@@ -300,12 +300,12 @@ TEST_F(PeopleTest, alteringPersonData)
             // person should not be removed from people list, but should not be assigned to photo anymore.
             // Rect with face should stay
             {
-                const auto ppl = op->listPeople();
+                const auto ppl = op->peopleInformationAccessor().listPeople();
                 ASSERT_EQ(ppl.size(), 1);
                 EXPECT_EQ(ppl[0].id(), pi_id);
                 EXPECT_EQ(ppl[0].name(), "person 25");
 
-                const auto ph_ppl = op->listPeople(ph_id);
+                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ph_ppl.size(), 1);
                 EXPECT_EQ(ph_ppl[0].id, pi_id);
                 EXPECT_FALSE(ph_ppl[0].p_id.valid());
@@ -318,12 +318,12 @@ TEST_F(PeopleTest, alteringPersonData)
 
             // person should not be removed from people list, but should be totally removed from photo
             {
-                const auto ppl = op->listPeople();
+                const auto ppl = op->peopleInformationAccessor().listPeople();
                 ASSERT_EQ(ppl.size(), 1);
                 EXPECT_EQ(ppl[0].id(), pi_id);
                 EXPECT_EQ(ppl[0].name(), "person 25");
 
-                const auto ph_ppl = op->listPeople(ph_id);
+                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 EXPECT_TRUE(ph_ppl.empty());
             }
         });
@@ -403,7 +403,7 @@ TEST_F(PeopleTest, inteligentRectUpdate)
 
             // expect one person in db with full data + two with missing rects
             {
-                const auto ppl = op->listPeople(ph_id);
+                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 3);
 
                 EXPECT_FALSE(ppl[0].rect.isValid());
@@ -453,7 +453,7 @@ TEST_F(PeopleTest, inteligentNameUpdate)
 
             // expect one person in db with full data + two with missing names
             {
-                const auto ppl = op->listPeople(ph_id);
+                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 3);
 
                 EXPECT_FALSE(ppl[0].p_id.valid());
@@ -528,12 +528,12 @@ TEST_F(PeopleTest, inteligentPersonNameRemoval)
 
             // expect one person in db with full data
             {
-                const auto ppl = op->listPeople();
+                const auto ppl = op->peopleInformationAccessor().listPeople();
                 ASSERT_EQ(ppl.size(), 1);
                 EXPECT_EQ(ppl[0].id(), pi_id);
                 EXPECT_EQ(ppl[0].name(), "person 25");
 
-                const auto ph_ppl = op->listPeople(ph_id);
+                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ph_ppl.size(), 1);
                 EXPECT_EQ(ph_ppl[0].id, pi_id);
                 EXPECT_EQ(ph_ppl[0].p_id, p_id);
@@ -547,12 +547,12 @@ TEST_F(PeopleTest, inteligentPersonNameRemoval)
             // person should not be removed from people list, but should not be assigned to photo anymore.
             // Rect with face should stay
             {
-                const auto ppl = op->listPeople();
+                const auto ppl = op->peopleInformationAccessor().listPeople();
                 ASSERT_EQ(ppl.size(), 1);
                 EXPECT_EQ(ppl[0].id(), pi_id);
                 EXPECT_EQ(ppl[0].name(), "person 25");
 
-                const auto ph_ppl = op->listPeople(ph_id);
+                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ph_ppl.size(), 1);
                 EXPECT_EQ(ph_ppl[0].id, pi_id);
                 EXPECT_FALSE(ph_ppl[0].p_id.valid());
@@ -592,7 +592,7 @@ TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
                 photo->setTag(TagNameInfo(TagTypes::People), people);
 
                 // verify people count
-                const auto ppl = op->listPeople(ph_id);
+                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 3);
             }
 
@@ -604,7 +604,7 @@ TEST_F(PeopleTest, removePersonWhenItsRemovedFromTags)
                 photo->setTag(TagNameInfo(TagTypes::People), people);
 
                 // verify people count
-                const auto ppl = op->listPeople(ph_id);
+                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 2);
             }
         });
