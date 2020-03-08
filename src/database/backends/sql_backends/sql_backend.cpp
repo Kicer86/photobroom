@@ -614,7 +614,7 @@ namespace Database
 
                             if (status)
                             {
-                                const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                                const QVariant vid  = query.lastInsertId();
                                 const int id = vid.toInt();
                                 auto ins_it = name_to_id.emplace(name, id);
                                 it = ins_it.first;
@@ -851,7 +851,7 @@ namespace Database
         // update id
         // Get Id from database after insert
 
-        QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+        QVariant photo_id  = query.lastInsertId();
         DB_ERROR_ON_FALSE1(photo_id.isValid());
 
         id = Photo::Id(photo_id.toInt());

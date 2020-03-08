@@ -65,7 +65,7 @@ namespace Database
         //update id
         if (status)                                    // Get Id from database after insert
         {
-            QVariant group_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            QVariant group_id  = query.lastInsertId();
             status = group_id.isValid();
 
             if (status)

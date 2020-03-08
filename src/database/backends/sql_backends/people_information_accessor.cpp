@@ -254,7 +254,7 @@ namespace Database
 
                 if (status)
                 {
-                    const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                    const QVariant vid  = query.lastInsertId();
                     id = vid.toInt();
                 }
             }
@@ -443,7 +443,7 @@ namespace Database
 
         if (status && id.valid() == false)
         {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+            const QVariant vid  = query.lastInsertId();
             id = vid.toInt();
         }
 
