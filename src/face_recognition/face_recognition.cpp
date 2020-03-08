@@ -99,7 +99,7 @@ namespace
         std::vector<dlib_api::FaceEncodings> encodings;
         std::vector<Person::Id> people;
 
-        const auto all_people = backend->listPeople();
+        const auto all_people = backend->peopleInformationAccessor().listPeople();
         for(const auto& person: all_people)
         {
             const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());

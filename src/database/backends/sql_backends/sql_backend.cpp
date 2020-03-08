@@ -233,20 +233,25 @@ namespace Database
 
         try
         {
-            DB_ERROR_ON_FALSE(prepareDB(prjInfo), StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE2(prepareDB(prjInfo), StatusCodes::OpenFailed);
 
             db = QSqlDatabase::database(m_connectionName);
 
             m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
             m_dbOpen = db.open();
 
-            DB_ERROR_ON_FALSE(m_dbOpen, StatusCodes::OpenFailed);
-            DB_ERROR_ON_FALSE(dbOpened(), StatusCodes::OpenFailed);
-            DB_ERROR_ON_FALSE(checkStructure(), StatusCodes::GeneralError);
+            DB_ERROR_ON_FALSE2(m_dbOpen, StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE2(dbOpened(), StatusCodes::OpenFailed);
+            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::BLOB), StatusCodes::OpenFailed, "DB driver does not support BLOB");
+            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::LastInsertId), StatusCodes::OpenFailed, "DB driver does not support LastInsertId");
+            DB_ERROR_ON_FALSE2(checkStructure(), StatusCodes::GeneralError);
         }
         catch(const db_error& err)
         {
-            m_logger->error(QString("Error opening database: %1").arg(db.lastError().text()));
+            const QSqlError sql_error = db.lastError();
+            const QString error_message = sql_error.type() == QSqlError::NoError? err.what(): db.lastError().text();
+
+            m_logger->error(QString("Error opening database: %1").arg(error_message));
             status = err.status();
         }
 
@@ -283,9 +288,9 @@ namespace Database
 
         try
         {
-            DB_ERR_ON_FALSE(transaction.begin());
-            DB_ERR_ON_FALSE(storeData(data));
-            DB_ERR_ON_FALSE(transaction.commit());
+            DB_ERROR_ON_FALSE1(transaction.begin());
+            DB_ERROR_ON_FALSE1(storeData(data));
+            DB_ERROR_ON_FALSE1(transaction.commit());
 
             emit photoModified(data.getId());
         }
@@ -421,205 +426,6 @@ namespace Database
     }
 
 
-    std::vector<PersonName> ASqlBackend::listPeople()
-    {
-        const QString findQuery = QString("SELECT id, name FROM %1")
-                                    .arg( TAB_PEOPLE_NAMES );
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        std::vector<PersonName> result;
-        const bool status = m_executor.exec(findQuery, &query);
-
-        if (status)
-        {
-            if (m_dbHasSizeFeature)
-                result.reserve(static_cast<std::size_t>(query.size()));
-
-            while(query.next())
-            {
-                const int id = query.value(0).toInt();
-                const QString name = query.value(1).toString();
-                const Person::Id pid(id);
-
-                result.emplace_back(pid, name);
-            }
-        }
-
-        return result;
-    }
-
-
-    std::vector<PersonInfo> ASqlBackend::listPeople(const Photo::Id& ph_id )
-    {
-        const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location, %1.fingerprint_id FROM %1 WHERE %1.photo_id = %2")
-                                    .arg(TAB_PEOPLE)
-                                    .arg(ph_id);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        std::vector<PersonInfo> result;
-        const bool status = m_executor.exec(findQuery, &query);
-
-        if (status)
-        {
-            if (m_dbHasSizeFeature)
-                result.reserve(static_cast<std::size_t>(query.size()));
-
-            while(query.next())
-            {
-                const int id_raw = query.value(0).toInt();
-                const PersonInfo::Id id(id_raw);
-                const Person::Id pid = query.isNull(1)?
-                                           Person::Id():
-                                           Person::Id(query.value(1).toInt());
-
-                const PersonFingerprint::Id f_id = query.isNull(3)?
-                            PersonFingerprint::Id():
-                            PersonFingerprint::Id(query.value(3).toInt());
-
-                QRect location;
-
-                if (query.isNull(2) == false)
-                {
-                    const QVariant location_raw = query.value(2);
-                    const QStringList location_list = location_raw.toString().split(QRegExp("[ ,x]"));
-                    location = QRect(location_list[0].toInt(),
-                                     location_list[1].toInt(),
-                                     location_list[2].toInt(),
-                                     location_list[3].toInt());
-                }
-
-                result.emplace_back(id, pid, ph_id, f_id, location);
-            }
-        }
-
-        return result;
-    }
-
-
-    /**
-     * \brief get person name for given person id
-     */
-    PersonName ASqlBackend::person(const Person::Id& p_id)
-    {
-        const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
-                                    .arg( TAB_PEOPLE_NAMES )
-                                    .arg(p_id);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        PersonName result;
-        const bool status = m_executor.exec(findQuery, &query);
-
-        if (status && query.next())
-        {
-            const int id = query.value(0).toInt();
-            const QString name = query.value(1).toString();
-            const Person::Id pid(id);
-
-            result = PersonName (pid, name);
-        }
-
-        return result;
-    }
-
-
-    Person::Id ASqlBackend::store(const PersonName& d)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        Person::Id id(d.id());
-        bool status = false;
-
-        InsertQueryData queryData(TAB_PEOPLE_NAMES);
-        queryData.setColumns("name");
-        queryData.setValues(d.name());
-
-        QSqlQuery query;
-
-        if (id.valid())  // id valid? override (update name)
-        {
-            UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
-            query = getGenericQueryGenerator()->update(db, updateQueryData);
-
-            status = m_executor.exec(query);
-
-            if (query.numRowsAffected() == 0)   // any update?
-                id = Person::Id();              // nope - error
-        }
-        else             // id invalid? add new person or nothing when already exists
-        {
-            const PersonName pn = person(d.name());
-
-            if (pn.id().valid())
-                id = pn.id();
-            else
-            {
-                query = getGenericQueryGenerator()->insert(db, queryData);
-                status = m_executor.exec(query);
-
-                if (status)
-                {
-                    const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-                    id = vid.toInt();
-                }
-            }
-        }
-
-        return id;
-    }
-
-
-    PersonInfo::Id ASqlBackend::store(const PersonInfo& fd)
-    {
-        assert(fd.ph_id);
-        assert(fd.rect.isValid() || fd.p_id.valid() || fd.id.valid());  // if rect is invalid and person is invalid then at least id must be valid (removal operation)
-
-        PersonInfo::Id result = fd.id;
-
-        if (fd.id.valid() && fd.rect.isValid() == false && fd.p_id.valid() == false)
-            dropPersonInfo(fd.id);
-        else
-        {
-            PersonInfo to_store = fd;
-
-            if (fd.id.valid() == false)
-            {
-                // determin if it is a new person, or we want to update existing one
-                const auto existing_people = listPeople(fd.ph_id);
-
-                for(const auto& person: existing_people)
-                {
-                    if (fd.rect.isValid() &&
-                        person.rect == fd.rect)                 // same, valid rect
-                    {
-                        to_store.id = person.id;
-                        break;
-                    }
-                    else if (person.p_id.valid()    &&
-                             person.p_id == fd.p_id &&
-                             person.rect.isValid() == false)    // same, valid person but no rect in db
-                    {
-                        to_store.id = person.id;
-                        break;
-                    }
-                }
-            }
-
-            if (to_store.id.valid() && to_store.rect.isValid() == false && to_store.p_id.valid() == false)
-                dropPersonInfo(fd.id);
-            else
-                result = storePerson(to_store);
-        }
-
-        return result;
-    }
-
-
     void ASqlBackend::set(const Photo::Id& id, const QString& name, int value)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -692,29 +498,29 @@ namespace Database
 
         try
         {
-            DB_ERROR_ON_FALSE(transaction.begin(), StatusCodes::TransactionFailed);
+            DB_ERROR_ON_FALSE2(transaction.begin(), StatusCodes::TransactionFailed);
 
             //check tables existance
             for (const auto& table: tables)
-                DB_ERR_ON_FALSE(ensureTableExists(table.second));
+                DB_ERROR_ON_FALSE1(ensureTableExists(table.second));
 
             QSqlQuery query(db);
 
             // table 'version' cannot be empty
-            DB_ERROR_ON_FALSE(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+            DB_ERROR_ON_FALSE2(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
 
-            DB_ERR_ON_FALSE(query.next());
+            DB_ERROR_ON_FALSE1(query.next());
 
             const QVariant rows = query.value(0);
 
             //insert first entry
             if (rows == 0)
-                DB_ERR_ON_FALSE(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                DB_ERROR_ON_FALSE1(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                                          .arg(db_version), &query))
             else
-                DB_ERR_ON_FALSE(checkDBVersion());
+                DB_ERROR_ON_FALSE1(checkDBVersion());
 
-            DB_ERROR_ON_FALSE(transaction.commit(), StatusCodes::TransactionCommitFailed);
+            DB_ERROR_ON_FALSE2(transaction.commit(), StatusCodes::TransactionCommitFailed);
         }
         catch(const db_error& err)
         {
@@ -808,7 +614,7 @@ namespace Database
 
                             if (status)
                             {
-                                const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
+                                const QVariant vid  = query.lastInsertId();
                                 const int id = vid.toInt();
                                 auto ins_it = name_to_id.emplace(name, id);
                                 it = ins_it.first;
@@ -914,37 +720,6 @@ namespace Database
         return status;
     }
 
-
-    /**
-     * \brief get person name structure for person name
-     * \param name person name as string
-     * \return detailed name structure
-     */
-    PersonName ASqlBackend::person(const QString& name) const
-    {
-        PersonName result;
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        const QString s = QString("SELECT id, name FROM %1 WHERE name = :name").arg( TAB_PEOPLE_NAMES );
-        m_executor.prepare(s, &query);
-        query.bindValue(":name", name);
-
-        m_executor.exec(query);
-
-        if (query.next())
-        {
-            const Person::Id id( query.value(0).toInt() );
-            const QString p_name( query.value(1).toString() );
-
-            result = PersonName (id, p_name);
-        }
-
-        return result;
-    }
-
-
     /**
      * \brief get people details for given people ids
      * \return vector of person details structure
@@ -955,101 +730,13 @@ namespace Database
 
         for(const Photo::Id& id: ids)
         {
-            const auto people = listPeople(id);
+            const auto people = peopleInformationAccessor().listPeople(id);
 
             for (const PersonInfo& person: people)
                 all_people.push_back(person);
         }
 
         return all_people;
-    }
-
-
-    /**
-     * \brief store or update person details in database
-     * \param fd person details
-     * \return id assigned for person
-     *
-     * If fd contains valid id, person data will be updated. \n
-     * If fd has no valid id, new person will be created.
-     */
-    PersonInfo::Id ASqlBackend::storePerson(const PersonInfo& fd)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        PersonInfo::Id id = fd.id;
-
-        InsertQueryData queryData(TAB_PEOPLE);
-        queryData.setColumns("photo_id");
-        queryData.setValues(fd.ph_id);
-
-        const QRect& face = fd.rect;
-        const QString face_coords = face.isEmpty()?
-                                        QString():
-                                        QString("%1,%2 %3x%4")
-                                            .arg(face.x())
-                                            .arg(face.y())
-                                            .arg(face.width())
-                                            .arg(face.height());
-
-        queryData.addColumn("location");
-        queryData.addValue(face_coords);
-
-        const QString person_id = fd.p_id.valid()?
-                                    QString::number(fd.p_id):
-                                    QString();
-
-        queryData.addColumn("person_id");
-        queryData.addValue(person_id);
-
-        const QString fingerprint_id = fd.f_id.valid()?
-                                    QString::number(fd.f_id):
-                                    QString();
-
-        queryData.addColumn("fingerprint_id");
-        queryData.addValue(fingerprint_id);
-
-        QSqlQuery query;
-
-        if (id.valid())
-        {
-            UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
-            query = getGenericQueryGenerator()->update(db, updateQueryData);
-        }
-        else
-        {
-            query = getGenericQueryGenerator()->insert(db, queryData);
-        }
-
-        const bool status = m_executor.exec(query);
-
-        if (status && id.valid() == false)
-        {
-            const QVariant vid  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-            id = vid.toInt();
-        }
-
-        return id;
-    }
-
-
-    /**
-     * \brief drop person details from database
-     * \param id if of person to be dropped
-     *
-     * \todo no reaction on error
-     */
-    void ASqlBackend::dropPersonInfo(const PersonInfo::Id& id)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        const QString query = QString("DELETE FROM %1 WHERE id=%2")
-                                .arg(TAB_PEOPLE)
-                                .arg(id);
-
-        QSqlQuery q(db);
-        m_executor.exec(query, &q);
     }
 
 
@@ -1159,23 +846,23 @@ namespace Database
 
         QSqlQuery query = getGenericQueryGenerator()->insert(db, insertData);
 
-        DB_ERR_ON_FALSE(m_executor.exec(query));
+        DB_ERROR_ON_FALSE1(m_executor.exec(query));
 
         // update id
         // Get Id from database after insert
 
-        QVariant photo_id  = query.lastInsertId(); //TODO: WARNING: may not work (http://qt-project.org/doc/qt-5.1/qtsql/qsqlquery.html#lastInsertId)
-        DB_ERR_ON_FALSE(photo_id.isValid());
+        QVariant photo_id  = query.lastInsertId();
+        DB_ERROR_ON_FALSE1(photo_id.isValid());
 
         id = Photo::Id(photo_id.toInt());
 
         //make sure id is set
-        DB_ERR_ON_FALSE(id.valid());
+        DB_ERROR_ON_FALSE1(id.valid());
 
         assert(data.getId().valid() == false || data.getId() == id);
         data.setId(id);
 
-        DB_ERR_ON_FALSE(storeData(data));
+        DB_ERROR_ON_FALSE1(storeData(data));
     }
 
 
@@ -1418,12 +1105,12 @@ namespace Database
 
         try
         {
-            DB_ERR_ON_FALSE(transaction.begin());
+            DB_ERROR_ON_FALSE1(transaction.begin());
 
             for(Photo::DataDelta& data: data_set)
                 introduce(data);
 
-            DB_ERR_ON_FALSE(transaction.commit());
+            DB_ERROR_ON_FALSE1(transaction.commit());
         }
         catch(const db_error& error)
         {

@@ -56,7 +56,7 @@ void PeopleListModel::setDB(Database::IDatabase* db)
 
         db->exec([f](Database::IBackend* op)
         {
-            const std::vector<PersonName> names = op->listPeople();
+            const std::vector<PersonName> names = op->peopleInformationAccessor().listPeople();
 
             QStringList namesList;
 

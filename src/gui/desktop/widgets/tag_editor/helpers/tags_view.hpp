@@ -50,7 +50,6 @@ class TagsView: public QTableView
         void updateRow(int);
 
         // QTableView:
-        int sizeHintForRow(int row) const override;
         void keyPressEvent(QKeyEvent *) override;
 };
 

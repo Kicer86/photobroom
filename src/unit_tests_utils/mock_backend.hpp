@@ -38,8 +38,6 @@ struct MockBackend: public Database::IBackend
       std::vector<PersonInfo>(const Photo::Id &));
   MOCK_METHOD1(person,
       PersonName(const Person::Id &));
-  MOCK_METHOD(Person::Id, store, (const PersonName &), (override));
-  MOCK_METHOD(PersonInfo::Id, store, (const PersonInfo &), (override));
   MOCK_METHOD3(set,
       void(const Photo::Id &, const QString &, int value));
   MOCK_METHOD2(get,

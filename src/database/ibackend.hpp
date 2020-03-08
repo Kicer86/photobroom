@@ -44,13 +44,15 @@ struct ILoggerFactory;
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
 
-#define DB_ERROR_ON_FALSE(CALL, ERRCODE)       \
-    {                                          \
-        if ( !(CALL) )                         \
-            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE);  \
+#define DB_ERROR_ON_FALSE3(CALL, ERRCODE, DETAILS) \
+    {                                              \
+        if ( !(CALL) )                             \
+            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);  \
     }
 
-#define DB_ERR_ON_FALSE(CALL) DB_ERROR_ON_FALSE(CALL, StatusCodes::GeneralError)
+#define DB_ERROR_ON_FALSE2(CALL, ERRCODE) DB_ERROR_ON_FALSE3(CALL, StatusCodes::GeneralError, std::string())
+
+#define DB_ERROR_ON_FALSE1(CALL) DB_ERROR_ON_FALSE2(CALL, StatusCodes::GeneralError)
 
 
 namespace Database
@@ -67,11 +69,14 @@ namespace Database
             StatusCodes m_status;
 
         public:
-            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError):
+            db_error(const std::string& err, StatusCodes status = StatusCodes::GeneralError, const std::string& details = std::string()):
                 m_err(),
                 m_status(status)
             {
                 m_err += err + ": " + get_entry(m_status);
+
+                if (details.empty() == false)
+                    m_err += ", " + details;
             }
 
             StatusCodes status() const noexcept
@@ -135,45 +140,6 @@ namespace Database
 
         /// Count photos matching filter
         virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;
-
-        /// list all people names
-        virtual std::vector<PersonName>  listPeople() = 0;
-
-        /// list people on photo
-        virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
-
-        /**
-         * \brief get person details
-         * \arg id person id
-         * \return PersonName struct
-         */
-        virtual PersonName               person(const Person::Id &) = 0;
-
-        /**
-         * \brief Store or update person
-         * \arg pn Details about person name to be stored.
-         * \return id of created or updated person.
-         *
-         * If \a pn has valid id then person name will be updated in database   \n
-         * If id is not valid and \a pn holds name already existing in database \n
-         * then method will return id of that person.                           \n
-         * If id is not valid and name was not found in database then           \n
-         * new person will be added to database and its id will be returned.    \n
-         */
-        virtual Person::Id               store(const PersonName& pn) = 0;
-
-        /**
-         * \brief Store or update person details
-         * \arg pi Details about person. It needs to refer to a valid photo id.  \n
-         *         Also at least one of \a rect, \a person or \a id need to be valid
-         *
-         * If \a pi has valid id and rect is invalid and person is is not valid, \n
-         * then information about person is removed.                             \n
-         * if \a pi has invalid id then database will be searched for exisiting  \n
-         * rect or person matching information in \a pi. If found, id will be    \n
-         * updated and any not stored detail (rect or person) will be updated.
-         */
-        virtual PersonInfo::Id           store(const PersonInfo& pi) = 0;
 
         /**
          * \brief set flag for photo to given value
