@@ -21,7 +21,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-
 #include "isql_query_executor.hpp"
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"
