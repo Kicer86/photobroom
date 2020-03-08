@@ -222,7 +222,6 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         Person::Id id(d.id());
-        bool status = false;
 
         InsertQueryData queryData(TAB_PEOPLE_NAMES);
         queryData.setColumns("name");
@@ -236,7 +235,7 @@ namespace Database
             updateQueryData.addCondition("id", QString::number(id));
             query = m_query_generator.update(db, updateQueryData);
 
-            status = m_executor.exec(query);
+            m_executor.exec(query);
 
             if (query.numRowsAffected() == 0)   // any update?
                 id = Person::Id();              // nope - error
@@ -250,7 +249,7 @@ namespace Database
             else
             {
                 query = m_query_generator.insert(db, queryData);
-                status = m_executor.exec(query);
+                const bool status = m_executor.exec(query);
 
                 if (status)
                 {
