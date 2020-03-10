@@ -12,6 +12,7 @@ endif()
 
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
+add_subdirectory(desktop/qml)
 add_subdirectory(desktop/ui)
 add_subdirectory(desktop/ui_utils)
 add_subdirectory(desktop/utils)
@@ -45,6 +46,7 @@ add_library(gui
             ${GUI_RESOURCES}
             $<TARGET_OBJECTS:gui_config_tabs>
             $<TARGET_OBJECTS:gui_models>
+            $<TARGET_OBJECTS:qml_resources>
             $<TARGET_OBJECTS:gui_utils>
             $<TARGET_OBJECTS:gui_ui>
             $<TARGET_OBJECTS:gui_ui_utils>
