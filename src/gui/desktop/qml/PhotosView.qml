@@ -1,7 +1,17 @@
 
-import QtQuick 2.6
+import QtQuick 2.14
 
-GridView {
-    id: photosViewId
-    model: photosModelId
+
+Rectangle
+{
+    id: rootId
+
+    PhotosModel {
+        id: itemModel
+    }
+
+    GridView {
+        anchors.fill: parent
+        model: itemModel
+    }
 }
