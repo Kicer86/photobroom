@@ -770,6 +770,7 @@ void MainWindow::viewChanged(int current)
     switch(current)
     {
         case 0:
+        case 2:
             selectionModel = ui->imagesView->viewSelectionModel();
             dataModel = m_imagesModel;
             break;
@@ -777,9 +778,6 @@ void MainWindow::viewChanged(int current)
         case 1:
             selectionModel = ui->newImagesView->viewSelectionModel();
             dataModel = m_newImagesModel;
-            break;
-
-        case 2:
             break;
 
         default:
