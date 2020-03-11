@@ -287,7 +287,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+81"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -312,7 +312,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-74"/>
         <source>Collection</source>
         <translation>Kolekcja</translation>
     </message>
@@ -322,7 +322,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+22"/>
+        <source>qrc:/ui/photos_view.qml</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+54"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -444,12 +449,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-218"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+142"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>

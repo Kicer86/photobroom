@@ -68,6 +68,11 @@
           <property name="resizeMode">
            <enum>QQuickWidget::SizeRootObjectToView</enum>
           </property>
+          <property name="source">
+           <url>
+            <string>qrc:/ui/PhotosView.qml</string>
+           </url>
+          </property>
          </widget>
         </item>
        </layout>
@@ -291,6 +296,7 @@
  </customwidgets>
  <resources>
   <include location="../../images/images.qrc"/>
+  <include location="../qml/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

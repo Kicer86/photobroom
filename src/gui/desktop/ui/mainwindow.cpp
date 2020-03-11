@@ -300,8 +300,6 @@ void MainWindow::setupView()
 
     m_photosAnalyzer->set(ui->tasksWidget);
 
-    ui->photosViewQml->setSource(QUrl::fromLocalFile(":/ui/photos_view.qml"));
-
     // connect to docks
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
