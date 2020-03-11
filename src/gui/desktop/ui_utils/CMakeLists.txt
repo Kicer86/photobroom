@@ -7,6 +7,7 @@ set(UTILS_SOURCES
     icons_loader.cpp
     lazy_tree_item_delegate.cpp
     photos_item_delegate.cpp
+    qml_utils.cpp
 )
 
 set(UTILS_HEADERS
@@ -19,6 +20,7 @@ set(UTILS_HEADERS
     ieditor_factory.hpp
     lazy_tree_item_delegate.hpp
     photos_item_delegate.hpp
+    qml_utils.hpp
 )
 
 
