@@ -779,6 +779,9 @@ void MainWindow::viewChanged(int current)
             dataModel = m_newImagesModel;
             break;
 
+        case 2:
+            break;
+
         default:
             assert(!"Unexpected tab index");
             break;
