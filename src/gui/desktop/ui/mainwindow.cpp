@@ -10,6 +10,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
+#include <QtQuick/QQuickItem>
 #include <QTimer>
 
 #include <core/constants.hpp>
@@ -294,6 +295,11 @@ void MainWindow::setupView()
 
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
+
+    auto rootObject = ui->photosViewQml->rootObject();
+    auto view = rootObject->findChild<QObject*>("photos_view");
+    auto model = view->property("model");
+    view->setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
 
     setupReviewedPhotosView();
     setupNewPhotosView();
