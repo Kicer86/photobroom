@@ -1,4 +1,6 @@
 
+find_package(Qt5QuickWidgets REQUIRED)
+
 set(UTILS_SOURCES
     completer_factory.cpp
     config_dialog_manager.cpp
@@ -42,6 +44,7 @@ target_link_libraries(gui_ui_utils
                             database
                             KWidgetsAddons
                             Qt5::Widgets
+                            Qt5::QuickWidgets
 )
 
 target_include_directories(gui_ui_utils

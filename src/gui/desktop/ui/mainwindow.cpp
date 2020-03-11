@@ -39,6 +39,7 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
+#include "ui_utils/qml_utils.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
@@ -296,10 +297,8 @@ void MainWindow::setupView()
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
 
-    auto rootObject = ui->photosViewQml->rootObject();
-    auto view = rootObject->findChild<QObject*>("photos_view");
-    auto model = view->property("model");
-    view->setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
+    QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
+                setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
 
     setupReviewedPhotosView();
     setupNewPhotosView();

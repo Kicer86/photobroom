@@ -427,7 +427,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+205"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -454,7 +454,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+147"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+145"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
