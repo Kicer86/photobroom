@@ -95,17 +95,6 @@ DBDataModel::~DBDataModel()
 }
 
 
-const Photo::Data& DBDataModel::getPhoto(const QModelIndex& idx) const
-{
-    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-
-    assert(::isLeaf(idxData));
-    IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
-
-    return leafData->getPhoto();
-}
-
-
 const std::vector<Database::IFilter::Ptr>& DBDataModel::getStaticFilters() const
 {
     return m_filters;
