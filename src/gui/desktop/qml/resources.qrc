@@ -2,6 +2,5 @@
 <RCC>
     <qresource prefix="/ui">
         <file>PhotosView.qml</file>
-        <file>PhotosModel.qml</file>
     </qresource>
 </RCC>
