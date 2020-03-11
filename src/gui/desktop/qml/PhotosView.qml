@@ -6,14 +6,16 @@ Rectangle
 {
     id: rootId
 
-    PhotosModel {
-        id: itemModel
+    ListModel {
+        id: emptyModelId
     }
 
     GridView {
-        anchors.fill: parent
+        id: photosViewId
+        objectName: "photos_view"
 
-        model: itemModel
+        anchors.fill: parent
+        model: emptyModelId
 
         delegate: Rectangle {
             width: 100; height: 30
