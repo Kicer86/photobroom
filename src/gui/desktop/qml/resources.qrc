@@ -1,5 +1,7 @@
+
 <RCC>
     <qresource prefix="/ui">
         <file>photos_view.qml</file>
+        <file>photos_model.qml</file>
     </qresource>
 </RCC>
