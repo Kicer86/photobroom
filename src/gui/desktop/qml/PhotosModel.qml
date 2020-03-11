@@ -3,10 +3,15 @@ import QtQuick 2.0
 import QtQml.Models 2.1
 
 
-ObjectModel {
+ListModel {
     id: photosModelId
 
-    Rectangle { height: 30; width: 80; color: "red" }
-    Rectangle { height: 30; width: 80; color: "green" }
-    Rectangle { height: 30; width: 80; color: "blue" }
+    ListElement {
+        name: "Apple"
+        cost: 2.45
+        attributes: [
+            ListElement { description: "Core" },
+            ListElement { description: "Deciduous" }
+        ]
+    }
 }
