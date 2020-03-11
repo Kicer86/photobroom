@@ -317,12 +317,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Kolekcja</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+13"/>
         <source>Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+71"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -444,7 +444,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-187"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
