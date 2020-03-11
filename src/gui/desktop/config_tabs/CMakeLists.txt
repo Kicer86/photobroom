@@ -1,4 +1,6 @@
 
+find_package(OpenLibrary 2.2 REQUIRED QtExt)
+
 set(CONFIG_TABS_SOURCES
     look_tab.cpp
     main_tab.cpp
@@ -36,6 +38,7 @@ target_link_libraries(gui_config_tabs
                         PRIVATE
                             core
                             Qt5::Widgets
+                            ${OPENLIBRARY_LIBRARIES}
 )
 
 target_include_directories(gui_config_tabs

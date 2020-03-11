@@ -1,9 +1,5 @@
 
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Gui 5.5 REQUIRED)
-find_package(Qt5Svg REQUIRED)
-find_package(Qt5QuickWidgets REQUIRED)
-find_package(OpenLibrary 2.2 REQUIRED putils QtExt)
 
 include(GenerateExportHeader)
 
@@ -45,30 +41,26 @@ add_library(gui
             ${GUI_SOURCES}
             ${GUI_HEADERS}
             ${GUI_RESOURCES}
-            $<TARGET_OBJECTS:gui_config_tabs>
-            $<TARGET_OBJECTS:gui_models>
-            $<TARGET_OBJECTS:qml_resources>
-            $<TARGET_OBJECTS:gui_utils>
-            $<TARGET_OBJECTS:gui_ui>
-            $<TARGET_OBJECTS:gui_ui_utils>
-            $<TARGET_OBJECTS:gui_views>
-            $<TARGET_OBJECTS:gui_widgets>
 )
 
 target_link_libraries(gui
                         PRIVATE
+                            gui_config_tabs
+                            gui_models
+                            qml_resources
+                            gui_utils
+                            gui_ui
+                            gui_ui_utils
+                            gui_views
+                            gui_widgets
+
                             core
                             database
                             face_recognition
                             photos_crawler
                             project_utils
                             system
-                            KWidgetsAddons
-                            ${OPENLIBRARY_LIBRARIES}
-                            Qt5::Gui
-                            Qt5::Svg
                             Qt5::Widgets
-                            Qt5::QuickWidgets
 )
 
 target_include_directories(gui
