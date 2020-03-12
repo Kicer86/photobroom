@@ -17,6 +17,20 @@
 
 #include "flat_model.hpp"
 
+
+FlatModel::FlatModel(QObject* p)
+    : APhotoInfoModel(p)
+    , m_db(nullptr)
+{
+}
+
+
+void FlatModel::setDatabase(Database::IDatabase* db)
+{
+    m_db = db;
+}
+
+
 const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& ) const
 {
 
