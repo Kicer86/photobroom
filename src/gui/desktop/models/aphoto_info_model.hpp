@@ -27,7 +27,7 @@
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        APhotoInfoModel(QObject * = 0);
+        APhotoInfoModel(QObject * = nullptr);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
         ~APhotoInfoModel();
 
