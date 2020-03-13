@@ -68,7 +68,13 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
 
     DBDataModel model;
     model.setDatabase(&db);
+
+    const Hierarchy hierarchy = {
+                                { TagTypeInfo(TagTypes::Date), Hierarchy::Level::Order::ascending },
+                                { TagTypeInfo(TagTypes::Time), Hierarchy::Level::Order::ascending }
+                            };
     IdxDataManager manager(&model);
+    manager.setHierarchy(hierarchy);
 
     ASSERT_TRUE(model.canFetchMore(QModelIndex()));
     model.fetchMore(QModelIndex());
