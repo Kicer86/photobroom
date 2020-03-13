@@ -34,6 +34,13 @@ class APhotoInfoModel: public QAbstractItemModel
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
         virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const = 0;
+        virtual QHash<int, QByteArray> roleNames() const override;
+
+    protected:
+        QHash<int, QByteArray> m_customRoles;
+        int m_availableRole;
+
+        void registerRole(const QByteArray &);
 };
 
 
