@@ -27,6 +27,13 @@
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
+        enum Roles
+        {
+            PhotoPath = Qt::UserRole + 1,
+            _lastRole = PhotoPath,
+        };
+
+
         APhotoInfoModel(QObject * = nullptr);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
         ~APhotoInfoModel();
