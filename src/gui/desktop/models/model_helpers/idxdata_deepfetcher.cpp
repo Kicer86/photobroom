@@ -149,11 +149,11 @@ void IdxDataDeepFetcher::perform()
 
 void IdxDataDeepFetcher::dataChanged(IIdxData* idxData, const QVector<int>& roles)
 {
-    auto f = std::find(roles.begin(), roles.end(), DBDataModel::NodeStatus);
+    auto f = std::find(roles.begin(), roles.end(), DBDataModel::NodeStatusRole);
 
     if (f != roles.end())
     {
-        const QVariant statusRaw = idxData->getData(DBDataModel::NodeStatus);
+        const QVariant statusRaw = idxData->getData(DBDataModel::NodeStatusRole);
         NodeStatus status = static_cast<NodeStatus>(statusRaw.toInt());
 
         if (status == NodeStatus::Fetched)

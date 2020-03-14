@@ -515,14 +515,14 @@ void IdxDataManager::markIdxDataFetched(IIdxData* idxData)
 {
     idxData->setStatus(NodeStatus::Fetched);
     removeIdxDataFromNotFetched(idxData);
-    emit dataChanged(idxData, { DBDataModel::NodeStatus } );
+    emit dataChanged(idxData, { DBDataModel::NodeStatusRole } );
 }
 
 
 void IdxDataManager::markIdxDataBeingFetched(IIdxData* idxData)
 {
     idxData->setStatus(NodeStatus::Fetching);
-    emit dataChanged(idxData, { DBDataModel::NodeStatus } );
+    emit dataChanged(idxData, { DBDataModel::NodeStatusRole } );
 }
 
 
