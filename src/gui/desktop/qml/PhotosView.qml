@@ -28,6 +28,16 @@ Rectangle
         */
     }
 
+    ScrollBar {
+        id: verticalScrollBarId
+        width: 12; height: photosViewId.height-12
+        anchors.right: photosViewId.right
+        opacity: 1
+        orientation: Qt.Vertical
+        position: photosViewId.visibleArea.yPosition
+        pageSize: photosViewId.visibleArea.heightRatio
+    }
+
     Component {
         id: delegateId
 
