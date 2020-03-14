@@ -85,7 +85,7 @@ DBDataModel::DBDataModel(QObject* p):
     m_database(nullptr),
     m_filters()
 {
-    registerRole(NodeStatusRole, "NodeStatusRole");
+    registerRole(NodeStatusRole, "nodeStatus");
     connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
 

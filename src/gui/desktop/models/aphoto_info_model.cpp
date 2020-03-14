@@ -23,7 +23,7 @@
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {
-    registerRole(PhotoPath, "PhotoPathRole");
+    registerRole(PhotoPath, "photoPath");
 }
 
 
