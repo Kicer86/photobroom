@@ -17,15 +17,6 @@ Rectangle
         model: emptyModelId
 
         delegate: delegateId
-        /*
-        highlight: Rectangle {
-            width: parent.width
-            height: parent.height
-            color: "red"
-            border.width: 3
-            z: 1
-        }
-        */
     }
 
     ScrollBar {
@@ -55,14 +46,8 @@ Rectangle
                 height: 120
 
                 source: photoPath
+                asynchronous: true
             }
-
-            /*
-            MouseArea {
-                anchors.fill: parent
-                onClicked: rectId.GridView.view.currentIndex = index
-            }
-            */
         }
     }
 }
