@@ -22,7 +22,6 @@
 
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
-    , m_availableRole(Qt::UserRole + 1)
 {
 
 }
@@ -43,8 +42,7 @@ QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 }
 
 
-void APhotoInfoModel::registerRole(const QByteArray& name)
+void APhotoInfoModel::registerRole(int id, const QByteArray& name)
 {
-    m_customRoles[m_availableRole++] = name;
+    m_customRoles[id] = name;
 }
-

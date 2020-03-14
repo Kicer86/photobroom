@@ -38,9 +38,8 @@ class APhotoInfoModel: public QAbstractItemModel
 
     protected:
         QHash<int, QByteArray> m_customRoles;
-        int m_availableRole;
 
-        void registerRole(const QByteArray &);
+        void registerRole(int, const QByteArray &);
 };
 
 
