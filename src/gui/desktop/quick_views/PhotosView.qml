@@ -35,7 +35,7 @@ Item
             height: 125
             border.width: 1
 
-            PhotoItem {
+            Photo {
                 id: imageId
                 anchors.centerIn: parent
                 height: 120

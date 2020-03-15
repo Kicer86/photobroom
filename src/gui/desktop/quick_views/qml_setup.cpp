@@ -10,5 +10,5 @@
 
 void register_qml_types()
 {
-    qmlRegisterType<PhotoItem>(QML_NAMESPACE, 1, 0, "PhotoItem");
+    qmlRegisterType<PhotoItem>(QML_NAMESPACE, 1, 0, "Photo");
 }
