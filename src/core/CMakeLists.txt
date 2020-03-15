@@ -42,6 +42,7 @@ set(CORE_SOURCES
     configuration.hpp                                       implementation/configuration.cpp
     constants.hpp                                           implementation/constants.cpp
     core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
+    core_factory_qobject.hpp                                implementation/core_factory_qobject.cpp
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
