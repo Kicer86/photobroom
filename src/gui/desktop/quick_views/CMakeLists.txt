@@ -17,6 +17,7 @@ add_library(quick_views OBJECT
 
 target_link_libraries(quick_views
                         PUBLIC
+                            core
                             Qt5::Quick
 )
 
@@ -26,4 +27,5 @@ target_include_directories(quick_views
                                     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+set_target_properties(quick_views PROPERTIES AUTOMOC TRUE)
 generate_export_header(quick_views)

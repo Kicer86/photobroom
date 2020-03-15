@@ -37,3 +37,9 @@ void PhotoItem::paint(QPainter *painter)
 {
 
 }
+
+
+void PhotoItem::core(ICoreFactoryAccessor* c)
+{
+    m_core = c;
+}

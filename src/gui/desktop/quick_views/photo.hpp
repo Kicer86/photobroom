@@ -19,14 +19,24 @@
 #define PHOTOITEM_HPP
 
 #include <QQuickPaintedItem>
+#include <core/icore_factory_accessor.hpp>
+
 
 class PhotoItem: public QQuickPaintedItem
 {
+        Q_OBJECT
+        Q_PROPERTY(ICoreFactoryAccessor* core WRITE core)
+
     public:
         PhotoItem(QQuickItem *parent = nullptr);
         ~PhotoItem();
 
         void paint(QPainter *painter) override;
+
+        void core(ICoreFactoryAccessor *);
+
+    private:
+        ICoreFactoryAccessor* m_core;
 };
 
 #endif // PHOTOITEM_H
