@@ -2,6 +2,7 @@
 import QtQuick 2.14
 import photo_broom.qml 1.0
 
+
 Item
 {
     id: rootId
@@ -40,6 +41,8 @@ Item
                 anchors.centerIn: parent
                 height: 120
                 width: 100
+
+                core: coreFactory.get()
 
                 //sourceSize.height: 120
                 //source: photoPath
