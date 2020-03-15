@@ -16,20 +16,17 @@ struct IProjectManager;
 
 struct GUI_EXPORT Gui
 {
-    Gui();
+    Gui(IProjectManager &, IPluginLoader &, ICoreFactoryAccessor &);
     ~Gui();
     Gui(const Gui &) = delete;
     Gui& operator=(const Gui &) = delete;
 
-    void set(IProjectManager *);
-    void set(IPluginLoader *);
-    void set(ICoreFactoryAccessor *);
     void run();
 
     private:
-        IProjectManager* m_prjManager;
-        IPluginLoader* m_pluginLoader;
-        ICoreFactoryAccessor* m_coreFactory;
+        IProjectManager& m_prjManager;
+        IPluginLoader& m_pluginLoader;
+        ICoreFactoryAccessor& m_coreFactory;
 };
 
 #endif
