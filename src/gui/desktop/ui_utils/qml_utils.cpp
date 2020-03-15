@@ -19,5 +19,4 @@ namespace QmlUtils
         auto rootContext = qml->rootContext();
         rootContext->setContextProperty(objectName, object);
     }
-
 }
