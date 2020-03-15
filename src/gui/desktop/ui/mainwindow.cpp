@@ -292,6 +292,7 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     m_imagesModel = new DBDataModel(this);
+    m_imagesModel->setHierarchy({ {TagTypeInfo(TagTypes::Date), Hierarchy::Level::Order::ascending} });
     ui->imagesView->setModel(m_imagesModel);
 
     m_newImagesModel = new DBDataModel(this);
