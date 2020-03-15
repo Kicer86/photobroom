@@ -30,7 +30,7 @@ class CORE_EXPORT CoreFactoryQObject: public QObject
     public:
         CoreFactoryQObject(ICoreFactoryAccessor &);
 
-        Q_INVOKABLE ICoreFactoryAccessor& get() const;
+        Q_INVOKABLE ICoreFactoryAccessor* get() const;
 
     private:
         ICoreFactoryAccessor& m_core;

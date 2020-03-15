@@ -25,7 +25,7 @@ CoreFactoryQObject::CoreFactoryQObject(ICoreFactoryAccessor& core)
 }
 
 
-ICoreFactoryAccessor& CoreFactoryQObject::get() const
+ICoreFactoryAccessor* CoreFactoryQObject::get() const
 {
-    return m_core;
+    return &m_core;
 }
