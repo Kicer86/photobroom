@@ -287,7 +287,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+76"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -312,7 +312,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-69"/>
         <source>Collection</source>
         <translation>Kolekcja</translation>
     </message>
@@ -322,12 +322,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>qrc:/ui/PhotosView.qml</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+54"/>
+        <location line="+71"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -427,7 +422,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+205"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -449,12 +444,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-218"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+146"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+148"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>

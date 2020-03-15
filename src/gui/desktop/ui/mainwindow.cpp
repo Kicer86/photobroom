@@ -47,6 +47,7 @@
 
 MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
+    m_coreQObject(*coreFactory),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
@@ -298,8 +299,10 @@ void MainWindow::setupView()
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
 
+    QmlUtils::registerObject(ui->photosViewQml, "coreFactory", &m_coreQObject);
     QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
                 setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
+    ui->photosViewQml->setSource(QUrl::fromLocalFile(":/ui/PhotosView.qml"));
 
     setupReviewedPhotosView();
     setupNewPhotosView();
