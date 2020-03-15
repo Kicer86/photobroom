@@ -2,6 +2,7 @@
 import QtQuick 2.14
 
 // inspiration / copy of https://github.com/ruedigergad/FlowListView
+// https://ruedigergad.com/2012/11/24/qml-flowlistview/
 
 Flickable {
     id: flowListViewId
