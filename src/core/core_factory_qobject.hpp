@@ -21,8 +21,9 @@
 #include <QObject>
 
 #include "icore_factory_accessor.hpp"
+#include "core_export.h"
 
-class CoreFactoryQObject: public QObject
+class CORE_EXPORT CoreFactoryQObject: public QObject
 {
         Q_OBJECT
 
