@@ -6,14 +6,14 @@ qt5_add_resources(QML_RESOURCES
 )
 
 
-add_library(qml_resources OBJECT
+add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 photo_item.cpp
                 photo_item.hpp
 )
 
 
-target_link_libraries(qml_resources
+target_link_libraries(quick_views
                         PUBLIC
                             Qt5::Quick
 )

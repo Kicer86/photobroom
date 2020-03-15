@@ -9,7 +9,7 @@ endif()
 
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
-add_subdirectory(desktop/qml)
+add_subdirectory(desktop/quick_views)
 add_subdirectory(desktop/ui)
 add_subdirectory(desktop/ui_utils)
 add_subdirectory(desktop/utils)
@@ -47,12 +47,12 @@ target_link_libraries(gui
                         PRIVATE
                             gui_config_tabs
                             gui_models
-                            qml_resources
                             gui_utils
                             gui_ui
                             gui_ui_utils
                             gui_views
                             gui_widgets
+                            quick_views
 
                             core
                             database
