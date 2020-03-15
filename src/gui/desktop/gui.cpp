@@ -79,8 +79,7 @@ namespace
 }
 
 
-Gui::Gui(int& argc, char **argv):
-    m_app(new QApplication(argc, argv)),
+Gui::Gui():
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_coreFactory(nullptr)
@@ -92,12 +91,6 @@ Gui::Gui(int& argc, char **argv):
 Gui::~Gui()
 {
 
-}
-
-
-QCoreApplication* Gui::getApp()
-{
-    return m_app.get();
 }
 
 
@@ -201,5 +194,6 @@ void Gui::run()
     detector->detect();
 
     mainWindow.show();
-    m_app->exec();
+
+    qApp->exec();
 }

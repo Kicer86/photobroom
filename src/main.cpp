@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDir>
@@ -159,10 +159,8 @@ namespace
 
 int main(int argc, char **argv)
 {
-    Gui gui(argc, argv);
-
-    QCoreApplication* app = gui.getApp();
-    app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
+    QApplication app(argc, argv);
+    app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
 
     const QString basePath = System::getApplicationConfigDir();
 
@@ -196,7 +194,7 @@ int main(int argc, char **argv)
     parser.addOption(crashTestOption);
     parser.addOption(disableCrashCatcher);
 
-    parser.process(*app);
+    parser.process(app);
 
     const bool enableCrashTest = parser.isSet(crashTestOption);
     if (enableCrashTest)
@@ -288,6 +286,7 @@ int main(int argc, char **argv)
     );
 
     // start gui
+    Gui gui;
     gui.set(&prjManager);
     gui.set(&pluginLoader);
     gui.set(&coreFactory);
