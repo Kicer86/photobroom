@@ -2,7 +2,7 @@
 
 #include "qml_setup.hpp"
 
-#include "photo_item.hpp"
+#include "photo.hpp"
 #include "config.hpp"
 
 #define QML_NAMESPACE PHOTO_BROOM_NAMESPACE ".qml"

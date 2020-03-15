@@ -8,8 +8,8 @@ qt5_add_resources(QML_RESOURCES
 
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
-                photo_item.cpp
-                photo_item.hpp
+                photo.cpp
+                photo.hpp
                 qml_setup.cpp
                 qml_setup.hpp
 )

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "photo_item.hpp"
+#include "photo.hpp"
 
 #include <QPainter>
 
@@ -33,9 +33,7 @@ PhotoItem::~PhotoItem()
 }
 
 
-
 void PhotoItem::paint(QPainter *painter)
 {
 
 }
-
