@@ -3,6 +3,7 @@
 
 #include <QQuickWidget>
 #include <QQuickItem>
+#include <QQmlContext>
 
 namespace QmlUtils
 {
@@ -11,4 +12,12 @@ namespace QmlUtils
         auto rootObject = qml->rootObject();
         return rootObject->findChild<QObject*>(objectName);
     }
+
+
+    void registerObject(QQuickWidget* qml, const QString& objectName, QObject* object)
+    {
+        auto rootContext = qml->rootContext();
+        rootContext->setContextProperty(objectName, object);
+    }
+
 }

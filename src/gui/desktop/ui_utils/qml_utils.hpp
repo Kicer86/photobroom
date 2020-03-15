@@ -10,6 +10,7 @@ class QQuickWidget;
 namespace QmlUtils
 {
     QObject* findQmlObject(QQuickWidget *, const QString& objectName);
+    void registerObject(QQuickWidget *, const QString& objectName, QObject *);
 }
 
 #endif
