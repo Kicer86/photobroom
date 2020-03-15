@@ -20,10 +20,19 @@
 
 #include <QObject>
 
+#include "icore_factory_accessor.hpp"
 
 class CoreFactoryQObject: public QObject
 {
+        Q_OBJECT
 
+    public:
+        CoreFactoryQObject(ICoreFactoryAccessor &);
+
+        Q_INVOKABLE ICoreFactoryAccessor& get() const;
+
+    private:
+        ICoreFactoryAccessor& m_core;
 };
 
 #endif // COREFACTORYQOBJECT_HPP

@@ -16,3 +16,16 @@
  */
 
 #include "core_factory_qobject.hpp"
+
+
+CoreFactoryQObject::CoreFactoryQObject(ICoreFactoryAccessor& core)
+    : m_core(core)
+{
+
+}
+
+
+ICoreFactoryAccessor& CoreFactoryQObject::get() const
+{
+    return m_core;
+}
