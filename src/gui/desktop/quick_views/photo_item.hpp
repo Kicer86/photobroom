@@ -24,6 +24,7 @@ class PhotoItem: public QQuickPaintedItem
 {
     public:
         PhotoItem(QQuickItem *parent = nullptr);
+        ~PhotoItem();
 
         void paint(QPainter *painter) override;
 };

@@ -17,11 +17,21 @@
 
 #include "photo_item.hpp"
 
+#include <QPainter>
+
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
 {
+
 }
+
+
+PhotoItem::~PhotoItem()
+{
+
+}
+
 
 
 void PhotoItem::paint(QPainter *painter)

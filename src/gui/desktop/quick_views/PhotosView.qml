@@ -1,7 +1,8 @@
 
 import QtQuick 2.14
+import photo_broom.qml 1.0
 
-Rectangle
+Item
 {
     id: rootId
 
@@ -34,14 +35,15 @@ Rectangle
             height: 125
             border.width: 1
 
-            Image {
+            PhotoItem {
                 id: imageId
                 anchors.centerIn: parent
-                sourceSize.height: 120
                 height: 120
+                width: 100
 
-                source: photoPath
-                asynchronous: true
+                //sourceSize.height: 120
+                //source: photoPath
+                //asynchronous: true
             }
         }
     }
