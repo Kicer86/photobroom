@@ -10,6 +10,8 @@ add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 photo_item.cpp
                 photo_item.hpp
+                qml_setup.cpp
+                qml_setup.hpp
 )
 
 
@@ -17,3 +19,11 @@ target_link_libraries(quick_views
                         PUBLIC
                             Qt5::Quick
 )
+
+target_include_directories(quick_views
+                                PUBLIC
+                                    ${PROJECT_BINARY_DIR}
+                                    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+generate_export_header(quick_views)

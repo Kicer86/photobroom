@@ -1,2 +1,3 @@
 
 #define PHOTO_BROOM_VERSION "@PROJECT_VERSION@"
+#define PHOTO_BROOM_NAMESPACE "photo_broom"

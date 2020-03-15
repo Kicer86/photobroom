@@ -24,6 +24,7 @@
 #endif
 
 #include "ui/mainwindow.hpp"
+#include "quick_views/qml_setup.hpp"
 #include "features.hpp"
 
 
@@ -84,7 +85,7 @@ Gui::Gui(int& argc, char **argv):
     m_pluginLoader(nullptr),
     m_coreFactory(nullptr)
 {
-
+    register_qml_types();
 }
 
 
