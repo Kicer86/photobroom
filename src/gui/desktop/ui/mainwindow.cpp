@@ -300,9 +300,9 @@ void MainWindow::setupView()
     ui->newImagesView->setModel(m_newImagesModel);
 
     QmlUtils::registerObject(ui->photosViewQml, "coreFactory", &m_coreQObject);
+    ui->photosViewQml->setSource(QUrl::fromLocalFile(":/ui/PhotosView.qml"));
     QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
                 setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
-    ui->photosViewQml->setSource(QUrl::fromLocalFile(":/ui/PhotosView.qml"));
 
     setupReviewedPhotosView();
     setupNewPhotosView();
