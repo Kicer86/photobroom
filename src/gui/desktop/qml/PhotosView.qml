@@ -5,16 +5,11 @@ Rectangle
 {
     id: rootId
 
-    ListModel {
-        id: emptyModelId
-    }
-
     FlowView {
         id: photosViewId
-        objectName: "photos_view"
+        objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
         anchors.fill: parent
-        model: emptyModelId
 
         delegate: delegateId
     }
