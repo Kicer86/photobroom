@@ -26,9 +26,8 @@
 #include <QString>
 #include "idatabase_builder.hpp"
 #include "database_export.h"
-#include "config.hpp"
 
-#define DatabasePluginInterface_iid PHOTO_BROOM_NAMESPACE ".plugins.database.iplugin"
+#define DatabasePluginInterface_iid "photo_broom.plugins.database.iplugin"
 
 class QLayout;
 

@@ -87,7 +87,6 @@ target_include_directories(database
                             SYSTEM PRIVATE
                                 ${OPENLIBRARY_INCLUDE_DIRS}
                             PUBLIC
-                                ${PROJECT_BINARY_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
                                 ${OPENLIBRARY_INCLUDE_DIRS}
                             PRIVATE

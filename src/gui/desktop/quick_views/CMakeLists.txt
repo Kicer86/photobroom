@@ -23,7 +23,6 @@ target_link_libraries(quick_views
 
 target_include_directories(quick_views
                                 PUBLIC
-                                    ${PROJECT_BINARY_DIR}
                                     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
