@@ -5,9 +5,15 @@ qt5_add_resources(QML_RESOURCES
                     resources.qrc
 )
 
+qt5_wrap_cpp(MOCED
+                photo.hpp
+                qml_setup.hpp
+)
+
 
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
+                ${MOCED}
                 photo.cpp
                 photo.hpp
                 qml_setup.cpp
@@ -26,5 +32,4 @@ target_include_directories(quick_views
                                     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-set_target_properties(quick_views PROPERTIES AUTOMOC TRUE)
 generate_export_header(quick_views)
