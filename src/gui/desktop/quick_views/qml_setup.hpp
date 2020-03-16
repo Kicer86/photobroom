@@ -8,6 +8,6 @@
 QUICK_VIEWS_EXPORT void register_qml_types();
 
 struct IThumbnailsManager;
-INVOKABLE_WRAPPER_FOR_INTERFACE(IThumbnailsManager);
+INVOKABLE_ACCESSOR_FOR_INTERFACE(IThumbnailsManager);
 
 #endif

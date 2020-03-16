@@ -13,7 +13,7 @@ namespace QmlUtils
     void registerObject(QQuickWidget *, const QString& objectName, QObject *);
 }
 
-#define INVOKABLE_WRAPPER_FOR_INTERFACE(INTERFACE_NAME)        \
+#define INVOKABLE_ACCESSOR_FOR_INTERFACE(INTERFACE_NAME)        \
 class QML_ ## INTERFACE_NAME: public QObject                   \
 {                                                              \
     INTERFACE_NAME* m_i;                                       \
