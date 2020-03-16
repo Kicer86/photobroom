@@ -26,8 +26,8 @@
 class PhotoItem: public QQuickPaintedItem
 {
         Q_OBJECT
-        Q_PROPERTY(ICoreFactoryAccessor* core WRITE core)
-        Q_PROPERTY(IThumbnailsManager* thumbnails WRITE thumbnails)
+        Q_PROPERTY(ICoreFactoryAccessor* core WRITE core READ getCore)
+        Q_PROPERTY(IThumbnailsManager* thumbnails WRITE thumbnails READ getThumbnails)
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
@@ -37,6 +37,9 @@ class PhotoItem: public QQuickPaintedItem
 
         void core(ICoreFactoryAccessor *);
         void thumbnails(IThumbnailsManager *);
+
+        ICoreFactoryAccessor* getCore() const;
+        IThumbnailsManager* getThumbnails() const;
 
     private:
         ICoreFactoryAccessor* m_core;

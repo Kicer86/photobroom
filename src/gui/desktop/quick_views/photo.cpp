@@ -51,3 +51,15 @@ void PhotoItem::thumbnails(IThumbnailsManager* mgr)
 {
     m_thbMgr = mgr;
 }
+
+
+ICoreFactoryAccessor* PhotoItem::getCore() const
+{
+    return m_core;
+}
+
+
+IThumbnailsManager* PhotoItem::getThumbnails() const
+{
+    return m_thbMgr;
+}
