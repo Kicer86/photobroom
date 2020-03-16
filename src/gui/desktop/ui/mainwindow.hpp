@@ -12,6 +12,7 @@
 
 #include "ui_utils/completer_factory.hpp"
 #include "utils/selection_extractor.hpp"
+#include "quick_views/qml_setup.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -55,6 +56,7 @@ class MainWindow: public QMainWindow
     private:
         SelectionExtractor        m_selectionExtractor;
         CoreFactoryQObject        m_coreQObject;
+        QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
