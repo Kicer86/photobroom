@@ -43,6 +43,7 @@ Item
                 width: 100
 
                 core: coreFactory.get()
+                thumbnails: thumbnailsManager.get()
 
                 //sourceSize.height: 120
                 //source: photoPath
