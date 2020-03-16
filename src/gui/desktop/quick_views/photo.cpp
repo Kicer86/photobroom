@@ -37,7 +37,8 @@ PhotoItem::~PhotoItem()
 
 void PhotoItem::paint(QPainter *painter)
 {
-
+    if (m_thbMgr == nullptr)
+        return;
 }
 
 
