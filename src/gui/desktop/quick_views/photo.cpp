@@ -22,6 +22,8 @@
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
+    , m_core(nullptr)
+    , m_thbMgr(nullptr)
 {
 
 }
@@ -42,4 +44,10 @@ void PhotoItem::paint(QPainter *painter)
 void PhotoItem::core(ICoreFactoryAccessor* c)
 {
     m_core = c;
+}
+
+
+void PhotoItem::thumbnails(IThumbnailsManager* mgr)
+{
+    m_thbMgr = mgr;
 }

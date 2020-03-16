@@ -20,12 +20,14 @@
 
 #include <QQuickPaintedItem>
 #include <core/icore_factory_accessor.hpp>
+#include <core/ithumbnails_manager.hpp>
 
 
 class PhotoItem: public QQuickPaintedItem
 {
         Q_OBJECT
         Q_PROPERTY(ICoreFactoryAccessor* core WRITE core)
+        Q_PROPERTY(IThumbnailsManager* thumbnails WRITE thumbnails)
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
@@ -34,9 +36,11 @@ class PhotoItem: public QQuickPaintedItem
         void paint(QPainter *painter) override;
 
         void core(ICoreFactoryAccessor *);
+        void thumbnails(IThumbnailsManager *);
 
     private:
         ICoreFactoryAccessor* m_core;
+        IThumbnailsManager* m_thbMgr;
 };
 
 #endif // PHOTOITEM_H
