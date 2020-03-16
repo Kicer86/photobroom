@@ -1,5 +1,6 @@
 
 find_package(Qt5Quick REQUIRED)
+find_package(Qt5QuickWidgets REQUIRED)
 
 qt5_add_resources(QML_RESOURCES
                     resources.qrc
@@ -18,6 +19,8 @@ add_library(quick_views OBJECT
                 photo.hpp
                 qml_setup.cpp
                 qml_setup.hpp
+                qml_utils.cpp
+                qml_utils.hpp
 )
 
 
@@ -25,6 +28,7 @@ target_link_libraries(quick_views
                         PUBLIC
                             core
                             Qt5::Quick
+                            Qt5::QuickWidgets
 )
 
 target_include_directories(quick_views

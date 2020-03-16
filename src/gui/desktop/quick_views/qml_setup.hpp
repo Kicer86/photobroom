@@ -3,7 +3,7 @@
 #define QML_SETUP_HPP
 
 #include "quick_views_export.h"
-#include "../ui_utils/qml_utils.hpp"
+#include "qml_utils.hpp"
 
 QUICK_VIEWS_EXPORT void register_qml_types();
 

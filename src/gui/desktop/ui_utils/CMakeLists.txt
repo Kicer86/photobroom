@@ -1,6 +1,4 @@
 
-find_package(Qt5QuickWidgets REQUIRED)
-
 set(UTILS_SOURCES
     completer_factory.cpp
     config_dialog_manager.cpp
@@ -9,7 +7,6 @@ set(UTILS_SOURCES
     icons_loader.cpp
     lazy_tree_item_delegate.cpp
     photos_item_delegate.cpp
-    qml_utils.cpp
 )
 
 set(UTILS_HEADERS
@@ -22,7 +19,6 @@ set(UTILS_HEADERS
     ieditor_factory.hpp
     lazy_tree_item_delegate.hpp
     photos_item_delegate.hpp
-    qml_utils.hpp
 )
 
 
@@ -44,7 +40,6 @@ target_link_libraries(gui_ui_utils
                             database
                             KWidgetsAddons
                             Qt5::Widgets
-                            Qt5::QuickWidgets
 )
 
 target_include_directories(gui_ui_utils

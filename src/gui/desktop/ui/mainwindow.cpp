@@ -39,7 +39,7 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
-#include "ui_utils/qml_utils.hpp"
+#include "quick_views/qml_utils.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
