@@ -51,7 +51,7 @@ void PhotoItem::paint(QPainter *painter)
         painter->drawImage(0, 0, image.value());
     }
     else
-        m_thbMgr->fetch(m_source, h, [](const QImage &){});
+        m_thbMgr->fetch(m_source, h, std::bind(&QQuickPaintedItem::update, this, QRect()));
 }
 
 
