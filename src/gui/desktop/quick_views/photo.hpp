@@ -19,15 +19,13 @@
 #define PHOTOITEM_HPP
 
 #include <QQuickPaintedItem>
-#include <core/icore_factory_accessor.hpp>
 #include <core/ithumbnails_manager.hpp>
 
 
 class PhotoItem: public QQuickPaintedItem
 {
         Q_OBJECT
-        Q_PROPERTY(ICoreFactoryAccessor* core WRITE core READ getCore)
-        Q_PROPERTY(IThumbnailsManager* thumbnails WRITE thumbnails READ getThumbnails)
+        Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
         Q_PROPERTY(QString source WRITE setSource READ source)
 
     public:
@@ -36,17 +34,14 @@ class PhotoItem: public QQuickPaintedItem
 
         void paint(QPainter *painter) override;
 
-        void core(ICoreFactoryAccessor *);
-        void thumbnails(IThumbnailsManager *);
+        void setThumbnailsManager(IThumbnailsManager *);
         void setSource(const QString &);
 
-        ICoreFactoryAccessor* getCore() const;
-        IThumbnailsManager* getThumbnails() const;
+        IThumbnailsManager* thumbnailsManager() const;
         QString source() const;
 
     private:
         QString m_source;
-        ICoreFactoryAccessor* m_core;
         IThumbnailsManager* m_thbMgr;
 };
 

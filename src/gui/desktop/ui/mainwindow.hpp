@@ -6,7 +6,6 @@
 
 #include <QMainWindow>
 
-#include <core/core_factory_qobject.hpp>
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
@@ -55,7 +54,6 @@ class MainWindow: public QMainWindow
 
     private:
         SelectionExtractor        m_selectionExtractor;
-        CoreFactoryQObject        m_coreQObject;
         QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
