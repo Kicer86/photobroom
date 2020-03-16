@@ -45,8 +45,8 @@ Item
                 core: coreFactory.get()
                 thumbnails: thumbnailsManager.get()
 
+                source: photoPath
                 //sourceSize.height: 120
-                //source: photoPath
                 //asynchronous: true
             }
         }

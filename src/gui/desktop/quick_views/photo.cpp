@@ -39,6 +39,19 @@ void PhotoItem::paint(QPainter *painter)
 {
     if (m_thbMgr == nullptr)
         return;
+
+    const int h = height();
+    auto image = m_thbMgr->fetch(m_source, h);
+
+    if (image.has_value())
+    {
+        const int w = image->width();
+        setWidth(w);
+
+        painter->drawImage(0, 0, image.value());
+    }
+    else
+        m_thbMgr->fetch(m_source, h, [](const QImage &){});
 }
 
 
@@ -54,6 +67,12 @@ void PhotoItem::thumbnails(IThumbnailsManager* mgr)
 }
 
 
+void PhotoItem::setSource(const QString& source)
+{
+    m_source = source;
+}
+
+
 ICoreFactoryAccessor* PhotoItem::getCore() const
 {
     return m_core;
@@ -63,4 +82,10 @@ ICoreFactoryAccessor* PhotoItem::getCore() const
 IThumbnailsManager* PhotoItem::getThumbnails() const
 {
     return m_thbMgr;
+}
+
+
+QString PhotoItem::source() const
+{
+    return m_source;
 }
