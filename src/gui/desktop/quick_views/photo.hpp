@@ -22,6 +22,27 @@
 #include <core/ithumbnails_manager.hpp>
 
 
+class PhotoPropertiesObject: public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString path READ path)
+    Q_PROPERTY(int height READ height)
+    Q_PROPERTY(int width READ width)
+
+public:
+    PhotoPropertiesObject(const QString& path, int h, int w);
+
+    QString path() const;
+    int height() const;
+    int width() const;
+
+private:
+    const QString m_path;
+    const int m_height;
+    const int m_width;
+};
+
+
 class PhotoItem: public QQuickPaintedItem
 {
         Q_OBJECT
@@ -44,5 +65,6 @@ class PhotoItem: public QQuickPaintedItem
         QString m_source;
         IThumbnailsManager* m_thbMgr;
 };
+
 
 #endif // PHOTOITEM_H

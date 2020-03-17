@@ -20,6 +20,36 @@
 #include <QPainter>
 
 
+
+PhotoPropertiesObject::PhotoPropertiesObject(const QString& path, int h, int w)
+    : QObject()
+    , m_path(path)
+    , m_height(h)
+    , m_width(w)
+{
+
+}
+
+
+QString PhotoPropertiesObject::path() const
+{
+    return m_path;
+}
+
+
+int PhotoPropertiesObject::height() const
+{
+    return m_height;
+}
+
+
+int PhotoPropertiesObject::width() const
+{
+    return m_width;
+}
+
+
+
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
     , m_source()
