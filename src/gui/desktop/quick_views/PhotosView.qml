@@ -11,6 +11,8 @@ Item
         id: photosViewId
         objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
+        property int thumbnailHeight: 120
+
         anchors.fill: parent
 
         delegate: delegateId
@@ -33,14 +35,14 @@ Item
             id: rectId
 
             width:  if (imageId.width + 5 < 60) 60; else imageId.width + 5
-            height: 125
+            height: photosViewId.thumbnailHeight + 5
             border.width: 1
 
             Photo {
                 id: imageId
                 anchors.centerIn: parent
-                height: 120
-                width: 100
+                height: photosViewId.thumbnailHeight
+                width: photoWidth * photosViewId.thumbnailHeight / photoHeight
 
                 thumbnails: thumbnailsManager.get()
 
