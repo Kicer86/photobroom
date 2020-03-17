@@ -20,6 +20,15 @@
 #include <QPainter>
 
 
+PhotoPropertiesObject::PhotoPropertiesObject()
+    : QObject()
+    , m_path()
+    , m_height(0)
+    , m_width(0)
+{
+
+}
+
 
 PhotoPropertiesObject::PhotoPropertiesObject(const QString& path, int h, int w)
     : QObject()

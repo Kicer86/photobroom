@@ -30,6 +30,7 @@ class PhotoPropertiesObject: public QObject
     Q_PROPERTY(int width READ width)
 
 public:
+    PhotoPropertiesObject();
     PhotoPropertiesObject(const QString& path, int h, int w);
 
     QString path() const;
@@ -37,9 +38,9 @@ public:
     int width() const;
 
 private:
-    const QString m_path;
-    const int m_height;
-    const int m_width;
+    QString m_path;
+    int m_height;
+    int m_width;
 };
 
 
