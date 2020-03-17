@@ -30,7 +30,9 @@ class APhotoInfoModel: public QAbstractItemModel
         enum Roles
         {
             PhotoPath = Qt::UserRole + 1,
-            _lastRole = PhotoPath,
+            PhotoWidth = Qt::UserRole + 2,
+            PhotoHeight = Qt::UserRole + 3,
+            _lastRole = PhotoHeight,
         };
 
 

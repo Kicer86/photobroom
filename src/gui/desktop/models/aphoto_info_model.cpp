@@ -24,6 +24,8 @@ APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {
     registerRole(PhotoPath, "photoPath");
+    registerRole(PhotoWidth, "photoWidth");
+    registerRole(PhotoHeight, "photoHeight");
 }
 
 
