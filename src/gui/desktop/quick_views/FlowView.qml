@@ -12,15 +12,9 @@ Flickable {
     contentHeight: flowId.childrenRect.height
 
     property alias count: repeaterId.count
-    property int currentIndex: -1
-    property variant currentItem;
     property alias delegate: repeaterId.delegate
     property alias flow: flowId.flow
     property alias model: repeaterId.model
-
-    onCurrentIndexChanged: {
-        currentItem = model.get(currentIndex)
-    }
 
     Flow {
         id: flowId
@@ -28,15 +22,6 @@ Flickable {
 
         Repeater {
             id: repeaterId
-
-            onCountChanged: {
-                if (flowListViewId.currentIndex === -1 && count > 0) {
-                    flowListViewId.currentIndex = 0
-                }
-                if (flowListViewId.currentIndex >= count) {
-                    flowListViewId.currentIndex = count - 1
-                }
-            }
         }
     }
 }
