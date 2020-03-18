@@ -20,10 +20,10 @@
 #include "aphoto_info_model.hpp"
 
 
-Q_DECLARE_METATYPE(PhotoPropertiesObject)
+Q_DECLARE_METATYPE(PhotoProperties)
 
 
-PhotoPropertiesObject::PhotoPropertiesObject()
+PhotoProperties::PhotoProperties()
     : m_path()
     , m_height(0)
     , m_width(0)
@@ -32,7 +32,7 @@ PhotoPropertiesObject::PhotoPropertiesObject()
 }
 
 
-PhotoPropertiesObject::PhotoPropertiesObject(const QString& path, int h, int w)
+PhotoProperties::PhotoProperties(const QString& path, int h, int w)
     : m_path(path)
     , m_height(h)
     , m_width(w)
@@ -45,7 +45,7 @@ PhotoPropertiesObject::PhotoPropertiesObject(const QString& path, int h, int w)
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {
-    registerRole(PhotoProperties, "photoProperties");
+    registerRole(PhotoPropertiesRole, "photoProperties");
 }
 
 

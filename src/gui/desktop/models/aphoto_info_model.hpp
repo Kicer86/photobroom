@@ -24,15 +24,15 @@
 #include <database/photo_data.hpp>
 
 
-struct PhotoPropertiesObject
+struct PhotoProperties
 {
     Q_PROPERTY(QString path MEMBER m_path)
     Q_PROPERTY(int height MEMBER m_height)
     Q_PROPERTY(int width MEMBER m_width)
 
-    PhotoPropertiesObject();
-    PhotoPropertiesObject(const PhotoPropertiesObject &) = default;
-    PhotoPropertiesObject(const QString& path, int h, int w);
+    PhotoProperties();
+    PhotoProperties(const PhotoProperties &) = default;
+    PhotoProperties(const QString& path, int h, int w);
 
     QString m_path;
     int m_height;
@@ -47,10 +47,9 @@ class APhotoInfoModel: public QAbstractItemModel
     public:
         enum Roles
         {
-            PhotoProperties = Qt::UserRole + 1,
-            _lastRole = PhotoProperties,
+            PhotoPropertiesRole = Qt::UserRole + 1,
+            _lastRole = PhotoPropertiesRole,
         };
-
 
         APhotoInfoModel(QObject * = nullptr);
         APhotoInfoModel(const APhotoInfoModel &) = delete;

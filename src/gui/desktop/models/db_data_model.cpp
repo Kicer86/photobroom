@@ -149,10 +149,10 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    if (role == APhotoInfoModel::PhotoProperties)
+    if (role == APhotoInfoModel::PhotoPropertiesRole)
     {
         auto data = getPhotoDetails(_index);
-        return QVariant::fromValue<PhotoPropertiesObject>({data.path, data.geometry.height(), data.geometry.width()});
+        return QVariant::fromValue<PhotoProperties>({data.path, data.geometry.height(), data.geometry.width()});
     }
     else
     {
