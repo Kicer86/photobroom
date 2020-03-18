@@ -571,36 +571,36 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>PhotoProperties</name>
+    <name>PhotoPropertiesWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+119"/>
         <source>Photo location:</source>
-        <translation>Ścieżka do zdjęcia:</translation>
+        <translation type="unfinished">Ścieżka do zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo size:</source>
-        <translation>Rozmiar zdjęcia:</translation>
+        <translation type="unfinished">Rozmiar zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo geometry:</source>
-        <translation>Wymiary zdjęcia:</translation>
+        <translation type="unfinished">Wymiary zdjęcia:</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Photos location:</source>
-        <translation>Ścieżka do zdjęć:</translation>
+        <translation type="unfinished">Ścieżka do zdjęć:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photos size:</source>
-        <translation>Rozmiar zdjęć:</translation>
+        <translation type="unfinished">Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
         <location line="+80"/>
         <source>%n byte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n bajt</numerusform>
             <numerusform>%n bajty</numerusform>
             <numerusform>%n bajtów</numerusform>
@@ -609,7 +609,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n kbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n kbajt</numerusform>
             <numerusform>%n kbajty</numerusform>
             <numerusform>%n kbajtów</numerusform>
@@ -618,7 +618,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Mbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n Mbajt</numerusform>
             <numerusform>%n Mbajty</numerusform>
             <numerusform>%n Mbajtów</numerusform>
@@ -627,7 +627,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Gbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n Gbajt</numerusform>
             <numerusform>%n Gbajty</numerusform>
             <numerusform>%n Gbajtów</numerusform>

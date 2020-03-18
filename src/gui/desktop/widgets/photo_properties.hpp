@@ -31,16 +31,16 @@ class APhotoInfoModel;
 class SelectionExtractor;
 
 
-class PhotoProperties: public QScrollArea
+class PhotoPropertiesWidget: public QScrollArea
 {
         Q_OBJECT
 
     public:
-        PhotoProperties(QWidget * = nullptr);
-        PhotoProperties(const PhotoProperties &) = delete;
-        ~PhotoProperties();
+        PhotoPropertiesWidget(QWidget * = nullptr);
+        PhotoPropertiesWidget(const PhotoPropertiesWidget &) = delete;
+        ~PhotoPropertiesWidget();
 
-        PhotoProperties& operator=(const PhotoProperties &) = delete;
+        PhotoPropertiesWidget& operator=(const PhotoPropertiesWidget &) = delete;
 
         void set(const SelectionExtractor *);
 
