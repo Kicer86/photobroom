@@ -40,16 +40,11 @@ void PhotoItem::paint(QPainter *painter)
     if (m_thbMgr == nullptr)
         return;
 
-    const int h = height();
+    const int h = static_cast<int>(height());
     auto image = m_thbMgr->fetch(m_source, h);
 
     if (image.has_value())
-    {
-        const int w = image->width();
-        setWidth(w);
-
         painter->drawImage(0, 0, image.value());
-    }
     else
         m_thbMgr->fetch(m_source, h, std::bind(&QQuickPaintedItem::update, this, QRect()));
 }
