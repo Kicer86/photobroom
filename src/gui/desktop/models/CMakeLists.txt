@@ -20,16 +20,10 @@ set(HEADERS
     model_helpers/photos_matcher.hpp
 )
 
-set(TO_MOC
-    model_helpers/idx_data_manager.hpp
-    model_helpers/idxdata_deepfetcher.hpp
-)
-
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-qt5_wrap_cpp(MOCED ${TO_MOC})
-
-add_library(gui_models OBJECT ${SRC} ${MOCED} ${HEADERS})
+add_library(gui_models OBJECT ${SRC} ${HEADERS})
+set_target_properties(gui_models PROPERTIES AUTOMOC ON)
 set_target_properties(gui_models PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_models
                         PUBLIC
