@@ -42,11 +42,11 @@ Item
                 id: imageId
                 anchors.centerIn: parent
                 height: photosViewId.thumbnailHeight
-                width: photoWidth * photosViewId.thumbnailHeight / photoHeight
+                width: photoProperties.width * photosViewId.thumbnailHeight / photoProperties.height
 
                 thumbnails: thumbnailsManager.get()
 
-                source: photoPath
+                source: photoProperties.path
                 //sourceSize.height: 120
                 //asynchronous: true
             }

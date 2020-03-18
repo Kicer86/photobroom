@@ -486,9 +486,7 @@ IdxLeafData::IdxLeafData(IdxDataManager* mgr, const Photo::Data& photo):
     IdxData(mgr, photo),
     m_photo(photo)
 {
-    m_data[APhotoInfoModel::Roles::PhotoPath] = photo.path;
-    m_data[APhotoInfoModel::Roles::PhotoHeight] = photo.geometry.height();
-    m_data[APhotoInfoModel::Roles::PhotoWidth] = photo.geometry.width();
+
 }
 
 

@@ -149,10 +149,16 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
-    QVariant v = idxData->getData(role);
-
-    return v;
+    if (role == APhotoInfoModel::PhotoProperties)
+    {
+        auto data = getPhotoDetails(_index);
+        return QVariant::fromValue<PhotoPropertiesObject>({data.path, data.geometry.height(), data.geometry.width()});
+    }
+    else
+    {
+        IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
+        return idxData->getData(role);
+    }
 }
 
 
