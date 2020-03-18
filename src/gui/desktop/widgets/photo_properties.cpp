@@ -54,7 +54,7 @@ namespace
 }
 
 
-PhotoProperties::PhotoProperties(QWidget* p):
+PhotoPropertiesWidget::PhotoPropertiesWidget(QWidget* p):
     QScrollArea(p),
     m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
@@ -87,21 +87,21 @@ PhotoProperties::PhotoProperties(QWidget* p):
 }
 
 
-PhotoProperties::~PhotoProperties()
+PhotoPropertiesWidget::~PhotoPropertiesWidget()
 {
 
 }
 
 
-void PhotoProperties::set(const SelectionExtractor* selection)
+void PhotoPropertiesWidget::set(const SelectionExtractor* selection)
 {
     m_selectionExtractor = selection;
 
-    connect(m_selectionExtractor, &SelectionExtractor::selectionChanged, this, &PhotoProperties::refreshView);
+    connect(m_selectionExtractor, &SelectionExtractor::selectionChanged, this, &PhotoPropertiesWidget::refreshView);
 }
 
 
-void PhotoProperties::refreshView() const
+void PhotoPropertiesWidget::refreshView() const
 {
     std::vector<Photo::Data> photos = m_selectionExtractor->getSelection();
 
@@ -110,7 +110,7 @@ void PhotoProperties::refreshView() const
 }
 
 
-void PhotoProperties::refreshLabels(const std::vector<Photo::Data>& photos) const
+void PhotoPropertiesWidget::refreshLabels(const std::vector<Photo::Data>& photos) const
 {
     const std::size_t s = photos.size();
 
@@ -129,7 +129,7 @@ void PhotoProperties::refreshLabels(const std::vector<Photo::Data>& photos) cons
 }
 
 
-void PhotoProperties::refreshValues(const std::vector<Photo::Data>& photos) const
+void PhotoPropertiesWidget::refreshValues(const std::vector<Photo::Data>& photos) const
 {
     const std::size_t s = photos.size();
 
@@ -192,7 +192,7 @@ void PhotoProperties::refreshValues(const std::vector<Photo::Data>& photos) cons
 }
 
 
-QString PhotoProperties::sizeHuman(qint64 size) const
+QString PhotoPropertiesWidget::sizeHuman(qint64 size) const
 {
     int i = 0;
     for(; i < 4 && size > 20480; i++)

@@ -144,7 +144,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="PhotoProperties" name="photoPropertiesWidget"/>
+   <widget class="PhotoPropertiesWidget" name="photoPropertiesWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
@@ -253,7 +253,7 @@
    <header>widgets/photos_widget.hpp</header>
   </customwidget>
   <customwidget>
-   <class>PhotoProperties</class>
+   <class>PhotoPropertiesWidget</class>
    <extends>QWidget</extends>
    <header>widgets/photo_properties.hpp</header>
   </customwidget>
