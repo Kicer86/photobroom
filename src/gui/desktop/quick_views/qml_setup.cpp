@@ -3,6 +3,7 @@
 #include "qml_setup.hpp"
 
 #include "photo.hpp"
+#include "models/aphoto_info_model.hpp"
 
 void register_qml_types()
 {

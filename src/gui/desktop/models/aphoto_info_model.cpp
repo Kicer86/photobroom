@@ -20,6 +20,47 @@
 #include "aphoto_info_model.hpp"
 
 
+
+
+PhotoPropertiesObject::PhotoPropertiesObject()
+    : QObject()
+    , m_path()
+    , m_height(0)
+    , m_width(0)
+{
+
+}
+
+
+PhotoPropertiesObject::PhotoPropertiesObject(const QString& path, int h, int w)
+    : QObject()
+    , m_path(path)
+    , m_height(h)
+    , m_width(w)
+{
+
+}
+
+
+QString PhotoPropertiesObject::path() const
+{
+    return m_path;
+}
+
+
+int PhotoPropertiesObject::height() const
+{
+    return m_height;
+}
+
+
+int PhotoPropertiesObject::width() const
+{
+    return m_width;
+}
+
+
+
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {

@@ -27,6 +27,8 @@ add_library(quick_views OBJECT
 target_link_libraries(quick_views
                         PUBLIC
                             core
+                            gui_models
+
                             Qt5::Quick
                             Qt5::QuickWidgets
 )
