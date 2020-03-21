@@ -7,15 +7,18 @@ Item
 {
     id: rootId
 
-    FlowView {
+    GridView {
         id: photosViewId
         objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
-        property int thumbnailHeight: 120
+        property int thumbnailSize: 120
+        property int thumbnailMargin: 2
 
         anchors.fill: parent
 
         delegate: delegateId
+        cellWidth: thumbnailSize + thumbnailMargin
+        cellHeight: thumbnailSize + thumbnailMargin
     }
 
     ScrollBar {
@@ -34,21 +37,24 @@ Item
         Rectangle {
             id: rectId
 
-            width:  if (imageId.width + 5 < 60) 60; else imageId.width + 5
-            height: photosViewId.thumbnailHeight + 5
+            width:  photosViewId.thumbnailSize
+            height: photosViewId.thumbnailSize
+
             border.width: 1
 
             Photo {
                 id: imageId
                 anchors.centerIn: parent
-                height: photosViewId.thumbnailHeight
-                width: photoProperties.width * photosViewId.thumbnailHeight / photoProperties.height
+                height: (photoProperties.width < photoProperties.height)?  photosViewId.thumbnailSize : photoProperties.height * photosViewId.thumbnailSize / nullProtection(photoProperties.width)
+                width:  (photoProperties.width >= photoProperties.height)? photosViewId.thumbnailSize : photoProperties.width * photosViewId.thumbnailSize / nullProtection(photoProperties.height)
 
                 thumbnails: thumbnailsManager.get()
 
                 source: photoProperties.path
-                //sourceSize.height: 120
-                //asynchronous: true
+
+                function nullProtection(value) {
+                    return value == 0? 1: value;
+                }
             }
         }
     }
