@@ -41,10 +41,23 @@ void PhotoItem::paint(QPainter *painter)
         return;
 
     const int h = static_cast<int>(height());
-    auto image = m_thbMgr->fetch(m_source, h);
+    const int w = static_cast<int>(width());
+
+    QSize thbSize(m_photoWidth, m_photoHeight);
+    thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
+
+    auto image = m_thbMgr->fetch(m_source, thbSize.height());
 
     if (image.has_value())
-        painter->drawImage(0, 0, image.value());
+    {
+        const QRectF canvas(0.0, 0.0, width(), height());
+        const QRectF photo(QPointF(0.0, 0.0), image->size());
+
+        QRectF photoPart = canvas;
+        photoPart.moveCenter(photo.center());
+
+        painter->drawImage(canvas.topLeft(), image.value(), photoPart);
+    }
     else
         m_thbMgr->fetch(m_source, h, std::bind(&QQuickPaintedItem::update, this, QRect()));
 }

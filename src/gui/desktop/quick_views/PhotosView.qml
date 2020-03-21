@@ -45,19 +45,14 @@ Item
             Photo {
                 id: imageId
                 anchors.centerIn: parent
-                height: (photoProperties.width < photoProperties.height)?  photosViewId.thumbnailSize : photoProperties.height * photosViewId.thumbnailSize / nullProtection(photoProperties.width)
-                width:  (photoProperties.width >= photoProperties.height)? photosViewId.thumbnailSize : photoProperties.width * photosViewId.thumbnailSize / nullProtection(photoProperties.height)
+                height: parent.height
+                width:  parent.width
 
+                source: photoProperties.path
                 photoHeight: photoProperties.height
                 photoWidth: photoProperties.width
 
                 thumbnails: thumbnailsManager.get()
-
-                source: photoProperties.path
-
-                function nullProtection(value) {
-                    return value == 0? 1: value;
-                }
             }
         }
     }
