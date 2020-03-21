@@ -19,6 +19,8 @@
 
 #include <QPainter>
 
+#include <core/function_wrappers.hpp>
+
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
@@ -59,7 +61,7 @@ void PhotoItem::paint(QPainter *painter)
         painter->drawImage(canvas.topLeft(), image.value(), photoPart);
     }
     else
-        m_thbMgr->fetch(m_source, h, std::bind(&QQuickPaintedItem::update, this, QRect()));
+        m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
 }
 
 
@@ -108,4 +110,10 @@ int PhotoItem::photoWidth() const
 int PhotoItem::photoHeight() const
 {
     return m_photoHeight;
+}
+
+
+void PhotoItem::gotThumbnail(const QImage &)
+{
+    update();
 }
