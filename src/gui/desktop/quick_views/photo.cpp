@@ -75,7 +75,6 @@ void PhotoItem::setSource(const QString& source)
 }
 
 
-
 void PhotoItem::setPhotoWidth(int w)
 {
     m_photoWidth = w;
