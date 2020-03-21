@@ -48,6 +48,9 @@ Item
                 height: (photoProperties.width < photoProperties.height)?  photosViewId.thumbnailSize : photoProperties.height * photosViewId.thumbnailSize / nullProtection(photoProperties.width)
                 width:  (photoProperties.width >= photoProperties.height)? photosViewId.thumbnailSize : photoProperties.width * photosViewId.thumbnailSize / nullProtection(photoProperties.height)
 
+                photoHeight: photoProperties.height
+                photoWidth: photoProperties.width
+
                 thumbnails: thumbnailsManager.get()
 
                 source: photoProperties.path

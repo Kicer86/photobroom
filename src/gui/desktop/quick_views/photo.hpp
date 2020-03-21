@@ -27,6 +27,8 @@ class PhotoItem: public QQuickPaintedItem
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
         Q_PROPERTY(QString source WRITE setSource READ source)
+        Q_PROPERTY(int photoWidth WRITE setPhotoWidth READ photoWidth)
+        Q_PROPERTY(int photoHeight WRITE setPhotoHeight READ photoHeight)
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
@@ -36,12 +38,18 @@ class PhotoItem: public QQuickPaintedItem
 
         void setThumbnailsManager(IThumbnailsManager *);
         void setSource(const QString &);
+        void setPhotoWidth(int);
+        void setPhotoHeight(int);
 
         IThumbnailsManager* thumbnailsManager() const;
         QString source() const;
+        int photoWidth() const;
+        int photoHeight() const;
 
     private:
         QString m_source;
+        int m_photoWidth;
+        int m_photoHeight;
         IThumbnailsManager* m_thbMgr;
 };
 

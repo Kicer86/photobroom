@@ -62,6 +62,19 @@ void PhotoItem::setSource(const QString& source)
 }
 
 
+
+void PhotoItem::setPhotoWidth(int w)
+{
+    m_photoWidth = w;
+}
+
+
+void PhotoItem::setPhotoHeight(int h)
+{
+    m_photoHeight = h;
+}
+
+
 IThumbnailsManager* PhotoItem::thumbnailsManager() const
 {
     return m_thbMgr;
@@ -71,4 +84,16 @@ IThumbnailsManager* PhotoItem::thumbnailsManager() const
 QString PhotoItem::source() const
 {
     return m_source;
+}
+
+
+int PhotoItem::photoWidth() const
+{
+    return m_photoWidth;
+}
+
+
+int PhotoItem::photoHeight() const
+{
+    return m_photoHeight;
 }
