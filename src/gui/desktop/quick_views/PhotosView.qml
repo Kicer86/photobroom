@@ -11,7 +11,7 @@ Item
         id: photosViewId
         objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
-        property int thumbnailSize: 120
+        property int thumbnailSize: 160
         property int thumbnailMargin: 2
 
         anchors.fill: parent
