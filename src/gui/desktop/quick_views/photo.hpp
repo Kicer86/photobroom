@@ -19,6 +19,8 @@
 #define PHOTOITEM_HPP
 
 #include <QQuickPaintedItem>
+#include <QImage>
+
 #include <core/ithumbnails_manager.hpp>
 
 
@@ -47,13 +49,24 @@ class PhotoItem: public QQuickPaintedItem
         int photoHeight() const;
 
     private:
+        QImage m_image;
         QString m_source;
         IThumbnailsManager* m_thbMgr;
+
+        enum class State
+        {
+            NotFetched,
+            Fetching,
+            Fetched
+        } m_state;
+
         int m_photoWidth;
         int m_photoHeight;
-        bool m_fetchInProgress;
 
         void gotThumbnail(const QImage &);
+        void fetchImage();
+        void paintImage(QPainter &) const;
+        QSize calculateThumbnailSize() const;
 };
 
 

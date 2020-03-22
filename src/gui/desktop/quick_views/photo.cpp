@@ -24,11 +24,12 @@
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
+    , m_image()
     , m_source()
     , m_thbMgr(nullptr)
+    , m_state(State::NotFetched)
     , m_photoWidth(0)
     , m_photoHeight(0)
-    , m_fetchInProgress(false)
 {
 
 }
@@ -45,32 +46,10 @@ void PhotoItem::paint(QPainter *painter)
     if (m_thbMgr == nullptr || m_photoHeight == 0 || m_photoWidth == 0 || m_source.isEmpty())
         return;
 
-    if (m_fetchInProgress)
-        return;
+    if (m_state == State::NotFetched)
+        fetchImage();
 
-    const int h = static_cast<int>(height());
-    const int w = static_cast<int>(width());
-
-    QSize thbSize(m_photoWidth, m_photoHeight);
-    thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
-
-    auto image = m_thbMgr->fetch(m_source, thbSize.height());
-
-    if (image.has_value())
-    {
-        const QRectF canvas(0.0, 0.0, width(), height());
-        const QRectF photo(QPointF(0.0, 0.0), image->size());
-
-        QRectF photoPart = canvas;
-        photoPart.moveCenter(photo.center());
-
-        painter->drawImage(canvas.topLeft(), image.value(), photoPart);
-    }
-    else
-    {
-        m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
-        m_fetchInProgress = true;
-    }
+    paintImage(*painter);
 }
 
 
@@ -122,8 +101,60 @@ int PhotoItem::photoHeight() const
 }
 
 
-void PhotoItem::gotThumbnail(const QImage &)
+void PhotoItem::gotThumbnail(const QImage& image)
 {
-    m_fetchInProgress = false;
+    if (image.isNull())
+        m_image.load(":/gui/error.svg");
+    else
+        m_image = image;
+
+    m_state = State::Fetched;
     update();
+}
+
+
+void PhotoItem::paintImage(QPainter& painter) const
+{
+    assert(m_image.isNull() == false);
+
+    const QRectF canvas(0.0, 0.0, width(), height());
+    const QRectF photo(QPointF(0.0, 0.0), m_image.size());
+
+    QRectF photoPart = canvas;
+    photoPart.moveCenter(photo.center());
+
+    painter.drawImage(canvas.topLeft(), m_image, photoPart);
+}
+
+
+void PhotoItem::fetchImage()
+{
+    const QSize thbSize = calculateThumbnailSize();
+    const int h = thbSize.height();
+
+    auto image = m_thbMgr->fetch(m_source, h);
+
+    if (image.has_value())
+    {
+        m_image = image.value();
+        m_state = State::Fetched;
+    }
+    else
+    {
+        m_state = State::Fetching;
+        m_image.load(":/gui/clock.svg");
+        m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
+    }
+}
+
+
+QSize PhotoItem::calculateThumbnailSize() const
+{
+    const int h = static_cast<int>(height());
+    const int w = static_cast<int>(width());
+
+    QSize thbSize(m_photoWidth, m_photoHeight);
+    thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
+
+    return thbSize;
 }
