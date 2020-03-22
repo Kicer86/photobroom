@@ -234,8 +234,8 @@ Qt::ItemFlags DBDataModel::flags(const QModelIndex& item) const
 
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_idxDataManager->setDatabase(database);
     m_database = database;
+    m_idxDataManager->setDatabase(database);
 }
 
 
