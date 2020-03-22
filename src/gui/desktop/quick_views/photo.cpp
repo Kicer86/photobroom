@@ -26,6 +26,9 @@ PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
     , m_source()
     , m_thbMgr(nullptr)
+    , m_photoWidth(0)
+    , m_photoHeight(0)
+    , m_fetchInProgress(false)
 {
 
 }
@@ -39,7 +42,10 @@ PhotoItem::~PhotoItem()
 
 void PhotoItem::paint(QPainter *painter)
 {
-    if (m_thbMgr == nullptr)
+    if (m_thbMgr == nullptr || m_photoHeight == 0 || m_photoWidth == 0 || m_source.isEmpty())
+        return;
+
+    if (m_fetchInProgress)
         return;
 
     const int h = static_cast<int>(height());
@@ -61,7 +67,10 @@ void PhotoItem::paint(QPainter *painter)
         painter->drawImage(canvas.topLeft(), image.value(), photoPart);
     }
     else
+    {
         m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
+        m_fetchInProgress = true;
+    }
 }
 
 
@@ -115,5 +124,6 @@ int PhotoItem::photoHeight() const
 
 void PhotoItem::gotThumbnail(const QImage &)
 {
+    m_fetchInProgress = false;
     update();
 }

@@ -48,9 +48,10 @@ class PhotoItem: public QQuickPaintedItem
 
     private:
         QString m_source;
+        IThumbnailsManager* m_thbMgr;
         int m_photoWidth;
         int m_photoHeight;
-        IThumbnailsManager* m_thbMgr;
+        bool m_fetchInProgress;
 
         void gotThumbnail(const QImage &);
 };
