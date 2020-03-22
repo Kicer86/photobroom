@@ -103,13 +103,18 @@ int PhotoItem::photoHeight() const
 
 void PhotoItem::gotThumbnail(const QImage& image)
 {
+    setImage(image);
+    m_state = State::Fetched;
+    update();
+}
+
+
+void PhotoItem::setImage(const QImage& image)
+{
     if (image.isNull())
         m_image.load(":/gui/error.svg");
     else
         m_image = image;
-
-    m_state = State::Fetched;
-    update();
 }
 
 
@@ -136,7 +141,7 @@ void PhotoItem::fetchImage()
 
     if (image.has_value())
     {
-        m_image = image.value();
+        setImage(image.value());
         m_state = State::Fetched;
     }
     else
