@@ -46,11 +46,14 @@ Item
             border.width: 1
 
             BusyIndicator {
+                id: busyId
+
                 anchors.centerIn: parent
             }
 
             Photo {
                 id: imageId
+
                 anchors.centerIn: parent
                 height: parent.height
                 width:  parent.width
@@ -62,6 +65,38 @@ Item
 
                 thumbnails: thumbnailsManager.get()
             }
+
+            states: [
+                State {
+                    name: "loading"
+                    when: imageId.ready == false
+                },
+                State {
+                    name: "done"
+                    when: imageId.ready == true
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "loading"
+                    to: "done"
+                    ParallelAnimation {
+                        PropertyAnimation {
+                            target: busyId
+                            properties: "opacity"
+                            from: 1
+                            to: 0
+                        }
+                        PropertyAnimation {
+                            target: imageId
+                            properties: "opacity"
+                            from: 0
+                            to: 1
+                        }
+                    }
+                }
+            ]
         }
     }
 }
