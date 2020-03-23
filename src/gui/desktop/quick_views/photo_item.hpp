@@ -54,7 +54,6 @@ class PhotoItem: public QQuickPaintedItem
         QImage m_image;
         QString m_source;
         IThumbnailsManager* m_thbMgr;
-        bool m_ready;
 
         enum class State
         {

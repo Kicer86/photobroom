@@ -104,7 +104,7 @@ int PhotoItem::photoHeight() const
 
 bool PhotoItem::ready() const
 {
-    return m_ready;
+    return m_state == State::Fetched;
 }
 
 
@@ -127,7 +127,11 @@ void PhotoItem::setImage(const QImage& image)
 
 void PhotoItem::setState(PhotoItem::State state)
 {
+    const bool changed = state != m_state;
     m_state = state;
+
+    if (changed)
+        emit stateChanged();
 }
 
 
