@@ -2,7 +2,6 @@
 <RCC>
     <qresource prefix="/ui">
         <file>PhotosView.qml</file>
-        <file>FlowView.qml</file>
         <file>ScrollBar.qml</file>
     </qresource>
 </RCC>
