@@ -16,23 +16,14 @@ Item
         property int thumbnailMargin: 2
 
         anchors.fill: parent
+        clip: true
 
         delegate: delegateId
         cellWidth: thumbnailSize + thumbnailMargin
         cellHeight: thumbnailSize + thumbnailMargin
-    }
 
-    /*
-    ScrollBar {
-        id: verticalScrollBarId
-        width: 12; height: photosViewId.height-12
-        anchors.right: photosViewId.right
-        opacity: 1
-        orientation: Qt.Vertical
-        position: photosViewId.visibleArea.yPosition
-        pageSize: photosViewId.visibleArea.heightRatio
+        ScrollBar.vertical: ScrollBar { }
     }
-    */
 
     Component {
         id: delegateId
