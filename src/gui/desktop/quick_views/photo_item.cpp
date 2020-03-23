@@ -101,6 +101,12 @@ int PhotoItem::photoHeight() const
 }
 
 
+bool PhotoItem::ready() const
+{
+    return m_ready;
+}
+
+
 void PhotoItem::gotThumbnail(const QImage& image)
 {
     setImage(image);

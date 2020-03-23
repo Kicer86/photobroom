@@ -31,6 +31,7 @@ class PhotoItem: public QQuickPaintedItem
         Q_PROPERTY(QString source WRITE setSource READ source)
         Q_PROPERTY(int photoWidth WRITE setPhotoWidth READ photoWidth)
         Q_PROPERTY(int photoHeight WRITE setPhotoHeight READ photoHeight)
+        Q_PROPERTY(bool ready READ ready NOTIFY stateChanged)
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
@@ -47,11 +48,13 @@ class PhotoItem: public QQuickPaintedItem
         QString source() const;
         int photoWidth() const;
         int photoHeight() const;
+        bool ready() const;
 
     private:
         QImage m_image;
         QString m_source;
         IThumbnailsManager* m_thbMgr;
+        bool m_ready;
 
         enum class State
         {
@@ -68,6 +71,9 @@ class PhotoItem: public QQuickPaintedItem
         void setImage(const QImage &);
         void paintImage(QPainter &) const;
         QSize calculateThumbnailSize() const;
+
+    signals:
+        void stateChanged();
 };
 
 
