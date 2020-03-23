@@ -49,7 +49,8 @@ void PhotoItem::paint(QPainter *painter)
     if (m_state == State::NotFetched)
         fetchImage();
 
-    paintImage(*painter);
+    if (m_image.isNull() == false)
+        paintImage(*painter);
 }
 
 
@@ -159,7 +160,6 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
-        m_image.load(":/gui/clock.svg");
         m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
     }
 }
