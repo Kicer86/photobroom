@@ -1,5 +1,6 @@
 
 import QtQuick 2.14
+import QtQuick.Controls 2.3
 import photo_broom.qml 1.0
 
 
@@ -21,6 +22,7 @@ Item
         cellHeight: thumbnailSize + thumbnailMargin
     }
 
+    /*
     ScrollBar {
         id: verticalScrollBarId
         width: 12; height: photosViewId.height-12
@@ -30,6 +32,7 @@ Item
         position: photosViewId.visibleArea.yPosition
         pageSize: photosViewId.visibleArea.heightRatio
     }
+    */
 
     Component {
         id: delegateId
@@ -42,11 +45,16 @@ Item
 
             border.width: 1
 
+            BusyIndicator {
+                anchors.centerIn: parent
+            }
+
             Photo {
                 id: imageId
                 anchors.centerIn: parent
                 height: parent.height
                 width:  parent.width
+                opacity: 0
 
                 source: photoProperties.path
                 photoHeight: photoProperties.height
