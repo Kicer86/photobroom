@@ -110,7 +110,7 @@ bool PhotoItem::ready() const
 void PhotoItem::gotThumbnail(const QImage& image)
 {
     setImage(image);
-    m_state = State::Fetched;
+    setState(State::Fetched);
     update();
 }
 
@@ -121,6 +121,12 @@ void PhotoItem::setImage(const QImage& image)
         m_image.load(":/gui/error.svg");
     else
         m_image = image;
+}
+
+
+void PhotoItem::setState(PhotoItem::State state)
+{
+    m_state = state;
 }
 
 
@@ -148,11 +154,11 @@ void PhotoItem::fetchImage()
     if (image.has_value())
     {
         setImage(image.value());
-        m_state = State::Fetched;
+        setState(State::Fetched);
     }
     else
     {
-        m_state = State::Fetching;
+        setState(State::Fetching);
         m_image.load(":/gui/clock.svg");
         m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
     }
