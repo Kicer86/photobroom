@@ -16,11 +16,11 @@ Item
         property int thumbnailMargin: 2
 
         anchors.fill: parent
-        clip: true
 
-        delegate: delegateId
+        clip: true
         cellWidth: thumbnailSize + thumbnailMargin
         cellHeight: thumbnailSize + thumbnailMargin
+        delegate: delegateId
 
         ScrollBar.vertical: ScrollBar { }
     }
