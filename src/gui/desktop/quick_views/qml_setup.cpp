@@ -2,7 +2,7 @@
 
 #include "qml_setup.hpp"
 
-#include "photo.hpp"
+#include "photo_item.hpp"
 
 
 void register_qml_types()
