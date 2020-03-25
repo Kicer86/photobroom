@@ -79,7 +79,7 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         TasksQueue(ITaskExecutor *);
         ~TasksQueue();
 
-        void push(std::unique_ptr<ITaskExecutor::ITask> &&);
+        unsigned int push(std::unique_ptr<ITaskExecutor::ITask> &&);
         void clear();
 
         void add(std::unique_ptr<ITask> && ) override;
@@ -90,12 +90,32 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         friend struct IntTask;
         struct IntTask;
 
+        struct TaskInformation
+        {
+            TaskInformation(unsigned int _id, std::unique_ptr<ITaskExecutor::ITask> _task)
+                : id(_id)
+                , task(std::move(_task))
+            {
+
+            }
+
+            TaskInformation(TaskInformation&& other)
+                : id (other.id)
+                , task(std::move(other.task))
+            {
+            }
+
+            unsigned int id;
+            std::unique_ptr<ITaskExecutor::ITask> task;
+        };
+
         std::recursive_mutex m_tasksMutex;
-        std::deque<std::unique_ptr<ITaskExecutor::ITask>> m_waitingTasks;
+        std::deque<TaskInformation> m_waitingTasks;
         std::condition_variable_any m_noWork;
         ITaskExecutor* m_tasksExecutor;
         int m_maxTasks;
         int m_executingTasks;
+        unsigned int m_next_task_id;
 
         void try_to_fire();
         void fire();
