@@ -42,8 +42,13 @@ class safe_callback
         {
             std::lock_guard<std::mutex> lock(m_data->mutex);
 
-            if (m_data->callbackAlive == true)
+            if (is_valid())
                 m_callback(std::forward<Args>(args)...);
+        }
+
+        bool is_valid() const
+        {
+            return m_data->callbackAlive == true;
         }
 
     private:
