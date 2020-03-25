@@ -40,8 +40,7 @@ TasksQueue::TasksQueue(ITaskExecutor* executor):
     m_waitingTasks(),
     m_tasksExecutor(executor),
     m_maxTasks(executor->heavyWorkers() + 2),
-    m_executingTasks(0),
-    m_next_task_id(0)
+    m_executingTasks(0)
 {
 
 }
@@ -60,21 +59,14 @@ TasksQueue::~TasksQueue()
 }
 
 
-unsigned int TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
+void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
 {
     std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
 
-    unsigned int new_task_id = m_next_task_id;
-    auto new_task = std::make_unique<IntTask>(std::move(callable), this);
-
-    TaskInformation task(new_task_id, std::move(new_task));
+    auto task = std::make_unique<IntTask>(std::move(callable), this);
     m_waitingTasks.push_back(std::move(task));
 
-    new_task_id++;
-
     try_to_fire();
-
-    return new_task_id;
 }
 
 
@@ -120,11 +112,11 @@ void TasksQueue::fire()
     std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
     assert(m_waitingTasks.empty() == false);
 
-    auto taskInformation = std::move(m_waitingTasks.front());
+    auto task = std::move(m_waitingTasks.front());
     m_waitingTasks.pop_front();
 
     m_executingTasks++;
-    m_tasksExecutor->add(std::move(taskInformation.task));
+    m_tasksExecutor->add(std::move(task));
 }
 
 
