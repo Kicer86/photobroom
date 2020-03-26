@@ -16,6 +16,14 @@ macro(addTestTarget target)
 
     list(APPEND T_DEFINITIONS PRIVATE UNIT_TESTS_BUILD)
 
+    #verify sources list
+    foreach(source_name ${T_SOURCES})
+        if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${source_name} AND
+           NOT EXISTS ${source_name})
+            message(FATAL_ERROR "File ${source_name} for '${target}' does not exist")
+        endif()
+    endforeach()
+
     #test_bin_name
     set(test_bin ${target}_tests)
 
