@@ -47,7 +47,7 @@ class safe_callback
 
         bool is_valid() const
         {
-            return m_data->callbackAlive == true;
+            return m_data->callbackAlive == true && m_callback;
         }
 
     private:
