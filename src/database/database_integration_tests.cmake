@@ -30,7 +30,6 @@ addTestTarget(database_integration
                     backends/sql_backends/table_definition.cpp
                     backends/sql_backends/tables.cpp
                     backends/sql_backends/transaction.cpp
-                    $<TARGET_OBJECTS:plugins>
 
                     # sql tests:
                     integration_tests/common.hpp
@@ -45,6 +44,7 @@ addTestTarget(database_integration
                 LIBRARIES
                     core
                     database
+                    plugins
                     system
                     Qt5::Core
                     Qt5::Gui
