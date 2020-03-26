@@ -37,7 +37,7 @@ class safe_callback
 
         virtual ~safe_callback() = default;
 
-        void operator()(Args... args)
+        void operator()(Args... args) const
         {
             std::lock_guard<std::mutex> lock(m_data->mutex);
 
