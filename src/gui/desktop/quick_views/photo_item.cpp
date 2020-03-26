@@ -19,8 +19,8 @@
 
 #include <QPainter>
 
-#include <core/function_wrappers.hpp>
 
+using namespace std::placeholders;
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
@@ -37,7 +37,7 @@ PhotoItem::PhotoItem(QQuickItem* parent)
 
 PhotoItem::~PhotoItem()
 {
-
+    m_callback_ctrl.invalidate();
 }
 
 
@@ -164,7 +164,8 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
-        m_thbMgr->fetch(m_source, h, queued_slot<PhotoItem, void, const QImage &>(this, &PhotoItem::gotThumbnail));
+        auto callback = m_callback_ctrl.make_safe_callback<const QImage &>(std::bind(&PhotoItem::gotThumbnail, this, _1));
+        m_thbMgr->fetch(m_source, h, callback);
     }
 }
 

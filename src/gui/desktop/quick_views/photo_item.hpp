@@ -22,6 +22,7 @@
 #include <QImage>
 
 #include <core/ithumbnails_manager.hpp>
+#include <core/function_wrappers.hpp>
 
 
 class PhotoItem: public QQuickPaintedItem
@@ -53,6 +54,7 @@ class PhotoItem: public QQuickPaintedItem
     private:
         QImage m_image;
         QString m_source;
+        safe_callback_ctrl m_callback_ctrl;
         IThumbnailsManager* m_thbMgr;
 
         enum class State
