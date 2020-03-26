@@ -127,7 +127,7 @@ void PeopleManipulator::store()
 void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
     auto task = std::bind(method, this);
-    auto safe_task = m_callback_ctrl.make_safe_callback<void()>(task);
+    auto safe_task = m_callback_ctrl.make_safe_callback<>(task);
     auto executor = m_core.getTaskExecutor();
 
     runOn(executor, safe_task);
