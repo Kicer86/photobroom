@@ -25,20 +25,15 @@ namespace Database
     struct IDatabase;
 }
 
-class FlatModel : public APhotoInfoModel
+class FlatModel : public QAbstractListModel
 {
     public:
         FlatModel(QObject* = nullptr);
 
         void setDatabase(Database::IDatabase *);
 
-        virtual const Photo::Data& getPhotoDetails(const QModelIndex& ) const = 0;
-
-        virtual QVariant data(const QModelIndex& index, int role) const = 0;
-        virtual int columnCount(const QModelIndex& parent) const = 0;
-        virtual int rowCount(const QModelIndex& parent) const = 0;
-        virtual QModelIndex parent(const QModelIndex& child) const = 0;
-        virtual QModelIndex index(int row, int column, const QModelIndex& parent) const = 0;
+        QVariant data(const QModelIndex& index, int role) const override;
+        int rowCount(const QModelIndex& parent) const override;
 
     private:
         Database::IDatabase* m_db;

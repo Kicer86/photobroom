@@ -19,7 +19,7 @@
 
 
 FlatModel::FlatModel(QObject* p)
-    : APhotoInfoModel(p)
+    : QAbstractListModel(p)
     , m_db(nullptr)
 {
 }
@@ -31,32 +31,14 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& ) const
-{
-
-}
 
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
 
 }
 
-int FlatModel::columnCount(const QModelIndex& parent) const
-{
-
-}
 
 int FlatModel::rowCount(const QModelIndex& parent) const
-{
-
-}
-
-QModelIndex FlatModel::parent(const QModelIndex& child) const
-{
-
-}
-
-QModelIndex FlatModel::index(int row, int column, const QModelIndex& parent) const
 {
 
 }
