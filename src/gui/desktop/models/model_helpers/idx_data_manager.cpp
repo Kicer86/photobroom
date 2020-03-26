@@ -306,7 +306,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         using namespace std::placeholders;
         auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagTypeInfo &, const std::vector<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback<const TagTypeInfo &, const std::vector<TagValue> &>(callback);
 
         m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
@@ -354,7 +354,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     using namespace std::placeholders;
     auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback<void(int)>(callback);
+        m_data->m_tasksResultsCtrl.make_safe_callback<int>(callback);
 
     //send task to execution
     m_data->m_database->countPhotos(filter, safe_callback);

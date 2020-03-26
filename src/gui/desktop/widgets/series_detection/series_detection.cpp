@@ -94,7 +94,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 
     connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
-    auto callback = m_callback_mgr.make_safe_callback<void(Database::IBackend* backend)>(std::bind(&SeriesDetection::fetch_series, this, _1));
+    auto callback = m_callback_mgr.make_safe_callback<Database::IBackend*>(std::bind(&SeriesDetection::fetch_series, this, _1));
     m_db->exec(callback);
 }
 
@@ -124,7 +124,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         const SeriesDetector::GroupCandidate& candidate = candidates[i];
 
         auto setThumbnailCallback = make_cross_thread_function< const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1));
-        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<void(const QImage &)>(setThumbnailCallback);
+        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<const QImage &>(setThumbnailCallback);
 
         const QString& path = candidate.members.front().get<Photo::Field::Path>();
         m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
@@ -177,7 +177,7 @@ void SeriesDetection::group()
         invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
     };
 
-    auto db_task = m_callback_mgr.make_safe_callback<void(Database::IBackend *)>(task);
+    auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend *>(task);
     m_db->exec(db_task);
 }
 

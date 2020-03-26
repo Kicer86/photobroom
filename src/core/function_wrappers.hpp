@@ -26,19 +26,18 @@ struct safe_callback_data
 // empty. operator() will do nothing.
 // Usefull when calling object's method from another thread
 // as we are sure target object exists (or nothing happens)
-template<typename T>
+template<typename... Args>
 class safe_callback
 {
     public:
-        safe_callback(const std::shared_ptr<safe_callback_data>& data, const T& callback): m_data(data), m_callback(callback) {}
-        safe_callback(const safe_callback<T> &) = default;
+        safe_callback(const std::shared_ptr<safe_callback_data>& data, const std::function<void(Args...)>& callback): m_data(data), m_callback(callback) {}
+        safe_callback(const safe_callback<Args...> &) = default;
 
-        safe_callback& operator=(const safe_callback<T> &) = default;
+        safe_callback& operator=(const safe_callback<Args...> &) = default;
 
         virtual ~safe_callback() = default;
 
-        template<typename... Args>
-        void operator() (Args... args)
+        void operator()(Args... args)
         {
             std::lock_guard<std::mutex> lock(m_data->mutex);
 
@@ -49,7 +48,7 @@ class safe_callback
     private:
         std::shared_ptr<safe_callback_data> m_data;
 
-        T m_callback;
+        std::function<void(Args...)> m_callback;
 };
 
 
@@ -78,13 +77,12 @@ class safe_callback_ctrl final
             reset();
         }
 
-        template<typename R, typename T>
+        template<typename... R, typename T>
         auto make_safe_callback(const T& callback) const
         {
-            safe_callback<T> callbackPtr(m_data, callback);
-            std::function<R> fun(callbackPtr);
+            safe_callback<R...> callbackPtr(m_data, callback);
 
-            return fun;
+            return callbackPtr;
         }
 
         safe_callback_ctrl& operator=(const safe_callback_ctrl &) = delete;
@@ -96,7 +94,7 @@ class safe_callback_ctrl final
         }
 
     private:
-        template<typename>
+        template<typename...>
         friend class safe_callback;
 
         std::shared_ptr<safe_callback_data> m_data;
