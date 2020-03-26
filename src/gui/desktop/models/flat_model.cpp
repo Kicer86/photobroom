@@ -31,14 +31,13 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
-
+    return {};
 }
 
 
 int FlatModel::rowCount(const QModelIndex& parent) const
 {
-
+    return 0;
 }
