@@ -63,18 +63,24 @@ void PhotoItem::setThumbnailsManager(IThumbnailsManager* mgr)
 void PhotoItem::setSource(const QString& source)
 {
     m_source = source;
+
+    update();
 }
 
 
 void PhotoItem::setPhotoWidth(int w)
 {
     m_photoWidth = w;
+
+    update();
 }
 
 
 void PhotoItem::setPhotoHeight(int h)
 {
     m_photoHeight = h;
+
+    update();
 }
 
 
