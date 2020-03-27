@@ -33,9 +33,15 @@ FlatModel::FlatModel(QObject* p)
 
 void FlatModel::setDatabase(Database::IDatabase* db)
 {
+    beginResetModel();
     m_db = db;
+    m_idToRow.clear();
+    m_photos.clear();
+    m_properties.clear();
+    endResetModel();
 
-    m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+    if (m_db != nullptr)
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
 
@@ -116,9 +122,11 @@ void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::I
 
 void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 {
-    beginResetModel();
+    const int size = static_cast<int>(photos.size());
+
+    beginInsertRows({}, 0, size - 1);
     m_photos = photos;
-    endResetModel();
+    endInsertRows();
 }
 
 
