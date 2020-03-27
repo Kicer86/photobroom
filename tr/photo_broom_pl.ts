@@ -422,7 +422,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+207"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -449,7 +449,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+148"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+151"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -494,7 +494,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+209"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -555,7 +555,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-263"/>
+        <location line="-264"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>

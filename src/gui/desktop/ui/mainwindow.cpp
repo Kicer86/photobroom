@@ -32,6 +32,7 @@
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
+#include "models/flat_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/series_detection/series_detection.hpp"
@@ -278,6 +279,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
+        m_photosModel->setDatabase(nullptr);
         m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
         ui->imagesView->setDB(nullptr);
@@ -299,10 +301,12 @@ void MainWindow::setupView()
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
 
+    m_photosModel = new FlatModel(this);
+
     QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
     QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
-                setProperty("model", QVariant::fromValue<QObject *>(m_imagesModel));
+                setProperty("model", QVariant::fromValue<QObject *>(m_photosModel));
 
     setupReviewedPhotosView();
     setupNewPhotosView();
@@ -686,6 +690,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
+            m_photosModel->setDatabase(db);
             m_completerFactory.set(db);
             ui->tagEditor->setDatabase(db);
             ui->imagesView->setDB(db);
