@@ -43,8 +43,14 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
 
-    if (role == PhotoIdRole)
-        d = static_cast<int>(m_photos[index.row()]);
+    if (role == PhotoPropertiesRole)
+    {
+        const int row = index.row();
+        const Photo::Id id = m_photos[row];
+        m_idToRow[id] = row;
+        const PhotoProperties properties = photoProperties(id);
+        d = QVariant::fromValue<PhotoProperties>(properties);
+    }
 
     return d;
 }
@@ -59,9 +65,52 @@ int FlatModel::rowCount(const QModelIndex& parent) const
 QHash<int, QByteArray> FlatModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
-    result.insert(PhotoIdRole, "photoId");
+    result.insert(PhotoPropertiesRole, "photoProperties");
 
     return result;
+}
+
+
+PhotoProperties FlatModel::photoProperties(const Photo::Id& id) const
+{
+    PhotoProperties properties;
+
+    auto it = m_properties.find(id);
+
+    if (it == m_properties.end())
+    {
+        fetchPhotoProperties(id);
+        m_properties.emplace(id, properties);   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
+    }
+    else
+        properties = it->second;
+
+    return properties;
+}
+
+
+void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
+{
+    auto b = std::bind(qOverload<Database::IBackend *, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
+
+    m_db->exec(b);
+}
+
+
+void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+{
+    auto photos = backend->getPhotos({});
+
+    invokeMethod(this, &FlatModel::fetchedPhotos, photos);
+}
+
+
+void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::Id& id) const
+{
+    auto photo = backend->getPhoto(id);
+    const PhotoProperties properties(photo.path, photo.geometry.width(), photo.geometry.height());
+
+    invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, properties);
 }
 
 
@@ -73,9 +122,18 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 }
 
 
-void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const PhotoProperties& properties)
 {
-    auto photos = backend->getPhotos({});
+    auto it = m_idToRow.find(id);
 
-    invokeMethod(this, &FlatModel::fetchedPhotos, photos);
+    const int row = it == m_idToRow.end()? -1 : it->second;
+    assert(row != -1);
+
+    m_properties[id] = properties;
+
+    if (row != -1)
+    {
+        const QModelIndex idx = createIndex(row, 0);
+        emit dataChanged(idx, idx, {PhotoPropertiesRole});
+    }
 }

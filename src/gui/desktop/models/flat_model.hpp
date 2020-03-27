@@ -18,7 +18,10 @@
 #ifndef FLATMODEL_HPP
 #define FLATMODEL_HPP
 
+#include <map>
+
 #include "aphoto_info_model.hpp"
+#include "photo_properties.hpp"
 
 namespace Database
 {
@@ -33,8 +36,8 @@ class FlatModel : public QAbstractListModel
 
         enum Roles
         {
-            PhotoIdRole = Qt::UserRole + 1,
-            _lastRole = PhotoIdRole,
+            PhotoPropertiesRole = Qt::UserRole + 1,
+            _lastRole = PhotoPropertiesRole,
         };
 
         void setDatabase(Database::IDatabase *);
@@ -45,11 +48,20 @@ class FlatModel : public QAbstractListModel
 
     private:
         std::vector<Photo::Id> m_photos;
+        mutable std::map<Photo::Id, int> m_idToRow;
+        mutable std::map<Photo::Id, PhotoProperties> m_properties;
         Database::IDatabase* m_db;
 
-        void fetchedPhotos(const std::vector<Photo::Id> &);
+        PhotoProperties photoProperties(const Photo::Id &) const;
+        void fetchPhotoProperties(const Photo::Id &) const;
 
+        // methods working on backend
         void fetchMatchingPhotos(Database::IBackend *);
+        void fetchPhotoProperties(Database::IBackend *, const Photo::Id &) const;
+
+        // results from backend
+        void fetchedPhotos(const std::vector<Photo::Id> &);
+        void fetchedPhotoProperties(const Photo::Id &, const PhotoProperties &);
 };
 
 #endif // FLATMODEL_HPP
