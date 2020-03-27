@@ -17,6 +17,12 @@
 
 #include "flat_model.hpp"
 
+#include <core/function_wrappers.hpp>
+#include <database/ibackend.hpp>
+#include <database/idatabase.hpp>
+
+
+using namespace std::placeholders;
 
 FlatModel::FlatModel(QObject* p)
     : QAbstractListModel(p)
@@ -28,16 +34,48 @@ FlatModel::FlatModel(QObject* p)
 void FlatModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
+
+    m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
 
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
-    return {};
+    QVariant d;
+
+    if (role == PhotoIdRole)
+        d = static_cast<int>(m_photos[index.row()]);
+
+    return d;
 }
 
 
 int FlatModel::rowCount(const QModelIndex& parent) const
 {
-    return 0;
+    return parent.isValid()? 0 : static_cast<int>(m_photos.size());
+}
+
+
+QHash<int, QByteArray> FlatModel::roleNames() const
+{
+    QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
+    result.insert(PhotoIdRole, "photoId");
+
+    return result;
+}
+
+
+void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
+{
+    beginResetModel();
+    m_photos = photos;
+    endResetModel();
+}
+
+
+void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+{
+    auto photos = backend->getPhotos({});
+
+    invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }

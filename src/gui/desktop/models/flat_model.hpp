@@ -23,6 +23,7 @@
 namespace Database
 {
     struct IDatabase;
+    struct IBackend;
 }
 
 class FlatModel : public QAbstractListModel
@@ -30,13 +31,25 @@ class FlatModel : public QAbstractListModel
     public:
         FlatModel(QObject* = nullptr);
 
+        enum Roles
+        {
+            PhotoIdRole = Qt::UserRole + 1,
+            _lastRole = PhotoIdRole,
+        };
+
         void setDatabase(Database::IDatabase *);
 
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
+        QHash<int, QByteArray> roleNames() const override;
 
     private:
+        std::vector<Photo::Id> m_photos;
         Database::IDatabase* m_db;
+
+        void fetchedPhotos(const std::vector<Photo::Id> &);
+
+        void fetchMatchingPhotos(Database::IBackend *);
 };
 
 #endif // FLATMODEL_HPP
