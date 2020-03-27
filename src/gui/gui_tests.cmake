@@ -11,6 +11,7 @@ addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/db_data_model.cpp
+                    desktop/models/photo_properties.cpp
                     desktop/models/model_helpers/idx_data.cpp
                     desktop/models/model_helpers/idx_data_manager.cpp
                     desktop/models/model_helpers/idxdata_deepfetcher.cpp
