@@ -3,6 +3,7 @@ set(SRC
     aphoto_info_model.cpp
     db_data_model.cpp
     flat_model.cpp
+    photo_properties.cpp
     model_helpers/idx_data.cpp
     model_helpers/idx_data_manager.cpp
     model_helpers/idxdata_deepfetcher.cpp
@@ -14,6 +15,7 @@ set(HEADERS
     db_data_model.hpp
     flat_model.hpp
     model_types.hpp
+    photo_properties.hpp
     model_helpers/idx_data.hpp
     model_helpers/idx_data_manager.hpp
     model_helpers/idxdata_deepfetcher.hpp

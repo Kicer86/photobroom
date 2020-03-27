@@ -26,6 +26,7 @@
 #include <core/down_cast.hpp>
 #include <database/filter.hpp>
 
+#include "photo_properties.hpp"
 #include "model_helpers/idx_data.hpp"
 #include "model_helpers/idx_data_manager.hpp"
 
