@@ -126,7 +126,6 @@ class safe_callback_ctrl final
 };
 
 
-
 // extends QMetaObject::invokeMethod by version with arguments
 template<typename Obj, typename F, typename... Args>
 void invokeMethod(Obj* object, const F& method, Args&&... args)
