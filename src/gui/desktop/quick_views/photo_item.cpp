@@ -37,7 +37,7 @@ PhotoItem::~PhotoItem()
 }
 
 
-void PhotoItem::paint(QPainter *painter)
+void PhotoItem::paint(QPainter* painter)
 {
     if (m_thbMgr == nullptr || m_photoSize.isEmpty() || m_source.isEmpty())
         return;
