@@ -8,18 +8,15 @@ Q_DECLARE_METATYPE(PhotoProperties)
 
 PhotoProperties::PhotoProperties()
     : m_path()
-    , m_height(0)
-    , m_width(0)
+    , m_size()
 {
 
 }
 
 
-PhotoProperties::PhotoProperties(const QString& path, int h, int w)
+PhotoProperties::PhotoProperties(const QString& path, const QSize& size)
     : m_path(path)
-    , m_height(h)
-    , m_width(w)
+    , m_size(size)
 {
 
 }
-

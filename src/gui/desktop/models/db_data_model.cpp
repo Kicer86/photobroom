@@ -153,7 +153,7 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
     if (role == APhotoInfoModel::PhotoPropertiesRole)
     {
         auto data = getPhotoDetails(_index);
-        return QVariant::fromValue<PhotoProperties>({data.path, data.geometry.height(), data.geometry.width()});
+        return QVariant::fromValue<PhotoProperties>({data.path, data.geometry});
     }
     else
     {

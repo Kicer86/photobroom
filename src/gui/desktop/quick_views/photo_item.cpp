@@ -24,12 +24,8 @@ using namespace std::placeholders;
 
 PhotoItem::PhotoItem(QQuickItem* parent)
     : QQuickPaintedItem(parent)
-    , m_image()
-    , m_source()
     , m_thbMgr(nullptr)
     , m_state(State::NotFetched)
-    , m_photoWidth(0)
-    , m_photoHeight(0)
 {
 
 }
@@ -43,7 +39,7 @@ PhotoItem::~PhotoItem()
 
 void PhotoItem::paint(QPainter *painter)
 {
-    if (m_thbMgr == nullptr || m_photoHeight == 0 || m_photoWidth == 0 || m_source.isEmpty())
+    if (m_thbMgr == nullptr || m_photoSize.isEmpty() || m_source.isEmpty())
         return;
 
     if (m_state == State::NotFetched)
@@ -68,17 +64,9 @@ void PhotoItem::setSource(const QString& source)
 }
 
 
-void PhotoItem::setPhotoWidth(int w)
+void PhotoItem::setPhotoSize(const QSize& size)
 {
-    m_photoWidth = w;
-
-    update();
-}
-
-
-void PhotoItem::setPhotoHeight(int h)
-{
-    m_photoHeight = h;
+    m_photoSize = size;
 
     update();
 }
@@ -96,15 +84,9 @@ QString PhotoItem::source() const
 }
 
 
-int PhotoItem::photoWidth() const
+QSize PhotoItem::photoSize() const
 {
-    return m_photoWidth;
-}
-
-
-int PhotoItem::photoHeight() const
-{
-    return m_photoHeight;
+    return m_photoSize;
 }
 
 
@@ -181,7 +163,7 @@ QSize PhotoItem::calculateThumbnailSize() const
     const int h = static_cast<int>(height());
     const int w = static_cast<int>(width());
 
-    QSize thbSize(m_photoWidth, m_photoHeight);
+    QSize thbSize = m_photoSize;
     thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
 
     return thbSize;

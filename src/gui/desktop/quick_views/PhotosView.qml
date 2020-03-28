@@ -53,8 +53,7 @@ Item
                 opacity: 0
 
                 source: photoProperties.path
-                photoHeight: photoProperties.height
-                photoWidth: photoProperties.width
+                photoSize: photoProperties.size
 
                 thumbnails: thumbnailsManager.get()
             }
