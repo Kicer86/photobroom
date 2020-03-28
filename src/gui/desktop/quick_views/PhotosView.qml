@@ -13,24 +13,24 @@ Item
         anchors.fill: parent
 
         Row {
-
-            height: childrenRect.height
-
             Text {
                 text: qsTr("Time range:");
             }
 
             RangeSlider {
                 id: timeSliderId
+
+                from: 0
+                to: new Date().getTime()
             }
 
             Text {
                 id: rangeId
 
-                property int from_time
-                property int to_time
+                property var from: timeSliderId.first.value
+                property var to: timeSliderId.second.value
 
-                text: Qt.formatDateTime(Date(from_time), Qt.ISODate) + " - " + Qt.formatDateTime(Date(to_time), Qt.ISODate)
+                text: Qt.formatDate(new Date(from), Qt.ISODate) + " - " + Qt.formatDate(new Date(to), Qt.ISODate)
             }
         }
 
@@ -71,8 +71,6 @@ Item
             }
         }
     }
-
-
 }
 
 /*##^##
