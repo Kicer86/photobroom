@@ -18,8 +18,11 @@ macro(addTestTarget target)
 
     #verify sources list
     foreach(source_name ${T_SOURCES})
+
+        get_source_file_property(is_generated ${source_name} GENERATED)
+
         if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${source_name} AND
-           NOT EXISTS ${source_name})
+           NOT ${is_generated})
             message(FATAL_ERROR "File ${source_name} for '${target}' does not exist")
         endif()
     endforeach()
