@@ -1,6 +1,7 @@
 
 <RCC>
     <qresource prefix="/ui">
+        <file>PhotoDelegate.qml</file>
         <file>PhotosView.qml</file>
     </qresource>
 </RCC>
