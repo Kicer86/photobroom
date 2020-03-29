@@ -10,7 +10,9 @@ namespace QmlUtils
     QObject* findQmlObject(QQuickWidget* qml, const QString& objectName)
     {
         auto rootObject = qml->rootObject();
-        return rootObject->findChild<QObject*>(objectName);
+        return (rootObject->objectName() == objectName)?
+            rootObject :
+            rootObject->findChild<QObject*>(objectName);
     }
 
 
