@@ -12,26 +12,8 @@ Item
 
         anchors.fill: parent
 
-        Row {
-            Text {
-                text: qsTr("Time range:");
-            }
-
-            RangeSlider {
-                id: timeSliderId
-
-                from: 0
-                to: new Date().getTime()
-            }
-
-            Text {
-                id: rangeId
-
-                property var from: timeSliderId.first.value
-                property var to: timeSliderId.second.value
-
-                text: Qt.formatDate(new Date(from), Qt.ISODate) + " - " + Qt.formatDate(new Date(to), Qt.ISODate)
-            }
+        TimeRange {
+            id: timeRangeId
         }
 
         GridView {

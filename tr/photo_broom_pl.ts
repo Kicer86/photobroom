@@ -803,14 +803,6 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
-    <name>PhotosView</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+17"/>
-        <source>Time range:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PhotosWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+75"/>
@@ -947,6 +939,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>Value</source>
         <translation>Wartość</translation>
+    </message>
+</context>
+<context>
+    <name>TimeRange</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+13"/>
+        <source>Time range:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
