@@ -94,6 +94,7 @@ class MainWindow: public QMainWindow
 
         void setupReviewedPhotosView();
         void setupNewPhotosView();
+        void setupQmlView();
         void setupConfig();
 
         void showContextMenuFor(PhotosWidget *, const QPoint &);

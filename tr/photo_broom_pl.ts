@@ -422,7 +422,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+207"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+216"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -449,7 +449,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+151"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+147"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -944,7 +944,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TimeRange</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+13"/>
+        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+17"/>
         <source>Time range:</source>
         <translation type="unfinished"></translation>
     </message>

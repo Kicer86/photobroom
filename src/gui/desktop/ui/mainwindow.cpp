@@ -136,6 +136,15 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 }
 
 
+void MainWindow::setupQmlView()
+{
+    QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
+    ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
+    QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
+                setProperty("model", QVariant::fromValue<QObject *>(m_photosModel));
+}
+
+
 void MainWindow::setupConfig()
 {
     // setup defaults
@@ -303,11 +312,7 @@ void MainWindow::setupView()
 
     m_photosModel = new FlatModel(this);
 
-    QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
-    ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
-    QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
-                setProperty("model", QVariant::fromValue<QObject *>(m_photosModel));
-
+    setupQmlView();
     setupReviewedPhotosView();
     setupNewPhotosView();
 
