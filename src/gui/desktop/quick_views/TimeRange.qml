@@ -8,6 +8,9 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    property alias from: timeSliderId.from
+    property alias to: timeSliderId.to
+
     Row {
 
         Text {
@@ -22,8 +25,6 @@ Item {
         }
 
         Text {
-            id: rangeId
-
             property var from: timeSliderId.first.value
             property var to: timeSliderId.second.value
 
