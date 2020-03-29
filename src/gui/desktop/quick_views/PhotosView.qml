@@ -7,6 +7,9 @@ import QtQuick.Layouts 1.14
 Item
 {
     id: rootId
+    objectName: "photos_view"       // used by c++ part to find this view and set proper model
+
+    property alias model: photosViewId.model
 
     ColumnLayout {
 
@@ -18,7 +21,6 @@ Item
 
         GridView {
             id: photosViewId
-            objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
             property int thumbnailSize: 160
             property int thumbnailMargin: 2
