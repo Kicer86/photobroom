@@ -13,13 +13,16 @@ if(LUPDATE AND LRELEASE)
          LIST_DIRECTORIES FALSE
          ${CMAKE_SOURCE_DIR}/src/*.cpp
          ${CMAKE_SOURCE_DIR}/src/*.hpp
-         ${CMAKE_SOURCE_DIR}/src/*.ui)
+         ${CMAKE_SOURCE_DIR}/src/*.ui
+         ${CMAKE_SOURCE_DIR}/src/*.qml
+    )
 
     file(GLOB_RECURSE crash_catcher_source_files
          LIST_DIRECTORIES FALSE
          ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.cpp
          ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.hpp
-         ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.ui)
+         ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.ui
+    )
 
     # write down all paths into a file
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sources.lst "")

@@ -803,6 +803,14 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
+    <name>PhotosView</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+17"/>
+        <source>Time range:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotosWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+75"/>
