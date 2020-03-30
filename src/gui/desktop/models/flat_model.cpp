@@ -45,7 +45,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-QPair<QDate, QDate> FlatModel::timeRange() const
+const QPair<QDate, QDate>& FlatModel::timeRange() const
 {
     return m_timeRange;
 }

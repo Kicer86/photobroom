@@ -48,7 +48,7 @@ class FlatModel : public QAbstractListModel
 
         void setDatabase(Database::IDatabase *);
 
-        QPair<QDate, QDate> timeRange() const;
+        const QPair<QDate, QDate>& timeRange() const;
         const QPair<QDate, QDate>& timeView() const;
 
         void setTimeView(const QPair<QDate, QDate> &);
