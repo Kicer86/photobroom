@@ -10,8 +10,8 @@ Component {
     Rectangle {
         id: rectId
 
-        width:  photosViewId.thumbnailSize
-        height: photosViewId.thumbnailSize
+        width:  GridView.view.thumbnailSize
+        height: GridView.view.thumbnailSize
 
         border.width: 1
 

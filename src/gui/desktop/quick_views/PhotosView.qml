@@ -7,7 +7,7 @@ Item {
     id: rootId
     objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
-    property alias model: photosViewId.model
+    property alias model: photosGridViewId.model
 
     ColumnLayout {
 
@@ -38,7 +38,7 @@ Item {
         }
 
         PhotosGridView {
-            id: photosViewId
+            id: photosGridViewId
 
             clip: true
 
