@@ -91,6 +91,12 @@ void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 }
 
 
+std::vector<Database::IFilter::Ptr> FlatModel::filters() const
+{
+    return {};
+}
+
+
 PhotoProperties FlatModel::photoProperties(const Photo::Id& id) const
 {
     PhotoProperties properties;

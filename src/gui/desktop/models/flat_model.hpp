@@ -21,6 +21,7 @@
 #include <map>
 #include <QDate>
 
+#include <database/filter.hpp>
 #include "aphoto_info_model.hpp"
 #include "photo_properties.hpp"
 
@@ -63,6 +64,7 @@ class FlatModel : public QAbstractListModel
         Database::IDatabase* m_db;
 
         void setTimeRange(const QDate &, const QDate &);
+        std::vector<Database::IFilter::Ptr> filters() const;
 
         PhotoProperties photoProperties(const Photo::Id &) const;
         void fetchPhotoProperties(const Photo::Id &) const;
