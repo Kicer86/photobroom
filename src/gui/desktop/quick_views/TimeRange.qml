@@ -11,8 +11,8 @@ Item {
     property alias from: timeSliderId.from
     property alias to: timeSliderId.to
 
-    property alias scopeFrom: timeSliderId.first
-    property alias scopeTo: timeSliderId.second
+    property alias viewFrom: timeSliderId.first
+    property alias viewTo: timeSliderId.second
 
     Row {
 

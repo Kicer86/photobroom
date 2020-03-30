@@ -17,21 +17,21 @@ Item {
             id: timeRangeId
 
             function updateRange() {
-                rootId.model.timeView = new Date(timeRangeId.scopeFrom.value), new Date(timeRangeId.scopeTo.value)
+                rootId.model.timeView = new Date(timeRangeId.viewFrom.value), new Date(timeRangeId.viewTo.value)
             }
 
             Connections {
-                target: timeRangeId.scopeFrom
+                target: timeRangeId.viewFrom
                 onPressedChanged: {
-                    if (timeRangeId.scopeFrom.pressed === false)
+                    if (timeRangeId.viewFrom.pressed === false)
                         timeRangeId.updateRange();
                 }
             }
 
             Connections {
-                target: timeRangeId.scopeTo
+                target: timeRangeId.viewTo
                 onPressedChanged: {
-                    if (timeRangeId.scopeTo.pressed === false)
+                    if (timeRangeId.viewTo.pressed === false)
                         timeRangeId.updateRange();
                 }
             }
