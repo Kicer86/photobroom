@@ -1,6 +1,5 @@
 
 import QtQuick 2.14
-import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.14
 
 
@@ -17,14 +16,24 @@ Item {
         TimeRange {
             id: timeRangeId
 
+            function updateRange() {
+                rootId.model.timeView = new Date(timeRangeId.scopeFrom.value), new Date(timeRangeId.scopeTo.value)
+            }
+
             Connections {
                 target: timeRangeId.scopeFrom
-                onPressedChanged: console.info("left")
+                onPressedChanged: {
+                    if (timeRangeId.scopeFrom.pressed === false)
+                        timeRangeId.updateRange();
+                }
             }
 
             Connections {
                 target: timeRangeId.scopeTo
-                onPressedChanged: console.info("right")
+                onPressedChanged: {
+                    if (timeRangeId.scopeTo.pressed === false)
+                        timeRangeId.updateRange();
+                }
             }
         }
 
