@@ -45,6 +45,12 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
+QPair<QDate, QDate> FlatModel::timeRange() const
+{
+    return m_timeRange;
+}
+
+
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
@@ -74,6 +80,14 @@ QHash<int, QByteArray> FlatModel::roleNames() const
     result.insert(PhotoPropertiesRole, "photoProperties");
 
     return result;
+}
+
+
+void FlatModel::setTimeRange(const QDate& from, const QDate& to)
+{
+    m_timeRange = QPair(from, to);
+
+    emit timeRangeChanged();
 }
 
 

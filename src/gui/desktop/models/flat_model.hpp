@@ -19,6 +19,7 @@
 #define FLATMODEL_HPP
 
 #include <map>
+#include <QDate>
 
 #include "aphoto_info_model.hpp"
 #include "photo_properties.hpp"
@@ -31,6 +32,9 @@ namespace Database
 
 class FlatModel : public QAbstractListModel
 {
+    Q_OBJECT
+    Q_PROPERTY(QPair<QDate, QDate> timeRange READ timeRange NOTIFY timeRangeChanged)
+
     public:
         FlatModel(QObject* = nullptr);
 
@@ -42,15 +46,23 @@ class FlatModel : public QAbstractListModel
 
         void setDatabase(Database::IDatabase *);
 
+        QPair<QDate, QDate> timeRange() const;
+
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
         QHash<int, QByteArray> roleNames() const override;
+
+    signals:
+        void timeRangeChanged() const;
 
     private:
         std::vector<Photo::Id> m_photos;
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, PhotoProperties> m_properties;
+        QPair<QDate, QDate> m_timeRange;
         Database::IDatabase* m_db;
+
+        void setTimeRange(const QDate &, const QDate &);
 
         PhotoProperties photoProperties(const Photo::Id &) const;
         void fetchPhotoProperties(const Photo::Id &) const;
