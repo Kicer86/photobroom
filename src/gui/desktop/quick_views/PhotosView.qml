@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.14
 
 
 Item {
-    id: rootId
+    id: photosViewId
     objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
     property alias model: photosGridViewId.model
@@ -17,7 +17,7 @@ Item {
             id: timeRangeId
 
             function updateRange() {
-                rootId.model.timeView = new Date(timeRangeId.viewFrom.value), new Date(timeRangeId.viewTo.value)
+                photosViewId.model.timeView = new Date(timeRangeId.viewFrom.value), new Date(timeRangeId.viewTo.value)
             }
 
             Connections {
