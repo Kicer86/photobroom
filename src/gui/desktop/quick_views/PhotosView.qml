@@ -16,6 +16,16 @@ Item {
 
         TimeRange {
             id: timeRangeId
+
+            Connections {
+                target: timeRangeId.scopeFrom
+                onPressedChanged: console.info("left")
+            }
+
+            Connections {
+                target: timeRangeId.scopeTo
+                onPressedChanged: console.info("right")
+            }
         }
 
         PhotosGridView {
