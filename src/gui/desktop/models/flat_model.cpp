@@ -51,6 +51,18 @@ QPair<QDate, QDate> FlatModel::timeRange() const
 }
 
 
+const QPair<QDate, QDate>& FlatModel::timeView() const
+{
+    return m_timeView;
+}
+
+
+void FlatModel::setTimeView(const QPair<QDate, QDate>& view)
+{
+    m_timeView = view;
+}
+
+
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;

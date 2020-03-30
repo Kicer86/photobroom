@@ -35,6 +35,7 @@ class FlatModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QPair<QDate, QDate> timeRange READ timeRange NOTIFY timeRangeChanged)
+    Q_PROPERTY(QPair<QDate, QDate> timeView READ timeView WRITE setTimeView)
 
     public:
         FlatModel(QObject* = nullptr);
@@ -48,6 +49,9 @@ class FlatModel : public QAbstractListModel
         void setDatabase(Database::IDatabase *);
 
         QPair<QDate, QDate> timeRange() const;
+        const QPair<QDate, QDate>& timeView() const;
+
+        void setTimeView(const QPair<QDate, QDate> &);
 
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
@@ -61,6 +65,7 @@ class FlatModel : public QAbstractListModel
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, PhotoProperties> m_properties;
         QPair<QDate, QDate> m_timeRange;
+        QPair<QDate, QDate> m_timeView;
         Database::IDatabase* m_db;
 
         void setTimeRange(const QDate &, const QDate &);
