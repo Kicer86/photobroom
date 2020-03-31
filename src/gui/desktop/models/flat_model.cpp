@@ -118,6 +118,7 @@ void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 
 std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 {
+    /// @todo: make me thread safe
     return {};
 }
 
@@ -150,7 +151,17 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 
 void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
-    auto photos = backend->getPhotos({});
+    const auto range_filters = filters();
+    const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
+    const auto view_filters = filters();
+    const auto photos = backend->getPhotos(view_filters);
+
+    if (dates.empty() == false)
+    {
+        const auto dates_range = std::minmax_element(dates.begin(), dates.end());
+
+        invokeMethod(this, &FlatModel::setTimeRange, dates_range.first->getDate(), dates_range.second->getDate());
+    }
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
