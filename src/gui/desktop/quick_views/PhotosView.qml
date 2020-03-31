@@ -51,12 +51,12 @@ Item {
 
         onTimeRangeFromChanged: {
             timeRangeId.from = model.timeRangeFrom.getTime()
-            timeRangeId.viewFrom.value = model.timeRangeFrom.getTime()
+            timeRangeId.viewFrom.value = model.timeViewFrom.getTime()
         }
 
         onTimeRangeToChanged: {
             timeRangeId.to = model.timeRangeTo.getTime()
-            timeRangeId.viewTo.value = model.timeRangeTo.getTime()
+            timeRangeId.viewTo.value = model.timeViewTo.getTime()
         }
     }
 }

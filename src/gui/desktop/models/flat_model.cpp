@@ -117,6 +117,7 @@ QHash<int, QByteArray> FlatModel::roleNames() const
 void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 {
     m_timeRange = QPair(from, to);
+    m_timeView = m_timeRange;
 
     emit timeRangeFromChanged();
     emit timeRangeToChanged();
