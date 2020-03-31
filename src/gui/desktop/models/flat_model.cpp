@@ -22,6 +22,7 @@
 #include <database/idatabase.hpp>
 
 
+/// @todo: get rid of const_cast and, if possible, remove mutables
 using namespace std::placeholders;
 
 FlatModel::FlatModel(QObject* p)
