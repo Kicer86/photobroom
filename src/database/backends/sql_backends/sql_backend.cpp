@@ -311,7 +311,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypeInfo& tagName, const std::vector<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const std::vector<IFilter::Ptr>& filter)
     {
         std::vector<TagValue> result;
 
@@ -322,7 +322,7 @@ namespace Database
         // TODO: consider DISTINCT removal, just do some post process
         QString queryStr = "SELECT DISTINCT %2.value FROM (%2) JOIN (%3) ON (%3.id = %2.photo_id) WHERE name='%1' AND photos.id IN(%4)";
 
-        queryStr = queryStr.arg(tagName.getTag());
+        queryStr = queryStr.arg(tagType);
         queryStr = queryStr.arg(TAB_TAGS);
         queryStr = queryStr.arg(TAB_PHOTOS);
         queryStr = queryStr.arg(filterQuery);
@@ -337,7 +337,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
+                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagType));
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);

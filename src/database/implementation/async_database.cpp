@@ -346,7 +346,7 @@ namespace Database
     {
         exec([info, filters, callback](IBackend* backend)
         {
-             const auto result = backend->listTagValues(info, filters);
+             const auto result = backend->listTagValues(info.getTag(), filters);
 
              callback(info, result);
         });

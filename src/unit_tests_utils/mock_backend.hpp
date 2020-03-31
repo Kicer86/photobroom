@@ -21,7 +21,7 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD0(listTags,
       std::vector<TagTypeInfo>());
   MOCK_METHOD2(listTagValues,
-      std::vector<TagValue>(const TagTypeInfo &, const std::vector<Database::IFilter::Ptr> &));
+      std::vector<TagValue>(const TagTypes &, const std::vector<Database::IFilter::Ptr> &));
   MOCK_METHOD0(getAllPhotos,
       std::vector<Photo::Id>());
   MOCK_METHOD1(getPhotos,
