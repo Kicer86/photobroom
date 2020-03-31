@@ -44,6 +44,21 @@ Item {
         }
 
     }
+
+    Connections {
+        target: photosViewId.model
+        ignoreUnknownSignals: true                          // on startup model won't be set so expect errors here
+
+        onTimeRangeFromChanged: {
+            timeRangeId.from = model.timeRangeFrom.getTime()
+            timeRangeId.viewFrom.value = model.timeRangeFrom.getTime()
+        }
+
+        onTimeRangeToChanged: {
+            timeRangeId.to = model.timeRangeTo.getTime()
+            timeRangeId.viewTo.value = model.timeRangeTo.getTime()
+        }
+    }
 }
 
 /*##^##
