@@ -16,16 +16,11 @@ Item {
         TimeRange {
             id: timeRangeId
 
-            function updateRange() {
-                photosViewId.model.timeViewFrom = new Date(timeRangeId.viewFrom.value)
-                photosViewId.model.timeViewTo = new Date(timeRangeId.viewTo.value)
-            }
-
             Connections {
                 target: timeRangeId.viewFrom
                 onPressedChanged: {
                     if (timeRangeId.viewFrom.pressed === false)
-                        timeRangeId.updateRange();
+                        photosViewId.model.timeViewFrom = new Date(timeRangeId.viewFrom.value)
                 }
             }
 
@@ -33,7 +28,7 @@ Item {
                 target: timeRangeId.viewTo
                 onPressedChanged: {
                     if (timeRangeId.viewTo.pressed === false)
-                        timeRangeId.updateRange();
+                        photosViewId.model.timeViewTo = new Date(timeRangeId.viewTo.value)
                 }
             }
         }
