@@ -17,7 +17,8 @@ Item {
             id: timeRangeId
 
             function updateRange() {
-                photosViewId.model.timeView = new Date(timeRangeId.viewFrom.value), new Date(timeRangeId.viewTo.value)
+                photosViewId.model.timeViewFrom = new Date(timeRangeId.viewFrom.value)
+                photosViewId.model.timeViewTo = new Date(timeRangeId.viewTo.value)
             }
 
             Connections {

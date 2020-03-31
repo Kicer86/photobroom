@@ -51,15 +51,27 @@ const QPair<QDate, QDate>& FlatModel::timeRange() const
 }
 
 
-const QPair<QDate, QDate>& FlatModel::timeView() const
+const QDate& FlatModel::timeViewFrom() const
 {
-    return m_timeView;
+    return m_timeView.first;
 }
 
 
-void FlatModel::setTimeView(const QPair<QDate, QDate>& view)
+const QDate& FlatModel::timeViewTo() const
 {
-    m_timeView = view;
+    return m_timeView.second;
+}
+
+
+void FlatModel::setTimeViewFrom(const QDate& viewFrom)
+{
+    m_timeView.first = viewFrom;
+}
+
+
+void FlatModel::setTimeViewTo(const QDate& viewTo)
+{
+    m_timeView.second = viewTo;
 }
 
 

@@ -35,7 +35,8 @@ class FlatModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QPair<QDate, QDate> timeRange READ timeRange NOTIFY timeRangeChanged)
-    Q_PROPERTY(QPair<QDate, QDate> timeView READ timeView WRITE setTimeView)
+    Q_PROPERTY(QDate timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
+    Q_PROPERTY(QDate timeViewTo READ timeViewTo WRITE setTimeViewTo)
 
     public:
         FlatModel(QObject* = nullptr);
@@ -49,9 +50,11 @@ class FlatModel : public QAbstractListModel
         void setDatabase(Database::IDatabase *);
 
         const QPair<QDate, QDate>& timeRange() const;
-        const QPair<QDate, QDate>& timeView() const;
+        const QDate& timeViewFrom() const;
+        const QDate& timeViewTo() const;
 
-        void setTimeView(const QPair<QDate, QDate> &);
+        void setTimeViewFrom(const QDate &);
+        void setTimeViewTo(const QDate &);
 
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
