@@ -46,9 +46,15 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-const QPair<QDate, QDate>& FlatModel::timeRange() const
+const QDate& FlatModel::timeRangeFrom() const
 {
-    return m_timeRange;
+    return m_timeRange.first;
+}
+
+
+const QDate& FlatModel::timeRangeTo() const
+{
+    return m_timeRange.second;
 }
 
 
@@ -112,7 +118,8 @@ void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 {
     m_timeRange = QPair(from, to);
 
-    emit timeRangeChanged();
+    emit timeRangeFromChanged();
+    emit timeRangeToChanged();
 }
 
 

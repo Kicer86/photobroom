@@ -34,7 +34,8 @@ namespace Database
 class FlatModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QPair<QDate, QDate> timeRange READ timeRange NOTIFY timeRangeChanged)
+    Q_PROPERTY(QDate timeRangeFrom READ timeRangeFrom NOTIFY timeRangeFromChanged)
+    Q_PROPERTY(QDate timeRangeTo READ timeRangeTo NOTIFY timeRangeToChanged)
     Q_PROPERTY(QDate timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
     Q_PROPERTY(QDate timeViewTo READ timeViewTo WRITE setTimeViewTo)
 
@@ -49,7 +50,8 @@ class FlatModel : public QAbstractListModel
 
         void setDatabase(Database::IDatabase *);
 
-        const QPair<QDate, QDate>& timeRange() const;
+        const QDate& timeRangeFrom() const;
+        const QDate& timeRangeTo() const;
         const QDate& timeViewFrom() const;
         const QDate& timeViewTo() const;
 
@@ -61,7 +63,8 @@ class FlatModel : public QAbstractListModel
         QHash<int, QByteArray> roleNames() const override;
 
     signals:
-        void timeRangeChanged() const;
+        void timeRangeFromChanged() const;
+        void timeRangeToChanged() const;
 
     private:
         std::vector<Photo::Id> m_photos;
