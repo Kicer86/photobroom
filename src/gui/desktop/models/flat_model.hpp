@@ -77,6 +77,8 @@ class FlatModel : public QAbstractListModel
         void reloadPhotos();
         void reloadView();
         void clearCaches();
+        void removeAllPhotos();
+        void resetModel();
         void setTimeRange(const QDate &, const QDate &);
         std::vector<Database::IFilter::Ptr> filters() const;
         std::vector<Database::IFilter::Ptr> viewFilters() const;

@@ -111,10 +111,7 @@ QHash<int, QByteArray> FlatModel::roleNames() const
 
 void FlatModel::reloadPhotos()
 {
-    beginResetModel();
-    m_photos.clear();
-    clearCaches();
-    endResetModel();
+    resetModel();
 
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::getTimeRangeForFilters, this, _1));
@@ -123,10 +120,7 @@ void FlatModel::reloadPhotos()
 
 void FlatModel::reloadView()
 {
-    beginResetModel();
-    m_photos.clear();
-    clearCaches();
-    endResetModel();
+    resetModel();
 
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
@@ -137,6 +131,21 @@ void FlatModel::clearCaches()
 {
     m_idToRow.clear();
     m_properties.clear();
+}
+
+
+void FlatModel::removeAllPhotos()
+{
+    m_photos.clear();
+    clearCaches();
+}
+
+
+void FlatModel::resetModel()
+{
+    beginResetModel();
+    removeAllPhotos();
+    endResetModel();
 }
 
 
