@@ -20,11 +20,24 @@
 
 #include <QObject>
 
+class FlatModel;
+
 class PhotosModelComponent: public QObject
 {
         Q_OBJECT
+        Q_PROPERTY(FlatModel* model READ model WRITE setModel NOTIFY modelChanged)
 
     public:
+        PhotosModelComponent(QObject * = nullptr);
+
+        FlatModel* model() const;
+        void setModel(FlatModel *);
+
+    signals:
+        void modelChanged() const;
+
+    private:
+        FlatModel* m_model;
 };
 
 #endif // PHOTOSMODELCOMPONENT_HPP
