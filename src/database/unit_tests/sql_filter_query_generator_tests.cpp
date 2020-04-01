@@ -1,7 +1,10 @@
 
 #include <gtest/gtest.h>
+#include <QTime>
 
 #include "sql_filter_query_generator.hpp"
+
+
 
 TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 {
@@ -78,6 +81,25 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
               "JOIN (tags) "
               "ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '4'", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4' AND tags.value = '12:34:00'", query);
 }
 
 
