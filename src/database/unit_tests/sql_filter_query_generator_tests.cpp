@@ -62,6 +62,25 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 }
 
 
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time));
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4'", query);
+}
+
+
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
