@@ -103,6 +103,82 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 }
 
 
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreater)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4' AND tags.value > '12:34:00'", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreaterOrEqual)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4' AND tags.value >= '12:34:00'", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4' AND tags.value < '12:34:00'", query);
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOrEqual)
+{
+    Database::SqlFilterQueryGenerator generator;
+    std::vector<Database::IFilter::Ptr> filters;
+
+    std::shared_ptr<Database::FilterPhotosWithTag> filter =
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
+
+    filters.push_back(filter);
+
+    const QString query = generator.generate(filters);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '4' AND tags.value <= '12:34:00'", query);
+}
+
+
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
