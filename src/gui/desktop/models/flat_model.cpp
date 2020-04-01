@@ -112,13 +112,19 @@ QHash<int, QByteArray> FlatModel::roleNames() const
 void FlatModel::reloadPhotos()
 {
     beginResetModel();
-    m_idToRow.clear();
     m_photos.clear();
-    m_properties.clear();
+    clearCaches();
     endResetModel();
 
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+}
+
+
+void FlatModel::clearCaches()
+{
+    m_idToRow.clear();
+    m_properties.clear();
 }
 
 
