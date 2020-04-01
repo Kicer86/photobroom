@@ -91,7 +91,16 @@ namespace Database
         const TagTypeInfo tagName;
         const TagValue tagValue;
 
-        FilterPhotosWithTag(const TagTypeInfo &, const TagValue & = TagValue());
+        enum class ValueMode
+        {
+            Equal,
+            Less,
+            LessOrEqual,
+            Greater,
+            GreaterOrEqual,
+        } valueVode;
+
+        FilterPhotosWithTag(const TagTypeInfo &, const TagValue & = TagValue(), ValueMode = ValueMode::Equal);
     };
 
     struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter

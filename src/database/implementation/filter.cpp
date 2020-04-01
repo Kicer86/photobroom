@@ -40,7 +40,10 @@ namespace Database
     }
 
 
-    FilterPhotosWithTag::FilterPhotosWithTag(const TagTypeInfo& name, const TagValue& value): tagName(name), tagValue(value)
+    FilterPhotosWithTag::FilterPhotosWithTag(const TagTypeInfo& name, const TagValue& value, ValueMode mode):
+        tagName(name),
+        tagValue(value),
+        valueVode(mode)
     {
 
     }
