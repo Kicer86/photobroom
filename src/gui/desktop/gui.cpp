@@ -103,7 +103,7 @@ void Gui::run()
 
     // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
-    m_app->addLibraryPath(FileSystem().getLibrariesPath());
+    qApp->addLibraryPath(FileSystem().getLibrariesPath());
 #endif
 
     ILoggerFactory* loggerFactory = m_coreFactory.getLoggerFactory();
