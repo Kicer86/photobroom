@@ -117,10 +117,7 @@ void FlatModel::reloadPhotos()
     endResetModel();
 
     if (m_db != nullptr)
-    {
         m_db->exec(std::bind(&FlatModel::getTimeRangeForFilters, this, _1));
-        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
-    }
 }
 
 
@@ -142,6 +139,8 @@ void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 
         emit timeRangeFromChanged();
         emit timeRangeToChanged();
+
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
     }
 }
 
@@ -155,6 +154,7 @@ std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 
 std::vector<Database::IFilter::Ptr> FlatModel::viewFilters() const
 {
+    /// @todo: make me thread safe
     auto view_filters = filters();
 
     view_filters.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.first, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
