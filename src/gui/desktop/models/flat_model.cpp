@@ -34,15 +34,8 @@ FlatModel::FlatModel(QObject* p)
 
 void FlatModel::setDatabase(Database::IDatabase* db)
 {
-    beginResetModel();
     m_db = db;
-    m_idToRow.clear();
-    m_photos.clear();
-    m_properties.clear();
-    endResetModel();
-
-    if (m_db != nullptr)
-        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+    reloadPhotos();
 }
 
 
@@ -73,12 +66,14 @@ const QDate& FlatModel::timeViewTo() const
 void FlatModel::setTimeViewFrom(const QDate& viewFrom)
 {
     m_timeView.first = viewFrom;
+    reloadPhotos();
 }
 
 
 void FlatModel::setTimeViewTo(const QDate& viewTo)
 {
     m_timeView.second = viewTo;
+    reloadPhotos();
 }
 
 
@@ -114,13 +109,31 @@ QHash<int, QByteArray> FlatModel::roleNames() const
 }
 
 
+void FlatModel::reloadPhotos()
+{
+    beginResetModel();
+    m_idToRow.clear();
+    m_photos.clear();
+    m_properties.clear();
+    endResetModel();
+
+    if (m_db != nullptr)
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+}
+
+
 void FlatModel::setTimeRange(const QDate& from, const QDate& to)
 {
-    m_timeRange = QPair(from, to);
-    m_timeView = m_timeRange;
+    const QPair newTimeRange(from, to);
 
-    emit timeRangeFromChanged();
-    emit timeRangeToChanged();
+    if (newTimeRange != m_timeRange)
+    {
+        m_timeRange = QPair(from, to);
+        m_timeView = m_timeRange;
+
+        emit timeRangeFromChanged();
+        emit timeRangeToChanged();
+    }
 }
 
 
@@ -128,6 +141,17 @@ std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 {
     /// @todo: make me thread safe
     return {};
+}
+
+
+std::vector<Database::IFilter::Ptr> FlatModel::viewFilters() const
+{
+    auto view_filters = filters();
+
+    view_filters.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.first, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+    view_filters.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.second, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+
+    return view_filters;
 }
 
 
@@ -161,7 +185,7 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
     const auto range_filters = filters();
     const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
-    const auto view_filters = filters();
+    const auto view_filters = viewFilters();
     const auto photos = backend->getPhotos(view_filters);
 
     if (dates.empty() == false)

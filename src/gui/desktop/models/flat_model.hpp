@@ -74,8 +74,10 @@ class FlatModel : public QAbstractListModel
         QPair<QDate, QDate> m_timeView;
         Database::IDatabase* m_db;
 
+        void reloadPhotos();
         void setTimeRange(const QDate &, const QDate &);
         std::vector<Database::IFilter::Ptr> filters() const;
+        std::vector<Database::IFilter::Ptr> viewFilters() const;
 
         PhotoProperties photoProperties(const Photo::Id &) const;
         void fetchPhotoProperties(const Photo::Id &) const;
