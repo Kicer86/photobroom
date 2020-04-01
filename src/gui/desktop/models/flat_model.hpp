@@ -84,6 +84,7 @@ class FlatModel : public QAbstractListModel
         void fetchPhotoProperties(const Photo::Id &) const;
 
         // methods working on backend
+        void getTimeRangeForFilters(Database::IBackend *);
         void fetchMatchingPhotos(Database::IBackend *);
         void fetchPhotoProperties(Database::IBackend *, const Photo::Id &) const;
 

@@ -117,7 +117,10 @@ void FlatModel::reloadPhotos()
     endResetModel();
 
     if (m_db != nullptr)
+    {
+        m_db->exec(std::bind(&FlatModel::getTimeRangeForFilters, this, _1));
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+    }
 }
 
 
@@ -187,12 +190,10 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 }
 
 
-void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+void FlatModel::getTimeRangeForFilters(Database::IBackend* backend)
 {
     const auto range_filters = filters();
     const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
-    const auto view_filters = viewFilters();
-    const auto photos = backend->getPhotos(view_filters);
 
     if (dates.empty() == false)
     {
@@ -200,6 +201,15 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 
         invokeMethod(this, &FlatModel::setTimeRange, dates_range.first->getDate(), dates_range.second->getDate());
     }
+    else
+        invokeMethod(this, &FlatModel::setTimeRange, QDate(), QDate());
+}
+
+
+void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+{
+    const auto view_filters = viewFilters();
+    const auto photos = backend->getPhotos(view_filters);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
