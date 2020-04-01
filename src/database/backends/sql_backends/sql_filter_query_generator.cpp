@@ -77,10 +77,22 @@ namespace Database
         {
             QString condition;
 
+            QString comparisonType = "=";
+
+            switch (desciption->valueVode)
+            {
+                case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
+                case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;
+                case FilterPhotosWithTag::ValueMode::LessOrEqual:    comparisonType = "<="; break;
+                case FilterPhotosWithTag::ValueMode::Less:           comparisonType = "<";  break;
+                default: break;
+            }
+
             if (desciption->tagValue.type() != Tag::ValueType::Empty)
-                condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
+                condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value %3 '%2'")
                                         .arg(desciption->tagName.getTag() )
-                                        .arg(desciption->tagValue.rawValue());
+                                        .arg(desciption->tagValue.rawValue())
+                                        .arg(comparisonType);
             else
                 condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagName.getTag());
 
