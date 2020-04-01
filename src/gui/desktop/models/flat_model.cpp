@@ -66,14 +66,14 @@ const QDate& FlatModel::timeViewTo() const
 void FlatModel::setTimeViewFrom(const QDate& viewFrom)
 {
     m_timeView.first = viewFrom;
-    reloadPhotos();
+    reloadView();
 }
 
 
 void FlatModel::setTimeViewTo(const QDate& viewTo)
 {
     m_timeView.second = viewTo;
-    reloadPhotos();
+    reloadView();
 }
 
 
@@ -118,6 +118,18 @@ void FlatModel::reloadPhotos()
 
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::getTimeRangeForFilters, this, _1));
+}
+
+
+void FlatModel::reloadView()
+{
+    beginResetModel();
+    m_photos.clear();
+    clearCaches();
+    endResetModel();
+
+    if (m_db != nullptr)
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
 
