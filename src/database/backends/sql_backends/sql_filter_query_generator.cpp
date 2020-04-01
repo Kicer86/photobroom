@@ -90,11 +90,11 @@ namespace Database
 
             if (desciption->tagValue.type() != Tag::ValueType::Empty)
                 condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value %3 '%2'")
-                                        .arg(desciption->tagName.getTag() )
+                                        .arg(desciption->tagType )
                                         .arg(desciption->tagValue.rawValue())
                                         .arg(comparisonType);
             else
-                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagName.getTag());
+                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagType);
 
             m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
                                 .arg(TAB_PHOTOS)

@@ -52,7 +52,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Date), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, QString("test_value"));
 
     filters.push_back(filter);
 
@@ -71,7 +71,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time);
 
     filters.push_back(filter);
 
@@ -90,7 +90,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
 
     filters.push_back(filter);
 
@@ -109,7 +109,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
 
     filters.push_back(filter);
 
@@ -128,7 +128,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
 
     filters.push_back(filter);
 
@@ -147,7 +147,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
 
     filters.push_back(filter);
 
@@ -166,7 +166,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOr
     std::vector<Database::IFilter::Ptr> filters;
 
     std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time), QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
 
     filters.push_back(filter);
 
@@ -184,7 +184,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     Database::SqlFilterQueryGenerator generator;
     std::vector<Database::IFilter::Ptr> filters;
 
-    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Time));
+    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time);
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
     filters.push_back(filter);
 
@@ -244,7 +244,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 
     //tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::_People), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::_People, QString("test_value"));
 
     filters.push_back(tag_filter);
 
@@ -284,13 +284,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 
     // #1 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Place), QString("test_value"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Place, QString("test_value"));
 
     filters.push_back(tag1_filter);
 
     // #2 tag
     std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypeInfo(TagTypes::Event), QString("test_value2"));
+        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Event, QString("test_value2"));
 
     filters.push_back(tag2_filter);
 
