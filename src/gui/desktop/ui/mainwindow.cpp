@@ -140,7 +140,7 @@ void MainWindow::setupQmlView()
 {
     QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
-    QmlUtils::findQmlObject(ui->photosViewQml, "photos_view")->
+    QmlUtils::findQmlObject(ui->photosViewQml, "photos_model")->
                 setProperty("model", QVariant::fromValue<QObject *>(m_photosModel));
 }
 

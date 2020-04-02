@@ -1,13 +1,16 @@
 
 import QtQuick 2.14
 import QtQuick.Layouts 1.14
+import photo_broom.qml 1.0
 
 
 Item {
     id: photosViewId
-    objectName: "photos_view"       // used by c++ part to find this view and set proper model
 
-    property alias model: photosGridViewId.model
+    PhotosModel {
+        id: photosModelId
+        objectName: "photos_model"      // used by c++ part to find this model and set it up
+    }
 
     ColumnLayout {
 
@@ -38,6 +41,8 @@ Item {
 
             clip: true
 
+            model: photosModelId.model
+
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -46,8 +51,7 @@ Item {
     }
 
     Connections {
-        target: photosViewId.model
-        ignoreUnknownSignals: true                          // on startup model won't be set so expect errors here
+        target: photosModelId
 
         onTimeRangeFromChanged: {
             timeRangeId.from = model.timeRangeFrom.getTime()
