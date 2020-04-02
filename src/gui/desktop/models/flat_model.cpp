@@ -39,6 +39,15 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
+void FlatModel::setFilters(const std::vector<Database::IFilter::Ptr>& filters)
+{
+    std::lock_guard<std::mutex> lock(m_filtersMutex);
+    m_filters = filters;
+
+    reloadPhotos();
+}
+
+
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
@@ -104,8 +113,9 @@ void FlatModel::resetModel()
 
 std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 {
-    /// @todo: make me thread safe
-    return {};
+    std::lock_guard<std::mutex> lock(m_filtersMutex);
+
+    return m_filters;
 }
 
 

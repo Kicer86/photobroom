@@ -19,6 +19,7 @@
 #define FLATMODEL_HPP
 
 #include <map>
+#include <mutex>
 #include <QDate>
 
 #include <database/filter.hpp>
@@ -45,13 +46,16 @@ class FlatModel: public QAbstractListModel
         };
 
         void setDatabase(Database::IDatabase *);
+        void setFilters(const std::vector<Database::IFilter::Ptr> &);
 
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
         QHash<int, QByteArray> roleNames() const override;
 
     private:
+        std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<Photo::Id> m_photos;
+        mutable std::mutex m_filtersMutex;
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, PhotoProperties> m_properties;
         Database::IDatabase* m_db;
