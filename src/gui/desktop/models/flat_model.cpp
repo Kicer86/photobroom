@@ -39,44 +39,6 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-const QDate& FlatModel::timeRangeFrom() const
-{
-    return m_timeRange.first;
-}
-
-
-const QDate& FlatModel::timeRangeTo() const
-{
-    return m_timeRange.second;
-}
-
-
-const QDate& FlatModel::timeViewFrom() const
-{
-    return m_timeView.first;
-}
-
-
-const QDate& FlatModel::timeViewTo() const
-{
-    return m_timeView.second;
-}
-
-
-void FlatModel::setTimeViewFrom(const QDate& viewFrom)
-{
-    m_timeView.first = viewFrom;
-    reloadView();
-}
-
-
-void FlatModel::setTimeViewTo(const QDate& viewTo)
-{
-    m_timeView.second = viewTo;
-    reloadView();
-}
-
-
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
@@ -114,15 +76,6 @@ void FlatModel::reloadPhotos()
     resetModel();
 
     if (m_db != nullptr)
-        m_db->exec(std::bind(&FlatModel::getTimeRangeForFilters, this, _1));
-}
-
-
-void FlatModel::reloadView()
-{
-    resetModel();
-
-    if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
@@ -149,39 +102,10 @@ void FlatModel::resetModel()
 }
 
 
-void FlatModel::setTimeRange(const QDate& from, const QDate& to)
-{
-    const QPair newTimeRange(from, to);
-
-    if (newTimeRange != m_timeRange)
-    {
-        m_timeRange = QPair(from, to);
-        m_timeView = m_timeRange;
-
-        emit timeRangeFromChanged();
-        emit timeRangeToChanged();
-
-        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
-    }
-}
-
-
 std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 {
     /// @todo: make me thread safe
     return {};
-}
-
-
-std::vector<Database::IFilter::Ptr> FlatModel::viewFilters() const
-{
-    /// @todo: make me thread safe
-    auto view_filters = filters();
-
-    view_filters.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.first, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
-    view_filters.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.second, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
-
-    return view_filters;
 }
 
 
@@ -211,25 +135,9 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 }
 
 
-void FlatModel::getTimeRangeForFilters(Database::IBackend* backend)
-{
-    const auto range_filters = filters();
-    const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
-
-    if (dates.empty() == false)
-    {
-        const auto dates_range = std::minmax_element(dates.begin(), dates.end());
-
-        invokeMethod(this, &FlatModel::setTimeRange, dates_range.first->getDate(), dates_range.second->getDate());
-    }
-    else
-        invokeMethod(this, &FlatModel::setTimeRange, QDate(), QDate());
-}
-
-
 void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
-    const auto view_filters = viewFilters();
+    const auto view_filters = filters();
     const auto photos = backend->getPhotos(view_filters);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);

@@ -34,10 +34,6 @@ namespace Database
 class FlatModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QDate timeRangeFrom READ timeRangeFrom NOTIFY timeRangeFromChanged)
-    Q_PROPERTY(QDate timeRangeTo READ timeRangeTo NOTIFY timeRangeToChanged)
-    Q_PROPERTY(QDate timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
-    Q_PROPERTY(QDate timeViewTo READ timeViewTo WRITE setTimeViewTo)
 
     public:
         FlatModel(QObject* = nullptr);
@@ -50,44 +46,26 @@ class FlatModel : public QAbstractListModel
 
         void setDatabase(Database::IDatabase *);
 
-        const QDate& timeRangeFrom() const;
-        const QDate& timeRangeTo() const;
-        const QDate& timeViewFrom() const;
-        const QDate& timeViewTo() const;
-
-        void setTimeViewFrom(const QDate &);
-        void setTimeViewTo(const QDate &);
-
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
         QHash<int, QByteArray> roleNames() const override;
-
-    signals:
-        void timeRangeFromChanged() const;
-        void timeRangeToChanged() const;
 
     private:
         std::vector<Photo::Id> m_photos;
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, PhotoProperties> m_properties;
-        QPair<QDate, QDate> m_timeRange;
-        QPair<QDate, QDate> m_timeView;
         Database::IDatabase* m_db;
 
         void reloadPhotos();
-        void reloadView();
         void clearCaches();
         void removeAllPhotos();
         void resetModel();
-        void setTimeRange(const QDate &, const QDate &);
         std::vector<Database::IFilter::Ptr> filters() const;
-        std::vector<Database::IFilter::Ptr> viewFilters() const;
 
         PhotoProperties photoProperties(const Photo::Id &) const;
         void fetchPhotoProperties(const Photo::Id &) const;
 
         // methods working on backend
-        void getTimeRangeForFilters(Database::IBackend *);
         void fetchMatchingPhotos(Database::IBackend *);
         void fetchPhotoProperties(Database::IBackend *, const Photo::Id &) const;
 

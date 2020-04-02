@@ -33,9 +33,62 @@ FlatModel* PhotosModelComponent::model() const
 }
 
 
+const QDate& PhotosModelComponent::timeRangeFrom() const
+{
+    return m_timeRange.first;
+}
+
+
+const QDate& PhotosModelComponent::timeRangeTo() const
+{
+    return m_timeRange.second;
+}
+
+
+const QDate& PhotosModelComponent::timeViewFrom() const
+{
+    return m_timeView.first;
+}
+
+
+const QDate& PhotosModelComponent::timeViewTo() const
+{
+    return m_timeView.second;
+}
+
+
 void PhotosModelComponent::setModel(FlatModel* m)
 {
     m_model = m;
 
     emit modelChanged();
+}
+
+
+void PhotosModelComponent::setTimeViewFrom(const QDate& viewFrom)
+{
+    m_timeView.first = viewFrom;
+}
+
+
+void PhotosModelComponent::setTimeViewTo(const QDate& viewTo)
+{
+    m_timeView.second = viewTo;
+}
+
+
+void PhotosModelComponent::setTimeRange(const QDate& from, const QDate& to)
+{
+    const QPair newTimeRange(from, to);
+
+    if (newTimeRange != m_timeRange)
+    {
+        m_timeRange = QPair(from, to);
+        m_timeView = m_timeRange;
+
+        emit timeRangeFromChanged();
+        emit timeRangeToChanged();
+
+        //m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+    }
 }
