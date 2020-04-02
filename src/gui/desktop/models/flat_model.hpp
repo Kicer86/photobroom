@@ -31,7 +31,7 @@ namespace Database
     struct IBackend;
 }
 
-class FlatModel : public QAbstractListModel
+class FlatModel: public QAbstractListModel
 {
     Q_OBJECT
 
