@@ -427,7 +427,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+216"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>

@@ -56,6 +56,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
     m_newImagesModel(nullptr),
+    m_photosModel(nullptr),
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
@@ -139,9 +140,13 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::setupQmlView()
 {
+    assert(m_photosModel == nullptr);
+
     QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
-    m_photosModel = qobject_cast<PhotosModelComponent*>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model"));
+    m_photosModel = qobject_cast<PhotosModelComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model"));
+
+    assert(m_photosModel != nullptr);
 }
 
 
