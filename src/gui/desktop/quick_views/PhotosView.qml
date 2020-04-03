@@ -23,7 +23,7 @@ Item {
                 target: timeRangeId.viewFrom
                 onPressedChanged: {
                     if (timeRangeId.viewFrom.pressed === false)
-                        photosViewId.model.timeViewFrom = new Date(timeRangeId.viewFrom.value)
+                        photosModelId.timeViewFrom = new Date(timeRangeId.viewFrom.value)
                 }
             }
 
@@ -31,7 +31,7 @@ Item {
                 target: timeRangeId.viewTo
                 onPressedChanged: {
                     if (timeRangeId.viewTo.pressed === false)
-                        photosViewId.model.timeViewTo = new Date(timeRangeId.viewTo.value)
+                        photosModelId.timeViewTo = new Date(timeRangeId.viewTo.value)
                 }
             }
         }
@@ -54,13 +54,13 @@ Item {
         target: photosModelId
 
         onTimeRangeFromChanged: {
-            timeRangeId.from = model.timeRangeFrom.getTime()
-            timeRangeId.viewFrom.value = model.timeViewFrom.getTime()
+            timeRangeId.from = photosModelId.timeRangeFrom.getTime()
+            timeRangeId.viewFrom.value = photosModelId.timeViewFrom.getTime()
         }
 
         onTimeRangeToChanged: {
-            timeRangeId.to = model.timeRangeTo.getTime()
-            timeRangeId.viewTo.value = model.timeViewTo.getTime()
+            timeRangeId.to = photosModelId.timeRangeTo.getTime()
+            timeRangeId.viewTo.value = photosModelId.timeViewTo.getTime()
         }
     }
 }
