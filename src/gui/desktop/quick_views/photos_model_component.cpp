@@ -35,7 +35,8 @@ void PhotosModelComponent::setDatabase(Database::IDatabase* db)
     m_db = db;
     m_model->setDatabase(db);
 
-    updateTimeRange();
+    if (m_db != nullptr)
+        updateTimeRange();
 }
 
 
@@ -72,12 +73,26 @@ const QDate& PhotosModelComponent::timeViewTo() const
 void PhotosModelComponent::setTimeViewFrom(const QDate& viewFrom)
 {
     m_timeView.first = viewFrom;
+
+    updateModelFilters();
 }
 
 
 void PhotosModelComponent::setTimeViewTo(const QDate& viewTo)
 {
     m_timeView.second = viewTo;
+
+    updateModelFilters();
+}
+
+
+void PhotosModelComponent::updateModelFilters()
+{
+    auto filters_for_model = filters();
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.first, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.second, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+
+    m_model->setFilters(filters_for_model);
 }
 
 
@@ -104,7 +119,7 @@ void PhotosModelComponent::updateTimeRange()
 
 std::vector<Database::IFilter::Ptr> PhotosModelComponent::filters() const
 {
-    return {};
+    return m_filters;
 }
 
 

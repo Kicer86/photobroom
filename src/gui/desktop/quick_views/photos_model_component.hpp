@@ -59,11 +59,13 @@ class PhotosModelComponent: public QObject
         void timeRangeToChanged() const;
 
     private:
+        std::vector<Database::IFilter::Ptr> m_filters;
         QPair<QDate, QDate> m_timeRange;
         QPair<QDate, QDate> m_timeView;
         FlatModel* m_model;
         Database::IDatabase* m_db;
 
+        void updateModelFilters();
         void setTimeRange(const QDate &, const QDate &);
         void updateTimeRange();
         std::vector<Database::IFilter::Ptr> filters() const;
