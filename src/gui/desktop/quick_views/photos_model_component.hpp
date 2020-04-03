@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include <database/idatabase.hpp>
+#include <database/filter.hpp>
 
 class QAbstractItemModel;
 class FlatModel;
@@ -64,6 +65,10 @@ class PhotosModelComponent: public QObject
         Database::IDatabase* m_db;
 
         void setTimeRange(const QDate &, const QDate &);
+        void updateTimeRange();
+        std::vector<Database::IFilter::Ptr> filters() const;
+
+        void getTimeRangeForFilters(Database::IBackend *);
 };
 
 #endif // PHOTOSMODELCOMPONENT_HPP

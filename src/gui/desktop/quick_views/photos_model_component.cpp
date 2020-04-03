@@ -17,8 +17,11 @@
 
 #include "photos_model_component.hpp"
 
+#include <core/function_wrappers.hpp>
 #include "models/flat_model.hpp"
 
+
+using namespace std::placeholders;
 
 PhotosModelComponent::PhotosModelComponent(QObject* p)
     : QObject(p)
@@ -31,6 +34,8 @@ void PhotosModelComponent::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
     m_model->setDatabase(db);
+
+    updateTimeRange();
 }
 
 
@@ -87,7 +92,33 @@ void PhotosModelComponent::setTimeRange(const QDate& from, const QDate& to)
 
         emit timeRangeFromChanged();
         emit timeRangeToChanged();
-
-        //m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
     }
+}
+
+
+void PhotosModelComponent::updateTimeRange()
+{
+    m_db->exec(std::bind(&PhotosModelComponent::getTimeRangeForFilters, this, _1));
+}
+
+
+std::vector<Database::IFilter::Ptr> PhotosModelComponent::filters() const
+{
+    return {};
+}
+
+
+void PhotosModelComponent::getTimeRangeForFilters(Database::IBackend* backend)
+{
+    const auto range_filters = filters();
+    const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
+
+    if (dates.empty() == false)
+    {
+        const auto dates_range = std::minmax_element(dates.begin(), dates.end());
+
+        invokeMethod(this, &PhotosModelComponent::setTimeRange, dates_range.first->getDate(), dates_range.second->getDate());
+    }
+    else
+        invokeMethod(this, &PhotosModelComponent::setTimeRange, QDate(), QDate());
 }
