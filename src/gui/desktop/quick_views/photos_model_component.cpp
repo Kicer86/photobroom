@@ -22,12 +22,19 @@
 
 PhotosModelComponent::PhotosModelComponent(QObject* p)
     : QObject(p)
-    , m_model(nullptr)
+    , m_model(new FlatModel(this))
 {
 }
 
 
-FlatModel* PhotosModelComponent::model() const
+void PhotosModelComponent::setDatabase(Database::IDatabase* db)
+{
+    m_db = db;
+    m_model->setDatabase(db);
+}
+
+
+QAbstractItemModel* PhotosModelComponent::model() const
 {
     return m_model;
 }
@@ -54,14 +61,6 @@ const QDate& PhotosModelComponent::timeViewFrom() const
 const QDate& PhotosModelComponent::timeViewTo() const
 {
     return m_timeView.second;
-}
-
-
-void PhotosModelComponent::setModel(FlatModel* m)
-{
-    m_model = m;
-
-    emit modelChanged();
 }
 
 

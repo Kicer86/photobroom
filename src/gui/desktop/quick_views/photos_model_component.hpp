@@ -22,6 +22,9 @@
 #include <QDate>
 #include <QObject>
 
+#include <database/idatabase.hpp>
+
+class QAbstractItemModel;
 class FlatModel;
 
 
@@ -29,7 +32,7 @@ class PhotosModelComponent: public QObject
 {
         Q_OBJECT
 
-        Q_PROPERTY(FlatModel* model READ model WRITE setModel NOTIFY modelChanged)
+        Q_PROPERTY(QAbstractItemModel* model READ model NOTIFY modelChanged)
         Q_PROPERTY(QDate timeRangeFrom READ timeRangeFrom NOTIFY timeRangeFromChanged)
         Q_PROPERTY(QDate timeRangeTo READ timeRangeTo NOTIFY timeRangeToChanged)
         Q_PROPERTY(QDate timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
@@ -38,13 +41,14 @@ class PhotosModelComponent: public QObject
     public:
         PhotosModelComponent(QObject * = nullptr);
 
-        FlatModel* model() const;
+        void setDatabase(Database::IDatabase *);
+
+        QAbstractItemModel* model() const;
         const QDate& timeRangeFrom() const;
         const QDate& timeRangeTo() const;
         const QDate& timeViewFrom() const;
         const QDate& timeViewTo() const;
 
-        void setModel(FlatModel *);
         void setTimeViewFrom(const QDate &);
         void setTimeViewTo(const QDate &);
 
@@ -57,6 +61,7 @@ class PhotosModelComponent: public QObject
         QPair<QDate, QDate> m_timeRange;
         QPair<QDate, QDate> m_timeView;
         FlatModel* m_model;
+        Database::IDatabase* m_db;
 
         void setTimeRange(const QDate &, const QDate &);
 };

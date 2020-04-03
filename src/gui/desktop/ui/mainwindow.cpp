@@ -41,6 +41,7 @@
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/qml_utils.hpp"
+#include "quick_views/photos_model_component.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
@@ -140,8 +141,7 @@ void MainWindow::setupQmlView()
 {
     QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
-    QmlUtils::findQmlObject(ui->photosViewQml, "photos_model")->
-                setProperty("model", QVariant::fromValue<QObject *>(m_photosModel));
+    m_photosModel = qobject_cast<PhotosModelComponent*>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model"));
 }
 
 
@@ -309,8 +309,6 @@ void MainWindow::setupView()
 
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
-
-    m_photosModel = new FlatModel(this);
 
     setupQmlView();
     setupReviewedPhotosView();
