@@ -448,7 +448,7 @@ Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+144"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
