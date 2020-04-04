@@ -297,7 +297,7 @@ namespace Database
             result = filters_data.front();
         else
         {
-            result = "SELECT id FROM " TAB_PHOTOS " WHERE ";
+            result = QString("SELECT id FROM %1 WHERE ").arg(TAB_PHOTOS);
 
             for(auto it = filters_data.begin(); it != filters_data.end(); ++it)
             {
