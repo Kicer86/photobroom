@@ -129,10 +129,7 @@ namespace Database
         virtual std::vector<TagValue>    listTagValues(const TagTypes &,
                                                        const std::vector<IFilter::Ptr> &) = 0;
 
-        /// list all photos
-        virtual std::vector<Photo::Id>   getAllPhotos() = 0;
-
-        /// find all photos matching filter
+        /// find all photos matching filters
         virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;
 
         /// get particular photo

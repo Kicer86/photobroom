@@ -351,13 +351,6 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> ASqlBackend::getAllPhotos()
-    {
-        std::vector<IFilter::Ptr> emptyFilter;
-        return getPhotos(emptyFilter);  //like getPhotos but without any filters
-    }
-
-
     Photo::Data ASqlBackend::getPhoto(const Photo::Id& id)
     {
         const bool valid_id = doesPhotoExist(id);
