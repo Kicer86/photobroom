@@ -297,14 +297,9 @@ namespace Database
             result = filters_data.front();
         else
         {
-            QStringList partial_queries;
-
-            for(const auto& data: filters_data)
-                partial_queries.append(data);
-
             result = "SELECT id FROM " TAB_PHOTOS " WHERE ";
 
-            for(auto it = partial_queries.begin(); it != partial_queries.end(); ++it)
+            for(auto it = filters_data.begin(); it != filters_data.end(); ++it)
             {
                 if (it->isEmpty())
                     continue;
@@ -313,7 +308,7 @@ namespace Database
 
                 const auto next = std::next(it);
 
-                if (next != partial_queries.end())
+                if (next != filters_data.end())
                     result += " AND ";
             }
         }
