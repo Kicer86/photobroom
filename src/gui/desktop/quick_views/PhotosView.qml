@@ -10,6 +10,16 @@ Item {
     PhotosModel {
         id: photosModelId
         objectName: "photos_model"      // used by c++ part to find this model and set it up
+
+        onTimeRangeFromChanged: {
+            timeRangeId.from = photosModelId.timeRangeFrom.getTime()
+            timeRangeId.viewFrom.value = photosModelId.timeViewFrom.getTime()
+        }
+
+        onTimeRangeToChanged: {
+            timeRangeId.to = photosModelId.timeRangeTo.getTime()
+            timeRangeId.viewTo.value = photosModelId.timeViewTo.getTime()
+        }
     }
 
     ColumnLayout {
@@ -50,19 +60,6 @@ Item {
 
     }
 
-    Connections {
-        target: photosModelId
-
-        onTimeRangeFromChanged: {
-            timeRangeId.from = photosModelId.timeRangeFrom.getTime()
-            timeRangeId.viewFrom.value = photosModelId.timeViewFrom.getTime()
-        }
-
-        onTimeRangeToChanged: {
-            timeRangeId.to = photosModelId.timeRangeTo.getTime()
-            timeRangeId.viewTo.value = photosModelId.timeViewTo.getTime()
-        }
-    }
 }
 
 /*##^##
