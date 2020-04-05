@@ -1349,10 +1349,13 @@ namespace Database
             collection.push_back(id);
         }
 
-        // remove duplicates which may appear when query is complex
-        std::sort(collection.begin(), collection.end());
-        auto last = std::unique(collection.begin(), collection.end());
-        collection.erase(last, collection.end());
+#ifndef NDEBUG
+        // verify there are no duplicates in results
+        auto copy_of_collection = collection;
+        std::sort(copy_of_collection.begin(), copy_of_collection.end());
+
+        assert(std::unique(copy_of_collection.begin(), copy_of_collection.end()) == copy_of_collection.end());
+#endif
 
         return collection;
     }
