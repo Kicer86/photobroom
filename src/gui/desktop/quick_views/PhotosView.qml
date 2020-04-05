@@ -56,6 +56,14 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+            populate: Transition {
+                NumberAnimation { properties: "x,y"; duration: 1000 }
+            }
+
+            displaced: Transition {
+                NumberAnimation { properties: "x,y"; duration: 250 }
+            }
         }
 
     }
