@@ -34,10 +34,9 @@ class PhotosModelComponent: public QObject
         Q_OBJECT
 
         Q_PROPERTY(QAbstractItemModel* model READ model NOTIFY modelChanged)
-        Q_PROPERTY(QDate timeRangeFrom READ timeRangeFrom NOTIFY timeRangeFromChanged)
-        Q_PROPERTY(QDate timeRangeTo READ timeRangeTo NOTIFY timeRangeToChanged)
-        Q_PROPERTY(QDate timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
-        Q_PROPERTY(QDate timeViewTo READ timeViewTo WRITE setTimeViewTo)
+        Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
+        Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
+        Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
 
     public:
         PhotosModelComponent(QObject * = nullptr);
@@ -45,28 +44,26 @@ class PhotosModelComponent: public QObject
         void setDatabase(Database::IDatabase *);
 
         QAbstractItemModel* model() const;
-        const QDate& timeRangeFrom() const;
-        const QDate& timeRangeTo() const;
-        const QDate& timeViewFrom() const;
-        const QDate& timeViewTo() const;
+        unsigned int datesCount() const;
+        unsigned int timeViewFrom() const;
+        unsigned int timeViewTo() const;
 
-        void setTimeViewFrom(const QDate &);
-        void setTimeViewTo(const QDate &);
+        void setTimeViewFrom(unsigned int);
+        void setTimeViewTo(unsigned int);
 
     signals:
         void modelChanged() const;
-        void timeRangeFromChanged() const;
-        void timeRangeToChanged() const;
+        void datesCountChanged() const;
 
     private:
         std::vector<Database::IFilter::Ptr> m_filters;
-        QPair<QDate, QDate> m_timeRange;
-        QPair<QDate, QDate> m_timeView;
+        std::vector<QDate> m_dates;
+        QPair<unsigned int, unsigned int> m_timeView;
         FlatModel* m_model;
         Database::IDatabase* m_db;
 
         void updateModelFilters();
-        void setTimeRange(const QDate &, const QDate &);
+        void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
         std::vector<Database::IFilter::Ptr> filters() const;
 

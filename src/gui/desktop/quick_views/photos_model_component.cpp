@@ -46,31 +46,25 @@ QAbstractItemModel* PhotosModelComponent::model() const
 }
 
 
-const QDate& PhotosModelComponent::timeRangeFrom() const
+unsigned int PhotosModelComponent::datesCount() const
 {
-    return m_timeRange.first;
+    return static_cast<unsigned int>(m_dates.size());
 }
 
 
-const QDate& PhotosModelComponent::timeRangeTo() const
-{
-    return m_timeRange.second;
-}
-
-
-const QDate& PhotosModelComponent::timeViewFrom() const
+unsigned int PhotosModelComponent::timeViewFrom() const
 {
     return m_timeView.first;
 }
 
 
-const QDate& PhotosModelComponent::timeViewTo() const
+unsigned int PhotosModelComponent::timeViewTo() const
 {
     return m_timeView.second;
 }
 
 
-void PhotosModelComponent::setTimeViewFrom(const QDate& viewFrom)
+void PhotosModelComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
 
@@ -78,7 +72,7 @@ void PhotosModelComponent::setTimeViewFrom(const QDate& viewFrom)
 }
 
 
-void PhotosModelComponent::setTimeViewTo(const QDate& viewTo)
+void PhotosModelComponent::setTimeViewTo(unsigned int viewTo)
 {
     m_timeView.second = viewTo;
 
@@ -89,24 +83,31 @@ void PhotosModelComponent::setTimeViewTo(const QDate& viewTo)
 void PhotosModelComponent::updateModelFilters()
 {
     auto filters_for_model = filters();
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.first, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, m_timeView.second, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+    const QDate from = m_dates[m_timeView.first];
+    const QDate to = m_dates[m_timeView.second];
+
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
 
     m_model->setFilters(filters_for_model);
 }
 
 
-void PhotosModelComponent::setTimeRange(const QDate& from, const QDate& to)
+void PhotosModelComponent::setAvailableDates(const std::vector<TagValue>& dates_as_tags)
 {
-    const QPair newTimeRange(from, to);
+    std::vector<QDate> dates;
+    std::transform(dates_as_tags.begin(), dates_as_tags.end(), std::back_inserter(dates), [](const auto& d) { return d.getDate(); });
 
-    if (newTimeRange != m_timeRange)
+    if (dates != m_dates)
     {
-        m_timeRange = QPair(from, to);
-        m_timeView = m_timeRange;
+        m_dates = dates;
 
-        emit timeRangeFromChanged();
-        emit timeRangeToChanged();
+        const unsigned int count = static_cast<unsigned int>(dates.size());
+        const unsigned int timeViewTo = count == 0? 0: count - 1;
+
+        m_timeView = { 0, timeViewTo };
+
+        emit datesCountChanged();
     }
 }
 
@@ -126,14 +127,8 @@ std::vector<Database::IFilter::Ptr> PhotosModelComponent::filters() const
 void PhotosModelComponent::getTimeRangeForFilters(Database::IBackend* backend)
 {
     const auto range_filters = filters();
-    const auto dates = backend->listTagValues(TagTypes::Date, range_filters);
+    auto dates = backend->listTagValues(TagTypes::Date, range_filters);
+    std::sort(dates.begin(), dates.end());
 
-    if (dates.empty() == false)
-    {
-        const auto dates_range = std::minmax_element(dates.begin(), dates.end());
-
-        invokeMethod(this, &PhotosModelComponent::setTimeRange, dates_range.first->getDate(), dates_range.second->getDate());
-    }
-    else
-        invokeMethod(this, &PhotosModelComponent::setTimeRange, QDate(), QDate());
+    invokeMethod(this, &PhotosModelComponent::setAvailableDates, dates);
 }

@@ -11,15 +11,11 @@ Item {
         id: photosModelId
         objectName: "photos_model"      // used by c++ part to find this model and set it up
 
-        onTimeRangeFromChanged: {
-            timeRangeId.from = photosModelId.timeRangeFrom.getTime()
-            timeRangeId.viewFrom.value = photosModelId.timeViewFrom.getTime()
+        onDatesCountChanged: {
+            timeRangeId.viewFrom.value = 0
+            timeRangeId.viewFrom.value = photosModelId.datesCount > 0? photosModelId.datesCount - 1 : 0
         }
 
-        onTimeRangeToChanged: {
-            timeRangeId.to = photosModelId.timeRangeTo.getTime()
-            timeRangeId.viewTo.value = photosModelId.timeViewTo.getTime()
-        }
     }
 
     ColumnLayout {
@@ -29,11 +25,14 @@ Item {
         TimeRange {
             id: timeRangeId
 
+            from: 0
+            to: photosModelId.datesCount > 0? photosModelId.datesCount - 1: 0
+
             Connections {
                 target: timeRangeId.viewFrom
                 onPressedChanged: {
                     if (timeRangeId.viewFrom.pressed === false)
-                        photosModelId.timeViewFrom = new Date(timeRangeId.viewFrom.value)
+                        photosModelId.timeViewFrom = timeRangeId.viewFrom.value
                 }
             }
 
@@ -41,7 +40,7 @@ Item {
                 target: timeRangeId.viewTo
                 onPressedChanged: {
                     if (timeRangeId.viewTo.pressed === false)
-                        photosModelId.timeViewTo = new Date(timeRangeId.viewTo.value)
+                        photosModelId.timeViewTo = timeRangeId.viewTo.value
                 }
             }
         }
