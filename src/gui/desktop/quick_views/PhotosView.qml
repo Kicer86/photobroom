@@ -12,8 +12,11 @@ Item {
         objectName: "photos_model"      // used by c++ part to find this model and set it up
 
         onDatesCountChanged: {
+            timeRangeId.from = 0
+            timeRangeId.to = photosModelId.datesCount > 0? photosModelId.datesCount - 1: 0
+
             timeRangeId.viewFrom.value = 0
-            timeRangeId.viewFrom.value = photosModelId.datesCount > 0? photosModelId.datesCount - 1 : 0
+            timeRangeId.viewTo.value = photosModelId.datesCount > 0? photosModelId.datesCount - 1 : 0
         }
 
     }
@@ -26,8 +29,6 @@ Item {
             id: timeRangeId
 
             model: photosModelId
-            from: 0
-            to: photosModelId.datesCount > 0? photosModelId.datesCount - 1: 0
 
             Connections {
                 target: timeRangeId.viewFrom
