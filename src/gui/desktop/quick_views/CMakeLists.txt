@@ -1,7 +1,7 @@
 
-find_package(Qt5Quick REQUIRED)
-find_package(Qt5QuickWidgets REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Quick QuickWidgets)
 
+# consider https://doc.qt.io/QtQuickCompiler/ in case of load performance problems
 qt5_add_resources(QML_RESOURCES
                     resources.qrc
 )
