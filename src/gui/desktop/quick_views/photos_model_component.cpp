@@ -80,6 +80,12 @@ void PhotosModelComponent::setTimeViewTo(unsigned int viewTo)
 }
 
 
+QDate PhotosModelComponent::dateFor(unsigned int idx) const
+{
+    return idx >= m_dates.size()? QDate(): m_dates[idx];
+}
+
+
 void PhotosModelComponent::updateModelFilters()
 {
     auto filters_for_model = filters();

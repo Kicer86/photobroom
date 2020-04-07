@@ -25,6 +25,7 @@ Item {
         TimeRange {
             id: timeRangeId
 
+            model: photosModelId
             from: 0
             to: photosModelId.datesCount > 0? photosModelId.datesCount - 1: 0
 

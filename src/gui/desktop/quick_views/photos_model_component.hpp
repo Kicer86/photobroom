@@ -51,6 +51,8 @@ class PhotosModelComponent: public QObject
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
 
+        Q_INVOKABLE QDate dateFor(unsigned int) const;
+
     signals:
         void modelChanged() const;
         void datesCountChanged() const;

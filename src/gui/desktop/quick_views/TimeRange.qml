@@ -14,6 +14,8 @@ Item {
     property alias viewFrom: timeSliderId.first
     property alias viewTo: timeSliderId.second
 
+    property var model
+
     Row {
 
         Text {
@@ -31,7 +33,7 @@ Item {
             property var from: timeSliderId.first.value
             property var to: timeSliderId.second.value
 
-            text: Qt.formatDate(new Date(from), Qt.ISODate) + " - " + Qt.formatDate(new Date(to), Qt.ISODate)
+            text: Qt.formatDate(new Date(model.dateFor(from)), Qt.ISODate) + " - " + Qt.formatDate(new Date(model.dateFor(to)), Qt.ISODate)
         }
     }
 
