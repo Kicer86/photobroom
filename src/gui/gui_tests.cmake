@@ -1,6 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Test)
 find_package(Threads REQUIRED)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
@@ -11,6 +12,7 @@ addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/db_data_model.cpp
+                    desktop/models/flat_model.cpp
                     desktop/models/photo_properties.cpp
                     desktop/models/model_helpers/idx_data.cpp
                     desktop/models/model_helpers/idx_data_manager.cpp
@@ -26,6 +28,7 @@ addTestTarget(gui
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
+                    unit_tests/model/flat_model_tests.cpp
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
 
@@ -57,6 +60,7 @@ addTestTarget(gui
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Widgets
+                    Qt5::Test
                     ${GMOCK_LIBRARY}
                     ${GTEST_LIBRARY}
                     ${CMAKE_THREAD_LIBS_INIT}
