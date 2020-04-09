@@ -8,25 +8,22 @@
 
 class FlatModelTest: public testing::Test
 {
-
+    protected:
+        FlatModel model;
+        MockDatabase db;
 };
 
 
 TEST_F(FlatModelTest, resetAfterDBSet)
 {
-    FlatModel model;
-
     QSignalSpy model_about_to_be_reset(&model, &FlatModel::modelAboutToBeReset);
     QSignalSpy model_reset(&model, &FlatModel::modelReset);
 
     model.setDatabase(nullptr);
-
     EXPECT_EQ(model_about_to_be_reset.count(), 1);
     EXPECT_EQ(model_reset.count(), 1);
 
-    MockDatabase db;
     model.setDatabase(&db);
-
     EXPECT_EQ(model_about_to_be_reset.count(), 2);
     EXPECT_EQ(model_reset.count(), 2);
 }
