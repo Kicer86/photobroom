@@ -61,6 +61,7 @@ class FlatModel: public QAbstractListModel
         Database::IDatabase* m_db;
 
         void reloadPhotos();
+        void updatePhotos();
         void clearCaches();
         void removeAllPhotos();
         void resetModel();

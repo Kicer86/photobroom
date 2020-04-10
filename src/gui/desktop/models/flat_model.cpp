@@ -41,10 +41,12 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 
 void FlatModel::setFilters(const std::vector<Database::IFilter::Ptr>& filters)
 {
-    std::lock_guard<std::mutex> lock(m_filtersMutex);
-    m_filters = filters;
+    {
+        std::lock_guard<std::mutex> lock(m_filtersMutex);
+        m_filters = filters;
+    }
 
-    reloadPhotos();
+    updatePhotos();
 }
 
 
@@ -83,6 +85,15 @@ QHash<int, QByteArray> FlatModel::roleNames() const
 void FlatModel::reloadPhotos()
 {
     resetModel();
+
+    if (m_db != nullptr)
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+}
+
+
+void FlatModel::updatePhotos()
+{
+    clearCaches();
 
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
@@ -165,11 +176,112 @@ void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::I
 
 void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 {
-    const int size = static_cast<int>(photos.size());
+    auto last_new_it = photos.end();
+    auto last_old_it = m_photos.end();
+    auto first_old_it = m_photos.begin();
+    auto new_photos_it = photos.begin();
+    auto old_photos_it = m_photos.begin();
 
-    beginInsertRows({}, 0, size - 1);
-    m_photos = photos;
-    endInsertRows();
+    if (m_photos.empty())
+    {
+        beginInsertRows({}, 0, photos.size() - 1);
+        m_photos = photos;
+        endInsertRows();
+    }
+    else if (photos.empty())
+    {
+        beginRemoveRows({}, 0, m_photos.size() - 1);
+        m_photos = photos;
+        endRemoveRows();
+    }
+    else
+        while (new_photos_it != last_new_it || old_photos_it != last_old_it)
+        {
+            if (new_photos_it != last_new_it && old_photos_it == last_old_it)   // no more old, but still new ones?
+            {
+                const auto pos = std::distance(first_old_it, old_photos_it);
+                beginInsertRows({}, pos, pos + std::distance(std::next(new_photos_it), last_new_it));
+                m_photos.insert(old_photos_it, new_photos_it, last_new_it);   // append while new block of new items
+                endInsertRows();
+
+                new_photos_it = last_new_it;
+                continue;
+            }
+            else if (new_photos_it == last_new_it && old_photos_it != last_old_it)   // no more new, but still old ones?
+            {
+                const auto first = std::distance(first_old_it, old_photos_it);
+                const auto last = std::distance(first_old_it, last_old_it);
+                beginRemoveRows({}, first, last);
+                old_photos_it = m_photos.erase(old_photos_it);
+                last_old_it = m_photos.end();
+                endRemoveRows();
+
+                continue;
+            }
+
+            if (*new_photos_it == *old_photos_it)       // same photo on both sides - continue
+            {
+                ++new_photos_it;
+                ++old_photos_it;
+
+                continue;
+            }
+
+            // mismatch; check if new photo exists somewhere in old collection
+            const auto position_in_old_collection = std::find(old_photos_it, last_old_it, *new_photos_it);
+
+            if (position_in_old_collection == m_photos.end())       // id of photo from new set doesn't exist in old one - insertion
+            {
+                // find last item from new set which doesn't occur in old block
+                auto last_non_matching_new = std::next(new_photos_it);
+
+                while (last_non_matching_new != last_new_it)
+                {
+                    auto it = std::find(old_photos_it, last_old_it, *last_non_matching_new);
+
+                    if (it == last_old_it)      // last_non_matching_new not found, keep looking
+                    {
+                        ++last_non_matching_new;
+                        continue;
+                    }
+                    else                        // last_non_matching_new found in old sequence.
+                    {
+                        m_photos.insert(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
+
+                        old_photos_it += std::distance(new_photos_it, last_non_matching_new);
+                        new_photos_it = last_non_matching_new;
+
+                        break;
+                    }
+                }
+
+                if (last_non_matching_new == last_new_it)   // all items after new_photos_it where not found in old sequence.
+                {
+                    const auto pos = std::distance(first_old_it, old_photos_it);
+                    beginRemoveRows({}, pos, std::distance(first_old_it, last_old_it));
+                    old_photos_it = m_photos.erase(old_photos_it, last_old_it);    // everything in old sequence is not needed, remove it
+                    last_old_it = m_photos.end();
+                    endRemoveRows();
+
+                    beginInsertRows({}, pos, pos + std::distance(new_photos_it, last_new_it));
+                    m_photos.insert(old_photos_it, new_photos_it, last_new_it);   // append while new block of new items
+                    endInsertRows();
+                }
+
+            }
+            else
+            {
+                const auto first = std::distance(first_old_it, old_photos_it);
+                const auto last = std::distance(first_old_it, position_in_old_collection);
+                beginRemoveRows({}, first, last);
+                old_photos_it = m_photos.erase(old_photos_it, position_in_old_collection);
+                last_old_it = m_photos.end();
+                endRemoveRows();
+            }
+
+        }
+
+    assert(m_photos == photos);
 }
 
 
