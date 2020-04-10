@@ -10,13 +10,15 @@
 using testing::_;
 using testing::Invoke;
 using testing::Return;
+using testing::NiceMock;
+
 
 class FlatModelTest: public testing::Test
 {
     public:
         FlatModel model;
-        MockDatabase db;
-        MockBackend backend;
+        NiceMock<MockDatabase> db;
+        NiceMock<MockBackend> backend;
 
         FlatModelTest()
         {
