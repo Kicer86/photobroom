@@ -84,3 +84,25 @@ TEST_F(FlatModelTest, dataAppended)
     EXPECT_EQ(model_inserted.at(1).at(1).toInt(), 3);       // second(1) instance of signal, second(1) argument  (first)
     EXPECT_EQ(model_inserted.at(1).at(2).toInt(), 3);       // second(1) instance of signal, third(2) argument   (last)
 }
+
+
+TEST_F(FlatModelTest, dataPrepended)
+{
+    EXPECT_CALL(backend, getPhotos(_))
+        .WillOnce(Return(std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)}))                 // first call after db set
+        .WillOnce(Return(std::vector<Photo::Id>{Photo::Id(4), Photo::Id(1), Photo::Id(2), Photo::Id(3)}));  // second call after setting filters
+
+    QSignalSpy model_about_to_be_inserted(&model, &FlatModel::rowsAboutToBeInserted);
+    QSignalSpy model_inserted(&model, &FlatModel::rowsInserted);
+
+    model.setDatabase(&db);
+    model.setFilters({});       // setting filters should update set of photos
+
+    // 2 insertions - one after db set, second after filters set
+    EXPECT_EQ(model_about_to_be_inserted.count(), 2);
+    EXPECT_EQ(model_inserted.count(), 2);
+
+    // we expect 1 item to be inserted on position 0
+    EXPECT_EQ(model_inserted.at(1).at(1).toInt(), 0);       // second(1) instance of signal, second(1) argument  (first)
+    EXPECT_EQ(model_inserted.at(1).at(2).toInt(), 0);       // second(1) instance of signal, third(2) argument   (last)
+}
