@@ -50,6 +50,12 @@ void FlatModel::setFilters(const std::vector<Database::IFilter::Ptr>& filters)
 }
 
 
+const std::vector<Photo::Id>& FlatModel::photos() const
+{
+    return m_photos;
+}
+
+
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;

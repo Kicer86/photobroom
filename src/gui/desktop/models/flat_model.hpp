@@ -47,6 +47,7 @@ class FlatModel: public QAbstractListModel
 
         void setDatabase(Database::IDatabase *);
         void setFilters(const std::vector<Database::IFilter::Ptr> &);
+        const std::vector<Photo::Id>& photos() const;
 
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
