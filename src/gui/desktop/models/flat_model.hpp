@@ -81,13 +81,14 @@ class FlatModel: public QAbstractListModel
 
         // altering model
         template<typename T>
-        void insertPhotos(int position, T first, T last)
+        void insertPhotos(decltype(m_photos)::iterator position_it, T first, T last)
         {
             if (first == last)
                 return;
 
             const auto items = static_cast<int>(std::distance(first, last));
-            const auto position_it = m_photos.begin() + position;
+            const auto position = static_cast<int>(std::distance(m_photos.begin(), position_it));
+
             beginInsertRows({}, position, position + items - 1);
             m_photos.insert(position_it, first, last);
             endInsertRows();

@@ -189,7 +189,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     auto old_photos_it = m_photos.begin();
 
     if (m_photos.empty())
-        insertPhotos(0, photos.cbegin(), photos.cend());
+        insertPhotos(m_photos.end(), photos.cbegin(), photos.cend());
     else if (photos.empty())
     {
         beginRemoveRows({}, 0, m_photos.size() - 1);
