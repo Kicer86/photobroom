@@ -130,7 +130,7 @@ TEST_F(FlatModelTest, dataInserting)
 }
 
 
-TEST_F(FlatModelTest, dataRemovedFromBeginning)
+TEST_F(FlatModelTest, dataRemovedAtFront)
 {
     EXPECT_CALL(backend, getPhotos(_))
         .WillOnce(Return(std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)}))                 // first call after db set
