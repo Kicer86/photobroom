@@ -275,16 +275,16 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     m_photos.insert(old_photos_it, new_photos_it, last_new_it);   // append while new block of new items
                     endInsertRows();
                 }
-
             }
             else
             {
                 const auto first = std::distance(first_old_it, old_photos_it);
-                const auto last = std::distance(first_old_it, position_in_old_collection);
+                const auto last = std::distance(first_old_it, std::prev(position_in_old_collection));
                 beginRemoveRows({}, first, last);
                 old_photos_it = m_photos.erase(old_photos_it, position_in_old_collection);
-                last_old_it = m_photos.end();
                 endRemoveRows();
+                last_old_it = m_photos.end();
+                first_old_it = m_photos.begin();
             }
 
         }
