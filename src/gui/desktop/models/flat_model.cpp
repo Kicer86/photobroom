@@ -210,11 +210,11 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
             else if (new_photos_it == last_new_it && old_photos_it != last_old_it)   // no more new, but still old ones?
             {
                 const auto first = std::distance(first_old_it, old_photos_it);
-                const auto last = std::distance(first_old_it, last_old_it);
+                const auto last = std::distance(first_old_it, last_old_it) - 1;
                 beginRemoveRows({}, first, last);
                 old_photos_it = m_photos.erase(old_photos_it);
-                last_old_it = m_photos.end();
                 endRemoveRows();
+                last_old_it = m_photos.end();
 
                 continue;
             }
