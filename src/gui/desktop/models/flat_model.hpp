@@ -78,6 +78,20 @@ class FlatModel: public QAbstractListModel
         // results from backend
         void fetchedPhotos(const std::vector<Photo::Id> &);
         void fetchedPhotoProperties(const Photo::Id &, const PhotoProperties &);
+
+        // altering model
+        template<typename T>
+        void insertPhotos(int position, T first, T last)
+        {
+            if (first == last)
+                return;
+
+            const auto items = static_cast<int>(std::distance(first, last));
+            const auto position_it = m_photos.begin() + position;
+            beginInsertRows({}, position, position + items - 1);
+            m_photos.insert(position_it, first, last);
+            endInsertRows();
+        }
 };
 
 #endif // FLATMODEL_HPP
