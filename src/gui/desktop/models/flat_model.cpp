@@ -269,9 +269,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     m_photos.erase(old_photos_it, last_old_it);    // everything in old sequence is not needed, remove it
                     endRemoveRows();
 
-                    beginInsertRows({}, pos, pos + std::distance(new_photos_it, last_new_it) - 1);
-                    m_photos.insert(old_photos_it, new_photos_it, last_new_it);   // append while new block of new items
-                    endInsertRows();
+                    insertPhotos(old_photos_it, new_photos_it, last_new_it);
 
                     last_old_it = m_photos.end();
                     old_photos_it = last_old_it;
