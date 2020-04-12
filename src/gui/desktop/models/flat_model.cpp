@@ -250,10 +250,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                 if (last_non_matching_new == last_new_it())   // all items after new_photos_it where not found in old sequence.
                 {
                     old_photos_it = erasePhotos(old_photos_it, last_old_it());    // everything in old sequence is not needed, remove it
-                    old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_new_it());
-
-                    new_photos_it = last_new_it();
-                    old_photos_it = last_old_it();
+                    insertPhotos2(old_photos_it, new_photos_it, last_new_it());
                 }
             }
             else
