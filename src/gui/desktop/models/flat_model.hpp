@@ -101,7 +101,12 @@ class FlatModel: public QAbstractListModel
             if (first == last)
                 return first;
 
+            const auto items = static_cast<int>(std::distance(first, last));
+            const auto position = static_cast<int>(std::distance(m_photos.begin(), first));
+
+            beginRemoveRows({}, position, position + items - 1);
             auto r = m_photos.erase(first, last);
+            endRemoveRows();
 
             return r;
         }
