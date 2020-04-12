@@ -188,8 +188,15 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     auto new_photos_it = photos.begin();
     auto old_photos_it = m_photos.begin();
 
+    auto insertPhotos2 = [this](auto& output, auto& first, const auto& last) {
+        insertPhotos(output, first, last);
+        const auto items = std::distance(first, last);
+        first = last;
+        output += items;
+    };
+
     if (m_photos.empty())
-        insertPhotos(m_photos.end(), photos.cbegin(), photos.cend());
+        insertPhotos2(old_photos_it, new_photos_it, photos.cend());
     else if (photos.empty())
         erasePhotos(first_old_it(), last_old_it());
     else
