@@ -246,12 +246,8 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     else                        // last_non_matching_new found in old sequence.
                     {
                         const auto run_length = std::distance(new_photos_it, std::prev(last_non_matching_new));
-                        const auto pos = std::distance(first_old_it, old_photos_it);
-                        beginInsertRows({}, pos, pos + run_length);
 
-                        old_photos_it = m_photos.insert(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
-
-                        endInsertRows();
+                        old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
 
                         old_photos_it += run_length + 1;
                         new_photos_it = last_non_matching_new;
