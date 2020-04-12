@@ -182,7 +182,7 @@ void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::I
 
 void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 {
-    auto last_new_it = photos.end();
+    auto last_new_it = [&photos](){ return photos.end(); };
     auto last_old_it = [this](){ return m_photos.end(); };
     auto first_old_it = [this](){ return m_photos.begin(); };
     auto new_photos_it = photos.begin();
@@ -193,16 +193,16 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     else if (photos.empty())
         erasePhotos(first_old_it(), last_old_it());
     else
-        while (new_photos_it != last_new_it || old_photos_it != last_old_it())
+        while (new_photos_it != last_new_it() || old_photos_it != last_old_it())
         {
-            if (new_photos_it != last_new_it && old_photos_it == last_old_it())   // no more old, but still new ones?
+            if (new_photos_it != last_new_it() && old_photos_it == last_old_it())   // no more old, but still new ones?
             {
-                insertPhotos(old_photos_it, new_photos_it, last_new_it);
+                insertPhotos(old_photos_it, new_photos_it, last_new_it());
                 old_photos_it = last_old_it();
-                new_photos_it = last_new_it;
+                new_photos_it = last_new_it();
                 continue;
             }
-            else if (new_photos_it == last_new_it && old_photos_it != last_old_it())   // no more new, but still old ones?
+            else if (new_photos_it == last_new_it() && old_photos_it != last_old_it())   // no more new, but still old ones?
             {
                 old_photos_it = erasePhotos(old_photos_it, last_old_it());
 
@@ -225,7 +225,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                 // find last item from new set which doesn't occur in old block
                 auto last_non_matching_new = std::next(new_photos_it);
 
-                while (last_non_matching_new != last_new_it)
+                while (last_non_matching_new != last_new_it())
                 {
                     auto it = std::find(old_photos_it, last_old_it(), *last_non_matching_new);
 
@@ -247,12 +247,12 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     }
                 }
 
-                if (last_non_matching_new == last_new_it)   // all items after new_photos_it where not found in old sequence.
+                if (last_non_matching_new == last_new_it())   // all items after new_photos_it where not found in old sequence.
                 {
                     old_photos_it = erasePhotos(old_photos_it, last_old_it());    // everything in old sequence is not needed, remove it
-                    old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_new_it);
+                    old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_new_it());
 
-                    new_photos_it = last_new_it;
+                    new_photos_it = last_new_it();
                     old_photos_it = last_old_it();
                 }
             }
