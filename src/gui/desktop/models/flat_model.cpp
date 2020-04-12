@@ -187,7 +187,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     auto new_photos_it = photos.begin();
     auto old_photos_it = m_photos.begin();
 
-    auto insertPhotos2 = [this](auto& output, auto& first, const auto& last) {
+    auto insertPhotosAndUpdate = [this](auto& output, auto& first, const auto& last) {
         output = insertPhotos(output, first, last);
         const auto items = std::distance(first, last);
         first = last;
@@ -195,7 +195,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     };
 
     if (m_photos.empty())
-        insertPhotos2(old_photos_it, new_photos_it, photos.cend());
+        insertPhotosAndUpdate(old_photos_it, new_photos_it, photos.cend());
     else if (photos.empty())
         erasePhotos(old_photos_it, last_old_it());
     else
@@ -203,7 +203,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
         {
             if (new_photos_it != last_new_it() && old_photos_it == last_old_it())   // no more old, but still new ones?
             {
-                insertPhotos2(old_photos_it, new_photos_it, last_new_it());
+                insertPhotosAndUpdate(old_photos_it, new_photos_it, last_new_it());
                 continue;
             }
             else if (new_photos_it == last_new_it() && old_photos_it != last_old_it())   // no more new, but still old ones?
@@ -239,7 +239,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     }
                     else                        // last_non_matching_new found in old sequence.
                     {
-                        insertPhotos2(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
+                        insertPhotosAndUpdate(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
                         break;
                     }
                 }
@@ -247,7 +247,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                 if (last_non_matching_new == last_new_it())   // all items after new_photos_it where not found in old sequence.
                 {
                     old_photos_it = erasePhotos(old_photos_it, last_old_it());    // everything in old sequence is not needed, remove it
-                    insertPhotos2(old_photos_it, new_photos_it, last_new_it());
+                    insertPhotosAndUpdate(old_photos_it, new_photos_it, last_new_it());
                 }
             }
             else
