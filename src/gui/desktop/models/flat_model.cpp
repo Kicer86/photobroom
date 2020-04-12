@@ -184,7 +184,6 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 {
     auto last_new_it = [&photos](){ return photos.end(); };
     auto last_old_it = [this](){ return m_photos.end(); };
-    auto first_old_it = [this](){ return m_photos.begin(); };
     auto new_photos_it = photos.begin();
     auto old_photos_it = m_photos.begin();
 
@@ -198,7 +197,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     if (m_photos.empty())
         insertPhotos2(old_photos_it, new_photos_it, photos.cend());
     else if (photos.empty())
-        erasePhotos(first_old_it(), last_old_it());
+        erasePhotos(old_photos_it, last_old_it());
     else
         while (new_photos_it != last_new_it() || old_photos_it != last_old_it())
         {
@@ -209,8 +208,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
             }
             else if (new_photos_it == last_new_it() && old_photos_it != last_old_it())   // no more new, but still old ones?
             {
-                old_photos_it = erasePhotos(old_photos_it, last_old_it());
-
+                erasePhotos(old_photos_it, last_old_it());
                 continue;
             }
 
@@ -242,7 +240,6 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
                     else                        // last_non_matching_new found in old sequence.
                     {
                         insertPhotos2(old_photos_it, new_photos_it, last_non_matching_new);  // insert block of new photos into old sequence
-
                         break;
                     }
                 }
