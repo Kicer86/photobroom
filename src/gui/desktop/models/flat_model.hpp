@@ -96,7 +96,7 @@ class FlatModel: public QAbstractListModel
             return r;
         }
 
-        decltype(m_photos)::iterator eracePhotos(decltype(m_photos)::iterator first, decltype(m_photos)::iterator last)
+        decltype(m_photos)::iterator erasePhotos(decltype(m_photos)::iterator first, decltype(m_photos)::iterator last)
         {
             if (first == last)
                 return first;
