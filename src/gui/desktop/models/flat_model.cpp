@@ -183,7 +183,7 @@ void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::I
 void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 {
     auto last_new_it = photos.end();
-    auto last_old_it = m_photos.end();
+    auto last_old_it = [this](){ return m_photos.end(); };
     auto first_old_it = m_photos.begin();
     auto new_photos_it = photos.begin();
     auto old_photos_it = m_photos.begin();
@@ -191,22 +191,21 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     if (m_photos.empty())
         insertPhotos(m_photos.end(), photos.cbegin(), photos.cend());
     else if (photos.empty())
-        erasePhotos(first_old_it, last_old_it);
+        erasePhotos(first_old_it, last_old_it());
     else
-        while (new_photos_it != last_new_it || old_photos_it != last_old_it)
+        while (new_photos_it != last_new_it || old_photos_it != last_old_it())
         {
-            if (new_photos_it != last_new_it && old_photos_it == last_old_it)   // no more old, but still new ones?
+            if (new_photos_it != last_new_it && old_photos_it == last_old_it())   // no more old, but still new ones?
             {
                 insertPhotos(old_photos_it, new_photos_it, last_new_it);
-
+                old_photos_it = last_old_it();
                 new_photos_it = last_new_it;
                 continue;
             }
-            else if (new_photos_it == last_new_it && old_photos_it != last_old_it)   // no more new, but still old ones?
+            else if (new_photos_it == last_new_it && old_photos_it != last_old_it())   // no more new, but still old ones?
             {
-                old_photos_it = erasePhotos(old_photos_it, last_old_it);
+                old_photos_it = erasePhotos(old_photos_it, last_old_it());
                 first_old_it = m_photos.begin();
-                last_old_it = m_photos.end();
 
                 continue;
             }
@@ -220,7 +219,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
             }
 
             // mismatch; check if new photo exists somewhere in old collection
-            const auto position_in_old_collection = std::find(old_photos_it, last_old_it, *new_photos_it);
+            const auto position_in_old_collection = std::find(old_photos_it, last_old_it(), *new_photos_it);
 
             if (position_in_old_collection == m_photos.end())       // id of photo from new set doesn't exist in old one - insertion
             {
@@ -229,9 +228,9 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 
                 while (last_non_matching_new != last_new_it)
                 {
-                    auto it = std::find(old_photos_it, last_old_it, *last_non_matching_new);
+                    auto it = std::find(old_photos_it, last_old_it(), *last_non_matching_new);
 
-                    if (it == last_old_it)      // last_non_matching_new not found, keep looking
+                    if (it == last_old_it())      // last_non_matching_new not found, keep looking
                     {
                         ++last_non_matching_new;
                         continue;
@@ -244,7 +243,6 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 
                         old_photos_it += run_length + 1;
                         new_photos_it = last_non_matching_new;
-                        last_old_it = m_photos.end();
                         first_old_it = m_photos.begin();
 
                         break;
@@ -253,18 +251,16 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 
                 if (last_non_matching_new == last_new_it)   // all items after new_photos_it where not found in old sequence.
                 {
-                    old_photos_it = erasePhotos(old_photos_it, last_old_it);    // everything in old sequence is not needed, remove it
+                    old_photos_it = erasePhotos(old_photos_it, last_old_it());    // everything in old sequence is not needed, remove it
                     old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_new_it);
 
-                    last_old_it = m_photos.end();
                     new_photos_it = last_new_it;
-                    old_photos_it = last_old_it;
+                    old_photos_it = last_old_it();
                 }
             }
             else
             {
                 old_photos_it = erasePhotos(old_photos_it, position_in_old_collection);
-                last_old_it = m_photos.end();
                 first_old_it = m_photos.begin();
             }
 
