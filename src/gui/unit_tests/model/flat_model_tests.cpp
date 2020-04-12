@@ -165,8 +165,8 @@ TEST_F(FlatModelTest, dataRemovedAtFront)
     model.setFilters({});       // setting filters should update set of photos
 
     // 1 removal expected
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
 
     // we expect 1 item to be removed on position 0
     EXPECT_EQ(model_removed.at(0).at(1).toInt(), 0);       // first(0) instance of signal, second(1) argument  (first)
@@ -192,8 +192,8 @@ TEST_F(FlatModelTest, dataRemovedAtBack)
     model.setFilters({});       // setting filters should update set of photos
 
     // 1 removal expected
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
 
     // we expect 1 item to be removed on position 2
     EXPECT_EQ(model_removed.at(0).at(1).toInt(), 2);       // first(0) instance of signal, second(1) argument  (first)
@@ -219,8 +219,8 @@ TEST_F(FlatModelTest, dataRemovedInTheMiddle)
     model.setFilters({});       // setting filters should update set of photos
 
     // 1 removal expected
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
 
     // we expect 1 item to be removed on position 1
     EXPECT_EQ(model_removed.at(0).at(1).toInt(), 1);       // first(0) instance of signal, second(1) argument  (first)
@@ -249,8 +249,8 @@ TEST_F(FlatModelTest, dataReplacementInTheMiddle)
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
     EXPECT_EQ(model_inserted.count(), 2);
 
@@ -286,8 +286,8 @@ TEST_F(FlatModelTest, dataReplacementAtFront)
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
     EXPECT_EQ(model_inserted.count(), 2);
 
@@ -323,8 +323,8 @@ TEST_F(FlatModelTest, dataReplacementAtBack)
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
-    EXPECT_EQ(model_about_to_be_removed.count(), 1);
-    EXPECT_EQ(model_removed.count(), 1);
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
     EXPECT_EQ(model_inserted.count(), 2);
 
