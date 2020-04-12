@@ -189,7 +189,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     auto old_photos_it = m_photos.begin();
 
     auto insertPhotos2 = [this](auto& output, auto& first, const auto& last) {
-        insertPhotos(output, first, last);
+        output = insertPhotos(output, first, last);
         const auto items = std::distance(first, last);
         first = last;
         output += items;
@@ -204,9 +204,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
         {
             if (new_photos_it != last_new_it() && old_photos_it == last_old_it())   // no more old, but still new ones?
             {
-                insertPhotos(old_photos_it, new_photos_it, last_new_it());
-                old_photos_it = last_old_it();
-                new_photos_it = last_new_it();
+                insertPhotos2(old_photos_it, new_photos_it, last_new_it());
                 continue;
             }
             else if (new_photos_it == last_new_it() && old_photos_it != last_old_it())   // no more new, but still old ones?
