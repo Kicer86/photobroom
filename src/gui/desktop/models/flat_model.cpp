@@ -253,16 +253,12 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 
                 if (last_non_matching_new == last_new_it)   // all items after new_photos_it where not found in old sequence.
                 {
-                    const auto pos = std::distance(first_old_it, old_photos_it);
-                    beginRemoveRows({}, pos, std::distance(first_old_it, last_old_it) - 1);
-                    m_photos.erase(old_photos_it, last_old_it);    // everything in old sequence is not needed, remove it
-                    endRemoveRows();
-
-                    insertPhotos(old_photos_it, new_photos_it, last_new_it);
+                    old_photos_it = erasePhotos(old_photos_it, last_old_it);    // everything in old sequence is not needed, remove it
+                    old_photos_it = insertPhotos(old_photos_it, new_photos_it, last_new_it);
 
                     last_old_it = m_photos.end();
-                    old_photos_it = last_old_it;
                     new_photos_it = last_new_it;
+                    old_photos_it = last_old_it;
                 }
             }
             else
