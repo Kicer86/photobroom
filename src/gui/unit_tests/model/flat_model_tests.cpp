@@ -339,3 +339,19 @@ TEST_F(FlatModelTest, dataReplacementAtBack)
 
     EXPECT_EQ(final_photos_set, model.photos());
 }
+
+
+TEST_F(FlatModelTest, complexChanges)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{                            Photo::Id(11), Photo::Id(12), Photo::Id(13), Photo::Id(14),                               Photo::Id(15), Photo::Id(16), Photo::Id(17), Photo::Id(18)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(21), Photo::Id(22),                                              Photo::Id(14), Photo::Id(23), Photo::Id(24), Photo::Id(15), Photo::Id(16),                              Photo::Id(25), Photo::Id(26)};
+
+    EXPECT_CALL(backend, getPhotos(_))
+        .WillOnce(Return(initial_photos_set))                 // first call after db set
+        .WillOnce(Return(final_photos_set));                  // second call after setting filters
+
+    model.setDatabase(&db);
+    model.setFilters({});       // setting filters should update set of photos
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
