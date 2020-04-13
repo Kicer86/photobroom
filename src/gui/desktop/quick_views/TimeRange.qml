@@ -26,7 +26,7 @@ Item {
             id: timeSliderId
 
             from: 0
-            to: new Date().getTime()
+            to: 0
 
             stepSize: 1
             snapMode: RangeSlider.SnapAlways
