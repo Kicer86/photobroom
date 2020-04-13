@@ -52,7 +52,7 @@ Item {
 
             clip: true
 
-            model: photosModelId.model
+            model: photosModelId.photos
 
             Layout.fillHeight: true
             Layout.fillWidth: true

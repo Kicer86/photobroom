@@ -33,7 +33,7 @@ class PhotosModelComponent: public QObject
 {
         Q_OBJECT
 
-        Q_PROPERTY(QAbstractItemModel* model READ model NOTIFY modelChanged)
+        Q_PROPERTY(QAbstractItemModel* photos READ model NOTIFY modelChanged)
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
