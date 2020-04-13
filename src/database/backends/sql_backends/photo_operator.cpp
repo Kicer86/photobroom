@@ -121,9 +121,36 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr> &, const Actions& action)
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
     {
-        return {};
+        const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
+
+        QString actionQuery;
+
+        if (auto sort_action = std::get_if<SortAction>(&action))
+        {
+            actionQuery = QString("SELECT photos.id FROM (%3) "
+                                  "LEFT JOIN (%2) ON (%3.id = %2.photo_id) "
+                                  "WHERE %3.id IN (%1) AND (%2.name = %4 OR %2.name IS NULL) ORDER BY %2.value %5")
+                                    .arg(filtersQuery)
+                                    .arg(TAB_TAGS)
+                                    .arg(TAB_PHOTOS)
+                                    .arg(sort_action->tag)
+                                    .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
+        }
+        else
+        {
+            assert(!"Unknown action");
+            actionQuery = filtersQuery;
+        }
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(actionQuery, &query);
+        auto result = fetch(query);
+
+        return result;
     }
 
 
