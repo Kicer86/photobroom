@@ -285,7 +285,7 @@ namespace Database
     {
         exec([this, id, type, callback](IBackend* backend)
         {
-            const Group::Id gid = backend->groupOperator()->addGroup(id, type);
+            const Group::Id gid = backend->groupOperator().addGroup(id, type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
@@ -357,7 +357,7 @@ namespace Database
     {
         exec([this, filter, callback](IBackend* backend)
         {
-            auto photos = backend->photoOperator()->getPhotos(filter);
+            auto photos = backend->photoOperator().getPhotos(filter);
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)

@@ -166,7 +166,7 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
     const auto view_filters = filters();
-    const auto photos = backend->photoOperator()->getPhotos(view_filters);
+    const auto photos = backend->photoOperator().getPhotos(view_filters);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }

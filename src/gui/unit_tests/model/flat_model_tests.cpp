@@ -24,7 +24,7 @@ class FlatModelTest: public testing::Test
 
         FlatModelTest()
         {
-            ON_CALL(backend, photoOperator()).WillByDefault(Return(&photoOperator));
+            ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
             ON_CALL(db, execute(_)).WillByDefault(Invoke([this](std::unique_ptr<Database::IDatabase::ITask>&& task)
             {

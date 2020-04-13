@@ -185,19 +185,19 @@ namespace Database
          * \brief get group operator
          * \return group operator
          */
-        virtual IGroupOperator* groupOperator() = 0;
+        virtual IGroupOperator& groupOperator() = 0;
 
         /**
          * \brief get photo operator
          * \return photo operator
          */
-        virtual IPhotoOperator* photoOperator() = 0;
+        virtual IPhotoOperator& photoOperator() = 0;
 
         /**
          * \brief get changelog operator
          * \return changelog operator
          */
-        virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
+        virtual IPhotoChangeLogOperator& photoChangeLogOperator() = 0;
 
         virtual IPeopleInformationAccessor& peopleInformationAccessor() = 0;
 

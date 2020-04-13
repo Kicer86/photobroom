@@ -105,7 +105,7 @@ namespace Database
     }
 
 
-    GroupOperator* ASqlBackend::groupOperator()
+    GroupOperator& ASqlBackend::groupOperator()
     {
         // this lazy initialization is kind of a workaround:
         // getGenericQueryGenerator() may not work properly in
@@ -118,11 +118,11 @@ namespace Database
                                                               this
                                                              );
 
-        return m_groupOperator.get();
+        return *m_groupOperator.get();
     }
 
 
-    PhotoOperator* ASqlBackend::photoOperator()
+    PhotoOperator& ASqlBackend::photoOperator()
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_connectionName,
@@ -131,11 +131,11 @@ namespace Database
                                                               this
                                                              );
 
-        return m_photoOperator.get();
+        return *m_photoOperator.get();
     }
 
 
-    PhotoChangeLogOperator* ASqlBackend::photoChangeLogOperator()
+    PhotoChangeLogOperator& ASqlBackend::photoChangeLogOperator()
     {
         if (m_photoChangeLogOperator.get() == nullptr)
             m_photoChangeLogOperator =
@@ -146,7 +146,7 @@ namespace Database
                                                          this
                                                         );
 
-        return m_photoChangeLogOperator.get();
+        return *m_photoChangeLogOperator.get();
     }
 
 
@@ -446,7 +446,7 @@ namespace Database
         filter->flags[Photo::FlagsE::StagingArea] = 1;
 
         const std::vector<Database::IFilter::Ptr> filters({filter});
-        const std::vector<Photo::Id> staged = photoOperator()->getPhotos(filters);
+        const std::vector<Photo::Id> staged = photoOperator().getPhotos(filters);
 
         if (staged.empty() == false)
         {
@@ -888,7 +888,7 @@ namespace Database
             status = storeGroup(data.getId(), groupInfo);
         }
 
-        photoChangeLogOperator()->storeDifference(currentStateOfPhoto, data);
+        photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 
         return status;
     }

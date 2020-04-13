@@ -14,6 +14,7 @@
 using testing::Invoke;
 using testing::NiceMock;
 using testing::Return;
+using testing::ReturnRef;
 using testing::_;
 
 
@@ -34,7 +35,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
-    ON_CALL(backend, photoOperator()).WillByDefault(Return(&photoOperator));
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -95,7 +96,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
-    ON_CALL(backend, photoOperator()).WillByDefault(Return(&photoOperator));
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -156,7 +157,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
-    ON_CALL(backend, photoOperator()).WillByDefault(Return(&photoOperator));
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -220,7 +221,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
-    ON_CALL(backend, photoOperator()).WillByDefault(Return(&photoOperator));
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
