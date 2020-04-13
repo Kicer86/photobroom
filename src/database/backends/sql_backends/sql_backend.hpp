@@ -179,7 +179,6 @@ namespace Database
             GroupInfo            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
-            std::vector<Photo::Id> fetch(QSqlQuery &) const;
             bool doesPhotoExist(const Photo::Id &) const;
     };
 }
