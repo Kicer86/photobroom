@@ -51,7 +51,7 @@ void GroupsManager::group(Database::IDatabase* database,
             assert(stored.size() == 1);
             const Photo::Id representativeId = stored.front();
 
-            const auto groupId = backend->groupOperator()->addGroup(representativeId, type);
+            const auto groupId = backend->groupOperator().addGroup(representativeId, type);
 
             // update group information on each member
             for(const auto memberId: photos)
@@ -74,9 +74,9 @@ void GroupsManager::ungroup(Database::IDatabase* db, const Group::Id& gid)
     db->exec([gid](Database::IBackend* backend)
     {
         // dissolve group
-        const Photo::Id repId = backend->groupOperator()->removeGroup(gid);
+        const Photo::Id repId = backend->groupOperator().removeGroup(gid);
 
         // remove representative from db
-        backend->photoOperator()->removePhoto(repId);
+        backend->photoOperator().removePhoto(repId);
     });
 }

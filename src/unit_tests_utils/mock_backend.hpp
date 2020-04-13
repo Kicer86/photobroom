@@ -7,6 +7,9 @@
 
 #include <database/filter.hpp>
 #include <database/ibackend.hpp>
+#include <database/igroup_operator.hpp>
+#include <database/iphoto_change_log_operator.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/project_info.hpp>
 
 
@@ -47,9 +50,9 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD0(closeConnections,
       void());
 
-  MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
-  MOCK_METHOD0(photoOperator, Database::IPhotoOperator*());
-  MOCK_METHOD0(photoChangeLogOperator, Database::IPhotoChangeLogOperator*());
+  MOCK_METHOD(Database::IGroupOperator&, groupOperator, (), (override));
+  MOCK_METHOD(Database::IPhotoOperator&, photoOperator, (), (override));
+  MOCK_METHOD(Database::IPhotoChangeLogOperator&, photoChangeLogOperator, (), (override));
   MOCK_METHOD(Database::IPeopleInformationAccessor&, peopleInformationAccessor, (), (override));
 };
 

@@ -429,7 +429,7 @@ void IdxDataManager::setupRootNode()
 
 void IdxDataManager::getPhotosForParent(Database::IBackend* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
-    auto photos = db_operator->photoOperator()->getPhotos(filter);
+    auto photos = db_operator->photoOperator().getPhotos(filter);
     auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;
