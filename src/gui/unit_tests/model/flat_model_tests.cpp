@@ -53,7 +53,7 @@ TEST_F(FlatModelTest, insertNotificationAfterDBSet)
 {
     auto photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(photos_set));
 
     QSignalSpy model_about_to_be_inserted(&model, &FlatModel::rowsAboutToBeInserted);
@@ -77,7 +77,7 @@ TEST_F(FlatModelTest, dataAppended)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))   // first call after db set
         .WillOnce(Return(final_photos_set));    // second call after setting filters
 
@@ -104,7 +104,7 @@ TEST_F(FlatModelTest, dataPrepended)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(4), Photo::Id(1), Photo::Id(2), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))       // first call after db set
         .WillOnce(Return(final_photos_set));        // second call after setting filters
 
@@ -131,7 +131,7 @@ TEST_F(FlatModelTest, dataInserting)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(4), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))   // first call after db set
         .WillOnce(Return(final_photos_set));    // second call after setting filters
 
@@ -158,7 +158,7 @@ TEST_F(FlatModelTest, dataRemovedAtFront)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(2), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 
@@ -185,7 +185,7 @@ TEST_F(FlatModelTest, dataRemovedAtBack)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 
@@ -212,7 +212,7 @@ TEST_F(FlatModelTest, dataRemovedInTheMiddle)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 
@@ -239,7 +239,7 @@ TEST_F(FlatModelTest, dataReplacementInTheMiddle)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(4), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))               // first call after db set
         .WillOnce(Return(final_photos_set));                // second call after setting filters
 
@@ -276,7 +276,7 @@ TEST_F(FlatModelTest, dataReplacementAtFront)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(4), Photo::Id(2), Photo::Id(3)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))               // first call after db set
         .WillOnce(Return(final_photos_set));                // second call after setting filters
 
@@ -313,7 +313,7 @@ TEST_F(FlatModelTest, dataReplacementAtBack)
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(4)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 
@@ -350,7 +350,7 @@ TEST_F(FlatModelTest, complexChanges)
     const auto initial_photos_set = std::vector<Photo::Id>{                            Photo::Id(11), Photo::Id(12), Photo::Id(13), Photo::Id(14),                               Photo::Id(15), Photo::Id(16), Photo::Id(17), Photo::Id(18)};
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(21), Photo::Id(22),                                              Photo::Id(14), Photo::Id(23), Photo::Id(24), Photo::Id(15), Photo::Id(16),                              Photo::Id(25), Photo::Id(26)};
 
-    EXPECT_CALL(photoOperator, getPhotos(_))
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 

@@ -165,8 +165,9 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 
 void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
+    const Database::SortAction sort_action(TagTypes::Date);
     const auto view_filters = filters();
-    const auto photos = backend->photoOperator().getPhotos(view_filters);
+    const auto photos = backend->photoOperator().onPhotos(view_filters, sort_action);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
