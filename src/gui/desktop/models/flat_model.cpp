@@ -20,6 +20,7 @@
 #include <core/function_wrappers.hpp>
 #include <database/ibackend.hpp>
 #include <database/idatabase.hpp>
+#include <database/iphoto_operator.hpp>
 
 
 /// @todo: get rid of const_cast and, if possible, remove mutables
@@ -165,7 +166,7 @@ void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
 void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 {
     const auto view_filters = filters();
-    const auto photos = backend->getPhotos(view_filters);
+    const auto photos = backend->photoOperator()->getPhotos(view_filters);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
