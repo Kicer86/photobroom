@@ -27,6 +27,9 @@ Item {
 
             from: 0
             to: new Date().getTime()
+
+            stepSize: 1
+            snapMode: RangeSlider.SnapAlways
         }
 
         Text {
