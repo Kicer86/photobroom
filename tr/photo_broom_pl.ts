@@ -937,6 +937,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <source>Time range:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+23"/>
+        <source>unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ToolsTab</name>

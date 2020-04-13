@@ -36,7 +36,15 @@ Item {
             property var from: timeSliderId.first.value
             property var to: timeSliderId.second.value
 
-            text: Qt.formatDate(new Date(model.dateFor(from)), Qt.ISODate) + " - " + Qt.formatDate(new Date(model.dateFor(to)), Qt.ISODate)
+            text: formatDate(model.dateFor(from)) + " - " + formatDate(model.dateFor(to))
+        }
+    }
+
+    function formatDate(date) {
+        if (isNaN(date.getTime())) {
+            return qsTr("unknown");
+        } else {
+            return Qt.formatDate(new Date(date), Qt.ISODate);
         }
     }
 
