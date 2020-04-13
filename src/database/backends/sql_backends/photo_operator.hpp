@@ -39,9 +39,9 @@ namespace Database
 
             bool removePhoto(const Photo::Id &) override;
             bool removePhotos(const std::vector<IFilter::Ptr> &) override;
-            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, IAction &) override;
+            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Actions &) override;
 
-            std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
+            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override final;
 
         private:
             QString m_connectionName;

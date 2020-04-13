@@ -20,6 +20,8 @@ namespace Database
         const TagTypes tag;
         const Qt::SortOrder sort_order;
     };
+
+    typedef std::variant<SortAction> Actions;
 }
 
 #endif
