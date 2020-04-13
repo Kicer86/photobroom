@@ -29,6 +29,7 @@ Item {
             id: timeRangeId
 
             model: photosModelId
+            visible: photosModelId.datesCount > 0
 
             Connections {
                 target: timeRangeId.viewFrom
