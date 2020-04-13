@@ -1320,34 +1320,6 @@ namespace Database
 
 
     /**
-     * \brief collect photo ids SELECTed by SQL query
-     * \param query SQL SELECT query which returns photo ids
-     * \return unique list of photo ids
-     */
-    std::vector<Photo::Id> ASqlBackend::fetch(QSqlQuery& query) const
-    {
-        std::vector<Photo::Id> collection;
-
-        while (query.next())
-        {
-            const Photo::Id id(query.value("photos.id").toInt());
-
-            collection.push_back(id);
-        }
-
-#ifndef NDEBUG
-        // verify there are no duplicates in results
-        auto copy_of_collection = collection;
-        std::sort(copy_of_collection.begin(), copy_of_collection.end());
-
-        assert(std::unique(copy_of_collection.begin(), copy_of_collection.end()) == copy_of_collection.end());
-#endif
-
-        return collection;
-    }
-
-
-    /**
      * \brief check if \param id is a valid photo id.
      */
     bool ASqlBackend::doesPhotoExist(const Photo::Id& id) const
