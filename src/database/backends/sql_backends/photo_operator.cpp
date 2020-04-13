@@ -119,4 +119,10 @@ namespace Database
 
         return status;
     }
+
+
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr> &, IAction &)
+    {
+        return {};
+    }
 }
