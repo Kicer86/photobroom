@@ -32,6 +32,7 @@
 #include <core/base_tags.hpp>
 #include <core/function_wrappers.hpp>
 #include <database/iphoto_info.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/database_tools/signal_mapper.hpp>
 
 #include "idxdata_deepfetcher.hpp"
@@ -428,7 +429,7 @@ void IdxDataManager::setupRootNode()
 
 void IdxDataManager::getPhotosForParent(Database::IBackend* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
-    auto photos = db_operator->getPhotos(filter);
+    auto photos = db_operator->photoOperator()->getPhotos(filter);
     auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;

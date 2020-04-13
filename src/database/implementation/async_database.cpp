@@ -31,10 +31,10 @@
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
 #include "iphoto_info_cache.hpp"
+#include "iphoto_operator.hpp"
 #include "photo_data.hpp"
 #include "photo_info.hpp"
 #include "project_info.hpp"
-
 
 
 namespace Database
@@ -357,7 +357,7 @@ namespace Database
     {
         exec([this, filter, callback](IBackend* backend)
         {
-            auto photos = backend->getPhotos(filter);
+            auto photos = backend->photoOperator()->getPhotos(filter);
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)

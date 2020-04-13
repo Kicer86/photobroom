@@ -385,20 +385,6 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> ASqlBackend::getPhotos(const std::vector<IFilter::Ptr>& filter)
-    {
-        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        m_executor.exec(queryStr, &query);
-        auto result = fetch(query);
-
-        return result;
-    }
-
-
     int ASqlBackend::getPhotosCount(const std::vector<IFilter::Ptr>& filter)
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
@@ -460,7 +446,7 @@ namespace Database
         filter->flags[Photo::FlagsE::StagingArea] = 1;
 
         const std::vector<Database::IFilter::Ptr> filters({filter});
-        const std::vector<Photo::Id> staged = getPhotos(filters);
+        const std::vector<Photo::Id> staged = photoOperator()->getPhotos(filters);
 
         if (staged.empty() == false)
         {
