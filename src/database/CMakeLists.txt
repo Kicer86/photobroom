@@ -31,7 +31,6 @@ set(DATABASE_HEADERS
     database_status.hpp
     filter.hpp
     group.hpp
-    iaction.hpp
     ibackend.hpp
     idatabase.hpp
     idatabase_builder.hpp

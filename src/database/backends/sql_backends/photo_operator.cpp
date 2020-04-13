@@ -121,7 +121,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr> &, IAction &)
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr> &, const Actions& action)
     {
         return {};
     }
