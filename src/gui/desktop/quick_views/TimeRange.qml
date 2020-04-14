@@ -17,9 +17,11 @@ Item {
     property var model
 
     Row {
+        id: row
 
         Text {
             text: qsTr("Time range:");
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         RangeSlider {
@@ -37,6 +39,7 @@ Item {
             property var to: timeSliderId.second.value
 
             text: formatDate(model.dateFor(from)) + " - " + formatDate(model.dateFor(to))
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 

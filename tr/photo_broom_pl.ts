@@ -933,12 +933,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TimeRange</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+22"/>
+        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+23"/>
         <source>Time range:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
