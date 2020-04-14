@@ -18,10 +18,12 @@
 #include "photos_model_component.hpp"
 
 #include <core/function_wrappers.hpp>
+#include <database/iphoto_operator.hpp>
 #include "models/flat_model.hpp"
 
 
 using namespace std::placeholders;
+
 
 PhotosModelComponent::PhotosModelComponent(QObject* p)
     : QObject(p)
@@ -92,8 +94,8 @@ void PhotosModelComponent::updateModelFilters()
     const QDate from = m_dates[m_timeView.first];
     const QDate to = m_dates[m_timeView.second];
 
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
+    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
 
     m_model->setFilters(filters_for_model);
 }
@@ -134,7 +136,15 @@ void PhotosModelComponent::getTimeRangeForFilters(Database::IBackend* backend)
 {
     const auto range_filters = filters();
     auto dates = backend->listTagValues(TagTypes::Date, range_filters);
-    std::sort(dates.begin(), dates.end());
 
+    const auto with_date_filter = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date);
+    const auto without_date_filter = std::make_shared<Database::FilterNotMatchingFilter>(with_date_filter);
+    const std::vector<Database::IFilter::Ptr> photos_without_date_tag_filter = { without_date_filter };
+    const auto photos_without_date_tag = backend->photoOperator().getPhotos(photos_without_date_tag_filter);
+
+    if (not photos_without_date_tag.empty())
+        dates.push_back(QDate());
+
+    std::sort(dates.begin(), dates.end());
     invokeMethod(this, &PhotosModelComponent::setAvailableDates, dates);
 }
