@@ -79,7 +79,7 @@ namespace Database
 
             QString comparisonType = "=";
 
-            switch (desciption->valueVode)
+            switch (desciption->valueMode)
             {
                 case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
                 case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;

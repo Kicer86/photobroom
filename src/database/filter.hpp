@@ -98,7 +98,7 @@ namespace Database
             LessOrEqual,
             Greater,
             GreaterOrEqual,
-        } valueVode;
+        } valueMode;
 
         FilterPhotosWithTag(const TagTypes &, const TagValue & = TagValue(), ValueMode = ValueMode::Equal);
     };

@@ -43,7 +43,7 @@ namespace Database
     FilterPhotosWithTag::FilterPhotosWithTag(const TagTypes& type, const TagValue& value, ValueMode mode):
         tagType(type),
         tagValue(value),
-        valueVode(mode)
+        valueMode(mode)
     {
 
     }
