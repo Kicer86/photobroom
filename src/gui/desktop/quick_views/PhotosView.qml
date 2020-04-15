@@ -8,15 +8,15 @@ Item {
     id: photosViewId
 
     PhotosModelController {
-        id: photosModelId
+        id: photosModelControllerId
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
         onDatesCountChanged: {
             timeRangeId.from = 0
-            timeRangeId.to = photosModelId.datesCount > 0? photosModelId.datesCount - 1: 0
+            timeRangeId.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
 
             timeRangeId.viewFrom.value = 0
-            timeRangeId.viewTo.value = photosModelId.datesCount > 0? photosModelId.datesCount - 1 : 0
+            timeRangeId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
         }
 
     }
@@ -28,14 +28,14 @@ Item {
         TimeRange {
             id: timeRangeId
 
-            model: photosModelId
-            visible: photosModelId.datesCount > 0
+            model: photosModelControllerId
+            visible: photosModelControllerId.datesCount > 0
 
             Connections {
                 target: timeRangeId.viewFrom
                 onPressedChanged: {
                     if (timeRangeId.viewFrom.pressed === false)
-                        photosModelId.timeViewFrom = timeRangeId.viewFrom.value
+                        photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
                 }
             }
 
@@ -43,7 +43,7 @@ Item {
                 target: timeRangeId.viewTo
                 onPressedChanged: {
                     if (timeRangeId.viewTo.pressed === false)
-                        photosModelId.timeViewTo = timeRangeId.viewTo.value
+                        photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
                 }
             }
         }
@@ -53,7 +53,7 @@ Item {
 
             clip: true
 
-            model: photosModelId.photos
+            model: photosModelControllerId.photos
 
             Layout.fillHeight: true
             Layout.fillWidth: true
