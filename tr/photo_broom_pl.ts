@@ -427,7 +427,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+230"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1012,6 +1012,16 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>loging level</source>
         <translation>poziom logowania</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>flag</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

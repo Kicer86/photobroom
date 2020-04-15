@@ -176,10 +176,12 @@ int main(int argc, char **argv)
                                          QCoreApplication::translate("main", "Defines loging level. Possible options are: Debug, Info, Warning (default), Error"),
                                          QCoreApplication::translate("main", "loging level"),
                                          "Warning"
-                       );
+    );
 
-    QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
-    crashTestOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    QCommandLineOption developerOptions("feature-toggle",
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views"),
+                                         QCoreApplication::translate("main", "flag")
+    );
 
     QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
 
@@ -191,19 +193,25 @@ int main(int argc, char **argv)
 #endif
 
     parser.addOption(logingLevelOption);
-    parser.addOption(crashTestOption);
+    parser.addOption(developerOptions);
     parser.addOption(disableCrashCatcher);
 
     parser.process(app);
 
-    const bool enableCrashTest = parser.isSet(crashTestOption);
-    if (enableCrashTest)
+    const QStringList featureToggles = parser.values(developerOptions);
+    if (featureToggles.contains("test-crash-catcher"))
+    {
         QTimer::singleShot(3000, []
         {
             int* ptr = nullptr;
             volatile int v = *ptr;
             (void) v;
         });
+
+        std::cout << "crash catcher test activated. Will crash in 3 seconds" << std::endl;
+    }
+
+    const bool quick_views = featureToggles.contains("quick-views");
 
     const QString logingLevelStr = parser.value(logingLevelOption);
     ILogger::Severity logingLevel = ILogger::Severity::Warning;
@@ -247,6 +255,8 @@ int main(int argc, char **argv)
     const QString configFilePath = configFileDir + "/" + "config.json";
     ConfigStorage configStorage(configFilePath);
     Configuration configuration(configStorage);
+
+    configuration.setEntry("features::quick", quick_views);
 
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);

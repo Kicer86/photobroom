@@ -147,6 +147,15 @@ void MainWindow::setupQmlView()
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
+
+    // if qml is disabled then hide quick view
+    if (m_configuration->getEntry("features::quick").toBool() == false)
+    {
+        ui->viewsStack->setCurrentIndex(0);
+        ui->viewsStack->widget(2)->setVisible(false);
+        ui->viewsStack->widget(2)->setParent(this);
+        ui->viewsStack->removeTab(2);
+    }
 }
 
 
