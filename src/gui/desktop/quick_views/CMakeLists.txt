@@ -11,7 +11,7 @@ qt5_add_resources(QML_RESOURCES
 
 qt5_wrap_cpp(MOCED
                 photo_item.hpp
-                photos_model_component.hpp
+                photos_model_controller_component.hpp
                 qml_setup.hpp
 )
 
@@ -21,8 +21,8 @@ add_library(quick_views OBJECT
                 ${MOCED}
                 photo_item.cpp
                 photo_item.hpp
-                photos_model_component.cpp
-                photos_model_component.hpp
+                photos_model_controller_component.cpp
+                photos_model_controller_component.hpp
                 qml_setup.cpp
                 qml_setup.hpp
                 qml_utils.cpp

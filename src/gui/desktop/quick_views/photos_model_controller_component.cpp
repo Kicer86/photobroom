@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "photos_model_component.hpp"
+#include "photos_model_controller_component.hpp"
 
 #include <core/function_wrappers.hpp>
 #include <database/iphoto_operator.hpp>

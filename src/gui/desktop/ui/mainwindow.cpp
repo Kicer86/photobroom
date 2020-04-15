@@ -41,7 +41,7 @@
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/qml_utils.hpp"
-#include "quick_views/photos_model_component.hpp"
+#include "quick_views/photos_model_controller_component.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"

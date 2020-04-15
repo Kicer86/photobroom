@@ -3,7 +3,7 @@
 #include "qml_setup.hpp"
 
 #include "photo_item.hpp"
-#include "photos_model_component.hpp"
+#include "photos_model_controller_component.hpp"
 #include "models/flat_model.hpp"
 
 
