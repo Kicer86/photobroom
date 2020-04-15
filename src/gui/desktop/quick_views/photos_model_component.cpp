@@ -25,14 +25,14 @@
 using namespace std::placeholders;
 
 
-PhotosModelComponent::PhotosModelComponent(QObject* p)
+PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
 {
 }
 
 
-void PhotosModelComponent::setDatabase(Database::IDatabase* db)
+void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
     m_model->setDatabase(db);
@@ -42,31 +42,31 @@ void PhotosModelComponent::setDatabase(Database::IDatabase* db)
 }
 
 
-QAbstractItemModel* PhotosModelComponent::model() const
+QAbstractItemModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
 }
 
 
-unsigned int PhotosModelComponent::datesCount() const
+unsigned int PhotosModelControllerComponent::datesCount() const
 {
     return static_cast<unsigned int>(m_dates.size());
 }
 
 
-unsigned int PhotosModelComponent::timeViewFrom() const
+unsigned int PhotosModelControllerComponent::timeViewFrom() const
 {
     return m_timeView.first;
 }
 
 
-unsigned int PhotosModelComponent::timeViewTo() const
+unsigned int PhotosModelControllerComponent::timeViewTo() const
 {
     return m_timeView.second;
 }
 
 
-void PhotosModelComponent::setTimeViewFrom(unsigned int viewFrom)
+void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
 
@@ -74,7 +74,7 @@ void PhotosModelComponent::setTimeViewFrom(unsigned int viewFrom)
 }
 
 
-void PhotosModelComponent::setTimeViewTo(unsigned int viewTo)
+void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
 {
     m_timeView.second = viewTo;
 
@@ -82,13 +82,13 @@ void PhotosModelComponent::setTimeViewTo(unsigned int viewTo)
 }
 
 
-QDate PhotosModelComponent::dateFor(unsigned int idx) const
+QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 {
     return idx >= m_dates.size()? QDate(): m_dates[idx];
 }
 
 
-void PhotosModelComponent::updateModelFilters()
+void PhotosModelControllerComponent::updateModelFilters()
 {
     auto filters_for_model = filters();
     const QDate from = m_dates[m_timeView.first];
@@ -101,7 +101,7 @@ void PhotosModelComponent::updateModelFilters()
 }
 
 
-void PhotosModelComponent::setAvailableDates(const std::vector<TagValue>& dates_as_tags)
+void PhotosModelControllerComponent::setAvailableDates(const std::vector<TagValue>& dates_as_tags)
 {
     std::vector<QDate> dates;
     std::transform(dates_as_tags.begin(), dates_as_tags.end(), std::back_inserter(dates), [](const auto& d) { return d.getDate(); });
@@ -120,19 +120,19 @@ void PhotosModelComponent::setAvailableDates(const std::vector<TagValue>& dates_
 }
 
 
-void PhotosModelComponent::updateTimeRange()
+void PhotosModelControllerComponent::updateTimeRange()
 {
-    m_db->exec(std::bind(&PhotosModelComponent::getTimeRangeForFilters, this, _1));
+    m_db->exec(std::bind(&PhotosModelControllerComponent::getTimeRangeForFilters, this, _1));
 }
 
 
-std::vector<Database::IFilter::Ptr> PhotosModelComponent::filters() const
+std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::filters() const
 {
     return m_filters;
 }
 
 
-void PhotosModelComponent::getTimeRangeForFilters(Database::IBackend* backend)
+void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend* backend)
 {
     const auto range_filters = filters();
     auto dates = backend->listTagValues(TagTypes::Date, range_filters);
@@ -146,5 +146,5 @@ void PhotosModelComponent::getTimeRangeForFilters(Database::IBackend* backend)
         dates.push_back(QDate());
 
     std::sort(dates.begin(), dates.end());
-    invokeMethod(this, &PhotosModelComponent::setAvailableDates, dates);
+    invokeMethod(this, &PhotosModelControllerComponent::setAvailableDates, dates);
 }

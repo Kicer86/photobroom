@@ -7,9 +7,9 @@ import photo_broom.qml 1.0
 Item {
     id: photosViewId
 
-    PhotosModel {
+    PhotosModelController {
         id: photosModelId
-        objectName: "photos_model"      // used by c++ part to find this model and set it up
+        objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
         onDatesCountChanged: {
             timeRangeId.from = 0

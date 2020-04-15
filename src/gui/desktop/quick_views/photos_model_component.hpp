@@ -29,7 +29,7 @@ class QAbstractItemModel;
 class FlatModel;
 
 
-class PhotosModelComponent: public QObject
+class PhotosModelControllerComponent: public QObject
 {
         Q_OBJECT
 
@@ -39,7 +39,7 @@ class PhotosModelComponent: public QObject
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
 
     public:
-        PhotosModelComponent(QObject * = nullptr);
+        PhotosModelControllerComponent(QObject * = nullptr);
 
         void setDatabase(Database::IDatabase *);
 

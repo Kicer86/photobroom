@@ -28,7 +28,7 @@ struct IConfiguration;
 struct IView;
 
 class DBDataModel;
-class PhotosModelComponent;
+class PhotosModelControllerComponent;
 class Project;
 struct ProjectInfo;
 struct IThumbnailsManager;
@@ -62,7 +62,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<Project>  m_currentPrj;
         DBDataModel*              m_imagesModel;
         DBDataModel*              m_newImagesModel;
-        PhotosModelComponent*     m_photosModel;
+        PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration*           m_configuration;
         ILoggerFactory*           m_loggerFactory;
         IUpdater*                 m_updater;
