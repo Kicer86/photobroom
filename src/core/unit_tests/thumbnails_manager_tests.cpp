@@ -9,6 +9,7 @@
 #include "thumbnail_manager.hpp"
 
 
+using namespace std::placeholders;
 using testing::_;
 using testing::Return;
 
@@ -178,4 +179,58 @@ TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
 
     ThumbnailManager tm(&executor, &generator, &cache);
     tm.fetch(path, requested_height, [&response](const QImage& _img){response(_img);});
+}
+
+
+TEST(ThumbnailManagerTest, safeCallbackBasicUsage)
+{
+    const QString path = "/some/example/path";
+    const int requested_height = 100;
+    QImage img(requested_height * 2, requested_height, QImage::Format_RGB32);
+
+    MockResponse response;
+    EXPECT_CALL(response, result(img)).Times(1);
+
+    safe_callback_ctrl ctrl;
+    auto callback = ctrl.make_safe_callback<const QImage &>(std::bind(&MockResponse::result, &response, _1));
+
+    MockThumbnailsCache cache;
+    EXPECT_CALL(cache, find(path, requested_height)).Times(1).WillOnce(Return(std::optional<QImage>{}));    // cache miss to call generation
+    EXPECT_CALL(cache, store(path, requested_height, img)).Times(1);
+
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, requested_height)).Times(1).WillOnce(Return(img));
+
+    FakeTaskExecutor executor;
+    ThumbnailManager tm(&executor, &generator, &cache);
+
+    tm.fetch(path, requested_height, callback);
+}
+
+
+TEST(ThumbnailManagerTest, safeCallbackInvalidated)
+{
+    const QString path = "/some/example/path";
+    const int requested_height = 100;
+    QImage img(requested_height * 2, requested_height, QImage::Format_RGB32);
+
+    MockResponse response;
+    EXPECT_CALL(response, result(img)).Times(0);
+
+    safe_callback_ctrl ctrl;
+    auto callback = ctrl.make_safe_callback<const QImage &>(std::bind(&MockResponse::result, &response, _1));
+
+    ctrl.invalidate();
+
+    MockThumbnailsCache cache;
+    EXPECT_CALL(cache, find(path, requested_height)).Times(1).WillOnce(Return(std::optional<QImage>{}));    // cache miss to call generation
+    EXPECT_CALL(cache, store(path, requested_height, img)).Times(0);
+
+    MockThumbnailsGenerator generator;
+    EXPECT_CALL(generator, generate(path, requested_height)).Times(0);
+
+    FakeTaskExecutor executor;
+    ThumbnailManager tm(&executor, &generator, &cache);
+
+    tm.fetch(path, requested_height, callback);
 }
