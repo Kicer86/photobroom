@@ -24,6 +24,7 @@
 #include <database/iphoto_operator.hpp>
 
 
+class QSqlQuery;
 struct ILogger;
 
 namespace Database
@@ -38,12 +39,17 @@ namespace Database
 
             bool removePhoto(const Photo::Id &) override;
             bool removePhotos(const std::vector<IFilter::Ptr> &) override;
+            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Actions &) override;
+
+            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override final;
 
         private:
             QString m_connectionName;
             ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
             IBackend* m_backend;
+
+            std::vector<Photo::Id> fetch(QSqlQuery &) const;
     };
 }
 

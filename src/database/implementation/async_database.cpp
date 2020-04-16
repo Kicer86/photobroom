@@ -31,10 +31,10 @@
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
 #include "iphoto_info_cache.hpp"
+#include "iphoto_operator.hpp"
 #include "photo_data.hpp"
 #include "photo_info.hpp"
 #include "project_info.hpp"
-
 
 
 namespace Database
@@ -285,7 +285,7 @@ namespace Database
     {
         exec([this, id, type, callback](IBackend* backend)
         {
-            const Group::Id gid = backend->groupOperator()->addGroup(id, type);
+            const Group::Id gid = backend->groupOperator().addGroup(id, type);
 
             // mark representative as representative
             IPhotoInfo::Ptr representative = m_utils.getPhotoFor(id);
@@ -346,7 +346,7 @@ namespace Database
     {
         exec([info, filters, callback](IBackend* backend)
         {
-             const auto result = backend->listTagValues(info, filters);
+             const auto result = backend->listTagValues(info.getTag(), filters);
 
              callback(info, result);
         });
@@ -357,7 +357,7 @@ namespace Database
     {
         exec([this, filter, callback](IBackend* backend)
         {
-            auto photos = backend->getPhotos(filter);
+            auto photos = backend->photoOperator().getPhotos(filter);
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)

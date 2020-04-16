@@ -26,6 +26,7 @@ set(DATABASE_SOURCES
 )
 
 set(DATABASE_HEADERS
+    actions.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp

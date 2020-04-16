@@ -77,12 +77,24 @@ namespace Database
         {
             QString condition;
 
+            QString comparisonType = "=";
+
+            switch (desciption->valueMode)
+            {
+                case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
+                case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;
+                case FilterPhotosWithTag::ValueMode::LessOrEqual:    comparisonType = "<="; break;
+                case FilterPhotosWithTag::ValueMode::Less:           comparisonType = "<";  break;
+                default: break;
+            }
+
             if (desciption->tagValue.type() != Tag::ValueType::Empty)
-                condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value = '%2'")
-                                        .arg(desciption->tagName.getTag() )
-                                        .arg(desciption->tagValue.rawValue());
+                condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value %3 '%2'")
+                                        .arg(desciption->tagType )
+                                        .arg(desciption->tagValue.rawValue())
+                                        .arg(comparisonType);
             else
-                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagName.getTag());
+                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagType);
 
             m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
                                 .arg(TAB_PHOTOS)
@@ -285,14 +297,9 @@ namespace Database
             result = filters_data.front();
         else
         {
-            QStringList partial_queries;
+            result = QString("SELECT id FROM %1 WHERE ").arg(TAB_PHOTOS);
 
-            for(const auto& data: filters_data)
-                partial_queries.append(data);
-
-            result = "SELECT id FROM " TAB_PHOTOS " WHERE ";
-
-            for(auto it = partial_queries.begin(); it != partial_queries.end(); ++it)
+            for(auto it = filters_data.begin(); it != filters_data.end(); ++it)
             {
                 if (it->isEmpty())
                     continue;
@@ -301,7 +308,7 @@ namespace Database
 
                 const auto next = std::next(it);
 
-                if (next != partial_queries.end())
+                if (next != filters_data.end())
                     result += " AND ";
             }
         }

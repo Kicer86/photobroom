@@ -6,12 +6,15 @@
 
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
+#include <unit_tests_utils/mock_photo_operator.hpp>
 
 #include "database_tools/series_detector.hpp"
+
 
 using testing::Invoke;
 using testing::NiceMock;
 using testing::Return;
+using testing::ReturnRef;
 using testing::_;
 
 
@@ -30,6 +33,9 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
 {
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -45,7 +51,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -88,6 +94,9 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
 {
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -103,7 +112,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -146,6 +155,9 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 {
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -162,7 +174,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -207,6 +219,9 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
 {
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
     // Mock 6 photos
     // divideded into two groups.
@@ -223,7 +238,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     std::mt19937 g(rd());
     std::shuffle(all_photos.begin(), all_photos.end(), g);
 
-    ON_CALL(backend, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;

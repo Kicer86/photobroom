@@ -53,7 +53,7 @@ TEST_F(PhotosChangeLog, tagsManipulation)
             op->update(data_delta);
 
             // verify change log
-            const QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
+            const QStringList changeLog = op->photoChangeLogOperator().dumpChangeLog();
 
             ASSERT_EQ(changeLog.size(), 4);
             EXPECT_EQ(changeLog[0], "photo id: 1. Tag added. Event: test event");
@@ -85,8 +85,8 @@ TEST_F(PhotosChangeLog, groupsManipulation)
             ASSERT_TRUE(op->addPhotos(photos));
 
             // create groups
-            const Group::Id gr1 = op->groupOperator()->addGroup(photos[0].getId(), Group::Animation);
-            const Group::Id gr2 = op->groupOperator()->addGroup(photos[3].getId(), Group::Animation);
+            const Group::Id gr1 = op->groupOperator().addGroup(photos[0].getId(), Group::Animation);
+            const Group::Id gr2 = op->groupOperator().addGroup(photos[3].getId(), Group::Animation);
 
             // read photo structure
             Photo::DataDelta data_delta1(photos[1].getId());
@@ -102,11 +102,11 @@ TEST_F(PhotosChangeLog, groupsManipulation)
             op->update(data_delta2);
 
             // delete group
-            op->groupOperator()->removeGroup(gr1);
-            op->groupOperator()->removeGroup(gr2);
+            op->groupOperator().removeGroup(gr1);
+            op->groupOperator().removeGroup(gr2);
 
             // verify change log
-            const QStringList changeLog = op->photoChangeLogOperator()->dumpChangeLog();
+            const QStringList changeLog = op->photoChangeLogOperator().dumpChangeLog();
 
             ASSERT_EQ(changeLog.size(), 8);
             EXPECT_EQ(changeLog[0], "photo id: 1. Group added. 1: 1");   // photo #1 added to group #1 as representative (1)

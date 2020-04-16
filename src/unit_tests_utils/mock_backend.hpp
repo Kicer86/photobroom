@@ -7,6 +7,9 @@
 
 #include <database/filter.hpp>
 #include <database/ibackend.hpp>
+#include <database/igroup_operator.hpp>
+#include <database/iphoto_change_log_operator.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/project_info.hpp>
 
 
@@ -21,11 +24,9 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD0(listTags,
       std::vector<TagTypeInfo>());
   MOCK_METHOD2(listTagValues,
-      std::vector<TagValue>(const TagTypeInfo &, const std::vector<Database::IFilter::Ptr> &));
+      std::vector<TagValue>(const TagTypes &, const std::vector<Database::IFilter::Ptr> &));
   MOCK_METHOD0(getAllPhotos,
       std::vector<Photo::Id>());
-  MOCK_METHOD1(getPhotos,
-      std::vector<Photo::Id>(const std::vector<Database::IFilter::Ptr> &));
   MOCK_METHOD1(dropPhotos,
       std::vector<Photo::Id>(const std::vector<Database::IFilter::Ptr> &));
   MOCK_METHOD1(getPhoto,
@@ -49,9 +50,9 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD0(closeConnections,
       void());
 
-  MOCK_METHOD0(groupOperator, Database::IGroupOperator*());
-  MOCK_METHOD0(photoOperator, Database::IPhotoOperator*());
-  MOCK_METHOD0(photoChangeLogOperator, Database::IPhotoChangeLogOperator*());
+  MOCK_METHOD(Database::IGroupOperator&, groupOperator, (), (override));
+  MOCK_METHOD(Database::IPhotoOperator&, photoOperator, (), (override));
+  MOCK_METHOD(Database::IPhotoChangeLogOperator&, photoChangeLogOperator, (), (override));
   MOCK_METHOD(Database::IPeopleInformationAccessor&, peopleInformationAccessor, (), (override));
 };
 

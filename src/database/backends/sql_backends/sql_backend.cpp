@@ -105,7 +105,7 @@ namespace Database
     }
 
 
-    GroupOperator* ASqlBackend::groupOperator()
+    GroupOperator& ASqlBackend::groupOperator()
     {
         // this lazy initialization is kind of a workaround:
         // getGenericQueryGenerator() may not work properly in
@@ -118,11 +118,11 @@ namespace Database
                                                               this
                                                              );
 
-        return m_groupOperator.get();
+        return *m_groupOperator.get();
     }
 
 
-    PhotoOperator* ASqlBackend::photoOperator()
+    PhotoOperator& ASqlBackend::photoOperator()
     {
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_connectionName,
@@ -131,11 +131,11 @@ namespace Database
                                                               this
                                                              );
 
-        return m_photoOperator.get();
+        return *m_photoOperator.get();
     }
 
 
-    PhotoChangeLogOperator* ASqlBackend::photoChangeLogOperator()
+    PhotoChangeLogOperator& ASqlBackend::photoChangeLogOperator()
     {
         if (m_photoChangeLogOperator.get() == nullptr)
             m_photoChangeLogOperator =
@@ -146,7 +146,7 @@ namespace Database
                                                          this
                                                         );
 
-        return m_photoChangeLogOperator.get();
+        return *m_photoChangeLogOperator.get();
     }
 
 
@@ -311,7 +311,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypeInfo& tagName, const std::vector<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const std::vector<IFilter::Ptr>& filter)
     {
         std::vector<TagValue> result;
 
@@ -322,7 +322,7 @@ namespace Database
         // TODO: consider DISTINCT removal, just do some post process
         QString queryStr = "SELECT DISTINCT %2.value FROM (%2) JOIN (%3) ON (%3.id = %2.photo_id) WHERE name='%1' AND photos.id IN(%4)";
 
-        queryStr = queryStr.arg(tagName.getTag());
+        queryStr = queryStr.arg(tagType);
         queryStr = queryStr.arg(TAB_TAGS);
         queryStr = queryStr.arg(TAB_PHOTOS);
         queryStr = queryStr.arg(filterQuery);
@@ -337,7 +337,7 @@ namespace Database
             while (status && query.next())
             {
                 const QString raw_value = query.value(0).toString();
-                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
+                const TagValue value = TagValue::fromRaw(raw_value, BaseTags::getType(tagType));
 
                 // we do not expect empty values (see store() for tags)
                 assert(raw_value.isEmpty() == false);
@@ -348,13 +348,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    std::vector<Photo::Id> ASqlBackend::getAllPhotos()
-    {
-        std::vector<IFilter::Ptr> emptyFilter;
-        return getPhotos(emptyFilter);  //like getPhotos but without any filters
     }
 
 
@@ -389,20 +382,6 @@ namespace Database
         }
 
         return photoData;
-    }
-
-
-    std::vector<Photo::Id> ASqlBackend::getPhotos(const std::vector<IFilter::Ptr>& filter)
-    {
-        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        m_executor.exec(queryStr, &query);
-        auto result = fetch(query);
-
-        return result;
     }
 
 
@@ -467,7 +446,7 @@ namespace Database
         filter->flags[Photo::FlagsE::StagingArea] = 1;
 
         const std::vector<Database::IFilter::Ptr> filters({filter});
-        const std::vector<Photo::Id> staged = getPhotos(filters);
+        const std::vector<Photo::Id> staged = photoOperator().getPhotos(filters);
 
         if (staged.empty() == false)
         {
@@ -909,7 +888,7 @@ namespace Database
             status = storeGroup(data.getId(), groupInfo);
         }
 
-        photoChangeLogOperator()->storeDifference(currentStateOfPhoto, data);
+        photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 
         return status;
     }
@@ -1337,31 +1316,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    /**
-     * \brief collect photo ids SELECTed by SQL query
-     * \param query SQL SELECT query which returns photo ids
-     * \return unique list of photo ids
-     */
-    std::vector<Photo::Id> ASqlBackend::fetch(QSqlQuery& query) const
-    {
-        std::vector<Photo::Id> collection;
-
-        while (query.next())
-        {
-            const Photo::Id id(query.value("photos.id").toInt());
-
-            collection.push_back(id);
-        }
-
-        // remove duplicates which may appear when query is complex
-        std::sort(collection.begin(), collection.end());
-        auto last = std::unique(collection.begin(), collection.end());
-        collection.erase(last, collection.end());
-
-        return collection;
     }
 
 

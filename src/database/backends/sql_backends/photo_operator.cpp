@@ -119,4 +119,80 @@ namespace Database
 
         return status;
     }
+
+
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
+    {
+        const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
+
+        QString actionQuery;
+
+        if (auto sort_action = std::get_if<SortAction>(&action))
+        {
+            actionQuery = QString("SELECT photos.id FROM (%3) "
+                                  "LEFT JOIN (%2) ON (%3.id = %2.photo_id) "
+                                  "WHERE %3.id IN (%1) AND (%2.name = %4 OR %2.name IS NULL) ORDER BY %2.value %5")
+                                    .arg(filtersQuery)
+                                    .arg(TAB_TAGS)
+                                    .arg(TAB_PHOTOS)
+                                    .arg(sort_action->tag)
+                                    .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
+        }
+        else
+        {
+            assert(!"Unknown action");
+            actionQuery = filtersQuery;
+        }
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(actionQuery, &query);
+        auto result = fetch(query);
+
+        return result;
+    }
+
+
+    std::vector<Photo::Id> PhotoOperator::getPhotos(const std::vector<IFilter::Ptr>& filter)
+    {
+        const QString queryStr = SqlFilterQueryGenerator().generate(filter);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+        auto result = fetch(query);
+
+        return result;
+    }
+
+
+    /**
+     * \brief collect photo ids SELECTed by SQL query
+     * \param query SQL SELECT query which returns photo ids
+     * \return unique list of photo ids
+     */
+    std::vector<Photo::Id> PhotoOperator::fetch(QSqlQuery& query) const
+    {
+        std::vector<Photo::Id> collection;
+
+        while (query.next())
+        {
+            const Photo::Id id(query.value("photos.id").toInt());
+
+            collection.push_back(id);
+        }
+
+#ifndef NDEBUG
+        // verify there are no duplicates in results
+        auto copy_of_collection = collection;
+        std::sort(copy_of_collection.begin(), copy_of_collection.end());
+
+        assert(std::unique(copy_of_collection.begin(), copy_of_collection.end()) == copy_of_collection.end());
+#endif
+
+        return collection;
+    }
+
 }

@@ -41,7 +41,7 @@ TEST_F(GroupsTest, groupCreation)
 
             // create group
             const Photo::Id& id1 = photos[0].getId();
-            const Group::Id& gid = op->groupOperator()->addGroup(id1, Group::Type::Animation);
+            const Group::Id& gid = op->groupOperator().addGroup(id1, Group::Type::Animation);
             EXPECT_TRUE(gid.valid());
 
             // expect representative photo to be modified
@@ -70,7 +70,7 @@ TEST_F(GroupsTest, groupRemoval)
 
             // create group
             const Photo::Id& id1 = photos[0].getId();
-            const Group::Id& gid = op->groupOperator()->addGroup(id1, Group::Type::Animation);
+            const Group::Id& gid = op->groupOperator().addGroup(id1, Group::Type::Animation);
             EXPECT_TRUE(gid.valid());
 
             // add photos to group
@@ -93,7 +93,7 @@ TEST_F(GroupsTest, groupRemoval)
             });
 
             // remove group
-            op->groupOperator()->removeGroup(gid);
+            op->groupOperator().removeGroup(gid);
 
             // expect all photos to be modified
             ASSERT_EQ(modified_photos.size(), 3);

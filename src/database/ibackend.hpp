@@ -126,14 +126,8 @@ namespace Database
         virtual std::vector<TagTypeInfo> listTags() = 0;
 
         /// list all values of tag for photos matching provided filter
-        virtual std::vector<TagValue>    listTagValues(const TagTypeInfo &,
+        virtual std::vector<TagValue>    listTagValues(const TagTypes &,
                                                        const std::vector<IFilter::Ptr> &) = 0;
-
-        /// list all photos
-        virtual std::vector<Photo::Id>   getAllPhotos() = 0;
-
-        /// find all photos matching filter
-        virtual std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) = 0;
 
         /// get particular photo
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;
@@ -191,19 +185,19 @@ namespace Database
          * \brief get group operator
          * \return group operator
          */
-        virtual IGroupOperator* groupOperator() = 0;
+        virtual IGroupOperator& groupOperator() = 0;
 
         /**
          * \brief get photo operator
          * \return photo operator
          */
-        virtual IPhotoOperator* photoOperator() = 0;
+        virtual IPhotoOperator& photoOperator() = 0;
 
         /**
          * \brief get changelog operator
          * \return changelog operator
          */
-        virtual IPhotoChangeLogOperator* photoChangeLogOperator() = 0;
+        virtual IPhotoChangeLogOperator& photoChangeLogOperator() = 0;
 
         virtual IPeopleInformationAccessor& peopleInformationAccessor() = 0;
 

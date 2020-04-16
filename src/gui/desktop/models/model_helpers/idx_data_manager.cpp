@@ -32,6 +32,7 @@
 #include <core/base_tags.hpp>
 #include <core/function_wrappers.hpp>
 #include <database/iphoto_info.hpp>
+#include <database/iphoto_operator.hpp>
 #include <database/database_tools/signal_mapper.hpp>
 
 #include "idxdata_deepfetcher.hpp"
@@ -306,7 +307,7 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         using namespace std::placeholders;
         auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback< void(const TagTypeInfo &, const std::vector<TagValue> &) >(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback<const TagTypeInfo &, const std::vector<TagValue> &>(callback);
 
         m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
     }
@@ -342,7 +343,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     }
 
     //add anti-filter for last node
-    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName);
+    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName.getTag());
     auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>(tag_filter);
 
     filter.push_back(node_filter);
@@ -354,7 +355,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     using namespace std::placeholders;
     auto callback = std::bind(&IdxDataManager::gotNonmatchingPhotosForParent, this, _parent, _1);
     auto safe_callback =
-        m_data->m_tasksResultsCtrl.make_safe_callback<void(int)>(callback);
+        m_data->m_tasksResultsCtrl.make_safe_callback<int>(callback);
 
     //send task to execution
     m_data->m_database->countPhotos(filter, safe_callback);
@@ -428,7 +429,7 @@ void IdxDataManager::setupRootNode()
 
 void IdxDataManager::getPhotosForParent(Database::IBackend* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
-    auto photos = db_operator->getPhotos(filter);
+    auto photos = db_operator->photoOperator().getPhotos(filter);
     auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;
@@ -498,7 +499,7 @@ void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_
 
     for(const TagValue& tag: tags)
     {
-        auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
+        auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName.getTag(), tag);
 
         auto newItem = std::make_unique<IdxNodeData>(this, tag.get());
         setupNewNode(newItem.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
@@ -698,7 +699,7 @@ IdxNodeData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const 
             {
                 const TagValue& tagValue = photoTagIt->second;
                 auto node = std::make_unique<IdxNodeData>(this, tagValue.get());
-                auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
+                auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName.getTag(), tagValue);
 
                 setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
                 IIdxData* added_node = performAdd(_parent, std::move(node));
@@ -896,7 +897,7 @@ IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
     const size_t level = _parent->getLevel();
     const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
-    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
+    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName.getTag());
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(filterTag);
 
     setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1) );

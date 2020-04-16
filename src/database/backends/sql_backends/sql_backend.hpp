@@ -74,9 +74,9 @@ namespace Database
              */
             const QString& getConnectionName() const;
 
-            GroupOperator* groupOperator() override;
-            PhotoOperator* photoOperator() override;
-            PhotoChangeLogOperator* photoChangeLogOperator() override;
+            GroupOperator& groupOperator() override;
+            PhotoOperator& photoOperator() override;
+            PhotoChangeLogOperator& photoChangeLogOperator() override;
             IPeopleInformationAccessor& peopleInformationAccessor() override;
 
         protected:
@@ -141,10 +141,8 @@ namespace Database
             bool update(const Photo::DataDelta &) override final;
 
             std::vector<TagTypeInfo> listTags() override final;
-            std::vector<TagValue>    listTagValues(const TagTypeInfo &, const std::vector<IFilter::Ptr> &) override final;
+            std::vector<TagValue>    listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &) override final;
 
-            std::vector<Photo::Id>   getAllPhotos() override final;
-            std::vector<Photo::Id>   getPhotos(const std::vector<IFilter::Ptr> &) override final;
             Photo::Data              getPhoto(const Photo::Id &) override final;
             int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
@@ -181,7 +179,6 @@ namespace Database
             GroupInfo            getGroupFor(const Photo::Id &) const;
             void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
-            std::vector<Photo::Id> fetch(QSqlQuery &) const;
             bool doesPhotoExist(const Photo::Id &) const;
     };
 }
