@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QSaveFile>
 #include <QTimer>
 
 #ifdef OS_WIN
@@ -92,10 +93,11 @@ namespace
 
             QJsonDocument jsonDoc(configurationObject);
 
-            QFile configFile(m_configFile);
+            QSaveFile configFile(m_configFile);
 
             configFile.open(QIODevice::WriteOnly);
             configFile.write(jsonDoc.toJson());
+            configFile.commit();
         }
 
     private:
