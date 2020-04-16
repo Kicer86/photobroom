@@ -422,95 +422,81 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location line="-213"/>
-        <source>New photos</source>
-        <translation>Nowe zdjęcia</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+230"/>
         <source>New version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja programu PhotoBroom jest dostępna &lt;a href=&quot;%1&quot;&gt;tutaj&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Internet connection problem</source>
-        <translation type="unfinished"></translation>
+        <translation>Problem z połączeniem internetowym</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się sprawdzić, czy jest dostępna nowsza wersja programu.
+Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
+        <source>New photos</source>
+        <translation>Nowe zdjęcia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
         <source>No collection opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Photo broom: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+104"/>
-        <source>Above you can view new photos and describe them.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>You can click here when you are done to mark photos as reviewed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>Group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ungroup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open photo location</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Recognize people</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+77"/>
+        <location line="+208"/>
         <source>Open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz kolekcję</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Photo Broom files (*.bpj)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+62"/>
-        <source>About Photo Broom</source>
-        <translation type="unfinished"></translation>
+        <location line="-103"/>
+        <source>Above you can view new photos and describe them.</source>
+        <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <location line="-104"/>
+        <source>Photo broom: %1</source>
+        <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+127"/>
+        <source>Group</source>
+        <translation>Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ungroup</source>
+        <translation>Rozbij grupę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open photo location</source>
+        <translation>Otwórz katalog ze zdjęciem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recognize people</source>
+        <translation>Rozpoznaj osoby</translation>
+    </message>
+    <message>
+        <location line="+209"/>
         <source>Unsupported photo collection version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -518,12 +504,15 @@ Please check your internet connection.</source>
 It means your application is too old to open it.
 
 Please upgrade application to open this collection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcja, którą chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
+
+Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Could not open collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -533,30 +522,52 @@ or you don&apos;t have rights to access them.
 
 Please check collection files:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można było załadować kolekcji zdjęć.
+Zwykle oznacza to, że pliki kolekcji są uszkodzone
+lub nie posiadasz do nich praw dostępu.
+
+Sprawdź proszę pliki kolekcji:
+%1</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Collection locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcja w użyciu</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcja zdjęć nie mogła zostać otwarta ponieważ jest już używana.</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Unexpected error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+9"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Podczas otwierania kolekcji wystąpił niespodziewany błąd.
+Proszę zgłosić błąd w programie.
+Kod błędu: %1</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>Unexpected error</source>
+        <translation>Niespodziewany błąd</translation>
+    </message>
+    <message>
+        <location line="-264"/>
+        <source>You can click here when you are done to mark photos as reviewed.</source>
+        <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
+    </message>
+    <message>
+        <location line="+164"/>
+        <source>About Photo Broom</source>
+        <translation>O programie</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>About Qt</source>
+        <translation>O Qt</translation>
     </message>
 </context>
 <context>
