@@ -2,6 +2,8 @@
 #ifndef ACTIONS_HPP
 #define ACTIONS_HPP
 
+#include <variant>
+
 #include <core/base_tags.hpp>
 
 namespace Database

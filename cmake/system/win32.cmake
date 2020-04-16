@@ -143,8 +143,7 @@ macro(addDeploymentActions)
         find_program(VS_REDIST
                      ${redistributable_file_name}
                      DOC "Visual Studio redistributable package installer"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio 15.0/VC/redist/"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/*"
+                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio/2019/Community/VC/Redist/MSVC/*"
                     )
 
         if(VS_REDIST)
