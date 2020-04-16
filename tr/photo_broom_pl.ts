@@ -319,7 +319,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="+13"/>
         <source>Photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -575,32 +575,32 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+119"/>
         <source>Photo location:</source>
-        <translation type="unfinished">Ścieżka do zdjęcia:</translation>
+        <translation>Ścieżka do zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo size:</source>
-        <translation type="unfinished">Rozmiar zdjęcia:</translation>
+        <translation>Rozmiar zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo geometry:</source>
-        <translation type="unfinished">Wymiary zdjęcia:</translation>
+        <translation>Wymiary zdjęcia:</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Photos location:</source>
-        <translation type="unfinished">Ścieżka do zdjęć:</translation>
+        <translation>Ścieżka do zdjęć:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photos size:</source>
-        <translation type="unfinished">Rozmiar zdjęć:</translation>
+        <translation>Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
         <location line="+80"/>
         <source>%n byte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n bajt</numerusform>
             <numerusform>%n bajty</numerusform>
             <numerusform>%n bajtów</numerusform>
@@ -609,7 +609,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n kbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n kbajt</numerusform>
             <numerusform>%n kbajty</numerusform>
             <numerusform>%n kbajtów</numerusform>
@@ -618,7 +618,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Mbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Mbajt</numerusform>
             <numerusform>%n Mbajty</numerusform>
             <numerusform>%n Mbajtów</numerusform>
@@ -627,7 +627,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Gbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Gbajt</numerusform>
             <numerusform>%n Gbajty</numerusform>
             <numerusform>%n Gbajtów</numerusform>
@@ -946,12 +946,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+23"/>
         <source>Time range:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakres czasu:</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>nieznane</translation>
     </message>
 </context>
 <context>
@@ -1027,12 +1027,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+5"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywuje eksperymentalne funkcje. Użyj tej opcji dla każdej z flag, które chcesz aktywować: test-crash-catcher, quick-views</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>flag</source>
-        <translation type="unfinished"></translation>
+        <translation>flaga</translation>
     </message>
 </context>
 </TS>
