@@ -1,5 +1,6 @@
 
 find_package(Qt5Widgets REQUIRED)
+find_package(OpenLibrary 2.2 REQUIRED QtExt)
 
 include(GenerateExportHeader)
 
@@ -60,6 +61,9 @@ target_link_libraries(gui
                             photos_crawler
                             project_utils
                             system
+
+                            KWidgetsAddons
+                            ${OPENLIBRARY_LIBRARIES}
                             Qt5::Widgets
 )
 
