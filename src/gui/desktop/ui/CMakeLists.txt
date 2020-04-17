@@ -1,4 +1,7 @@
 
+find_package(Qt5Quick REQUIRED)
+find_package(Qt5QuickWidgets REQUIRED)
+
 set(SRC
     configuration_dialog.cpp
     faces_dialog.cpp
@@ -42,7 +45,11 @@ target_link_libraries(gui_ui
                             photos_crawler
                             project_utils
                             system
+                            quick_views
+
                             Qt5::Widgets
+                            Qt5::Quick
+                            Qt5::QuickWidgets
 )
 
 target_include_directories(gui_ui

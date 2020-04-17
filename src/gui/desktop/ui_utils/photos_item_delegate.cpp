@@ -70,7 +70,7 @@ void PhotosItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
         //TODO: ugly casting ! Issue #177 on github
         const DBDataModel* model = down_cast<const DBDataModel *>(m);
-        const QVariant statusVariant = model->data(index, DBDataModel::NodeStatus);
+        const QVariant statusVariant = model->data(index, DBDataModel::NodeStatusRole);
 
         assert(statusVariant.canConvert<int>());
         const NodeStatus status = static_cast<NodeStatus>(statusVariant.toInt());

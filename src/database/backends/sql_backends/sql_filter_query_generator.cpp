@@ -89,17 +89,46 @@ namespace Database
             }
 
             if (desciption->tagValue.type() != Tag::ValueType::Empty)
-                condition = QString(TAB_TAGS ".name = '%1' AND " TAB_TAGS ".value %3 '%2'")
-                                        .arg(desciption->tagType )
-                                        .arg(desciption->tagValue.rawValue())
-                                        .arg(comparisonType);
+            {
+                // if we need to include empty (NULL) tag values, we need to
+                // do 2 things: first is to convert any NULL occurence of tag value
+                // into an empty string. Second is to include empty tag values in
+                // query.
+                if (desciption->includeEmpty)
+                {
+                    condition = QString("COALESCE(%1.value, '') %3 '%2'")
+                                     .arg(TAB_TAGS)
+                                     .arg(desciption->tagValue.rawValue())
+                                     .arg(comparisonType);
+                }
+                else
+                {
+                       condition = QString("%4.name = '%1' AND %4.value %3 '%2'")
+                                     .arg(desciption->tagType)
+                                     .arg(desciption->tagValue.rawValue())
+                                     .arg(comparisonType)
+                                     .arg(TAB_TAGS);
+                }
+            }
             else
                 condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagType);
 
-            m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
-                                .arg(TAB_PHOTOS)
-                                .arg(TAB_TAGS)
-                                .arg(condition);
+            if (desciption->includeEmpty)
+            {
+                // here we include NULL tag values when `includeEmpty` is set
+                m_filterResult = QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = %4) WHERE %3")
+                                    .arg(TAB_PHOTOS)
+                                    .arg(TAB_TAGS)
+                                    .arg(condition)
+                                    .arg(desciption->tagType);
+            }
+            else
+            {
+                m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
+                                    .arg(TAB_PHOTOS)
+                                    .arg(TAB_TAGS)
+                                    .arg(condition);
+            }
         }
 
         void visit(FilterPhotosWithFlags* flags) override

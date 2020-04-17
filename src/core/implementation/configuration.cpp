@@ -59,7 +59,6 @@ ConfigurationPrivate::~ConfigurationPrivate()
 
 QVariant ConfigurationPrivate::getEntry(const QString& entry)
 {
-
     auto config = m_entries.lock();
     auto it = config->find(entry);
 

@@ -11,6 +11,7 @@
 
 #include "ui_utils/completer_factory.hpp"
 #include "utils/selection_extractor.hpp"
+#include "quick_views/qml_setup.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -27,6 +28,7 @@ struct IConfiguration;
 struct IView;
 
 class DBDataModel;
+class PhotosModelControllerComponent;
 class Project;
 struct ProjectInfo;
 struct IThumbnailsManager;
@@ -53,12 +55,14 @@ class MainWindow: public QMainWindow
 
     private:
         SelectionExtractor        m_selectionExtractor;
+        QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
         DBDataModel*              m_imagesModel;
         DBDataModel*              m_newImagesModel;
+        PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration*           m_configuration;
         ILoggerFactory*           m_loggerFactory;
         IUpdater*                 m_updater;
@@ -90,6 +94,7 @@ class MainWindow: public QMainWindow
 
         void setupReviewedPhotosView();
         void setupNewPhotosView();
+        void setupQmlView();
         void setupConfig();
 
         void showContextMenuFor(PhotosWidget *, const QPoint &);

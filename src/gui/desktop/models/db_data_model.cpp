@@ -26,6 +26,7 @@
 #include <core/down_cast.hpp>
 #include <database/filter.hpp>
 
+#include "photo_properties.hpp"
 #include "model_helpers/idx_data.hpp"
 #include "model_helpers/idx_data_manager.hpp"
 
@@ -85,6 +86,7 @@ DBDataModel::DBDataModel(QObject* p):
     m_database(nullptr),
     m_filters()
 {
+    registerRole(NodeStatusRole, "nodeStatus");
     connect(m_idxDataManager.get(), &IdxDataManager::dataChanged, this, &DBDataModel::itemDataChanged);
 }
 
@@ -92,17 +94,6 @@ DBDataModel::DBDataModel(QObject* p):
 DBDataModel::~DBDataModel()
 {
 
-}
-
-
-const Photo::Data& DBDataModel::getPhoto(const QModelIndex& idx) const
-{
-    IIdxData* idxData = m_idxDataManager->getIdxDataFor(idx);
-
-    assert(::isLeaf(idxData));
-    IdxLeafData* leafData = static_cast<IdxLeafData *>(idxData);
-
-    return leafData->getPhoto();
 }
 
 
@@ -159,10 +150,16 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
-    QVariant v = idxData->getData(role);
-
-    return v;
+    if (role == APhotoInfoModel::PhotoPropertiesRole)
+    {
+        auto data = getPhotoDetails(_index);
+        return QVariant::fromValue<PhotoProperties>({data.path, data.geometry});
+    }
+    else
+    {
+        IIdxData* idxData = m_idxDataManager->getIdxDataFor(_index);
+        return idxData->getData(role);
+    }
 }
 
 
@@ -238,8 +235,8 @@ Qt::ItemFlags DBDataModel::flags(const QModelIndex& item) const
 
 void DBDataModel::setDatabase(Database::IDatabase* database)
 {
-    m_idxDataManager->setDatabase(database);
     m_database = database;
+    m_idxDataManager->setDatabase(database);
 }
 
 

@@ -10,6 +10,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
+#include <QtQuick/QQuickItem>
 #include <QTimer>
 
 #include <core/constants.hpp>
@@ -31,6 +32,7 @@
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/db_data_model.hpp"
+#include "models/flat_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/series_detection/series_detection.hpp"
@@ -38,6 +40,8 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "ui_utils/icons_loader.hpp"
+#include "quick_views/qml_utils.hpp"
+#include "quick_views/photos_model_controller_component.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
@@ -45,12 +49,14 @@
 
 MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
     m_selectionExtractor(),
+    m_thumbnailsManager4QML(thbMgr),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_imagesModel(nullptr),
     m_newImagesModel(nullptr),
+    m_photosModelController(nullptr),
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
@@ -129,6 +135,27 @@ void MainWindow::set(IProjectManager* prjManager)
 void MainWindow::set(IPluginLoader* pluginLoader)
 {
     m_pluginLoader = pluginLoader;
+}
+
+
+void MainWindow::setupQmlView()
+{
+    assert(m_photosModelController == nullptr);
+
+    QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
+    ui->photosViewQml->setSource(QUrl("qrc:/ui/PhotosView.qml"));
+    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
+
+    assert(m_photosModelController != nullptr);
+
+    // if qml is disabled then hide quick view
+    if (m_configuration->getEntry("features::quick").toBool() == false)
+    {
+        ui->viewsStack->setCurrentIndex(0);
+        ui->viewsStack->widget(2)->setVisible(false);
+        ui->viewsStack->widget(2)->setParent(this);
+        ui->viewsStack->removeTab(2);
+    }
 }
 
 
@@ -275,6 +302,7 @@ void MainWindow::closeProject()
 
         m_imagesModel->setDatabase(nullptr);
         m_newImagesModel->setDatabase(nullptr);
+        m_photosModelController->setDatabase(nullptr);
         m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
         ui->imagesView->setDB(nullptr);
@@ -295,6 +323,7 @@ void MainWindow::setupView()
     m_newImagesModel = new DBDataModel(this);
     ui->newImagesView->setModel(m_newImagesModel);
 
+    setupQmlView();
     setupReviewedPhotosView();
     setupNewPhotosView();
 
@@ -677,6 +706,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
 
             m_imagesModel->setDatabase(db);
             m_newImagesModel->setDatabase(db);
+            m_photosModelController->setDatabase(db);
             m_completerFactory.set(db);
             ui->tagEditor->setDatabase(db);
             ui->imagesView->setDB(db);
@@ -768,6 +798,7 @@ void MainWindow::viewChanged(int current)
     switch(current)
     {
         case 0:
+        case 2:
             selectionModel = ui->imagesView->viewSelectionModel();
             dataModel = m_imagesModel;
             break;

@@ -27,7 +27,7 @@
 #include "idatabase_builder.hpp"
 #include "database_export.h"
 
-#define DatabasePluginInterface_iid "org.broom.plugins.database.iplugin"
+#define DatabasePluginInterface_iid "photo_broom.plugins.database.iplugin"
 
 class QLayout;
 

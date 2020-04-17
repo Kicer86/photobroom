@@ -27,13 +27,25 @@
 class APhotoInfoModel: public QAbstractItemModel
 {
     public:
-        APhotoInfoModel(QObject * = 0);
+        enum Roles
+        {
+            PhotoPropertiesRole = Qt::UserRole + 1,
+            _lastRole = PhotoPropertiesRole,
+        };
+
+        APhotoInfoModel(QObject * = nullptr);
         APhotoInfoModel(const APhotoInfoModel &) = delete;
         ~APhotoInfoModel();
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
         virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const = 0;
+        virtual QHash<int, QByteArray> roleNames() const override;
+
+    protected:
+        QHash<int, QByteArray> m_customRoles;
+
+        void registerRole(int, const QByteArray &);
 };
 
 

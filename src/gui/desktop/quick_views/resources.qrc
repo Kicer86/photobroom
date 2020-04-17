@@ -1,0 +1,9 @@
+
+<RCC>
+    <qresource prefix="/ui">
+        <file>PhotoDelegate.qml</file>
+        <file>PhotosGridView.qml</file>
+        <file>PhotosView.qml</file>
+        <file>TimeRange.qml</file>
+    </qresource>
+</RCC>

@@ -287,7 +287,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+76"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -312,12 +312,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-69"/>
         <source>Collection</source>
         <translation>Kolekcja</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+13"/>
+        <source>Photos</source>
+        <translation>Zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+71"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -417,7 +422,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+230"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -439,12 +444,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-187"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
         <source>New photos</source>
         <translation>Nowe zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+142"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -489,7 +494,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznaj osoby</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+209"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -550,7 +555,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-263"/>
+        <location line="-264"/>
         <source>You can click here when you are done to mark photos as reviewed.</source>
         <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
     </message>
@@ -570,32 +575,32 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+119"/>
         <source>Photo location:</source>
-        <translation type="unfinished">Ścieżka do zdjęcia:</translation>
+        <translation>Ścieżka do zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo size:</source>
-        <translation type="unfinished">Rozmiar zdjęcia:</translation>
+        <translation>Rozmiar zdjęcia:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photo geometry:</source>
-        <translation type="unfinished">Wymiary zdjęcia:</translation>
+        <translation>Wymiary zdjęcia:</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Photos location:</source>
-        <translation type="unfinished">Ścieżka do zdjęć:</translation>
+        <translation>Ścieżka do zdjęć:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Photos size:</source>
-        <translation type="unfinished">Rozmiar zdjęć:</translation>
+        <translation>Rozmiar zdjęć:</translation>
     </message>
     <message numerus="yes">
         <location line="+80"/>
         <source>%n byte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n bajt</numerusform>
             <numerusform>%n bajty</numerusform>
             <numerusform>%n bajtów</numerusform>
@@ -604,7 +609,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n kbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n kbajt</numerusform>
             <numerusform>%n kbajty</numerusform>
             <numerusform>%n kbajtów</numerusform>
@@ -613,7 +618,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Mbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Mbajt</numerusform>
             <numerusform>%n Mbajty</numerusform>
             <numerusform>%n Mbajtów</numerusform>
@@ -622,7 +627,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Gbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Gbajt</numerusform>
             <numerusform>%n Gbajty</numerusform>
             <numerusform>%n Gbajtów</numerusform>
@@ -937,6 +942,19 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
+    <name>TimeRange</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+23"/>
+        <source>Time range:</source>
+        <translation>Zakres czasu:</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>unknown</source>
+        <translation>nieznane</translation>
+    </message>
+</context>
+<context>
     <name>ToolsTab</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+20"/>
@@ -1005,6 +1023,16 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>loging level</source>
         <translation>poziom logowania</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views</source>
+        <translation>Aktywuje eksperymentalne funkcje. Użyj tej opcji dla każdej z flag, które chcesz aktywować: test-crash-catcher, quick-views</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>flag</source>
+        <translation>flaga</translation>
     </message>
 </context>
 </TS>

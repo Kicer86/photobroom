@@ -4,13 +4,14 @@
 #include <string>
 #include <vector>
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QSaveFile>
 #include <QTimer>
 
 #ifdef OS_WIN
@@ -92,10 +93,11 @@ namespace
 
             QJsonDocument jsonDoc(configurationObject);
 
-            QFile configFile(m_configFile);
+            QSaveFile configFile(m_configFile);
 
             configFile.open(QIODevice::WriteOnly);
             configFile.write(jsonDoc.toJson());
+            configFile.commit();
         }
 
     private:
@@ -159,10 +161,8 @@ namespace
 
 int main(int argc, char **argv)
 {
-    Gui gui(argc, argv);
-
-    QCoreApplication* app = gui.getApp();
-    app->setApplicationName("photo_broom");                                // without this app name may change when binary name changes
+    QApplication app(argc, argv);
+    app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
 
     const QString basePath = System::getApplicationConfigDir();
 
@@ -178,10 +178,12 @@ int main(int argc, char **argv)
                                          QCoreApplication::translate("main", "Defines loging level. Possible options are: Debug, Info, Warning (default), Error"),
                                          QCoreApplication::translate("main", "loging level"),
                                          "Warning"
-                       );
+    );
 
-    QCommandLineOption crashTestOption("test-crash-catcher", "When specified, photo_broom will crash 3 seconds after being launch");
-    crashTestOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    QCommandLineOption developerOptions("feature-toggle",
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views"),
+                                         QCoreApplication::translate("main", "flag")
+    );
 
     QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
 
@@ -193,19 +195,25 @@ int main(int argc, char **argv)
 #endif
 
     parser.addOption(logingLevelOption);
-    parser.addOption(crashTestOption);
+    parser.addOption(developerOptions);
     parser.addOption(disableCrashCatcher);
 
-    parser.process(*app);
+    parser.process(app);
 
-    const bool enableCrashTest = parser.isSet(crashTestOption);
-    if (enableCrashTest)
+    const QStringList featureToggles = parser.values(developerOptions);
+    if (featureToggles.contains("test-crash-catcher"))
+    {
         QTimer::singleShot(3000, []
         {
             int* ptr = nullptr;
             volatile int v = *ptr;
             (void) v;
         });
+
+        std::cout << "crash catcher test activated. Will crash in 3 seconds" << std::endl;
+    }
+
+    const bool quick_views = featureToggles.contains("quick-views");
 
     const QString logingLevelStr = parser.value(logingLevelOption);
     ILogger::Severity logingLevel = ILogger::Severity::Warning;
@@ -250,6 +258,8 @@ int main(int argc, char **argv)
     ConfigStorage configStorage(configFilePath);
     Configuration configuration(configStorage);
 
+    configuration.setEntry("features::quick", quick_views);
+
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);
 
@@ -288,10 +298,7 @@ int main(int argc, char **argv)
     );
 
     // start gui
-    gui.set(&prjManager);
-    gui.set(&pluginLoader);
-    gui.set(&coreFactory);
-    gui.run();
+    Gui(prjManager, pluginLoader, coreFactory).run();
 
     taskExecutor.stop();
 

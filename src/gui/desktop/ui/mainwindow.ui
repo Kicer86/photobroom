@@ -28,7 +28,7 @@
        <enum>QTabWidget::South</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="PhotosWidget" name="imagesView">
        <property name="contextMenuPolicy">
@@ -45,6 +45,32 @@
        <attribute name="title">
         <string>New photos</string>
        </attribute>
+      </widget>
+      <widget class="QWidget" name="photosView">
+       <attribute name="title">
+        <string>Photos</string>
+       </attribute>
+       <layout class="QVBoxLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QQuickWidget" name="photosViewQml">
+          <property name="resizeMode">
+           <enum>QQuickWidget::SizeRootObjectToView</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -235,6 +261,11 @@
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QQuickWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
+  </customwidget>
   <customwidget>
    <class>TagEditorWidget</class>
    <extends>QWidget</extends>

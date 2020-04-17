@@ -252,7 +252,7 @@ void IdxData::setParent(IdxNodeData* _parent)
 
 void IdxData::setStatus(NodeStatus status)
 {
-    m_data[DBDataModel::NodeStatus] = static_cast<int>(status);
+    m_data[DBDataModel::NodeStatusRole] = static_cast<int>(status);
 }
 
 
@@ -299,7 +299,7 @@ int IdxData::getCol() const
 
 NodeStatus IdxData::status() const
 {
-    return static_cast<NodeStatus>(m_data[DBDataModel::NodeStatus].toInt());
+    return static_cast<NodeStatus>(m_data[DBDataModel::NodeStatusRole].toInt());
 }
 
 

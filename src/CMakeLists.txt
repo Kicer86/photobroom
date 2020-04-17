@@ -19,6 +19,7 @@ endif()
 find_package(OpenLibrary REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 set(BROOM_SOURCES main.cpp
                   $<TARGET_OBJECTS:plugins>
@@ -45,7 +46,9 @@ target_link_libraries(photo_broom
                         gui
                         project_utils
                         system
-                        Qt5::Core)
+                        Qt5::Core
+                        Qt5::Widgets
+)
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
 
