@@ -142,7 +142,7 @@ void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend* 
     const std::vector<Database::IFilter::Ptr> photos_without_date_tag_filter = { without_date_filter };
     const auto photos_without_date_tag = backend->photoOperator().getPhotos(photos_without_date_tag_filter);
 
-    if (not photos_without_date_tag.empty())
+    if (photos_without_date_tag.empty() == false)
         dates.push_back(QDate());
 
     std::sort(dates.begin(), dates.end());
