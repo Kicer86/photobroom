@@ -7,13 +7,11 @@ import photo_broom.qml 1.0
 Component {
     id: delegateId
 
-    Rectangle {
-        id: rectId
+    Item {
+        id: itemId
 
-        width:  GridView.view.thumbnailSize
-        height: GridView.view.thumbnailSize
-
-        border.width: 1
+        width:  GridView.view.cellWidth
+        height: GridView.view.cellHeight
 
         BusyIndicator {
             id: busyId
@@ -25,8 +23,8 @@ Component {
             id: imageId
 
             anchors.centerIn: parent
-            height: parent.height
-            width:  parent.width
+            height: itemId.GridView.view.thumbnailSize
+            width:  itemId.GridView.view.thumbnailSize
             opacity: 0
 
             source: photoProperties.path
@@ -69,7 +67,7 @@ Component {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: rectId.GridView.view.currentIndex = index
+            onClicked: itemId.GridView.view.currentIndex = index
         }
     }
 }
