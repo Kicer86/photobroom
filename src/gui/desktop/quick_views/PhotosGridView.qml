@@ -5,10 +5,10 @@ import QtQuick.Controls 2.3
 GridView {
 
     property int thumbnailSize: 160
-    property int thumbnailMargin: 2
+    property int thumbnailMargin: 5
 
-    cellWidth: thumbnailSize + thumbnailMargin
-    cellHeight: thumbnailSize + thumbnailMargin
+    cellWidth: thumbnailSize + thumbnailMargin * 2
+    cellHeight: thumbnailSize + thumbnailMargin * 2
     delegate: PhotoDelegate { }
     highlight: highlightId
     keyNavigationEnabled: true
@@ -19,15 +19,7 @@ GridView {
         id: highlightId
 
         Rectangle {
-            width: view.cellWidth;
-            height: view.cellHeight
             color: "lightsteelblue";
-            opacity: 0.7
-            x: view.currentItem.x
-            y: view.currentItem.y
-            z: 1
-            Behavior on x { SpringAnimation { spring: 3; damping: 0.2 } }
-            Behavior on y { SpringAnimation { spring: 3; damping: 0.2 } }
         }
     }
 
