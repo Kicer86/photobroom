@@ -31,7 +31,7 @@ class QComboBox;
 class QLineEdit;
 class QPushButton;
 
-class DBDataModel;
+class APhotoInfoModel;
 class TagsView;
 class TagsModel;
 
@@ -56,7 +56,7 @@ class TagEditorWidget: public QWidget
 
         void setDatabase(Database::IDatabase *);
         void set(QItemSelectionModel *);
-        void set(DBDataModel *);
+        void set(APhotoInfoModel *);
         void set(ICompleterFactory *);
 
     private:

@@ -34,7 +34,8 @@ namespace Database
 }
 
 struct ITagsOperator;
-class DBDataModel;
+class APhotoInfoModel;
+
 
 class TagsModel: public QAbstractItemModel
 {
@@ -52,7 +53,7 @@ class TagsModel: public QAbstractItemModel
 
         void set(Database::IDatabase *);
         void set(QItemSelectionModel *);    // selection model
-        void set(DBDataModel *);            // photos model
+        void set(APhotoInfoModel *);        // photos model
         void set(ITagsOperator *);
 
         TagsModel& operator=(const TagsModel &) = delete;
@@ -80,7 +81,7 @@ class TagsModel: public QAbstractItemModel
         std::atomic<bool> m_loadInProgress;
         SelectionExtractor m_selectionExtractor;
         QItemSelectionModel* m_selectionModel;
-        DBDataModel* m_dbDataModel;
+        APhotoInfoModel* m_dbDataModel;
         ITagsOperator* m_tagsOperator;
         Database::IDatabase* m_database;
 

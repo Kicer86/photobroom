@@ -23,7 +23,7 @@
 
 #include <QItemSelectionModel>
 
-#include "models/db_data_model.hpp"
+#include "models/aphoto_info_model.hpp"
 
 
 SelectionExtractor::SelectionExtractor():
@@ -48,7 +48,7 @@ void SelectionExtractor::set(QItemSelectionModel* selectionModel)
 }
 
 
-void SelectionExtractor::set(DBDataModel* model)
+void SelectionExtractor::set(APhotoInfoModel* model)
 {
     m_photosModel = model;
 }
@@ -65,12 +65,11 @@ std::vector<Photo::Data> SelectionExtractor::getSelection() const
         QModelIndexList idxList = range.indexes();
 
         for (const QModelIndex& idx : idxList)
-            if (m_photosModel->isLeaf(idx))
-            {
-                const Photo::Data& photo = m_photosModel->getPhotoDetails(idx);
+        {
+            const Photo::Data& photo = m_photosModel->getPhotoDetails(idx);
 
-                result.push_back(photo);
-            }
+            result.push_back(photo);
+        }
     }
 
     return result;

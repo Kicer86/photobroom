@@ -69,7 +69,7 @@ void TagEditorWidget::set(QItemSelectionModel* selectionModel)
 }
 
 
-void TagEditorWidget::set(DBDataModel* dbDataModel)
+void TagEditorWidget::set(APhotoInfoModel* dbDataModel)
 {
     m_model->set(dbDataModel);
 }

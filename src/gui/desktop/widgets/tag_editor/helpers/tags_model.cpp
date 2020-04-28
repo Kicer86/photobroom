@@ -81,7 +81,7 @@ void TagsModel::set(QItemSelectionModel* selectionModel)
 }
 
 
-void TagsModel::set(DBDataModel* dbDataModel)
+void TagsModel::set(APhotoInfoModel* dbDataModel)
 {
     m_selectionExtractor.set(dbDataModel);
     m_dbDataModel = dbDataModel;
