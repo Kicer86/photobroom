@@ -19,7 +19,9 @@ GridView {
         id: highlightId
 
         Rectangle {
-            color: "lightsteelblue";
+            color: "lightsteelblue"
+            opacity: 0.6
+            z: 2
         }
     }
 
