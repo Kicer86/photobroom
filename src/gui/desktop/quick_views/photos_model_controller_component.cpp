@@ -28,6 +28,7 @@ using namespace std::placeholders;
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
+    , m_selectedPhoto(-1)
 {
 }
 
@@ -66,6 +67,12 @@ unsigned int PhotosModelControllerComponent::timeViewTo() const
 }
 
 
+int PhotosModelControllerComponent::selectedPhoto() const
+{
+    return m_selectedPhoto;
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -79,6 +86,12 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
     m_timeView.second = viewTo;
 
     updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setSelectedPhoto(int idx)
+{
+    m_selectedPhoto = idx;
 }
 
 

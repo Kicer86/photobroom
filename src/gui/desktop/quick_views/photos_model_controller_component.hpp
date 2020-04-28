@@ -37,6 +37,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
+        Q_PROPERTY(int selectedPhoto READ selectedPhoto WRITE setSelectedPhoto)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -47,9 +48,11 @@ class PhotosModelControllerComponent: public QObject
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
+        int selectedPhoto() const;
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
+        void setSelectedPhoto(int);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
 
@@ -63,6 +66,7 @@ class PhotosModelControllerComponent: public QObject
         QPair<unsigned int, unsigned int> m_timeView;
         FlatModel* m_model;
         Database::IDatabase* m_db;
+        int m_selectedPhoto;
 
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
