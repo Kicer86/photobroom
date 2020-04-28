@@ -37,7 +37,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
-        Q_PROPERTY(int selectedPhoto READ selectedPhoto WRITE setSelectedPhoto)
+        Q_PROPERTY(int selectedPhoto READ selectedPhoto WRITE setSelectedPhoto NOTIFY selectionChanged)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -59,6 +59,7 @@ class PhotosModelControllerComponent: public QObject
     signals:
         void modelChanged() const;
         void datesCountChanged() const;
+        void selectionChanged() const;
 
     private:
         std::vector<Database::IFilter::Ptr> m_filters;

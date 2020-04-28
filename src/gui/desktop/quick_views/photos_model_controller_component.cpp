@@ -92,6 +92,8 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
 void PhotosModelControllerComponent::setSelectedPhoto(int idx)
 {
     m_selectedPhoto = idx;
+
+    emit selectionChanged();
 }
 
 
