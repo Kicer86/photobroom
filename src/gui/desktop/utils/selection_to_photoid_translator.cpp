@@ -8,13 +8,13 @@
 
 SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* selectionModel, QObject* p)
     : QObject(p)
-    , m_model(selectionModel->model())
     , m_propertiesRole(-1)
 {
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &SelectionToPhotoIdTranslator::translate);
 
-    const auto roles = m_model->roleNames();
+    QAbstractItemModel* model = selectionModel->model();
+    const auto roles = model->roleNames();
 
     // Find photo properties role. Model needs to provide it
     const auto it = std::find_if(roles.begin(), roles.end(), [](const auto roleName){

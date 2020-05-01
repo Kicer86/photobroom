@@ -22,7 +22,6 @@ class SelectionToPhotoIdTranslator: public QObject
         void selectionChanged(const std::vector<Photo::Id> &) const;
 
     private:
-        QAbstractItemModel* m_model;
         int m_propertiesRole;
 
         void translate(const QItemSelection &) const;
