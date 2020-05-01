@@ -176,7 +176,7 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::Id& id) const
 {
     auto photo = backend->getPhoto(id);
-    const PhotoProperties properties(photo.path, photo.geometry);
+    const PhotoProperties properties(photo.path, photo.geometry, id);
 
     invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, properties);
 }
