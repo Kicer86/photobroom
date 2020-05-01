@@ -8,6 +8,7 @@ set(UTILS_SOURCES
     people_manipulator.cpp
     photos_collector.cpp
     selection_extractor.cpp
+    selection_to_photoid_translator.cpp
     signal_filter.cpp
     tag_value_model.cpp
     variant_display.cpp
@@ -25,6 +26,7 @@ set(UTILS_HEADERS
     people_manipulator.hpp
     photos_collector.hpp
     selection_extractor.hpp
+    selection_to_photoid_translator.hpp
     signal_filter.hpp
     tag_value_model.hpp
     variant_display.hpp
