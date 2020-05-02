@@ -22,7 +22,7 @@ namespace utils
     QString dump(const QAbstractItemModel &, const QModelIndex & = QModelIndex());
 
     //
-    int getRoleByName(QAbstractItemModel* model, const QString& name);
+    int getRoleByName(const QAbstractItemModel& model, const QString& name);
 }
 
 #endif

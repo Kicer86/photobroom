@@ -16,7 +16,7 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* 
             this, &SelectionToPhotoIdTranslator::translate);
 
     QAbstractItemModel* model = selectionModel->model();
-    m_propertiesRole = utils::getRoleByName(model, "photoProperties");
+    m_propertiesRole = utils::getRoleByName(*model, "photoProperties");
 
     assert(m_propertiesRole != -1);
 }
