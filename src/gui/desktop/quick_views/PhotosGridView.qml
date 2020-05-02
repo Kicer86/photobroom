@@ -12,6 +12,7 @@ GridView {
     delegate: PhotoDelegate { }
     highlight: highlightId
     keyNavigationEnabled: true
+    currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }
 
