@@ -17,16 +17,6 @@
  *
  */
 
-/// TODO: remove
-#if defined _MSC_VER
-    #if _MSC_VER >= 1800
-        #define Q_COMPILER_INITIALIZER_LISTS
-    #else
-        #error unsupported compiler
-    #endif
-#endif
-
-
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
