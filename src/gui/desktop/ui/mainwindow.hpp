@@ -43,7 +43,7 @@ class MainWindow: public QMainWindow
         Q_OBJECT
 
     public:
-        explicit MainWindow( ICoreFactoryAccessor *, IThumbnailsManager*, QWidget *parent = 0);
+        explicit MainWindow(ICoreFactoryAccessor *, IThumbnailsManager*, QWidget *parent = 0);
         MainWindow(const MainWindow &) = delete;
         virtual ~MainWindow();
 
