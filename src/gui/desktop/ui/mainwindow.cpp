@@ -40,6 +40,7 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/selection_to_photoid_translator.hpp"
+#include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
@@ -157,6 +158,23 @@ void MainWindow::setupQmlView()
         ui->viewsStack->widget(2)->setParent(this);
         ui->viewsStack->removeTab(2);
     }
+
+    connect(m_photosModelController, &PhotosModelControllerComponent::selectionChanged, [this](){
+        const int selectedPhotoRow = m_photosModelController->selectedPhoto();
+        const QAbstractItemModel* model = m_photosModelController->model();
+        const QModelIndex idx = model->index(selectedPhotoRow, 0);
+        const int propertiesRole = utils::getRoleByName(*model, "photoProperties");
+        const QVariant propertiesRaw = idx.data(propertiesRole);
+        const PhotoProperties properties = propertiesRaw.value<PhotoProperties>();
+
+        if (properties.m_id.valid())
+        {
+            std::vector<Photo::Id> ids;
+            ids.push_back(properties.m_id);
+
+            ui->tagEditor->editPhotos(ids);
+        }
+    });
 }
 
 
