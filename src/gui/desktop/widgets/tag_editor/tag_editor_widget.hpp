@@ -26,12 +26,10 @@
 #include "ui_utils/editor_factory.hpp"
 #include "helpers/tags_operator.hpp"
 
-class QItemSelectionModel;
 class QComboBox;
 class QLineEdit;
 class QPushButton;
 
-class APhotoInfoModel;
 class TagsView;
 class TagsModel;
 
@@ -55,9 +53,9 @@ class TagEditorWidget: public QWidget
         virtual TagEditorWidget& operator=(const TagEditorWidget &) = delete;
 
         void setDatabase(Database::IDatabase *);
-        void set(QItemSelectionModel *);
-        void set(APhotoInfoModel *);
         void set(ICompleterFactory *);
+
+        void editPhotos(const std::vector<Photo::Id> &);
 
     private:
         EditorFactory m_editorFactory;

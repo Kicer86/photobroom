@@ -24,9 +24,6 @@
 
 #include <database/iphoto_info.hpp>
 
-#include "utils/selection_extractor.hpp"
-class QItemSelectionModel;
-class QItemSelection;
 
 namespace Database
 {
@@ -34,7 +31,6 @@ namespace Database
 }
 
 struct ITagsOperator;
-class APhotoInfoModel;
 
 
 class TagsModel: public QAbstractItemModel
@@ -52,14 +48,12 @@ class TagsModel: public QAbstractItemModel
         ~TagsModel();
 
         void set(Database::IDatabase *);
-        void set(QItemSelectionModel *);    // selection model
-        void set(APhotoInfoModel *);        // photos model
         void set(ITagsOperator *);
+        void setPhotos(const std::vector<Photo::Id> &);
 
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
-        void addTag(const TagTypeInfo &, const TagValue &);
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;
@@ -78,15 +72,11 @@ class TagsModel: public QAbstractItemModel
         typedef QMap<int, QVariant> ItemData;
         std::vector<ItemData> m_keys,
                               m_values;
-        std::atomic<bool> m_loadInProgress;
-        SelectionExtractor m_selectionExtractor;
-        QItemSelectionModel* m_selectionModel;
-        APhotoInfoModel* m_dbDataModel;
         ITagsOperator* m_tagsOperator;
         Database::IDatabase* m_database;
 
-        void refreshModel();
         void clearModel();
+        void fetchPhotos(const std::vector<Photo::Id> &);
         void loadPhotos(const std::vector<IPhotoInfo::Ptr> &);
         void syncData(const QModelIndex &, const QModelIndex &);
         QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);

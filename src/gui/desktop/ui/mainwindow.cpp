@@ -39,6 +39,7 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
+#include "utils/selection_to_photoid_translator.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
@@ -469,6 +470,10 @@ void MainWindow::setupReviewedPhotosView()
 
     m_imagesModel->setStaticFilters(reviewedPhotosFilters);
     ui->imagesView->setBottomHintWidget(nullptr);
+
+    SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(ui->imagesView->viewSelectionModel(), this);
+    connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
+            ui->tagEditor, &TagEditorWidget::editPhotos);
 }
 
 
@@ -492,6 +497,10 @@ void MainWindow::setupNewPhotosView()
     ui->newImagesView->setBottomHintWidget(hint);
 
     connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
+
+    SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(ui->newImagesView->viewSelectionModel(), this);
+    connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
+            ui->tagEditor, &TagEditorWidget::editPhotos);
 }
 
 
@@ -798,7 +807,6 @@ void MainWindow::viewChanged(int current)
     switch(current)
     {
         case 0:
-        case 2:
             selectionModel = ui->imagesView->viewSelectionModel();
             dataModel = m_imagesModel;
             break;
@@ -808,13 +816,16 @@ void MainWindow::viewChanged(int current)
             dataModel = m_newImagesModel;
             break;
 
+        case 2:
+            break;
+
         default:
             assert(!"Unexpected tab index");
             break;
     }
 
-    ui->tagEditor->set(selectionModel);
-    ui->tagEditor->set(dataModel);
+    // reset tag editor
+    ui->tagEditor->editPhotos({});
 
     m_selectionExtractor.set(selectionModel);
     m_selectionExtractor.set(dataModel);

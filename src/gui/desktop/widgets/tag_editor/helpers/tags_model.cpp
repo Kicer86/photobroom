@@ -44,13 +44,10 @@ using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_loadInProgress(false),
-    m_selectionExtractor(),
-    m_selectionModel(nullptr),
-    m_dbDataModel(nullptr),
     m_tagsOperator(nullptr),
     m_database(nullptr)
 {
+    connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
 }
 
 
@@ -66,45 +63,22 @@ void TagsModel::set(Database::IDatabase* database)
 }
 
 
-void TagsModel::set(QItemSelectionModel* selectionModel)
-{
-    m_selectionExtractor.set(selectionModel);
-
-    if (m_selectionModel != nullptr)
-        m_selectionModel->disconnect(this);
-
-    m_selectionModel = selectionModel;
-    connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
-    lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
-
-    refreshModel();
-}
-
-
-void TagsModel::set(APhotoInfoModel* dbDataModel)
-{
-    m_selectionExtractor.set(dbDataModel);
-    m_dbDataModel = dbDataModel;
-}
-
-
 void TagsModel::set(ITagsOperator* tagsOperator)
 {
     m_tagsOperator = tagsOperator;
 }
 
 
-Tag::TagsList TagsModel::getTags() const
+void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    return m_tagsOperator->getTags();
+    clearModel();
+    fetchPhotos(photos);
 }
 
 
-void TagsModel::addTag(const TagTypeInfo& info, const TagValue& value)
+Tag::TagsList TagsModel::getTags() const
 {
-    m_tagsOperator->setTag(info, value);
-
-    refreshModel();
+    return m_tagsOperator->getTags();
 }
 
 
@@ -249,34 +223,24 @@ QVariant TagsModel::headerData(int section, Qt::Orientation orientation, int rol
 }
 
 
-void TagsModel::refreshModel()
-{
-    if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
-    {
-        m_loadInProgress = true;
-
-        clearModel();
-
-        std::vector<Photo::Data> photos = m_selectionExtractor.getSelection();
-
-        std::vector<Photo::Id> ids;
-        for(const Photo::Data& photo: photos)
-            ids.push_back(photo.id);
-
-        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
-        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
-
-        m_database->getPhotos(ids, callback);
-    }
-}
-
-
 void TagsModel::clearModel()
 {
     beginResetModel();
     m_keys.clear();
     m_values.clear();
     endResetModel();
+}
+
+
+void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
+{
+    if (m_database)
+    {
+        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
+        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
+
+        m_database->getPhotos(ids, callback);
+    }
 }
 
 
@@ -332,8 +296,6 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     }
 
     QAbstractItemModel::endInsertRows();
-
-    m_loadInProgress = false;
 }
 
 
