@@ -44,7 +44,9 @@ void SelectionExtractor::set(QItemSelectionModel* selectionModel)
         m_selectionModel->disconnect(this);
 
     m_selectionModel = selectionModel;
-    connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &SelectionExtractor::selectionChanged);
+
+    if (m_selectionModel != nullptr)
+        connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &SelectionExtractor::selectionChanged);
 }
 
 
