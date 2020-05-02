@@ -8,6 +8,7 @@
 
 SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* selectionModel, QObject* p)
     : QObject(p)
+    , m_selectionModel(selectionModel)
     , m_propertiesRole(-1)
 {
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
@@ -27,9 +28,9 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* 
 }
 
 
-void SelectionToPhotoIdTranslator::translate(const QItemSelection& selection) const
+void SelectionToPhotoIdTranslator::translate() const
 {
-    const auto indexes = selection.indexes();
+    const auto indexes = m_selectionModel->selectedIndexes();
     std::vector<Photo::Id> ids;
 
     for(const QModelIndex& idx: indexes)

@@ -7,7 +7,6 @@
 #include <database/photo_types.hpp>
 
 class QAbstractItemModel;
-class QItemSelection;
 class QItemSelectionModel;
 
 
@@ -22,9 +21,10 @@ class SelectionToPhotoIdTranslator: public QObject
         void selectionChanged(const std::vector<Photo::Id> &) const;
 
     private:
+        QItemSelectionModel* m_selectionModel;
         int m_propertiesRole;
 
-        void translate(const QItemSelection &) const;
+        void translate() const;
 };
 
 #endif // SELECTIONTOPHOTOIDTRANSLATOR_HPP
