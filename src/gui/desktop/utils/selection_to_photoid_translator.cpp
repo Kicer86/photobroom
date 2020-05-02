@@ -4,6 +4,7 @@
 #include <QItemSelectionModel>
 
 #include "models/photo_properties.hpp"
+#include "utils/model_index_utils.hpp"
 
 
 SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* selectionModel, QObject* p)
@@ -15,16 +16,9 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* 
             this, &SelectionToPhotoIdTranslator::translate);
 
     QAbstractItemModel* model = selectionModel->model();
-    const auto roles = model->roleNames();
+    m_propertiesRole = utils::getRoleByName(model, "photoProperties");
 
-    // Find photo properties role. Model needs to provide it
-    const auto it = std::find_if(roles.begin(), roles.end(), [](const auto roleName){
-        return roleName == "photoProperties";
-    });
-
-    assert(it != roles.end());
-
-    m_propertiesRole = it.key();
+    assert(m_propertiesRole != -1);
 }
 
 
