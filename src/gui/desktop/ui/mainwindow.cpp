@@ -159,22 +159,9 @@ void MainWindow::setupQmlView()
         ui->viewsStack->removeTab(2);
     }
 
-    connect(m_photosModelController, &PhotosModelControllerComponent::selectionChanged, [this](){
-        const int selectedPhotoRow = m_photosModelController->selectedPhoto();
-        const QAbstractItemModel* model = m_photosModelController->model();
-        const QModelIndex idx = model->index(selectedPhotoRow, 0);
-        const int propertiesRole = utils::getRoleByName(*model, "photoProperties");
-        const QVariant dataVariant = idx.data(propertiesRole);
-        const Photo::Data data = dataVariant.value<Photo::Data>();
-
-        if (data.id.valid())
-        {
-            std::vector<Photo::Id> ids;
-            ids.push_back(data.id);
-
-            ui->tagEditor->editPhotos(ids);
-        }
-    });
+    SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(&m_photosModelController->selectionModel(), this);
+    connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
+            ui->tagEditor, &TagEditorWidget::editPhotos);
 }
 
 
@@ -818,8 +805,8 @@ void MainWindow::photosMarkedAsReviewed()
 
 void MainWindow::viewChanged(int current)
 {
-    QItemSelectionModel* selectionModel = nullptr;
-    DBDataModel* dataModel = nullptr;
+    const QItemSelectionModel* selectionModel = nullptr;
+    APhotoInfoModel* dataModel = nullptr;
     //setup tags editor
 
     switch(current)
@@ -835,6 +822,8 @@ void MainWindow::viewChanged(int current)
             break;
 
         case 2:
+            selectionModel = &m_photosModelController->selectionModel();
+            dataModel = m_photosModelController->model();
             break;
 
         default:

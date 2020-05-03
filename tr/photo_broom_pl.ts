@@ -422,7 +422,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+249"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+236"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -931,7 +931,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+207"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+206"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
