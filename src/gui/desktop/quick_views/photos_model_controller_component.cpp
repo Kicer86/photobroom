@@ -92,7 +92,7 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
 void PhotosModelControllerComponent::setSelectedPhoto(int idx)
 {
     const QModelIndex index = m_model->index(idx, 0, {});
-    m_selection.select(index, QItemSelectionModel::SelectCurrent);
+    m_selection.select(index, QItemSelectionModel::ClearAndSelect);
 
     emit selectionChanged();
 }
