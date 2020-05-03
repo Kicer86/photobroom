@@ -7,7 +7,7 @@
 #include "utils/model_index_utils.hpp"
 
 
-SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* selectionModel, QObject* p)
+SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const QItemSelectionModel* selectionModel, QObject* p)
     : QObject(p)
     , m_selectionModel(selectionModel)
     , m_propertiesRole(-1)
@@ -15,7 +15,7 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(QItemSelectionModel* 
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &SelectionToPhotoIdTranslator::translate);
 
-    QAbstractItemModel* model = selectionModel->model();
+    const QAbstractItemModel* model = selectionModel->model();
     m_propertiesRole = utils::getRoleByName(*model, "photoProperties");
 
     assert(m_propertiesRole != -1);

@@ -15,13 +15,13 @@ class SelectionToPhotoIdTranslator: public QObject
         Q_OBJECT
 
     public:
-        SelectionToPhotoIdTranslator(QItemSelectionModel *, QObject* = nullptr);
+        SelectionToPhotoIdTranslator(const QItemSelectionModel *, QObject* = nullptr);
 
     signals:
         void selectionChanged(const std::vector<Photo::Id> &) const;
 
     private:
-        QItemSelectionModel* m_selectionModel;
+        const QItemSelectionModel* m_selectionModel;
         int m_propertiesRole;
 
         void translate() const;
