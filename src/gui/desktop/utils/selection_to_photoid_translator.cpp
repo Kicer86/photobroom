@@ -32,7 +32,8 @@ void SelectionToPhotoIdTranslator::translate() const
         const QVariant dataVariant = idx.data(m_propertiesRole);
         const Photo::Data data = dataVariant.value<Photo::Data>();
 
-        ids.push_back(data.id);
+        if (data.id.valid())
+            ids.push_back(data.id);
     }
 
     emit selectionChanged(ids);
