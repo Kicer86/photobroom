@@ -38,7 +38,7 @@ SelectionExtractor::~SelectionExtractor()
 }
 
 
-void SelectionExtractor::set(QItemSelectionModel* selectionModel)
+void SelectionExtractor::set(const QItemSelectionModel* selectionModel)
 {
     if (m_selectionModel != nullptr)
         m_selectionModel->disconnect(this);

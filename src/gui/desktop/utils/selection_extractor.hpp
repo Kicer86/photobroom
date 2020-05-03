@@ -40,13 +40,13 @@ class SelectionExtractor final: public QObject
         SelectionExtractor(const SelectionExtractor &) = delete;
         SelectionExtractor& operator=(const SelectionExtractor &) = delete;
 
-        void set(QItemSelectionModel *);
+        void set(const QItemSelectionModel *);
         void set(APhotoInfoModel *);
 
         std::vector<Photo::Data> getSelection() const;
 
     private:
-        QItemSelectionModel* m_selectionModel;
+        const QItemSelectionModel* m_selectionModel;
         APhotoInfoModel* m_photosModel;
 
     signals:
