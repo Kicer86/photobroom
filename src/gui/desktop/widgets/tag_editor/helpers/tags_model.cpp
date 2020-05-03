@@ -61,7 +61,6 @@ void TagsModel::set(ITagsOperator* tagsOperator)
 
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    clearModel();
     fetchPhotos(photos);
 }
 
@@ -236,6 +235,8 @@ void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
 
 void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 {
+    clearModel();
+
     m_tagsOperator->operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
