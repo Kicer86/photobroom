@@ -164,13 +164,13 @@ void MainWindow::setupQmlView()
         const QAbstractItemModel* model = m_photosModelController->model();
         const QModelIndex idx = model->index(selectedPhotoRow, 0);
         const int propertiesRole = utils::getRoleByName(*model, "photoProperties");
-        const QVariant propertiesRaw = idx.data(propertiesRole);
-        const PhotoProperties properties = propertiesRaw.value<PhotoProperties>();
+        const QVariant dataVariant = idx.data(propertiesRole);
+        const Photo::Data data = dataVariant.value<Photo::Data>();
 
-        if (properties.m_id.valid())
+        if (data.id.valid())
         {
             std::vector<Photo::Id> ids;
-            ids.push_back(properties.m_id);
+            ids.push_back(data.id);
 
             ui->tagEditor->editPhotos(ids);
         }

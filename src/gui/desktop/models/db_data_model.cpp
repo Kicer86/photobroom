@@ -26,7 +26,6 @@
 #include <core/down_cast.hpp>
 #include <database/filter.hpp>
 
-#include "photo_properties.hpp"
 #include "model_helpers/idx_data.hpp"
 #include "model_helpers/idx_data_manager.hpp"
 
@@ -153,7 +152,7 @@ QVariant DBDataModel::data(const QModelIndex& _index, int role) const
     if (role == APhotoInfoModel::PhotoPropertiesRole)
     {
         auto data = getPhotoDetails(_index);
-        return QVariant::fromValue<PhotoProperties>({data.path, data.geometry, data.id});
+        return QVariant::fromValue<Photo::Data>(data);
     }
     else
     {

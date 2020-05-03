@@ -3,7 +3,7 @@
 
 #include <QItemSelectionModel>
 
-#include "models/photo_properties.hpp"
+#include <database/photo_data.hpp>
 #include "utils/model_index_utils.hpp"
 
 
@@ -29,10 +29,10 @@ void SelectionToPhotoIdTranslator::translate() const
 
     for(const QModelIndex& idx: indexes)
     {
-        const QVariant rawProperties = idx.data(m_propertiesRole);
-        const PhotoProperties properties = rawProperties.value<PhotoProperties>();
+        const QVariant dataVariant = idx.data(m_propertiesRole);
+        const Photo::Data data = dataVariant.value<Photo::Data>();
 
-        ids.push_back(properties.m_id);
+        ids.push_back(data.id);
     }
 
     emit selectionChanged(ids);

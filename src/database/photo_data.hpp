@@ -50,6 +50,11 @@ namespace Photo
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+
+        Q_PROPERTY(QString path MEMBER path)
+        Q_PROPERTY(QSize size MEMBER geometry)
+        Q_PROPERTY(Photo::Id id MEMBER id)
+        Q_GADGET
     };
 
     enum class Field

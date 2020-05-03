@@ -24,7 +24,7 @@
 
 #include <database/filter.hpp>
 #include "aphoto_info_model.hpp"
-#include "photo_properties.hpp"
+
 
 namespace Database
 {
@@ -32,33 +32,30 @@ namespace Database
     struct IBackend;
 }
 
-class FlatModel: public QAbstractListModel
+class FlatModel: public APhotoInfoModel
 {
     Q_OBJECT
 
     public:
         FlatModel(QObject* = nullptr);
 
-        enum Roles
-        {
-            PhotoPropertiesRole = Qt::UserRole + 1,
-            _lastRole = PhotoPropertiesRole,
-        };
-
         void setDatabase(Database::IDatabase *);
         void setFilters(const std::vector<Database::IFilter::Ptr> &);
         const std::vector<Photo::Id>& photos() const;
 
+        const Photo::Data& getPhotoDetails(const QModelIndex &) const override;
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
-        QHash<int, QByteArray> roleNames() const override;
+        int columnCount(const QModelIndex & parent) const override;
+        QModelIndex parent(const QModelIndex&) const override;
+        QModelIndex index(int, int, const QModelIndex&) const override;
 
     private:
         std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<Photo::Id> m_photos;
         mutable std::mutex m_filtersMutex;
         mutable std::map<Photo::Id, int> m_idToRow;
-        mutable std::map<Photo::Id, PhotoProperties> m_properties;
+        mutable std::map<Photo::Id, Photo::Data> m_properties;
         Database::IDatabase* m_db;
 
         void reloadPhotos();
@@ -68,8 +65,8 @@ class FlatModel: public QAbstractListModel
         void resetModel();
         std::vector<Database::IFilter::Ptr> filters() const;
 
-        PhotoProperties photoProperties(const Photo::Id &) const;
-        void fetchPhotoProperties(const Photo::Id &) const;
+        const Photo::Data& photoData(const Photo::Id &) const;
+        void fetchPhotoData(const Photo::Id &) const;
 
         // methods working on backend
         void fetchMatchingPhotos(Database::IBackend *);
@@ -77,7 +74,7 @@ class FlatModel: public QAbstractListModel
 
         // results from backend
         void fetchedPhotos(const std::vector<Photo::Id> &);
-        void fetchedPhotoProperties(const Photo::Id &, const PhotoProperties &);
+        void fetchedPhotoProperties(const Photo::Id &, const Photo::Data &);
 
         // altering model
         template<typename T>
