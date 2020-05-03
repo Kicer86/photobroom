@@ -28,8 +28,8 @@ using namespace std::placeholders;
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
-    , m_selectedPhoto(-1)
 {
+    m_selection.setModel(m_model);
 }
 
 
@@ -43,9 +43,15 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 }
 
 
-QAbstractItemModel* PhotosModelControllerComponent::model() const
+APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
+}
+
+
+const QItemSelectionModel& PhotosModelControllerComponent::selectionModel() const
+{
+    return m_selection;
 }
 
 
@@ -67,12 +73,6 @@ unsigned int PhotosModelControllerComponent::timeViewTo() const
 }
 
 
-int PhotosModelControllerComponent::selectedPhoto() const
-{
-    return m_selectedPhoto;
-}
-
-
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -91,7 +91,8 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
 
 void PhotosModelControllerComponent::setSelectedPhoto(int idx)
 {
-    m_selectedPhoto = idx;
+    const QModelIndex index = m_model->index(idx, 0, {});
+    m_selection.select(index, QItemSelectionModel::SelectCurrent);
 
     emit selectionChanged();
 }

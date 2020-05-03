@@ -21,12 +21,14 @@
 
 #include <QDate>
 #include <QObject>
+#include <QItemSelectionModel>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
+#include "models/flat_model.hpp"
+
 
 class QAbstractItemModel;
-class FlatModel;
 
 
 class PhotosModelControllerComponent: public QObject
@@ -37,18 +39,19 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
-        Q_PROPERTY(int selectedPhoto READ selectedPhoto WRITE setSelectedPhoto NOTIFY selectionChanged)
+        Q_PROPERTY(int selectedPhoto WRITE setSelectedPhoto NOTIFY selectionChanged)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
 
         void setDatabase(Database::IDatabase *);
 
-        QAbstractItemModel* model() const;
+        APhotoInfoModel* model() const;
+        const QItemSelectionModel& selectionModel() const;
+
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
-        int selectedPhoto() const;
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
@@ -62,12 +65,12 @@ class PhotosModelControllerComponent: public QObject
         void selectionChanged() const;
 
     private:
+        QItemSelectionModel m_selection;
         std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
         FlatModel* m_model;
         Database::IDatabase* m_db;
-        int m_selectedPhoto;
 
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
