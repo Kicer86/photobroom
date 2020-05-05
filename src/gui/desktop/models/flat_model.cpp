@@ -75,7 +75,6 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
     {
         const int row = index.row();
         const Photo::Id id = m_photos[row];
-        m_idToRow[id] = row;
         const Photo::Data& data = photoData(id);
         d = QVariant::fromValue<Photo::Data>(data);
     }
@@ -119,24 +118,16 @@ void FlatModel::reloadPhotos()
 
 void FlatModel::updatePhotos()
 {
-    clearCaches();
-
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
 
-void FlatModel::clearCaches()
-{
-    m_idToRow.clear();
-    m_properties.clear();
-}
-
-
 void FlatModel::removeAllPhotos()
 {
+    m_properties.clear();
+    m_idToRow.clear();
     m_photos.clear();
-    clearCaches();
 }
 
 
@@ -271,6 +262,10 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
         }
 
     assert(m_photos == photos);
+
+    m_idToRow.clear();
+    for(std::size_t i = 0; i < m_photos.size(); i++)
+        m_idToRow.emplace(m_photos[i], i);
 }
 
 

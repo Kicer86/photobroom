@@ -60,7 +60,6 @@ class FlatModel: public APhotoInfoModel
 
         void reloadPhotos();
         void updatePhotos();
-        void clearCaches();
         void removeAllPhotos();
         void resetModel();
         std::vector<Database::IFilter::Ptr> filters() const;
@@ -102,6 +101,11 @@ class FlatModel: public APhotoInfoModel
             const auto position = static_cast<int>(std::distance(m_photos.begin(), first));
 
             beginRemoveRows({}, position, position + items - 1);
+
+            std::for_each(first, last, [this](auto& id){
+                m_properties.erase(id);
+            });
+
             auto r = m_photos.erase(first, last);
             endRemoveRows();
 
