@@ -32,6 +32,11 @@ void SelectionToPhotoIdTranslator::translate() const
         const QVariant dataVariant = idx.data(m_propertiesRole);
         const Photo::Data data = dataVariant.value<Photo::Data>();
 
+        // @todo: is it ok to simply drop invalid ids?
+        //        Maybe whole selection should be dropped?
+        //        Maybe we should wait for Photo::Data to get available?
+        //        Currently it is posible to send partial selection which
+        //        is not so fine.
         if (data.id.valid())
             ids.push_back(data.id);
     }
