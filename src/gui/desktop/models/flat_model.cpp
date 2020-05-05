@@ -91,7 +91,7 @@ int FlatModel::rowCount(const QModelIndex& parent) const
 
 int FlatModel::columnCount(const QModelIndex& parent) const
 {
-    return 1;
+    return parent.isValid()? 0: 1;  // only top parent has 1 column, all its items have 0
 }
 
 
