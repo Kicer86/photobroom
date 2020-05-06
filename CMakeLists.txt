@@ -4,6 +4,10 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0063 NEW)
 cmake_policy(SET CMP0075 NEW)
 
+if (POLICY CMP0100)
+    cmake_policy(SET CMP0100 NEW)
+endif()
+
 project(PhotoBroom VERSION 1.4.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake;${CMAKE_SOURCE_DIR}/cmake_modules)
