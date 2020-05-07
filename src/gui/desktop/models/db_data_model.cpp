@@ -149,7 +149,12 @@ int DBDataModel::columnCount(const QModelIndex &) const
 
 QVariant DBDataModel::data(const QModelIndex& _index, int role) const
 {
-    if (role == APhotoInfoModel::PhotoPropertiesRole)
+    if (role == APhotoInfoModel::PhotoIdRole)
+    {
+        auto data = getPhotoDetails(_index);
+        return static_cast<int>(data.id);
+    }
+    else if (role == APhotoInfoModel::PhotoPropertiesRole)
     {
         auto data = getPhotoDetails(_index);
         return QVariant::fromValue<Photo::Data>(data);

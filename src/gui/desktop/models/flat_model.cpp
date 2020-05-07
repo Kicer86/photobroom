@@ -73,7 +73,14 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
 
-    if (role == PhotoPropertiesRole)
+    if (role == PhotoIdRole)
+    {
+        const int row = index.row();
+        const Photo::Id id = m_photos[row];
+
+        d = static_cast<int>(id);
+    }
+    else if (role == PhotoPropertiesRole)
     {
         const Photo::Data& data = getPhotoDetails(index);
         d = QVariant::fromValue<Photo::Data>(data);
