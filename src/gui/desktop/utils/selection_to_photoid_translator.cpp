@@ -10,15 +10,15 @@
 SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const QItemSelectionModel* selectionModel, QObject* p)
     : QObject(p)
     , m_selectionModel(selectionModel)
-    , m_propertiesRole(-1)
+    , m_photoIdRole(-1)
 {
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &SelectionToPhotoIdTranslator::translate);
 
     const QAbstractItemModel* model = selectionModel->model();
-    m_propertiesRole = utils::getRoleByName(*model, "photoProperties");
+    m_photoIdRole = utils::getRoleByName(*model, "photoId");
 
-    assert(m_propertiesRole != -1);
+    assert(m_photoIdRole != -1);
 }
 
 
@@ -29,16 +29,11 @@ void SelectionToPhotoIdTranslator::translate() const
 
     for(const QModelIndex& idx: indexes)
     {
-        const QVariant dataVariant = idx.data(m_propertiesRole);
-        const Photo::Data data = dataVariant.value<Photo::Data>();
+        const QVariant dataVariant = idx.data(m_photoIdRole);
+        const Photo::Id id(dataVariant.toInt());
 
-        // @todo: is it ok to simply drop invalid ids?
-        //        Maybe whole selection should be dropped?
-        //        Maybe we should wait for Photo::Data to get available?
-        //        Currently it is posible to send partial selection which
-        //        is not so fine.
-        if (data.id.valid())
-            ids.push_back(data.id);
+        assert(id.valid());
+        ids.push_back(id);
     }
 
     emit selectionChanged(ids);

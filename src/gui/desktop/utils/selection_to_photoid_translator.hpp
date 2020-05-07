@@ -22,7 +22,7 @@ class SelectionToPhotoIdTranslator: public QObject
 
     private:
         const QItemSelectionModel* m_selectionModel;
-        int m_propertiesRole;
+        int m_photoIdRole;
 
         void translate() const;
 };
