@@ -27,6 +27,7 @@ addTestTarget(gui
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
+                    unit_tests/model/aphoto_info_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
