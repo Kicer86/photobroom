@@ -1,5 +1,8 @@
 
+#include <QFileInfo>
+
 #include "json_backend.hpp"
+#include "database/project_info.hpp"
 
 
 namespace Database
@@ -50,9 +53,23 @@ namespace Database
 
     }
 
-    BackendStatus JsonBackend::init(const ProjectInfo &)
+    BackendStatus JsonBackend::init(const ProjectInfo& prjInfo)
     {
+        BackendStatus status;
 
+        const QFileInfo db_file_info(prjInfo.databaseLocation);
+
+        if (prjInfo.backendName == "Json" &&
+            db_file_info.exists()         &&
+            db_file_info.isReadable()     &&
+            db_file_info.isWritable())
+        {
+
+        }
+        else
+            status = StatusCodes::OpenFailed;
+
+        return status;
     }
 
     void JsonBackend::closeConnections()

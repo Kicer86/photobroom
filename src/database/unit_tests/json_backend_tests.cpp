@@ -2,6 +2,12 @@
 #include <gmock/gmock.h>
 #include <QTemporaryFile>
 
+#include "backends/json_backend/json_backend.hpp"
+#include "project_info.hpp"
+
+
+using Database::ProjectInfo;
+using Database::JsonBackend;
 
 class JsonBackendTest: public testing::Test
 {
@@ -10,7 +16,15 @@ class JsonBackendTest: public testing::Test
             : testing::Test()
             , m_dbFile("db-XXXXXX.json")
         {
+            m_dbFile.open();
+        }
 
+    protected:
+        ProjectInfo getProjectInfo() const
+        {
+            ProjectInfo prjInfo(m_dbFile.fileName(), "Json");
+
+            return prjInfo;
         }
 
     private:
@@ -19,3 +33,17 @@ class JsonBackendTest: public testing::Test
         // but there is no simple enough solution for this.
         QTemporaryFile m_dbFile;
 };
+
+
+TEST_F(JsonBackendTest, opensSuccessfully)
+{
+    const ProjectInfo prjInfo = getProjectInfo();
+
+    Database::JsonBackend jb;
+
+    const auto status = jb.init(prjInfo);
+
+    EXPECT_TRUE(status);
+
+    jb.closeConnections();
+}

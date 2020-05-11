@@ -9,6 +9,7 @@ find_package(Qt5Sql REQUIRED)
 
 addTestTarget(database
                 SOURCES
+                    backends/json_backend/json_backend.cpp
                     backends/sql_backends/generic_sql_query_constructor.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
