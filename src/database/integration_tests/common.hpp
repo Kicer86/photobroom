@@ -1,4 +1,7 @@
 
+#ifndef COMMON_HPP
+#define COMMON_HPP
+
 // Some fakes, mocks and stubs
 
 #include <QTemporaryDir>
@@ -129,3 +132,5 @@ namespace Tests
         std::vector<DBInfo> m_dbs;
     };
 }
+
+#endif
