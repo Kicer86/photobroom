@@ -13,6 +13,7 @@ addTestTarget(database_integration
                 SOURCES
 
                     # engines
+                    backends/json_backend/json_backend.cpp
                     backends/sql_backends/sqlite_backend/backend.cpp
                     backends/sql_backends/mysql_backend/backend.cpp
                     backends/sql_backends/mysql_backend/mysql_server.cpp
