@@ -47,6 +47,28 @@ namespace Photo
     }
 
 
+    Data& Data::apply(const DataDelta& delta)
+    {
+         //store used tags
+        if (delta.has(Photo::Field::Tags))
+            tags = delta.get<Photo::Field::Tags>();
+
+        if (delta.has(Photo::Field::Geometry))
+            geometry = delta.get<Photo::Field::Geometry>();
+
+        if (delta.has(Photo::Field::Checksum))
+            sha256Sum = delta.get<Photo::Field::Checksum>();
+
+        if (delta.has(Photo::Field::Flags))
+            flags = delta.get<Photo::Field::Flags>();
+
+        if (delta.has(Photo::Field::GroupInfo))
+            groupInfo = delta.get<Photo::Field::GroupInfo>();
+
+        return *this;
+    }
+
+
     void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
