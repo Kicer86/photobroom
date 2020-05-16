@@ -47,7 +47,8 @@ namespace Photo
 
         int getFlag(const Photo::FlagsE& flag) const;
 
-        Data();
+        Data() = default;
+        Data(const Photo::Id &);
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;

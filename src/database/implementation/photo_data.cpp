@@ -33,18 +33,12 @@ namespace Photo
         return result;
     }
 
-
-    Data::Data():
-        id(),
-        sha256Sum(),
-        tags(),
-        flags(),
-        path(),
-        geometry(),
-        groupInfo()
+    Data::Data(const Photo::Id& _id)
+        : id(_id)
     {
 
     }
+
 
 
     Data& Data::apply(const DataDelta& delta)
