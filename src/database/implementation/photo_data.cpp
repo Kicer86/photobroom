@@ -33,17 +33,11 @@ namespace Photo
         return result;
     }
 
-    Data::Data(const Photo::Id& _id)
-        : id(_id)
-    {
-
-    }
-
-
 
     Data& Data::apply(const DataDelta& delta)
     {
-         //store used tags
+        id = delta.getId();
+
         if (delta.has(Photo::Field::Tags))
             tags = delta.get<Photo::Field::Tags>();
 
