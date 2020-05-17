@@ -41,6 +41,8 @@ namespace Database
         it = m_photos.erase(it);
         m_photos.insert(it, data);
 
+        emit photoModified(delta.getId());
+
         return true;
     }
 
@@ -139,7 +141,7 @@ namespace Database
 
     IGroupOperator& JsonBackend::groupOperator()
     {
-
+        return *this;
     }
 
 
@@ -260,5 +262,81 @@ namespace Database
     QStringList JsonBackend::dumpChangeLog()
     {
         return {};
+    }
+
+
+    Group::Id JsonBackend::addGroup(const Photo::Id& representative_photo, Group::Type type)
+    {
+        Group::Id gid(m_nextGroup++);
+        m_groups.emplace(gid, std::pair(representative_photo, type));
+
+        GroupInfo group(gid, GroupInfo::Role::Representative);
+        Photo::DataDelta delta(representative_photo);
+        delta.insert<Photo::Field::GroupInfo>(group);
+
+        update(delta);
+
+        return gid;
+    }
+
+
+    Photo::Id JsonBackend::removeGroup(const Group::Id& gid)
+    {
+        Photo::Id r_id;
+
+        auto it = m_groups.find(gid);
+
+        if (it != m_groups.end())
+        {
+            m_groups.erase(gid);
+
+            std::vector<Photo::Id> photosToClear;
+
+            for(Photo::Data data: m_photos)
+                if (data.groupInfo.role != GroupInfo::Role::None &&
+                    data.groupInfo.group_id == gid)
+                {
+                    const Photo::Id id = data.id;
+
+                    photosToClear.push_back(id);
+
+                    if (data.groupInfo.role == GroupInfo::Role::Representative)
+                        r_id = id;
+                }
+
+            for (const Photo::Id& id: photosToClear)
+            {
+                Photo::DataDelta delta(id);
+                GroupInfo info;
+                delta.insert<Photo::Field::GroupInfo>(info);
+                update(delta);
+            }
+        }
+
+        return r_id;
+    }
+
+
+    Group::Type JsonBackend::type(const Group::Id &) const
+    {
+
+    }
+
+
+    std::vector<Photo::Id> JsonBackend::membersOf(const Group::Id &) const
+    {
+
+    }
+
+
+    Photo::Id JsonBackend::getIdFor(const Photo::Data& d)
+    {
+        return d.id;
+    }
+
+
+    Person::Id JsonBackend::getIdFor(const PersonName& pn)
+    {
+        return pn.id();
     }
 }

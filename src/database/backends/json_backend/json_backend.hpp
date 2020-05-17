@@ -3,6 +3,7 @@
 #define JSONBACKEND_HPP
 
 #include "database/ibackend.hpp"
+#include "database/igroup_operator.hpp"
 #include "database/iphoto_change_log_operator.hpp"
 
 
@@ -13,7 +14,8 @@ namespace Database
     */
     class JsonBackend: public IBackend,
                               IPeopleInformationAccessor,
-                              IPhotoChangeLogOperator
+                              IPhotoChangeLogOperator,
+                              IGroupOperator
     {
         public:
             // IBackend interface
@@ -50,17 +52,18 @@ namespace Database
             void groupDeleted(const Group::Id &, const Photo::Id &representative, const std::vector<Photo::Id>& members) override;
             QStringList dumpChangeLog() override;
 
+            // IGroupOperator interface
+            Group::Id addGroup(const Photo::Id& representative_photo, Group::Type) override;
+            Photo::Id removeGroup(const Group::Id &) override;
+            Group::Type type(const Group::Id &) const override;
+            std::vector<Photo::Id> membersOf(const Group::Id &) const override;
+
+            //
             typedef std::map<QString, int> Flags;
+            typedef std::pair<Photo::Id, Group::Type> GroupData;
 
-            static Photo::Id getIdFor(const Photo::Data& d)
-            {
-                return d.id;
-            }
-
-            static Person::Id getIdFor(const PersonName& pn)
-            {
-                return pn.id();
-            }
+            static Photo::Id getIdFor(const Photo::Data& d);
+            static Person::Id getIdFor(const PersonName& pn);
 
             template<typename T, typename IdT>
             struct IdComparer
@@ -85,11 +88,13 @@ namespace Database
 
             std::map<Photo::Id, Flags> m_flags;
             std::map<Photo::Id, std::vector<PersonInfo>> m_people;
+            std::map<Group::Id, GroupData> m_groups;
             std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
             std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
 
             int m_nextId = 0;
             int m_nextPerson = 0;
+            int m_nextGroup = 0;
     };
 }
 
