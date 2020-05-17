@@ -37,8 +37,8 @@ namespace Database
         public:
             GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
 
-            Group::Id addGroup(const Photo::Id &, Group::Type) const override;
-            Photo::Id removeGroup(const Group::Id &) const override;
+            Group::Id addGroup(const Photo::Id &, Group::Type) override;
+            Photo::Id removeGroup(const Group::Id &) override;
             Group::Type type(const Group::Id &) const override;
             std::vector<Photo::Id> membersOf(const Group::Id &) const override;
 
