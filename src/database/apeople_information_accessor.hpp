@@ -3,11 +3,12 @@
 #define APEOPLE_INFORMATION_ACCESSOR_HPP
 
 #include "ipeople_information_accessor.hpp"
+#include "database_export.h"
 
 
 namespace Database
 {
-    class APeopleInformationAccessor: public IPeopleInformationAccessor
+    class DATABASE_EXPORT APeopleInformationAccessor: public IPeopleInformationAccessor
     {
         public:
             PersonInfo::Id store(const PersonInfo& pi) override;
