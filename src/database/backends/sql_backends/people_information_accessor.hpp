@@ -20,14 +20,14 @@
 
 #include <vector>
 
-#include "database/ipeople_information_accessor.hpp"
+#include "database/apeople_information_accessor.hpp"
 
 namespace Database
 {
     struct ISqlQueryExecutor;
     struct IGenericSqlQueryGenerator;
 
-    class PeopleInformationAccessor: public IPeopleInformationAccessor
+    class PeopleInformationAccessor: public APeopleInformationAccessor
     {
         public:
             PeopleInformationAccessor(const QString &, Database::ISqlQueryExecutor &, const IGenericSqlQueryGenerator &);
@@ -38,7 +38,6 @@ namespace Database
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
             Person::Id               store(const PersonName &) override final;
-            PersonInfo::Id           store(const PersonInfo &) override final;
             PersonFingerprint::Id    store(const PersonFingerprint &) override;
 
         private:
@@ -47,8 +46,8 @@ namespace Database
             const IGenericSqlQueryGenerator& m_query_generator;
             bool m_dbHasSizeFeature;
 
-            void dropPersonInfo(const PersonInfo::Id &);
-            PersonInfo::Id storePerson(const PersonInfo &);
+            void dropPersonInfo(const PersonInfo::Id &) override;
+            PersonInfo::Id storePerson(const PersonInfo &) override;
             PersonName person(const QString &) const;
     };
 }

@@ -39,6 +39,9 @@ addTestTarget(database_integration
                     integration_tests/people_tests.cpp
                     integration_tests/photos_change_log_tests.cpp
 
+                    # dependencies
+                    implementation/apeople_information_accessor.cpp
+
                     # main()
                     integration_tests/main.cpp
 
