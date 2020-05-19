@@ -5,7 +5,7 @@ namespace Database
 {
     PersonInfo::Id APeopleInformationAccessor::store(const PersonInfo& fd)
     {
-        assert(fd.ph_id);
+        assert(fd.ph_id.valid());
         assert(fd.rect.isValid() || fd.p_id.valid() || fd.id.valid());  // if rect is invalid and person is invalid then at least id must be valid (removal operation)
 
         PersonInfo::Id result = fd.id;
