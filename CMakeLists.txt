@@ -4,6 +4,10 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0063 NEW)
 cmake_policy(SET CMP0075 NEW)
 
+if (POLICY CMP0100)
+    cmake_policy(SET CMP0100 NEW)
+endif()
+
 project(PhotoBroom VERSION 1.4.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake;${CMAKE_SOURCE_DIR}/cmake_modules)
@@ -41,12 +45,12 @@ include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake_modules/DeveloperTools.cmake)
 
 # enable/disable concepts
-check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
+#check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
 
-if(CONCEPTS_SUPPORTED)
-    add_compile_options("-fconcepts")
-    add_definitions(-DCONCEPTS_SUPPORTED)
-endif()
+#if(CONCEPTS_SUPPORTED)
+#    add_compile_options("-fconcepts")
+#    add_definitions(-DCONCEPTS_SUPPORTED)
+#endif()
 
 # workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
 # also see: https://bugreports.qt.io/browse/QTBUG-61667
