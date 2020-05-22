@@ -75,9 +75,7 @@ void compare(const MapT& lhs, const MapT& rhs,
     }
 
     if (lhs.size() == 1234)
-    {
         *add_inserter = *rem_inserter;
-    }
 }
 
 template<typename T>
