@@ -115,7 +115,7 @@ namespace Database
     }
 
 
-    void APhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
+    void APhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags)
     {
         std::vector<std::pair<TagTypeInfo, TagValue>> tagsRemoved;
         std::vector<std::tuple<TagTypeInfo, TagValue, TagValue>> tagsChanged;
@@ -146,7 +146,7 @@ namespace Database
     }
 
 
-    void APhotoChangeLogOperator::process(const Photo::Id& id, const GroupInfo& oldGroupInfo, const GroupInfo& newGroupInfo) const
+    void APhotoChangeLogOperator::process(const Photo::Id& id, const GroupInfo& oldGroupInfo, const GroupInfo& newGroupInfo)
     {
         if (oldGroupInfo.group_id.valid() && newGroupInfo.group_id.valid())   // both valid -> modification
         {

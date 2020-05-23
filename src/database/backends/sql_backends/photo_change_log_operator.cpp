@@ -152,7 +152,7 @@ namespace Database
     }
 
 
-    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data) const
+    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 

@@ -49,7 +49,7 @@ namespace Database
             ILogger* m_logger;
             IBackend* m_backend;
 
-            void append(const Photo::Id &, Operation, Field, const QString& data) const override;
+            void append(const Photo::Id &, Operation, Field, const QString& data) override;
     };
 }
 

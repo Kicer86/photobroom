@@ -28,9 +28,9 @@ namespace Database
                 Group   = 2,
             };
 
-            virtual void append(const Photo::Id &, Operation, Field, const QString& data) const = 0;
-            void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &) const;
-            void process(const Photo::Id &, const GroupInfo &, const GroupInfo &) const;
+            virtual void append(const Photo::Id &, Operation, Field, const QString& data) = 0;
+            void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &);
+            void process(const Photo::Id &, const GroupInfo &, const GroupInfo &);
 
             QString format(int, Operation, Field, const QString &);
 
