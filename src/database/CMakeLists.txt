@@ -8,6 +8,7 @@ find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
     implementation/apeople_information_accessor.cpp
+    implementation/aphoto_change_log_operator.cpp
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
@@ -29,6 +30,7 @@ set(DATABASE_SOURCES
 set(DATABASE_HEADERS
     actions.hpp
     apeople_information_accessor.hpp
+    aphoto_change_log_operator.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp
