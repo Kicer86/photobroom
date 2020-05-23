@@ -1,14 +1,14 @@
 
 #include <QFileInfo>
 
-#include "json_backend.hpp"
+#include "memory_backend.hpp"
 #include "database/project_info.hpp"
 
 
 namespace Database
 {
 
-    bool JsonBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
+    bool MemoryBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
     {
         for (Photo::DataDelta& delta: photos)
         {
@@ -31,7 +31,7 @@ namespace Database
     }
 
 
-    bool JsonBackend::update(const Photo::DataDelta& delta)
+    bool MemoryBackend::update(const Photo::DataDelta& delta)
     {
         auto it = m_photos.find(delta.getId());
 
@@ -49,38 +49,38 @@ namespace Database
     }
 
 
-    std::vector<TagTypeInfo> JsonBackend::listTags()
+    std::vector<TagTypeInfo> MemoryBackend::listTags()
     {
 
     }
 
 
-    std::vector<TagValue> JsonBackend::listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &)
+    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &)
     {
 
     }
 
 
-    Photo::Data JsonBackend::getPhoto(const Photo::Id& id)
+    Photo::Data MemoryBackend::getPhoto(const Photo::Id& id)
     {
         auto it = m_photos.find(id);
         return it == m_photos.end()? Photo::Data(): *it;
     }
 
 
-    int JsonBackend::getPhotosCount(const std::vector<IFilter::Ptr> &)
+    int MemoryBackend::getPhotosCount(const std::vector<IFilter::Ptr> &)
     {
 
     }
 
 
-    void JsonBackend::set(const Photo::Id &id, const QString& name, int value)
+    void MemoryBackend::set(const Photo::Id &id, const QString& name, int value)
     {
         m_flags[id][name] = value;
     }
 
 
-    std::optional<int> JsonBackend::get(const Photo::Id& id, const QString& name)
+    std::optional<int> MemoryBackend::get(const Photo::Id& id, const QString& name)
     {
         std::optional<int> result;
 
@@ -98,13 +98,13 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> JsonBackend::markStagedAsReviewed()
+    std::vector<Photo::Id> MemoryBackend::markStagedAsReviewed()
     {
 
     }
 
 
-    BackendStatus JsonBackend::init(const ProjectInfo& prjInfo)
+    BackendStatus MemoryBackend::init(const ProjectInfo& prjInfo)
     {
         BackendStatus status;
 
@@ -135,37 +135,37 @@ namespace Database
     }
 
 
-    void JsonBackend::closeConnections()
+    void MemoryBackend::closeConnections()
     {
 
     }
 
 
-    IGroupOperator& JsonBackend::groupOperator()
-    {
-        return *this;
-    }
-
-
-    IPhotoOperator& JsonBackend::photoOperator()
-    {
-
-    }
-
-
-    IPhotoChangeLogOperator& JsonBackend::photoChangeLogOperator()
+    IGroupOperator& MemoryBackend::groupOperator()
     {
         return *this;
     }
 
 
-    IPeopleInformationAccessor& JsonBackend::peopleInformationAccessor()
+    IPhotoOperator& MemoryBackend::photoOperator()
+    {
+
+    }
+
+
+    IPhotoChangeLogOperator& MemoryBackend::photoChangeLogOperator()
     {
         return *this;
     }
 
 
-    std::vector<PersonName> JsonBackend::listPeople()
+    IPeopleInformationAccessor& MemoryBackend::peopleInformationAccessor()
+    {
+        return *this;
+    }
+
+
+    std::vector<PersonName> MemoryBackend::listPeople()
     {
         std::vector<PersonName> result;
         result.reserve(m_peopleNames.size());
@@ -176,7 +176,7 @@ namespace Database
     }
 
 
-    std::vector<PersonInfo> JsonBackend::listPeople(const Photo::Id& id)
+    std::vector<PersonInfo> MemoryBackend::listPeople(const Photo::Id& id)
     {
         std::vector<PersonInfo> people;
 
@@ -189,7 +189,7 @@ namespace Database
     }
 
 
-    PersonName JsonBackend::person(const Person::Id& id)
+    PersonName MemoryBackend::person(const Person::Id& id)
     {
         auto it = m_peopleNames.find(id);
         return it == m_peopleNames.end()? PersonName(): *it;
@@ -198,19 +198,19 @@ namespace Database
     }
 
 
-    std::vector<PersonFingerprint> JsonBackend::fingerprintsFor(const Person::Id &)
+    std::vector<PersonFingerprint> MemoryBackend::fingerprintsFor(const Person::Id &)
     {
 
     }
 
 
-    std::map<PersonInfo::Id, PersonFingerprint> JsonBackend::fingerprintsFor(const std::vector<PersonInfo::Id>& id)
+    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id>& id)
     {
 
     }
 
 
-    Person::Id JsonBackend::store(const PersonName &pn)
+    Person::Id MemoryBackend::store(const PersonName &pn)
     {
         Person::Id id = pn.id();
 
@@ -247,13 +247,13 @@ namespace Database
     }
 
 
-    PersonFingerprint::Id JsonBackend::store(const PersonFingerprint &)
+    PersonFingerprint::Id MemoryBackend::store(const PersonFingerprint &)
     {
 
     }
 
 
-    void JsonBackend::dropPersonInfo(const PersonInfo::Id& id)
+    void MemoryBackend::dropPersonInfo(const PersonInfo::Id& id)
     {
         auto it = m_peopleInfo.find(id);
         if (it != m_peopleInfo.end())
@@ -261,7 +261,7 @@ namespace Database
     }
 
 
-    PersonInfo::Id JsonBackend::storePerson(const PersonInfo& pi)
+    PersonInfo::Id MemoryBackend::storePerson(const PersonInfo& pi)
     {
         auto mpi = pi;
         if (mpi.id.valid() == false)
@@ -280,14 +280,14 @@ namespace Database
     }
 
 
-    void JsonBackend::append(const Photo::Id& id, Operation operation, Field field, const QString& data)
+    void MemoryBackend::append(const Photo::Id& id, Operation operation, Field field, const QString& data)
     {
         const auto entry = std::make_tuple(id, operation, field, data);
         m_logEntries.push_back(entry);
     }
 
 
-    QStringList JsonBackend::dumpChangeLog()
+    QStringList MemoryBackend::dumpChangeLog()
     {
         QStringList list;
 
@@ -306,7 +306,7 @@ namespace Database
     }
 
 
-    Group::Id JsonBackend::addGroup(const Photo::Id& representative_photo, Group::Type type)
+    Group::Id MemoryBackend::addGroup(const Photo::Id& representative_photo, Group::Type type)
     {
         Group::Id gid(m_nextGroup++);
         m_groups.emplace(gid, std::pair(representative_photo, type));
@@ -321,7 +321,7 @@ namespace Database
     }
 
 
-    Photo::Id JsonBackend::removeGroup(const Group::Id& gid)
+    Photo::Id MemoryBackend::removeGroup(const Group::Id& gid)
     {
         Photo::Id r_id;
 
@@ -358,31 +358,31 @@ namespace Database
     }
 
 
-    Group::Type JsonBackend::type(const Group::Id &) const
+    Group::Type MemoryBackend::type(const Group::Id &) const
     {
 
     }
 
 
-    std::vector<Photo::Id> JsonBackend::membersOf(const Group::Id &) const
+    std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id &) const
     {
 
     }
 
 
-    Photo::Id JsonBackend::getIdFor(const Photo::Data& d)
+    Photo::Id MemoryBackend::getIdFor(const Photo::Data& d)
     {
         return d.id;
     }
 
 
-    Person::Id JsonBackend::getIdFor(const PersonName& pn)
+    Person::Id MemoryBackend::getIdFor(const PersonName& pn)
     {
         return pn.id();
     }
 
 
-    PersonInfo::Id JsonBackend::getIdFor(const PersonInfo& pi)
+    PersonInfo::Id MemoryBackend::getIdFor(const PersonInfo& pi)
     {
         return pi.id;
     }

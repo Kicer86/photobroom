@@ -1,6 +1,6 @@
 
-#ifndef JSONBACKEND_HPP
-#define JSONBACKEND_HPP
+#ifndef MEMORYBACKEND_HPP
+#define MEMORYBACKEND_HPP
 
 #include "database/aphoto_change_log_operator.hpp"
 #include "database/apeople_information_accessor.hpp"
@@ -11,12 +11,12 @@
 namespace Database
 {
     /**
-    * \brief json based backend
+    * \brief memory based backend
     */
-    class JsonBackend: public IBackend,
-                              APeopleInformationAccessor,
-                              APhotoChangeLogOperator,
-                              IGroupOperator
+    class MemoryBackend: public IBackend,
+                                APeopleInformationAccessor,
+                                APhotoChangeLogOperator,
+                                IGroupOperator
     {
         public:
             // IBackend interface
@@ -102,4 +102,4 @@ namespace Database
     };
 }
 
-#endif // JSONBACKEND_HPP
+#endif // MEMORYBACKEND_HPP

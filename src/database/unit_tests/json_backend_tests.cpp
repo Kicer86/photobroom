@@ -2,12 +2,12 @@
 #include <gmock/gmock.h>
 #include <QTemporaryFile>
 
-#include "backends/json_backend/json_backend.hpp"
+#include "backends/memory_backend/memory_backend.hpp"
 #include "project_info.hpp"
 
 
 using Database::ProjectInfo;
-using Database::JsonBackend;
+using Database::MemoryBackend;
 
 class JsonBackendTest: public testing::Test
 {
@@ -39,7 +39,7 @@ TEST_F(JsonBackendTest, opensSuccessfully)
 {
     const ProjectInfo prjInfo = getProjectInfo();
 
-    Database::JsonBackend jb;
+    Database::MemoryBackend jb;
 
     const auto status = jb.init(prjInfo);
 

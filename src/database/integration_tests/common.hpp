@@ -8,7 +8,7 @@
 
 #include "backends/sql_backends/sqlite_backend/backend.hpp"
 #include "backends/sql_backends/mysql_backend/backend.hpp"
-#include "backends/json_backend/json_backend.hpp"
+#include "backends/memory_backend/memory_backend.hpp"
 #include "project_info.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
 
@@ -53,7 +53,7 @@ namespace Tests
 
         EmptyLogger logger;
         Database::SQLiteBackend sqlite_backend;
-        Database::JsonBackend json_backend;
+        Database::MemoryBackend json_backend;
 
         QTemporaryDir m_wd;
         std::vector<std::pair<Database::IBackend *, QString>> m_backends = { {&sqlite_backend, "SQLite"}, {&json_backend, "Json"} };
