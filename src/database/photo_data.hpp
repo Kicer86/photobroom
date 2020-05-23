@@ -20,8 +20,7 @@
 #ifndef PHOTO_DATA_HPP
 #define PHOTO_DATA_HPP
 
-#include <any>
-
+#include <variant>
 #include <QImage>
 
 #include <core/tag.hpp>
@@ -127,28 +126,34 @@ namespace Photo
             void clear();
 
             bool has(Field) const;
-            const std::any& get(Field) const;
 
             template<Field field>
             const typename DeltaTypes<field>::Storage& get() const
             {
                 typedef typename DeltaTypes<field>::Storage Result;
 
-                const std::any& raw = get(field);
+                const Storage& raw = get(field);
 
-                // TODO: may fail then compiled with clang.
-                // https://stackoverflow.com/questions/51693605/clang-compiled-program-throws-stdbad-any-cast-during-stdany-cast/51703166#51703166
-                // https://bugs.llvm.org/show_bug.cgi?id=38485
-                return std::any_cast<const Result &>(raw);
+                return std::get<Result>(raw);
             }
 
             const Photo::Id& getId() const;
 
             bool operator<(const DataDelta &) const;
+            bool operator==(const DataDelta &) const;
 
         private:
+            typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
+                                 DeltaTypes<Field::Tags>::Storage,
+                                 DeltaTypes<Field::Flags>::Storage,
+                                 DeltaTypes<Field::Path>::Storage,
+                                 DeltaTypes<Field::Geometry>::Storage,
+                                 DeltaTypes<Field::GroupInfo>::Storage> Storage;
+
             Photo::Id                 m_id;
-            std::map<Field, std::any> m_data;
+            std::map<Field, Storage> m_data;
+
+            const Storage& get(Field) const;
     };
 
 }

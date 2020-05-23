@@ -79,15 +79,6 @@ namespace Photo
     }
 
 
-    const std::any& DataDelta::get(Photo::Field field) const
-    {
-        assert(has(field));
-        auto it = m_data.find(field);
-
-        return it->second;
-    }
-
-
     const Id & DataDelta::getId() const
     {
         return m_id;
@@ -99,4 +90,18 @@ namespace Photo
         return m_id < other.m_id;
     }
 
+
+    bool DataDelta::operator==(const DataDelta& other) const
+    {
+        return std::tie(m_id, m_data) == std::tie(other.m_id, other.m_data);
+    }
+
+
+    const DataDelta::Storage& DataDelta::get(Photo::Field field) const
+    {
+        assert(has(field));
+        auto it = m_data.find(field);
+
+        return it->second;
+    }
 }
