@@ -34,16 +34,26 @@ namespace Photo
     }
 
 
-    Data::Data():
-        id(),
-        sha256Sum(),
-        tags(),
-        flags(),
-        path(),
-        geometry(),
-        groupInfo()
+    Data& Data::apply(const DataDelta& delta)
     {
+        id = delta.getId();
 
+        if (delta.has(Photo::Field::Tags))
+            tags = delta.get<Photo::Field::Tags>();
+
+        if (delta.has(Photo::Field::Geometry))
+            geometry = delta.get<Photo::Field::Geometry>();
+
+        if (delta.has(Photo::Field::Checksum))
+            sha256Sum = delta.get<Photo::Field::Checksum>();
+
+        if (delta.has(Photo::Field::Flags))
+            flags = delta.get<Photo::Field::Flags>();
+
+        if (delta.has(Photo::Field::GroupInfo))
+            groupInfo = delta.get<Photo::Field::GroupInfo>();
+
+        return *this;
     }
 
 

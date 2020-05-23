@@ -6,6 +6,8 @@
 #include <QStringList>
 
 #include "group.hpp"
+#include "photo_data.hpp"
+
 
 namespace Database
 {

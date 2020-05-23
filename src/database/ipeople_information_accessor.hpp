@@ -55,7 +55,6 @@ namespace Database
             virtual PersonInfo::Id           store(const PersonInfo& pi) = 0;
 
             virtual PersonFingerprint::Id    store(const PersonFingerprint &) = 0;
-
     };
 }
 

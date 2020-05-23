@@ -9,10 +9,12 @@ find_package(Qt5Sql REQUIRED)
 
 addTestTarget(database
                 SOURCES
+                    backends/json_backend/json_backend.cpp
                     backends/sql_backends/generic_sql_query_constructor.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
                     database_tools/implementation/series_detector.cpp
+                    implementation/aphoto_change_log_operator.cpp
                     implementation/filter.cpp
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
@@ -25,6 +27,9 @@ addTestTarget(database
                     # tools tests:
                     unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp
+
+                    # backends:
+                    unit_tests/json_backend_tests.cpp
 
                     # main()
                     unit_tests/main.cpp

@@ -33,6 +33,7 @@
 
 namespace Photo
 {
+    class DataDelta;
 
     struct DATABASE_EXPORT Data
     {
@@ -46,10 +47,12 @@ namespace Photo
 
         int getFlag(const Photo::FlagsE& flag) const;
 
-        Data();
+        Data() = default;
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+
+        Data& apply(const DataDelta &);
 
         Q_PROPERTY(QString path MEMBER path)
         Q_PROPERTY(QSize size MEMBER geometry)

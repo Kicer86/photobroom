@@ -13,6 +13,7 @@ addTestTarget(database_integration
                 SOURCES
 
                     # engines
+                    backends/json_backend/json_backend.cpp
                     backends/sql_backends/sqlite_backend/backend.cpp
                     backends/sql_backends/mysql_backend/backend.cpp
                     backends/sql_backends/mysql_backend/mysql_server.cpp
@@ -37,6 +38,10 @@ addTestTarget(database_integration
                     integration_tests/groups_tests.cpp
                     integration_tests/people_tests.cpp
                     integration_tests/photos_change_log_tests.cpp
+
+                    # dependencies
+                    implementation/apeople_information_accessor.cpp
+                    implementation/aphoto_change_log_operator.cpp
 
                     # main()
                     integration_tests/main.cpp
