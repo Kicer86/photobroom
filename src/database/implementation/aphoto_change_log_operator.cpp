@@ -177,6 +177,18 @@ namespace Database
     }
 
 
+    QString APhotoChangeLogOperator::format(int photoId, Operation operation, Field field, const QString& data)
+    {
+        const QString result = QString("photo id: %1. %2 %3. %4")
+                                    .arg(photoId)
+                                    .arg(fieldToStr(field))
+                                    .arg(opToStr(operation))
+                                    .arg(dataToStr(field, operation, data));
+
+        return result;
+    }
+
+
     QString APhotoChangeLogOperator::fieldToStr(Field field)
     {
         switch(field)

@@ -32,6 +32,9 @@ namespace Database
             void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &) const;
             void process(const Photo::Id &, const GroupInfo &, const GroupInfo &) const;
 
+            QString format(int, Operation, Field, const QString &);
+
+        private:
             QString fieldToStr(Field);
             QString opToStr(Operation);
             QString dataToStr(Field, Operation, const QString &);

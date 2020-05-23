@@ -143,11 +143,7 @@ namespace Database
             const Field field = static_cast<Field>(fieldVar.toInt());
             const QString data = dataVar.toString();
 
-            const QString result = QString("photo id: %1. %2 %3. %4")
-                                    .arg(photoId)
-                                    .arg(fieldToStr(field))
-                                    .arg(opToStr(operation))
-                                    .arg(dataToStr(field, operation, data));
+            const QString result = format(photoId, operation, field, data);
 
             results.append(result);
         }
