@@ -2,9 +2,10 @@
 #ifndef JSONBACKEND_HPP
 #define JSONBACKEND_HPP
 
-#include "database/ibackend.hpp"
+#include "database/aphoto_change_log_operator.hpp"
+#include "database/apeople_information_accessor.hpp"
 #include "database/igroup_operator.hpp"
-#include "database/iphoto_change_log_operator.hpp"
+#include "database/ibackend.hpp"
 
 
 namespace Database
@@ -13,8 +14,8 @@ namespace Database
     * \brief json based backend
     */
     class JsonBackend: public IBackend,
-                              IPeopleInformationAccessor,
-                              IPhotoChangeLogOperator,
+                              APeopleInformationAccessor,
+                              APhotoChangeLogOperator,
                               IGroupOperator
     {
         public:
@@ -36,20 +37,19 @@ namespace Database
             IPeopleInformationAccessor& peopleInformationAccessor() override;
 
         private:
-            // IPeopleInformationAccessor interface
+            // APeopleInformationAccessor interface
             std::vector<PersonName> listPeople() override;
             std::vector<PersonInfo> listPeople(const Photo::Id &) override;
             PersonName person(const Person::Id &) override;
             std::vector<PersonFingerprint> fingerprintsFor(const Person::Id &) override;
             std::map<PersonInfo::Id, PersonFingerprint> fingerprintsFor(const std::vector<PersonInfo::Id>& id) override;
             Person::Id store(const PersonName& pn) override;
-            PersonInfo::Id store(const PersonInfo& pi) override;
             PersonFingerprint::Id store(const PersonFingerprint &) override;
+            void dropPersonInfo(const PersonInfo::Id &) override;
+            PersonInfo::Id storePerson(const PersonInfo &) override;
 
-            // IPhotoChangeLogOperator interface
-            void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
-            void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) override;
-            void groupDeleted(const Group::Id &, const Photo::Id &representative, const std::vector<Photo::Id>& members) override;
+            // APhotoChangeLogOperator interface
+            void append(const Photo::Id &, Operation, Field, const QString& data) override;
             QStringList dumpChangeLog() override;
 
             // IGroupOperator interface
@@ -61,9 +61,11 @@ namespace Database
             //
             typedef std::map<QString, int> Flags;
             typedef std::pair<Photo::Id, Group::Type> GroupData;
+            typedef std::tuple<Photo::Id, Operation, Field, QString> LogEntry;
 
             static Photo::Id getIdFor(const Photo::Data& d);
             static Person::Id getIdFor(const PersonName& pn);
+            static PersonInfo::Id getIdFor(const PersonInfo& pn);
 
             template<typename T, typename IdT>
             struct IdComparer
@@ -87,14 +89,16 @@ namespace Database
             };
 
             std::map<Photo::Id, Flags> m_flags;
-            std::map<Photo::Id, std::vector<PersonInfo>> m_people;
             std::map<Group::Id, GroupData> m_groups;
             std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
             std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
+            std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+            std::vector<LogEntry> m_logEntries;
 
-            int m_nextId = 0;
-            int m_nextPerson = 0;
+            int m_nextPhotoId = 0;
+            int m_nextPersonName = 0;
             int m_nextGroup = 0;
+            int m_nextPersonInfo = 0;
     };
 }
 

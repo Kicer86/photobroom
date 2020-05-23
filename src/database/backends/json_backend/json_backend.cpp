@@ -14,7 +14,7 @@ namespace Database
         {
             assert(delta.getId().valid() == false);
 
-            const Photo::Id id(m_nextId);
+            const Photo::Id id(m_nextPhotoId);
             delta.setId(id);
 
             Photo::Data data;
@@ -24,7 +24,7 @@ namespace Database
 
             assert(i == true);
 
-            m_nextId++;
+            m_nextPhotoId++;
         }
 
         return true;
@@ -36,6 +36,8 @@ namespace Database
         auto it = m_photos.find(delta.getId());
 
         Photo::Data data = *it;
+        photoChangeLogOperator().storeDifference(data, delta);
+
         data.apply(delta);
 
         it = m_photos.erase(it);
@@ -176,8 +178,14 @@ namespace Database
 
     std::vector<PersonInfo> JsonBackend::listPeople(const Photo::Id& id)
     {
-        auto it = m_people.find(id);
-        return it == m_people.end()? std::vector<PersonInfo>(): it->second;
+        std::vector<PersonInfo> people;
+
+        std::copy_if(m_peopleInfo.cbegin(), m_peopleInfo.cend(), std::back_inserter(people), [id](const auto& info)
+        {
+            return info.ph_id == id;
+        });
+
+        return people;
     }
 
 
@@ -219,19 +227,23 @@ namespace Database
         }
         else
         {
-            id = Person::Id(m_nextPerson++);
-            const PersonName personWithId(id, pn.name());
+            auto it = std::find_if(m_peopleNames.cbegin(), m_peopleNames.cend(), [name = pn.name()](const auto& n)
+            {
+                return n.name() == name;
+            });
 
-            m_peopleNames.insert(personWithId);
+            if (it == m_peopleNames.cend())
+            {
+                id = Person::Id(m_nextPersonName++);
+                const PersonName personWithId(id, pn.name());
+
+                m_peopleNames.insert(personWithId);
+            }
+            else
+                id = it->id();
         }
 
         return id;
-    }
-
-
-    PersonInfo::Id JsonBackend::store(const PersonInfo& pi)
-    {
-
     }
 
 
@@ -241,27 +253,56 @@ namespace Database
     }
 
 
-    void JsonBackend::storeDifference(const Photo::Data &, const Photo::DataDelta &)
+    void JsonBackend::dropPersonInfo(const PersonInfo::Id& id)
     {
-
+        auto it = m_peopleInfo.find(id);
+        if (it != m_peopleInfo.end())
+            m_peopleInfo.erase(it);
     }
 
 
-    void JsonBackend::groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative)
+    PersonInfo::Id JsonBackend::storePerson(const PersonInfo& pi)
     {
+        auto mpi = pi;
+        if (mpi.id.valid() == false)
+            mpi.id = m_nextPersonInfo++;
 
+        auto it = m_peopleInfo.find(mpi.id);
+        if (it == m_peopleInfo.end())
+            m_peopleInfo.insert(mpi);
+        else
+        {
+            it = m_peopleInfo.erase(it);
+            m_peopleInfo.insert(it, mpi);
+        }
+
+        return mpi.id;
     }
 
 
-    void JsonBackend::groupDeleted(const Group::Id &, const Photo::Id& representative, const std::vector<Photo::Id>& members)
+    void JsonBackend::append(const Photo::Id& id, Operation operation, Field field, const QString& data)
     {
-
+        const auto entry = std::make_tuple(id, operation, field, data);
+        m_logEntries.push_back(entry);
     }
 
 
     QStringList JsonBackend::dumpChangeLog()
     {
-        return {};
+        QStringList list;
+
+        for(const auto& entry: m_logEntries)
+        {
+            const QString formatted = format(std::get<0>(entry),
+                                             std::get<1>(entry),
+                                             std::get<2>(entry),
+                                             std::get<3>(entry)
+            );
+
+            list.append(formatted);
+        }
+
+        return list;
     }
 
 
@@ -338,5 +379,11 @@ namespace Database
     Person::Id JsonBackend::getIdFor(const PersonName& pn)
     {
         return pn.id();
+    }
+
+
+    PersonInfo::Id JsonBackend::getIdFor(const PersonInfo& pi)
+    {
+        return pi.id;
     }
 }

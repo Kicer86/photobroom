@@ -56,7 +56,7 @@ namespace Tests
         Database::JsonBackend json_backend;
 
         QTemporaryDir m_wd;
-        std::vector<std::pair<Database::IBackend *, QString>> m_backends = { {&sqlite_backend, "SQLite"} /*, {&json_backend, "Json"}*/ };
+        std::vector<std::pair<Database::IBackend *, QString>> m_backends = { {&sqlite_backend, "SQLite"}, {&json_backend, "Json"} };
     };
 }
 
