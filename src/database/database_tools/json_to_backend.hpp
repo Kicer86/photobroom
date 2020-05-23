@@ -1,6 +1,9 @@
 #ifndef JSONTOBACKEND_HPP
 #define JSONTOBACKEND_HPP
 
+
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QString>
 
 
@@ -22,6 +25,9 @@ namespace Database
         IBackend& m_backend;
 
         void parse(const QByteArray &);
+        void parse(const QJsonObject &);
+        void parsePhotos(const QJsonArray &);
+        void parsePhoto(const QJsonObject &);
     };
 }
 
