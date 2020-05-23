@@ -22,7 +22,7 @@
 #include <QString>
 
 #include "database/photo_data.hpp"
-#include "database/iphoto_change_log_operator.hpp"
+#include "database/aphoto_change_log_operator.hpp"
 
 
 struct ILogger;
@@ -33,15 +33,11 @@ namespace Database
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
 
-    class PhotoChangeLogOperator final: public IPhotoChangeLogOperator
+    class PhotoChangeLogOperator final: public APhotoChangeLogOperator
     {
         public:
             PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
             ~PhotoChangeLogOperator();
-
-            void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
-            void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) override;
-            void groupDeleted(const Group::Id &, const Photo::Id& representative, const std::vector<Photo::Id>& members) override;
 
             // for debug / tests
             QStringList dumpChangeLog() override;
@@ -53,26 +49,7 @@ namespace Database
             ILogger* m_logger;
             IBackend* m_backend;
 
-            enum Operation
-            {
-                Add     = 1,
-                Modify  = 2,
-                Remove  = 3,
-            };
-
-            enum Field
-            {
-                Tags    = 1,
-                Group   = 2,
-            };
-
-            void append(const Photo::Id &, Operation, Field, const QString& data) const;
-            void process(const Photo::Id &, const Tag::TagsList &, const Tag::TagsList &) const;
-            void process(const Photo::Id &, const GroupInfo &, const GroupInfo &) const;
-
-            QString fieldToStr(Field);
-            QString opToStr(Operation);
-            QString dataToStr(Field, Operation, const QString &);
+            void append(const Photo::Id &, Operation, Field, const QString& data) const override;
     };
 }
 
