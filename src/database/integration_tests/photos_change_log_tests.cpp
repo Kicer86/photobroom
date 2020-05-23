@@ -24,7 +24,8 @@ TEST_F(PhotosChangeLog, tagsManipulation)
         ASSERT_TRUE(op->addPhotos(photos));
 
         // read photo structure
-        Photo::DataDelta data_delta(photos.front().getId());
+        const Photo::Id id = photos.front().getId();
+        Photo::DataDelta data_delta(id);
 
         // add tags
         Tag::TagsList tags;
@@ -54,10 +55,10 @@ TEST_F(PhotosChangeLog, tagsManipulation)
         const QStringList changeLog = op->photoChangeLogOperator().dumpChangeLog();
 
         ASSERT_EQ(changeLog.size(), 4);
-        EXPECT_EQ(changeLog[0], "photo id: 1. Tag added. Event: test event");
-        EXPECT_EQ(changeLog[1], "photo id: 1. Tag added. Place: test place");
-        EXPECT_EQ(changeLog[2], "photo id: 1. Tag modified. Event: test event -> test event 2");
-        EXPECT_EQ(changeLog[3], "photo id: 1. Tag removed. Place: test place");
+        EXPECT_EQ(changeLog[0], QString("photo id: %1. Tag added. Event: test event").arg(id));
+        EXPECT_EQ(changeLog[1], QString("photo id: %1. Tag added. Place: test place").arg(id));
+        EXPECT_EQ(changeLog[2], QString("photo id: %1. Tag modified. Event: test event -> test event 2").arg(id));
+        EXPECT_EQ(changeLog[3], QString("photo id: %1. Tag removed. Place: test place").arg(id));
     });
 }
 
