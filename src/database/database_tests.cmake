@@ -14,6 +14,7 @@ addTestTarget(database
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
                     database_tools/implementation/series_detector.cpp
+                    implementation/aphoto_change_log_operator.cpp
                     implementation/filter.cpp
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
