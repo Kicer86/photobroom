@@ -5,6 +5,7 @@
 // Some fakes, mocks and stubs
 
 #include <QTemporaryDir>
+#include <gtest/gtest.h>
 
 #include "backends/sql_backends/sqlite_backend/backend.hpp"
 #include "backends/sql_backends/mysql_backend/backend.hpp"
