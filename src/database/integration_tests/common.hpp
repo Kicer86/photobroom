@@ -12,7 +12,7 @@
 #include "project_info.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
 
-
+// @todo: use gtest's parametrized tests
 namespace Tests
 {
 
