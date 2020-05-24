@@ -37,6 +37,7 @@ addTestTarget(database_integration
                     integration_tests/general_flags_tests.cpp
                     integration_tests/groups_tests.cpp
                     integration_tests/people_tests.cpp
+                    integration_tests/photo_operator_tests.cpp
                     integration_tests/photos_change_log_tests.cpp
 
                     # dependencies
