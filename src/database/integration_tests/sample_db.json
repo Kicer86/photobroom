@@ -1,0 +1,17 @@
+
+{
+    "photos": [
+        {
+            "path": "/some/path1.jpeg",
+            "tags": { "date":  "01.01.2001", "time":  "10:00", "event": "Some event", "place": "Internet" }
+        },
+        {
+            "path": "/some/path2.jpeg",
+            "tags": { "date":  "01.01.2001", "time":  "10:00", "event": "", "place": "Internet" }
+        },
+        {
+            "path": "/some/path3.jpeg",
+            "tags": { "date":  "01.01.2001",  "time":  "11:0", "event": "Another event", "place": "" }
+        },
+    ]
+}
