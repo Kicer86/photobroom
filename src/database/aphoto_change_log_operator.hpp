@@ -3,11 +3,11 @@
 #define APHOTOCHANGELOGOPERATOR_HPP
 
 #include "iphoto_change_log_operator.hpp"
-
+#include "database_export.h"
 
 namespace Database
 {
-    class APhotoChangeLogOperator: public IPhotoChangeLogOperator
+    class DATABASE_EXPORT APhotoChangeLogOperator: public IPhotoChangeLogOperator
     {
         public:
             void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;

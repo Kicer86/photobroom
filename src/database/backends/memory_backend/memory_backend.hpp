@@ -7,16 +7,19 @@
 #include "database/igroup_operator.hpp"
 #include "database/ibackend.hpp"
 
+#include "database_memory_backend_export.h"
+
 
 namespace Database
 {
     /**
     * \brief memory based backend
     */
-    class MemoryBackend: public IBackend,
-                                APeopleInformationAccessor,
-                                APhotoChangeLogOperator,
-                                IGroupOperator
+    class DATABASE_MEMORY_BACKEND_EXPORT MemoryBackend:
+        public IBackend,
+               APeopleInformationAccessor,
+               APhotoChangeLogOperator,
+               IGroupOperator
     {
         public:
             // IBackend interface

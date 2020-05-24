@@ -1,18 +1,19 @@
 
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
-add_library(MemoryBackend
+add_library(database_memory_backend
                 memory_backend.cpp
                 memory_backend.hpp
 )
 
-target_include_directories(MemoryBackend
+target_include_directories(database_memory_backend
                                PUBLIC
                                    ${PROJECT_SOURCE_DIR}/src
+                                   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 
-target_link_libraries(MemoryBackend
+target_link_libraries(database_memory_backend
                           PUBLIC
                               Qt5::Core
 
@@ -20,3 +21,5 @@ target_link_libraries(MemoryBackend
                               core
                               database
 )
+
+generate_export_header(database_memory_backend)
