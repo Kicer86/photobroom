@@ -1,4 +1,5 @@
 
+#include <QDate>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMap>
@@ -6,7 +7,6 @@
 #include <QVariant>
 
 #include "../json_to_backend.hpp"
-#include "database/photo_data.hpp"
 #include "database/ibackend.hpp"
 
 
@@ -45,23 +45,59 @@ namespace Database
 
     void JsonToBackend::parsePhotos(const QJsonArray& photos)
     {
+        std::vector<Photo::DataDelta> photosList;
+
         for(const QJsonValue& photo: photos)
             if (photo.isObject())
-                parsePhoto(photo.toObject());
+            {
+                const auto photoDelta = parsePhoto(photo.toObject());
+                photosList.push_back(photoDelta);
+            }
+
+        m_backend.addPhotos(photosList);
     }
 
 
-    void JsonToBackend::parsePhoto(const QJsonObject& photo)
+    Photo::DataDelta JsonToBackend::parsePhoto(const QJsonObject& photo)
     {
-        const auto entries = photo.toVariantMap();
-
         Photo::DataDelta delta;
 
-        auto it = entries.find("path");
-        if (it != entries.end())
-            delta.insert<Photo::Field::Path>(it->toString());
+        for(auto it = photo.constBegin(); it != photo.constEnd(); ++it)
+        {
+            if ( it.key() == "path")
+                delta.insert<Photo::Field::Path>(it.value().toString());
+            else if (it.key() == "tags")
+            {
+                const auto tags = it.value().toObject();
+                const Tag::TagsList tagsList = parseTags(tags);
+                delta.insert<Photo::Field::Tags>(tagsList);
+            }
+            else
+                throw std::invalid_argument("unexpected entry for photo");
+        }
 
-        std::vector photos = { delta };
-        m_backend.addPhotos(photos);
+        return delta;
+    }
+
+
+    Tag::TagsList JsonToBackend::parseTags(const QJsonObject& tag)
+    {
+        Tag::TagsList tagsList;
+
+        for(auto it = tag.constBegin(); it != tag.constEnd(); ++it)
+        {
+            if (it.key() == "date")
+                tagsList[TagTypeInfo(TagTypes::Date)] = it.value().toVariant().toDate();
+            else if (it.key() == "time")
+                tagsList[TagTypeInfo(TagTypes::Time)] = it.value().toVariant().toTime();
+            else if (it.key() == "event")
+                tagsList[TagTypeInfo(TagTypes::Event)] = it.value().toVariant().toString();
+            else if (it.key() == "place")
+                tagsList[TagTypeInfo(TagTypes::Place)] = it.value().toVariant().toString();
+            else
+                throw std::invalid_argument("unexpected entry for tag");
+        }
+
+        return tagsList;
     }
 }

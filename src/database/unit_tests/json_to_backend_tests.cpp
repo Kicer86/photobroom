@@ -1,4 +1,7 @@
 
+#include <QDate>
+#include <core/tag.hpp>
+
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
 
@@ -21,8 +24,17 @@ TEST(JsonToBackendTest, emptyJson)
 
 TEST(JsonToBackendTest, photo)
 {
+    Tag::TagsList tags = {
+        { TagTypeInfo(TagTypes::Date), QDate::fromString("01.01.2001") },
+        { TagTypeInfo(TagTypes::Time), QTime::fromString("12:34") },
+        { TagTypeInfo(TagTypes::Event), QString("qwerty") },
+        { TagTypeInfo(TagTypes::Place), QString("asdfgh") }
+    };
+
     Photo::DataDelta photo;
     photo.insert<Photo::Field::Path>("/some/path");
+    photo.insert<Photo::Field::Tags>(tags);
+
     std::vector<Photo::DataDelta> photos = { photo };
 
     MockBackend backend;
@@ -35,7 +47,13 @@ TEST(JsonToBackendTest, photo)
         {
             "photos": [
                 {
-                    "path": "/some/path"
+                    "path": "/some/path",
+                    "tags": {
+                        "date":  "01.01.2001",
+                        "time":  "12:34",
+                        "event": "qwerty",
+                        "place": "asdfgh"
+                    }
                 }
             ]
         }

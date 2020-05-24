@@ -6,6 +6,9 @@
 #include <QJsonObject>
 #include <QString>
 
+#include <core/tag.hpp>
+#include "database/photo_data.hpp"
+
 
 namespace Database
 {
@@ -27,7 +30,8 @@ namespace Database
         void parse(const QByteArray &);
         void parse(const QJsonObject &);
         void parsePhotos(const QJsonArray &);
-        void parsePhoto(const QJsonObject &);
+        Photo::DataDelta parsePhoto(const QJsonObject &);
+        Tag::TagsList parseTags(const QJsonObject &);
     };
 }
 
