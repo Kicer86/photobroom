@@ -9,7 +9,6 @@ find_package(Qt5Sql REQUIRED)
 
 addTestTarget(database
                 SOURCES
-                    backends/memory_backend/memory_backend.cpp
                     backends/sql_backends/generic_sql_query_constructor.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
@@ -20,6 +19,7 @@ addTestTarget(database
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
                     implementation/photo_types.cpp
+                    # memory backend linked
 
                     # sql tests:
                     unit_tests/generic_sql_query_constructor_tests.cpp
@@ -39,6 +39,7 @@ addTestTarget(database
                 LIBRARIES
                     core
                     database
+                    database_memory_backend
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Sql

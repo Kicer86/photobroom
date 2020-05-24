@@ -13,10 +13,10 @@ addTestTarget(database_integration
                 SOURCES
 
                     # engines
-                    backends/memory_backend/memory_backend.cpp
                     backends/sql_backends/sqlite_backend/backend.cpp
                     backends/sql_backends/mysql_backend/backend.cpp
                     backends/sql_backends/mysql_backend/mysql_server.cpp
+                    # memory backend linked
 
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
@@ -49,6 +49,7 @@ addTestTarget(database_integration
                 LIBRARIES
                     core
                     database
+                    database_memory_backend
                     plugins
                     system
                     Qt5::Core
