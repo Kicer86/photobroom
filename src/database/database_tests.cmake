@@ -31,7 +31,7 @@ addTestTarget(database
                     unit_tests/tag_info_collector_tests.cpp
 
                     # backends:
-                    unit_tests/json_backend_tests.cpp
+                    unit_tests/memory_backend_tests.cpp
 
                     # main()
                     unit_tests/main.cpp

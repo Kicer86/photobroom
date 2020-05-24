@@ -108,28 +108,8 @@ namespace Database
     {
         BackendStatus status;
 
-        const QFileInfo db_file_info(prjInfo.databaseLocation);
-
-        if (prjInfo.backendName != "Json")
+        if (prjInfo.backendName != "Memory")
             status = StatusCodes::OpenFailed;
-        else if (db_file_info.exists())
-        {
-            if (db_file_info.isReadable()  &&
-                db_file_info.isWritable())
-            {
-
-            }
-            else
-                status = StatusCodes::OpenFailed;
-        }
-        else
-        {
-            QFile db_file(prjInfo.databaseLocation);
-            const bool open_status = db_file.open(QIODevice::NewOnly | QIODevice::ReadWrite);
-
-            if (open_status == false)
-                status = StatusCodes::OpenFailed;
-        }
 
         return status;
     }

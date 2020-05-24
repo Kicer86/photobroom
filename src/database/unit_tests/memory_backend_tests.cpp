@@ -14,24 +14,17 @@ class JsonBackendTest: public testing::Test
     public:
         JsonBackendTest()
             : testing::Test()
-            , m_dbFile("db-XXXXXX.json")
         {
-            m_dbFile.open();
+
         }
 
     protected:
         ProjectInfo getProjectInfo() const
         {
-            ProjectInfo prjInfo(m_dbFile.fileName(), "Json");
+            ProjectInfo prjInfo("", "Memory");
 
             return prjInfo;
         }
-
-    private:
-        // Json backend will operate on a temporary file.
-        // This isn't perfect solution in terms of unit tests
-        // but there is no simple enough solution for this.
-        QTemporaryFile m_dbFile;
 };
 
 
