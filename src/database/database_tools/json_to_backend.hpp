@@ -8,6 +8,7 @@
 
 #include <core/tag.hpp>
 #include "database/photo_data.hpp"
+#include "database_export.h"
 
 
 namespace Database
@@ -17,7 +18,7 @@ namespace Database
     /**
     * @brief Read json and store it in backend
     */
-    class JsonToBackend
+    class DATABASE_EXPORT JsonToBackend
     {
     public:
         JsonToBackend(IBackend &);
