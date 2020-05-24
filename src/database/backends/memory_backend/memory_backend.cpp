@@ -129,7 +129,7 @@ namespace Database
 
     IPhotoOperator& MemoryBackend::photoOperator()
     {
-
+        return *this;
     }
 
 
@@ -350,6 +350,30 @@ namespace Database
     }
 
 
+    bool MemoryBackend::removePhoto(const Photo::Id &)
+    {
+
+    }
+
+
+    bool MemoryBackend::removePhotos(const std::vector<IFilter::Ptr> &)
+    {
+
+    }
+
+
+    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr> &, const Actions &)
+    {
+
+    }
+
+
+    std::vector<Photo::Id> MemoryBackend::getPhotos(const std::vector<IFilter::Ptr> &)
+    {
+
+    }
+
+
     Photo::Id MemoryBackend::getIdFor(const Photo::Data& d)
     {
         return d.id;
@@ -366,4 +390,5 @@ namespace Database
     {
         return pi.id;
     }
+
 }

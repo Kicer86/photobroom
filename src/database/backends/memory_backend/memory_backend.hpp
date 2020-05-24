@@ -4,8 +4,9 @@
 
 #include "database/aphoto_change_log_operator.hpp"
 #include "database/apeople_information_accessor.hpp"
-#include "database/igroup_operator.hpp"
 #include "database/ibackend.hpp"
+#include "database/igroup_operator.hpp"
+#include "database/iphoto_operator.hpp"
 
 #include "database_memory_backend_export.h"
 
@@ -19,7 +20,8 @@ namespace Database
         public IBackend,
                APeopleInformationAccessor,
                APhotoChangeLogOperator,
-               IGroupOperator
+               IGroupOperator,
+               IPhotoOperator
     {
         public:
             // IBackend interface
@@ -60,6 +62,12 @@ namespace Database
             Photo::Id removeGroup(const Group::Id &) override;
             Group::Type type(const Group::Id &) const override;
             std::vector<Photo::Id> membersOf(const Group::Id &) const override;
+
+            // IPhotoOperator interface
+            bool removePhoto(const Photo::Id &) override;
+            bool removePhotos(const std::vector<IFilter::Ptr> &) override;
+            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Actions &) override;
+            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override;
 
             //
             typedef std::map<QString, int> Flags;
