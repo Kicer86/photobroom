@@ -86,14 +86,18 @@ namespace Database
 
         for(auto it = tag.constBegin(); it != tag.constEnd(); ++it)
         {
+            const QString value = it.value().toVariant().toString();
+            if (value.isEmpty())
+                continue;
+
             if (it.key() == "date")
-                tagsList[TagTypeInfo(TagTypes::Date)] = it.value().toVariant().toDate();
+                tagsList[TagTypeInfo(TagTypes::Date)] = QDate::fromString(value, Qt::ISODate);
             else if (it.key() == "time")
-                tagsList[TagTypeInfo(TagTypes::Time)] = it.value().toVariant().toTime();
+                tagsList[TagTypeInfo(TagTypes::Time)] = QTime::fromString(value);
             else if (it.key() == "event")
-                tagsList[TagTypeInfo(TagTypes::Event)] = it.value().toVariant().toString();
+                tagsList[TagTypeInfo(TagTypes::Event)] = value;
             else if (it.key() == "place")
-                tagsList[TagTypeInfo(TagTypes::Place)] = it.value().toVariant().toString();
+                tagsList[TagTypeInfo(TagTypes::Place)] = value;
             else
                 throw std::invalid_argument("unexpected entry for tag");
         }
