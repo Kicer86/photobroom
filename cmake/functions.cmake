@@ -208,3 +208,19 @@ function(stringify_enums output input)
     set(${output} ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name} PARENT_SCOPE)
 
 endfunction()
+
+
+function(stringify_file output_file input_file variable_with_type namespace)
+
+    file(READ ${input_file} file_content)
+
+    file(WRITE ${output_file})
+
+    file(APPEND ${output_file} "namespace ${namespace} {\n")
+    file(APPEND ${output_file} "${variable_with_type} = ")
+    file(APPEND ${output_file} "R\"(")
+    file(APPEND ${output_file} ${file_content})
+    file(APPEND ${output_file} ")\";\n")
+    file(APPEND ${output_file} "}\n")
+
+endfunction(stringify_file)
