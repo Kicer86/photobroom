@@ -12,6 +12,6 @@
         {
             "path": "/some/path3.jpeg",
             "tags": { "date":  "01.01.2001",  "time":  "11:0", "event": "Another event", "place": "" }
-        },
+        }
     ]
 }

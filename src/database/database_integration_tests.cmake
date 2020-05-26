@@ -9,6 +9,8 @@ find_package(Qt5Sql REQUIRED)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
+stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db.json.hpp integration_tests/sample_db.json "const QString db1" "SampleDB")
+
 addTestTarget(database_integration
                 SOURCES
 
