@@ -53,6 +53,9 @@ namespace Photo
         if (delta.has(Photo::Field::GroupInfo))
             groupInfo = delta.get<Photo::Field::GroupInfo>();
 
+        if (delta.has(Photo::Field::Path))
+            path = delta.get<Photo::Field::Path>();
+
         return *this;
     }
 
