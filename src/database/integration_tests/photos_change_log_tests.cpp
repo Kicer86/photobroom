@@ -1,9 +1,6 @@
 
-#include <gmock/gmock.h>
-
-#include "common.hpp"
-
 #include <core/base_tags.hpp>
+#include "common.hpp"
 
 
 struct PhotosChangeLog: Tests::DatabaseTest
