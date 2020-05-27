@@ -370,7 +370,12 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::getPhotos(const std::vector<IFilter::Ptr> &)
     {
+        std::vector<Photo::Id> ids;
 
+        for(const auto& photo: m_photos)
+            ids.push_back(photo.id);
+
+        return ids;
     }
 
 
