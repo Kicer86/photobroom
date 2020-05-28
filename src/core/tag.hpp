@@ -199,11 +199,12 @@ struct TagValueTraits<QColor>
 
 namespace Tag
 {
-    typedef std::map<TagTypeInfo, TagValue> TagsList;
+    typedef std::map<TagTypes, TagValue> TagsList;
 
     struct CORE_EXPORT Info
     {
             Info(const std::pair<const TagTypeInfo, TagValue> &data);
+            Info(const std::pair<const TagTypes, TagValue> &data);
 
             QString name() const;
             QString displayName() const;

@@ -131,10 +131,10 @@ Tag::TagsList AExifReader::feedDateAndTime() const
             const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
 
             if (date.isValid())
-                tagData[TagTypeInfo(TagTypes::Date)] = TagValue(date);
+                tagData[TagTypes::Date] = TagValue(date);
 
             if (time.isValid())
-                tagData[TagTypeInfo(TagTypes::Time)] = TagValue(time);
+                tagData[TagTypes::Time] = TagValue(time);
         }
     }
 

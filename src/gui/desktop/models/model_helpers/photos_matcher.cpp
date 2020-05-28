@@ -104,7 +104,7 @@ void FiltersMatcher::visit(Database::FilterPhotosWithTag* filter)
 {
     const Tag::TagsList& tagsList = m_photo->getTags();
 
-    auto it = tagsList.find(TagTypeInfo(filter->tagType));
+    auto it = tagsList.find(filter->tagType);
     bool result = it != tagsList.end();
 
     if (result && filter->tagValue.type() != Tag::ValueType::Empty)

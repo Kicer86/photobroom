@@ -250,7 +250,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
                               [base_tag](const Tag::TagsList::value_type& tag_data)
         {
-            return tag_data.first.getTag() == base_tag;
+            return tag_data.first == base_tag;
         });
 
         if (f == photo_tags.cend())

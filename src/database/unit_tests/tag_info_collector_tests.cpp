@@ -197,7 +197,7 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-        { TagTypeInfo(TagTypes::_People), TagValue(QString("person123")) }
+        { TagTypes::_People, TagValue(QString("person123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -263,8 +263,8 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(20, 21)) },
-                            { TagTypeInfo(TagTypes::Event), TagValue(QString("event123")) }
+                            { TagTypes::Time, TagValue(QTime(20, 21)) },
+                            { TagTypes::Event, TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -297,8 +297,8 @@ TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-                            { TagTypeInfo(TagTypes::Time), TagValue(QTime(2, 5)) },
-                            { TagTypeInfo(TagTypes::Event), TagValue(QString("event123")) }
+                            { TagTypes::Time, TagValue(QTime(2, 5)) },
+                            { TagTypes::Event, TagValue(QString("event123")) }
     };
 
     EXPECT_CALL(*photoInfo.get(), getTags())

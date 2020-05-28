@@ -91,13 +91,13 @@ namespace Database
                 continue;
 
             if (it.key() == "date")
-                tagsList[TagTypeInfo(TagTypes::Date)] = QDate::fromString(value, Qt::ISODate);
+                tagsList[TagTypes::Date] = QDate::fromString(value, Qt::ISODate);
             else if (it.key() == "time")
-                tagsList[TagTypeInfo(TagTypes::Time)] = QTime::fromString(value);
+                tagsList[TagTypes::Time] = QTime::fromString(value);
             else if (it.key() == "event")
-                tagsList[TagTypeInfo(TagTypes::Event)] = value;
+                tagsList[TagTypes::Event] = value;
             else if (it.key() == "place")
-                tagsList[TagTypeInfo(TagTypes::Place)] = value;
+                tagsList[TagTypes::Place] = value;
             else
                 throw std::invalid_argument("unexpected entry for tag");
         }

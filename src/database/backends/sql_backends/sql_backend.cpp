@@ -984,7 +984,7 @@ namespace Database
             for (auto it = tagsList.begin(); status && it != tagsList.end(); ++it, counter++)
             {
                 const TagValue& value = it->second;
-                const int name = it->first.getTag();
+                const int name = it->first;
                 const int tag_id = counter < currentIds.size()? currentIds[counter]: -1;  // try to override ids of tags already stored
 
                 status = store(value, photo_id, name, tag_id);
@@ -1126,7 +1126,6 @@ namespace Database
         {
             const TagTypes tagNameType = static_cast<TagTypes>( query.value(1).toInt() );
             const QVariant value = query.value(2);
-            const TagTypeInfo tagName(tagNameType);
 
             // storing routine doesn't store empty tags (see store() for tags)
             assert(value.isValid() && value.isNull() == false);
@@ -1134,9 +1133,9 @@ namespace Database
                 continue;
 
             const QString raw_value = value.toString();
-            const TagValue tagValue = TagValue::fromRaw(raw_value, BaseTags::getType(tagName.getTag()));
+            const TagValue tagValue = TagValue::fromRaw(raw_value, BaseTags::getType(tagNameType));
 
-            tagData[tagName] = tagValue;
+            tagData[tagNameType] = tagValue;
         }
 
         return tagData;

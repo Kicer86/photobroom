@@ -386,6 +386,11 @@ namespace Tag
 
     }
 
+    Info::Info(const std::pair<const TagTypes, TagValue> &data): m_name(data.first), m_value(data.second)
+    {
+
+    }
+
     QString Info::name() const
     {
         return m_name.getName();

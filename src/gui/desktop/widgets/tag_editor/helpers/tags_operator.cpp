@@ -36,18 +36,12 @@ void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
 
 Tag::TagsList TagsOperator::getTags() const
 {
-    // TODO: std::tie?
     struct
     {
-        bool operator()(const std::pair<TagTypeInfo, TagValue> &a,
-                        const std::pair<TagTypeInfo, TagValue> &b) const
+        bool operator()(const std::pair<TagTypes, TagValue> &a,
+                        const std::pair<TagTypes, TagValue> &b) const
         {
-            if (a.first < b.first)
-                return true;
-            else if (a.first > b.first)
-                return false;
-            else
-                return a.second < b.second;
+            return std::tie(a.first, a.second) < std::tie(b.first, b.second);
         }
 
     } tagsComparer;
@@ -79,7 +73,7 @@ Tag::TagsList TagsOperator::getTags() const
 void TagsOperator::setTag(const TagTypeInfo& name, const TagValue& values)
 {
     for (auto& photo: m_photos)
-        photo->setTag(name, values);
+        photo->setTag(name.getTag(), values);
 }
 
 

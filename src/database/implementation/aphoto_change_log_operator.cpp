@@ -12,19 +12,19 @@ namespace
         return encodedValue;
     }
 
-    QString encodeTag(const TagTypeInfo& tagInfo, const TagValue& value)
+    QString encodeTag(const TagTypes& tag, const TagValue& value)
     {
         const QString encoded = QString("%1 %2")
-                                    .arg(tagInfo.getTag())
+                                    .arg(tag)
                                     .arg(encodeTag(value));
 
         return encoded;
     }
 
-    QString encodeTag(const TagTypeInfo& tagInfo, const TagValue& valueOld, const TagValue& valueNew)
+    QString encodeTag(const TagTypes& tag, const TagValue& valueOld, const TagValue& valueNew)
     {
         const QString encoded = QString("%1 %2 %3")
-                                    .arg(tagInfo.getTag())
+                                    .arg(tag)
                                     .arg(encodeTag(valueOld))
                                     .arg(encodeTag(valueNew));
 
@@ -117,9 +117,9 @@ namespace Database
 
     void APhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags)
     {
-        std::vector<std::pair<TagTypeInfo, TagValue>> tagsRemoved;
-        std::vector<std::tuple<TagTypeInfo, TagValue, TagValue>> tagsChanged;
-        std::vector<std::pair<TagTypeInfo, TagValue>> tagsAdded;
+        std::vector<std::pair<TagTypes, TagValue>> tagsRemoved;
+        std::vector<std::tuple<TagTypes, TagValue, TagValue>> tagsChanged;
+        std::vector<std::pair<TagTypes, TagValue>> tagsAdded;
 
         compare(oldTags, newTags,
                 std::back_inserter(tagsRemoved),
