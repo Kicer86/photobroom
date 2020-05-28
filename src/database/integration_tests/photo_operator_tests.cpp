@@ -7,7 +7,7 @@
 using testing::Contains;
 
 
-MATCHER_P(HasPath, _path, "") {
+MATCHER_P(IsPhotoWithPath, _path, "") {
     return arg.path == _path;
 }
 
@@ -43,8 +43,8 @@ TEST_F(PhotoOperatorTest, gettingAllPhotos)
         photo_data.push_back(op->getPhoto(photos[1]));
         photo_data.push_back(op->getPhoto(photos[2]));
 
-        EXPECT_THAT(photo_data, Contains(HasPath("/some/path1.jpeg")));
-        EXPECT_THAT(photo_data, Contains(HasPath("/some/path2.jpeg")));
-        EXPECT_THAT(photo_data, Contains(HasPath("/some/path3.jpeg")));
+        EXPECT_THAT(photo_data, Contains(IsPhotoWithPath("/some/path1.jpeg")));
+        EXPECT_THAT(photo_data, Contains(IsPhotoWithPath("/some/path2.jpeg")));
+        EXPECT_THAT(photo_data, Contains(IsPhotoWithPath("/some/path3.jpeg")));
     });
 }
