@@ -5,6 +5,16 @@
 #include "database/project_info.hpp"
 
 
+namespace
+{
+    template<typename T>
+    bool compare(const T& lhs, const T& rhs, Qt::SortOrder order)
+    {
+        return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
+    }
+}
+
+
 namespace Database
 {
 
@@ -362,9 +372,37 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr> &, const Actions &)
+    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
     {
+        std::vector<Photo::Id> ids = getPhotos(filters);
 
+        if (auto sort_action = std::get_if<SortAction>(&action))
+        {
+            std::vector<Photo::Data> photo_data;
+            for(const auto id: ids)
+                photo_data.push_back(getPhoto(id));
+
+            std::sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
+            {
+                const auto l_it = lhs.tags.find(sort_action->tag);
+                const auto r_it = rhs.tags.find(sort_action->tag);
+                const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
+                const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
+
+                return compare(l_tag, r_tag, sort_action->sort_order);
+            });
+
+            std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
+            {
+                return data.id;
+            });
+        }
+        else
+        {
+            assert(!"Unknown action");
+        }
+
+        return ids;
     }
 
 
