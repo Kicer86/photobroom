@@ -21,7 +21,7 @@ namespace Database
     class DATABASE_EXPORT JsonToBackend
     {
     public:
-        JsonToBackend(IBackend &);
+        explicit JsonToBackend(IBackend &);
 
         void append(const QString &);
 
