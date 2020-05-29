@@ -61,13 +61,17 @@ namespace Database
 
     std::vector<TagTypeInfo> MemoryBackend::listTags()
     {
+        std::vector<TagTypeInfo> tags;
 
+        return tags;
     }
 
 
     std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &)
     {
+        std::vector<TagValue> values;
 
+        return values;
     }
 
 
@@ -80,7 +84,7 @@ namespace Database
 
     int MemoryBackend::getPhotosCount(const std::vector<IFilter::Ptr> &)
     {
-
+        return 0;
     }
 
 
@@ -110,7 +114,9 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::markStagedAsReviewed()
     {
+        std::vector<Photo::Id> ids;
 
+        return ids;
     }
 
 
@@ -183,20 +189,22 @@ namespace Database
     {
         auto it = m_peopleNames.find(id);
         return it == m_peopleNames.end()? PersonName(): *it;
-
-
     }
 
 
     std::vector<PersonFingerprint> MemoryBackend::fingerprintsFor(const Person::Id &)
     {
+        std::vector<PersonFingerprint> fingerprints;
 
+        return fingerprints;
     }
 
 
     std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id>& id)
     {
+        std::map<PersonInfo::Id, PersonFingerprint> fingerprints;
 
+        return fingerprints;
     }
 
 
@@ -239,7 +247,9 @@ namespace Database
 
     PersonFingerprint::Id MemoryBackend::store(const PersonFingerprint &)
     {
+        PersonFingerprint::Id id;
 
+        return id;
     }
 
 
@@ -350,25 +360,29 @@ namespace Database
 
     Group::Type MemoryBackend::type(const Group::Id &) const
     {
+        Group::Type t;
 
+        return t;
     }
 
 
     std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id &) const
     {
+        std::vector<Photo::Id> ids;
 
+        return ids;
     }
 
 
     bool MemoryBackend::removePhoto(const Photo::Id &)
     {
-
+        return false;
     }
 
 
     bool MemoryBackend::removePhotos(const std::vector<IFilter::Ptr> &)
     {
-
+        return false;
     }
 
 
