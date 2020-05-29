@@ -270,15 +270,16 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 
     for (const auto& tag: tags)
     {
-        const Tag::Info info(tag);
+        const TagTypeInfo tag_info(tag.first);
+        const TagValue tag_value(tag.second);
 
         QModelIndex name = index(row, 0);
         QModelIndex value = index(row, 1);
 
-        setDataInternal(name, info.displayName(), Qt::DisplayRole);
+        setDataInternal(name, tag_info.getDisplayName(), Qt::DisplayRole);
 
-        const QVariant dispRole = info.value().get();
-        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+        const QVariant dispRole = tag_value.get();
+        const QVariant tagInfoRole = QVariant::fromValue(tag_info);
 
         setDataInternal(value, dispRole, Qt::DisplayRole);
         setDataInternal(value, tagInfoRole, TagInfoRole);

@@ -90,17 +90,14 @@ void TagsOperator::insert(const TagTypeInfo& name, const TagValue& value)
     Tag::TagsList tags = getTags();
     bool updated = false;
 
-    for(Tag::Info info: tags) // TODO: use std::find_if
+    for(const auto& info: tags) // TODO: use std::find_if
     {
-        if (info.getTypeInfo() == name)
+        if (info.first == name.getTag())
         {
-            const bool differs = info.value() != value;
+            const bool differs = info.second != value;
 
             if (differs)
-            {
-                info.setValue(value);
-                setTag(name, info.value());
-            }
+                setTag(name, value);
 
             updated = true;
             break;

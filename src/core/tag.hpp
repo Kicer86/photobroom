@@ -200,24 +200,6 @@ struct TagValueTraits<QColor>
 namespace Tag
 {
     typedef std::map<TagTypes, TagValue> TagsList;
-
-    struct CORE_EXPORT Info
-    {
-            Info(const std::pair<const TagTypeInfo, TagValue> &data);
-            Info(const std::pair<const TagTypes, TagValue> &data);
-
-            QString name() const;
-            QString displayName() const;
-
-            const TagTypeInfo& getTypeInfo() const;
-            const TagValue& value() const;
-
-            void setValue(const TagValue &);
-
-        private:
-            TagTypeInfo m_name;
-            TagValue m_value;
-    };
 }
 
 Q_DECLARE_METATYPE(TagTypeInfo)
