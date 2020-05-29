@@ -43,7 +43,7 @@ class TagsModel: public QAbstractItemModel
             TagInfoRole = Qt::UserRole,
         };
 
-        TagsModel(QObject * = 0);
+        explicit TagsModel(QObject * = 0);
         TagsModel(const TagsModel &) = delete;
         ~TagsModel();
 

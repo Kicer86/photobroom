@@ -113,7 +113,7 @@ namespace Photo
         public:
             DataDelta(): m_id(), m_data() {}
 
-            DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+            explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
 
             template<Field field>
             void insert(const typename DeltaTypes<field>::Storage& value)

@@ -37,7 +37,7 @@ class FlatModel: public APhotoInfoModel
     Q_OBJECT
 
     public:
-        FlatModel(QObject* = nullptr);
+        explicit FlatModel(QObject* = nullptr);
 
         void setDatabase(Database::IDatabase *);
         void setFilters(const std::vector<Database::IFilter::Ptr> &);
