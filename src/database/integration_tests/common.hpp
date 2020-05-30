@@ -14,52 +14,68 @@
 #include "project_info.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
 
-// @todo: use gtest's parametrized tests
-namespace Tests
+
+namespace
 {
+    template<typename T>
+    std::unique_ptr<T> construct(ILogger *);
 
-    struct DatabaseTest: testing::Test
+    template<>
+    std::unique_ptr<Database::SQLiteBackend> construct<Database::SQLiteBackend>(ILogger* logger)
     {
-        DatabaseTest()
-            : testing::Test()
-            , sqlite_backend(nullptr, &logger)
-            , json_backend()
-        {
+        return std::make_unique<Database::SQLiteBackend>(nullptr, logger);
+    }
 
-        }
+    template<>
+    std::unique_ptr<Database::MemoryBackend> construct<Database::MemoryBackend>(ILogger *)
+    {
+        return std::make_unique<Database::MemoryBackend>();
+    }
 
-        ~DatabaseTest()
-        {
-        }
 
-        template<typename C>
-        void for_all_db_plugins(C&& c)
-        {
-            const QString wd = m_wd.path();
+    template<typename T>
+    struct BackendInfo;
 
-            for(const auto& backend_data: m_backends)
-            {
-                Database::IBackend* backend = backend_data.first;
-                const QString name = backend_data.second;
-                const QString db_path = wd + "/" + name;
-                QDir().mkdir(db_path);
-                Database::ProjectInfo prjInfo(db_path + "/db", name);
+    template<>
+    struct BackendInfo<Database::SQLiteBackend>
+    {
+        static constexpr char* name = "SQLite";
+    };
 
-                ASSERT_TRUE(backend->init(prjInfo));
-
-                c(backend);
-
-                backend->closeConnections();;
-            }
-        }
-
-        EmptyLogger logger;
-        Database::SQLiteBackend sqlite_backend;
-        Database::MemoryBackend json_backend;
-
-        QTemporaryDir m_wd;
-        std::vector<std::pair<Database::IBackend *, QString>> m_backends = { {&sqlite_backend, "SQLite"}, {&json_backend, "Memory"} };
+    template<>
+    struct BackendInfo<Database::MemoryBackend>
+    {
+        static constexpr char* name = "Memory";
     };
 }
+
+
+template<typename T>
+struct DatabaseTest: testing::Test
+{
+    DatabaseTest()
+        : testing::Test()
+        , backend(construct<T>(&logger))
+    {
+        const QString name = BackendInfo<T>::name;
+        const QString wd = m_wd.path();
+        const QString db_path = wd + "/" + name;
+        QDir().mkdir(db_path);
+        Database::ProjectInfo prjInfo(db_path + "/db", name);
+
+        EXPECT_TRUE(backend->init(prjInfo));
+    }
+
+    ~DatabaseTest()
+    {
+        backend->closeConnections();;
+    }
+
+    EmptyLogger logger;
+    QTemporaryDir m_wd;
+    std::unique_ptr<Database::IBackend> backend;
+};
+
+using BackendTypes = testing::Types<Database::SQLiteBackend, Database::MemoryBackend>;
 
 #endif
