@@ -26,7 +26,8 @@
 
 class QItemSelectionModel;
 
-class DBDataModel;
+class APhotoInfoModel;
+
 
 class SelectionExtractor final: public QObject
 {
@@ -39,14 +40,14 @@ class SelectionExtractor final: public QObject
         SelectionExtractor(const SelectionExtractor &) = delete;
         SelectionExtractor& operator=(const SelectionExtractor &) = delete;
 
-        void set(QItemSelectionModel *);
-        void set(DBDataModel *);
+        void set(const QItemSelectionModel *);
+        void set(APhotoInfoModel *);
 
         std::vector<Photo::Data> getSelection() const;
 
     private:
-        QItemSelectionModel* m_selectionModel;
-        DBDataModel* m_photosModel;
+        const QItemSelectionModel* m_selectionModel;
+        APhotoInfoModel* m_photosModel;
 
     signals:
         void selectionChanged();

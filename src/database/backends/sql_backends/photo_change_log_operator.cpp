@@ -21,7 +21,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-#include "core/containers_utils.hpp"
 #include "database/ibackend.hpp"
 #include "query_structs.hpp"
 #include "tables.hpp"
@@ -122,44 +121,6 @@ namespace Database
     }
 
 
-    void PhotoChangeLogOperator::storeDifference(const Photo::Data& currentContent, const Photo::DataDelta& newContent)
-    {
-        assert(currentContent.id == newContent.getId());
-        const Photo::Id& id = currentContent.id;
-
-        if (newContent.has(Photo::Field::Tags))
-        {
-            const auto& oldTags = currentContent.tags;
-            const auto& newTags = newContent.get<Photo::Field::Tags>();
-
-            process(id, oldTags, newTags);
-        }
-
-        if (newContent.has(Photo::Field::GroupInfo))
-        {
-            const auto& oldGroupInfo = currentContent.groupInfo;
-            const auto& newGroupInfo = newContent.get<Photo::Field::GroupInfo>();
-
-            process(id, oldGroupInfo, newGroupInfo);
-        }
-    }
-
-
-    void PhotoChangeLogOperator::groupCreated(const Group::Id& id, const Group::Type &, const Photo::Id& representative_id)
-    {
-        process(representative_id, GroupInfo(), GroupInfo(id, GroupInfo::Role::Representative));
-    }
-
-
-    void PhotoChangeLogOperator::groupDeleted(const Group::Id& id, const Photo::Id& representative, const std::vector<Photo::Id>& members)
-    {
-        process(representative, GroupInfo(id, GroupInfo::Role::Representative), GroupInfo());
-
-        for(const Photo::Id& ph_id: members)
-            process(ph_id, GroupInfo(id, GroupInfo::Role::Member), GroupInfo());
-    }
-
-
     QStringList PhotoChangeLogOperator::dumpChangeLog()
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -182,11 +143,7 @@ namespace Database
             const Field field = static_cast<Field>(fieldVar.toInt());
             const QString data = dataVar.toString();
 
-            const QString result = QString("photo id: %1. %2 %3. %4")
-                                    .arg(photoId)
-                                    .arg(fieldToStr(field))
-                                    .arg(opToStr(operation))
-                                    .arg(dataToStr(field, operation, data));
+            const QString result = format(photoId, operation, field, data);
 
             results.append(result);
         }
@@ -195,7 +152,7 @@ namespace Database
     }
 
 
-    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data) const
+    void PhotoChangeLogOperator::append(const Photo::Id& ph_id, PhotoChangeLogOperator::Operation op, PhotoChangeLogOperator::Field field, const QString& data)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -213,168 +170,6 @@ namespace Database
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
         DB_ERROR_ON_FALSE1(m_executor->exec(query));
-    }
-
-
-    void PhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags) const
-    {
-        std::vector<std::pair<TagTypeInfo, TagValue>> tagsRemoved;
-        std::vector<std::tuple<TagTypeInfo, TagValue, TagValue>> tagsChanged;
-        std::vector<std::pair<TagTypeInfo, TagValue>> tagsAdded;
-
-        compare(oldTags, newTags,
-                std::back_inserter(tagsRemoved),
-                std::back_inserter(tagsChanged),
-                std::back_inserter(tagsAdded));
-
-        for(const auto& d: tagsRemoved)
-        {
-            const QString data = encodeTag(d.first, d.second);
-            append(id, Remove, Tags, data);
-        }
-
-        for(const auto& d: tagsChanged)
-        {
-            const QString data = encodeTag(std::get<0>(d), std::get<1>(d), std::get<2>(d));
-            append(id, Modify, Tags, data);
-        }
-
-        for(const auto& d: tagsAdded)
-        {
-            const QString data = encodeTag(d.first, d.second);
-            append(id, Add, Tags, data);
-        }
-    }
-
-
-    void PhotoChangeLogOperator::process(const Photo::Id& id, const GroupInfo& oldGroupInfo, const GroupInfo& newGroupInfo) const
-    {
-        if (oldGroupInfo.group_id.valid() && newGroupInfo.group_id.valid())   // both valid -> modification
-        {
-            const QString data = QString("%1 %2,%3 %4")
-                                    .arg(oldGroupInfo.group_id)
-                                    .arg(newGroupInfo.group_id)
-                                    .arg(oldGroupInfo.role)
-                                    .arg(newGroupInfo.role);
-
-            append(id, Modify, Group, data);
-        }
-        else if (oldGroupInfo.group_id.valid() && !newGroupInfo.group_id)     // only old valid -> removal
-        {
-            const QString data = QString("%1,%2")
-                                    .arg(oldGroupInfo.group_id)
-                                    .arg(oldGroupInfo.role);
-
-            append(id, Remove, Group, data);
-        }
-        else if (!oldGroupInfo.group_id && newGroupInfo.group_id.valid())    // only new valid -> addition
-        {
-            const QString data = QString("%1,%2")
-                                    .arg(newGroupInfo.group_id)
-                                    .arg(newGroupInfo.role);
-
-            append(id, Add, Group, data);
-        }
-    }
-
-
-    QString PhotoChangeLogOperator::fieldToStr(Field field)
-    {
-        switch(field)
-        {
-            case Tags:  return "Tag";
-            case Group: return "Group";
-        }
-
-        assert(!"unexpected");
-        return "";
-    }
-
-
-    QString PhotoChangeLogOperator::opToStr(Operation op)
-    {
-        switch(op)
-        {
-            case Add:    return "added";
-            case Modify: return "modified";
-            case Remove: return "removed";
-        }
-
-        assert(!"unexpected");
-        return "";
-    }
-
-
-    QString PhotoChangeLogOperator::dataToStr(PhotoChangeLogOperator::Field field,
-                                              PhotoChangeLogOperator::Operation op,
-                                              const QString& data)
-    {
-        QString result;
-
-        switch(field)
-        {
-            case Tags:
-                switch(op)
-                {
-                    case Add:
-                    case Remove:
-                    {
-                        auto encoded = decodeTag2(data);
-                        const TagTypeInfo& tag_info = std::get<0>(encoded);
-                        const TagValue& tag_value = std::get<1>(encoded);
-
-                        result = QString("%1: %2")
-                                    .arg(tag_info.getName())
-                                    .arg(tag_value.rawValue());
-                    }
-                    break;
-
-                    case Modify:
-                    {
-                        auto encoded = decodeTag3(data);
-                        const TagTypeInfo& tag_info = std::get<0>(encoded);
-                        const TagValue& old_tag_value = std::get<1>(encoded);
-                        const TagValue& new_tag_value = std::get<2>(encoded);
-
-                        result = QString("%1: %2 -> %3")
-                                    .arg(tag_info.getName())
-                                    .arg(old_tag_value.rawValue())
-                                    .arg(new_tag_value.rawValue());
-                    }
-                }
-                break;
-
-            case Group:
-                switch(op)
-                {
-                    case Add:
-                    case Remove:
-                    {
-                        const QStringList id_type = data.split(",");
-
-                        result = QString("%1: %2")
-                                    .arg(id_type[0])
-                                    .arg(id_type[1]);
-                    }
-                    break;
-
-                    case Modify:
-                    {
-                        const QStringList ids_types = data.split(",");
-                        const QStringList ids = ids_types[0].split(" ");
-                        const QStringList types = ids_types[1].split(" ");
-
-                        result = QString("%1 -> %2, %3 -> %4")
-                                    .arg(ids[0])
-                                    .arg(ids[1])
-                                    .arg(types[0])
-                                    .arg(types[1]);
-                    }
-                }
-                break;
-        }
-
-        return result;
     }
 
 }

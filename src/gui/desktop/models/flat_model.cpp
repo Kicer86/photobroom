@@ -17,6 +17,8 @@
 
 #include "flat_model.hpp"
 
+#include <tuple>
+
 #include <core/function_wrappers.hpp>
 #include <database/ibackend.hpp>
 #include <database/idatabase.hpp>
@@ -27,7 +29,7 @@
 using namespace std::placeholders;
 
 FlatModel::FlatModel(QObject* p)
-    : QAbstractListModel(p)
+    : APhotoInfoModel(p)
     , m_db(nullptr)
 {
 }
@@ -57,17 +59,31 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
+const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& index) const
+{
+    const int row = index.row();
+    const Photo::Id id = m_photos[row];
+    const Photo::Data& data = photoData(id);
+    return data;
+}
+
+
+
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
 
-    if (role == PhotoPropertiesRole)
+    if (role == PhotoIdRole)
     {
         const int row = index.row();
         const Photo::Id id = m_photos[row];
-        m_idToRow[id] = row;
-        const PhotoProperties properties = photoProperties(id);
-        d = QVariant::fromValue<PhotoProperties>(properties);
+
+        d = static_cast<int>(id);
+    }
+    else if (role == PhotoPropertiesRole)
+    {
+        const Photo::Data& data = getPhotoDetails(index);
+        d = QVariant::fromValue<Photo::Data>(data);
     }
 
     return d;
@@ -80,12 +96,21 @@ int FlatModel::rowCount(const QModelIndex& parent) const
 }
 
 
-QHash<int, QByteArray> FlatModel::roleNames() const
+int FlatModel::columnCount(const QModelIndex& parent) const
 {
-    QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
-    result.insert(PhotoPropertiesRole, "photoProperties");
+    return parent.isValid()? 0: 1;  // only top parent has 1 column, all its items have 0
+}
 
-    return result;
+
+QModelIndex FlatModel::parent(const QModelIndex&) const
+{
+    return {};
+}
+
+
+QModelIndex FlatModel::index(int r, int c, const QModelIndex& p) const
+{
+    return p.isValid()? QModelIndex(): createIndex(r, c);
 }
 
 
@@ -100,24 +125,16 @@ void FlatModel::reloadPhotos()
 
 void FlatModel::updatePhotos()
 {
-    clearCaches();
-
     if (m_db != nullptr)
         m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
 }
 
 
-void FlatModel::clearCaches()
-{
-    m_idToRow.clear();
-    m_properties.clear();
-}
-
-
 void FlatModel::removeAllPhotos()
 {
+    m_properties.clear();
+    m_idToRow.clear();
     m_photos.clear();
-    clearCaches();
 }
 
 
@@ -137,25 +154,21 @@ std::vector<Database::IFilter::Ptr> FlatModel::filters() const
 }
 
 
-PhotoProperties FlatModel::photoProperties(const Photo::Id& id) const
+const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
 {
-    PhotoProperties properties;
-
     auto it = m_properties.find(id);
 
     if (it == m_properties.end())
     {
-        fetchPhotoProperties(id);
-        m_properties.emplace(id, properties);   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
+        fetchPhotoData(id);
+        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::Data());   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
     }
-    else
-        properties = it->second;
 
-    return properties;
+    return it->second;
 }
 
 
-void FlatModel::fetchPhotoProperties(const Photo::Id& id) const
+void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
     auto b = std::bind(qOverload<Database::IBackend *, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
 
@@ -176,9 +189,8 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
 void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::Id& id) const
 {
     auto photo = backend->getPhoto(id);
-    const PhotoProperties properties(photo.path, photo.geometry);
 
-    invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, properties);
+    invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }
 
 
@@ -257,10 +269,14 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
         }
 
     assert(m_photos == photos);
+
+    m_idToRow.clear();
+    for(std::size_t i = 0; i < m_photos.size(); i++)
+        m_idToRow.emplace(m_photos[i], i);
 }
 
 
-void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const PhotoProperties& properties)
+void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& properties)
 {
     auto it = m_idToRow.find(id);
 

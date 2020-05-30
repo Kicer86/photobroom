@@ -20,6 +20,9 @@ namespace utils
 
     // debug
     QString dump(const QAbstractItemModel &, const QModelIndex & = QModelIndex());
+
+    //
+    int getRoleByName(const QAbstractItemModel& model, const QString& name);
 }
 
 #endif

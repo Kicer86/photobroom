@@ -692,7 +692,7 @@ IdxNodeData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const 
         else
         {
             const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
-            auto photoTagIt = photoTags.find(tagName);
+            auto photoTagIt = photoTags.find(tagName.getTag());
 
             //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
             if (photoTagIt != photoTags.end())

@@ -9,6 +9,8 @@ find_package(Qt5Sql REQUIRED)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
+stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db.json.hpp integration_tests/sample_db.json "const QString db1" "SampleDB")
+
 addTestTarget(database_integration
                 SOURCES
 
@@ -16,6 +18,7 @@ addTestTarget(database_integration
                     backends/sql_backends/sqlite_backend/backend.cpp
                     backends/sql_backends/mysql_backend/backend.cpp
                     backends/sql_backends/mysql_backend/mysql_server.cpp
+                    # memory backend linked
 
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
@@ -36,7 +39,12 @@ addTestTarget(database_integration
                     integration_tests/general_flags_tests.cpp
                     integration_tests/groups_tests.cpp
                     integration_tests/people_tests.cpp
+                    integration_tests/photo_operator_tests.cpp
                     integration_tests/photos_change_log_tests.cpp
+
+                    # dependencies
+                    implementation/apeople_information_accessor.cpp
+                    implementation/aphoto_change_log_operator.cpp
 
                     # main()
                     integration_tests/main.cpp
@@ -44,6 +52,7 @@ addTestTarget(database_integration
                 LIBRARIES
                     core
                     database
+                    database_memory_backend
                     plugins
                     system
                     Qt5::Core

@@ -29,6 +29,7 @@ PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
 {
+    m_selection.setModel(m_model);
 }
 
 
@@ -42,9 +43,15 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 }
 
 
-QAbstractItemModel* PhotosModelControllerComponent::model() const
+APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
+}
+
+
+const QItemSelectionModel& PhotosModelControllerComponent::selectionModel() const
+{
+    return m_selection;
 }
 
 
@@ -79,6 +86,15 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
     m_timeView.second = viewTo;
 
     updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setSelectedPhoto(int idx)
+{
+    const QModelIndex index = m_model->index(idx, 0, {});
+    m_selection.select(index, QItemSelectionModel::ClearAndSelect);
+
+    emit selectionChanged();
 }
 
 

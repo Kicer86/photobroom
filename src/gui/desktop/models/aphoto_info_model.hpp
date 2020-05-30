@@ -30,7 +30,8 @@ class APhotoInfoModel: public QAbstractItemModel
         enum Roles
         {
             PhotoPropertiesRole = Qt::UserRole + 1,
-            _lastRole = PhotoPropertiesRole,
+            PhotoIdRole = PhotoPropertiesRole + 1,
+            _lastRole = PhotoIdRole,
         };
 
         APhotoInfoModel(QObject * = nullptr);

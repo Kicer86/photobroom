@@ -130,8 +130,8 @@ namespace Database
         if (auto sort_action = std::get_if<SortAction>(&action))
         {
             actionQuery = QString("SELECT photos.id FROM (%3) "
-                                  "LEFT JOIN (%2) ON (%3.id = %2.photo_id) "
-                                  "WHERE %3.id IN (%1) AND (%2.name = %4 OR %2.name IS NULL) ORDER BY %2.value %5")
+                                  "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "
+                                  "WHERE %3.id IN (%1) ORDER BY %2.value %5")
                                     .arg(filtersQuery)
                                     .arg(TAB_TAGS)
                                     .arg(TAB_PHOTOS)

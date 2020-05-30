@@ -17,16 +17,6 @@
  *
  */
 
-/// TODO: remove
-#if defined _MSC_VER
-    #if _MSC_VER >= 1800
-        #define Q_COMPILER_INITIALIZER_LISTS
-    #else
-        #error unsupported compiler
-    #endif
-#endif
-
-
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
@@ -44,13 +34,10 @@ using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_loadInProgress(false),
-    m_selectionExtractor(),
-    m_selectionModel(nullptr),
-    m_dbDataModel(nullptr),
     m_tagsOperator(nullptr),
     m_database(nullptr)
 {
+    connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
 }
 
 
@@ -66,45 +53,21 @@ void TagsModel::set(Database::IDatabase* database)
 }
 
 
-void TagsModel::set(QItemSelectionModel* selectionModel)
-{
-    m_selectionExtractor.set(selectionModel);
-
-    if (m_selectionModel != nullptr)
-        m_selectionModel->disconnect(this);
-
-    m_selectionModel = selectionModel;
-    connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
-    lazy_connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &TagsModel::refreshModel);
-
-    refreshModel();
-}
-
-
-void TagsModel::set(DBDataModel* dbDataModel)
-{
-    m_selectionExtractor.set(dbDataModel);
-    m_dbDataModel = dbDataModel;
-}
-
-
 void TagsModel::set(ITagsOperator* tagsOperator)
 {
     m_tagsOperator = tagsOperator;
 }
 
 
-Tag::TagsList TagsModel::getTags() const
+void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    return m_tagsOperator->getTags();
+    fetchPhotos(photos);
 }
 
 
-void TagsModel::addTag(const TagTypeInfo& info, const TagValue& value)
+Tag::TagsList TagsModel::getTags() const
 {
-    m_tagsOperator->setTag(info, value);
-
-    refreshModel();
+    return m_tagsOperator->getTags();
 }
 
 
@@ -249,28 +212,6 @@ QVariant TagsModel::headerData(int section, Qt::Orientation orientation, int rol
 }
 
 
-void TagsModel::refreshModel()
-{
-    if (m_dbDataModel != nullptr && m_selectionModel != nullptr && m_loadInProgress == false)
-    {
-        m_loadInProgress = true;
-
-        clearModel();
-
-        std::vector<Photo::Data> photos = m_selectionExtractor.getSelection();
-
-        std::vector<Photo::Id> ids;
-        for(const Photo::Data& photo: photos)
-            ids.push_back(photo.id);
-
-        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
-        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
-
-        m_database->getPhotos(ids, callback);
-    }
-}
-
-
 void TagsModel::clearModel()
 {
     beginResetModel();
@@ -280,8 +221,22 @@ void TagsModel::clearModel()
 }
 
 
+void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
+{
+    if (m_database)
+    {
+        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
+        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
+
+        m_database->getPhotos(ids, callback);
+    }
+}
+
+
 void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 {
+    clearModel();
+
     m_tagsOperator->operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
@@ -295,7 +250,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
                               [base_tag](const Tag::TagsList::value_type& tag_data)
         {
-            return tag_data.first.getTag() == base_tag;
+            return tag_data.first == base_tag;
         });
 
         if (f == photo_tags.cend())
@@ -315,15 +270,16 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 
     for (const auto& tag: tags)
     {
-        const Tag::Info info(tag);
+        const TagTypeInfo tag_info(tag.first);
+        const TagValue tag_value(tag.second);
 
         QModelIndex name = index(row, 0);
         QModelIndex value = index(row, 1);
 
-        setDataInternal(name, info.displayName(), Qt::DisplayRole);
+        setDataInternal(name, tag_info.getDisplayName(), Qt::DisplayRole);
 
-        const QVariant dispRole = info.value().get();
-        const QVariant tagInfoRole = QVariant::fromValue(info.getTypeInfo());
+        const QVariant dispRole = tag_value.get();
+        const QVariant tagInfoRole = QVariant::fromValue(tag_info);
 
         setDataInternal(value, dispRole, Qt::DisplayRole);
         setDataInternal(value, tagInfoRole, TagInfoRole);
@@ -332,8 +288,6 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     }
 
     QAbstractItemModel::endInsertRows();
-
-    m_loadInProgress = false;
 }
 
 

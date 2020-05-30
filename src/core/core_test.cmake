@@ -33,7 +33,6 @@ addTestTarget(core
                     unit_tests/qmodelindex_comparator_tests.cpp
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp
-                    unit_tests/tag_info_tests.cpp
                     unit_tests/tag_name_info_tests.cpp
                     unit_tests/tag_value_tests.cpp
                     unit_tests/thumbnails_manager_tests.cpp

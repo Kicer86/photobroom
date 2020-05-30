@@ -13,7 +13,6 @@ addTestTarget(gui
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/db_data_model.cpp
                     desktop/models/flat_model.cpp
-                    desktop/models/photo_properties.cpp
                     desktop/models/model_helpers/idx_data.cpp
                     desktop/models/model_helpers/idx_data_manager.cpp
                     desktop/models/model_helpers/idxdata_deepfetcher.cpp
@@ -28,6 +27,7 @@ addTestTarget(gui
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
+                    unit_tests/model/aphoto_info_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
@@ -56,6 +56,7 @@ addTestTarget(gui
                 LIBRARIES
                     core
                     database
+                    database_memory_backend
                     photos_crawler
                     Qt5::Core
                     Qt5::Gui

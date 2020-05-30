@@ -148,3 +148,16 @@ QString utils::dump(const QAbstractItemModel& model, const QModelIndex& parent)
 {
     return ::dump(model, parent, 0);
 }
+
+
+int utils::getRoleByName(const QAbstractItemModel& model, const QString& name)
+{
+    const auto roles = model.roleNames();
+
+    // Find photo properties role. Model needs to provide it
+    const auto it = std::find_if(roles.begin(), roles.end(), [&name](const auto roleName){
+        return roleName == name;
+    });
+
+    return it == roles.end()? -1 : it.key();
+}

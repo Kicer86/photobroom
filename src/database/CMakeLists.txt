@@ -7,6 +7,8 @@ find_package(Qt5Gui REQUIRED)
 find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
+    implementation/apeople_information_accessor.cpp
+    implementation/aphoto_change_log_operator.cpp
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
@@ -16,6 +18,7 @@ set(DATABASE_SOURCES
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
     implementation/photo_types.cpp
+    database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_duplicates_finder.cpp
@@ -27,6 +30,8 @@ set(DATABASE_SOURCES
 
 set(DATABASE_HEADERS
     actions.hpp
+    apeople_information_accessor.hpp
+    aphoto_change_log_operator.hpp
     database_builder.hpp
     database_status.hpp
     filter.hpp
@@ -51,6 +56,7 @@ set(DATABASE_HEADERS
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
     database_tools/photos_analyzer.hpp
+    database_tools/json_to_backend.hpp
     database_tools/tag_info_collector.hpp
     database_tools/signal_mapper.hpp
     database_tools/implementation/photo_info_updater.hpp
@@ -66,6 +72,7 @@ set(DATABASE_MOC
     database_tools/photos_analyzer.hpp
     database_tools/implementation/photos_analyzer_p.hpp
     database_tools/signal_mapper.hpp
+    photo_data.hpp
 )
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})

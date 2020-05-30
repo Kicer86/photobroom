@@ -1,6 +1,4 @@
 
-#include <gmock/gmock.h>
-
 #include "common.hpp"
 
 
@@ -23,9 +21,8 @@ struct PeopleTest: Tests::DatabaseTest
 
 TEST_F(PeopleTest, personIntroduction)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
         {
             const PersonName p1(Person::Id(), "P 1");
             const Person::Id p1_id = op->peopleInformationAccessor().store(p1);
@@ -34,9 +31,8 @@ TEST_F(PeopleTest, personIntroduction)
 
             EXPECT_EQ(p1_r.name(), p1.name());
             EXPECT_EQ(p1_r.id(), p1_id);
-        });
+        }
 
-        db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(123), "P 2");
             const Person::Id p2_id = op->peopleInformationAccessor().store(p2);
@@ -46,9 +42,8 @@ TEST_F(PeopleTest, personIntroduction)
             const PersonName p2_r = op->peopleInformationAccessor().person(Person::Id(123));
 
             EXPECT_FALSE(p2_r.id().valid()); // make sure there is no entry with given id
-        });
+        }
 
-        db->exec([](Database::IBackend* op)
         {
             const PersonName p2(Person::Id(), "P 2");
             const Person::Id p2_id = op->peopleInformationAccessor().store(p2);
@@ -57,40 +52,37 @@ TEST_F(PeopleTest, personIntroduction)
             const Person::Id p2_dup_id = op->peopleInformationAccessor().store(p2_dup);
 
             EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
-        });
+        }
     });
 }
 
 
 TEST_F(PeopleTest, massivePersonIntroduction)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
+        std::set<PersonName> people;
+        for(int i = 0; i < 8; i++)
         {
-            std::set<PersonName> people;
-            for(int i = 0; i < 8; i++)
-            {
-                const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
-                const Person::Id pn_id = op->peopleInformationAccessor().store(pn);
-                const PersonName f_pn(pn_id, pn.name());     // construct PersonName with full info
+            const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
+            const Person::Id pn_id = op->peopleInformationAccessor().store(pn);
+            const PersonName f_pn(pn_id, pn.name());     // construct PersonName with full info
 
-                people.insert(f_pn);
-            }
+            people.insert(f_pn);
+        }
 
-            const std::vector<PersonName> pns_r = op->peopleInformationAccessor().listPeople();
+        const std::vector<PersonName> pns_r = op->peopleInformationAccessor().listPeople();
 
-            // we expect that all inserted people will appear in pns_r
-            for (const PersonName& pn: pns_r)
-            {
-                const auto it = people.find(pn);
-                ASSERT_TRUE(it != people.end());
-                people.erase(it);
-            }
+        // we expect that all inserted people will appear in pns_r
+        for (const PersonName& pn: pns_r)
+        {
+            const auto it = people.find(pn);
+            ASSERT_TRUE(it != people.end());
+            people.erase(it);
+        }
 
-            // `people` should be empty by now
-            EXPECT_TRUE(people.empty());
-        });
+        // `people` should be empty by now
+        EXPECT_TRUE(people.empty());
     });
 }
 
@@ -252,81 +244,78 @@ TEST_F(PeopleTest, assignmentToPhotoTouchesPeople)
 
 TEST_F(PeopleTest, alteringPersonData)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
+
+        ids.push_back(photos.front().getId());
+
+        const Photo::Id& ph_id = ids.front();
+
+        // store person without rect
+        const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+        const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+
+        // update rect info
+        const QRect pr(34, 56, 78, 90);
+        const PersonInfo pi_full(pi_id, p_id, ph_id, {}, pr);
+        const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
+
+        EXPECT_EQ(pi_id, pi_id_full);
+
+        // expect one person in db with full data
         {
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            const auto ppl = op->peopleInformationAccessor().listPeople();
+            ASSERT_EQ(ppl.size(), 1);
+            EXPECT_EQ(ppl[0].id(), pi_id);
+            EXPECT_EQ(ppl[0].name(), "person 25");
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
+            const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ph_ppl.size(), 1);
+            EXPECT_EQ(ph_ppl[0].id, pi_id);
+            EXPECT_EQ(ph_ppl[0].p_id, p_id);
+            EXPECT_EQ(ph_ppl[0].rect, pr);
+        }
 
-            ids.push_back(photos.front().getId());
+        // remove person name
+        const PersonInfo pi_no_person(pi_id, Person::Id(), ph_id, {}, pr);
+        op->peopleInformationAccessor().store(pi_no_person);
 
-            const Photo::Id& ph_id = ids.front();
+        // person should not be removed from people list, but should not be assigned to photo anymore.
+        // Rect with face should stay
+        {
+            const auto ppl = op->peopleInformationAccessor().listPeople();
+            ASSERT_EQ(ppl.size(), 1);
+            EXPECT_EQ(ppl[0].id(), pi_id);
+            EXPECT_EQ(ppl[0].name(), "person 25");
 
-            // store person without rect
-            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
-            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+            const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ph_ppl.size(), 1);
+            EXPECT_EQ(ph_ppl[0].id, pi_id);
+            EXPECT_FALSE(ph_ppl[0].p_id.valid());
+            EXPECT_EQ(ph_ppl[0].rect, pr);
+        }
 
-            // update rect info
-            const QRect pr(34, 56, 78, 90);
-            const PersonInfo pi_full(pi_id, p_id, ph_id, {}, pr);
-            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
+        // remove rect
+        const PersonInfo pi_no_person_no_rect(pi_id, Person::Id(), ph_id, {}, QRect());
+        op->peopleInformationAccessor().store(pi_no_person_no_rect);
 
-            EXPECT_EQ(pi_id, pi_id_full);
+        // person should not be removed from people list, but should be totally removed from photo
+        {
+            const auto ppl = op->peopleInformationAccessor().listPeople();
+            ASSERT_EQ(ppl.size(), 1);
+            EXPECT_EQ(ppl[0].id(), pi_id);
+            EXPECT_EQ(ppl[0].name(), "person 25");
 
-            // expect one person in db with full data
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople();
-                ASSERT_EQ(ppl.size(), 1);
-                EXPECT_EQ(ppl[0].id(), pi_id);
-                EXPECT_EQ(ppl[0].name(), "person 25");
-
-                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ph_ppl.size(), 1);
-                EXPECT_EQ(ph_ppl[0].id, pi_id);
-                EXPECT_EQ(ph_ppl[0].p_id, p_id);
-                EXPECT_EQ(ph_ppl[0].rect, pr);
-            }
-
-            // remove person name
-            const PersonInfo pi_no_person(pi_id, Person::Id(), ph_id, {}, pr);
-            op->peopleInformationAccessor().store(pi_no_person);
-
-            // person should not be removed from people list, but should not be assigned to photo anymore.
-            // Rect with face should stay
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople();
-                ASSERT_EQ(ppl.size(), 1);
-                EXPECT_EQ(ppl[0].id(), pi_id);
-                EXPECT_EQ(ppl[0].name(), "person 25");
-
-                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ph_ppl.size(), 1);
-                EXPECT_EQ(ph_ppl[0].id, pi_id);
-                EXPECT_FALSE(ph_ppl[0].p_id.valid());
-                EXPECT_EQ(ph_ppl[0].rect, pr);
-            }
-
-            // remove rect
-            const PersonInfo pi_no_person_no_rect(pi_id, Person::Id(), ph_id, {}, QRect());
-            op->peopleInformationAccessor().store(pi_no_person_no_rect);
-
-            // person should not be removed from people list, but should be totally removed from photo
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople();
-                ASSERT_EQ(ppl.size(), 1);
-                EXPECT_EQ(ppl[0].id(), pi_id);
-                EXPECT_EQ(ppl[0].name(), "person 25");
-
-                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                EXPECT_TRUE(ph_ppl.empty());
-            }
-        });
+            const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            EXPECT_TRUE(ph_ppl.empty());
+        }
     });
 }
 
@@ -334,231 +323,213 @@ TEST_F(PeopleTest, alteringPersonData)
 
 TEST_F(PeopleTest, rectIsMoreImportantThanName)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
-        {
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
 
-            ids.push_back(photos.front().getId());
+        ids.push_back(photos.front().getId());
 
-            const Photo::Id& ph_id = ids.front();
+        const Photo::Id& ph_id = ids.front();
 
-            // store person with rect
-            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
-            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
+        // store person with rect
+        const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+        const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
 
-            // store the same person with another rect
-            const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
-            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
+        // store the same person with another rect
+        const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
+        const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
 
-            EXPECT_EQ(p_id, p_id2);   // same person
-            EXPECT_NE(pi_id, pi_id2); // different entries on photo
-        });
+        EXPECT_EQ(p_id, p_id2);   // same person
+        EXPECT_NE(pi_id, pi_id2); // different entries on photo
     });
 }
 
 
 TEST_F(PeopleTest, inteligentRectUpdate)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
+
+        ids.push_back(photos.front().getId());
+
+        const Photo::Id& ph_id = ids.front();
+
+        // store people without rects
+        const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 15"));
+        const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+        const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
+        const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id2, ph_id, {}, QRect()));
+        const Person::Id p_id3 = op->peopleInformationAccessor().store(PersonName("person 35"));
+        const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(p_id3, ph_id, {}, QRect()));
+
+        EXPECT_NE(pi_id, pi_id2);
+        EXPECT_NE(pi_id2, pi_id3);
+
+        // update rect info omitting pi_id (backend should guess which person needs update)
+        const QRect pr(34, 56, 78, 90);
+        const PersonInfo pi_full(p_id2, ph_id, {}, pr);
+        const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
+
+        EXPECT_EQ(pi_id2, pi_id_full);
+
+        // expect one person in db with full data + two with missing rects
         {
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ppl.size(), 3);
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
-
-            ids.push_back(photos.front().getId());
-
-            const Photo::Id& ph_id = ids.front();
-
-            // store people without rects
-            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 15"));
-            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
-            const Person::Id p_id2 = op->peopleInformationAccessor().store(PersonName("person 25"));
-            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(p_id2, ph_id, {}, QRect()));
-            const Person::Id p_id3 = op->peopleInformationAccessor().store(PersonName("person 35"));
-            const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(p_id3, ph_id, {}, QRect()));
-
-            EXPECT_NE(pi_id, pi_id2);
-            EXPECT_NE(pi_id2, pi_id3);
-
-            // update rect info omitting pi_id (backend should guess which person needs update)
-            const QRect pr(34, 56, 78, 90);
-            const PersonInfo pi_full(p_id2, ph_id, {}, pr);
-            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
-
-            EXPECT_EQ(pi_id2, pi_id_full);
-
-            // expect one person in db with full data + two with missing rects
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ppl.size(), 3);
-
-                EXPECT_FALSE(ppl[0].rect.isValid());
-                EXPECT_EQ(ppl[1].rect, pr);
-                EXPECT_FALSE(ppl[2].rect.isValid());
-            }
-        });
+            EXPECT_FALSE(ppl[0].rect.isValid());
+            EXPECT_EQ(ppl[1].rect, pr);
+            EXPECT_FALSE(ppl[2].rect.isValid());
+        }
     });
 }
 
 
 TEST_F(PeopleTest, inteligentNameUpdate)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
+
+        ids.push_back(photos.front().getId());
+
+        const Photo::Id& ph_id = ids.front();
+
+        // store faces without names
+        const QRect r1(12, 34, 56, 78);
+        const QRect r2(23, 45, 67, 89);
+        const QRect r3(34, 56, 78, 90);
+        const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+        const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+        const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
+
+        EXPECT_NE(pi_id, pi_id2);
+        EXPECT_NE(pi_id2, pi_id3);
+
+        // update name ommiting pi_id (backend should guess which person needs update)
+        const Person::Id pn_id = op->peopleInformationAccessor().store(PersonName("per 12345"));
+        const PersonInfo pi_full(pn_id, ph_id, {}, r2);
+        const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
+
+        EXPECT_EQ(pi_id2, pi_id_full);
+
+        // expect one person in db with full data + two with missing names
         {
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ppl.size(), 3);
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
-
-            ids.push_back(photos.front().getId());
-
-            const Photo::Id& ph_id = ids.front();
-
-            // store faces without names
-            const QRect r1(12, 34, 56, 78);
-            const QRect r2(23, 45, 67, 89);
-            const QRect r3(34, 56, 78, 90);
-            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
-            const PersonInfo::Id pi_id2 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
-            const PersonInfo::Id pi_id3 = op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
-
-            EXPECT_NE(pi_id, pi_id2);
-            EXPECT_NE(pi_id2, pi_id3);
-
-            // update name ommiting pi_id (backend should guess which person needs update)
-            const Person::Id pn_id = op->peopleInformationAccessor().store(PersonName("per 12345"));
-            const PersonInfo pi_full(pn_id, ph_id, {}, r2);
-            const PersonInfo::Id pi_id_full = op->peopleInformationAccessor().store(pi_full);
-
-            EXPECT_EQ(pi_id2, pi_id_full);
-
-            // expect one person in db with full data + two with missing names
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ppl.size(), 3);
-
-                EXPECT_FALSE(ppl[0].p_id.valid());
-                EXPECT_EQ(ppl[1].p_id, pn_id);
-                EXPECT_FALSE(ppl[2].p_id.valid());
-            }
-        });
+            EXPECT_FALSE(ppl[0].p_id.valid());
+            EXPECT_EQ(ppl[1].p_id, pn_id);
+            EXPECT_FALSE(ppl[2].p_id.valid());
+        }
     });
 }
 
 
 TEST_F(PeopleTest, photoTagsWhenNoName)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([db](Database::IBackend* op)
-        {
-            Database::IUtils* db_utils = db->utils();
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
 
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
+        ids.push_back(photos.front().getId());
 
-            ids.push_back(photos.front().getId());
+        const Photo::Id& ph_id = ids.front();
 
-            const Photo::Id& ph_id = ids.front();
+        // store faces without names
+        const QRect r1(12, 34, 56, 78);
+        const QRect r2(23, 45, 67, 89);
+        const QRect r3(34, 56, 78, 90);
+        op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+        op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+        op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
-            // store faces without names
-            const QRect r1(12, 34, 56, 78);
-            const QRect r2(23, 45, 67, 89);
-            const QRect r3(34, 56, 78, 90);
-            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
-            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
-            op->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
+        const auto photo = op->getPhoto(ph_id);
 
-            const auto photo = db_utils->getPhotoFor(ph_id);
-            const auto tags = photo->getTags();
-
-            EXPECT_TRUE(tags.empty());
-        });
+        EXPECT_TRUE(photo.tags.empty());
     });
 }
 
 
 TEST_F(PeopleTest, inteligentPersonNameRemoval)
 {
-    for_all_db_plugins([](Database::IDatabase* db)
+    for_all_db_plugins([](Database::IBackend* op)
     {
-        db->exec([](Database::IBackend* op)
+        // store 1 photo
+        Photo::DataDelta pd1;
+        pd1.insert<Photo::Field::Path>("photo1.jpeg");
+
+        std::vector<Photo::Id> ids;
+        std::vector<Photo::DataDelta> photos = { pd1 };
+        op->addPhotos(photos);
+
+        ids.push_back(photos.front().getId());
+
+        const Photo::Id& ph_id = ids.front();
+        const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+
+        // store person with full data
+        const QRect pr(34, 56, 78, 90);
+        const PersonInfo pi_full(p_id, ph_id, {}, pr);
+        const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(pi_full);
+
+        // expect one person in db with full data
         {
-            // store 1 photo
-            Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            const auto ppl = op->peopleInformationAccessor().listPeople();
+            ASSERT_EQ(ppl.size(), 1);
+            EXPECT_EQ(ppl[0].id(), pi_id);
+            EXPECT_EQ(ppl[0].name(), "person 25");
 
-            std::vector<Photo::Id> ids;
-            std::vector<Photo::DataDelta> photos = { pd1 };
-            op->addPhotos(photos);
+            const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ph_ppl.size(), 1);
+            EXPECT_EQ(ph_ppl[0].id, pi_id);
+            EXPECT_EQ(ph_ppl[0].p_id, p_id);
+            EXPECT_EQ(ph_ppl[0].rect, pr);
+        }
 
-            ids.push_back(photos.front().getId());
+        // remove person name (Omit PersonInfo::Id)
+        const PersonInfo pi_no_person(Person::Id(), ph_id, {}, pr);
+        op->peopleInformationAccessor().store(pi_no_person);
 
-            const Photo::Id& ph_id = ids.front();
-            const Person::Id p_id = op->peopleInformationAccessor().store(PersonName("person 25"));
+        // person should not be removed from people list, but should not be assigned to photo anymore.
+        // Rect with face should stay
+        {
+            const auto ppl = op->peopleInformationAccessor().listPeople();
+            ASSERT_EQ(ppl.size(), 1);
+            EXPECT_EQ(ppl[0].id(), pi_id);
+            EXPECT_EQ(ppl[0].name(), "person 25");
 
-            // store person with full data
-            const QRect pr(34, 56, 78, 90);
-            const PersonInfo pi_full(p_id, ph_id, {}, pr);
-            const PersonInfo::Id pi_id = op->peopleInformationAccessor().store(pi_full);
-
-            // expect one person in db with full data
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople();
-                ASSERT_EQ(ppl.size(), 1);
-                EXPECT_EQ(ppl[0].id(), pi_id);
-                EXPECT_EQ(ppl[0].name(), "person 25");
-
-                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ph_ppl.size(), 1);
-                EXPECT_EQ(ph_ppl[0].id, pi_id);
-                EXPECT_EQ(ph_ppl[0].p_id, p_id);
-                EXPECT_EQ(ph_ppl[0].rect, pr);
-            }
-
-            // remove person name (Omit PersonInfo::Id)
-            const PersonInfo pi_no_person(Person::Id(), ph_id, {}, pr);
-            op->peopleInformationAccessor().store(pi_no_person);
-
-            // person should not be removed from people list, but should not be assigned to photo anymore.
-            // Rect with face should stay
-            {
-                const auto ppl = op->peopleInformationAccessor().listPeople();
-                ASSERT_EQ(ppl.size(), 1);
-                EXPECT_EQ(ppl[0].id(), pi_id);
-                EXPECT_EQ(ppl[0].name(), "person 25");
-
-                const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
-                ASSERT_EQ(ph_ppl.size(), 1);
-                EXPECT_EQ(ph_ppl[0].id, pi_id);
-                EXPECT_FALSE(ph_ppl[0].p_id.valid());
-                EXPECT_EQ(ph_ppl[0].rect, pr);
-            }
-        });
+            const auto ph_ppl = op->peopleInformationAccessor().listPeople(ph_id);
+            ASSERT_EQ(ph_ppl.size(), 1);
+            EXPECT_EQ(ph_ppl[0].id, pi_id);
+            EXPECT_FALSE(ph_ppl[0].p_id.valid());
+            EXPECT_EQ(ph_ppl[0].rect, pr);
+        }
     });
 }
 

@@ -66,6 +66,8 @@ Item {
             displaced: Transition {
                 NumberAnimation { properties: "x,y"; duration: 250 }
             }
+
+            onCurrentIndexChanged: photosModelControllerId.selectedPhoto = photosGridViewId.currentIndex
         }
 
     }

@@ -2,6 +2,8 @@
 #ifndef GROUP_HPP
 #define GROUP_HPP
 
+#include <tuple>
+
 #include <core/id.hpp>
 #include "database_export.h"
 
@@ -40,6 +42,11 @@ struct GroupInfo
     GroupInfo(const GroupInfo &) = default;
 
     GroupInfo& operator=(const GroupInfo &) = default;
+
+    bool operator==(const GroupInfo& other) const
+    {
+        return std::tie(group_id, role) == std::tie(other.group_id, other.role);
+    }
 };
 
 #endif

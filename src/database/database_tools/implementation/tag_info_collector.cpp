@@ -81,10 +81,10 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
     for(const auto& tag: tags)
     {
-        const TagTypeInfo& tagNameInfo = tag.first;
+        const TagTypes& tagType = tag.first;
         const TagValue& tagValue = tag.second;
 
-        std::vector<TagValue>& values = m_tags[tagNameInfo.getTag()];
+        std::vector<TagValue>& values = m_tags[tagType];
         auto found = std::find(values.begin(), values.end(), tagValue);
 
         if (found == values.end())
@@ -95,11 +95,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
     // send notifications
     for(const auto& tag: tags)
-    {
-        const TagTypeInfo& tagNameInfo = tag.first;
-
-        emit setOfValuesChanged(tagNameInfo.getTag());
-    }
+        emit setOfValuesChanged(tag.first);
 }
 
 

@@ -63,19 +63,13 @@ void TagEditorWidget::setDatabase(Database::IDatabase* db)
 }
 
 
-void TagEditorWidget::set(QItemSelectionModel* selectionModel)
-{
-    m_model->set(selectionModel);
-}
-
-
-void TagEditorWidget::set(DBDataModel* dbDataModel)
-{
-    m_model->set(dbDataModel);
-}
-
-
 void TagEditorWidget::set(ICompleterFactory* completerFactory)
 {
     m_editorFactory.set(completerFactory);
+}
+
+
+void TagEditorWidget::editPhotos(const std::vector<Photo::Id>& photos)
+{
+    m_model->setPhotos(photos);
 }

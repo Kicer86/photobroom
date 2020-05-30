@@ -34,16 +34,29 @@ namespace Photo
     }
 
 
-    Data::Data():
-        id(),
-        sha256Sum(),
-        tags(),
-        flags(),
-        path(),
-        geometry(),
-        groupInfo()
+    Data& Data::apply(const DataDelta& delta)
     {
+        id = delta.getId();
 
+        if (delta.has(Photo::Field::Tags))
+            tags = delta.get<Photo::Field::Tags>();
+
+        if (delta.has(Photo::Field::Geometry))
+            geometry = delta.get<Photo::Field::Geometry>();
+
+        if (delta.has(Photo::Field::Checksum))
+            sha256Sum = delta.get<Photo::Field::Checksum>();
+
+        if (delta.has(Photo::Field::Flags))
+            flags = delta.get<Photo::Field::Flags>();
+
+        if (delta.has(Photo::Field::GroupInfo))
+            groupInfo = delta.get<Photo::Field::GroupInfo>();
+
+        if (delta.has(Photo::Field::Path))
+            path = delta.get<Photo::Field::Path>();
+
+        return *this;
     }
 
 
@@ -69,15 +82,6 @@ namespace Photo
     }
 
 
-    const std::any& DataDelta::get(Photo::Field field) const
-    {
-        assert(has(field));
-        auto it = m_data.find(field);
-
-        return it->second;
-    }
-
-
     const Id & DataDelta::getId() const
     {
         return m_id;
@@ -89,4 +93,18 @@ namespace Photo
         return m_id < other.m_id;
     }
 
+
+    bool DataDelta::operator==(const DataDelta& other) const
+    {
+        return std::tie(m_id, m_data) == std::tie(other.m_id, other.m_data);
+    }
+
+
+    const DataDelta::Storage& DataDelta::get(Photo::Field field) const
+    {
+        assert(has(field));
+        auto it = m_data.find(field);
+
+        return it->second;
+    }
 }

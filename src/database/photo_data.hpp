@@ -20,8 +20,7 @@
 #ifndef PHOTO_DATA_HPP
 #define PHOTO_DATA_HPP
 
-#include <any>
-
+#include <variant>
 #include <QImage>
 
 #include <core/tag.hpp>
@@ -33,6 +32,7 @@
 
 namespace Photo
 {
+    class DataDelta;
 
     struct DATABASE_EXPORT Data
     {
@@ -46,10 +46,17 @@ namespace Photo
 
         int getFlag(const Photo::FlagsE& flag) const;
 
-        Data();
+        Data() = default;
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+
+        Data& apply(const DataDelta &);
+
+        Q_PROPERTY(QString path MEMBER path)
+        Q_PROPERTY(QSize size MEMBER geometry)
+        Q_PROPERTY(Photo::Id id MEMBER id)
+        Q_GADGET
     };
 
     enum class Field
@@ -106,7 +113,7 @@ namespace Photo
         public:
             DataDelta(): m_id(), m_data() {}
 
-            DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+            explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
 
             template<Field field>
             void insert(const typename DeltaTypes<field>::Storage& value)
@@ -119,28 +126,34 @@ namespace Photo
             void clear();
 
             bool has(Field) const;
-            const std::any& get(Field) const;
 
             template<Field field>
             const typename DeltaTypes<field>::Storage& get() const
             {
                 typedef typename DeltaTypes<field>::Storage Result;
 
-                const std::any& raw = get(field);
+                const Storage& raw = get(field);
 
-                // TODO: may fail then compiled with clang.
-                // https://stackoverflow.com/questions/51693605/clang-compiled-program-throws-stdbad-any-cast-during-stdany-cast/51703166#51703166
-                // https://bugs.llvm.org/show_bug.cgi?id=38485
-                return std::any_cast<const Result &>(raw);
+                return std::get<Result>(raw);
             }
 
             const Photo::Id& getId() const;
 
             bool operator<(const DataDelta &) const;
+            bool operator==(const DataDelta &) const;
 
         private:
+            typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
+                                 DeltaTypes<Field::Tags>::Storage,
+                                 DeltaTypes<Field::Flags>::Storage,
+                                 DeltaTypes<Field::Path>::Storage,
+                                 DeltaTypes<Field::Geometry>::Storage,
+                                 DeltaTypes<Field::GroupInfo>::Storage> Storage;
+
             Photo::Id                 m_id;
-            std::map<Field, std::any> m_data;
+            std::map<Field, Storage> m_data;
+
+            const Storage& get(Field) const;
     };
 
 }
