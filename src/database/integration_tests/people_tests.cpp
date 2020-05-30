@@ -17,9 +17,9 @@ TYPED_TEST(PeopleTest, personIntroduction)
 {
     {
         const PersonName p1(Person::Id(), "P 1");
-        const Person::Id p1_id = this->backend->peopleInformationAccessor().store(p1);
+        const Person::Id p1_id = this->m_backend->peopleInformationAccessor().store(p1);
 
-        const PersonName p1_r = this->backend->peopleInformationAccessor().person(p1_id);
+        const PersonName p1_r = this->m_backend->peopleInformationAccessor().person(p1_id);
 
         EXPECT_EQ(p1_r.name(), p1.name());
         EXPECT_EQ(p1_r.id(), p1_id);
@@ -27,21 +27,21 @@ TYPED_TEST(PeopleTest, personIntroduction)
 
     {
         const PersonName p2(Person::Id(123), "P 2");
-        const Person::Id p2_id = this->backend->peopleInformationAccessor().store(p2);
+        const Person::Id p2_id = this->m_backend->peopleInformationAccessor().store(p2);
 
         EXPECT_FALSE(p2_id.valid());     // p2 was nonexistent person (id 123 doesn't exist in db), we should get an error
 
-        const PersonName p2_r = this->backend->peopleInformationAccessor().person(Person::Id(123));
+        const PersonName p2_r = this->m_backend->peopleInformationAccessor().person(Person::Id(123));
 
         EXPECT_FALSE(p2_r.id().valid()); // make sure there is no entry with given id
     }
 
     {
         const PersonName p2(Person::Id(), "P 2");
-        const Person::Id p2_id = this->backend->peopleInformationAccessor().store(p2);
+        const Person::Id p2_id = this->m_backend->peopleInformationAccessor().store(p2);
 
         const PersonName p2_dup(Person::Id(), "P 2");
-        const Person::Id p2_dup_id = this->backend->peopleInformationAccessor().store(p2_dup);
+        const Person::Id p2_dup_id = this->m_backend->peopleInformationAccessor().store(p2_dup);
 
         EXPECT_EQ(p2_dup_id, p2_id);     // we expect to get the same id in case of duplicate
     }
@@ -54,13 +54,13 @@ TYPED_TEST(PeopleTest, massivePersonIntroduction)
     for(int i = 0; i < 8; i++)
     {
         const PersonName pn(Person::Id(), QString("P 3_%1").arg(i));
-        const Person::Id pn_id = this->backend->peopleInformationAccessor().store(pn);
+        const Person::Id pn_id = this->m_backend->peopleInformationAccessor().store(pn);
         const PersonName f_pn(pn_id, pn.name());     // construct PersonName with full info
 
         people.insert(f_pn);
     }
 
-    const std::vector<PersonName> pns_r = this->backend->peopleInformationAccessor().listPeople();
+    const std::vector<PersonName> pns_r = this->m_backend->peopleInformationAccessor().listPeople();
 
     // we expect that all inserted people will appear in pns_r
     for (const PersonName& pn: pns_r)
@@ -90,32 +90,32 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2 };
-            this->backend->addPhotos(photos);
+            this->m_backend->addPhotos(photos);
 
             ids.push_back(photos.front().getId());
             ids.push_back(photos.back().getId());
 
-            const IPhotoInfo::Ptr photo1 = this->backend->getPhotoFor(ids[0]);
+            const IPhotoInfo::Ptr photo1 = this->m_backend->getPhotoFor(ids[0]);
             const TagNameInfo pi1(TagTypes::_People);
             const TagValue pv1({QString("person 1"), QString("person 2")});
 
             photo1->setTag(pi1, pv1);
 
-            const IPhotoInfo::Ptr photo2 = this->backend->getPhotoFor(ids[1]);
+            const IPhotoInfo::Ptr photo2 = this->m_backend->getPhotoFor(ids[1]);
             const TagNameInfo pi2(TagTypes::_People);
             const TagValue pv2({QString("person 2"), QString("person 3")});
 
             photo2->setTag(pi2, pv2);
 
             // verify if people's name were stored
-            const auto all_people = this->backend->peopleInformationAccessor().listPeople();
+            const auto all_people = this->m_backend->peopleInformationAccessor().listPeople();
             ASSERT_EQ(all_people.size(), 3);
             EXPECT_EQ(all_people[0].name(), "person 1");
             EXPECT_EQ(all_people[1].name(), "person 2");
             EXPECT_EQ(all_people[2].name(), "person 3");
 
             // verify people assigned to photo1
-            const auto photo1_people = this->backend->peopleInformationAccessor().listPeople(photo1->getID());
+            const auto photo1_people = this->m_backend->peopleInformationAccessor().listPeople(photo1->getID());
             ASSERT_EQ(photo1_people.size(), 2);
             EXPECT_EQ(photo1_people[0].p_id, all_people[0].id());
             EXPECT_EQ(photo1_people[0].ph_id, photo1->getID());
@@ -126,7 +126,7 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
             EXPECT_FALSE(photo1_people[1].rect.isValid());
 
             // verify people assigned to photo2
-            const auto photo2_people = this->backend->peopleInformationAccessor().listPeople(photo2->getID());
+            const auto photo2_people = this->m_backend->peopleInformationAccessor().listPeople(photo2->getID());
             ASSERT_EQ(photo2_people.size(), 2);
             EXPECT_EQ(photo2_people[0].p_id, all_people[1].id());
             EXPECT_EQ(photo2_people[0].ph_id, photo2->getID());
@@ -177,21 +177,21 @@ TYPED_TEST(PeopleTest, assignmentToPhotoTouchesPeople)
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
-            this->backend->addPhotos(photos);
+            this->m_backend->addPhotos(photos);
 
             ids.push_back(photos.front().getId());
 
             // add fully described person to photo
             const PersonName pn("person 123");
-            const auto p_id = this->backend->store(pn);
+            const auto p_id = this->m_backendstore(pn);
             const QRect p_r(12, 34, 56, 78);
             const PersonInfo pi(p_id, ids[0], p_r);
 
-            this->backend->store(pi);
+            this->m_backendstore(pi);
 
             // verify if person was successfully stored
             {
-                const auto people = this->backend->peopleInformationAccessor().listPeople(ids[0]);
+                const auto people = this->m_backend->peopleInformationAccessor().listPeople(ids[0]);
                 ASSERT_EQ(people.size(), 1);
                 EXPECT_TRUE(people[0].id.valid());
                 EXPECT_EQ(people[0].p_id, p_id);
@@ -200,7 +200,7 @@ TYPED_TEST(PeopleTest, assignmentToPhotoTouchesPeople)
             }
 
             // add more people to photo
-            auto photo = this->backend->getPhotoFor(ids[0]);
+            auto photo = this->m_backend->getPhotoFor(ids[0]);
             auto tags = photo->getTags();
             auto peopleTags = tags.find(TagNameInfo(TagTypes::People));
             ASSERT_NE(peopleTags, tags.end());
@@ -211,7 +211,7 @@ TYPED_TEST(PeopleTest, assignmentToPhotoTouchesPeople)
 
             // verify if original person wasn't touched, and if we have a new companion
             {
-                const auto people = this->backend->peopleInformationAccessor().listPeople(ids[0]);
+                const auto people = this->m_backend->peopleInformationAccessor().listPeople(ids[0]);
                 ASSERT_EQ(people.size(), 2);
 
                 EXPECT_TRUE(people[0].id.valid());
@@ -238,31 +238,31 @@ TYPED_TEST(PeopleTest, alteringPersonData)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
     const Photo::Id& ph_id = ids.front();
 
     // store person without rect
-    const Person::Id p_id = this->backend->peopleInformationAccessor().store(PersonName("person 25"));
-    const PersonInfo::Id pi_id = this->backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+    const Person::Id p_id = this->m_backend->peopleInformationAccessor().store(PersonName("person 25"));
+    const PersonInfo::Id pi_id = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
 
     // update rect info
     const QRect pr(34, 56, 78, 90);
     const PersonInfo pi_full(pi_id, p_id, ph_id, {}, pr);
-    const PersonInfo::Id pi_id_full = this->backend->peopleInformationAccessor().store(pi_full);
+    const PersonInfo::Id pi_id_full = this->m_backend->peopleInformationAccessor().store(pi_full);
 
     EXPECT_EQ(pi_id, pi_id_full);
 
     // expect one person in db with full data
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople();
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
         EXPECT_EQ(ppl[0].id(), pi_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
-        const auto ph_ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ph_ppl.size(), 1);
         EXPECT_EQ(ph_ppl[0].id, pi_id);
         EXPECT_EQ(ph_ppl[0].p_id, p_id);
@@ -271,17 +271,17 @@ TYPED_TEST(PeopleTest, alteringPersonData)
 
     // remove person name
     const PersonInfo pi_no_person(pi_id, Person::Id(), ph_id, {}, pr);
-    this->backend->peopleInformationAccessor().store(pi_no_person);
+    this->m_backend->peopleInformationAccessor().store(pi_no_person);
 
     // person should not be removed from people list, but should not be assigned to photo anymore.
     // Rect with face should stay
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople();
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
         EXPECT_EQ(ppl[0].id(), pi_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
-        const auto ph_ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ph_ppl.size(), 1);
         EXPECT_EQ(ph_ppl[0].id, pi_id);
         EXPECT_FALSE(ph_ppl[0].p_id.valid());
@@ -290,16 +290,16 @@ TYPED_TEST(PeopleTest, alteringPersonData)
 
     // remove rect
     const PersonInfo pi_no_person_no_rect(pi_id, Person::Id(), ph_id, {}, QRect());
-    this->backend->peopleInformationAccessor().store(pi_no_person_no_rect);
+    this->m_backend->peopleInformationAccessor().store(pi_no_person_no_rect);
 
     // person should not be removed from people list, but should be totally removed from photo
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople();
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
         EXPECT_EQ(ppl[0].id(), pi_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
-        const auto ph_ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         EXPECT_TRUE(ph_ppl.empty());
     }
 }
@@ -314,19 +314,19 @@ TYPED_TEST(PeopleTest, rectIsMoreImportantThanName)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
     const Photo::Id& ph_id = ids.front();
 
     // store person with rect
-    const Person::Id p_id = this->backend->peopleInformationAccessor().store(PersonName("person 25"));
-    const PersonInfo::Id pi_id = this->backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
+    const Person::Id p_id = this->m_backend->peopleInformationAccessor().store(PersonName("person 25"));
+    const PersonInfo::Id pi_id = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(12, 34, 56, 78)));
 
     // store the same person with another rect
-    const Person::Id p_id2 = this->backend->peopleInformationAccessor().store(PersonName("person 25"));
-    const PersonInfo::Id pi_id2 = this->backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
+    const Person::Id p_id2 = this->m_backend->peopleInformationAccessor().store(PersonName("person 25"));
+    const PersonInfo::Id pi_id2 = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect(23, 34, 45, 56)));
 
     EXPECT_EQ(p_id, p_id2);   // same person
     EXPECT_NE(pi_id, pi_id2); // different entries on photo
@@ -341,19 +341,19 @@ TYPED_TEST(PeopleTest, inteligentRectUpdate)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
     const Photo::Id& ph_id = ids.front();
 
     // store people without rects
-    const Person::Id p_id = this->backend->peopleInformationAccessor().store(PersonName("person 15"));
-    const PersonInfo::Id pi_id = this->backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
-    const Person::Id p_id2 = this->backend->peopleInformationAccessor().store(PersonName("person 25"));
-    const PersonInfo::Id pi_id2 = this->backend->peopleInformationAccessor().store(PersonInfo(p_id2, ph_id, {}, QRect()));
-    const Person::Id p_id3 = this->backend->peopleInformationAccessor().store(PersonName("person 35"));
-    const PersonInfo::Id pi_id3 = this->backend->peopleInformationAccessor().store(PersonInfo(p_id3, ph_id, {}, QRect()));
+    const Person::Id p_id = this->m_backend->peopleInformationAccessor().store(PersonName("person 15"));
+    const PersonInfo::Id pi_id = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id, ph_id, {}, QRect()));
+    const Person::Id p_id2 = this->m_backend->peopleInformationAccessor().store(PersonName("person 25"));
+    const PersonInfo::Id pi_id2 = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id2, ph_id, {}, QRect()));
+    const Person::Id p_id3 = this->m_backend->peopleInformationAccessor().store(PersonName("person 35"));
+    const PersonInfo::Id pi_id3 = this->m_backend->peopleInformationAccessor().store(PersonInfo(p_id3, ph_id, {}, QRect()));
 
     EXPECT_NE(pi_id, pi_id2);
     EXPECT_NE(pi_id2, pi_id3);
@@ -361,13 +361,13 @@ TYPED_TEST(PeopleTest, inteligentRectUpdate)
     // update rect info omitting pi_id (backend should guess which person needs update)
     const QRect pr(34, 56, 78, 90);
     const PersonInfo pi_full(p_id2, ph_id, {}, pr);
-    const PersonInfo::Id pi_id_full = this->backend->peopleInformationAccessor().store(pi_full);
+    const PersonInfo::Id pi_id_full = this->m_backend->peopleInformationAccessor().store(pi_full);
 
     EXPECT_EQ(pi_id2, pi_id_full);
 
     // expect one person in db with full data + two with missing rects
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ppl.size(), 3);
 
         EXPECT_FALSE(ppl[0].rect.isValid());
@@ -385,7 +385,7 @@ TYPED_TEST(PeopleTest, inteligentNameUpdate)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
@@ -395,23 +395,23 @@ TYPED_TEST(PeopleTest, inteligentNameUpdate)
     const QRect r1(12, 34, 56, 78);
     const QRect r2(23, 45, 67, 89);
     const QRect r3(34, 56, 78, 90);
-    const PersonInfo::Id pi_id = this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
-    const PersonInfo::Id pi_id2 = this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
-    const PersonInfo::Id pi_id3 = this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
+    const PersonInfo::Id pi_id = this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+    const PersonInfo::Id pi_id2 = this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+    const PersonInfo::Id pi_id3 = this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
     EXPECT_NE(pi_id, pi_id2);
     EXPECT_NE(pi_id2, pi_id3);
 
     // update name ommiting pi_id (backend should guess which person needs update)
-    const Person::Id pn_id = this->backend->peopleInformationAccessor().store(PersonName("per 12345"));
+    const Person::Id pn_id = this->m_backend->peopleInformationAccessor().store(PersonName("per 12345"));
     const PersonInfo pi_full(pn_id, ph_id, {}, r2);
-    const PersonInfo::Id pi_id_full = this->backend->peopleInformationAccessor().store(pi_full);
+    const PersonInfo::Id pi_id_full = this->m_backend->peopleInformationAccessor().store(pi_full);
 
     EXPECT_EQ(pi_id2, pi_id_full);
 
     // expect one person in db with full data + two with missing names
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ppl.size(), 3);
 
         EXPECT_FALSE(ppl[0].p_id.valid());
@@ -429,7 +429,7 @@ TYPED_TEST(PeopleTest, photoTagsWhenNoName)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
@@ -439,11 +439,11 @@ TYPED_TEST(PeopleTest, photoTagsWhenNoName)
     const QRect r1(12, 34, 56, 78);
     const QRect r2(23, 45, 67, 89);
     const QRect r3(34, 56, 78, 90);
-    this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
-    this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
-    this->backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
+    this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r1));
+    this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
+    this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
-    const auto photo = this->backend->getPhoto(ph_id);
+    const auto photo = this->m_backend->getPhoto(ph_id);
 
     EXPECT_TRUE(photo.tags.empty());
 }
@@ -457,26 +457,26 @@ TYPED_TEST(PeopleTest, inteligentPersonNameRemoval)
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
-    this->backend->addPhotos(photos);
+    this->m_backend->addPhotos(photos);
 
     ids.push_back(photos.front().getId());
 
     const Photo::Id& ph_id = ids.front();
-    const Person::Id p_id = this->backend->peopleInformationAccessor().store(PersonName("person 25"));
+    const Person::Id p_id = this->m_backend->peopleInformationAccessor().store(PersonName("person 25"));
 
     // store person with full data
     const QRect pr(34, 56, 78, 90);
     const PersonInfo pi_full(p_id, ph_id, {}, pr);
-    const PersonInfo::Id pi_id = this->backend->peopleInformationAccessor().store(pi_full);
+    const PersonInfo::Id pi_id = this->m_backend->peopleInformationAccessor().store(pi_full);
 
     // expect one person in db with full data
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople();
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
         EXPECT_EQ(ppl[0].id(), pi_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
-        const auto ph_ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ph_ppl.size(), 1);
         EXPECT_EQ(ph_ppl[0].id, pi_id);
         EXPECT_EQ(ph_ppl[0].p_id, p_id);
@@ -485,17 +485,17 @@ TYPED_TEST(PeopleTest, inteligentPersonNameRemoval)
 
     // remove person name (Omit PersonInfo::Id)
     const PersonInfo pi_no_person(Person::Id(), ph_id, {}, pr);
-    this->backend->peopleInformationAccessor().store(pi_no_person);
+    this->m_backend->peopleInformationAccessor().store(pi_no_person);
 
     // person should not be removed from people list, but should not be assigned to photo anymore.
     // Rect with face should stay
     {
-        const auto ppl = this->backend->peopleInformationAccessor().listPeople();
+        const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
         EXPECT_EQ(ppl[0].id(), pi_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
-        const auto ph_ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+        const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
         ASSERT_EQ(ph_ppl.size(), 1);
         EXPECT_EQ(ph_ppl[0].id, pi_id);
         EXPECT_FALSE(ph_ppl[0].p_id.valid());
@@ -517,12 +517,12 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
-            this->backend->addPhotos(photos);
+            this->m_backend->addPhotos(photos);
 
             ids.push_back(photos.front().getId());
 
             const Photo::Id& ph_id = ids.front();
-            auto photo = this->backend->getPhotoFor(ph_id);
+            auto photo = this->m_backend->getPhotoFor(ph_id);
 
             {
                 // store people
@@ -533,7 +533,7 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
                 photo->setTag(TagNameInfo(TagTypes::People), people);
 
                 // verify people count
-                const auto ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+                const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 3);
             }
 
@@ -545,7 +545,7 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
                 photo->setTag(TagNameInfo(TagTypes::People), people);
 
                 // verify people count
-                const auto ppl = this->backend->peopleInformationAccessor().listPeople(ph_id);
+                const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
                 ASSERT_EQ(ppl.size(), 2);
             }
         });

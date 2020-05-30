@@ -20,17 +20,17 @@ TYPED_TEST(GroupsTest, groupCreation)
     pd3.insert<Photo::Field::Path>("photo3.jpeg");
 
     std::vector<Photo::DataDelta> photos = { pd1, pd2, pd3 };
-    ASSERT_TRUE(this->backend->addPhotos(photos));
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
 
     Photo::Id modified_photo;
-    QObject::connect(this->backend.get(), &Database::IBackend::photoModified, [&modified_photo](const Photo::Id& id)
+    QObject::connect(this->m_backend.get(), &Database::IBackend::photoModified, [&modified_photo](const Photo::Id& id)
     {
         modified_photo = id;
     });
 
     // create group
     const Photo::Id& id1 = photos[0].getId();
-    const Group::Id& gid = this->backend->groupOperator().addGroup(id1, Group::Type::Animation);
+    const Group::Id& gid = this->m_backend->groupOperator().addGroup(id1, Group::Type::Animation);
     EXPECT_TRUE(gid.valid());
 
     // expect representative photo to be modified
@@ -49,11 +49,11 @@ TYPED_TEST(GroupsTest, groupRemoval)
     pd3.insert<Photo::Field::Path>("photo3.jpeg");
 
     std::vector<Photo::DataDelta> photos = { pd1, pd2, pd3 };
-    ASSERT_TRUE(this->backend->addPhotos(photos));
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
 
     // create group
     const Photo::Id& id1 = photos[0].getId();
-    const Group::Id& gid = this->backend->groupOperator().addGroup(id1, Group::Type::Animation);
+    const Group::Id& gid = this->m_backend->groupOperator().addGroup(id1, Group::Type::Animation);
     EXPECT_TRUE(gid.valid());
 
     // add photos to group
@@ -65,18 +65,18 @@ TYPED_TEST(GroupsTest, groupRemoval)
     pd2.insert<Photo::Field::GroupInfo>(grpInfo);
     pd3.insert<Photo::Field::GroupInfo>(grpInfo);
 
-    this->backend->update(pd2);
-    this->backend->update(pd3);
+    this->m_backend->update(pd2);
+    this->m_backend->update(pd3);
 
     // watch for changes
     std::set<Photo::Id> modified_photos;
-    QObject::connect(this->backend.get(), &Database::IBackend::photoModified, [&modified_photos](const Photo::Id& id)
+    QObject::connect(this->m_backend.get(), &Database::IBackend::photoModified, [&modified_photos](const Photo::Id& id)
     {
         modified_photos.insert(id);
     });
 
     // remove group
-    this->backend->groupOperator().removeGroup(gid);
+    this->m_backend->groupOperator().removeGroup(gid);
 
     // expect all photos to be modified
     ASSERT_EQ(modified_photos.size(), 3);

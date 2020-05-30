@@ -55,7 +55,7 @@ struct DatabaseTest: testing::Test
 {
     DatabaseTest()
         : testing::Test()
-        , backend(construct<T>(&logger))
+        , m_backend(construct<T>(&m_logger))
     {
         const QString name = BackendInfo<T>::name;
         const QString wd = m_wd.path();
@@ -63,17 +63,17 @@ struct DatabaseTest: testing::Test
         QDir().mkdir(db_path);
         Database::ProjectInfo prjInfo(db_path + "/db", name);
 
-        EXPECT_TRUE(backend->init(prjInfo));
+        EXPECT_TRUE(m_backend->init(prjInfo));
     }
 
     ~DatabaseTest()
     {
-        backend->closeConnections();;
+        m_backend->closeConnections();;
     }
 
-    EmptyLogger logger;
+    EmptyLogger m_logger;
     QTemporaryDir m_wd;
-    std::unique_ptr<Database::IBackend> backend;
+    std::unique_ptr<Database::IBackend> m_backend;
 };
 
 using BackendTypes = testing::Types<Database::SQLiteBackend, Database::MemoryBackend>;

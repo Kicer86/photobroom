@@ -20,7 +20,7 @@ TYPED_TEST(PhotosChangeLog, tagsManipulation)
     pd.insert<Photo::Field::Path>("photo1.jpeg");
 
     std::vector<Photo::DataDelta> photos = { pd };
-    ASSERT_TRUE(this->backend->addPhotos(photos));
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
 
     // read photo structure
     const Photo::Id id = photos.front().getId();
@@ -31,27 +31,27 @@ TYPED_TEST(PhotosChangeLog, tagsManipulation)
     tags[TagTypes::Event] = TagValue(QString("test event"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->backend->update(data_delta);
+    this->m_backend->update(data_delta);
 
     tags[TagTypes::Place] = TagValue(QString("test place"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->backend->update(data_delta);
+    this->m_backend->update(data_delta);
 
     // modify tag
     tags[TagTypes::Event] = TagValue(QString("test event 2"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->backend->update(data_delta);
+    this->m_backend->update(data_delta);
 
     // remove tag
     tags.erase(TagTypes::Place);
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->backend->update(data_delta);
+    this->m_backend->update(data_delta);
 
     // verify change log
-    const QStringList changeLog = this->backend->photoChangeLogOperator().dumpChangeLog();
+    const QStringList changeLog = this->m_backend->photoChangeLogOperator().dumpChangeLog();
 
     ASSERT_EQ(changeLog.size(), 4);
     EXPECT_EQ(changeLog[0], QString("photo id: %1. Tag added. Event: test event").arg(id));
@@ -74,7 +74,7 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     pd5.insert<Photo::Field::Path>("photo5.jpeg");
 
     std::vector<Photo::DataDelta> photos = { pd0, pd1, pd2, pd3, pd4, pd5 };
-    ASSERT_TRUE(this->backend->addPhotos(photos));
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
 
     const Photo::Id id0 = photos[0].getId();
     const Photo::Id id1 = photos[1].getId();
@@ -82,8 +82,8 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     const Photo::Id id3 = photos[3].getId();
 
     // create groups
-    const Group::Id gr1 = this->backend->groupOperator().addGroup(id0, Group::Animation);
-    const Group::Id gr2 = this->backend->groupOperator().addGroup(id3, Group::Animation);
+    const Group::Id gr1 = this->m_backend->groupOperator().addGroup(id0, Group::Animation);
+    const Group::Id gr2 = this->m_backend->groupOperator().addGroup(id3, Group::Animation);
 
     // read photo structure
     Photo::DataDelta data_delta1(id1);
@@ -92,18 +92,18 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     // add to group
     const GroupInfo gr_info1 = { gr1, GroupInfo::Member };
     data_delta1.insert<Photo::Field::GroupInfo>(gr_info1);
-    this->backend->update(data_delta1);
+    this->m_backend->update(data_delta1);
 
     const GroupInfo gr_info2 = { gr1, GroupInfo::Member };
     data_delta2.insert<Photo::Field::GroupInfo>(gr_info2);
-    this->backend->update(data_delta2);
+    this->m_backend->update(data_delta2);
 
     // delete group
-    this->backend->groupOperator().removeGroup(gr1);
-    this->backend->groupOperator().removeGroup(gr2);
+    this->m_backend->groupOperator().removeGroup(gr1);
+    this->m_backend->groupOperator().removeGroup(gr2);
 
     // verify change log
-    const QStringList changeLog = this->backend->photoChangeLogOperator().dumpChangeLog();
+    const QStringList changeLog = this->m_backend->photoChangeLogOperator().dumpChangeLog();
 
     ASSERT_EQ(changeLog.size(), 8);
     EXPECT_EQ(changeLog[0], QString("photo id: %1. Group added. %2: 1").arg(id0).arg(gr1));   // photo #1 added to group #1 as representative (1)
