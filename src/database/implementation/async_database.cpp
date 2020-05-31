@@ -297,17 +297,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::countPhotos(const std::vector<IFilter::Ptr>& filters, const Callback<int>& callback)
-    {
-        exec([filters, callback](IBackend* backend)
-        {
-             const auto result = backend->getPhotosCount(filters);
-
-             callback(result);
-        });
-    }
-
-
     void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
         exec([this, ids, callback](IBackend *)

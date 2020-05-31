@@ -71,7 +71,6 @@ namespace Database
             virtual void store(const std::vector<Photo::DataDelta> &) override;
             virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) override;
 
-            virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
             virtual void listTagNames( const Callback<const std::vector<TagTypeInfo> &> & ) override;
             virtual void listTagValues( const TagTypeInfo&, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;

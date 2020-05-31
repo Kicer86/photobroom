@@ -132,7 +132,6 @@ namespace Database
         virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) = 0;
 
         // read data
-        virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listTagNames(const Callback<const std::vector<TagTypeInfo> &> & ) = 0;                                           // list all stored tag names
         virtual void listTagValues(const TagTypeInfo &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values

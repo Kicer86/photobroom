@@ -60,9 +60,6 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))
         .WillOnce(InvokeArgument<2>(dateTag, dates));
 
-    // filter, callback
-    EXPECT_CALL(db, countPhotos(_, _));
-
     ON_CALL(db, backend)
         .WillByDefault(Return(&backend));
 

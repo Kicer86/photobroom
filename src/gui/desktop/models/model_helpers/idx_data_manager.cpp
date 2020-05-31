@@ -358,7 +358,11 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
         m_data->m_tasksResultsCtrl.make_safe_callback<int>(callback);
 
     //send task to execution
-    m_data->m_database->countPhotos(filter, safe_callback);
+    m_data->m_database->exec([filter, safe_callback](Database::IBackend* backend)
+    {
+        const auto count = backend->getPhotosCount(filter);
+        safe_callback(count);
+    });
 }
 
 
