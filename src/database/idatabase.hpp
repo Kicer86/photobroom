@@ -134,7 +134,6 @@ namespace Database
         // read data
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listTagNames(const Callback<const std::vector<TagTypeInfo> &> & ) = 0;                                           // list all stored tag names
-        virtual void listTagValues(const TagTypeInfo &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values
         virtual void listTagValues(const TagTypeInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 

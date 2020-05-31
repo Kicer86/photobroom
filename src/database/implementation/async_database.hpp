@@ -73,7 +73,6 @@ namespace Database
 
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
             virtual void listTagNames( const Callback<const std::vector<TagTypeInfo> &> & ) override;
-            virtual void listTagValues( const TagTypeInfo&, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
             virtual void listTagValues( const TagTypeInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
