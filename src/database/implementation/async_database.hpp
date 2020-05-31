@@ -68,7 +68,6 @@ namespace Database
             AsyncDatabase& operator=(const AsyncDatabase &) = delete;
 
             virtual void update(const Photo::DataDelta &) override;
-            virtual void store(const std::vector<Photo::DataDelta> &) override;
 
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
             virtual void listTagNames( const Callback<const std::vector<TagTypeInfo> &> & ) override;

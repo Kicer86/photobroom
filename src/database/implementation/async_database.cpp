@@ -272,15 +272,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::store(const std::vector<Photo::DataDelta>& photos)
-    {
-        exec([this, photos](IBackend *)
-        {
-             m_utils.insertPhotos(photos);
-        });
-    }
-
-
     void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
         exec([this, ids, callback](IBackend *)

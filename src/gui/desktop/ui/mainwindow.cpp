@@ -647,7 +647,10 @@ void MainWindow::on_actionScan_collection_triggered()
             photos.emplace_back(photo_data);
         }
 
-        db->store(photos);
+        db->exec([photos](Database::IBackend* backend) mutable
+        {
+            backend->addPhotos(photos);
+        });
     }
 }
 

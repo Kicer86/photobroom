@@ -127,7 +127,6 @@ namespace Database
 
         // store data
         virtual void update(const Photo::DataDelta &) = 0;
-        virtual void store(const std::vector<Photo::DataDelta> &) = 0;        // only path, flags and tags will be used to feed database
 
         // read data
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
