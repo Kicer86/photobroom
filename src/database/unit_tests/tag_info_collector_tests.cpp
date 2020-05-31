@@ -44,7 +44,7 @@ class TagInfoCollectorTest: public testing::Test
                 .WillByDefault(Return(&utils));
         }
 
-        MockBackend backend;
+        NiceMock<MockBackend> backend;
         NiceMock<MockDatabase> database;
         NiceMock<MockUtils> utils;
 };
