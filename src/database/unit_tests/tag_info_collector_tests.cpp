@@ -26,7 +26,31 @@ struct Observer: QObject
 };
 
 
-TEST(TagInfoCollectorTest, Constructor)
+class TagInfoCollectorTest: public testing::Test
+{
+    public:
+        TagInfoCollectorTest()
+        {
+            ON_CALL(database, execute(_))
+                .WillByDefault(Invoke([this](std::unique_ptr<MockDatabase::ITask>&& task)
+                {
+                    task->run(&backend);
+                }));
+
+            ON_CALL(database, backend)
+                .WillByDefault(Return(&backend));
+
+            ON_CALL(database, utils)
+                .WillByDefault(Return(&utils));
+        }
+
+        MockBackend backend;
+        NiceMock<MockDatabase> database;
+        NiceMock<MockUtils> utils;
+};
+
+
+TEST_F(TagInfoCollectorTest, Constructor)
 {
     EXPECT_NO_THROW(
     {
@@ -35,7 +59,7 @@ TEST(TagInfoCollectorTest, Constructor)
 }
 
 
-TEST(TagInfoCollectorTest, GetWithoutDatabase)
+TEST_F(TagInfoCollectorTest, GetWithoutDatabase)
 {
     TagInfoCollector tagInfoCollector;
 
@@ -51,17 +75,8 @@ TEST(TagInfoCollectorTest, GetWithoutDatabase)
 }
 
 
-TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
+TEST_F(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 {
-    MockBackend backend;
-    NiceMock<MockDatabase> database;
-
-    ON_CALL(database, execute(_))
-        .WillByDefault(Invoke([&backend](std::unique_ptr<MockDatabase::ITask>&& task)
-        {
-            task->run(&backend);
-        }));
-
     EXPECT_CALL(backend, listTagValues(TagTypes::Date, _))
         .WillOnce( Return(std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
@@ -79,9 +94,6 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return(std::vector<TagValue>{QColor(Qt::red), QColor(Qt::blue)}) );
-
-    ON_CALL(database, backend)
-        .WillByDefault(Return(&backend));
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
@@ -120,17 +132,8 @@ TEST(TagInfoCollectorTest, LoadDataOnDatabaseSet)
 }
 
 
-TEST(TagInfoCollectorTest, EmptyDatabase)
+TEST_F(TagInfoCollectorTest, EmptyDatabase)
 {
-    MockBackend backend;
-    NiceMock<MockDatabase> database;
-
-    ON_CALL(database, execute(_))
-        .WillByDefault(Invoke([&backend](std::unique_ptr<MockDatabase::ITask>&& task)
-        {
-            task->run(&backend);
-        }));
-
     EXPECT_CALL(backend, listTagValues(TagTypes::Date, _))
         .WillOnce( Return( std::vector<TagValue>()) );
 
@@ -148,9 +151,6 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
 
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return( std::vector<TagValue>()) );
-
-    ON_CALL(database, backend)
-        .WillByDefault(Return(&backend));
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
@@ -175,18 +175,8 @@ TEST(TagInfoCollectorTest, EmptyDatabase)
 }
 
 
-TEST(TagInfoCollectorTest, ReactionOnDBChange)
+TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
 {
-    NiceMock<MockUtils> utils;
-    MockBackend backend;
-    NiceMock<MockDatabase> database;
-
-    ON_CALL(database, execute(_))
-        .WillByDefault(Invoke([&backend](std::unique_ptr<MockDatabase::ITask>&& task)
-        {
-            task->run(&backend);
-        }));
-
     EXPECT_CALL(backend, listTagValues(TagTypes::Date, _))
         .WillOnce( Return( std::vector<TagValue>()) );
 
@@ -204,12 +194,6 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return( std::vector<TagValue>()) );
-
-    ON_CALL(database, backend)
-        .WillByDefault(Return(&backend));
-
-    ON_CALL(database, utils)
-        .WillByDefault(Return(&utils));
 
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
@@ -236,18 +220,8 @@ TEST(TagInfoCollectorTest, ReactionOnDBChange)
 }
 
 
-TEST(TagInfoCollectorTest, ObserversNotification)
+TEST_F(TagInfoCollectorTest, ObserversNotification)
 {
-    NiceMock<MockUtils> utils;
-    MockBackend backend;
-    NiceMock<MockDatabase> database;
-
-    ON_CALL(database, execute(_))
-        .WillByDefault(Invoke([&backend](std::unique_ptr<MockDatabase::ITask>&& task)
-        {
-            task->run(&backend);
-        }));
-
     EXPECT_CALL(backend, listTagValues(TagTypes::Date, _))
         .WillOnce( Return(std::vector<TagValue>{QDate(0, 1, 2), QDate(1, 2, 3)}) );
 
@@ -265,12 +239,6 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return( std::vector<TagValue>{QColor(Qt::yellow), QColor(Qt::cyan)}) );
-
-    ON_CALL(database, backend)
-        .WillByDefault(Return(&backend));
-
-    ON_CALL(database, utils)
-        .WillByDefault(Return(&utils));
 
     Observer observer;
 
@@ -304,18 +272,8 @@ TEST(TagInfoCollectorTest, ObserversNotification)
 }
 
 
-TEST(TagInfoCollectorTest, ReactionOnPhotoChange)
+TEST_F(TagInfoCollectorTest, ReactionOnPhotoChange)
 {
-    NiceMock<MockUtils> utils;
-    MockBackend backend;
-    NiceMock<MockDatabase> database;
-
-    ON_CALL(database, backend)
-        .WillByDefault(Return(&backend));
-
-    ON_CALL(database, utils)
-        .WillByDefault(Return(&utils));
-
     TagInfoCollector tagInfoCollector;
     tagInfoCollector.set(&database);
 
