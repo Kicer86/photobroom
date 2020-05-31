@@ -117,9 +117,9 @@ void TagInfoCollector::updateValuesFor(const TagTypeInfo& tagType)
     {
         using namespace std::placeholders;
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-        m_database->exec([tagType, result](Database::IBackend* backend)
+        m_database->exec([tagType, result](Database::IBackend& backend)
         {
-            const auto values = backend->listTagValues(tagType.getTag(), {});
+            const auto values = backend.listTagValues(tagType.getTag(), {});
             result(tagType, values);
         });
     }

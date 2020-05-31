@@ -77,8 +77,8 @@ namespace Database
 
             virtual void execute(std::unique_ptr<ITask> &&) override;
 
-            IUtils*   utils() override;
-            IBackend* backend() override;
+            IUtils&   utils() override;
+            IBackend& backend() override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;

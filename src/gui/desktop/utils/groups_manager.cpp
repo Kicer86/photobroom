@@ -31,12 +31,12 @@ void GroupsManager::group(Database::IDatabase* database,
 {
     if (photos.empty() == false)
     {
-        Database::IUtils* db_utils = database->utils();
+        Database::IUtils& db_utils = database->utils();
 
-        database->exec([db_utils, photos, representativePath, type](Database::IBackend* backend)
+        database->exec([&db_utils, photos, representativePath, type](Database::IBackend& backend)
         {
             // copy details of first member to representative
-            IPhotoInfo::Ptr firstPhoto = db_utils->getPhotoFor(photos[0]);
+            IPhotoInfo::Ptr firstPhoto = db_utils.getPhotoFor(photos[0]);
 
             const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
             Photo::DataDelta data;
@@ -46,11 +46,11 @@ void GroupsManager::group(Database::IDatabase* database,
 
             // store representative photo
             std::vector photos_to_store = {data};
-            backend->addPhotos(photos_to_store);
+            backend.addPhotos(photos_to_store);
 
             // create group
             const Photo::Id representativeId = photos_to_store.front().getId();
-            const auto groupId = backend->groupOperator().addGroup(representativeId, type);
+            const auto groupId = backend.groupOperator().addGroup(representativeId, type);
 
             // update group information on each member
             for(const auto memberId: photos)
@@ -61,7 +61,7 @@ void GroupsManager::group(Database::IDatabase* database,
                 memberData.setId(memberId);
                 memberData.insert<Photo::Field::GroupInfo>(grpInfo);
 
-                backend->update(memberData);
+                backend.update(memberData);
             }
         });
     }
@@ -70,12 +70,12 @@ void GroupsManager::group(Database::IDatabase* database,
 
 void GroupsManager::ungroup(Database::IDatabase* db, const Group::Id& gid)
 {
-    db->exec([gid](Database::IBackend* backend)
+    db->exec([gid](Database::IBackend& backend)
     {
         // dissolve group
-        const Photo::Id repId = backend->groupOperator().removeGroup(gid);
+        const Photo::Id repId = backend.groupOperator().removeGroup(gid);
 
         // remove representative from db
-        backend->photoOperator().removePhoto(repId);
+        backend.photoOperator().removePhoto(repId);
     });
 }

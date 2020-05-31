@@ -94,7 +94,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 
     connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
-    auto callback = m_callback_mgr.make_safe_callback<Database::IBackend*>(std::bind(&SeriesDetection::fetch_series, this, _1));
+    auto callback = m_callback_mgr.make_safe_callback<Database::IBackend &>(std::bind(&SeriesDetection::fetch_series, this, _1));
     m_db->exec(callback);
 }
 
@@ -105,7 +105,7 @@ SeriesDetection::~SeriesDetection()
 }
 
 
-void SeriesDetection::fetch_series(Database::IBackend* backend)
+void SeriesDetection::fetch_series(Database::IBackend& backend)
 {
     IExifReaderFactory* exif = m_core->getExifReaderFactory();
     SeriesDetector detector(backend, exif->get());
@@ -171,24 +171,24 @@ void SeriesDetection::group()
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
     const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
 
-    auto task = [this, groupDetails](Database::IBackend* backend)
+    auto task = [this, groupDetails](Database::IBackend& backend)
     {
         const std::vector<Photo::Data> ph_data = load_group_details(backend, groupDetails);
         invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
     };
 
-    auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend *>(task);
+    auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend &>(task);
     m_db->exec(db_task);
 }
 
 
-std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend* backend, const SeriesDetector::GroupCandidate& details)
+std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend& backend, const SeriesDetector::GroupCandidate& details)
 {
     std::vector<Photo::Data> ph_data;
 
     for(const Photo::DataDelta& delta: details.members)
     {
-        const Photo::Data ph_d = backend->getPhoto(delta.getId());
+        const Photo::Data ph_d = backend.getPhoto(delta.getId());
         ph_data.push_back(ph_d);
     }
 

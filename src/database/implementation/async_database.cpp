@@ -42,12 +42,12 @@ namespace Database
     struct IThreadTask
     {
         virtual ~IThreadTask() {}
-        virtual void execute(IBackend *) = 0;
+        virtual void execute(IBackend &) = 0;
     };
 
     struct Executor
     {
-        Executor(Database::IBackend* backend):
+        Executor(Database::IBackend& backend):
             m_tasks(1024),
             m_backend(backend)
         {
@@ -91,7 +91,7 @@ namespace Database
 
         private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
-            Database::IBackend* m_backend;
+            Database::IBackend& m_backend;
     };
 
 
@@ -102,7 +102,7 @@ namespace Database
 
         }
 
-        virtual void execute(IBackend* backend) override
+        virtual void execute(IBackend& backend) override
         {
             m_operation->run(backend);
         }
@@ -115,9 +115,9 @@ namespace Database
     {
         DbCloseTask() = default;
 
-        void execute(IBackend* backend) override
+        void execute(IBackend& backend) override
         {
-           backend->closeConnections();
+           backend.closeConnections();
         }
     };
 
@@ -213,7 +213,7 @@ namespace Database
         m_logger(logger->subLogger("AsyncDatabase")),
         m_backend(std::move(backend)),
         m_cache(std::move(cache)),
-        m_executor(std::make_unique<Executor>(m_backend.get())),
+        m_executor(std::make_unique<Executor>(*m_backend.get())),
         m_utils(m_cache.get(), m_backend.get(), this, m_logger.get()),
         m_working(true)
     {
@@ -236,9 +236,9 @@ namespace Database
 
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
-        exec([prjInfo, callback](IBackend* backend)
+        exec([prjInfo, callback](IBackend& backend)
         {
-             const Database::BackendStatus status = backend->init(prjInfo);
+             const Database::BackendStatus status = backend.init(prjInfo);
 
              callback(status);
         });
@@ -247,9 +247,9 @@ namespace Database
 
     void AsyncDatabase::update(const Photo::DataDelta& data)
     {
-        exec([data](IBackend* backend)
+        exec([data](IBackend& backend)
         {
-            const bool status = backend->update(data);
+            const bool status = backend.update(data);
             assert(status);
         });
     }
@@ -257,7 +257,7 @@ namespace Database
 
     void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
     {
-        exec([this, ids, callback](IBackend *)
+        exec([this, ids, callback](IBackend &)
         {
             std::vector<IPhotoInfo::Ptr> photos;
 
@@ -274,9 +274,9 @@ namespace Database
 
     void AsyncDatabase::listTagNames( const Callback<const std::vector<TagTypeInfo> &> & callback)
     {
-        exec([callback](IBackend* backend)
+        exec([callback](IBackend& backend)
         {
-             const auto result = backend->listTags();
+             const auto result = backend.listTags();
 
              callback(result);
         });
@@ -285,9 +285,9 @@ namespace Database
 
     void AsyncDatabase::listTagValues(const TagTypeInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> & callback)
     {
-        exec([info, filters, callback](IBackend* backend)
+        exec([info, filters, callback](IBackend& backend)
         {
-             const auto result = backend->listTagValues(info.getTag(), filters);
+             const auto result = backend.listTagValues(info.getTag(), filters);
 
              callback(info, result);
         });
@@ -296,9 +296,9 @@ namespace Database
 
     void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
-        exec([this, filter, callback](IBackend* backend)
+        exec([this, filter, callback](IBackend& backend)
         {
-            auto photos = backend->photoOperator().getPhotos(filter);
+            auto photos = backend.photoOperator().getPhotos(filter);
             IPhotoInfo::List photosList;
 
             for(const Photo::Id& id: photos)
@@ -311,9 +311,9 @@ namespace Database
 
     void AsyncDatabase::markStagedAsReviewed()
     {
-        exec([](IBackend* backend)
+        exec([](IBackend& backend)
         {
-            backend->markStagedAsReviewed();
+            backend.markStagedAsReviewed();
         });
     }
 
@@ -325,15 +325,15 @@ namespace Database
     }
 
 
-    IUtils* AsyncDatabase::utils()
+    IUtils& AsyncDatabase::utils()
     {
-        return &m_utils;
+        return m_utils;
     }
 
 
-    IBackend* AsyncDatabase::backend()
+    IBackend& AsyncDatabase::backend()
     {
-        return m_backend.get();
+        return *m_backend.get();
     }
 
 
@@ -342,7 +342,7 @@ namespace Database
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())
         if (std::this_thread::get_id() == m_thread.get_id())
-            task->execute(m_backend.get());
+            task->execute(*m_backend.get());
         else
         {
             assert(m_working);

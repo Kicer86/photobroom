@@ -15,6 +15,7 @@
 
 using ::testing::Invoke;
 using ::testing::InvokeArgument;
+using ::testing::ReturnRef;
 using ::testing::Return;
 using ::testing::_;
 using ::testing::NiceMock;
@@ -34,14 +35,14 @@ class TagInfoCollectorTest: public testing::Test
             ON_CALL(database, execute(_))
                 .WillByDefault(Invoke([this](std::unique_ptr<MockDatabase::ITask>&& task)
                 {
-                    task->run(&backend);
+                    task->run(backend);
                 }));
 
             ON_CALL(database, backend)
-                .WillByDefault(Return(&backend));
+                .WillByDefault(ReturnRef(backend));
 
             ON_CALL(database, utils)
-                .WillByDefault(Return(&utils));
+                .WillByDefault(ReturnRef(utils));
         }
 
         NiceMock<MockBackend> backend;

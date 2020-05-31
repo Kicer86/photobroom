@@ -28,7 +28,7 @@ class FlatModelTest: public testing::Test
 
             ON_CALL(db, execute(_)).WillByDefault(Invoke([this](std::unique_ptr<Database::IDatabase::ITask>&& task)
             {
-                task->run(&backend);
+                task->run(backend);
             }));
         }
 };

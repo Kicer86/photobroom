@@ -9,7 +9,7 @@
 
 
 using testing::Invoke;
-using testing::Return;
+using testing::ReturnRef;
 using testing::NiceMock;
 
 // tests for implementations of APhotoInfoModel
@@ -21,10 +21,10 @@ class APhotoInfoModelTest: public testing::Test
         {
             ON_CALL(db, execute).WillByDefault(Invoke([this](std::unique_ptr<Database::IDatabase::ITask>&& task)
             {
-                task->run(&backend);
+                task->run(backend);
             }));
 
-            ON_CALL(db, backend).WillByDefault(Return(&backend));
+            ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
 
             model.setDatabase(&db);
         }

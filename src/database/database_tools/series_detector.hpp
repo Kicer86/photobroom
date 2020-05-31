@@ -43,7 +43,7 @@ class DATABASE_EXPORT SeriesDetector
             std::vector<Photo::DataDelta> members;
         };
 
-        SeriesDetector(Database::IBackend *, IExifReader *);
+        SeriesDetector(Database::IBackend &, IExifReader *);
 
         std::vector<GroupCandidate> listCandidates() const;
 
@@ -69,7 +69,7 @@ class DATABASE_EXPORT SeriesDetector
             Photo::DataDelta data;
         };
 
-        Database::IBackend* m_backend;
+        Database::IBackend& m_backend;
         IExifReader* m_exifReader;
 
         const std::multiset<PhotosWithSequence> analyze_photos(const std::vector<Photo::Id> &) const;

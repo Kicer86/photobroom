@@ -75,7 +75,7 @@ namespace Database
         {
             // as concept doesn't work, static_assert is used
             // to give some idea how to use this method
-            static_assert(std::is_invocable<Callable, IBackend *>::value);
+            static_assert(std::is_invocable<Callable, IBackend &>::value);
 
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));
@@ -84,7 +84,7 @@ namespace Database
         struct ITask
         {
             virtual ~ITask() = default;
-            virtual void run(IBackend *) = 0;
+            virtual void run(IBackend &) = 0;
         };
 
         protected:
@@ -93,7 +93,7 @@ namespace Database
             {
                 Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
 
-                void run(IBackend* backend) override
+                void run(IBackend& backend) override
                 {
                     m_f(backend);
                 }
@@ -139,8 +139,8 @@ namespace Database
         // drop data
 
         // other
-        virtual IUtils* utils() = 0;
-        virtual IBackend* backend() = 0;
+        virtual IUtils& utils() = 0;
+        virtual IBackend& backend() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;

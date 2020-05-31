@@ -170,25 +170,25 @@ const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
 
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    auto b = std::bind(qOverload<Database::IBackend *, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
+    auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
 
     m_db->exec(b);
 }
 
 
-void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 {
     const Database::SortAction sort_action(TagTypes::Date);
     const auto view_filters = filters();
-    const auto photos = backend->photoOperator().onPhotos(view_filters, sort_action);
+    const auto photos = backend.photoOperator().onPhotos(view_filters, sort_action);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
 
 
-void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::Id& id) const
+void FlatModel::fetchPhotoProperties(Database::IBackend& backend, const Photo::Id& id) const
 {
-    auto photo = backend->getPhoto(id);
+    auto photo = backend.getPhoto(id);
 
     invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }

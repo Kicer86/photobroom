@@ -21,7 +21,9 @@ using ::testing::_;
 using ::testing::ElementsAre;
 using ::testing::InvokeArgument;
 using ::testing::Return;
+using ::testing::ReturnRef;
 using ::testing::NiceMock;
+
 
 MATCHER(IsEmptyFilter, "")
 {
@@ -61,7 +63,7 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
         .WillOnce(InvokeArgument<2>(dateTag, dates));
 
     ON_CALL(db, backend)
-        .WillByDefault(Return(&backend));
+        .WillByDefault(ReturnRef(backend));
 
     DBDataModel model;
     model.setDatabase(&db);

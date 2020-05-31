@@ -358,9 +358,9 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
         m_data->m_tasksResultsCtrl.make_safe_callback<int>(callback);
 
     //send task to execution
-    m_data->m_database->exec([filter, safe_callback](Database::IBackend* backend)
+    m_data->m_database->exec([filter, safe_callback](Database::IBackend& backend)
     {
-        const auto count = backend->getPhotosCount(filter);
+        const auto count = backend.getPhotosCount(filter);
         safe_callback(count);
     });
 }
@@ -431,18 +431,18 @@ void IdxDataManager::setupRootNode()
 }
 
 
-void IdxDataManager::getPhotosForParent(Database::IBackend* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
+void IdxDataManager::getPhotosForParent(Database::IBackend& db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
-    auto photos = db_operator->photoOperator().getPhotos(filter);
+    auto photos = db_operator.photoOperator().getPhotos(filter);
     auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;
 
     for(const Photo::Id& id: photos)
     {
-        Database::IUtils* utils = m_data->m_database->utils();
+        Database::IUtils& utils = m_data->m_database->utils();
 
-        IPhotoInfo::Ptr photo = utils->getPhotoFor(id);
+        IPhotoInfo::Ptr photo = utils.getPhotoFor(id);
 
         const Photo::Data pData = photo->data();
         const Group::Id gid = pData.groupInfo.group_id;
