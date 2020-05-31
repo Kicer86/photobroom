@@ -44,7 +44,6 @@ namespace Database
             ~Utils();
 
             IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
-            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
 
         private:
             std::unique_ptr<ILogger> m_logger;

@@ -111,7 +111,6 @@ namespace Database
         virtual ~IUtils() = default;
 
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;
-        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;
     };
 
 

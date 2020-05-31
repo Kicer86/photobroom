@@ -45,12 +45,11 @@ void GroupsManager::group(Database::IDatabase* database,
             data.insert<Photo::Field::Flags>(flags);
 
             // store representative photo
-            const std::vector<Photo::Id> stored = db_utils->insertPhotos({data});
+            std::vector photos_to_store = {data};
+            backend->addPhotos(photos_to_store);
 
             // create group
-            assert(stored.size() == 1);
-            const Photo::Id representativeId = stored.front();
-
+            const Photo::Id representativeId = photos_to_store.front().getId();
             const auto groupId = backend->groupOperator().addGroup(representativeId, type);
 
             // update group information on each member

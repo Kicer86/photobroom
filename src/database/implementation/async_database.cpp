@@ -156,23 +156,6 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> Utils::insertPhotos(const std::vector<Photo::DataDelta>& dataDelta)
-    {
-        std::vector<Photo::Id> result;
-
-        std::vector<Photo::DataDelta> data_set = dataDelta;
-        const bool status = m_backend->addPhotos(data_set);
-
-        assert(status);
-
-        if (status)
-            for(std::size_t i = 0; i < data_set.size(); i++)
-                result.push_back(data_set[i].getId());
-
-        return result;
-    }
-
-
     IPhotoInfo::Ptr Utils::constructPhotoInfo(const Photo::Data& data)
     {
         auto photoInfo = std::make_shared<PhotoInfo>(data, m_storeKeeper);
