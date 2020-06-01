@@ -69,8 +69,8 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     model.setDatabase(&db);
 
     const Hierarchy hierarchy = {
-                                { TagTypeInfo(TagTypes::Date), Hierarchy::Level::Order::ascending },
-                                { TagTypeInfo(TagTypes::Time), Hierarchy::Level::Order::ascending }
+                                { TagTypes::Date, Hierarchy::Level::Order::ascending },
+                                { TagTypes::Time, Hierarchy::Level::Order::ascending }
                             };
 
     model.setHierarchy(hierarchy);

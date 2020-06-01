@@ -68,8 +68,7 @@ TEST_F(TagInfoCollectorTest, GetWithoutDatabase)
 
     for(const TagTypes& tag: tags)
     {
-        const TagTypeInfo info(tag);
-        const std::vector<TagValue>& values = tagInfoCollector.get(info.getTag());
+        const std::vector<TagValue>& values = tagInfoCollector.get(tag);
 
         EXPECT_EQ(values.empty(), true);
     }
