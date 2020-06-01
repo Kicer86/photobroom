@@ -21,8 +21,6 @@ set(DATABASE_SOURCES
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp
-    database_tools/implementation/photo_duplicates_finder.cpp
-    database_tools/implementation/synchronous_database.cpp
     database_tools/implementation/tag_info_collector.cpp
     database_tools/implementation/signal_mapper.cpp
     database_tools/implementation/series_detector.cpp
@@ -60,8 +58,6 @@ set(DATABASE_HEADERS
     database_tools/tag_info_collector.hpp
     database_tools/signal_mapper.hpp
     database_tools/implementation/photo_info_updater.hpp
-    database_tools/implementation/photo_duplicates_finder.hpp
-    database_tools/implementation/synchronous_database.hpp
     database_tools/series_detector.hpp
 )
 
