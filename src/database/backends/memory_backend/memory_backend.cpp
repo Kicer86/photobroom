@@ -59,14 +59,6 @@ namespace Database
     }
 
 
-    std::vector<TagTypeInfo> MemoryBackend::listTags()
-    {
-        std::vector<TagTypeInfo> tags;
-
-        return tags;
-    }
-
-
     std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &)
     {
         std::vector<TagValue> values;

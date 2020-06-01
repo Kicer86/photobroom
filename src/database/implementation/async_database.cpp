@@ -272,17 +272,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::listTagNames( const Callback<const std::vector<TagTypeInfo> &> & callback)
-    {
-        exec([callback](IBackend& backend)
-        {
-             const auto result = backend.listTags();
-
-             callback(result);
-        });
-    }
-
-
     void AsyncDatabase::listTagValues(const TagTypeInfo& info, const std::vector<IFilter::Ptr>& filters, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> & callback)
     {
         exec([info, filters, callback](IBackend& backend)

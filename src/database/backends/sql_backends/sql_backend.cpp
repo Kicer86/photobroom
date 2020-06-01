@@ -304,13 +304,6 @@ namespace Database
     }
 
 
-    std::vector<TagTypeInfo> ASqlBackend::listTags()
-    {
-        assert(!"Not implemented");
-        return std::vector<TagTypeInfo>();
-    }
-
-
     std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const std::vector<IFilter::Ptr>& filter)
     {
         std::vector<TagValue> result;
