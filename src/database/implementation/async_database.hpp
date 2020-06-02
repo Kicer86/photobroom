@@ -69,7 +69,6 @@ namespace Database
             virtual void update(const Photo::DataDelta &) override;
 
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
-            virtual void listTagValues( const TagTypeInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
             virtual void markStagedAsReviewed() override;

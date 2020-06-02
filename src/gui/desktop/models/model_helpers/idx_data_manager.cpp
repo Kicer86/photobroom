@@ -305,11 +305,15 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
         buildExtraFilters(&filter);
 
         using namespace std::placeholders;
-        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
+        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _1);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback<const TagTypeInfo &, const std::vector<TagValue> &>(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback<const std::vector<TagValue> &>(callback);
 
-        m_data->m_database->listTagValues(TagTypeInfo(tagName), filter, safe_callback);
+        m_data->m_database->exec([tagName, filter, safe_callback](Database::IBackend& backend)
+        {
+            const auto values = backend.listTagValues(tagName, filter);
+            safe_callback(values);
+        });
     }
     else
         assert(!"should not happend");

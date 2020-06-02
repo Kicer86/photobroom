@@ -19,7 +19,7 @@
 
 using ::testing::_;
 using ::testing::ElementsAre;
-using ::testing::InvokeArgument;
+using ::testing::Invoke;
 using ::testing::Return;
 using ::testing::ReturnRef;
 using ::testing::NiceMock;
@@ -31,14 +31,6 @@ MATCHER(IsEmptyFilter, "")
     Database::EmptyFilter* empty_filter = dynamic_cast<Database::EmptyFilter *>(src);
 
     return empty_filter != nullptr;
-}
-
-namespace
-{
-    struct PhotoInfo: IPhotoInfo
-    {
-
-    };
 }
 
 
@@ -56,14 +48,20 @@ TEST(IdxDataManagerShould, CleanupOnNodeIdxDestruction)
     MockBackend backend;
     NiceMock<MockDatabase> db;
 
-    const TagTypeInfo dateTag(TagTypes::Date);
+    const TagTypes dateTag = TagTypes::Date;
     const std::vector<TagValue> dates = { QDate(2017, 05, 30) };
 
-    EXPECT_CALL(db, listTagValues(dateTag, ElementsAre(IsEmptyFilter()), _))
-        .WillOnce(InvokeArgument<2>(dateTag, dates));
+    EXPECT_CALL(backend, listTagValues(dateTag, ElementsAre(IsEmptyFilter())))
+        .WillOnce(Return(dates));
 
     ON_CALL(db, backend)
         .WillByDefault(ReturnRef(backend));
+
+    ON_CALL(db, execute(_))
+        .WillByDefault(Invoke([&backend](std::unique_ptr<MockDatabase::ITask>&& task)
+        {
+            task->run(backend);
+        }));
 
     DBDataModel model;
     model.setDatabase(&db);
