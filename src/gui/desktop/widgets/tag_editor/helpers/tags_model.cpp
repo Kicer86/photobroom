@@ -311,7 +311,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
             const QVariant nameRaw = itemIndex.data(TagInfoRole);
             const TagTypeInfo nameInfo = nameRaw.value<TagTypeInfo>();
 
-            m_tagsOperator->insert(nameInfo, value);
+            m_tagsOperator->insert(nameInfo.getTag(), value);
         }
     }
 }
