@@ -1,8 +1,8 @@
 
 #include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/sample_db.json.hpp"
 
 #include "common.hpp"
-#include "sample_db.json.hpp"
 
 using testing::Contains;
 
