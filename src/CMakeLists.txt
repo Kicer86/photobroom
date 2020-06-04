@@ -23,7 +23,7 @@ find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
 set(BROOM_SOURCES main.cpp
-                  $<TARGET_OBJECTS:plugins>
+    $<TARGET_OBJECTS:plugins>
 )
 
 if(WIN32)
@@ -40,15 +40,15 @@ endif()
 
 add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
 target_link_libraries(photo_broom
-                        core
-                        crash_catcher
-                        database
-                        face_recognition
-                        gui
-                        project_utils
-                        system
-                        Qt5::Core
-                        Qt5::Widgets
+    core
+    crash_catcher
+    database
+    face_recognition
+    gui
+    project_utils
+    system
+    Qt5::Core
+    Qt5::Widgets
 )
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})

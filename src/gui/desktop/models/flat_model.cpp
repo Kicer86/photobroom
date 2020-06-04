@@ -68,7 +68,6 @@ const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& index) const
 }
 
 
-
 QVariant FlatModel::data(const QModelIndex& index, int role) const
 {
     QVariant d;
