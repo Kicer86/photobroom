@@ -9,6 +9,7 @@ add_subdirectory(face_recognition)
 add_subdirectory(gui)
 add_subdirectory(plugins)
 add_subdirectory(project_utils)
+add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
 
 if(BUILD_UPDATER)
