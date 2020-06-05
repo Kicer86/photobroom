@@ -4,8 +4,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Sql REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Gui Sql)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
@@ -38,6 +37,8 @@ addTestTarget(database_integration
                     integration_tests/people_tests.cpp
                     integration_tests/photo_operator_tests.cpp
                     integration_tests/photos_change_log_tests.cpp
+                    integration_tests/photos_tests.cpp
+                    integration_tests/tags_tests.cpp
 
                     # dependencies
                     implementation/apeople_information_accessor.cpp
