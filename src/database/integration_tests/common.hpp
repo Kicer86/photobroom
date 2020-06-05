@@ -39,13 +39,13 @@ namespace
     template<>
     struct BackendInfo<Database::SQLiteBackend>
     {
-        static constexpr char* name = "SQLite";
+        static constexpr const char* name = "SQLite";
     };
 
     template<>
     struct BackendInfo<Database::MemoryBackend>
     {
-        static constexpr char* name = "Memory";
+        static constexpr const char* name = "Memory";
     };
 }
 
