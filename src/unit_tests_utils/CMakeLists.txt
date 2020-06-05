@@ -1,7 +1,8 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db.json.hpp sample_dbs/sample_db.json "const char* db1" "SampleDB")
+stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db.json.hpp  sample_dbs/sample_db.json  "const char* db1" "SampleDB")
+stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db2.json.hpp sample_dbs/sample_db2.json "const char* db2" "SampleDB")
 
 add_library(sample_dbs INTERFACE)
 
