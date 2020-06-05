@@ -193,15 +193,3 @@ int PhotoInfo::getFlag(Photo::FlagsE flag) const
 
     return result;
 }
-
-
-void PhotoInfo::invalidate()
-{
-    m_valid = false;
-}
-
-
-bool PhotoInfo::isValid()
-{
-    return m_valid;
-}

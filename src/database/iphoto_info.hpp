@@ -69,10 +69,6 @@ struct DATABASE_EXPORT IPhotoInfo
     //flags
     virtual void markFlag(Photo::FlagsE, int) = 0;
     virtual int  getFlag(Photo::FlagsE) const = 0;
-
-    // other
-    virtual void invalidate() = 0;                          // mark photo as dropped (with no equivalent in db)
-    virtual bool isValid() = 0;
 };
 
 #endif // IPHOTO_INFO_HPP
