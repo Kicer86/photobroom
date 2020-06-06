@@ -23,6 +23,17 @@ namespace utils
 
     //
     int getRoleByName(const QAbstractItemModel& model, const QString& name);
+
+    // traverse
+    template<typename Op>
+    void forEach(const QAbstractItemModel& model, Op op)
+    {
+        // call for top level item
+        op(QModelIndex());
+
+        for (auto it = first(model); it.isValid(); it = step_in_next(it))
+            op(it);
+    }
 }
 
 #endif
