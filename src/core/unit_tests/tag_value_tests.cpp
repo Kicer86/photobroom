@@ -1,4 +1,5 @@
 
+#include <QColor>
 #include <QDate>
 #include <QModelIndex>
 
@@ -56,6 +57,32 @@ TEST(TagValueTest, StringSetter)
     EXPECT_EQ(tv.getString(), str);
     EXPECT_EQ(ctv.getString(), str);
     EXPECT_EQ(tv.rawValue(), str);
+}
+
+
+TEST(TagValueTest, IntSetter)
+{
+    const int value = 123;
+    TagValue tv(value);
+    const TagValue ctv(value);
+
+    ASSERT_EQ(tv.type(), Tag::ValueType::Int);
+    ASSERT_EQ(tv.get().type(), QMetaType::Int);
+    EXPECT_EQ(tv.get(), value);
+    EXPECT_EQ(tv.rawValue(), QString::number(value));
+}
+
+
+TEST(TagValueTest, ColorSetter)
+{
+    const QColor value = Qt::red;
+    TagValue tv(value);
+    const TagValue ctv(value);
+
+    ASSERT_EQ(tv.type(), Tag::ValueType::Color);
+    ASSERT_EQ(tv.get().type(), QMetaType::QColor);
+    EXPECT_EQ(tv.get(), value);
+    EXPECT_EQ(tv.rawValue(), QString::number(value.rgba64()));
 }
 
 
