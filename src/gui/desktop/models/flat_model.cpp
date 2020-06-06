@@ -37,7 +37,28 @@ FlatModel::FlatModel(QObject* p)
 
 void FlatModel::setDatabase(Database::IDatabase* db)
 {
+    if (m_db != nullptr)
+    {
+        auto& backend = m_db->backend();
+        disconnect(&backend, &Database::IBackend::photosAdded,
+                   this, &FlatModel::updatePhotos);
+
+        disconnect(&backend, &Database::IBackend::photosRemoved,
+                   this, &FlatModel::updatePhotos);
+    }
+
     m_db = db;
+
+    if (m_db != nullptr)
+    {
+        auto& backend = m_db->backend();
+        connect(&backend, &Database::IBackend::photosAdded,
+                this, &FlatModel::updatePhotos);
+
+        connect(&backend, &Database::IBackend::photosRemoved,
+                this, &FlatModel::updatePhotos);
+    }
+
     reloadPhotos();
 }
 
