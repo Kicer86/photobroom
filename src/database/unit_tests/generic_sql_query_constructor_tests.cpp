@@ -1,4 +1,5 @@
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "unit_tests_utils/printers.hpp"
@@ -14,10 +15,7 @@ struct GenericSqlQueryConstructorImpl: public Database::GenericSqlQueryConstruct
 {
     GenericSqlQueryConstructorImpl() {}
 
-    virtual QString getTypeFor(Database::ColDefinition::Purpose) const
-    {
-        return "_ID_";
-    }
+    MOCK_METHOD(QString, getTypeFor, (Database::ColDefinition::Purpose), (const, override));
 };
 
 
