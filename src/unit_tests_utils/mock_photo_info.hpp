@@ -32,9 +32,6 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_METHOD2(markFlag, void(Photo::FlagsE, int));
     MOCK_CONST_METHOD1(getFlag, int(Photo::FlagsE));
 
-    MOCK_METHOD0(invalidate, void());
-    MOCK_METHOD0(isValid, bool());
-
     //data
     std::mutex m_tagAccessMutex;
 };

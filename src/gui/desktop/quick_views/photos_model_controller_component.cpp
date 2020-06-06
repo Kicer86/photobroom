@@ -148,15 +148,15 @@ std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::filters() co
 }
 
 
-void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend* backend)
+void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& backend)
 {
     const auto range_filters = filters();
-    auto dates = backend->listTagValues(TagTypes::Date, range_filters);
+    auto dates = backend.listTagValues(TagTypes::Date, range_filters);
 
     const auto with_date_filter = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date);
     const auto without_date_filter = std::make_shared<Database::FilterNotMatchingFilter>(with_date_filter);
     const std::vector<Database::IFilter::Ptr> photos_without_date_tag_filter = { without_date_filter };
-    const auto photos_without_date_tag = backend->photoOperator().getPhotos(photos_without_date_tag_filter);
+    const auto photos_without_date_tag = backend.photoOperator().getPhotos(photos_without_date_tag_filter);
 
     if (photos_without_date_tag.empty() == false)
         dates.push_back(QDate());

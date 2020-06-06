@@ -70,10 +70,10 @@ Tag::TagsList TagsOperator::getTags() const
 }
 
 
-void TagsOperator::setTag(const TagTypeInfo& name, const TagValue& values)
+void TagsOperator::setTag(const TagTypes& name, const TagValue& values)
 {
     for (auto& photo: m_photos)
-        photo->setTag(name.getTag(), values);
+        photo->setTag(name, values);
 }
 
 
@@ -84,7 +84,7 @@ void TagsOperator::setTags(const Tag::TagsList& tags)
 }
 
 
-void TagsOperator::insert(const TagTypeInfo& name, const TagValue& value)
+void TagsOperator::insert(const TagTypes& name, const TagValue& value)
 {
     //find tag for given name
     Tag::TagsList tags = getTags();
@@ -92,7 +92,7 @@ void TagsOperator::insert(const TagTypeInfo& name, const TagValue& value)
 
     for(const auto& info: tags) // TODO: use std::find_if
     {
-        if (info.first == name.getTag())
+        if (info.first == name)
         {
             const bool differs = info.second != value;
 

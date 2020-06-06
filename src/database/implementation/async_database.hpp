@@ -44,7 +44,6 @@ namespace Database
             ~Utils();
 
             IPhotoInfo::Ptr getPhotoFor(const Photo::Id & ) override;
-            std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> & ) override;
 
         private:
             std::unique_ptr<ILogger> m_logger;
@@ -68,22 +67,16 @@ namespace Database
             AsyncDatabase& operator=(const AsyncDatabase &) = delete;
 
             virtual void update(const Photo::DataDelta &) override;
-            virtual void store(const std::vector<Photo::DataDelta> &) override;
-            virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) override;
 
-            virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) override;
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
-            virtual void listTagNames( const Callback<const std::vector<TagTypeInfo> &> & ) override;
-            virtual void listTagValues( const TagTypeInfo&, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
-            virtual void listTagValues( const TagTypeInfo&, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
             virtual void markStagedAsReviewed() override;
 
             virtual void execute(std::unique_ptr<ITask> &&) override;
 
-            IUtils*   utils() override;
-            IBackend* backend() override;
+            IUtils&   utils() override;
+            IBackend& backend() override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;

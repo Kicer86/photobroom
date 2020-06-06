@@ -187,7 +187,7 @@ namespace
                 {
                     const Tag::TagsList tags = idx->getTags();
 
-                    const auto& tag = tags.find(m_level.tagName.getTag());
+                    const auto& tag = tags.find(m_level.tagName);
 
                     QVariant result;
                     if (tag != tags.cend())

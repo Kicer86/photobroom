@@ -20,6 +20,9 @@ namespace Database
 
     bool MemoryBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
     {
+        std::vector<Photo::Id> ids;
+        ids.reserve(photos.size());
+
         for (Photo::DataDelta& delta: photos)
         {
             assert(delta.getId().valid() == false);
@@ -31,11 +34,14 @@ namespace Database
             data.apply(delta);
 
             auto [it, i] = m_photos.insert(data);      // insert empty Data for given id
-
             assert(i == true);
+
+            ids.push_back(data.id);
 
             m_nextPhotoId++;
         }
+
+        emit photosAdded(ids);
 
         return true;
     }
@@ -59,19 +65,23 @@ namespace Database
     }
 
 
-    std::vector<TagTypeInfo> MemoryBackend::listTags()
+    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes& type, const std::vector<IFilter::Ptr> &)
     {
-        std::vector<TagTypeInfo> tags;
+        std::set<TagValue> values;
 
-        return tags;
-    }
+        for(const auto& photo: m_photos)
+        {
+            auto it = photo.tags.find(type);
+            if (it != photo.tags.end() && it->second.type() != Tag::ValueType::Empty)
+                values.insert(it->second);
+        }
 
+        std::vector<TagValue> values_vec;
+        values_vec.reserve(values.size());
 
-    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &)
-    {
-        std::vector<TagValue> values;
+        std::copy(values.begin(), values.end(), std::back_inserter(values_vec));
 
-        return values;
+        return values_vec;
     }
 
 

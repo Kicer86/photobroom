@@ -59,13 +59,13 @@ const std::vector<TagValue>& TagInfoCollector::get(const TagTypes& info) const
 }
 
 
-void TagInfoCollector::gotTagValues(const TagTypeInfo& tagType, const std::vector<TagValue>& values)
+void TagInfoCollector::gotTagValues(const TagTypes& tagType, const std::vector<TagValue>& values)
 {
     std::unique_lock<std::mutex> lock(m_tags_mutex);
-    m_tags[tagType.getTag()] = values;
+    m_tags[tagType] = values;
     lock.unlock();
 
-    emit setOfValuesChanged(tagType.getTag());
+    emit setOfValuesChanged(tagType);
 }
 
 
@@ -104,19 +104,20 @@ void TagInfoCollector::updateAllTags()
     auto tagNames = BaseTags::getAll();
 
     for(const TagTypes& baseTagName: tagNames)
-    {
-        const TagTypeInfo tagName(baseTagName);
-        updateValuesFor(tagName);
-    }
+        updateValuesFor(baseTagName);
 }
 
 
-void TagInfoCollector::updateValuesFor(const TagTypeInfo& tagType)
+void TagInfoCollector::updateValuesFor(const TagTypes& tagType)
 {
     if (m_database != nullptr)
     {
         using namespace std::placeholders;
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
-        m_database->listTagValues(tagType, result);
+        m_database->exec([tagType, result](Database::IBackend& backend)
+        {
+            const auto values = backend.listTagValues(tagType, {});
+            result(tagType, values);
+        });
     }
 }

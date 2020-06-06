@@ -103,8 +103,8 @@ IdxDataManager::IdxDataManager(DBDataModel* model): m_data(new Data(model))
 
     //default hierarchy
     const Hierarchy hierarchy = {
-                                  { TagTypeInfo(TagTypes::Date), Hierarchy::Level::Order::ascending },
-                                  { TagTypeInfo(TagTypes::Time), Hierarchy::Level::Order::ascending }
+                                  { TagTypes::Date, Hierarchy::Level::Order::ascending },
+                                  { TagTypes::Time, Hierarchy::Level::Order::ascending }
                                 };
 
     setHierarchy(hierarchy);
@@ -300,16 +300,20 @@ void IdxDataManager::fetchTagValuesFor(size_t level, const QModelIndex& _parent)
     {
         std::vector<Database::IFilter::Ptr> filter;
 
-        const TagTypeInfo& tagNameInfo = m_data->m_hierarchy.getNodeInfo(level).tagName;
+        const TagTypes& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
         buildFilterFor(_parent, &filter);
         buildExtraFilters(&filter);
 
         using namespace std::placeholders;
-        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _2);
+        auto callback = std::bind(&IdxDataManager::gotTagValuesForParent, this, _parent, level, _1);
         auto safe_callback =
-            m_data->m_tasksResultsCtrl.make_safe_callback<const TagTypeInfo &, const std::vector<TagValue> &>(callback);
+            m_data->m_tasksResultsCtrl.make_safe_callback<const std::vector<TagValue> &>(callback);
 
-        m_data->m_database->listTagValues(tagNameInfo, filter, safe_callback);
+        m_data->m_database->exec([tagName, filter, safe_callback](Database::IBackend& backend)
+        {
+            const auto values = backend.listTagValues(tagName, filter);
+            safe_callback(values);
+        });
     }
     else
         assert(!"should not happend");
@@ -343,7 +347,7 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
     }
 
     //add anti-filter for last node
-    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName.getTag());
+    auto tag_filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName);
     auto node_filter = std::make_shared<Database::FilterNotMatchingFilter>(tag_filter);
 
     filter.push_back(node_filter);
@@ -358,7 +362,11 @@ void IdxDataManager::checkForNonmatchingPhotos(size_t level, const QModelIndex& 
         m_data->m_tasksResultsCtrl.make_safe_callback<int>(callback);
 
     //send task to execution
-    m_data->m_database->countPhotos(filter, safe_callback);
+    m_data->m_database->exec([filter, safe_callback](Database::IBackend& backend)
+    {
+        const auto count = backend.getPhotosCount(filter);
+        safe_callback(count);
+    });
 }
 
 
@@ -427,18 +435,18 @@ void IdxDataManager::setupRootNode()
 }
 
 
-void IdxDataManager::getPhotosForParent(Database::IBackend* db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
+void IdxDataManager::getPhotosForParent(Database::IBackend& db_operator, const QModelIndex& parent, const std::vector<Database::IFilter::Ptr>& filter)
 {
-    auto photos = db_operator->photoOperator().getPhotos(filter);
+    auto photos = db_operator.photoOperator().getPhotos(filter);
     auto leafs = std::make_shared<std::vector<IIdxData::Ptr>>();
 
     Group::Id current_group;
 
     for(const Photo::Id& id: photos)
     {
-        Database::IUtils* utils = m_data->m_database->utils();
+        Database::IUtils& utils = m_data->m_database->utils();
 
-        IPhotoInfo::Ptr photo = utils->getPhotoFor(id);
+        IPhotoInfo::Ptr photo = utils.getPhotoFor(id);
 
         const Photo::Data pData = photo->data();
         const Group::Id gid = pData.groupInfo.group_id;
@@ -499,7 +507,7 @@ void IdxDataManager::gotTagValuesForParent(const QModelIndex& parent, std::size_
 
     for(const TagValue& tag: tags)
     {
-        auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName.getTag(), tag);
+        auto filter = std::make_shared<Database::FilterPhotosWithTag>(m_data->m_hierarchy.getNodeInfo(level).tagName, tag);
 
         auto newItem = std::make_unique<IdxNodeData>(this, tag.get());
         setupNewNode(newItem.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
@@ -691,15 +699,15 @@ IdxNodeData* IdxDataManager::createCloserAncestor(PhotosMatcher* matcher, const 
             result = _parent;
         else
         {
-            const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
-            auto photoTagIt = photoTags.find(tagName.getTag());
+            const TagTypes& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
+            auto photoTagIt = photoTags.find(tagName);
 
             //we need to add subnode for '_parent' we are sure it doesn't exist as 'createRightParent' takes closer ancestor for '_parent'
             if (photoTagIt != photoTags.end())
             {
                 const TagValue& tagValue = photoTagIt->second;
                 auto node = std::make_unique<IdxNodeData>(this, tagValue.get());
-                auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName.getTag(), tagValue);
+                auto filter = std::make_shared<Database::FilterPhotosWithTag>(tagName, tagValue);
 
                 setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1));
                 IIdxData* added_node = performAdd(_parent, std::move(node));
@@ -895,9 +903,9 @@ IIdxData::Ptr IdxDataManager::prepareUniversalNodeFor(IIdxData* _parent)
     IdxData::Ptr node = std::make_unique<IdxNodeData>(this, tr("Unlabeled"));
 
     const size_t level = _parent->getLevel();
-    const TagTypeInfo& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
+    const TagTypes& tagName = m_data->m_hierarchy.getNodeInfo(level).tagName;
 
-    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName.getTag());
+    auto filterTag = std::make_shared<Database::FilterPhotosWithTag>(tagName);
     auto filter = std::make_shared<Database::FilterNotMatchingFilter>(filterTag);
 
     setupNewNode(node.get(), filter, m_data->m_hierarchy.getNodeInfo(level + 1) );

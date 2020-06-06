@@ -134,9 +134,9 @@ Group::Type LazyTreeItemDelegate::getGroupTypeFor(const Group::Id& gid) const
             m_groupCache.insert(gid, new Group::Type(type));
         });
 
-        m_db->exec([gid, callback](Database::IBackend* backend)
+        m_db->exec([gid, callback](Database::IBackend& backend)
         {
-            const Group::Type type = backend->groupOperator().type(gid);
+            const Group::Type type = backend.groupOperator().type(gid);
 
             callback(type);
         });

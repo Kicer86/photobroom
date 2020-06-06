@@ -54,9 +54,9 @@ void PeopleListModel::setDB(Database::IDatabase* db)
 
         auto f = make_cross_thread_function<const QStringList &>(this, std::bind(&PeopleListModel::fill, this, _1));
 
-        db->exec([f](Database::IBackend* op)
+        db->exec([f](Database::IBackend& op)
         {
-            const std::vector<PersonName> names = op->peopleInformationAccessor().listPeople();
+            const std::vector<PersonName> names = op.peopleInformationAccessor().listPeople();
 
             QStringList namesList;
 

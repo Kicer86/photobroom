@@ -53,11 +53,11 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
         Database::IDatabase* m_database;
         int m_observerId;
 
-        void gotTagValues(const TagTypeInfo &, const std::vector<TagValue> &);
+        void gotTagValues(const TagTypes &, const std::vector<TagValue> &);
         void photoModified(const IPhotoInfo::Ptr &);
 
         void updateAllTags();
-        void updateValuesFor(const TagTypeInfo &);
+        void updateValuesFor(const TagTypes &);
 };
 
 #endif // TAGINFOCOLLECTOR_H

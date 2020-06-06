@@ -4,16 +4,12 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 find_package(GMock REQUIRED)
 find_package(GTest REQUIRED)
 find_package(Threads REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Sql REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Gui Sql)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
-stringify_file(${CMAKE_CURRENT_BINARY_DIR}/sample_db.json.hpp integration_tests/sample_db.json "const QString db1" "SampleDB")
-
-addTestTarget(database_integration
+addTestTarget(database_backends
                 SOURCES
-
                     # engines
                     backends/sql_backends/sqlite_backend/backend.cpp
                     backends/sql_backends/mysql_backend/backend.cpp
@@ -35,25 +31,28 @@ addTestTarget(database_integration
                     backends/sql_backends/transaction.cpp
 
                     # sql tests:
-                    integration_tests/common.hpp
-                    integration_tests/general_flags_tests.cpp
-                    integration_tests/groups_tests.cpp
-                    integration_tests/people_tests.cpp
-                    integration_tests/photo_operator_tests.cpp
-                    integration_tests/photos_change_log_tests.cpp
+                    unit_tests_for_backends/common.hpp
+                    unit_tests_for_backends/general_flags_tests.cpp
+                    unit_tests_for_backends/groups_tests.cpp
+                    unit_tests_for_backends/people_tests.cpp
+                    unit_tests_for_backends/photo_operator_tests.cpp
+                    unit_tests_for_backends/photos_change_log_tests.cpp
+                    unit_tests_for_backends/photos_tests.cpp
+                    unit_tests_for_backends/tags_tests.cpp
 
                     # dependencies
                     implementation/apeople_information_accessor.cpp
                     implementation/aphoto_change_log_operator.cpp
 
                     # main()
-                    integration_tests/main.cpp
+                    unit_tests_for_backends/main.cpp
 
                 LIBRARIES
                     core
                     database
                     database_memory_backend
                     plugins
+                    sample_dbs
                     system
                     Qt5::Core
                     Qt5::Gui

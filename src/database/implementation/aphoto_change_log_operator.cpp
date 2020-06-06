@@ -40,7 +40,7 @@ namespace
         return array;
     }
 
-    std::tuple<TagTypeInfo, TagValue> decodeTag2(const QString& encoded)
+    std::tuple<TagTypes, TagValue> decodeTag2(const QString& encoded)
     {
         const QStringList items = encoded.split(" ");
         assert(items.size() == 2);
@@ -49,13 +49,12 @@ namespace
         const QString& tagValueStr = items.back();
 
         const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
-        const TagTypeInfo decodedTagInfo = TagTypeInfo(tagType);
         const QString decodedTagValue = decodeTag(tagValueStr);
 
-        return std::make_tuple(decodedTagInfo, decodedTagValue);
+        return std::make_tuple(tagType, decodedTagValue);
     }
 
-    std::tuple<TagTypeInfo, TagValue, TagValue> decodeTag3(const QString& encoded)
+    std::tuple<TagTypes, TagValue, TagValue> decodeTag3(const QString& encoded)
     {
         const QStringList items = encoded.split(" ");
         assert(items.size() == 3);
@@ -65,11 +64,10 @@ namespace
         const QString& newTagValueStr = items[2];
 
         const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
-        const TagTypeInfo decodedTagInfo = TagTypeInfo(tagType);
         const QString decodedOldTagValue = decodeTag(oldTagValueStr);
         const QString decodedNewTagValue = decodeTag(newTagValueStr);
 
-        return std::make_tuple(decodedTagInfo, decodedOldTagValue, decodedNewTagValue);
+        return std::make_tuple(tagType, decodedOldTagValue, decodedNewTagValue);
     }
 }
 
@@ -231,7 +229,7 @@ namespace Database
                     case Remove:
                     {
                         auto encoded = decodeTag2(data);
-                        const TagTypeInfo& tag_info = std::get<0>(encoded);
+                        const TagTypeInfo tag_info(std::get<0>(encoded));
                         const TagValue& tag_value = std::get<1>(encoded);
 
                         result = QString("%1: %2")
@@ -243,7 +241,7 @@ namespace Database
                     case Modify:
                     {
                         auto encoded = decodeTag3(data);
-                        const TagTypeInfo& tag_info = std::get<0>(encoded);
+                        const TagTypeInfo tag_info(std::get<0>(encoded));
                         const TagValue& old_tag_value = std::get<1>(encoded);
                         const TagValue& new_tag_value = std::get<2>(encoded);
 

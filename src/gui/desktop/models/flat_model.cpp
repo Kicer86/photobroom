@@ -37,7 +37,28 @@ FlatModel::FlatModel(QObject* p)
 
 void FlatModel::setDatabase(Database::IDatabase* db)
 {
+    if (m_db != nullptr)
+    {
+        auto& backend = m_db->backend();
+        disconnect(&backend, &Database::IBackend::photosAdded,
+                   this, &FlatModel::updatePhotos);
+
+        disconnect(&backend, &Database::IBackend::photosRemoved,
+                   this, &FlatModel::updatePhotos);
+    }
+
     m_db = db;
+
+    if (m_db != nullptr)
+    {
+        auto& backend = m_db->backend();
+        connect(&backend, &Database::IBackend::photosAdded,
+                this, &FlatModel::updatePhotos);
+
+        connect(&backend, &Database::IBackend::photosRemoved,
+                this, &FlatModel::updatePhotos);
+    }
+
     reloadPhotos();
 }
 
@@ -66,7 +87,6 @@ const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& index) const
     const Photo::Data& data = photoData(id);
     return data;
 }
-
 
 
 QVariant FlatModel::data(const QModelIndex& index, int role) const
@@ -170,25 +190,25 @@ const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
 
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    auto b = std::bind(qOverload<Database::IBackend *, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
+    auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
 
     m_db->exec(b);
 }
 
 
-void FlatModel::fetchMatchingPhotos(Database::IBackend* backend)
+void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 {
     const Database::SortAction sort_action(TagTypes::Date);
     const auto view_filters = filters();
-    const auto photos = backend->photoOperator().onPhotos(view_filters, sort_action);
+    const auto photos = backend.photoOperator().onPhotos(view_filters, sort_action);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
 }
 
 
-void FlatModel::fetchPhotoProperties(Database::IBackend* backend, const Photo::Id& id) const
+void FlatModel::fetchPhotoProperties(Database::IBackend& backend, const Photo::Id& id) const
 {
-    auto photo = backend->getPhoto(id);
+    auto photo = backend.getPhoto(id);
 
     invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }

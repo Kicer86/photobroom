@@ -24,7 +24,7 @@ TEST(SeriesDetectorTest, constructor)
         MockBackend backend;
         MockExifReader exif;
 
-        SeriesDetector sd(&backend, &exif);
+        SeriesDetector sd(backend, &exif);
     });
 }
 
@@ -79,7 +79,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(&backend, &exif);
+    const SeriesDetector sd(backend, &exif);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -140,7 +140,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(&backend, &exif);
+    const SeriesDetector sd(backend, &exif);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -204,7 +204,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(&backend, &exif);
+    const SeriesDetector sd(backend, &exif);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -282,7 +282,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(&backend, &exif);
+    const SeriesDetector sd(backend, &exif);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);

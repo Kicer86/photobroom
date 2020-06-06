@@ -61,14 +61,9 @@ class PhotoInfo final: public IPhotoInfo
         void markFlag(Photo::FlagsE, int) override;
         int getFlag(Photo::FlagsE) const override;
 
-        // other
-        void invalidate() override;
-        bool isValid() override;
-
     private:
         mutable ol::ThreadSafeResource<Photo::Data> m_data;
         Database::IDatabase* m_storekeeper;
-        bool m_valid;
 };
 
 #endif

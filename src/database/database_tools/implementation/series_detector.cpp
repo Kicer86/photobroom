@@ -48,7 +48,7 @@ namespace
 }
 
 
-SeriesDetector::SeriesDetector(Database::IBackend* backend, IExifReader* exif):
+SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
     m_backend(backend), m_exifReader(exif)
 {
 
@@ -61,7 +61,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() con
 
     // find photos which are not part of any group
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
-    const auto photos = m_backend->photoOperator().getPhotos( {group_filter} );
+    const auto photos = m_backend.photoOperator().getPhotos( {group_filter} );
 
     // collect photos with SequenceNumber and timestamp in exif
     std::multiset<PhotosWithSequence> sequences_by_time = analyze_photos(photos);
@@ -80,7 +80,7 @@ const std::multiset<SeriesDetector::PhotosWithSequence> SeriesDetector::analyze_
 
     for (const Photo::Id& id: photos)
     {
-        const Photo::Data data = m_backend->getPhoto(id);
+        const Photo::Data data = m_backend.getPhoto(id);
         const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
 
         if (seq)

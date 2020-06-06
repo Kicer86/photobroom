@@ -77,7 +77,7 @@ class PhotosModelControllerComponent: public QObject
         void updateTimeRange();
         std::vector<Database::IFilter::Ptr> filters() const;
 
-        void getTimeRangeForFilters(Database::IBackend *);
+        void getTimeRangeForFilters(Database::IBackend &);
 };
 
 #endif // PHOTOSMODELCOMPONENT_HPP

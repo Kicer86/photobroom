@@ -75,7 +75,7 @@ namespace Database
         {
             // as concept doesn't work, static_assert is used
             // to give some idea how to use this method
-            static_assert(std::is_invocable<Callable, IBackend *>::value);
+            static_assert(std::is_invocable<Callable, IBackend &>::value);
 
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
             execute(std::move(task));
@@ -84,7 +84,7 @@ namespace Database
         struct ITask
         {
             virtual ~ITask() = default;
-            virtual void run(IBackend *) = 0;
+            virtual void run(IBackend &) = 0;
         };
 
         protected:
@@ -93,7 +93,7 @@ namespace Database
             {
                 Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
 
-                void run(IBackend* backend) override
+                void run(IBackend& backend) override
                 {
                     m_f(backend);
                 }
@@ -111,7 +111,6 @@ namespace Database
         virtual ~IUtils() = default;
 
         virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;
-        virtual std::vector<Photo::Id> insertPhotos(const std::vector<Photo::DataDelta> &) = 0;
     };
 
 
@@ -127,16 +126,9 @@ namespace Database
 
         // store data
         virtual void update(const Photo::DataDelta &) = 0;
-        virtual void store(const std::vector<Photo::DataDelta> &) = 0;        // only path, flags and tags will be used to feed database
-
-        virtual void createGroup(const Photo::Id &, Group::Type, const Callback<Group::Id> &) = 0;
 
         // read data
-        virtual void countPhotos(const std::vector<IFilter::Ptr> &, const Callback<int> &) = 0;                                       // count photos matching filters
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
-        virtual void listTagNames(const Callback<const std::vector<TagTypeInfo> &> & ) = 0;                                           // list all stored tag names
-        virtual void listTagValues(const TagTypeInfo &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) = 0;    // list all tag values
-        virtual void listTagValues(const TagTypeInfo &, const std::vector<IFilter::Ptr> &, const Callback<const TagTypeInfo &, const std::vector<TagValue> &> &) = 0;  // list values of provided tag on photos matching filter
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // modify data
@@ -145,8 +137,8 @@ namespace Database
         // drop data
 
         // other
-        virtual IUtils* utils() = 0;
-        virtual IBackend* backend() = 0;
+        virtual IUtils& utils() = 0;
+        virtual IBackend& backend() = 0;
 
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;

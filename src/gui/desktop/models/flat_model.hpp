@@ -68,8 +68,8 @@ class FlatModel: public APhotoInfoModel
         void fetchPhotoData(const Photo::Id &) const;
 
         // methods working on backend
-        void fetchMatchingPhotos(Database::IBackend *);
-        void fetchPhotoProperties(Database::IBackend *, const Photo::Id &) const;
+        void fetchMatchingPhotos(Database::IBackend &);
+        void fetchPhotoProperties(Database::IBackend &, const Photo::Id &) const;
 
         // results from backend
         void fetchedPhotos(const std::vector<Photo::Id> &);

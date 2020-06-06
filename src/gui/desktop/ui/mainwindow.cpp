@@ -647,7 +647,10 @@ void MainWindow::on_actionScan_collection_triggered()
             photos.emplace_back(photo_data);
         }
 
-        db->store(photos);
+        db->exec([photos](Database::IBackend& backend) mutable
+        {
+            backend.addPhotos(photos);
+        });
     }
 }
 
@@ -780,9 +783,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
 void MainWindow::markNewPhotosAsReviewed()
 {
     Database::IDatabase* db = m_currentPrj->getDatabase();
-    Database::IBackend* backend = db->backend();
+    Database::IBackend& backend = db->backend();
 
-    connect(backend, &Database::IBackend::photosMarkedAsReviewed,
+    connect(&backend, &Database::IBackend::photosMarkedAsReviewed,
             this, &MainWindow::photosMarkedAsReviewed, Qt::UniqueConnection);  // make sure connection exists. It will be closed when db is closed.
 
     db->markStagedAsReviewed();

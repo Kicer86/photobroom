@@ -83,15 +83,15 @@ namespace
     }
 
 
-    auto fetchPeopleAndEncodings(Database::IBackend* backend)
+    auto fetchPeopleAndEncodings(Database::IBackend& backend)
     {
         std::vector<dlib_api::FaceEncodings> encodings;
         std::vector<Person::Id> people;
 
-        const auto all_people = backend->peopleInformationAccessor().listPeople();
+        const auto all_people = backend.peopleInformationAccessor().listPeople();
         for(const auto& person: all_people)
         {
-            const auto fingerprints = backend->peopleInformationAccessor().fingerprintsFor(person.id());
+            const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
 
             if (fingerprints.empty() == false)
             {
@@ -222,7 +222,7 @@ Person::Id FaceRecognition::recognize(const QString& path, const QRect& face, Da
     dlib_api::FaceEncoder faceEndoder;
 
     typedef std::tuple<std::vector<dlib_api::FaceEncodings>, std::vector<Person::Id>> FacesFingerprints;
-    auto [known_faces_encodings, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend *)>(db, &fetchPeopleAndEncodings);
+    auto [known_faces_encodings, known_faces_names] = evaluate<FacesFingerprints(Database::IBackend &)>(db, &fetchPeopleAndEncodings);
 
     if (known_faces_encodings.empty())
         return {};
