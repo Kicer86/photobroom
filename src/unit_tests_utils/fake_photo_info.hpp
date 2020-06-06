@@ -8,7 +8,7 @@
 class FakePhotoInfo: public IPhotoInfo
 {
 public:
-    FakePhotoInfo(const Photo::Data& data):
+    explicit FakePhotoInfo(const Photo::Data& data):
         m_data(data)
     {
     }
