@@ -106,5 +106,5 @@ install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}
 
 if(BUILD_TESTING)
     include(database_tests.cmake)
-    include(database_integration_tests.cmake)
+    include(database_backends_tests.cmake)
 endif()
