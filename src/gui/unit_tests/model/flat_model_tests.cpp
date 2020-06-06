@@ -30,6 +30,8 @@ class FlatModelTest: public testing::Test
             {
                 task->run(backend);
             }));
+
+            ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
         }
 };
 
