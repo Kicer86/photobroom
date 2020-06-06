@@ -58,6 +58,7 @@ addTestTarget(gui
                     database
                     database_memory_backend
                     photos_crawler
+                    sample_dbs
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Widgets
