@@ -1,4 +1,6 @@
 
+#include <QDate>
+
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db2.json.hpp"
 
