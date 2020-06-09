@@ -169,7 +169,7 @@ auto make_cross_thread_function(QObject* object, const F& function)
 // (slot) of given object. Will do nothing when given object is destroyed.
 // Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
-std::function<void(Args...)> queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
+auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     static_assert(std::is_base_of<QObject, ObjT>::value, "ObjT must be QObject");
 
