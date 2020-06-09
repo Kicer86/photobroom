@@ -35,7 +35,7 @@ class PhotoItem: public QQuickPaintedItem
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
-        ~PhotoItem();
+        ~PhotoItem() = default;
 
         void paint(QPainter *painter) override;
 
@@ -52,7 +52,6 @@ class PhotoItem: public QQuickPaintedItem
         QImage m_image;
         QString m_source;
         QSize m_photoSize;
-        safe_callback_ctrl m_callback_ctrl;
         IThumbnailsManager* m_thbMgr;
 
         enum class State
@@ -62,7 +61,6 @@ class PhotoItem: public QQuickPaintedItem
             Fetched
         } m_state;
 
-        void gotThumbnail(const QImage &);
         void updateThumbnail(const QImage &);
         void fetchImage();
         void setImage(const QImage &);

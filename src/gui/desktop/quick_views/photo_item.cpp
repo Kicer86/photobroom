@@ -31,12 +31,6 @@ PhotoItem::PhotoItem(QQuickItem* parent)
 }
 
 
-PhotoItem::~PhotoItem()
-{
-    m_callback_ctrl.invalidate();
-}
-
-
 void PhotoItem::paint(QPainter* painter)
 {
     if (m_thbMgr == nullptr || m_photoSize.isEmpty() || m_source.isEmpty())
@@ -96,13 +90,6 @@ bool PhotoItem::ready() const
 }
 
 
-void PhotoItem::gotThumbnail(const QImage& image)
-{
-    // called from nongui thread, forward image to gui thread
-    invokeMethod(this, &PhotoItem::updateThumbnail, image);
-}
-
-
 void PhotoItem::updateThumbnail(const QImage& image)
 {
     setImage(image);
@@ -159,8 +146,7 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
-        auto callback = m_callback_ctrl.make_safe_callback<const QImage &>(std::bind(&PhotoItem::gotThumbnail, this, _1));
-        m_thbMgr->fetch(m_source, h, callback);
+        m_thbMgr->fetch(m_source, h, queued_slot(this, &PhotoItem::updateThumbnail));
     }
 }
 
