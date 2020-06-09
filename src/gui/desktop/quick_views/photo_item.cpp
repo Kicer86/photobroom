@@ -98,6 +98,13 @@ bool PhotoItem::ready() const
 
 void PhotoItem::gotThumbnail(const QImage& image)
 {
+    // called from nongui thread, forward image to gui thread
+    invokeMethod(this, &PhotoItem::updateThumbnail, image);
+}
+
+
+void PhotoItem::updateThumbnail(const QImage& image)
+{
     setImage(image);
     setState(State::Fetched);
     update();

@@ -63,6 +63,7 @@ class PhotoItem: public QQuickPaintedItem
         } m_state;
 
         void gotThumbnail(const QImage &);
+        void updateThumbnail(const QImage &);
         void fetchImage();
         void setImage(const QImage &);
         void setState(State);
