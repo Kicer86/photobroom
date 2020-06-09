@@ -118,10 +118,10 @@ QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QStr
 
     if (pathInfo.exists())
     {
-        const QString absolute_path = pathInfo.absoluteFilePath();
-
         const FFMpegVideoDetailsReader videoDetailsReader(ffprobe);
+        const QString absolute_path = pathInfo.absoluteFilePath();
         const int seconds = videoDetailsReader.durationOf(absolute_path);
+
         auto tmpDir = System::createTmpDir("FromVideoTask", System::Confidential);
         const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
 
