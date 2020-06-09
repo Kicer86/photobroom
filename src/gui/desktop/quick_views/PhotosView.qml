@@ -33,7 +33,7 @@ Item {
 
             Connections {
                 target: timeRangeId.viewFrom
-                onPressedChanged: {
+                function onPressedChanged() {
                     if (timeRangeId.viewFrom.pressed === false)
                         photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
                 }
@@ -41,7 +41,7 @@ Item {
 
             Connections {
                 target: timeRangeId.viewTo
-                onPressedChanged: {
+                function onPressedChanged() {
                     if (timeRangeId.viewTo.pressed === false)
                         photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
                 }
