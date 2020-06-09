@@ -35,12 +35,16 @@ Component {
 
         states: [
             State {
+                name: "unknown"
+                when: imageId.state === Photo.NotFetched
+            },
+            State {
                 name: "loading"
-                when: imageId.ready === false
+                when: imageId.state === Photo.Fetching
             },
             State {
                 name: "done"
-                when: imageId.ready === true
+                when: imageId.state === Photo.Fetched
             }
         ]
 
@@ -61,6 +65,24 @@ Component {
                         from: 0
                         to: 1
                     }
+                }
+            },
+            Transition {
+                from: "unknown"
+                to: "done"
+                PropertyAnimation {
+                    target: busyId
+                    properties: "opacity"
+                    from: 1
+                    to: 0
+                    duration: 0
+                }
+                PropertyAnimation {
+                    target: imageId
+                    properties: "opacity"
+                    from: 0
+                    to: 1
+                    duration: 0
                 }
             }
         ]

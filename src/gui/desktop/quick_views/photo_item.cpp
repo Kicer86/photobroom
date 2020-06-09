@@ -84,9 +84,9 @@ QSize PhotoItem::photoSize() const
 }
 
 
-bool PhotoItem::ready() const
+PhotoItem::State PhotoItem::state() const
 {
-    return m_state == State::Fetched;
+    return m_state;
 }
 
 
