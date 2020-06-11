@@ -32,6 +32,7 @@ class PhotoItem: public QQuickPaintedItem
         Q_PROPERTY(QString source WRITE setSource READ source)
         Q_PROPERTY(QSize photoSize WRITE setPhotoSize READ photoSize)
         Q_PROPERTY(State state READ state NOTIFY stateChanged)
+        Q_ENUMS(State)
 
     public:
         enum class State
@@ -68,8 +69,6 @@ class PhotoItem: public QQuickPaintedItem
         void setState(State);
         void paintImage(QPainter &) const;
         QSize calculateThumbnailSize() const;
-
-        Q_ENUMS(State)
 
     signals:
         void stateChanged();
