@@ -62,6 +62,9 @@ void PhotoItem::setPhotoSize(const QSize& size)
 {
     m_photoSize = size;
 
+    if (m_photoSize.isEmpty())
+        m_photoSize = QSize(width(), height());
+
     update();
 }
 
@@ -121,8 +124,9 @@ void PhotoItem::paintImage(QPainter& painter) const
 {
     assert(m_image.isNull() == false);
 
+    const QSize imgSize = m_image.size();
     const QRectF canvas(0.0, 0.0, width(), height());
-    const QRectF photo(QPointF(0.0, 0.0), m_image.size());
+    const QRectF photo(QPointF(0.0, 0.0), imgSize);
 
     QRectF photoPart = canvas;
     photoPart.moveCenter(photo.center());
