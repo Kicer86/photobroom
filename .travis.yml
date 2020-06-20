@@ -62,7 +62,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         eval "$(pyenv init -)";
-        export PATH="/usr/local/opt/qt/bin:$PATH"
+        export PATH="/usr/local/opt/qt/bin:$PATH";
         sudo pip install virtualenv;
         virtualenv conan;
         source conan/bin/activate;
