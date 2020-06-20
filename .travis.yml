@@ -51,7 +51,7 @@ matrix:
     - os: osx
 
 cache:
-    - ccache: true
+    # - ccache: true
     - directories:
         - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
@@ -99,7 +99,7 @@ before_script:
 
 script:
   - make
-  - xvfb-run -e /dev/stdout ctest -V -L UnitTest
+  # - xvfb-run -e /dev/stdout ctest -V -L UnitTest
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
