@@ -76,6 +76,8 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
 endif()
 
+message("DDDDDDDDDDDDDDDDDDDDDDDDDDDDD ${CMAKE_CXX_COMPILER_ID}")
+
 #options:
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
