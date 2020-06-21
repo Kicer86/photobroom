@@ -98,7 +98,7 @@ before_script:
           ..
 
 script:
-  - make VERBOSE=TRUE
+  - make
   # - xvfb-run -e /dev/stdout ctest -V -L UnitTest
 
 after_success:
