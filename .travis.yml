@@ -52,7 +52,7 @@ matrix:
     - os: osx
 
 cache:
-    # - ccache: true
+    - ccache: true
     - directories:
         - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
