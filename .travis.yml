@@ -48,9 +48,6 @@ matrix:
       compiler: gcc
       env: DEBUG=1
 
-  allow_failures:
-    - os: osx
-
 cache:
     - ccache: true
     - directories:
