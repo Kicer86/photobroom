@@ -46,7 +46,7 @@ bool FileLock::tryLock()
 
     if (fd != -1)
     {
-        flock fl;
+        struct flock fl;
 
         fl.l_type   = F_WRLCK;
         fl.l_whence = SEEK_SET;
@@ -72,7 +72,7 @@ void FileLock::unlock()
     {
         Impl* impl = static_cast<Impl *>(m_impl);
 
-        flock fl;
+        struct flock fl;
 
         fl.l_type   = F_UNLCK;
         fl.l_whence = SEEK_SET;
