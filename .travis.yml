@@ -89,7 +89,11 @@ before_script:
 
   # photo broom
   - mkdir build && cd build
-  - conan install .. --build -s compiler.cppstd=11 &> /dev/null
+  - if [ $TRAVIS_OS_NAME == 'osx' ]; then
+        conan install .. --build -s compiler.cppstd=11 &> /dev/null;
+    else
+        conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null;
+    fi
   - cmake -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
           -DBUILD_UPDATER=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
