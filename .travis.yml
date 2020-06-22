@@ -99,7 +99,10 @@ before_script:
 
 script:
   - make
-  # - xvfb-run -e /dev/stdout ctest -V -L UnitTest
+  - if [ $TRAVIS_OS_NAME != 'osx' ]; then
+        xvfb-run -e /dev/stdout ctest -V -L UnitTest;
+    fi
+
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
