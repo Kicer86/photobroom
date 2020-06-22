@@ -71,7 +71,7 @@ if(MSVC_VERSION)
     #enable auto_ptr. Disabled by VS for c++17 but required by exiv 0.27
     add_definitions(-D_HAS_AUTO_PTR_ETC=1)
     add_compile_options(/wd4251)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+elseif(APPLE)
     #enable auto_ptr. Disabled by clang on MacOS for c++17 but required by exiv 0.27
     add_definitions(-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
 endif()
