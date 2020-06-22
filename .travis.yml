@@ -66,6 +66,8 @@ before_install:
         source conan/bin/activate;
         brew install ccache;
         export PATH="/usr/local/opt/ccache/libexec:$PATH";
+        brew install bison
+        brew link bison --force
     else
         sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
         sudo apt install qt511base qt511svg qt511quickcontrols2  libgl-dev lcov;
