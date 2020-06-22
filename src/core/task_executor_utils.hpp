@@ -5,6 +5,7 @@
 #include <deque>
 #include <mutex>
 #include <future>
+#include <condition_variable>
 
 #include "itask_executor.hpp"
 
