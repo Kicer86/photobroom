@@ -92,7 +92,7 @@ before_script:
   # photo broom
   - mkdir build && cd build
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
-        conan install .. --build -s compiler.cppstd=11
+        conan install .. --build -s compiler.cppstd=11;
     else
         conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null;
     fi
