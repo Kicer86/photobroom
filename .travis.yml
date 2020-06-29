@@ -1,7 +1,7 @@
 
 language: cpp
 dist: bionic
-osx_image: xcode12
+osx_image: xcode11
 
 branches:
   only:
