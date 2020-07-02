@@ -30,4 +30,3 @@ struct GUI_EXPORT Gui
 };
 
 #endif
-
