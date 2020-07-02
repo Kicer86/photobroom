@@ -49,6 +49,7 @@ matrix:
       env: DEBUG=1
 
 cache:
+    - ccache: true
     - directories:
         - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
@@ -63,7 +64,9 @@ before_install:
         virtualenv conan;
         source conan/bin/activate;
         brew install bison;
+        brew install ccache;
         export PATH="/usr/local/opt/bison/bin:$PATH";
+        export PATH="/usr/local/opt/ccache/libexec:$PATH";
         export PATH="/usr/local/opt/qt/bin:$PATH";
     else
         sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
@@ -95,6 +98,8 @@ before_script:
     fi
   - cmake -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
           -DBUILD_UPDATER=ON
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache
           ${EXTRA_CMAKE_OPTIONS}
           ..
 
