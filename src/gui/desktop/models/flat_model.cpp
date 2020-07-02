@@ -45,6 +45,9 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 
         disconnect(&backend, &Database::IBackend::photosRemoved,
                    this, &FlatModel::updatePhotos);
+
+        disconnect(&backend, &Database::IBackend::photoModified,
+                   this, &FlatModel::updatePhotos);
     }
 
     m_db = db;
@@ -56,6 +59,9 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::updatePhotos);
 
         connect(&backend, &Database::IBackend::photosRemoved,
+                this, &FlatModel::updatePhotos);
+
+        connect(&backend, &Database::IBackend::photoModified,
                 this, &FlatModel::updatePhotos);
     }
 
