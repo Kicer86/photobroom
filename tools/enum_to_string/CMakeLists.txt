@@ -17,6 +17,8 @@ add_executable(enum_to_string
                 logic.cpp
 )
 
+set_target_properties(enum_to_string PROPERTIES CXX_STANDARD 11)
+
 if(WIN32)
     target_compile_definitions(enum_to_string PRIVATE YY_NO_UNISTD_H)
 endif()

@@ -86,7 +86,7 @@ else()
     message(FATAL "No file lock implementation for your operating system.")
 endif()
 
-if(CMAKE_USE_PTHREADS_INIT)
+if(CMAKE_USE_PTHREADS_INIT AND NOT APPLE)
     set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_pthreads.cpp)
 else()
     set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_null.cpp)

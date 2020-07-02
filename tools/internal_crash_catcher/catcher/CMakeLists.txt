@@ -19,13 +19,14 @@ if(WIN32)
 
     list(APPEND SRCS catcher_win32.cpp)
 
-elseif(UNIX)
+elseif(UNIX AND NOT APPLE)
 
     list(APPEND SRCS catcher_posix.cpp)
 
 else()
 
-    message(FATAL_ERROR "Unsupported platform")
+    list(APPEND SRCS catcher_null.cpp)
+    message(WARNING "Crash catcher won't be installed - unsupported platform")
 
 endif()
 

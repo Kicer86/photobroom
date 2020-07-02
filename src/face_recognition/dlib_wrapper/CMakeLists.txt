@@ -20,8 +20,10 @@ else()
         FetchContent_MakeAvailable(dlib)
         set(dlib_target dlib::dlib)
     else()
+        find_package(Threads REQUIRED)
         find_package(dlib REQUIRED)
-        set(dlib_target dlib)
+        set(dlib_target dlib::dlib)
+
     endif()
 endif()
 
