@@ -19,7 +19,6 @@ class IdxDataTest : public ::testing::Test
 };
 
 
-
 TEST_F(IdxDataTest, IsConstructible)
 {
     EXPECT_NO_THROW({
