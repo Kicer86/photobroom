@@ -83,15 +83,15 @@ if(LUPDATE AND LRELEASE)
         )
 
         # installation rules
-        install(FILES photo_broom_${tr}.qm
-                      crash_catcher_dialog_${tr}.qm
+        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
+                      ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
                 DESTINATION ${PATH_TR}
         )
 
         # remember qm files
         list(APPEND qm_files
-                    photo_broom_${tr}.qm
-                    crash_catcher_dialog_${tr}.qm
+                    ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
+                    ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
         )
 
     endforeach()
