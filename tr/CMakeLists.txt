@@ -40,41 +40,46 @@ if(LUPDATE AND LRELEASE)
     foreach(tr IN LISTS translations)
 
         # generate TS files from source files lists
-        add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
+        # this command generates two files:
+        # one is a ts file in source dir which should be under version control system.
+        # second one is a flag in binary dir indicating ts file was generated.
+        # It would be cool to have one file but if ts file is marked as this command's
+        # output then it will be deleted every time 'clean' target is triggered.
+        add_custom_command(OUTPUT photo_broom_${tr}.ts.flag
                            COMMAND ${LUPDATE}
-                           ARGS    @${CMAKE_CURRENT_BINARY_DIR}/sources.lst
+                           ARGS    @sources.lst
                                    -I ${PROJECT_SOURCE_DIR}/src/core
                                    -I ${PROJECT_SOURCE_DIR}/src/database
                                    -I ${PROJECT_SOURCE_DIR}/src/photos_crawler
                                    -I ${PROJECT_SOURCE_DIR}/src/plugins
                                    -noobsolete
                                    -ts ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
+                           COMMAND ${CMAKE_COMMAND}
+                           ARGS    -E touch photo_broom_${tr}.ts.flag
                            DEPENDS ${source_files}
                                    ${CMAKE_CURRENT_BINARY_DIR}/sources.lst
         )
 
-        add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
+        add_custom_command(OUTPUT crash_catcher_dialog_${tr}.ts.flag
                            COMMAND ${LUPDATE}
-                           ARGS    @${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
+                           ARGS    @crash_catcher_sources.lst
                                    -noobsolete -ts
                                    ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
+                           COMMAND ${CMAKE_COMMAND}
+                           ARGS    -E touch crash_catcher_dialog_${tr}.ts.flag
                            DEPENDS ${source_files}
                                    ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
         )
 
-        # mark files as generated
-        set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts PROPERTIES GENERATED TRUE)
-        set_source_files_properties(${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts PROPERTIES GENERATED TRUE)
-
         # qm generation rules
-        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
-                           COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts -qm ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
-                           DEPENDS ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts
+        add_custom_command(OUTPUT photo_broom_${tr}.qm
+                           COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts -qm photo_broom_${tr}.qm
+                           DEPENDS photo_broom_${tr}.ts.flag
         )
 
-        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
-                           COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts -qm ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
-                           DEPENDS ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
+        add_custom_command(OUTPUT crash_catcher_dialog_${tr}.qm
+                           COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts -qm crash_catcher_dialog_${tr}.qm
+                           DEPENDS crash_catcher_dialog_${tr}.ts.flag
         )
 
         # installation rules
