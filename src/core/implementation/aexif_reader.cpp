@@ -24,6 +24,7 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QTime>
+#include <stdexcept>
 
 #include "tag.hpp"
 #include "base_tags.hpp"
