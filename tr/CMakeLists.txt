@@ -57,7 +57,7 @@ if(LUPDATE AND LRELEASE)
                            COMMAND ${CMAKE_COMMAND}
                            ARGS    -E touch photo_broom_${tr}.ts.flag
                            DEPENDS ${source_files}
-                                   sources.lst
+                                   ${CMAKE_CURRENT_BINARY_DIR}/sources.lst
         )
 
         add_custom_command(OUTPUT crash_catcher_dialog_${tr}.ts.flag
@@ -68,7 +68,7 @@ if(LUPDATE AND LRELEASE)
                            COMMAND ${CMAKE_COMMAND}
                            ARGS    -E touch crash_catcher_dialog_${tr}.ts.flag
                            DEPENDS ${source_files}
-                                   crash_catcher_sources.lst
+                                   ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
         )
 
         # qm generation rules
