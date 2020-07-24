@@ -20,6 +20,7 @@
 #define SERIESDETECTOR_HPP
 
 #include <set>
+#include <chrono>
 
 #include <database/group.hpp>
 #include <database/photo_data.hpp>
@@ -43,9 +44,16 @@ class DATABASE_EXPORT SeriesDetector
             std::vector<Photo::DataDelta> members;
         };
 
+        struct Rules
+        {
+            std::chrono::milliseconds manualSeriesMaxGap;
+
+            Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
+        };
+
         SeriesDetector(Database::IBackend &, IExifReader *);
 
-        std::vector<GroupCandidate> listCandidates() const;
+        std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
         struct PhotosWithSequence

@@ -1,0 +1,53 @@
+
+{
+    "photos": [
+        {
+            "path": "/some/path1.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00.01" }
+        },
+        {
+            "path": "/some/path2.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00.02"}
+        },
+        {
+            "path": "/some/path3.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.04"}
+        },
+        {
+            "path": "/some/path4.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.06"}
+        },
+        {
+            "path": "/some/path5.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.07"}
+        },
+        {
+            "path": "/some/path6.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.10"}
+        },
+        {
+            "path": "/some/path7.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.30"}
+        },
+        {
+            "path": "/some/path8.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.34"}
+        },
+        {
+            "path": "/some/path9.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.36"}
+        },
+        {
+            "path": "/some/path10.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.37"}
+        },
+        {
+            "path": "/some/path11.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:00.45"}
+        },
+        {
+            "path": "/some/path12.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "10:01.00"}
+        }
+    ]
+}

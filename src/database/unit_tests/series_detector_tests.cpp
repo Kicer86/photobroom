@@ -8,7 +8,10 @@
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
 
+#include "backends/memory_backend/memory_backend.hpp"
 #include "database_tools/series_detector.hpp"
+#include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/db_for_series_detection.json.hpp"
 
 
 using testing::Invoke;
@@ -281,6 +284,25 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
 
         return result;
     }));
+
+    const SeriesDetector sd(backend, &exif);
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+
+    ASSERT_EQ(groupCanditates.size(), 2);
+    ASSERT_EQ(groupCanditates.front().members.size(), 3);
+    ASSERT_EQ(groupCanditates.back().members.size(), 3);
+    EXPECT_EQ(groupCanditates.front().type, Group::Type::HDR);
+    EXPECT_EQ(groupCanditates.back().type, Group::Type::HDR);
+}
+
+
+TEST(SeriesDetectorTest, PhotosTakenOneByOne)
+{
+    NiceMock<MockExifReader> exif;
+    Database::MemoryBackend backend;
+    Database::JsonToBackend jsonReader(backend);
+
+    jsonReader.append(SeriesDB::db);
 
     const SeriesDetector sd(backend, &exif);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();

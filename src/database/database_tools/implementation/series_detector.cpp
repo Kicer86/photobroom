@@ -48,6 +48,13 @@ namespace
 }
 
 
+SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
+    : manualSeriesMaxGap(manualSeriesMaxGap)
+{
+
+}
+
+
 SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
     m_backend(backend), m_exifReader(exif)
 {
@@ -55,7 +62,7 @@ SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
     std::vector<GroupCandidate> result;
 
