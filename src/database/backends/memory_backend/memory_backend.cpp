@@ -421,6 +421,10 @@ namespace Database
                 return data.id;
             });
         }
+        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+        {
+
+        }
         else
         {
             assert(!"Unknown action");

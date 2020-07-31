@@ -130,12 +130,24 @@ namespace Database
         if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
             actionQuery = QString("SELECT photos.id FROM (%3) "
+                                  "LEFT JOIN %2 t1 ON (%3.id = t1.photo_id AND t1.name = %4) "
+                                  "LEFT JOIN %2 t2 ON (%3.id = t2.photo_id AND t2.name = %4) "
+                                  "WHERE %3.id IN (%1) ORDER BY t1.value %5, t2.value %5")
+                                    .arg(filtersQuery)
+                                    .arg(TAB_TAGS)
+                                    .arg(TAB_PHOTOS)
+                                    .arg(sort_action->tag)
+                                    .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
+        }
+        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+        {
+            actionQuery = QString("SELECT photos.id FROM (%3) "
                                   "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "
                                   "WHERE %3.id IN (%1) ORDER BY %2.value %5")
                                     .arg(filtersQuery)
                                     .arg(TAB_TAGS)
                                     .arg(TAB_PHOTOS)
-                                    .arg(sort_action->tag)
+                                    .arg("Date")
                                     .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
         }
         else
