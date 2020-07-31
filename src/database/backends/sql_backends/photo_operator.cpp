@@ -127,7 +127,7 @@ namespace Database
 
         QString actionQuery;
 
-        if (auto sort_action = std::get_if<Actions::SortAction>(&action))
+        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
             actionQuery = QString("SELECT photos.id FROM (%3) "
                                   "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "

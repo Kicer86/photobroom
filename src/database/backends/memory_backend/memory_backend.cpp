@@ -400,7 +400,7 @@ namespace Database
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 
-        if (auto sort_action = std::get_if<Actions::SortAction>(&action))
+        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
             std::vector<Photo::Data> photo_data;
             for(const auto id: ids)

@@ -8,16 +8,16 @@
 
 namespace Database::Actions
 {
-    struct SortAction
+    struct SortByTag
     {
-        SortAction(TagTypes t, Qt::SortOrder order = Qt::AscendingOrder)
+        SortByTag(TagTypes t, Qt::SortOrder order = Qt::AscendingOrder)
             : tag(t)
             , sort_order(order)
         {
 
         }
 
-        SortAction(const SortAction &) = default;
+        SortByTag(const SortByTag &) = default;
 
         const TagTypes tag;
         const Qt::SortOrder sort_order;
@@ -26,7 +26,7 @@ namespace Database::Actions
 
 namespace Database
 {
-    typedef std::variant<Actions::SortAction> Action;
+    typedef std::variant<Actions::SortByTag> Action;
 }
 
 #endif
