@@ -121,7 +121,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
     {
         const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
 

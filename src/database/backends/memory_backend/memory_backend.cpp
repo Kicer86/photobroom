@@ -396,7 +396,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
+    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 

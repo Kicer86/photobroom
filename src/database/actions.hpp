@@ -23,7 +23,7 @@ namespace Database
         const Qt::SortOrder sort_order;
     };
 
-    typedef std::variant<SortAction> Actions;
+    typedef std::variant<SortAction> Action;
 }
 
 #endif
