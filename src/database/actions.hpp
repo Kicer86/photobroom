@@ -22,11 +22,22 @@ namespace Database::Actions
         const TagTypes tag;
         const Qt::SortOrder sort_order;
     };
+
+
+    struct SortByTimestamp          // Sort by date and time
+    {
+        SortByTimestamp(const Qt::SortOrder& order = Qt::AscendingOrder):
+            sort_order(order)
+        {
+        }
+
+        const Qt::SortOrder sort_order;
+    };
 }
 
 namespace Database
 {
-    typedef std::variant<Actions::SortByTag> Action;
+    typedef std::variant<Actions::SortByTag, Actions::SortByTimestamp> Action;
 }
 
 #endif
