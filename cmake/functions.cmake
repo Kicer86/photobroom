@@ -31,6 +31,7 @@ macro(addTestTarget target)
 
     #add test executables
     add_executable(${test_bin}_base ${T_SOURCES})
+    target_precompile_headers(${test_bin}_base PRIVATE ${PROJECT_SOURCE_DIR}/cmake/googletest_pch.hpp)
     set_target_properties(${test_bin}_base PROPERTIES AUTOMOC TRUE)
 
     if(ENABLE_CODE_COVERAGE)
@@ -43,6 +44,11 @@ macro(addTestTarget target)
         add_executable(${test_bin}_thread ${T_SOURCES})
         add_executable(${test_bin}_leak ${T_SOURCES})
         add_executable(${test_bin}_ub ${T_SOURCES})
+
+        target_precompile_headers(${test_bin}_addr PRIVATE ${PROJECT_SOURCE_DIR}/cmake/googletest_pch.hpp)
+        target_precompile_headers(${test_bin}_thread PRIVATE ${PROJECT_SOURCE_DIR}/cmake/googletest_pch.hpp)
+        target_precompile_headers(${test_bin}_leak PRIVATE ${PROJECT_SOURCE_DIR}/cmake/googletest_pch.hpp)
+        target_precompile_headers(${test_bin}_ub PRIVATE ${PROJECT_SOURCE_DIR}/cmake/googletest_pch.hpp)
 
         set_target_properties(${test_bin}_addr PROPERTIES AUTOMOC TRUE)
         set_target_properties(${test_bin}_thread PROPERTIES AUTOMOC TRUE)

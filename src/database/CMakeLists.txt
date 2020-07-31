@@ -78,6 +78,8 @@ stringify_enums(STRINGIFIED_ENUMS database_status.hpp)
 source_group(files REGULAR_EXPRESSION .*database.* )
 
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED} ${STRINGIFIED_ENUMS})
+target_precompile_headers(database PUBLIC database_pch.hpp)
+
 target_link_libraries(database
                         PUBLIC
                             Qt5::Gui
