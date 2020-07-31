@@ -6,7 +6,7 @@
 
 #include <core/base_tags.hpp>
 
-namespace Database
+namespace Database::Actions
 {
     struct SortAction
     {
@@ -22,8 +22,11 @@ namespace Database
         const TagTypes tag;
         const Qt::SortOrder sort_order;
     };
+}
 
-    typedef std::variant<SortAction> Action;
+namespace Database
+{
+    typedef std::variant<Actions::SortAction> Action;
 }
 
 #endif

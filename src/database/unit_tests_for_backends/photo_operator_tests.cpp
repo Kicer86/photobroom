@@ -47,7 +47,7 @@ TYPED_TEST(PhotoOperatorTest, sortingActionOnPhotos)
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(SampleDB::db1);
 
-    Database::SortAction sort(TagTypes::Event, Qt::AscendingOrder);
+    Database::Actions::SortAction sort(TagTypes::Event, Qt::AscendingOrder);
     const auto photos = this->m_backend->photoOperator().onPhotos({}, {sort});
 
     ASSERT_EQ(photos.size(), 3);
