@@ -105,6 +105,7 @@ install(TARGETS database RUNTIME DESTINATION ${PATH_LIBS}
                          LIBRARY DESTINATION ${PATH_LIBS})
 
 if(BUILD_TESTING)
+    find_package(GTest REQUIRED CONFIG)
     include(database_tests.cmake)
     include(database_backends_tests.cmake)
 endif()

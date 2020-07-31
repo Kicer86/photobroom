@@ -1,9 +1,6 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(GMock REQUIRED)
-find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Gui Sql)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
@@ -57,14 +54,8 @@ addTestTarget(database_backends
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Sql
-                    ${GMOCK_LIBRARY}
-                    ${GTEST_LIBRARY}
-                    ${CMAKE_THREAD_LIBS_INIT}
-
-
-                SYSTEM_INCLUDES
-                    ${GMOCK_INCLUDE_DIRS}
-                    ${GTEST_INCLUDE_DIRS}
+                    GTest::gtest
+                    GTest::gmock
 
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src

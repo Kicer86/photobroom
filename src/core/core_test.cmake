@@ -1,9 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Threads REQUIRED)
-find_package(GMock REQUIRED)
-find_package(GTest REQUIRED)
+find_package(GTest REQUIRED CONFIG)
 find_package(OpenLibrary 2.1 REQUIRED utils)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui  REQUIRED)
@@ -38,17 +36,16 @@ addTestTarget(core
                     unit_tests/thumbnails_manager_tests.cpp
                     unit_tests/thumbnails_cache_tests.cpp
                 LIBRARIES
-                    ${GMOCK_MAIN_LIBRARY}
-                    ${GMOCK_LIBRARY}
-                    ${GTEST_LIBRARY}
-                    ${CMAKE_THREAD_LIBS_INIT}
+                    GTest::gtest
+                    GTest::gmock
+                    GTest::gmock_main
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Test
+
                 SYSTEM_INCLUDES
-                    ${GMOCK_INCLUDE_DIRS}
-                    ${GTEST_INCLUDE_DIRS}
                     ${Qt5Core_INCLUDE_DIRS}
+
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src
                     ${OPENLIBRARY_INCLUDE_DIRS}

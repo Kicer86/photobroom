@@ -1,11 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(GMock REQUIRED)
-find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
 find_package(Qt5Sql REQUIRED)
-
 
 addTestTarget(database
                 SOURCES
@@ -44,13 +40,10 @@ addTestTarget(database
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Sql
-                    ${GMOCK_LIBRARY}
-                    ${GTEST_LIBRARY}
-                    ${CMAKE_THREAD_LIBS_INIT}
+                    GTest::gtest
+                    GTest::gmock
 
                 SYSTEM_INCLUDES
-                    ${GMOCK_INCLUDE_DIRS}
-                    ${GTEST_INCLUDE_DIRS}
                     ${Qt5Sql_INCLUDE_DIRS}
 
                 INCLUDES
