@@ -24,7 +24,7 @@ if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 endif()
 
 #check if git modules are setup
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindGTest.cmake)
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindExiv2.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
 endif()
 

@@ -2,9 +2,7 @@
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Test)
-find_package(Threads REQUIRED)
-find_package(GMock REQUIRED)
-find_package(GTest REQUIRED)
+find_package(GTest REQUIRED CONFIG)
 
 include_directories(unit_tests)
 
@@ -63,9 +61,8 @@ addTestTarget(gui
                     Qt5::Gui
                     Qt5::Widgets
                     Qt5::Test
-                    ${GMOCK_LIBRARY}
-                    ${GTEST_LIBRARY}
-                    ${CMAKE_THREAD_LIBS_INIT}
+                    GTest::gtest
+                    GTest::gmock
 
                 INCLUDES
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
@@ -73,8 +70,4 @@ addTestTarget(gui
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop
                     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
                     ${CMAKE_CURRENT_SOURCE_DIR}
-
-                SYSTEM_INCLUDES
-                    ${GMOCK_INCLUDE_DIRS}
-                    ${GTEST_INCLUDE_DIRS}
 )
