@@ -1,4 +1,6 @@
 
+// for problems with name-prefix see https://www.mail-archive.com/bug-bison@gnu.org/msg03244.html thread
+
 %define api.pure
 %name-prefix="enum_"
 %parse-param {Enums* enums }
