@@ -78,9 +78,9 @@ TYPED_TEST(PhotoOperatorTest, sortingByTimestampActionOnPhotos)
     for (int idx = 21, p = 0; p < 21; idx--, p++)
     {
         Photo::Data photo_data;
-        photo_data = this->m_backend->getPhoto(photos[idx]);
+        photo_data = this->m_backend->getPhoto(photos[p]);
 
-        const QString expected_path = QString("/some/path%1.jpeg").arg(p);
+        const QString expected_path = QString("/some/path%1.jpeg").arg(idx);
         EXPECT_THAT(photo_data, IsPhotoWithPath(expected_path));
     }
 }
