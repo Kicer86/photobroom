@@ -296,8 +296,8 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
-    ASSERT_EQ(groupCanditates.front().members.size(), 3);
-    ASSERT_EQ(groupCanditates.back().members.size(), 3);
+    ASSERT_EQ(groupCanditates.front().members.size(), 6);
+    ASSERT_EQ(groupCanditates.back().members.size(), 5);
     EXPECT_EQ(groupCanditates.front().type, Group::Type::Generic);
     EXPECT_EQ(groupCanditates.back().type, Group::Type::Generic);
 }

@@ -61,7 +61,8 @@ class DATABASE_EXPORT SeriesDetector
 
         std::vector<SeriesDetector::GroupCandidate> take_hdr(std::deque<Photo::Id> &) const;
         std::vector<SeriesDetector::GroupCandidate> take_animations(std::deque<Photo::Id> &) const;
-        std::vector<SeriesDetector::GroupCandidate> analyze_photos(const std::vector<Photo::Id> &) const;
+        std::vector<SeriesDetector::GroupCandidate> take_close(std::deque<Photo::Id> &, const Rules &) const;
+        std::vector<SeriesDetector::GroupCandidate> analyze_photos(const std::vector<Photo::Id> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

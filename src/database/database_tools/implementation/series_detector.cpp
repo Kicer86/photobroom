@@ -72,7 +72,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
     const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
     // find groups
-    auto sequence_groups = analyze_photos(photos);
+    auto sequence_groups = analyze_photos(photos, rules);
 
     return sequence_groups;
 }
@@ -190,16 +190,63 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std:
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_close(std::deque<Photo::Id>& photos, const Rules& rules) const
+{
+    std::vector<GroupCandidate> results;
+
+    for (auto it = photos.begin(); it != photos.end();)
+    {
+        GroupCandidate group;
+        group.type = Group::Type::Generic;
+        std::chrono::milliseconds prev_stamp;
+
+        for (auto it2 = it; it2 != photos.end(); ++it2)
+        {
+            const auto id = *it2;
+            const Photo::Data data = m_backend.getPhoto(id);
+            const auto current_stamp = timestamp(data);
+
+            if (group.members.empty() || current_stamp - prev_stamp <= rules.manualSeriesMaxGap)
+            {
+                group.members.push_back(data);
+                prev_stamp = current_stamp;
+            }
+            else
+                break;
+        }
+
+        const auto members = group.members.size();
+
+        if (members > 1)
+        {
+            results.push_back(group);
+
+            auto first = it;
+            auto last = first + members;
+
+            it = photos.erase(first, last);
+        }
+        else
+            ++it;
+    }
+
+    return results;
+}
+
+
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
+                                                                           const Rules& rules) const
 {
     std::deque<Photo::Id> photos_deq(photos.begin(), photos.end());
 
     auto hdrs = take_hdr(photos_deq);
     auto animations = take_animations(photos_deq);
+    auto generics = take_close(photos_deq, rules);
 
     std::vector<SeriesDetector::GroupCandidate> sequences;
     std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
     std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
+    std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
 
     return sequences;
 }
