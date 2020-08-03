@@ -18,6 +18,7 @@
 
 #include "../series_detector.hpp"
 
+#include <unordered_set>
 #include <QDateTime>
 
 #include <core/iexif_reader.hpp>
@@ -27,7 +28,7 @@
 
 namespace
 {
-    qint64 timestamp(const Photo::Data& data)
+    std::chrono::milliseconds timestamp(const Photo::Data& data)
     {
         qint64 timestamp = -1;
 
@@ -43,7 +44,7 @@ namespace
             timestamp = dateTime.toMSecsSinceEpoch();
         }
 
-        return timestamp;
+        return std::chrono::milliseconds(timestamp);
     }
 }
 
@@ -68,110 +69,137 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 
     // find photos which are not part of any group
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
-    const auto photos = m_backend.photoOperator().getPhotos( {group_filter} );
+    const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-    // collect photos with SequenceNumber and timestamp in exif
-    std::multiset<PhotosWithSequence> sequences_by_time = analyze_photos(photos);
-    auto sequence_groups = split_into_groups(sequences_by_time);
-    determine_type(sequence_groups);
+    // find groups
+    auto sequence_groups = analyze_photos(photos);
 
-    result = sequence_groups;
-
-    return result;
+    return sequence_groups;
 }
 
 
-const std::multiset<SeriesDetector::PhotosWithSequence> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<Photo::Id>& photos) const
 {
-    std::multiset<PhotosWithSequence> sequences_by_time;
-
-    for (const Photo::Id& id: photos)
-    {
-        const Photo::Data data = m_backend.getPhoto(id);
-        const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
-
-        if (seq)
-        {
-            const std::any& rawData = *seq;
-            const int seqNum = std::any_cast<int>(rawData);
-            const qint64 time = timestamp(data);
-
-            if (time != -1)
-            {
-                Photo::DataDelta delta(id);
-                delta.insert<Photo::Field::Path>(data.path);
-                sequences_by_time.emplace(time, seqNum, delta);
-            }
-        }
-    }
-
-    return sequences_by_time;
-}
-
-
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(const std::multiset<PhotosWithSequence>& data) const
-{
-    const int initial_sequence_value = 1;
-    int expected_seq = initial_sequence_value;
-
-    std::vector<Photo::DataDelta> group;
     std::vector<GroupCandidate> results;
 
-    auto dumpGroup = [&results, &group]()
+    for (auto it = photos.begin(); it != photos.end();)
     {
-        GroupCandidate detection;
-        detection.type = Group::Type::Invalid;
-        detection.members = group;
+        GroupCandidate group;
+        group.type = Group::Type::HDR;
+        std::unordered_set<int> sequence_numbers;
+        std::unordered_set<float> exposures;
 
-        results.push_back(detection);
-
-        group.clear();
-    };
-
-    for(auto it = data.cbegin(); it != data.cend(); ++it)
-    {
-        const int& seqNum = it->sequence;
-        const Photo::DataDelta& ph_data = it->data;
-
-        if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
+        for (auto it2 = it; it2 != photos.end(); ++it2)
         {
-            if (group.empty() == false)
-                dumpGroup();
+            const auto id = *it2;
 
-            expected_seq = initial_sequence_value;
+            const Photo::Data data = m_backend.getPhoto(id);
+            const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
+            const std::optional<std::any> exposureRaw = m_exifReader->get(data.path, IExifReader::TagType::Exposure);
+
+            // look for HDR
+            if (seq && exposureRaw)
+            {
+                const int sequence = std::any_cast<int>(seq.value());
+
+                auto seqIt = sequence_numbers.find(sequence);
+
+                if (group.members.empty() || seqIt == sequence_numbers.end())
+                {
+                    const float exposure = std::any_cast<float>(exposureRaw.value());
+
+                    group.members.push_back(data);
+                    sequence_numbers.insert(sequence);
+                    exposures.insert(exposure);
+                }
+                else
+                    break;
+            }
         }
 
-        if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
-        {
-            group.push_back(ph_data);
-            expected_seq++;
-        }
+        const auto members = group.members.size();
 
-        if (std::next(it) == data.cend())
-            dumpGroup();
+        // each photo should have different exposure
+        if (members > 1 && exposures.size() == sequence_numbers.size())
+        {
+            results.push_back(group);
+
+            auto first = it;
+            auto last = first + members;
+
+            it = photos.erase(first, last);
+        }
+        else
+            ++it;
     }
 
     return results;
 }
 
 
-void SeriesDetector::determine_type(std::vector<GroupCandidate>& sequence_groups) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std::deque<Photo::Id>& photos) const
 {
-    for(SeriesDetector::GroupCandidate& group: sequence_groups)
+    std::vector<GroupCandidate> results;
+
+    for (auto it = photos.begin(); it != photos.end();)
     {
-        std::vector<float> exposures;
+        GroupCandidate group;
+        group.type = Group::Type::Animation;
+        std::unordered_set<int> sequence_numbers;
 
-        for(const Photo::DataDelta& member: group.members)
+        for (auto it2 = it; it2 != photos.end(); ++it2)
         {
-            const QString& path = member.get<Photo::Field::Path>();
-            const std::optional<std::any> exposureRaw = m_exifReader->get(path, IExifReader::TagType::Exposure);
-            const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
+            const auto id = *it2;
 
-            exposures.push_back(exposure);
+            const Photo::Data data = m_backend.getPhoto(id);
+            const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
+
+            // look for sequence
+            if (seq)
+            {
+                const int sequence = std::any_cast<int>(seq.value());
+
+                auto seqIt = sequence_numbers.find(sequence);
+
+                if (group.members.empty() || seqIt == sequence_numbers.end())
+                {
+                    group.members.push_back(data);
+                    sequence_numbers.insert(sequence);
+                }
+                else
+                    break;
+            }
         }
 
-        const bool constant_exposure = std::equal(exposures.cbegin() + 1, exposures.cend(), exposures.cbegin());
+        const auto members = group.members.size();
 
-        group.type = constant_exposure? Group::Type::Animation: Group::Type::HDR;
+        if (members > 1)
+        {
+            results.push_back(group);
+
+            auto first = it;
+            auto last = first + members;
+
+            it = photos.erase(first, last);
+        }
+        else
+            ++it;
     }
+
+    return results;
+}
+
+
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos) const
+{
+    std::deque<Photo::Id> photos_deq(photos.begin(), photos.end());
+
+    auto hdrs = take_hdr(photos_deq);
+    auto animations = take_animations(photos_deq);
+
+    std::vector<SeriesDetector::GroupCandidate> sequences;
+    std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
+    std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
+
+    return sequences;
 }

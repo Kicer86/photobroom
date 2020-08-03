@@ -126,7 +126,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         auto setThumbnailCallback = make_cross_thread_function< const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1));
         auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<const QImage &>(setThumbnailCallback);
 
-        const QString& path = candidate.members.front().get<Photo::Field::Path>();
+        const QString& path = candidate.members.front().path;
         m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
 
         QList<QStandardItem *> row;
@@ -173,26 +173,12 @@ void SeriesDetection::group()
 
     auto task = [this, groupDetails](Database::IBackend& backend)
     {
-        const std::vector<Photo::Data> ph_data = load_group_details(backend, groupDetails);
+        const std::vector<Photo::Data> ph_data = groupDetails.members;
         invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
     };
 
     auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend &>(task);
     m_db->exec(db_task);
-}
-
-
-std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend& backend, const SeriesDetector::GroupCandidate& details)
-{
-    std::vector<Photo::Data> ph_data;
-
-    for(const Photo::DataDelta& delta: details.members)
-    {
-        const Photo::Data ph_d = backend.getPhoto(delta.getId());
-        ph_data.push_back(ph_d);
-    }
-
-    return ph_data;
 }
 
 

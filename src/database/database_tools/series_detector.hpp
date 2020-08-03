@@ -19,8 +19,8 @@
 #ifndef SERIESDETECTOR_HPP
 #define SERIESDETECTOR_HPP
 
-#include <set>
 #include <chrono>
+#include <deque>
 
 #include <database/group.hpp>
 #include <database/photo_data.hpp>
@@ -41,7 +41,7 @@ class DATABASE_EXPORT SeriesDetector
         struct GroupCandidate
         {
             Group::Type type;
-            std::vector<Photo::DataDelta> members;
+            std::vector<Photo::Data> members;
         };
 
         struct Rules
@@ -56,33 +56,12 @@ class DATABASE_EXPORT SeriesDetector
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
-        struct PhotosWithSequence
-        {
-            PhotosWithSequence(qint64 t, int s, const Photo::DataDelta& d):
-                timestamp(t),
-                sequence(s),
-                data(d)
-            {
-
-            }
-
-            bool operator<(const PhotosWithSequence& other) const
-            {
-                return std::tie(timestamp, sequence, data) <
-                       std::tie(other.timestamp, other.sequence, other.data);
-            }
-
-            qint64 timestamp;
-            int sequence;
-            Photo::DataDelta data;
-        };
-
         Database::IBackend& m_backend;
         IExifReader* m_exifReader;
 
-        const std::multiset<PhotosWithSequence> analyze_photos(const std::vector<Photo::Id> &) const;
-        std::vector<GroupCandidate> split_into_groups(const std::multiset<PhotosWithSequence> &) const;
-        void determine_type(std::vector<GroupCandidate> &) const;
+        std::vector<SeriesDetector::GroupCandidate> take_hdr(std::deque<Photo::Id> &) const;
+        std::vector<SeriesDetector::GroupCandidate> take_animations(std::deque<Photo::Id> &) const;
+        std::vector<SeriesDetector::GroupCandidate> analyze_photos(const std::vector<Photo::Id> &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

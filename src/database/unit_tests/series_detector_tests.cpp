@@ -49,12 +49,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -110,12 +105,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -172,12 +162,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -231,17 +216,20 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     // Each group has SequenceNumber in exif from 1 to 3
     // Photos within a group have the same time of take
     // in both groups photos have different exposure level.
+
+    // photos within group have same timestamp.
+    // returning them in pseudo random order
+    // so sequence numbers will be mixed
     std::vector<Photo::Id> all_photos =
     {
-        Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
+        // first group
+        Photo::Id(2), Photo::Id(3), Photo::Id(1),
+
+        // second group
+        Photo::Id(6), Photo::Id(4), Photo::Id(5)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()) )).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;

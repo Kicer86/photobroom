@@ -18,6 +18,7 @@ namespace Database::Actions
         }
 
         SortByTag(const SortByTag &) = default;
+        bool operator<=>(const SortByTag &) const = default;
 
         const TagTypes tag;
         const Qt::SortOrder sort_order;
@@ -32,6 +33,8 @@ namespace Database::Actions
         }
 
         const Qt::SortOrder sort_order;
+
+        bool operator<=>(const SortByTimestamp &) const = default;
     };
 }
 
