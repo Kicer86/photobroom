@@ -115,6 +115,8 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<
                 else
                     break;
             }
+            else
+                break;
         }
 
         const auto members = group.members.size();
@@ -169,6 +171,8 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std:
                 else
                     break;
             }
+            else
+                break;
         }
 
         const auto members = group.members.size();

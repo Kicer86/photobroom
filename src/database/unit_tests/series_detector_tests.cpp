@@ -301,3 +301,35 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
     EXPECT_EQ(groupCanditates.front().type, Group::Type::Generic);
     EXPECT_EQ(groupCanditates.back().type, Group::Type::Generic);
 }
+
+
+TEST(SeriesDetectorTest, Complexity)
+{
+    NiceMock<MockBackend> backend;
+    NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
+
+    // Mock some photos
+    std::vector<Photo::Id> all_photos;
+
+    for(int i = 1; i <= 50; i++)
+        all_photos.push_back(Photo::Id(i));
+
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+
+    EXPECT_CALL(backend, getPhoto(_)).Times(199).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
+    {
+        Photo::Data data;
+        data.id = id;
+        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
+
+        return data;
+    }));
+
+    const SeriesDetector sd(backend, &exif);
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+}
