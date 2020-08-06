@@ -46,6 +46,138 @@ namespace
 
         return std::chrono::milliseconds(timestamp);
     }
+
+    template<Group::Type>
+    class GroupValidator;
+
+    template<>
+    class GroupValidator<Group::Type::HDR>
+    {
+    public:
+        GroupValidator(IExifReader& exif)
+            : m_exifReader(exif)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            data = d;
+            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
+            exposure = m_exifReader.get(data.path, IExifReader::TagType::Exposure);
+        }
+
+        bool canBePartOfGroup()
+        {
+            const bool has_exif_data = sequence && exposure;
+
+            if (has_exif_data)
+            {
+                const int s = std::any_cast<int>(sequence.value());
+                const int e = std::any_cast<float>(exposure.value());
+
+                auto s_it = sequence_numbers.find(s);
+                auto e_it = exposures.find(e);
+
+                return s_it == sequence_numbers.end() &&
+                       e_it == exposures.end();
+            }
+            else
+                return false;
+        }
+
+        void accept()
+        {
+            assert(sequence);
+            assert(exposure);
+
+            const int s = std::any_cast<int>(sequence.value());
+            const int e = std::any_cast<float>(exposure.value());
+
+            sequence_numbers.insert(s);
+            exposures.insert(e);
+        }
+
+        Photo::Data data;
+        std::optional<std::any> sequence;
+        std::optional<std::any> exposure;
+
+        std::unordered_set<int> sequence_numbers;
+        std::unordered_set<float> exposures;
+        IExifReader& m_exifReader;
+    };
+
+    template<>
+    class GroupValidator<Group::Type::Animation>
+    {
+    };
+
+    template<>
+    class GroupValidator<Group::Type::Generic>
+    {
+    };
+
+    class SeriesTaker
+    {
+    public:
+        SeriesTaker(Database::IBackend& backend, IExifReader* exifReader)
+            : m_backend(backend)
+            , m_exifReader(exifReader)
+        {
+
+        }
+
+        template<Group::Type type>
+        std::vector<SeriesDetector::GroupCandidate> take(std::deque<Photo::Id>& photos)
+        {
+            std::vector<SeriesDetector::GroupCandidate> results;
+
+            for (auto it = photos.begin(); it != photos.end();)
+            {
+                SeriesDetector::GroupCandidate group;
+                group.type = type;
+
+                GroupValidator<type> validator(*m_exifReader);
+
+                for (auto it2 = it; it2 != photos.end(); ++it2)
+                {
+                    const auto id = *it2;
+                    const Photo::Data data = m_backend.getPhoto(id);
+
+                    validator.setCurrentPhoto(data);
+
+                    if (validator.canBePartOfGroup())
+                    {
+                        group.members.push_back(data);
+                        validator.accept();
+                    }
+                    else
+                        break;
+                }
+
+                const auto members = group.members.size();
+
+                // each photo should have different exposure
+                if (members > 1)
+                {
+                    results.push_back(group);
+
+                    auto first = it;
+                    auto last = first + members;
+
+                    it = photos.erase(first, last);
+                }
+                else
+                    ++it;
+            }
+
+            return results;
+        }
+
+    private:
+        Database::IBackend& m_backend;
+        IExifReader* m_exifReader;
+    };
 }
 
 
@@ -80,62 +212,8 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 
 std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<Photo::Id>& photos) const
 {
-    std::vector<GroupCandidate> results;
-
-    for (auto it = photos.begin(); it != photos.end();)
-    {
-        GroupCandidate group;
-        group.type = Group::Type::HDR;
-        std::unordered_set<int> sequence_numbers;
-        std::unordered_set<float> exposures;
-
-        for (auto it2 = it; it2 != photos.end(); ++it2)
-        {
-            const auto id = *it2;
-
-            const Photo::Data data = m_backend.getPhoto(id);
-            const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
-            const std::optional<std::any> exposureRaw = m_exifReader->get(data.path, IExifReader::TagType::Exposure);
-
-            // look for HDR
-            if (seq && exposureRaw)
-            {
-                const int sequence = std::any_cast<int>(seq.value());
-
-                auto seqIt = sequence_numbers.find(sequence);
-
-                if (group.members.empty() || seqIt == sequence_numbers.end())
-                {
-                    const float exposure = std::any_cast<float>(exposureRaw.value());
-
-                    group.members.push_back(data);
-                    sequence_numbers.insert(sequence);
-                    exposures.insert(exposure);
-                }
-                else
-                    break;
-            }
-            else
-                break;
-        }
-
-        const auto members = group.members.size();
-
-        // each photo should have different exposure
-        if (members > 1 && exposures.size() == sequence_numbers.size())
-        {
-            results.push_back(group);
-
-            auto first = it;
-            auto last = first + members;
-
-            it = photos.erase(first, last);
-        }
-        else
-            ++it;
-    }
-
-    return results;
+    SeriesTaker t(m_backend, m_exifReader);
+    return t.take<Group::Type::HDR>(photos);
 }
 
 
