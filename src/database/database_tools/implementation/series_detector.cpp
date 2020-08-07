@@ -54,8 +54,9 @@ namespace
     class GroupValidator<Group::Type::Animation>
     {
     public:
-        GroupValidator(IExifReader& exif)
+        GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
             : m_exifReader(exif)
+            , rules(r)
         {
 
         }
@@ -96,6 +97,7 @@ namespace
 
         std::unordered_set<int> sequence_numbers;
         IExifReader& m_exifReader;
+        const SeriesDetector::Rules& rules;
     };
 
     template<>
@@ -104,8 +106,8 @@ namespace
         typedef GroupValidator<Group::Type::Animation> Base;
 
     public:
-        GroupValidator(IExifReader& exif)
-            : Base(exif)
+        GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
+            : Base(exif, r)
         {
 
         }
@@ -149,14 +151,45 @@ namespace
     template<>
     class GroupValidator<Group::Type::Generic>
     {
+    public:
+        GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
+            : prev_stamp(0)
+            , rules(r)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            data = d;
+            current_stamp = timestamp(data);
+        }
+
+        bool canBePartOfGroup()
+        {
+            return prev_stamp.count() == 0 || current_stamp - prev_stamp <= rules.manualSeriesMaxGap;
+        }
+
+        void accept()
+        {
+            prev_stamp = current_stamp;
+        }
+
+        Photo::Data data;
+        std::chrono::milliseconds prev_stamp,
+                                  current_stamp;
+        const SeriesDetector::Rules& rules;
     };
 
     class SeriesTaker
     {
     public:
-        SeriesTaker(Database::IBackend& backend, IExifReader* exifReader)
+        SeriesTaker(Database::IBackend& backend,
+                    IExifReader* exifReader,
+                    const SeriesDetector::Rules& r)
             : m_backend(backend)
             , m_exifReader(exifReader)
+            , m_rules(r)
         {
 
         }
@@ -171,7 +204,7 @@ namespace
                 SeriesDetector::GroupCandidate group;
                 group.type = type;
 
-                GroupValidator<type> validator(*m_exifReader);
+                GroupValidator<type> validator(*m_exifReader, m_rules);
 
                 for (auto it2 = it; it2 != photos.end(); ++it2)
                 {
@@ -211,6 +244,7 @@ namespace
     private:
         Database::IBackend& m_backend;
         IExifReader* m_exifReader;
+        const SeriesDetector::Rules& m_rules;
     };
 }
 
@@ -244,61 +278,24 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<Photo::Id>& photos) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<Photo::Id>& photos, const Rules& rules) const
 {
-    SeriesTaker t(m_backend, m_exifReader);
+    SeriesTaker t(m_backend, m_exifReader, rules);
     return t.take<Group::Type::HDR>(photos);
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std::deque<Photo::Id>& photos) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std::deque<Photo::Id>& photos, const Rules& rules) const
 {
-    SeriesTaker t(m_backend, m_exifReader);
+    SeriesTaker t(m_backend, m_exifReader, rules);
     return t.take<Group::Type::Animation>(photos);
 }
 
 
 std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_close(std::deque<Photo::Id>& photos, const Rules& rules) const
 {
-    std::vector<GroupCandidate> results;
-
-    for (auto it = photos.begin(); it != photos.end();)
-    {
-        GroupCandidate group;
-        group.type = Group::Type::Generic;
-        std::chrono::milliseconds prev_stamp;
-
-        for (auto it2 = it; it2 != photos.end(); ++it2)
-        {
-            const auto id = *it2;
-            const Photo::Data data = m_backend.getPhoto(id);
-            const auto current_stamp = timestamp(data);
-
-            if (group.members.empty() || current_stamp - prev_stamp <= rules.manualSeriesMaxGap)
-            {
-                group.members.push_back(data);
-                prev_stamp = current_stamp;
-            }
-            else
-                break;
-        }
-
-        const auto members = group.members.size();
-
-        if (members > 1)
-        {
-            results.push_back(group);
-
-            auto first = it;
-            auto last = first + members;
-
-            it = photos.erase(first, last);
-        }
-        else
-            ++it;
-    }
-
-    return results;
+    SeriesTaker t(m_backend, m_exifReader, rules);
+    return t.take<Group::Type::Generic>(photos);
 }
 
 
@@ -307,8 +304,8 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const
 {
     std::deque<Photo::Id> photos_deq(photos.begin(), photos.end());
 
-    auto hdrs = take_hdr(photos_deq);
-    auto animations = take_animations(photos_deq);
+    auto hdrs = take_hdr(photos_deq, rules);
+    auto animations = take_animations(photos_deq, rules);
     auto generics = take_close(photos_deq, rules);
 
     std::vector<SeriesDetector::GroupCandidate> sequences;
