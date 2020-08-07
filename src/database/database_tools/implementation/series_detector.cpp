@@ -99,36 +99,34 @@ namespace
     };
 
     template<>
-    class GroupValidator<Group::Type::HDR>
+    class GroupValidator<Group::Type::HDR>: GroupValidator<Group::Type::Animation>
     {
+        typedef GroupValidator<Group::Type::Animation> Base;
+
     public:
         GroupValidator(IExifReader& exif)
-            : m_exifReader(exif)
+            : Base(exif)
         {
 
         }
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            data = d;
-            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
+            Base::setCurrentPhoto(d);
             exposure = m_exifReader.get(data.path, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
         {
-            const bool has_exif_data = sequence && exposure;
+            const bool has_exif_data = Base::canBePartOfGroup() && exposure;
 
             if (has_exif_data)
             {
-                const int s = std::any_cast<int>(sequence.value());
                 const int e = std::any_cast<float>(exposure.value());
 
-                auto s_it = sequence_numbers.find(s);
                 auto e_it = exposures.find(e);
 
-                return s_it == sequence_numbers.end() &&
-                       e_it == exposures.end();
+                return e_it == exposures.end();
             }
             else
                 return false;
@@ -136,23 +134,16 @@ namespace
 
         void accept()
         {
-            assert(sequence);
             assert(exposure);
 
-            const int s = std::any_cast<int>(sequence.value());
-            const int e = std::any_cast<float>(exposure.value());
+            Base::accept();
 
-            sequence_numbers.insert(s);
+            const int e = std::any_cast<float>(exposure.value());
             exposures.insert(e);
         }
 
-        Photo::Data data;
-        std::optional<std::any> sequence;
         std::optional<std::any> exposure;
-
-        std::unordered_set<int> sequence_numbers;
         std::unordered_set<float> exposures;
-        IExifReader& m_exifReader;
     };
 
     template<>
