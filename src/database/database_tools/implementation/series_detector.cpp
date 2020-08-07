@@ -110,6 +110,49 @@ namespace
     template<>
     class GroupValidator<Group::Type::Animation>
     {
+    public:
+        GroupValidator(IExifReader& exif)
+            : m_exifReader(exif)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            data = d;
+            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
+        }
+
+        bool canBePartOfGroup()
+        {
+            const bool has_exif_data = sequence.has_value();
+
+            if (has_exif_data)
+            {
+                const int s = std::any_cast<int>(sequence.value());
+
+                auto s_it = sequence_numbers.find(s);
+
+                return s_it == sequence_numbers.end();
+            }
+            else
+                return false;
+        }
+
+        void accept()
+        {
+            assert(sequence);
+
+            const int s = std::any_cast<int>(sequence.value());
+
+            sequence_numbers.insert(s);
+        }
+
+        Photo::Data data;
+        std::optional<std::any> sequence;
+
+        std::unordered_set<int> sequence_numbers;
+        IExifReader& m_exifReader;
     };
 
     template<>
@@ -219,56 +262,8 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<
 
 std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std::deque<Photo::Id>& photos) const
 {
-    std::vector<GroupCandidate> results;
-
-    for (auto it = photos.begin(); it != photos.end();)
-    {
-        GroupCandidate group;
-        group.type = Group::Type::Animation;
-        std::unordered_set<int> sequence_numbers;
-
-        for (auto it2 = it; it2 != photos.end(); ++it2)
-        {
-            const auto id = *it2;
-
-            const Photo::Data data = m_backend.getPhoto(id);
-            const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
-
-            // look for sequence
-            if (seq)
-            {
-                const int sequence = std::any_cast<int>(seq.value());
-
-                auto seqIt = sequence_numbers.find(sequence);
-
-                if (group.members.empty() || seqIt == sequence_numbers.end())
-                {
-                    group.members.push_back(data);
-                    sequence_numbers.insert(sequence);
-                }
-                else
-                    break;
-            }
-            else
-                break;
-        }
-
-        const auto members = group.members.size();
-
-        if (members > 1)
-        {
-            results.push_back(group);
-
-            auto first = it;
-            auto last = first + members;
-
-            it = photos.erase(first, last);
-        }
-        else
-            ++it;
-    }
-
-    return results;
+    SeriesTaker t(m_backend, m_exifReader);
+    return t.take<Group::Type::Animation>(photos);
 }
 
 
