@@ -51,6 +51,54 @@ namespace
     class GroupValidator;
 
     template<>
+    class GroupValidator<Group::Type::Animation>
+    {
+    public:
+        GroupValidator(IExifReader& exif)
+            : m_exifReader(exif)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            data = d;
+            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
+        }
+
+        bool canBePartOfGroup()
+        {
+            const bool has_exif_data = sequence.has_value();
+
+            if (has_exif_data)
+            {
+                const int s = std::any_cast<int>(sequence.value());
+
+                auto s_it = sequence_numbers.find(s);
+
+                return s_it == sequence_numbers.end();
+            }
+            else
+                return false;
+        }
+
+        void accept()
+        {
+            assert(sequence);
+
+            const int s = std::any_cast<int>(sequence.value());
+
+            sequence_numbers.insert(s);
+        }
+
+        Photo::Data data;
+        std::optional<std::any> sequence;
+
+        std::unordered_set<int> sequence_numbers;
+        IExifReader& m_exifReader;
+    };
+
+    template<>
     class GroupValidator<Group::Type::HDR>
     {
     public:
@@ -104,54 +152,6 @@ namespace
 
         std::unordered_set<int> sequence_numbers;
         std::unordered_set<float> exposures;
-        IExifReader& m_exifReader;
-    };
-
-    template<>
-    class GroupValidator<Group::Type::Animation>
-    {
-    public:
-        GroupValidator(IExifReader& exif)
-            : m_exifReader(exif)
-        {
-
-        }
-
-        void setCurrentPhoto(const Photo::Data& d)
-        {
-            data = d;
-            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
-        }
-
-        bool canBePartOfGroup()
-        {
-            const bool has_exif_data = sequence.has_value();
-
-            if (has_exif_data)
-            {
-                const int s = std::any_cast<int>(sequence.value());
-
-                auto s_it = sequence_numbers.find(s);
-
-                return s_it == sequence_numbers.end();
-            }
-            else
-                return false;
-        }
-
-        void accept()
-        {
-            assert(sequence);
-
-            const int s = std::any_cast<int>(sequence.value());
-
-            sequence_numbers.insert(s);
-        }
-
-        Photo::Data data;
-        std::optional<std::any> sequence;
-
-        std::unordered_set<int> sequence_numbers;
         IExifReader& m_exifReader;
     };
 
