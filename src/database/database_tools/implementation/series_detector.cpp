@@ -185,7 +185,7 @@ namespace
     {
     public:
         SeriesTaker(Database::IBackend& backend,
-                    IExifReader* exifReader,
+                    IExifReader& exifReader,
                     const SeriesDetector::Rules& r)
             : m_backend(backend)
             , m_exifReader(exifReader)
@@ -195,7 +195,7 @@ namespace
         }
 
         template<Group::Type type>
-        std::vector<SeriesDetector::GroupCandidate> take(std::deque<Photo::Id>& photos)
+        std::vector<SeriesDetector::GroupCandidate> take(std::deque<Photo::Id>& photos) const
         {
             std::vector<SeriesDetector::GroupCandidate> results;
 
@@ -204,7 +204,7 @@ namespace
                 SeriesDetector::GroupCandidate group;
                 group.type = type;
 
-                GroupValidator<type> validator(*m_exifReader, m_rules);
+                GroupValidator<type> validator(m_exifReader, m_rules);
 
                 for (auto it2 = it; it2 != photos.end(); ++it2)
                 {
@@ -243,7 +243,7 @@ namespace
 
     private:
         Database::IBackend& m_backend;
-        IExifReader* m_exifReader;
+        IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
     };
 }
@@ -278,35 +278,16 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_hdr(std::deque<Photo::Id>& photos, const Rules& rules) const
-{
-    SeriesTaker t(m_backend, m_exifReader, rules);
-    return t.take<Group::Type::HDR>(photos);
-}
-
-
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_animations(std::deque<Photo::Id>& photos, const Rules& rules) const
-{
-    SeriesTaker t(m_backend, m_exifReader, rules);
-    return t.take<Group::Type::Animation>(photos);
-}
-
-
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::take_close(std::deque<Photo::Id>& photos, const Rules& rules) const
-{
-    SeriesTaker t(m_backend, m_exifReader, rules);
-    return t.take<Group::Type::Generic>(photos);
-}
-
-
 std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
                                                                            const Rules& rules) const
 {
     std::deque<Photo::Id> photos_deq(photos.begin(), photos.end());
 
-    auto hdrs = take_hdr(photos_deq, rules);
-    auto animations = take_animations(photos_deq, rules);
-    auto generics = take_close(photos_deq, rules);
+    const SeriesTaker t(m_backend, *m_exifReader, rules);
+
+    auto hdrs = t.take<Group::Type::HDR>(photos_deq);
+    auto animations = t.take<Group::Type::Animation>(photos_deq);
+    auto generics = t.take<Group::Type::Generic>(photos_deq);
 
     std::vector<SeriesDetector::GroupCandidate> sequences;
     std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
