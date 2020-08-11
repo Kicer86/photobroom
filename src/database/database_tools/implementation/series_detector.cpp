@@ -47,23 +47,33 @@ namespace
         return std::chrono::milliseconds(timestamp);
     }
 
+    class BaseGroupValidator
+    {
+    public:
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            m_data = d;
+        }
+
+        Photo::Data m_data;
+    };
+
     template<Group::Type>
     class GroupValidator;
 
     template<>
-    class GroupValidator<Group::Type::Animation>
+    class GroupValidator<Group::Type::Animation>: BaseGroupValidator
     {
     public:
-        GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
+        GroupValidator(IExifReader& exif, const SeriesDetector::Rules &)
             : m_exifReader(exif)
-            , m_rules(r)
         {
 
         }
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            m_data = d;
+            BaseGroupValidator::setCurrentPhoto(d);
             m_sequence = m_exifReader.get(m_data.path, IExifReader::TagType::SequenceNumber);
         }
 
@@ -74,7 +84,6 @@ namespace
             if (has_exif_data)
             {
                 const int s = std::any_cast<int>(m_sequence.value());
-
                 auto s_it = m_sequence_numbers.find(s);
 
                 return s_it == m_sequence_numbers.end();
@@ -92,12 +101,10 @@ namespace
             m_sequence_numbers.insert(s);
         }
 
-        Photo::Data m_data;
         std::optional<std::any> m_sequence;
 
         std::unordered_set<int> m_sequence_numbers;
         IExifReader& m_exifReader;
-        const SeriesDetector::Rules& m_rules;
     };
 
     template<>
@@ -115,7 +122,7 @@ namespace
         void setCurrentPhoto(const Photo::Data& d)
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(m_data.path, IExifReader::TagType::Exposure);
+            m_exposure = m_exifReader.get(d.path, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
@@ -149,7 +156,7 @@ namespace
     };
 
     template<>
-    class GroupValidator<Group::Type::Generic>
+    class GroupValidator<Group::Type::Generic>: BaseGroupValidator
     {
     public:
         GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
@@ -161,8 +168,8 @@ namespace
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            m_data = d;
-            m_current_stamp = timestamp(m_data);
+            BaseGroupValidator::setCurrentPhoto(d);
+            m_current_stamp = timestamp(d);
         }
 
         bool canBePartOfGroup()
@@ -175,7 +182,6 @@ namespace
             m_prev_stamp = m_current_stamp;
         }
 
-        Photo::Data m_data;
         std::chrono::milliseconds m_prev_stamp,
                                   m_current_stamp;
         const SeriesDetector::Rules& m_rules;
