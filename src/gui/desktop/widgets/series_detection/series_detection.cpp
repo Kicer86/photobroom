@@ -170,15 +170,7 @@ void SeriesDetection::group()
     const int row = selected_row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
     const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
-
-    auto task = [this, groupDetails](Database::IBackend& backend)
-    {
-        const std::vector<Photo::Data> ph_data = groupDetails.members;
-        invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
-    };
-
-    auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend &>(task);
-    m_db->exec(db_task);
+    launch_groupping_dialog(groupDetails.members, groupDetails.type);
 }
 
 
