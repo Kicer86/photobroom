@@ -56,28 +56,28 @@ namespace
     public:
         GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
             : m_exifReader(exif)
-            , rules(r)
+            , m_rules(r)
         {
 
         }
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            data = d;
-            sequence = m_exifReader.get(data.path, IExifReader::TagType::SequenceNumber);
+            m_data = d;
+            m_sequence = m_exifReader.get(m_data.path, IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
         {
-            const bool has_exif_data = sequence.has_value();
+            const bool has_exif_data = m_sequence.has_value();
 
             if (has_exif_data)
             {
-                const int s = std::any_cast<int>(sequence.value());
+                const int s = std::any_cast<int>(m_sequence.value());
 
-                auto s_it = sequence_numbers.find(s);
+                auto s_it = m_sequence_numbers.find(s);
 
-                return s_it == sequence_numbers.end();
+                return s_it == m_sequence_numbers.end();
             }
             else
                 return false;
@@ -85,19 +85,19 @@ namespace
 
         void accept()
         {
-            assert(sequence);
+            assert(m_sequence);
 
-            const int s = std::any_cast<int>(sequence.value());
+            const int s = std::any_cast<int>(m_sequence.value());
 
-            sequence_numbers.insert(s);
+            m_sequence_numbers.insert(s);
         }
 
-        Photo::Data data;
-        std::optional<std::any> sequence;
+        Photo::Data m_data;
+        std::optional<std::any> m_sequence;
 
-        std::unordered_set<int> sequence_numbers;
+        std::unordered_set<int> m_sequence_numbers;
         IExifReader& m_exifReader;
-        const SeriesDetector::Rules& rules;
+        const SeriesDetector::Rules& m_rules;
     };
 
     template<>
@@ -115,20 +115,20 @@ namespace
         void setCurrentPhoto(const Photo::Data& d)
         {
             Base::setCurrentPhoto(d);
-            exposure = m_exifReader.get(data.path, IExifReader::TagType::Exposure);
+            m_exposure = m_exifReader.get(m_data.path, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
         {
-            const bool has_exif_data = Base::canBePartOfGroup() && exposure;
+            const bool has_exif_data = Base::canBePartOfGroup() && m_exposure;
 
             if (has_exif_data)
             {
-                const int e = std::any_cast<float>(exposure.value());
+                const int e = std::any_cast<float>(m_exposure.value());
 
-                auto e_it = exposures.find(e);
+                auto e_it = m_exposures.find(e);
 
-                return e_it == exposures.end();
+                return e_it == m_exposures.end();
             }
             else
                 return false;
@@ -136,16 +136,16 @@ namespace
 
         void accept()
         {
-            assert(exposure);
+            assert(m_exposure);
 
             Base::accept();
 
-            const int e = std::any_cast<float>(exposure.value());
-            exposures.insert(e);
+            const int e = std::any_cast<float>(m_exposure.value());
+            m_exposures.insert(e);
         }
 
-        std::optional<std::any> exposure;
-        std::unordered_set<float> exposures;
+        std::optional<std::any> m_exposure;
+        std::unordered_set<float> m_exposures;
     };
 
     template<>
@@ -153,32 +153,32 @@ namespace
     {
     public:
         GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
-            : prev_stamp(0)
-            , rules(r)
+            : m_prev_stamp(0)
+            , m_rules(r)
         {
 
         }
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            data = d;
-            current_stamp = timestamp(data);
+            m_data = d;
+            m_current_stamp = timestamp(m_data);
         }
 
         bool canBePartOfGroup()
         {
-            return prev_stamp.count() == 0 || current_stamp - prev_stamp <= rules.manualSeriesMaxGap;
+            return m_prev_stamp.count() == 0 || m_current_stamp - m_prev_stamp <= m_rules.manualSeriesMaxGap;
         }
 
         void accept()
         {
-            prev_stamp = current_stamp;
+            m_prev_stamp = m_current_stamp;
         }
 
-        Photo::Data data;
-        std::chrono::milliseconds prev_stamp,
-                                  current_stamp;
-        const SeriesDetector::Rules& rules;
+        Photo::Data m_data;
+        std::chrono::milliseconds m_prev_stamp,
+                                  m_current_stamp;
+        const SeriesDetector::Rules& m_rules;
     };
 
     class SeriesTaker
