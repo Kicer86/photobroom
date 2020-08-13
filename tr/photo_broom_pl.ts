@@ -888,12 +888,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+63"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+64"/>
         <source>Detected series</source>
         <translation>Wykryte serie</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>preview</source>
         <translation>podgląd</translation>
     </message>

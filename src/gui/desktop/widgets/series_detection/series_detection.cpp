@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QQuickWidget>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
@@ -64,7 +65,10 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
-    layout->addWidget(detected);
+    auto view = new QQuickWidget(QUrl("qrc:/ui/SeriesDetection.qml"), this);
+
+    layout->addWidget(view);
+    //layout->addWidget(detected);
     layout->addLayout(buttons_layout);
     layout->addWidget(dialog_buttons);
 
