@@ -187,10 +187,10 @@ namespace
         const SeriesDetector::Rules& m_rules;
     };
 
-    class SeriesTaker
+    class SeriesExtractor
     {
     public:
-        SeriesTaker(Database::IBackend& backend,
+        SeriesExtractor(Database::IBackend& backend,
                     IExifReader& exifReader,
                     const std::vector<Photo::Id>& photos,
                     const SeriesDetector::Rules& r)
@@ -206,7 +206,7 @@ namespace
         }
 
         template<Group::Type type>
-        std::vector<SeriesDetector::GroupCandidate> take()
+        std::vector<SeriesDetector::GroupCandidate> extract()
         {
             std::vector<SeriesDetector::GroupCandidate> results;
 
@@ -292,11 +292,11 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
                                                                            const Rules& rules) const
 {
-    SeriesTaker taker(m_backend, *m_exifReader, photos, rules);
+    SeriesExtractor extractor(m_backend, *m_exifReader, photos, rules);
 
-    auto hdrs = taker.take<Group::Type::HDR>();
-    auto animations = taker.take<Group::Type::Animation>();
-    auto generics = taker.take<Group::Type::Generic>();
+    auto hdrs = extractor.extract<Group::Type::HDR>();
+    auto animations = extractor.extract<Group::Type::Animation>();
+    auto generics = extractor.extract<Group::Type::Generic>();
 
     std::vector<SeriesDetector::GroupCandidate> sequences;
     std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
