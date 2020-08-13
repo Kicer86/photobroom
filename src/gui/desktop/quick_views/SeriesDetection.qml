@@ -2,19 +2,29 @@
 
 import QtQuick 2.14
 import QtQuick.Layouts 1.15
+import photo_broom.qml 1.0
 
 Item
 {
     id: seriesDetectionMainId
+    state: "LoadingState"
+
+    GroupsModel {
+        id: groupsModelId
+    }
 
     RowLayout {
         id: rowId
+        visible: true
         anchors.fill: parent
 
         ListView {
             id: groupsId
             Layout.minimumWidth: 240
             Layout.fillHeight: true
+
+            model: groupsModelId
+
             delegate: Item {
                 x: 5
                 width: 80
@@ -35,27 +45,6 @@ Item
                     }
                 }
             }
-            model: ListModel {
-                ListElement {
-                    name: "Grey"
-                    colorCode: "grey"
-                }
-
-                ListElement {
-                    name: "Red"
-                    colorCode: "red"
-                }
-
-                ListElement {
-                    name: "Blue"
-                    colorCode: "blue"
-                }
-
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-            }
         }
 
         Item {
@@ -64,6 +53,29 @@ Item
             Layout.fillWidth: true
         }
     }
+
+    Item {
+        id: loadingId
+        anchors.fill: parent
+    }
+    states: [
+        State {
+            name: "LoadingState"
+
+            PropertyChanges {
+                target: rowId
+                visible: false
+            }
+        },
+        State {
+            name: "LoadedState"
+
+            PropertyChanges {
+                target: loadingId
+                visible: false
+            }
+        }
+    ]
 
 }
 
