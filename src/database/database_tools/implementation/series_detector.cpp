@@ -289,11 +289,11 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const
 {
     std::deque<Photo::Id> photos_deq(photos.begin(), photos.end());
 
-    const SeriesTaker t(m_backend, *m_exifReader, rules);
+    const SeriesTaker taker(m_backend, *m_exifReader, rules);
 
-    auto hdrs = t.take<Group::Type::HDR>(photos_deq);
-    auto animations = t.take<Group::Type::Animation>(photos_deq);
-    auto generics = t.take<Group::Type::Generic>(photos_deq);
+    auto hdrs = taker.take<Group::Type::HDR>(photos_deq);
+    auto animations = taker.take<Group::Type::Animation>(photos_deq);
+    auto generics = taker.take<Group::Type::Generic>(photos_deq);
 
     std::vector<SeriesDetector::GroupCandidate> sequences;
     std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
