@@ -1,17 +1,20 @@
 
 
 import QtQuick 2.14
-import QtQuick.Dialogs.qml 1.0
+import QtQuick.Layouts 1.15
+
 Item
 {
     id: seriesDetectionMainId
 
-    Column {
-        id: columnId
+    RowLayout {
+        id: rowId
         anchors.fill: parent
 
         ListView {
             id: groupsId
+            Layout.minimumWidth: 240
+            Layout.fillHeight: true
             delegate: Item {
                 x: 5
                 width: 80
@@ -57,6 +60,8 @@ Item
 
         Item {
             id: groupMembersId
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 
@@ -64,7 +69,6 @@ Item
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:2;anchors_height:160;anchors_width:110}
-D{i:12;anchors_height:200;anchors_width:200}D{i:1;anchors_height:400;anchors_width:200}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
