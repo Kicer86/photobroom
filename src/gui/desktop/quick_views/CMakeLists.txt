@@ -19,6 +19,8 @@ qt5_wrap_cpp(MOCED
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 ${MOCED}
+                groups_model.cpp
+                groups_model.hpp
                 photo_item.cpp
                 photo_item.hpp
                 photos_model_controller_component.cpp
