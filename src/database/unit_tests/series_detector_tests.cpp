@@ -319,7 +319,7 @@ TEST(SeriesDetectorTest, Complexity)
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
 
-    EXPECT_CALL(backend, getPhoto(_)).Times(199).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
+    EXPECT_CALL(backend, getPhoto(_)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
         data.id = id;
