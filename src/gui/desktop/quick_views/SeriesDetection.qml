@@ -1,17 +1,13 @@
 
 
+import QtQml.Models 2.15
 import QtQuick 2.14
 import QtQuick.Layouts 1.15
-import photo_broom.qml 1.0
 
 Item
 {
     id: seriesDetectionMainId
     state: "LoadingState"
-
-    GroupsModel {
-        id: groupsModelId
-    }
 
     RowLayout {
         id: rowId
@@ -35,11 +31,11 @@ Item
                     Rectangle {
                         width: 40
                         height: 40
-                        color: colorCode
+                        color: "red"
                     }
 
                     Text {
-                        text: name
+                        text: "rerer"
                         font.bold: true
                         anchors.verticalCenter: parent.verticalCenter
                     }
