@@ -33,6 +33,7 @@
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
+#include "quick_views/qml_utils.hpp"
 
 Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
 
@@ -65,7 +66,10 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
-    auto view = new QQuickWidget(QUrl("qrc:/ui/SeriesDetection.qml"), this);
+    auto view = new QQuickWidget(this);
+    view->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QmlUtils::registerObject(view, "groupsModelId", m_tabModel);
+    view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
     layout->addWidget(view);
     //layout->addWidget(detected);
@@ -75,13 +79,10 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     // table view
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
     m_tabView = new QTableView(detected);
-    m_tabView->setModel(m_tabModel);
     m_tabView->setSelectionMode(QAbstractItemView::SingleSelection);
     m_tabView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     detectedLayout->addWidget(m_tabView);
-
-    m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
 
     // buttons
     QPushButton* group_button = new QPushButton(tr("Group"), this);
@@ -149,10 +150,8 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         thumb->setData(QVariant::fromValue(candidate), DetailsRole);
 
         row.append(thumb);
-        row.append(new QStandardItem(type));
-        row.append(new QStandardItem(QString::number(candidate.members.size())));
-
-        m_tabModel->appendRow(row);
+        //row.append(new QStandardItem(type));
+        //row.append(new QStandardItem(QString::number(candidate.members.size())));
     }
 
     m_tabView->resizeRowsToContents();

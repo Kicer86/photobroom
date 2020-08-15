@@ -888,27 +888,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+64"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+65"/>
         <source>Detected series</source>
         <translation>Wykryte serie</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>preview</source>
-        <translation>podgląd</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>type</source>
-        <translation>rodzaj</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>photos</source>
-        <translation>zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+23"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -926,6 +911,11 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>Generic</source>
         <translation>Zwykła grupa</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+75"/>
+        <source>Looking for groups...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
