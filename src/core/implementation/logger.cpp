@@ -65,9 +65,11 @@ void Logger::log(ILogger::Severity sev, const QString& message)
     const std::string message_str = m.toStdString();
 
     if (sev <= m_severity)
+    {
         m_file << message_str << "\n";
 
-    std::cout << message_str << std::endl;
+        std::cout << message_str << std::endl;
+    }
 }
 
 
