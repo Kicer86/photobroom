@@ -42,6 +42,7 @@ using namespace std::placeholders;
 namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
+    constexpr int PropertiesRole = DetailsRole + 1;
     constexpr int thumbnail_size = 64;
     const QString loadedPropertyName("loaded");
 }
@@ -54,9 +55,9 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     m_tabModel(new QStandardItemModel(this)),
     m_tabView(nullptr),
     m_core(core),
-    m_thmMgr(thbMgr),
     m_db(db),
-    m_project(project)
+    m_project(project),
+    m_thumbnailsManager4QML(thbMgr)
 {
     // dialog top layout setup
     resize(320, 480);
@@ -70,9 +71,12 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     // NOTE: https://machinekoder.com/creating-qml-properties-dynamically-runtime-c/
     m_modelDynamicProperties.insert(loadedPropertyName, false);
 
+    m_tabModel->setItemRoleNames( {{PropertiesRole, "photoProperties"}} );
+
     auto view = new QQuickWidget(this);
     view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     view->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QmlUtils::registerObject(view, "thumbnailsManager", &m_thumbnailsManager4QML);
     QmlUtils::registerObject(view, "groupsModelId", m_tabModel);
     QmlUtils::registerObjectProperties(view, "groupsModelState", &m_modelDynamicProperties);
     view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
@@ -134,12 +138,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
     for(std::size_t i = 0; i < candidates.size(); i++)
     {
         const SeriesDetector::GroupCandidate& candidate = candidates[i];
-
-        auto setThumbnailCallback = make_cross_thread_function< const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1));
-        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<const QImage &>(setThumbnailCallback);
-
-        const QString& path = candidate.members.front().path;
-        m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
+        const Photo::Data& representativeData = candidate.members.front();
 
         QList<QStandardItem *> row;
 
@@ -152,13 +151,10 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
             case Group::Type::Generic:   type = tr("Generic");   break;
         }
 
-        QStandardItem* thumb = new QStandardItem;
-        thumb->setData(QPixmap(":/gui/clock.svg"), Qt::DecorationRole);
-        thumb->setData(QVariant::fromValue(candidate), DetailsRole);
+        QStandardItem* groupItem = new QStandardItem;
+        groupItem->setData(QVariant::fromValue(representativeData), PropertiesRole);
 
-        row.append(thumb);
-        //row.append(new QStandardItem(type));
-        //row.append(new QStandardItem(QString::number(candidate.members.size())));
+        row.append(groupItem);
 
         m_tabModel->appendRow(row);
     }
@@ -166,15 +162,6 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
     m_tabView->resizeRowsToContents();
     m_tabView->resizeColumnsToContents();
     m_modelDynamicProperties.insert(loadedPropertyName, true);
-}
-
-
-void SeriesDetection::setThumbnail(int row, const QImage& img)
-{
-    QModelIndex item = m_tabModel->index(row, 0);
-    const QPixmap pixmap = QPixmap::fromImage(img);
-
-    m_tabModel->setData(item, pixmap, Qt::DecorationRole);
 }
 
 

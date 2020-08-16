@@ -26,6 +26,8 @@
 #include <core/ithumbnails_manager.hpp>
 #include <database/database_tools/series_detector.hpp>
 #include <database/photo_data.hpp>
+#include "quick_views/qml_setup.hpp"
+
 
 class QStandardItemModel;
 class QTableView;
@@ -54,13 +56,12 @@ class SeriesDetection: public QDialog
         QQmlPropertyMap m_modelDynamicProperties;
         QTableView* m_tabView;
         ICoreFactoryAccessor* m_core;
-        IThumbnailsManager* m_thmMgr;
         Database::IDatabase* m_db;
         Project* m_project;
+        QML_IThumbnailsManager m_thumbnailsManager4QML;
 
         void fetch_series(Database::IBackend &);
         void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
-        void setThumbnail(int, const QImage &);
         void group();
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
         int selected_row() const;

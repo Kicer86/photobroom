@@ -20,27 +20,7 @@ Item
 
             model: groupsModelId
 
-            delegate: Item {
-                x: 5
-                width: 80
-                height: 40
-                Row {
-                    id: row1
-                    spacing: 10
-                    Rectangle {
-                        width: 40
-                        height: 40
-                        color: "red"
-                    }
-
-                    Text {
-                        text: "rerer"
-                        font.bold: true
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
-
+            delegate: PhotoDelegate { }
         }
 
         Item {
