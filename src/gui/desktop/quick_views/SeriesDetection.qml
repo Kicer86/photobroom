@@ -20,7 +20,11 @@ Item
 
             model: groupsModelId
 
-            delegate: PhotoDelegate { }
+            delegate: PhotoDelegate {
+                width: 120
+                height: 120
+                margin: 5
+            }
         }
 
         Item {
