@@ -71,19 +71,21 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     m_modelDynamicProperties.insert(loadedPropertyName, false);
 
     auto view = new QQuickWidget(this);
+    view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     view->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(view, "groupsModelId", m_tabModel);
-    QmlUtils::registerObjectProperties(view, "groupsModelId", &m_modelDynamicProperties);
+    QmlUtils::registerObjectProperties(view, "groupsModelState", &m_modelDynamicProperties);
     view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
     layout->addWidget(view);
-    //layout->addWidget(detected);
+    layout->addWidget(detected);
     layout->addLayout(buttons_layout);
     layout->addWidget(dialog_buttons);
 
     // table view
     QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
     m_tabView = new QTableView(detected);
+    m_tabView->setModel(m_tabModel);
     m_tabView->setSelectionMode(QAbstractItemView::SingleSelection);
     m_tabView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -157,6 +159,8 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         row.append(thumb);
         //row.append(new QStandardItem(type));
         //row.append(new QStandardItem(QString::number(candidate.members.size())));
+
+        m_tabModel->appendRow(row);
     }
 
     m_tabView->resizeRowsToContents();

@@ -893,7 +893,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation>Wykryte serie</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+29"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
