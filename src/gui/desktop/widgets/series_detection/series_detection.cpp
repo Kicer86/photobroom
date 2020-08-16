@@ -67,6 +67,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
+    // NOTE: https://machinekoder.com/creating-qml-properties-dynamically-runtime-c/
     m_modelDynamicProperties.insert(loadedPropertyName, false);
 
     auto view = new QQuickWidget(this);
