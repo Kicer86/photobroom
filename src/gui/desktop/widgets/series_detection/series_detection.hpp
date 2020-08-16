@@ -30,7 +30,6 @@
 
 
 class QStandardItemModel;
-class QTableView;
 
 namespace Database
 {
@@ -54,7 +53,6 @@ class SeriesDetection: public QDialog
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
         QQmlPropertyMap m_modelDynamicProperties;
-        QTableView* m_tabView;
         ICoreFactoryAccessor* m_core;
         Database::IDatabase* m_db;
         Project* m_project;

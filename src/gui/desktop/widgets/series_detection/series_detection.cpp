@@ -19,7 +19,6 @@
 #include "series_detection.hpp"
 
 #include <QDialogButtonBox>
-#include <QGroupBox>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QStandardItemModel>
@@ -53,7 +52,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  Project* project):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
-    m_tabView(nullptr),
     m_core(core),
     m_db(db),
     m_project(project),
@@ -64,7 +62,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 
     QVBoxLayout* layout = new QVBoxLayout(this);
 
-    QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
     QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
@@ -82,18 +79,8 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
     layout->addWidget(view);
-    layout->addWidget(detected);
     layout->addLayout(buttons_layout);
     layout->addWidget(dialog_buttons);
-
-    // table view
-    QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
-    m_tabView = new QTableView(detected);
-    m_tabView->setModel(m_tabModel);
-    m_tabView->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_tabView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-    detectedLayout->addWidget(m_tabView);
 
     // buttons
     QPushButton* group_button = new QPushButton(tr("Group"), this);
@@ -103,11 +90,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 
     // wiring
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
-    connect(m_tabView->selectionModel(), &QItemSelectionModel::selectionChanged, [group_button](const QItemSelection &selected, const QItemSelection &)
-    {
-        group_button->setDisabled(selected.isEmpty());
-    });
-
     connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
     auto callback = m_callback_mgr.make_safe_callback<Database::IBackend &>(std::bind(&SeriesDetection::fetch_series, this, _1));
@@ -159,8 +141,6 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         m_tabModel->appendRow(row);
     }
 
-    m_tabView->resizeRowsToContents();
-    m_tabView->resizeColumnsToContents();
     m_modelDynamicProperties.insert(loadedPropertyName, true);
 }
 
@@ -200,9 +180,5 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph
 
 int SeriesDetection::selected_row() const
 {
-    const QItemSelectionModel* selectionModel = m_tabView->selectionModel();
-    const QModelIndex selected = selectionModel->currentIndex();
-    const int row = selected.row();
-
-    return row;
+    return 0;
 }
