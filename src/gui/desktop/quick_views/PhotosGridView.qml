@@ -9,7 +9,12 @@ GridView {
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
-    delegate: PhotoDelegate { }
+
+    delegate: PhotoDelegate {
+        width:  cellWidth
+        height: cellHeight
+    }
+
     highlight: highlightId
     keyNavigationEnabled: true
     currentIndex: -1

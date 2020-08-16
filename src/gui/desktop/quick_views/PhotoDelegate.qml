@@ -7,9 +7,6 @@ import photo_broom.qml 1.0
 Item {
     id: delegateId
 
-    width:  GridView.view.cellWidth
-    height: GridView.view.cellHeight
-
     BusyIndicator {
         id: busyId
 
