@@ -84,9 +84,4 @@ Item {
             }
         }
     ]
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: delegateId.GridView.view.currentIndex = index
-    }
 }
