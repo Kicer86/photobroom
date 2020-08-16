@@ -86,20 +86,34 @@ Item
 
             PropertyChanges {
                 target: groupsId
-                visible: false
+                opacity: 0
             }
         },
         State {
             name: "LoadedState"
             when: groupsModelId.loaded
-
-            PropertyChanges {
-                target: loadingId
-                visible: false
-            }
         }
     ]
 
+     transitions:
+        Transition {
+            from: "LoadingState"
+            to: "LoadedState"
+            ParallelAnimation {
+                PropertyAnimation {
+                    target: loadingId
+                    properties: "opacity"
+                    from: 1
+                    to: 0
+                }
+                PropertyAnimation {
+                    target: groupsId
+                    properties: "opacity"
+                    from: 0
+                    to: 1
+                }
+            }
+        }
 }
 
 /*##^##
