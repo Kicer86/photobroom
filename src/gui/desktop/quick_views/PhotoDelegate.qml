@@ -7,7 +7,9 @@ import photo_broom.qml 1.0
 Item {
     id: delegateId
 
-    property int margin
+    width: 50
+    height: 50
+    property int margin: 2
 
     BusyIndicator {
         id: busyId
