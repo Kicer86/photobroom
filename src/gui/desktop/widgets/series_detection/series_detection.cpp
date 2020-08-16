@@ -43,6 +43,7 @@ namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
     constexpr int thumbnail_size = 64;
+    const QString loadedPropertyName("loaded");
 }
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db,
@@ -66,9 +67,12 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
+    m_modelDynamicProperties.insert(loadedPropertyName, false);
+
     auto view = new QQuickWidget(this);
     view->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(view, "groupsModelId", m_tabModel);
+    QmlUtils::registerObjectProperties(view, "groupsModelId", &m_modelDynamicProperties);
     view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
     layout->addWidget(view);
@@ -156,6 +160,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
 
     m_tabView->resizeRowsToContents();
     m_tabView->resizeColumnsToContents();
+    m_modelDynamicProperties.insert(loadedPropertyName, true);
 }
 
 

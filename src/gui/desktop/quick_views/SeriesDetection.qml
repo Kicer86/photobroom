@@ -40,6 +40,7 @@ Item
                     }
                 }
             }
+
         }
 
         Item {
@@ -72,7 +73,7 @@ Item
 
             Text {
                 id: infoId
-                text: qsTr("Looking for groups...")
+                text: qsTr("Looking for group candidates...")
                 anchors.top: parent.top
                 font.pixelSize: 12
             }
@@ -90,6 +91,7 @@ Item
         },
         State {
             name: "LoadedState"
+            when: groupsModelId.loaded
 
             PropertyChanges {
                 target: loadingId

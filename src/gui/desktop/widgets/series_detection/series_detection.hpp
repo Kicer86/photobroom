@@ -20,6 +20,7 @@
 #define SERIESDETECTION_HPP
 
 #include <QDialog>
+#include <QQmlPropertyMap>
 
 #include <core/function_wrappers.hpp>
 #include <core/ithumbnails_manager.hpp>
@@ -50,6 +51,7 @@ class SeriesDetection: public QDialog
     private:
         safe_callback_ctrl m_callback_mgr;
         QStandardItemModel* m_tabModel;
+        QQmlPropertyMap m_modelDynamicProperties;
         QTableView* m_tabView;
         ICoreFactoryAccessor* m_core;
         IThumbnailsManager* m_thmMgr;
