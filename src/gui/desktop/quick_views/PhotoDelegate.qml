@@ -7,6 +7,8 @@ import photo_broom.qml 1.0
 Item {
     id: delegateId
 
+    property int margin
+
     BusyIndicator {
         id: busyId
 
@@ -17,8 +19,8 @@ Item {
         id: imageId
 
         anchors.centerIn: parent
-        height: delegateId.GridView.view.thumbnailSize
-        width:  delegateId.GridView.view.thumbnailSize
+        height: delegateId.height - delegateId.margin * 2
+        width:  delegateId.width - delegateId.margin * 2
         opacity: 0
 
         source: photoProperties.path

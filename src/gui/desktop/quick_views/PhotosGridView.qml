@@ -13,6 +13,7 @@ GridView {
     delegate: PhotoDelegate {
         width:  cellWidth
         height: cellHeight
+        margin: thumbnailMargin
     }
 
     highlight: highlightId
