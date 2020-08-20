@@ -20,17 +20,35 @@ Item
 
             model: groupsModelId
 
-            delegate: Row {
-                PhotoDelegate {
-                    width: 120
-                    height: 120
-                    margin: 5
+            delegate: Item {
+                id: delegateId
+                width: childrenRect.width
+                height: childrenRect.height
+
+                Row {
+                    PhotoDelegate {
+                        width: 120
+                        height: 120
+                        margin: 5
+                    }
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: groupType
+                    }
                 }
 
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: groupType
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: delegateId.ListView.view.currentIndex = index
                 }
+            }
+
+            highlight: Rectangle {
+                id: highlightId
+                color: "lightsteelblue"
+                opacity: 0.6
+                z: 2
             }
         }
 
@@ -38,6 +56,11 @@ Item
             id: groupMembersId
             Layout.fillHeight: true
             Layout.fillWidth: true
+
+            PhotosGridView {
+                anchors.fill: parent
+                //model: currentGroupModelId
+            }
         }
     }
 
