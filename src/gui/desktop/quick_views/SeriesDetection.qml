@@ -20,6 +20,9 @@ Item
 
             model: groupsModelId
 
+            highlightMoveDuration : 200
+            highlightMoveVelocity : -1
+
             ScrollBar.vertical: ScrollBar { }
 
             delegate: Item {
