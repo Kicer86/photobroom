@@ -20,6 +20,8 @@ Item
 
             model: groupsModelId
 
+            ScrollBar.vertical: ScrollBar { }
+
             delegate: Item {
                 id: delegateId
                 width: childrenRect.width
