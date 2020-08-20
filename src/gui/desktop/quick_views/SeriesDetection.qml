@@ -15,7 +15,7 @@ Item
 
         ListView {
             id: groupsListId
-            Layout.minimumWidth: 240
+            Layout.fillWidth: true
             Layout.fillHeight: true
 
             model: groupsModelId
