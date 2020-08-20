@@ -20,10 +20,17 @@ Item
 
             model: groupsModelId
 
-            delegate: PhotoDelegate {
-                width: 120
-                height: 120
-                margin: 5
+            delegate: Row {
+                PhotoDelegate {
+                    width: 120
+                    height: 120
+                    margin: 5
+                }
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: groupType
+                }
             }
         }
 

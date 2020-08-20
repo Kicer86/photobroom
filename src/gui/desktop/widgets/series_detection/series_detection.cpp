@@ -42,6 +42,7 @@ namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
     constexpr int PropertiesRole = DetailsRole + 1;
+    constexpr int GroupTypeRole = PropertiesRole + 1;
     constexpr int thumbnail_size = 64;
     const QString loadedPropertyName("loaded");
 }
@@ -68,7 +69,10 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     // NOTE: https://machinekoder.com/creating-qml-properties-dynamically-runtime-c/
     m_modelDynamicProperties.insert(loadedPropertyName, false);
 
-    m_tabModel->setItemRoleNames( {{PropertiesRole, "photoProperties"}} );
+    m_tabModel->setItemRoleNames( {
+        {PropertiesRole, "photoProperties"},
+        {GroupTypeRole, "groupType"},
+    } );
 
     auto view = new QQuickWidget(this);
     view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -135,6 +139,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
 
         QStandardItem* groupItem = new QStandardItem;
         groupItem->setData(QVariant::fromValue(representativeData), PropertiesRole);
+        groupItem->setData(type, GroupTypeRole);
 
         row.append(groupItem);
 
