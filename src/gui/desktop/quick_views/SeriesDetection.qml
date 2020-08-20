@@ -24,7 +24,7 @@ Item
 
             delegate: Item {
                 id: delegateId
-                width: childrenRect.width
+                width: parent.width
                 height: childrenRect.height
 
                 Row {
@@ -49,7 +49,7 @@ Item
             highlight: Rectangle {
                 id: highlightId
                 color: "lightsteelblue"
-                opacity: 0.6
+                opacity: 0.4
                 z: 2
             }
         }
