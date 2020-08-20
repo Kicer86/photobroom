@@ -54,6 +54,7 @@ Item
             }
         }
 
+        /* TODO: implement later
         Item {
             id: groupMembersId
             Layout.fillHeight: true
@@ -64,6 +65,7 @@ Item
                 //model: currentGroupModelId
             }
         }
+        */
     }
 
     Item {
