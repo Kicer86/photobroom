@@ -18,7 +18,6 @@ Item {
             timeRangeId.viewFrom.value = 0
             timeRangeId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
         }
-
     }
 
     ColumnLayout {
