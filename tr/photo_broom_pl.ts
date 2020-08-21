@@ -908,7 +908,12 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation>Zwykła grupa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+97"/>
+        <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+39"/>
+        <source>Group candidates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+75"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>

@@ -13,47 +13,61 @@ Item
         id: groupsId
         anchors.fill: parent
 
-        ListView {
-            id: groupsListId
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        ColumnLayout {
+            id: column
+            width: 200
+            height: 400
 
-            model: groupsModelId
-
-            highlightMoveDuration : 200
-            highlightMoveVelocity : -1
-
-            ScrollBar.vertical: ScrollBar { }
-
-            delegate: Item {
-                id: delegateId
-                width: parent.width
-                height: childrenRect.height
-
-                Row {
-                    PhotoDelegate {
-                        width: 120
-                        height: 120
-                        margin: 5
-                    }
-
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: groupType
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: delegateId.ListView.view.currentIndex = index
-                }
+            Text {
+                id: element
+                text: qsTr("Group candidates")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                font.pixelSize: 12
             }
 
-            highlight: Rectangle {
-                id: highlightId
-                color: "lightsteelblue"
-                opacity: 0.4
-                z: 2
+            ListView {
+                id: groupsListId
+                clip: true
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                model: groupsModelId
+
+                highlightMoveDuration : 200
+                highlightMoveVelocity : -1
+
+                ScrollBar.vertical: ScrollBar { }
+
+                delegate: Item {
+                    id: delegateId
+                    width: parent.width
+                    height: childrenRect.height
+
+                    Row {
+                        PhotoDelegate {
+                            width: 120
+                            height: 120
+                            margin: 5
+                        }
+
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: groupType
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: delegateId.ListView.view.currentIndex = index
+                    }
+                }
+
+                highlight: Rectangle {
+                    id: highlightId
+                    color: "lightsteelblue"
+                    opacity: 0.4
+                    z: 2
+                }
             }
         }
 
@@ -77,10 +91,10 @@ Item
 
         Item {
             id: containerId
-               width: childrenRect.width
-               height: childrenRect.height
-               anchors.horizontalCenter: parent.horizontalCenter
-               anchors.verticalCenter: parent.verticalCenter
+            width: childrenRect.width
+            height: childrenRect.height
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
 
             // TODO: For some reason BusyIndicator causes
             // 'QQmlEngine::setContextForObject(): Object already has a QQmlContext'
@@ -116,25 +130,25 @@ Item
         }
     ]
 
-     transitions:
+    transitions:
         Transition {
-            from: "LoadingState"
-            to: "LoadedState"
-            ParallelAnimation {
-                PropertyAnimation {
-                    target: loadingId
-                    properties: "opacity"
-                    from: 1
-                    to: 0
-                }
-                PropertyAnimation {
-                    target: groupsId
-                    properties: "opacity"
-                    from: 0
-                    to: 1
-                }
+        from: "LoadingState"
+        to: "LoadedState"
+        ParallelAnimation {
+            PropertyAnimation {
+                target: loadingId
+                properties: "opacity"
+                from: 1
+                to: 0
+            }
+            PropertyAnimation {
+                target: groupsId
+                properties: "opacity"
+                from: 0
+                to: 1
             }
         }
+    }
 }
 
 /*##^##
