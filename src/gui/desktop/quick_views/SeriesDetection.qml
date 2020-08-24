@@ -35,6 +35,8 @@ Item
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
+                property alias thumbnailSize: thumbnailSliderId.size
+
                 model: groupsModelId
 
                 highlightMoveDuration : 200
@@ -44,13 +46,14 @@ Item
 
                 delegate: Item {
                     id: delegateId
-                    width: parent.width
-                    height: childrenRect.height
+                    width: delegateId.ListView.view.width       // using 'parent' causes erros in output after thumbnail being resized
+                    height: photoDelegateId.height
 
                     Row {
                         PhotoDelegate {
-                            width: 120
-                            height: 120
+                            id: photoDelegateId
+                            width: groupsListId.thumbnailSize
+                            height: groupsListId.thumbnailSize
                             margin: 5
                         }
 
@@ -72,11 +75,17 @@ Item
                     opacity: 0.4
                     z: 2
                 }
+
+                ThumbnailSlider {
+                    id: thumbnailSliderId
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                }
             }
 
             Button {
                 id: button
-                text: qsTr("Group")
+                text: qsTr("Group", "used as verb - group photos")
                 enabled: groupsListId.currentIndex != -1
 
                 Connections {

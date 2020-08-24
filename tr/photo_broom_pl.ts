@@ -908,8 +908,9 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+61"/>
         <source>Group</source>
+        <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -929,6 +930,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>Value</source>
         <translation>Wartość</translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailSlider</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+16"/>
+        <source>Thumbnail size:</source>
+        <translation type="unfinished">Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>
