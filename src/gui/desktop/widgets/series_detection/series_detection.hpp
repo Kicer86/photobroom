@@ -56,6 +56,7 @@ class SeriesDetection: public QDialog
         ICoreFactoryAccessor* m_core;
         Database::IDatabase* m_db;
         Project* m_project;
+        QQuickWidget* m_qmlView;
         QML_IThumbnailsManager m_thumbnailsManager4QML;
 
         void fetch_series(Database::IBackend &);

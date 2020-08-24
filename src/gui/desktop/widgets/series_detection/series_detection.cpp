@@ -58,6 +58,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     m_core(core),
     m_db(db),
     m_project(project),
+    m_qmlView(nullptr),
     m_thumbnailsManager4QML(thbMgr)
 {
     // dialog top layout setup
@@ -74,19 +75,19 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
         {GroupTypeRole, "groupType"},
     } );
 
-    auto view = new QQuickWidget(this);
-    view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    view->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QmlUtils::registerObject(view, "thumbnailsManager", &m_thumbnailsManager4QML);
-    QmlUtils::registerObject(view, "groupsModelId", m_tabModel);
-    QmlUtils::registerObjectProperties(view, "groupsModelState", &m_modelDynamicProperties);
-    view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
+    m_qmlView = new QQuickWidget(this);
+    m_qmlView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
+    QmlUtils::registerObject(m_qmlView, "groupsModelId", m_tabModel);
+    QmlUtils::registerObjectProperties(m_qmlView, "groupsModelState", &m_modelDynamicProperties);
+    m_qmlView->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
-    layout->addWidget(view);
+    layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);
 
     // wiring
-    QObject* seriesDetectionMainId = QmlUtils::findQmlObject(view, "seriesDetectionMain");
+    QObject* seriesDetectionMainId = QmlUtils::findQmlObject(m_qmlView, "seriesDetectionMain");
     connect(seriesDetectionMainId, SIGNAL(group(int)), this, SLOT(group(int)));
 
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
@@ -99,6 +100,9 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 SeriesDetection::~SeriesDetection()
 {
     m_callback_mgr.invalidate();
+
+    // delete qml view before all other objects it referes to will be deleted
+    delete m_qmlView;
 }
 
 
