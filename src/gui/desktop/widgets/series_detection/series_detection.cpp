@@ -34,7 +34,6 @@
 #include "ui/photos_grouping_dialog.hpp"
 #include "quick_views/qml_utils.hpp"
 
-#include <iostream>
 
 Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
 

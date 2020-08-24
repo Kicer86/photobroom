@@ -888,7 +888,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+134"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+133"/>
         <source>Animation</source>
         <translation>Animacja</translation>
     </message>
