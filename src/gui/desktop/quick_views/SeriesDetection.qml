@@ -7,7 +7,11 @@ import QtQuick.Controls 2.14
 Item
 {
     id: seriesDetectionMainId
+    objectName: "seriesDetectionMain"
+
     state: "LoadingState"
+
+    signal group(int index)
 
     RowLayout {
         id: groupsId
@@ -67,6 +71,19 @@ Item
                     color: "lightsteelblue"
                     opacity: 0.4
                     z: 2
+                }
+            }
+
+            Button {
+                id: button
+                text: qsTr("Group")
+                enabled: groupsListId.currentIndex != -1
+
+                Connections {
+                    target: button
+                    function onClicked() {
+                        seriesDetectionMainId.group(groupsListId.currentIndex)
+                    }
                 }
             }
         }

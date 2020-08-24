@@ -34,6 +34,8 @@
 #include "ui/photos_grouping_dialog.hpp"
 #include "quick_views/qml_utils.hpp"
 
+#include <iostream>
+
 Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
 
 using namespace std::placeholders;
@@ -62,8 +64,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     resize(320, 480);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-
-    QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
     // NOTE: https://machinekoder.com/creating-qml-properties-dynamically-runtime-c/
@@ -83,18 +83,13 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     view->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
 
     layout->addWidget(view);
-    layout->addLayout(buttons_layout);
     layout->addWidget(dialog_buttons);
 
-    // buttons
-    QPushButton* group_button = new QPushButton(tr("Group"), this);
-    group_button->setDisabled(true);
-    buttons_layout->addWidget(group_button);
-    buttons_layout->addStretch();
-
     // wiring
+    QObject* seriesDetectionMainId = QmlUtils::findQmlObject(view, "seriesDetectionMain");
+    connect(seriesDetectionMainId, SIGNAL(group(int)), this, SLOT(group(int)));
+
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
-    connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
 
     auto callback = m_callback_mgr.make_safe_callback<Database::IBackend &>(std::bind(&SeriesDetection::fetch_series, this, _1));
     m_db->exec(callback);
@@ -139,6 +134,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
 
         QStandardItem* groupItem = new QStandardItem;
         groupItem->setData(QVariant::fromValue(representativeData), PropertiesRole);
+        groupItem->setData(QVariant::fromValue(candidate), DetailsRole);
         groupItem->setData(type, GroupTypeRole);
 
         row.append(groupItem);
@@ -150,9 +146,8 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
 }
 
 
-void SeriesDetection::group()
+void SeriesDetection::group(int row)
 {
-    const int row = selected_row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
     const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
     launch_groupping_dialog(groupDetails.members, groupDetails.type);

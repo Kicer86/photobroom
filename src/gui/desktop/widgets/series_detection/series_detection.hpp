@@ -60,9 +60,11 @@ class SeriesDetection: public QDialog
 
         void fetch_series(Database::IBackend &);
         void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
-        void group();
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
         int selected_row() const;
+
+    private slots:
+        void group(int);
 };
 
 #endif // SERIESDETECTION_HPP
