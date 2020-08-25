@@ -44,7 +44,7 @@ class DATABASE_EXPORT SeriesDetector
             std::vector<Photo::Data> members;
         };
 
-        struct Rules
+        struct DATABASE_EXPORT Rules
         {
             std::chrono::milliseconds manualSeriesMaxGap;
 
