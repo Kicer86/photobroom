@@ -935,7 +935,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+16"/>
+        <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+25"/>
         <source>Thumbnail size:</source>
         <translation type="unfinished">Rozmiar miniaturki:</translation>
     </message>

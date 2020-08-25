@@ -6,26 +6,86 @@ import QtQuick.Controls 2.15
 Item {
     id: rootId
 
-    width: childrenRect.width
-    height: childrenRect.height
+    width: dummyContainer.width
+    height: dummyContainer.height
 
     property alias size: sliderId.value
+    property real transparency: 0.3
 
-    Text {
-        id: labelId
-        text: qsTr("Thumbnail size:")
-        font.pixelSize: 12
+    opacity: transparency
+    state: "fade_out"
+
+    Item {
+        id: dummyContainer
+        width: childrenRect.width
+        height: childrenRect.height
+
+        Text {
+            id: labelId
+            text: qsTr("Thumbnail size:")
+            font.pixelSize: 12
+        }
+
+        Slider {
+            id: sliderId
+            width: 120
+
+            anchors.left: labelId.right
+
+            stepSize: 10
+            from: 30
+            to: 300
+            value: 160
+        }
     }
 
-    Slider {
-        id: sliderId
-        width: 120
+    MouseArea {
+       id: mouseAreaId
 
-        anchors.left: labelId.right
+       anchors.fill: parent
+       anchors.margins: -10
+       hoverEnabled: true
+       acceptedButtons: Qt.NoButton
 
-        stepSize: 10
-        from: 30
-        to: 300
-        value: 160
+       onExited: rootId.state = "fade_out"
+       onEntered: rootId.state = "fade_in"
     }
+
+    states: [
+        State {
+            name: "fade_out"
+        },
+        State {
+           name: "fade_in"
+        }
+    ]
+
+    transitions: [
+            Transition {
+                from: "fade_out"
+                to: "fade_in"
+                PropertyAnimation {
+                    target: rootId
+                    properties: "opacity"
+                    from: transparency
+                    to: 1.0
+                }
+            },
+        Transition {
+            from: "fade_in"
+            to: "fade_out"
+            PropertyAnimation {
+                target: rootId
+                properties: "opacity"
+                from: 1.0
+                to: transparency
+            }
+        }
+    ]
 }
+
+/*##^##
+Designer {
+    D{i:0;height:22;width:207}
+}
+##^##*/
