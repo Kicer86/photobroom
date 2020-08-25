@@ -51,8 +51,8 @@ Item {
             id: photosGridViewId
 
             clip: true
-
             model: photosModelControllerId.photos
+            thumbnailSize: thumbnailSliderId.size
 
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -67,6 +67,12 @@ Item {
             }
 
             onCurrentIndexChanged: photosModelControllerId.selectedPhoto = photosGridViewId.currentIndex
+
+            ThumbnailSlider {
+                id: thumbnailSliderId
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+            }
         }
 
     }
