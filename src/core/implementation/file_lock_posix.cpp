@@ -23,6 +23,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <iostream>
+
 
 namespace
 {
@@ -41,10 +43,16 @@ namespace
 bool FileLock::tryLock()
 {
     assert(m_impl == nullptr);
+    const std::string path = m_path.toStdString();
 
-    const int fd = open(m_path.toStdString().c_str(), O_CREAT | O_WRONLY);
+    const int fd = open(path.c_str(), O_CREAT | O_WRONLY, S_IWUSR);
 
-    if (fd != -1)
+    if (fd == -1)
+    {
+        std::cout << "Error while acquiring lock file " << path << ":\n";
+        std::cout << strerror(errno) << " (" << errno << ")\n";
+    }
+    else
     {
         struct flock fl;
 
@@ -57,7 +65,12 @@ bool FileLock::tryLock()
         const int lock_result = fcntl(fd, F_SETLK, &fl);
 
         if (lock_result == -1)
+        {
             close(fd);
+
+            std::cout << "Error when locking file " << path << ":\n";
+            std::cout << strerror(errno) << " (" << errno << ")\n";
+        }
         else
             m_impl = new Impl(fd);
     }
