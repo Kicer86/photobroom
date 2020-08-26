@@ -9,6 +9,8 @@ Item {
     width: dummyContainer.width
     height: dummyContainer.height
 
+    anchors.margins: 10
+
     property alias size: sliderId.value
     property real transparency: 0.3
 
@@ -23,7 +25,10 @@ Item {
         Text {
             id: labelId
             text: qsTr("Thumbnail size:")
-            font.pixelSize: 12
+            anchors.verticalCenter: sliderId.verticalCenter
+            style: Text.Outline
+            styleColor: "#ffffff"
+            font.pixelSize: 13
         }
 
         Slider {
@@ -33,9 +38,20 @@ Item {
             anchors.left: labelId.right
 
             stepSize: 10
-            from: 30
-            to: 300
+            from: 40
+            to: 400
             value: 160
+        }
+
+        Text {
+            id: element
+            text: sliderId.value
+            anchors.verticalCenter: sliderId.verticalCenter
+            anchors.left: sliderId.right
+
+            style: Text.Outline
+            styleColor: "#ffffff"
+            font.pixelSize: 13
         }
     }
 
@@ -61,16 +77,16 @@ Item {
     ]
 
     transitions: [
-            Transition {
-                from: "fade_out"
-                to: "fade_in"
-                PropertyAnimation {
-                    target: rootId
-                    properties: "opacity"
-                    from: transparency
-                    to: 1.0
-                }
-            },
+        Transition {
+            from: "fade_out"
+            to: "fade_in"
+            PropertyAnimation {
+                target: rootId
+                properties: "opacity"
+                from: transparency
+                to: 1.0
+            }
+        },
         Transition {
             from: "fade_in"
             to: "fade_out"
