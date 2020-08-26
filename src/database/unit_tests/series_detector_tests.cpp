@@ -8,7 +8,10 @@
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
 
+#include "backends/memory_backend/memory_backend.hpp"
 #include "database_tools/series_detector.hpp"
+#include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/db_for_series_detection.json.hpp"
 
 
 using testing::Invoke;
@@ -46,12 +49,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -107,12 +105,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -169,12 +162,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -228,17 +216,20 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     // Each group has SequenceNumber in exif from 1 to 3
     // Photos within a group have the same time of take
     // in both groups photos have different exposure level.
+
+    // photos within group have same timestamp.
+    // returning them in pseudo random order
+    // so sequence numbers will be mixed
     std::vector<Photo::Id> all_photos =
     {
-        Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
+        // first group
+        Photo::Id(2), Photo::Id(3), Photo::Id(1),
+
+        // second group
+        Photo::Id(6), Photo::Id(4), Photo::Id(5)
     };
 
-    // shuffle photos so they come in undefined order
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(all_photos.begin(), all_photos.end(), g);
-
-    ON_CALL(photoOperator, getPhotos(_)).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()) )).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
     {
         Photo::Data data;
@@ -290,4 +281,55 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
     EXPECT_EQ(groupCanditates.front().type, Group::Type::HDR);
     EXPECT_EQ(groupCanditates.back().type, Group::Type::HDR);
+}
+
+
+TEST(SeriesDetectorTest, PhotosTakenOneByOne)
+{
+    NiceMock<MockExifReader> exif;
+    Database::MemoryBackend backend;
+    Database::JsonToBackend jsonReader(backend);
+
+    jsonReader.append(SeriesDB::db);
+
+    const SeriesDetector sd(backend, &exif);
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+
+    ASSERT_EQ(groupCanditates.size(), 2);
+    ASSERT_EQ(groupCanditates.front().members.size(), 6);
+    ASSERT_EQ(groupCanditates.back().members.size(), 5);
+    EXPECT_EQ(groupCanditates.front().type, Group::Type::Generic);
+    EXPECT_EQ(groupCanditates.back().type, Group::Type::Generic);
+}
+
+
+TEST(SeriesDetectorTest, Complexity)
+{
+    NiceMock<MockBackend> backend;
+    NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
+
+    // Mock some photos
+    std::vector<Photo::Id> all_photos;
+
+    for(int i = 1; i <= 50; i++)
+        all_photos.push_back(Photo::Id(i));
+
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+
+    EXPECT_CALL(backend, getPhoto(_)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
+    {
+        Photo::Data data;
+        data.id = id;
+        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
+
+        return data;
+    }));
+
+    const SeriesDetector sd(backend, &exif);
+    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 }

@@ -1,4 +1,6 @@
 
+find_package(Qt5 REQUIRED COMPONENTS QuickWidgets Widgets)
+
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
@@ -70,9 +72,11 @@ target_link_libraries(gui_widgets
                             face_recognition
                             photos_crawler
                             project_utils
+                            quick_views
                             system
                             KWidgetsAddons
                             Qt5::Widgets
+                            Qt5::QuickWidgets
 )
 
 target_include_directories(gui_widgets

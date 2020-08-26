@@ -40,6 +40,7 @@ addTestTarget(database
                     core
                     database
                     database_memory_backend
+                    sample_dbs
                     Qt5::Core
                     Qt5::Gui
                     Qt5::Sql

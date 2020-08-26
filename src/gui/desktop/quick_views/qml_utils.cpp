@@ -4,6 +4,7 @@
 #include <QQuickWidget>
 #include <QQuickItem>
 #include <QQmlContext>
+#include <QQmlPropertyMap>
 
 namespace QmlUtils
 {
@@ -20,5 +21,12 @@ namespace QmlUtils
     {
         auto rootContext = qml->rootContext();
         rootContext->setContextProperty(objectName, object);
+    }
+
+
+    void registerObjectProperties(QQuickWidget* qml, const QString& objectName, QQmlPropertyMap* properties)
+    {
+        auto rootContext = qml->rootContext();
+        rootContext->setContextProperty(objectName, properties);
     }
 }

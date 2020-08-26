@@ -18,6 +18,7 @@
 
 #include "../series_detector.hpp"
 
+#include <unordered_set>
 #include <QDateTime>
 
 #include <core/iexif_reader.hpp>
@@ -27,7 +28,7 @@
 
 namespace
 {
-    qint64 timestamp(const Photo::Data& data)
+    std::chrono::milliseconds timestamp(const Photo::Data& data)
     {
         qint64 timestamp = -1;
 
@@ -43,8 +44,226 @@ namespace
             timestamp = dateTime.toMSecsSinceEpoch();
         }
 
-        return timestamp;
+        return std::chrono::milliseconds(timestamp);
     }
+
+    class BaseGroupValidator
+    {
+    public:
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            m_data = d;
+        }
+
+        Photo::Data m_data;
+    };
+
+    template<Group::Type>
+    class GroupValidator;
+
+    template<>
+    class GroupValidator<Group::Type::Animation>: BaseGroupValidator
+    {
+    public:
+        GroupValidator(IExifReader& exif, const SeriesDetector::Rules &)
+            : m_exifReader(exif)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            BaseGroupValidator::setCurrentPhoto(d);
+            m_sequence = m_exifReader.get(m_data.path, IExifReader::TagType::SequenceNumber);
+        }
+
+        bool canBePartOfGroup()
+        {
+            const bool has_exif_data = m_sequence.has_value();
+
+            if (has_exif_data)
+            {
+                const int s = std::any_cast<int>(m_sequence.value());
+                auto s_it = m_sequence_numbers.find(s);
+
+                return s_it == m_sequence_numbers.end();
+            }
+            else
+                return false;
+        }
+
+        void accept()
+        {
+            assert(m_sequence);
+
+            const int s = std::any_cast<int>(m_sequence.value());
+
+            m_sequence_numbers.insert(s);
+        }
+
+        std::optional<std::any> m_sequence;
+
+        std::unordered_set<int> m_sequence_numbers;
+        IExifReader& m_exifReader;
+    };
+
+    template<>
+    class GroupValidator<Group::Type::HDR>: GroupValidator<Group::Type::Animation>
+    {
+        typedef GroupValidator<Group::Type::Animation> Base;
+
+    public:
+        GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
+            : Base(exif, r)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            Base::setCurrentPhoto(d);
+            m_exposure = m_exifReader.get(d.path, IExifReader::TagType::Exposure);
+        }
+
+        bool canBePartOfGroup()
+        {
+            const bool has_exif_data = Base::canBePartOfGroup() && m_exposure;
+
+            if (has_exif_data)
+            {
+                const int e = std::any_cast<float>(m_exposure.value());
+
+                auto e_it = m_exposures.find(e);
+
+                return e_it == m_exposures.end();
+            }
+            else
+                return false;
+        }
+
+        void accept()
+        {
+            assert(m_exposure);
+
+            Base::accept();
+
+            const int e = std::any_cast<float>(m_exposure.value());
+            m_exposures.insert(e);
+        }
+
+        std::optional<std::any> m_exposure;
+        std::unordered_set<float> m_exposures;
+    };
+
+    template<>
+    class GroupValidator<Group::Type::Generic>: BaseGroupValidator
+    {
+    public:
+        GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
+            : m_prev_stamp(0)
+            , m_rules(r)
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::Data& d)
+        {
+            BaseGroupValidator::setCurrentPhoto(d);
+            m_current_stamp = timestamp(d);
+        }
+
+        bool canBePartOfGroup()
+        {
+            return m_prev_stamp.count() == 0 || m_current_stamp - m_prev_stamp <= m_rules.manualSeriesMaxGap;
+        }
+
+        void accept()
+        {
+            m_prev_stamp = m_current_stamp;
+        }
+
+        std::chrono::milliseconds m_prev_stamp,
+                                  m_current_stamp;
+        const SeriesDetector::Rules& m_rules;
+    };
+
+    class SeriesExtractor
+    {
+    public:
+        SeriesExtractor(Database::IBackend& backend,
+                    IExifReader& exifReader,
+                    const std::vector<Photo::Id>& photos,
+                    const SeriesDetector::Rules& r)
+            : m_backend(backend)
+            , m_exifReader(exifReader)
+            , m_rules(r)
+        {
+            for (const Photo::Id& id: photos)
+            {
+                const Photo::Data data = m_backend.getPhoto(id);
+                m_photos.push_back(data);
+            }
+        }
+
+        template<Group::Type type>
+        std::vector<SeriesDetector::GroupCandidate> extract()
+        {
+            std::vector<SeriesDetector::GroupCandidate> results;
+
+            for (auto it = m_photos.begin(); it != m_photos.end();)
+            {
+                SeriesDetector::GroupCandidate group;
+                group.type = type;
+
+                GroupValidator<type> validator(m_exifReader, m_rules);
+
+                for (auto it2 = it; it2 != m_photos.end(); ++it2)
+                {
+                    const Photo::Data& data = *it2;
+
+                    validator.setCurrentPhoto(data);
+
+                    if (validator.canBePartOfGroup())
+                    {
+                        group.members.push_back(data);
+                        validator.accept();
+                    }
+                    else
+                        break;
+                }
+
+                const auto members = group.members.size();
+
+                // each photo should have different exposure
+                if (members > 1)
+                {
+                    results.push_back(group);
+
+                    auto first = it;
+                    auto last = first + members;
+
+                    it = m_photos.erase(first, last);
+                }
+                else
+                    ++it;
+            }
+
+            return results;
+        }
+
+    private:
+        Database::IBackend& m_backend;
+        IExifReader& m_exifReader;
+        const SeriesDetector::Rules& m_rules;
+        std::deque<Photo::Data> m_photos;
+    };
+}
+
+
+SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
+    : manualSeriesMaxGap(manualSeriesMaxGap)
+{
+
 }
 
 
@@ -55,116 +274,34 @@ SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates() const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
     std::vector<GroupCandidate> result;
 
     // find photos which are not part of any group
     Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
-    const auto photos = m_backend.photoOperator().getPhotos( {group_filter} );
+    const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-    // collect photos with SequenceNumber and timestamp in exif
-    std::multiset<PhotosWithSequence> sequences_by_time = analyze_photos(photos);
-    auto sequence_groups = split_into_groups(sequences_by_time);
-    determine_type(sequence_groups);
+    // find groups
+    auto sequence_groups = analyze_photos(photos, rules);
 
-    result = sequence_groups;
-
-    return result;
+    return sequence_groups;
 }
 
 
-const std::multiset<SeriesDetector::PhotosWithSequence> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos) const
+std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
+                                                                           const Rules& rules) const
 {
-    std::multiset<PhotosWithSequence> sequences_by_time;
+    SeriesExtractor extractor(m_backend, *m_exifReader, photos, rules);
 
-    for (const Photo::Id& id: photos)
-    {
-        const Photo::Data data = m_backend.getPhoto(id);
-        const std::optional<std::any> seq = m_exifReader->get(data.path, IExifReader::TagType::SequenceNumber);
+    auto hdrs = extractor.extract<Group::Type::HDR>();
+    auto animations = extractor.extract<Group::Type::Animation>();
+    auto generics = extractor.extract<Group::Type::Generic>();
 
-        if (seq)
-        {
-            const std::any& rawData = *seq;
-            const int seqNum = std::any_cast<int>(rawData);
-            const qint64 time = timestamp(data);
+    std::vector<SeriesDetector::GroupCandidate> sequences;
+    std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
+    std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
+    std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
 
-            if (time != -1)
-            {
-                Photo::DataDelta delta(id);
-                delta.insert<Photo::Field::Path>(data.path);
-                sequences_by_time.emplace(time, seqNum, delta);
-            }
-        }
-    }
-
-    return sequences_by_time;
-}
-
-
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::split_into_groups(const std::multiset<PhotosWithSequence>& data) const
-{
-    const int initial_sequence_value = 1;
-    int expected_seq = initial_sequence_value;
-
-    std::vector<Photo::DataDelta> group;
-    std::vector<GroupCandidate> results;
-
-    auto dumpGroup = [&results, &group]()
-    {
-        GroupCandidate detection;
-        detection.type = Group::Type::Invalid;
-        detection.members = group;
-
-        results.push_back(detection);
-
-        group.clear();
-    };
-
-    for(auto it = data.cbegin(); it != data.cend(); ++it)
-    {
-        const int& seqNum = it->sequence;
-        const Photo::DataDelta& ph_data = it->data;
-
-        if (seqNum != expected_seq)     // sequenceNumber does not match expectations? finish/skip group
-        {
-            if (group.empty() == false)
-                dumpGroup();
-
-            expected_seq = initial_sequence_value;
-        }
-
-        if (seqNum == expected_seq)     // sequenceNumber matches expectations? begin/continue group
-        {
-            group.push_back(ph_data);
-            expected_seq++;
-        }
-
-        if (std::next(it) == data.cend())
-            dumpGroup();
-    }
-
-    return results;
-}
-
-
-void SeriesDetector::determine_type(std::vector<GroupCandidate>& sequence_groups) const
-{
-    for(SeriesDetector::GroupCandidate& group: sequence_groups)
-    {
-        std::vector<float> exposures;
-
-        for(const Photo::DataDelta& member: group.members)
-        {
-            const QString& path = member.get<Photo::Field::Path>();
-            const std::optional<std::any> exposureRaw = m_exifReader->get(path, IExifReader::TagType::Exposure);
-            const float exposure = exposureRaw.has_value()? std::any_cast<float>(*exposureRaw): 0.0f;
-
-            exposures.push_back(exposure);
-        }
-
-        const bool constant_exposure = std::equal(exposures.cbegin() + 1, exposures.cend(), exposures.cbegin());
-
-        group.type = constant_exposure? Group::Type::Animation: Group::Type::HDR;
-    }
+    return sequences;
 }

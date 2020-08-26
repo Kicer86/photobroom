@@ -4,6 +4,8 @@
         <file>PhotoDelegate.qml</file>
         <file>PhotosGridView.qml</file>
         <file>PhotosView.qml</file>
+        <file>SeriesDetection.qml</file>
+        <file>ThumbnailSlider.qml</file>
         <file>TimeRange.qml</file>
     </qresource>
 </RCC>

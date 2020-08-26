@@ -12,6 +12,19 @@ namespace
     {
         return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
     }
+
+    int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const TagTypes& tagType, Qt::SortOrder order)
+    {
+        const auto l_it = lhs.tags.find(tagType);
+        const auto r_it = rhs.tags.find(tagType);
+        const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
+        const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
+
+        const bool is_less = compare(l_tag, r_tag, order);
+        const bool is_greater = compare(r_tag, l_tag, order);
+
+        return (is_less? -1: 0) + (is_greater? 1: 0);
+    }
 }
 
 
@@ -396,11 +409,11 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
+    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 
-        if (auto sort_action = std::get_if<SortAction>(&action))
+        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
             std::vector<Photo::Data> photo_data;
             for(const auto id: ids)
@@ -408,12 +421,28 @@ namespace Database
 
             std::sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
             {
-                const auto l_it = lhs.tags.find(sort_action->tag);
-                const auto r_it = rhs.tags.find(sort_action->tag);
-                const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
-                const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
+                return tristate_compare(lhs, rhs, sort_action->tag, sort_action->sort_order) < 0;
+            });
 
-                return compare(l_tag, r_tag, sort_action->sort_order);
+            std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
+            {
+                return data.id;
+            });
+        }
+        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+        {
+            std::vector<Photo::Data> photo_data;
+            for(const auto id: ids)
+                photo_data.push_back(getPhoto(id));
+
+            std::sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
+            {
+                int comp = tristate_compare(lhs, rhs, TagTypes::Date, sort_action->sort_order);
+
+                if (comp == 0)
+                    comp = tristate_compare(lhs, rhs, TagTypes::Time, sort_action->sort_order);
+
+                return comp < 0;
             });
 
             std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)

@@ -121,21 +121,34 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Actions& action)
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
     {
         const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
 
         QString actionQuery;
 
-        if (auto sort_action = std::get_if<SortAction>(&action))
+        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
             actionQuery = QString("SELECT photos.id FROM (%3) "
-                                  "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "
-                                  "WHERE %3.id IN (%1) ORDER BY %2.value %5")
+                                   "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "
+                                   "WHERE %3.id IN (%1) ORDER BY %2.value %5")
+                                     .arg(filtersQuery)
+                                     .arg(TAB_TAGS)
+                                     .arg(TAB_PHOTOS)
+                                     .arg(sort_action->tag)
+                                     .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
+        }
+        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+        {
+            actionQuery = QString("SELECT photos.id FROM (%3) "
+                                  "LEFT JOIN %2 date_tag ON (%3.id = date_tag.photo_id AND date_tag.name = %4) "
+                                  "LEFT JOIN %2 time_tag ON (%3.id = time_tag.photo_id AND time_tag.name = %5) "
+                                  "WHERE %3.id IN (%1) ORDER BY date_tag.value %6, time_tag.value %6")
                                     .arg(filtersQuery)
                                     .arg(TAB_TAGS)
                                     .arg(TAB_PHOTOS)
-                                    .arg(sort_action->tag)
+                                    .arg(TagTypes::Date)
+                                    .arg(TagTypes::Time)
                                     .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
         }
         else

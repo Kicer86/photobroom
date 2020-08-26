@@ -9,7 +9,20 @@ GridView {
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
-    delegate: PhotoDelegate { }
+
+    delegate: PhotoDelegate {
+        id: delegateId
+
+        width:  cellWidth
+        height: cellHeight
+        margin: thumbnailMargin
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: delegateId.GridView.view.currentIndex = index
+        }
+    }
+
     highlight: highlightId
     keyNavigationEnabled: true
     currentIndex: -1

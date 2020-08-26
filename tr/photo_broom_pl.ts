@@ -888,32 +888,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+63"/>
-        <source>Detected series</source>
-        <translation>Wykryte serie</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>preview</source>
-        <translation>podgląd</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>type</source>
-        <translation>rodzaj</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>photos</source>
-        <translation>zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Group</source>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+55"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+133"/>
         <source>Animation</source>
         <translation>Animacja</translation>
     </message>
@@ -927,6 +902,22 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <source>Generic</source>
         <translation>Zwykła grupa</translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+27"/>
+        <source>Group candidates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Group</source>
+        <comment>used as verb - group photos</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+49"/>
+        <source>Looking for group candidates...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TagsModel</name>
@@ -939,6 +930,14 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+1"/>
         <source>Value</source>
         <translation>Wartość</translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailSlider</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+27"/>
+        <source>Thumbnail size:</source>
+        <translation type="unfinished">Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>

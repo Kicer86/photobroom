@@ -19,11 +19,11 @@
 #include "series_detection.hpp"
 
 #include <QDialogButtonBox>
-#include <QGroupBox>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QQuickWidget>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
@@ -32,6 +32,8 @@
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
+#include "quick_views/qml_utils.hpp"
+
 
 Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
 
@@ -40,7 +42,10 @@ using namespace std::placeholders;
 namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
+    constexpr int PropertiesRole = DetailsRole + 1;
+    constexpr int GroupTypeRole = PropertiesRole + 1;
     constexpr int thumbnail_size = 64;
+    const QString loadedPropertyName("loaded");
 }
 
 SeriesDetection::SeriesDetection(Database::IDatabase* db,
@@ -49,50 +54,42 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  Project* project):
     QDialog(),
     m_tabModel(new QStandardItemModel(this)),
-    m_tabView(nullptr),
     m_core(core),
-    m_thmMgr(thbMgr),
     m_db(db),
-    m_project(project)
+    m_project(project),
+    m_qmlView(nullptr),
+    m_thumbnailsManager4QML(thbMgr)
 {
     // dialog top layout setup
     resize(320, 480);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-
-    QGroupBox* detected = new QGroupBox(tr("Detected series"), this);
-    QHBoxLayout* buttons_layout = new QHBoxLayout;
     QDialogButtonBox* dialog_buttons = new QDialogButtonBox(QDialogButtonBox::Close);
 
-    layout->addWidget(detected);
-    layout->addLayout(buttons_layout);
+    // NOTE: https://machinekoder.com/creating-qml-properties-dynamically-runtime-c/
+    m_modelDynamicProperties.insert(loadedPropertyName, false);
+
+    m_tabModel->setItemRoleNames( {
+        {PropertiesRole, "photoProperties"},
+        {GroupTypeRole, "groupType"},
+    } );
+
+    m_qmlView = new QQuickWidget(this);
+    m_qmlView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
+    QmlUtils::registerObject(m_qmlView, "groupsModelId", m_tabModel);
+    QmlUtils::registerObjectProperties(m_qmlView, "groupsModelState", &m_modelDynamicProperties);
+    m_qmlView->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
+
+    layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);
 
-    // table view
-    QHBoxLayout* detectedLayout = new QHBoxLayout(detected);
-    m_tabView = new QTableView(detected);
-    m_tabView->setModel(m_tabModel);
-    m_tabView->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_tabView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-    detectedLayout->addWidget(m_tabView);
-
-    m_tabModel->setHorizontalHeaderLabels( {tr("preview"), tr("type"), tr("photos")} );
-
-    // buttons
-    QPushButton* group_button = new QPushButton(tr("Group"), this);
-    group_button->setDisabled(true);
-    buttons_layout->addWidget(group_button);
-    buttons_layout->addStretch();
-
     // wiring
-    connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
-    connect(m_tabView->selectionModel(), &QItemSelectionModel::selectionChanged, [group_button](const QItemSelection &selected, const QItemSelection &)
-    {
-        group_button->setDisabled(selected.isEmpty());
-    });
+    QObject* seriesDetectionMainId = QmlUtils::findQmlObject(m_qmlView, "seriesDetectionMain");
+    connect(seriesDetectionMainId, SIGNAL(group(int)), this, SLOT(group(int)));
 
-    connect(group_button, &QPushButton::pressed, this, &SeriesDetection::group);
+    connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
 
     auto callback = m_callback_mgr.make_safe_callback<Database::IBackend &>(std::bind(&SeriesDetection::fetch_series, this, _1));
     m_db->exec(callback);
@@ -102,6 +99,9 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 SeriesDetection::~SeriesDetection()
 {
     m_callback_mgr.invalidate();
+
+    // delete qml view before all other objects it referes to will be deleted
+    delete m_qmlView;
 }
 
 
@@ -122,12 +122,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
     for(std::size_t i = 0; i < candidates.size(); i++)
     {
         const SeriesDetector::GroupCandidate& candidate = candidates[i];
-
-        auto setThumbnailCallback = make_cross_thread_function< const QImage &>(this, std::bind(&SeriesDetection::setThumbnail, this, i, _1));
-        auto setThumbnailCallbackSafe = m_callback_mgr.make_safe_callback<const QImage &>(setThumbnailCallback);
-
-        const QString& path = candidate.members.front().get<Photo::Field::Path>();
-        m_thmMgr->fetch(path, thumbnail_size, setThumbnailCallbackSafe);
+        const Photo::Data& representativeData = candidate.members.front();
 
         QList<QStandardItem *> row;
 
@@ -140,59 +135,25 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
             case Group::Type::Generic:   type = tr("Generic");   break;
         }
 
-        QStandardItem* thumb = new QStandardItem;
-        thumb->setData(QPixmap(":/gui/clock.svg"), Qt::DecorationRole);
-        thumb->setData(QVariant::fromValue(candidate), DetailsRole);
+        QStandardItem* groupItem = new QStandardItem;
+        groupItem->setData(QVariant::fromValue(representativeData), PropertiesRole);
+        groupItem->setData(QVariant::fromValue(candidate), DetailsRole);
+        groupItem->setData(type, GroupTypeRole);
 
-        row.append(thumb);
-        row.append(new QStandardItem(type));
-        row.append(new QStandardItem(QString::number(candidate.members.size())));
+        row.append(groupItem);
 
         m_tabModel->appendRow(row);
     }
 
-    m_tabView->resizeRowsToContents();
-    m_tabView->resizeColumnsToContents();
+    m_modelDynamicProperties.insert(loadedPropertyName, true);
 }
 
 
-void SeriesDetection::setThumbnail(int row, const QImage& img)
+void SeriesDetection::group(int row)
 {
-    QModelIndex item = m_tabModel->index(row, 0);
-    const QPixmap pixmap = QPixmap::fromImage(img);
-
-    m_tabModel->setData(item, pixmap, Qt::DecorationRole);
-}
-
-
-void SeriesDetection::group()
-{
-    const int row = selected_row();
     const QModelIndex firstItemInRow = m_tabModel->index(row, 0);
     const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(DetailsRole).value<SeriesDetector::GroupCandidate>();
-
-    auto task = [this, groupDetails](Database::IBackend& backend)
-    {
-        const std::vector<Photo::Data> ph_data = load_group_details(backend, groupDetails);
-        invokeMethod(this, &SeriesDetection::launch_groupping_dialog, ph_data, groupDetails.type);
-    };
-
-    auto db_task = m_callback_mgr.make_safe_callback<Database::IBackend &>(task);
-    m_db->exec(db_task);
-}
-
-
-std::vector<Photo::Data> SeriesDetection::load_group_details(Database::IBackend& backend, const SeriesDetector::GroupCandidate& details)
-{
-    std::vector<Photo::Data> ph_data;
-
-    for(const Photo::DataDelta& delta: details.members)
-    {
-        const Photo::Data ph_d = backend.getPhoto(delta.getId());
-        ph_data.push_back(ph_d);
-    }
-
-    return ph_data;
+    launch_groupping_dialog(groupDetails.members, groupDetails.type);
 }
 
 
@@ -222,9 +183,5 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph
 
 int SeriesDetection::selected_row() const
 {
-    const QItemSelectionModel* selectionModel = m_tabView->selectionModel();
-    const QModelIndex selected = selectionModel->currentIndex();
-    const int row = selected.row();
-
-    return row;
+    return 0;
 }
