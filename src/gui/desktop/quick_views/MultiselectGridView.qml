@@ -1,8 +1,14 @@
 
 import QtQuick 2.15
+import photo_broom.qml 1.0
+
 
 GridView {
     id: grid
+
+    SelectionManager {
+        id: selectionManager
+    }
 
     MouseArea {
         anchors.fill: parent
@@ -11,11 +17,13 @@ GridView {
         propagateComposedEvents: true
 
         onClicked: {
-            if (mouse.modifiers & Qt.ControlModifier) {
-                var index = grid.indexAt(mouse.x, mouse.y)
+            var ctrl = mouse.modifiers & Qt.ControlModifier;
 
-                console.log("Ctrl!")
-            }
+            if (ctrl == false)
+                selectionManager.clearSelection()
+
+            var index = grid.indexAt(mouse.x, mouse.y)
+            selectionManager.toggleIndexSelection(index)
 
             mouse.accepted = false
         }
