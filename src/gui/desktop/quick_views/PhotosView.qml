@@ -3,6 +3,9 @@ import QtQuick 2.14
 import QtQuick.Layouts 1.14
 import photo_broom.qml 1.0
 
+/*
+ * Top level view for diplaying photos from APhotoInfoModel.
+ */
 
 Item {
     id: photosViewId
