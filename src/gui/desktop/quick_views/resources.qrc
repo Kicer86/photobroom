@@ -1,6 +1,7 @@
 
 <RCC>
     <qresource prefix="/ui">
+        <file>MultiselectGridView.qml</file>
         <file>PhotoDelegate.qml</file>
         <file>PhotosGridView.qml</file>
         <file>PhotosView.qml</file>
