@@ -13,6 +13,7 @@ qt5_wrap_cpp(MOCED
                 photo_item.hpp
                 photos_model_controller_component.hpp
                 qml_setup.hpp
+                selection_manager_component.hpp
 )
 
 
