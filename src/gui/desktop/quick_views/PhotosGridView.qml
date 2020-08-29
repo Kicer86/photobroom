@@ -18,28 +18,27 @@ MultiselectGridView {
         width:  cellWidth
         height: cellHeight
         margin: thumbnailMargin
-        opacity: selected? 0.5: 1
 
         MouseArea {
             anchors.fill: parent
             onClicked: delegateId.GridView.view.currentIndex = index
         }
+
+        Rectangle {
+
+            anchors.fill: parent
+            anchors.margins: 1
+
+            color: "lightsteelblue"
+            radius: 5
+
+            opacity: 0.6
+            visible: delegateId.selected
+        }
     }
 
-    highlight: highlightId
     keyNavigationEnabled: true
     currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }
-
-    Component {
-        id: highlightId
-
-        Rectangle {
-            color: "lightsteelblue"
-            opacity: 0.6
-            z: 2
-        }
-    }
-
 }
