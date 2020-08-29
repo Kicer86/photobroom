@@ -30,7 +30,6 @@ GridView {
                 selectionManager.clearSelection()
 
             var index = grid.indexAt(mouse.x, mouse.y + contentY)
-            console.log("clicked: " + index)
 
             selectionManager.toggleIndexSelection(index)
 
