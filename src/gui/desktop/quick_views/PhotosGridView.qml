@@ -25,15 +25,30 @@ MultiselectGridView {
         }
 
         Rectangle {
-
+            id: highlightId
             anchors.fill: parent
             anchors.margins: 1
+            state: "unselected"
 
             color: "lightsteelblue"
             radius: 5
 
-            opacity: 0.6
-            visible: delegateId.selected
+            states: [
+                State {
+                    name: "selected"
+                    when: delegateId.selected
+                    PropertyChanges { target: highlightId; opacity: 0.6 }
+                },
+                State {
+                    name: "unselected"
+                    when: !delegateId.selected
+                    PropertyChanges { target: highlightId; opacity: 0.0 }
+                }
+            ]
+
+            transitions: Transition {
+                PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
+            }
         }
     }
 
