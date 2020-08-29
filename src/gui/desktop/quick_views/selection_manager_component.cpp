@@ -32,3 +32,9 @@ bool SelectionManagerComponent::isIndexSelected(int index) const
 
     return it != m_selected.end();
 }
+
+
+QList<int> SelectionManagerComponent::selected() const
+{
+    return { m_selected.begin(), m_selected.end() };
+}

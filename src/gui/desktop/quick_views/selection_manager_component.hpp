@@ -4,7 +4,8 @@
 
 
 #include <QObject>
-#include <unordered_set>
+#include <QList>
+#include <QSet>
 
 
 class SelectionManagerComponent: public QObject
@@ -17,9 +18,10 @@ class SelectionManagerComponent: public QObject
         Q_INVOKABLE void toggleIndexSelection(int);
         Q_INVOKABLE void clearSelection();
         Q_INVOKABLE bool isIndexSelected(int) const;
+        Q_INVOKABLE QList<int> selected() const;
 
     private:
-        std::unordered_set<int> m_selected;
+        QSet<int> m_selected;
 };
 
 #endif // SELECTIONMANAGERCOMPONENT_HPP
