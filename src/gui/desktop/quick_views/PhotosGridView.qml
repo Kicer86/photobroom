@@ -2,7 +2,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.3
 
-GridView {
+MultiselectGridView {
 
     property int thumbnailSize: 160
     property int thumbnailMargin: 5
@@ -13,9 +13,12 @@ GridView {
     delegate: PhotoDelegate {
         id: delegateId
 
+        property bool selected
+
         width:  cellWidth
         height: cellHeight
         margin: thumbnailMargin
+        opacity: selected? 0.5: 1
 
         MouseArea {
             anchors.fill: parent
