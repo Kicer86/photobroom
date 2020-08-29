@@ -6,6 +6,12 @@ import photo_broom.qml 1.0
 GridView {
     id: grid
 
+    function isSelected(index) {
+        return selectionManager.isIndexSelected(index)
+    }
+
+    signal selectionChanged()
+
     SelectionManager {
         id: selectionManager
     }
@@ -26,6 +32,8 @@ GridView {
             selectionManager.toggleIndexSelection(index)
 
             mouse.accepted = false
+
+            selectionChanged()
         }
     }
 }
