@@ -93,6 +93,8 @@ class MainWindow: public QMainWindow
         void setupQmlView();
         void setupConfig();
 
+        void showContextMenu(const QPoint &);
+
     private slots:
         // album menu
         void on_actionNew_collection_triggered();

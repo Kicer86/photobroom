@@ -306,6 +306,9 @@ void MainWindow::setupView()
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+
+    connect(ui->photosViewQml, &QWidget::customContextMenuRequested,
+            this, &MainWindow::showContextMenu);
 }
 
 
@@ -410,6 +413,87 @@ void MainWindow::loadRecentCollections()
         m_recentCollections = rawList.split(";");
 
     updateMenus();
+}
+
+
+void MainWindow::showContextMenu(const QPoint& pos)
+{
+    const std::vector<Photo::Data> selected_photos = m_selectionExtractor.getSelection();
+
+    std::vector<Photo::Data> photos;
+    std::remove_copy_if(selected_photos.cbegin(),
+                        selected_photos.cend(),
+                        std::back_inserter(photos),
+                        [](const Photo::Data& photo){
+                            return QFile::exists(photo.path) == false;
+                        });
+
+    QMenu contextMenu;
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
+    QAction* location       = contextMenu.addAction(tr("Open photo location"));
+    QAction* faces          = contextMenu.addAction(tr("Recognize people"));
+
+    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
+
+    groupPhotos->setEnabled(photos.size() > 1);
+    ungroupPhotos->setEnabled(isSingleGroup);
+    location->setEnabled(photos.size() == 1);
+    faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
+
+    if (isSingleGroup)
+        groupPhotos->setVisible(false);
+    else
+        ungroupPhotos->setVisible(false);
+
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+
+    const QPoint globalPos = ui->photosViewQml->mapToGlobal(pos);
+    QAction* chosenAction = contextMenu.exec(globalPos);
+
+    if (chosenAction == groupPhotos)
+    {
+        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
+
+        auto logger = m_loggerFactory->get("PhotosGrouping");
+
+        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
+        const int status = dialog.exec();
+
+        if (status == QDialog::Accepted)
+            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
+    }
+    else if (chosenAction == ungroupPhotos)
+    {
+        const Photo::Data& representative = photos.front();
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
+
+        GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
+    }
+    else if (chosenAction == location)
+    {
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+        const QFileInfo photoFileInfo(absolute_path);
+        const QString file_dir = photoFileInfo.path();
+
+        QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+    }
+    else if (chosenAction == faces)
+    {
+        const Photo::Data& first = photos.front();
+        const QString relative_path = first.path;
+        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
+        const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
+
+        FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
+        faces_dialog.exec();
+    }
 }
 
 
