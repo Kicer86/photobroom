@@ -1,6 +1,6 @@
 
 language: cpp
-dist: bionic
+dist: focal
 osx_image: xcode11.5
 
 branches:
@@ -13,8 +13,10 @@ addons:
     packages:
       - python3
       - lcov
-      # - libdlib-dev    - enable in future, current version is too old
+      - libdlib-dev
       - nasm
+      - googletest
+      - qt5-default
     sources:
 
   homebrew:
@@ -72,9 +74,7 @@ before_install:
         export PATH="/usr/local/opt/ccache/libexec:$PATH";
         export PATH="/usr/local/opt/qt/bin:$PATH";
     else
-        sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
-        sudo apt install qt511base qt511svg qt511quickcontrols2  libgl-dev lcov;
-        source /opt/qt5*/bin/qt5*-env.sh;
+        sudo apt install libgl-dev lcov;
         pyenv global 3.7;
     fi
 
