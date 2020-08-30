@@ -31,7 +31,6 @@
 #include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
-#include "models/db_data_model.hpp"
 #include "models/flat_model.hpp"
 #include "widgets/info_widget.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"

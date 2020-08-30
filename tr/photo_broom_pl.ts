@@ -199,14 +199,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>IdxDataManager</name>
-    <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+903"/>
-        <source>Unlabeled</source>
-        <translation>Nieopisane</translation>
-    </message>
-</context>
-<context>
     <name>LevelEditor</name>
     <message>
         <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
@@ -399,7 +391,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+214"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -847,7 +839,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+206"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+205"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>

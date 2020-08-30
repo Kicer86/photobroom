@@ -27,7 +27,6 @@ struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
-class DBDataModel;
 class PhotosModelControllerComponent;
 class Project;
 struct ProjectInfo;

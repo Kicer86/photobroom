@@ -9,20 +9,13 @@ include_directories(unit_tests)
 addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
-                    desktop/models/db_data_model.cpp
                     desktop/models/flat_model.cpp
-                    desktop/models/model_helpers/idx_data.cpp
-                    desktop/models/model_helpers/idx_data_manager.cpp
-                    desktop/models/model_helpers/idxdata_deepfetcher.cpp
-                    desktop/models/model_helpers/photos_matcher.cpp
 
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
                     unit_tests/model/aphoto_info_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
-                    unit_tests/model/idx_data_manager_tests.cpp
-                    unit_tests/model/idx_data_tests.cpp
 
                     # helpers:
                     unit_tests/test_helpers/mock_configuration.hpp
