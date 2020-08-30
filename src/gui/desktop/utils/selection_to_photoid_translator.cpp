@@ -8,23 +8,18 @@
 
 
 SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const SelectionManagerComponent& selectionManager,
-                                                           const QAbstractItemModel& model,
-                                                           QObject* p)
-    : QObject(p)
-    , m_selectionManager(selectionManager)
+                                                           const QAbstractItemModel& model)
+    : m_selectionManager(selectionManager)
     , m_model(model)
     , m_photoIdRole(-1)
 {
-    connect(&m_selectionManager, &SelectionManagerComponent::selectionChanged,
-            this, &SelectionToPhotoIdTranslator::translate);
-
     m_photoIdRole = utils::getRoleByName(model, "photoId");
 
     assert(m_photoIdRole != -1);
 }
 
 
-void SelectionToPhotoIdTranslator::translate() const
+std::vector<Photo::Id> SelectionToPhotoIdTranslator::getSelectedIds() const
 {
     const auto rows = m_selectionManager.selected();
     std::vector<Photo::Id> ids;
@@ -38,6 +33,24 @@ void SelectionToPhotoIdTranslator::translate() const
         assert(id.valid());
         ids.push_back(id);
     }
+
+    return ids;
+}
+
+
+
+SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const QAbstractItemModel& model, QObject* p)
+    : QObject(p)
+    , m_translator(manager, model)
+{
+    connect(&manager, &SelectionManagerComponent::selectionChanged,
+            this, &SelectionChangeNotifier::translate);
+}
+
+
+void SelectionChangeNotifier::translate() const
+{
+    const auto ids = m_translator.getSelectedIds();
 
     emit selectionChanged(ids);
 }
