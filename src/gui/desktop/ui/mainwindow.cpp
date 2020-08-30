@@ -57,8 +57,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
-    m_imagesModel(nullptr),
-    m_newImagesModel(nullptr),
     m_photosModelController(nullptr),
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
@@ -96,26 +94,12 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
 
     ui->photoPropertiesWidget->set(&m_selectionExtractor);
 
-    // post construction initialization
-    ui->imagesView->set(m_executor);
-    ui->newImagesView->set(m_executor);
-    m_imagesModel->set(m_executor);
-
     m_mainTabCtrl->set(m_configuration);
     m_lookTabCtrl->set(m_configuration);
     m_toolsTabCtrl->set(m_configuration);
-    ui->imagesView->set(m_configuration);
-    ui->newImagesView->set(m_configuration);
 
     m_completerFactory.set(m_loggerFactory);
 
-    // TODO: Not nice to have setters for views here :/
-    // Views will use completer factories immediately after set.
-    // So factories need log factory before it.
-    ui->imagesView->set(&m_completerFactory);
-    ui->imagesView->set(m_thumbnailsManager);
-    ui->newImagesView->set(&m_completerFactory);
-    ui->newImagesView->set(m_thumbnailsManager);
     ui->tagEditor->set(&m_completerFactory);
 
     // TODO: nothing useful in help mentu at this moment
@@ -150,15 +134,6 @@ void MainWindow::setupQmlView()
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
-
-    // if qml is disabled then hide quick view
-    if (m_configuration->getEntry("features::quick").toBool() == false)
-    {
-        ui->viewsStack->setCurrentIndex(0);
-        ui->viewsStack->widget(2)->setVisible(false);
-        ui->viewsStack->widget(2)->setParent(this);
-        ui->viewsStack->removeTab(2);
-    }
 
     SelectionManagerComponent* selectionManager =
         qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
@@ -312,13 +287,9 @@ void MainWindow::closeProject()
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
 
-        m_imagesModel->setDatabase(nullptr);
-        m_newImagesModel->setDatabase(nullptr);
         m_photosModelController->setDatabase(nullptr);
         m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
-        ui->imagesView->setDB(nullptr);
-        ui->newImagesView->setDB(nullptr);
 
         QDir::setSearchPaths("prj", QStringList() );
 
@@ -329,15 +300,7 @@ void MainWindow::closeProject()
 
 void MainWindow::setupView()
 {
-    m_imagesModel = new DBDataModel(this);
-    ui->imagesView->setModel(m_imagesModel);
-
-    m_newImagesModel = new DBDataModel(this);
-    ui->newImagesView->setModel(m_newImagesModel);
-
     setupQmlView();
-    setupReviewedPhotosView();
-    setupNewPhotosView();
 
     m_photosAnalyzer->set(ui->tasksWidget);
 
@@ -345,23 +308,6 @@ void MainWindow::setupView()
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-
-    // connect to tabs
-    connect(ui->viewsStack, &QTabWidget::currentChanged, this, &MainWindow::viewChanged);
-
-    // trigger initial setup of tags editor and photo properties dock
-    viewChanged(ui->viewsStack->currentIndex());
-
-    // connect to context menu for views
-    connect(ui->imagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
-    {
-        this->showContextMenuFor(ui->imagesView, p);
-    });
-
-    connect(ui->newImagesView, &QWidget::customContextMenuRequested, [this](const QPoint& p)
-    {
-        this->showContextMenuFor(ui->newImagesView, p);
-    });
 }
 
 
@@ -423,7 +369,7 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->viewsStack->setEnabled(prj);
+    ui->photosViewQml->setEnabled(prj);
     ui->tagEditor->setEnabled(prj);
 }
 
@@ -466,133 +412,6 @@ void MainWindow::loadRecentCollections()
         m_recentCollections = rawList.split(";");
 
     updateMenus();
-}
-
-
-void MainWindow::setupReviewedPhotosView()
-{
-    auto reviewed_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
-    auto not_group_members_filter = std::make_shared<Database::FilterNotMatchingFilter>(group_members_filter);
-
-    reviewed_photos_filter->flags[Photo::FlagsE::StagingArea] = 0;
-
-    std::vector<Database::IFilter::Ptr> reviewedPhotosFilters = {reviewed_photos_filter, not_group_members_filter};
-
-    m_imagesModel->setStaticFilters(reviewedPhotosFilters);
-    ui->imagesView->setBottomHintWidget(nullptr);
-
-    SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(ui->imagesView->viewSelectionModel(), this);
-    connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
-            ui->tagEditor, &TagEditorWidget::editPhotos);
-}
-
-
-void MainWindow::setupNewPhotosView()
-{
-    auto new_photos_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    auto group_members_filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
-    auto not_group_members_filter = std::make_shared<Database::FilterNotMatchingFilter>(group_members_filter);
-
-    new_photos_filter->flags[Photo::FlagsE::StagingArea] = 1;
-
-    std::vector<Database::IFilter::Ptr> newPhotosFilters = {new_photos_filter, not_group_members_filter};
-
-    m_newImagesModel->setStaticFilters(newPhotosFilters);
-
-    InfoBalloonWidget* hint = new InfoBalloonWidget (ui->imagesView);
-    const QString message = tr("Above you can view new photos and describe them.");
-    const QString link = tr("You can click here when you are done to mark photos as reviewed.");
-    hint->setText( QString("%1<br/><a href=\"reviewed\">%2</a>").arg(message).arg(link) );
-    hint->setTextFormat(Qt::RichText);
-    ui->newImagesView->setBottomHintWidget(hint);
-
-    connect(hint, &QLabel::linkActivated, this, &MainWindow::markNewPhotosAsReviewed);
-
-    SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(ui->newImagesView->viewSelectionModel(), this);
-    connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
-            ui->tagEditor, &TagEditorWidget::editPhotos);
-}
-
-
-void MainWindow::showContextMenuFor(PhotosWidget* photosView, const QPoint& pos)
-{
-    const std::vector<Photo::Data> selected_photos = m_selectionExtractor.getSelection();
-
-    std::vector<Photo::Data> photos;
-    std::remove_copy_if(selected_photos.cbegin(),
-                        selected_photos.cend(),
-                        std::back_inserter(photos),
-                        [](const Photo::Data& photo){
-                            return QFile::exists(photo.path) == false;
-                        });
-
-    QMenu contextMenu;
-    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
-    QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
-    QAction* location       = contextMenu.addAction(tr("Open photo location"));
-    QAction* faces          = contextMenu.addAction(tr("Recognize people"));
-
-    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
-
-    groupPhotos->setEnabled(photos.size() > 1);
-    ungroupPhotos->setEnabled(isSingleGroup);
-    location->setEnabled(photos.size() == 1);
-    faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
-
-    if (isSingleGroup)
-        groupPhotos->setVisible(false);
-    else
-        ungroupPhotos->setVisible(false);
-
-    Database::IDatabase* db = m_currentPrj->getDatabase();
-
-    const QPoint globalPos = photosView->mapToGlobal(pos);
-    QAction* chosenAction = contextMenu.exec(globalPos);
-
-    if (chosenAction == groupPhotos)
-    {
-        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
-
-        auto logger = m_loggerFactory->get("PhotosGrouping");
-
-        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
-        const int status = dialog.exec();
-
-        if (status == QDialog::Accepted)
-            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
-    }
-    else if (chosenAction == ungroupPhotos)
-    {
-        const Photo::Data& representative = photos.front();
-        const GroupInfo& grpInfo = representative.groupInfo;
-        const Group::Id gid = grpInfo.group_id;
-
-        GroupsManager::ungroup(db, gid);
-
-        // delete representative file
-        QFile::remove(representative.path);
-    }
-    else if (chosenAction == location)
-    {
-        const Photo::Data& first = photos.front();
-        const QString relative_path = first.path;
-        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
-        const QFileInfo photoFileInfo(absolute_path);
-        const QString file_dir = photoFileInfo.path();
-
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
-    }
-    else if (chosenAction == faces)
-    {
-        const Photo::Data& first = photos.front();
-        const QString relative_path = first.path;
-        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
-        const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
-
-        FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
-        faces_dialog.exec();
-    }
 }
 
 
@@ -727,13 +546,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
         {
             Database::IDatabase* db = m_currentPrj->getDatabase();
 
-            m_imagesModel->setDatabase(db);
-            m_newImagesModel->setDatabase(db);
             m_photosModelController->setDatabase(db);
             m_completerFactory.set(db);
             ui->tagEditor->setDatabase(db);
-            ui->imagesView->setDB(db);
-            ui->newImagesView->setDB(db);
 
             // TODO: I do not like this flag here...
             if (is_new)
@@ -783,66 +598,4 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
     }
 
     updateGui();
-}
-
-
-void MainWindow::markNewPhotosAsReviewed()
-{
-    Database::IDatabase* db = m_currentPrj->getDatabase();
-    Database::IBackend& backend = db->backend();
-
-    connect(&backend, &Database::IBackend::photosMarkedAsReviewed,
-            this, &MainWindow::photosMarkedAsReviewed, Qt::UniqueConnection);  // make sure connection exists. It will be closed when db is closed.
-
-    db->markStagedAsReviewed();
-}
-
-
-void MainWindow::photosMarkedAsReviewed()
-{
-    Database::IDatabase* db = m_currentPrj->getDatabase();
-
-    // force model to reload
-    // TODO: model should know it needs reload, however the db's photosMarkedAsReviewed signal
-    //       is of too high level: model works on photos level.
-    //       IDatabase segregation should highlight the difference by separating
-    //       these signals with different interfaces. See #272 issue on github
-    m_newImagesModel->setDatabase(db);
-    m_imagesModel->setDatabase(db);
-}
-
-
-void MainWindow::viewChanged(int current)
-{
-    const QItemSelectionModel* selectionModel = nullptr;
-    APhotoInfoModel* dataModel = nullptr;
-    //setup tags editor
-
-    switch(current)
-    {
-        case 0:
-            selectionModel = ui->imagesView->viewSelectionModel();
-            dataModel = m_imagesModel;
-            break;
-
-        case 1:
-            selectionModel = ui->newImagesView->viewSelectionModel();
-            dataModel = m_newImagesModel;
-            break;
-
-        case 2:
-            selectionModel = nullptr; //&m_photosModelController->selectionModel();
-            dataModel = m_photosModelController->model();
-            break;
-
-        default:
-            assert(!"Unexpected tab index");
-            break;
-    }
-
-    // reset tag editor
-    ui->tagEditor->editPhotos({});
-
-    m_selectionExtractor.set(selectionModel);
-    m_selectionExtractor.set(dataModel);
 }

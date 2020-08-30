@@ -60,8 +60,6 @@ class MainWindow: public QMainWindow
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
-        DBDataModel*              m_imagesModel;
-        DBDataModel*              m_newImagesModel;
         PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration*           m_configuration;
         ILoggerFactory*           m_loggerFactory;
@@ -92,12 +90,8 @@ class MainWindow: public QMainWindow
         void loadGeometry();
         void loadRecentCollections();
 
-        void setupReviewedPhotosView();
-        void setupNewPhotosView();
         void setupQmlView();
         void setupConfig();
-
-        void showContextMenuFor(PhotosWidget *, const QPoint &);
 
     private slots:
         // album menu
@@ -136,9 +130,6 @@ class MainWindow: public QMainWindow
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
-        void markNewPhotosAsReviewed();
-        void photosMarkedAsReviewed();
-        void viewChanged(int);
 };
 
 #endif // MAINWINDOW_HPP

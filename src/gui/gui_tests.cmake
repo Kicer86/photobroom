@@ -16,12 +16,6 @@ addTestTarget(gui
                     desktop/models/model_helpers/idxdata_deepfetcher.cpp
                     desktop/models/model_helpers/photos_matcher.cpp
 
-                    desktop/views/view_impl/data.cpp
-                    desktop/views/view_impl/model_index_info.cpp
-                    desktop/views/view_impl/positions_calculator.cpp
-                    desktop/views/view_impl/positions_reseter.cpp
-                    desktop/views/view_impl/positions_translator.cpp
-
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
@@ -29,11 +23,6 @@ addTestTarget(gui
                     unit_tests/model/flat_model_tests.cpp
                     unit_tests/model/idx_data_manager_tests.cpp
                     unit_tests/model/idx_data_tests.cpp
-
-                    # view tests
-                    unit_tests/view/data_tests.cpp
-                    unit_tests/view/positions_calculator_tests.cpp
-                    unit_tests/view/positions_reseter_tests.cpp
 
                     # helpers:
                     unit_tests/test_helpers/mock_configuration.hpp

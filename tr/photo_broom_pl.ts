@@ -207,19 +207,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>LazyTreeItemDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+79"/>
-        <source>animation</source>
-        <translation>animacja</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Group</source>
-        <translation>Grupa</translation>
-    </message>
-</context>
-<context>
     <name>LevelEditor</name>
     <message>
         <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
@@ -287,7 +274,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+31"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -312,17 +299,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <source>Collection</source>
-        <translation>Kolekcja</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Photos</source>
-        <translation>Zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+71"/>
+        <location line="+15"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -422,7 +399,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+242"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+217"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -444,17 +421,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
-        <source>New photos</source>
-        <translation>Nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
+        <location line="+115"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+89"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -464,37 +436,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-107"/>
-        <source>Above you can view new photos and describe them.</source>
-        <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
-    </message>
-    <message>
-        <location line="-108"/>
+        <location line="-88"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
-        <source>Group</source>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ungroup</source>
-        <translation>Rozbij grupę</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open photo location</source>
-        <translation>Otwórz katalog ze zdjęciem</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Recognize people</source>
-        <translation>Rozpoznaj osoby</translation>
-    </message>
-    <message>
-        <location line="+212"/>
+        <location line="+219"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -555,12 +502,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-271"/>
-        <source>You can click here when you are done to mark photos as reviewed.</source>
-        <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
-    </message>
-    <message>
-        <location line="+171"/>
+        <location line="-96"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -790,43 +732,6 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
-    <name>PhotosItemDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+83"/>
-        <source>Loading</source>
-        <translation>Wczytywanie</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No photos</source>
-        <translation>Brak zdjęć</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+75"/>
-        <source>Search:</source>
-        <translation>Szukaj:</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Filter photos matching given expression.
-
-Expression can be one or more words.
-Photos which do not match will be hidden.</source>
-        <translation>Filtrowanie zdjęć na podstawie wyrażenia.
-
-Wyrażenie może się składać z jednego lub kilku słów.
-Zdjęcia, które nie będą pasowały, zostaną ukryte.</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Thumbnail size:</source>
-        <translation>Rozmiar miniaturki:</translation>
-    </message>
-</context>
-<context>
     <name>ProjectCreatorDialog</name>
     <message>
         <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+63"/>
@@ -911,7 +816,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
         <location line="+61"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Grupuj</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -1004,14 +909,6 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>TreeItemDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+182"/>
-        <source>(Empty)</source>
-        <translation>(Brak)</translation>
-    </message>
-</context>
-<context>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="+178"/>
@@ -1025,8 +922,8 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
     <message>
         <location line="+5"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views</source>
-        <translation>Aktywuje eksperymentalne funkcje. Użyj tej opcji dla każdej z flag, które chcesz aktywować: test-crash-catcher, quick-views</translation>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
