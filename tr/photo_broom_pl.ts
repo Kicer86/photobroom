@@ -391,7 +391,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+214"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+212"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -527,7 +527,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+119"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+107"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -792,7 +792,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-172"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-161"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>

@@ -55,7 +55,7 @@ class TagEditorWidget: public QWidget
         void setDatabase(Database::IDatabase *);
         void set(ICompleterFactory *);
 
-        void editPhotos(const std::vector<Photo::Id> &);
+        void editPhotos(const std::vector<Photo::Data> &);
 
     private:
         EditorFactory m_editorFactory;

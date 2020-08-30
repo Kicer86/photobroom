@@ -70,7 +70,7 @@ SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent
 
 void SelectionChangeNotifier::translate() const
 {
-    const auto ids = m_translator.getSelectedIds();
+    const auto datas = m_translator.getSelectedDatas();
 
-    emit selectionChanged(ids);
+    emit selectionChanged(datas);
 }

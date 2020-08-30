@@ -37,7 +37,7 @@ class SelectionChangeNotifier: public QObject
         SelectionChangeNotifier(const SelectionManagerComponent &, const QAbstractItemModel& model, QObject* = nullptr);
 
     signals:
-        void selectionChanged(const std::vector<Photo::Id> &) const;
+        void selectionChanged(const std::vector<Photo::Data> &) const;
 
     private:
         SelectionToPhotoIdTranslator m_translator;

@@ -10,7 +10,6 @@
 #include <updater/iupdater.hpp>
 
 #include "ui_utils/completer_factory.hpp"
-#include "utils/selection_extractor.hpp"
 #include "quick_views/qml_setup.hpp"
 
 class ConfigDialogManager;
@@ -53,7 +52,6 @@ class MainWindow: public QMainWindow
         void set(IUpdater *);
 
     private:
-        SelectionExtractor        m_selectionExtractor;
         QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;

@@ -28,7 +28,6 @@ class QLabel;
 class QStackedLayout;
 
 class APhotoInfoModel;
-class SelectionExtractor;
 
 
 class PhotoPropertiesWidget: public QScrollArea
@@ -42,10 +41,9 @@ class PhotoPropertiesWidget: public QScrollArea
 
         PhotoPropertiesWidget& operator=(const PhotoPropertiesWidget &) = delete;
 
-        void set(const SelectionExtractor *);
+        void setPhotos(const std::vector<Photo::Data> &);
 
     private:
-        const SelectionExtractor* m_selectionExtractor;
         QLabel* m_locationLabel;
         QLabel* m_sizeLabel;
         QLabel* m_geometryLabel;
@@ -53,7 +51,6 @@ class PhotoPropertiesWidget: public QScrollArea
         QLabel* m_sizeValue;
         QLabel* m_geometryValue;
 
-        void refreshView() const;
         void refreshLabels(const std::vector<Photo::Data> &) const;
         void refreshValues(const std::vector<Photo::Data> &) const;
 

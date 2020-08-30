@@ -50,7 +50,6 @@
 
 
 MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
-    m_selectionExtractor(),
     m_thumbnailsManager4QML(thbMgr),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -90,8 +89,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
-
-    ui->photoPropertiesWidget->set(&m_selectionExtractor);
 
     m_mainTabCtrl->set(m_configuration);
     m_lookTabCtrl->set(m_configuration);
@@ -138,8 +135,9 @@ void MainWindow::setupQmlView()
         qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
 
     SelectionChangeNotifier* translator = new SelectionChangeNotifier(*selectionManager, *m_photosModelController->model(), this);
-    connect(translator, &SelectionChangeNotifier::selectionChanged,
-            ui->tagEditor, &TagEditorWidget::editPhotos);
+
+    connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
+    connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
 }
 
 
@@ -417,7 +415,7 @@ void MainWindow::loadRecentCollections()
 
 void MainWindow::showContextMenu(const QPoint& pos)
 {
-    const std::vector<Photo::Data> selected_photos = m_selectionExtractor.getSelection();
+    const std::vector<Photo::Data> selected_photos;
 
     std::vector<Photo::Data> photos;
     std::remove_copy_if(selected_photos.cbegin(),
