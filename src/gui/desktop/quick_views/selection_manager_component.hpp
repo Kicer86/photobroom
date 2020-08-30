@@ -27,7 +27,7 @@ class SelectionManagerComponent: public QObject
 
     signals:
         void selectionChanged(const QList<int>& unselected,
-                              const QList<int>& selected);
+                              const QList<int>& selected) const;
 };
 
 #endif // SELECTIONMANAGERCOMPONENT_HPP
