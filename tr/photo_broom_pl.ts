@@ -156,7 +156,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
-            <numerusform>Znaleziono %n tware.</numerusform>
+            <numerusform>Znaleziono %n twarze.</numerusform>
             <numerusform>Znaleziono %n twarzy.</numerusform>
         </translation>
     </message>
