@@ -44,6 +44,7 @@
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
+#include "quick_views/selection_manager_component.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
@@ -159,9 +160,14 @@ void MainWindow::setupQmlView()
         ui->viewsStack->removeTab(2);
     }
 
+    SelectionManagerComponent* selectionManager =
+        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
+
+    /*
     SelectionToPhotoIdTranslator* translator = new SelectionToPhotoIdTranslator(&m_photosModelController->selectionModel(), this);
     connect(translator, &SelectionToPhotoIdTranslator::selectionChanged,
             ui->tagEditor, &TagEditorWidget::editPhotos);
+    */
 }
 
 
@@ -825,7 +831,7 @@ void MainWindow::viewChanged(int current)
             break;
 
         case 2:
-            selectionModel = &m_photosModelController->selectionModel();
+            selectionModel = nullptr; //&m_photosModelController->selectionModel();
             dataModel = m_photosModelController->model();
             break;
 

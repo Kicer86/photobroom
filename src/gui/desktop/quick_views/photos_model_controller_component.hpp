@@ -21,7 +21,6 @@
 
 #include <QDate>
 #include <QObject>
-#include <QItemSelectionModel>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
@@ -39,7 +38,6 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
-        Q_PROPERTY(int selectedPhoto WRITE setSelectedPhoto NOTIFY selectionChanged)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -47,7 +45,6 @@ class PhotosModelControllerComponent: public QObject
         void setDatabase(Database::IDatabase *);
 
         APhotoInfoModel* model() const;
-        const QItemSelectionModel& selectionModel() const;
 
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
@@ -55,17 +52,14 @@ class PhotosModelControllerComponent: public QObject
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
-        void setSelectedPhoto(int);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
 
     signals:
         void modelChanged() const;
         void datesCountChanged() const;
-        void selectionChanged() const;
 
     private:
-        QItemSelectionModel m_selection;
         std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
