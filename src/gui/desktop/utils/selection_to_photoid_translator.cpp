@@ -7,8 +7,8 @@
 #include "utils/model_index_utils.hpp"
 
 
-SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const SelectionManagerComponent& selectionManager,
-                                                           const QAbstractItemModel& model)
+SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(const SelectionManagerComponent& selectionManager,
+                                                             const QAbstractItemModel& model)
     : m_selectionManager(selectionManager)
     , m_model(model)
     , m_photoDataRole(-1)
@@ -19,7 +19,7 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const SelectionManage
 }
 
 
-std::vector<Photo::Data> SelectionToPhotoIdTranslator::getSelectedDatas() const
+std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() const
 {
     const auto rows = m_selectionManager.selected();
     std::vector<Photo::Data> datas;

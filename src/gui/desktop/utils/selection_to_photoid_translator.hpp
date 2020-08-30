@@ -13,10 +13,10 @@ class QAbstractItemModel;
 class QItemSelectionModel;
 
 
-class SelectionToPhotoIdTranslator
+class SelectionToPhotoDataTranslator
 {
     public:
-        SelectionToPhotoIdTranslator(const SelectionManagerComponent &, const QAbstractItemModel& model);
+        SelectionToPhotoDataTranslator(const SelectionManagerComponent &, const QAbstractItemModel& model);
 
         std::vector<Photo::Data> getSelectedDatas() const;
 
@@ -38,7 +38,7 @@ class SelectionChangeNotifier: public QObject
         void selectionChanged(const std::vector<Photo::Data> &) const;
 
     private:
-        SelectionToPhotoIdTranslator m_translator;
+        SelectionToPhotoDataTranslator m_translator;
 
         void translate() const;
 };
