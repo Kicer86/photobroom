@@ -428,10 +428,10 @@ void MainWindow::showContextMenu(const QPoint& pos)
                         });
 
     QMenu contextMenu;
-    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group..."));
     QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
-    QAction* faces          = contextMenu.addAction(tr("Recognize people"));
+    QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
 
     const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
 

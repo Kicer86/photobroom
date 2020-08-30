@@ -418,7 +418,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+90"/>
+        <source>Group...</source>
+        <translation>Grupowanie...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recognize people...</source>
+        <translation>Rozpoznawanie osób...</translation>
+    </message>
+    <message>
+        <location line="+77"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -433,27 +443,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+89"/>
-        <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+90"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozbij grupę</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open photo location</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Recognize people</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+208"/>
+        <location line="+209"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -822,18 +822,18 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+27"/>
         <source>Group candidates</source>
-        <translation type="unfinished"></translation>
+        <translation>Potencjalne grupy</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Looking for group candidates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
 </context>
 <context>
@@ -854,7 +854,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+27"/>
         <source>Thumbnail size:</source>
-        <translation type="unfinished">Rozmiar miniaturki:</translation>
+        <translation>Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>
@@ -935,7 +935,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location line="+5"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
     </message>
     <message>
         <location line="+1"/>
