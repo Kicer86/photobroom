@@ -38,7 +38,6 @@ std::vector<Photo::Id> SelectionToPhotoIdTranslator::getSelectedIds() const
 }
 
 
-
 SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const QAbstractItemModel& model, QObject* p)
     : QObject(p)
     , m_translator(manager, model)
