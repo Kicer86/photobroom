@@ -134,7 +134,9 @@ void MainWindow::setupQmlView()
     SelectionManagerComponent* selectionManager =
         qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
 
-    SelectionChangeNotifier* translator = new SelectionChangeNotifier(*selectionManager, *m_photosModelController->model(), this);
+    m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(*selectionManager, *m_photosModelController->model());
+
+    SelectionChangeNotifier* translator = new SelectionChangeNotifier(*selectionManager, *m_selectionTranslator.get(), this);
 
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);

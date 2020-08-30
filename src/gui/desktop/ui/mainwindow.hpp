@@ -28,6 +28,7 @@ struct IView;
 
 class PhotosModelControllerComponent;
 class Project;
+class SelectionToPhotoDataTranslator;
 struct ProjectInfo;
 struct IThumbnailsManager;
 
@@ -69,6 +70,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<LookTabController> m_lookTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
+        std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
 

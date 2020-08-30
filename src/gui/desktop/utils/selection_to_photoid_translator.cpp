@@ -37,9 +37,9 @@ std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() cons
 }
 
 
-SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const QAbstractItemModel& model, QObject* p)
+SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const SelectionToPhotoDataTranslator& translator, QObject* p)
     : QObject(p)
-    , m_translator(manager, model)
+    , m_translator(translator)
 {
     connect(&manager, &SelectionManagerComponent::selectionChanged,
             this, &SelectionChangeNotifier::translate);
