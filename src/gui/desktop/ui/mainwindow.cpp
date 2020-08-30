@@ -417,7 +417,7 @@ void MainWindow::loadRecentCollections()
 
 void MainWindow::showContextMenu(const QPoint& pos)
 {
-    const std::vector<Photo::Data> selected_photos;
+    const std::vector<Photo::Data> selected_photos = m_selectionTranslator->getSelectedDatas();
 
     std::vector<Photo::Data> photos;
     std::remove_copy_if(selected_photos.cbegin(),
