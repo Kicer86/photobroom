@@ -21,9 +21,6 @@ GridView {
         propagateComposedEvents: true
 
         onClicked: {
-
-            var previouslySelectedItems = selectionManager.selected()
-
             var ctrl = mouse.modifiers & Qt.ControlModifier;
 
             if (ctrl == false)
@@ -34,10 +31,13 @@ GridView {
             selectionManager.toggleIndexSelection(index)
 
             mouse.accepted = false
+        }
+    }
 
-            var selectedItems = selectionManager.selected()
-            var unselected = previouslySelectedItems.filter(x => !selectedItems.includes(x));
+    Connections {
+        target: selectionManager
 
+        function onSelectionChanged(unselected, selectedItems) {
             for (var i = 0; i < unselected.length; i++) {
                 var item = itemAtIndex(unselected[i])
 
@@ -51,7 +51,6 @@ GridView {
                 if (item)
                     item.selected = true
             }
-
         }
     }
 }
