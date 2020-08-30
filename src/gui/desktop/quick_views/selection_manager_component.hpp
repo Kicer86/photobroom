@@ -5,7 +5,7 @@
 
 #include <QObject>
 #include <QList>
-#include <QSet>
+#include <set>
 
 
 class SelectionManagerComponent: public QObject
@@ -21,9 +21,13 @@ class SelectionManagerComponent: public QObject
         Q_INVOKABLE QList<int> selected() const;
 
     private:
-        // TODO: https://doc.qt.io/qt-5/qtqml-cppintegration-data.html#sequence-type-to-javascript-array
-        // register qset to pass it to qml
-        QSet<int> m_selected;
+        std::set<int> m_selected;
+
+        void calculateChange(const std::set<int> &, const std::set<int> &);
+
+    signals:
+        void selectionChanged(const QList<int>& unselected,
+                              const QList<int>& selected);
 };
 
 #endif // SELECTIONMANAGERCOMPONENT_HPP
