@@ -69,8 +69,6 @@ Item {
                 NumberAnimation { properties: "x,y"; duration: 250 }
             }
 
-            onCurrentIndexChanged: photosModelControllerId.selectedPhoto = photosGridViewId.currentIndex
-
             ThumbnailSlider {
                 id: thumbnailSliderId
                 anchors.bottom: parent.bottom
