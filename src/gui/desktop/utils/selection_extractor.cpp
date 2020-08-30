@@ -68,7 +68,7 @@ std::vector<Photo::Data> SelectionExtractor::getSelection() const
 
         for (const QModelIndex& idx : idxList)
         {
-            const Photo::Data& photo = m_photosModel->getPhotoDetails(idx);
+            const Photo::Data& photo = m_photosModel->getPhotoData(idx);
 
             result.push_back(photo);
         }

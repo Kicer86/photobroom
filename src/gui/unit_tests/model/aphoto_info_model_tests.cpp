@@ -89,7 +89,7 @@ TYPED_TEST(APhotoInfoModelTest, photoDetailsForIndex)
     for (int r = 0; r < 3; r++)
     {
         const QModelIndex idx = this->model.index(r, 0, {});
-        const Photo::Data& data = this->model.getPhotoDetails(idx);
+        const Photo::Data& data = this->model.getPhotoData(idx);
 
         EXPECT_TRUE(data.id.valid());
     }

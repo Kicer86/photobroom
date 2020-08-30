@@ -29,8 +29,8 @@ class APhotoInfoModel: public QAbstractItemModel
     public:
         enum Roles
         {
-            PhotoPropertiesRole = Qt::UserRole + 1,
-            PhotoIdRole = PhotoPropertiesRole + 1,
+            PhotoDataRole = Qt::UserRole + 1,
+            PhotoIdRole = PhotoDataRole + 1,
             _lastRole = PhotoIdRole,
         };
 
@@ -40,7 +40,7 @@ class APhotoInfoModel: public QAbstractItemModel
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
-        virtual const Photo::Data& getPhotoDetails(const QModelIndex &) const = 0;
+        virtual const Photo::Data& getPhotoData(const QModelIndex &) const = 0;
         virtual QHash<int, QByteArray> roleNames() const override;
 
     protected:

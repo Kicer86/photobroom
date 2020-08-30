@@ -23,7 +23,7 @@
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {
-    registerRole(PhotoPropertiesRole, "photoProperties");
+    registerRole(PhotoDataRole, "photoData");
     registerRole(PhotoIdRole, "photoId");
 }
 

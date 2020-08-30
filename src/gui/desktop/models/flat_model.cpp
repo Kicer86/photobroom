@@ -86,7 +86,7 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
-const Photo::Data& FlatModel::getPhotoDetails(const QModelIndex& index) const
+const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();
     const Photo::Id id = m_photos[row];
@@ -106,9 +106,9 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
 
         d = static_cast<int>(id);
     }
-    else if (role == PhotoPropertiesRole)
+    else if (role == PhotoDataRole)
     {
-        const Photo::Data& data = getPhotoDetails(index);
+        const Photo::Data& data = getPhotoData(index);
         d = QVariant::fromValue<Photo::Data>(data);
     }
 
@@ -314,6 +314,6 @@ void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& p
     if (row != -1)
     {
         const QModelIndex idx = createIndex(row, 0);
-        emit dataChanged(idx, idx, {PhotoPropertiesRole});
+        emit dataChanged(idx, idx, {PhotoDataRole});
     }
 }

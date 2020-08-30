@@ -30,8 +30,8 @@ Item {
         width:  delegateId.width - delegateId.margin * 2
         opacity: 0
 
-        source: photoProperties.path
-        photoSize: photoProperties.size
+        source: photoData.path
+        photoSize: photoData.size
 
         thumbnails: thumbnailsManager.get()
     }
