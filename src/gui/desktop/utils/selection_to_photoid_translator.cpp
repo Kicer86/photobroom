@@ -11,33 +11,11 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const SelectionManage
                                                            const QAbstractItemModel& model)
     : m_selectionManager(selectionManager)
     , m_model(model)
-    , m_photoIdRole(-1)
     , m_photoDataRole(-1)
 {
-    m_photoIdRole = utils::getRoleByName(model, "photoId");
     m_photoDataRole = utils::getRoleByName(model, "photoData");
 
-    assert(m_photoIdRole != -1);
     assert(m_photoDataRole != -1);
-}
-
-
-std::vector<Photo::Id> SelectionToPhotoIdTranslator::getSelectedIds() const
-{
-    const auto rows = m_selectionManager.selected();
-    std::vector<Photo::Id> ids;
-
-    for(const int& row: rows)
-    {
-        const QModelIndex idx = m_model.index(row, 0);
-        const QVariant dataVariant = idx.data(m_photoIdRole);
-        const Photo::Id id(dataVariant.toInt());
-
-        assert(id.valid());
-        ids.push_back(id);
-    }
-
-    return ids;
 }
 
 

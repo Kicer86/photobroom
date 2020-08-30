@@ -18,13 +18,11 @@ class SelectionToPhotoIdTranslator
     public:
         SelectionToPhotoIdTranslator(const SelectionManagerComponent &, const QAbstractItemModel& model);
 
-        std::vector<Photo::Id> getSelectedIds() const;
         std::vector<Photo::Data> getSelectedDatas() const;
 
     private:
         const SelectionManagerComponent& m_selectionManager;
         const QAbstractItemModel& m_model;
-        int m_photoIdRole;
         int m_photoDataRole;
 };
 
