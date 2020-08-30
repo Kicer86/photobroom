@@ -12,10 +12,13 @@ SelectionToPhotoIdTranslator::SelectionToPhotoIdTranslator(const SelectionManage
     : m_selectionManager(selectionManager)
     , m_model(model)
     , m_photoIdRole(-1)
+    , m_photoDataRole(-1)
 {
     m_photoIdRole = utils::getRoleByName(model, "photoId");
+    m_photoDataRole = utils::getRoleByName(model, "photoData");
 
     assert(m_photoIdRole != -1);
+    assert(m_photoDataRole != -1);
 }
 
 
@@ -35,6 +38,24 @@ std::vector<Photo::Id> SelectionToPhotoIdTranslator::getSelectedIds() const
     }
 
     return ids;
+}
+
+
+std::vector<Photo::Data> SelectionToPhotoIdTranslator::getSelectedDatas() const
+{
+    const auto rows = m_selectionManager.selected();
+    std::vector<Photo::Data> datas;
+
+    for(const int& row: rows)
+    {
+        const QModelIndex idx = m_model.index(row, 0);
+        const QVariant dataVariant = idx.data(m_photoDataRole);
+        const Photo::Data data(dataVariant.value<Photo::Data>());
+
+        datas.push_back(data);
+    }
+
+    return datas;
 }
 
 
