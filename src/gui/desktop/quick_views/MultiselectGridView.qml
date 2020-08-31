@@ -6,10 +6,6 @@ import photo_broom.qml 1.0
 GridView {
     id: grid
 
-    function isSelected(index) {
-        return selectionManager.isIndexSelected(index)
-    }
-
     SelectionManager {
         id: selectionManager
 
@@ -39,9 +35,9 @@ GridView {
     Connections {
         target: selectionManager
 
-        function onSelectionChanged(unselected, selectedItems) {
-            for (var i = 0; i < unselected.length; i++) {
-                var item = itemAtIndex(unselected[i])
+        function onSelectionChanged(unselectedItems, selectedItems) {
+            for (var i = 0; i < unselectedItems.length; i++) {
+                var item = itemAtIndex(unselectedItems[i])
 
                 if (item)
                     item.selected = false
