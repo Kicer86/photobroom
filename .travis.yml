@@ -76,6 +76,11 @@ before_install:
     else
         sudo apt install libgl-dev lcov;
         pyenv global 3.7;
+        mkdir $HOME/googletest;
+        pushd $HOME/googletest;
+        cmake /usr/src/googletest -DCMAKE_INSTALL_PREFIX=$HOME/googletest_installation;
+        make install;
+        popd;
     fi
 
   - sudo pip install conan;
@@ -103,6 +108,7 @@ before_script:
           -DBUILD_UPDATER=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          -DGTEST_DIR=$HOME/googletest_installation
           ${EXTRA_CMAKE_OPTIONS}
           ..
 
