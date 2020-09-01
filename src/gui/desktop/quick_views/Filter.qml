@@ -25,8 +25,8 @@ Item {
         }
 
         Switch {
-            id: advancedOptionsButton
-            text: qsTr("Advanced")
+            id: moreOptionsButton
+            text: qsTr("More options")
         }
 
     }
@@ -48,7 +48,7 @@ Item {
     states: [
         State {
             name: "simpleState"
-            when: advancedOptionsButton.checked == false
+            when: moreOptionsButton.checked == false
 
             PropertyChanges {
                 target: column
@@ -57,7 +57,7 @@ Item {
         },
         State {
             name: "advancedState"
-            when: advancedOptionsButton.checked
+            when: moreOptionsButton.checked
 
             PropertyChanges {
                 target: column
