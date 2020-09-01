@@ -19,19 +19,23 @@ Item {
         Text {
             id: search
             text: qsTr("Search:")
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         TextInput{
             id: searchExpression
             width: 200
+            font.pointSize: 15
         }
 
         Switch {
             id: moreOptionsButton
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
             text: qsTr("More options")
+            anchors.verticalCenter: parent.verticalCenter
         }
 
     }
@@ -43,6 +47,7 @@ Item {
         Text {
             id: categoriesText
             text: qsTr("Category:")
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         ComboBox {

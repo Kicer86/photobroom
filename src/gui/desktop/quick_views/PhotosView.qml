@@ -28,6 +28,9 @@ Item {
         anchors.fill: parent
 
         Flow {
+
+            spacing: 15
+
             TimeRange {
                 id: timeRangeId
 
