@@ -162,6 +162,24 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
+    <name>Filter</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+14"/>
+        <source>Search:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Category:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+157"/>

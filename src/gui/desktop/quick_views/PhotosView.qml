@@ -27,26 +27,32 @@ Item {
 
         anchors.fill: parent
 
-        TimeRange {
-            id: timeRangeId
+        Flow {
+            TimeRange {
+                id: timeRangeId
 
-            model: photosModelControllerId
-            visible: photosModelControllerId.datesCount > 0
+                model: photosModelControllerId
+                visible: photosModelControllerId.datesCount > 0
 
-            Connections {
-                target: timeRangeId.viewFrom
-                function onPressedChanged() {
-                    if (timeRangeId.viewFrom.pressed === false)
-                        photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
+                Connections {
+                    target: timeRangeId.viewFrom
+                    function onPressedChanged() {
+                        if (timeRangeId.viewFrom.pressed === false)
+                            photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
+                    }
+                }
+
+                Connections {
+                    target: timeRangeId.viewTo
+                    function onPressedChanged() {
+                        if (timeRangeId.viewTo.pressed === false)
+                            photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
+                    }
                 }
             }
 
-            Connections {
-                target: timeRangeId.viewTo
-                function onPressedChanged() {
-                    if (timeRangeId.viewTo.pressed === false)
-                        photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
-                }
+            Filter {
+                visible: photosModelControllerId.datesCount > 0
             }
         }
 
