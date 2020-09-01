@@ -15,6 +15,7 @@ Item {
 
     Row {
         id: row
+        spacing: 2
 
         Text {
             id: search
@@ -22,10 +23,19 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        TextInput{
-            id: searchExpression
+        Rectangle {
+            id: rectangle
             width: 200
-            font.pointSize: 15
+            height: 24
+            color: "white"
+            border.color: "black"
+
+            TextInput{
+                id: searchExpression
+                anchors.rightMargin: 2
+                anchors.leftMargin: 2
+                anchors.fill: parent
+            }
         }
 
         Switch {
@@ -38,10 +48,12 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
+
     }
 
     Row {
         id: row1
+        spacing: 2
         anchors.top: row.bottom
 
         Text {
