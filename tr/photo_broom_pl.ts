@@ -164,12 +164,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+14"/>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+18"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+10"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>

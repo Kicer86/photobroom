@@ -1,10 +1,14 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 
-Column {
+Item {
     id: column
 
-    state: "advancedState"
+    width: childrenRect.width
+
+    clip: true
+
+    state: "simpleState"
 
     Row {
         id: row
@@ -22,13 +26,13 @@ Column {
         Switch {
             id: advancedOptionsButton
             text: qsTr("Advanced")
-            checked: true
         }
 
     }
 
     Row {
         id: row1
+        anchors.top: row.bottom
 
         Text {
             id: categoriesText
@@ -46,19 +50,24 @@ Column {
             when: advancedOptionsButton.checked == false
 
             PropertyChanges {
-                target: row1
-                visible: false
+                target: column
+                height: row.height
             }
         },
         State {
             name: "advancedState"
             when: advancedOptionsButton.checked
+
+            PropertyChanges {
+                target: column
+                height: row.height + row1.height
+            }
         }
     ]
+
+    transitions: Transition {
+        PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
+    }
 }
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
+
