@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 Item {
     id: column
 
+    height: childrenRect.height
     width: childrenRect.width
 
     clip: true
