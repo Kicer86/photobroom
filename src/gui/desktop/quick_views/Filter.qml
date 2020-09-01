@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 Item {
     id: column
 
+    property alias searchText: search.text
+
     height: childrenRect.height
     width: childrenRect.width
 
