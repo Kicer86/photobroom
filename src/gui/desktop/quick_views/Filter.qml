@@ -26,6 +26,9 @@ Item {
 
         Switch {
             id: moreOptionsButton
+        }
+
+        Text {
             text: qsTr("More options")
         }
 
