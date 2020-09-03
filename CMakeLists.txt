@@ -24,7 +24,7 @@ if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 endif()
 
 #check if git modules are setup
-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindGTest.cmake)
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindExiv2.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
 endif()
 
@@ -77,6 +77,7 @@ elseif(APPLE)
 endif()
 
 #options:
+option(BUILD_LEARNING_TESTS "Build learning tests" OFF)
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
 option(STATIC_PLUGINS "Build plugins as static" OFF)

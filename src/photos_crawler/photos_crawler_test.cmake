@@ -1,10 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Threads REQUIRED)
-find_package(GMock REQUIRED)
-find_package(GTest REQUIRED)
-
+find_package(GTest REQUIRED CONFIG)
 
 addTestTarget(photos_crawler
                 SOURCES
@@ -19,16 +16,12 @@ addTestTarget(photos_crawler
                 LIBRARIES
                     core
                     Qt5::Core
-                    ${GMOCK_MAIN_LIBRARY}
-                    ${GMOCK_LIBRARY}
-                    ${GTEST_LIBRARY}
-                    ${CMAKE_THREAD_LIBS_INIT}
+                    GTest::gtest
+                    GTest::gmock
+                    GTest::gmock_main
 
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
-                SYSTEM_INCLUDES
-                    ${GMOCK_INCLUDE_DIRS}
-                    ${GTEST_INCLUDE_DIRS}
 )

@@ -25,9 +25,7 @@ endif()
 
 
 if(BUILD_TESTING)
-    find_package(Threads REQUIRED)
-    find_package(GMock REQUIRED)
-    find_package(GTest REQUIRED)
+    find_package(GTest REQUIRED CONFIG)
 
     include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
@@ -39,13 +37,7 @@ if(BUILD_TESTING)
                         logic.cpp
                     LIBRARIES
                         PRIVATE
-                            ${GMOCK_MAIN_LIBRARY}
-                            ${GMOCK_LIBRARY}
-                            ${GTEST_LIBRARY}
-                            ${CMAKE_THREAD_LIBS_INIT}
-                    INCLUDES
-                        SYSTEM PRIVATE
-                            ${GMOCK_INCLUDE_DIRS}
-                            ${GTEST_INCLUDE_DIRS}
+                            GTest::gtest
+                            GTest::gtest_main
     )
 endif()

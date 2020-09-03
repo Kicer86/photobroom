@@ -1,6 +1,6 @@
 
 language: cpp
-dist: bionic
+dist: focal
 osx_image: xcode11.5
 
 branches:
@@ -13,8 +13,16 @@ addons:
     packages:
       - python3
       - lcov
-      # - libdlib-dev    - enable in future, current version is too old
+      - libdlib-dev
+      - libblas-dev
+      - liblapack-dev
       - nasm
+      - googletest
+      - qt5-default
+      - libqt5svg5-dev
+      - qtdeclarative5-dev
+      - qttools5-dev-tools
+      - libexiv2-dev
     sources:
 
   homebrew:
@@ -34,7 +42,7 @@ os:
 
 compiler:
   - gcc
-  - clang
+  # - clang     disabled due to https://bugs.llvm.org/show_bug.cgi?id=33222 (https://stackoverflow.com/questions/46859053/stdvisit-for-variant-fails-to-compile-under-clang-5)
 
 env:
   - DEBUG=0
@@ -72,16 +80,17 @@ before_install:
         export PATH="/usr/local/opt/ccache/libexec:$PATH";
         export PATH="/usr/local/opt/qt/bin:$PATH";
     else
-        sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.1-bionic;
-        sudo apt install qt511base qt511svg qt511quickcontrols2  libgl-dev lcov;
-        source /opt/qt5*/bin/qt5*-env.sh;
+        sudo apt install libgl-dev lcov;
         pyenv global 3.7;
+        mkdir $HOME/googletest;
+        pushd $HOME/googletest;
+        cmake /usr/src/googletest -DCMAKE_INSTALL_PREFIX=$HOME/googletest_installation;
+        make install;
+        popd;
     fi
 
   - sudo pip install conan;
-    conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
-    conan remote add omaralvarez https://api.bintray.com/conan/omaralvarez/public-conan;
     conan config set storage.path=$HOME/conanData;
 
 before_script:
@@ -95,7 +104,7 @@ before_script:
   # photo broom
   - mkdir build && cd build
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
-        conan install .. --build -s compiler.cppstd=11 &> /dev/null;
+        conan install .. --build -s compiler.cppstd=11 > /dev/null;
     else
         conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null;
     fi
@@ -103,6 +112,7 @@ before_script:
           -DBUILD_UPDATER=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          -DGTest_DIR=$HOME/googletest_installation/lib/cmake/GTest
           ${EXTRA_CMAKE_OPTIONS}
           ..
 
