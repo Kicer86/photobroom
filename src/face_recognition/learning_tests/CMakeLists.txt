@@ -2,7 +2,7 @@
 
 find_program(WGET wget)
 
-if(WGET)
+if(BUILD_LEARNING_TESTS AND WGET)
 
     find_package(GTest REQUIRED CONFIG)
     find_package(Qt5Core REQUIRED)

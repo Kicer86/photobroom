@@ -77,6 +77,7 @@ elseif(APPLE)
 endif()
 
 #options:
+option(BUILD_LEARNING_TESTS "Build learning tests" OFF)
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
 option(STATIC_PLUGINS "Build plugins as static" OFF)
