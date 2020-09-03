@@ -19,6 +19,7 @@ addons:
       - qt5-default
       - libqt5svg5-dev
       - qtdeclarative5-dev
+      - qttools5-dev-tools
       - libexiv2-dev
     sources:
 
