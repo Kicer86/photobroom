@@ -17,6 +17,7 @@ addons:
       - nasm
       - googletest
       - qt5-default
+      - qtdeclarative5-dev
     sources:
 
   homebrew:
