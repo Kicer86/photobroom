@@ -161,7 +161,7 @@ TEST(ModelCompositorTest, simpleDataSourceSignalsEmission)
     // changing dataset
     const QStringList data2 = {"1", "3", "5", "7"};
     ON_CALL(dataSourceMock, data).WillByDefault(ReturnRef(data2));
-    dataSourceMock.dataChanged();
+    emit dataSourceMock.dataChanged();
 
     ASSERT_EQ(rows_removed_spy.count(), 1);
     ASSERT_EQ(rows_inserted_spy.count(), 2);
@@ -216,7 +216,7 @@ TEST(ModelCompositorTest, complexDataSourceSignalsEmission)
     // changing dataset
     const QStringList data2_2 = {"1", "3", "5", "7", "9"};
     ON_CALL(dataSourceMock2, data).WillByDefault(ReturnRef(data2_2));
-    dataSourceMock2.dataChanged();
+    emit dataSourceMock2.dataChanged();
 
     ASSERT_EQ(rows_removed_spy.count(), 1);
     ASSERT_EQ(rows_inserted_spy.count(), 4);

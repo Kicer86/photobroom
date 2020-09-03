@@ -4,14 +4,10 @@
 
 PhotoInfoModel::PhotoInfoModel(QAbstractItemModel* m, QObject* p): APhotoInfoModel(p), m_model(m)
 {
-    connect(m_model, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SIGNAL(rowsInserted(QModelIndex, int, int)));
-    connect(m_model, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SIGNAL(rowsRemoved(QModelIndex, int, int)));
-    connect(m_model, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)),
-            this, SIGNAL(rowsMoved(QModelIndex,int, int, QModelIndex, int)));
-
-    connect(m_model, SIGNAL(modelReset()), this, SIGNAL(modelReset()));
-
-
+    connect(m_model, &QAbstractItemModel::rowsInserted, this, &PhotoInfoModel::rowsInserted);
+    connect(m_model, &QAbstractItemModel::rowsRemoved, this, &PhotoInfoModel::rowsRemoved);
+    connect(m_model, &QAbstractItemModel::rowsMoved, this, &PhotoInfoModel::rowsMoved);
+    connect(m_model, &QAbstractItemModel::modelReset, this, &PhotoInfoModel::modelReset);
 }
 
 

@@ -165,25 +165,25 @@ TEST_P(TagValueRawSetterTest, rawSetter)
     EXPECT_EQ(tv.rawValue(), raw_value);
 }
 
-INSTANTIATE_TEST_CASE_P(ExtensionsTest,
-                        TagValueRawSetterTest,
-                        testing::Values(
-                            TagValueRawSetterTestExpectations{QString("12:34:56"),
-                                                              Tag::ValueType::Time,
-                                                              Tag::ValueType::Time,
-                                                              QMetaType::Type::QTime
-                            },
-                            TagValueRawSetterTestExpectations{QString("2134.11.03"),
-                                                              Tag::ValueType::Date,
-                                                              Tag::ValueType::Date,
-                                                              QMetaType::Type::QDate
-                            },
-                            TagValueRawSetterTestExpectations{QString("string test"),
-                                                              Tag::ValueType::String,
-                                                              Tag::ValueType::String,
-                                                              QMetaType::Type::QString
-                            }
-                        )
+INSTANTIATE_TEST_SUITE_P(ExtensionsTest,
+                         TagValueRawSetterTest,
+                         testing::Values(
+                             TagValueRawSetterTestExpectations{QString("12:34:56"),
+                                                               Tag::ValueType::Time,
+                                                               Tag::ValueType::Time,
+                                                               QMetaType::Type::QTime
+                             },
+                             TagValueRawSetterTestExpectations{QString("2134.11.03"),
+                                                               Tag::ValueType::Date,
+                                                               Tag::ValueType::Date,
+                                                               QMetaType::Type::QDate
+                             },
+                             TagValueRawSetterTestExpectations{QString("string test"),
+                                                               Tag::ValueType::String,
+                                                               Tag::ValueType::String,
+                                                               QMetaType::Type::QString
+                             }
+                         )
 );
 
 
@@ -202,22 +202,22 @@ TEST_P(TagValueVariantSetterTest, variantSetter)
     EXPECT_EQ(tv.get(), raw_value);
 }
 
-INSTANTIATE_TEST_CASE_P(ExtensionsTest,
-                        TagValueVariantSetterTest,
-                        testing::Values(
-                            TagValueVariantSetterTestExpectations{QVariant(QTime::currentTime()),
-                                                                  Tag::ValueType::Time,
-                                                                  QMetaType::Type::QTime
-                            },
-                            TagValueVariantSetterTestExpectations{QVariant(QDate::currentDate()),
-                                                                  Tag::ValueType::Date,
-                                                                  QMetaType::Type::QDate
-                            },
-                            TagValueVariantSetterTestExpectations{QVariant(QString("string test")),
-                                                                  Tag::ValueType::String,
-                                                                  QMetaType::Type::QString
-                            }
-                        )
+INSTANTIATE_TEST_SUITE_P(ExtensionsTest,
+                         TagValueVariantSetterTest,
+                         testing::Values(
+                             TagValueVariantSetterTestExpectations{QVariant(QTime::currentTime()),
+                                                                   Tag::ValueType::Time,
+                                                                   QMetaType::Type::QTime
+                             },
+                             TagValueVariantSetterTestExpectations{QVariant(QDate::currentDate()),
+                                                                   Tag::ValueType::Date,
+                                                                   QMetaType::Type::QDate
+                             },
+                             TagValueVariantSetterTestExpectations{QVariant(QString("string test")),
+                                                                   Tag::ValueType::String,
+                                                                   QMetaType::Type::QString
+                             }
+                         )
 );
 
 /*

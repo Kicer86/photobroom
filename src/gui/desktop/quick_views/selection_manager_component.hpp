@@ -13,7 +13,7 @@ class SelectionManagerComponent: public QObject
         Q_OBJECT
 
     public:
-        SelectionManagerComponent(QObject * = nullptr);
+        explicit SelectionManagerComponent(QObject * = nullptr);
 
         Q_INVOKABLE void toggleIndexSelection(int);
         Q_INVOKABLE void clearSelection();

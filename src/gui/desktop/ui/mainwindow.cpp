@@ -321,7 +321,7 @@ void MainWindow::updateMenus()
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
 
-    for(const QString& entry: m_recentCollections)
+    for(const QString& entry: qAsConst(m_recentCollections))
     {
         QAction* action = ui->menuOpen_recent->addAction(entry);
         connect(action, &QAction::triggered, [=]
@@ -487,7 +487,6 @@ void MainWindow::showContextMenu(const QPoint& pos)
     {
         const Photo::Data& first = photos.front();
         const QString relative_path = first.path;
-        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
         const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
 
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());

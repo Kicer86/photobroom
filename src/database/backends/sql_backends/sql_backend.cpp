@@ -282,7 +282,6 @@ namespace Database
         bool status = true;
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
 
         Transaction transaction(m_tr_db);
 

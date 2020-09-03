@@ -37,7 +37,8 @@ APhotoInfoModel::~APhotoInfoModel()
 QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
-    result.unite(m_customRoles);
+
+    result.insert(m_customRoles);
 
     return result;
 }
