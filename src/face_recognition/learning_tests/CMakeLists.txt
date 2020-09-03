@@ -4,8 +4,7 @@ find_program(WGET wget)
 
 if(WGET)
 
-    find_package(Threads REQUIRED)
-    find_package(GTest REQUIRED)
+    find_package(GTest REQUIRED CONFIG)
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
 
@@ -52,9 +51,8 @@ if(WGET)
 
     target_link_libraries(dlib_behaviour_tests
                             PRIVATE
-                                ${GTEST_LIBRARY}
-                                ${GTEST_MAIN_LIBRARY}
-                                ${CMAKE_THREAD_LIBS_INIT}
+                                GTest::gtest
+                                GTest::gtest_main
                                 core
                                 dlib_wrapper
                                 Qt5::Core
