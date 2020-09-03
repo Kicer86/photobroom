@@ -18,6 +18,7 @@ addons:
       - googletest
       - qt5-default
       - qtdeclarative5-dev
+      - libexiv2-dev
     sources:
 
   homebrew:
@@ -85,9 +86,7 @@ before_install:
     fi
 
   - sudo pip install conan;
-    conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
-    conan remote add omaralvarez https://api.bintray.com/conan/omaralvarez/public-conan;
     conan config set storage.path=$HOME/conanData;
 
 before_script:
