@@ -42,7 +42,7 @@ os:
 
 compiler:
   - gcc
-  - clang
+  # - clang     disabled due to https://bugs.llvm.org/show_bug.cgi?id=33222 (https://stackoverflow.com/questions/46859053/stdvisit-for-variant-fails-to-compile-under-clang-5)
 
 env:
   - DEBUG=0
