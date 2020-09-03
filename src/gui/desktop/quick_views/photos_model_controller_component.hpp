@@ -18,9 +18,9 @@
 #ifndef PHOTOSMODELCOMPONENT_HPP
 #define PHOTOSMODELCOMPONENT_HPP
 
-
 #include <QDate>
 #include <QObject>
+#include <QTimer>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
@@ -38,6 +38,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
+        Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -49,9 +50,11 @@ class PhotosModelControllerComponent: public QObject
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
+        QString searchExpression() const;
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
+        void setSearchExpression(const QString &);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
 
@@ -60,9 +63,11 @@ class PhotosModelControllerComponent: public QObject
         void datesCountChanged() const;
 
     private:
+        QTimer m_searchLauncher;
         std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
+        QString m_searchExpression;
         FlatModel* m_model;
         Database::IDatabase* m_db;
 

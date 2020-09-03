@@ -21,6 +21,8 @@ Item {
             timeRangeId.viewFrom.value = 0
             timeRangeId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
         }
+
+        searchExpression: filterId.searchExpression
     }
 
     ColumnLayout {
@@ -55,6 +57,8 @@ Item {
             }
 
             Filter {
+                id: filterId
+
                 visible: photosModelControllerId.datesCount > 0
             }
         }
