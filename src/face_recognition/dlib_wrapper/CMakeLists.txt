@@ -44,7 +44,6 @@ target_include_directories(dlib_wrapper
                                     ${Qt5Gui_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
-                                PRIVATE
                                     ${DLIB_INCLUDE_DIRS}
 )
 
