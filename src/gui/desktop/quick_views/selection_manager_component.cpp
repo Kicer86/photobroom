@@ -44,7 +44,12 @@ bool SelectionManagerComponent::isIndexSelected(int index) const
 
 QList<int> SelectionManagerComponent::selected() const
 {
-    return { m_selected.begin(), m_selected.end() };
+    QList<int> result;    // todo: use constructor after switch to Qt 5.14
+
+    for (const auto& v: m_selected)
+        result.append(v);
+
+    return result;
 }
 
 
