@@ -17,6 +17,7 @@
  *
  */
 
+
 #include "aphoto_info_model.hpp"
 
 
@@ -38,7 +39,7 @@ QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
 
-    result.insert(m_customRoles);
+    result.unite(m_customRoles);    // switch to insert() when switching to Qt5.15
 
     return result;
 }
