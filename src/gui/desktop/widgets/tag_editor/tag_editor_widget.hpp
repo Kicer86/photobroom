@@ -46,7 +46,7 @@ class TagEditorWidget: public QWidget
         Q_OBJECT
 
     public:
-        explicit TagEditorWidget(QWidget * = 0, Qt::WindowFlags = 0);
+        explicit TagEditorWidget(QWidget * = 0);
         virtual ~TagEditorWidget();
 
         TagEditorWidget(const TagEditorWidget &) = delete;

@@ -32,8 +32,8 @@
 #include "helpers/tags_model.hpp"
 
 
-TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
-    QWidget(p, f),
+TagEditorWidget::TagEditorWidget(QWidget* p):
+    QWidget(p),
     m_editorFactory(),
     m_view(nullptr),
     m_model(nullptr),
