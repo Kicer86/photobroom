@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 
 Item {
-    id: column
+    id: root
 
     property alias searchExpression: searchExpression.text
     property alias from: timeRange.from
@@ -26,14 +26,14 @@ Item {
         TimeRange {
             id: timeRange
 
-            model: column.controller
-            visible: column.controller.datesCount > 0
+            model: root.controller
+            visible: root.controller.datesCount > 0
 
             Connections {
                 target: timeRange.viewFrom
                 function onPressedChanged() {
                     if (timeRange.viewFrom.pressed === false)
-                        column.controller.timeViewFrom = timeRange.viewFrom.value
+                        root.controller.timeViewFrom = timeRange.viewFrom.value
                 }
             }
 
@@ -41,7 +41,7 @@ Item {
                 target: timeRange.viewTo
                 function onPressedChanged() {
                     if (timeRange.viewTo.pressed === false)
-                        column.controller.timeViewTo = timeRange.viewTo.value
+                        root.controller.timeViewTo = timeRange.viewTo.value
                 }
             }
         }
@@ -100,7 +100,7 @@ Item {
             when: moreOptionsButton.checked == false
 
             PropertyChanges {
-                target: column
+                target: root
                 height: row.height
             }
         },
@@ -109,7 +109,7 @@ Item {
             when: moreOptionsButton.checked
 
             PropertyChanges {
-                target: column
+                target: root
                 height: row.height + row1.height
             }
         }

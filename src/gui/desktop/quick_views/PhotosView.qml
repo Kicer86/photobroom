@@ -29,17 +29,12 @@ Item {
 
         anchors.fill: parent
 
-        Flow {
+        Filter {
+            id: filterId
 
-            spacing: 15
+            controller: photosModelControllerId
 
-            Filter {
-                id: filterId
-
-                controller: photosModelControllerId
-
-                visible: photosModelControllerId.datesCount > 0
-            }
+            visible: photosModelControllerId.datesCount > 0
         }
 
         PhotosGridView {
