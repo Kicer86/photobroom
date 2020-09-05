@@ -5,10 +5,7 @@ Item {
     id: root
 
     property alias searchExpression: searchExpression.text
-    property alias from: timeRange.from
-    property alias to: timeRange.to
-    property alias viewFrom: timeRange.viewFrom
-    property alias viewTo: timeRange.viewTo
+    property alias timeRange: timeRange
 
     property var controller
 

@@ -15,11 +15,11 @@ Item {
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
         onDatesCountChanged: {
-            filterId.from = 0
-            filterId.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
+            filterId.timeRange.from = 0
+            filterId.timeRange.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
 
-            filterId.viewFrom.value = 0
-            filterId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
+            filterId.timeRange.viewFrom.value = 0
+            filterId.timeRange.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
         }
 
         searchExpression: filterId.searchExpression
