@@ -15,11 +15,11 @@ Item {
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
         onDatesCountChanged: {
-            timeRangeId.from = 0
-            timeRangeId.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
+            filterId.from = 0
+            filterId.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
 
-            timeRangeId.viewFrom.value = 0
-            timeRangeId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
+            filterId.viewFrom.value = 0
+            filterId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
         }
 
         searchExpression: filterId.searchExpression
@@ -33,31 +33,10 @@ Item {
 
             spacing: 15
 
-            TimeRange {
-                id: timeRangeId
-
-                model: photosModelControllerId
-                visible: photosModelControllerId.datesCount > 0
-
-                Connections {
-                    target: timeRangeId.viewFrom
-                    function onPressedChanged() {
-                        if (timeRangeId.viewFrom.pressed === false)
-                            photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
-                    }
-                }
-
-                Connections {
-                    target: timeRangeId.viewTo
-                    function onPressedChanged() {
-                        if (timeRangeId.viewTo.pressed === false)
-                            photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
-                    }
-                }
-            }
-
             Filter {
                 id: filterId
+
+                controller: photosModelControllerId
 
                 visible: photosModelControllerId.datesCount > 0
             }

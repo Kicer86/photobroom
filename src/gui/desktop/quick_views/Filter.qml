@@ -5,6 +5,12 @@ Item {
     id: column
 
     property alias searchExpression: searchExpression.text
+    property alias from: timeRange.from
+    property alias to: timeRange.to
+    property alias viewFrom: timeRange.viewFrom
+    property alias viewTo: timeRange.viewTo
+
+    property var controller
 
     height: childrenRect.height
     width: childrenRect.width
@@ -16,6 +22,29 @@ Item {
     Row {
         id: row
         spacing: 2
+
+        TimeRange {
+            id: timeRange
+
+            model: column.controller
+            visible: column.controller.datesCount > 0
+
+            Connections {
+                target: timeRange.viewFrom
+                function onPressedChanged() {
+                    if (timeRange.viewFrom.pressed === false)
+                        column.controller.timeViewFrom = timeRange.viewFrom.value
+                }
+            }
+
+            Connections {
+                target: timeRange.viewTo
+                function onPressedChanged() {
+                    if (timeRange.viewTo.pressed === false)
+                        column.controller.timeViewTo = timeRange.viewTo.value
+                }
+            }
+        }
 
         Text {
             id: search
