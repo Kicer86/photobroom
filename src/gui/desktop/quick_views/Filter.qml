@@ -42,6 +42,8 @@ Item {
             }
         }
 
+        ToolSeparator {}
+
         Text {
             id: search
             text: qsTr("Search:")
@@ -54,6 +56,7 @@ Item {
             height: 24
             color: "white"
             border.color: "black"
+            anchors.verticalCenter: parent.verticalCenter
 
             TextInput{
                 id: searchExpression
@@ -62,6 +65,8 @@ Item {
                 anchors.fill: parent
             }
         }
+
+        ToolSeparator {}
 
         Switch {
             id: moreOptionsButton
