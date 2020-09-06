@@ -6,6 +6,7 @@ Item {
 
     property alias searchExpression: searchExpression.text
     property alias timeRange: timeRange
+    property bool newPhotosOnly: newPhotosSwitch.checked
 
     property var controller
 
