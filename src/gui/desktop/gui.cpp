@@ -40,7 +40,7 @@ namespace
 
             QList<QByteArray> images = QImageReader::supportedImageFormats();
 
-            for(const QByteArray image: images)
+            for(const QByteArray image: qAsConst(images))
             {
                 const QString msg = QString("Qt supports %1 file format").arg(image.data());
 
