@@ -24,7 +24,6 @@ Item {
             id: timeRange
 
             model: root.controller
-            visible: root.controller.datesCount > 0
 
             Connections {
                 target: timeRange.viewFrom

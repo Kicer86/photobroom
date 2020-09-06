@@ -164,7 +164,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+48"/>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+55"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>
