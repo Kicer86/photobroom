@@ -107,6 +107,8 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
     {
         FilterPhotosWithFlags();
+        FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
+
         virtual ~FilterPhotosWithFlags();
 
         FILTER_COMMAND();
