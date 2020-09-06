@@ -84,6 +84,21 @@ Item {
         spacing: 2
         anchors.top: row.bottom
 
+        Switch {
+            id: newPhotosSwitch
+            text: qsTr("")
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Text {
+            text: qsTr("New photos only")
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        ToolSeparator {
+            id: toolSeparator
+        }
+
         Text {
             id: categoriesText
             text: qsTr("Category:")
@@ -93,6 +108,9 @@ Item {
         ComboBox {
             id: comboBox
         }
+
+
+
     }
 
     states: [
