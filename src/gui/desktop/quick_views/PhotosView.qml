@@ -27,25 +27,19 @@ Item {
         searchExpression: filterId.searchExpression
     }
 
-    Flow {
-        id: topItem
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        Filter {
-            id: filterId
+    Filter {
+        id: filterId
 
-            controller: photosModelControllerId
+        controller: photosModelControllerId
 
-            visible: photosModelControllerId.datesCount > 0
-        }
+        visible: photosModelControllerId.datesCount > 0
     }
 
     PhotosGridView {
         id: photosGridViewId
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: topItem.bottom
+        anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
         clip: true
