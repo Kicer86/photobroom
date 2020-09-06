@@ -108,9 +108,6 @@ Item {
         ComboBox {
             id: comboBox
         }
-
-
-
     }
 
     states: [
