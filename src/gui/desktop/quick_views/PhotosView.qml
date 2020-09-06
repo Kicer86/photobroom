@@ -14,6 +14,8 @@ Item {
         id: photosModelControllerId
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
+        newPhotosOnly: filterId.newPhotosOnly
+
         onDatesCountChanged: {
             filterId.timeRange.from = 0
             filterId.timeRange.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0

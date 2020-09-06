@@ -35,6 +35,7 @@ namespace
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
+    , m_newPhotosOnly(false)
 {
     m_searchLauncher.setSingleShot(true);
     connect(&m_searchLauncher, &QTimer::timeout, this, &PhotosModelControllerComponent::updateModelFilters);
@@ -81,6 +82,12 @@ QString PhotosModelControllerComponent::searchExpression() const
 }
 
 
+bool PhotosModelControllerComponent::newPhotosOnly() const
+{
+    return m_newPhotosOnly;
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -107,6 +114,14 @@ void PhotosModelControllerComponent::setSearchExpression(const QString& expressi
 }
 
 
+void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
+{
+    m_newPhotosOnly = v;
+
+    updateModelFilters();
+}
+
+
 QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 {
     return idx >= m_dates.size()? QDate(): m_dates[idx];
@@ -116,16 +131,26 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 void PhotosModelControllerComponent::updateModelFilters()
 {
     auto filters_for_model = filters();
-    const QDate from = m_dates[m_timeView.first];
-    const QDate to = m_dates[m_timeView.second];
+
+    if (m_dates.empty() == false)
+    {
+        const QDate from = m_dates[m_timeView.first];
+        const QDate to = m_dates[m_timeView.second];
+
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+    }
 
     const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
 
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
-
     if (expression.empty() == false)
         filters_for_model.push_back( std::make_shared<Database::FilterPhotosMatchingExpression>(expression) );
+
+    if (m_newPhotosOnly)
+    {
+        const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
+    }
 
     m_model->setFilters(filters_for_model);
 }

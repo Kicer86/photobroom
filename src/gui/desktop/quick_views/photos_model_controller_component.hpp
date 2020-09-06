@@ -39,6 +39,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
+        Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -51,10 +52,12 @@ class PhotosModelControllerComponent: public QObject
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
         QString searchExpression() const;
+        bool newPhotosOnly() const;
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
         void setSearchExpression(const QString &);
+        void setNewPhotosOnly(bool);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
 
@@ -70,6 +73,7 @@ class PhotosModelControllerComponent: public QObject
         QString m_searchExpression;
         FlatModel* m_model;
         Database::IDatabase* m_db;
+        bool m_newPhotosOnly;
 
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
