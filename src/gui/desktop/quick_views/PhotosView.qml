@@ -29,12 +29,14 @@ Item {
 
         anchors.fill: parent
 
-        Filter {
-            id: filterId
+        Flow {
+            Filter {
+                id: filterId
 
-            controller: photosModelControllerId
+                controller: photosModelControllerId
 
-            visible: photosModelControllerId.datesCount > 0
+                visible: photosModelControllerId.datesCount > 0
+            }
         }
 
         PhotosGridView {
