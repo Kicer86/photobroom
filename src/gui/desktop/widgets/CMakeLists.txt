@@ -4,7 +4,6 @@ find_package(Qt5 REQUIRED COMPONENTS QuickWidgets Widgets)
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
-    info_widget.cpp
     media_preview.cpp
     multi_value_line_edit.cpp
     photo_properties.cpp
@@ -23,7 +22,6 @@ set(SRCS
 set(HEADERS
     collection_dir_scan_dialog.hpp
     color_pick_button.hpp
-    info_widget.hpp
     media_preview.hpp
     multi_value_line_edit.hpp
     photo_properties.hpp

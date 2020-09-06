@@ -419,7 +419,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+214"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
