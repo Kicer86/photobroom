@@ -772,6 +772,20 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
+    <name>PhotosView</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+97"/>
+        <source>Only new photos are being shown.
+Click &apos;Accept&apos; button to mark them as reviewed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ProjectCreatorDialog</name>
     <message>
         <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+63"/>

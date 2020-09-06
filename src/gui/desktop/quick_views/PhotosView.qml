@@ -1,6 +1,6 @@
 
 import QtQuick 2.14
-import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 
 /*
@@ -27,49 +27,106 @@ Item {
         searchExpression: filterId.searchExpression
     }
 
-    ColumnLayout {
+    Flow {
+        id: topItem
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        Filter {
+            id: filterId
 
-        anchors.fill: parent
+            controller: photosModelControllerId
 
-        Flow {
-            Filter {
-                id: filterId
-
-                controller: photosModelControllerId
-
-                visible: photosModelControllerId.datesCount > 0
-            }
+            visible: photosModelControllerId.datesCount > 0
         }
-
-        PhotosGridView {
-            id: photosGridViewId
-
-            clip: true
-            model: photosModelControllerId.photos
-            thumbnailSize: thumbnailSliderId.size
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-            populate: Transition {
-                NumberAnimation { properties: "x,y"; duration: 1000 }
-            }
-
-            displaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: 250 }
-            }
-
-            ThumbnailSlider {
-                id: thumbnailSliderId
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-            }
-        }
-
     }
 
+    PhotosGridView {
+        id: photosGridViewId
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: topItem.bottom
+        anchors.bottom: infoItem.top
+
+        clip: true
+        model: photosModelControllerId.photos
+        thumbnailSize: thumbnailSliderId.size
+
+        populate: Transition {
+            NumberAnimation { properties: "x,y"; duration: 1000 }
+        }
+
+        displaced: Transition {
+            NumberAnimation { properties: "x,y"; duration: 250 }
+        }
+
+        ThumbnailSlider {
+            id: thumbnailSliderId
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+        }
+    }
+
+
+    Item {
+        id: infoItem
+        height: 0
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        clip: true
+
+        state: "hidden"
+
+        Rectangle {
+            id: infoBalloon
+
+            width: childrenRect.width
+            height: childrenRect.height
+
+            color: "CornflowerBlue"
+            radius: 5
+
+            Row {
+                spacing: 25
+
+                Text {
+                    id: infoItemText
+
+                    text: qsTr("Only new photos are being shown.\nClick 'Accept' button to mark them as reviewed.")
+                }
+
+                Button {
+                    text: qsTr("Accept")
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+        }
+
+        states: [
+            State {
+                name: "hidden"
+                when: filterId.newPhotosOnly == false
+            },
+            State {
+                name: "visible"
+                when: filterId.newPhotosOnly
+
+                PropertyChanges {
+                    target: infoItem
+                    height: infoBalloon.height
+                }
+            }
+        ]
+
+        transitions: Transition {
+            PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
+        }
+    }
 }
+
+
 
 /*##^##
 Designer {
