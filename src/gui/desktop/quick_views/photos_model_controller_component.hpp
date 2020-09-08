@@ -68,7 +68,6 @@ class PhotosModelControllerComponent: public QObject
 
     private:
         QTimer m_searchLauncher;
-        std::vector<Database::IFilter::Ptr> m_filters;
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
         QString m_searchExpression;
@@ -79,7 +78,6 @@ class PhotosModelControllerComponent: public QObject
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
-        std::vector<Database::IFilter::Ptr> filters() const;
         std::vector<Database::IFilter::Ptr> allFilters() const;
 
         void getTimeRangeForFilters(Database::IBackend &);
