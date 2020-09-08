@@ -80,6 +80,7 @@ class PhotosModelControllerComponent: public QObject
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
         std::vector<Database::IFilter::Ptr> filters() const;
+        std::vector<Database::IFilter::Ptr> allFilters() const;
 
         void getTimeRangeForFilters(Database::IBackend &);
 };

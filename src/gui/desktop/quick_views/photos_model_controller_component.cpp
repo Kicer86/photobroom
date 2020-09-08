@@ -136,27 +136,7 @@ void PhotosModelControllerComponent::markNewAsReviewed()
 
 void PhotosModelControllerComponent::updateModelFilters()
 {
-    auto filters_for_model = filters();
-
-    if (m_dates.empty() == false)
-    {
-        const QDate from = m_dates[m_timeView.first];
-        const QDate to = m_dates[m_timeView.second];
-
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
-    }
-
-    const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
-
-    if (expression.empty() == false)
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosMatchingExpression>(expression) );
-
-    if (m_newPhotosOnly)
-    {
-        const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
-    }
+    auto filters_for_model = allFilters();
 
     m_model->setFilters(filters_for_model);
 }
@@ -190,6 +170,34 @@ void PhotosModelControllerComponent::updateTimeRange()
 std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::filters() const
 {
     return m_filters;
+}
+
+
+std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters() const
+{
+    auto filters_for_model = filters();
+
+    if (m_dates.empty() == false)
+    {
+        const QDate from = m_dates[m_timeView.first];
+        const QDate to = m_dates[m_timeView.second];
+
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+    }
+
+    const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
+
+    if (expression.empty() == false)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosMatchingExpression>(expression) );
+
+    if (m_newPhotosOnly)
+    {
+        const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
+    }
+
+    return filters_for_model;
 }
 
 
