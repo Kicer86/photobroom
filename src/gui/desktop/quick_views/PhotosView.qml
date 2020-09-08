@@ -93,6 +93,8 @@ Item {
                 Button {
                     text: qsTr("Accept")
                     anchors.verticalCenter: parent.verticalCenter
+
+                    onClicked: photosModelControllerId.markNewAsReviewed()
                 }
             }
         }

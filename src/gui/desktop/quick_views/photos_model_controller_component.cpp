@@ -128,6 +128,12 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 }
 
 
+void PhotosModelControllerComponent::markNewAsReviewed()
+{
+
+}
+
+
 void PhotosModelControllerComponent::updateModelFilters()
 {
     auto filters_for_model = filters();

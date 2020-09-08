@@ -60,6 +60,7 @@ class PhotosModelControllerComponent: public QObject
         void setNewPhotosOnly(bool);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
+        Q_INVOKABLE void markNewAsReviewed();
 
     signals:
         void modelChanged() const;
