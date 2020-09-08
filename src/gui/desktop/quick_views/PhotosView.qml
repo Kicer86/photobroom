@@ -61,7 +61,6 @@ Item {
         }
     }
 
-
     Item {
         id: infoItem
         height: 0
@@ -88,7 +87,7 @@ Item {
                 Text {
                     id: infoItemText
 
-                    text: qsTr("Only new photos are being shown.\nClick 'Accept' button to mark them as reviewed.")
+                    text: qsTr("Click 'Accept' button to mark new photos as reviewed.")
                 }
 
                 Button {
