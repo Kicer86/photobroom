@@ -14,7 +14,6 @@ add_subdirectory(desktop/quick_views)
 add_subdirectory(desktop/ui)
 add_subdirectory(desktop/ui_utils)
 add_subdirectory(desktop/utils)
-add_subdirectory(desktop/views)
 add_subdirectory(desktop/widgets)
 
 set(GUI_SOURCES
@@ -51,7 +50,6 @@ target_link_libraries(gui
                             gui_utils
                             gui_ui
                             gui_ui_utils
-                            gui_views
                             gui_widgets
                             quick_views
 

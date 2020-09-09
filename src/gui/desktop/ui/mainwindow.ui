@@ -23,55 +23,13 @@
   <widget class="QWidget" name="mainWidget">
    <layout class="QVBoxLayout">
     <item>
-     <widget class="QTabWidget" name="viewsStack">
-      <property name="tabPosition">
-       <enum>QTabWidget::South</enum>
+     <widget class="QQuickWidget" name="photosViewQml">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
       </property>
-      <property name="currentIndex">
-       <number>2</number>
+      <property name="resizeMode">
+       <enum>QQuickWidget::SizeRootObjectToView</enum>
       </property>
-      <widget class="PhotosWidget" name="imagesView">
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <attribute name="title">
-        <string>Collection</string>
-       </attribute>
-      </widget>
-      <widget class="PhotosWidget" name="newImagesView">
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <attribute name="title">
-        <string>New photos</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="photosView">
-       <attribute name="title">
-        <string>Photos</string>
-       </attribute>
-       <layout class="QVBoxLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QQuickWidget" name="photosViewQml">
-          <property name="resizeMode">
-           <enum>QQuickWidget::SizeRootObjectToView</enum>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -277,11 +235,6 @@
    <extends>QWidget</extends>
    <header>widgets/tasks_view_widget.hpp</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PhotosWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/photos_widget.hpp</header>
   </customwidget>
   <customwidget>
    <class>PhotoPropertiesWidget</class>

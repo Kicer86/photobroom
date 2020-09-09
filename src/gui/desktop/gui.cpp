@@ -40,7 +40,7 @@ namespace
 
             QList<QByteArray> images = QImageReader::supportedImageFormats();
 
-            for(const QByteArray image: images)
+            for(const QByteArray image: qAsConst(images))
             {
                 const QString msg = QString("Qt supports %1 file format").arg(image.data());
 
@@ -85,6 +85,10 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     m_coreFactory(coreFactory)
 {
     register_qml_types();
+
+    qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
+    qRegisterMetaType<TagTypes>("TagTypes");
+    qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
 }
 
 

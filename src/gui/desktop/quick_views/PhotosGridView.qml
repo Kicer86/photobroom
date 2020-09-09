@@ -2,7 +2,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.3
 
-GridView {
+MultiselectGridView {
 
     property int thumbnailSize: 160
     property int thumbnailMargin: 5
@@ -13,6 +13,8 @@ GridView {
     delegate: PhotoDelegate {
         id: delegateId
 
+        property bool selected
+
         width:  cellWidth
         height: cellHeight
         margin: thumbnailMargin
@@ -21,22 +23,37 @@ GridView {
             anchors.fill: parent
             onClicked: delegateId.GridView.view.currentIndex = index
         }
+
+        Rectangle {
+            id: highlightId
+            anchors.fill: parent
+            anchors.margins: 1
+            state: "unselected"
+
+            color: "lightsteelblue"
+            radius: 5
+
+            states: [
+                State {
+                    name: "selected"
+                    when: delegateId.selected
+                    PropertyChanges { target: highlightId; opacity: 0.6 }
+                },
+                State {
+                    name: "unselected"
+                    when: !delegateId.selected
+                    PropertyChanges { target: highlightId; opacity: 0.0 }
+                }
+            ]
+
+            transitions: Transition {
+                PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
+            }
+        }
     }
 
-    highlight: highlightId
     keyNavigationEnabled: true
     currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }
-
-    Component {
-        id: highlightId
-
-        Rectangle {
-            color: "lightsteelblue"
-            opacity: 0.6
-            z: 2
-        }
-    }
-
 }

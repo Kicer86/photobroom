@@ -9,31 +9,13 @@ include_directories(unit_tests)
 addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
-                    desktop/models/db_data_model.cpp
                     desktop/models/flat_model.cpp
-                    desktop/models/model_helpers/idx_data.cpp
-                    desktop/models/model_helpers/idx_data_manager.cpp
-                    desktop/models/model_helpers/idxdata_deepfetcher.cpp
-                    desktop/models/model_helpers/photos_matcher.cpp
-
-                    desktop/views/view_impl/data.cpp
-                    desktop/views/view_impl/model_index_info.cpp
-                    desktop/views/view_impl/positions_calculator.cpp
-                    desktop/views/view_impl/positions_reseter.cpp
-                    desktop/views/view_impl/positions_translator.cpp
 
                     desktop/utils/model_index_utils.cpp
 
                     # model tests:
                     unit_tests/model/aphoto_info_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
-                    unit_tests/model/idx_data_manager_tests.cpp
-                    unit_tests/model/idx_data_tests.cpp
-
-                    # view tests
-                    unit_tests/view/data_tests.cpp
-                    unit_tests/view/positions_calculator_tests.cpp
-                    unit_tests/view/positions_reseter_tests.cpp
 
                     # helpers:
                     unit_tests/test_helpers/mock_configuration.hpp
@@ -41,9 +23,6 @@ addTestTarget(gui
 
                     unit_tests/test_helpers/internal_task_executor.cpp
                     unit_tests/test_helpers/internal_task_executor.hpp
-
-                    unit_tests/test_helpers/photo_info_model.cpp
-                    unit_tests/test_helpers/photo_info_model.hpp
 
                     # utils:
                     unit_tests/utils/model_index_utils_tests.cpp

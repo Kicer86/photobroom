@@ -46,7 +46,7 @@ class TagEditorWidget: public QWidget
         Q_OBJECT
 
     public:
-        explicit TagEditorWidget(QWidget * = 0, Qt::WindowFlags = 0);
+        explicit TagEditorWidget(QWidget * = 0);
         virtual ~TagEditorWidget();
 
         TagEditorWidget(const TagEditorWidget &) = delete;
@@ -55,7 +55,7 @@ class TagEditorWidget: public QWidget
         void setDatabase(Database::IDatabase *);
         void set(ICompleterFactory *);
 
-        void editPhotos(const std::vector<Photo::Id> &);
+        void editPhotos(const std::vector<Photo::Data> &);
 
     private:
         EditorFactory m_editorFactory;

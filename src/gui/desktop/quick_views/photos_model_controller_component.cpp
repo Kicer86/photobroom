@@ -15,21 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "photos_model_controller_component.hpp"
+#include <chrono>
 
 #include <core/function_wrappers.hpp>
 #include <database/iphoto_operator.hpp>
 #include "models/flat_model.hpp"
+#include "photos_model_controller_component.hpp"
 
 
 using namespace std::placeholders;
+using namespace std::chrono_literals;
+
+namespace
+{
+    const char* expressions_separator = ",";
+}
 
 
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
+    , m_newPhotosOnly(false)
 {
-    m_selection.setModel(m_model);
+    m_searchLauncher.setSingleShot(true);
+    connect(&m_searchLauncher, &QTimer::timeout, this, &PhotosModelControllerComponent::updateModelFilters);
 }
 
 
@@ -46,12 +55,6 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
-}
-
-
-const QItemSelectionModel& PhotosModelControllerComponent::selectionModel() const
-{
-    return m_selection;
 }
 
 
@@ -73,6 +76,18 @@ unsigned int PhotosModelControllerComponent::timeViewTo() const
 }
 
 
+QString PhotosModelControllerComponent::searchExpression() const
+{
+    return m_searchExpression;
+}
+
+
+bool PhotosModelControllerComponent::newPhotosOnly() const
+{
+    return m_newPhotosOnly;
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -89,12 +104,21 @@ void PhotosModelControllerComponent::setTimeViewTo(unsigned int viewTo)
 }
 
 
-void PhotosModelControllerComponent::setSelectedPhoto(int idx)
+void PhotosModelControllerComponent::setSearchExpression(const QString& expression)
 {
-    const QModelIndex index = m_model->index(idx, 0, {});
-    m_selection.select(index, QItemSelectionModel::ClearAndSelect);
+    const bool differ = expression != m_searchExpression;
+    m_searchExpression = expression;
 
-    emit selectionChanged();
+    if (differ)
+        m_searchLauncher.start(1s);
+}
+
+
+void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
+{
+    m_newPhotosOnly = v;
+
+    updateModelFilters();
 }
 
 
@@ -104,14 +128,15 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 }
 
 
+void PhotosModelControllerComponent::markNewAsReviewed()
+{
+    m_db->exec(std::bind(&PhotosModelControllerComponent::markPhotosAsReviewed, this, _1));
+}
+
+
 void PhotosModelControllerComponent::updateModelFilters()
 {
-    auto filters_for_model = filters();
-    const QDate from = m_dates[m_timeView.first];
-    const QDate to = m_dates[m_timeView.second];
-
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
-    filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+    auto filters_for_model = allFilters();
 
     m_model->setFilters(filters_for_model);
 }
@@ -142,16 +167,37 @@ void PhotosModelControllerComponent::updateTimeRange()
 }
 
 
-std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::filters() const
+std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters() const
 {
-    return m_filters;
+    std::vector<Database::IFilter::Ptr> filters_for_model;
+
+    if (m_dates.empty() == false)
+    {
+        const QDate from = m_dates[m_timeView.first];
+        const QDate to = m_dates[m_timeView.second];
+
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+    }
+
+    const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
+
+    if (expression.empty() == false)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosMatchingExpression>(expression) );
+
+    if (m_newPhotosOnly)
+    {
+        const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
+    }
+
+    return filters_for_model;
 }
 
 
 void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& backend)
 {
-    const auto range_filters = filters();
-    auto dates = backend.listTagValues(TagTypes::Date, range_filters);
+    auto dates = backend.listTagValues(TagTypes::Date, {});
 
     const auto with_date_filter = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date);
     const auto without_date_filter = std::make_shared<Database::FilterNotMatchingFilter>(with_date_filter);
@@ -163,4 +209,11 @@ void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& 
 
     std::sort(dates.begin(), dates.end());
     invokeMethod(this, &PhotosModelControllerComponent::setAvailableDates, dates);
+}
+
+
+void PhotosModelControllerComponent::markPhotosAsReviewed(Database::IBackend& backend)
+{
+    backend.markStagedAsReviewed();
+    invokeMethod(this, &PhotosModelControllerComponent::updateModelFilters);
 }

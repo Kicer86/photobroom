@@ -44,7 +44,7 @@ void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* noti
         const QString entry = dirIt.next();
         bool is_fine = true;
 
-        for (const QString& banned: m_ignored)
+        for (const QString& banned: qAsConst(m_ignored))
         {
             if (entry.contains(banned))
                 is_fine = false;

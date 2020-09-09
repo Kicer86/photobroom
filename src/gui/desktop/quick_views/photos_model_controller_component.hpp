@@ -18,10 +18,9 @@
 #ifndef PHOTOSMODELCOMPONENT_HPP
 #define PHOTOSMODELCOMPONENT_HPP
 
-
 #include <QDate>
 #include <QObject>
-#include <QItemSelectionModel>
+#include <QTimer>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
@@ -39,7 +38,8 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
-        Q_PROPERTY(int selectedPhoto WRITE setSelectedPhoto NOTIFY selectionChanged)
+        Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
+        Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -47,37 +47,41 @@ class PhotosModelControllerComponent: public QObject
         void setDatabase(Database::IDatabase *);
 
         APhotoInfoModel* model() const;
-        const QItemSelectionModel& selectionModel() const;
 
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
+        QString searchExpression() const;
+        bool newPhotosOnly() const;
 
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
-        void setSelectedPhoto(int);
+        void setSearchExpression(const QString &);
+        void setNewPhotosOnly(bool);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
+        Q_INVOKABLE void markNewAsReviewed();
 
     signals:
         void modelChanged() const;
         void datesCountChanged() const;
-        void selectionChanged() const;
 
     private:
-        QItemSelectionModel m_selection;
-        std::vector<Database::IFilter::Ptr> m_filters;
+        QTimer m_searchLauncher;
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
+        QString m_searchExpression;
         FlatModel* m_model;
         Database::IDatabase* m_db;
+        bool m_newPhotosOnly;
 
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
-        std::vector<Database::IFilter::Ptr> filters() const;
+        std::vector<Database::IFilter::Ptr> allFilters() const;
 
         void getTimeRangeForFilters(Database::IBackend &);
+        void markPhotosAsReviewed(Database::IBackend &);
 };
 
 #endif // PHOTOSMODELCOMPONENT_HPP

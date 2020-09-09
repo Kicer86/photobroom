@@ -13,6 +13,7 @@ qt5_wrap_cpp(MOCED
                 photo_item.hpp
                 photos_model_controller_component.hpp
                 qml_setup.hpp
+                selection_manager_component.hpp
 )
 
 
@@ -27,6 +28,8 @@ add_library(quick_views OBJECT
                 qml_setup.hpp
                 qml_utils.cpp
                 qml_utils.hpp
+                selection_manager_component.cpp
+                selection_manager_component.hpp
 )
 
 

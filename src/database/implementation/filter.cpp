@@ -62,6 +62,14 @@ namespace Database
     }
 
 
+    FilterPhotosWithFlags::FilterPhotosWithFlags(const std::map<Photo::FlagsE, int>& f)
+        : flags(f)
+        , mode(Mode::And)
+    {
+
+    }
+
+
     FilterPhotosWithFlags::~FilterPhotosWithFlags()
     {
 

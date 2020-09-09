@@ -3,6 +3,11 @@ import QtQuick 2.14
 import QtQuick.Controls 2.3
 import photo_broom.qml 1.0
 
+/*
+ * Delegate for views.
+ * Compatible with APhotoInfoModel.
+ * Loads photo in lazy manner.
+ */
 
 Item {
     id: delegateId
@@ -25,8 +30,8 @@ Item {
         width:  delegateId.width - delegateId.margin * 2
         opacity: 0
 
-        source: photoProperties.path
-        photoSize: photoProperties.size
+        source: photoData.path
+        photoSize: photoData.size
 
         thumbnails: thumbnailsManager.get()
     }

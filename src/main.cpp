@@ -181,7 +181,7 @@ int main(int argc, char **argv)
     );
 
     QCommandLineOption developerOptions("feature-toggle",
-                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views"),
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher"),
                                          QCoreApplication::translate("main", "flag")
     );
 
@@ -212,8 +212,6 @@ int main(int argc, char **argv)
 
         std::cout << "crash catcher test activated. Will crash in 3 seconds" << std::endl;
     }
-
-    const bool quick_views = featureToggles.contains("quick-views");
 
     const QString logingLevelStr = parser.value(logingLevelOption);
     ILogger::Severity logingLevel = ILogger::Severity::Warning;
@@ -257,8 +255,6 @@ int main(int argc, char **argv)
     const QString configFilePath = configFileDir + "/" + "config.json";
     ConfigStorage configStorage(configFilePath);
     Configuration configuration(configStorage);
-
-    configuration.setEntry("features::quick", quick_views);
 
     PluginLoader pluginLoader;
     pluginLoader.set(&logger_factory);

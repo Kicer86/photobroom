@@ -1,8 +1,11 @@
 
 import QtQuick 2.14
-import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 
+/*
+ * Top level view for diplaying photos from APhotoInfoModel.
+ */
 
 Item {
     id: photosViewId
@@ -11,73 +14,114 @@ Item {
         id: photosModelControllerId
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
+        newPhotosOnly: filterId.newPhotosOnly
+
         onDatesCountChanged: {
-            timeRangeId.from = 0
-            timeRangeId.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
+            filterId.timeRange.from = 0
+            filterId.timeRange.to = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1: 0
 
-            timeRangeId.viewFrom.value = 0
-            timeRangeId.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
+            filterId.timeRange.viewFrom.value = 0
+            filterId.timeRange.viewTo.value = photosModelControllerId.datesCount > 0? photosModelControllerId.datesCount - 1 : 0
+        }
+
+        searchExpression: filterId.searchExpression
+    }
+
+    Filter {
+        id: filterId
+
+        controller: photosModelControllerId
+
+        visible: photosModelControllerId.datesCount > 0
+    }
+
+    PhotosGridView {
+        id: photosGridViewId
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: filterId.bottom
+        anchors.bottom: infoItem.top
+
+        clip: true
+        model: photosModelControllerId.photos
+        thumbnailSize: thumbnailSliderId.size
+
+        populate: Transition {
+            NumberAnimation { properties: "x,y"; duration: 1000 }
+        }
+
+        displaced: Transition {
+            NumberAnimation { properties: "x,y"; duration: 250 }
+        }
+
+        ThumbnailSlider {
+            id: thumbnailSliderId
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
         }
     }
 
-    ColumnLayout {
+    Item {
+        id: infoItem
+        height: 0
 
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        clip: true
 
-        TimeRange {
-            id: timeRangeId
+        state: "hidden"
 
-            model: photosModelControllerId
-            visible: photosModelControllerId.datesCount > 0
+        Rectangle {
+            id: infoBalloon
 
-            Connections {
-                target: timeRangeId.viewFrom
-                function onPressedChanged() {
-                    if (timeRangeId.viewFrom.pressed === false)
-                        photosModelControllerId.timeViewFrom = timeRangeId.viewFrom.value
+            width: childrenRect.width
+            height: childrenRect.height
+
+            color: "CornflowerBlue"
+            radius: 5
+
+            Row {
+                spacing: 25
+
+                Text {
+                    id: infoItemText
+
+                    text: qsTr("Click 'Accept' button to mark <b>all</b> new photos as reviewed.")
                 }
-            }
 
-            Connections {
-                target: timeRangeId.viewTo
-                function onPressedChanged() {
-                    if (timeRangeId.viewTo.pressed === false)
-                        photosModelControllerId.timeViewTo = timeRangeId.viewTo.value
+                Button {
+                    text: qsTr("Accept")
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    onClicked: photosModelControllerId.markNewAsReviewed()
                 }
             }
         }
 
-        PhotosGridView {
-            id: photosGridViewId
+        states: [
+            State {
+                name: "hidden"
+                when: filterId.newPhotosOnly == false
+            },
+            State {
+                name: "visible"
+                when: filterId.newPhotosOnly
 
-            clip: true
-            model: photosModelControllerId.photos
-            thumbnailSize: thumbnailSliderId.size
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-            populate: Transition {
-                NumberAnimation { properties: "x,y"; duration: 1000 }
+                PropertyChanges {
+                    target: infoItem
+                    height: infoBalloon.height
+                }
             }
+        ]
 
-            displaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: 250 }
-            }
-
-            onCurrentIndexChanged: photosModelControllerId.selectedPhoto = photosGridViewId.currentIndex
-
-            ThumbnailSlider {
-                id: thumbnailSliderId
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-            }
+        transitions: Transition {
+            PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
         }
-
     }
-
 }
+
+
 
 /*##^##
 Designer {

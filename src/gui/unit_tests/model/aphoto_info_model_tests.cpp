@@ -9,7 +9,6 @@
 #include "unit_tests_utils/mock_db_utils.hpp"
 #include "utils/model_index_utils.hpp"
 
-#include "db_data_model.hpp"
 #include "flat_model.hpp"
 
 
@@ -43,10 +42,6 @@ class APhotoInfoModelTest: public testing::Test
             }));
 
             model.setDatabase(&db);
-
-            // flatten hierarchical model
-            if constexpr (std::is_same_v<T, DBDataModel>)
-                model.setHierarchy( {Hierarchy::Level(TagTypes::Date, Hierarchy::Level::Order::ascending)} );
         }
 
         ~APhotoInfoModelTest()
@@ -68,7 +63,7 @@ class APhotoInfoModelTest: public testing::Test
 
 };
 
-using ModelTypes = testing::Types<FlatModel, DBDataModel>;
+using ModelTypes = testing::Types<FlatModel>;
 TYPED_TEST_SUITE(APhotoInfoModelTest, ModelTypes);
 
 
@@ -94,7 +89,7 @@ TYPED_TEST(APhotoInfoModelTest, photoDetailsForIndex)
     for (int r = 0; r < 3; r++)
     {
         const QModelIndex idx = this->model.index(r, 0, {});
-        const Photo::Data& data = this->model.getPhotoDetails(idx);
+        const Photo::Data& data = this->model.getPhotoData(idx);
 
         EXPECT_TRUE(data.id.valid());
     }

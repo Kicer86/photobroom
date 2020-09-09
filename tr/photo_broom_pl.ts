@@ -147,7 +147,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+80"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+78"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>
@@ -156,9 +156,37 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Found %n face(s).</source>
         <translation>
             <numerusform>Znaleziono %n twarz.</numerusform>
-            <numerusform>Znaleziono %n tware.</numerusform>
+            <numerusform>Znaleziono %n twarze.</numerusform>
             <numerusform>Znaleziono %n twarzy.</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>Filter</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+50"/>
+        <source>Search:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>More options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>New photos only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Category:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -196,27 +224,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <location line="+20"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
-    </message>
-</context>
-<context>
-    <name>IdxDataManager</name>
-    <message>
-        <location filename="../src/gui/desktop/models/model_helpers/idx_data_manager.cpp" line="+903"/>
-        <source>Unlabeled</source>
-        <translation>Nieopisane</translation>
-    </message>
-</context>
-<context>
-    <name>LazyTreeItemDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/ui_utils/lazy_tree_item_delegate.cpp" line="+79"/>
-        <source>animation</source>
-        <translation>animacja</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Group</source>
-        <translation>Grupa</translation>
     </message>
 </context>
 <context>
@@ -287,7 +294,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+34"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -312,17 +319,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <source>Collection</source>
-        <translation>Kolekcja</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Photos</source>
-        <translation>Zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+71"/>
+        <location line="+15"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -422,7 +419,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+236"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -444,17 +441,22 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-213"/>
-        <source>New photos</source>
-        <translation>Nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+144"/>
+        <location line="+118"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+90"/>
+        <source>Group...</source>
+        <translation>Grupowanie...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Recognize people...</source>
+        <translation>Rozpoznawanie osób...</translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -464,22 +466,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-107"/>
-        <source>Above you can view new photos and describe them.</source>
-        <translation>Powyżej możesz przejrzeć nowe zdjęcia i opisać je.</translation>
-    </message>
-    <message>
-        <location line="-108"/>
+        <location line="-168"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
-        <source>Group</source>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+90"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -489,12 +481,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Recognize people</source>
-        <translation>Rozpoznaj osoby</translation>
-    </message>
-    <message>
-        <location line="+212"/>
+        <location line="+208"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
@@ -555,12 +542,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-271"/>
-        <source>You can click here when you are done to mark photos as reviewed.</source>
-        <translation>Kliknij tutaj gdy skończysz, aby zapisać nowe zdjęcia w swojej kolekcji.</translation>
-    </message>
-    <message>
-        <location line="+171"/>
+        <location line="-96"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -573,7 +555,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+119"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+107"/>
         <source>Photo location:</source>
         <translation>Ścieżka do zdjęcia:</translation>
     </message>
@@ -790,40 +772,16 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
-    <name>PhotosItemDelegate</name>
+    <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/ui_utils/photos_item_delegate.cpp" line="+83"/>
-        <source>Loading</source>
-        <translation>Wczytywanie</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>No photos</source>
-        <translation>Brak zdjęć</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/photos_widget.cpp" line="+75"/>
-        <source>Search:</source>
-        <translation>Szukaj:</translation>
+        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+90"/>
+        <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Filter photos matching given expression.
-
-Expression can be one or more words.
-Photos which do not match will be hidden.</source>
-        <translation>Filtrowanie zdjęć na podstawie wyrażenia.
-
-Wyrażenie może się składać z jednego lub kilku słów.
-Zdjęcia, które nie będą pasowały, zostaną ukryte.</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Thumbnail size:</source>
-        <translation>Rozmiar miniaturki:</translation>
+        <source>Accept</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -875,7 +833,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-172"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-161"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
@@ -905,24 +863,24 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+27"/>
         <source>Group candidates</source>
-        <translation type="unfinished"></translation>
+        <translation>Potencjalne grupy</translation>
     </message>
     <message>
         <location line="+61"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished"></translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Looking for group candidates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
 </context>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+206"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+205"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
@@ -937,7 +895,7 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     <message>
         <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+27"/>
         <source>Thumbnail size:</source>
-        <translation type="unfinished">Rozmiar miniaturki:</translation>
+        <translation>Rozmiar miniaturki:</translation>
     </message>
 </context>
 <context>
@@ -1004,14 +962,6 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
 </context>
 <context>
-    <name>TreeItemDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/views/tree_item_delegate.cpp" line="+182"/>
-        <source>(Empty)</source>
-        <translation>(Brak)</translation>
-    </message>
-</context>
-<context>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="+178"/>
@@ -1025,8 +975,8 @@ Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekc
     </message>
     <message>
         <location line="+5"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, quick-views</source>
-        <translation>Aktywuje eksperymentalne funkcje. Użyj tej opcji dla każdej z flag, które chcesz aktywować: test-crash-catcher, quick-views</translation>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
+        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
     </message>
     <message>
         <location line="+1"/>

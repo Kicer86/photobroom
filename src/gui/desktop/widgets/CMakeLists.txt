@@ -4,11 +4,9 @@ find_package(Qt5 REQUIRED COMPONENTS QuickWidgets Widgets)
 set(SRCS
     collection_dir_scan_dialog.cpp
     color_pick_button.cpp
-    info_widget.cpp
     media_preview.cpp
     multi_value_line_edit.cpp
     photo_properties.cpp
-    photos_widget.cpp
     table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
     filters_editor/level_editor.cpp
@@ -24,11 +22,9 @@ set(SRCS
 set(HEADERS
     collection_dir_scan_dialog.hpp
     color_pick_button.hpp
-    info_widget.hpp
     media_preview.hpp
     multi_value_line_edit.hpp
     photo_properties.hpp
-    photos_widget.hpp
     table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
     filters_editor/level_editor.hpp
@@ -48,7 +44,6 @@ set(TO_MOC
     media_preview.hpp
     filters_editor/level_editor.hpp
     photo_properties.hpp
-    photos_widget.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
     tag_editor/tag_editor_widget.hpp

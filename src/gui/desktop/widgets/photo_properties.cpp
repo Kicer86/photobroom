@@ -27,7 +27,6 @@
 
 #include <system/filesystem.hpp>
 
-#include "utils/selection_extractor.hpp"
 
 namespace
 {
@@ -56,7 +55,6 @@ namespace
 
 PhotoPropertiesWidget::PhotoPropertiesWidget(QWidget* p):
     QScrollArea(p),
-    m_selectionExtractor(nullptr),
     m_locationLabel(new QLabel(this)),
     m_sizeLabel(new QLabel(this)),
     m_geometryLabel(new QLabel(this)),
@@ -93,18 +91,8 @@ PhotoPropertiesWidget::~PhotoPropertiesWidget()
 }
 
 
-void PhotoPropertiesWidget::set(const SelectionExtractor* selection)
+void PhotoPropertiesWidget::setPhotos(const std::vector<Photo::Data>& photos)
 {
-    m_selectionExtractor = selection;
-
-    connect(m_selectionExtractor, &SelectionExtractor::selectionChanged, this, &PhotoPropertiesWidget::refreshView);
-}
-
-
-void PhotoPropertiesWidget::refreshView() const
-{
-    std::vector<Photo::Data> photos = m_selectionExtractor->getSelection();
-
     refreshLabels(photos);
     refreshValues(photos);
 }

@@ -25,7 +25,6 @@
 #include <core/base_tags.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
-#include "models/db_data_model.hpp"
 #include "tags_operator.hpp"
 
 

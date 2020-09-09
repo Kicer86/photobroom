@@ -10,7 +10,6 @@
 #include <updater/iupdater.hpp>
 
 #include "ui_utils/completer_factory.hpp"
-#include "utils/selection_extractor.hpp"
 #include "quick_views/qml_setup.hpp"
 
 class ConfigDialogManager;
@@ -27,9 +26,9 @@ struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
-class DBDataModel;
 class PhotosModelControllerComponent;
 class Project;
+class SelectionToPhotoDataTranslator;
 struct ProjectInfo;
 struct IThumbnailsManager;
 
@@ -54,14 +53,11 @@ class MainWindow: public QMainWindow
         void set(IUpdater *);
 
     private:
-        SelectionExtractor        m_selectionExtractor;
         QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
-        DBDataModel*              m_imagesModel;
-        DBDataModel*              m_newImagesModel;
         PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration*           m_configuration;
         ILoggerFactory*           m_loggerFactory;
@@ -74,6 +70,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<LookTabController> m_lookTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
+        std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
 
@@ -92,12 +89,10 @@ class MainWindow: public QMainWindow
         void loadGeometry();
         void loadRecentCollections();
 
-        void setupReviewedPhotosView();
-        void setupNewPhotosView();
         void setupQmlView();
         void setupConfig();
 
-        void showContextMenuFor(PhotosWidget *, const QPoint &);
+        void showContextMenu(const QPoint &);
 
     private slots:
         // album menu
@@ -136,9 +131,6 @@ class MainWindow: public QMainWindow
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
-        void markNewPhotosAsReviewed();
-        void photosMarkedAsReviewed();
-        void viewChanged(int);
 };
 
 #endif // MAINWINDOW_HPP

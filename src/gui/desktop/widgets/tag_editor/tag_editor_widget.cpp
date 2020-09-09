@@ -32,8 +32,8 @@
 #include "helpers/tags_model.hpp"
 
 
-TagEditorWidget::TagEditorWidget(QWidget* p, Qt::WindowFlags f):
-    QWidget(p, f),
+TagEditorWidget::TagEditorWidget(QWidget* p):
+    QWidget(p),
     m_editorFactory(),
     m_view(nullptr),
     m_model(nullptr),
@@ -69,7 +69,13 @@ void TagEditorWidget::set(ICompleterFactory* completerFactory)
 }
 
 
-void TagEditorWidget::editPhotos(const std::vector<Photo::Id>& photos)
+void TagEditorWidget::editPhotos(const std::vector<Photo::Data>& photos)
 {
-    m_model->setPhotos(photos);
+    std::vector<Photo::Id> ids;
+    ids.reserve(photos.size());
+
+    for(const auto& photo: photos)
+        ids.push_back(photo.id);
+
+    m_model->setPhotos(ids);
 }

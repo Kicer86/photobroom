@@ -17,13 +17,14 @@
  *
  */
 
+
 #include "aphoto_info_model.hpp"
 
 
 APhotoInfoModel::APhotoInfoModel(QObject* p)
     : QAbstractItemModel(p)
 {
-    registerRole(PhotoPropertiesRole, "photoProperties");
+    registerRole(PhotoDataRole, "photoData");
     registerRole(PhotoIdRole, "photoId");
 }
 
@@ -37,7 +38,8 @@ APhotoInfoModel::~APhotoInfoModel()
 QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
-    result.unite(m_customRoles);
+
+    result.unite(m_customRoles);    // switch to insert() when switching to Qt5.15
 
     return result;
 }
