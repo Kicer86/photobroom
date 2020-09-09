@@ -64,8 +64,6 @@ PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& 
     , m_core(core)
     , m_db(db)
 {
-    qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
-
     findFaces();
 }
 

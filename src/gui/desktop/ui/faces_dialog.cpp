@@ -66,8 +66,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
 
     setUnassignedVisible(false);
 
-    qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
-
     connect(ui->scaleSlider, &QSlider::valueChanged,
             this, &FacesDialog::updateImage);
 

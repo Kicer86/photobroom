@@ -63,7 +63,7 @@ TagValueModel::TagValueModel(const std::set<TagTypes>& infos):
     m_tagInfoCollector(nullptr),
     m_loggerFactory(nullptr)
 {
-    qRegisterMetaType<TagTypes>("TagTypes");
+
 }
 
 
