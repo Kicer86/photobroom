@@ -81,6 +81,7 @@ class PhotosModelControllerComponent: public QObject
         std::vector<Database::IFilter::Ptr> allFilters() const;
 
         void getTimeRangeForFilters(Database::IBackend &);
+        void markPhotosAsReviewed(Database::IBackend &);
 };
 
 #endif // PHOTOSMODELCOMPONENT_HPP

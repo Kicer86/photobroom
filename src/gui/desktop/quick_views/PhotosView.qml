@@ -87,7 +87,7 @@ Item {
                 Text {
                     id: infoItemText
 
-                    text: qsTr("Click 'Accept' button to mark new photos as reviewed.")
+                    text: qsTr("Click 'Accept' button to mark <b>all</b> new photos as reviewed.")
                 }
 
                 Button {

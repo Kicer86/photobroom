@@ -130,7 +130,7 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 
 void PhotosModelControllerComponent::markNewAsReviewed()
 {
-
+    m_db->exec(std::bind(&PhotosModelControllerComponent::markPhotosAsReviewed, this, _1));
 }
 
 
@@ -209,4 +209,11 @@ void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& 
 
     std::sort(dates.begin(), dates.end());
     invokeMethod(this, &PhotosModelControllerComponent::setAvailableDates, dates);
+}
+
+
+void PhotosModelControllerComponent::markPhotosAsReviewed(Database::IBackend& backend)
+{
+    backend.markStagedAsReviewed();
+    invokeMethod(this, &PhotosModelControllerComponent::updateModelFilters);
 }
