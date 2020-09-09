@@ -24,9 +24,6 @@ addTestTarget(gui
                     unit_tests/test_helpers/internal_task_executor.cpp
                     unit_tests/test_helpers/internal_task_executor.hpp
 
-                    unit_tests/test_helpers/photo_info_model.cpp
-                    unit_tests/test_helpers/photo_info_model.hpp
-
                     # utils:
                     unit_tests/utils/model_index_utils_tests.cpp
 
