@@ -45,39 +45,33 @@ Item {
 
         ToolSeparator {}
 
+
         Text {
             id: search
             text: qsTr("Search:")
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        Rectangle {
-            id: rectangle
-            width: 200
-            height: 24
-            color: "white"
-            border.color: "black"
-            anchors.verticalCenter: parent.verticalCenter
 
-            TextInput{
-                id: searchExpression
-                anchors.rightMargin: 2
-                anchors.leftMargin: 2
-                anchors.fill: parent
-            }
+        TextField {
+            id: searchExpression
         }
 
+
         ToolSeparator {}
+
 
         Switch {
             id: moreOptionsButton
             anchors.verticalCenter: parent.verticalCenter
         }
 
+
         Text {
             text: qsTr("More options")
             anchors.verticalCenter: parent.verticalCenter
         }
+
     }
 
     Row {
