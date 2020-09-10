@@ -169,17 +169,17 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>More options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-1"/>
         <source>New photos only</source>
         <translation type="unfinished"></translation>
     </message>

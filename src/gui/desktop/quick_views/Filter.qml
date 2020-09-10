@@ -67,12 +67,10 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-
         Text {
             text: qsTr("More options")
             anchors.verticalCenter: parent.verticalCenter
         }
-
     }
 
     Row {
@@ -131,5 +129,3 @@ Item {
         PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
     }
 }
-
-
