@@ -29,7 +29,7 @@
 
 class QAbstractItemModel;
 
-
+/* \brief Main bridge between QML Photo View and C++ world */
 class PhotosModelControllerComponent: public QObject
 {
         Q_OBJECT
