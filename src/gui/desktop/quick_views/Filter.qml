@@ -23,6 +23,7 @@ Item {
 
         TimeRange {
             id: timeRange
+            anchors.verticalCenter: parent.verticalCenter
 
             model: root.controller
 

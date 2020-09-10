@@ -164,7 +164,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+51"/>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+52"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -174,12 +174,12 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+17"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>New photos only</source>
         <translation type="unfinished"></translation>
     </message>
