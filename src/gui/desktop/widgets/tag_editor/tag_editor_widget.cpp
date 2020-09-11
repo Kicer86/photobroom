@@ -21,9 +21,6 @@
 #include "tag_editor_widget.hpp"
 
 #include <QVBoxLayout>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QItemEditorFactory>
 
 #include <core/base_tags.hpp>

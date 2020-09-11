@@ -26,10 +26,6 @@
 #include "ui_utils/editor_factory.hpp"
 #include "helpers/tags_operator.hpp"
 
-class QComboBox;
-class QLineEdit;
-class QPushButton;
-
 class TagsView;
 class TagsModel;
 
