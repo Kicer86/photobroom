@@ -227,14 +227,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     </message>
 </context>
 <context>
-    <name>LevelEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
-        <source>Grouping:</source>
-        <translation>Grupowanie:</translation>
-    </message>
-</context>
-<context>
     <name>LookTab</name>
     <message>
         <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
