@@ -89,6 +89,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
     qRegisterMetaType<TagTypes>("TagTypes");
     qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
+    qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
 }
 
 
