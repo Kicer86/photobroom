@@ -104,6 +104,14 @@ Item {
 
             model: controller.categories
 
+            contentItem: Rectangle {
+                width: 20
+                height: 20
+                anchors.rightMargin: comboBox.indicator.width + comboBox.spacing
+
+                color: comboBox.displayText
+            }
+
             delegate: ItemDelegate {
                 width: comboBox.width
                 height: 25
