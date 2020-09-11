@@ -101,6 +101,9 @@ Item {
 
         ComboBox {
             id: comboBox
+
+            textRole: "display"
+            model: controller.categories
         }
     }
 

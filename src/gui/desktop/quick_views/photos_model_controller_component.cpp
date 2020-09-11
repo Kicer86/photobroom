@@ -34,11 +34,21 @@ namespace
 
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
+    , m_categories(new QStandardItemModel(this))
     , m_model(new FlatModel(this))
     , m_newPhotosOnly(false)
 {
     m_searchLauncher.setSingleShot(true);
     connect(&m_searchLauncher, &QTimer::timeout, this, &PhotosModelControllerComponent::updateModelFilters);
+
+    QList<QStandardItem *> categories =
+    {
+        new QStandardItem("red"),
+        new QStandardItem("green"),
+        new QStandardItem("blue"),
+    };
+
+    m_categories->appendColumn(categories);
 }
 
 
@@ -55,6 +65,12 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
+}
+
+
+QAbstractItemModel* PhotosModelControllerComponent::categories() const
+{
+    return m_categories;
 }
 
 

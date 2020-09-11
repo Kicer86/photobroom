@@ -21,6 +21,7 @@
 #include <QDate>
 #include <QObject>
 #include <QTimer>
+#include <QStandardItemModel>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
@@ -40,6 +41,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
         Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
+        Q_PROPERTY(QAbstractItemModel* categories READ categories NOTIFY categoriesChanged)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -47,6 +49,7 @@ class PhotosModelControllerComponent: public QObject
         void setDatabase(Database::IDatabase *);
 
         APhotoInfoModel* model() const;
+        QAbstractItemModel* categories() const;
 
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
@@ -64,6 +67,7 @@ class PhotosModelControllerComponent: public QObject
 
     signals:
         void modelChanged() const;
+        void categoriesChanged() const;
         void datesCountChanged() const;
 
     private:
@@ -72,6 +76,7 @@ class PhotosModelControllerComponent: public QObject
         QPair<unsigned int, unsigned int> m_timeView;
         QString m_searchExpression;
         FlatModel* m_model;
+        QStandardItemModel* m_categories;
         Database::IDatabase* m_db;
         bool m_newPhotosOnly;
 
