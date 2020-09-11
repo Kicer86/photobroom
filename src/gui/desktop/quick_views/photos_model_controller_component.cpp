@@ -18,9 +18,11 @@
 #include <chrono>
 
 #include <core/function_wrappers.hpp>
+#include <core/imodel_compositor_data_source.hpp>
 #include <database/iphoto_operator.hpp>
 #include "models/flat_model.hpp"
 #include "photos_model_controller_component.hpp"
+#include "ui_utils/icompleter_factory.hpp"
 
 
 using namespace std::placeholders;
@@ -34,21 +36,13 @@ namespace
 
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
-    , m_categories(new QStandardItemModel(this))
     , m_model(new FlatModel(this))
+    , m_db(nullptr)
+    , m_completerFactory(nullptr)
     , m_newPhotosOnly(false)
 {
     m_searchLauncher.setSingleShot(true);
     connect(&m_searchLauncher, &QTimer::timeout, this, &PhotosModelControllerComponent::updateModelFilters);
-
-    QList<QStandardItem *> categories =
-    {
-        new QStandardItem("red"),
-        new QStandardItem("green"),
-        new QStandardItem("blue"),
-    };
-
-    m_categories->appendColumn(categories);
 }
 
 
@@ -62,15 +56,48 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 }
 
 
+void PhotosModelControllerComponent::setCompleterFactory(ICompleterFactory* completerFactory)
+{
+    m_completerFactory = completerFactory;
+
+    auto categoriesModel = completerFactory->accessModel(TagTypes::Category);
+    connect(categoriesModel, &IModelCompositorDataSource::dataChanged,
+            this, &PhotosModelControllerComponent::categoriesChanged);
+
+    emit categoriesChanged();
+}
+
+
 APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
 }
 
 
-QAbstractItemModel* PhotosModelControllerComponent::categories() const
+QStringList PhotosModelControllerComponent::categories() const
 {
-    return m_categories;
+    QStringList values;
+
+    if (m_completerFactory)
+    {
+        auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
+        const auto rawValues = categoriesModel->data();
+
+        values.reserve(rawValues.size());
+
+        for(const QString& rawValue: rawValues)
+        {
+            const QRgba64 rgba = QRgba64::fromRgba64(rawValue.toULongLong());
+            const QString formattedValue = QString("#%1%2%3")
+                                              .arg(rgba.red8(), 2, 16, QChar('0'))
+                                              .arg(rgba.green8(), 2, 16, QChar('0'))
+                                              .arg(rgba.blue8(), 2, 16, QChar('0'));
+
+            values.push_back(formattedValue);
+        }
+    }
+
+    return values;
 }
 
 

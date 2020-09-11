@@ -128,6 +128,8 @@ void MainWindow::setupQmlView()
 
     assert(m_photosModelController != nullptr);
 
+    m_photosModelController->setCompleterFactory(&m_completerFactory);
+
     SelectionManagerComponent* selectionManager =
         qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
 

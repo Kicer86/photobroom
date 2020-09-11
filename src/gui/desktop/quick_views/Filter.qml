@@ -102,8 +102,19 @@ Item {
         ComboBox {
             id: comboBox
 
-            textRole: "display"
             model: controller.categories
+
+            delegate: ItemDelegate {
+                width: comboBox.width
+                height: 25
+                contentItem: Rectangle {
+                    color: modelData
+
+                    anchors.fill: parent
+                    anchors.margins: 1.5
+                }
+                highlighted: comboBox.highlightedIndex === index
+            }
         }
     }
 

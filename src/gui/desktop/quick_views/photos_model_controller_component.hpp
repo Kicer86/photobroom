@@ -28,7 +28,7 @@
 #include "models/flat_model.hpp"
 
 
-class QAbstractItemModel;
+struct ICompleterFactory;
 
 /* \brief Main bridge between QML Photo View and C++ world */
 class PhotosModelControllerComponent: public QObject
@@ -41,15 +41,16 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
         Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
-        Q_PROPERTY(QAbstractItemModel* categories READ categories NOTIFY categoriesChanged)
+        Q_PROPERTY(QStringList categories READ categories NOTIFY categoriesChanged)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
 
         void setDatabase(Database::IDatabase *);
+        void setCompleterFactory(ICompleterFactory* completerFactory);
 
         APhotoInfoModel* model() const;
-        QAbstractItemModel* categories() const;
+        QStringList categories() const;
 
         unsigned int datesCount() const;
         unsigned int timeViewFrom() const;
@@ -76,8 +77,8 @@ class PhotosModelControllerComponent: public QObject
         QPair<unsigned int, unsigned int> m_timeView;
         QString m_searchExpression;
         FlatModel* m_model;
-        QStandardItemModel* m_categories;
         Database::IDatabase* m_db;
+        ICompleterFactory* m_completerFactory;
         bool m_newPhotosOnly;
 
         void updateModelFilters();
