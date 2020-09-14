@@ -46,21 +46,17 @@ Item {
 
         ToolSeparator {}
 
-
         Text {
             id: search
             text: qsTr("Search:")
             anchors.verticalCenter: parent.verticalCenter
         }
 
-
         TextField {
             id: searchExpression
         }
 
-
         ToolSeparator {}
-
 
         Switch {
             id: moreOptionsButton
@@ -105,21 +101,43 @@ Item {
             model: controller.categories
 
             contentItem: Rectangle {
-                width: 20
-                height: 20
-                anchors.rightMargin: comboBox.indicator.width + comboBox.spacing
 
-                color: comboBox.displayText
+                color: "white"
+
+                Rectangle {
+                    color: comboBox.displayText
+
+                    anchors.fill: parent
+                    anchors.margins: 1.5
+
+                    visible: comboBox.displayText[0] == "#"
+                }
+                Text {
+                    text: comboBox.displayText
+                    visible: comboBox.displayText[0] != "#"
+                }
             }
 
             delegate: ItemDelegate {
                 width: comboBox.width
                 height: 25
-                contentItem: Rectangle {
-                    color: modelData
 
-                    anchors.fill: parent
-                    anchors.margins: 1.5
+                contentItem: Rectangle {
+
+                    color: "white"
+
+                    Rectangle {
+                        color: modelData
+
+                        anchors.fill: parent
+                        anchors.margins: 1.5
+
+                        visible: modelData[0] == "#"
+                    }
+                    Text {
+                        text: modelData
+                        visible: modelData[0] != "#"
+                    }
                 }
                 highlighted: comboBox.highlightedIndex === index
             }

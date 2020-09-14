@@ -83,7 +83,8 @@ QStringList PhotosModelControllerComponent::categories() const
         auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
         const auto rawValues = categoriesModel->data();
 
-        values.reserve(rawValues.size());
+        values.reserve(rawValues.size() + 1);
+        values.push_back(tr("All"));
 
         for(const QString& rawValue: rawValues)
         {
