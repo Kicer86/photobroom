@@ -12,7 +12,7 @@ ComboBox {
 
     delegate: ItemDelegate {
         width: root.width
-        height: 25
+        height: 30
 
         contentItem: Internal.ComboBoxDelegate {
             value: modelData
