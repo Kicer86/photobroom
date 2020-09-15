@@ -1,6 +1,7 @@
 
 <RCC>
     <qresource prefix="/ui">
+        <file>internal/ComboBoxDelegate.qml</file>
         <file>ColorComboBox.qml</file>
         <file>Filter.qml</file>
         <file>MultiselectGridView.qml</file>
