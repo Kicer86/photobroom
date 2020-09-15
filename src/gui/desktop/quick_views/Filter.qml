@@ -1,3 +1,4 @@
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 
@@ -95,52 +96,10 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        ComboBox {
+        ColorComboBox {
             id: comboBox
 
             model: controller.categories
-
-            contentItem: Rectangle {
-
-                color: "white"
-
-                Rectangle {
-                    color: comboBox.displayText
-
-                    anchors.fill: parent
-                    anchors.margins: 1.5
-
-                    visible: comboBox.displayText[0] == "#"
-                }
-                Text {
-                    text: comboBox.displayText
-                    visible: comboBox.displayText[0] != "#"
-                }
-            }
-
-            delegate: ItemDelegate {
-                width: comboBox.width
-                height: 25
-
-                contentItem: Rectangle {
-
-                    color: "white"
-
-                    Rectangle {
-                        color: modelData
-
-                        anchors.fill: parent
-                        anchors.margins: 1.5
-
-                        visible: modelData[0] == "#"
-                    }
-                    Text {
-                        text: modelData
-                        visible: modelData[0] != "#"
-                    }
-                }
-                highlighted: comboBox.highlightedIndex === index
-            }
         }
     }
 
