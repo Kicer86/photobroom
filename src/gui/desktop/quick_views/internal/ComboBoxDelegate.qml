@@ -16,7 +16,10 @@ Rectangle {
         visible: value[0] == "#"
     }
     Text {
-        text: value
+        anchors.fill: parent
+        anchors.margins: 2
+
         visible: value[0] != "#"
+        text: value
     }
 }
