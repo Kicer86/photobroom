@@ -15,6 +15,7 @@ Rectangle {
 
         visible: value[0] == "#"
     }
+
     Text {
         anchors.fill: parent
         anchors.margins: 2
