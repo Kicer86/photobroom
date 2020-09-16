@@ -34,7 +34,7 @@ namespace Database
     struct IDatabase;
 }
 
-struct IModelCompositorDataSource;
+class IModelCompositorDataSource;
 struct ILoggerFactory;
 class PeopleListModel;
 
