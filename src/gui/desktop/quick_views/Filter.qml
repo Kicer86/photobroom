@@ -1,3 +1,4 @@
+
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 
@@ -6,6 +7,8 @@ Item {
 
     property alias searchExpression: searchExpression.text
     property alias timeRange: timeRange
+    property alias ratingSlider: ratingSlider
+    property alias categoryComboBox: categoryComboBox
     property bool newPhotosOnly: newPhotosSwitch.checked
 
     property var controller
@@ -23,6 +26,7 @@ Item {
 
         TimeRange {
             id: timeRange
+            anchors.verticalCenter: parent.verticalCenter
 
             model: root.controller
 
@@ -51,20 +55,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        Rectangle {
-            id: rectangle
-            width: 200
-            height: 24
-            color: "white"
-            border.color: "black"
-            anchors.verticalCenter: parent.verticalCenter
-
-            TextInput{
-                id: searchExpression
-                anchors.rightMargin: 2
-                anchors.leftMargin: 2
-                anchors.fill: parent
-            }
+        TextField {
+            id: searchExpression
         }
 
         ToolSeparator {}
@@ -106,8 +98,31 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        ComboBox {
-            id: comboBox
+        ColorComboBox {
+            id: categoryComboBox
+
+            model: controller.categories
+        }
+
+        ToolSeparator {
+            id: toolSeparator1
+        }
+
+        Text {
+            text: "rating:"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        RangeSlider {
+            id: ratingSlider
+            anchors.verticalCenter: parent.verticalCenter
+            live: false
+            snapMode: RangeSlider.SnapAlways
+            stepSize: 0.5
+            to: 5
+            from: 0
+            first.value: 0
+            second.value: 5
         }
     }
 
@@ -136,5 +151,3 @@ Item {
         PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
     }
 }
-
-

@@ -34,7 +34,7 @@ namespace Database
     struct IDatabase;
 }
 
-struct IModelCompositorDataSource;
+class IModelCompositorDataSource;
 struct ILoggerFactory;
 class PeopleListModel;
 
@@ -46,13 +46,12 @@ class PeopleListModel;
 class CompleterFactory: public ICompleterFactory
 {
     public:
-        CompleterFactory();
+        explicit CompleterFactory(ILoggerFactory *);
         CompleterFactory(const CompleterFactory &) = delete;
         ~CompleterFactory();
         CompleterFactory& operator=(const CompleterFactory &) = delete;
 
         void set(Database::IDatabase *);
-        void set(ILoggerFactory *);
 
         QCompleter* createCompleter(const TagTypes &) override;
         QCompleter* createCompleter(const std::set<TagTypes> &) override;

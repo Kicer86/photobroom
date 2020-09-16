@@ -18,9 +18,11 @@
 #include <chrono>
 
 #include <core/function_wrappers.hpp>
+#include <core/imodel_compositor_data_source.hpp>
 #include <database/iphoto_operator.hpp>
 #include "models/flat_model.hpp"
 #include "photos_model_controller_component.hpp"
+#include "ui_utils/icompleter_factory.hpp"
 
 
 using namespace std::placeholders;
@@ -35,6 +37,8 @@ namespace
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
     , m_model(new FlatModel(this))
+    , m_db(nullptr)
+    , m_completerFactory(nullptr)
     , m_newPhotosOnly(false)
 {
     m_searchLauncher.setSingleShot(true);
@@ -52,9 +56,48 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 }
 
 
+void PhotosModelControllerComponent::setCompleterFactory(ICompleterFactory* completerFactory)
+{
+    m_completerFactory = completerFactory;
+
+    auto categoriesModel = completerFactory->accessModel(TagTypes::Category);
+    connect(categoriesModel, &IModelCompositorDataSource::dataChanged,
+            this, &PhotosModelControllerComponent::categoriesChanged);
+
+    emit categoriesChanged();
+}
+
+
 APhotoInfoModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
+}
+
+
+QStringList PhotosModelControllerComponent::categories() const
+{
+    QStringList values;
+
+    if (m_completerFactory)
+    {
+        const auto rawValues = rawCategories();
+
+        values.reserve(rawValues.size() + 1);
+        values.push_back(tr("All"));
+
+        for(const QString& rawValue: rawValues)
+        {
+            const QRgba64 rgba = QRgba64::fromRgba64(rawValue.toULongLong());
+            const QString formattedValue = QString("#%1%2%3")
+                                              .arg(rgba.red8(), 2, 16, QChar('0'))
+                                              .arg(rgba.green8(), 2, 16, QChar('0'))
+                                              .arg(rgba.blue8(), 2, 16, QChar('0'));
+
+            values.push_back(formattedValue);
+        }
+    }
+
+    return values;
 }
 
 
@@ -88,6 +131,33 @@ bool PhotosModelControllerComponent::newPhotosOnly() const
 }
 
 
+int PhotosModelControllerComponent::category() const
+{
+    if (m_categoryFilter.isEmpty())
+        return 0;
+    else
+    {
+        const auto cats = rawCategories();
+        auto it = std::find(cats.cbegin(), cats.cend(), m_categoryFilter);
+
+        assert(it != cats.end());
+        return std::distance(cats.cbegin(), it) + 1;
+    }
+}
+
+
+float PhotosModelControllerComponent::ratingFrom() const
+{
+    return m_ratingFrom / 2.0;
+}
+
+
+float PhotosModelControllerComponent::ratingTo() const
+{
+    return m_ratingTo / 2.0;
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -117,6 +187,38 @@ void PhotosModelControllerComponent::setSearchExpression(const QString& expressi
 void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
 {
     m_newPhotosOnly = v;
+
+    updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setCategory(int category)
+{
+    if (category <= 0)
+        m_categoryFilter.clear();
+    else
+    {
+        const auto cats = rawCategories();
+        assert(cats.size() >= category);
+
+        m_categoryFilter = cats[category - 1];
+    }
+
+    updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setRankFrom(float from)
+{
+    m_ratingFrom = from * 2;
+
+    updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setRankTo(float to)
+{
+    m_ratingTo = to * 2;
 
     updateModelFilters();
 }
@@ -191,7 +293,34 @@ std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters()
         filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
     }
 
+    if (m_categoryFilter.isEmpty() == false)
+    {
+        auto categoryFitler = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Category, m_categoryFilter);
+        filters_for_model.push_back(categoryFitler);
+    }
+
+    if (m_ratingFrom > 0)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingFrom, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+
+    if (m_ratingTo < 10)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+
+
     return filters_for_model;
+}
+
+
+QStringList PhotosModelControllerComponent::rawCategories() const
+{
+    if (m_completerFactory)
+    {
+        auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
+        const auto rawValues = categoriesModel->data();
+
+        return rawValues;
+    }
+    else
+        return {};
 }
 
 

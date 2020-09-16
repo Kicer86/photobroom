@@ -67,7 +67,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_lookTabCtrl(new LookTabController),
     m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
-    m_completerFactory()
+    m_completerFactory(m_loggerFactory)
 {
     // setup
     ui->setupUi(this);
@@ -92,8 +92,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_mainTabCtrl->set(m_configuration);
     m_lookTabCtrl->set(m_configuration);
     m_toolsTabCtrl->set(m_configuration);
-
-    m_completerFactory.set(m_loggerFactory);
 
     ui->tagEditor->set(&m_completerFactory);
 
@@ -129,6 +127,8 @@ void MainWindow::setupQmlView()
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
+
+    m_photosModelController->setCompleterFactory(&m_completerFactory);
 
     SelectionManagerComponent* selectionManager =
         qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));

@@ -13,12 +13,17 @@ void SelectionManagerComponent::toggleIndexSelection(int index)
 {
     const auto previous = m_selected;
 
-    auto it = m_selected.find(index);
+    if (index >= 0)
+    {
+        auto it = m_selected.find(index);
 
-    if (it == m_selected.end())
-        m_selected.insert(index);
+        if (it == m_selected.end())
+            m_selected.insert(index);
+        else
+            m_selected.erase(it);
+    }
     else
-        m_selected.erase(it);
+        m_selected.clear();
 
     calculateChange(previous, m_selected);
 }

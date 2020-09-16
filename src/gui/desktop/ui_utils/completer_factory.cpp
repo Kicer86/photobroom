@@ -44,11 +44,11 @@ namespace
 }
 
 
-CompleterFactory::CompleterFactory():
+CompleterFactory::CompleterFactory(ILoggerFactory* lf):
     m_tagInfoCollector(),
     m_tagValueModels(),
     m_peopleListModel(),
-    m_loggerFactory(nullptr)
+    m_loggerFactory(lf)
 {
 
 }
@@ -64,12 +64,6 @@ void CompleterFactory::set(Database::IDatabase* db)
 {
     m_tagInfoCollector.set(db);
     m_peopleListModel.setDB(db);
-}
-
-
-void CompleterFactory::set(ILoggerFactory* lf)
-{
-    m_loggerFactory = lf;
 }
 
 

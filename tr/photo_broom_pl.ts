@@ -164,22 +164,22 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+50"/>
-        <source>Search:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+28"/>
-        <source>More options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
+        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+89"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-35"/>
+        <source>Search:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>More options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>New photos only</source>
         <translation type="unfinished"></translation>
     </message>
@@ -224,14 +224,6 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <location line="+20"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
-    </message>
-</context>
-<context>
-    <name>LevelEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/filters_editor/level_editor.cpp" line="+208"/>
-        <source>Grouping:</source>
-        <translation>Grupowanie:</translation>
     </message>
 </context>
 <context>
@@ -772,9 +764,17 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
 </context>
 <context>
+    <name>PhotosModelControllerComponent</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+86"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+90"/>
+        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+93"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>

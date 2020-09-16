@@ -15,6 +15,9 @@ Item {
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
         newPhotosOnly: filterId.newPhotosOnly
+        category: filterId.categoryComboBox.currentIndex
+        ratingFrom: filterId.ratingSlider.first.value
+        ratingTo: filterId.ratingSlider.second.value
 
         onDatesCountChanged: {
             filterId.timeRange.from = 0
