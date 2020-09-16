@@ -131,6 +131,21 @@ bool PhotosModelControllerComponent::newPhotosOnly() const
 }
 
 
+int PhotosModelControllerComponent::category() const
+{
+    if (m_categoryFilter.isEmpty())
+        return 0;
+    else
+    {
+        const auto cats = rawCategories();
+        auto it = std::find(cats.cbegin(), cats.cend(), m_categoryFilter);
+
+        assert(it != cats.end());
+        return std::distance(cats.cbegin(), it) + 1;
+    }
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;

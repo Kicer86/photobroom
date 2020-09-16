@@ -35,14 +35,17 @@ class PhotosModelControllerComponent: public QObject
 {
         Q_OBJECT
 
+        // getters
         Q_PROPERTY(QAbstractItemModel* photos READ model NOTIFY modelChanged)
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
+        Q_PROPERTY(QStringList categories READ categories NOTIFY categoriesChanged)
+
+        // setters - filters narrowing view
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
         Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
-        Q_PROPERTY(QStringList categories READ categories NOTIFY categoriesChanged)
-        Q_PROPERTY(int category WRITE setCategory)
+        Q_PROPERTY(int category READ category WRITE setCategory)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -50,21 +53,26 @@ class PhotosModelControllerComponent: public QObject
         void setDatabase(Database::IDatabase *);
         void setCompleterFactory(ICompleterFactory* completerFactory);
 
+        // various getters
         APhotoInfoModel* model() const;
         QStringList categories() const;
-
         unsigned int datesCount() const;
+
+        // getters for filter
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
         QString searchExpression() const;
         bool newPhotosOnly() const;
+        int category() const;
 
+        // setters for filters
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
         void setSearchExpression(const QString &);
         void setNewPhotosOnly(bool);
         void setCategory(int);
 
+        // helpers and actions for qml
         Q_INVOKABLE QDate dateFor(unsigned int) const;
         Q_INVOKABLE void markNewAsReviewed();
 
@@ -76,13 +84,17 @@ class PhotosModelControllerComponent: public QObject
     private:
         QTimer m_searchLauncher;
         std::vector<QDate> m_dates;
+
+        // filters
         QPair<unsigned int, unsigned int> m_timeView;
         QString m_searchExpression;
         QString m_categoryFilter;
+        bool m_newPhotosOnly;
+        //
+
         FlatModel* m_model;
         Database::IDatabase* m_db;
         ICompleterFactory* m_completerFactory;
-        bool m_newPhotosOnly;
 
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
