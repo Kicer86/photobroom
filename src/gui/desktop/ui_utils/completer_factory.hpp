@@ -46,7 +46,7 @@ class PeopleListModel;
 class CompleterFactory: public ICompleterFactory
 {
     public:
-        CompleterFactory(ILoggerFactory *);
+        explicit CompleterFactory(ILoggerFactory *);
         CompleterFactory(const CompleterFactory &) = delete;
         ~CompleterFactory();
         CompleterFactory& operator=(const CompleterFactory &) = delete;
