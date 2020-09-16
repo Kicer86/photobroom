@@ -182,7 +182,7 @@ void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
 
 void PhotosModelControllerComponent::setCategory(int category)
 {
-    if (category == 0)
+    if (category <= 0)
         m_categoryFilter.clear();
     else
     {
@@ -277,10 +277,15 @@ std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters()
 
 QStringList PhotosModelControllerComponent::rawCategories() const
 {
-    auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
-    const auto rawValues = categoriesModel->data();
+    if (m_completerFactory)
+    {
+        auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
+        const auto rawValues = categoriesModel->data();
 
-    return rawValues;
+        return rawValues;
+    }
+    else
+        return {};
 }
 
 

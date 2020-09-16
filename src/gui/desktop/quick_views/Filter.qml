@@ -7,6 +7,7 @@ Item {
 
     property alias searchExpression: searchExpression.text
     property alias timeRange: timeRange
+    property alias categoryComboBox: categoryComboBox
     property bool newPhotosOnly: newPhotosSwitch.checked
 
     property var controller
@@ -97,11 +98,9 @@ Item {
         }
 
         ColorComboBox {
-            id: comboBox
+            id: categoryComboBox
 
             model: controller.categories
-
-            onCurrentIndexChanged: controller.category = currentIndex
         }
     }
 
