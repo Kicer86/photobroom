@@ -80,8 +80,7 @@ QStringList PhotosModelControllerComponent::categories() const
 
     if (m_completerFactory)
     {
-        auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
-        const auto rawValues = categoriesModel->data();
+        const auto rawValues = rawCategories();
 
         values.reserve(rawValues.size() + 1);
         values.push_back(tr("All"));
@@ -166,6 +165,22 @@ void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
 }
 
 
+void PhotosModelControllerComponent::setCategory(int category)
+{
+    if (category == 0)
+        m_categoryFilter.clear();
+    else
+    {
+        const auto cats = rawCategories();
+        assert(cats.size() >= category);
+
+        m_categoryFilter = cats[category - 1];
+    }
+
+    updateModelFilters();
+}
+
+
 QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 {
     return idx >= m_dates.size()? QDate(): m_dates[idx];
@@ -235,7 +250,22 @@ std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters()
         filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
     }
 
+    if (m_categoryFilter.isEmpty() == false)
+    {
+        auto categoryFitler = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Category, m_categoryFilter);
+        filters_for_model.push_back(categoryFitler);
+    }
+
     return filters_for_model;
+}
+
+
+QStringList PhotosModelControllerComponent::rawCategories() const
+{
+    auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
+    const auto rawValues = categoriesModel->data();
+
+    return rawValues;
 }
 
 

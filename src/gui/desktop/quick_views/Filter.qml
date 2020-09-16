@@ -100,6 +100,8 @@ Item {
             id: comboBox
 
             model: controller.categories
+
+            onCurrentIndexChanged: controller.category = currentIndex
         }
     }
 

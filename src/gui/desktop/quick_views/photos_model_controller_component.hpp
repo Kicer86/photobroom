@@ -42,6 +42,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
         Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
         Q_PROPERTY(QStringList categories READ categories NOTIFY categoriesChanged)
+        Q_PROPERTY(int category WRITE setCategory)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
@@ -62,6 +63,7 @@ class PhotosModelControllerComponent: public QObject
         void setTimeViewTo(unsigned int);
         void setSearchExpression(const QString &);
         void setNewPhotosOnly(bool);
+        void setCategory(int);
 
         Q_INVOKABLE QDate dateFor(unsigned int) const;
         Q_INVOKABLE void markNewAsReviewed();
@@ -76,6 +78,7 @@ class PhotosModelControllerComponent: public QObject
         std::vector<QDate> m_dates;
         QPair<unsigned int, unsigned int> m_timeView;
         QString m_searchExpression;
+        QString m_categoryFilter;
         FlatModel* m_model;
         Database::IDatabase* m_db;
         ICompleterFactory* m_completerFactory;
@@ -85,6 +88,7 @@ class PhotosModelControllerComponent: public QObject
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
         std::vector<Database::IFilter::Ptr> allFilters() const;
+        QStringList rawCategories() const;
 
         void getTimeRangeForFilters(Database::IBackend &);
         void markPhotosAsReviewed(Database::IBackend &);
