@@ -169,7 +169,7 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <translation></translation>
     </message>
     <message>
-        <location line="-36"/>
+        <location line="-35"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>

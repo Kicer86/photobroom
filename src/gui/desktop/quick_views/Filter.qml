@@ -6,6 +6,7 @@ Item {
     id: root
 
     property alias searchExpression: searchExpression.text
+    property alias timeRange: timeRange
     property alias ratingSlider: ratingSlider
     property alias categoryComboBox: categoryComboBox
     property bool newPhotosOnly: newPhotosSwitch.checked
