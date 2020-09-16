@@ -146,6 +146,18 @@ int PhotosModelControllerComponent::category() const
 }
 
 
+float PhotosModelControllerComponent::ratingFrom() const
+{
+    return m_ratingFrom / 2.0;
+}
+
+
+float PhotosModelControllerComponent::ratingTo() const
+{
+    return m_ratingTo / 2.0;
+}
+
+
 void PhotosModelControllerComponent::setTimeViewFrom(unsigned int viewFrom)
 {
     m_timeView.first = viewFrom;
@@ -191,6 +203,22 @@ void PhotosModelControllerComponent::setCategory(int category)
 
         m_categoryFilter = cats[category - 1];
     }
+
+    updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setRankFrom(float from)
+{
+    m_ratingFrom = from * 2;
+
+    updateModelFilters();
+}
+
+
+void PhotosModelControllerComponent::setRankTo(float to)
+{
+    m_ratingTo = to * 2;
 
     updateModelFilters();
 }
@@ -270,6 +298,13 @@ std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters()
         auto categoryFitler = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Category, m_categoryFilter);
         filters_for_model.push_back(categoryFitler);
     }
+
+    if (m_ratingFrom > 0)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingFrom, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+
+    if (m_ratingTo < 10)
+        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+
 
     return filters_for_model;
 }

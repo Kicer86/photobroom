@@ -6,7 +6,7 @@ Item {
     id: root
 
     property alias searchExpression: searchExpression.text
-    property alias timeRange: timeRange
+    property alias ratingSlider: ratingSlider
     property alias categoryComboBox: categoryComboBox
     property bool newPhotosOnly: newPhotosSwitch.checked
 
@@ -101,6 +101,27 @@ Item {
             id: categoryComboBox
 
             model: controller.categories
+        }
+
+        ToolSeparator {
+            id: toolSeparator1
+        }
+
+        Text {
+            text: "rating:"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        RangeSlider {
+            id: ratingSlider
+            anchors.verticalCenter: parent.verticalCenter
+            live: false
+            snapMode: RangeSlider.SnapAlways
+            stepSize: 0.5
+            to: 5
+            from: 0
+            first.value: 0
+            second.value: 5
         }
     }
 

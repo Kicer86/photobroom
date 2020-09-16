@@ -774,7 +774,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+91"/>
+        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+93"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>

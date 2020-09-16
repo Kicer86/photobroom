@@ -16,6 +16,8 @@ Item {
 
         newPhotosOnly: filterId.newPhotosOnly
         category: filterId.categoryComboBox.currentIndex
+        ratingFrom: filterId.ratingSlider.first.value
+        ratingTo: filterId.ratingSlider.second.value
 
         onDatesCountChanged: {
             filterId.timeRange.from = 0
