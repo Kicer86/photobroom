@@ -46,9 +46,7 @@ set(DATABASE_HEADERS
     iphoto_operator.hpp
     person_data.hpp
     photo_data.hpp
-    photo_iterator.hpp
     photo_types.hpp
-    query_list.hpp
     project_info.hpp
     implementation/async_database.hpp
     implementation/photo_info.hpp
