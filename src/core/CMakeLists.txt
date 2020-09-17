@@ -36,6 +36,7 @@ set(CORE_SOURCES
     map_iterator.hpp
     ptr_iterator.hpp
     status.hpp
+    tags_utils.hpp                                          implementation/tags_utils.cpp
 
     #utilities
     base_tags.hpp                                           implementation/base_tags.cpp
