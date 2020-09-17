@@ -9,8 +9,10 @@
 
 #include <core/configuration.hpp>
 #include <core/constants.hpp>
+#include <core/containers_utils.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/down_cast.hpp>
+#include <core/tags_utils.hpp>
 #include <system/system.hpp>
 #include <project_utils/project.hpp>
 #include <project_utils/misc.hpp>
@@ -111,6 +113,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->photosList->resizeColumnsToContents();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
     ui->generationProgressBar->reset();
+    ui->speedSpinBox->setValue(calculateFPS());
 
     if (type != Group::Type::Invalid)
         ui->groupingType->setCurrentIndex(groupTypeTocombobox(type));
@@ -410,6 +413,22 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
         m_model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
         m_model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
     }
+}
+
+
+double PhotosGroupingDialog::calculateFPS() const
+{
+    std::set<std::chrono::milliseconds> timestamps;
+
+    for(const auto& photo: m_photos)
+    {
+        const auto timestamp = Tag::timestamp(photo.tags);
+        timestamps.insert(timestamp);
+    }
+
+    const auto diff = back(timestamps) - front(timestamps);
+
+    return diff.count() > 0? (m_photos.size() * 1000.0 / diff.count()): 10.0;
 }
 
 

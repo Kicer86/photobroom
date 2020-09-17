@@ -22,31 +22,13 @@
 #include <QDateTime>
 
 #include <core/iexif_reader.hpp>
+#include <core/tags_utils.hpp>
 #include <ibackend.hpp>
 #include <iphoto_operator.hpp>
 
 
 namespace
 {
-    std::chrono::milliseconds timestamp(const Photo::Data& data)
-    {
-        qint64 timestamp = -1;
-
-        const auto dateIt = data.tags.find(TagTypes::Date);
-
-        if (dateIt != data.tags.end())
-        {
-            const QDate date = dateIt->second.getDate();
-            const auto timeIt = data.tags.find(TagTypes::Time);
-            const QTime time = timeIt != data.tags.end()? timeIt->second.getTime(): QTime();
-            const QDateTime dateTime(date, time);
-
-            timestamp = dateTime.toMSecsSinceEpoch();
-        }
-
-        return std::chrono::milliseconds(timestamp);
-    }
-
     class BaseGroupValidator
     {
     public:
@@ -169,7 +151,7 @@ namespace
         void setCurrentPhoto(const Photo::Data& d)
         {
             BaseGroupValidator::setCurrentPhoto(d);
-            m_current_stamp = timestamp(d);
+            m_current_stamp = Tag::timestamp(d.tags);
         }
 
         bool canBePartOfGroup()

@@ -103,6 +103,7 @@ class PhotosGroupingDialog: public QDialog
         void makeAnimation();
         void makeHDR();
         void fillModel(const std::vector<Photo::Data> &);
+        double calculateFPS() const;
 
         QStringList getPhotos() const;
         void scalePreview();
