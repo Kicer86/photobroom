@@ -47,7 +47,6 @@ set(CORE_SOURCES
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
     features_manager.hpp                                    implementation/features_manager.cpp
-    file_lock.hpp                                           implementation/file_lock.cpp
     image_tools.hpp                                         implementation/image_tools.cpp
     logger.hpp                                              implementation/logger.cpp
     logger_factory.hpp                                      implementation/logger_factory.cpp
@@ -77,15 +76,6 @@ set(CORE_SOURCES
     implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
 )
-
-
-if(UNIX)
-    list(APPEND CORE_SOURCES implementation/file_lock_posix.cpp)
-elseif(WIN32)
-    list(APPEND CORE_SOURCES implementation/file_lock_win.cpp)
-else()
-    message(FATAL "No file lock implementation for your operating system.")
-endif()
 
 if(CMAKE_USE_PTHREADS_INIT AND NOT APPLE)
     set(CORE_SOURCES ${CORE_SOURCES} implementation/thread_utils_pthreads.cpp)
