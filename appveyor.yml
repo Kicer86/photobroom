@@ -1,7 +1,7 @@
 
 # Warning: File generated from ci/appveyor.yml.in
 
-version: 1.4.{build}
+version: 1.5.{build}
 
 branches:
   only:
@@ -23,7 +23,7 @@ cache:
     - envs                          -> ci/appveyor.bat, conanfile.txt        # conan installation
 
 artifacts:
-  - path: build/PhotoBroom-1.4.0-*.exe
+  - path: build/PhotoBroom-1.5.0-*.exe
     name: PhotoBroom_installer
 
 environment:
