@@ -23,8 +23,7 @@
 #include <memory>
 
 #include <QString>
-
-#include <core/file_lock.hpp>
+#include <QLockFile>
 
 #include "project_utils_export.h"
 
@@ -81,7 +80,7 @@ class PROJECT_UTILS_EXPORT Project
     private:
         ProjectInfo m_prjInfo;
         std::unique_ptr<Database::IDatabase> m_database;
-        FileLock m_lock;
+        QLockFile m_lock;
 };
 
 #endif // PROJECT_HPP
