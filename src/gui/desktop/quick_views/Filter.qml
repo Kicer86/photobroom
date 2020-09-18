@@ -109,7 +109,7 @@ Item {
         }
 
         Text {
-            text: "rating:"
+            text: qsTr("Rating:")
             anchors.verticalCenter: parent.verticalCenter
         }
 

@@ -188,6 +188,11 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
         <source>Category:</source>
         <translation>Kategoria:</translation>
     </message>
+    <message>
+        <location line="+15"/>
+        <source>Rating:</source>
+        <translation>Ocena:</translation>
+    </message>
 </context>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
