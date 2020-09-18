@@ -171,22 +171,22 @@ Po zakończeniu odczytu zdjęcia można przejrzeć klikając w tabkę &quot;Nowe
     <message>
         <location line="-35"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukaj:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>More options</source>
-        <translation type="unfinished"></translation>
+        <translation>Więcej opcji</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>New photos only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko nowe zdjęcia</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategoria:</translation>
     </message>
 </context>
 <context>
@@ -768,7 +768,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+86"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie</translation>
     </message>
 </context>
 <context>
@@ -776,12 +776,12 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+93"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wciśnij przycisk &quot;Akceptuj&quot; by oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; zdjęcia jako przejrzane.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Akceptuj</translation>
     </message>
 </context>
 <context>
