@@ -117,7 +117,9 @@ before_script:
           ..
 
 script:
+  - ccache -s
   - make
+  - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
         xvfb-run -e /dev/stdout ctest -V -L UnitTest;
     fi
