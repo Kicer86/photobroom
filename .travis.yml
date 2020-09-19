@@ -68,7 +68,6 @@ cache:
 
 before_install:
   # setup tools for particular system
-  - echo "max_size = 1.0"      > /home/travis/.ccache/ccache.conf
   - echo "compression = true" >> /home/travis/.ccache/ccache.conf
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
