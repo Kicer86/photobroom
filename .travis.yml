@@ -119,7 +119,7 @@ before_script:
           ..
 
 script:
-  - ccache -s
+  - ccache -z
   - make
   - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
