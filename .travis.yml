@@ -118,6 +118,8 @@ before_script:
 
 script:
   - ccache -s
+  - cat /home/travis/.ccache/ccache.conf
+  - cat /etc/ccache.conf
   - make
   - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
