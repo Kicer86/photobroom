@@ -30,8 +30,6 @@
 
 namespace
 {
-    const QString faces_recognized_flag = QStringLiteral("faces_recognized");
-
     Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
     {
         if (faces.empty())
