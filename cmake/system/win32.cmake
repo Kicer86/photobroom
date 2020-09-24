@@ -16,6 +16,7 @@ function(setup_qt_environment)
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
                                        --release
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
@@ -44,6 +45,7 @@ function(setup_qt_environment)
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
                                        --release
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
