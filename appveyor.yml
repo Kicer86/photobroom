@@ -1,7 +1,7 @@
 
 # Warning: File generated from ci/appveyor.yml.in
 
-version: 1.5.{build}
+version: 1.5.0.{build}
 
 branches:
   only:
