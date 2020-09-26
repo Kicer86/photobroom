@@ -1,6 +1,6 @@
 
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.0
+import QtQuick.Controls 2.0
 import photo_broom.qml 1.0
 
 /*
