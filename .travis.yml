@@ -119,11 +119,13 @@ script:
           ${EXTRA_CMAKE_OPTIONS}
           ..
   - make
-  - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
         xvfb-run -e /dev/stdout ctest -V -L UnitTest;
     fi
 
+
+after_script:
+  - ccache -s
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
