@@ -7,7 +7,7 @@ branches:
   only:
     - master
     - travis_test
-    - v*-branch
+    - v1.4-branch
 
 addons:
   apt:

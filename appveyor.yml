@@ -7,7 +7,7 @@ branches:
   only:
     - master
     - appveyor
-    - v*-branch
+    - v1.4-branch
 
 configuration:
     - Release
