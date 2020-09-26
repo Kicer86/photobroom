@@ -178,9 +178,6 @@ endif(DOXYGEN)
 #icons
 set(SVG_ICONS images/photo_broom.svg)
 
-#ci/cd
-configure_file(${CMAKE_SOURCE_DIR}/ci/appveyor.yml.in ${CMAKE_SOURCE_DIR}/appveyor.yml @ONLY)
-
 #unit tests
 if(BUILD_TESTING)
 
