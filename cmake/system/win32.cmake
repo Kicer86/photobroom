@@ -15,7 +15,7 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
@@ -23,14 +23,14 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
@@ -44,7 +44,7 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
@@ -52,7 +52,7 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
