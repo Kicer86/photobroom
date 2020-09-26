@@ -7,6 +7,7 @@ branches:
   only:
     - master
     - travis_test
+    - v1.4-branch
 
 addons:
   apt:
@@ -66,7 +67,7 @@ cache:
         - $HOME/tools               # tools like CMake
         - conan                     # Conan installation folder
 
-before_install:
+install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
@@ -108,6 +109,9 @@ before_script:
     else
         conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null;
     fi
+  - ccache -z
+
+script:
   - cmake -DCMAKE_INSTALL_PREFIX=$TRAVIS_BUILD_DIR/usr
           -DBUILD_UPDATER=ON
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
@@ -115,15 +119,13 @@ before_script:
           -DGTest_DIR=$HOME/googletest_installation/lib/cmake/GTest
           ${EXTRA_CMAKE_OPTIONS}
           ..
-
-script:
-  - ccache -s
   - make
+
+after_script:
   - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
         xvfb-run -e /dev/stdout ctest -V -L UnitTest;
     fi
-
 
 after_success:
   - if [ $DEBUG -eq 1 ]; then
