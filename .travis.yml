@@ -66,7 +66,7 @@ cache:
         - $HOME/tools               # tools like CMake
         - conan                     # Conan installation folder
 
-before_install:
+install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
@@ -115,9 +115,9 @@ before_script:
           -DGTest_DIR=$HOME/googletest_installation/lib/cmake/GTest
           ${EXTRA_CMAKE_OPTIONS}
           ..
+  - ccache -z
 
 script:
-  - ccache -z
   - make
   - ccache -s
   - if [ $TRAVIS_OS_NAME != 'osx' ]; then
