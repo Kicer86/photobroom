@@ -19,10 +19,6 @@ addons:
       - liblapack-dev
       - nasm
       - googletest
-      - qt5-default
-      - libqt5svg5-dev
-      - qtdeclarative5-dev
-      - qttools5-dev-tools
       - libexiv2-dev
     sources:
 
@@ -81,7 +77,9 @@ install:
         export PATH="/usr/local/opt/ccache/libexec:$PATH";
         export PATH="/usr/local/opt/qt/bin:$PATH";
     else
-        sudo apt install libgl-dev lcov;
+        sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.0-focal;
+        sudo apt install qt515base qt515svg qt515quickcontrols2  libgl-dev lcov;
+        source /opt/qt515/bin/qt515-env.sh;
         pyenv global 3.7;
         mkdir $HOME/googletest;
         pushd $HOME/googletest;
