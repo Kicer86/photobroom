@@ -18,9 +18,9 @@ if(BUILD_UPDATER)
 endif()
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Core     5.12 REQUIRED)
-find_package(Qt5Gui      5.12 REQUIRED)
-find_package(Qt5Widgets  5.12 REQUIRED)
+find_package(Qt5Core     5.15 REQUIRED)
+find_package(Qt5Gui      5.15 REQUIRED)
+find_package(Qt5Widgets  5.15 REQUIRED)
 
 set(BROOM_SOURCES main.cpp
     $<TARGET_OBJECTS:plugins>
