@@ -35,21 +35,9 @@ set(SYSTEM_HEADERS
 )
 
 if(WIN32)
-
-    if(DEVELOPER_BUILD)
-        #Add installation path as a base path.
-        set(BASE_PATH "${CMAKE_INSTALL_PREFIX}/")
-        string(REPLACE "\\" "/" BASE_PATH ${BASE_PATH})
-    else()
-        unset(BASE_PATH)
-    endif()
-
     configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
-
 else()
-
     configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
-
 endif()
 
 add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})

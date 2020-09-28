@@ -45,21 +45,12 @@ Tested compilers (with c++17 support):
 3. Visual studio 2019 (Windows)
 
 
-PhotoBroom cannot be run from build directory without installation step.
-On Linux it will search for plugins in destination (installation) directory.
-Build 'install' target to install PhotoBroom. Then you can launch it.
-On Windows operating system, PhotoBroom searches for plugins and translations,
-in location relative to exe file.
-
-There is CMake DEVELOPER_BUILD variable available to ease debugging.
-On Windows, DEVELOPER_BUILD option will force PhotoBroom to look for plugins and translations in location
-defined by CMAKE_INSTALL_PREFIX (so as it does on Linux) not in build directory.
-This will allow you to launch PhotoBroom from build directory after 'install' step.
-
-
+PhotoBroom cannot be run without installation step.
+Build 'install' target to install PhotoBroom.
+On Windows photo broom can be launched from installation dir only.
+On Linux, thanks to RPATH, it can be launched from build dir.
 
 Extra targets available for Windows:
 'deploy'  prepares extra dir with all external dependencies required by PhotoBroom.
-'install' install PhotoBroom with all external dependencies
 'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.
