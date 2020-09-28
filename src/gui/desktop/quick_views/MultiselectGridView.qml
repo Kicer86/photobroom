@@ -1,5 +1,5 @@
 
-import QtQuick 2.4
+import QtQuick 2.15
 import photo_broom.qml 1.0
 
 // Generic component extending GridView by multiselection.
