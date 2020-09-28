@@ -86,6 +86,7 @@ option(STATIC_PLUGINS "Build plugins as static" OFF)
 add_feature_info("Run unit test after build" RUN_TESTS_AFTER_BUILD "Runs unit tests after build. Feature controled by RUN_TESTS_AFTER_BUILD variable.")
 add_feature_info("Enable 'updater' module" BUILD_UPDATER "Build module responsible for online version check.")
 add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static modules.")
+add_feature_info("Build id" PHOTO_BROOM_BUILD_ID "Build id attached to installer version")
 
 #tests
 if(BUILD_TESTING)
