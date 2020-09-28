@@ -1,6 +1,6 @@
 
 find_package(OpenLibrary 2.3  REQUIRED putils)
-find_package(Qt5Core     5.10 REQUIRED)
+find_package(Qt5Core          REQUIRED)
 find_package(Qt5Gui           REQUIRED)
 find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)

@@ -182,8 +182,7 @@ void CollectionDirScanDialog::updateGui()
                 tr("Done. No new photos found."):
                 tr("Done. %n new photo(s) found.\n"
                    "Photo broom will now collect data from photos.\n"
-                   "You can watch progress in 'Operations' panel.\n"
-                   "When it is done you can review photos by clicking 'New photos' tab at the bottom of window."
+                   "You can watch progress in 'Operations' panel."
                    ,
                    "",
                    m_photosFound.size());
