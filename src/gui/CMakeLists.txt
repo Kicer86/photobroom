@@ -1,5 +1,5 @@
 
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Widgets QuickControls2)
 find_package(OpenLibrary 2.2 REQUIRED QtExt)
 
 include(GenerateExportHeader)
@@ -63,6 +63,7 @@ target_link_libraries(gui
                             KWidgetsAddons
                             ${OPENLIBRARY_LIBRARIES}
                             Qt5::Widgets
+                            Qt5::QuickControls2
 )
 
 target_include_directories(gui

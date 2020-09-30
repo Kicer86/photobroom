@@ -7,6 +7,10 @@
 #include <QStandardPaths>
 #include <QTranslator>
 
+#ifdef WIN32
+    #include <QQuickStyle>
+#endif
+
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
@@ -106,9 +110,12 @@ void Gui::run()
     Q_INIT_RESOURCE(images);
 #endif
 
-    // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
+    // On Windows, add extra location for Qt plugins
     qApp->addLibraryPath(FileSystem().getLibrariesPath());
+
+    // Default style is ugly, switch to something nice
+    QQuickStyle::setStyle("Fusion");
 #endif
 
     ILoggerFactory* loggerFactory = m_coreFactory.getLoggerFactory();
