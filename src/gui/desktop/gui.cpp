@@ -110,13 +110,11 @@ void Gui::run()
     Q_INIT_RESOURCE(images);
 #endif
 
-    // On Windows, add extra location for Qt plugins
 #ifdef OS_WIN
+    // On Windows, add extra location for Qt plugins
     qApp->addLibraryPath(FileSystem().getLibrariesPath());
-#endif
 
     // Default style is ugly, switch to something nice
-#ifdef OS_WIN
     QQuickStyle::setStyle("Fusion");
 #endif
 
