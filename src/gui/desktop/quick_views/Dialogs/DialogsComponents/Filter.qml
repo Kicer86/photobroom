@@ -1,6 +1,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import "../../Components" as Components
 
 /*
  * Filter panel
@@ -28,7 +29,7 @@ Item {
         id: row
         spacing: 2
 
-        TimeRange {
+        Components.TimeRange {
             id: timeRange
             anchors.verticalCenter: parent.verticalCenter
 
@@ -102,7 +103,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        ColorComboBox {
+        Components.ColorComboBox {
             id: categoryComboBox
 
             model: controller.categories

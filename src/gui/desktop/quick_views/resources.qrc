@@ -1,15 +1,15 @@
 
 <RCC>
     <qresource prefix="/ui">
-        <file>internal/ComboBoxDelegate.qml</file>
-        <file>ColorComboBox.qml</file>
-        <file>Filter.qml</file>
-        <file>MultiselectGridView.qml</file>
-        <file>PhotoDelegate.qml</file>
-        <file>PhotosGridView.qml</file>
-        <file>PhotosView.qml</file>
-        <file>SeriesDetection.qml</file>
-        <file>ThumbnailSlider.qml</file>
-        <file>TimeRange.qml</file>
+        <file>Components/internal/ComboBoxDelegate.qml</file>
+        <file>Components/ColorComboBox.qml</file>
+        <file>Components/MultiselectGridView.qml</file>
+        <file>Components/ThumbnailSlider.qml</file>
+        <file>Components/TimeRange.qml</file>
+        <file>Dialogs/PhotosView.qml</file>
+        <file>Dialogs/SeriesDetection.qml</file>
+        <file>Dialogs/DialogsComponents/Filter.qml</file>
+        <file>Dialogs/DialogsComponents/PhotoDelegate.qml</file>
+        <file>Dialogs/DialogsComponents/PhotosGridView.qml</file>
     </qresource>
 </RCC>

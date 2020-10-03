@@ -80,7 +80,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
     QmlUtils::registerObject(m_qmlView, "groupsModelId", m_tabModel);
     QmlUtils::registerObjectProperties(m_qmlView, "groupsModelState", &m_modelDynamicProperties);
-    m_qmlView->setSource(QUrl("qrc:/ui/SeriesDetection.qml"));
+    m_qmlView->setSource(QUrl("qrc:/ui/Dialogs/SeriesDetection.qml"));
 
     layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);

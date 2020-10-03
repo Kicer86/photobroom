@@ -2,6 +2,8 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
+import "../Components" as Components
+import "DialogsComponents" as Internals
 
 /*
  * Series detection dialog
@@ -53,7 +55,7 @@ Item
                     height: photoDelegateId.height
 
                     Row {
-                        PhotoDelegate {
+                        Internals.PhotoDelegate {
                             id: photoDelegateId
                             width: groupsListId.thumbnailSize
                             height: groupsListId.thumbnailSize
@@ -79,7 +81,7 @@ Item
                     z: 2
                 }
 
-                ThumbnailSlider {
+                Components.ThumbnailSlider {
                     id: thumbnailSliderId
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
