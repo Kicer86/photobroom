@@ -3,6 +3,10 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "internal" as Internal
 
+/*
+ * Reusable combobox with list of colors
+ */
+
 ComboBox {
     id: root
 

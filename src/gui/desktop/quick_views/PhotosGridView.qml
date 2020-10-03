@@ -2,6 +2,10 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+/*
+ * Photos grid with multiselection component
+ */
+
 MultiselectGridView {
 
     property int thumbnailSize: 160
