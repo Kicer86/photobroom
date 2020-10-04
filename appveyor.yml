@@ -62,15 +62,15 @@ before_build:
     - cmd: cat c:\Users\appveyor\.conan\profiles\default
     - git submodule update --init --recursive
     - cmd: set generator="Visual Studio 16 2019"
-    - cmd: set qt_arch=msvc2017_64
+    - cmd: set qt_arch=msvc2019_64
     - cmd: set arch=amd64
-    - cmd: set USE_QT_VER=5.14
+    - cmd: set USE_QT_VER=5.15
     - cmd: set PATH=C:\Qt\%USE_QT_VER%\%qt_arch%\bin;C:\Program Files\CMake\bin;%PATH%
     - cmd: set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;c:/projects/install
     - cmd: mkdir build
     - cmd: cd build
     - cmd: conan install .. --build missing
-    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF ..
+    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% ..
 
 build:
   project: build/PhotoBroom.sln
@@ -78,5 +78,6 @@ build:
   verbosity: minimal
 
 after_build:
-    - if "%CONFIGURATION%" == "Release"  cmake --build . --target deploy  --config %configuration%
-    - if "%CONFIGURATION%" == "Release"  cmake --build . --target PACKAGE --config %configuration%
+    - if "%CONFIGURATION%" == "Release"
+         cmake --build . --target deploy  --config %configuration%   &&
+         cmake --build . --target PACKAGE --config %configuration%

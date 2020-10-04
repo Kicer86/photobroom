@@ -8,8 +8,8 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 
 Required tools and libraries:
- - cmake - version 3.8 or later
- - Qt5 - version 5.7 or higher
+ - cmake - version 3.12 or later
+ - Qt5 - version 5.15 or higher
  - exiv2*
  - OpenLibrary*
  - dlib*

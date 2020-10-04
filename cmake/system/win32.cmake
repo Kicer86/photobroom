@@ -15,21 +15,22 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
@@ -43,14 +44,15 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
                                        --no-compiler-runtime
-                                       --release
+                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
@@ -217,3 +219,7 @@ set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY  ${PROJECT_NAME})
 set(CPACK_PACKAGE_EXECUTABLES
     photo_broom "Photo Broom"
 )
+
+if(PHOTO_BROOM_BUILD_ID)
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}-b${PHOTO_BROOM_BUILD_ID}")
+endif()

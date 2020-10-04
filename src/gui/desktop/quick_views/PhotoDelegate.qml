@@ -1,6 +1,6 @@
 
-import QtQuick 2.14
-import QtQuick.Controls 2.3
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 
 /*
@@ -44,10 +44,18 @@ Item {
         State {
             name: "loading"
             when: imageId.state === Photo.Fetching
+            PropertyChanges {
+                target: busyId
+                running: true
+            }
         },
         State {
             name: "done"
             when: imageId.state === Photo.Fetched
+            PropertyChanges {
+                target: busyId
+                running: false
+            }
         }
     ]
 
@@ -55,31 +63,16 @@ Item {
         Transition {
             from: "loading"
             to: "done"
-            ParallelAnimation {
-                PropertyAnimation {
-                    target: busyId
-                    properties: "opacity"
-                    from: 1
-                    to: 0
-                }
-                PropertyAnimation {
-                    target: imageId
-                    properties: "opacity"
-                    from: 0
-                    to: 1
-                }
+            PropertyAnimation {
+                target: imageId
+                properties: "opacity"
+                from: 0
+                to: 1
             }
         },
         Transition {
             from: "unknown"
             to: "done"
-            PropertyAnimation {
-                target: busyId
-                properties: "opacity"
-                from: 1
-                to: 0
-                duration: 0
-            }
             PropertyAnimation {
                 target: imageId
                 properties: "opacity"

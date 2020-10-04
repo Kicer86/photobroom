@@ -42,8 +42,8 @@ using namespace std::placeholders;
 namespace
 {
     constexpr int DetailsRole = Qt::UserRole + 1;
-    constexpr int PropertiesRole = DetailsRole + 1;
-    constexpr int GroupTypeRole = PropertiesRole + 1;
+    constexpr int PhotoDataRole = DetailsRole + 1;
+    constexpr int GroupTypeRole = PhotoDataRole + 1;
     constexpr int thumbnail_size = 64;
     const QString loadedPropertyName("loaded");
 }
@@ -70,7 +70,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     m_modelDynamicProperties.insert(loadedPropertyName, false);
 
     m_tabModel->setItemRoleNames( {
-        {PropertiesRole, "photoProperties"},
+        {PhotoDataRole, "photoData"},
         {GroupTypeRole, "groupType"},
     } );
 
@@ -136,7 +136,7 @@ void SeriesDetection::load_series(const std::vector<SeriesDetector::GroupCandida
         }
 
         QStandardItem* groupItem = new QStandardItem;
-        groupItem->setData(QVariant::fromValue(representativeData), PropertiesRole);
+        groupItem->setData(QVariant::fromValue(representativeData), PhotoDataRole);
         groupItem->setData(QVariant::fromValue(candidate), DetailsRole);
         groupItem->setData(type, GroupTypeRole);
 
