@@ -107,7 +107,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="-17"/>
-        <location line="+26"/>
+        <location line="+25"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
