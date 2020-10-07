@@ -94,7 +94,7 @@
         <location line="+1"/>
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
-You can watch progress in &apos;Operations&apos; panel.</source>
+You can watch progress in &apos;Tasks&apos; panel.</source>
         <translation>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
             <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
