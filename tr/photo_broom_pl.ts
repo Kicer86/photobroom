@@ -809,24 +809,26 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+5"/>
+        <source>Photos storage location</source>
+        <translation>Katalog w którym będą przechowywane zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Photos location</source>
         <translation>Lokalizacja zdjęć</translation>
     </message>
     <message>
-        <location line="-3"/>
-        <source>Photos location is place where your photos collection will be stored.
-Location may already contain photos which will be added to collection.</source>
-        <translation>Lokalizacja zdjęć to katalog, gdzie twoje zdjęcia będą przechowywane.
-Podana lokalizacja może już zawierać zdjęcia - zostaną one dodane do kolekcji.</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="-2"/>
         <source>Location</source>
         <translation>Lokalizacja</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-9"/>
+        <source>&lt;small&gt;Photos storage location is a place where all your photos and videos will be kept.&lt;br&gt;Also Photo Broom&apos;s database will be kept there.&lt;br&gt;Location may already contain photos and videos which will be automatically loaded.&lt;br&gt;&lt;b&gt;Photo Broom does not modify or move your files. All applied informations are stored in database not in files itself.&lt;/b&gt;&lt;/small&gt;</source>
+        <translation>&lt;small&gt;Katalog w którym będą przechowywane zdjęcia oraz pliki wideo.&lt;br&gt;W tym katalogu Photo Broom będzie również przechowywał bazę danych.&lt;br&gt;W wybranym katalogu mogą już znajdować się pliki multimedialne, które zostaną automatycznie wczytane do kolekcji.&lt;br&gt;&lt;b&gt;Photo Broom nie modyfikuje ani nie przemieszcza Twoich plików. Wszystkie dodawane informacje na temat zdjęć są zapisywane w bazie danych a nie w plikach.&lt;/b&gt;&lt;/small&gt;</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
