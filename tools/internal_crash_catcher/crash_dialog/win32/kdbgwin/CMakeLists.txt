@@ -38,7 +38,7 @@ elseif( MSVC OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"))
 
 endif()
 
-qt5_wrap_cpp(WRAPPED_CPP ${kdbgwin_TO_MOC})
+qt6_wrap_cpp(WRAPPED_CPP ${kdbgwin_TO_MOC})
 
 add_executable(kdbgwin ${kdbgwin_SRCS} ${WRAPPED_CPP})
 target_link_libraries(kdbgwin ${kdbgwin_LIBS})

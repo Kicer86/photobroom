@@ -18,7 +18,7 @@ if(STATIC_PLUGINS)
     add_definitions(-DSTATIC_PLUGINS)
 endif()
 
-qt5_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp )
+qt6_wrap_cpp(BACKEND_WRAPPED_CPP backend.hpp )
 
 add_library(database_mysql_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_WRAPPED_CPP})
 target_link_libraries(database_mysql_backend PRIVATE core database sql_backend_base system Qt::Core Qt::Sql)

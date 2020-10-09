@@ -24,7 +24,7 @@ set(UTILS_FILES_TO_MOC
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-qt5_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
+qt6_wrap_cpp(UTILS_WRAPPED_CPP ${UTILS_FILES_TO_MOC})
 
 add_library(gui_ui_utils OBJECT ${UTILS_SOURCES} ${UTILS_WRAPPED_CPP} ${UTILS_HEADERS})
 set_target_properties(gui_ui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)

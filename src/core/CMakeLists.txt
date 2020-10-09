@@ -83,7 +83,7 @@ endif()
 
 set(CORE_RESOURCE_FILES     images/images.qrc)
 
-qt5_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
+qt6_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 source_group(files REGULAR_EXPRESSION .*core.* )
 

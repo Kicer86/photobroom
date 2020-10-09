@@ -73,7 +73,7 @@ set(DATABASE_MOC
     photo_types.hpp
 )
 
-qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
+qt6_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 

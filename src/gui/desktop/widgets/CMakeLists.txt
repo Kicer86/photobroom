@@ -53,7 +53,7 @@ source_group(project_creator .*\/project_creator\/.* )
 source_group(tag_editor .*\/tag_editor\/.* )
 source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
 
-qt5_wrap_cpp(MOCED ${TO_MOC})
+qt6_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_widgets OBJECT ${SRCS} ${MOCED} ${HEADERS})
 set_target_properties(gui_widgets PROPERTIES POSITION_INDEPENDENT_CODE ON)
