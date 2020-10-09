@@ -5,7 +5,7 @@ find_program(WGET wget)
 if(BUILD_LEARNING_TESTS AND WGET)
 
     find_package(GTest REQUIRED CONFIG)
-    find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+    find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 
     # download face dataset from vis-www.cs.umass.edu/lfw/
     # another datasets: https://www.researchgate.net/post/Does_anyone_know_of_a_downloadable_large_faces_dataset

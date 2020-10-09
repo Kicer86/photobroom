@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS QuickWidgets Widgets)
+find_package(Qt6 REQUIRED COMPONENTS QuickWidgets Widgets)
 
 set(SRCS
     collection_dir_scan_dialog.cpp

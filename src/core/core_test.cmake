@@ -3,8 +3,8 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(GTest REQUIRED CONFIG)
 find_package(OpenLibrary 2.1 REQUIRED utils)
-find_package(Qt5     REQUIRED COMPONENTS Core Gui)
-find_package(Qt5Test REQUIRED)
+find_package(Qt6     REQUIRED COMPONENTS Core Gui)
+find_package(Qt6Test REQUIRED)
 
 
 addTestTarget(core

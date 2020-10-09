@@ -2,7 +2,7 @@
 add_subdirectory(learning_tests)
 add_subdirectory(dlib_wrapper)
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 
 add_library(face_recognition
     face_recognition.cpp

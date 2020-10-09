@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES

@@ -1,6 +1,6 @@
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(Threads)
 
 include(${OPENLIBRARY_USE_FILE})

@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS
+find_package(Qt6 REQUIRED COMPONENTS
                  Quick
                  QuickWidgets
 )

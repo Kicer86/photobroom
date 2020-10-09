@@ -3,7 +3,7 @@ if(WIN32)
     add_subdirectory(win32/kdbgwin)
 endif()
 
-find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -67,8 +67,8 @@ else()
 endif()
 
 
-qt5_wrap_cpp(WRAPPED_CPP ${FILES_TO_MOC})
-qt5_wrap_ui(WRAPPED_UI ${UI_FILES})
+qt6_wrap_cpp(WRAPPED_CPP ${FILES_TO_MOC})
+qt6_wrap_ui(WRAPPED_UI ${UI_FILES})
 
 add_executable(crash_dialog ${SRCS} ${HEADERS} ${WRAPPED_CPP} ${WRAPPED_UI})
 target_link_libraries(crash_dialog

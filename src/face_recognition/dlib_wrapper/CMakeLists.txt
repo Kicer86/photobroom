@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 find_package(Threads REQUIRED)
 find_package(dlib REQUIRED)
 

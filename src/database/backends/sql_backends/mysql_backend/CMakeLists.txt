@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Sql)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql)
 find_package(OpenLibrary REQUIRED)
 
 set(BACKEND_SOURCES

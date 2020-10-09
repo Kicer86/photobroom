@@ -1,7 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt5 REQUIRED COMPONENTS Sql)
+find_package(Qt6 REQUIRED COMPONENTS Sql)
 
 addTestTarget(database
                 SOURCES

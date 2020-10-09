@@ -1,6 +1,6 @@
 
 find_package(OpenLibrary 2.3  REQUIRED putils)
-find_package(Qt5              REQUIRED COMPONENTS Core Gui)
+find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
@@ -90,7 +90,7 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
                         PUBLIC
-                            Qt5::Core
+                            Qt::Core
                             Qt::Gui
                         PRIVATE
                             system

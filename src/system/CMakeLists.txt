@@ -1,7 +1,7 @@
 
 include(GenerateExportHeader)
 
-find_package(Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 set(SYSTEM_SOURCES)
 
