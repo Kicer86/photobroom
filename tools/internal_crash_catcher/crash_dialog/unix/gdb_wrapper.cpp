@@ -15,11 +15,8 @@ GDBWrapper::GDBWrapper(const QString& path):
     m_pid(-1),
     m_tid(-1)
 {
-    auto errorSignal = static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error);
-    auto finishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
-
-    connect(&m_gdb, errorSignal, this, &GDBWrapper::gdbError);
-    connect(&m_gdb, finishedSignal, this, &GDBWrapper::gdbFinished);
+    connect(&m_gdb, &QProcess::errorOccurred, this, &GDBWrapper::gdbError);
+    connect(&m_gdb, &QProcess::finished, this, &GDBWrapper::gdbFinished);
 
     m_gdb.setProcessChannelMode(QProcess::MergedChannels);
 }
