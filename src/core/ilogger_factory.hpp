@@ -23,8 +23,7 @@
 #include <memory>
 #include <vector>
 
-class QString;
-class QStringList;
+#include <QStringList>
 
 struct ILogger;
 
