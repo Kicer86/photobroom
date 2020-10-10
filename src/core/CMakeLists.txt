@@ -90,11 +90,12 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
+                        PUBLIC
+                            Qt5::Core
+                            Qt::Gui
                         PRIVATE
                             system
                             ${OPENLIBRARY_LIBRARIES}
-                            Qt::Core
-                            Qt::Gui
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
 )
