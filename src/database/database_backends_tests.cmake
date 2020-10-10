@@ -51,9 +51,9 @@ addTestTarget(database_backends
                     plugins
                     sample_dbs
                     system
-                    Qt5::Core
-                    Qt5::Gui
-                    Qt5::Sql
+                    Qt::Core
+                    Qt::Gui
+                    Qt::Sql
                     GTest::gtest
                     GTest::gmock
 

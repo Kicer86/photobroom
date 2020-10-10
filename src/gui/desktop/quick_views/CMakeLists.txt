@@ -38,8 +38,8 @@ target_link_libraries(quick_views
                             core
                             gui_models
 
-                            Qt5::Quick
-                            Qt5::QuickWidgets
+                            Qt::Quick
+                            Qt::QuickWidgets
 )
 
 target_include_directories(quick_views

@@ -1,8 +1,7 @@
 
-find_package(Qt5Core REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 
 include_directories(..)
-include_directories(SYSTEM ${Qt5Core_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -36,7 +35,7 @@ target_include_directories(catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(catcher
                         PRIVATE
                         ${EXTRA_LIBRARIES}
-                        Qt5::Core
+                        Qt::Core
 )
 
 

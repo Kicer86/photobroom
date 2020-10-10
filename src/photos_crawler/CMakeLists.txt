@@ -1,13 +1,12 @@
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Core REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 find_package(Threads)
 
 include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)
-include_directories(SYSTEM ${OPENLIBRARY_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS})
 
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
@@ -34,7 +33,7 @@ add_library(photos_crawler ${ANALYZER_SOURCES} ${ANALYZER_HEADERS})
 target_link_libraries(photos_crawler
                         PRIVATE
                             core
-                            Qt5::Core
+                            Qt::Core
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 

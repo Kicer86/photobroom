@@ -2,8 +2,7 @@
 add_subdirectory(learning_tests)
 add_subdirectory(dlib_wrapper)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui)
 
 add_library(face_recognition
     face_recognition.cpp
@@ -12,16 +11,14 @@ add_library(face_recognition
 
 target_include_directories(face_recognition
                                 PUBLIC
-                                    ${Qt5Core_INCLUDE_DIRS}
-                                    ${Qt5Gui_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
 )
 
 target_link_libraries(face_recognition
                             PUBLIC
-                                Qt5::Core
-                                Qt5::Gui
+                                Qt::Core
+                                Qt::Gui
                             PRIVATE
                                 core
                                 database

@@ -3,8 +3,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(GTest REQUIRED CONFIG)
 find_package(OpenLibrary 2.1 REQUIRED utils)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui  REQUIRED)
+find_package(Qt5     REQUIRED COMPONENTS Core Gui)
 find_package(Qt5Test REQUIRED)
 
 
@@ -39,12 +38,9 @@ addTestTarget(core
                     GTest::gtest
                     GTest::gmock
                     GTest::gmock_main
-                    Qt5::Core
-                    Qt5::Gui
-                    Qt5::Test
-
-                SYSTEM_INCLUDES
-                    ${Qt5Core_INCLUDE_DIRS}
+                    Qt::Core
+                    Qt::Gui
+                    Qt::Test
 
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src

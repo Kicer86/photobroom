@@ -33,7 +33,7 @@ target_link_libraries(gui_ui_utils
                             core
                             database
                             KWidgetsAddons
-                            Qt5::Widgets
+                            Qt::Widgets
 )
 
 target_include_directories(gui_ui_utils

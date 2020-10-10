@@ -5,8 +5,7 @@ find_program(WGET wget)
 if(BUILD_LEARNING_TESTS AND WGET)
 
     find_package(GTest REQUIRED CONFIG)
-    find_package(Qt5Core REQUIRED)
-    find_package(Qt5Gui REQUIRED)
+    find_package(Qt5 REQUIRED COMPONENTS Core Gui)
 
     # download two fake faces from https://thispersondoesnotexist.com
     add_custom_command(OUTPUT face1.jpg face2.jpg
@@ -55,15 +54,13 @@ if(BUILD_LEARNING_TESTS AND WGET)
                                 GTest::gtest_main
                                 core
                                 dlib_wrapper
-                                Qt5::Core
-                                Qt5::Gui
+                                Qt::Core
+                                Qt::Gui
     )
 
     target_include_directories(dlib_behaviour_tests
                                 PRIVATE
                                     ${GTEST_INCLUDE_DIRS}
-                                    ${Qt5Core_INCLUDE_DIRS}
-                                    ${Qt5Gui_INCLUDE_DIRS}
     )
 
     target_compile_definitions(dlib_behaviour_tests

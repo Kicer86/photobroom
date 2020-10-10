@@ -1,6 +1,5 @@
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui)
 find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
@@ -20,10 +19,6 @@ set(PROJECT_UTILS_MOC )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM
-                    ${Qt5Core_INCLUDE_DIRS}
-                    ${OPENLIBRARY_INCLUDE_DIRS}
-                   )
 
 qt5_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
 
@@ -32,8 +27,8 @@ target_link_libraries(project_utils PRIVATE
                                     core
                                     database
                                     system
-                                    Qt5::Core
-                                    Qt5::Gui
+                                    Qt::Core
+                                    Qt::Gui
                                     ${OPENLIBRARY_LIBRARIES}
                      )
 target_include_directories(project_utils PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

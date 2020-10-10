@@ -36,10 +36,10 @@ addTestTarget(gui
                     database_memory_backend
                     photos_crawler
                     sample_dbs
-                    Qt5::Core
-                    Qt5::Gui
-                    Qt5::Widgets
-                    Qt5::Test
+                    Qt::Core
+                    Qt::Gui
+                    Qt::Widgets
+                    Qt::Test
                     GTest::gtest
                     GTest::gmock
 

@@ -1,6 +1,5 @@
 
-find_package(Qt5Quick REQUIRED)
-find_package(Qt5QuickWidgets REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Quick QuickWidgets)
 
 set(SRC
     configuration_dialog.cpp
@@ -47,9 +46,9 @@ target_link_libraries(gui_ui
                             system
                             quick_views
 
-                            Qt5::Widgets
-                            Qt5::Quick
-                            Qt5::QuickWidgets
+                            Qt::Widgets
+                            Qt::Quick
+                            Qt::QuickWidgets
 )
 
 target_include_directories(gui_ui

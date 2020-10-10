@@ -15,7 +15,7 @@ addTestTarget(photos_crawler
 
                 LIBRARIES
                     core
-                    Qt5::Core
+                    Qt::Core
                     GTest::gtest
                     GTest::gmock
                     GTest::gmock_main
