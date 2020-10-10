@@ -71,8 +71,6 @@ namespace Database
             virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) override;
             virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) override;
 
-            virtual void markStagedAsReviewed() override;
-
             virtual void execute(std::unique_ptr<ITask> &&) override;
 
             IUtils&   utils() override;

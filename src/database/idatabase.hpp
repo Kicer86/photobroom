@@ -131,9 +131,6 @@ namespace Database
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
-        // modify data
-        virtual void markStagedAsReviewed() = 0;            // mark photos from stage area as reviewed in one single step
-
         // drop data
 
         // other

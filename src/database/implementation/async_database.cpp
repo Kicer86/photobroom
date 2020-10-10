@@ -287,15 +287,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::markStagedAsReviewed()
-    {
-        exec([](IBackend& backend)
-        {
-            backend.markStagedAsReviewed();
-        });
-    }
-
-
     void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
     {
         auto task = std::make_unique<CustomAction>(std::move(action));
