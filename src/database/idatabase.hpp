@@ -131,8 +131,6 @@ namespace Database
         virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
-        // drop data
-
         // other
         virtual IUtils& utils() = 0;
         virtual IBackend& backend() = 0;
