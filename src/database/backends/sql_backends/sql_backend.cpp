@@ -675,11 +675,11 @@ namespace Database
                         query = getGenericQueryGenerator()->update(db, updateQueryData);
                     }
 
-                    const QMap<QString, QVariant> bound = query.boundValues();
+                    const QVariantList bound = query.boundValues();
 
                     QStringList binded_values;
-                    for(QMap<QString, QVariant>::const_iterator it = bound.begin(); it != bound.end(); ++it)
-                        binded_values.append(it.key() + " = " + it.value().toString());
+                    for(auto it = bound.begin(); it != bound.end(); ++it)
+                        binded_values.append(it->toString());
 
                     const QString binded_values_msg = "Binded values: " + binded_values.join(", ");
                     m_logger->debug(binded_values_msg);

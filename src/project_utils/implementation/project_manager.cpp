@@ -61,7 +61,6 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 
     //prepare project file
     QSettings prjFile(prjPath, QSettings::IniFormat);
-    prjFile.setIniCodec("UTF-8");
 
     prjFile.beginGroup("Database");
     prjFile.setValue("backend", dbPrjInfo.backendName);
@@ -89,7 +88,6 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
         const QString basePath = prjInfo.getBaseDir();
 
         QSettings prjFile(prjPath, QSettings::IniFormat);
-        prjFile.setIniCodec("UTF-8");
 
         prjFile.beginGroup("Database");
         const QString backend  = prjFile.value("backend").toString();

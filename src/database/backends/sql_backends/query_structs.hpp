@@ -12,7 +12,6 @@
 
 #include "sql_backend_base_export.h"
 
-class QStringList;
 
 namespace Database
 {
