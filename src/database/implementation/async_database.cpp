@@ -21,6 +21,7 @@
 
 #include <thread>
 #include <memory>
+#include <QElapsedTimer>
 
 #include <OpenLibrary/putils/ts_queue.hpp>
 
@@ -47,9 +48,10 @@ namespace Database
 
     struct Executor
     {
-        Executor(Database::IBackend& backend):
+        Executor(Database::IBackend& backend, ILogger* logger):
             m_tasks(1024),
-            m_backend(backend)
+            m_backend(backend),
+            m_logger(logger->subLogger("Executor"))
         {
 
         }
@@ -70,8 +72,18 @@ namespace Database
 
                 if (task)
                 {
+                    QElapsedTimer timer;
+                    timer.start();
+
                     IThreadTask* baseTask = task->get();
                     baseTask->execute(m_backend);
+
+                    const qint64 elapsed = timer.elapsed();
+
+                    if (elapsed > 100)
+                        m_logger->warning("DB task took more than 100ms");
+                    else if (elapsed > 300)
+                        m_logger->error("DB task took more than 300ms");
                 }
                 else
                     break;
@@ -92,6 +104,7 @@ namespace Database
         private:
             ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
             Database::IBackend& m_backend;
+            std::unique_ptr<ILogger> m_logger;
     };
 
 
@@ -213,7 +226,7 @@ namespace Database
         m_logger(logger->subLogger("AsyncDatabase")),
         m_backend(std::move(backend)),
         m_cache(std::move(cache)),
-        m_executor(std::make_unique<Executor>(*m_backend.get())),
+        m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get())),
         m_utils(m_cache.get(), m_backend.get(), this, m_logger.get()),
         m_working(true)
     {
