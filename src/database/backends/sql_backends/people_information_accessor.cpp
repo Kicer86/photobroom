@@ -18,6 +18,7 @@
 
 #include "people_information_accessor.hpp"
 
+#include <QRegularExpression>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlQuery>
@@ -106,7 +107,7 @@ namespace Database
                 if (query.isNull(2) == false)
                 {
                     const QVariant location_raw = query.value(2);
-                    const QStringList location_list = location_raw.toString().split(QRegExp("[ ,x]"));
+                    const QStringList location_list = location_raw.toString().split(QRegularExpression("[ ,x]"));
                     location = QRect(location_list[0].toInt(),
                                      location_list[1].toInt(),
                                      location_list[2].toInt(),
