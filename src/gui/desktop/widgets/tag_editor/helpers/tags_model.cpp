@@ -227,7 +227,18 @@ void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
         auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
         auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
 
-        m_database->getPhotos(ids, callback);
+        m_database->exec([this, ids, callback](Database::IBackend &)
+        {
+            std::vector<IPhotoInfo::Ptr> photos;
+
+            for (const Photo::Id& id: ids)
+            {
+                IPhotoInfo::Ptr photo = m_database->utils().getPhotoFor(id);
+                photos.push_back(photo);
+            }
+
+            callback(photos);
+        });
     }
 }
 

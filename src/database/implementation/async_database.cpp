@@ -255,23 +255,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::getPhotos(const std::vector<Photo::Id>& ids, const Callback<const std::vector<IPhotoInfo::Ptr> &>& callback)
-    {
-        exec([this, ids, callback](IBackend &)
-        {
-            std::vector<IPhotoInfo::Ptr> photos;
-
-            for (const Photo::Id& id: ids)
-            {
-                IPhotoInfo::Ptr photo = m_utils.getPhotoFor(id);
-                photos.push_back(photo);
-            }
-
-            callback(photos);
-        });
-    }
-
-
     void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
     {
         exec([this, filter, callback](IBackend& backend)

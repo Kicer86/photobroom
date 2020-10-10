@@ -128,7 +128,6 @@ namespace Database
         virtual void update(const Photo::DataDelta &) = 0;
 
         // read data
-        virtual void getPhotos(const std::vector<Photo::Id> &, const Callback<const std::vector<IPhotoInfo::Ptr> &> &) = 0;           // get particular photos
         virtual void listPhotos(const std::vector<IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) = 0;                   // list all photos matching filter
 
         // other
