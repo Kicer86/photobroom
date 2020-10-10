@@ -1,7 +1,7 @@
 
 include(GenerateExportHeader)
 
-find_package(Qt5Core REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 
 set(SYSTEM_SOURCES)
 
@@ -48,7 +48,7 @@ target_include_directories(system
                             PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_link_libraries(system PRIVATE Qt5::Core)
+target_link_libraries(system PRIVATE Qt::Core)
 
 hideSymbols(system)
 generate_export_header(system)

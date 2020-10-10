@@ -15,5 +15,4 @@ void register_qml_types()
     qmlRegisterType<SelectionManagerComponent>("photo_broom.qml", 1, 0, "SelectionManager");
     qmlRegisterInterface<IThumbnailsManager>("IThumbnailsManager");
     qmlRegisterInterface<FlatModel>("FlatModel");
-    qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
 }

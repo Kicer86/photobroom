@@ -15,7 +15,7 @@ target_include_directories(database_memory_backend
 
 target_link_libraries(database_memory_backend
                           PUBLIC
-                              Qt5::Core
+                              Qt::Core
 
                           PRIVATE
                               core

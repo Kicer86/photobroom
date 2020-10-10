@@ -39,14 +39,11 @@ set(SOURCES ${CRASH_HANDLER_SOURCES})
 
 # common stuff
 set(SOURCES ${SOURCES}
-            crash_catcher.cpp
+    crash_catcher.cpp
+    crash_catcher.hpp
 )
 
-set(HEADERS
-        crash_catcher.hpp
-)
-
-add_library(crash_catcher ${SOURCES} ${HEADERS})
+add_library(crash_catcher ${SOURCES})
 target_include_directories(crash_catcher PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(crash_catcher PRIVATE
                         ${CRASH_HANDLER_LIBRARIES}

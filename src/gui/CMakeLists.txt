@@ -62,8 +62,8 @@ target_link_libraries(gui
 
                             KWidgetsAddons
                             ${OPENLIBRARY_LIBRARIES}
-                            Qt5::Widgets
-                            Qt5::QuickControls2
+                            Qt::Widgets
+                            Qt::QuickControls2
 )
 
 target_include_directories(gui

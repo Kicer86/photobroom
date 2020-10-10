@@ -19,6 +19,7 @@
 #include "generator_utils.hpp"
 
 #include <QEventLoop>
+#include <QRegularExpression>
 
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
@@ -27,13 +28,13 @@
 
 namespace
 {
-    const QRegExp loadImages_regExp = QRegExp(R"(^Load\/Image\/.*100% complete.*)");
-    const QRegExp mogrify_regExp    = QRegExp(R"(^Mogrify\/Image\/.*)");
-    const QRegExp dither_regExp     = QRegExp(R"(^Dither\/Image\/.*100% complete.*)");
+    const QRegularExpression loadImages_regExp(R"(^Load\/Image\/.*100% complete.*)");
+    const QRegularExpression mogrify_regExp(R"(^Mogrify\/Image\/.*)");
+    const QRegularExpression dither_regExp(R"(^Dither\/Image\/.*100% complete.*)");
 
-    const QRegExp cp_regExp   = QRegExp("^(?:Creating control points between|Optimizing Variables).*");
-    const QRegExp run_regExp  = QRegExp("^Run called.*");
-    const QRegExp save_regExp = QRegExp("^saving.*");
+    const QRegularExpression cp_regExp("^(?:Creating control points between|Optimizing Variables).*");
+    const QRegularExpression run_regExp("^Run called.*");
+    const QRegularExpression save_regExp("^saving.*");
 }
 
 namespace GeneratorUtils
@@ -95,13 +96,13 @@ namespace GeneratorUtils
         {
             case Data::LoadingImages:
             {
-                if (loadImages_regExp.exactMatch(line))
+                if (loadImages_regExp.match(line).hasMatch())
                 {
                     conversion_data.photos_loaded++;
 
                     emit progress(conversion_data.photos_loaded * 100 / m_photos_count);
                 }
-                else if (mogrify_regExp.exactMatch(line))
+                else if (mogrify_regExp.match(line).hasMatch())
                 {
                     conversion_data.state = conversion_data.BuildingImage;
 
@@ -113,7 +114,7 @@ namespace GeneratorUtils
 
             case Data::BuildingImage:
             {
-                if (dither_regExp.exactMatch(line))
+                if (dither_regExp.match(line).hasMatch())
                 {
                     conversion_data.photos_assembled++;
 
@@ -143,14 +144,14 @@ namespace GeneratorUtils
         switch (stabilization_data.state)
         {
             case Data::StabilizingImages:
-                if (cp_regExp.exactMatch(line))
+                if (cp_regExp.match(line).hasMatch())
                 {
                     stabilization_data.stabilization_step++;
 
                     emit progress( stabilization_data.stabilization_step * 100 /
                                    stabilization_data.stabilization_steps);
                 }
-                else if (run_regExp.exactMatch(line))
+                else if (run_regExp.match(line).hasMatch())
                 {
                     stabilization_data.state = stabilization_data.SavingImages;
 
@@ -160,7 +161,7 @@ namespace GeneratorUtils
                 break;
 
             case Data::SavingImages:
-                if (save_regExp.exactMatch(line))
+                if (save_regExp.match(line).hasMatch())
                 {
                     stabilization_data.photos_saved++;
 

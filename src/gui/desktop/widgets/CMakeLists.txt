@@ -67,8 +67,8 @@ target_link_libraries(gui_widgets
                             quick_views
                             system
                             KWidgetsAddons
-                            Qt5::Widgets
-                            Qt5::QuickWidgets
+                            Qt::Widgets
+                            Qt::QuickWidgets
 )
 
 target_include_directories(gui_widgets

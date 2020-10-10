@@ -5,9 +5,7 @@ endif()
 
 add_subdirectory(sqlite_backend)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Sql REQUIRED)
-find_package(Qt5Gui REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Sql)
 find_package(OpenLibrary REQUIRED)
 
 set(SOURCES
@@ -43,7 +41,7 @@ set(HEADERS
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(sql_backend_base PRIVATE database core Qt5::Core Qt5::Sql Qt5::Gui)
+target_link_libraries(sql_backend_base PRIVATE database core Qt::Core Qt::Sql Qt::Gui)
 target_include_directories(sql_backend_base PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base)

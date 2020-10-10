@@ -2,7 +2,7 @@
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(GTest REQUIRED CONFIG)
-find_package(Qt5Core REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 
 addTestTarget(system
                 SOURCES
@@ -12,10 +12,7 @@ addTestTarget(system
                     GTest::gtest
                     GTest::gmock
                     GTest::gmock_main
-                    Qt5::Core
-
-                SYSTEM_INCLUDES
-                    ${Qt5Core_INCLUDE_DIRS}
+                    Qt::Core
 
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src

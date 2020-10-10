@@ -1,8 +1,5 @@
 
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Svg REQUIRED)
-
-include_directories(SYSTEM ${Qt5Gui_INCLUDE_DIRS})
+find_package(Qt5 REQUIRED COMPONENTS Gui Svg)
 
 add_executable(img_manip EXCLUDE_FROM_ALL img_manip.cpp)
-target_link_libraries(img_manip Qt5::Gui Qt5::Svg)
+target_link_libraries(img_manip Qt::Gui Qt::Svg)

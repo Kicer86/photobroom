@@ -1,7 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt5Sql REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Sql)
 
 addTestTarget(database
                 SOURCES
@@ -37,14 +37,11 @@ addTestTarget(database
                     database
                     database_memory_backend
                     sample_dbs
-                    Qt5::Core
-                    Qt5::Gui
-                    Qt5::Sql
+                    Qt::Core
+                    Qt::Gui
+                    Qt::Sql
                     GTest::gtest
                     GTest::gmock
-
-                SYSTEM_INCLUDES
-                    ${Qt5Sql_INCLUDE_DIRS}
 
                 INCLUDES
                     backends/sql_backends

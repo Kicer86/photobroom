@@ -1,6 +1,5 @@
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui)
 
 set(dlib_target dlib)
 
@@ -40,8 +39,6 @@ add_library(dlib_wrapper
 
 target_include_directories(dlib_wrapper
                                 PUBLIC
-                                    ${Qt5Core_INCLUDE_DIRS}
-                                    ${Qt5Gui_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
                                     ${DLIB_INCLUDE_DIRS}
@@ -49,8 +46,8 @@ target_include_directories(dlib_wrapper
 
 target_link_libraries(dlib_wrapper
                             PUBLIC
-                                Qt5::Core
-                                Qt5::Gui
+                                Qt::Core
+                                Qt::Gui
                                 ${dlib_target}
                             PRIVATE
                                 core

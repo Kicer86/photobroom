@@ -18,9 +18,7 @@ if(BUILD_UPDATER)
 endif()
 
 find_package(OpenLibrary REQUIRED)
-find_package(Qt5Core     5.15 REQUIRED)
-find_package(Qt5Gui      5.15 REQUIRED)
-find_package(Qt5Widgets  5.15 REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 set(BROOM_SOURCES main.cpp
     $<TARGET_OBJECTS:plugins>
@@ -47,8 +45,8 @@ target_link_libraries(photo_broom
     gui
     project_utils
     system
-    Qt5::Core
-    Qt5::Widgets
+    Qt::Core
+    Qt::Widgets
 )
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})

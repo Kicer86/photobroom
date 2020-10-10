@@ -1,9 +1,5 @@
 
-find_package(Qt5Core REQUIRED)
-
-include_directories(SYSTEM
-                    ${Qt5Core_INCLUDE_DIRS}
-)
+find_package(Qt5 REQUIRED COMPONENTS Core)
 
 set(kdbgwin_SRCS
     common.h
@@ -24,7 +20,7 @@ set(kdbgwin_TO_MOC
         outputters.h
 )
 
-set(kdbgwin_LIBS Qt5::Core dbghelp psapi shlwapi)
+set(kdbgwin_LIBS Qt::Core dbghelp psapi shlwapi)
 
 if(MINGW)
 

@@ -193,7 +193,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+157"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+158"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>

@@ -1,13 +1,11 @@
 
 add_subdirectory(github_api)
 
-find_package(Qt5Network REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Network)
 
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-include_directories(SYSTEM ${Qt5Network_INCLUDE_DIRS})
-
 
 set(SRCS
     iupdater.cpp
@@ -31,7 +29,7 @@ set(TO_MOC
 qt5_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(updater ${SRCS} ${MOCED} ${HEADERS})
-target_link_libraries(updater PRIVATE github_api Qt5::Network)
+target_link_libraries(updater PRIVATE github_api Qt::Network)
 target_include_directories(updater PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(updater)

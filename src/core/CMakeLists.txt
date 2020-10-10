@@ -1,7 +1,6 @@
 
 find_package(OpenLibrary 2.3  REQUIRED putils)
-find_package(Qt5Core          REQUIRED)
-find_package(Qt5Gui           REQUIRED)
+find_package(Qt5              REQUIRED COMPONENTS Core Gui)
 find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
@@ -91,22 +90,20 @@ source_group(files REGULAR_EXPRESSION .*core.* )
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
+                        PUBLIC
+                            Qt5::Core
+                            Qt::Gui
                         PRIVATE
                             system
                             ${OPENLIBRARY_LIBRARIES}
-                            Qt5::Core
-                            Qt5::Gui
                             ${EXIV2_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 
-target_include_directories(core SYSTEM PUBLIC
-                                    ${Qt5Core_INCLUDE_DIRS}
-                                PUBLIC
+target_include_directories(core PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
                                 SYSTEM PRIVATE
-                                    ${Qt5Gui_INCLUDE_DIRS}
                                     ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${EXIV2_INCLUDE_DIRS}
                                 PRIVATE

@@ -2,8 +2,7 @@
 add_subdirectory(backends)
 
 find_package(OpenLibrary 2.1 REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
+find_package(Qt5     REQUIRED COMPONENTS Core Gui)
 find_package(Threads REQUIRED)
 
 set(DATABASE_SOURCES
@@ -78,10 +77,10 @@ source_group(files REGULAR_EXPRESSION .*database.* )
 add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED} ${STRINGIFIED_ENUMS})
 target_link_libraries(database
                         PUBLIC
-                            Qt5::Gui
+                            Qt::Gui
                         PRIVATE
                             core
-                            Qt5::Core
+                            Qt::Core
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 

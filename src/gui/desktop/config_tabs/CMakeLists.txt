@@ -37,7 +37,7 @@ set_target_properties(gui_config_tabs PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_config_tabs
                         PRIVATE
                             core
-                            Qt5::Widgets
+                            Qt::Widgets
                             ${OPENLIBRARY_LIBRARIES}
 )
 
