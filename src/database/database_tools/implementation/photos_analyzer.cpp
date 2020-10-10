@@ -17,8 +17,9 @@
  *
  */
 
-#include "../photos_analyzer.hpp"
+#include <database/iphoto_operator.hpp>
 #include "photos_analyzer_p.hpp"
+#include "../photos_analyzer.hpp"
 
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory):
@@ -71,10 +72,12 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 
         const std::vector<Database::IFilter::Ptr> filters = {flags_filter};
 
-        database->listPhotos(filters, [this](const IPhotoInfo::List& photos)
+        m_database->exec([this, filters](Database::IBackend& backend)
         {
-            for(const IPhotoInfo::Ptr& photo: photos)
-                addPhoto(photo);
+            auto photos = backend.photoOperator().getPhotos(filters);
+
+            for(const Photo::Id& id: photos)
+                addPhoto(m_database->utils().getPhotoFor(id));
 
             // as all uninitialized photos were processed.
             // start watching for any new photos added later.

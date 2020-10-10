@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <database/iphoto_operator.hpp>
 #include "collection_dir_scan_dialog.hpp"
 #include "project_utils/project.hpp"
 
@@ -130,7 +131,18 @@ void CollectionDirScanDialog::scan()
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
 
-    m_database->listPhotos( std::vector<Database::IFilter::Ptr>(), db_callback );
+    m_database->exec([this, db_callback](Database::IBackend& backend)
+    {
+        auto photos = backend.photoOperator().getPhotos({});
+
+        IPhotoInfo::List photoInfos;
+        photoInfos.reserve(photos.size());
+
+        for(const Photo::Id& id: photos)
+            photoInfos.push_back(m_database->utils().getPhotoFor(id));
+
+        db_callback(photoInfos);
+    });
 }
 
 

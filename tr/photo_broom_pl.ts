@@ -60,7 +60,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+170"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+182"/>
         <source>Collection scan in progress</source>
         <translation>Trwa skanowanie kolekcji</translation>
     </message>
@@ -76,12 +76,12 @@
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
-        <location line="-110"/>
+        <location line="-121"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+131"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
@@ -612,7 +612,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+141"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+144"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>

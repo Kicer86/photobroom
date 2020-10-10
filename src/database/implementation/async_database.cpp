@@ -255,21 +255,6 @@ namespace Database
     }
 
 
-    void AsyncDatabase::listPhotos(const std::vector<IFilter::Ptr>& filter, const Callback<const IPhotoInfo::List &>& callback)
-    {
-        exec([this, filter, callback](IBackend& backend)
-        {
-            auto photos = backend.photoOperator().getPhotos(filter);
-            IPhotoInfo::List photosList;
-
-            for(const Photo::Id& id: photos)
-                photosList.push_back(m_utils.getPhotoFor(id));
-
-            callback(photosList);
-        });
-    }
-
-
     void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
     {
         auto task = std::make_unique<CustomAction>(std::move(action));
