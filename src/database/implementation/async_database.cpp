@@ -80,10 +80,10 @@ namespace Database
 
                     const qint64 elapsed = timer.elapsed();
 
-                    if (elapsed > 100)
-                        m_logger->warning("DB task took more than 100ms");
-                    else if (elapsed > 300)
+                    if (elapsed > 300)
                         m_logger->error("DB task took more than 300ms");
+                    else if (elapsed > 100)
+                        m_logger->warning("DB task took more than 100ms");
                 }
                 else
                     break;
