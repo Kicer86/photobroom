@@ -69,7 +69,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-void FlatModel::setFilters(const std::vector<Database::IFilter::Ptr>& filters)
+void FlatModel::setFilters(const Database::Filter& filters)
 {
     {
         std::lock_guard<std::mutex> lock(m_filtersMutex);
@@ -172,7 +172,7 @@ void FlatModel::resetModel()
 }
 
 
-std::vector<Database::IFilter::Ptr> FlatModel::filters() const
+const Database::Filter& FlatModel::filters() const
 {
     std::lock_guard<std::mutex> lock(m_filtersMutex);
 

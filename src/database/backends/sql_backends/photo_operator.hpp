@@ -38,10 +38,10 @@ namespace Database
             PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *);
 
             bool removePhoto(const Photo::Id &) override;
-            bool removePhotos(const std::vector<IFilter::Ptr> &) override;
-            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Action &) override;
+            bool removePhotos(const Filter &) override;
+            std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
 
-            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override final;
+            std::vector<Photo::Id> getPhotos(const Filter &) override final;
 
         private:
             QString m_connectionName;

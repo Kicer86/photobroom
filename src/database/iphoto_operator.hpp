@@ -14,11 +14,11 @@ namespace Database
         virtual ~IPhotoOperator() = default;
 
         virtual bool removePhoto(const Photo::Id &) = 0;
-        virtual bool removePhotos(const std::vector<IFilter::Ptr> &) = 0;
-        virtual std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Action &) = 0;
+        virtual bool removePhotos(const Filter &) = 0;
+        virtual std::vector<Photo::Id> onPhotos(const Filter &, const Action &) = 0;
 
         /// find all photos matching filters
-        virtual std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) = 0;
+        virtual std::vector<Photo::Id> getPhotos(const Filter &) = 0;
     };
 }
 

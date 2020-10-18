@@ -15,7 +15,6 @@ struct MockDatabase: Database::IDatabase
     MOCK_METHOD1(update, void(const Photo::DataDelta &) );
 
     MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)> &) );
-    MOCK_METHOD2(listPhotos, void(const std::vector<Database::IFilter::Ptr> &, const Callback<const IPhotoInfo::List &> &) );
 
     MOCK_METHOD0(markStagedAsReviewed, void());
 

@@ -38,7 +38,21 @@ namespace Database
 
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
-            QString generate(const std::vector<IFilter::Ptr> &) const;
+            QString generate(const Filter &) const;
+
+        private:
+            QString getFlagName(Photo::FlagsE flag) const;
+            QString visit(const EmptyFilter &) const;
+            QString visit(const GroupFilter& groupFilter) const;
+            QString visit(const FilterPhotosWithTag& desciption) const;
+            QString visit(const FilterPhotosWithFlags& flags) const;
+            QString visit(const FilterPhotosWithSha256& sha256) const;
+            QString visit(const FilterNotMatchingFilter& filter) const;
+            QString visit(const FilterPhotosWithId& filter) const;
+            QString visit(const FilterPhotosMatchingExpression& filter) const;
+            QString visit(const FilterPhotosWithPath& filter) const;
+            QString visit(const FilterPhotosWithRole& filter) const;
+            QString visit(const Database::FilterPhotosWithPerson& personFilter) const;
     };
 
 }

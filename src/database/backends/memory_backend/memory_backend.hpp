@@ -27,9 +27,9 @@ namespace Database
             // IBackend interface
             bool addPhotos(std::vector<Photo::DataDelta>& photos) override;
             bool update(const Photo::DataDelta& delta) override;
-            std::vector<TagValue> listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &) override;
+            std::vector<TagValue> listTagValues(const TagTypes &, const Filter &) override;
             Photo::Data getPhoto(const Photo::Id &) override;
-            int getPhotosCount(const std::vector<IFilter::Ptr> &) override;
+            int getPhotosCount(const Filter &) override;
             void set(const Photo::Id& id, const QString& name, int value) override;
             std::optional<int> get(const Photo::Id& id, const QString& name) override;
             std::vector<Photo::Id> markStagedAsReviewed() override;
@@ -64,9 +64,9 @@ namespace Database
 
             // IPhotoOperator interface
             bool removePhoto(const Photo::Id &) override;
-            bool removePhotos(const std::vector<IFilter::Ptr> &) override;
-            std::vector<Photo::Id> onPhotos(const std::vector<IFilter::Ptr> &, const Action &) override;
-            std::vector<Photo::Id> getPhotos(const std::vector<IFilter::Ptr> &) override;
+            bool removePhotos(const Filter &) override;
+            std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
+            std::vector<Photo::Id> getPhotos(const Filter &) override;
 
             //
             typedef std::map<QString, int> Flags;

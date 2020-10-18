@@ -22,8 +22,10 @@
 
 #include <memory>
 #include <vector>
+#include <variant>
 
 #include <QString>
+#include <OpenLibrary/utils/data_ptr.hpp>
 
 #include <core/tag.hpp>
 #include <core/search_expression_evaluator.hpp>
@@ -32,13 +34,12 @@
 #include "iphoto_info.hpp"
 #include "person_data.hpp"
 
-
-#define FILTER_COMMAND() virtual void visitMe(IFilterVisitor* visitor) override { visitor->visit(this); } //
-
 namespace Database
 {
-    struct IFilterVisitor;
+    //filters
+
     struct EmptyFilter;
+    struct GroupFilter;
     struct FilterPhotosWithTag;
     struct FilterPhotosWithFlags;
     struct FilterPhotosWithSha256;
@@ -49,49 +50,41 @@ namespace Database
     struct FilterPhotosWithRole;
     struct FilterPhotosWithPerson;
 
-    struct DATABASE_EXPORT IFilter
-    {
-        typedef std::shared_ptr<IFilter> Ptr;
 
-        virtual ~IFilter();
-        virtual void visitMe(IFilterVisitor *) = 0;
+    typedef std::variant<EmptyFilter,
+                         GroupFilter,
+                         FilterPhotosWithTag,
+                         FilterPhotosWithFlags,
+                         FilterPhotosWithSha256,
+                         FilterNotMatchingFilter,
+                         FilterPhotosWithId,
+                         FilterPhotosMatchingExpression,
+                         FilterPhotosWithPath,
+                         FilterPhotosWithRole,
+                         FilterPhotosWithPerson
+    > Filter;
+
+    struct DATABASE_EXPORT EmptyFilter
+    {
+        ~EmptyFilter();
     };
 
-    struct DATABASE_EXPORT IFilterVisitor
+    struct DATABASE_EXPORT GroupFilter
     {
-        virtual ~IFilterVisitor();
+        GroupFilter(const std::vector<Filter> &);
+        ~GroupFilter();
 
-        virtual void visit(EmptyFilter *) = 0;
-        virtual void visit(FilterPhotosWithTag *) = 0;
-        virtual void visit(FilterPhotosWithFlags *) = 0;
-        virtual void visit(FilterPhotosWithSha256 *) = 0;
-        virtual void visit(FilterNotMatchingFilter *) = 0;
-        virtual void visit(FilterPhotosWithId *) = 0;
-        virtual void visit(FilterPhotosMatchingExpression *) = 0;
-        virtual void visit(FilterPhotosWithPath *) = 0;
-        virtual void visit(FilterPhotosWithRole *) = 0;
-        virtual void visit(FilterPhotosWithPerson *) = 0;
+        std::vector<Filter> filters;
     };
 
-    //filters
-
-    struct DATABASE_EXPORT EmptyFilter: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithTag
     {
-        virtual ~EmptyFilter();
+        ~FilterPhotosWithTag();
 
-        FILTER_COMMAND();
-    };
+        TagTypes tagType;
+        TagValue tagValue;
 
-    struct DATABASE_EXPORT FilterPhotosWithTag: IFilter
-    {
-        virtual ~FilterPhotosWithTag();
-
-        FILTER_COMMAND();
-
-        const TagTypes tagType;
-        const TagValue tagValue;
-
-        const enum class ValueMode
+        enum class ValueMode
         {
             Equal,
             Less,
@@ -99,19 +92,17 @@ namespace Database
             Greater,
             GreaterOrEqual,
         } valueMode;
-        const bool includeEmpty;
+        bool includeEmpty;
 
         FilterPhotosWithTag(const TagTypes &, const TagValue & = TagValue(), ValueMode = ValueMode::Equal, bool include_empty = false);
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithFlags: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithFlags
     {
         FilterPhotosWithFlags();
         FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
 
-        virtual ~FilterPhotosWithFlags();
-
-        FILTER_COMMAND();
+        ~FilterPhotosWithFlags();
 
         enum class Mode
         {
@@ -123,57 +114,47 @@ namespace Database
         Mode mode;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithSha256: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithSha256
     {
         FilterPhotosWithSha256();
-        virtual ~FilterPhotosWithSha256();
-
-        FILTER_COMMAND();
+        ~FilterPhotosWithSha256();
 
         Photo::Sha256sum sha256;
     };
 
-    struct DATABASE_EXPORT FilterNotMatchingFilter: IFilter
+    struct DATABASE_EXPORT FilterNotMatchingFilter
     {
-        FilterNotMatchingFilter(const IFilter::Ptr &);
-        virtual ~FilterNotMatchingFilter();
+        FilterNotMatchingFilter(const Filter &);
+        ~FilterNotMatchingFilter();
 
-        FILTER_COMMAND();
-
-        const IFilter::Ptr filter;
+        ol::data_ptr<Filter> filter;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithId: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithId
     {
         FilterPhotosWithId();
-        virtual ~FilterPhotosWithId();
-
-        FILTER_COMMAND();
+        ~FilterPhotosWithId();
 
         Photo::Id filter;
     };
 
-    struct DATABASE_EXPORT FilterPhotosMatchingExpression: IFilter
+    struct DATABASE_EXPORT FilterPhotosMatchingExpression
     {
         FilterPhotosMatchingExpression(const SearchExpressionEvaluator::Expression &);
-        virtual ~FilterPhotosMatchingExpression();
+        ~FilterPhotosMatchingExpression();
 
-        FILTER_COMMAND();
-
-        const SearchExpressionEvaluator::Expression expression;
+        SearchExpressionEvaluator::Expression expression;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithPath: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithPath
     {
         explicit FilterPhotosWithPath(const QString &);
-        virtual ~FilterPhotosWithPath();
+        ~FilterPhotosWithPath();
 
-        FILTER_COMMAND();
-
-        const QString path;
+        QString path;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithRole: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithRole
     {
         enum class Role
         {
@@ -183,24 +164,18 @@ namespace Database
         };
 
         explicit FilterPhotosWithRole(Role);
-        virtual ~FilterPhotosWithRole();
+        ~FilterPhotosWithRole();
 
-        FILTER_COMMAND();
-
-        const Role m_role;
+        Role m_role;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithPerson: IFilter
+    struct DATABASE_EXPORT FilterPhotosWithPerson
     {
         explicit FilterPhotosWithPerson(const Person::Id &);
-        virtual ~FilterPhotosWithPerson();
+        ~FilterPhotosWithPerson();
 
-        FILTER_COMMAND();
-
-        const Person::Id person_id;
+        Person::Id person_id;
     };
 }
-
-#undef FILTER_COMMAND
 
 #endif // FILTER_HPP

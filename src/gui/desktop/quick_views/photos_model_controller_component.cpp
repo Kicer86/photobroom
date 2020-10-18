@@ -269,44 +269,44 @@ void PhotosModelControllerComponent::updateTimeRange()
 }
 
 
-std::vector<Database::IFilter::Ptr> PhotosModelControllerComponent::allFilters() const
+Database::Filter PhotosModelControllerComponent::allFilters() const
 {
-    std::vector<Database::IFilter::Ptr> filters_for_model;
+    std::vector<Database::Filter> filters_for_model;
 
     if (m_dates.empty() == false)
     {
         const QDate from = m_dates[m_timeView.first];
         const QDate to = m_dates[m_timeView.second];
 
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
     }
 
     const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
 
     if (expression.empty() == false)
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosMatchingExpression>(expression) );
+        filters_for_model.push_back( Database::FilterPhotosMatchingExpression(expression) );
 
     if (m_newPhotosOnly)
     {
         const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithFlags>(flags) );
+        filters_for_model.push_back( Database::FilterPhotosWithFlags(flags) );
     }
 
     if (m_categoryFilter.isEmpty() == false)
     {
-        auto categoryFitler = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Category, m_categoryFilter);
+        auto categoryFitler = Database::FilterPhotosWithTag(TagTypes::Category, m_categoryFilter);
         filters_for_model.push_back(categoryFitler);
     }
 
     if (m_ratingFrom > 0)
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingFrom, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingFrom, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
 
     if (m_ratingTo < 10)
-        filters_for_model.push_back( std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
 
 
-    return filters_for_model;
+    return Database::GroupFilter(filters_for_model);
 }
 
 
@@ -328,10 +328,9 @@ void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& 
 {
     auto dates = backend.listTagValues(TagTypes::Date, {});
 
-    const auto with_date_filter = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date);
-    const auto without_date_filter = std::make_shared<Database::FilterNotMatchingFilter>(with_date_filter);
-    const std::vector<Database::IFilter::Ptr> photos_without_date_tag_filter = { without_date_filter };
-    const auto photos_without_date_tag = backend.photoOperator().getPhotos(photos_without_date_tag_filter);
+    const Database::FilterPhotosWithTag with_date_filter(TagTypes::Date);
+    const Database::FilterNotMatchingFilter without_date_filter(with_date_filter);
+    const auto photos_without_date_tag = backend.photoOperator().getPhotos(without_date_filter);
 
     if (photos_without_date_tag.empty() == false)
         dates.push_back(QDate());

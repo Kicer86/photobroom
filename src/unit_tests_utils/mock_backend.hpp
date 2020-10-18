@@ -22,16 +22,12 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD1(update,
       bool(const Photo::DataDelta &));
 
-  MOCK_METHOD2(listTagValues,
-      std::vector<TagValue>(const TagTypes &, const std::vector<Database::IFilter::Ptr> &));
+  MOCK_METHOD(std::vector<TagValue>, listTagValues, (const TagTypes &, const Database::Filter &), (override));
   MOCK_METHOD0(getAllPhotos,
       std::vector<Photo::Id>());
-  MOCK_METHOD1(dropPhotos,
-      std::vector<Photo::Id>(const std::vector<Database::IFilter::Ptr> &));
   MOCK_METHOD1(getPhoto,
       Photo::Data(const Photo::Id &));
-  MOCK_METHOD1(getPhotosCount,
-      int(const std::vector<Database::IFilter::Ptr> &));
+  MOCK_METHOD(int, getPhotosCount, (const Database::Filter &), (override));
   MOCK_METHOD0(listPeople,
       std::vector<PersonName>());
   MOCK_METHOD1(listPeople,

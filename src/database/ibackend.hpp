@@ -124,13 +124,13 @@ namespace Database
 
         /// list all values of tag for photos matching provided filter
         virtual std::vector<TagValue>    listTagValues(const TagTypes &,
-                                                       const std::vector<IFilter::Ptr> &) = 0;
+                                                       const Filter &) = 0;
 
         /// get particular photo
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;
 
         /// Count photos matching filter
-        virtual int                      getPhotosCount(const std::vector<IFilter::Ptr> &) = 0;
+        virtual int                      getPhotosCount(const Filter &) = 0;
 
         /**
          * \brief set flag for photo to given value

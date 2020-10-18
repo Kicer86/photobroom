@@ -10,8 +10,8 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 {
     Database::SqlFilterQueryGenerator generator;
 
-    std::vector<Database::IFilter::Ptr> filters;
-    const QString query = generator.generate(filters);
+    Database::EmptyFilter filter;
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT id FROM photos", query);
 }
@@ -20,28 +20,25 @@ TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithFlags filter;
 
-    std::shared_ptr<Database::FilterPhotosWithFlags> filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filters.push_back(filter);
-
-    filter->flags[Photo::FlagsE::ExifLoaded] = 1;
-    QString query = generator.generate(filters);
+    filter.flags[Photo::FlagsE::ExifLoaded] = 1;
+    QString query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
 
-    filter->flags.clear();
-    filter->flags[Photo::FlagsE::Sha256Loaded] = 2;
-    query = generator.generate(filters);
+    filter.flags.clear();
+    filter.flags[Photo::FlagsE::Sha256Loaded] = 2;
+    query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
 
-    filter->flags.clear();
-    filter->flags[Photo::FlagsE::StagingArea] = 3;
-    query = generator.generate(filters);
+    filter.flags.clear();
+    filter.flags[Photo::FlagsE::StagingArea] = 3;
+    query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
 
-    filter->flags.clear();
-    filter->flags[Photo::FlagsE::ThumbnailLoaded] = 4;
-    query = generator.generate(filters);
+    filter.flags.clear();
+    filter.flags[Photo::FlagsE::ThumbnailLoaded] = 4;
+    query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
 }
 
@@ -49,14 +46,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Date, QString("test_value"));
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Date, QString("test_value"));
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -68,14 +60,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -87,14 +74,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -106,14 +88,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreater)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -125,14 +102,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreaterOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -144,14 +116,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -163,14 +130,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
 
-    std::shared_ptr<Database::FilterPhotosWithTag> filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT photos.id FROM photos "
               "JOIN (tags) "
@@ -182,14 +144,11 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOr
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
 
-    auto sub_filter1 = std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Time);
-    auto filter = std::make_shared<Database::FilterNotMatchingFilter>(sub_filter1);
-    filters.push_back(filter);
+    Database::FilterPhotosWithTag sub_filter1(TagTypes::Time);
+    Database::FilterNotMatchingFilter filter = Database::Filter(sub_filter1);
 
-    const QString query = generator.generate(filters);
-
+    const QString query = generator.generate(Database::Filter(filter));
     EXPECT_EQ("SELECT id FROM photos "
               "WHERE id NOT IN "
               "(SELECT photos.id FROM photos "
@@ -201,14 +160,11 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithSha256 filter;
 
-    std::shared_ptr<Database::FilterPhotosWithSha256> filter = std::make_shared<Database::FilterPhotosWithSha256>();
-    filters.push_back(filter);
+    filter.sha256 = "1234567890";
 
-    filter->sha256 = "1234567890";
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT id FROM photos "
               "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
@@ -219,14 +175,11 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
 TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithId filter;
 
-    std::shared_ptr<Database::FilterPhotosWithId> filter = std::make_shared<Database::FilterPhotosWithId>();
-    filters.push_back(filter);
+    filter.filter = Photo::Id(1234567890);
 
-    filter->filter = Photo::Id(1234567890);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT id FROM photos WHERE id = '1234567890'", query);
 }
@@ -235,25 +188,24 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    std::vector<Database::Filter> filters;
 
     // sha256
-    std::shared_ptr<Database::FilterPhotosWithSha256> sha_filter = std::make_shared<Database::FilterPhotosWithSha256>();
+    Database::FilterPhotosWithSha256 sha_filter;
+    sha_filter.sha256 = "1234567890";
     filters.push_back(sha_filter);
-    sha_filter->sha256 = "1234567890";
 
     //tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::_People, QString("test_value"));
-
+    Database::FilterPhotosWithTag tag_filter(TagTypes::_People, QString("test_value"));
     filters.push_back(tag_filter);
 
     //flags
-    std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-    filters.push_back(flags_filter);
-    flags_filter->flags[Photo::FlagsE::ExifLoaded] = 1;
+    Database::FilterPhotosWithFlags flags_filter;
+    flags_filter.flags[Photo::FlagsE::ExifLoaded] = 1;
 
-    const QString query = generator.generate(filters);
+    filters.push_back(flags_filter);
+
+    const QString query = generator.generate(Database::GroupFilter(filters));
 
     const QString expected_query =
         "SELECT id FROM photos "
@@ -280,21 +232,18 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    std::vector<Database::Filter> filters;
 
     // #1 tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag1_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Place, QString("test_value"));
-
+    Database::FilterPhotosWithTag tag1_filter(TagTypes::Place, QString("test_value"));
     filters.push_back(tag1_filter);
 
     // #2 tag
-    std::shared_ptr<Database::FilterPhotosWithTag> tag2_filter =
-        std::make_shared<Database::FilterPhotosWithTag>(TagTypes::Event, QString("test_value2"));
-
+    Database::FilterPhotosWithTag tag2_filter(TagTypes::Event, QString("test_value2"));
     filters.push_back(tag2_filter);
 
-    const QString query = generator.generate(filters);
+    Database::GroupFilter all_filters(filters);
+    const QString query = generator.generate(all_filters);
 
     const QString expected_query =
         "SELECT id FROM photos "
@@ -316,12 +265,12 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    std::vector<Database::Filter> filters;
 
-    std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
-    flags->flags[Photo::FlagsE::ExifLoaded] = 100;
-    flags->flags[Photo::FlagsE::StagingArea] = 200;
-    flags->mode = Database::FilterPhotosWithFlags::Mode::Or;
+    Database::FilterPhotosWithFlags flags;
+    flags.flags[Photo::FlagsE::ExifLoaded] = 100;
+    flags.flags[Photo::FlagsE::StagingArea] = 200;
+    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
 
     filters.push_back(flags);
 
@@ -336,20 +285,20 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
 TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    std::vector<Database::Filter> filters;
 
-    std::shared_ptr<Database::FilterPhotosWithFlags> flags = std::make_shared<Database::FilterPhotosWithFlags>();
-    flags->flags[Photo::FlagsE::ExifLoaded] = 100;
-    flags->flags[Photo::FlagsE::StagingArea] = 200;
-    flags->mode = Database::FilterPhotosWithFlags::Mode::Or;
+    Database::FilterPhotosWithFlags flags;
+    flags.flags[Photo::FlagsE::ExifLoaded] = 100;
+    flags.flags[Photo::FlagsE::StagingArea] = 200;
+    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-    auto id = std::make_shared<Database::FilterPhotosWithId>();
-    id->filter = Photo::Id(1234567890);
+    Database::FilterPhotosWithId id;
+    id.filter = Photo::Id(1234567890);
 
     filters.push_back(flags);
     filters.push_back(id);
 
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(Database::GroupFilter(filters));
 
     const QString expected_query =
         "SELECT id FROM photos WHERE "
@@ -369,14 +318,11 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
 
     const SearchExpressionEvaluator::Expression expression = { {"Person 1", false} };
-    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>( expression );
+    Database::FilterPhotosMatchingExpression filter( expression );
 
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     const QString expected_query =
         "SELECT photos.id FROM photos "
@@ -396,14 +342,11 @@ TEST(SqlFilterQueryGeneratorTest, SimpleFilterPhotosMatchingExpression)
 TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
 
     const SearchExpressionEvaluator::Expression expression = { {"Person 1", false}, {"Person 2", false} };
-    std::shared_ptr<Database::FilterPhotosMatchingExpression> filter = std::make_shared<Database::FilterPhotosMatchingExpression>(expression);
+    Database::FilterPhotosMatchingExpression filter(expression);
 
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     const QString expected_query =
         "SELECT photos.id FROM photos "
@@ -423,13 +366,9 @@ TEST(SqlFilterQueryGeneratorTest, FilterPhotosMatchingDoubleExpression)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithRole filter(Database::FilterPhotosWithRole::Role::Regular);
 
-    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT id FROM photos "
               "WHERE id NOT IN "
@@ -444,13 +383,9 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByRegularRole)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithRole filter(Database::FilterPhotosWithRole::Role::GroupRepresentative);
 
-    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupRepresentative);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT groups.representative_id FROM groups", query);
 }
@@ -459,13 +394,9 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupRepresentativeRole)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::IFilter::Ptr> filters;
+    Database::FilterPhotosWithRole filter(Database::FilterPhotosWithRole::Role::GroupMember);
 
-    auto filter = std::make_shared<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::GroupMember);
-
-    filters.push_back(filter);
-
-    const QString query = generator.generate(filters);
+    const QString query = generator.generate(filter);
 
     EXPECT_EQ("SELECT groups_members.photo_id FROM groups_members", query);
 }

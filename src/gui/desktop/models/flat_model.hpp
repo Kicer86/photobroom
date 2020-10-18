@@ -40,7 +40,7 @@ class FlatModel: public APhotoInfoModel
         explicit FlatModel(QObject* = nullptr);
 
         void setDatabase(Database::IDatabase *);
-        void setFilters(const std::vector<Database::IFilter::Ptr> &);
+        void setFilters(const Database::Filter &);
         const std::vector<Photo::Id>& photos() const;
 
         const Photo::Data& getPhotoData(const QModelIndex &) const override;
@@ -51,7 +51,7 @@ class FlatModel: public APhotoInfoModel
         QModelIndex index(int, int, const QModelIndex&) const override;
 
     private:
-        std::vector<Database::IFilter::Ptr> m_filters;
+        Database::Filter m_filters;
         std::vector<Photo::Id> m_photos;
         mutable std::mutex m_filtersMutex;
         mutable std::map<Photo::Id, int> m_idToRow;
@@ -62,7 +62,7 @@ class FlatModel: public APhotoInfoModel
         void updatePhotos();
         void removeAllPhotos();
         void resetModel();
-        std::vector<Database::IFilter::Ptr> filters() const;
+        const Database::Filter& filters() const;
 
         const Photo::Data& photoData(const Photo::Id &) const;
         void fetchPhotoData(const Photo::Id &) const;

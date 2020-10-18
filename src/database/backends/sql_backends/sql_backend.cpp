@@ -303,7 +303,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const std::vector<IFilter::Ptr>& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const Filter& filter)
     {
         std::vector<TagValue> result;
 
@@ -377,7 +377,7 @@ namespace Database
     }
 
 
-    int ASqlBackend::getPhotosCount(const std::vector<IFilter::Ptr>& filter)
+    int ASqlBackend::getPhotosCount(const Filter& filter)
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 
@@ -434,11 +434,10 @@ namespace Database
 
     std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
-        auto filter = std::make_shared<FilterPhotosWithFlags>();
-        filter->flags[Photo::FlagsE::StagingArea] = 1;
+        FilterPhotosWithFlags filter;
+        filter.flags[Photo::FlagsE::StagingArea] = 1;
 
-        const std::vector<Database::IFilter::Ptr> filters({filter});
-        const std::vector<Photo::Id> staged = photoOperator().getPhotos(filters);
+        const std::vector<Photo::Id> staged = photoOperator().getPhotos(filter);
 
         if (staged.empty() == false)
         {

@@ -140,10 +140,10 @@ namespace Database
             bool addPhotos(std::vector<Photo::DataDelta> &) override final;
             bool update(const Photo::DataDelta &) override final;
 
-            std::vector<TagValue>    listTagValues(const TagTypes &, const std::vector<IFilter::Ptr> &) override final;
+            std::vector<TagValue>    listTagValues(const TagTypes &, const Filter &) override final;
 
             Photo::Data              getPhoto(const Photo::Id &) override final;
-            int                      getPhotosCount(const std::vector<IFilter::Ptr> &) override final;
+            int                      getPhotosCount(const Filter &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
