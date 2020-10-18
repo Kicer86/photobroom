@@ -64,17 +64,15 @@ void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
 
         //TODO: use independent updaters here (issue #102)
 
-        std::shared_ptr<Database::FilterPhotosWithFlags> flags_filter = std::make_shared<Database::FilterPhotosWithFlags>();
-        flags_filter->mode = Database::FilterPhotosWithFlags::Mode::Or;
+        Database::FilterPhotosWithFlags flags_filter;
+        flags_filter.mode = Database::FilterPhotosWithFlags::Mode::Or;
 
         for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::GeometryLoaded })
-            flags_filter->flags[flag] = 0;            //uninitialized
+            flags_filter.flags[flag] = 0;            //uninitialized
 
-        const std::vector<Database::IFilter::Ptr> filters = {flags_filter};
-
-        m_database->exec([this, filters](Database::IBackend& backend)
+        m_database->exec([this, flags_filter](Database::IBackend& backend)
         {
-            auto photos = backend.photoOperator().getPhotos(filters);
+            auto photos = backend.photoOperator().getPhotos(flags_filter);
 
             for(const Photo::Id& id: photos)
                 addPhoto(m_database->utils().getPhotoFor(id));

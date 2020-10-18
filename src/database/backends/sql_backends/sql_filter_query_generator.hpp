@@ -38,7 +38,7 @@ namespace Database
 
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
-            QString generate(const std::vector<IFilter::Ptr> &) const;
+            QString generate(const Filter &) const;
     };
 
 }

@@ -612,7 +612,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+144"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+142"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>

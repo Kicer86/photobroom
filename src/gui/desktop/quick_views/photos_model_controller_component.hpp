@@ -107,7 +107,7 @@ class PhotosModelControllerComponent: public QObject
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
-        std::vector<Database::IFilter::Ptr> allFilters() const;
+        Database::Filter allFilters() const;
         QStringList rawCategories() const;
 
         void getTimeRangeForFilters(Database::IBackend &);

@@ -58,15 +58,14 @@ namespace Database
 
     bool PhotoOperator::removePhoto(const Photo::Id& id)
     {
-        auto id_filter = std::make_shared<FilterPhotosWithId>();
-        id_filter->filter = id;
+        FilterPhotosWithId id_filter;
+        id_filter.filter = id;
 
-        const std::vector<IFilter::Ptr> filters = {id_filter};
-
-        return removePhotos(filters);
+        return removePhotos(id_filter);
     }
 
-    bool PhotoOperator::removePhotos(const std::vector<IFilter::Ptr>& filter)
+
+    bool PhotoOperator::removePhotos(const Filter& filter)
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
 
@@ -121,7 +120,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
+    std::vector<Photo::Id> PhotoOperator::onPhotos(const Filter& filters, const Action& action)
     {
         const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
 
@@ -167,7 +166,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> PhotoOperator::getPhotos(const std::vector<IFilter::Ptr>& filter)
+    std::vector<Photo::Id> PhotoOperator::getPhotos(const Filter& filter)
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
 

@@ -133,7 +133,7 @@ void CollectionDirScanDialog::scan()
 
     m_database->exec([this, db_callback](Database::IBackend& backend)
     {
-        auto photos = backend.photoOperator().getPhotos({});
+        auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
 
         IPhotoInfo::List photoInfos;
         photoInfos.reserve(photos.size());

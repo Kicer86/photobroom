@@ -26,29 +26,20 @@
 
 namespace Database
 {
-
-    struct Generator final
-    {
-        Generator();
-        ~Generator();
-
-        QString parse(const std::vector<IFilter::Ptr> &);
-
-        int level = 0;
-    };
-
-
-    struct FiltersVisitor final: Database::IFilterVisitor
+    struct FiltersVisitor final
     {
         FiltersVisitor() = default;
         ~FiltersVisitor() = default;
 
-        QString visit(const IFilter::Ptr& filter)
+        QString convert(const Filter& filter) const
         {
-            m_filterResult.clear();
-            filter->visitMe(this);
+            const QString result = std::visit([this](const auto& arg) -> QString {
+                    return this->visit(arg);
+                },
+                filter
+            );
 
-            return m_filterResult;
+            return result;
         }
 
     private:
@@ -68,18 +59,54 @@ namespace Database
             return result;
         }
 
-        // IFilterVisitor interface
-        void visit(EmptyFilter *) override
+        QString visit(const EmptyFilter &) const
         {
+            return QString("SELECT id FROM %1").arg(TAB_PHOTOS);
         }
 
-        void visit(FilterPhotosWithTag* desciption) override
+        QString visit(const GroupFilter& groupFilter) const
         {
-            QString condition;
+            QStringList filters_data;
+            QString result;
 
+            for (const Filter& filter: groupFilter.filters)
+            {
+                const QString currentfilterData = convert(filter);
+                filters_data.append(currentfilterData);
+            }
+
+            if (filters_data.empty())
+                result = QString("SELECT id FROM %1").arg(TAB_PHOTOS);
+            else if (filters_data.size() == 1)
+                result = filters_data.front();
+            else
+            {
+                result = QString("SELECT id FROM %1 WHERE ").arg(TAB_PHOTOS);
+
+                for(auto it = filters_data.begin(); it != filters_data.end(); ++it)
+                {
+                    if (it->isEmpty())
+                        continue;
+
+                    result += QString("id IN (%1)").arg(*it);
+
+                    const auto next = std::next(it);
+
+                    if (next != filters_data.end())
+                        result += " AND ";
+                }
+            }
+
+            return result;
+        }
+
+        QString visit(const FilterPhotosWithTag& desciption) const
+        {
+            QString result;
+            QString condition;
             QString comparisonType = "=";
 
-            switch (desciption->valueMode)
+            switch (desciption.valueMode)
             {
                 case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
                 case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;
@@ -88,54 +115,56 @@ namespace Database
                 default: break;
             }
 
-            if (desciption->tagValue.type() != Tag::ValueType::Empty)
+            if (desciption.tagValue.type() != Tag::ValueType::Empty)
             {
                 // if we need to include empty (NULL) tag values, we need to
                 // do 2 things: first is to convert any NULL occurence of tag value
                 // into an empty string. Second is to include empty tag values in
                 // query.
-                if (desciption->includeEmpty)
+                if (desciption.includeEmpty)
                 {
                     condition = QString("COALESCE(%1.value, '') %3 '%2'")
                                      .arg(TAB_TAGS)
-                                     .arg(desciption->tagValue.rawValue())
+                                     .arg(desciption.tagValue.rawValue())
                                      .arg(comparisonType);
                 }
                 else
                 {
                        condition = QString("%4.name = '%1' AND %4.value %3 '%2'")
-                                     .arg(desciption->tagType)
-                                     .arg(desciption->tagValue.rawValue())
+                                     .arg(desciption.tagType)
+                                     .arg(desciption.tagValue.rawValue())
                                      .arg(comparisonType)
                                      .arg(TAB_TAGS);
                 }
             }
             else
-                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption->tagType);
+                condition = QString(TAB_TAGS ".name = '%1'").arg(desciption.tagType);
 
-            if (desciption->includeEmpty)
+            if (desciption.includeEmpty)
             {
                 // here we include NULL tag values when `includeEmpty` is set
-                m_filterResult = QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = %4) WHERE %3")
+                result = QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = %4) WHERE %3")
                                     .arg(TAB_PHOTOS)
                                     .arg(TAB_TAGS)
                                     .arg(condition)
-                                    .arg(desciption->tagType);
+                                    .arg(desciption.tagType);
             }
             else
             {
-                m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
+                result = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
                                     .arg(TAB_PHOTOS)
                                     .arg(TAB_TAGS)
                                     .arg(condition);
             }
+
+            return result;
         }
 
-        void visit(FilterPhotosWithFlags* flags) override
+        QString visit(const FilterPhotosWithFlags& flags) const
         {
             QStringList conditions;
 
-            for(const auto& it: flags->flags)
+            for(const auto& it: flags.flags)
             {
                 const QString flagName = getFlagName(it.first);
                 const int flagValue = it.second;
@@ -147,7 +176,7 @@ namespace Database
 
             QString merged_conditions;
 
-            switch (flags->mode)
+            switch (flags.mode)
             {
                 case FilterPhotosWithFlags::Mode::And:
                     merged_conditions = conditions.join(" AND ");
@@ -158,43 +187,42 @@ namespace Database
                     break;
             }
 
-            m_filterResult = QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
-                                .arg(TAB_PHOTOS)
-                                .arg(TAB_FLAGS)
-                                .arg(merged_conditions);
+            return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %3")
+                    .arg(TAB_PHOTOS)
+                    .arg(TAB_FLAGS)
+                    .arg(merged_conditions);
         }
 
-        void visit(FilterPhotosWithSha256* sha256) override
+        QString visit(const FilterPhotosWithSha256& sha256) const
         {
-            assert(sha256->sha256.isEmpty() == false);
+            assert(sha256.sha256.isEmpty() == false);
 
-            m_filterResult = QString("SELECT id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.sha256 = '%3'")
-                                .arg(TAB_PHOTOS)
-                                .arg(TAB_SHA256SUMS)
-                                .arg(sha256->sha256.constData());
+            return QString("SELECT id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.sha256 = '%3'")
+                    .arg(TAB_PHOTOS)
+                    .arg(TAB_SHA256SUMS)
+                    .arg(sha256.sha256.constData());
         }
 
-        void visit(FilterNotMatchingFilter* filter) override
+        QString visit(const FilterNotMatchingFilter& filter) const
         {
-            Generator generator;
-            const QString internal_condition = generator.parse( {filter->filter} );
+            const QString internal_condition = FiltersVisitor().convert(*filter.filter.get());
 
             //http://stackoverflow.com/questions/367863/sql-find-records-from-one-table-which-dont-exist-in-another
-            m_filterResult = QString("SELECT id FROM %1 WHERE id NOT IN (%2)")
-                                .arg(TAB_PHOTOS)
-                                .arg(internal_condition);
+            return QString("SELECT id FROM %1 WHERE id NOT IN (%2)")
+                    .arg(TAB_PHOTOS)
+                    .arg(internal_condition);
         }
 
-        void visit(FilterPhotosWithId* filter) override
+        QString visit(const FilterPhotosWithId& filter) const
         {
-            m_filterResult = QString("SELECT id FROM %1 WHERE id = '%2'")
-                                .arg(TAB_PHOTOS)
-                                .arg(filter->filter);
+            return QString("SELECT id FROM %1 WHERE id = '%2'")
+                    .arg(TAB_PHOTOS)
+                    .arg(filter.filter);
         }
 
-        void visit(FilterPhotosMatchingExpression* filter) override
+        QString visit(const FilterPhotosMatchingExpression& filter) const
         {
-            const SearchExpressionEvaluator::Expression conditions = filter->expression;
+            const SearchExpressionEvaluator::Expression conditions = filter.expression;
             const std::size_t s = conditions.size();
 
             QString tags_conditions;
@@ -243,107 +271,58 @@ namespace Database
                                              .arg(TAB_PEOPLE_NAMES)
                                              .arg(people_conditions);
 
-            m_filterResult = QString("SELECT %1.id FROM %1 WHERE %1.id IN (%2) OR %1.id IN (%3)")
-                                 .arg(TAB_PHOTOS)
-                                 .arg(tags_query)
-                                 .arg(people_query);
+            return QString("SELECT %1.id FROM %1 WHERE %1.id IN (%2) OR %1.id IN (%3)")
+                    .arg(TAB_PHOTOS)
+                    .arg(tags_query)
+                    .arg(people_query);
         }
 
-        void visit(FilterPhotosWithPath* filter) override
+        QString visit(const FilterPhotosWithPath& filter) const
         {
-            m_filterResult = QString("SELECT %1.id FROM %1 WHERE %1.path = '%2'")
-                                .arg(TAB_PHOTOS)
-                                .arg(filter->path);
+            return QString("SELECT %1.id FROM %1 WHERE %1.path = '%2'")
+                    .arg(TAB_PHOTOS)
+                    .arg(filter.path);
         }
 
-        void visit(FilterPhotosWithRole* filter) override
+        QString visit(const FilterPhotosWithRole& filter) const
         {
-            switch(filter->m_role)
+            QString result;
+
+            switch(filter.m_role)
             {
                 case FilterPhotosWithRole::Role::Regular:
-                    m_filterResult = QString("SELECT id FROM %1 WHERE id NOT IN "
-                                                    "("
-                                                        "SELECT groups_members.photo_id FROM groups_members "
-                                                        "UNION "
-                                                        "SELECT groups.representative_id FROM groups"
-                                                    ")")
-                                        .arg(TAB_PHOTOS);
+                    result = QString("SELECT id FROM %1 WHERE id NOT IN "
+                                            "("
+                                                "SELECT groups_members.photo_id FROM groups_members "
+                                                "UNION "
+                                                "SELECT groups.representative_id FROM groups"
+                                            ")")
+                                .arg(TAB_PHOTOS);
                 break;
 
                 case FilterPhotosWithRole::Role::GroupRepresentative:
-                    m_filterResult = QString("SELECT groups.representative_id FROM groups");
+                    result = QString("SELECT groups.representative_id FROM groups");
                 break;
 
                 case FilterPhotosWithRole::Role::GroupMember:
-                    m_filterResult = QString("SELECT groups_members.photo_id FROM groups_members");
+                    result = QString("SELECT groups_members.photo_id FROM groups_members");
                 break;
             }
+
+            return result;
         }
 
-        void visit(Database::FilterPhotosWithPerson* personFilter) override
+        QString visit(const Database::FilterPhotosWithPerson& personFilter) const
         {
-            m_filterResult = QString("SELECT photos.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
-                                .arg(TAB_PHOTOS)
-                                .arg(TAB_PEOPLE)
-                                .arg(personFilter->person_id);
+            return QString("SELECT photos.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
+                        .arg(TAB_PHOTOS)
+                        .arg(TAB_PEOPLE)
+                        .arg(personFilter.person_id);
         }
-
-        QString m_filterResult;
     };
 
 
     ////////////////////////////////////////////////////////////////////////////
-
-
-    Generator::Generator()
-    {
-
-    }
-
-
-    Generator::~Generator()
-    {
-
-    }
-
-
-    QString Generator::parse(const std::vector<IFilter::Ptr>& filters)
-    {
-        FiltersVisitor visitor;
-        QString result;
-
-        QStringList filters_data;
-
-        for (const IFilter::Ptr& filter: filters)
-        {
-            const QString currentfilterData = visitor.visit(filter);
-            filters_data.append(currentfilterData);
-        }
-
-        if (filters_data.empty())
-            result = QString("SELECT id FROM %1").arg(TAB_PHOTOS);
-        else if (filters_data.size() == 1)
-            result = filters_data.front();
-        else
-        {
-            result = QString("SELECT id FROM %1 WHERE ").arg(TAB_PHOTOS);
-
-            for(auto it = filters_data.begin(); it != filters_data.end(); ++it)
-            {
-                if (it->isEmpty())
-                    continue;
-
-                result += QString("id IN (%1)").arg(*it);
-
-                const auto next = std::next(it);
-
-                if (next != filters_data.end())
-                    result += " AND ";
-            }
-        }
-
-        return result;
-    }
 
 
     SqlFilterQueryGenerator::SqlFilterQueryGenerator()
@@ -358,9 +337,9 @@ namespace Database
     }
 
 
-    QString SqlFilterQueryGenerator::generate(const std::vector<IFilter::Ptr>& filters) const
+    QString SqlFilterQueryGenerator::generate(const Filter& filter) const
     {
-        return Generator().parse(filters);
+        return FiltersVisitor().convert(filter);
     }
 
 }

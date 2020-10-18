@@ -261,7 +261,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
     std::vector<GroupCandidate> result;
 
     // find photos which are not part of any group
-    Database::IFilter::Ptr group_filter = std::make_unique<Database::FilterPhotosWithRole>(Database::FilterPhotosWithRole::Role::Regular);
+    Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
     const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
     // find groups

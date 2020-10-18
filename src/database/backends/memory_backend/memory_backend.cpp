@@ -78,7 +78,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes& type, const std::vector<IFilter::Ptr> &)
+    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes& type, const Filter &)
     {
         std::set<TagValue> values;
 
@@ -105,7 +105,7 @@ namespace Database
     }
 
 
-    int MemoryBackend::getPhotosCount(const std::vector<IFilter::Ptr> &)
+    int MemoryBackend::getPhotosCount(const Filter &)
     {
         return 0;
     }
@@ -403,13 +403,13 @@ namespace Database
     }
 
 
-    bool MemoryBackend::removePhotos(const std::vector<IFilter::Ptr> &)
+    bool MemoryBackend::removePhotos(const Filter &)
     {
         return false;
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::onPhotos(const std::vector<IFilter::Ptr>& filters, const Action& action)
+    std::vector<Photo::Id> MemoryBackend::onPhotos(const Filter& filters, const Action& action)
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 
@@ -459,7 +459,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::getPhotos(const std::vector<IFilter::Ptr> &)
+    std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter &)
     {
         std::vector<Photo::Id> ids;
 

@@ -9,7 +9,7 @@ class PhotoOperatorMock: public Database::IPhotoOperator
 {
     public:
         MOCK_METHOD(bool, removePhoto, (const Photo::Id &), (override));
-        MOCK_METHOD(bool, removePhotos, (const std::vector<Database::IFilter::Ptr> &), (override));
-        MOCK_METHOD(std::vector<Photo::Id>, onPhotos, (const std::vector<Database::IFilter::Ptr> &, const Database::Action &), (override));
-        MOCK_METHOD(std::vector<Photo::Id>, getPhotos, (const std::vector<Database::IFilter::Ptr> &), (override));
+        MOCK_METHOD(bool, removePhotos, (const Database::Filter &), (override));
+        MOCK_METHOD(std::vector<Photo::Id>, onPhotos, (const Database::Filter &, const Database::Action &), (override));
+        MOCK_METHOD(std::vector<Photo::Id>, getPhotos, (const Database::Filter &), (override));
 };

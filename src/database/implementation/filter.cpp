@@ -22,19 +22,19 @@
 namespace Database
 {
 
-    IFilter::~IFilter()
-    {
-
-    }
-
-
-    IFilterVisitor::~IFilterVisitor()
-    {
-
-    }
-
-
     EmptyFilter::~EmptyFilter()
+    {
+
+    }
+
+
+    GroupFilter::GroupFilter(const std::vector<Filter>& f)
+        :filters(f)
+    {
+    }
+
+
+    GroupFilter::~GroupFilter()
     {
 
     }
@@ -88,7 +88,7 @@ namespace Database
     }
 
 
-    FilterNotMatchingFilter::FilterNotMatchingFilter(const IFilter::Ptr& f): filter(f)
+    FilterNotMatchingFilter::FilterNotMatchingFilter(const Filter& f): filter(new Filter(f))
     {
 
     }
