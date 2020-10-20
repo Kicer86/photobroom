@@ -6,6 +6,7 @@
         <file>Components/MultiselectGridView.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
+        <file>Dialogs/FacesDialog.qml</file>
         <file>Dialogs/PhotosView.qml</file>
         <file>Dialogs/SeriesDetection.qml</file>
         <file>Dialogs/DialogsComponents/Filter.qml</file>
