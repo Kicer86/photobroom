@@ -128,7 +128,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+33"/>
         <source>Assi&amp;gned people</source>
         <translation>&amp;Przypisane osoby</translation>
     </message>
@@ -143,7 +143,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+78"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+81"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>

@@ -19,6 +19,7 @@
 
 #include "ui_faces_dialog.h"
 #include "ui_utils/icompleter_factory.hpp"
+#include "quick_views/qml_utils.hpp"
 
 using namespace std::placeholders;
 
@@ -61,6 +62,8 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_exif(coreAccessor->getExifReaderFactory()->get())
 {
     ui->setupUi(this);
+
+    ui->quickView->setSource(QUrl("qrc:/ui/Dialogs/FacesDialog.qml"));
     ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
     ui->unassignedList->setItemDelegate(new TableDelegate(completerFactory, this));
 
@@ -189,8 +192,8 @@ void FacesDialog::updateImage()
             }
         }
 
-        QPixmap new_pixmap = QPixmap::fromImage(image);
-        ui->imageView->setPixmap(new_pixmap);
+        QObject* photo = QmlUtils::findQmlObject(ui->quickView, "photo");
+        photo->setProperty("source", QVariant(image));
     }
 }
 
