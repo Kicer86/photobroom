@@ -1,21 +1,23 @@
 
 import QtQuick 2.15
+import photo_broom.qml 1.0
 
 Item {
     Flickable {
         id: flickable
         anchors.fill: parent
 
-        Image {
+        Picture {
             id: photo
+            objectName: "photo"
+
             anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
         }
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:2}D{i:1}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
