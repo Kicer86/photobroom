@@ -7,11 +7,12 @@ Item {
         id: flickable
         anchors.fill: parent
 
+        contentWidth: photo.width
+        contentHeight: photo.height
+
         Picture {
             id: photo
             objectName: "photo"
-
-            anchors.fill: parent
         }
     }
 }
