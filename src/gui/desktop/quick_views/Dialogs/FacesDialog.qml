@@ -7,6 +7,7 @@ Item {
         id: flickable
         anchors.fill: parent
 
+        boundsBehavior: Flickable.StopAtBounds
         contentWidth: photo.width
         contentHeight: photo.height
 
