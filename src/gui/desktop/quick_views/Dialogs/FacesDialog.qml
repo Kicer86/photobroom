@@ -8,12 +8,21 @@ Item {
         anchors.fill: parent
 
         boundsBehavior: Flickable.StopAtBounds
-        contentWidth: photo.width
-        contentHeight: photo.height
+        contentWidth: wrapper.width
+        contentHeight: wrapper.height
 
-        Picture {
-            id: photo
-            objectName: "photo"
+        Item {
+            id: wrapper
+
+            width: Math.max(flickable.width, photo.width)
+            height: Math.max(flickable.height, photo.height)
+
+            Picture {
+                id: photo
+                objectName: "photo"
+
+                anchors.centerIn: parent
+            }
         }
     }
 }
