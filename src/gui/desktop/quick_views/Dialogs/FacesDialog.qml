@@ -22,6 +22,23 @@ Item {
                 objectName: "photo"
 
                 anchors.centerIn: parent
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onWheel: {
+                        scale = photo.scale
+
+                        if (wheel.angleDelta.y > 0) {
+                            scale *= 1.4;
+                        }
+                        else if (wheel.angleDelta.y < 0) {
+                            scale /= 1.4;
+                        }
+
+                        photo.scale = scale;
+                    }
+                }
             }
         }
     }
