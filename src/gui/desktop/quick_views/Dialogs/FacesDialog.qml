@@ -23,6 +23,10 @@ Item {
 
                 anchors.centerIn: parent
 
+                // initial size same as flickable
+                width: flickable.width
+                height: flickable.height
+
                 MouseArea {
                     anchors.fill: parent
 

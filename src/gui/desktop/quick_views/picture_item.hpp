@@ -22,11 +22,21 @@ class PictureItem: public QQuickPaintedItem
         void paint(QPainter * painter) override;
 
     private:
+        enum class Mode
+        {
+            AutoScale,
+            FixedScale,
+        };
+
         QImage m_source;
         QImage m_processedSource;
         double m_scale;
+        Mode m_mode;
 
+        void listenForResize(bool);
+        bool validateInputs() const;
         void prepareSource();
+        void calculateScale();
 };
 
 #endif
