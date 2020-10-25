@@ -27,16 +27,16 @@ Item {
                     anchors.fill: parent
 
                     onWheel: {
-                        scale = photo.scale
+                        var pictureScale = photo.pictureScale
 
                         if (wheel.angleDelta.y > 0) {
-                            scale *= 1.4;
+                            pictureScale *= 1.4;
                         }
                         else if (wheel.angleDelta.y < 0) {
-                            scale /= 1.4;
+                            pictureScale /= 1.4;
                         }
 
-                        photo.scale = scale;
+                        photo.pictureScale = pictureScale;
                     }
                 }
             }

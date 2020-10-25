@@ -18,11 +18,17 @@ void PictureItem::setSource(const QImage& image)
 }
 
 
-void PictureItem::setScale(double s)
+void PictureItem::setPictureScale(double pic_scale)
 {
-    m_scale = s;
+    QSize size = m_source.size();
+    size *= pic_scale;
 
-    prepareSource();
+    if (size.width() > 100 && size.height() > 100 && pic_scale < 8)
+    {
+        m_scale = pic_scale;
+
+        prepareSource();
+    }
 }
 
 
@@ -32,7 +38,7 @@ const QImage& PictureItem::source() const
 }
 
 
-double PictureItem::scale() const
+double PictureItem::pictureScale() const
 {
     return m_scale;
 }
