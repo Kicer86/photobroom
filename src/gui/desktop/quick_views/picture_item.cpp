@@ -85,7 +85,7 @@ void PictureItem::prepareSource()
         return;
 
     if (m_mode == Mode::ZoomToFit)
-        calculateScale();
+        m_scale = calculateZoomToFit();
 
     QSize size = m_source.size();
     size *= m_scale;
@@ -98,11 +98,11 @@ void PictureItem::prepareSource()
 }
 
 
-void PictureItem::calculateScale()
+double PictureItem::calculateZoomToFit() const
 {
     const QSize img_size = m_source.size();
     const QSizeF item_size = size();
     const QSize img_scaled = img_size.scaled(item_size.width(), item_size.height(), Qt::KeepAspectRatio);
 
-    m_scale = static_cast<double>(img_scaled.height()) / img_size.height();
+    return static_cast<double>(img_scaled.height()) / img_size.height();
 }

@@ -36,7 +36,7 @@ class PictureItem: public QQuickPaintedItem
         void listenForResize(bool);
         bool validateInputs() const;
         void prepareSource();
-        void calculateScale();
+        double calculateZoomToFit() const;
 };
 
 #endif
