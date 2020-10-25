@@ -24,7 +24,7 @@ class PictureItem: public QQuickPaintedItem
     private:
         enum class Mode
         {
-            AutoScale,
+            ZoomToFit,
             FixedScale,
         };
 

@@ -7,7 +7,7 @@
 PictureItem::PictureItem(QQuickItem* p)
     : QQuickPaintedItem(p)
     , m_scale(1.0)
-    , m_mode(Mode::AutoScale)
+    , m_mode(Mode::ZoomToFit)
 {
     listenForResize(true);
 }
@@ -84,7 +84,7 @@ void PictureItem::prepareSource()
     if (validateInputs() == false)
         return;
 
-    if (m_mode == Mode::AutoScale)
+    if (m_mode == Mode::ZoomToFit)
         calculateScale();
 
     QSize size = m_source.size();
