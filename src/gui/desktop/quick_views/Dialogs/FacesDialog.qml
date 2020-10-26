@@ -14,8 +14,8 @@ Item {
         Item {
             id: wrapper
 
-            width: Math.max(flickable.width, photo.width)
-            height: Math.max(flickable.height, photo.height)
+            width: Math.max(flickable.width, photo.width * photo.scale)
+            height: Math.max(flickable.height, photo.height * photo.scale)
 
             Picture {
                 id: photo
@@ -23,24 +23,23 @@ Item {
 
                 anchors.centerIn: parent
 
-                // initial size same as flickable
-                width: flickable.width
-                height: flickable.height
+                width: implicitWidth
+                height: implicitHeight
 
                 MouseArea {
                     anchors.fill: parent
 
                     onWheel: {
-                        var pictureScale = photo.pictureScale
+                        var pictureScale = photo.scale
 
-                        if (wheel.angleDelta.y > 0) {
+                        if (wheel.angleDelta.y > 0 && pictureScale < 8) {
                             pictureScale *= 1.4;
                         }
-                        else if (wheel.angleDelta.y < 0) {
+                        else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
                             pictureScale /= 1.4;
                         }
 
-                        photo.pictureScale = pictureScale;
+                        photo.scale = pictureScale;
                     }
                 }
             }
