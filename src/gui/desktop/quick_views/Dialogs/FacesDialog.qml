@@ -26,6 +26,10 @@ Item {
                 width: implicitWidth
                 height: implicitHeight
 
+                function zoomToFit () {
+                    photo.scale = flickable.width / photo.width;
+                }
+
                 MouseArea {
                     anchors.fill: parent
 
@@ -40,6 +44,10 @@ Item {
                         }
 
                         photo.scale = pictureScale;
+                    }
+
+                    onDoubleClicked: {
+                        photo.zoomToFit();
                     }
                 }
             }
