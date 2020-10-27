@@ -29,26 +29,26 @@ Item {
                 function zoomToFit () {
                     photo.scale = flickable.width / photo.width;
                 }
+            }
 
-                MouseArea {
-                    anchors.fill: parent
+            MouseArea {
+                anchors.fill: parent
 
-                    onWheel: {
-                        var pictureScale = photo.scale
+                onWheel: {
+                    var pictureScale = photo.scale
 
-                        if (wheel.angleDelta.y > 0 && pictureScale < 8) {
-                            pictureScale *= 1.4;
-                        }
-                        else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
-                            pictureScale /= 1.4;
-                        }
-
-                        photo.scale = pictureScale;
+                    if (wheel.angleDelta.y > 0 && pictureScale < 8) {
+                        pictureScale *= 1.4;
+                    }
+                    else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
+                        pictureScale /= 1.4;
                     }
 
-                    onDoubleClicked: {
-                        photo.zoomToFit();
-                    }
+                    photo.scale = pictureScale;
+                }
+
+                onDoubleClicked: {
+                    photo.zoomToFit();
                 }
             }
         }
