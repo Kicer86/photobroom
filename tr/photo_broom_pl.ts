@@ -138,12 +138,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Nieprzypisane osoby</translation>
     </message>
     <message>
-        <location line="+38"/>
-        <source>Scale:</source>
-        <translation>Skala:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+81"/>
+        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+78"/>
         <source>Locating faces...</source>
         <translation>Wykrywanie twarzy...</translation>
     </message>

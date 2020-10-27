@@ -69,9 +69,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
 
     setUnassignedVisible(false);
 
-    connect(ui->scaleSlider, &QSlider::valueChanged,
-            this, &FacesDialog::updateImage);
-
     connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
             this, &FacesDialog::updateFaceInformation);
 
@@ -153,23 +150,11 @@ void FacesDialog::updateImage()
     }
     else
     {
-        const QSize currentSize = oriented_image->size();
-        const double scale = ui->scaleSlider->value() / 100.0;
+        const QSize imgSize = oriented_image->size();
 
-        const QSize scaledSize = currentSize * scale;
-        QImage image = oriented_image->scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QImage image = oriented_image->scaled(imgSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-        QVector<QRect> scaledFaces;
-        for(const QRect& face: std::as_const(m_faces))
-        {
-            const QPoint tl = face.topLeft();
-            const QSize size = face.size();
-            const QRect scaledFace = QRect( tl * scale, size * scale );
-
-            scaledFaces.append(scaledFace);
-        }
-
-        if (scaledFaces.isEmpty() == false)
+        if (m_faces.isEmpty() == false)
         {
             QPainter painter(&image);
 
@@ -177,16 +162,16 @@ void FacesDialog::updateImage()
             pen.setColor(Qt::red);
             pen.setWidth(2);
             painter.setPen(pen);
-            painter.drawRects(scaledFaces);
+            painter.drawRects(m_faces);
 
             pen.setWidth(1);
             painter.setBackground( Qt::white );
             painter.setBackgroundMode( Qt::OpaqueMode );
             painter.setPen(pen);
 
-            for(int i = 0; i < scaledFaces.size(); i++)
+            for(int i = 0; i < m_faces.size(); i++)
             {
-                const QRect& face = scaledFaces[i];
+                const QRect& face = m_faces[i];
                 const QPoint tl = face.topLeft();
                 painter.drawText(tl, QString::number(i + 1));
             }
