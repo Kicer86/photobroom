@@ -194,6 +194,7 @@ void FacesDialog::updateImage()
 
         QObject* photo = QmlUtils::findQmlObject(ui->quickView, "photo");
         photo->setProperty("source", QVariant(image));
+        QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
     }
 }
 
