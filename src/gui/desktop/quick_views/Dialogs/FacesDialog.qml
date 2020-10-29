@@ -4,30 +4,43 @@ import photo_broom.qml 1.0
 
 Item {
     Flickable {
-        id: flickable
+        id: flickablePhoto
+        objectName: "flickablePhoto"
+
+        property alias source: photo.source
+
         anchors.fill: parent
 
         boundsBehavior: Flickable.StopAtBounds
         contentWidth: wrapper.width
         contentHeight: wrapper.height
 
+        readonly property int freeZoomMode: 0
+        readonly property int zoomToFitMode: 1
+        readonly property int fullZoomMode: 2
+
+        property int zoomType: freeZoomMode
+
+        function zoomToFit() {
+            photo.zoomToFit();
+        }
+
         Item {
             id: wrapper
 
-            width: Math.max(flickable.width, photo.width * photo.scale)
-            height: Math.max(flickable.height, photo.height * photo.scale)
+            width: Math.max(flickablePhoto.width, photo.width * photo.scale)
+            height: Math.max(flickablePhoto.height, photo.height * photo.scale)
 
             Picture {
                 id: photo
-                objectName: "photo"
 
                 anchors.centerIn: parent
 
                 width: implicitWidth
                 height: implicitHeight
 
-                function zoomToFit () {
-                    photo.scale = flickable.width / photo.width;
+                function zoomToFit() {
+                    photo.scale = flickablePhoto.width / photo.width;
                 }
             }
 
@@ -45,10 +58,20 @@ Item {
                     }
 
                     photo.scale = pictureScale;
+                    flickablePhoto.zoomType = flickablePhoto.freeZoomMode
                 }
 
                 onDoubleClicked: {
-                    photo.zoomToFit();
+                    if (flickablePhoto.zoomType !== flickablePhoto.zoomToFitMode)
+                    {
+                        photo.zoomToFit();
+                        flickablePhoto.zoomType = flickablePhoto.zoomToFitMode
+                    }
+                    else
+                    {
+                        photo.scale = 1.0
+                        flickablePhoto.zoomType = flickablePhoto.fullZoomMode
+                    }
                 }
             }
         }
