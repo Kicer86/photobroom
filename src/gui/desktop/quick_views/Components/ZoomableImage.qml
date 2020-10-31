@@ -58,13 +58,11 @@ Flickable {
             }
 
             onDoubleClicked: {
-                if (area.zoomType !== area.zoomToFitMode)
-                {
+                if (area.zoomType !== area.zoomToFitMode) {
                     area.zoomToFit();
                     area.zoomType = area.zoomToFitMode
                 }
-                else
-                {
+                else {
                     photo.scale = 1.0
                     area.zoomType = area.fullZoomMode
                 }
