@@ -4,7 +4,6 @@ import "../Components" as Components
 
 Item {
     Components.ZoomableImage {
-        id: flickablePhoto
         objectName: "flickablePhoto"
 
         anchors.fill: parent
