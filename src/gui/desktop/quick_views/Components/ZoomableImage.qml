@@ -12,7 +12,7 @@ Flickable {
     contentHeight: area.height
 
     function zoomToFit() {
-        photo.zoomToFit();
+        area.zoomToFit();
     }
 
     Item {
@@ -27,6 +27,10 @@ Flickable {
         width: Math.max(flickableArea.width, photo.width * photo.scale)
         height: Math.max(flickableArea.height, photo.height * photo.scale)
 
+        function zoomToFit() {
+            photo.scale = flickableArea.width / photo.width;
+        }
+
         Picture {
             id: photo
 
@@ -34,10 +38,6 @@ Flickable {
 
             width: implicitWidth
             height: implicitHeight
-
-            function zoomToFit() {
-                photo.scale = flickableArea.width / photo.width;
-            }
         }
 
         MouseArea {
@@ -60,7 +60,7 @@ Flickable {
             onDoubleClicked: {
                 if (area.zoomType !== area.zoomToFitMode)
                 {
-                    photo.zoomToFit();
+                    area.zoomToFit();
                     area.zoomType = area.zoomToFitMode
                 }
                 else
