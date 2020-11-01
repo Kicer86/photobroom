@@ -31,7 +31,7 @@ Flickable {
             photo.scale = flickableArea.width / photo.width;
         }
 
-        function followMouse(oldScale, newScale, mouseX, mouseY)
+        function followMouse(oldScale, newScale, mouseX, mouseY, currentXoffset, currentYoffset)
         {
             var factor = newScale / oldScale;
 
@@ -39,7 +39,7 @@ Flickable {
             {
                 var oldMouseXAbs = mouseX;
                 var newMouseXAbs = oldMouseXAbs * factor;
-                var centerX = oldMouseXAbs - flickableArea.contentX
+                var centerX = oldMouseXAbs - currentXoffset
                 var offset = newMouseXAbs - centerX;
                 offset = Math.max(offset, 0);                               // eliminate negative numbers
                 offset = Math.min(offset, area.width - flickableArea.width) // eliminate values above edge
@@ -50,7 +50,7 @@ Flickable {
             {
                 var oldMouseYAbs = mouseY;
                 var newMouseYAbs = oldMouseYAbs * factor;
-                var centerY = oldMouseYAbs - flickableArea.contentY
+                var centerY = oldMouseYAbs - currentYoffset
                 var offset = newMouseYAbs - centerY;
                 offset = Math.max(offset, 0);                                 // eliminate negative numbers
                 offset = Math.min(offset, area.height - flickableArea.height) // eliminate values above edge
@@ -81,10 +81,12 @@ Flickable {
                 }
 
                 var currentScale = photo.scale;
+                var currentXoffset = flickableArea.contentX;
+                var currentYoffset = flickableArea.contentY;
                 photo.scale = pictureScale;
                 area.zoomType = area.freeZoomMode
 
-                area.followMouse(currentScale, pictureScale, wheel.x, wheel.y);
+                area.followMouse(currentScale, pictureScale, wheel.x, wheel.y, currentXoffset, currentYoffset);
             }
 
             onDoubleClicked: {
