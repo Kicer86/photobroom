@@ -83,10 +83,11 @@ Flickable {
                 var currentScale = photo.scale;
                 var currentXoffset = flickableArea.contentX;
                 var currentYoffset = flickableArea.contentY;
+
                 photo.scale = pictureScale;
                 area.zoomType = area.freeZoomMode
 
-                area.followMouse(currentScale, pictureScale, wheel.x, wheel.y, currentXoffset, currentYoffset);
+                area.followMouse(currentScale, photo.scale, wheel.x, wheel.y, currentXoffset, currentYoffset);
             }
 
             onDoubleClicked: {
@@ -95,8 +96,14 @@ Flickable {
                     area.zoomType = area.zoomToFitMode
                 }
                 else {
+                    var currentScale = photo.scale;
+                    var currentXoffset = flickableArea.contentX;
+                    var currentYoffset = flickableArea.contentY;
+
                     photo.scale = 1.0
                     area.zoomType = area.fullZoomMode
+
+                    area.followMouse(currentScale, photo.scale, mouse.x, mouse.y, currentXoffset, currentYoffset);
                 }
             }
         }
