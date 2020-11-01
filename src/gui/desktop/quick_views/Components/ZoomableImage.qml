@@ -31,6 +31,33 @@ Flickable {
             photo.scale = flickableArea.width / photo.width;
         }
 
+        function followMouse(oldScale, newScale, mouseX, mouseY)
+        {
+            var factor = newScale / oldScale;
+
+            if (area.width > flickableArea.width)
+            {
+                var oldMouseXAbs = mouseX;
+                var newMouseXAbs = oldMouseXAbs * factor;
+                var centerX = oldMouseXAbs - flickableArea.contentX
+                var offset = newMouseXAbs - centerX;
+                offset = Math.max(offset, 0);                               // eliminate negative numbers
+                offset = Math.min(offset, area.width - flickableArea.width) // eliminate values above edge
+                flickableArea.contentX = offset;
+            }
+
+            if (area.height > flickableArea.height)
+            {
+                var oldMouseYAbs = mouseY;
+                var newMouseYAbs = oldMouseYAbs * factor;
+                var centerY = oldMouseYAbs - flickableArea.contentY
+                var offset = newMouseYAbs - centerY;
+                offset = Math.max(offset, 0);                                 // eliminate negative numbers
+                offset = Math.min(offset, area.height - flickableArea.height) // eliminate values above edge
+                flickableArea.contentY = offset;
+            }
+        }
+
         Picture {
             id: photo
 
@@ -53,8 +80,11 @@ Flickable {
                     pictureScale /= 1.4;
                 }
 
+                var currentScale = photo.scale;
                 photo.scale = pictureScale;
                 area.zoomType = area.freeZoomMode
+
+                area.followMouse(currentScale, pictureScale, wheel.x, wheel.y);
             }
 
             onDoubleClicked: {
