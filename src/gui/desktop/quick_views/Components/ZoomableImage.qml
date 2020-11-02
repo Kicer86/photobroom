@@ -76,8 +76,7 @@ Flickable {
 
                 if (wheel.angleDelta.y > 0 && pictureScale < 8) {
                     pictureScale *= 1.4;
-                }
-                else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
+                } else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
                     pictureScale /= 1.4;
                 }
 
