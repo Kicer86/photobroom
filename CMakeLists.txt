@@ -173,18 +173,6 @@ endif(DOXYGEN)
 #icons
 set(SVG_ICONS images/photo_broom.svg)
 
-#unit tests
-if(BUILD_TESTING)
-
-    #disable compilation warnings for googletest
-    foreach(gtest_target gtest gtest-main gmock gmock-main)
-        if(TARGET ${gtest_target})
-            disableWarnings(${gtest_target})
-        endif()
-    endforeach()
-
-endif()
-
 #installation steps
 install(FILES ${SVG_ICONS} DESTINATION ${PATH_ICONS}/svg)
 
