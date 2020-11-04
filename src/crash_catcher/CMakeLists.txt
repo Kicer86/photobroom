@@ -1,7 +1,7 @@
 
 include(GenerateExportHeader)
 
-find_package(KF5Crash QUIET)
+find_package(KF6Crash QUIET)
 
 include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 
