@@ -59,11 +59,6 @@ target_link_libraries(gui
                             photos_crawler
                             project_utils
                             system
-
-                            KWidgetsAddons
-                            ${OPENLIBRARY_LIBRARIES}
-                            Qt::Widgets
-                            Qt::QuickControls2
 )
 
 target_include_directories(gui
