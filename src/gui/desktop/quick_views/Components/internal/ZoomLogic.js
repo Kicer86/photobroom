@@ -17,8 +17,6 @@ function scaleOffsets(scaleDelta, mouse, view, canvas)
         var newMouseXAbs = oldMouseXAbs * scaleDelta;
         var centerX = oldMouseXAbs - view.x
         offset = newMouseXAbs - centerX;
-        offset = Math.max(offset, 0);                                     // eliminate negative numbers
-        offset = Math.min(offset, canvas.width * scaleDelta - view.width) // eliminate values above edge
         result.x = offset;
     }
 
@@ -28,8 +26,6 @@ function scaleOffsets(scaleDelta, mouse, view, canvas)
         var newMouseYAbs = oldMouseYAbs * scaleDelta;
         var centerY = oldMouseYAbs - view.y
         offset = newMouseYAbs - centerY;
-        offset = Math.max(offset, 0);                                       // eliminate negative numbers
-        offset = Math.min(offset, canvas.height * scaleDelta - view.height) // eliminate values above edge
         result.y = offset;
     }
 
