@@ -15,7 +15,7 @@ TestCase {
         compare(newOffsets.y, 0, "y offset");
 
         // image takes 200% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
-        newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(0, 0), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
+        newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(0, 0), Qt.rect(50, 50, 100, 100), Qt.size(200, 200));
 
         compare(newOffsets.x, 100, "x offset");
         compare(newOffsets.y, 100, "y offset");
@@ -36,7 +36,7 @@ TestCase {
         compare(newOffsets.y, 99, "y offset");
 
         // image takes 200% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
-        newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(149, 149), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
+        newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(149, 149), Qt.rect(50, 50, 100, 100), Qt.size(200, 200));
 
         compare(newOffsets.x, 249, "x offset");
         compare(newOffsets.y, 249, "y offset");
@@ -48,6 +48,15 @@ TestCase {
         compare(newOffsets.y, 49, "y offset");
     }
 
+    function middle_point_zoom_in() {
+
+        // image takes 200% (or something) of screen and is being scaled 2 times at point 25,25
+        newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(25, 25), Qt.rect(50, 50, 100, 100), Qt.size(200, 200));
+
+        compare(newOffsets.x, 125, "x offset");
+        compare(newOffsets.y, 125, "y offset");
+    }
+
     function test_top_left_corner_zoom_out() {
 
         // image takes 100% of screen and is being scaled down 2 times at point 0,0
@@ -57,7 +66,7 @@ TestCase {
         compare(newOffsets.y, 0, "y offset");
 
         // image takes 200% (or something) of screen and is being scaled down 2 times at point 0,0 (top left visible point)
-        newOffsets = ZoomLogic.scaleOffsets(0.5, Qt.point(0, 0), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
+        newOffsets = ZoomLogic.scaleOffsets(0.5, Qt.point(0, 0), Qt.rect(50, 50, 100, 100), Qt.size(200, 200));
 
         compare(newOffsets.x, 25, "x offset");
         compare(newOffsets.y, 25, "y offset");
