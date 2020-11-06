@@ -9,25 +9,18 @@
 function scaleOffsets(scaleDelta, mouse, view, canvas)
 {
     var result = Qt.point(0, 0);
-    var offset = 0.0;
 
-    if (canvas.width >= view.width)
-    {
-        var oldMouseXAbs = mouse.x;
-        var newMouseXAbs = oldMouseXAbs * scaleDelta;
-        var centerX = oldMouseXAbs - view.x
-        offset = newMouseXAbs - centerX;
-        result.x = offset;
-    }
+    var oldMouseXAbs = mouse.x + view.x;
+    var newMouseXAbs = oldMouseXAbs * scaleDelta;
+    var centerX = mouse.x
+    var xOffset = newMouseXAbs - centerX;
+    result.x = xOffset;
 
-    if (canvas.height >= view.height)
-    {
-        var oldMouseYAbs = mouse.y;
-        var newMouseYAbs = oldMouseYAbs * scaleDelta;
-        var centerY = oldMouseYAbs - view.y
-        offset = newMouseYAbs - centerY;
-        result.y = offset;
-    }
+    var oldMouseYAbs = mouse.y + view.y;
+    var newMouseYAbs = oldMouseYAbs * scaleDelta;
+    var centerY = mouse.y
+    var yOffset = newMouseYAbs - centerY;
+    result.y = yOffset;
 
     return result;
 }

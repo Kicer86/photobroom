@@ -17,8 +17,8 @@ TestCase {
         // image takes 200% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
         newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(0, 0), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
 
-        compare(newOffsets.x, 50, "x offset");
-        compare(newOffsets.y, 50, "y offset");
+        compare(newOffsets.x, 100, "x offset");
+        compare(newOffsets.y, 100, "y offset");
 
         // image takes 50% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
         newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(0, 0), Qt.rect(0, 0, 100, 100), Qt.size(50, 50));
@@ -38,13 +38,33 @@ TestCase {
         // image takes 200% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
         newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(149, 149), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
 
-        compare(newOffsets.x, 199, "x offset");
-        compare(newOffsets.y, 199, "y offset");
+        compare(newOffsets.x, 249, "x offset");
+        compare(newOffsets.y, 249, "y offset");
 
         // image takes 50% (or something) of screen and is being scaled 2 times at point 0,0 (top left visible point)
         newOffsets = ZoomLogic.scaleOffsets(2.0, Qt.point(49, 49), Qt.rect(0, 0, 100, 100), Qt.size(50, 50));
 
-        // image fill fill view
+        compare(newOffsets.x, 49, "x offset");
+        compare(newOffsets.y, 49, "y offset");
+    }
+
+    function test_top_left_corner_zoom_out() {
+
+        // image takes 100% of screen and is being scaled down 2 times at point 0,0
+        var newOffsets = ZoomLogic.scaleOffsets(0.5, Qt.point(0, 0), Qt.rect(0, 0, 100, 100), Qt.size(100, 100));
+
+        compare(newOffsets.x, 0, "x offset");
+        compare(newOffsets.y, 0, "y offset");
+
+        // image takes 200% (or something) of screen and is being scaled down 2 times at point 0,0 (top left visible point)
+        newOffsets = ZoomLogic.scaleOffsets(0.5, Qt.point(0, 0), Qt.rect(50, 50, 150, 150), Qt.size(200, 200));
+
+        compare(newOffsets.x, 25, "x offset");
+        compare(newOffsets.y, 25, "y offset");
+
+        // image takes 50% (or something) of screen and is being scaled down 2 times at point 0,0 (top left visible point)
+        newOffsets = ZoomLogic.scaleOffsets(0.5, Qt.point(0, 0), Qt.rect(0, 0, 100, 100), Qt.size(50, 50));
+
         compare(newOffsets.x, 0, "x offset");
         compare(newOffsets.y, 0, "y offset");
     }
