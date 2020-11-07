@@ -1,6 +1,7 @@
 
 
 import QtQuick 2.15
+import "internal/ZoomLogic.js" as Logic
 import photo_broom.qml 1.0
 
 Flickable {
@@ -31,32 +32,57 @@ Flickable {
             photo.scale = flickableArea.width / photo.width;
         }
 
-        function followMouse(oldScale, newScale, mouseX, mouseY, currentXoffset, currentYoffset)
+        function pointInView(mouse) {
+            var p = Qt.point(mouse.x, mouse.y)
+
+            p.x -= flickableArea.contentX
+            p.y -= flickableArea.contentY
+
+            if (photo.width * photo.scale < area.width)
+                p.x -= (area.width - photo.width * photo.scale) / 2
+
+            if (photo.height * photo.scale < area.heigh)
+                p.y -= (area.height - photo.height * photo.scale) / 2
+
+            return p
+        }
+
+        function imageView() {
+            var v = Qt.rect(flickableArea.contentX, flickableArea.contentY,
+                            flickableArea.width, flickableArea.height)
+
+            return v
+        }
+
+        function imageSize() {
+            var s = Qt.size(photo.width * photo.scale, photo.height * photo.scale)
+
+            // when image is smaller than view then pretend it to be equal to view
+            //s.width  = Math.max(s.width, area.width)
+            //s.height = Math.max(s.height, area.height)
+
+            return s
+        }
+
+        function followMouse(scaleDetla, mouse, view, image)
         {
-            var factor = newScale / oldScale;
-            var offset = 0.0;
+            var offset = Logic.scaleOffsets(scaleDetla, mouse, view, image)
 
-            if (area.width > flickableArea.width)
-            {
-                var oldMouseXAbs = mouseX;
-                var newMouseXAbs = oldMouseXAbs * factor;
-                var centerX = oldMouseXAbs - currentXoffset
-                offset = newMouseXAbs - centerX;
-                offset = Math.max(offset, 0);                               // eliminate negative numbers
-                offset = Math.min(offset, area.width - flickableArea.width) // eliminate values above edge
-                flickableArea.contentX = offset;
-            }
+            offset.x = Math.max(offset.x, 0);                                               // eliminate negative numbers
+            offset.x = Math.min(offset.x, image.width * scaleDetla - flickableArea.width)   // eliminate values above edge
 
-            if (area.height > flickableArea.height)
-            {
-                var oldMouseYAbs = mouseY;
-                var newMouseYAbs = oldMouseYAbs * factor;
-                var centerY = oldMouseYAbs - currentYoffset
-                offset = newMouseYAbs - centerY;
-                offset = Math.max(offset, 0);                                 // eliminate negative numbers
-                offset = Math.min(offset, area.height - flickableArea.height) // eliminate values above edge
-                flickableArea.contentY = offset;
-            }
+            offset.y = Math.max(offset.y, 0);                                               // eliminate negative numbers
+            offset.y = Math.min(offset.y, image.height * scaleDetla - flickableArea.height) // eliminate values above edge
+
+            // if photo is smaller than area then do not use any offsets as photo is autoaligned in center in such cases
+            if (image.height * scaleDetla <= view.height)
+                offset.y = 0;
+
+            if (image.width * scaleDetla <= view.width)
+                offset.x = 0;
+
+            flickableArea.contentX = offset.x
+            flickableArea.contentY = offset.y
         }
 
         Picture {
@@ -80,14 +106,15 @@ Flickable {
                     pictureScale /= 1.4;
                 }
 
-                var currentScale = photo.scale;
-                var currentXoffset = flickableArea.contentX;
-                var currentYoffset = flickableArea.contentY;
+                var currentScale = photo.scale
+                var point = area.pointInView(wheel)
+                var v = area.imageView()
+                var is = area.imageSize()
 
                 photo.scale = pictureScale;
                 area.zoomType = area.freeZoomMode
 
-                area.followMouse(currentScale, photo.scale, wheel.x, wheel.y, currentXoffset, currentYoffset);
+                area.followMouse(photo.scale/currentScale, point, v, is);
             }
 
             onDoubleClicked: {
@@ -101,6 +128,12 @@ Flickable {
                     var currentScale = photo.scale;
                     var currentXoffset = flickableArea.contentX;
                     var currentYoffset = flickableArea.contentY;
+
+                    if (photo.height * photo.scale < area.height)
+                        currentYoffset = -(area.height - photo.height * photo.scale)/2;
+
+                    if (photo.width * photo.scale < area.width)
+                        currentXoffset = -photo.x;
 
                     photo.scale = 1.0
                     area.zoomType = area.fullZoomMode
