@@ -30,6 +30,7 @@ Flickable {
 
         function zoomToFit() {
             photo.scale = flickableArea.width / photo.width;
+            area.zoomType = area.zoomToFitMode
         }
 
         function pointInView(mouse) {
