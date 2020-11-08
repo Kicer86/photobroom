@@ -126,19 +126,14 @@ Flickable {
                     area.zoomType = area.zoomToFitMode
                 } else {
                     var currentScale = photo.scale;
-                    var currentXoffset = flickableArea.contentX;
-                    var currentYoffset = flickableArea.contentY;
-
-                    if (photo.height * photo.scale < area.height)
-                        currentYoffset = -(area.height - photo.height * photo.scale)/2;
-
-                    if (photo.width * photo.scale < area.width)
-                        currentXoffset = -photo.x;
+                    var point = area.pointInView(mouse)
+                    var v = area.imageView()
+                    var is = area.imageSize()
 
                     photo.scale = 1.0
                     area.zoomType = area.fullZoomMode
 
-                    area.followMouse(currentScale, photo.scale, mouse.x, mouse.y, currentXoffset, currentYoffset);
+                    area.followMouse(photo.scale/currentScale, point, v, is);
                 }
             }
         }
