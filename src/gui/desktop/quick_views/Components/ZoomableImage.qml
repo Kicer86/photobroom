@@ -39,18 +39,18 @@ Flickable {
             p.x -= flickableArea.contentX
             p.y -= flickableArea.contentY
 
-            if (photo.width * photo.scale < area.width)
-                p.x -= (area.width - photo.width * photo.scale) / 2
-
-            if (photo.height * photo.scale < area.heigh)
-                p.y -= (area.height - photo.height * photo.scale) / 2
-
             return p
         }
 
         function imageView() {
             var v = Qt.rect(flickableArea.contentX, flickableArea.contentY,
                             flickableArea.width, flickableArea.height)
+
+            if (photo.width * photo.scale < flickableArea.width)
+                v.x -= (area.width - photo.width * photo.scale) / 2
+
+            if (photo.height * photo.scale < flickableArea.height)
+                v.y -= (area.height - photo.height * photo.scale) / 2
 
             return v
         }
