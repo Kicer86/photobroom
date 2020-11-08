@@ -91,12 +91,6 @@ add_feature_info("Build id" PHOTO_BROOM_BUILD_ID "Build id attached to installer
 #tests
 if(BUILD_TESTING)
 
-    # setup paths for finders
-    set(GMOCK_DIR "${PROJECT_SOURCE_DIR}/external/googletest/googlemock")
-    set(GTEST_DIR "${PROJECT_SOURCE_DIR}/external/googletest/googletest")
-    set(GMOCK_FORCE_SOURCES TRUE)
-    set(GTEST_FORCE_SOURCES TRUE)
-
     enable_testing()
 
     if(${RUN_TESTS_AFTER_BUILD})

@@ -85,9 +85,17 @@ ProjectCreatorDialog::ProjectCreatorDialog(): QDialog(),
     m_engineOptions = new QGroupBox(tr("Engine options"));
 
     // photos location
-    QGroupBox* locationGroup = new QGroupBox(tr("Photos location"));
+    QGroupBox* locationGroup = new QGroupBox(tr("Photos storage location"));
     QVBoxLayout* locationLayout = new QVBoxLayout(locationGroup);
-    QLabel* locationInfo = new QLabel(tr("Photos location is place where your photos collection will be stored.\nLocation may already contain photos which will be added to collection."));
+    QLabel* locationInfo = new QLabel(tr("<small>Photos storage location is a place where all your photos and videos will be kept.<br>"
+                                         "Also Photo Broom's database will be kept there.<br>"
+                                         "Location may already contain photos and videos which will be automatically loaded.<br>"
+                                         "<b>Photo Broom does not modify or move your files. "
+                                         "All applied informations are stored in database not in files itself.</b></small>")
+    );
+
+    locationInfo->setTextFormat(Qt::RichText);
+
     m_location = new QtExtChooseFile(tr("Location"), tr("Browse"), [this]
     {
         return QFileDialog::getExistingDirectory(this, tr("Photos location"));

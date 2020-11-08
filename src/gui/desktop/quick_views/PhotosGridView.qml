@@ -27,17 +27,18 @@ MultiselectGridView {
         Rectangle {
             id: highlightId
             anchors.fill: parent
-            anchors.margins: 1
+            anchors.margins: 0
             state: "unselected"
 
-            color: "lightsteelblue"
+            color: "blue"
             radius: 5
+            z: -1
 
             states: [
                 State {
                     name: "selected"
                     when: delegateId.selected
-                    PropertyChanges { target: highlightId; opacity: 0.6 }
+                    PropertyChanges { target: highlightId; opacity: 1.0 }
                 },
                 State {
                     name: "unselected"
