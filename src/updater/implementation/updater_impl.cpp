@@ -35,10 +35,9 @@
 #include "version.hpp"
 
 
-UpdaterImpl::UpdaterImpl(): m_manager(new QNetworkAccessManager), m_connection(nullptr), m_request(nullptr)
+UpdaterImpl::UpdaterImpl(): m_connection(nullptr), m_request(nullptr)
 {
-    GitHubApi api;
-    api.set(m_manager.get());
+    GitHubApi api(m_manager);
 
     m_connection = api.connect();
     m_request.reset( new GitHub::Request(m_connection.get()) );

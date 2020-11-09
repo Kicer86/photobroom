@@ -27,7 +27,6 @@
 
 #include "iupdater.hpp"
 
-class QNetworkAccessManager;
 class QJsonDocument;
 
 namespace GitHub
@@ -50,7 +49,7 @@ class UpdaterImpl : public QObject
         void checkVersion(const IUpdater::StatusCallback &);
 
     private:
-        std::unique_ptr<QNetworkAccessManager> m_manager;
+        QNetworkAccessManager m_manager;
         std::unique_ptr<GitHub::IConnection> m_connection;
         std::unique_ptr<GitHub::Request> m_request;
 
