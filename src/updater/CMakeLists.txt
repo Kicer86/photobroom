@@ -38,6 +38,9 @@ hideSymbols(updater)
 if(BUILD_SHARED_LIBS)
     install(TARGETS updater RUNTIME DESTINATION ${PATH_LIBS}
                             LIBRARY DESTINATION ${PATH_LIBS})
+
+    install(TARGETS github_api RUNTIME DESTINATION ${PATH_LIBS}
+                               LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
 
