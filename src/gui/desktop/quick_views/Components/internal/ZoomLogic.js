@@ -12,13 +12,13 @@ function scaleOffsets(scaleDelta, mouse, view, canvas)
 
     var oldMouseXAbs = mouse.x + view.x;
     var newMouseXAbs = oldMouseXAbs * scaleDelta;
-    var centerX = mouse.x
+    var centerX = mouse.x;
     var xOffset = newMouseXAbs - centerX;
     result.x = xOffset;
 
     var oldMouseYAbs = mouse.y + view.y;
     var newMouseYAbs = oldMouseYAbs * scaleDelta;
-    var centerY = mouse.y
+    var centerY = mouse.y;
     var yOffset = newMouseYAbs - centerY;
     result.y = yOffset;
 
