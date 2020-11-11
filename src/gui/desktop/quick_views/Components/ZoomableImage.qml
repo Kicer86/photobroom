@@ -16,6 +16,9 @@ Flickable {
         area.zoomToFit();
     }
 
+    onHeightChanged: area.calculateZoomToFitScale()
+    onWidthChanged: area.calculateZoomToFitScale()
+
     Item {
         id: area
 
