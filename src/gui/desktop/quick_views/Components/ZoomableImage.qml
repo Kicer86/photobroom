@@ -16,8 +16,8 @@ Flickable {
         area.zoomToFit();
     }
 
-    onHeightChanged: area.calculateZoomToFitScale()
-    onWidthChanged: area.calculateZoomToFitScale()
+    onHeightChanged: area.availableAreaChanged()
+    onWidthChanged: area.availableAreaChanged()
 
     Item {
         id: area
@@ -37,6 +37,13 @@ Flickable {
                 zoomToFitScale = flickableArea.width / image.width;
             else
                 zoomToFitScale = flickableArea.height / image.height
+        }
+
+        function availableAreaChanged() {
+            area.calculateZoomToFitScale()
+
+            if (zoomType === area.zoomToFitMode)
+                zoomToFit()
         }
 
         function zoomToFit() {
