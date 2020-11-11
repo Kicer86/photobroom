@@ -21,6 +21,8 @@ void PictureItem::setSource(const QImage& image)
     setImplicitHeight(img_size.height());
 
     update();
+
+    emit sourceChanged();
 }
 
 
