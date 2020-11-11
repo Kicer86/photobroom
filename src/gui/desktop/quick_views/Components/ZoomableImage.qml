@@ -29,7 +29,12 @@ Flickable {
         height: Math.max(flickableArea.height, photo.height * photo.scale)
 
         function zoomToFit() {
-            photo.scale = flickableArea.width / photo.width;
+
+            if (photo.width > photo.height)
+                photo.scale = flickableArea.width / photo.width;
+            else
+                photo.scale = flickableArea.height / photo.height
+
             area.zoomType = area.zoomToFitMode
         }
 
