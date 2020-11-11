@@ -58,10 +58,6 @@ Flickable {
         function imageSize() {
             var s = Qt.size(photo.width * photo.scale, photo.height * photo.scale)
 
-            // when image is smaller than view then pretend it to be equal to view
-            //s.width  = Math.max(s.width, area.width)
-            //s.height = Math.max(s.height, area.height)
-
             return s
         }
 
