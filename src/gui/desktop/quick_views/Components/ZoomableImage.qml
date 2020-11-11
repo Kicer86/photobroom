@@ -7,7 +7,7 @@ import photo_broom.qml 1.0
 Flickable {
     id: flickableArea
 
-    property alias source: photo.source
+    property alias source: image.source
 
     contentWidth: area.width
     contentHeight: area.height
@@ -25,15 +25,15 @@ Flickable {
 
         property int zoomType: freeZoomMode
 
-        width: Math.max(flickableArea.width, photo.width * photo.scale)
-        height: Math.max(flickableArea.height, photo.height * photo.scale)
+        width: Math.max(flickableArea.width, image.width * image.scale)
+        height: Math.max(flickableArea.height, image.height * image.scale)
 
         function zoomToFit() {
 
-            if (photo.width > photo.height)
-                photo.scale = flickableArea.width / photo.width;
+            if (image.width > image.height)
+                image.scale = flickableArea.width / image.width;
             else
-                photo.scale = flickableArea.height / photo.height
+                image.scale = flickableArea.height / image.height
 
             area.zoomType = area.zoomToFitMode
         }
@@ -51,17 +51,17 @@ Flickable {
             var v = Qt.rect(flickableArea.contentX, flickableArea.contentY,
                             flickableArea.width, flickableArea.height)
 
-            if (photo.width * photo.scale < flickableArea.width)
-                v.x -= (area.width - photo.width * photo.scale) / 2
+            if (image.width * image.scale < flickableArea.width)
+                v.x -= (area.width - image.width * image.scale) / 2
 
-            if (photo.height * photo.scale < flickableArea.height)
-                v.y -= (area.height - photo.height * photo.scale) / 2
+            if (image.height * image.scale < flickableArea.height)
+                v.y -= (area.height - image.height * image.scale) / 2
 
             return v
         }
 
         function imageSize() {
-            var s = Qt.size(photo.width * photo.scale, photo.height * photo.scale)
+            var s = Qt.size(image.width * image.scale, image.height * image.scale)
 
             return s
         }
@@ -76,7 +76,7 @@ Flickable {
             offset.y = Math.max(offset.y, 0);                                               // eliminate negative numbers
             offset.y = Math.min(offset.y, image.height * scaleDetla - flickableArea.height) // eliminate values above edge
 
-            // if photo is smaller than area then do not use any offsets as photo is autoaligned in center in such cases
+            // if image is smaller than area then do not use any offsets as image is autoaligned in center in such cases
             if (image.height * scaleDetla <= view.height)
                 offset.y = 0;
 
@@ -88,7 +88,7 @@ Flickable {
         }
 
         Picture {
-            id: photo
+            id: image
 
             anchors.centerIn: parent
 
@@ -100,7 +100,7 @@ Flickable {
             anchors.fill: parent
 
             onWheel: {
-                var pictureScale = photo.scale
+                var pictureScale = image.scale
 
                 if (wheel.angleDelta.y > 0 && pictureScale < 8) {
                     pictureScale *= 1.4;
@@ -108,15 +108,15 @@ Flickable {
                     pictureScale /= 1.4;
                 }
 
-                var currentScale = photo.scale
+                var currentScale = image.scale
                 var point = area.pointInView(wheel)
                 var v = area.imageView()
                 var is = area.imageSize()
 
-                photo.scale = pictureScale;
+                image.scale = pictureScale;
                 area.zoomType = area.freeZoomMode
 
-                area.followMouse(photo.scale/currentScale, point, v, is);
+                area.followMouse(image.scale/currentScale, point, v, is);
             }
 
             onDoubleClicked: {
@@ -127,15 +127,15 @@ Flickable {
                     area.zoomToFit();
                     area.zoomType = area.zoomToFitMode
                 } else {
-                    var currentScale = photo.scale;
+                    var currentScale = image.scale;
                     var point = area.pointInView(mouse)
                     var v = area.imageView()
                     var is = area.imageSize()
 
-                    photo.scale = 1.0
+                    image.scale = 1.0
                     area.zoomType = area.fullZoomMode
 
-                    area.followMouse(photo.scale/currentScale, point, v, is);
+                    area.followMouse(image.scale/currentScale, point, v, is);
                 }
             }
         }
