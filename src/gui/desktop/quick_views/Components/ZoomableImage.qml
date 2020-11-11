@@ -107,11 +107,13 @@ Flickable {
             onWheel: {
                 var pictureScale = image.scale
 
-                if (wheel.angleDelta.y > 0 && pictureScale < 8) {
+                if (wheel.angleDelta.y > 0 && pictureScale < 8)
                     pictureScale *= 1.4;
-                } else if (wheel.angleDelta.y < 0 && pictureScale > 1/8) {
+                else if (wheel.angleDelta.y < 0)
                     pictureScale /= 1.4;
-                }
+
+                if (pictureScale < area.zoomToFitScale)
+                    pictureScale = area.zoomToFitScale
 
                 var currentScale = image.scale
                 var point = area.pointInView(wheel)
