@@ -19,22 +19,25 @@ Flickable {
     Item {
         id: area
 
+        width: Math.max(flickableArea.width, image.width * image.scale)
+        height: Math.max(flickableArea.height, image.height * image.scale)
+
         readonly property int freeZoomMode: 0
         readonly property int zoomToFitMode: 1
         readonly property int fullZoomMode: 2
 
         property int zoomType: freeZoomMode
+        property double zoomToFitScale: 1.0
 
-        width: Math.max(flickableArea.width, image.width * image.scale)
-        height: Math.max(flickableArea.height, image.height * image.scale)
+        function calculateZoomToFitScale() {
+            if (image.width > image.height)
+                zoomToFitScale = flickableArea.width / image.width;
+            else
+                zoomToFitScale = flickableArea.height / image.height
+        }
 
         function zoomToFit() {
-
-            if (image.width > image.height)
-                image.scale = flickableArea.width / image.width;
-            else
-                image.scale = flickableArea.height / image.height
-
+            image.scale = area.zoomToFitScale
             area.zoomType = area.zoomToFitMode
         }
 
@@ -94,6 +97,8 @@ Flickable {
 
             width: implicitWidth
             height: implicitHeight
+
+            onSourceChanged: area.calculateZoomToFitScale()
         }
 
         MouseArea {
