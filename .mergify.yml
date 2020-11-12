@@ -4,7 +4,7 @@ pull_request_rules:
     conditions:
       - status-success=continuous-integration/travis-ci/pr
       - status-success=continuous-integration/appveyor/pr
-      - status-success=Codacy/PR Quality Review
+      - status-success=Codacy Static Code Analysis
       - base=master
       - label!=work-in-progress
     actions:
