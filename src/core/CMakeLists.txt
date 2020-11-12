@@ -4,7 +4,6 @@ find_package(Qt5              REQUIRED COMPONENTS Core Gui)
 find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
-include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 set(CORE_SOURCES
