@@ -35,12 +35,11 @@
 #include "version.hpp"
 
 
-UpdaterImpl::UpdaterImpl(): m_connection(nullptr), m_request(nullptr)
+UpdaterImpl::UpdaterImpl(): m_request(nullptr)
 {
     GitHub::QtBackend::Api api(m_manager);
 
-    m_connection = api.connect();
-    m_request.reset( new GitHub::Request(m_connection.get()) );
+    m_request.reset(new GitHub::Request(api.connect()));
 }
 
 

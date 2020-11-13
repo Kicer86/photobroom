@@ -31,7 +31,6 @@ class QJsonDocument;
 
 namespace GitHub
 {
-    struct IConnection;
     class Request;
 }
 
@@ -50,7 +49,6 @@ class UpdaterImpl : public QObject
 
     private:
         QNetworkAccessManager m_manager;
-        std::unique_ptr<GitHub::IConnection> m_connection;
         std::unique_ptr<GitHub::Request> m_request;
 
         std::pair<QString, int> releaseVersion(const QJsonObject &) const;
