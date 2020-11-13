@@ -1,5 +1,14 @@
 
+find_package(OpenLibrary REQUIRED)
+
+include(GenerateExportHeader)
+
 configure_file(config.hpp.in ${CMAKE_BINARY_DIR}/config.hpp)
+
+if(BUILD_UPDATER)
+    add_definitions(-DUPDATER_ENABLED)
+    add_subdirectory(updater)
+endif()
 
 add_subdirectory(core)
 add_subdirectory(crash_catcher)
@@ -12,12 +21,6 @@ add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
 
-if(BUILD_UPDATER)
-    add_definitions(-DUPDATER_ENABLED)
-    add_subdirectory(updater)
-endif()
-
-find_package(OpenLibrary REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 set(BROOM_SOURCES main.cpp

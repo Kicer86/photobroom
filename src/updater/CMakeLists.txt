@@ -1,9 +1,10 @@
 
+set(GitHubAPI_QtBackend ON)
 add_subdirectory(github_api)
 
 find_package(Qt5 REQUIRED COMPONENTS Network)
 
-include(GenerateExportHeader)
+include(${OPENLIBRARY_USE_FILE})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 
