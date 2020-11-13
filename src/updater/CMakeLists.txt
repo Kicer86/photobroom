@@ -1,4 +1,5 @@
 
+set(GitHubAPI_QtBackend ON)
 add_subdirectory(github_api)
 
 find_package(Qt5 REQUIRED COMPONENTS Network)
