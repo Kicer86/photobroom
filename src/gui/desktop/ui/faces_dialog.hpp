@@ -45,6 +45,8 @@ class FacesDialog: public QDialog
         void updateImage();
         void updatePeopleList();
 
+        void updateDetectionState(int);
+
         void setUnassignedVisible(bool);
         void apply();
 };

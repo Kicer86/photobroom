@@ -5,9 +5,9 @@
 
 #include <QDrag>
 #include <QLineEdit>
-#include <QMessageBox>
 #include <QMimeData>
 #include <QPainter>
+#include <QQuickItem>
 #include <QStyledItemDelegate>
 
 #include <core/down_cast.hpp>
@@ -75,7 +75,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
-    ui->statusLabel->setText(tr("Locating faces..."));
+    updateDetectionState(0);
 
     updateImage();
 }
@@ -92,7 +92,7 @@ void FacesDialog::updateFaceInformation()
     const auto faces_count = m_peopleManipulator.facesCount();
     const QString status = tr("Found %n face(s).", "", faces_count);
 
-    ui->statusLabel->setText(status);
+    updateDetectionState(1);
 
     m_faces.clear();
     for(std::size_t i = 0; i < faces_count; i++)
@@ -191,6 +191,12 @@ void FacesDialog::updatePeopleList()
 
     if (rowCount < peopleCount)
         ui->peopleList->setRowCount(peopleCount);
+}
+
+
+void FacesDialog::updateDetectionState(int state)
+{
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setDetectionState", Qt::QueuedConnection, Q_ARG(QVariant, state));
 }
 
 
