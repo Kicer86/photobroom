@@ -12,6 +12,7 @@ qt5_add_resources(QML_RESOURCES
 qt5_wrap_cpp(MOCED
                 photo_item.hpp
                 photos_model_controller_component.hpp
+                picture_item.hpp
                 qml_setup.hpp
                 selection_manager_component.hpp
 )
@@ -24,6 +25,8 @@ add_library(quick_views OBJECT
                 photo_item.hpp
                 photos_model_controller_component.cpp
                 photos_model_controller_component.hpp
+                picture_item.cpp
+                picture_item.hpp
                 qml_setup.cpp
                 qml_setup.hpp
                 qml_utils.cpp

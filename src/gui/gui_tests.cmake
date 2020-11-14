@@ -3,6 +3,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Test)
 find_package(GTest REQUIRED CONFIG)
+find_program(QML_TEST_RUNNER NAMES qmltestrunner-qt5 qmltestrunner REQUIRED)
 
 include_directories(unit_tests)
 
@@ -50,3 +51,12 @@ addTestTarget(gui
                     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+
+add_test(
+    NAME QmlLogicTests
+    COMMAND ${QML_TEST_RUNNER} -input ${PROJECT_SOURCE_DIR}/src/gui/unit_tests/ui/ZoomLogicTests.qml
+)
+
+set_tests_properties(QmlLogicTests PROPERTIES LABELS "UnitTest")
+

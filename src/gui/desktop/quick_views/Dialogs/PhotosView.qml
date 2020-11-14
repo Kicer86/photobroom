@@ -2,6 +2,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
+import "../Components" as Components
+import "DialogsComponents" as Internals
 
 /*
  * Top level view for diplaying photos from APhotoInfoModel.
@@ -30,7 +32,7 @@ Item {
         searchExpression: filterId.searchExpression
     }
 
-    Filter {
+    Internals.Filter {
         id: filterId
 
         controller: photosModelControllerId
@@ -38,7 +40,7 @@ Item {
         visible: photosModelControllerId.datesCount > 0
     }
 
-    PhotosGridView {
+    Internals.PhotosGridView {
         id: photosGridViewId
         anchors.left: parent.left
         anchors.right: parent.right
@@ -57,7 +59,7 @@ Item {
             NumberAnimation { properties: "x,y"; duration: 250 }
         }
 
-        ThumbnailSlider {
+        Components.ThumbnailSlider {
             id: thumbnailSliderId
             anchors.bottom: parent.bottom
             anchors.right: parent.right

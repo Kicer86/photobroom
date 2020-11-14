@@ -128,7 +128,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+33"/>
         <source>Assi&amp;gned people</source>
         <translation>&amp;Przypisane osoby</translation>
     </message>
@@ -136,11 +136,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <location line="+26"/>
         <source>Unassigned people</source>
         <translation>Nieprzypisane osoby</translation>
-    </message>
-    <message>
-        <location line="+38"/>
-        <source>Scale:</source>
-        <translation>Skala:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+78"/>
@@ -165,7 +160,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation></translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/Filter.qml" line="+59"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -775,7 +770,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/PhotosView.qml" line="+93"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+95"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &quot;Akceptuj&quot; by oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; zdjęcia jako przejrzane.</translation>
     </message>
@@ -864,7 +859,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Zwykła grupa</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/SeriesDetection.qml" line="+27"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
         <source>Group candidates</source>
         <translation>Potencjalne grupy</translation>
     </message>
@@ -896,7 +891,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/ThumbnailSlider.qml" line="+27"/>
+        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+30"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
@@ -904,7 +899,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>TimeRange</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/TimeRange.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_views/Components/TimeRange.qml" line="+26"/>
         <source>Time range:</source>
         <translation>Zakres czasu:</translation>
     </message>

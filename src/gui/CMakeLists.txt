@@ -59,11 +59,6 @@ target_link_libraries(gui
                             photos_crawler
                             project_utils
                             system
-
-                            KWidgetsAddons
-                            ${OPENLIBRARY_LIBRARIES}
-                            Qt::Widgets
-                            Qt::QuickControls2
 )
 
 target_include_directories(gui
@@ -74,8 +69,12 @@ target_include_directories(gui
                                 ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-if (BUILD_UPDATER)
+if(BUILD_UPDATER)
     target_link_libraries(gui PRIVATE updater)
+endif()
+
+if(WIN32)
+    target_link_libraries(gui PRIVATE Qt::QuickControls2)
 endif()
 
 generate_export_header(gui)

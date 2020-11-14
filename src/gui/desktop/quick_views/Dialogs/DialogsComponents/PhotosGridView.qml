@@ -1,14 +1,21 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import "../../Components" as Components
 
-MultiselectGridView {
+/*
+ * Photos grid with multiselection component
+ */
+
+Components.MultiselectGridView {
 
     property int thumbnailSize: 160
     property int thumbnailMargin: 5
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
+
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     delegate: PhotoDelegate {
         id: delegateId
@@ -30,7 +37,7 @@ MultiselectGridView {
             anchors.margins: 0
             state: "unselected"
 
-            color: "blue"
+            color: currentPalette.highlight
             radius: 5
             z: -1
 

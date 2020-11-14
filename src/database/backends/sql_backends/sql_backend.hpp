@@ -111,7 +111,7 @@ namespace Database
 
             /**
              * \brief Execute query
-             * \param SQL query
+             * \param query query to be executed
              * \param query_obj instance of QSqlQuery object
              * \return true if succeed
              */
