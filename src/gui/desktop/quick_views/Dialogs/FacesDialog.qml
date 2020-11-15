@@ -48,6 +48,7 @@ Item {
         anchors.bottom: parent.bottom
 
         height: row.height
+        color: "dodgerblue"
 
         radius: 5
 
