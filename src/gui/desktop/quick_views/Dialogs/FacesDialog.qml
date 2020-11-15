@@ -84,7 +84,7 @@ Item {
 
             PropertyChanges {
                 target: status
-                text: qsTr("Could not detect any faces.")
+                text: qsTr("Could not detect any face.")
             }
         },
         State {

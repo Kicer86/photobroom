@@ -144,7 +144,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="+25"/>
-        <source>Could not detect any faces.</source>
+        <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
