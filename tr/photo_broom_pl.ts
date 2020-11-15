@@ -137,18 +137,19 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <source>Unassigned people</source>
         <translation>Nieprzypisane osoby</translation>
     </message>
-    <message numerus="yes">
-        <location filename="../src/gui/desktop/ui/faces_dialog.cpp" line="+93"/>
-        <source>Found %n face(s).</source>
-        <translation>
-            <numerusform>Znaleziono %n twarz.</numerusform>
-            <numerusform>Znaleziono %n twarze.</numerusform>
-            <numerusform>Znaleziono %n twarzy.</numerusform>
-        </translation>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+62"/>
+        <source>Detecting and analyzing faces</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+49"/>
-        <source>Detecting and analyzing faces</source>
+        <location line="+25"/>
+        <source>Could not detect any faces.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Faces detected a recognised.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

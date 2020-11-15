@@ -90,9 +90,8 @@ FacesDialog::~FacesDialog()
 void FacesDialog::updateFaceInformation()
 {
     const auto faces_count = m_peopleManipulator.facesCount();
-    const QString status = tr("Found %n face(s).", "", faces_count);
 
-    updateDetectionState(1);
+    updateDetectionState(faces_count == 0? 2: 1);
 
     m_faces.clear();
     for(std::size_t i = 0; i < faces_count; i++)

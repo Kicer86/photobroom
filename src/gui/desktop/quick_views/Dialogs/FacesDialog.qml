@@ -8,12 +8,24 @@ Item {
 
     state: "Detecting Faces"
 
-    function setDetectionState(status) {
-        if (status === 0) {
+    function setDetectionState(state) {
+        if (state === 0) {
             // nothing to do
-        } else if (status === 1) {
-            main.state = "Faces Detected"
+        } else if (state === 1) {
+            main.state = "Faces Detected";
+            notificationTimer.running = true;
+        } else if (state === 2) {
+            main.state = "No Face Detected";
+            notificationTimer.running = true;
+        } else if (state === 10) {
+            main.state = "Notification Hidden";
         }
+    }
+
+    Timer {
+        id: notificationTimer
+        interval: 4000
+        onTriggered: setDetectionState(10);
     }
 
     Components.ZoomableImage {
@@ -46,6 +58,7 @@ Item {
             leftPadding: 5
 
             Text {
+                id: status
                 text: qsTr("Detecting and analyzing faces")
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: 12
@@ -53,24 +66,41 @@ Item {
 
             BusyIndicator {
                 id: busyIndicator
+                running: false
             }
         }
     }
     states: [
         State {
             name: "Detecting Faces"
+
+            PropertyChanges {
+                target: busyIndicator
+                running: true
+            }
+        },
+        State {
+            name: "No Face Detected"
+
+            PropertyChanges {
+                target: status
+                text: qsTr("Could not detect any faces.")
+            }
         },
         State {
             name: "Faces Detected"
 
             PropertyChanges {
-                target: notificationArea
-                height: 0
+                target: status
+                text: qsTr("Faces detected a recognised.")
             }
+        },
+        State {
+            name: "Notification Hidden"
 
             PropertyChanges {
-                target: busyIndicator
-                running: false
+                target: notificationArea
+                height: 0
             }
         }
     ]
@@ -79,8 +109,8 @@ Item {
         Transition {
             id: facesDetected
 
-            to: "Faces Detected"
-            from: "Detecting Faces"
+            from: "*"
+            to: "Notification Hidden"
 
             PropertyAnimation { target: notificationArea; properties: "height"; }
         }
