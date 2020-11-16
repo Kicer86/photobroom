@@ -77,7 +77,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
 
     updateDetectionState(0);
 
-    updateImage();
+    setImage();
 }
 
 
@@ -97,7 +97,6 @@ void FacesDialog::updateFaceInformation()
     for(std::size_t i = 0; i < faces_count; i++)
         m_faces.push_back(m_peopleManipulator.position(i));
 
-    updateImage();
     updatePeopleList();
 
     for(std::size_t i = 0; i < faces_count; i++)
@@ -139,7 +138,7 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
 }
 
 
-void FacesDialog::updateImage()
+void FacesDialog::setImage()
 {
     const OrientedImage oriented_image = Image::normalized(m_photoPath, m_exif);
 
@@ -149,35 +148,8 @@ void FacesDialog::updateImage()
     }
     else
     {
-        const QSize imgSize = oriented_image->size();
-
-        QImage image = oriented_image->scaled(imgSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        if (m_faces.isEmpty() == false)
-        {
-            QPainter painter(&image);
-
-            QPen pen;
-            pen.setColor(Qt::red);
-            pen.setWidth(2);
-            painter.setPen(pen);
-            painter.drawRects(m_faces);
-
-            pen.setWidth(1);
-            painter.setBackground( Qt::white );
-            painter.setBackgroundMode( Qt::OpaqueMode );
-            painter.setPen(pen);
-
-            for(int i = 0; i < m_faces.size(); i++)
-            {
-                const QRect& face = m_faces[i];
-                const QPoint tl = face.topLeft();
-                painter.drawText(tl, QString::number(i + 1));
-            }
-        }
-
         QObject* photo = QmlUtils::findQmlObject(ui->quickView, "flickablePhoto");
-        photo->setProperty("source", QVariant(image));
+        photo->setProperty("source", QVariant(oriented_image.get()));
         QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
     }
 }
