@@ -45,7 +45,7 @@ class FacesDialog: public QDialog
         void applyUnassigned(const Photo::Id &, const QStringList &);
         void setImage();
         void updatePeopleList();
-        void selectFace(QTableWidgetItem *, QTableWidgetItem *);
+        void selectFace(int);
 
         void updateDetectionState(int);
 
