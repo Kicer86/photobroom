@@ -75,7 +75,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
-    connect(ui->peopleList, &QTableWidget::cellClicked, this, &FacesDialog::selectFace);
+    connect(ui->peopleList, &QTableWidget::itemSelectionChanged, this, &FacesDialog::selectFace);
 
     updateDetectionState(0);
 
@@ -168,12 +168,18 @@ void FacesDialog::updatePeopleList()
 }
 
 
-void FacesDialog::selectFace(int id)
+void FacesDialog::selectFace()
 {
     QRect selectionArea( QPoint(), m_photoSize);
 
-    if (id >= 0)
-        selectionArea = m_faces[id];
+    const auto selected = ui->peopleList->selectedItems();
+
+    if (selected.empty() == false)
+    {
+        const auto item = selected.front();
+        const int row = item->row();
+        selectionArea = m_faces[row];
+    }
 
     QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
 }
