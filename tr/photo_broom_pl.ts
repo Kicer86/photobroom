@@ -138,7 +138,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Nieprzypisane osoby</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+119"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+126"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>

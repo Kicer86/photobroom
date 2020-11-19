@@ -22,6 +22,13 @@ Item {
         }
     }
 
+    function selectFace(face) {
+        shadow.topEdge = face.top
+        shadow.bottomEdge = face.bottom
+        shadow.leftEdge = face.left
+        shadow.rightEdge = face.right
+    }
+
     Timer {
         id: notificationTimer
         interval: 4000
