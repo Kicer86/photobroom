@@ -43,10 +43,10 @@ Item {
             id: shadow
             anchors.fill: parent
 
-            property real leftEdge: 100
-            property real rightEdge: 200
-            property real topEdge: 50
-            property real bottomEdge: 100
+            property real leftEdge: 0
+            property real rightEdge: parent.width
+            property real topEdge: 0
+            property real bottomEdge: parent.height
 
             opacity: 0.5
 
