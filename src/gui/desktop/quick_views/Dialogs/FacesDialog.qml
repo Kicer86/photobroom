@@ -48,6 +48,8 @@ Item {
             property real topEdge: 50
             property real bottomEdge: 100
 
+            opacity: 0.5
+
             Rectangle {
                 id: leftRect
                 x: 0
@@ -57,7 +59,6 @@ Item {
                 height: shadow.height
 
                 color: "black"
-                opacity: 0.5
             }
 
             Rectangle {
@@ -69,7 +70,6 @@ Item {
                 height: shadow.height
 
                 color: "black"
-                opacity: 0.5
             }
 
             Rectangle {
@@ -81,7 +81,6 @@ Item {
                 height: shadow.topEdge
 
                 color: "black"
-                opacity: 0.5
             }
 
             Rectangle {
@@ -93,7 +92,6 @@ Item {
                 height: shadow.height - shadow.bottomEdge
 
                 color: "black"
-                opacity: 0.5
             }
         }
     }
