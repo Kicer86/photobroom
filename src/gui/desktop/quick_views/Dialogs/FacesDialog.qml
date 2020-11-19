@@ -38,6 +38,64 @@ Item {
         anchors.bottom: notificationArea.top
 
         boundsBehavior: Flickable.StopAtBounds
+
+        Item {
+            id: shadow
+            anchors.fill: parent
+
+            property real leftEdge: 100
+            property real rightEdge: 200
+            property real topEdge: 50
+            property real bottomEdge: 100
+
+            Rectangle {
+                id: leftRect
+                x: 0
+                y: 0
+
+                width: shadow.leftEdge
+                height: shadow.height
+
+                color: "black"
+                opacity: 0.5
+            }
+
+            Rectangle {
+                id: rightRect
+                x: shadow.rightEdge
+                y: 0
+
+                width: shadow.width - shadow.rightEdge
+                height: shadow.height
+
+                color: "black"
+                opacity: 0.5
+            }
+
+            Rectangle {
+                id: topRect
+                x: shadow.leftEdge
+                y: 0
+
+                width: shadow.rightEdge - shadow.leftEdge
+                height: shadow.topEdge
+
+                color: "black"
+                opacity: 0.5
+            }
+
+            Rectangle {
+                id: bottomRect
+                x: shadow.leftEdge
+                y: shadow.bottomEdge
+
+                width: shadow.rightEdge - shadow.leftEdge
+                height: shadow.height - shadow.bottomEdge
+
+                color: "black"
+                opacity: 0.5
+            }
+        }
     }
 
     Rectangle {
