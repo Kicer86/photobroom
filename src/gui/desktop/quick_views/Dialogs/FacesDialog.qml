@@ -23,10 +23,8 @@ Item {
     }
 
     function selectFace(face) {
-        shadow.topEdge = face.top
-        shadow.bottomEdge = face.bottom
-        shadow.leftEdge = face.left
-        shadow.rightEdge = face.right
+        shadow.face = face
+        shadowAnimation.running = true
     }
 
     Timer {
@@ -49,13 +47,24 @@ Item {
         Item {
             id: shadow
             anchors.fill: parent
+            opacity: 0.5
+
+            property rect face
 
             property real leftEdge: 0
             property real rightEdge: parent.width
             property real topEdge: 0
             property real bottomEdge: parent.height
 
-            opacity: 0.5
+            ParallelAnimation {
+                id: shadowAnimation
+                running: false
+
+                PropertyAnimation { target: shadow; property: "leftEdge"; to: shadow.face.left }
+                PropertyAnimation { target: shadow; property: "rightEdge"; to: shadow.face.right }
+                PropertyAnimation { target: shadow; property: "topEdge"; to: shadow.face.top }
+                PropertyAnimation { target: shadow; property: "bottomEdge"; to: shadow.face.bottom }
+            }
 
             Rectangle {
                 id: leftRect
