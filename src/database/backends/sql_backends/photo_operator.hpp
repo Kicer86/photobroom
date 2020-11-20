@@ -44,12 +44,21 @@ namespace Database
             std::vector<Photo::Id> getPhotos(const Filter &) override final;
 
         private:
+            struct SortingContext
+            {
+                QStringList joins;
+                QStringList sortOrder;
+            };
+
+            typedef SortingContext ActionContext;
+
             QString m_connectionName;
             ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
             IBackend* m_backend;
 
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
+            void processAction(ActionContext &, const Action &) const;
     };
 }
 
