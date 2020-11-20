@@ -323,7 +323,7 @@ void MainWindow::updateMenus()
     for(const QString& entry: qAsConst(m_recentCollections))
     {
         QAction* action = ui->menuOpen_recent->addAction(entry);
-        connect(action, &QAction::triggered, [=]
+        connect(action, &QAction::triggered, [=, this]
         {
             const ProjectInfo prjInfo(entry);
 
