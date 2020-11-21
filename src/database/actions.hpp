@@ -72,7 +72,7 @@ namespace Database::Actions
 
     struct GroupAction
     {
-        GroupAction(std::vector<Action>&& a): actions(a) {}
+        explicit GroupAction(std::initializer_list<Action> a): actions(a) {}
 
         const std::vector<Action> actions;
 
