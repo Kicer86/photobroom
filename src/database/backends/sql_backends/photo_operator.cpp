@@ -221,12 +221,21 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                 .arg(joinName));
         }
     }
-    else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+    else if (auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
     {
         const Actions::SortByTag byDate(TagTypes::Date, sort_action->sort_order);
         const Actions::SortByTag byTime(TagTypes::Time, sort_action->sort_order);
         processAction(context, byDate);
         processAction(context, byTime);
+    }
+    else if (auto sort_action = std::get_if<Actions::SortByID>(&action))
+    {
+        context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
+    }
+    else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
+    {
+        for (const auto& sub_action: group_action->actions)
+            processAction(context, sub_action);
     }
     else
     {

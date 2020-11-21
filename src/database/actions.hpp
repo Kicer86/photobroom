@@ -8,6 +8,24 @@
 
 namespace Database::Actions
 {
+    struct SortByTag;
+    struct SortByTimestamp;
+    struct SortByID;
+    struct GroupAction;
+}
+
+
+namespace Database
+{
+    typedef std::variant<Actions::SortByTag,
+                         Actions::SortByTimestamp,
+                         Actions::SortByID,
+                         Actions::GroupAction> Action;
+}
+
+
+namespace Database::Actions
+{
     struct SortByTag
     {
         SortByTag(TagTypes t, Qt::SortOrder order = Qt::AscendingOrder)
@@ -44,11 +62,23 @@ namespace Database::Actions
 
         const Qt::SortOrder sort_order;
     };
+
+
+    struct SortByID
+    {
+        bool operator<=>(const SortByID &) const = default;
+    };
+
+
+    struct GroupAction
+    {
+        GroupAction(std::vector<Action>&& a): actions(a) {}
+
+        const std::vector<Action> actions;
+
+        bool operator<=>(const GroupAction &) const = default;
+    };
 }
 
-namespace Database
-{
-    typedef std::variant<Actions::SortByTag, Actions::SortByTimestamp> Action;
-}
 
 #endif

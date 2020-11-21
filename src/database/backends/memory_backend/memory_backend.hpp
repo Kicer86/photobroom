@@ -77,6 +77,8 @@ namespace Database
             static Person::Id getIdFor(const PersonName& pn);
             static PersonInfo::Id getIdFor(const PersonInfo& pn);
 
+            void onPhotos(std::vector<Photo::Data> &, const Action &) const;
+
             template<typename T, typename IdT>
             struct IdComparer
             {

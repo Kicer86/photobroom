@@ -413,47 +413,16 @@ namespace Database
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 
-        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
+        std::vector<Photo::Data> photo_data;
+        for(const auto id: ids)
+            photo_data.push_back(getPhoto(id));
+
+        onPhotos(photo_data, action);
+
+        std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
         {
-            std::vector<Photo::Data> photo_data;
-            for(const auto id: ids)
-                photo_data.push_back(getPhoto(id));
-
-            std::sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
-            {
-                return tristate_compare(lhs, rhs, sort_action->tag, sort_action->sort_order) < 0;
-            });
-
-            std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
-            {
-                return data.id;
-            });
-        }
-        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
-        {
-            std::vector<Photo::Data> photo_data;
-            for(const auto id: ids)
-                photo_data.push_back(getPhoto(id));
-
-            std::sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
-            {
-                int comp = tristate_compare(lhs, rhs, TagTypes::Date, sort_action->sort_order);
-
-                if (comp == 0)
-                    comp = tristate_compare(lhs, rhs, TagTypes::Time, sort_action->sort_order);
-
-                return comp < 0;
-            });
-
-            std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
-            {
-                return data.id;
-            });
-        }
-        else
-        {
-            assert(!"Unknown action");
-        }
+            return data.id;
+        });
 
         return ids;
     }
@@ -485,6 +454,42 @@ namespace Database
     PersonInfo::Id MemoryBackend::getIdFor(const PersonInfo& pi)
     {
         return pi.id;
+    }
+
+
+    void MemoryBackend::onPhotos(std::vector<Photo::Data>& photo_data, const Action& action) const
+    {
+        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
+        {
+            std::stable_sort(photo_data.begin(), photo_data.end(), [sort_action](const auto& lhs, const auto& rhs)
+            {
+                return tristate_compare(lhs, rhs, sort_action->tag, sort_action->sort_order) < 0;
+            });
+        }
+        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+        {
+            const Actions::SortByTag byDate(TagTypes::Date, sort_action->sort_order);
+            const Actions::SortByTag byTime(TagTypes::Time, sort_action->sort_order);
+            onPhotos(photo_data, byTime);
+            onPhotos(photo_data, byDate);
+        }
+        else if (auto sort_action = std::get_if<Actions::SortByID>(&action))
+        {
+            std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
+            {
+                return lhs.id < rhs.id;
+            });
+        }
+        else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
+        {
+            // sort by actions in reverse order so first one has greates influence.
+            for (auto it = group_action->actions.rbegin(); it != group_action->actions.rend(); ++it)
+                onPhotos(photo_data, *it);
+        }
+        else
+        {
+            assert(!"Unknown action");
+        }
     }
 
 }
