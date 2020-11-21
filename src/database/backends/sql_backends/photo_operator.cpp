@@ -228,7 +228,7 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
         processAction(context, byDate);
         processAction(context, byTime);
     }
-    else if (auto sort_action = std::get_if<Actions::SortByID>(&action))
+    else if (std::get_if<Actions::SortByID>(&action))
     {
         context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
     }
