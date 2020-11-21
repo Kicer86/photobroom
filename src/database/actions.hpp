@@ -66,7 +66,7 @@ namespace Database::Actions
 
     struct SortByID
     {
-        bool operator<=>(const SortByID &) const = default;
+        friend auto operator<=>(const SortByID &, const SortByID &) = default;
     };
 
 
@@ -76,7 +76,7 @@ namespace Database::Actions
 
         const std::vector<Action> actions;
 
-        bool operator<=>(const GroupAction &) const = default;
+        friend auto operator<=>(const GroupAction &, const GroupAction &) = default;
     };
 }
 
