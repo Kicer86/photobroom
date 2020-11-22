@@ -8,6 +8,7 @@ Flickable {
     id: flickableArea
 
     property alias source: image.source
+    default property alias imageLayer: image.data
 
     contentWidth: area.width
     contentHeight: area.height

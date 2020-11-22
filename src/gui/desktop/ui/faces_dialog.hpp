@@ -36,14 +36,18 @@ class FacesDialog: public QDialog
         PeopleManipulator m_peopleManipulator;
         QVector<QRect> m_faces;
         QString m_photoPath;
+        QSize m_photoSize;
         Ui::FacesDialog *ui;
         IExifReader* m_exif;
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);
         void applyUnassigned(const Photo::Id &, const QStringList &);
-        void updateImage();
+        void setImage();
         void updatePeopleList();
+        void selectFace();
+
+        void updateDetectionState(int);
 
         void setUnassignedVisible(bool);
         void apply();

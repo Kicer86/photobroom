@@ -7,6 +7,10 @@ pull_request_rules:
       - status-success=Codacy Static Code Analysis
       - base=master
       - label!=work-in-progress
+      - "#approved-reviews-by>=1"
+      - "#review-requested=0"
+      - "#changes-requested-reviews-by=0"
+      - "#commented-reviews-by=0"
     actions:
       merge:
         method: merge

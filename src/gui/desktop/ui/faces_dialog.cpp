@@ -5,9 +5,9 @@
 
 #include <QDrag>
 #include <QLineEdit>
-#include <QMessageBox>
 #include <QMimeData>
 #include <QPainter>
+#include <QQuickItem>
 #include <QStyledItemDelegate>
 
 #include <core/down_cast.hpp>
@@ -75,9 +75,11 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     connect(this, &FacesDialog::accepted,
             this, &FacesDialog::apply);
 
-    ui->statusLabel->setText(tr("Locating faces..."));
+    connect(ui->peopleList, &QTableWidget::itemSelectionChanged, this, &FacesDialog::selectFace);
 
-    updateImage();
+    updateDetectionState(0);
+
+    setImage();
 }
 
 
@@ -90,15 +92,13 @@ FacesDialog::~FacesDialog()
 void FacesDialog::updateFaceInformation()
 {
     const auto faces_count = m_peopleManipulator.facesCount();
-    const QString status = tr("Found %n face(s).", "", faces_count);
 
-    ui->statusLabel->setText(status);
+    updateDetectionState(faces_count == 0? 2: 1);
 
     m_faces.clear();
     for(std::size_t i = 0; i < faces_count; i++)
         m_faces.push_back(m_peopleManipulator.position(i));
 
-    updateImage();
     updatePeopleList();
 
     for(std::size_t i = 0; i < faces_count; i++)
@@ -140,9 +140,10 @@ void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassign
 }
 
 
-void FacesDialog::updateImage()
+void FacesDialog::setImage()
 {
     const OrientedImage oriented_image = Image::normalized(m_photoPath, m_exif);
+    m_photoSize = oriented_image->size();
 
     if (oriented_image->isNull())
     {
@@ -150,35 +151,8 @@ void FacesDialog::updateImage()
     }
     else
     {
-        const QSize imgSize = oriented_image->size();
-
-        QImage image = oriented_image->scaled(imgSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        if (m_faces.isEmpty() == false)
-        {
-            QPainter painter(&image);
-
-            QPen pen;
-            pen.setColor(Qt::red);
-            pen.setWidth(2);
-            painter.setPen(pen);
-            painter.drawRects(m_faces);
-
-            pen.setWidth(1);
-            painter.setBackground( Qt::white );
-            painter.setBackgroundMode( Qt::OpaqueMode );
-            painter.setPen(pen);
-
-            for(int i = 0; i < m_faces.size(); i++)
-            {
-                const QRect& face = m_faces[i];
-                const QPoint tl = face.topLeft();
-                painter.drawText(tl, QString::number(i + 1));
-            }
-        }
-
         QObject* photo = QmlUtils::findQmlObject(ui->quickView, "flickablePhoto");
-        photo->setProperty("source", QVariant(image));
+        photo->setProperty("source", QVariant(oriented_image.get()));
         QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
     }
 }
@@ -191,6 +165,29 @@ void FacesDialog::updatePeopleList()
 
     if (rowCount < peopleCount)
         ui->peopleList->setRowCount(peopleCount);
+}
+
+
+void FacesDialog::selectFace()
+{
+    QRect selectionArea( QPoint(), m_photoSize);
+
+    const auto selected = ui->peopleList->selectedItems();
+
+    if (selected.empty() == false)
+    {
+        const auto item = selected.front();
+        const int row = item->row();
+        selectionArea = m_faces[row];
+    }
+
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
+}
+
+
+void FacesDialog::updateDetectionState(int state)
+{
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setDetectionState", Qt::QueuedConnection, Q_ARG(QVariant, state));
 }
 
 
