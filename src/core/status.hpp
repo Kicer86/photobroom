@@ -78,6 +78,11 @@ class Status
             return *this;
         }
 
+        bool operator==(bool v) const
+        {
+            return (m_status == ok) == v;
+        }
+
     private:
         T m_status;
 };
