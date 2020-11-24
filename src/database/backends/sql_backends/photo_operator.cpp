@@ -32,19 +32,30 @@
 namespace Database
 {
 
-    static std::map<const char *, const char *> tables_to_clear =
-    {
-        { TAB_FLAGS,          "photo_id" },
-        { TAB_GENERAL_FLAGS,  "photo_id" },
-        { TAB_GEOMETRY,       "photo_id" },
-        { TAB_GROUPS_MEMBERS, "photo_id" },
-        { TAB_PEOPLE,         "photo_id" },
-        { TAB_SHA256SUMS,     "photo_id" },
-        { TAB_TAGS,           "photo_id" },
-        { TAB_THUMBS,         "photo_id" },
-        { TAB_PHOTOS,         "id"       }
-    };
+    namespace {
+        std::map<const char *, const char *> tables_to_clear =
+        {
+            { TAB_FLAGS,          "photo_id" },
+            { TAB_GENERAL_FLAGS,  "photo_id" },
+            { TAB_GEOMETRY,       "photo_id" },
+            { TAB_GROUPS_MEMBERS, "photo_id" },
+            { TAB_PEOPLE,         "photo_id" },
+            { TAB_SHA256SUMS,     "photo_id" },
+            { TAB_TAGS,           "photo_id" },
+            { TAB_THUMBS,         "photo_id" },
+            { TAB_PHOTOS,         "id"       }
+        };
 
+        std::map<TagTypes, const char *> namesForJoins =
+        {
+            { TagTypes::Event,    "event_tag"    },
+            { TagTypes::Place,    "place_tag"    },
+            { TagTypes::Date,     "date_tag"     },
+            { TagTypes::Time,     "time_tag"     },
+            { TagTypes::Rating,   "rating_tag"   },
+            { TagTypes::Category, "category_tag" },
+        };
+    }
 
     PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor, ILogger* logger, IBackend* backend):
         m_connectionName(connection),
@@ -122,39 +133,18 @@ namespace Database
 
     std::vector<Photo::Id> PhotoOperator::onPhotos(const Filter& filters, const Action& action)
     {
+        SortingContext context;
+        processAction(context, action);
+
         const QString filtersQuery = SqlFilterQueryGenerator().generate(filters);
-
-        QString actionQuery;
-
-        if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
-        {
-            actionQuery = QString("SELECT photos.id FROM (%3) "
-                                   "LEFT JOIN (%2) ON (%3.id = %2.photo_id AND %2.name = %4) "
-                                   "WHERE %3.id IN (%1) ORDER BY %2.value %5")
-                                     .arg(filtersQuery)
-                                     .arg(TAB_TAGS)
-                                     .arg(TAB_PHOTOS)
-                                     .arg(sort_action->tag)
-                                     .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
-        }
-        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
-        {
-            actionQuery = QString("SELECT photos.id FROM (%3) "
-                                  "LEFT JOIN %2 date_tag ON (%3.id = date_tag.photo_id AND date_tag.name = %4) "
-                                  "LEFT JOIN %2 time_tag ON (%3.id = time_tag.photo_id AND time_tag.name = %5) "
-                                  "WHERE %3.id IN (%1) ORDER BY date_tag.value %6, time_tag.value %6")
-                                    .arg(filtersQuery)
-                                    .arg(TAB_TAGS)
-                                    .arg(TAB_PHOTOS)
-                                    .arg(TagTypes::Date)
-                                    .arg(TagTypes::Time)
-                                    .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC");
-        }
-        else
-        {
-            assert(!"Unknown action");
-            actionQuery = filtersQuery;
-        }
+        const QString actionQuery =
+            QString("SELECT photos.id FROM (%2) "
+                    "%3 "
+                    "WHERE %2.id IN (%1) ORDER BY %4")
+            .arg(filtersQuery)
+            .arg(TAB_PHOTOS)
+            .arg(context.joins.join(" "))
+            .arg(context.sortOrder.join(", "));
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -207,4 +197,48 @@ namespace Database
         return collection;
     }
 
+}
+
+
+void Database::PhotoOperator::processAction(ActionContext& context, const Database::Action& action) const
+{
+    if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
+    {
+        auto it = namesForJoins.find(sort_action->tag);
+
+        if (it != namesForJoins.end())
+        {
+            const char* joinName = it->second;
+
+            context.joins.append(QString("LEFT JOIN %1 %4 ON (%2.id = %4.photo_id AND %4.name = %3)")
+                .arg(TAB_TAGS)
+                .arg(TAB_PHOTOS)
+                .arg(sort_action->tag)
+                .arg(joinName));
+
+            context.sortOrder.append(QString("%2.value %1")
+                .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC")
+                .arg(joinName));
+        }
+    }
+    else if (auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+    {
+        const Actions::SortByTag byDate(TagTypes::Date, sort_action->sort_order);
+        const Actions::SortByTag byTime(TagTypes::Time, sort_action->sort_order);
+        processAction(context, byDate);
+        processAction(context, byTime);
+    }
+    else if (std::get_if<Actions::SortByID>(&action))
+    {
+        context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
+    }
+    else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
+    {
+        for (const auto& sub_action: group_action->actions)
+            processAction(context, sub_action);
+    }
+    else
+    {
+        assert(!"Unknown action");
+    }
 }
