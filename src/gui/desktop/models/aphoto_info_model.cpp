@@ -39,7 +39,7 @@ QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
 
-    result.unite(m_customRoles);    // switch to insert() when switching to Qt5.15
+    result.insert(m_customRoles);
 
     return result;
 }
