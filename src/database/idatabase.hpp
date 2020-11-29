@@ -48,10 +48,7 @@ namespace Database
     // TODO: use std::Invocable when available
     //       Also this concept doesnt work...
     template<typename T>
-    concept BackendTask = requires(T)
-    {
-        { std::is_invocable<T, IBackend *>::value == true };
-    };
+    concept BackendTask = std::invocable<T, IBackend *>;
 
 #endif
 
