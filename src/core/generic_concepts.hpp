@@ -2,9 +2,6 @@
 #ifndef GENERIC_CONCEPTS
 #define GENERIC_CONCEPTS
 
-
-#ifdef CONCEPTS_SUPPORTED
-
 template<typename T>
 concept SmartPointer = requires(T p)
 {
@@ -42,7 +39,5 @@ concept Container = requires(T p)
     { p.begin() };
     { p.end()   };
 };
-
-#endif
 
 #endif

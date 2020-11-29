@@ -44,14 +44,6 @@ include(CTest)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake_modules/DeveloperTools.cmake)
 
-# enable/disable concepts
-#check_cxx_compiler_flag("-fconcepts" CONCEPTS_SUPPORTED)
-
-#if(CONCEPTS_SUPPORTED)
-#    add_compile_options("-fconcepts")
-#    add_definitions(-DCONCEPTS_SUPPORTED)
-#endif()
-
 # workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
 # also see: https://bugreports.qt.io/browse/QTBUG-61667
 #

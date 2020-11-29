@@ -44,14 +44,8 @@ struct IConfiguration;
 
 namespace Database
 {
-#ifdef CONCEPTS_SUPPORTED
-    // TODO: use std::Invocable when available
-    //       Also this concept doesnt work...
     template<typename T>
     concept BackendTask = std::invocable<T, IBackend *>;
-
-#endif
-
 
     struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
