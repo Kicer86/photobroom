@@ -12,6 +12,7 @@ namespace Database
         Ok,
         GeneralError,                       // generic error code
         BadVersion,                         // db format is unknown (newer that supported)
+        VersionTooOld,                      // db format is too old
         OpenFailed,
         ProjectLocked,
         TransactionFailed,                  // Fail at transaction begin.

@@ -471,11 +471,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
         <location line="+208"/>
+        <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -486,7 +487,15 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
+        <source>Photo collection you are trying to open uses database in version which is not supported.
+It means your database is too old to open it.
+
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Could not open collection</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -531,7 +540,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-105"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
