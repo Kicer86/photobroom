@@ -127,6 +127,4 @@ namespace Database
     };
 }
 
-#undef BackendTask
-
 #endif
