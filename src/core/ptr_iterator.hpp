@@ -22,16 +22,11 @@
 #ifdef CONCEPTS_SUPPORTED
 
 template<typename T>
-concept bool SmartPointerContainer()
+concept SmartPointerContainer = requires(T p)
 {
-    return requires(T p)
-    {
-        requires Container<T>();
-
-        { *p.begin() } -> SmartPointer;
-    };
-}
-
+    requires Container<T>;
+    requires SmartPointer<typename T::value_type>;
+};
 
 template<SmartPointerContainer T>
 struct SmartPtrAccessor

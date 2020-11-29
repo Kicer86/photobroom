@@ -6,52 +6,42 @@
 #ifdef CONCEPTS_SUPPORTED
 
 template<typename T>
-concept bool SmartPointer()
+concept SmartPointer = requires(T p)
 {
-    return requires(T p)
-    {
-        typename T::pointer;
+    typename T::pointer;
 
-        { p.operator*() };
-        { p.get() };
-        { std::is_pointer<decltype(*p)>::value == true };
-    };
-}
+    { p.operator*() };
+    { p.get() };
+    { std::is_pointer<decltype(*p)>::value == true };
+};
 
 
 template<typename T>
-concept bool Iterator()
+concept Iterator = requires(T i)
 {
-    return requires(T i)
-    {
-        typename T::iterator_category;
-        typename T::value_type;
-        typename T::difference_type;
-        typename T::pointer;
-        typename T::reference;
+    typename T::iterator_category;
+    typename T::value_type;
+    typename T::difference_type;
+    typename T::pointer;
+    typename T::reference;
 
-        { i.operator*() };
-        { i.operator->() };
-    };
-}
+    { i.operator*() };
+    { i.operator->() };
+};
 
 
 template<typename T>
-concept bool Container()
+concept Container = requires(T p)
 {
-    return requires(T p)
-    {
-        typename T::const_iterator;
-        typename T::value_type;
+    typename T::const_iterator;
+    typename T::value_type;
 
-        requires Iterator<typename T::const_iterator>();
-        requires Iterator<typename T::iterator>();
+    requires Iterator<typename T::const_iterator>;
+    requires Iterator<typename T::iterator>;
 
-        { p.begin() };
-        { p.end()   };
-
-    };
-}
+    { p.begin() };
+    { p.end()   };
+};
 
 #endif
 
