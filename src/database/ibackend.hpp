@@ -20,8 +20,9 @@
 #ifndef IBACKEND_HPP
 #define IBACKEND_HPP
 
-#include <string>
 #include <set>
+#include <string>
+#include <experimental/source_location>
 #include <vector>
 #include <optional>
 #include <magic_enum.hpp>
@@ -43,17 +44,6 @@ struct ILoggerFactory;
 #ifndef __PRETTY_FUNCTION__
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
-
-#define DB_ERROR_ON_FALSE3(CALL, ERRCODE, DETAILS) \
-    {                                              \
-        if ( !(CALL) )                             \
-            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);  \
-    }
-
-#define DB_ERROR_ON_FALSE2(CALL, ERRCODE) DB_ERROR_ON_FALSE3(CALL, StatusCodes::GeneralError, std::string())
-
-#define DB_ERROR_ON_FALSE1(CALL) DB_ERROR_ON_FALSE2(CALL, StatusCodes::GeneralError)
-
 
 namespace Database
 {
@@ -217,6 +207,18 @@ namespace Database
         Q_OBJECT
     };
 }
+
+
+inline void DB_ERROR_ON_FALSE3(bool condition, Database::StatusCodes ERRCODE, const std::string& DETAILS, const std::experimental::source_location& location = std::experimental::source_location::current())
+{
+    if (condition == false)
+        throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
+}
+
+#define DB_ERROR_ON_FALSE2(CALL, ERRCODE) DB_ERROR_ON_FALSE3(CALL, StatusCodes::GeneralError, std::string())
+
+#define DB_ERROR_ON_FALSE1(CALL) DB_ERROR_ON_FALSE2(CALL, StatusCodes::GeneralError)
+
 
 #endif
 
