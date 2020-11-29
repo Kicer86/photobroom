@@ -44,21 +44,6 @@ include(CTest)
 include(${PROJECT_SOURCE_DIR}/cmake/functions.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake_modules/DeveloperTools.cmake)
 
-# workaround for a bug https://developercommunity.visualstudio.com/content/problem/74173/cannot-use-some-functionalities-of-qt-framework-be.html
-# also see: https://bugreports.qt.io/browse/QTBUG-61667
-#
-# + CMake missing implementations:
-# https://stackoverflow.com/questions/44960715/how-to-enable-stdc17-in-vs2017-with-cmake
-if(MSVC_VERSION)
-    if(MSVC_VERSION GREATER_EQUAL 1900)
-        if(MSVC_VERSION LESS 1916)
-            add_definitions(-D__cpp_variable_templates=201304)
-        endif()
-    else()
-        message(FATAL_ERROR "Visual Studio 2017 is required")
-    endif()
-endif()
-
 if(MSVC_VERSION)
     #enable auto_ptr. Disabled by VS for c++17 but required by exiv 0.27
     add_definitions(-D_HAS_AUTO_PTR_ETC=1)
