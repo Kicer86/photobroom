@@ -517,7 +517,7 @@ namespace Database
             //insert first entry
             if (rows == 0)
                 DB_ERROR_ON_FALSE1(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
-                                                         .arg(db_version), &query))
+                                                         .arg(db_version), &query));
             else
                 DB_ERROR_ON_FALSE1(checkDBVersion());
 
