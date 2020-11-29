@@ -196,7 +196,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     filters.push_back(sha_filter);
 
     //tag
-    Database::FilterPhotosWithTag tag_filter(TagTypes::_People, QString("test_value"));
+    Database::FilterPhotosWithTag tag_filter(TagTypes::Place, QString("place 1"));
     filters.push_back(tag_filter);
 
     //flags
@@ -217,7 +217,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
         "AND id IN "
         "("
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
-            "WHERE tags.name = '5' AND tags.value = 'test_value'"
+            "WHERE tags.name = '2' AND tags.value = 'place 1'"
         ") "
         "AND id IN "
         "("
