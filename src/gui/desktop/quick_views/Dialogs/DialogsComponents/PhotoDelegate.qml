@@ -23,7 +23,7 @@ Item {
     }
 
     Photo {
-        id: imageId
+        id: image
 
         anchors.centerIn: parent
         height: delegateId.height - delegateId.margin * 2
@@ -39,11 +39,11 @@ Item {
     states: [
         State {
             name: "unknown"
-            when: imageId.state === Photo.NotFetched
+            when: image.state === Photo.NotFetched
         },
         State {
             name: "loading"
-            when: imageId.state === Photo.Fetching
+            when: image.state === Photo.Fetching
             PropertyChanges {
                 target: busyId
                 running: true
@@ -51,7 +51,7 @@ Item {
         },
         State {
             name: "done"
-            when: imageId.state === Photo.Fetched
+            when: image.state === Photo.Fetched
             PropertyChanges {
                 target: busyId
                 running: false
@@ -64,7 +64,7 @@ Item {
             from: "loading"
             to: "done"
             PropertyAnimation {
-                target: imageId
+                target: image
                 properties: "opacity"
                 from: 0
                 to: 1
@@ -74,7 +74,7 @@ Item {
             from: "unknown"
             to: "done"
             PropertyAnimation {
-                target: imageId
+                target: image
                 properties: "opacity"
                 from: 0
                 to: 1
