@@ -44,8 +44,6 @@ namespace Photo
         QSize                geometry;
         GroupInfo            groupInfo;
 
-        int getFlag(const Photo::FlagsE& flag) const;
-
         Data() = default;
         Data(const Data &) = default;
 
