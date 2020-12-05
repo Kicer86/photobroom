@@ -51,6 +51,17 @@ namespace Photo
 
         Data& apply(const DataDelta &);
 
+        /**
+         * @brief access to flags as a QML compatible map
+         * @returns map of flags with their values
+         *
+         * Method (combined with 'flags' property) returns map of flags.
+         * Key is a QString equal to numerical value Photo::FlagsE enum
+         * Value is a QVariant holding int equal to value of flag
+         */
+        QVariantMap getFlags() const;
+
+        Q_PROPERTY(QVariantMap flags READ getFlags)
         Q_PROPERTY(QString path MEMBER path)
         Q_PROPERTY(QSize size MEMBER geometry)
         Q_PROPERTY(Photo::Id id MEMBER id)

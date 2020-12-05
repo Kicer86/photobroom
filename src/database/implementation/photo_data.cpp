@@ -49,6 +49,20 @@ namespace Photo
     }
 
 
+    QVariantMap Data::getFlags() const
+    {
+        QVariantMap result;
+
+        for(const auto& flag: flags)
+        {
+            const QString id = QString::number(static_cast<int>(flag.first));
+            result[id] = flag.second;
+        }
+
+        return result;
+    }
+
+
     void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
