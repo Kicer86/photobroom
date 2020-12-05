@@ -66,6 +66,7 @@ set(DATABASE_MOC
     database_tools/implementation/photos_analyzer_p.hpp
     database_tools/signal_mapper.hpp
     photo_data.hpp
+    photo_types.hpp
 )
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
