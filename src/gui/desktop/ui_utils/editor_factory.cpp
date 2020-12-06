@@ -138,7 +138,7 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
         }
 
         case TagTypes::Invalid:
-        case TagTypes::_People:
+        default:
             assert(!"Unexpected call");
             break;
     }
@@ -177,7 +177,7 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
             break;
 
         case TagTypes::Invalid:
-        case TagTypes::_People:
+        default:
             assert(!"Unexpected call");
             break;
     }

@@ -44,20 +44,8 @@ struct IConfiguration;
 
 namespace Database
 {
-#ifdef CONCEPTS_SUPPORTED
-    // TODO: use std::Invocable when available
-    //       Also this concept doesnt work...
     template<typename T>
-    concept bool BackendTask()
-    {
-        return requires(T)
-        {
-            { std::is_invocable<T, IBackend *>::value == true };
-        };
-    }
-
-#endif
-
+    concept BackendTask = std::invocable<T, IBackend *>;
 
     struct IPhotoInfoCache;
     struct IPhotoInfoCreator;
@@ -138,7 +126,5 @@ namespace Database
         virtual void closeConnections() = 0;
     };
 }
-
-#undef BackendTask
 
 #endif

@@ -1,3 +1,4 @@
+
 /*
  * Photo Broom - photos management tool.
     Behaves as iterator over raw pointers.
@@ -18,20 +19,12 @@
     Behaves as iterator over raw pointers.
 */
 
-
-#ifdef CONCEPTS_SUPPORTED
-
 template<typename T>
-concept bool SmartPointerContainer()
+concept SmartPointerContainer = requires(T p)
 {
-    return requires(T p)
-    {
-        requires Container<T>();
-
-        { *p.begin() } -> SmartPointer;
-    };
-}
-
+    requires Container<T>;
+    requires SmartPointer<typename T::value_type>;
+};
 
 template<SmartPointerContainer T>
 struct SmartPtrAccessor
@@ -45,21 +38,5 @@ struct SmartPtrAccessor
 
 template<SmartPointerContainer T>
 using ptr_iterator = iterator_wrapper<typename T::value_type::pointer, typename T::const_iterator, SmartPtrAccessor<T>>;
-
-#else
-
-template<typename T>
-struct SmartPtrAccessor
-{
-    typename T::value_type::pointer operator()(const typename T::const_iterator& v) const
-    {
-        return v->get();
-    }
-};
-
-template<typename T>
-using ptr_iterator = iterator_wrapper<typename T::value_type::pointer, typename T::const_iterator, SmartPtrAccessor<T>>;
-
-#endif
 
 #endif

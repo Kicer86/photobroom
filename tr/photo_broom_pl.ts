@@ -471,11 +471,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
         <location line="+208"/>
+        <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-9"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -486,7 +487,15 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
+        <source>Photo collection you are trying to open uses database in version which is not supported.
+It means your database is too old to open it.
+
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Could not open collection</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -531,7 +540,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-105"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -539,6 +548,14 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
+    </message>
+</context>
+<context>
+    <name>PhotoDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -771,7 +788,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+95"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+99"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &quot;Akceptuj&quot; by oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; zdjęcia jako przejrzane.</translation>
     </message>

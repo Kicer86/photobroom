@@ -645,6 +645,15 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             closeProject();
             break;
 
+        case Database::StatusCodes::VersionTooOld:
+            QMessageBox::critical(this,
+                                  tr("Unsupported photo collection version"),
+                                  tr("Photo collection you are trying to open uses database in version which is not supported.\n"
+                                     "It means your database is too old to open it.\n\n")
+                                 );
+            closeProject();
+            break;
+
         case Database::StatusCodes::OpenFailed:
             QMessageBox::critical(this,
                                   tr("Could not open collection"),

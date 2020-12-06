@@ -200,7 +200,7 @@ TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
     Tag::TagsList tags = {
-        { TagTypes::_People, TagValue(QString("person123")) }
+        { TagTypes::Event, TagValue(QString("event 1")) }
     };
 
     EXPECT_CALL(*photoInfo, getTags())
@@ -214,9 +214,9 @@ TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
 
     emit backend.photoModified(photoInfo->getID());
 
-    const std::vector<TagValue>& people = tagInfoCollector.get(TagTypes::_People);
-    ASSERT_EQ(people.size(), 1);
-    EXPECT_EQ(people[0].getString(), "person123");
+    const std::vector<TagValue>& event = tagInfoCollector.get(TagTypes::Event);
+    ASSERT_EQ(event.size(), 1);
+    EXPECT_EQ(event[0].getString(), "event 1");
 }
 
 

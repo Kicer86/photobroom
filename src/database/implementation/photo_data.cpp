@@ -23,17 +23,6 @@
 
 namespace Photo
 {
-
-    int Data::getFlag(const Photo::FlagsE& flag) const
-    {
-        auto it = flags.find(flag);
-
-        const int result = it == flags.end()? 0: it->second;
-
-        return result;
-    }
-
-
     Data& Data::apply(const DataDelta& delta)
     {
         id = delta.getId();
@@ -57,6 +46,20 @@ namespace Photo
             path = delta.get<Photo::Field::Path>();
 
         return *this;
+    }
+
+
+    QVariantMap Data::getFlags() const
+    {
+        QVariantMap result;
+
+        for(const auto& flag: flags)
+        {
+            const QString id = QString::number(static_cast<int>(flag.first));
+            result[id] = flag.second;
+        }
+
+        return result;
     }
 
 

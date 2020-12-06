@@ -15,6 +15,8 @@
 
 namespace Photo
 {
+    Q_NAMESPACE_EXPORT(DATABASE_EXPORT)
+
     typedef QByteArray Sha256sum;
 
     DATABASE_EXPORT extern const char Name[16];
@@ -28,6 +30,7 @@ namespace Photo
         ThumbnailLoaded,
         GeometryLoaded,
     };
+    Q_ENUM_NS(FlagsE)
 
     enum class Roles
     {

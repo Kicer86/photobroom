@@ -18,4 +18,5 @@ void register_qml_types()
     qmlRegisterInterface<IThumbnailsManager>("IThumbnailsManager");
     qmlRegisterInterface<FlatModel>("FlatModel");
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
+    qmlRegisterUncreatableMetaObject(Photo::staticMetaObject, "photo_broom.qml", 1, 0, "PhotoEnums", "Error: only enums");
 }

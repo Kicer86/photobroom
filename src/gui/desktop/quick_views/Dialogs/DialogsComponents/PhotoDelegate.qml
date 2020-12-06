@@ -23,7 +23,7 @@ Item {
     }
 
     Photo {
-        id: imageId
+        id: image
 
         anchors.centerIn: parent
         height: delegateId.height - delegateId.margin * 2
@@ -34,16 +34,31 @@ Item {
         photoSize: photoData.size
 
         thumbnails: thumbnailsManager.get()
+
+        Text {
+            x: 5
+            y: 5
+
+            visible: photoData.flags[PhotoEnums.StagingArea] == 1
+
+            text: qsTr("NEW")
+            font.pixelSize: 12
+            font.family: "Nimbus Mono PS"
+
+            color: "white"
+            style: Text.Outline
+            styleColor: "black"
+        }
     }
 
     states: [
         State {
             name: "unknown"
-            when: imageId.state === Photo.NotFetched
+            when: image.state === Photo.NotFetched
         },
         State {
             name: "loading"
-            when: imageId.state === Photo.Fetching
+            when: image.state === Photo.Fetching
             PropertyChanges {
                 target: busyId
                 running: true
@@ -51,7 +66,7 @@ Item {
         },
         State {
             name: "done"
-            when: imageId.state === Photo.Fetched
+            when: image.state === Photo.Fetched
             PropertyChanges {
                 target: busyId
                 running: false
@@ -64,7 +79,7 @@ Item {
             from: "loading"
             to: "done"
             PropertyAnimation {
-                target: imageId
+                target: image
                 properties: "opacity"
                 from: 0
                 to: 1
@@ -74,7 +89,7 @@ Item {
             from: "unknown"
             to: "done"
             PropertyAnimation {
-                target: imageId
+                target: image
                 properties: "opacity"
                 from: 0
                 to: 1
