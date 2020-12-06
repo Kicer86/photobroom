@@ -551,6 +551,14 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>PhotoDelegate</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotoPropertiesWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+107"/>
@@ -780,7 +788,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+95"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+99"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &quot;Akceptuj&quot; by oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; zdjęcia jako przejrzane.</translation>
     </message>

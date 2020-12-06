@@ -34,6 +34,21 @@ Item {
         photoSize: photoData.size
 
         thumbnails: thumbnailsManager.get()
+
+        Text {
+            x: 5
+            y: 5
+
+            visible: photoData.flags[PhotoEnums.StagingArea] == 1
+
+            text: qsTr("NEW")
+            font.pixelSize: 12
+            font.family: "Nimbus Mono PS"
+
+            color: "white"
+            style: Text.Outline
+            styleColor: "black"
+        }
     }
 
     states: [
