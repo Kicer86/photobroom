@@ -128,16 +128,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location line="+33"/>
-        <source>Assi&amp;gned people</source>
-        <translation>&amp;Przypisane osoby</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Unassigned people</source>
-        <translation>Nieprzypisane osoby</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+135"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
