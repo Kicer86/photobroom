@@ -133,7 +133,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>&amp;Przypisane osoby</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+23"/>
         <source>Unassigned people</source>
         <translation>Nieprzypisane osoby</translation>
     </message>

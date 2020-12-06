@@ -48,18 +48,15 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="TableWidgetWithLimitedDrop" name="peopleList">
-            <property name="dragEnabled">
-             <bool>true</bool>
-            </property>
-            <property name="dragDropMode">
-             <enum>QAbstractItemView::DropOnly</enum>
-            </property>
+           <widget class="QTableWidget" name="peopleList">
             <property name="columnCount">
              <number>1</number>
             </property>
             <attribute name="horizontalHeaderVisible">
              <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
             </attribute>
             <column/>
            </widget>
@@ -120,11 +117,6 @@
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
-  <customwidget>
-   <class>TableWidgetWithLimitedDrop</class>
-   <extends>QTableWidget</extends>
-   <header>widgets/table_widget_with_limited_drop.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>
