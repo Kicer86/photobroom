@@ -1,5 +1,6 @@
 
 set(GitHubAPI_QtBackend ON)
+set(GitHubAPI_UseQt6 TRUE)
 add_subdirectory(github_api)
 
 find_package(Qt6 REQUIRED COMPONENTS Network)
