@@ -42,14 +42,12 @@ class FacesDialog: public QDialog
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);
-        void applyUnassigned(const Photo::Id &, const QStringList &);
         void setImage();
         void updatePeopleList();
         void selectFace();
 
         void updateDetectionState(int);
 
-        void setUnassignedVisible(bool);
         void apply();
 };
 

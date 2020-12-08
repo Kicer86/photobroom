@@ -65,9 +65,6 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
 
     ui->quickView->setSource(QUrl("qrc:/ui/Dialogs/FacesDialog.qml"));
     ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
-    ui->unassignedList->setItemDelegate(new TableDelegate(completerFactory, this));
-
-    setUnassignedVisible(false);
 
     connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
             this, &FacesDialog::updateFaceInformation);
@@ -125,21 +122,6 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 }
 
 
-void FacesDialog::applyUnassigned(const Photo::Id &, const QStringList& unassigned)
-{
-    const int count = unassigned.size();
-    ui->unassignedList->setRowCount(count);
-
-    for(auto it = unassigned.begin(); it != unassigned.end(); ++it)
-    {
-        const std::size_t idx = std::distance(unassigned.cbegin(), it);
-        ui->unassignedList->setItem(idx, 0, new QTableWidgetItem(*it));
-    }
-
-    setUnassignedVisible(count > 0);
-}
-
-
 void FacesDialog::setImage()
 {
     const OrientedImage oriented_image = Image::normalized(m_photoPath, m_exif);
@@ -188,12 +170,6 @@ void FacesDialog::selectFace()
 void FacesDialog::updateDetectionState(int state)
 {
     QMetaObject::invokeMethod(ui->quickView->rootObject(), "setDetectionState", Qt::QueuedConnection, Q_ARG(QVariant, state));
-}
-
-
-void FacesDialog::setUnassignedVisible(bool visible)
-{
-    ui->unassignedGroup->setVisible(visible);
 }
 
 
