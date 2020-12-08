@@ -53,15 +53,6 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         // Locate faces on given photo.
         QVector<QRect> fetchFaces(const QString &) const;
 
-        // Try to recognize person on given photo and face.
-        // Second parameter is a face located by fetchFaces()
-        // Third parameter is a path to directory with known faces
-        [[deprecated]] Person::Id recognize(const QString &, const QRect &, Database::IDatabase *) const;
-
-        // Optimize representative photo
-        // from given set of faces, choose one with best parameters
-        [[deprecated]] QString best(const QStringList& faces);
-
         Person::Fingerprint getFingerprint(const OrientedImage& image, const QRect& face = QRect());
 
         int recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known);
