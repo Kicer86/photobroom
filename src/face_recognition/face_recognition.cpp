@@ -202,15 +202,9 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     std::lock_guard lock(g_dlibMutex);
     QVector<QRect> result;
 
-    const QString normalizedPhotoPath = System::getTmpFile(m_data->m_tmpDir->path(), "jpeg");
-    const bool s = Image::normalize(path, normalizedPhotoPath, m_data->m_exif);
+    OrientedImage orientedPhoto(m_data->m_exif, path);
 
-    if (s)
-    {
-        QImage image(normalizedPhotoPath);
-
-        result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(image, 0);
-    }
+    result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(orientedPhoto.get(), 0);
 
     return result;
 }
