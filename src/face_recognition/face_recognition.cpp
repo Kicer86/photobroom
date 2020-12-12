@@ -25,6 +25,7 @@
 
 #include <QByteArray>
 #include <QDirIterator>
+#include <QElapsedTimer>
 #include <QFileInfo>
 #include <QImage>
 #include <QRect>
@@ -102,12 +103,25 @@ FaceRecognition::~FaceRecognition()
 
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
-    std::lock_guard lock(g_dlibMutex);
-    QVector<QRect> result;
-
     OrientedImage orientedPhoto(m_data->m_exif, path);
 
-    result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(orientedPhoto.get(), 0);
+    QVector<QRect> result;
+
+    m_data->m_logger->info(QString("Looking for faces in photo %1. Size: %2px")
+        .arg(path)
+        .arg(orientedPhoto->width() * orientedPhoto->height())
+    );
+
+    QElapsedTimer timer;
+    timer.start();
+
+    const auto faces = fetchFaces(orientedPhoto, 1);
+    const auto elapsed = timer.elapsed();
+
+    m_data->m_logger->info(QString("Found %1 faces in time: %2ms")
+        .arg(faces.size())
+        .arg(elapsed)
+    );
 
     return result;
 }
@@ -130,4 +144,23 @@ int FaceRecognition::recognize(const Person::Fingerprint& unknown, const std::ve
     const auto closestMatching = chooseClosestMatching(distance);
 
     return closestMatching;
+}
+
+
+QVector<QRect> FaceRecognition::fetchFaces(const OrientedImage& orientedPhoto, double scale) const
+{
+    std::lock_guard lock(g_dlibMutex);
+    QVector<QRect> result;
+
+    const QSize scaledSize = orientedPhoto.get().size() * scale;
+    const QImage photo = orientedPhoto.get().scaled(scaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(photo, 0);
+
+    std::transform(result.begin(), result.end(), result.begin(), [scale](const QRect& face){
+        return QRect(face.topLeft().x() / scale, face.topLeft().y() / scale,
+                        face.width() / scale, face.height() / scale);
+    });
+
+    return result;
 }

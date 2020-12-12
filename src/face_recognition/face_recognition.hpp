@@ -60,6 +60,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+
+        QVector<QRect> fetchFaces(const OrientedImage &, double scale) const;
 };
 
 #endif // FACERECOGNITION_HPP
