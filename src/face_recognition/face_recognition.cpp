@@ -105,9 +105,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     OrientedImage orientedPhoto(m_data->m_exif, path);
 
-    QVector<QRect> result;
-
-    m_data->m_logger->info(QString("Looking for faces in photo %1. Size: %2px")
+    m_data->m_logger->debug(QString("Looking for faces in photo %1. Size: %2px")
         .arg(path)
         .arg(orientedPhoto->width() * orientedPhoto->height())
     );
@@ -123,7 +121,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
         .arg(elapsed)
     );
 
-    return result;
+    return faces;
 }
 
 
