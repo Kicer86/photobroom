@@ -25,10 +25,10 @@
 
 #include <QByteArray>
 #include <QDirIterator>
-#include <QImage>
 #include <QFileInfo>
-#include <QString>
+#include <QImage>
 #include <QRect>
+#include <QString>
 #include <QSaveFile>
 #include <QTemporaryFile>
 
@@ -62,108 +62,11 @@ namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
 
-
-    dlib_api::FaceEncodings encodingsForFace(dlib_api::FaceEncoder& faceEndoder, const QString& face_image_path)
-    {
-        const QImage faceImage(face_image_path);
-        return faceEndoder.face_encodings(faceImage);
-    }
-
-
-    std::map<QString, dlib_api::FaceEncodings> encodingsForFaces(const QStringList& faces, dlib_api::FaceEncoder& faceEncoder)
-    {
-        std::map<QString, dlib_api::FaceEncodings> encoded_faces;
-        for (const QString& face_path: faces)
-        {
-            const auto encoded_face = encodingsForFace(faceEncoder, face_path);
-            encoded_faces[face_path] = encoded_face;
-        }
-
-        return encoded_faces;
-    }
-
-
-    auto fetchPeopleAndEncodings(Database::IBackend& backend)
-    {
-        std::vector<dlib_api::FaceEncodings> encodings;
-        std::vector<Person::Id> people;
-
-        const auto all_people = backend.peopleInformationAccessor().listPeople();
-        for(const auto& person: all_people)
-        {
-            const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
-
-            if (fingerprints.empty() == false)
-            {
-                encodings.push_back(fingerprints.front().fingerprint());
-                people.push_back(person.id());
-            }
-        }
-
-        return std::tuple(encodings, people);
-    }
-
-
-    std::vector<std::pair<double, Person::Id>> zipNamesWithDistances(const std::vector<double>& distances, const std::vector<Person::Id>& names)
-    {
-        assert(distances.size() == names.size());
-
-        std::vector<std::pair<double, Person::Id>> names_and_distances;
-        std::size_t items = std::min(distances.size(), names.size());
-
-        for(std::size_t i = 0; i < items; i++)
-            names_and_distances.push_back( { distances[i], names[i] } );
-
-        return names_and_distances;
-    }
-
-
-    void dropNotMatching(std::vector<std::pair<double, Person::Id>>& names_and_distances)
-    {
-        names_and_distances.erase(std::remove_if(names_and_distances.begin(),
-                                            names_and_distances.end(),
-                                            [](const auto& nd) { return nd.first > 0.6; }),
-                            names_and_distances.end());
-    }
-
-
-    Person::Id chooseClosestMatching(const std::vector<double>& distances, const std::vector<Person::Id>& names, ILogger& logger)
-    {
-        auto names_and_distances = zipNamesWithDistances(distances, names);
-        dropNotMatching(names_and_distances);
-
-        std::sort(names_and_distances.begin(), names_and_distances.end());
-
-        // log best 3 results
-        const auto items = names_and_distances.size();
-        std::size_t to_log = std::min<std::size_t>(3, items);
-        for(std::size_t i = 0; i < to_log; i++)
-            logger.debug(QString("face %1 distance %2").arg(names_and_distances[i].second).arg(names_and_distances[i].first));
-
-        logger.debug(QString("Found %1 face(s) with distance <= 0.6").arg(items));
-
-        // return best matching
-        return names_and_distances.empty()? Person::Id() : names_and_distances.front().second;
-    }
-
-
     int chooseClosestMatching(const std::vector<double>& distances)
     {
         auto closest = std::min_element(distances.cbegin(), distances.cend());
 
         return (closest == distances.cend() || *closest > 0.6)? -1 : static_cast<int>(std::distance(distances.cbegin(), closest));
-    }
-
-
-    QString faceToString(const QRect& face)
-    {
-        const auto string = QString("%1,%2 (%3x%4)")
-                                .arg(face.left())
-                                .arg(face.top())
-                                .arg(face.width())
-                                .arg(face.height());
-
-        return string;
     }
 }
 
