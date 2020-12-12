@@ -97,6 +97,12 @@ void Logger::debug(const QString& msg)
 }
 
 
+void Logger::trace(const QString& msg)
+{
+    log(Severity::Trace, msg);
+}
+
+
 std::unique_ptr<ILogger> Logger::subLogger(const QString& sub_utility)
 {
     QStringList sub_utility_name = m_utility;
@@ -134,6 +140,7 @@ QString Logger::severity(ILogger::Severity s) const
         case Severity::Warning: result = "W"; break;
         case Severity::Info:    result = "I"; break;
         case Severity::Debug:   result = "D"; break;
+        case Severity::Trace:   result = "T"; break;
     }
 
     return result;
