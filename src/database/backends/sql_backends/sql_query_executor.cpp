@@ -82,7 +82,7 @@ namespace Database
         const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
         const QString logMessage = QString("%1 Execution time: %2ms").arg(query.lastQuery()).arg(diff_ms);
 
-        m_logger->debug(logMessage);
+        m_logger->trace(logMessage);
 
         if (status == false)
         {
