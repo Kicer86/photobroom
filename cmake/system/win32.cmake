@@ -193,8 +193,11 @@ macro(addDeploymentActions)
     setup_qt_environment()
 
     #target
-    add_custom_target(deploy DEPENDS
-                                    ${OUTPUT_PATH}/deploy_qt5)
+    add_custom_target(deploy ALL
+        DEPENDS
+            photo_broom
+            ${OUTPUT_PATH}/deploy_qt5
+    )
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
