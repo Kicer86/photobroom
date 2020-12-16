@@ -130,21 +130,27 @@ void Gui::run()
     // translations
     const QLocale locale;
 
-    const QString info = QString("System language: %1").arg(locale.name());
+    const QString info = QString("System language: %1").arg(locale.name()).replace('_', "-");
     gui_logger->debug(info);
 
     const auto uiLangs = locale.uiLanguages();
     const QString uiLangsStr = uiLangs.join(", ");
     const QString language_details = QString("List of UI langauges: %1").arg(uiLangsStr);
     gui_logger->debug(language_details);
-
+    
     bool translations_status = false;
     QTranslator translator;
-    if (translator.load(QLocale(), QLatin1String("photo_broom"), QLatin1String("_"), tr_path))
+    if (translator.load(locale, QLatin1String("photo_broom"), QLatin1String("_"), tr_path))
         translations_status = QCoreApplication::installTranslator(&translator);
 
     if (translations_status)
+    {
         gui_logger->log(ILogger::Severity::Info, "Translations loaded successfully.");
+        gui_logger->log(ILogger::Severity::Debug, QString("Loaded %1 translation from file: %2")
+            .arg(translator.language())
+            .arg(translator.filePath())
+        );
+    }
     else
         gui_logger->log(ILogger::Severity::Error, "Could not load translations.");
 
