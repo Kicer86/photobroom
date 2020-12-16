@@ -40,6 +40,7 @@ else()
 endif()
 
 add_executable(photo_broom ${EXE_FLAGS} ${BROOM_SOURCES})
+
 target_link_libraries(photo_broom
     core
     crash_catcher
@@ -50,6 +51,10 @@ target_link_libraries(photo_broom
     system
     Qt::Core
     Qt::Widgets
+)
+
+target_include_directories(photo_broom
+    PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
