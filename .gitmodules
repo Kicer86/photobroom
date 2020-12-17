@@ -13,3 +13,6 @@
 [submodule "src/updater/github_api"]
 	path = src/updater/github_api
 	url = https://github.com/Kicer86/github_api.git
+[submodule "external/strong_type"]
+	path = external/strong_type
+	url = https://github.com/rollbear/strong_type.git
