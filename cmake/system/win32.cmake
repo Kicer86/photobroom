@@ -129,6 +129,7 @@ macro(addDeploymentActions)
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2)
+    set(libs_cudnn cudnn64_8)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -174,6 +175,12 @@ macro(addDeploymentActions)
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${CMAKE_INSTALL_PREFIX}/bin
                                ${exiv2_lib_dir}/../bin
+    )
+
+    install_external_lib(NAME "CUDNN"
+                         DLLFILES ${libs_cudnn}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                               ${CUDNN_LIBRARY_DIR}/../bin
     )
 
     install_external_lib(NAME "Compiler"
