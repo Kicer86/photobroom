@@ -12,7 +12,8 @@ class PhotoBroomConan(ConanFile):
     default_options = {}
 
     def configure(self):
-        pass
+        if self.settings.os == "Linux":
+            self.options["dlib"].shared = True
 
     def requirements(self):
         if self.settings.os == "Windows":
