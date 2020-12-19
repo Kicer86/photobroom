@@ -22,7 +22,7 @@
 
 #include <cassert>
 
-template<typename T, const char* T_name>
+template<typename T, typename Tag>
 class Id
 {
     public:
@@ -79,11 +79,6 @@ class Id
         T value() const
         {
             return m_value;
-        }
-
-        const char* name() const
-        {
-            return T_name;
         }
 
     private:

@@ -19,15 +19,6 @@
 #include "person_data.hpp"
 
 
-namespace Person
-{
-    const char Name[16] = "Person";
-}
-
-
-const char PersonInfo::Name[16] = "PersonInfo";
-
-
 PersonName::PersonName()
 {
 
