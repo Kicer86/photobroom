@@ -126,10 +126,13 @@ macro(addDeploymentActions)
         )
     endif()
 
+    find_package(OpenSSL REQUIRED)
+
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2)
-    set(libs_cudnn cudnn64_8)
+    set(libs_cudnn cudnn64_8)                           #required by dlib when compiled with CUDA support
+    set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)  #required by github_api for secure connections
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -181,6 +184,12 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_cudnn}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${CUDNN_LIBRARY_DIR}/../bin
+    )
+
+    install_external_lib(NAME "OpenSSL"
+                         DLLFILES ${libs_openssl}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                               ${OPENSSL_ROOT_DIR}/bin
     )
 
     install_external_lib(NAME "Compiler"
