@@ -31,8 +31,7 @@
 
 namespace Person
 {
-    DATABASE_EXPORT extern const char Name[16];
-    typedef Id<int, Name> Id;
+    using Id = Id<int, struct person_tag>;
     typedef std::vector<double> Fingerprint;
 }
 
@@ -63,10 +62,8 @@ class DATABASE_EXPORT PersonName final
 
 class DATABASE_EXPORT PersonFingerprint
 {
-        static constexpr char Name[16] = "Fingerprint";
-
     public:
-        typedef ::Id<int, Name> Id;
+        using Id = ::Id<int, struct fingerprint_tag>;
 
         PersonFingerprint() {}
         PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
@@ -83,10 +80,8 @@ class DATABASE_EXPORT PersonFingerprint
 
 class DATABASE_EXPORT PersonInfo
 {
-        static const char Name[16];
-
     public:
-        typedef ::Id<int, Name> Id;
+        using Id = ::Id<int, struct personinfo_tag>;
 
         Id id;
         Person::Id p_id;

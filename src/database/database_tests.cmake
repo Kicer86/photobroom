@@ -14,7 +14,6 @@ addTestTarget(database
                     implementation/filter.cpp
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
-                    implementation/photo_types.cpp
                     # memory backend linked
 
                     # sql tests:

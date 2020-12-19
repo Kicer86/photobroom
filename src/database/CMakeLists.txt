@@ -11,12 +11,10 @@ set(DATABASE_SOURCES
     implementation/async_database.cpp
     implementation/database_builder.cpp
     implementation/filter.cpp
-    implementation/group.cpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info.cpp
     implementation/photo_info_cache.cpp
-    implementation/photo_types.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photo_info_updater.cpp

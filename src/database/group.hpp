@@ -9,8 +9,7 @@
 
 namespace Group
 {
-    DATABASE_EXPORT extern const char Name[16];
-    typedef Id<int, Name> Id;
+    using Id = Id<int, struct database_tag>;
 
     enum Type
     {
