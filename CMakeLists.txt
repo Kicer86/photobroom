@@ -10,7 +10,10 @@ endif()
 
 project(PhotoBroom VERSION 1.5.0)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake;${CMAKE_SOURCE_DIR}/cmake_modules)
+set(CMAKE_MODULE_PATH
+    ${CMAKE_SOURCE_DIR}/cmake_modules;
+    ${CMAKE_SOURCE_DIR}/cmake/modules;
+)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
