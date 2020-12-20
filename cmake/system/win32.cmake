@@ -127,6 +127,12 @@ macro(addDeploymentActions)
     endif()
 
     find_package(OpenSSL REQUIRED)
+    find_package(Dlib REQUIRED)
+
+    try_compile(DLIB_HAS_CUDA ${CMAKE_CURRENT_BINARY_DIR}/system_checks
+        SOURCES ${PROJECT_SOURCE_DIR}/cmake/system/check_cuda_for_dlib.cpp
+        LINK_LIBRARIES dlib
+    )
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
@@ -180,11 +186,13 @@ macro(addDeploymentActions)
                                ${exiv2_lib_dir}/../bin
     )
 
-    install_external_lib(NAME "CUDNN"
-                         DLLFILES ${libs_cudnn}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${CUDNN_LIBRARY_DIR}/../bin
-    )
+    if(DLIB_HAS_CUDA)
+        install_external_lib(NAME "CUDNN"
+                            DLLFILES ${libs_cudnn}
+                            HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                                ${CUDNN_LIBRARY_DIR}/../bin
+        )
+    endif()
 
     install_external_lib(NAME "OpenSSL"
                          DLLFILES ${libs_openssl}
