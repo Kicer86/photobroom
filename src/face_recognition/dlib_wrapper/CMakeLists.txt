@@ -1,13 +1,6 @@
 
 find_package(Qt5 REQUIRED COMPONENTS Core Gui)
-
-if(TARGET CONAN_PKG::dlib)
-    set(dlib_target CONAN_PKG::dlib)
-else()   
-    find_package(Threads REQUIRED)
-    find_package(dlib REQUIRED)
-    set(dlib_target dlib::dlib)
-endif()
+find_package(Dlib REQUIRED)
 
 add_library(dlib_wrapper
     cnn_face_detector.cpp
@@ -31,7 +24,7 @@ target_link_libraries(dlib_wrapper
                             PUBLIC
                                 Qt::Core
                                 Qt::Gui
-                                ${dlib_target}
+                                dlib
                             PRIVATE
                                 core
                                 system
