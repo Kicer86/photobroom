@@ -69,7 +69,7 @@ endfunction()
 
 function(install_external_lib)
 
-  set(options)
+  set(options OPTIONAL)
   set(oneValueArgs NAME LOCATION)
   set(multiValueArgs DLLFILES HINTS)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -86,6 +86,7 @@ function(install_external_lib)
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
 
     find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
+
     if(${LIB_PATH_VAR})
         install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
 
@@ -93,6 +94,9 @@ function(install_external_lib)
         get_filename_component(lib_path ${${LIB_PATH_VAR}} DIRECTORY)
         list(APPEND hints ${lib_path})
         list(REMOVE_DUPLICATES hints)
+    elseif(EXTERNAL_LIB_OPTIONAL)
+        message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+        continue()
     else()
         message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
@@ -128,11 +132,6 @@ macro(addDeploymentActions)
 
     find_package(OpenSSL REQUIRED)
     find_package(Dlib REQUIRED)
-
-    try_compile(DLIB_HAS_CUDA ${CMAKE_CURRENT_BINARY_DIR}/system_checks
-        SOURCES ${PROJECT_SOURCE_DIR}/cmake/system/check_cuda_for_dlib.cpp
-        LINK_LIBRARIES dlib
-    )
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
@@ -186,18 +185,18 @@ macro(addDeploymentActions)
                                ${exiv2_lib_dir}/../bin
     )
 
-    if(DLIB_HAS_CUDA)
-        install_external_lib(NAME "CUDNN"
-                            DLLFILES ${libs_cudnn}
-                            HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                                ${CUDNN_LIBRARY_DIR}/../bin
-        )
-    endif()
+    install_external_lib(NAME "CUDNN"
+                         DLLFILES ${libs_cudnn}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                               ${CUDNN_LIBRARY_DIR}/../bin
+                         OPTIONAL
+    )
 
     install_external_lib(NAME "OpenSSL"
                          DLLFILES ${libs_openssl}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OPENSSL_ROOT_DIR}/bin
+                         OPTIONAL
     )
 
     install_external_lib(NAME "Compiler"
