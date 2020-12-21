@@ -5,6 +5,7 @@ find_package(Exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
+include(${OPENLIBRARY_USE_FILE})
 
 set(CORE_SOURCES
     #interfaces

@@ -69,7 +69,7 @@ endfunction()
 
 function(install_external_lib)
 
-  set(options)
+  set(options OPTIONAL)
   set(oneValueArgs NAME LOCATION)
   set(multiValueArgs DLLFILES HINTS)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -86,6 +86,7 @@ function(install_external_lib)
     set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
 
     find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
+
     if(${LIB_PATH_VAR})
         install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
 
@@ -93,6 +94,9 @@ function(install_external_lib)
         get_filename_component(lib_path ${${LIB_PATH_VAR}} DIRECTORY)
         list(APPEND hints ${lib_path})
         list(REMOVE_DUPLICATES hints)
+    elseif(EXTERNAL_LIB_OPTIONAL)
+        message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+        continue()
     else()
         message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
@@ -126,9 +130,14 @@ macro(addDeploymentActions)
         )
     endif()
 
+    find_package(OpenSSL REQUIRED)
+    find_package(Dlib REQUIRED)
+
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2)
+    set(libs_cudnn cudnn64_8)                           #required by dlib when compiled with CUDA support
+    set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)  #required by github_api for secure connections
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -176,6 +185,20 @@ macro(addDeploymentActions)
                                ${exiv2_lib_dir}/../bin
     )
 
+    install_external_lib(NAME "CUDNN"
+                         DLLFILES ${libs_cudnn}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                               ${CUDNN_LIBRARY_DIR}/../bin
+                         OPTIONAL
+    )
+
+    install_external_lib(NAME "OpenSSL"
+                         DLLFILES ${libs_openssl}
+                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
+                               ${OPENSSL_ROOT_DIR}/bin
+                         OPTIONAL
+    )
+
     install_external_lib(NAME "Compiler"
                          DLLFILES ${libs_Compiler}
                          LOCATION "."
@@ -193,8 +216,11 @@ macro(addDeploymentActions)
     setup_qt_environment()
 
     #target
-    add_custom_target(deploy DEPENDS
-                                    ${OUTPUT_PATH}/deploy_qt5)
+    add_custom_target(deploy ALL
+        DEPENDS
+            photo_broom
+            ${OUTPUT_PATH}/deploy_qt5
+    )
 
     # install deployed files to proper locations
     install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})

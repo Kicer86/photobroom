@@ -398,7 +398,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+213"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+218"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -408,7 +408,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Nowa wersja programu PhotoBroom jest dostępna &lt;a href=&quot;%1&quot;&gt;tutaj&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Internet connection problem</source>
         <translation>Problem z połączeniem internetowym</translation>
     </message>
