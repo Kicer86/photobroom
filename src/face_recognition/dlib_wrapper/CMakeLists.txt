@@ -24,7 +24,7 @@ target_link_libraries(dlib_wrapper
                             PUBLIC
                                 Qt::Core
                                 Qt::Gui
-                                dlib
+                                ${DLIB_LIBRARIES}
                             PRIVATE
                                 core
                                 system
