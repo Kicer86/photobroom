@@ -33,14 +33,9 @@ namespace utils
 
     QString photoSetPath()
     {
-        return PATH(FACES_DIR);
-    }
-
-    QString photoPath(int n)
-    {
-        const QString path = photoSetPath() + QString("/face%1.jpg").arg(n);
-
-        return path;
+        return QString("%1/%2")
+            .arg(PATH(FACES_DIR))
+            .arg("lfw");
     }
 
     QImage downsize(const QImage& source, int factor)
@@ -48,6 +43,15 @@ namespace utils
         const QSize size = source.size();
         const qreal scaleFactor = std::sqrt(factor);
         const QSize scaledSize = size / scaleFactor;
+
+        return source.scaled(scaledSize);
+    }
+
+    QImage upsize(const QImage& source, int factor)
+    {
+        const QSize size = source.size();
+        const qreal scaleFactor = std::sqrt(factor);
+        const QSize scaledSize = size * scaleFactor;
 
         return source.scaled(scaledSize);
     }

@@ -34,9 +34,9 @@ TEST(PersonRecognitionTest, GeorgeWBushRecognition)
     EmptyLogger logger;
     dlib_api::FaceLocator locator(&logger);
     dlib_api::FaceEncoder encoder;
-    QDirIterator di(utils::photoSetPath() + "/lfw/George_W_Bush", QDir::Files);
+    QDirIterator di(utils::photoSetPath() + "/George_W_Bush", QDir::Files);
 
-    const QString referencePhotoPath = utils::photoSetPath() + "/lfw/George_W_Bush/George_W_Bush_0006.jpg";
+    const QString referencePhotoPath = utils::photoSetPath() + "/George_W_Bush/George_W_Bush_0006.jpg";
     const auto referenceFaceEncoding = fetchFaceEncodings(locator, encoder, referencePhotoPath);
     ASSERT_FALSE(referenceFaceEncoding.empty());
 
