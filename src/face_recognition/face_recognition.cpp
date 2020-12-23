@@ -105,9 +105,12 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     OrientedImage orientedPhoto(m_data->m_exif, path);
 
-    m_data->m_logger->debug(QString("Looking for faces in photo %1. Size: %2px")
+    const int pixels = orientedPhoto->width() * orientedPhoto->height();
+    const double mpixels = pixels / 1e6;
+
+    m_data->m_logger->debug(QString("Looking for faces in photo %1. Size: %2Mpx")
         .arg(path)
-        .arg(orientedPhoto->width() * orientedPhoto->height())
+        .arg(mpixels, 0, 'f', 1)
     );
 
     QElapsedTimer timer;
