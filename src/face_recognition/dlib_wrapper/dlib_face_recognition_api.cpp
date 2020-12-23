@@ -268,7 +268,7 @@ namespace dlib_api
         {
             faces = face_locations_cnn(qimage, number_of_times_to_upsample);
         }
-        catch(const dlib::cuda_error& err)
+        catch(const dlib::cuda_error &)
         {
             // image was too big for being processed
             // due to an issue in dlib, we just need to call face_locations_cnn here again
@@ -277,7 +277,7 @@ namespace dlib_api
             {
                 face_locations_cnn(empty_image, 0);
             }
-            catch(const dlib::cuda_error& err)
+            catch(const dlib::cuda_error &)
             {
                 // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
                 // covered by learning tests
