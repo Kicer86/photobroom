@@ -143,6 +143,7 @@ namespace dlib_api
         m_data->logger->debug(QString("Looking for faces with cnn in image of size %1x%2")
                                 .arg(qimage.width())
                                 .arg(qimage.height()));
+
         faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
 
         if (faces.has_value() == false)
