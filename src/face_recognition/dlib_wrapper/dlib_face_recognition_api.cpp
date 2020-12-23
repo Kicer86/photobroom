@@ -29,14 +29,31 @@ namespace dlib_api
         constexpr char human_face_model[] = "mmod_human_face_detector.dat";
         constexpr char face_recognition_model[] = "dlib_face_recognition_resnet_model_v1.dat";
 
+        int dlib_cuda_devices()
+        {
+            int devices = 0;
+
+            try
+            {
+                // get_num_devices() may throw an exception if there is no nvidia device
+                devices = dlib::cuda::get_num_devices();
+            }
+            catch (const dlib::cuda_error&)
+            {                
+                devices = 0;
+            }
+
+            return devices;
+        }
+
         int cuda_devices() 
         {
             // if cuda was disabled during dlib build then get_num_devices() will return 1 which is not what we want
-            const static int devs = CUDA_AVAILABLE ? dlib::cuda::get_num_devices() : 0;
+            const static int devs = CUDA_AVAILABLE ? dlib_cuda_devices() : 0;
 
             return devs;
         }
-
+        
         // helpers
 
         QString models_path()
@@ -161,6 +178,7 @@ namespace dlib_api
     {
         std::optional<QVector<QRect>> faces;
 
+        // when there are no cuda devices, cnn will perform poorly so do not use it
         if (m_data->cuda_available)
         {
             // Use cnn by default as it is fast and most accurate.
@@ -184,7 +202,7 @@ namespace dlib_api
             faces = _face_locations_hog(qimage, number_of_times_to_upsample);
 
             // use faces found by hog to retry cnn search for more accurate results
-            if (faces.has_value())
+            if (faces.has_value() && m_data->cuda_available)
             {
                 m_data->logger->debug(QString("Found %1 face(s). Trying cnn to improve faces positions").arg(faces->size()));
 
