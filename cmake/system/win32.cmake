@@ -101,34 +101,12 @@ function(install_external_lib)
         message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
     endif()
 
-    if(DEVELOPER_BUILD)
-        get_filename_component(lib_filename ${${LIB_PATH_VAR}} NAME)
-
-        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/bin/${lib_filename}
-                           COMMAND ${CMAKE_COMMAND} -E copy ${${LIB_PATH_VAR}} ${CMAKE_BINARY_DIR}/bin/)
-
-        list(APPEND CopiedBinaries ${CMAKE_BINARY_DIR}/bin/${lib}.dll)
-    endif()
-
   endforeach()
-
-  if(DEVELOPER_BUILD)
-    add_custom_target(CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME}
-                      DEPENDS ${CopiedBinaries})
-
-    add_dependencies(CopyExternalBinariesToBuild CopyExternalBinariesToBuild_${EXTERNAL_LIB_NAME})
-  endif()
 
 endfunction(install_external_lib)
 
 
 macro(addDeploymentActions)
-
-    if(DEVELOPER_BUILD)
-        add_custom_target(CopyExternalBinariesToBuild ALL
-            DEPENDS photo_broom
-        )
-    endif()
 
     find_package(OpenSSL REQUIRED)
     find_package(Dlib REQUIRED)
