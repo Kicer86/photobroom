@@ -114,7 +114,7 @@ macro(addDeploymentActions)
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2)
-    set(libs_cudnn cudnn64_8)                           #required by dlib when compiled with CUDA support
+    set(libs_cudnn cudnn64_7)                           #required by dlib when compiled with CUDA support
     set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)  #required by github_api for secure connections
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
