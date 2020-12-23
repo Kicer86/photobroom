@@ -3,6 +3,7 @@
 
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/dnn.h>
+#include <dlib/cuda/cuda_dlib.h>
 #include <QRgb>
 
 #include <core/ilogger.hpp>
@@ -11,6 +12,12 @@
 
 #include "cnn_face_detector.hpp"
 #include "face_recognition.hpp"
+
+#ifdef DLIB_USE_CUDA
+#define CUDA_AVAILABLE true
+#else
+#define CUDA_AVAILABLE false
+#endif
 
 
 namespace dlib_api
@@ -21,6 +28,14 @@ namespace dlib_api
         constexpr char predictor_68_point_model[] = "shape_predictor_68_face_landmarks.dat";
         constexpr char human_face_model[] = "mmod_human_face_detector.dat";
         constexpr char face_recognition_model[] = "dlib_face_recognition_resnet_model_v1.dat";
+
+        int cuda_devices() 
+        {
+            // if cuda was disabled during dlib build then get_num_devices() will return 1 which is not what we want
+            const static int devs = CUDA_AVAILABLE ? dlib::cuda::get_num_devices() : 0;
+
+            return devs;
+        }
 
         // helpers
 
@@ -124,7 +139,13 @@ namespace dlib_api
     FaceLocator::FaceLocator(ILogger* logger):
         m_data(std::make_unique<Data>(logger))
     {
+        const int devices = cuda_devices();
+        const bool cuda_available = devices > 0;
 
+        if (cuda_available)
+            m_data->logger->info(QString("%1 CUDA devices detected").arg(devices));
+        else
+            m_data->logger->warning("No CUDA devices");
     }
 
 
