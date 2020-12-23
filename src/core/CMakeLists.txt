@@ -1,7 +1,7 @@
 
 find_package(OpenLibrary 2.3  REQUIRED putils)
 find_package(Qt5              REQUIRED COMPONENTS Core Gui)
-find_package(Exiv2            REQUIRED)
+find_package(Exiv2            CONFIG REQUIRED)
 find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
@@ -96,7 +96,7 @@ target_link_libraries(core
                         PRIVATE
                             system
                             ${OPENLIBRARY_LIBRARIES}
-                            ${EXIV2_LIBRARIES}
+                            exiv2lib
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 
