@@ -35,6 +35,8 @@ Required tools and libraries:
     Go to build dir and execute:
     conan install /source/dir --build
 
+Instead of conan vcpkg can be used:
+vcpkg install qt5[essentials,latest] dlib[core,cuda] exiv2
 
 Tested compilers (with c++17 support):
 1. gcc (Linux and Windows)
