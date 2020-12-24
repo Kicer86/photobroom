@@ -174,6 +174,7 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_dlib}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${CUDNN_LIBRARY_DIR}/../bin
+                               ${CMAKE_PREFIX_PATH}/bin
                          OPTIONAL
     )
     
