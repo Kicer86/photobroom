@@ -73,7 +73,7 @@ before_build:
     - cmd: mkdir build
     - cmd: cd build
     - cmd: conan install .. --build missing
-    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% ..
+    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
 
 build:
   project: build/PhotoBroom.sln
