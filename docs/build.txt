@@ -18,7 +18,6 @@ Required tools and libraries:
  - KCrash + drkonqi (for crash catching)
 
  Packages, libraries and other components kept as git submodules:
- - https://github.com/google/googletest.git                     - GMock and GTest  (unit tests)
  - https://github.com/Kicer86/cmake_modules.git                 - various cmake modules and package finders
  - https://github.com/ageitgey/face_recognition_models.git      - modules for face recognition
  - git://anongit.kde.org/kwidgetsaddons.git                     - kdewidgets
