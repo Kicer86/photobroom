@@ -97,20 +97,14 @@ target_link_libraries(core
                             system
                             ${OPENLIBRARY_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
+                            exiv2lib
 )
-
-if(TARGET exiv2lib)
-    target_link_libraries(core PRIVATE exiv2lib)
-else()
-    target_link_libraries(core PRIVATE ${EXIV2_LIBRARIES})
-endif()
 
 target_include_directories(core PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
                                 SYSTEM PRIVATE
                                     ${OPENLIBRARY_INCLUDE_DIRS}
-                                    ${EXIV2_INCLUDE_DIRS}
                                 PRIVATE
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
