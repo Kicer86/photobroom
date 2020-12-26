@@ -383,7 +383,7 @@ namespace Database
 
     Group::Type MemoryBackend::type(const Group::Id &) const
     {
-        Group::Type t;
+        Group::Type t = Group::Type::Invalid;
 
         return t;
     }
