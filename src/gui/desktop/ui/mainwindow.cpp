@@ -95,7 +95,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
 
     ui->tagEditor->set(&m_completerFactory);
 
-    // TODO: nothing useful in help mentu at this moment
+    // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
 }
 
