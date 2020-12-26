@@ -101,6 +101,12 @@ FaceRecognition::~FaceRecognition()
 }
 
 
+bool FaceRecognition::checkSystem() const
+{
+    return dlib_api::check_system_prerequisites();
+}
+
+
 QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
 {
     OrientedImage orientedPhoto(m_data->m_exif, path);

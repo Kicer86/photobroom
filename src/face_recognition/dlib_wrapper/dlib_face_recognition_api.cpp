@@ -39,21 +39,21 @@ namespace dlib_api
                 devices = dlib::cuda::get_num_devices();
             }
             catch (const dlib::cuda_error&)
-            {                
+            {
                 devices = 0;
             }
 
             return devices;
         }
 
-        int cuda_devices() 
+        int cuda_devices()
         {
             // if cuda was disabled during dlib build then get_num_devices() will return 1 which is not what we want
             const static int devs = CUDA_AVAILABLE ? dlib_cuda_devices() : 0;
 
             return devs;
         }
-        
+
         // helpers
 
         QString models_path()
@@ -194,7 +194,7 @@ namespace dlib_api
         }
 
         if (faces.has_value() == false)
-        {            
+        {
             m_data->logger->debug(QString("Looking for faces with hog in image of size %1x%2")
                 .arg(qimage.width())
                 .arg(qimage.height()));
@@ -429,4 +429,14 @@ namespace dlib_api
 
         return results;
     }
+
+
+    bool check_system_prerequisites()
+    {
+        if (CUDA_AVAILABLE && dlib_cuda_devices() == 0)  // dlib built with cuda, bo no cuda devices? dlib would crash
+            return false;
+        else                                             // any other combination is fine
+            return true;
+    }
+
 }
