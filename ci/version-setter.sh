@@ -7,8 +7,8 @@ if [ $# != 1 ]; then
     exit 1
 fi
 
-parent_dir=`dirname $0`/..
-top_dir=`readlink -f $parent_dir`
+parent_dir=$(dirname $0)/..
+top_dir=$(readlink -f $parent_dir)
 version=$1
 
 sed -i -e "s/project(PhotoBroom VERSION .*)/project(PhotoBroom VERSION $version)/" $top_dir/CMakeLists.txt
