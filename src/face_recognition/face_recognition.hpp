@@ -51,7 +51,7 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
         // check if face recognition can be performed on current machine
-        bool checkSystem() const;
+        static bool checkSystem();
 
         // Locate faces on given photo.
         QVector<QRect> fetchFaces(const QString &) const;

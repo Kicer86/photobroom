@@ -101,7 +101,7 @@ FaceRecognition::~FaceRecognition()
 }
 
 
-bool FaceRecognition::checkSystem() const
+bool FaceRecognition::checkSystem()
 {
     return dlib_api::check_system_prerequisites();
 }
