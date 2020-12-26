@@ -32,6 +32,10 @@ environment:
     WINFLEXBISON_ARCHIVE: win_flex_bison3-latest.zip
 
 install:
+    - cmd: set VCPKG_KEEP_ENV_VARS=Qt5Widgets_DIR
+    - cmd: set qt_arch=msvc2019_64
+    - cmd: set USE_QT_VER=5.15
+    - cmd: set Qt5Widgets_DIR=C:\Qt\%USE_QT_VER%\%qt_arch%\lib\cmake 
     - vcpkg --overlay-ports=./ci/vcpkg/ install dlib[core]:x64-windows exiv2:x64-windows openlibrary:x64-windows
 
 before_build:

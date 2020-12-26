@@ -2,13 +2,14 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO Kicer86/openlibrary
-    REF 0f04f5bb43d007b21abbca035015c41f4d678be9 #v2.3.0
-    SHA512 4d9561820039cae495db06c3b8d6f6382ef0309732b1655b31b6da3582201ed42effb1dedab922d63941c8f0e7da29c7d9777a89f963e2c559aff1b9b8122fda
+    REF 02c321d26f4113c173bdc82622f89cf8a228c84a #v2.4.0
+    SHA512 59c9ca5ba8f944c843bf31704f62cf2f44a686cff627ca95adbd1bb4a53e14a97de040ac5e7e858742a33072578f3163ba5a3c2caa39c9dbfbe5c15e5387b7e9
 )
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
+    OPTIONS -DQt5Widgets_DIR="$ENV{Qt5Widgets_DIR}"
 )
 
 vcpkg_install_cmake()
@@ -18,3 +19,4 @@ vcpkg_copy_pdbs()
 # Clean
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include ${CURRENT_PACKAGES_DIR}/debug/share)
 file(TOUCH ${CURRENT_PACKAGES_DIR}/share/openlibrary/copyright)
+
