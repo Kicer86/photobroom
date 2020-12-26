@@ -46,12 +46,12 @@ namespace dlib_api
             return devices;
         }
 
-        int cuda_devices()
+        bool has_hardware_accelearion()
         {
             // if cuda was disabled during dlib build then get_num_devices() will return 1 which is not what we want
-            const static int devs = CUDA_AVAILABLE ? dlib_cuda_devices() : 0;
+            const bool has = (CUDA_AVAILABLE ? dlib_cuda_devices() : 0) > 0;
 
-            return devs;
+            return has;
         }
 
         // helpers
@@ -156,15 +156,10 @@ namespace dlib_api
 
 
     FaceLocator::FaceLocator(ILogger* logger):
-        m_data(std::make_unique<Data>(logger, cuda_devices() > 0))
+        m_data(std::make_unique<Data>(logger, has_hardware_accelearion()))
     {
-        if (m_data->cuda_available)
-        {
-            const int devices = cuda_devices();
-            m_data->logger->info(QString("%1 CUDA devices detected").arg(devices));
-        }
-        else
-            m_data->logger->warning("No CUDA devices");
+        if (m_data->cuda_available == false)
+            m_data->logger->warning("No CUDA devices. Hardware acceleration disabled.");
     }
 
 
@@ -202,8 +197,9 @@ namespace dlib_api
             faces = _face_locations_hog(qimage, number_of_times_to_upsample);
 
             // use faces found by hog to retry cnn search for more accurate results
-            if (faces.has_value() && m_data->cuda_available)
+            if (faces.has_value())
             {
+                // when cuda_available is false, cnn is slow, but faces are small so we cal live with that
                 m_data->logger->debug(QString("Found %1 face(s). Trying cnn to improve faces positions").arg(faces->size()));
 
                 for(QRect& face: faces.value())
