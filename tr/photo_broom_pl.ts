@@ -398,7 +398,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+218"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

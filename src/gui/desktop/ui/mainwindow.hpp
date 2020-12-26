@@ -73,6 +73,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
+        const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
 
