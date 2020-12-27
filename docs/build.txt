@@ -35,7 +35,7 @@ Required tools and libraries:
     conan install /source/dir --build
 
 Instead of conan vcpkg can be used:
-vcpkg install dlib[core,cuda] exiv2 openlibrary
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda] exiv2 openlibrary
 
 Tested compilers (with c++17 support):
 1. gcc (Linux and Windows)
