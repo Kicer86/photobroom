@@ -115,10 +115,10 @@ macro(addDeploymentActions)
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
     set(libs_dlib cudnn64_7                                          #required by dlib when compiled with CUDA and BLAS support
-                  openblas 
-                  liblapack 
-                  libgfortran-5 
-                  libgcc_s_seh-1 
+                  openblas
+                  liblapack
+                  libgfortran-5
+                  libgcc_s_seh-1
                   libwinpthread-1
                   libquadmath-0
     )
@@ -161,6 +161,7 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_OL}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OpenLibrary_DIR}/../bin
+                               ${OpenLibrary_DIR}/../../bin
     )
 
     install_external_lib(NAME "Exiv2"
@@ -177,7 +178,7 @@ macro(addDeploymentActions)
                                ${CMAKE_PREFIX_PATH}/bin
                          OPTIONAL
     )
-    
+
     install_external_lib(NAME "OpenSSL"
                          DLLFILES ${libs_openssl}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib

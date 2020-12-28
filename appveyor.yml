@@ -11,17 +11,13 @@ branches:
 
 configuration:
     - Release
-    - Debug
 
 platform:
     - x64
 
 image: Visual Studio 2019
 
-
 cache:
-    - c:\Users\appveyor\conanCache  -> ci/appveyor.yml.in, ci/appveyor.bat, conanfile.txt
-    - envs                          -> ci/appveyor.bat, conanfile.txt        # conan installation
     - c:\tools\vcpkg\installed
 
 artifacts:
@@ -32,11 +28,9 @@ environment:
     WINFLEXBISON_ARCHIVE: win_flex_bison3-latest.zip
 
 install:
-    - cmd: set VCPKG_KEEP_ENV_VARS=Qt5Widgets_DIR
-    - cmd: set qt_arch=msvc2019_64
-    - cmd: set USE_QT_VER=5.15
-    - cmd: set Qt5Widgets_DIR=C:\Qt\%USE_QT_VER%\%qt_arch%\lib\cmake 
-    - vcpkg --overlay-ports=./ci/vcpkg/ install dlib[core]:x64-windows exiv2:x64-windows openlibrary:x64-windows
+    - git clone --depth 1 --branch v1.0.0 https://github.com/Kicer86/photobroom-dependencies.git
+    - mklink /J C:\vcpkg %cd%\photobroom-dependencies\msvc2019_64
+
 
 before_build:
     - if not exist "%WINFLEXBISON_ARCHIVE%" appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/%WINFLEXBISON_ARCHIVE%"
@@ -45,28 +39,6 @@ before_build:
     - win_flex --version
     - win_bison --version
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if not exist envs mkdir envs
-    - cmd: cd envs
-    - cmd: if not exist conan python -m virtualenv conan
-    - cmd: conan/Scripts/activate
-    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan
-    - cmd: cd ..
-    - cmd: conan --version
-    - cmd: conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo
-    - cmd: conan remote add kicer https://api.bintray.com/conan/kicer86/kicer
-    - cmd: conan remote add omaralvarez https://api.bintray.com/conan/omaralvarez/public-conan
-    - cmd: conan remote list
-    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
-    - cmd: conan profile new --detect default
-    - cmd: conan profile update settings.compiler.version=16 default
-    - cmd: set ARCHITECTURE=x86_64
-    - cmd: if "%CONFIGURATION%"=="Debug" (set RUNTIME=MDd) else (set RUNTIME=MD)
-    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
-    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
-    - cmd: conan profile update settings.build_type=%CONFIGURATION% default
-    - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
-    - cmd: cat c:\Users\appveyor\.conan\conan.conf
-    - cmd: cat c:\Users\appveyor\.conan\profiles\default
     - git submodule update --init --recursive
     - cmd: set generator="Visual Studio 16 2019"
     - cmd: set qt_arch=msvc2019_64
@@ -76,8 +48,7 @@ before_build:
     - cmd: set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;c:/projects/install
     - cmd: mkdir build
     - cmd: cd build
-    - cmd: conan install .. --build missing
-    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake ..
 
 build:
   project: build/PhotoBroom.sln
