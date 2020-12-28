@@ -28,7 +28,7 @@ environment:
     WINFLEXBISON_ARCHIVE: win_flex_bison3-latest.zip
 
 install:
-    - git clone --depth 1 --branch v1.0.0 https://github.com/Kicer86/photobroom-dependencies.git
+    - git clone --depth 1 --branch v1.0.1 https://github.com/Kicer86/photobroom-dependencies.git
     - mklink /J C:\vcpkg %cd%\photobroom-dependencies\msvc2019_64
 
 
