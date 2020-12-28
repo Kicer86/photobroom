@@ -356,7 +356,7 @@ namespace dlib_api
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
-        const dlib::shape_predictor& pose_predictor = model == large?
+        const dlib::shape_predictor& pose_predictor = model == Large?
                                                       *m_data->predictor_68_point :
                                                       *m_data->predictor_5_point;
 
