@@ -1,9 +1,6 @@
 
-#include "dlib_face_recognition_api.hpp"
-
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/dnn.h>
-#include <dlib/cuda/cuda_dlib.h>
 #include <QRgb>
 
 #include <core/ilogger.hpp>
@@ -12,6 +9,8 @@
 
 #include "cnn_face_detector.hpp"
 #include "face_recognition.hpp"
+#include "dlib_face_recognition_api.hpp"
+
 
 #ifdef DLIB_USE_CUDA
 #define CUDA_AVAILABLE true
