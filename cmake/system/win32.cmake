@@ -74,33 +74,46 @@ function(install_external_lib)
   set(multiValueArgs DLLFILES HINTS)
   cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  set(hints ${EXTERNAL_LIB_HINTS})
-
+  if(_VCPKG_INSTALLED_DIR)
+    set(VCPKG_REL_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    set(VCPKG_DBG_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+  elseif(VCPKG_TRIPLET_DIR)
+    set(VCPKG_REL_HINT_DIR "${VCPKG_TRIPLET_DIR}/bin")
+    set(VCPKG_DBG_HINT_DIR "${VCPKG_TRIPLET_DIR}/debug/bin")
+  endif() 
+  
   if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
     set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
   endif()
 
   set(CopiedBinaries)
 
-  foreach(lib ${EXTERNAL_LIB_DLLFILES})
-    set(LIB_PATH_VAR LIBPATH_${lib})     # name of variable with path to file is combined so it looks nice in CMake's cache file
-
-    find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
-
-    if(${LIB_PATH_VAR})
-        install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION})
-
-        #add path of current dll file to hints
-        get_filename_component(lib_path ${${LIB_PATH_VAR}} DIRECTORY)
-        list(APPEND hints ${lib_path})
-        list(REMOVE_DUPLICATES hints)
-    elseif(EXTERNAL_LIB_OPTIONAL)
-        message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-        continue()
+  foreach(config IN ITEMS Debug Release)
+    
+    if(config MATCHES Debug)
+      set(hints ${VCPKG_DBG_HINT_DIR})
     else()
-        message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+      set(hints ${VCPKG_REL_HINT_DIR})
     endif()
 
+    list(APPEND hints ${EXTERNAL_LIB_HINTS})
+
+    foreach(lib ${EXTERNAL_LIB_DLLFILES})
+      set(LIB_PATH_VAR "LIBPATH_${lib}_${config}")     # name of variable with path to file is combined so it looks nice in CMake's cache file
+  
+      message(DEBUG "Looking for ${lib} in ${hints}")
+  
+      find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
+  
+      if(${LIB_PATH_VAR})
+          install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION} CONFIGURATIONS ${config})
+      elseif(EXTERNAL_LIB_OPTIONAL)
+          message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+          continue()
+      else()
+          message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+      endif()
+    endforeach()
   endforeach()
 
 endfunction(install_external_lib)
@@ -108,8 +121,7 @@ endfunction(install_external_lib)
 
 macro(addDeploymentActions)
 
-    find_package(OpenSSL REQUIRED)
-    find_package(Dlib REQUIRED)
+    find_package(OpenSSL)
 
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
@@ -155,27 +167,16 @@ macro(addDeploymentActions)
 
     endif()
 
-    get_filename_component(exiv2_lib_dir "${EXIV2_LIBRARY}" DIRECTORY)
-
     install_external_lib(NAME "OpenLibrary"
                          DLLFILES ${libs_OL}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${OpenLibrary_DIR}/../bin
-                               ${OpenLibrary_DIR}/../../bin
     )
 
     install_external_lib(NAME "Exiv2"
                          DLLFILES ${libs_exiv2}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${CMAKE_INSTALL_PREFIX}/bin
-                               ${exiv2_lib_dir}/../bin
     )
 
     install_external_lib(NAME "DLIB"
                          DLLFILES ${libs_dlib}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${CUDNN_LIBRARY_DIR}/../bin
-                               ${CMAKE_PREFIX_PATH}/bin
                          OPTIONAL
     )
 
