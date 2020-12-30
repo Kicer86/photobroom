@@ -80,8 +80,8 @@ function(install_external_lib)
   elseif(VCPKG_TRIPLET_DIR)
     set(VCPKG_REL_HINT_DIR "${VCPKG_TRIPLET_DIR}/bin")
     set(VCPKG_DBG_HINT_DIR "${VCPKG_TRIPLET_DIR}/debug/bin")
-  endif() 
-  
+  endif()
+
   if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
     set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
   endif()
@@ -89,7 +89,7 @@ function(install_external_lib)
   set(CopiedBinaries)
 
   foreach(config IN ITEMS Debug Release)
-    
+
     if(config MATCHES Debug)
       set(hints ${VCPKG_DBG_HINT_DIR})
     else()
@@ -100,18 +100,18 @@ function(install_external_lib)
 
     foreach(lib ${EXTERNAL_LIB_DLLFILES})
       set(LIB_PATH_VAR "LIBPATH_${lib}_${config}")     # name of variable with path to file is combined so it looks nice in CMake's cache file
-  
+
       message(DEBUG "Looking for ${lib} in ${hints}")
-  
+
       find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
-  
+
       if(${LIB_PATH_VAR})
           install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION} CONFIGURATIONS ${config})
-      elseif(EXTERNAL_LIB_OPTIONAL)
-          message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+      elseif(EXTERNAL_LIB_OPTIONAL OR config MATCHES Debug)         # debug packages are optional
+          message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
           continue()
       else()
-          message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}). Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
+          message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
       endif()
     endforeach()
   endforeach()
@@ -127,6 +127,8 @@ macro(addDeploymentActions)
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
     set(libs_dlib cudnn64_7                                          #required by dlib when compiled with CUDA and BLAS support
+                  cublas64_11
+                  cublasLt64_11
                   openblas
                   liblapack
                   libgfortran-5
@@ -177,7 +179,6 @@ macro(addDeploymentActions)
 
     install_external_lib(NAME "DLIB"
                          DLLFILES ${libs_dlib}
-                         OPTIONAL
     )
 
     install_external_lib(NAME "OpenSSL"

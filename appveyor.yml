@@ -19,6 +19,7 @@ image: Visual Studio 2019
 
 cache:
     - c:\tools\vcpkg\installed
+    - c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
 
 artifacts:
   - path: build/PhotoBroom-1.5.0-*.exe
@@ -28,9 +29,27 @@ environment:
     WINFLEXBISON_ARCHIVE: win_flex_bison3-latest.zip
 
 install:
-    - git clone --depth 1 --branch v1.0.1 https://github.com/Kicer86/photobroom-dependencies.git
-    - mklink /J C:\vcpkg %cd%\photobroom-dependencies\msvc2019_64
+    - if exist "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2"
+        ( echo "CUDA dir exists" ) ELSE
+        ( echo "Downloading CUDA binaries" &&
+          mkdir "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2" &&
+          curl -L -o "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda_x64.zip"
+               https://www.dropbox.com/s/usjl5zfiha7e66s/cuda_x64.zip &&
+          7z x "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda_x64.zip" -o"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\" )
 
+    - if exist "c:\tools\vcpkg\installed"
+        ( echo "VCPKG cache exists" ) ELSE
+        ( echo "prefilling VCPKG cache" &&
+          curl -L -o "c:\tools\vcpkg\vcpkg_dlib.zip"
+               https://www.dropbox.com/s/tzfr09sl3ubmgq6/vcpkg_dlib.zip &&
+          7z x "c:\tools\vcpkg\vcpkg_dlib.zip" -y -o"c:\tools\vcpkg\" )
+
+    - cmd: set VCPKG_KEEP_ENV_VARS=Qt5Widgets_DIR
+    - cmd: set qt_arch=msvc2019_64
+    - cmd: set USE_QT_VER=5.15
+    - cmd: set Qt5Widgets_DIR=C:\Qt\%USE_QT_VER%\%qt_arch%\lib\cmake
+    - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
+    - vcpkg --overlay-ports=./ci/vcpkg/ install exiv2:x64-windows openlibrary:x64-windows
 
 before_build:
     - if not exist "%WINFLEXBISON_ARCHIVE%" appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/%WINFLEXBISON_ARCHIVE%"
@@ -48,7 +67,15 @@ before_build:
     - cmd: set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%;c:/projects/install
     - cmd: mkdir build
     - cmd: cd build
-    - cmd: cmake -G%generator% -A%platform% -DBUILD_UPDATER=ON -DBUILD_TESTING=OFF -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER% -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake ..
+    - cmd: cmake -G%generator%
+                 -A%platform%
+                 -DBUILD_UPDATER=ON
+                 -DBUILD_TESTING=OFF
+                 -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER%
+                 -DCMAKE_TOOLCHAIN_FILE=C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake
+                 -DLIBPATH_cublas64_11_Release="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin\cublas64_11.dll"
+                 -DLIBPATH_cublasLt64_11_Release="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin\cublasLt64_11.dll"
+                 ..
 
 build:
   project: build/PhotoBroom.sln
