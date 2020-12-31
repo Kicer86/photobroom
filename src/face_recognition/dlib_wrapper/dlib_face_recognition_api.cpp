@@ -37,8 +37,10 @@ namespace dlib_api
                 // get_num_devices() may throw an exception if there is no nvidia device
                 devices = dlib::cuda::get_num_devices();
             }
-            catch (const dlib::cuda_error&)
+            catch (const dlib::cuda_error& err)
             {
+                std::cerr << err.what() << '\n';
+
                 devices = 0;
             }
 
