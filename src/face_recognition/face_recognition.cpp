@@ -46,6 +46,7 @@
 #include <system/system.hpp>
 
 #include "dlib_wrapper/dlib_face_recognition_api.hpp"
+#include "unit_tests_utils/empty_logger.hpp"
 
 
 using namespace std::placeholders;
@@ -138,7 +139,7 @@ Person::Fingerprint FaceRecognition::getFingerprint(const OrientedImage& image, 
 {
     const QImage face = face_rect.isEmpty()? image.get(): image.get().copy(face_rect);
 
-    dlib_api::FaceEncoder faceEndoder;
+    dlib_api::FaceEncoder faceEndoder(m_data->m_logger.get());
     const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
 
     return face_encodings;

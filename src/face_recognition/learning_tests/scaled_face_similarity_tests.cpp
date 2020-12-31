@@ -83,7 +83,7 @@ TEST_F(FaceScalingTest, faceDetectionForHog)
 
 TEST_F(FaceScalingTest, scaledFaceDistance)
 {
-    dlib_api::FaceEncoder faceEncoder;
+    dlib_api::FaceEncoder faceEncoder(&logger);
 
     const QImage img(img1);
     const QImage face = extractFace(img);

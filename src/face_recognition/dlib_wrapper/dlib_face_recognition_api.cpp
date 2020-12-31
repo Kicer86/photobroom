@@ -53,6 +53,15 @@ namespace dlib_api
             return has;
         }
 
+        QString rectToString(const QRect& rect)
+        {
+            return QString("%1,%2 (%3x%4)")
+                    .arg(rect.left())
+                    .arg(rect.top())
+                    .arg(rect.width())
+                    .arg(rect.height());
+        }
+
         // helpers
 
         QString models_path()
@@ -203,11 +212,8 @@ namespace dlib_api
 
                 for(QRect& face: faces.value())
                 {
-                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%3x%4)")
-                                .arg(face.left())
-                                .arg(face.top())
-                                .arg(face.width())
-                                .arg(face.height()));
+                    m_data->logger->debug(QString("Trying cnn for face %1")
+                                .arg(rectToString(face)));
 
                     auto cnn_faces = _face_locations_cnn(qimage, face);
 
@@ -218,11 +224,8 @@ namespace dlib_api
                         // replace hog face with cnn face
                         face = cnn_faces->front();
 
-                        m_data->logger->debug(QString("Improved face position to %1,%2 (%3x%4)")
-                                .arg(face.left())
-                                .arg(face.top())
-                                .arg(face.width())
-                                .arg(face.height()));
+                        m_data->logger->debug(QString("Improved face position to %1")
+                                .arg(rectToString(face)));
                     }
                 }
             }
@@ -327,8 +330,9 @@ namespace dlib_api
 
     struct FaceEncoder::Data
     {
-        Data()
+        Data(ILogger* log)
             : face_encoder( modelPath<face_recognition_model>().toStdString() )
+            , logger(log)
         {
         }
 
@@ -336,11 +340,13 @@ namespace dlib_api
 
         lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>> predictor_5_point;
         lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>> predictor_68_point;
+
+        ILogger* logger;
     };
 
 
-    FaceEncoder::FaceEncoder()
-        : m_data(std::make_unique<Data>())
+    FaceEncoder::FaceEncoder(ILogger* logger)
+        : m_data(std::make_unique<Data>(logger))
     {
     }
 
@@ -355,6 +361,13 @@ namespace dlib_api
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
+
+        m_data->logger->debug(
+            QString("Calculating encodings for face of size %1x%2")
+                .arg(size.width())
+                .arg(size.height())
+        );
+
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
         const dlib::shape_predictor& pose_predictor = model == Large?
                                                       *m_data->predictor_68_point :
