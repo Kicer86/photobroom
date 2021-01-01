@@ -27,6 +27,10 @@ Item {
         shadowAnimation.running = true
     }
 
+    function setListOfFaces(faces) {
+        facesMarker.model = faces
+    }
+
     Timer {
         id: notificationTimer
         interval: 4000
@@ -109,6 +113,10 @@ Item {
 
                 color: "black"
             }
+        }
+
+        Repeater {
+            id: facesMarker
         }
     }
 
