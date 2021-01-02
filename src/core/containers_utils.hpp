@@ -4,10 +4,6 @@
 
 #include "generic_concepts.hpp"
 
-#ifndef CONCEPTS_SUPPORTED
-#define Container typename
-#endif
-
 template<Container T>
 const typename T::value_type& front(const T& container)
 {
@@ -32,8 +28,8 @@ void compare(const MapT& lhs, const MapT& rhs,
 {
     typedef typename MapT::value_type Pair;
     typedef std::tuple<typename MapT::key_type,
-                        typename MapT::mapped_type,
-                        typename MapT::mapped_type> Changed;
+                       typename MapT::mapped_type,
+                       typename MapT::mapped_type> Changed;
 
     // find *keys* which exist only in lhs
     std::set_difference(lhs.cbegin(), lhs.cend(),
@@ -123,9 +119,5 @@ std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
 
     return lhs;
 }
-
-#ifndef CONCEPTS_SUPPORTED
-#undef Container
-#endif
 
 #endif
