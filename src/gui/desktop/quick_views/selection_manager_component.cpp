@@ -4,6 +4,7 @@
 
 SelectionManagerComponent::SelectionManagerComponent(QObject* p)
     : QObject(p)
+    , m_previouslySelected(-1)
 {
 
 }
@@ -18,7 +19,10 @@ void SelectionManagerComponent::toggleIndexSelection(int index)
         auto it = m_selected.find(index);
 
         if (it == m_selected.end())
+        {
             m_selected.insert(index);
+            m_previouslySelected = index;
+        }
         else
             m_selected.erase(it);
     }
@@ -33,7 +37,30 @@ void SelectionManagerComponent::clearSelection()
 {
     const auto previous = m_selected;
 
+    m_previouslySelected = -1;
     m_selected.clear();
+
+    calculateChange(previous, m_selected);
+}
+
+
+void SelectionManagerComponent::selectTo(int index)
+{
+    const auto previous = m_selected;
+
+    if (m_previouslySelected == -1)
+        toggleIndexSelection(index);
+    else
+    {
+        m_selected.clear();
+
+        const int from = std::min(m_previouslySelected, index);
+        const int to = std::max(m_previouslySelected, index);
+
+        for(int i = from; i <= to; i++)
+            m_selected.insert(i);
+    }
+
 
     calculateChange(previous, m_selected);
 }

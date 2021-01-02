@@ -11,8 +11,8 @@ addTestTarget(gui
                 SOURCES
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/flat_model.cpp
-
                     desktop/utils/model_index_utils.cpp
+                    desktop/quick_views/selection_manager_component.cpp
 
                     # model tests:
                     unit_tests/model/aphoto_info_model_tests.cpp
@@ -27,6 +27,7 @@ addTestTarget(gui
 
                     # utils:
                     unit_tests/utils/model_index_utils_tests.cpp
+                    unit_tests/utils/selection_manager_component_tests.cpp
 
                     # main()
                     unit_tests/main.cpp

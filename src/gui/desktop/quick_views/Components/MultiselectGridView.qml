@@ -22,15 +22,19 @@ GridView {
 
         onClicked: {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
+            var shift = mouse.modifiers & Qt.ShiftModifier;
 
-            if (ctrl == false)
-                selectionManager.clearSelection()
+            if (ctrl == false && shift == false)
+                selectionManager.clearSelection();
 
-            var index = grid.indexAt(mouse.x, mouse.y + contentY)
+            var index = grid.indexAt(mouse.x, mouse.y + contentY);
 
-            selectionManager.toggleIndexSelection(index)
+            if (shift)
+                selectionManager.selectTo(index);
+            else
+                selectionManager.toggleIndexSelection(index);
 
-            mouse.accepted = false
+            mouse.accepted = false;
         }
     }
 
