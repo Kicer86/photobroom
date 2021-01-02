@@ -71,6 +71,20 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 }
 
 
+TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithTagValueCasting)
+{
+    Database::SqlFilterQueryGenerator generator;
+    Database::FilterPhotosWithTag filter(TagTypes::Rating, 5, Database::FilterPhotosWithTag::ValueMode::Equal);
+
+    const QString query = generator.generate(filter);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (tags) "
+              "ON (tags.photo_id = photos.id) "
+              "WHERE tags.name = '6' AND CAST(tags.value AS INTEGER) = '5'", query);
+}
+
+
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 {
     Database::SqlFilterQueryGenerator generator;
