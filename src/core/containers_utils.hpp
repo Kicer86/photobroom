@@ -2,7 +2,10 @@
 #ifndef CONTAINERS_UTILS
 #define CONTAINERS_UTILS
 
+#include <vector>
+
 #include "generic_concepts.hpp"
+
 
 template<Container T>
 const typename T::value_type& front(const T& container)
@@ -14,6 +17,24 @@ template<Container T>
 const typename T::value_type& back(const T& container)
 {
     return *container.rbegin();
+}
+
+template<Container T>
+typename T::value_type take_front(T& container)
+{
+    typename T::value_type v( std::move(container.front()) );
+    container.pop_front();
+
+    return v;
+}
+
+template<Container T>
+typename T::value_type take_back(T& container)
+{
+    typename T::value_type v( std::move(container.back()) );
+    container.pop_back();
+
+    return v;
 }
 
 
