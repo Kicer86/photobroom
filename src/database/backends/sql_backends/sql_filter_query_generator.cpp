@@ -26,6 +26,18 @@
 
 namespace Database
 {
+
+    namespace
+    {
+        QString castedTagValue(const TagTypes& type)
+        {
+            if (type == Rating)
+                return "CAST(tags.value AS INTEGER)";
+            else
+                return "tags.value";
+        }
+    }
+
     SqlFilterQueryGenerator::SqlFilterQueryGenerator()
     {
 
@@ -138,11 +150,12 @@ namespace Database
             }
             else
             {
-                    condition = QString("%4.name = '%1' AND %4.value %3 '%2'")
+                    condition = QString("%4.name = '%1' AND %5 %3 '%2'")
                                     .arg(desciption.tagType)
                                     .arg(desciption.tagValue.rawValue())
                                     .arg(comparisonType)
-                                    .arg(TAB_TAGS);
+                                    .arg(TAB_TAGS)
+                                    .arg(castedTagValue(desciption.tagType));
             }
         }
         else
