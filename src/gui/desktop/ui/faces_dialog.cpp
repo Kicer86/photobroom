@@ -105,6 +105,11 @@ void FacesDialog::updateFaceInformation()
 
         applyFaceName(pos, name);
     }
+
+    QList<QVariant> qmlListOfRects;
+    std::copy(m_faces.begin(), m_faces.end(), std::back_inserter(qmlListOfRects));
+
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setListOfFaces", Qt::QueuedConnection, Q_ARG(QVariant, qmlListOfRects));
 }
 
 

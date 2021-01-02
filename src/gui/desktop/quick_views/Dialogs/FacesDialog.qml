@@ -29,6 +29,8 @@ Item {
 
     function setListOfFaces(faces) {
         facesMarker.model = faces
+
+        console.log("Got faces " + faces)
     }
 
     Timer {
