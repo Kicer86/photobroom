@@ -2,6 +2,7 @@
 #ifndef CONTAINERS_UTILS
 #define CONTAINERS_UTILS
 
+#include <iterator>
 #include <vector>
 
 #include "generic_concepts.hpp"
