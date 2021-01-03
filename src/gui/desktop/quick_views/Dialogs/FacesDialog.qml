@@ -24,7 +24,6 @@ Item {
 
     function selectFace(face) {
         shadow.face = face
-        shadowAnimation.running = true
     }
 
     function setFacesMask(mask) {
@@ -55,20 +54,15 @@ Item {
 
             property rect face
 
-            property real leftEdge: 0
-            property real rightEdge: parent.width
-            property real topEdge: 0
-            property real bottomEdge: parent.height
+            property real leftEdge: face.left
+            property real rightEdge: face.right
+            property real topEdge: face.top
+            property real bottomEdge: face.bottom
 
-            ParallelAnimation {
-                id: shadowAnimation
-                running: false
-
-                PropertyAnimation { target: shadow; property: "leftEdge"; to: shadow.face.left }
-                PropertyAnimation { target: shadow; property: "rightEdge"; to: shadow.face.right }
-                PropertyAnimation { target: shadow; property: "topEdge"; to: shadow.face.top }
-                PropertyAnimation { target: shadow; property: "bottomEdge"; to: shadow.face.bottom }
-            }
+            Behavior on leftEdge { PropertyAnimation {} }
+            Behavior on rightEdge { PropertyAnimation {} }
+            Behavior on topEdge { PropertyAnimation {} }
+            Behavior on bottomEdge { PropertyAnimation {} }
 
             Rectangle {
                 id: leftRect
