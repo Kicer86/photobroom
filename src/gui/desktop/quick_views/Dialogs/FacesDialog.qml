@@ -135,7 +135,7 @@ Item {
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: switches.top
+        anchors.bottom: switchesArea.top
         clip: true
 
         height: row.height
@@ -163,18 +163,22 @@ Item {
         }
     }
 
-    Row {
-        id: switches
+    Rectangle {
+        id: switchesArea
 
+        height: switches.height
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        Switch {
-            id: facesSwitch
-            text: qsTr("Show found faces")
-        }
+        Row {
+            id: switches
 
+            Switch {
+                id: facesSwitch
+                text: qsTr("Show found faces")
+            }
+        }
     }
 
     states: [
@@ -184,6 +188,11 @@ Item {
             PropertyChanges {
                 target: busyIndicator
                 running: true
+            }
+
+            PropertyChanges {
+                target: switchesArea
+                height: 0
             }
         },
         State {
@@ -216,10 +225,14 @@ Item {
         Transition {
             id: facesDetected
 
-            from: "*"
             to: "Notification Hidden"
 
             PropertyAnimation { target: notificationArea; properties: "height"; }
+        },
+        Transition {
+            from: "Detecting Faces"
+
+            PropertyAnimation { target: switchesArea; properties: "height"; }
         }
     ]
 }
