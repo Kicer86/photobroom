@@ -77,14 +77,20 @@ void runOn(ITaskExecutor* executor, Callable&& callable)
 class CORE_EXPORT TasksQueue final: public ITaskExecutor
 {
     public:
-        TasksQueue(ITaskExecutor *);
+        enum class Mode
+        {
+            Fifo,
+            Lifo,
+        };
+
+        TasksQueue(ITaskExecutor *, Mode = Mode::Fifo);
         ~TasksQueue();
 
         void push(std::unique_ptr<ITaskExecutor::ITask> &&);
         void clear();
 
-        void add(std::unique_ptr<ITask> && ) override;
-        void addLight(std::unique_ptr<ITask> && ) override;
+        void add(std::unique_ptr<ITask> &&) override;
+        void addLight(std::unique_ptr<ITask> &&) override;
         int heavyWorkers() const override;
 
     private:
@@ -97,6 +103,7 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         ITaskExecutor* m_tasksExecutor;
         int m_maxTasks;
         int m_executingTasks;
+        const Mode m_mode;
 
         void try_to_fire();
         void fire();

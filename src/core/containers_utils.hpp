@@ -2,11 +2,11 @@
 #ifndef CONTAINERS_UTILS
 #define CONTAINERS_UTILS
 
+#include <iterator>
+#include <vector>
+
 #include "generic_concepts.hpp"
 
-#ifndef CONCEPTS_SUPPORTED
-#define Container typename
-#endif
 
 template<Container T>
 const typename T::value_type& front(const T& container)
@@ -18,6 +18,24 @@ template<Container T>
 const typename T::value_type& back(const T& container)
 {
     return *container.rbegin();
+}
+
+template<Container T>
+typename T::value_type take_front(T& container)
+{
+    typename T::value_type v( std::move(container.front()) );
+    container.pop_front();
+
+    return v;
+}
+
+template<Container T>
+typename T::value_type take_back(T& container)
+{
+    typename T::value_type v( std::move(container.back()) );
+    container.pop_back();
+
+    return v;
 }
 
 
@@ -32,8 +50,8 @@ void compare(const MapT& lhs, const MapT& rhs,
 {
     typedef typename MapT::value_type Pair;
     typedef std::tuple<typename MapT::key_type,
-                        typename MapT::mapped_type,
-                        typename MapT::mapped_type> Changed;
+                       typename MapT::mapped_type,
+                       typename MapT::mapped_type> Changed;
 
     // find *keys* which exist only in lhs
     std::set_difference(lhs.cbegin(), lhs.cend(),
@@ -123,9 +141,5 @@ std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
 
     return lhs;
 }
-
-#ifndef CONCEPTS_SUPPORTED
-#undef Container
-#endif
 
 #endif

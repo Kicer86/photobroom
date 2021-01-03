@@ -2,6 +2,7 @@
 #include <cassert>
 
 #include "task_executor_utils.hpp"
+#include "containers_utils.hpp"
 
 
 struct TasksQueue::IntTask: ITaskExecutor::ITask
@@ -35,12 +36,13 @@ struct TasksQueue::IntTask: ITaskExecutor::ITask
 
 
 
-TasksQueue::TasksQueue(ITaskExecutor* executor):
+TasksQueue::TasksQueue(ITaskExecutor* executor, Mode mode):
     m_tasksMutex(),
     m_waitingTasks(),
     m_tasksExecutor(executor),
     m_maxTasks(executor->heavyWorkers() + 2),
-    m_executingTasks(0)
+    m_executingTasks(0),
+    m_mode(mode)
 {
 
 }
@@ -112,8 +114,7 @@ void TasksQueue::fire()
     std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
     assert(m_waitingTasks.empty() == false);
 
-    auto task = std::move(m_waitingTasks.front());
-    m_waitingTasks.pop_front();
+    auto task = m_mode == Mode::Fifo? take_front(m_waitingTasks): take_back(m_waitingTasks);
 
     m_executingTasks++;
     m_tasksExecutor->add(std::move(task));

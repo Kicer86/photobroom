@@ -24,7 +24,7 @@ using namespace std::placeholders;
 
 
 ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator* gen, IThumbnailsCache* cache):
-    m_tasks(executor),
+    m_tasks(executor, TasksQueue::Mode::Lifo),
     m_cache(cache),
     m_generator(gen)
 {
