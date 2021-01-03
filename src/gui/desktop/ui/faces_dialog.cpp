@@ -174,7 +174,10 @@ void FacesDialog::selectFace()
         selectionArea = m_faces[row];
     }
 
-    QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
+    if (selected.empty())
+        QMetaObject::invokeMethod(ui->quickView->rootObject(), "clearFaceSelection", Qt::QueuedConnection);
+    else
+        QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
 }
 
 

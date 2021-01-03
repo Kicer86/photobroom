@@ -26,6 +26,10 @@ Item {
         shadow.face = face
     }
 
+    function clearFaceSelection() {
+        shadow.face = Qt.rect(0, 0, main.width, main.height)
+    }
+
     function setFacesMask(mask) {
         facesMarker.model = mask
     }
@@ -178,6 +182,7 @@ Item {
 
             Switch {
                 id: facesSwitch
+
                 text: qsTr("Show found faces")
             }
         }
