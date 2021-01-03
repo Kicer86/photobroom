@@ -135,7 +135,8 @@ Item {
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.bottom: switches.top
+        clip: true
 
         height: row.height
         color: "dodgerblue"
@@ -161,6 +162,21 @@ Item {
             }
         }
     }
+
+    Row {
+        id: switches
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        Switch {
+            id: facesSwitch
+            text: qsTr("Show found faces")
+        }
+
+    }
+
     states: [
         State {
             name: "Detecting Faces"
