@@ -106,10 +106,16 @@ void FacesDialog::updateFaceInformation()
         applyFaceName(pos, name);
     }
 
-    QList<QVariant> qmlListOfRects;
-    std::copy(m_faces.begin(), m_faces.end(), std::back_inserter(qmlListOfRects));
+    // convert faces into QRegion containing all but faces
+    QRegion reg(0, 0, m_photoSize.width(), m_photoSize.height());
 
-    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setListOfFaces", Qt::QueuedConnection, Q_ARG(QVariant, qmlListOfRects));
+    for (const QRect& rect: m_faces)
+        reg-=QRegion(rect);
+
+    QList<QVariant> qmlListOfRects;
+    std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
+
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setFacesMask", Qt::QueuedConnection, Q_ARG(QVariant, qmlListOfRects));
 }
 
 

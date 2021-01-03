@@ -27,10 +27,8 @@ Item {
         shadowAnimation.running = true
     }
 
-    function setListOfFaces(faces) {
-        facesMarker.model = faces
-
-        console.log("Got faces " + faces)
+    function setFacesMask(mask) {
+        facesMarker.model = mask
     }
 
     Timer {
@@ -119,6 +117,16 @@ Item {
 
         Repeater {
             id: facesMarker
+
+            delegate: Rectangle {
+                x: modelData.x
+                y: modelData.y
+                width: modelData.width
+                height: modelData.height
+
+                color: "black"
+                opacity: 0.7
+            }
         }
     }
 
