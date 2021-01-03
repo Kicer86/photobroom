@@ -52,7 +52,7 @@ Item {
             anchors.fill: parent
             opacity: 0.5
 
-            property rect face
+            property rect face: Qt.rect(0, 0, parent.width, parent.height)
 
             property real leftEdge: face.left
             property real rightEdge: face.right
