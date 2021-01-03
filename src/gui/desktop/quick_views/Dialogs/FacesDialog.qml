@@ -115,17 +115,25 @@ Item {
             }
         }
 
-        Repeater {
-            id: facesMarker
+        Item {
+            anchors.fill: parent
 
-            delegate: Rectangle {
-                x: modelData.x
-                y: modelData.y
-                width: modelData.width
-                height: modelData.height
+            opacity: facesSwitch.checked? 1.0: 0.0
 
-                color: "black"
-                opacity: 0.7
+            Behavior on opacity { PropertyAnimation {} }
+
+            Repeater {
+                id: facesMarker
+
+                delegate: Rectangle {
+                    x: modelData.x
+                    y: modelData.y
+                    width: modelData.width
+                    height: modelData.height
+
+                    color: "black"
+                    opacity: 0.7
+                }
             }
         }
     }
