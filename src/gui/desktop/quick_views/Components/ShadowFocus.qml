@@ -5,7 +5,7 @@ import QtQuick.Controls 2.15
 Item {
     id: shadow
     anchors.fill: parent
-    opacity: 0.5
+    opacity: 0.7
 
     property bool hasFocus: false
 
