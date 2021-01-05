@@ -4,9 +4,8 @@ import QtQuick.Controls 2.15
 
 Item {
     id: shadow
-    anchors.fill: parent
-    opacity: 0.7
 
+    // public properties and functions
     property bool hasFocus: false
     property bool fadeInOutEnabled: true
 
@@ -28,8 +27,9 @@ Item {
         animationEnabled = true;
     }
 
+    // private properties
     property rect focusRect: Qt.rect(0, 0, parent.width, parent.height)
-    property bool animationEnabled: true
+    property bool animationEnabled: false
 
     property real leftEdge: focusRect.left
     property real rightEdge: focusRect.right
