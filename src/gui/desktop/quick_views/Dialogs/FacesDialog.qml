@@ -53,6 +53,7 @@ Item {
 
         Components.ShadowFocus {
             id: shadow
+            fadeInOutEnabled: !facesSwitch.checked  // disable face selection shadow when found faces are marked
         }
 
         Item {
@@ -60,7 +61,7 @@ Item {
 
             opacity: facesSwitch.checked && shadow.hasFocus == false? 1.0: 0.0
 
-            Behavior on opacity { PropertyAnimation {} }
+            Behavior on opacity { enabled: shadow.hasFocus == false; PropertyAnimation {} }  // disable animations when selecting face
 
             Repeater {
                 id: facesMarker
