@@ -9,6 +9,11 @@ Item {
 
     property rect focusRect: Qt.rect(0, 0, parent.width, parent.height)
 
+    function clear() {
+        focusRect = Qt.rect(0, 0, parent.width, parent.height)
+    }
+
+
     property real leftEdge: focusRect.left
     property real rightEdge: focusRect.right
     property real topEdge: focusRect.top

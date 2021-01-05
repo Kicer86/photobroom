@@ -23,15 +23,15 @@ Item {
     }
 
     function selectFace(face) {
-        shadow.focusRect = face
+        shadow.focusRect = face;
     }
 
     function clearFaceSelection() {
-        shadow.focusRect = Qt.rect(0, 0, main.width, main.height)
+        shadow.clear();
     }
 
     function setFacesMask(mask) {
-        facesMarker.model = mask
+        facesMarker.model = mask;
     }
 
     Timer {
