@@ -23,7 +23,7 @@ Item {
     }
 
     function selectFace(face) {
-        shadow.focusRect = face;
+        shadow.setFocus(face);
     }
 
     function clearFaceSelection() {

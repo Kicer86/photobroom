@@ -7,12 +7,20 @@ Item {
     anchors.fill: parent
     opacity: 0.5
 
-    property rect focusRect: Qt.rect(0, 0, parent.width, parent.height)
+    property bool hasFocus: false
 
     function clear() {
         focusRect = Qt.rect(0, 0, parent.width, parent.height)
+        hasFocus = false;
     }
 
+    function setFocus(focus)
+    {
+        focusRect = focus;
+        hasFocus = true;
+    }
+
+    property rect focusRect: Qt.rect(0, 0, parent.width, parent.height)
 
     property real leftEdge: focusRect.left
     property real rightEdge: focusRect.right
