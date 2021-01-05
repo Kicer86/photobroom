@@ -58,7 +58,7 @@ Item {
         Item {
             anchors.fill: parent
 
-            opacity: facesSwitch.checked? 1.0: 0.0
+            opacity: facesSwitch.checked && shadow.hasFocus == false? 1.0: 0.0
 
             Behavior on opacity { PropertyAnimation {} }
 
