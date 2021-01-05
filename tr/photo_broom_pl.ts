@@ -134,7 +134,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="+26"/>
-        <source>Show found faces</source>
+        <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

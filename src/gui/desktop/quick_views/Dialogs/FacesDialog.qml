@@ -125,7 +125,7 @@ Item {
             Switch {
                 id: facesSwitch
 
-                text: qsTr("Show found faces")
+                text: qsTr("Mark found faces")
             }
         }
     }
