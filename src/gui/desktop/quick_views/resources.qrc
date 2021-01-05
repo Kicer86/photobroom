@@ -5,6 +5,7 @@
         <file>Components/internal/ZoomLogic.js</file>
         <file>Components/ColorComboBox.qml</file>
         <file>Components/MultiselectGridView.qml</file>
+        <file>Components/ShadowFocus.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
         <file>Components/ZoomableImage.qml</file>

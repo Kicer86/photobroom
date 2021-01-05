@@ -23,11 +23,11 @@ Item {
     }
 
     function selectFace(face) {
-        shadow.face = face
+        shadow.focusRect = face
     }
 
     function clearFaceSelection() {
-        shadow.face = Qt.rect(0, 0, main.width, main.height)
+        shadow.focusRect = Qt.rect(0, 0, main.width, main.height)
     }
 
     function setFacesMask(mask) {
@@ -51,66 +51,8 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        Item {
+        Components.ShadowFocus {
             id: shadow
-            anchors.fill: parent
-            opacity: 0.5
-
-            property rect face: Qt.rect(0, 0, parent.width, parent.height)
-
-            property real leftEdge: face.left
-            property real rightEdge: face.right
-            property real topEdge: face.top
-            property real bottomEdge: face.bottom
-
-            Behavior on leftEdge { PropertyAnimation {} }
-            Behavior on rightEdge { PropertyAnimation {} }
-            Behavior on topEdge { PropertyAnimation {} }
-            Behavior on bottomEdge { PropertyAnimation {} }
-
-            Rectangle {
-                id: leftRect
-                x: 0
-                y: 0
-
-                width: shadow.leftEdge
-                height: shadow.height
-
-                color: "black"
-            }
-
-            Rectangle {
-                id: rightRect
-                x: shadow.rightEdge
-                y: 0
-
-                width: shadow.width - shadow.rightEdge
-                height: shadow.height
-
-                color: "black"
-            }
-
-            Rectangle {
-                id: topRect
-                x: shadow.leftEdge
-                y: 0
-
-                width: shadow.rightEdge - shadow.leftEdge
-                height: shadow.topEdge
-
-                color: "black"
-            }
-
-            Rectangle {
-                id: bottomRect
-                x: shadow.leftEdge
-                y: shadow.bottomEdge
-
-                width: shadow.rightEdge - shadow.leftEdge
-                height: shadow.height - shadow.bottomEdge
-
-                color: "black"
-            }
         }
 
         Item {
