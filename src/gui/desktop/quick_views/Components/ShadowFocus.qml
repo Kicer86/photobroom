@@ -8,29 +8,38 @@ Item {
     opacity: 0.7
 
     property bool hasFocus: false
+    property bool fadeInOutEnabled: true
 
     function clear() {
+        if (fadeInOutEnabled == false)
+            animationEnabled = false;           // disable on fade out
+
         focusRect = Qt.rect(0, 0, parent.width, parent.height)
         hasFocus = false;
     }
 
     function setFocus(focus)
     {
+        if (hasFocus == false && fadeInOutEnabled == false)
+            animationEnabled = false;           // disable animations when focusing on something from 'clear' state (fade in)
+
         focusRect = focus;
         hasFocus = true;
+        animationEnabled = true;
     }
 
     property rect focusRect: Qt.rect(0, 0, parent.width, parent.height)
+    property bool animationEnabled: true
 
     property real leftEdge: focusRect.left
     property real rightEdge: focusRect.right
     property real topEdge: focusRect.top
     property real bottomEdge: focusRect.bottom
 
-    Behavior on leftEdge { PropertyAnimation {} }
-    Behavior on rightEdge { PropertyAnimation {} }
-    Behavior on topEdge { PropertyAnimation {} }
-    Behavior on bottomEdge { PropertyAnimation {} }
+    Behavior on leftEdge   { enabled: animationEnabled; PropertyAnimation {}}
+    Behavior on rightEdge  { enabled: animationEnabled; PropertyAnimation {} }
+    Behavior on topEdge    { enabled: animationEnabled; PropertyAnimation {} }
+    Behavior on bottomEdge { enabled: animationEnabled; PropertyAnimation {} }
 
     Rectangle {
         id: leftRect
