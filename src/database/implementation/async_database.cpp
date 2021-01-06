@@ -144,7 +144,7 @@ namespace Database
         m_backend(backend),
         m_storeKeeper(keeper)
     {
-        QObject::connect(backend, &IBackend::photoModified, this, &Utils::photoModified, Qt::DirectConnection);
+        connect(backend, &IBackend::photosModified, this, &Utils::photosModified, Qt::DirectConnection);
     }
 
 
@@ -182,15 +182,18 @@ namespace Database
     }
 
 
-    void Utils::photoModified(const Photo::Id& id)
+    void Utils::photosModified(const std::set<Photo::Id>& ids)
     {
-        auto photoInfo = findInCache(id);
-
-        if (photoInfo.get() != nullptr)
+        for (const Photo::Id& id: ids)
         {
-            const Photo::Data photoData = m_backend->getPhoto(id);
+            auto photoInfo = findInCache(id);
 
-            photoInfo->setData(photoData);
+            if (photoInfo.get() != nullptr)
+            {
+                const Photo::Data photoData = m_backend->getPhoto(id);
+
+                photoInfo->setData(photoData);
+            }
         }
     }
 

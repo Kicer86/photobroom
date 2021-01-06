@@ -291,7 +291,41 @@ namespace Database
             DB_ERROR_ON_FALSE1(storeData(data));
             DB_ERROR_ON_FALSE1(transaction.commit());
 
-            emit photoModified(data.getId());
+            emit photosModified({ data.getId() });
+        }
+        catch(const db_error& error)
+        {
+            m_logger->error(error.what());
+            status = false;
+        }
+
+        return status;
+    }
+
+
+    bool ASqlBackend::update(const std::vector<Photo::DataDelta>& dataVector)
+    {
+        bool status = true;
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        Transaction transaction(m_tr_db);
+
+        try
+        {
+            std::set<Photo::Id> touchedIds;
+
+            DB_ERROR_ON_FALSE1(transaction.begin());
+
+            for (const Photo::DataDelta& data: dataVector)
+            {
+                DB_ERROR_ON_FALSE1(storeData(data));
+                touchedIds.insert(data.getId());
+            }
+
+            DB_ERROR_ON_FALSE1(transaction.commit());
+
+            emit photosModified(touchedIds);
         }
         catch(const db_error& error)
         {

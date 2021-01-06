@@ -139,6 +139,7 @@ namespace Database
             BackendStatus init(const ProjectInfo &) override final;
             bool addPhotos(std::vector<Photo::DataDelta> &) override final;
             bool update(const Photo::DataDelta &) override final;
+            bool update(const std::vector<Photo::DataDelta> &) override final;
 
             std::vector<TagValue>    listTagValues(const TagTypes &, const Filter &) override final;
 

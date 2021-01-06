@@ -15,6 +15,7 @@
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/imedia_information.hpp>
+#include <core/map_iterator.hpp>
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 
@@ -292,8 +293,10 @@ void PhotoInfoUpdater::flushCache()
     {
         m_db->exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
         {
-            (void) db;
-            (void) delta;
+            const std::vector<Photo::DataDelta> vectorOfDeltas(value_map_iterator<TouchedPhotos>(delta.cbegin()),
+                                                               value_map_iterator<TouchedPhotos>(delta.cend()));
+
+            db.update(vectorOfDeltas);
         });
     }
 }

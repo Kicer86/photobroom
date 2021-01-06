@@ -212,7 +212,7 @@ TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
     ON_CALL(utils, getPhotoFor(Photo::Id(1)))
         .WillByDefault(Return(photoInfo));
 
-    emit backend.photoModified(photoInfo->getID());
+    emit backend.photosModified({ photoInfo->getID() });
 
     const std::vector<TagValue>& event = tagInfoCollector.get(TagTypes::Event);
     ASSERT_EQ(event.size(), 1);
@@ -268,7 +268,7 @@ TEST_F(TagInfoCollectorTest, ObserversNotification)
     ON_CALL(utils, getPhotoFor(Photo::Id(1)))
         .WillByDefault(Return(photoInfo));
 
-    emit backend.photoModified(photoInfo->getID());
+    emit backend.photosModified({ photoInfo->getID() });
 }
 
 
@@ -292,7 +292,7 @@ TEST_F(TagInfoCollectorTest, ReactionOnPhotoChange)
     ON_CALL(utils, getPhotoFor(Photo::Id(1)))
         .WillByDefault(Return(photoInfo));
 
-    emit backend.photoModified(photoInfo->getID());
+    emit backend.photosModified({ photoInfo->getID() });
 
     auto event = tagInfoCollector.get(TagTypes::Event);
 

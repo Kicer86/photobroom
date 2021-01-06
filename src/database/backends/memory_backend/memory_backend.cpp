@@ -72,9 +72,14 @@ namespace Database
         it = m_photos.erase(it);
         m_photos.insert(it, data);
 
-        emit photoModified(delta.getId());
+        emit photosModified( {delta.getId()} );
 
         return true;
+    }
+
+    bool MemoryBackend::update(const std::vector<Photo::DataDelta> &)
+    {
+        return false;
     }
 
 

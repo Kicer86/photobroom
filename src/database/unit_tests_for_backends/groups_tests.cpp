@@ -23,9 +23,9 @@ TYPED_TEST(GroupsTest, groupCreation)
     ASSERT_TRUE(this->m_backend->addPhotos(photos));
 
     Photo::Id modified_photo;
-    QObject::connect(this->m_backend.get(), &Database::IBackend::photoModified, [&modified_photo](const Photo::Id& id)
+    QObject::connect(this->m_backend.get(), &Database::IBackend::photosModified, [&modified_photo](const std::set<Photo::Id>& ids)
     {
-        modified_photo = id;
+        modified_photo = *ids.begin();
     });
 
     // create group
@@ -70,9 +70,9 @@ TYPED_TEST(GroupsTest, groupRemoval)
 
     // watch for changes
     std::set<Photo::Id> modified_photos;
-    QObject::connect(this->m_backend.get(), &Database::IBackend::photoModified, [&modified_photos](const Photo::Id& id)
+    QObject::connect(this->m_backend.get(), &Database::IBackend::photosModified, [&modified_photos](const std::set<Photo::Id>& ids)
     {
-        modified_photos.insert(id);
+        modified_photos.insert(ids.begin(), ids.end());
     });
 
     // remove group

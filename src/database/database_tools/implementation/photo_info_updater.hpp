@@ -37,9 +37,10 @@ class PhotoInfoUpdater final: public QObject
 
     private:
         friend struct UpdaterTask;
+        typedef std::map<Photo::Id, Photo::DataDelta> TouchedPhotos;
 
         MediaInformation m_mediaInformation;
-        std::map<Photo::Id, Photo::DataDelta> m_touchedPhotos;
+        TouchedPhotos m_touchedPhotos;
         QTimer m_cacheFlushTimer;
         TasksQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
