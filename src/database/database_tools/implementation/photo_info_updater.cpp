@@ -17,7 +17,6 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 
-
 // TODO: unit tests
 
 struct UpdaterTask: ITaskExecutor::ITask
@@ -76,6 +75,12 @@ namespace
 
             assert(hexHash.isEmpty() == false);
             m_photoInfo->setSha256(hexHash);
+
+            Photo::DataDelta delta(m_photoInfo->getID());
+            delta.insert<Photo::Field::Checksum>(hexHash);
+            delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::Sha256Loaded, 1}} );
+
+            m_updater->apply(delta);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
@@ -107,7 +112,15 @@ namespace
             const std::optional<QSize> size = m_mediaInformation->size(path);
 
             if (size.has_value())
+            {
                 m_photoInfo->setGeometry(*size);
+
+                Photo::DataDelta delta(m_photoInfo->getID());
+                delta.insert<Photo::Field::Geometry>(*size);
+                delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::GeometryLoaded, 1}} );
+
+                m_updater->apply(delta);
+            }
         }
 
         IPhotoInfo::Ptr m_photoInfo;
@@ -155,6 +168,12 @@ namespace
 
             m_photoInfo->setTags(tags);
             m_photoInfo->markFlag(Photo::FlagsE::ExifLoaded, 1);
+
+            Photo::DataDelta delta(m_photoInfo->getID());
+            delta.insert<Photo::Field::Tags>(tags);
+            delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::ExifLoaded, 1}} );
+
+            m_updater->apply(delta);
         }
 
         IPhotoInfo::Ptr m_photoInfo;
@@ -164,15 +183,19 @@ namespace
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory):
+PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory, Database::IDatabase* db):
     m_mediaInformation(),
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_tasks(),
     m_tasksMutex(),
     m_finishedTask(),
-    m_coreFactory(coreFactory)
+    m_coreFactory(coreFactory),
+    m_db(db)
 {
     m_mediaInformation.set(coreFactory);
+    m_cacheFlushTimer.setSingleShot(true);
+
+    connect(&m_cacheFlushTimer, &QTimer::timeout, this, &PhotoInfoUpdater::flushCache);
 }
 
 
@@ -229,6 +252,18 @@ void PhotoInfoUpdater::waitForActiveTasks()
 }
 
 
+void PhotoInfoUpdater::apply(const Photo::DataDelta& delta)
+{
+    std::lock_guard lock(m_touchedPhotosMutex);
+
+    m_touchedPhotos[delta.getId()] |= delta;
+
+    // when cache has too many changes, let timer fire to flush cache
+    if (m_touchedPhotos.size() < 500)
+        resetFlushTimer();
+}
+
+
 void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
 {
     std::lock_guard<std::mutex> lock(m_tasksMutex);
@@ -244,4 +279,25 @@ void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
     }
 
     m_finishedTask.notify_one();
+}
+
+
+void PhotoInfoUpdater::flushCache()
+{
+    std::lock_guard lock(m_touchedPhotosMutex);
+
+    if (m_touchedPhotos.empty() == false)
+    {
+        m_db->exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
+        {
+            (void) db;
+            (void) delta;
+        });
+    }
+}
+
+
+void PhotoInfoUpdater::resetFlushTimer()
+{
+    m_cacheFlushTimer.start(5000);
 }

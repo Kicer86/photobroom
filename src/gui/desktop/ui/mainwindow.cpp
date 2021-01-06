@@ -61,7 +61,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_executor(coreFactory->getTaskExecutor()),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
-    m_photosAnalyzer(new PhotosAnalyzer(coreFactory)),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
     m_lookTabCtrl(new LookTabController),
@@ -247,7 +246,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
     //m_currentPrj->close();
 
     closeProject();
-    m_photosAnalyzer->stop();
 
     e->accept();
 
@@ -297,9 +295,9 @@ void MainWindow::closeProject()
         m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
 
-        QDir::setSearchPaths("prj", QStringList() );
-
         updateGui();
+
+        QDir::setSearchPaths("prj", QStringList() );
     }
 }
 
@@ -307,8 +305,6 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     setupQmlView();
-
-    m_photosAnalyzer->set(ui->tasksWidget);
 
     // connect to docks
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
@@ -368,9 +364,12 @@ void MainWindow::updateTools()
     const bool prj = m_currentPrj.get() != nullptr;
 
     if (prj)
-        m_photosAnalyzer->setDatabase(m_currentPrj->getDatabase());
+    {
+        m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
+        m_photosAnalyzer->set(ui->tasksWidget);
+    }
     else
-        m_photosAnalyzer->setDatabase(nullptr);
+        m_photosAnalyzer.reset();
 }
 
 

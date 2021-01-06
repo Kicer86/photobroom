@@ -4,11 +4,13 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <QTimer>
 
 #include <core/exif_reader_factory.hpp>
 #include <core/task_executor_utils.hpp>
 #include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
+#include <database/idatabase.hpp>
 
 struct ICoreFactoryAccessor;
 
@@ -16,10 +18,10 @@ struct UpdaterTask;
 
 
 //TODO: construct photo manualy. Add fillers manualy on demand
-class PhotoInfoUpdater final
+class PhotoInfoUpdater final: public QObject
 {
     public:
-        explicit PhotoInfoUpdater(ICoreFactoryAccessor *);
+        explicit PhotoInfoUpdater(ICoreFactoryAccessor *, Database::IDatabase* db);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -33,18 +35,26 @@ class PhotoInfoUpdater final
         void dropPendingTasks();
         void waitForActiveTasks();
 
+        void apply(const Photo::DataDelta &);
+
     private:
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
+        std::map<Photo::Id, Photo::DataDelta> m_touchedPhotos;
+        std::mutex m_touchedPhotosMutex;
+        QTimer m_cacheFlushTimer;
         TasksQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
         ICoreFactoryAccessor* m_coreFactory;
+        Database::IDatabase* m_db;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);
+        void flushCache();
+        void resetFlushTimer();
 };
 
 #endif
