@@ -107,7 +107,19 @@ namespace Photo
     {
         assert(m_id == other.m_id);
 
-        m_data.insert(other.m_data.begin(), other.m_data.end());
+        for(const auto& otherData: other.m_data)
+        {
+            if (otherData.first == Field::Flags)
+            {
+                auto& flags = std::get<DeltaTypes<Field::Flags>::Storage>(m_data[Photo::Field::Flags]);
+                const auto& otherFlags = std::get<DeltaTypes<Field::Flags>::Storage>(otherData.second);
+
+                flags.insert(otherFlags.begin(), otherFlags.end());
+
+            }
+            else
+                m_data.insert(otherData);
+        }
 
         return *this;
     }
