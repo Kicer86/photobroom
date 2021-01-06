@@ -159,7 +159,7 @@ namespace Photo
                                  DeltaTypes<Field::Geometry>::Storage,
                                  DeltaTypes<Field::GroupInfo>::Storage> Storage;
 
-            Photo::Id                 m_id;
+            Photo::Id                m_id;
             std::map<Field, Storage> m_data;
 
             const Storage& get(Field) const;

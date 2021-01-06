@@ -120,7 +120,6 @@ void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 }
 
 
-
 void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
 {
     for(const IPhotoInfo::Ptr& photo: photos)
