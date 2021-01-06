@@ -93,6 +93,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
     qRegisterMetaType<TagTypes>("TagTypes");
     qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
+    qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
 }
@@ -137,7 +138,7 @@ void Gui::run()
     const QString uiLangsStr = uiLangs.join(", ");
     const QString language_details = QString("List of UI langauges: %1").arg(uiLangsStr);
     gui_logger->debug(language_details);
-    
+
     bool translations_status = false;
     QTranslator translator;
     if (translator.load(locale, QLatin1String("photo_broom"), QLatin1String("_"), tr_path))
