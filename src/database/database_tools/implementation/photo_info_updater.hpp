@@ -35,24 +35,23 @@ class PhotoInfoUpdater final: public QObject
         void dropPendingTasks();
         void waitForActiveTasks();
 
-        void apply(const Photo::DataDelta &);
-
     private:
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
         std::map<Photo::Id, Photo::DataDelta> m_touchedPhotos;
-        std::mutex m_touchedPhotosMutex;
         QTimer m_cacheFlushTimer;
         TasksQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
+        std::thread::id m_threadId;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
 
         void taskAdded(UpdaterTask *);
         void taskFinished(UpdaterTask *);
+        void apply(const Photo::DataDelta &);
         void flushCache();
         void resetFlushTimer();
 };
