@@ -30,3 +30,19 @@ TEST(DataDeltaTest, merging)
     EXPECT_EQ(d1.get<Photo::Field::Path>(), "2222");
     EXPECT_THAT(d1.get<Photo::Field::Flags>(), UnorderedElementsAre( std::pair{Photo::FlagsE::ExifLoaded, 1}, std::pair{Photo::FlagsE::Sha256Loaded, 1} ));
 }
+
+
+
+TEST(DataDeltaTest, mergingWithEmpty)
+{
+    Photo::DataDelta d1;
+    Photo::DataDelta d2(Photo::Id(1));
+
+    d2.insert<Photo::Field::Geometry>(QSize(10, 20));
+    d2.insert<Photo::Field::Path>("2222");
+    d2.insert<Photo::Field::Flags>( {{Photo::FlagsE::Sha256Loaded, 1}} );
+
+    d1 |= d2;
+
+    EXPECT_EQ(d1.getId(), d2.getId());
+}

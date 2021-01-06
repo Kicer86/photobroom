@@ -105,11 +105,13 @@ namespace Photo
 
     DataDelta& DataDelta::operator|=(const DataDelta& other)
     {
-        assert(m_id == other.m_id);
+        assert(m_id.valid() == false || m_id == other.m_id);
+
+        m_id = other.m_id;
 
         for(const auto& otherData: other.m_data)
         {
-            if (otherData.first == Field::Flags)
+            if (otherData.first == Field::Flags && has(Field::Flags))
             {
                 auto& flags = std::get<DeltaTypes<Field::Flags>::Storage>(m_data[Photo::Field::Flags]);
                 const auto& otherFlags = std::get<DeltaTypes<Field::Flags>::Storage>(otherData.second);
