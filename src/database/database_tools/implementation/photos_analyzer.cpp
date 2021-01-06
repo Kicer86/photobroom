@@ -109,6 +109,9 @@ void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& phot
 
 void PhotosAnalyzerImpl::stop()
 {
+    if (m_tasksView)
+        m_viewTask->finished();
+
     m_updater.dropPendingTasks();
     m_updater.waitForActiveTasks();
 }
