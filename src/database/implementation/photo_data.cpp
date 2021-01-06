@@ -103,6 +103,16 @@ namespace Photo
     }
 
 
+    DataDelta& DataDelta::operator|=(const DataDelta& other)
+    {
+        assert(m_id == other.m_id);
+
+        m_data.insert(other.m_data.begin(), other.m_data.end());
+
+        return *this;
+    }
+
+
     const DataDelta::Storage& DataDelta::get(Photo::Field field) const
     {
         assert(has(field));

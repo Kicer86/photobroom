@@ -25,6 +25,9 @@ addTestTarget(database
                     unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp
 
+                    # other:
+                    unit_tests/data_delta_tests.cpp
+
                     # backends:
                     unit_tests/memory_backend_tests.cpp
 

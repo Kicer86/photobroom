@@ -150,6 +150,7 @@ namespace Photo
 
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
+            DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
 
         private:
             typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
