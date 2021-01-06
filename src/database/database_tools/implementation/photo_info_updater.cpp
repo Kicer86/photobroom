@@ -14,6 +14,8 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <core/imedia_information.hpp>
 #include <core/map_iterator.hpp>
 #include <core/tag.hpp>
@@ -191,6 +193,7 @@ PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory, Database:
     m_tasksMutex(),
     m_finishedTask(),
     m_threadId(std::this_thread::get_id()),
+    m_logger(coreFactory->getLoggerFactory()->get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db)
 {
@@ -281,9 +284,13 @@ void PhotoInfoUpdater::apply(const Photo::DataDelta& delta)
     // when cache has too many changes, let timer fire to flush cache
     const bool runs = m_cacheFlushTimer.isActive();
     const bool canKick = m_cacheFlushTimer.interval() - m_cacheFlushTimer.remainingTime() > 1000; // time since last kick > 1s?
+    const std::size_t count = m_touchedPhotos.size();
 
-    if (m_touchedPhotos.size() < 500 && (runs == false || canKick))
+    if (count < 500 && (runs == false || canKick))
+    {
         resetFlushTimer();
+        m_logger->debug(QString("Restarting flush timer. %1 photos waiting for flush").arg(count));
+    }
 }
 
 
@@ -291,6 +298,8 @@ void PhotoInfoUpdater::flushCache()
 {
     if (m_touchedPhotos.empty() == false)
     {
+        m_logger->debug(QString("Sending %1 photos to update").arg(m_touchedPhotos.size()));
+
         m_db->exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
         {
             const std::vector<Photo::DataDelta> vectorOfDeltas(value_map_iterator<TouchedPhotos>(delta.cbegin()),

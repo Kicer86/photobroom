@@ -47,6 +47,7 @@ class PhotoInfoUpdater final: public QObject
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
         std::thread::id m_threadId;
+        std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
 
