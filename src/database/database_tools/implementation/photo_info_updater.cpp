@@ -114,53 +114,54 @@ namespace
         IMediaInformation* m_mediaInformation;
     };
 
-}
 
-struct TagsCollector: UpdaterTask
-{
-    TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
+    struct TagsCollector: UpdaterTask
     {
-    }
-
-    TagsCollector(const TagsCollector &) = delete;
-    TagsCollector& operator=(const TagsCollector &) = delete;
-
-    void set(IExifReaderFactory* exifReaderFactory)
-    {
-        m_exifReaderFactory = exifReaderFactory;
-    }
-
-    virtual std::string name() const override
-    {
-        return "Photo tags collection";
-    }
-
-    virtual void perform() override
-    {
-        const QString& path = m_photoInfo->getPath();
-        IExifReader* feeder = m_exifReaderFactory->get();
-
-        // merge found tags with current tags.
-        const Tag::TagsList new_tags = feeder->getTagsFor(path);
-        const Tag::TagsList cur_tags = m_photoInfo->getTags();
-
-        Tag::TagsList tags = cur_tags;
-
-        for (const auto& entry: new_tags)
+        TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
         {
-            auto it = tags.find(entry.first);
-
-            if (it == tags.end())   // no such tag yet?
-                tags.insert(entry);
         }
 
-        m_photoInfo->setTags(tags);
-        m_photoInfo->markFlag(Photo::FlagsE::ExifLoaded, 1);
-    }
+        TagsCollector(const TagsCollector &) = delete;
+        TagsCollector& operator=(const TagsCollector &) = delete;
 
-    IPhotoInfo::Ptr m_photoInfo;
-    IExifReaderFactory* m_exifReaderFactory;
-};
+        void set(IExifReaderFactory* exifReaderFactory)
+        {
+            m_exifReaderFactory = exifReaderFactory;
+        }
+
+        virtual std::string name() const override
+        {
+            return "Photo tags collection";
+        }
+
+        virtual void perform() override
+        {
+            const QString& path = m_photoInfo->getPath();
+            IExifReader* feeder = m_exifReaderFactory->get();
+
+            // merge found tags with current tags.
+            const Tag::TagsList new_tags = feeder->getTagsFor(path);
+            const Tag::TagsList cur_tags = m_photoInfo->getTags();
+
+            Tag::TagsList tags = cur_tags;
+
+            for (const auto& entry: new_tags)
+            {
+                auto it = tags.find(entry.first);
+
+                if (it == tags.end())   // no such tag yet?
+                    tags.insert(entry);
+            }
+
+            m_photoInfo->setTags(tags);
+            m_photoInfo->markFlag(Photo::FlagsE::ExifLoaded, 1);
+        }
+
+        IPhotoInfo::Ptr m_photoInfo;
+        IExifReaderFactory* m_exifReaderFactory;
+    };
+
+}
 
 
 PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory):
