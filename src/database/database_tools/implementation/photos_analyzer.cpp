@@ -18,6 +18,8 @@
  */
 
 #include <core/function_wrappers.hpp>
+#include <core/icore_factory_accessor.hpp>
+#include <core/itask_executor.hpp>
 #include <database/iphoto_operator.hpp>
 
 #include "photos_analyzer_p.hpp"
@@ -30,9 +32,13 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
-    m_maxTasks(0)
+    m_maxTasks(0),
+    m_workers(coreFactory->getTaskExecutor()->heavyWorkers()),
+    m_loadingPhotos(false)
 {
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
+    connect(&m_updater, &PhotoInfoUpdater::photoProcessed,
+            this, &PhotosAnalyzerImpl::processPhotos);
 
     m_timer.start(500);
 
@@ -53,8 +59,8 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 
         // as all uninitialized photos were found.
         // start watching for any new photos added later.
-        connect(&backend, &Database::IBackend::photosAdded,
-                this, &PhotosAnalyzerImpl::addPhotos);
+        m_backendConnection = connect(&backend, &Database::IBackend::photosAdded,
+                                      this, &PhotosAnalyzerImpl::addPhotos);
     });
 }
 
@@ -62,6 +68,9 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 {
     stop();
+
+    if (m_viewTask)
+        m_viewTask->finished();
 }
 
 
@@ -77,36 +86,64 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 }
 
 
-void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
-{
-    assert(photo->isFullyInitialized() == false);
-
-    if (photo->isSha256Loaded() == false)
-        m_updater.updateSha256(photo);
-
-    if (photo->isGeometryLoaded() == false)
-        m_updater.updateGeometry(photo);
-
-    if (photo->isExifDataLoaded() == false)
-        m_updater.updateTags(photo);
-}
-
-
-void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
-{
-    for(const IPhotoInfo::Ptr& photo: photos)
-        addPhoto(photo);
-}
-
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
     m_photosToUpdate.insert(m_photosToUpdate.end(), ids.begin(), ids.end());
+
+    processPhotos();
+}
+
+
+void PhotosAnalyzerImpl::processPhotos()
+{
+    if (m_loadingPhotos == false &&
+        m_photosToUpdate.empty() == false &&
+        m_updater.tasksInProgress() < m_workers * 2)
+    {
+        m_loadingPhotos = true;
+
+        std::vector<Photo::Id> photosToProcess;
+        const int toProcess = std::min(m_photosToUpdate.size(), m_workers);
+
+        std::copy(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess, std::back_inserter(photosToProcess));
+        m_photosToUpdate.erase(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess);
+
+        m_database->exec([photosToProcess, this](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> photos;
+            photos.reserve(m_photosToUpdate.size());
+
+            for(const auto& id: photosToProcess)
+                photos.push_back(backend.getPhoto(id));
+
+            invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photos);
+        });
+    }
+}
+
+
+void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
+{
+    for(const auto& photo: photos)
+    {
+        if (photo.flags.at(Photo::FlagsE::Sha256Loaded) == 0)
+            m_updater.updateSha256(photo);
+
+        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
+            m_updater.updateGeometry(photo);
+
+        if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
+            m_updater.updateTags(photo);
+    }
+
+    m_loadingPhotos = false;
 }
 
 
 void PhotosAnalyzerImpl::stop()
 {
-    m_updater.dropPendingTasks();
+    disconnect(m_backendConnection);
+    m_photosToUpdate.clear();
     m_updater.waitForActiveTasks();
 }
 
@@ -118,7 +155,7 @@ void PhotosAnalyzerImpl::setupRefresher()
         m_maxTasks = 0;
         m_viewTask = m_tasksView->add(tr("Loading photos data..."));
     }
-    else if (m_updater.tasksInProgress() == 0 && m_viewTask != nullptr)
+    else if (m_updater.tasksInProgress() == 0 && m_photosToUpdate.size() == 0 && m_viewTask != nullptr)
     {
         m_viewTask->finished();
         m_viewTask = nullptr;
@@ -132,7 +169,7 @@ void PhotosAnalyzerImpl::refreshView()
 
     if (m_viewTask != nullptr)
     {
-        const int current_size = m_updater.tasksInProgress();
+        const int current_size = m_photosToUpdate.size() + m_updater.tasksInProgress();
         m_maxTasks = std::max(m_maxTasks, current_size);
 
         IProgressBar* progressBar = m_viewTask->getProgressBar();

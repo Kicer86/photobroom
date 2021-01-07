@@ -27,7 +27,7 @@ struct UpdaterTask: ITaskExecutor::ITask
 {
     UpdaterTask(PhotoInfoUpdater* updater): m_updater(updater)
     {
-        m_updater->taskAdded(this);
+
     }
 
     virtual ~UpdaterTask()
@@ -53,7 +53,7 @@ namespace
     struct Sha256Assigner: UpdaterTask
     {
         Sha256Assigner(PhotoInfoUpdater* updater,
-                       const IPhotoInfo::Ptr& photoInfo):
+                       const Photo::Data& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo)
         {
@@ -69,9 +69,7 @@ namespace
 
         virtual void perform() override
         {
-            const QString path = m_photoInfo->getPath();
-
-            QFile file(path);
+            QFile file(m_photoInfo.path);
             bool status = file.open(QFile::ReadOnly);
             assert(status);
 
@@ -84,14 +82,14 @@ namespace
 
             assert(hexHash.isEmpty() == false);
 
-            Photo::DataDelta delta(m_photoInfo->getID());
+            Photo::DataDelta delta(m_photoInfo.id);
             delta.insert<Photo::Field::Checksum>(hexHash);
             delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::Sha256Loaded, 1}} );
 
             apply(delta);
         }
 
-        IPhotoInfo::Ptr m_photoInfo;
+        Photo::Data m_photoInfo;
     };
 
 
@@ -99,7 +97,7 @@ namespace
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
                          IMediaInformation* photoInformation,
-                         const IPhotoInfo::Ptr& photoInfo):
+                         const Photo::Data& photoInfo):
             UpdaterTask(updater),
             m_photoInfo(photoInfo),
             m_mediaInformation(photoInformation)
@@ -116,12 +114,11 @@ namespace
 
         virtual void perform() override
         {
-            const QString path = m_photoInfo->getPath();
-            const std::optional<QSize> size = m_mediaInformation->size(path);
+            const std::optional<QSize> size = m_mediaInformation->size(m_photoInfo.path);
 
             if (size.has_value())
             {
-                Photo::DataDelta delta(m_photoInfo->getID());
+                Photo::DataDelta delta(m_photoInfo.id);
                 delta.insert<Photo::Field::Geometry>(*size);
                 delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::GeometryLoaded, 1}} );
 
@@ -129,14 +126,14 @@ namespace
             }
         }
 
-        IPhotoInfo::Ptr m_photoInfo;
+        Photo::Data m_photoInfo;
         IMediaInformation* m_mediaInformation;
     };
 
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, const IPhotoInfo::Ptr& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
+        TagsCollector(PhotoInfoUpdater* updater, const Photo::Data& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
         {
         }
 
@@ -155,12 +152,11 @@ namespace
 
         virtual void perform() override
         {
-            const QString& path = m_photoInfo->getPath();
             IExifReader* feeder = m_exifReaderFactory->get();
 
             // merge found tags with current tags.
-            const Tag::TagsList new_tags = feeder->getTagsFor(path);
-            const Tag::TagsList cur_tags = m_photoInfo->getTags();
+            const Tag::TagsList new_tags = feeder->getTagsFor(m_photoInfo.path);
+            const Tag::TagsList cur_tags = m_photoInfo.tags;
 
             Tag::TagsList tags = cur_tags;
 
@@ -172,14 +168,14 @@ namespace
                     tags.insert(entry);
             }
 
-            Photo::DataDelta delta(m_photoInfo->getID());
+            Photo::DataDelta delta(m_photoInfo.id);
             delta.insert<Photo::Field::Tags>(tags);
             delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::ExifLoaded, 1}} );
 
             apply(delta);
         }
 
-        IPhotoInfo::Ptr m_photoInfo;
+        Photo::Data m_photoInfo;
         IExifReaderFactory* m_exifReaderFactory;
     };
 
@@ -188,14 +184,14 @@ namespace
 
 PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory, Database::IDatabase* db):
     m_mediaInformation(),
-    m_taskQueue(coreFactory->getTaskExecutor()),
     m_tasks(),
     m_tasksMutex(),
     m_finishedTask(),
     m_threadId(std::this_thread::get_id()),
     m_logger(coreFactory->getLoggerFactory()->get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
-    m_db(db)
+    m_db(db),
+    m_tasksExecutor(coreFactory->getTaskExecutor())
 {
     m_mediaInformation.set(coreFactory);
     m_cacheFlushTimer.setSingleShot(true);
@@ -206,32 +202,32 @@ PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory, Database:
 
 PhotoInfoUpdater::~PhotoInfoUpdater()
 {
-
+    waitForActiveTasks();
 }
 
 
-void PhotoInfoUpdater::updateSha256(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateSha256(const Photo::Data& photoInfo)
 {
     auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
-    m_taskQueue.push(std::move(task));
+    addTask(std::move(task));
 }
 
 
-void PhotoInfoUpdater::updateGeometry(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateGeometry(const Photo::Data& photoInfo)
 {
     auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
 
-    m_taskQueue.push(std::move(task));
+    addTask(std::move(task));
 }
 
 
-void PhotoInfoUpdater::updateTags(const IPhotoInfo::Ptr& photoInfo)
+void PhotoInfoUpdater::updateTags(const Photo::Data& photoInfo)
 {
     auto task = std::make_unique<TagsCollector>(this, photoInfo);
     task->set(m_coreFactory->getExifReaderFactory());
 
-    m_taskQueue.push(std::move(task));
+    addTask(std::move(task));
 }
 
 
@@ -240,11 +236,6 @@ int PhotoInfoUpdater::tasksInProgress()
     return static_cast<int>(m_tasks.size());
 }
 
-
-void PhotoInfoUpdater::dropPendingTasks()
-{
-    m_taskQueue.clear();
-}
 
 
 void PhotoInfoUpdater::waitForActiveTasks()
@@ -257,10 +248,11 @@ void PhotoInfoUpdater::waitForActiveTasks()
 }
 
 
-void PhotoInfoUpdater::taskAdded(UpdaterTask* task)
+void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 {
     std::lock_guard<std::mutex> lock(m_tasksMutex);
-    m_tasks.insert(task);
+    m_tasks.insert(task.get());
+    m_tasksExecutor->add(std::move(task));
 }
 
 
@@ -272,6 +264,8 @@ void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
     }
 
     m_finishedTask.notify_one();
+
+    emit photoProcessed();
 }
 
 

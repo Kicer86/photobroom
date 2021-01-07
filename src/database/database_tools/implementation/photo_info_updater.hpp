@@ -7,7 +7,7 @@
 #include <QTimer>
 
 #include <core/exif_reader_factory.hpp>
-#include <core/task_executor_utils.hpp>
+#include <core/itask_executor.hpp>
 #include <core/media_information.hpp>
 #include <database/iphoto_info.hpp>
 #include <database/idatabase.hpp>
@@ -20,6 +20,8 @@ struct UpdaterTask;
 //TODO: construct photo manualy. Add fillers manualy on demand
 class PhotoInfoUpdater final: public QObject
 {
+        Q_OBJECT
+
     public:
         explicit PhotoInfoUpdater(ICoreFactoryAccessor *, Database::IDatabase* db);
         ~PhotoInfoUpdater();
@@ -27,12 +29,11 @@ class PhotoInfoUpdater final: public QObject
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
         PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
-        void updateSha256(const IPhotoInfo::Ptr &);
-        void updateGeometry(const IPhotoInfo::Ptr &);
-        void updateTags(const IPhotoInfo::Ptr &);
+        void updateSha256(const Photo::Data &);
+        void updateGeometry(const Photo::Data &);
+        void updateTags(const Photo::Data &);
 
         int tasksInProgress();
-        void dropPendingTasks();
         void waitForActiveTasks();
 
     private:
@@ -42,7 +43,6 @@ class PhotoInfoUpdater final: public QObject
         MediaInformation m_mediaInformation;
         TouchedPhotos m_touchedPhotos;
         QTimer m_cacheFlushTimer;
-        TasksQueue m_taskQueue;
         std::set<UpdaterTask *> m_tasks;
         std::mutex m_tasksMutex;
         std::condition_variable m_finishedTask;
@@ -50,12 +50,16 @@ class PhotoInfoUpdater final: public QObject
         std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
+        ITaskExecutor* m_tasksExecutor;
 
-        void taskAdded(UpdaterTask *);
+        void addTask(std::unique_ptr<UpdaterTask>);
         void taskFinished(UpdaterTask *);
         void apply(const Photo::DataDelta &);
         void flushCache();
         void resetFlushTimer();
+
+    signals:
+        void photoProcessed();
 };
 
 #endif

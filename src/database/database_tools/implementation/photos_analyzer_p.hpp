@@ -49,22 +49,25 @@ class PhotosAnalyzerImpl: public QObject
 
         Database::IDatabase* getDatabase();
 
-        void addPhoto(const IPhotoInfo::Ptr& photo);
         void stop();
 
     private:
         PhotoInfoUpdater m_updater;
         QTimer m_timer;
         std::vector<Photo::Id> m_photosToUpdate;
+        QMetaObject::Connection m_backendConnection;
         Database::IDatabase* m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxTasks;
+        const std::size_t m_workers;
+        bool m_loadingPhotos;
 
         void setupRefresher();
         void refreshView();
-        void newPhotosAdded(const std::vector<IPhotoInfo::Ptr> &);
         void addPhotos(const std::vector<Photo::Id> &);
+        void processPhotos();
+        void updatePhotos(const std::vector<Photo::Data> &);
 };
 
 #endif // PHOTOSANALYZER_PRIVATE_HPP
