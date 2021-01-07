@@ -17,7 +17,9 @@
  *
  */
 
+#include <core/function_wrappers.hpp>
 #include <database/iphoto_operator.hpp>
+
 #include "photos_analyzer_p.hpp"
 #include "../photos_analyzer.hpp"
 
@@ -34,8 +36,6 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 
     m_timer.start(500);
 
-    m_signalMapper.set(database);
-
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
 
@@ -49,14 +49,12 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     {
         auto photos = backend.photoOperator().getPhotos(flags_filter);
 
-        for(const Photo::Id& id: photos)
-            addPhoto(m_database->utils().getPhotoFor(id));
+        invokeMethod(this, &PhotosAnalyzerImpl::addPhotos, photos);
 
-        // as all uninitialized photos were processed.
+        // as all uninitialized photos were found.
         // start watching for any new photos added later.
-        connect(&m_signalMapper, &Database::SignalMapper::photosAdded,
-                this, &PhotosAnalyzerImpl::newPhotosAdded,
-                Qt::DirectConnection);
+        connect(&backend, &Database::IBackend::photosAdded,
+                this, &PhotosAnalyzerImpl::addPhotos);
     });
 }
 
@@ -79,12 +77,6 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 }
 
 
-Database::SignalMapper* PhotosAnalyzerImpl::getMapper()
-{
-    return &m_signalMapper;
-}
-
-
 void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
 {
     assert(photo->isFullyInitialized() == false);
@@ -104,6 +96,11 @@ void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& phot
 {
     for(const IPhotoInfo::Ptr& photo: photos)
         addPhoto(photo);
+}
+
+void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
+{
+    m_photosToUpdate.insert(m_photosToUpdate.end(), ids.begin(), ids.end());
 }
 
 
