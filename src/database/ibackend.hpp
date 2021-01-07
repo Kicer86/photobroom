@@ -109,18 +109,6 @@ namespace Database
         virtual bool addPhotos(std::vector<Photo::DataDelta>& photos) = 0;
 
         /**
-         * \brief update photo details
-         * \arg delta set of photo details to be updated
-         *
-         * Method updates (modifies or removes) photo details \n
-         * provided in \a delta                               \n
-         * If particular Photo::Field is not stored in delta  \n
-         * it won't be modified.
-         * \see Photo::Field
-         */
-        virtual bool update(const Photo::DataDelta& delta) = 0;
-
-        /**
          * \brief update photos details
          * \arg delta set of photos details to be updated
          *

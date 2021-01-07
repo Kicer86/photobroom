@@ -275,34 +275,6 @@ namespace Database
     }
 
 
-    bool ASqlBackend::update(const Photo::DataDelta& data)
-    {
-        assert(data.getId().valid());
-
-        bool status = true;
-
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Transaction transaction(m_tr_db);
-
-        try
-        {
-            DB_ERROR_ON_FALSE1(transaction.begin());
-            DB_ERROR_ON_FALSE1(storeData(data));
-            DB_ERROR_ON_FALSE1(transaction.commit());
-
-            emit photosModified({ data.getId() });
-        }
-        catch(const db_error& error)
-        {
-            m_logger->error(error.what());
-            status = false;
-        }
-
-        return status;
-    }
-
-
     bool ASqlBackend::update(const std::vector<Photo::DataDelta>& dataVector)
     {
         bool status = true;

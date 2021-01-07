@@ -265,7 +265,7 @@ namespace Database
     {
         exec([data](IBackend& backend)
         {
-            const bool status = backend.update(data);
+            const bool status = backend.update( {data} );
             assert(status);
         });
     }

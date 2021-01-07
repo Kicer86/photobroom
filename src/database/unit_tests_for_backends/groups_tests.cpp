@@ -65,8 +65,7 @@ TYPED_TEST(GroupsTest, groupRemoval)
     pd2.insert<Photo::Field::GroupInfo>(grpInfo);
     pd3.insert<Photo::Field::GroupInfo>(grpInfo);
 
-    this->m_backend->update(pd2);
-    this->m_backend->update(pd3);
+    this->m_backend->update( {pd2, pd3} );
 
     // watch for changes
     std::set<Photo::Id> modified_photos;
