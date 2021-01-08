@@ -38,8 +38,11 @@ namespace
 
 TEST(FaceLocationTest, hogVsCnn)
 {
-    const QImage img1(utils::photoPath(1));
-    const QImage img2(utils::photoPath(2));
+    const QString path1 = utils::photoSetPath() + "/Roger_Mahony/Roger_Mahony_0001.jpg";
+    const QString path2 = utils::photoSetPath() + "/Robin_Williams/Robin_Williams_0001.jpg";
+
+    const QImage img1(path1);
+    const QImage img2(path2);
 
     faceLocationTest(img1);
     faceLocationTest(img2);

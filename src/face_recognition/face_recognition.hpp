@@ -50,17 +50,11 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
 
         FaceRecognition& operator=(const FaceRecognition &) = delete;
 
+        // check if face recognition can be performed on current machine
+        static bool checkSystem();
+
         // Locate faces on given photo.
         QVector<QRect> fetchFaces(const QString &) const;
-
-        // Try to recognize person on given photo and face.
-        // Second parameter is a face located by fetchFaces()
-        // Third parameter is a path to directory with known faces
-        [[deprecated]] Person::Id recognize(const QString &, const QRect &, Database::IDatabase *) const;
-
-        // Optimize representative photo
-        // from given set of faces, choose one with best parameters
-        [[deprecated]] QString best(const QStringList& faces);
 
         Person::Fingerprint getFingerprint(const OrientedImage& image, const QRect& face = QRect());
 
@@ -69,6 +63,8 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
     private:
         struct Data;
         std::unique_ptr<Data> m_data;
+
+        QVector<QRect> fetchFaces(const OrientedImage &, double scale) const;
 };
 
 #endif // FACERECOGNITION_HPP

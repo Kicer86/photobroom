@@ -11,13 +11,12 @@
 namespace
 {
     EmptyLogger logger;
+    const QImage img1(utils::photoSetPath() + "/Ronald_Reagan/Ronald_Reagan_0001.jpg");
 }
 
 
 TEST(DlibIssuesTest, outOfMemory)
 {
-    const QImage img1(utils::photoPath(1));
-
     dlib_api::FaceLocator faceLocator(&logger);
     QVector facesCnn = faceLocator.face_locations_cnn(img1, 0);
     ASSERT_EQ(facesCnn.size(), 1);
@@ -40,8 +39,6 @@ TEST(DlibIssuesTest, outOfMemory)
 
 TEST(DlibIssuesTest, outOfMemoryEvenWhenResourcesAreAvailable)
 {
-    const QImage img1(utils::photoPath(1));
-
     {
         dlib_api::FaceLocator faceLocator(&logger);
         QVector facesCnn = faceLocator.face_locations_cnn(img1, 0);

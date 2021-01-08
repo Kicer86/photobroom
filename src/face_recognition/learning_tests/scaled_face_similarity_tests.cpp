@@ -41,63 +41,68 @@ namespace
             EXPECT_EQ(faces.size(), 1);
         }
 
-        // downsize by factor of powers of 2 - minimal image size is 128x128, detected face size is left: 12, right: 90, top: 28, bottom: 106
-        for(int scale = 2; scale <= 64; scale *= 2)
-        {
-            const QImage small = utils::downsize(img, scale);
-            QVector faces = (faceLocator.*face_locator)(small, 0);
-            EXPECT_EQ(faces.size(), 1);
-        }
+        // downsize by 2
+        const QImage small = utils::downsize(img, 2);
+        QVector faces = (faceLocator.*face_locator)(small, 0);
+        EXPECT_EQ(faces.size(), 1);
 
         // it may be imposible to find face on smaller images
+        const QImage smaller = utils::downsize(img, 4);
+        faces = (faceLocator.*face_locator)(smaller, 0);
+        EXPECT_EQ(faces.size(), 0);
     }
 }
 
-
-TEST(FaceScalingTest, faceDetectionForCnn)
+class FaceScalingTest: public testing::Test
 {
-    const QImage img1(utils::photoPath(1));
-    const QImage img2(utils::photoPath(2));
+public:
+    FaceScalingTest()
+        : img1(utils::photoSetPath() + "/George_W_Bush/George_W_Bush_0015.jpg")
+        , img2(utils::photoSetPath() + "/Geoff_Hoon/Geoff_Hoon_0003.jpg")
+    {
+    }
 
+    const QImage img1;
+    const QImage img2;
+};
+
+
+TEST_F(FaceScalingTest, faceDetectionForCnn)
+{
     faceDetectionTest(img1, &dlib_api::FaceLocator::face_locations_cnn);
     faceDetectionTest(img2, &dlib_api::FaceLocator::face_locations_cnn);
 }
 
 
-TEST(FaceScalingTest, faceDetectionForHog)
+TEST_F(FaceScalingTest, faceDetectionForHog)
 {
-    const QImage img1(utils::photoPath(1));
-    const QImage img2(utils::photoPath(2));
-
     faceDetectionTest(img1, &dlib_api::FaceLocator::face_locations_hog);
     faceDetectionTest(img2, &dlib_api::FaceLocator::face_locations_hog);
 }
 
 
-TEST(FaceScalingTest, scaledFaceDistance)
+TEST_F(FaceScalingTest, scaledFaceDistance)
 {
-    dlib_api::FaceEncoder faceEncoder;
+    dlib_api::FaceEncoder faceEncoder(&logger);
 
-    const QImage img(utils::photoPath(1));
+    const QImage img(img1);
     const QImage face = extractFace(img);
     const auto face_encodings = faceEncoder.face_encodings(face);
 
     std::vector<dlib_api::FaceEncodings> faces_encodings = { face_encodings };
 
-    // downsize by factor of powers of 2
-    // minimal image size is 128x128, detected face size is left: ~12, right: ~90, top: ~28, bottom: ~106
-    for(int scale = 2; scale <= 64; scale *= 2)
+    // upsize by factor of powers of 2
+    for(int scale = 2; scale <= 8; scale++)
     {
-        const QImage small_image = utils::downsize(img, scale);
+        const QImage scaled_image = utils::upsize(img, scale);
 
-        const QImage small_face = extractFace(small_image);
-        const auto small_face_encodings = faceEncoder.face_encodings(small_face);
-        faces_encodings.push_back(small_face_encodings);
+        const QImage scaled_face = extractFace(scaled_image);
+        const auto scaled_face_encodings = faceEncoder.face_encodings(scaled_face);
+        faces_encodings.push_back(scaled_face_encodings);
     }
 
     // compare distance between each image
     const std::size_t s = faces_encodings.size();
-    std::vector<std::vector<double>> distances_matrix(s, std::vector<double>());
 
     for(std::size_t i = 0; i < s; i++)
         for(std::size_t j = i + 1; j < s; j++)
@@ -108,30 +113,6 @@ TEST(FaceScalingTest, scaledFaceDistance)
             const std::vector distances = dlib_api::face_distance( {lhs}, rhs );
             const double distance = distances.front();
 
-            distances_matrix[i].push_back(distance);
-            distances_matrix[j].push_back(distance);
+            EXPECT_LT(distance, 0.3);
         }
-
-    // calculate mean, min and max for each face
-    std::vector<double> means;
-    std::vector<double> mins;
-    std::vector<double> maxs;
-
-    for(const auto& distances: distances_matrix)
-    {
-        const auto [min, max] = std::minmax_element(distances.cbegin(), distances.cend());
-        const double sum = std::accumulate(distances.cbegin(), distances.cend(), 0.0);
-        const double mean = sum/distances.size();
-
-        means.push_back(mean);
-        mins.push_back(*min);
-        maxs.push_back(*max);
-    }
-
-    // it seams that photos 512x512 (downsized by 2) ÷ 181x181 (downsized by 32) have best means
-    auto mean_best = std::min_element(means.cbegin(), means.cend());
-    const int pos = std::distance(means.cbegin(), mean_best);
-
-    EXPECT_NE(pos, 0);      // 1024x1024 has high mean
-    EXPECT_NE(pos, s-1);    // 128x128 also has high mean
 }

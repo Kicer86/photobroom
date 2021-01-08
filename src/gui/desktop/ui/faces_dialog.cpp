@@ -105,6 +105,17 @@ void FacesDialog::updateFaceInformation()
 
         applyFaceName(pos, name);
     }
+
+    // convert faces into QRegion containing all but faces
+    QRegion reg(0, 0, m_photoSize.width(), m_photoSize.height());
+
+    for (const QRect& rect: m_faces)
+        reg-=QRegion(rect);
+
+    QList<QVariant> qmlListOfRects;
+    std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
+
+    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setFacesMask", Qt::QueuedConnection, Q_ARG(QVariant, qmlListOfRects));
 }
 
 
@@ -163,7 +174,10 @@ void FacesDialog::selectFace()
         selectionArea = m_faces[row];
     }
 
-    QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
+    if (selected.empty())
+        QMetaObject::invokeMethod(ui->quickView->rootObject(), "clearFaceSelection", Qt::QueuedConnection);
+    else
+        QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
 }
 
 

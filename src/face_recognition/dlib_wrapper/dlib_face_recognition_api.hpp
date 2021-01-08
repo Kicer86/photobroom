@@ -20,8 +20,8 @@ namespace dlib_api
 {
     enum EncodingsModel
     {
-        small,
-        large,
+        Small,
+        Large,
     };
 
     typedef std::vector<double> FaceEncodings;
@@ -54,11 +54,11 @@ namespace dlib_api
     class DLIB_WRAPPER_EXPORT FaceEncoder
     {
         public:
-            FaceEncoder();
+            FaceEncoder(ILogger *);
             ~FaceEncoder();
 
             // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
-            std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = large);
+            std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = Large);
 
         private:
             struct Data;
@@ -70,6 +70,15 @@ namespace dlib_api
 
     // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L63
     DLIB_WRAPPER_EXPORT std::vector<double> face_distance(const std::vector<FaceEncodings>& face_encodings, const FaceEncodings& face_to_compare);
+
+    /**
+     * @brief check if we have proper system setup to perform face recognition
+     * @return true if face recognition will work. False if it would crash app.
+     *
+     * if dlib was compiled with CUDA support yey no cuda is available, then
+     * we cannot work - dlib will crash/throw on CUDA usage
+     */
+    DLIB_WRAPPER_EXPORT bool check_system_prerequisites();
 }
 
 #endif // DLIB_FACE_RECOGNITION_API_HPP_INCLUDED

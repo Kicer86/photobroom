@@ -128,12 +128,17 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+135"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+108"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
+        <source>Mark found faces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
         <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -398,7 +403,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+218"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -971,8 +976,8 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="+178"/>
-        <source>Defines loging level. Possible options are: Debug, Info, Warning (default), Error</source>
-        <translation>Definiuje poziom logowania. Dostępne opcje: Debug, Info, Warning (domyślnie), Error</translation>
+        <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>

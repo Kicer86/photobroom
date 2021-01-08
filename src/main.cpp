@@ -175,7 +175,7 @@ int main(int argc, char **argv)
     parser.addVersionOption();
 
     QCommandLineOption logingLevelOption("loging-level",
-                                         QCoreApplication::translate("main", "Defines loging level. Possible options are: Debug, Info, Warning (default), Error"),
+                                         QCoreApplication::translate("main", "Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error"),
                                          QCoreApplication::translate("main", "loging level"),
                                          "Warning"
     );
@@ -216,7 +216,9 @@ int main(int argc, char **argv)
     const QString logingLevelStr = parser.value(logingLevelOption);
     ILogger::Severity logingLevel = ILogger::Severity::Warning;
 
-    if (logingLevelStr == "Debug")
+    if (logingLevelStr == "Trace")
+        logingLevel = ILogger::Severity::Trace;
+    else if (logingLevelStr == "Debug")
         logingLevel = ILogger::Severity::Debug;
     else if (logingLevelStr == "Info")
         logingLevel = ILogger::Severity::Info;

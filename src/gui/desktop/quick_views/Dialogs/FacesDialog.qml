@@ -23,8 +23,15 @@ Item {
     }
 
     function selectFace(face) {
-        shadow.face = face
-        shadowAnimation.running = true
+        shadow.setFocus(face);
+    }
+
+    function clearFaceSelection() {
+        shadow.clear();
+    }
+
+    function setFacesMask(mask) {
+        facesMarker.model = mask;
     }
 
     Timer {
@@ -44,70 +51,35 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        Item {
+        Components.ShadowFocus {
             id: shadow
+
+            opacity: 0.7
             anchors.fill: parent
-            opacity: 0.5
 
-            property rect face
+            fadeInOutEnabled: !facesSwitch.checked  // disable face selection shadow when found faces are marked
+        }
 
-            property real leftEdge: 0
-            property real rightEdge: parent.width
-            property real topEdge: 0
-            property real bottomEdge: parent.height
+        Item {
+            anchors.fill: parent
 
-            ParallelAnimation {
-                id: shadowAnimation
-                running: false
+            visible: shadow.hasFocus == false
+            opacity: facesSwitch.checked? 1.0: 0.0
 
-                PropertyAnimation { target: shadow; property: "leftEdge"; to: shadow.face.left }
-                PropertyAnimation { target: shadow; property: "rightEdge"; to: shadow.face.right }
-                PropertyAnimation { target: shadow; property: "topEdge"; to: shadow.face.top }
-                PropertyAnimation { target: shadow; property: "bottomEdge"; to: shadow.face.bottom }
-            }
+            Behavior on opacity { PropertyAnimation {} }  // disable animations when selecting face
 
-            Rectangle {
-                id: leftRect
-                x: 0
-                y: 0
+            Repeater {
+                id: facesMarker
 
-                width: shadow.leftEdge
-                height: shadow.height
+                delegate: Rectangle {
+                    x: modelData.x
+                    y: modelData.y
+                    width: modelData.width
+                    height: modelData.height
 
-                color: "black"
-            }
-
-            Rectangle {
-                id: rightRect
-                x: shadow.rightEdge
-                y: 0
-
-                width: shadow.width - shadow.rightEdge
-                height: shadow.height
-
-                color: "black"
-            }
-
-            Rectangle {
-                id: topRect
-                x: shadow.leftEdge
-                y: 0
-
-                width: shadow.rightEdge - shadow.leftEdge
-                height: shadow.topEdge
-
-                color: "black"
-            }
-
-            Rectangle {
-                id: bottomRect
-                x: shadow.leftEdge
-                y: shadow.bottomEdge
-
-                width: shadow.rightEdge - shadow.leftEdge
-                height: shadow.height - shadow.bottomEdge
-
-                color: "black"
+                    color: "black"
+                    opacity: 0.7
+                }
             }
         }
     }
@@ -117,7 +89,8 @@ Item {
 
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.bottom: switchesArea.top
+        clip: true
 
         height: row.height
         color: "dodgerblue"
@@ -143,6 +116,26 @@ Item {
             }
         }
     }
+
+    Rectangle {
+        id: switchesArea
+
+        height: switches.height
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        Row {
+            id: switches
+
+            Switch {
+                id: facesSwitch
+
+                text: qsTr("Mark found faces")
+            }
+        }
+    }
+
     states: [
         State {
             name: "Detecting Faces"
@@ -150,6 +143,11 @@ Item {
             PropertyChanges {
                 target: busyIndicator
                 running: true
+            }
+
+            PropertyChanges {
+                target: switchesArea
+                height: 0
             }
         },
         State {
@@ -182,10 +180,14 @@ Item {
         Transition {
             id: facesDetected
 
-            from: "*"
             to: "Notification Hidden"
 
             PropertyAnimation { target: notificationArea; properties: "height"; }
+        },
+        Transition {
+            from: "Detecting Faces"
+
+            PropertyAnimation { target: switchesArea; properties: "height"; }
         }
     ]
 }

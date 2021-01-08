@@ -164,6 +164,15 @@ void PeopleManipulator::findFaces_thrd()
         std::copy(list_of_faces.cbegin(), list_of_faces.cend(), std::back_inserter(result));
     }
 
+    std::sort(result.begin(), result.end(), [](const QRect& lhs, const QRect& rhs) {
+        if (lhs.right() < rhs.left())               // lhs if left to rhs? - in order
+            return true;
+        else if (lhs.left() > rhs.right())          // lhs is right to rhs? - not in order
+            return false;
+        else
+            return lhs.top() < rhs.top();           // when in line - lhs needs to be above
+    });
+
     invokeMethod(this, &PeopleManipulator::findFaces_result, result);
 }
 

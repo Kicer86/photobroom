@@ -67,7 +67,8 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_lookTabCtrl(new LookTabController),
     m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
-    m_completerFactory(m_loggerFactory)
+    m_completerFactory(m_loggerFactory),
+    m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
     // setup
     ui->setupUi(this);
@@ -95,8 +96,11 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
 
     ui->tagEditor->set(&m_completerFactory);
 
-    // TODO: nothing useful in help mentu at this moment
+    // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
+
+    if (m_enableFaceRecognition == false)
+        m_loggerFactory->get("MainWindow")->warning("Face recognition cannot be enabled");
 }
 
 
@@ -443,7 +447,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     groupPhotos->setEnabled(photos.size() > 1);
     ungroupPhotos->setEnabled(isSingleGroup);
     location->setEnabled(photos.size() == 1);
-    faces->setEnabled(photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
+    faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
 
     if (isSingleGroup)
         groupPhotos->setVisible(false);

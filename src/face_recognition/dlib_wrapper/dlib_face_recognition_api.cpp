@@ -1,6 +1,4 @@
 
-#include "dlib_face_recognition_api.hpp"
-
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/dnn.h>
 #include <QRgb>
@@ -11,6 +9,14 @@
 
 #include "cnn_face_detector.hpp"
 #include "face_recognition.hpp"
+#include "dlib_face_recognition_api.hpp"
+
+
+#ifdef DLIB_USE_CUDA
+#define CUDA_AVAILABLE true
+#else
+#define CUDA_AVAILABLE false
+#endif
 
 
 namespace dlib_api
@@ -21,6 +27,42 @@ namespace dlib_api
         constexpr char predictor_68_point_model[] = "shape_predictor_68_face_landmarks.dat";
         constexpr char human_face_model[] = "mmod_human_face_detector.dat";
         constexpr char face_recognition_model[] = "dlib_face_recognition_resnet_model_v1.dat";
+
+        int dlib_cuda_devices()
+        {
+            int devices = 0;
+
+            try
+            {
+                // get_num_devices() may throw an exception if there is no nvidia device
+                devices = dlib::cuda::get_num_devices();
+            }
+            catch (const dlib::cuda_error& err)
+            {
+                std::cerr << err.what() << '\n';
+
+                devices = 0;
+            }
+
+            return devices;
+        }
+
+        bool has_hardware_accelearion()
+        {
+            // if cuda was disabled during dlib build then get_num_devices() will return 1 which is not what we want
+            const bool has = (CUDA_AVAILABLE ? dlib_cuda_devices() : 0) > 0;
+
+            return has;
+        }
+
+        QString rectToString(const QRect& rect)
+        {
+            return QString("%1,%2 (%3x%4)")
+                    .arg(rect.left())
+                    .arg(rect.top())
+                    .arg(rect.width())
+                    .arg(rect.height());
+        }
 
         // helpers
 
@@ -110,11 +152,13 @@ namespace dlib_api
         lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
         lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
         std::unique_ptr<ILogger> logger;
+        const bool cuda_available;
 
-        explicit Data(ILogger* l)
+        explicit Data(ILogger* l, bool ca)
             : cnn_face_detector(&construct_cnn_face_detector)
             , hog_face_detector(&dlib::get_frontal_face_detector)
             , logger(l->subLogger("FaceLocator"))
+            , cuda_available(ca)
         {
 
         }
@@ -122,9 +166,10 @@ namespace dlib_api
 
 
     FaceLocator::FaceLocator(ILogger* logger):
-        m_data(std::make_unique<Data>(logger))
+        m_data(std::make_unique<Data>(logger, has_hardware_accelearion()))
     {
-
+        if (m_data->cuda_available == false)
+            m_data->logger->warning("No CUDA devices. Hardware acceleration disabled.");
     }
 
 
@@ -138,30 +183,39 @@ namespace dlib_api
     {
         std::optional<QVector<QRect>> faces;
 
-        // Use cnn by default as it is fast and most accurate.
-        // However it may fail (returned optional will be empty)
-        m_data->logger->debug(QString("Looking for faces with cnn in image of size %1x%2")
-                                .arg(qimage.width())
-                                .arg(qimage.height()));
-        faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
+        // when there are no cuda devices, cnn will perform poorly so do not use it
+        if (m_data->cuda_available)
+        {
+            // Use cnn by default as it is fast and most accurate.
+            // However it may fail (returned optional will be empty)
+            m_data->logger->debug(QString("Looking for faces with cnn in image of size %1x%2")
+                .arg(qimage.width())
+                .arg(qimage.height()));
+
+            faces = _face_locations_cnn(qimage, number_of_times_to_upsample);
+
+            if (faces.has_value() == false)
+                m_data->logger->debug("Image too big for cnn");
+        }
 
         if (faces.has_value() == false)
         {
-            m_data->logger->debug("Image too big for cnn, trying hog");
+            m_data->logger->debug(QString("Looking for faces with hog in image of size %1x%2")
+                .arg(qimage.width())
+                .arg(qimage.height()));
+
             faces = _face_locations_hog(qimage, number_of_times_to_upsample);
 
             // use faces found by hog to retry cnn search for more accurate results
             if (faces.has_value())
             {
+                // when cuda_available is false, cnn is slow, but faces are small so we cal live with that
                 m_data->logger->debug(QString("Found %1 face(s). Trying cnn to improve faces positions").arg(faces->size()));
 
                 for(QRect& face: faces.value())
                 {
-                    m_data->logger->debug(QString("Trying cnn for face %1,%2 (%3x%4)")
-                                .arg(face.left())
-                                .arg(face.top())
-                                .arg(face.width())
-                                .arg(face.height()));
+                    m_data->logger->debug(QString("Trying cnn for face %1")
+                                .arg(rectToString(face)));
 
                     auto cnn_faces = _face_locations_cnn(qimage, face);
 
@@ -172,11 +226,8 @@ namespace dlib_api
                         // replace hog face with cnn face
                         face = cnn_faces->front();
 
-                        m_data->logger->debug(QString("Improved face position to %1,%2 (%3x%4)")
-                                .arg(face.left())
-                                .arg(face.top())
-                                .arg(face.width())
-                                .arg(face.height()));
+                        m_data->logger->debug(QString("Improved face position to %1")
+                                .arg(rectToString(face)));
                     }
                 }
             }
@@ -217,7 +268,7 @@ namespace dlib_api
         {
             faces = face_locations_cnn(qimage, number_of_times_to_upsample);
         }
-        catch(const dlib::cuda_error& err)
+        catch(const dlib::cuda_error &)
         {
             // image was too big for being processed
             // due to an issue in dlib, we just need to call face_locations_cnn here again
@@ -226,7 +277,7 @@ namespace dlib_api
             {
                 face_locations_cnn(empty_image, 0);
             }
-            catch(const dlib::cuda_error& err)
+            catch(const dlib::cuda_error &)
             {
                 // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
                 // covered by learning tests
@@ -281,8 +332,9 @@ namespace dlib_api
 
     struct FaceEncoder::Data
     {
-        Data()
+        Data(ILogger* log)
             : face_encoder( modelPath<face_recognition_model>().toStdString() )
+            , logger(log)
         {
         }
 
@@ -290,11 +342,13 @@ namespace dlib_api
 
         lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>> predictor_5_point;
         lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>> predictor_68_point;
+
+        ILogger* logger;
     };
 
 
-    FaceEncoder::FaceEncoder()
-        : m_data(std::make_unique<Data>())
+    FaceEncoder::FaceEncoder(ILogger* logger)
+        : m_data(std::make_unique<Data>(logger))
     {
     }
 
@@ -309,8 +363,15 @@ namespace dlib_api
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
+
+        m_data->logger->debug(
+            QString("Calculating encodings for face of size %1x%2")
+                .arg(size.width())
+                .arg(size.height())
+        );
+
         const dlib::rectangle face_location(0, 0, size.width() - 1 , size.height() -1);
-        const dlib::shape_predictor& pose_predictor = model == large?
+        const dlib::shape_predictor& pose_predictor = model == Large?
                                                       *m_data->predictor_68_point :
                                                       *m_data->predictor_5_point;
 
@@ -378,4 +439,14 @@ namespace dlib_api
 
         return results;
     }
+
+
+    bool check_system_prerequisites()
+    {
+        if (CUDA_AVAILABLE && dlib_cuda_devices() == 0)  // dlib built with cuda, bo no cuda devices? dlib would crash
+            return false;
+        else                                             // any other combination is fine
+            return true;
+    }
+
 }

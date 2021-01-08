@@ -1,6 +1,7 @@
 
 find_package(Qt5 REQUIRED COMPONENTS Core Gui)
-find_package(Dlib REQUIRED)
+find_package(Threads REQUIRED)
+find_package(dlib REQUIRED)
 
 add_library(dlib_wrapper
     cnn_face_detector.cpp
@@ -24,7 +25,7 @@ target_link_libraries(dlib_wrapper
                             PUBLIC
                                 Qt::Core
                                 Qt::Gui
-                                ${DLIB_LIBRARIES}
+                                dlib::dlib
                             PRIVATE
                                 core
                                 system

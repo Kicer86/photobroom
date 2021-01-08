@@ -19,6 +19,7 @@ struct ILogger
         Warning,
         Info,
         Debug,
+        Trace,
     };
 
     virtual void log(Severity, const QString& message) = 0;
@@ -27,6 +28,7 @@ struct ILogger
     virtual void warning(const QString &) = 0;
     virtual void error(const QString &) = 0;
     virtual void debug(const QString &) = 0;
+    virtual void trace(const QString &) = 0;
 
     virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) = 0;
 };
