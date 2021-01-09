@@ -21,7 +21,7 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 
-#include "database/generic_flags.hpp"
+#include "database/general_flags.hpp"
 
 // TODO: unit tests
 
@@ -136,8 +136,8 @@ namespace
                 Photo::DataDelta delta(m_photoInfo.id);
 
                 apply(m_photoInfo.id, {
-                    Database::CommonGenericFlags::State,
-                    static_cast<int>(Database::CommonGenericFlags::StateType::Broken)
+                    Database::CommonGeneralFlags::State,
+                    static_cast<int>(Database::CommonGeneralFlags::StateType::Broken)
                 });
             }
         }

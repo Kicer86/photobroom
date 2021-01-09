@@ -1,7 +1,10 @@
 
+#ifndef GENERAL_FLAGS_HPP_INCLUDED
+#define GENERAL_FLAGS_HPP_INCLUDED
+
 #include <QString>
 
-namespace Database::CommonGenericFlags
+namespace Database::CommonGeneralFlags
 {
     const QString State("state");           // photo state.
     enum class StateType
@@ -12,3 +15,4 @@ namespace Database::CommonGenericFlags
     };
 }
 
+#endif // GENERAL_FLAGS_HPP_INCLUDED
