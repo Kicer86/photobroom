@@ -420,5 +420,5 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGeneralFlags)
 
     const QString query = generator.generate(filter);
 
-    EXPECT_EQ(query, "SELECT photos.id FROM photos LEFT JOIN (general_flags) ON (general_flags.photo_id = photos.id AND general_flags.name = 'some_name') WHERE general_flags.value = 12345");
+    EXPECT_EQ(query, "SELECT photos.id FROM photos LEFT JOIN (general_flags) ON (general_flags.photo_id = photos.id AND general_flags.name = 'some_name') WHERE COALESCE(general_flags.value, 0) = 12345");
 }

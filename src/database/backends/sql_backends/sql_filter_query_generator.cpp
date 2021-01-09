@@ -343,7 +343,7 @@ namespace Database
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlags& genericFlagsFilter) const
     {
-        return QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE %2.value = %3")
+        return QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE COALESCE(%2.value, 0) = %3")
                                 .arg(TAB_PHOTOS)
                                 .arg(TAB_GENERAL_FLAGS)
                                 .arg(genericFlagsFilter.value)
