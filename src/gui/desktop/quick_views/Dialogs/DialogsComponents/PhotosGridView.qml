@@ -26,11 +26,6 @@ Components.MultiselectGridView {
         height: cellHeight
         margin: thumbnailMargin
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: delegateId.GridView.view.currentIndex = index
-        }
-
         Rectangle {
             id: highlightId
             anchors.fill: parent
