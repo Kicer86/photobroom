@@ -21,6 +21,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/itask_executor.hpp>
 #include <database/iphoto_operator.hpp>
+#include <database/general_flags.hpp>
 
 #include "photos_analyzer_p.hpp"
 #include "../photos_analyzer.hpp"
@@ -51,9 +52,15 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
         flags_filter.flags[flag] = 0;            //uninitialized
 
-    m_database->exec([this, flags_filter](Database::IBackend& backend)
+    // only normal photos
+    const Database::FilterPhotosWithGeneralFlags general_flags_filter(Database::CommonGeneralFlags::State,
+                                                                      static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+
+    const Database::GroupFilter filters = {flags_filter, general_flags_filter};
+
+    m_database->exec([this, filters](Database::IBackend& backend)
     {
-        auto photos = backend.photoOperator().getPhotos(flags_filter);
+        auto photos = backend.photoOperator().getPhotos(filters);
 
         invokeMethod(this, &PhotosAnalyzerImpl::addPhotos, photos);
 
