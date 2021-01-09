@@ -5,7 +5,6 @@
 #include "sql_filter_query_generator.hpp"
 
 
-
 TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
 {
     Database::SqlFilterQueryGenerator generator;
