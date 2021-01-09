@@ -48,7 +48,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     Database::FilterPhotosWithFlags flags_filter;
     flags_filter.mode = Database::FilterPhotosWithFlags::Mode::Or;
 
-    for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::GeometryLoaded })
+    for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
         flags_filter.flags[flag] = 0;            //uninitialized
 
     m_database->exec([this, flags_filter](Database::IBackend& backend)
@@ -126,9 +126,6 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 {
     for(const auto& photo: photos)
     {
-        if (photo.flags.at(Photo::FlagsE::Sha256Loaded) == 0)
-            m_updater.updateSha256(photo);
-
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
             m_updater.updateGeometry(photo);
 
