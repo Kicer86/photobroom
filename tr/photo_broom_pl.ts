@@ -775,7 +775,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+86"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+87"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
