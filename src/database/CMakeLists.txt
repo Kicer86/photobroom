@@ -30,6 +30,7 @@ set(DATABASE_HEADERS
     database_builder.hpp
     database_status.hpp
     filter.hpp
+    generic_flags.hpp
     group.hpp
     ibackend.hpp
     idatabase.hpp
