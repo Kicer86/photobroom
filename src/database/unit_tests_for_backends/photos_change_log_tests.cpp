@@ -31,24 +31,24 @@ TYPED_TEST(PhotosChangeLog, tagsManipulation)
     tags[TagTypes::Event] = TagValue(QString("test event"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->m_backend->update(data_delta);
+    this->m_backend->update( {data_delta} );
 
     tags[TagTypes::Place] = TagValue(QString("test place"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->m_backend->update(data_delta);
+    this->m_backend->update( {data_delta} );
 
     // modify tag
     tags[TagTypes::Event] = TagValue(QString("test event 2"));
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->m_backend->update(data_delta);
+    this->m_backend->update( {data_delta} );
 
     // remove tag
     tags.erase(TagTypes::Place);
 
     data_delta.insert<Photo::Field::Tags>(tags);
-    this->m_backend->update(data_delta);
+    this->m_backend->update( {data_delta} );
 
     // verify change log
     const QStringList changeLog = this->m_backend->photoChangeLogOperator().dumpChangeLog();
@@ -92,11 +92,11 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     // add to group
     const GroupInfo gr_info1 = { gr1, GroupInfo::Member };
     data_delta1.insert<Photo::Field::GroupInfo>(gr_info1);
-    this->m_backend->update(data_delta1);
 
     const GroupInfo gr_info2 = { gr1, GroupInfo::Member };
     data_delta2.insert<Photo::Field::GroupInfo>(gr_info2);
-    this->m_backend->update(data_delta2);
+
+    this->m_backend->update( {data_delta1, data_delta2} );
 
     // delete group
     this->m_backend->groupOperator().removeGroup(gr1);

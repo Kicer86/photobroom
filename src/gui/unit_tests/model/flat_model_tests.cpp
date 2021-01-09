@@ -404,7 +404,7 @@ TEST_F(FlatModelTest, PhotoModification)
     ON_CALL(photoOperator, onPhotos(_, _))
         .WillByDefault(Return(final_photos_set));
 
-    backend.photoModified(Photo::Id(2));
+    backend.photosModified({ Photo::Id(2) });
 
     EXPECT_EQ(final_photos_set, model.photos());
 }

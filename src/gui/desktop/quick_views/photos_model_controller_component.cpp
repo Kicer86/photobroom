@@ -19,6 +19,7 @@
 
 #include <core/function_wrappers.hpp>
 #include <core/imodel_compositor_data_source.hpp>
+#include <database/general_flags.hpp>
 #include <database/iphoto_operator.hpp>
 #include "models/flat_model.hpp"
 #include "photos_model_controller_component.hpp"
@@ -305,6 +306,10 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
     if (m_ratingTo < 10)
         filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
 
+    // ignore broken photos
+    filters_for_model.push_back( Database::FilterPhotosWithGeneralFlags(Database::CommonGeneralFlags::State,
+                                                                        static_cast<int>(Database::CommonGeneralFlags::StateType::Normal))
+    );
 
     return Database::GroupFilter(filters_for_model);
 }

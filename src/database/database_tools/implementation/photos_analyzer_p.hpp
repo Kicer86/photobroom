@@ -30,7 +30,6 @@
 #include <core/itasks_view.hpp>
 #include <core/iview_task.hpp>
 #include <database/idatabase.hpp>
-#include <database/database_tools/signal_mapper.hpp>
 
 #include "photo_info_updater.hpp"
 
@@ -40,33 +39,35 @@ class PhotosAnalyzerImpl: public QObject
         Q_OBJECT
 
     public:
-        PhotosAnalyzerImpl(ICoreFactoryAccessor *);
+        PhotosAnalyzerImpl(ICoreFactoryAccessor *, Database::IDatabase *);
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
         PhotosAnalyzerImpl& operator=(const PhotosAnalyzerImpl&) = delete;
 
         ~PhotosAnalyzerImpl();
 
-        void setDatabase(Database::IDatabase* database);
         void set(ITasksView* tasksView);
 
         Database::IDatabase* getDatabase();
-        Database::SignalMapper* getMapper();
 
-        void addPhoto(const IPhotoInfo::Ptr& photo);
         void stop();
 
     private:
         PhotoInfoUpdater m_updater;
-        Database::SignalMapper m_signalMapper;
         QTimer m_timer;
+        std::vector<Photo::Id> m_photosToUpdate;
+        QMetaObject::Connection m_backendConnection;
         Database::IDatabase* m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxTasks;
+        const std::size_t m_workers;
+        bool m_loadingPhotos;
 
         void setupRefresher();
         void refreshView();
-        void newPhotosAdded(const std::vector<IPhotoInfo::Ptr> &);
+        void addPhotos(const std::vector<Photo::Id> &);
+        void processPhotos();
+        void updatePhotos(const std::vector<Photo::Data> &);
 };
 
 #endif // PHOTOSANALYZER_PRIVATE_HPP

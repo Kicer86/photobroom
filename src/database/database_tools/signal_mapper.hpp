@@ -49,7 +49,7 @@ namespace Database
             IDatabase* m_db;
 
             void i_photosAdded(const std::vector<Photo::Id> &) const;
-            void i_photoModified(const Photo::Id &) const;
+            void i_photosModified(const std::set<Photo::Id> &) const;
     };
 }
 

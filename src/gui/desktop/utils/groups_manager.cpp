@@ -53,6 +53,9 @@ void GroupsManager::group(Database::IDatabase* database,
             const auto groupId = backend.groupOperator().addGroup(representativeId, type);
 
             // update group information on each member
+            std::vector<Photo::DataDelta> deltas;
+            deltas.reserve(photos.size());
+
             for(const auto memberId: photos)
             {
                 GroupInfo grpInfo(groupId, GroupInfo::Member);
@@ -61,8 +64,10 @@ void GroupsManager::group(Database::IDatabase* database,
                 memberData.setId(memberId);
                 memberData.insert<Photo::Field::GroupInfo>(grpInfo);
 
-                backend.update(memberData);
+                deltas.push_back(memberData);
             }
+
+            backend.update(deltas);
         });
     }
 }

@@ -150,6 +150,7 @@ namespace Photo
 
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
+            DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
 
         private:
             typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
@@ -159,7 +160,7 @@ namespace Photo
                                  DeltaTypes<Field::Geometry>::Storage,
                                  DeltaTypes<Field::GroupInfo>::Storage> Storage;
 
-            Photo::Id                 m_id;
+            Photo::Id                m_id;
             std::map<Field, Storage> m_data;
 
             const Storage& get(Field) const;

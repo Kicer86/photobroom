@@ -49,6 +49,7 @@ namespace Database
     struct FilterPhotosWithPath;
     struct FilterPhotosWithRole;
     struct FilterPhotosWithPerson;
+    struct FilterPhotosWithGeneralFlags;
 
 
     typedef std::variant<EmptyFilter,
@@ -61,26 +62,25 @@ namespace Database
                          FilterPhotosMatchingExpression,
                          FilterPhotosWithPath,
                          FilterPhotosWithRole,
-                         FilterPhotosWithPerson
+                         FilterPhotosWithPerson,
+                         FilterPhotosWithGeneralFlags
     > Filter;
 
     struct DATABASE_EXPORT EmptyFilter
     {
-        ~EmptyFilter();
+
     };
 
     struct DATABASE_EXPORT GroupFilter
     {
         GroupFilter(const std::vector<Filter> &);
-        ~GroupFilter();
+        GroupFilter(const std::initializer_list<Filter> &);
 
         std::vector<Filter> filters;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag
     {
-        ~FilterPhotosWithTag();
-
         TagTypes tagType;
         TagValue tagValue;
 
@@ -102,8 +102,6 @@ namespace Database
         FilterPhotosWithFlags();
         FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
 
-        ~FilterPhotosWithFlags();
-
         enum class Mode
         {
             And,
@@ -117,7 +115,6 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithSha256
     {
         FilterPhotosWithSha256();
-        ~FilterPhotosWithSha256();
 
         Photo::Sha256sum sha256;
     };
@@ -125,7 +122,6 @@ namespace Database
     struct DATABASE_EXPORT FilterNotMatchingFilter
     {
         FilterNotMatchingFilter(const Filter &);
-        ~FilterNotMatchingFilter();
 
         ol::data_ptr<Filter> filter;
     };
@@ -133,7 +129,6 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithId
     {
         FilterPhotosWithId();
-        ~FilterPhotosWithId();
 
         Photo::Id filter;
     };
@@ -141,7 +136,6 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosMatchingExpression
     {
         FilterPhotosMatchingExpression(const SearchExpressionEvaluator::Expression &);
-        ~FilterPhotosMatchingExpression();
 
         SearchExpressionEvaluator::Expression expression;
     };
@@ -149,7 +143,6 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithPath
     {
         explicit FilterPhotosWithPath(const QString &);
-        ~FilterPhotosWithPath();
 
         QString path;
     };
@@ -164,7 +157,6 @@ namespace Database
         };
 
         explicit FilterPhotosWithRole(Role);
-        ~FilterPhotosWithRole();
 
         Role m_role;
     };
@@ -172,9 +164,16 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithPerson
     {
         explicit FilterPhotosWithPerson(const Person::Id &);
-        ~FilterPhotosWithPerson();
 
         Person::Id person_id;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithGeneralFlags
+    {
+        explicit FilterPhotosWithGeneralFlags(const QString& name, int value);
+
+        QString name;
+        int value;
     };
 }
 

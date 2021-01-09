@@ -52,7 +52,7 @@ namespace Database
             IDatabase* m_storeKeeper;
 
             IPhotoInfo::Ptr constructPhotoInfo(const Photo::Data &);
-            void photoModified(const Photo::Id &);
+            void photosModified(const std::set<Photo::Id> &);
             IPhotoInfo::Ptr findInCache(const Photo::Id &);
     };
 

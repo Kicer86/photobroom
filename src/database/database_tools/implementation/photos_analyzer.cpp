@@ -17,73 +17,67 @@
  *
  */
 
+#include <core/function_wrappers.hpp>
+#include <core/icore_factory_accessor.hpp>
+#include <core/itask_executor.hpp>
 #include <database/iphoto_operator.hpp>
+#include <database/general_flags.hpp>
+
 #include "photos_analyzer_p.hpp"
 #include "../photos_analyzer.hpp"
 
 
-PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory):
-    m_updater(coreFactory),
+PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase* database):
+    m_updater(coreFactory, database),
     m_timer(),
-    m_database(nullptr),
+    m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
-    m_maxTasks(0)
+    m_maxTasks(0),
+    m_workers(coreFactory->getTaskExecutor()->heavyWorkers()),
+    m_loadingPhotos(false)
 {
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
+    connect(&m_updater, &PhotoInfoUpdater::photoProcessed,
+            this, &PhotosAnalyzerImpl::processPhotos);
 
     m_timer.start(500);
+
+    //check for not fully initialized photos in database
+    //TODO: use independent updaters here (issue #102)
+
+    Database::FilterPhotosWithFlags flags_filter;
+    flags_filter.mode = Database::FilterPhotosWithFlags::Mode::Or;
+
+    for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
+        flags_filter.flags[flag] = 0;            //uninitialized
+
+    // only normal photos
+    const Database::FilterPhotosWithGeneralFlags general_flags_filter(Database::CommonGeneralFlags::State,
+                                                                      static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+
+    const Database::GroupFilter filters = {flags_filter, general_flags_filter};
+
+    m_database->exec([this, filters](Database::IBackend& backend)
+    {
+        auto photos = backend.photoOperator().getPhotos(filters);
+
+        invokeMethod(this, &PhotosAnalyzerImpl::addPhotos, photos);
+
+        // as all uninitialized photos were found.
+        // start watching for any new photos added later.
+        m_backendConnection = connect(&backend, &Database::IBackend::photosAdded,
+                                      this, &PhotosAnalyzerImpl::addPhotos);
+    });
 }
 
 
 PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 {
     stop();
-}
 
-
-void PhotosAnalyzerImpl::setDatabase(Database::IDatabase* database)
-{
-    if (m_database != nullptr)
-    {
-        bool status = disconnect(&m_signalMapper, &Database::SignalMapper::photosAdded,
-                                 this, &PhotosAnalyzerImpl::newPhotosAdded);
-
-        assert(status);
-    }
-
-    m_database = database;
-    m_signalMapper.set(database);
-
-    m_updater.dropPendingTasks();
-    m_updater.waitForActiveTasks();
-
-    if (m_database != nullptr)
-    {
-        //check for not fully initialized photos in database
-
-        //TODO: use independent updaters here (issue #102)
-
-        Database::FilterPhotosWithFlags flags_filter;
-        flags_filter.mode = Database::FilterPhotosWithFlags::Mode::Or;
-
-        for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::Sha256Loaded, Photo::FlagsE::GeometryLoaded })
-            flags_filter.flags[flag] = 0;            //uninitialized
-
-        m_database->exec([this, flags_filter](Database::IBackend& backend)
-        {
-            auto photos = backend.photoOperator().getPhotos(flags_filter);
-
-            for(const Photo::Id& id: photos)
-                addPhoto(m_database->utils().getPhotoFor(id));
-
-            // as all uninitialized photos were processed.
-            // start watching for any new photos added later.
-            connect(&m_signalMapper, &Database::SignalMapper::photosAdded,
-                    this, &PhotosAnalyzerImpl::newPhotosAdded,
-                    Qt::DirectConnection);
-        });
-    }
+    if (m_viewTask)
+        m_viewTask->finished();
 }
 
 
@@ -99,38 +93,62 @@ Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
 }
 
 
-Database::SignalMapper* PhotosAnalyzerImpl::getMapper()
+void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    return &m_signalMapper;
+    m_photosToUpdate.insert(m_photosToUpdate.end(), ids.begin(), ids.end());
+
+    processPhotos();
 }
 
 
-void PhotosAnalyzerImpl::addPhoto(const IPhotoInfo::Ptr& photo)
+void PhotosAnalyzerImpl::processPhotos()
 {
-    assert(photo->isFullyInitialized() == false);
+    if (m_loadingPhotos == false &&
+        m_photosToUpdate.empty() == false &&
+        m_updater.tasksInProgress() < m_workers * 2)
+    {
+        m_loadingPhotos = true;
 
-    if (photo->isSha256Loaded() == false)
-        m_updater.updateSha256(photo);
+        std::vector<Photo::Id> photosToProcess;
+        const int toProcess = std::min(m_photosToUpdate.size(), m_workers);
 
-    if (photo->isGeometryLoaded() == false)
-        m_updater.updateGeometry(photo);
+        std::copy(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess, std::back_inserter(photosToProcess));
+        m_photosToUpdate.erase(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess);
 
-    if (photo->isExifDataLoaded() == false)
-        m_updater.updateTags(photo);
+        m_database->exec([photosToProcess, this](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> photos;
+            photos.reserve(m_photosToUpdate.size());
+
+            for(const auto& id: photosToProcess)
+                photos.push_back(backend.getPhoto(id));
+
+            invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photos);
+        });
+    }
 }
 
 
-
-void PhotosAnalyzerImpl::newPhotosAdded(const std::vector<IPhotoInfo::Ptr>& photos)
+void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 {
-    for(const IPhotoInfo::Ptr& photo: photos)
-        addPhoto(photo);
+    for(const auto& photo: photos)
+    {
+        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
+            m_updater.updateGeometry(photo);
+
+        if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
+            m_updater.updateTags(photo);
+    }
+
+    m_loadingPhotos = false;
 }
 
 
 void PhotosAnalyzerImpl::stop()
 {
-    m_updater.dropPendingTasks();
+    disconnect(m_backendConnection);
+    m_photosToUpdate.clear();
+    m_updater.waitForActiveTasks();
 }
 
 
@@ -141,7 +159,7 @@ void PhotosAnalyzerImpl::setupRefresher()
         m_maxTasks = 0;
         m_viewTask = m_tasksView->add(tr("Loading photos data..."));
     }
-    else if (m_updater.tasksInProgress() == 0 && m_viewTask != nullptr)
+    else if (m_updater.tasksInProgress() == 0 && m_photosToUpdate.size() == 0 && m_viewTask != nullptr)
     {
         m_viewTask->finished();
         m_viewTask = nullptr;
@@ -155,7 +173,7 @@ void PhotosAnalyzerImpl::refreshView()
 
     if (m_viewTask != nullptr)
     {
-        const int current_size = m_updater.tasksInProgress();
+        const int current_size = m_photosToUpdate.size() + m_updater.tasksInProgress();
         m_maxTasks = std::max(m_maxTasks, current_size);
 
         IProgressBar* progressBar = m_viewTask->getProgressBar();
@@ -164,10 +182,13 @@ void PhotosAnalyzerImpl::refreshView()
     }
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory): m_data(new PhotosAnalyzerImpl(coreFactory))
+PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory,
+                               Database::IDatabase* database)
+    : m_data(new PhotosAnalyzerImpl(coreFactory, database))
 {
 
 }
@@ -175,13 +196,7 @@ PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory): m_data(new Ph
 
 PhotosAnalyzer::~PhotosAnalyzer()
 {
-
-}
-
-
-void PhotosAnalyzer::setDatabase(Database::IDatabase* new_database)
-{
-    m_data->setDatabase(new_database);
+    stop();
 }
 
 

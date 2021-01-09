@@ -144,7 +144,7 @@ namespace Database
         m_backend(backend),
         m_storeKeeper(keeper)
     {
-        QObject::connect(backend, &IBackend::photoModified, this, &Utils::photoModified, Qt::DirectConnection);
+        connect(backend, &IBackend::photosModified, this, &Utils::photosModified, Qt::DirectConnection);
     }
 
 
@@ -182,15 +182,18 @@ namespace Database
     }
 
 
-    void Utils::photoModified(const Photo::Id& id)
+    void Utils::photosModified(const std::set<Photo::Id>& ids)
     {
-        auto photoInfo = findInCache(id);
-
-        if (photoInfo.get() != nullptr)
+        for (const Photo::Id& id: ids)
         {
-            const Photo::Data photoData = m_backend->getPhoto(id);
+            auto photoInfo = findInCache(id);
 
-            photoInfo->setData(photoData);
+            if (photoInfo.get() != nullptr)
+            {
+                const Photo::Data photoData = m_backend->getPhoto(id);
+
+                photoInfo->setData(photoData);
+            }
         }
     }
 
@@ -198,19 +201,19 @@ namespace Database
     IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
     {
         const QString search_msg = QString("Looking for photo with id %1 in cache").arg(id);
-        m_logger->debug(search_msg);
+        m_logger->trace(search_msg);
 
         auto photoInfo = m_cache->find(id);
 
         if (photoInfo.get() == nullptr)
         {
             const QString result_msg = QString("Photo with id %1 not found in cache").arg(id);
-            m_logger->debug(result_msg);
+            m_logger->trace(result_msg);
         }
         else
         {
             const QString result_msg = QString("Photo with id %1 found in cache").arg(id);
-            m_logger->debug(result_msg);
+            m_logger->trace(result_msg);
         }
 
         return photoInfo;
@@ -262,7 +265,7 @@ namespace Database
     {
         exec([data](IBackend& backend)
         {
-            const bool status = backend.update(data);
+            const bool status = backend.update( {data} );
             assert(status);
         });
     }

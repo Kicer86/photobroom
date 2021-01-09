@@ -30,6 +30,7 @@ set(DATABASE_HEADERS
     database_builder.hpp
     database_status.hpp
     filter.hpp
+    general_flags.hpp
     group.hpp
     ibackend.hpp
     idatabase.hpp
@@ -62,6 +63,7 @@ set(DATABASE_MOC
     database_tools/itag_info_collector.hpp
     database_tools/photos_analyzer.hpp
     database_tools/implementation/photos_analyzer_p.hpp
+    database_tools/implementation/photo_info_updater.hpp
     database_tools/signal_mapper.hpp
     photo_data.hpp
     photo_types.hpp

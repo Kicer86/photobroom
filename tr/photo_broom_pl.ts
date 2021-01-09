@@ -403,7 +403,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -425,12 +425,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+115"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Group...</source>
         <translation>Grupowanie...</translation>
     </message>
@@ -450,12 +450,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-168"/>
+        <location line="-171"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+93"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -620,7 +620,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+142"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+160"/>
         <source>Loading photos data...</source>
         <translation>Wczytywanie danych ze zdjęć...</translation>
     </message>
@@ -775,7 +775,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+86"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+87"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>

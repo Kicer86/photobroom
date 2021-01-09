@@ -60,19 +60,26 @@ namespace Database
     }
 
 
-    bool MemoryBackend::update(const Photo::DataDelta& delta)
+    bool MemoryBackend::update(const std::vector<Photo::DataDelta>& deltas)
     {
-        auto it = m_photos.find(delta.getId());
+        std::set<Photo::Id> ids;
 
-        Photo::Data data = *it;
-        photoChangeLogOperator().storeDifference(data, delta);
+        for (const auto& delta: deltas)
+        {
+            auto it = m_photos.find(delta.getId());
 
-        data.apply(delta);
+            Photo::Data data = *it;
+            photoChangeLogOperator().storeDifference(data, delta);
 
-        it = m_photos.erase(it);
-        m_photos.insert(it, data);
+            data.apply(delta);
 
-        emit photoModified(delta.getId());
+            it = m_photos.erase(it);
+            m_photos.insert(it, data);
+
+            ids.insert(delta.getId());
+        }
+
+        emit photosModified(ids);
 
         return true;
     }
@@ -338,7 +345,7 @@ namespace Database
         Photo::DataDelta delta(representative_photo);
         delta.insert<Photo::Field::GroupInfo>(group);
 
-        update(delta);
+        update( {delta} );
 
         return gid;
     }
@@ -368,13 +375,18 @@ namespace Database
                         r_id = id;
                 }
 
+            std::vector<Photo::DataDelta> deltas;
+            deltas.reserve(photosToClear.size());
+
             for (const Photo::Id& id: photosToClear)
             {
                 Photo::DataDelta delta(id);
                 GroupInfo info;
                 delta.insert<Photo::Field::GroupInfo>(info);
-                update(delta);
+                deltas.push_back(delta);
             }
+
+            update(deltas);
         }
 
         return r_id;

@@ -73,7 +73,7 @@ namespace Database
                 grp_id = Group::Id(group_id.toInt());
 
                 m_backend->photoChangeLogOperator().groupCreated(grp_id, type, id);
-                emit m_backend->photoModified(id);      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
+                emit m_backend->photosModified( {id} );      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
             }
         }
 
@@ -119,8 +119,7 @@ namespace Database
 
             // TODO: I don't like it. notifications about photos should not be raised from groups module
             m_backend->photoChangeLogOperator().groupDeleted(gid, ph_id, members);
-            for(const Photo::Id& id: modified_photos)
-                emit m_backend->photoModified(id);
+            emit m_backend->photosModified(modified_photos);
 
             representativePhoto = ph_id;
         }
