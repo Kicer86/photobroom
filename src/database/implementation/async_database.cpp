@@ -201,19 +201,19 @@ namespace Database
     IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
     {
         const QString search_msg = QString("Looking for photo with id %1 in cache").arg(id);
-        m_logger->debug(search_msg);
+        m_logger->trace(search_msg);
 
         auto photoInfo = m_cache->find(id);
 
         if (photoInfo.get() == nullptr)
         {
             const QString result_msg = QString("Photo with id %1 not found in cache").arg(id);
-            m_logger->debug(result_msg);
+            m_logger->trace(result_msg);
         }
         else
         {
             const QString result_msg = QString("Photo with id %1 found in cache").arg(id);
-            m_logger->debug(result_msg);
+            m_logger->trace(result_msg);
         }
 
         return photoInfo;
