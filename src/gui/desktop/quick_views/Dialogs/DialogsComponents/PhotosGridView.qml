@@ -30,28 +30,13 @@ Components.MultiselectGridView {
             id: highlightId
             anchors.fill: parent
             anchors.margins: 0
-            state: "unselected"
 
+            opacity: delegateId.selected? 1.0: delegateId.GridView.view.currentIndex == index? 0.5 : 0
             color: currentPalette.highlight
             radius: 5
             z: -1
 
-            states: [
-                State {
-                    name: "selected"
-                    when: delegateId.selected
-                    PropertyChanges { target: highlightId; opacity: 1.0 }
-                },
-                State {
-                    name: "unselected"
-                    when: !delegateId.selected
-                    PropertyChanges { target: highlightId; opacity: 0.0 }
-                }
-            ]
-
-            transitions: Transition {
-                PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
-            }
+            Behavior on opacity { PropertyAnimation{} }
         }
     }
 

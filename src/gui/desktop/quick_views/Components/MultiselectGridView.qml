@@ -34,7 +34,7 @@ GridView {
             else
                 selectionManager.toggleIndexSelection(index);
 
-            grid.currentIndex = index
+            grid.currentIndex = index;
 
             mouse.accepted = false;
         }
