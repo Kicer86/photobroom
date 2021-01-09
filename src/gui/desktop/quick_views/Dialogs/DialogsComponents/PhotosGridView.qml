@@ -60,7 +60,6 @@ Components.MultiselectGridView {
         }
     }
 
-    //keyNavigationEnabled: true
     currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }

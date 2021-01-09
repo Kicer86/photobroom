@@ -48,6 +48,9 @@ Item {
         anchors.bottom: infoItem.top
 
         clip: true
+        focus: true
+        keyNavigationEnabled: true
+
         model: photosModelControllerId.photos
         thumbnailSize: thumbnailSliderId.size
 
