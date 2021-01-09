@@ -246,17 +246,14 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
 {
     Database::SqlFilterQueryGenerator generator;
-    std::vector<Database::Filter> filters;
 
     // #1 tag
     Database::FilterPhotosWithTag tag1_filter(TagTypes::Place, QString("test_value"));
-    filters.push_back(tag1_filter);
 
     // #2 tag
     Database::FilterPhotosWithTag tag2_filter(TagTypes::Event, QString("test_value2"));
-    filters.push_back(tag2_filter);
 
-    Database::GroupFilter all_filters(filters);
+    Database::GroupFilter all_filters = {tag1_filter, tag2_filter};
     const QString query = generator.generate(all_filters);
 
     const QString expected_query =

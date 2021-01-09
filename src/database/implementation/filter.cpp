@@ -23,7 +23,12 @@ namespace Database
 {
 
     GroupFilter::GroupFilter(const std::vector<Filter>& f)
-        :filters(f)
+        : filters(f)
+    {
+    }
+
+    GroupFilter::GroupFilter(const std::initializer_list<Filter>& f)
+        : filters(f)
     {
     }
 

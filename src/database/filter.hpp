@@ -74,6 +74,7 @@ namespace Database
     struct DATABASE_EXPORT GroupFilter
     {
         GroupFilter(const std::vector<Filter> &);
+        GroupFilter(const std::initializer_list<Filter> &);
 
         std::vector<Filter> filters;
     };
