@@ -22,21 +22,9 @@
 namespace Database
 {
 
-    EmptyFilter::~EmptyFilter()
-    {
-
-    }
-
-
     GroupFilter::GroupFilter(const std::vector<Filter>& f)
         :filters(f)
     {
-    }
-
-
-    GroupFilter::~GroupFilter()
-    {
-
     }
 
 
@@ -45,12 +33,6 @@ namespace Database
         tagValue(value),
         valueMode(mode),
         includeEmpty(include_empty)
-    {
-
-    }
-
-
-    FilterPhotosWithTag::~FilterPhotosWithTag()
     {
 
     }
@@ -70,19 +52,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithFlags::~FilterPhotosWithFlags()
-    {
-
-    }
-
-
     FilterPhotosWithSha256::FilterPhotosWithSha256(): sha256("")
-    {
-
-    }
-
-
-    FilterPhotosWithSha256::~FilterPhotosWithSha256()
     {
 
     }
@@ -94,19 +64,7 @@ namespace Database
     }
 
 
-    FilterNotMatchingFilter::~FilterNotMatchingFilter()
-    {
-
-    }
-
-
     FilterPhotosWithId::FilterPhotosWithId(): filter()
-    {
-
-    }
-
-
-    FilterPhotosWithId::~FilterPhotosWithId()
     {
 
     }
@@ -118,19 +76,7 @@ namespace Database
     }
 
 
-    FilterPhotosMatchingExpression::~FilterPhotosMatchingExpression()
-    {
-
-    }
-
-
     FilterPhotosWithPath::FilterPhotosWithPath(const QString& p): path(p)
-    {
-
-    }
-
-
-    FilterPhotosWithPath::~FilterPhotosWithPath()
     {
 
     }
@@ -142,19 +88,15 @@ namespace Database
     }
 
 
-    FilterPhotosWithRole::~FilterPhotosWithRole()
-    {
-
-    }
-
-
     Database::FilterPhotosWithPerson::FilterPhotosWithPerson(const Person::Id& id):
         person_id(id)
     {
     }
 
 
-    FilterPhotosWithPerson::~FilterPhotosWithPerson()
+    FilterPhotosWithGeneralFlags::FilterPhotosWithGeneralFlags(const QString& n, int v)
+        : name(n)
+        , value(v)
     {
     }
 }

@@ -333,11 +333,20 @@ namespace Database
         return result;
     }
 
-    QString SqlFilterQueryGenerator::visit(const Database::FilterPhotosWithPerson& personFilter) const
+    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithPerson& personFilter) const
     {
         return QString("SELECT photos.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
                     .arg(TAB_PHOTOS)
                     .arg(TAB_PEOPLE)
                     .arg(personFilter.person_id);
+    }
+
+    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlags& genericFlagsFilter) const
+    {
+        return QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE %2.value = %3")
+                                .arg(TAB_PHOTOS)
+                                .arg(TAB_GENERAL_FLAGS)
+                                .arg(genericFlagsFilter.value)
+                                .arg(genericFlagsFilter.name);
     }
 }

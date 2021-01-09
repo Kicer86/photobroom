@@ -414,3 +414,14 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
 
     EXPECT_EQ("SELECT groups_members.photo_id FROM groups_members", query);
 }
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGeneralFlags)
+{
+    Database::SqlFilterQueryGenerator generator;
+    Database::FilterPhotosWithGeneralFlags filter("some_name", 12345);
+
+    const QString query = generator.generate(filter);
+
+    EXPECT_EQ(query, "SELECT photos.id FROM photos LEFT JOIN (general_flags) ON (general_flags.photo_id = photos.id AND general_flags.name = 'some_name') WHERE general_flags.value = 12345");
+}
