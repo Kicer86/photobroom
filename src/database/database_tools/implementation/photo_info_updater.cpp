@@ -21,6 +21,8 @@
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 
+#include "database/generic_flags.hpp"
+
 // TODO: unit tests
 
 struct UpdaterTask: ITaskExecutor::ITask
@@ -38,6 +40,11 @@ struct UpdaterTask: ITaskExecutor::ITask
     void apply(const Photo::DataDelta& delta)
     {
         invokeMethod(m_updater, &PhotoInfoUpdater::apply, delta);
+    }
+
+    void apply(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
+    {
+        invokeMethod(m_updater, &PhotoInfoUpdater::applyFlags, id, generic_flag);
     }
 
     UpdaterTask(const UpdaterTask &) = delete;
@@ -123,6 +130,15 @@ namespace
                 delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::GeometryLoaded, 1}} );
 
                 apply(delta);
+            }
+            else
+            {
+                Photo::DataDelta delta(m_photoInfo.id);
+
+                apply(m_photoInfo.id, {
+                    Database::CommonGenericFlags::State,
+                    static_cast<int>(Database::CommonGenericFlags::StateType::Broken)
+                });
             }
         }
 
@@ -285,6 +301,15 @@ void PhotoInfoUpdater::apply(const Photo::DataDelta& delta)
         resetFlushTimer();
         m_logger->debug(QString("Restarting flush timer. %1 photos waiting for flush").arg(count));
     }
+}
+
+
+void PhotoInfoUpdater::applyFlags(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
+{
+    m_db->exec([id, generic_flag](Database::IBackend& db)
+    {
+        db.set(id, generic_flag.first, generic_flag.second);
+    });
 }
 
 

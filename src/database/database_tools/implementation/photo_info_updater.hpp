@@ -55,6 +55,7 @@ class PhotoInfoUpdater final: public QObject
         void addTask(std::unique_ptr<UpdaterTask>);
         void taskFinished(UpdaterTask *);
         void apply(const Photo::DataDelta &);
+        void applyFlags(const Photo::Id &, const std::pair<QString, int>& generic_flag);
         void flushCache();
         void resetFlushTimer();
 
