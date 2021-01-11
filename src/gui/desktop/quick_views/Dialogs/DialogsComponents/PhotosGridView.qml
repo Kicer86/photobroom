@@ -9,8 +9,12 @@ import "../../Components" as Components
 
 Components.MultiselectGridView {
 
+    id: grid
+
     property int thumbnailSize: 160
     property int thumbnailMargin: 5
+
+    signal itemDoubleClicked(int index)
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
@@ -37,6 +41,14 @@ Components.MultiselectGridView {
             z: -1
 
             Behavior on opacity { PropertyAnimation{} }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+
+            onDoubleClicked: {
+                grid.itemDoubleClicked(index)
+            }
         }
     }
 

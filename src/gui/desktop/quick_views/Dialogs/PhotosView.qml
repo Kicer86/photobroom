@@ -75,16 +75,9 @@ Item {
                 anchors.right: parent.right
             }
 
-            MouseArea {
-                anchors.fill: parent;
-
-                acceptedButtons: Qt.LeftButton
-                propagateComposedEvents: true
-
-                onDoubleClicked: {
-                    fullscreenImage.source = gridView.model.getPhotoPath(gridView.currentIndex);
-                    console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
-                }
+            onItemDoubleClicked: {
+                fullscreenImage.source = gridView.model.getPhotoPath(index);
+                console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
             }
         }
 
@@ -97,10 +90,17 @@ Item {
             visible: opacity == 0.0? false: true
             opacity: source == ""? 0.0: 1.0
 
+            Behavior on opacity { PropertyAnimation{} }
+
             source: ""
             asynchronous: true
             autoTransform: true
             fillMode: Image.PreserveAspectFit
+
+            MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: true
+            }
         }
     }
 
