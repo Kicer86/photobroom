@@ -41,12 +41,16 @@ Item {
     }
 
     Item {
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
         Internals.PhotosGridView {
+            // grid with photos
+
+            id: gridView
 
             anchors.fill: parent
 
@@ -70,6 +74,33 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
             }
+
+            MouseArea {
+                anchors.fill: parent;
+
+                acceptedButtons: Qt.LeftButton
+                propagateComposedEvents: true
+
+                onDoubleClicked: {
+                    fullscreenImage.source = gridView.model.getPhotoPath(gridView.currentIndex);
+                    console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
+                }
+            }
+        }
+
+        Image {
+            // image in full screen mode
+
+            id: fullscreenImage
+
+            anchors.fill: parent
+            visible: opacity == 0.0? false: true
+            opacity: source == ""? 0.0: 1.0
+
+            source: ""
+            asynchronous: true
+            autoTransform: true
+            fillMode: Image.PreserveAspectFit
         }
     }
 
