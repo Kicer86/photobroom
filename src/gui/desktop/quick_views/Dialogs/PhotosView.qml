@@ -40,32 +40,36 @@ Item {
         visible: photosModelControllerId.datesCount > 0
     }
 
-    Internals.PhotosGridView {
-        id: photosGridViewId
+    Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
-        clip: true
-        focus: true
-        keyNavigationEnabled: true
+        Internals.PhotosGridView {
 
-        model: photosModelControllerId.photos
-        thumbnailSize: thumbnailSliderId.size
+            anchors.fill: parent
 
-        populate: Transition {
-            NumberAnimation { properties: "x,y"; duration: 1000 }
-        }
+            clip: true
+            focus: true
+            keyNavigationEnabled: true
 
-        displaced: Transition {
-            NumberAnimation { properties: "x,y"; duration: 250 }
-        }
+            model: photosModelControllerId.photos
+            thumbnailSize: thumbnailSliderId.size
 
-        Components.ThumbnailSlider {
-            id: thumbnailSliderId
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            populate: Transition {
+                NumberAnimation { properties: "x,y"; duration: 1000 }
+            }
+
+            displaced: Transition {
+                NumberAnimation { properties: "x,y"; duration: 250 }
+            }
+
+            Components.ThumbnailSlider {
+                id: thumbnailSliderId
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+            }
         }
     }
 
