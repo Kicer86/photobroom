@@ -76,7 +76,7 @@ Item {
             }
 
             onItemDoubleClicked: {
-                fullscreenImage.setPhoto(gridView.model.getPhotoPath(index));
+                fullscreenImage.setPhoto(index);
             }
         }
 
@@ -85,11 +85,12 @@ Item {
 
             id: fullscreenImage
 
-            function setPhoto(path) {
+            function setPhoto(index) {
+                var path = gridView.model.getPhotoPath(index);
                 fullscreenImage.source = path;
                 fullscreenImage.opacity = 1.0;
                 fullscreenImage.focus = true;
-                console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
+                console.log("Fullscreen mode for photo: " + fullscreenImage.source);
             }
 
             anchors.fill: parent
