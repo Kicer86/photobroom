@@ -97,12 +97,11 @@ Item {
             visible: opacity != 0.0
             opacity: 0.0
 
-            Behavior on opacity { PropertyAnimation{} }
-
-            source: ""
             asynchronous: true
             autoTransform: true
             fillMode: Image.PreserveAspectFit
+
+            Behavior on opacity { PropertyAnimation{} }
 
             MouseArea {
                 anchors.fill: parent
