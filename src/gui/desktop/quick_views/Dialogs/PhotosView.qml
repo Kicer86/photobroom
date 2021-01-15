@@ -77,6 +77,7 @@ Item {
 
             onItemDoubleClicked: {
                 fullscreenImage.source = gridView.model.getPhotoPath(index);
+                fullscreenImage.opacity = 1.0;
                 console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
             }
         }
@@ -87,8 +88,7 @@ Item {
             id: fullscreenImage
 
             anchors.fill: parent
-            visible: opacity == 0.0? false: true
-            opacity: source == ""? 0.0: 1.0
+            visible: opacity != 0.0
 
             Behavior on opacity { PropertyAnimation{} }
 
@@ -102,7 +102,7 @@ Item {
                 propagateComposedEvents: false
 
                 onClicked: {
-                    fullscreenImage.source = ""
+                    fullscreenImage.opacity = 0.0
                 }
             }
         }

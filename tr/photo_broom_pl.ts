@@ -785,12 +785,12 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+137"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
-        <translation>Wciśnij przycisk &quot;Akceptuj&quot; by oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; zdjęcia jako przejrzane.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Accept</source>
-        <translation>Akceptuj</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
