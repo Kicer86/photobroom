@@ -105,6 +105,32 @@ Item {
                     fullscreenImage.opacity = 0.0
                 }
             }
+
+            /*
+            Text {
+                id: leftArrow
+                color: "#ffffff"
+                text: "<"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                font.family: "Times New Roman"
+                font.pointSize: parent.height/4
+
+                transform: Scale { origin.x: 0; xScale: 0.5}
+            }
+
+            Text {
+                id: rightArrow
+                color: "#ffffff"
+                text: ">"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                font.family: "Times New Roman"
+                font.pointSize: parent.height/4
+
+                transform: Scale { origin.x: rightArrow.width; xScale: 0.5}
+            }
+            */
         }
     }
 
