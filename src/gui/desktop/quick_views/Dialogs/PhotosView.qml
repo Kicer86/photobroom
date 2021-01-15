@@ -90,6 +90,8 @@ Item {
                 fullscreenImage.source = path;
                 fullscreenImage.opacity = 1.0;
                 fullscreenImage.focus = true;
+                fullscreenImage.currentIndex = index;
+
                 console.log("Fullscreen mode for photo: " + fullscreenImage.source);
             }
 
@@ -100,6 +102,8 @@ Item {
             asynchronous: true
             autoTransform: true
             fillMode: Image.PreserveAspectFit
+
+            property int currentIndex: 0
 
             Behavior on opacity { PropertyAnimation{} }
 
@@ -114,11 +118,11 @@ Item {
 
             Keys.onPressed: {
                 if (event.key == Qt.Key_Left) {
-                    console.log("move left");
+                    fullscreenImage.setPhoto(fullscreenImage.currentIndex - 1);
                     event.accepted = true;
                 }
                 else if (event.key == Qt.Key_Right) {
-                    console.log("move right");
+                    fullscreenImage.setPhoto(fullscreenImage.currentIndex + 1);
                     event.accepted = true;
                 }
             }
