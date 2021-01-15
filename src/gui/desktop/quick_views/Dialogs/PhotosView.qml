@@ -99,7 +99,11 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                propagateComposedEvents: true
+                propagateComposedEvents: false
+
+                onClicked: {
+                    fullscreenImage.source = ""
+                }
             }
         }
     }
