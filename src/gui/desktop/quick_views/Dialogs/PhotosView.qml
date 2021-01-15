@@ -76,9 +76,7 @@ Item {
             }
 
             onItemDoubleClicked: {
-                fullscreenImage.source = gridView.model.getPhotoPath(index);
-                fullscreenImage.opacity = 1.0;
-                console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
+                fullscreenImage.setPhoto(gridView.model.getPhotoPath(index));
             }
         }
 
@@ -87,8 +85,16 @@ Item {
 
             id: fullscreenImage
 
+            function setPhoto(path) {
+                fullscreenImage.source = path;
+                fullscreenImage.opacity = 1.0;
+                fullscreenImage.focus = true;
+                console.log("Starting fullscreen mode for photo: " + fullscreenImage.source);
+            }
+
             anchors.fill: parent
             visible: opacity != 0.0
+            opacity: 0.0
 
             Behavior on opacity { PropertyAnimation{} }
 
@@ -103,6 +109,17 @@ Item {
 
                 onClicked: {
                     fullscreenImage.opacity = 0.0
+                }
+            }
+
+            Keys.onPressed: {
+                if (event.key == Qt.Key_Left) {
+                    console.log("move left");
+                    event.accepted = true;
+                }
+                else if (event.key == Qt.Key_Right) {
+                    console.log("move right");
+                    event.accepted = true;
                 }
             }
 
@@ -193,7 +210,6 @@ Item {
         }
     }
 }
-
 
 
 /*##^##
