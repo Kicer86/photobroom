@@ -2,15 +2,20 @@
 #include <gmock/gmock.h>
 #include <QSignalSpy>
 
+#include <database/database_tools/json_to_backend.hpp>
+#include <database/backends/memory_backend/memory_backend.hpp>
 #include "desktop/models/flat_model.hpp"
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
 #include "unit_tests_utils/mock_photo_operator.hpp"
+#include "unit_tests_utils/sample_db.json.hpp"
 
 
 using testing::_;
 using testing::Invoke;
+using testing::InvokeArgument;
 using testing::Return;
+using testing::ReturnRef;
 using testing::NiceMock;
 
 
@@ -407,4 +412,27 @@ TEST_F(FlatModelTest, PhotoModification)
     backend.photosModified({ Photo::Id(2) });
 
     EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
+TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
+{
+    NiceMock<MockDatabase> db;
+    Database::MemoryBackend backend;
+    Database::JsonToBackend jsonReader(backend);
+
+    jsonReader.append(SampleDB::db1);
+
+    ON_CALL(db, execute(_)).WillByDefault(Invoke([&backend](auto&& task)
+    {
+        task->run(backend);
+    }));
+
+    ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
+
+    model.setDatabase(&db);
+    model.setFilters({});       // setting filters should update set of photos
+
+    const auto path = model.getPhotoPath(1);
+    EXPECT_EQ(path, QUrl::fromLocalFile("/some/path2.jpeg"));
 }
