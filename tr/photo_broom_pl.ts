@@ -130,22 +130,22 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+108"/>
         <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Mark found faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz znalezione twarze</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się znaleźć żadnej twarzy.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Faces detected a recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziono i rozpoznano twarze.</translation>
     </message>
 </context>
 <context>
@@ -487,7 +487,10 @@ Proszę zaktualizować aplikację.</translation>
 It means your database is too old to open it.
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Kolekcja, którą chcesz otworzyć, zawiera bazę zdjęć w nieobsługiwanej wersji.
+Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
+
+</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -550,7 +553,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>
         <source>NEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe</translation>
     </message>
 </context>
 <context>
@@ -785,12 +788,12 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+188"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Akceptuj</translation>
     </message>
 </context>
 <context>
@@ -977,7 +980,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     <message>
         <location filename="../src/main.cpp" line="+178"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
     <message>
         <location line="+1"/>
