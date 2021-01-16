@@ -140,6 +140,16 @@ QModelIndex FlatModel::index(int r, int c, const QModelIndex& p) const
 }
 
 
+QUrl FlatModel::getPhotoPath(int row) const
+{
+    const Photo::Id id = m_photos[row];
+    const Photo::Data& data = photoData(id);
+    const QUrl url = QUrl::fromLocalFile(data.path);
+
+    return url;
+}
+
+
 void FlatModel::reloadPhotos()
 {
     resetModel();

@@ -9,8 +9,12 @@ import "../../Components" as Components
 
 Components.MultiselectGridView {
 
+    id: grid
+
     property int thumbnailSize: 160
     property int thumbnailMargin: 5
+
+    signal itemDoubleClicked(int index)
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
@@ -26,41 +30,28 @@ Components.MultiselectGridView {
         height: cellHeight
         margin: thumbnailMargin
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: delegateId.GridView.view.currentIndex = index
-        }
-
         Rectangle {
             id: highlightId
             anchors.fill: parent
             anchors.margins: 0
-            state: "unselected"
 
+            opacity: delegateId.selected? 1.0: delegateId.GridView.view.currentIndex == index? 0.5 : 0
             color: currentPalette.highlight
             radius: 5
             z: -1
 
-            states: [
-                State {
-                    name: "selected"
-                    when: delegateId.selected
-                    PropertyChanges { target: highlightId; opacity: 1.0 }
-                },
-                State {
-                    name: "unselected"
-                    when: !delegateId.selected
-                    PropertyChanges { target: highlightId; opacity: 0.0 }
-                }
-            ]
+            Behavior on opacity { PropertyAnimation{} }
+        }
 
-            transitions: Transition {
-                PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
+        MouseArea {
+            anchors.fill: parent
+
+            onDoubleClicked: {
+                grid.itemDoubleClicked(index)
             }
         }
     }
 
-    //keyNavigationEnabled: true
     currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }

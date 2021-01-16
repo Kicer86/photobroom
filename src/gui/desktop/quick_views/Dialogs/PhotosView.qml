@@ -40,29 +40,122 @@ Item {
         visible: photosModelControllerId.datesCount > 0
     }
 
-    Internals.PhotosGridView {
-        id: photosGridViewId
+    Item {
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
-        clip: true
-        model: photosModelControllerId.photos
-        thumbnailSize: thumbnailSliderId.size
+        Internals.PhotosGridView {
+            // grid with photos
 
-        populate: Transition {
-            NumberAnimation { properties: "x,y"; duration: 1000 }
+            id: gridView
+
+            anchors.fill: parent
+
+            clip: true
+            focus: true
+            keyNavigationEnabled: true
+
+            model: photosModelControllerId.photos
+            thumbnailSize: thumbnailSliderId.size
+
+            populate: Transition {
+                NumberAnimation { properties: "x,y"; duration: 1000 }
+            }
+
+            displaced: Transition {
+                NumberAnimation { properties: "x,y"; duration: 250 }
+            }
+
+            Components.ThumbnailSlider {
+                id: thumbnailSliderId
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+            }
+
+            onItemDoubleClicked: {
+                fullscreenImage.setPhoto(index);
+            }
         }
 
-        displaced: Transition {
-            NumberAnimation { properties: "x,y"; duration: 250 }
-        }
+        Image {
+            // image in full screen mode
 
-        Components.ThumbnailSlider {
-            id: thumbnailSliderId
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            id: fullscreenImage
+
+            function setPhoto(index) {
+                var path = gridView.model.getPhotoPath(index);
+                fullscreenImage.source = path;
+                fullscreenImage.opacity = 1.0;
+                fullscreenImage.focus = true;
+                fullscreenImage.currentIndex = index;
+
+                console.log("Fullscreen mode for photo: " + fullscreenImage.source);
+            }
+
+            anchors.fill: parent
+            visible: opacity != 0.0
+            opacity: 0.0
+
+            asynchronous: true
+            autoTransform: true
+            fillMode: Image.PreserveAspectFit
+
+            property int currentIndex: 0
+
+            Behavior on opacity { PropertyAnimation{} }
+
+            MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: false
+
+                onClicked: {
+                    fullscreenImage.opacity = 0.0
+                }
+            }
+
+            onStatusChanged: {
+                if (fullscreenImage.status == Image.Error)
+                    fullscreenImage.source = "qrc:/gui/error.svg";
+            }
+
+            /*
+            Keys.onPressed: {
+                if (event.key == Qt.Key_Left) {
+                    fullscreenImage.setPhoto(fullscreenImage.currentIndex - 1);
+                    event.accepted = true;
+                }
+                else if (event.key == Qt.Key_Right) {
+                    fullscreenImage.setPhoto(fullscreenImage.currentIndex + 1);
+                    event.accepted = true;
+                }
+            }
+            Text {
+                id: leftArrow
+                color: "#ffffff"
+                text: "<"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                font.family: "Times New Roman"
+                font.pointSize: parent.height/4
+
+                transform: Scale { origin.x: 0; xScale: 0.5}
+            }
+
+            Text {
+                id: rightArrow
+                color: "#ffffff"
+                text: ">"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                font.family: "Times New Roman"
+                font.pointSize: parent.height/4
+
+                transform: Scale { origin.x: rightArrow.width; xScale: 0.5}
+            }
+            */
         }
     }
 
@@ -125,7 +218,6 @@ Item {
         }
     }
 }
-
 
 
 /*##^##

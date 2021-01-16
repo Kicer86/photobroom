@@ -21,6 +21,7 @@
 #include <map>
 #include <mutex>
 #include <QDate>
+#include <QUrl>
 
 #include <database/filter.hpp>
 #include "aphoto_info_model.hpp"
@@ -49,6 +50,8 @@ class FlatModel: public APhotoInfoModel
         int columnCount(const QModelIndex & parent) const override;
         QModelIndex parent(const QModelIndex&) const override;
         QModelIndex index(int, int, const QModelIndex&) const override;
+
+        Q_INVOKABLE QUrl getPhotoPath(int row) const;
 
     private:
         Database::Filter m_filters;
