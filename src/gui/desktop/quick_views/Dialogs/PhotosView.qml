@@ -116,6 +116,7 @@ Item {
                 }
             }
 
+            /*
             Keys.onPressed: {
                 if (event.key == Qt.Key_Left) {
                     fullscreenImage.setPhoto(fullscreenImage.currentIndex - 1);
@@ -126,8 +127,6 @@ Item {
                     event.accepted = true;
                 }
             }
-
-            /*
             Text {
                 id: leftArrow
                 color: "#ffffff"
