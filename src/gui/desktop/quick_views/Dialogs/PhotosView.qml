@@ -116,6 +116,11 @@ Item {
                 }
             }
 
+            onStatusChanged: {
+                if (fullscreenImage.status == Image.Error)
+                    fullscreenImage.source = "qrc:/gui/error.svg";
+            }
+
             /*
             Keys.onPressed: {
                 if (event.key == Qt.Key_Left) {
