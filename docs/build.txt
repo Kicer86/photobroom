@@ -21,28 +21,17 @@ Required tools and libraries:
  - https://github.com/Kicer86/cmake_modules.git                 - various cmake modules and package finders
  - https://github.com/ageitgey/face_recognition_models.git      - modules for face recognition
  - git://anongit.kde.org/kwidgetsaddons.git                     - kdewidgets
+ - https://github.com/Kicer86/github_api.git                    - github api
 
-* For convenience it is possible to use conan tool
+* For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
-  Conan setup:
-  - Required conan repositories:
-    conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
-    conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
+vcpkg setup:
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary
 
-  - running conan:
-    Go to build dir and execute:
-    conan install /source/dir --build
-
-Instead of conan vcpkg can be used:
-vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda] exiv2 openlibrary
-
-Tested compilers (with c++17 support):
+Tested compilers (with c++20 support):
 1. gcc (Linux and Windows)
-
 2. clang (Linux)
-    - broken due to https://bugs.llvm.org/show_bug.cgi?id=38485
-
 3. Visual studio 2019 (Windows)
 
 
