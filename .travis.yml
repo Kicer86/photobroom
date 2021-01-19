@@ -93,6 +93,13 @@ install:
         popd;
     fi
 
+  - if [ ! -d tools/vcpkg ]; then
+        git clone https://github.com/microsoft/vcpkg.git tools/vcpkg;
+        pushd tools/vcpkg;
+        sh ./bootstrap-vcpkg.sh;
+        popd;
+    fi
+
   - sudo pip install conan;
     conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
     conan config set storage.path=$HOME/conanData;
