@@ -60,18 +60,13 @@ matrix:
 cache:
     - ccache: true
     - directories:
-        - $HOME/conanData           # Conan storage location
         - $HOME/tools               # tools like CMake
-        - conan                     # Conan installation folder
 
 install:
   # setup tools for particular system
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         eval "$(pyenv init -)";
-        sudo pip install virtualenv;
-        virtualenv conan;
-        source conan/bin/activate;
         brew install bison;
         brew install ccache;
         export PATH="/usr/local/opt/bison/bin:$PATH";
@@ -94,31 +89,21 @@ install:
     fi
 
   - if [ ! -d tools/vcpkg ]; then
-        git clone https://github.com/microsoft/vcpkg.git tools/vcpkg;
-        pushd tools/vcpkg;
+        git clone https://github.com/microsoft/vcpkg.git $HOME/tools/vcpkg;
+        pushd $HOMEtools/vcpkg;
         sh ./bootstrap-vcpkg.sh;
         popd;
     fi
 
-  - sudo pip install conan;
-    conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
-    conan config set storage.path=$HOME/conanData;
+  - $HOME/tools/vcpkg/vcpkg --overlay-ports=./ci/vcpkg/ install exiv2 openlibrary
 
 before_script:
   - if [ $DEBUG -eq 1 ]; then
         EXTRA_CMAKE_OPTIONS="-DENABLE_CODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug";
     fi
 
-  - conan profile new default --detect;
-    cat ~/.conan/profiles/default;
-
   # photo broom
   - mkdir build && cd build
-  - if [ $TRAVIS_OS_NAME == 'osx' ]; then
-        conan install .. --build -s compiler.cppstd=11 > /dev/null;
-    else
-        conan install .. --build -s compiler.cppstd=11 -s compiler.libcxx=libstdc++11 &> /dev/null;
-    fi
   - ccache -z
 
 script:
