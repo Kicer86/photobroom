@@ -80,7 +80,6 @@ install:
         sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.0-focal;
         sudo apt install qt515base qt515svg qt515quickcontrols2 libgl-dev lcov;
         source /opt/qt515/bin/qt515-env.sh;
-        pyenv global 3.7;
         mkdir $HOME/googletest;
         pushd $HOME/googletest;
         cmake /usr/src/googletest -DCMAKE_INSTALL_PREFIX=$HOME/googletest_installation;
@@ -88,7 +87,7 @@ install:
         popd;
     fi
 
-  - if [ ! -d tools/vcpkg ]; then
+  - if [ ! -d $HOME/tools/vcpkg ]; then
         git clone https://github.com/microsoft/vcpkg.git $HOME/tools/vcpkg;
         pushd $HOME/tools/vcpkg;
         sh ./bootstrap-vcpkg.sh;
