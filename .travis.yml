@@ -112,6 +112,7 @@ script:
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
           -DGTest_DIR=$HOME/googletest_installation/lib/cmake/GTest
+          -DCMAKE_TOOLCHAIN_FILE=$HOME/tools/vcpkg/scripts/buildsystems/vcpkg.cmake
           ${EXTRA_CMAKE_OPTIONS}
           ..
   - make
