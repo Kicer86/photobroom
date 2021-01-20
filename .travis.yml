@@ -90,7 +90,7 @@ install:
 
   - if [ ! -d tools/vcpkg ]; then
         git clone https://github.com/microsoft/vcpkg.git $HOME/tools/vcpkg;
-        pushd $HOMEtools/vcpkg;
+        pushd $HOME/tools/vcpkg;
         sh ./bootstrap-vcpkg.sh;
         popd;
     fi
