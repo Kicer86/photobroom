@@ -78,7 +78,7 @@ install:
         echo "max_size = 0.5"      > /home/travis/.ccache/ccache.conf;
         echo "compression = true" >> /home/travis/.ccache/ccache.conf;
         sudo add-apt-repository -y ppa:beineri/opt-qt-5.15.0-focal;
-        sudo apt install qt515base qt515svg qt515quickcontrols2  libgl-dev lcov;
+        sudo apt install qt515base qt515svg qt515quickcontrols2 libgl-dev lcov;
         source /opt/qt515/bin/qt515-env.sh;
         pyenv global 3.7;
         mkdir $HOME/googletest;
