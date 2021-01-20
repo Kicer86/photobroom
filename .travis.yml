@@ -60,7 +60,7 @@ matrix:
 cache:
     - ccache: true
     - directories:
-        - $HOME/tools               # tools like CMake
+        - $HOME/tools               # vcpkg
 
 install:
   # setup tools for particular system
