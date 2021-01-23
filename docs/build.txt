@@ -8,8 +8,8 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 
 Required tools and libraries:
- - cmake - version 3.12 or later
- - Qt5 - version 5.15 or higher
+ - cmake - version 3.16 or later
+ - Qt5 - version 5.15
  - exiv2*
  - OpenLibrary*
  - dlib*
@@ -21,29 +21,26 @@ Required tools and libraries:
  - https://github.com/Kicer86/cmake_modules.git                 - various cmake modules and package finders
  - https://github.com/ageitgey/face_recognition_models.git      - modules for face recognition
  - git://anongit.kde.org/kwidgetsaddons.git                     - kdewidgets
+ - https://github.com/Kicer86/github_api.git                    - github api
 
-* For convenience it is possible to use conan tool
+* For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
-  Conan setup:
-  - Required conan repositories:
-    conan remote add piponazo https://api.bintray.com/conan/piponazo/piponazo;
-    conan remote add kicer https://api.bintray.com/conan/kicer86/kicer;
 
-  - running conan:
-    Go to build dir and execute:
-    conan install /source/dir --build
+vcpkg setup:
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary
 
-Instead of conan vcpkg can be used:
-vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda] exiv2 openlibrary
+In case you do not want vcpkg to download and build Qt5 (OpenLibrary's dependency)
+because it is available in your system use:
+vcpkg install --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native dlib[core,cuda,fftw3] exiv2 openlibrary
 
-Tested compilers (with c++17 support):
+If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
+
+
+Tested compilers (with c++20 support):
 1. gcc (Linux and Windows)
-
 2. clang (Linux)
-    - broken due to https://bugs.llvm.org/show_bug.cgi?id=38485
-
-3. Visual studio 2019 (Windows)
+3. Visual Studio 2019 (Windows)
 
 
 PhotoBroom cannot be run without installation step.

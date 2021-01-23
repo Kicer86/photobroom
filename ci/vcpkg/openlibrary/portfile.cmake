@@ -9,7 +9,6 @@ vcpkg_from_github(
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
-    OPTIONS -DQt5Widgets_DIR="$ENV{Qt5Widgets_DIR}"
 )
 
 vcpkg_install_cmake()
@@ -19,4 +18,3 @@ vcpkg_copy_pdbs()
 # Clean
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include ${CURRENT_PACKAGES_DIR}/debug/share)
 file(TOUCH ${CURRENT_PACKAGES_DIR}/share/openlibrary/copyright)
-

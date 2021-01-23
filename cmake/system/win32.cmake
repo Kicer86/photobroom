@@ -4,7 +4,12 @@
 
 
 function(setup_qt_environment)
-    find_program(WINDEPLOY windeployqt)
+    find_package(Qt5 REQUIRED COMPONENTS Core)
+    get_filename_component(qt_bin_dir ${QT_MOC_EXECUTABLE} DIRECTORY)
+
+    find_program(WINDEPLOY windeployqt
+        HINTS ${qt_bin_dir}
+    )
 
     if(WINDEPLOY)
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
@@ -219,9 +224,6 @@ endmacro(addDeploymentActions)
 
 #enable deployment
 addDeploymentActions()
-
-#http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
-set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 
 #uninstall previous version of photo broom
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
