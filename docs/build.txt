@@ -8,8 +8,8 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 
 Required tools and libraries:
- - cmake - version 3.12 or later
- - Qt5 - version 5.15 or higher
+ - cmake - version 3.16 or later
+ - Qt5 - version 5.15
  - exiv2*
  - OpenLibrary*
  - dlib*
@@ -26,13 +26,21 @@ Required tools and libraries:
 * For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
+
 vcpkg setup:
 vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary
+
+In case you do not want vcpkg to download and build Qt5 (OpenLibrary's dependency)
+because it is available in your system use:
+vcpkg install --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native dlib[core,cuda,fftw3] exiv2 openlibrary
+
+If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
+
 
 Tested compilers (with c++20 support):
 1. gcc (Linux and Windows)
 2. clang (Linux)
-3. Visual studio 2019 (Windows)
+3. Visual Studio 2019 (Windows)
 
 
 PhotoBroom cannot be run without installation step.
