@@ -225,9 +225,6 @@ endmacro(addDeploymentActions)
 #enable deployment
 addDeploymentActions()
 
-#http://public.kitware.com/Bug/print_bug_page.php?bug_id=7829
-set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-
 #uninstall previous version of photo broom
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 
