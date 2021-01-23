@@ -49,7 +49,7 @@ install:
     - cmd: set USE_QT_VER=5.15
     - cmd: set Qt5Widgets_DIR=C:\Qt\%USE_QT_VER%\%qt_arch%\lib\cmake
     - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
-    - vcpkg --overlay-ports=./ci/vcpkg/ install exiv2:x64-windows openlibrary:x64-windows
+    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2:x64-windows openlibrary:x64-windows
 
 before_build:
     - if not exist "%WINFLEXBISON_ARCHIVE%" appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/%WINFLEXBISON_ARCHIVE%"
