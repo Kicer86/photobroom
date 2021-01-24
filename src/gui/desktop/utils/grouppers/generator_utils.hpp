@@ -103,12 +103,12 @@ namespace GeneratorUtils
     };
 
 
-    class ConvertOutputAnalyzer: public GenericAnalyzer
+    class MagickOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT
 
         public:
-            ConvertOutputAnalyzer(ILogger* logger, int photos_count);
+            MagickOutputAnalyzer(ILogger* logger, int photos_count);
 
             void processMessage(const QString &) override;
 

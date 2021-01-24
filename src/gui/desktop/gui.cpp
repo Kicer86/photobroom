@@ -157,8 +157,10 @@ void Gui::run()
 
     // setup basic configuration
     IConfiguration* configuration = m_coreFactory.getConfiguration();
+
+    // defaults
     configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
+    configuration->setDefaultValue(ExternalToolsConfigKeys::magickPath, QStandardPaths::findExecutable("magick"));
     configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
     configuration->setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
 

@@ -296,7 +296,7 @@ void PhotosGroupingDialog::makeAnimation()
 
     generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
+    generator_data.magickPath = m_config->getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
     generator_data.format = ui->formatComboBox->currentText();
     generator_data.fps = ui->speedSpinBox->value();
@@ -305,12 +305,12 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
     // make sure we have all neccessary data
-    if (generator_data.convertPath.isEmpty())
+    if (generator_data.magickPath.isEmpty())
         QMessageBox::critical(this,
                               tr("Missing tool"),
-                              tr("'convert' tool is neccessary for this operation.\n"
-                                 "Please go to settings and setup path to 'convert' executable.\n\n"
-                                 "'convert' is a tool which is a part of ImageMagick.\n"
+                              tr("'magick' tool is neccessary for this operation.\n"
+                                 "Please go to settings and setup path to 'magick' executable.\n\n"
+                                 "'magick' is a tool provided by ImageMagick.\n"
                                  "Visit https://www.imagemagick.org/ for downloads."));
 
     else if(generator_data.stabilize && generator_data.alignImageStackPath.isEmpty())
@@ -350,16 +350,16 @@ void PhotosGroupingDialog::makeHDR()
 
     generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.convertPath = m_config->getEntry(ExternalToolsConfigKeys::convertPath).toString();
+    generator_data.magickPath = m_config->getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
 
     // make sure we have all neccessary data
-    if (generator_data.convertPath.isEmpty())
+    if (generator_data.magickPath.isEmpty())
         QMessageBox::critical(this,
                               tr("Missing tool"),
-                              tr("'convert' tool is neccessary for this operation.\n"
+                              tr("'magick' tool is neccessary for this operation.\n"
                                  "Please go to settings and setup path to 'convert' executable.\n\n"
-                                 "'convert' is a tool which is a part of ImageMagick.\n"
+                                 "'magick' is a tool provided by ImageMagick.\n"
                                  "Visit https://www.imagemagick.org/ for downloads."));
 
     else if(generator_data.alignImageStackPath.isEmpty())

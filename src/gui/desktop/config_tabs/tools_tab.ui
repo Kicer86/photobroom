@@ -26,12 +26,12 @@
          <string>Used for creating animations (gifs) from photo series.</string>
         </property>
         <property name="text">
-         <string notr="true">convert</string>
+         <string notr="true">magick</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QtExtChooseFile" name="convertPath" native="true"/>
+       <widget class="QtExtChooseFile" name="magickPath" native="true"/>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="aisLabel">

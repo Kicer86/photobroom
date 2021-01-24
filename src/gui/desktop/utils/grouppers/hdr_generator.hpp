@@ -29,11 +29,11 @@ class HDRGenerator: public GeneratorUtils::BreakableTask
         struct Data
         {
             QString storage;
-            QString convertPath;
+            QString magickPath;
             QString alignImageStackPath;
             QStringList photos;
 
-            Data(): storage(), convertPath(), alignImageStackPath(), photos() {}
+            Data(): storage(), magickPath(), alignImageStackPath(), photos() {}
         };
 
         HDRGenerator(const Data& photos, ILogger *, IExifReaderFactory *);
