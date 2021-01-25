@@ -49,8 +49,10 @@ namespace
         }
     }
 
-    void verifyTools(std::unique_ptr<ILogger> logger, IFeaturesManager& fm, const std::vector<std::pair<QString, QString>>& tools)
+    QStringList verifyTools(std::unique_ptr<ILogger> logger, IFeaturesManager& fm, const std::vector<std::pair<QString, QString>>& tools)
     {
+        QStringList brokenTools;
+
         for (const auto& tool: tools)
         {
             const QString& key = tool.first;
@@ -61,8 +63,13 @@ namespace
             if (toolInfo.exists() && toolInfo.isExecutable())
                 fm.add(key);
             else
+            {
                 logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(key));
+                brokenTools.append(key);
+            }
         }
+
+        return brokenTools;
     }
 
     struct ThumbnailUtils: IThumbnailUtils
@@ -195,7 +202,7 @@ void Gui::run()
     // features
     auto& detector = m_coreFactory.getFeaturesManager();
     detectImages(gui_logger->subLogger("ImagesDetector"), detector);
-    verifyTools(gui_logger->subLogger("ToolsVerifier"), detector,
+    const auto brokenTools = verifyTools(gui_logger->subLogger("ToolsVerifier"), detector,
     {
         { gui::features::ToolMagick,  configuration.getEntry(ExternalToolsConfigKeys::magickPath).toString()  },
         { gui::features::ToolAIS,     configuration.getEntry(ExternalToolsConfigKeys::aisPath).toString()     },
