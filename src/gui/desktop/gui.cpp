@@ -34,6 +34,21 @@
 
 namespace
 {
+    struct ToolInfo
+    {
+        QString name;
+        QString featureKey;
+        QString configurationKey;
+    };
+
+    std::vector<ToolInfo> Tools =
+    {
+        { "Magick",          gui::features::ToolMagick  ,ExternalToolsConfigKeys::magickPath  },
+        { "AlignImageStack", gui::features::ToolAIS     ,ExternalToolsConfigKeys::aisPath     },
+        { "FFMpeg",          gui::features::ToolFFMpeg  ,ExternalToolsConfigKeys::ffmpegPath  },
+        { "FFProbe",         gui::features::ToolFFProbe ,ExternalToolsConfigKeys::ffprobePath }
+    };
+
     void detectImages(std::unique_ptr<ILogger> logger, IFeaturesManager& fm)
     {
         QList<QByteArray> images = QImageReader::supportedImageFormats();
@@ -49,23 +64,28 @@ namespace
         }
     }
 
-    QStringList verifyTools(std::unique_ptr<ILogger> logger, IFeaturesManager& fm, const std::vector<std::pair<QString, QString>>& tools)
+    QStringList verifyTools(std::unique_ptr<ILogger> logger,
+                                      IFeaturesManager& fm,
+                                      IConfiguration& configuration,
+                                      const std::vector<ToolInfo>& tools)
     {
         QStringList brokenTools;
 
         for (const auto& tool: tools)
         {
-            const QString& key = tool.first;
-            const QString& path = tool.second;
-
+            const QString& key = tool.featureKey;
+            const QString& configKey = tool.configurationKey;
+            const QString path = configuration.getEntry(configKey).toString();
             const QFileInfo toolInfo(path);
 
             if (toolInfo.exists() && toolInfo.isExecutable())
                 fm.add(key);
             else
             {
-                logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(key));
-                brokenTools.append(key);
+                const QString& name = tool.name;
+
+                logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(name));
+                brokenTools.push_back(name);
             }
         }
 
@@ -202,13 +222,7 @@ void Gui::run()
     // features
     auto& detector = m_coreFactory.getFeaturesManager();
     detectImages(gui_logger->subLogger("ImagesDetector"), detector);
-    const auto brokenTools = verifyTools(gui_logger->subLogger("ToolsVerifier"), detector,
-    {
-        { gui::features::ToolMagick,  configuration.getEntry(ExternalToolsConfigKeys::magickPath).toString()  },
-        { gui::features::ToolAIS,     configuration.getEntry(ExternalToolsConfigKeys::aisPath).toString()     },
-        { gui::features::ToolFFMpeg,  configuration.getEntry(ExternalToolsConfigKeys::ffmpegPath).toString()  },
-        { gui::features::ToolFFProbe, configuration.getEntry(ExternalToolsConfigKeys::ffprobePath).toString() }
-    });
+    const auto brokenTools = verifyTools(gui_logger->subLogger("ToolsVerifier"), detector, configuration, Tools);
 
     mainWindow.show();
 
