@@ -38,7 +38,7 @@ namespace
     {
         QList<QByteArray> images = QImageReader::supportedImageFormats();
 
-        for(const QByteArray image: qAsConst(images))
+        for(const QByteArray& image: qAsConst(images))
         {
             const QString msg = QString("Qt supports %1 file format").arg(image.data());
 
@@ -46,6 +46,22 @@ namespace
 
             if (image == "mng")
                 fm.add(gui::features::MngFile);
+        }
+    }
+
+    void verifyTools(std::unique_ptr<ILogger> logger, IFeaturesManager& fm, const std::vector<std::pair<QString, QString>>& tools)
+    {
+        for (const auto& tool: tools)
+        {
+            const QString& key = tool.first;
+            const QString& path = tool.second;
+
+            const QFileInfo toolInfo(path);
+
+            if (toolInfo.exists() && toolInfo.isExecutable())
+                fm.add(key);
+            else
+                logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(key));
         }
     }
 
@@ -179,6 +195,13 @@ void Gui::run()
     // features
     auto& detector = m_coreFactory.getFeaturesManager();
     detectImages(gui_logger->subLogger("ImagesDetector"), detector);
+    verifyTools(gui_logger->subLogger("ToolsVerifier"), detector,
+    {
+        { gui::features::ToolMagick,  configuration.getEntry(ExternalToolsConfigKeys::magickPath).toString()  },
+        { gui::features::ToolAIS,     configuration.getEntry(ExternalToolsConfigKeys::aisPath).toString()     },
+        { gui::features::ToolFFMpeg,  configuration.getEntry(ExternalToolsConfigKeys::ffmpegPath).toString()  },
+        { gui::features::ToolFFProbe, configuration.getEntry(ExternalToolsConfigKeys::ffprobePath).toString() }
+    });
 
     mainWindow.show();
 
