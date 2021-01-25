@@ -34,31 +34,20 @@
 
 namespace
 {
-    struct ImagesDetector: IFeatureDetector
+    void detectImages(std::unique_ptr<ILogger> logger, IFeaturesManager& fm)
     {
-        ImagesDetector(std::unique_ptr<ILogger> logger): m_logger(std::move(logger)) {}
+        QList<QByteArray> images = QImageReader::supportedImageFormats();
 
-        QStringList detect() override
+        for(const QByteArray image: qAsConst(images))
         {
-            QStringList features;
+            const QString msg = QString("Qt supports %1 file format").arg(image.data());
 
-            QList<QByteArray> images = QImageReader::supportedImageFormats();
+            logger->debug(msg);
 
-            for(const QByteArray image: qAsConst(images))
-            {
-                const QString msg = QString("Qt supports %1 file format").arg(image.data());
-
-                m_logger->debug(msg);
-
-                if (image == "mng")
-                    features.append(gui::features::MngFile);
-            }
-
-            return features;
+            if (image == "mng")
+                fm.add(gui::features::MngFile);
         }
-
-        std::unique_ptr<ILogger> m_logger;
-    };
+    }
 
     struct ThumbnailUtils: IThumbnailUtils
     {
@@ -188,10 +177,8 @@ void Gui::run()
 #endif
 
     // features
-    ImagesDetector img_det(gui_logger->subLogger("ImagesDetector"));
     auto& detector = m_coreFactory.getFeaturesManager();
-    detector.add(&img_det);
-    detector.detect();
+    detectImages(gui_logger->subLogger("ImagesDetector"), detector);
 
     mainWindow.show();
 

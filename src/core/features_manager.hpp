@@ -35,15 +35,11 @@ class CORE_EXPORT FeaturesManager final: public IFeaturesManager
 {
     public:
         FeaturesManager(ILoggerFactory *);
-        ~FeaturesManager();
-
-        void detect() override;
-        void add(IFeatureDetector *) override;
+        void add(const QString &) override;
 
         bool has(const QString &) const override;
 
     private:
-        std::vector<IFeatureDetector *> m_detectors;
         std::set<QString> m_features;
         std::unique_ptr<ILogger> m_logger;
 };

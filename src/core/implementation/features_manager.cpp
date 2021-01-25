@@ -28,35 +28,11 @@ FeaturesManager::FeaturesManager(ILoggerFactory* loggerFactory)
 }
 
 
-FeaturesManager::~FeaturesManager()
+void FeaturesManager::add(const QString& feature)
 {
+    m_features.insert(feature);
 
-}
-
-
-void FeaturesManager::detect()
-{
-    std::set<QString> features;
-
-    for(IFeatureDetector* detector: m_detectors)
-    {
-        QStringList detector_features = detector->detect();
-        features.insert(detector_features.begin(), detector_features.end());
-    }
-
-    for(const QString& feature: features)
-    {
-        const QString msg = QString("feature %1 enabled").arg(feature);
-        m_logger->debug(msg);
-    }
-
-    m_features.swap(features);
-}
-
-
-void FeaturesManager::add(IFeatureDetector* detector)
-{
-    m_detectors.push_back(detector);
+    m_logger->info(QString("Feature %1 enabled").arg(feature));
 }
 
 
