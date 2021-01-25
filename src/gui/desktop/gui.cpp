@@ -120,10 +120,10 @@ void Gui::run()
     QQuickStyle::setStyle("Fusion");
 #endif
 
-    ILoggerFactory* loggerFactory = m_coreFactory.getLoggerFactory();
+    ILoggerFactory& loggerFactory = m_coreFactory.getLoggerFactory();
 
-    auto gui_logger = loggerFactory->get("Gui");
-    auto photos_manager_logger = loggerFactory->get("Photos manager");
+    auto gui_logger = loggerFactory.get("Gui");
+    auto photos_manager_logger = loggerFactory.get("Photos manager");
 
     const QString tr_path = FileSystem().getTranslationsPath();
     gui_logger->info(QString("Searching for translations in: %1").arg(tr_path));
@@ -156,24 +156,24 @@ void Gui::run()
         gui_logger->log(ILogger::Severity::Error, "Could not load translations.");
 
     // setup basic configuration
-    IConfiguration* configuration = m_coreFactory.getConfiguration();
+    IConfiguration& configuration = m_coreFactory.getConfiguration();
 
     // defaults
-    configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::magickPath, QStandardPaths::findExecutable("magick"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::magickPath, QStandardPaths::findExecutable("magick"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
 
-    const QVariant ffmpegPath = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+    const QVariant ffmpegPath = configuration.getEntry(ExternalToolsConfigKeys::ffmpegPath);
     const QFileInfo fileInfo(ffmpegPath.toString());
 
     if (fileInfo.isExecutable() == false)
         gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
 
     //
-    auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
-    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), configuration);
-    ThumbnailManager thbMgr(m_coreFactory.getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
+    auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
+    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), &configuration);
+    ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
 
     // main window
     MainWindow mainWindow(&m_coreFactory, &thbMgr);
@@ -189,9 +189,9 @@ void Gui::run()
 
     // features
     ImagesDetector img_det(gui_logger->subLogger("ImagesDetector"));
-    auto* detector = m_coreFactory.getFeaturesManager();
-    detector->add(&img_det);
-    detector->detect();
+    auto& detector = m_coreFactory.getFeaturesManager();
+    detector.add(&img_det);
+    detector.detect();
 
     mainWindow.show();
 

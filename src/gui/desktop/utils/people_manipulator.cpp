@@ -126,9 +126,9 @@ void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
 {
     auto task = std::bind(method, this);
     auto safe_task = m_callback_ctrl.make_safe_callback<>(task);
-    auto executor = m_core.getTaskExecutor();
+    auto& executor = m_core.getTaskExecutor();
 
-    runOn(executor, safe_task);
+    runOn(&executor, safe_task);
 }
 
 
@@ -145,7 +145,7 @@ void PeopleManipulator::findFaces_thrd()
     const QString path = pathFor(m_pid);
     const QFileInfo pathInfo(path);
     const QString full_path = pathInfo.absoluteFilePath();
-    m_image = OrientedImage(m_core.getExifReaderFactory()->get(), full_path);
+    m_image = OrientedImage(m_core.getExifReaderFactory().get(), full_path);
 
     const std::vector<QRect> list_of_faces = fetchFacesFromDb();
 

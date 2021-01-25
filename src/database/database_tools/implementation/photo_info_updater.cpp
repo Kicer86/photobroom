@@ -149,17 +149,15 @@ namespace
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, const Photo::Data& photoInfo): UpdaterTask(updater), m_photoInfo(photoInfo), m_exifReaderFactory (nullptr)
+        TagsCollector(PhotoInfoUpdater* updater, IExifReaderFactory& exifReaderFactory, const Photo::Data& photoInfo):
+            UpdaterTask(updater),
+            m_photoInfo(photoInfo),
+            m_exifReaderFactory(exifReaderFactory)
         {
         }
 
         TagsCollector(const TagsCollector &) = delete;
         TagsCollector& operator=(const TagsCollector &) = delete;
-
-        void set(IExifReaderFactory* exifReaderFactory)
-        {
-            m_exifReaderFactory = exifReaderFactory;
-        }
 
         virtual std::string name() const override
         {
@@ -168,7 +166,7 @@ namespace
 
         virtual void perform() override
         {
-            IExifReader* feeder = m_exifReaderFactory->get();
+            IExifReader* feeder = m_exifReaderFactory.get();
 
             // merge found tags with current tags.
             const Tag::TagsList new_tags = feeder->getTagsFor(m_photoInfo.path);
@@ -192,19 +190,19 @@ namespace
         }
 
         Photo::Data m_photoInfo;
-        IExifReaderFactory* m_exifReaderFactory;
+        IExifReaderFactory& m_exifReaderFactory;
     };
 
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater( ICoreFactoryAccessor* coreFactory, Database::IDatabase* db):
-    m_mediaInformation(),
+PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::IDatabase* db):
+    m_mediaInformation(coreFactory),
     m_tasks(),
     m_tasksMutex(),
     m_finishedTask(),
     m_threadId(std::this_thread::get_id()),
-    m_logger(coreFactory->getLoggerFactory()->get("PhotoInfoUpdater")),
+    m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db),
     m_tasksExecutor(coreFactory->getTaskExecutor())
@@ -240,8 +238,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::Data& photoInfo)
 
 void PhotoInfoUpdater::updateTags(const Photo::Data& photoInfo)
 {
-    auto task = std::make_unique<TagsCollector>(this, photoInfo);
-    task->set(m_coreFactory->getExifReaderFactory());
+    auto task = std::make_unique<TagsCollector>(this, m_coreFactory->getExifReaderFactory(), photoInfo);
 
     addTask(std::move(task));
 }
@@ -268,7 +265,7 @@ void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 {
     std::lock_guard<std::mutex> lock(m_tasksMutex);
     m_tasks.insert(task.get());
-    m_tasksExecutor->add(std::move(task));
+    m_tasksExecutor.add(std::move(task));
 }
 
 

@@ -89,9 +89,9 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
 
-    m_mainTabCtrl->set(m_configuration);
-    m_lookTabCtrl->set(m_configuration);
-    m_toolsTabCtrl->set(m_configuration);
+    m_mainTabCtrl->set(&m_configuration);
+    m_lookTabCtrl->set(&m_configuration);
+    m_toolsTabCtrl->set(&m_configuration);
 
     ui->tagEditor->set(&m_completerFactory);
 
@@ -99,7 +99,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->menuHelp->menuAction()->setVisible(false);
 
     if (m_enableFaceRecognition == false)
-        m_loggerFactory->get("MainWindow")->warning("Face recognition cannot be enabled");
+        m_loggerFactory.get("MainWindow")->warning("Face recognition cannot be enabled");
 }
 
 
@@ -148,13 +148,13 @@ void MainWindow::setupQmlView()
 void MainWindow::setupConfig()
 {
     // setup defaults
-    m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
+    m_configuration.setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
 
-    m_configuration->setDefaultValue(ViewConfigKeys::itemsMargin,    10);
-    m_configuration->setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
-    m_configuration->setDefaultValue(ViewConfigKeys::thumbnailWidth, 120);
-    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
-    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
+    m_configuration.setDefaultValue(ViewConfigKeys::itemsMargin,    10);
+    m_configuration.setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
+    m_configuration.setDefaultValue(ViewConfigKeys::thumbnailWidth, 120);
+    m_configuration.setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
+    m_configuration.setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
 
     loadGeometry();
     loadRecentCollections();
@@ -165,13 +165,13 @@ void MainWindow::set(IUpdater* updater)
 {
     m_updater = updater;
 
-    const bool enabled = m_configuration->getEntry(UpdateConfigKeys::updateEnabled).toBool();
+    const bool enabled = m_configuration.getEntry(UpdateConfigKeys::updateEnabled).toBool();
 
     if (enabled)
     {
         const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
-        const QVariant last_raw = m_configuration->getEntry(UpdateConfigKeys::lastCheck);
+        const QVariant last_raw = m_configuration.getEntry(UpdateConfigKeys::lastCheck);
         const std::chrono::system_clock::duration last(last_raw.isValid()? last_raw.toLongLong() : 0);
         const std::chrono::system_clock::time_point last_check(last);
 
@@ -186,7 +186,7 @@ void MainWindow::set(IUpdater* updater)
 
             const std::chrono::system_clock::duration now_duration = now.time_since_epoch();
             const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
-            m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
+            m_configuration.setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
     }
 }
@@ -194,7 +194,7 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::checkVersion()
 {
-    m_loggerFactory->get("Updater")->info("Checking for new version");
+    m_loggerFactory.get("Updater")->info("Checking for new version");
 
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
     m_updater->getStatus(callback);
@@ -211,7 +211,7 @@ void MainWindow::updateWindowsMenu()
 
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
-    auto logger = m_loggerFactory->get("Updater");
+    auto logger = m_loggerFactory.get("Updater");
 
     switch (versionInfo.status)
     {
@@ -251,13 +251,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     // store windows state
     const QByteArray geometry = saveGeometry();
-    m_configuration->setEntry("gui::geometry", geometry.toBase64());
+    m_configuration.setEntry("gui::geometry", geometry.toBase64());
 
     const QByteArray state = saveState();
-    m_configuration->setEntry("gui::state", state.toBase64());
+    m_configuration.setEntry("gui::state", state.toBase64());
 
     //store recent collections
-    m_configuration->setEntry("gui::recent", m_recentCollections.join(";"));
+    m_configuration.setEntry("gui::recent", m_recentCollections.join(";"));
 }
 
 
@@ -393,7 +393,7 @@ void MainWindow::registerConfigTab()
 void MainWindow::loadGeometry()
 {
     // restore state
-    const QVariant geometry = m_configuration->getEntry("gui::geometry");
+    const QVariant geometry = m_configuration.getEntry("gui::geometry");
     if (geometry.isValid())
     {
         const QByteArray base64 = geometry.toString().toLatin1();
@@ -401,7 +401,7 @@ void MainWindow::loadGeometry()
         restoreGeometry(geometryData);
     }
 
-    const QVariant state = m_configuration->getEntry("gui::state");
+    const QVariant state = m_configuration.getEntry("gui::state");
     if (state.isValid())
     {
         const QByteArray base64 = state.toByteArray();
@@ -414,7 +414,7 @@ void MainWindow::loadGeometry()
 void MainWindow::loadRecentCollections()
 {
     // recent collections
-    const QString rawList = m_configuration->getEntry("gui::recent").toString();
+    const QString rawList = m_configuration.getEntry("gui::recent").toString();
 
     if (rawList.isEmpty() == false)
         m_recentCollections = rawList.split(";");
@@ -460,9 +460,9 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
+        IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
 
-        auto logger = m_loggerFactory->get("PhotosGrouping");
+        auto logger = m_loggerFactory.get("PhotosGrouping");
 
         PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();

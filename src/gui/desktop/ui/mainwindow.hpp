@@ -59,10 +59,10 @@ class MainWindow: public QMainWindow
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
         PhotosModelControllerComponent*     m_photosModelController;
-        IConfiguration*           m_configuration;
-        ILoggerFactory*           m_loggerFactory;
+        IConfiguration&           m_configuration;
+        ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;
-        ITaskExecutor*            m_executor;
+        ITaskExecutor&            m_executor;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;

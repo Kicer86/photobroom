@@ -44,7 +44,7 @@ namespace
 }
 
 
-CompleterFactory::CompleterFactory(ILoggerFactory* lf):
+CompleterFactory::CompleterFactory(ILoggerFactory& lf):
     m_tagInfoCollector(),
     m_tagValueModels(),
     m_peopleListModel(),
@@ -105,11 +105,7 @@ IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<TagType
 
     if (it == m_tagValueModels.end())
     {
-        assert(m_loggerFactory != nullptr);
-
-        auto tags_model = std::make_unique<TagValueModel>(infos);
-        tags_model->set(m_loggerFactory);
-        tags_model->set(&m_tagInfoCollector);
+        auto tags_model = std::make_unique<TagValueModel>(infos, &m_tagInfoCollector, &m_loggerFactory);
 
         std::tie(it, std::ignore) = m_tagValueModels.emplace(infos, std::move(tags_model));
     }

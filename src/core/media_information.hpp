@@ -31,7 +31,7 @@ struct ICoreFactoryAccessor;
 class CORE_EXPORT MediaInformation : public IMediaInformation
 {
     public:
-        MediaInformation();
+        MediaInformation(ICoreFactoryAccessor* coreFactory);
         MediaInformation(const MediaInformation &) = delete;
         MediaInformation(MediaInformation &&) = delete;
 

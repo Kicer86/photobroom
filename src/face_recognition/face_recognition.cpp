@@ -77,8 +77,8 @@ struct FaceRecognition::Data
 {
     explicit Data(ICoreFactoryAccessor* coreAccessor)
         : m_tmpDir(System::createTmpDir("FaceRecognition", System::Confidential))
-        , m_logger(coreAccessor->getLoggerFactory()->get("FaceRecognition"))
-        , m_exif(coreAccessor->getExifReaderFactory()->get())
+        , m_logger(coreAccessor->getLoggerFactory().get("FaceRecognition"))
+        , m_exif(coreAccessor->getExifReaderFactory().get())
     {
 
     }

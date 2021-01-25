@@ -57,7 +57,7 @@ struct MediaInformation::Impl
 };
 
 
-MediaInformation::MediaInformation(): m_impl(std::make_unique<Impl>())
+MediaInformation::MediaInformation(ICoreFactoryAccessor* coreFactory): m_impl(std::make_unique<Impl>())
 {
 
 }
@@ -68,11 +68,13 @@ MediaInformation::~MediaInformation()
 }
 
 
-void MediaInformation::set( ICoreFactoryAccessor* coreFactory)
+void MediaInformation::set(ICoreFactoryAccessor* coreFactory)
 {
+    /*
     m_impl->m_exif_info.set(coreFactory->getExifReaderFactory());
-    m_impl->m_ffmpeg_info.set(coreFactory->getConfiguration());
+    m_impl->m_ffmpeg_info.set(coreFactory.getConfiguration());
     m_impl->m_logger = coreFactory->getLoggerFactory()->get("Media Information");
+    */
 }
 
 

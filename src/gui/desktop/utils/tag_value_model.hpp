@@ -32,13 +32,10 @@ struct ITagInfoCollector;
 class TagValueModel: public IModelCompositorDataSource
 {
     public:
-        TagValueModel(const std::set<TagTypes> &);
+        TagValueModel(const std::set<TagTypes> &, ITagInfoCollector *, ILoggerFactory *);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
-
-        void set(ITagInfoCollector *);
-        void set(ILoggerFactory *);
 
         const QStringList& data() const override;
 

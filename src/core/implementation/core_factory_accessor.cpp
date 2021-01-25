@@ -20,11 +20,11 @@
 #include "core_factory_accessor.hpp"
 
 
-CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory* loggerFactory,
-                         IExifReaderFactory* exifReader,
-                         IConfiguration* configuration,
-                         ITaskExecutor* taskExecutor,
-                         IFeaturesManager* featuresManager
+CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory& loggerFactory,
+                         IExifReaderFactory& exifReader,
+                         IConfiguration& configuration,
+                         ITaskExecutor& taskExecutor,
+                         IFeaturesManager& featuresManager
                         ):
     m_loggerFactory(loggerFactory),
     m_exifReaderFactory(exifReader),
@@ -42,31 +42,31 @@ CoreFactoryAccessor::~CoreFactoryAccessor()
 }
 
 
-ILoggerFactory* CoreFactoryAccessor::getLoggerFactory()
+ILoggerFactory& CoreFactoryAccessor::getLoggerFactory()
 {
     return m_loggerFactory;
 }
 
 
-IExifReaderFactory * CoreFactoryAccessor::getExifReaderFactory()
+IExifReaderFactory& CoreFactoryAccessor::getExifReaderFactory()
 {
     return m_exifReaderFactory;
 }
 
 
-IConfiguration * CoreFactoryAccessor::getConfiguration()
+IConfiguration& CoreFactoryAccessor::getConfiguration()
 {
     return m_configuration;
 }
 
 
-ITaskExecutor * CoreFactoryAccessor::getTaskExecutor()
+ITaskExecutor& CoreFactoryAccessor::getTaskExecutor()
 {
     return m_taskExecutor;
 }
 
 
-IFeaturesManager * CoreFactoryAccessor::getFeaturesManager()
+IFeaturesManager& CoreFactoryAccessor::getFeaturesManager()
 {
     return m_featuresManager;
 }

@@ -34,7 +34,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     m_tasksView(nullptr),
     m_viewTask(nullptr),
     m_maxTasks(0),
-    m_workers(coreFactory->getTaskExecutor()->heavyWorkers()),
+    m_workers(coreFactory->getTaskExecutor().heavyWorkers()),
     m_loadingPhotos(false)
 {
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);

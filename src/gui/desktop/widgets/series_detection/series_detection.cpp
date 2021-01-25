@@ -107,8 +107,8 @@ SeriesDetection::~SeriesDetection()
 
 void SeriesDetection::fetch_series(Database::IBackend& backend)
 {
-    IExifReaderFactory* exif = m_core->getExifReaderFactory();
-    SeriesDetector detector(backend, exif->get());
+    IExifReaderFactory& exif = m_core->getExifReaderFactory();
+    SeriesDetector detector(backend, exif.get());
 
     const auto candidates = detector.listCandidates();
 
@@ -159,7 +159,7 @@ void SeriesDetection::group(int row)
 
 void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph_data, Group::Type type)
 {
-    auto logger = m_core->getLoggerFactory()->get("PhotosGrouping");
+    auto logger = m_core->getLoggerFactory().get("PhotosGrouping");
 
     PhotosGroupingDialog pgd(
         ph_data,
@@ -169,6 +169,7 @@ void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph
         logger.get(),
         type
     );
+
     const int exit_code = pgd.exec();
 
     if (exit_code == QDialog::Accepted)

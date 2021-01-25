@@ -77,9 +77,9 @@ namespace PhotosGroupingDialogUtils
 
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
-                                           IExifReaderFactory* exifReader,
-                                           ITaskExecutor* executor,
-                                           IConfiguration* configuration,
+                                           IExifReaderFactory& exifReader,
+                                           ITaskExecutor& executor,
+                                           IConfiguration& configuration,
                                            ILogger* logger,
                                            Group::Type type,
                                            QWidget *parent):
@@ -295,8 +295,8 @@ void PhotosGroupingDialog::makeAnimation()
     AnimationGenerator::Data generator_data;
 
     generator_data.storage = m_tmpDir->path();
-    generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.magickPath = m_config->getEntry(ExternalToolsConfigKeys::magickPath).toString();
+    generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
+    generator_data.magickPath = m_config.getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
     generator_data.format = ui->formatComboBox->currentText();
     generator_data.fps = ui->speedSpinBox->value();
@@ -332,7 +332,7 @@ void PhotosGroupingDialog::makeAnimation()
         connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
         connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
-        m_executor->add(std::move(animation_task));
+        m_executor.add(std::move(animation_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
         m_preview->clean();
@@ -349,8 +349,8 @@ void PhotosGroupingDialog::makeHDR()
     HDRGenerator::Data generator_data;
 
     generator_data.storage = m_tmpDir->path();
-    generator_data.alignImageStackPath = m_config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.magickPath = m_config->getEntry(ExternalToolsConfigKeys::magickPath).toString();
+    generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
+    generator_data.magickPath = m_config.getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
 
     // make sure we have all neccessary data
@@ -381,7 +381,7 @@ void PhotosGroupingDialog::makeHDR()
         connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
         connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
-        m_executor->add(std::move(hdr_task));
+        m_executor.add(std::move(hdr_task));
         ui->generationProgressBar->setEnabled(true);
         ui->animationOptions->setEnabled(false);
         m_preview->clean();
@@ -397,7 +397,7 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 {
     m_model.clear();
 
-    IExifReader* exif = m_exifReaderFactory->get();
+    IExifReader* exif = m_exifReaderFactory.get();
 
     for(const Photo::Data& photo: photos)
     {

@@ -32,7 +32,7 @@ using std::placeholders::_1;
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger, IExifReaderFactory* exif):
+AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
     GeneratorUtils::BreakableTask(data.storage, exif),
     m_data(data),
     m_logger(logger)

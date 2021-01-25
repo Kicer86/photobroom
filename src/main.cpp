@@ -288,11 +288,11 @@ int main(int argc, char **argv)
 
     ExifReaderFactory exifReaderFactory;
 
-    CoreFactoryAccessor coreFactory(&logger_factory,
-                                    &exifReaderFactory,
-                                    &configuration,
-                                    &taskExecutor,
-                                    &featuresManager
+    CoreFactoryAccessor coreFactory(logger_factory,
+                                    exifReaderFactory,
+                                    configuration,
+                                    taskExecutor,
+                                    featuresManager
     );
 
     // start gui

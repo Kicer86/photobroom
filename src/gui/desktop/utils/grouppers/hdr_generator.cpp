@@ -21,7 +21,7 @@
 #include "system/system.hpp"
 
 
-HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory* exif):
+HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
     GeneratorUtils::BreakableTask(data.storage, exif),
     m_data(data),
     m_logger(logger)

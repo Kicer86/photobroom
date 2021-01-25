@@ -185,7 +185,7 @@ namespace GeneratorUtils
             Q_OBJECT
 
         public:
-            BreakableTask(const QString& storage, IExifReaderFactory *);
+            BreakableTask(const QString& storage, IExifReaderFactory &);
             virtual ~BreakableTask();
 
             void perform() override final;
@@ -195,7 +195,7 @@ namespace GeneratorUtils
             std::shared_ptr<ITmpDir> m_tmpDir;
             const QString m_storage;
             ProcessRunner m_runner;
-            IExifReaderFactory* m_exif;
+            IExifReaderFactory& m_exif;
 
             virtual void run() = 0;
 

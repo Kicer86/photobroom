@@ -200,9 +200,16 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>GeneratorUtils::ConvertOutputAnalyzer</name>
     <message>
+        <source>Assembling final file</source>
+        <translation type="vanished">Składanie pliku wynikowego</translation>
+    </message>
+</context>
+<context>
+    <name>GeneratorUtils::MagickOutputAnalyzer</name>
+    <message>
         <location line="-156"/>
         <source>Assembling final file</source>
-        <translation>Składanie pliku wynikowego</translation>
+        <translation type="unfinished">Składanie pliku wynikowego</translation>
     </message>
 </context>
 <context>
@@ -721,20 +728,27 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="-56"/>
-        <location line="+49"/>
+        <source>&apos;magick&apos; tool is neccessary for this operation.
+Please go to settings and setup path to &apos;magick&apos; executable.
+
+&apos;magick&apos; is a tool provided by ImageMagick.
+Visit https://www.imagemagick.org/ for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&apos;convert&apos; tool is neccessary for this operation.
 Please go to settings and setup path to &apos;convert&apos; executable.
 
 &apos;convert&apos; is a tool which is a part of ImageMagick.
 Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation>Program &quot;convert&quot; jest wymagany do wykonania tego zadania.
+        <translation type="vanished">Program &quot;convert&quot; jest wymagany do wykonania tego zadania.
 Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;convert&quot;.
 
 &quot;convert&quot; jest narzędziem dostepnym jako część pakietu ImageMagick.
 Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="+8"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
@@ -747,7 +761,16 @@ Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot
 Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+41"/>
+        <source>&apos;magick&apos; tool is neccessary for this operation.
+Please go to settings and setup path to &apos;convert&apos; executable.
+
+&apos;magick&apos; is a tool provided by ImageMagick.
+Visit https://www.imagemagick.org/ for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
 Please go to settings and setup path to &apos;align_image_stack&apos; executable.
 
