@@ -28,14 +28,10 @@
 #include "ffmpeg_video_details_reader.hpp"
 
 
-FFmpegMediaInformation::FFmpegMediaInformation(): m_ffprobePath()
+FFmpegMediaInformation::FFmpegMediaInformation(IConfiguration& configuration):
+    m_ffprobePath()
 {
-}
-
-
-void FFmpegMediaInformation::set(IConfiguration* configuration)
-{
-    const QVariant ffprobeVar = configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
+    const QVariant ffprobeVar = configuration.getEntry(ExternalToolsConfigKeys::ffprobePath);
 
     m_ffprobePath = ffprobeVar.toString();
 }

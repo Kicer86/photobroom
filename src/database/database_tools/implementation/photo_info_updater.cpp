@@ -207,7 +207,6 @@ PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::
     m_db(db),
     m_tasksExecutor(coreFactory->getTaskExecutor())
 {
-    m_mediaInformation.set(coreFactory);
     m_cacheFlushTimer.setSingleShot(true);
 
     connect(&m_cacheFlushTimer, &QTimer::timeout, this, &PhotoInfoUpdater::flushCache);

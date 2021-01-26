@@ -35,12 +35,10 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
         MediaInformation(const MediaInformation &) = delete;
         MediaInformation(MediaInformation &&) = delete;
 
+        ~MediaInformation();
+
         MediaInformation& operator=(const MediaInformation &) = delete;
         MediaInformation& operator=(MediaInformation &&) = delete;
-
-        virtual ~MediaInformation();
-
-        void set(ICoreFactoryAccessor *);
 
         std::optional<QSize> size(const QString &) const override;
 
