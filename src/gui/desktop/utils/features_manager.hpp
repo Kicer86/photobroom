@@ -28,6 +28,9 @@ private:
 
     void addFeature(const QString &);
     void removeFeature(const QString &);
+
+    void configChanged(const QString &, const QVariant &);
+    void testTool(const QString &, const QString &, const QString &);
 };
 
 #endif
