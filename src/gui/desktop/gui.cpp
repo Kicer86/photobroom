@@ -2,8 +2,6 @@
 #include "gui.hpp"
 
 #include <QApplication>
-#include <QFileInfo>
-#include <QImageReader>
 #include <QStandardPaths>
 #include <QTranslator>
 
@@ -14,7 +12,6 @@
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
-#include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -29,68 +26,11 @@
 
 #include "ui/mainwindow.hpp"
 #include "quick_views/qml_setup.hpp"
-#include "features.hpp"
+#include "utils/features_manager.hpp"
 
 
 namespace
 {
-    struct ToolInfo
-    {
-        QString name;
-        QString featureKey;
-        QString configurationKey;
-    };
-
-    std::vector<ToolInfo> Tools =
-    {
-        { "Magick",          gui::features::ToolMagick  ,ExternalToolsConfigKeys::magickPath  },
-        { "AlignImageStack", gui::features::ToolAIS     ,ExternalToolsConfigKeys::aisPath     },
-        { "FFMpeg",          gui::features::ToolFFMpeg  ,ExternalToolsConfigKeys::ffmpegPath  },
-        { "FFProbe",         gui::features::ToolFFProbe ,ExternalToolsConfigKeys::ffprobePath }
-    };
-
-    void detectImages(std::unique_ptr<ILogger> logger, IFeaturesManager& fm)
-    {
-        QList<QByteArray> images = QImageReader::supportedImageFormats();
-
-        for(const QByteArray& image: qAsConst(images))
-        {
-            const QString msg = QString("Qt supports %1 file format").arg(image.data());
-
-            logger->debug(msg);
-
-            if (image == "mng")
-                fm.add(gui::features::MngFile);
-        }
-    }
-
-    QStringList verifyTools(std::unique_ptr<ILogger> logger,
-                                      IFeaturesManager& fm,
-                                      IConfiguration& configuration,
-                                      const std::vector<ToolInfo>& tools)
-    {
-        QStringList brokenTools;
-
-        for (const auto& tool: tools)
-        {
-            const QString& key = tool.featureKey;
-            const QString& configKey = tool.configurationKey;
-            const QString path = configuration.getEntry(configKey).toString();
-            const QFileInfo toolInfo(path);
-
-            if (toolInfo.exists() && toolInfo.isExecutable())
-                fm.add(key);
-            else
-            {
-                const QString& name = tool.name;
-
-                logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(name));
-                brokenTools.push_back(name);
-            }
-        }
-
-        return brokenTools;
-    }
 
     struct ThumbnailUtils: IThumbnailUtils
     {
@@ -196,12 +136,6 @@ void Gui::run()
     configuration.setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
     configuration.setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
 
-    const QVariant ffmpegPath = configuration.getEntry(ExternalToolsConfigKeys::ffmpegPath);
-    const QFileInfo fileInfo(ffmpegPath.toString());
-
-    if (fileInfo.isExecutable() == false)
-        gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
-
     //
     auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
     ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), &configuration);
@@ -219,10 +153,7 @@ void Gui::run()
     mainWindow.set(&updater);
 #endif
 
-    // features
-    auto& detector = m_coreFactory.getFeaturesManager();
-    detectImages(gui_logger->subLogger("ImagesDetector"), detector);
-    const auto brokenTools = verifyTools(gui_logger->subLogger("ToolsVerifier"), detector, configuration, Tools);
+    FeaturesManager features(configuration, gui_logger);
 
     mainWindow.show();
 

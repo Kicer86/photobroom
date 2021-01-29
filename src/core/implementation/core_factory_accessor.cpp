@@ -23,14 +23,12 @@
 CoreFactoryAccessor::CoreFactoryAccessor (ILoggerFactory& loggerFactory,
                          IExifReaderFactory& exifReader,
                          IConfiguration& configuration,
-                         ITaskExecutor& taskExecutor,
-                         IFeaturesManager& featuresManager
+                         ITaskExecutor& taskExecutor
                         ):
     m_loggerFactory(loggerFactory),
     m_exifReaderFactory(exifReader),
     m_configuration(configuration),
-    m_taskExecutor(taskExecutor),
-    m_featuresManager(featuresManager)
+    m_taskExecutor(taskExecutor)
 {
 
 }
@@ -63,10 +61,4 @@ IConfiguration& CoreFactoryAccessor::getConfiguration()
 ITaskExecutor& CoreFactoryAccessor::getTaskExecutor()
 {
     return m_taskExecutor;
-}
-
-
-IFeaturesManager& CoreFactoryAccessor::getFeaturesManager()
-{
-    return m_featuresManager;
 }
