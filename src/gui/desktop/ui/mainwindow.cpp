@@ -126,7 +126,7 @@ void MainWindow::setupQmlView()
     assert(m_photosModelController == nullptr);
 
     QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
-    ui->photosViewQml->setSource(QUrl("qrc:/ui/Dialogs/PhotosView.qml"));
+    ui->photosViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
