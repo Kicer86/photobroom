@@ -16,5 +16,6 @@
         <file>Dialogs/DialogsComponents/Filter.qml</file>
         <file>Dialogs/DialogsComponents/PhotoDelegate.qml</file>
         <file>Dialogs/DialogsComponents/PhotosGridView.qml</file>
+        <file>Dialogs/DialogsComponents/NotificationsBar.qml</file>
     </qresource>
 </RCC>

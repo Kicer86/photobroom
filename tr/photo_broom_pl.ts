@@ -556,6 +556,19 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>NotificationsBar</name>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+61"/>
+        <source>There are %n notification(s) awaiting.</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>PhotoDelegate</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>
