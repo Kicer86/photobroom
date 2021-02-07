@@ -4,12 +4,18 @@ import QtQml.Models 2.15
 
 
 Item {
-    id: rectangle
-
     property alias model: listView.model
 
     height: column.height
     state: "Hidden"
+
+    clip: true
+
+    function notificationsCount() {
+        return listView.model.rowCount();
+    }
+
+    property bool fullMode: false
 
     Column {
         id: column
@@ -19,17 +25,36 @@ Item {
 
         ListView {
             id: listView
+            objectName: "NotificationsList"
+
             clip: true
+
             height: 0
             width: parent.width
 
+            model: ListModel {}
+
             delegate: Rectangle {
-                color: "lightsteelblue"
+                required property string display
+
+                color: "deepskyblue"
                 radius: 5
-                border.width: 0
+                border.width: 1
+
+                height: text.height + text.y * 2
+                width: parent.width
 
                 Text {
-                    text: notificationText
+                    id: text
+
+                    y: 3
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 5
+
+                    text: parent.display
                 }
             }
         }
@@ -40,19 +65,19 @@ Item {
             height: 0
             width: parent.width
 
-            MouseArea {
-                anchors.fill: parent
-
-                cursorShape: Qt.PointingHandCursor
-
-                onClicked: {
-
-                }
-            }
-
             Text {
                 id: notificationsText
-                text: qsTr("There are %n notification(s) awaiting.", "0", 0)
+                text: qsTr("There are %n notification(s) awaiting.", "0", notificationsCount())
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        fullMode = !fullMode
+                    }
+                }
             }
         }
     }
@@ -60,9 +85,13 @@ Item {
     states: [
         State {
             name: "Hidden"
+
+            when: notificationsCount() == 0
         },
         State {
             name: "OneLine"
+
+            when: notificationsCount() > 0 && !fullMode
 
             PropertyChanges {
                 target: notifications
@@ -71,6 +100,8 @@ Item {
         },
         State {
             name: "Full"
+
+            when: notificationsCount() > 0 && fullMode
 
             PropertyChanges {
                 target: listView
