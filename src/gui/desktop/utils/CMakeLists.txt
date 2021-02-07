@@ -12,6 +12,7 @@ set(UTILS_SOURCES
     features_manager.hpp
     groups_manager.cpp
     groups_manager.hpp
+    inotifications.hpp
     model_index_utils.cpp
     model_index_utils.hpp
     painter_helpers.cpp
