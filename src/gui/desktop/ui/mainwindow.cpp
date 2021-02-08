@@ -508,10 +508,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
 void MainWindow::reportWarning(const QString& warning)
 {
-    auto warnings = m_notifications.stringList();
-    warnings.append(warning);
-    warnings.removeDuplicates();
-    m_notifications.setStringList(warnings);
+    m_notifications.insertWarning(warning);
 }
 
 

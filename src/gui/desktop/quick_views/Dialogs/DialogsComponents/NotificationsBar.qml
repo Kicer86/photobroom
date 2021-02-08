@@ -11,10 +11,6 @@ Item {
 
     clip: true
 
-    function notificationsCount() {
-        return listView.model.rowCount();
-    }
-
     property bool fullMode: false
 
     Column {
@@ -33,6 +29,8 @@ Item {
             width: parent.width
 
             model: ListModel {}
+
+            property int notificationCount: listView.model.rowCount()
 
             delegate: Rectangle {
                 required property string display
@@ -67,7 +65,7 @@ Item {
 
             Text {
                 id: notificationsText
-                text: qsTr("There are %n notification(s) awaiting.", "0", notificationsCount())
+                text: qsTr("There are %n notification(s) awaiting.", "0", listView.model.count)
 
                 MouseArea {
                     anchors.fill: parent
@@ -86,12 +84,12 @@ Item {
         State {
             name: "Hidden"
 
-            when: notificationsCount() == 0
+            when: listView.model.count == 0
         },
         State {
             name: "OneLine"
 
-            when: notificationsCount() > 0 && !fullMode
+            when: listView.model.count > 0 && !fullMode
 
             PropertyChanges {
                 target: notifications
@@ -101,7 +99,7 @@ Item {
         State {
             name: "Full"
 
-            when: notificationsCount() > 0 && fullMode
+            when: listView.model.count > 0 && fullMode
 
             PropertyChanges {
                 target: listView
