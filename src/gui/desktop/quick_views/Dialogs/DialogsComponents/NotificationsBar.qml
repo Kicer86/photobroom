@@ -30,7 +30,7 @@ Item {
 
             model: ListModel {}
 
-            property int notificationCount: listView.model.rowCount()
+            Behavior on height { PropertyAnimation{} }
 
             delegate: Rectangle {
                 required property string display
@@ -103,7 +103,7 @@ Item {
 
             PropertyChanges {
                 target: listView
-                height: 60
+                height: 100
             }
 
             PropertyChanges {
