@@ -131,5 +131,9 @@ void FeaturesManager::testTool(const QString& path, const QString& featureKey, c
         m_logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(name));
 
         removeFeature(featureKey);
+
+        m_notifications.reportWarning(QString("Path for tool %1 is not set or is invalid.\n"
+                                              "Some functionality may be disabled.\n"
+                                              "Check paths in configuration windows.").arg(name));
     }
 }
