@@ -35,7 +35,7 @@ Item {
             delegate: Rectangle {
                 required property string display
 
-                color: "deepskyblue"
+                color: "goldenrod"
                 radius: 5
                 border.width: 1
 
@@ -57,14 +57,24 @@ Item {
             }
         }
 
-        Item {
+        Rectangle {
             id: notifications
 
             height: 0
             width: parent.width
 
+            color: "deepskyblue"
+            radius: 5
+            border.width: 1
+
             Text {
                 id: notificationsText
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+
                 text: qsTr("There are %n notification(s) awaiting.", "0", listView.model.count)
 
                 MouseArea {
