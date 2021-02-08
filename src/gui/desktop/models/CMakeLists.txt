@@ -1,18 +1,17 @@
 
 set(SRC
     aphoto_info_model.cpp
-    flat_model.cpp
-)
-
-set(HEADERS
     aphoto_info_model.hpp
+    flat_model.cpp
     flat_model.hpp
     model_types.hpp
+    notifications_model.cpp
+    notifications_model.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-add_library(gui_models OBJECT ${SRC} ${HEADERS})
+add_library(gui_models OBJECT ${SRC})
 set_target_properties(gui_models PROPERTIES AUTOMOC ON)
 set_target_properties(gui_models PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_models
