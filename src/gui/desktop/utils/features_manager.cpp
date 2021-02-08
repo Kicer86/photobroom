@@ -134,6 +134,6 @@ void FeaturesManager::testTool(const QString& path, const QString& featureKey, c
 
         m_notifications.reportWarning(QString("Path for tool %1 is not set or is invalid.\n"
                                               "Some functionality may be disabled.\n"
-                                              "Check paths in configuration windows.").arg(name));
+                                              "Check paths in configuration window.").arg(name));
     }
 }
