@@ -1,3 +1,5 @@
+#ifndef INOTIFICATIONS_HPP_INCLUDED
+#define INOTIFICATIONS_HPP_INCLUDED
 
 #include <QString>
 
@@ -8,3 +10,5 @@ public:
 
     virtual void reportWarning(const QString &) = 0;
 };
+
+#endif // INOTIFICATIONS_HPP_INCLUDED
