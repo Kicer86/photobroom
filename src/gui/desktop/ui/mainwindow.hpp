@@ -5,11 +5,13 @@
 #include <memory>
 
 #include <QMainWindow>
+#include <QStringListModel>
 
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
 #include "ui_utils/completer_factory.hpp"
+#include "utils/inotifications.hpp"
 #include "quick_views/qml_setup.hpp"
 
 class ConfigDialogManager;
@@ -37,7 +39,7 @@ namespace Ui
     class MainWindow;
 }
 
-class MainWindow: public QMainWindow
+class MainWindow: public QMainWindow, public INotifications
 {
         Q_OBJECT
 
@@ -73,6 +75,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
+        QStringListModel          m_notifications;
         const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
@@ -94,6 +97,9 @@ class MainWindow: public QMainWindow
         void setupConfig();
 
         void showContextMenu(const QPoint &);
+
+        // INotifications:
+        void reportWarning(const QString &);
 
     private slots:
         // album menu

@@ -142,6 +142,9 @@ void MainWindow::setupQmlView()
 
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
+
+    QObject* notificationsList = QmlUtils::findQmlObject(ui->photosViewQml, "NotificationsList");
+    notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 }
 
 
@@ -500,6 +503,15 @@ void MainWindow::showContextMenu(const QPoint& pos)
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
     }
+}
+
+
+void MainWindow::reportWarning(const QString& warning)
+{
+    auto warnings = m_notifications.stringList();
+    warnings.append(warning);
+    warnings.removeDuplicates();
+    m_notifications.setStringList(warnings);
 }
 
 
