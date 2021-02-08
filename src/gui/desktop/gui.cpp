@@ -153,7 +153,7 @@ void Gui::run()
     mainWindow.set(&updater);
 #endif
 
-    FeaturesManager features(configuration, gui_logger);
+    FeaturesManager features(mainWindow, configuration, gui_logger);
 
     mainWindow.show();
 

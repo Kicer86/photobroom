@@ -29,9 +29,10 @@ namespace
 }
 
 
-FeaturesManager::FeaturesManager(IConfiguration& configuration, std::unique_ptr<ILogger>& logger)
+FeaturesManager::FeaturesManager(INotifications& notifications, IConfiguration& configuration, std::unique_ptr<ILogger>& logger)
     : m_logger(logger->subLogger("FeaturesManager"))
     , m_configuration(configuration)
+    , m_notifications(notifications)
 {
     refresh();
 
