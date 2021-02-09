@@ -17,6 +17,7 @@ add_executable(enum_to_string
                 logic.cpp
 )
 
+set_source_files_properties(${BISON_enumBison_OUTPUTS} ${FLEX_enumFlex_OUTPUTS} PROPERTIES SKIP_UNITY_BUILD_INCLUSION TRUE)
 set_target_properties(enum_to_string PROPERTIES CXX_STANDARD 11)
 
 if(WIN32)

@@ -9,10 +9,10 @@
 
 namespace
 {
-    EmptyLogger logger;
-
     void faceLocationTest(const QImage& img)
     {
+        EmptyLogger logger;
+
         dlib_api::FaceLocator faceLocator(&logger);
 
         QVector facesCnn = faceLocator.face_locations_cnn(img, 0);

@@ -17,6 +17,9 @@
  *
  */
 
+#ifndef KDBGWIN_WRAPPER_HPP
+#define KDBGWIN_WRAPPER_HPP
+
 #include <QProcess>
 
 #include "idebugger.hpp"
@@ -46,3 +49,5 @@ class KDbgWinWrapper: public QObject, public IDebugger
         void kdbgwinError(QProcess::ProcessError);
         void kdbgwinFinished(int, QProcess::ExitStatus);
 };
+
+#endif

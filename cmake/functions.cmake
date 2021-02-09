@@ -214,7 +214,7 @@ function(stringify_file output_file input_file variable_with_type namespace)
 
     file(READ ${input_file} file_content)
 
-    file(WRITE ${output_file})
+    file(WRITE ${output_file} "#pragma once\n\n")
 
     file(APPEND ${output_file} "namespace ${namespace} {\n")
     file(APPEND ${output_file} "inline ${variable_with_type} = ")
