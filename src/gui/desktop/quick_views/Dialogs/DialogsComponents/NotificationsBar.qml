@@ -77,15 +77,15 @@ Item {
 
                 text: fullMode? qsTr("Click here to collapse notifications"):
                                 qsTr("There are %n notification(s). Click here to read", "0", listView.model.count)
+            }
 
-                MouseArea {
-                    anchors.fill: parent
+            MouseArea {
+                anchors.fill: parent
 
-                    cursorShape: Qt.PointingHandCursor
+                cursorShape: Qt.PointingHandCursor
 
-                    onClicked: {
-                        fullMode = !fullMode
-                    }
+                onClicked: {
+                    fullMode = !fullMode
                 }
             }
         }
