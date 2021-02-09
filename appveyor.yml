@@ -71,6 +71,7 @@ before_build:
                  -A%platform%
                  -DBUILD_UPDATER=ON
                  -DBUILD_TESTING=OFF
+                 -DCMAKE_UNITY_BUILD:BOOL=TRUE
                  -DPHOTO_BROOM_BUILD_ID=%APPVEYOR_BUILD_NUMBER%
                  -DCMAKE_TOOLCHAIN_FILE=C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake
                  -DLIBPATH_cublas64_11_Release="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin\cublas64_11.dll"
