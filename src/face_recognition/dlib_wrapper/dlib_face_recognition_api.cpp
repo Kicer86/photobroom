@@ -10,6 +10,7 @@
 #include "cnn_face_detector.hpp"
 #include "face_recognition.hpp"
 #include "dlib_face_recognition_api.hpp"
+#include "helpers.hpp"
 
 
 #ifdef DLIB_USE_CUDA
