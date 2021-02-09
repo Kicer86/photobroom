@@ -380,7 +380,9 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->mainViewQml->setEnabled(prj);
+    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
+
     ui->tagEditor->setEnabled(prj);
 }
 

@@ -4,10 +4,15 @@ import "DialogsComponents" as Internals
 
 Column {
     id: column
+    objectName: "MainWindow"
+
+    property bool projectOpened: false
 
     anchors.fill: parent
 
     PhotosView {
+        enabled: projectOpened
+
         width: parent.width
         height: parent.height - notifications.height
     }
