@@ -410,7 +410,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -447,7 +447,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+82"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -457,7 +457,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-171"/>
+        <location line="-177"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -472,7 +472,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+214"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -558,7 +558,7 @@ Kod błędu: %1</translation>
 <context>
     <name>NotificationsBar</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+61"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+78"/>
         <source>There are %n notification(s) awaiting.</source>
         <comment>0</comment>
         <translation type="unfinished">
