@@ -125,16 +125,16 @@ void MainWindow::setupQmlView()
 {
     assert(m_photosModelController == nullptr);
 
-    QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
-    ui->photosViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
-    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
+    QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
+    ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
+    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
 
     m_photosModelController->setCompleterFactory(&m_completerFactory);
 
     SelectionManagerComponent* selectionManager =
-        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
+        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "selectionManager"));
 
     m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(*selectionManager, *m_photosModelController->model());
 
@@ -143,7 +143,7 @@ void MainWindow::setupQmlView()
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
 
-    QObject* notificationsList = QmlUtils::findQmlObject(ui->photosViewQml, "NotificationsList");
+    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 }
 
@@ -314,7 +314,7 @@ void MainWindow::setupView()
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
-    connect(ui->photosViewQml, &QWidget::customContextMenuRequested,
+    connect(ui->mainViewQml, &QWidget::customContextMenuRequested,
             this, &MainWindow::showContextMenu);
 }
 
@@ -380,7 +380,7 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->photosViewQml->setEnabled(prj);
+    ui->mainViewQml->setEnabled(prj);
     ui->tagEditor->setEnabled(prj);
 }
 
@@ -458,7 +458,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     Database::IDatabase* db = m_currentPrj->getDatabase();
 
-    const QPoint globalPos = ui->photosViewQml->mapToGlobal(pos);
+    const QPoint globalPos = ui->mainViewQml->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
     if (chosenAction == groupPhotos)
