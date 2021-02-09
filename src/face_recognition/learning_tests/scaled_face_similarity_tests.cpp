@@ -10,10 +10,10 @@
 
 namespace
 {
-    EmptyLogger logger;
-
     QImage extractFace(const QImage& photo)
     {
+        EmptyLogger logger;
+
         QVector faces = dlib_api::FaceLocator(&logger).face_locations_cnn(photo, 0);
         assert(faces.size() == 1);
 
@@ -26,6 +26,8 @@ namespace
 
     void faceDetectionTest(const QImage& img, QVector<QRect>(dlib_api::FaceLocator::*face_locator)(const QImage &, int))
     {
+        EmptyLogger logger;
+
         dlib_api::FaceLocator faceLocator(&logger);
 
         // original image size
