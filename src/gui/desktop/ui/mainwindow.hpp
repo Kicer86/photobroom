@@ -70,7 +70,6 @@ class MainWindow: public QMainWindow, public INotifications
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
-        std::unique_ptr<LookTabController> m_lookTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;

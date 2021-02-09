@@ -28,7 +28,6 @@
 #include "config.hpp"
 
 #include "config_keys.hpp"
-#include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/flat_model.hpp"
@@ -63,7 +62,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_thumbnailsManager(thbMgr),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
-    m_lookTabCtrl(new LookTabController),
     m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
     m_completerFactory(m_loggerFactory),
@@ -90,7 +88,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
 
     m_mainTabCtrl->set(&m_configuration);
-    m_lookTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
 
     ui->tagEditor->set(&m_completerFactory);
@@ -390,7 +387,6 @@ void MainWindow::updateWidgets()
 void MainWindow::registerConfigTab()
 {
     m_configDialogManager->registerTab(m_mainTabCtrl.get());
-    m_configDialogManager->registerTab(m_lookTabCtrl.get());
     m_configDialogManager->registerTab(m_toolsTabCtrl.get());
 }
 
