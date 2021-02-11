@@ -13,6 +13,16 @@ void NotificationsModel::insertWarning(const QString& warning)
 }
 
 
+void NotificationsModel::removeWarning(int row)
+{
+    beginRemoveRows({}, row, row);
+    m_data.removeAt(row);
+    endRemoveRows();
+
+    emit countChanged(getCount());
+}
+
+
 int NotificationsModel::getCount() const
 {
     return m_data.size();

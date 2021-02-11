@@ -11,6 +11,7 @@ class NotificationsModel: public QAbstractListModel
 
 public:
     void insertWarning(const QString &);
+    Q_INVOKABLE void removeWarning(int row);
 
     int getCount() const;
 
@@ -22,7 +23,6 @@ signals:
 
 private:
     QStringList m_data;
-
 };
 
 #endif
