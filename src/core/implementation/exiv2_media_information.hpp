@@ -30,7 +30,7 @@ struct IExifReaderFactory;
 class CORE_EXPORT Eviv2MediaInformation: public IMediaInformation
 {
     public:
-        Eviv2MediaInformation(IExifReaderFactory &);
+        explicit Eviv2MediaInformation(IExifReaderFactory &);
         Eviv2MediaInformation(const Eviv2MediaInformation &) = delete;
 
         Eviv2MediaInformation& operator=(const Eviv2MediaInformation &) = delete;

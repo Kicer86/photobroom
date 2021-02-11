@@ -50,7 +50,7 @@ struct MediaInformation::Impl
     FFmpegMediaInformation m_ffmpeg_info;
     std::unique_ptr<ILogger> m_logger;
 
-    Impl(ICoreFactoryAccessor* coreFactory):
+    explicit Impl(ICoreFactoryAccessor* coreFactory):
         m_exif_info(coreFactory->getExifReaderFactory()),
         m_ffmpeg_info(coreFactory->getConfiguration()),
         m_logger(coreFactory->getLoggerFactory().get("Media Information"))

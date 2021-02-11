@@ -29,7 +29,7 @@ struct IConfiguration;
 class FFmpegMediaInformation : public IMediaInformation
 {
     public:
-        FFmpegMediaInformation(IConfiguration &);
+        explicit FFmpegMediaInformation(IConfiguration &);
         FFmpegMediaInformation(const FFmpegMediaInformation &) = delete;
         FFmpegMediaInformation(FFmpegMediaInformation &&) = delete;
 
