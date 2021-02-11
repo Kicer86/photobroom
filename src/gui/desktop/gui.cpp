@@ -95,7 +95,6 @@ void Gui::run()
     ILoggerFactory& loggerFactory = m_coreFactory.getLoggerFactory();
 
     auto gui_logger = loggerFactory.get("Gui");
-    auto photos_manager_logger = loggerFactory.get("Photos manager");
 
     const QString tr_path = FileSystem().getTranslationsPath();
     gui_logger->info(QString("Searching for translations in: %1").arg(tr_path));
