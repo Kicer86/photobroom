@@ -2,6 +2,7 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
+import "../../Components" as Components
 
 
 Item {
@@ -35,13 +36,14 @@ Item {
 
             delegate: Rectangle {
                 required property string display
+                required property string index
 
                 color: "goldenrod"
                 radius: 5
                 border.width: 1
 
                 height: text.height + text.y * 2
-                width: parent.width
+                width: listView.width
 
                 Text {
                     id: text
@@ -54,6 +56,22 @@ Item {
                     anchors.rightMargin: 5
 
                     text: parent.display
+                }
+
+                Components.ImageButton {
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.rightMargin: 5
+                    anchors.topMargin: 5
+
+                    width: 16
+                    height: 16
+
+                    source: "qrc:/gui/close.svg"
+
+                    onClicked: {
+                        listView.model.removeWarning(index);
+                    }
                 }
             }
 
