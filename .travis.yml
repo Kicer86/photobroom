@@ -67,9 +67,7 @@ install:
   - if [ $TRAVIS_OS_NAME == 'osx' ]; then
         brew upgrade pyenv;
         eval "$(pyenv init -)";
-        brew install bison;
         brew install ccache;
-        export PATH="/usr/local/opt/bison/bin:$PATH";
         export PATH="/usr/local/opt/ccache/libexec:$PATH";
         export PATH="/usr/local/opt/qt/bin:$PATH";
     else
