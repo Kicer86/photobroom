@@ -158,7 +158,7 @@ You can watch progress in &apos;Tasks&apos; panel.</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/Filter.qml" line="87"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/Filter.qml" line="92"/>
@@ -680,56 +680,12 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="310"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="318"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="359"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="367"/>
-        <source>Missing tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="311"/>
-        <source>&apos;magick&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;magick&apos; executable.
-
-&apos;magick&apos; is a tool provided by ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="319"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="360"/>
-        <source>&apos;magick&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;convert&apos; executable.
-
-&apos;magick&apos; is a tool provided by ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="368"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="413"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="375"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="414"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="376"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>

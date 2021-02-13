@@ -699,64 +699,12 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+27"/>
-        <location line="+8"/>
-        <location line="+41"/>
-        <location line="+8"/>
-        <source>Missing tool</source>
-        <translation>Brakujący program</translation>
-    </message>
-    <message>
-        <location line="-56"/>
-        <source>&apos;magick&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;magick&apos; executable.
-
-&apos;magick&apos; is a tool provided by ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation>Program &quot;align_image_stack&quot; jest wymagany aby ustabilizować animację.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
-
-&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
-Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+41"/>
-        <source>&apos;magick&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;convert&apos; executable.
-
-&apos;magick&apos; is a tool provided by ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation>Program &quot;align_image_stack&quot; jest wymagany aby utworzyć obraz HDR.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
-
-&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
-Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+45"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+92"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

@@ -304,43 +304,24 @@ void PhotosGroupingDialog::makeAnimation()
     generator_data.delay = ui->delaySpinBox->value();
     generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
 
-    // make sure we have all neccessary data
-    if (generator_data.magickPath.isEmpty())
-        QMessageBox::critical(this,
-                              tr("Missing tool"),
-                              tr("'magick' tool is neccessary for this operation.\n"
-                                 "Please go to settings and setup path to 'magick' executable.\n\n"
-                                 "'magick' is a tool provided by ImageMagick.\n"
-                                 "Visit https://www.imagemagick.org/ for downloads."));
+    auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    else if(generator_data.stabilize && generator_data.alignImageStackPath.isEmpty())
-        QMessageBox::critical(this,
-                              tr("Missing tool"),
-                              tr("'align_image_stack' tool is neccessary to stabilize animation.\n"
-                                 "Please go to settings and setup path to 'align_image_stack' executable.\n\n"
-                                 "'align_image_stack' is a tool which is a part of Hugin.\n"
-                                 "Visit http://hugin.sourceforge.net/ for downloads."));
-    else
-    {
-        auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
+    connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
+    connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
+    connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+    connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+    connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
-        connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
-        connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
-        connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-        connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-        connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-        connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-        connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
+    m_executor.add(std::move(animation_task));
+    ui->generationProgressBar->setEnabled(true);
+    ui->animationOptions->setEnabled(false);
+    m_preview->clean();
+    m_workInProgress = true;
+    m_representativeFile.clear();
 
-        m_executor.add(std::move(animation_task));
-        ui->generationProgressBar->setEnabled(true);
-        ui->animationOptions->setEnabled(false);
-        m_preview->clean();
-        m_workInProgress = true;
-        m_representativeFile.clear();
-
-        refreshDialogButtons();
-    }
+    refreshDialogButtons();
 }
 
 
@@ -353,43 +334,24 @@ void PhotosGroupingDialog::makeHDR()
     generator_data.magickPath = m_config.getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
 
-    // make sure we have all neccessary data
-    if (generator_data.magickPath.isEmpty())
-        QMessageBox::critical(this,
-                              tr("Missing tool"),
-                              tr("'magick' tool is neccessary for this operation.\n"
-                                 "Please go to settings and setup path to 'convert' executable.\n\n"
-                                 "'magick' is a tool provided by ImageMagick.\n"
-                                 "Visit https://www.imagemagick.org/ for downloads."));
+    auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    else if(generator_data.alignImageStackPath.isEmpty())
-        QMessageBox::critical(this,
-                              tr("Missing tool"),
-                              tr("'align_image_stack' tool is neccessary to generate HDR image.\n"
-                                 "Please go to settings and setup path to 'align_image_stack' executable.\n\n"
-                                 "'align_image_stack' is a tool which is a part of Hugin.\n"
-                                 "Visit http://hugin.sourceforge.net/ for downloads."));
-    else
-    {
-        auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
+    connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
+    connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
+    connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+    connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+    connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
-        connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
-        connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
-        connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-        connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-        connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-        connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-        connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
+    m_executor.add(std::move(hdr_task));
+    ui->generationProgressBar->setEnabled(true);
+    ui->animationOptions->setEnabled(false);
+    m_preview->clean();
+    m_workInProgress = true;
+    m_representativeFile.clear();
 
-        m_executor.add(std::move(hdr_task));
-        ui->generationProgressBar->setEnabled(true);
-        ui->animationOptions->setEnabled(false);
-        m_preview->clean();
-        m_workInProgress = true;
-        m_representativeFile.clear();
-
-        refreshDialogButtons();
-    }
+    refreshDialogButtons();
 }
 
 
