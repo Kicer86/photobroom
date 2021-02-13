@@ -24,6 +24,7 @@
 #include <set>
 #include <vector>
 #include <optional>
+#include <magic_enum.hpp>
 
 #include <core/tag.hpp>
 
@@ -34,7 +35,6 @@
 #include "photo_data.hpp"
 #include "ipeople_information_accessor.hpp"
 #include "database_export.h"
-#include "database_status.strings.hpp"
 
 
 struct IConfiguration;
@@ -73,7 +73,8 @@ namespace Database
                 m_err(),
                 m_status(status)
             {
-                m_err += err + ": " + get_entry(m_status);
+                m_err += err + ": ";
+                m_err.append(magic_enum::enum_name(m_status));
 
                 if (details.empty() == false)
                     m_err += ", " + details;

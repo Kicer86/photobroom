@@ -1,4 +1,3 @@
 
-add_subdirectory(enum_to_string)
 add_subdirectory(img_manip)
 add_subdirectory(internal_crash_catcher)

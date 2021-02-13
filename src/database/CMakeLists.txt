@@ -4,6 +4,7 @@ add_subdirectory(backends)
 find_package(OpenLibrary 2.1 REQUIRED)
 find_package(Qt5     REQUIRED COMPONENTS Core Gui)
 find_package(Threads REQUIRED)
+find_package(MagicEnum REQUIRED)
 
 set(DATABASE_SOURCES
     implementation/apeople_information_accessor.cpp
@@ -71,11 +72,9 @@ set(DATABASE_MOC
 
 qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
-stringify_enums(STRINGIFIED_ENUMS database_status.hpp)
-
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED} ${STRINGIFIED_ENUMS})
+add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
 target_link_libraries(database
                         PUBLIC
                             Qt::Gui
@@ -88,6 +87,7 @@ target_link_libraries(database
 target_include_directories(database
                             SYSTEM PRIVATE
                                 ${OPENLIBRARY_INCLUDE_DIRS}
+                                ${MAGIC_ENUM_INCLUDE_DIRS}
                             PUBLIC
                                 ${CMAKE_CURRENT_BINARY_DIR}
                                 ${OPENLIBRARY_INCLUDE_DIRS}

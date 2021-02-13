@@ -16,20 +16,15 @@ addTestTarget(database
                     implementation/photo_info.cpp
                     # memory backend linked
 
-                    # sql tests:
+                    # tests:
+                    unit_tests/data_delta_tests.cpp
+                    unit_tests/db_error_tests.cpp
                     unit_tests/generic_sql_query_constructor_tests.cpp
-                    unit_tests/sql_filter_query_generator_tests.cpp
-
-                    # tools tests:
                     unit_tests/json_to_backend_tests.cpp
+                    unit_tests/memory_backend_tests.cpp
+                    unit_tests/sql_filter_query_generator_tests.cpp
                     unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp
-
-                    # other:
-                    unit_tests/data_delta_tests.cpp
-
-                    # backends:
-                    unit_tests/memory_backend_tests.cpp
 
                     # main()
                     unit_tests/main.cpp
