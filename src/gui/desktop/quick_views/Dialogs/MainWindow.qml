@@ -22,5 +22,4 @@ Column {
 
         width: parent.width
     }
-
 }
