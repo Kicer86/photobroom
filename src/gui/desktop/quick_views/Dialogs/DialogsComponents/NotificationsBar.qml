@@ -43,7 +43,7 @@ Item {
                 border.width: 1
 
                 height: text.height + text.y * 2
-                width: listView.width
+                width: listView.width - listView.ScrollBar.vertical.width
 
                 Text {
                     id: text
