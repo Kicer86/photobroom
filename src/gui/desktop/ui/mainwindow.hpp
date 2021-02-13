@@ -99,6 +99,7 @@ class MainWindow: public QMainWindow, public INotifications
 
         // INotifications:
         int reportWarning(const QString &);
+        void removeWarning(int id);
 
     private slots:
         // album menu

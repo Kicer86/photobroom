@@ -504,6 +504,12 @@ int MainWindow::reportWarning(const QString& warning)
 }
 
 
+void MainWindow::removeWarning(int id)
+{
+    m_notifications.removeWarningWithId(id);
+}
+
+
 void MainWindow::on_actionNew_collection_triggered()
 {
     ProjectCreator prjCreator;

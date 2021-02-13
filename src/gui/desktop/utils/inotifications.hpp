@@ -10,6 +10,7 @@ public:
     virtual ~INotifications() = default;
 
     virtual int reportWarning(const QString &) = 0;
+    virtual void removeWarning(int id) = 0;
 };
 
 #endif // INOTIFICATIONS_HPP_INCLUDED
