@@ -20,6 +20,7 @@ public:
 
 private:
     std::set<QString> m_features;
+    std::map<QString, int> m_featuresWarnings;
     std::unique_ptr<ILogger> m_logger;
     IConfiguration& m_configuration;
     INotifications& m_notifications;

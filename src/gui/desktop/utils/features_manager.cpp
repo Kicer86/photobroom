@@ -123,17 +123,32 @@ void FeaturesManager::testTool(const QString& path, const QString& featureKey, c
     const QFileInfo toolInfo(path);
 
     if (toolInfo.exists() && toolInfo.isExecutable())
+    {
         addFeature(featureKey);
+
+        const auto it = m_featuresWarnings.find(featureKey);
+
+        if (it != m_featuresWarnings.end())
+        {
+            m_notifications.removeWarning(it->second);
+            m_featuresWarnings.erase(it);
+        }
+    }
     else
     {
         const QString& name = toolName;
 
         m_logger->warning(QString("Path '%1' for tool %2 does not exist or file is not executable.").arg(path).arg(name));
 
-        removeFeature(featureKey);
+        if (m_featuresWarnings.find(featureKey) == m_featuresWarnings.end())    // no warning was send for this feature?
+        {
+            removeFeature(featureKey);
 
-        m_notifications.reportWarning(QString("Path for tool %1 is not set or is invalid.\n"
-                                              "Some functionality may be disabled.\n"
-                                              "Check paths in configuration window.").arg(name));
+            const int id = m_notifications.reportWarning(QString("Path for tool %1 is not set or is invalid.\n"
+                                                                 "Some functionality may be disabled.\n"
+                                                                 "Check paths in configuration window.").arg(name));
+
+            m_featuresWarnings.emplace(featureKey, id);
+        }
     }
 }
