@@ -20,7 +20,6 @@
 #include "plugin_loader.hpp"
 
 #include <vector>
-#include <cassert>
 
 #include <QDir>
 #include <QPluginLoader>

@@ -29,7 +29,7 @@ struct IConfiguration;
 class FFmpegMediaInformation : public IMediaInformation
 {
     public:
-        FFmpegMediaInformation();
+        explicit FFmpegMediaInformation(IConfiguration &);
         FFmpegMediaInformation(const FFmpegMediaInformation &) = delete;
         FFmpegMediaInformation(FFmpegMediaInformation &&) = delete;
 
@@ -37,8 +37,6 @@ class FFmpegMediaInformation : public IMediaInformation
         FFmpegMediaInformation& operator=(FFmpegMediaInformation &&) = delete;
 
         virtual ~FFmpegMediaInformation() = default;
-
-        void set(IConfiguration *);
 
         std::optional<QSize> size(const QString &) const override;
 

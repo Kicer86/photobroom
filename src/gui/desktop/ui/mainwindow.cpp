@@ -28,7 +28,6 @@
 #include "config.hpp"
 
 #include "config_keys.hpp"
-#include "config_tabs/look_tab.hpp"
 #include "config_tabs/main_tab.hpp"
 #include "config_tabs/tools_tab.hpp"
 #include "models/flat_model.hpp"
@@ -63,7 +62,6 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_thumbnailsManager(thbMgr),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
-    m_lookTabCtrl(new LookTabController),
     m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
     m_completerFactory(m_loggerFactory),
@@ -89,9 +87,8 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
     ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
 
-    m_mainTabCtrl->set(m_configuration);
-    m_lookTabCtrl->set(m_configuration);
-    m_toolsTabCtrl->set(m_configuration);
+    m_mainTabCtrl->set(&m_configuration);
+    m_toolsTabCtrl->set(&m_configuration);
 
     ui->tagEditor->set(&m_completerFactory);
 
@@ -99,7 +96,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     ui->menuHelp->menuAction()->setVisible(false);
 
     if (m_enableFaceRecognition == false)
-        m_loggerFactory->get("MainWindow")->warning("Face recognition cannot be enabled");
+        m_loggerFactory.get("MainWindow")->warning("Face recognition cannot be enabled");
 }
 
 
@@ -125,16 +122,16 @@ void MainWindow::setupQmlView()
 {
     assert(m_photosModelController == nullptr);
 
-    QmlUtils::registerObject(ui->photosViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
-    ui->photosViewQml->setSource(QUrl("qrc:/ui/Dialogs/PhotosView.qml"));
-    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "photos_model_controller"));
+    QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
+    ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
+    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
 
     m_photosModelController->setCompleterFactory(&m_completerFactory);
 
     SelectionManagerComponent* selectionManager =
-        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->photosViewQml, "selectionManager"));
+        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "selectionManager"));
 
     m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(*selectionManager, *m_photosModelController->model());
 
@@ -142,19 +139,16 @@ void MainWindow::setupQmlView()
 
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
     connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
+
+    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
+    notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 }
 
 
 void MainWindow::setupConfig()
 {
     // setup defaults
-    m_configuration->setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
-
-    m_configuration->setDefaultValue(ViewConfigKeys::itemsMargin,    10);
-    m_configuration->setDefaultValue(ViewConfigKeys::itemsSpacing,   2);
-    m_configuration->setDefaultValue(ViewConfigKeys::thumbnailWidth, 120);
-    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_even, 0xff000040u);
-    m_configuration->setDefaultValue(ViewConfigKeys::bkg_color_odd,  0x0000ff40u);
+    m_configuration.setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
 
     loadGeometry();
     loadRecentCollections();
@@ -165,13 +159,13 @@ void MainWindow::set(IUpdater* updater)
 {
     m_updater = updater;
 
-    const bool enabled = m_configuration->getEntry(UpdateConfigKeys::updateEnabled).toBool();
+    const bool enabled = m_configuration.getEntry(UpdateConfigKeys::updateEnabled).toBool();
 
     if (enabled)
     {
         const std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
-        const QVariant last_raw = m_configuration->getEntry(UpdateConfigKeys::lastCheck);
+        const QVariant last_raw = m_configuration.getEntry(UpdateConfigKeys::lastCheck);
         const std::chrono::system_clock::duration last(last_raw.isValid()? last_raw.toLongLong() : 0);
         const std::chrono::system_clock::time_point last_check(last);
 
@@ -186,7 +180,7 @@ void MainWindow::set(IUpdater* updater)
 
             const std::chrono::system_clock::duration now_duration = now.time_since_epoch();
             const QVariant now_duration_raw = QVariant::fromValue<long long>(now_duration.count());
-            m_configuration->setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
+            m_configuration.setEntry(UpdateConfigKeys::lastCheck, now_duration_raw);
         }
     }
 }
@@ -194,7 +188,7 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::checkVersion()
 {
-    m_loggerFactory->get("Updater")->info("Checking for new version");
+    m_loggerFactory.get("Updater")->info("Checking for new version");
 
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
     m_updater->getStatus(callback);
@@ -211,7 +205,7 @@ void MainWindow::updateWindowsMenu()
 
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
-    auto logger = m_loggerFactory->get("Updater");
+    auto logger = m_loggerFactory.get("Updater");
 
     switch (versionInfo.status)
     {
@@ -251,13 +245,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     // store windows state
     const QByteArray geometry = saveGeometry();
-    m_configuration->setEntry("gui::geometry", geometry.toBase64());
+    m_configuration.setEntry("gui::geometry", geometry.toBase64());
 
     const QByteArray state = saveState();
-    m_configuration->setEntry("gui::state", state.toBase64());
+    m_configuration.setEntry("gui::state", state.toBase64());
 
     //store recent collections
-    m_configuration->setEntry("gui::recent", m_recentCollections.join(";"));
+    m_configuration.setEntry("gui::recent", m_recentCollections.join(";"));
 }
 
 
@@ -311,7 +305,7 @@ void MainWindow::setupView()
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 
-    connect(ui->photosViewQml, &QWidget::customContextMenuRequested,
+    connect(ui->mainViewQml, &QWidget::customContextMenuRequested,
             this, &MainWindow::showContextMenu);
 }
 
@@ -377,7 +371,9 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    ui->photosViewQml->setEnabled(prj);
+    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
+
     ui->tagEditor->setEnabled(prj);
 }
 
@@ -385,7 +381,6 @@ void MainWindow::updateWidgets()
 void MainWindow::registerConfigTab()
 {
     m_configDialogManager->registerTab(m_mainTabCtrl.get());
-    m_configDialogManager->registerTab(m_lookTabCtrl.get());
     m_configDialogManager->registerTab(m_toolsTabCtrl.get());
 }
 
@@ -393,7 +388,7 @@ void MainWindow::registerConfigTab()
 void MainWindow::loadGeometry()
 {
     // restore state
-    const QVariant geometry = m_configuration->getEntry("gui::geometry");
+    const QVariant geometry = m_configuration.getEntry("gui::geometry");
     if (geometry.isValid())
     {
         const QByteArray base64 = geometry.toString().toLatin1();
@@ -401,7 +396,7 @@ void MainWindow::loadGeometry()
         restoreGeometry(geometryData);
     }
 
-    const QVariant state = m_configuration->getEntry("gui::state");
+    const QVariant state = m_configuration.getEntry("gui::state");
     if (state.isValid())
     {
         const QByteArray base64 = state.toByteArray();
@@ -414,7 +409,7 @@ void MainWindow::loadGeometry()
 void MainWindow::loadRecentCollections()
 {
     // recent collections
-    const QString rawList = m_configuration->getEntry("gui::recent").toString();
+    const QString rawList = m_configuration.getEntry("gui::recent").toString();
 
     if (rawList.isEmpty() == false)
         m_recentCollections = rawList.split(";");
@@ -455,14 +450,14 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     Database::IDatabase* db = m_currentPrj->getDatabase();
 
-    const QPoint globalPos = ui->photosViewQml->mapToGlobal(pos);
+    const QPoint globalPos = ui->mainViewQml->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
     if (chosenAction == groupPhotos)
     {
-        IExifReaderFactory* factory = m_coreAccessor->getExifReaderFactory();
+        IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
 
-        auto logger = m_loggerFactory->get("PhotosGrouping");
+        auto logger = m_loggerFactory.get("PhotosGrouping");
 
         PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();
@@ -500,6 +495,18 @@ void MainWindow::showContextMenu(const QPoint& pos)
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
     }
+}
+
+
+int MainWindow::reportWarning(const QString& warning)
+{
+    return m_notifications.insertWarning(warning);
+}
+
+
+void MainWindow::removeWarning(int id)
+{
+    m_notifications.removeWarningWithId(id);
 }
 
 

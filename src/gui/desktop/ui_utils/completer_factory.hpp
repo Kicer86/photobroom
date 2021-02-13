@@ -46,7 +46,7 @@ class PeopleListModel;
 class CompleterFactory: public ICompleterFactory
 {
     public:
-        explicit CompleterFactory(ILoggerFactory *);
+        explicit CompleterFactory(ILoggerFactory &);
         CompleterFactory(const CompleterFactory &) = delete;
         ~CompleterFactory();
         CompleterFactory& operator=(const CompleterFactory &) = delete;
@@ -63,7 +63,7 @@ class CompleterFactory: public ICompleterFactory
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<TagTypes>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
         PeopleListModel m_peopleListModel;
-        ILoggerFactory* m_loggerFactory;
+        ILoggerFactory& m_loggerFactory;
 
         IModelCompositorDataSource* getModelFor(const std::set<TagTypes> &);
 };

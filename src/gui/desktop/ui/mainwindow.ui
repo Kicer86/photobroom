@@ -23,7 +23,7 @@
   <widget class="QWidget" name="mainWidget">
    <layout class="QVBoxLayout">
     <item>
-     <widget class="QQuickWidget" name="photosViewQml">
+     <widget class="QQuickWidget" name="mainViewQml">
       <property name="contextMenuPolicy">
        <enum>Qt::CustomContextMenu</enum>
       </property>

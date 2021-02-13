@@ -21,7 +21,7 @@
 #include "system/system.hpp"
 
 
-HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory* exif):
+HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
     GeneratorUtils::BreakableTask(data.storage, exif),
     m_data(data),
     m_logger(logger)
@@ -38,7 +38,7 @@ std::string HDRGenerator::name() const
 void HDRGenerator::run()
 {
     using GeneratorUtils::AISOutputAnalyzer;
-    using GeneratorUtils::ConvertOutputAnalyzer;
+    using GeneratorUtils::MagickOutputAnalyzer;
 
     // rotate photos
     const QStringList rotated = rotatePhotos(m_data.photos, m_tmpDir->path());
@@ -65,17 +65,18 @@ void HDRGenerator::run()
             rotated);
 
     const QString output = System::getTmpFile(m_storage, "jpeg");
-    ConvertOutputAnalyzer coa(m_logger, photos_count);
-    connect(&coa, &ConvertOutputAnalyzer::operation, this, &HDRGenerator::operation);
-    connect(&coa, &ConvertOutputAnalyzer::progress,  this, &HDRGenerator::progress);
-    connect(&coa, &ConvertOutputAnalyzer::finished,  this, &HDRGenerator::finished);
+    MagickOutputAnalyzer moa(m_logger, photos_count);
+    connect(&moa, &MagickOutputAnalyzer::operation, this, &HDRGenerator::operation);
+    connect(&moa, &MagickOutputAnalyzer::progress,  this, &HDRGenerator::progress);
+    connect(&moa, &MagickOutputAnalyzer::finished,  this, &HDRGenerator::finished);
 
     emit operation(tr("Saving result"));
 
     GeneratorUtils::execute(m_logger,
-            m_data.convertPath,
-            coa,
+            m_data.magickPath,
+            moa,
             m_runner,
+            "convert",
             "-monitor",                                      // for convert_output_analizer
             location,
             output);

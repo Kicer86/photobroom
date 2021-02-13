@@ -2,8 +2,6 @@
 #include "gui.hpp"
 
 #include <QApplication>
-#include <QFileInfo>
-#include <QImageReader>
 #include <QStandardPaths>
 #include <QTranslator>
 
@@ -14,7 +12,6 @@
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
-#include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
@@ -29,36 +26,11 @@
 
 #include "ui/mainwindow.hpp"
 #include "quick_views/qml_setup.hpp"
-#include "features.hpp"
+#include "utils/features_manager.hpp"
 
 
 namespace
 {
-    struct ImagesDetector: IFeatureDetector
-    {
-        ImagesDetector(std::unique_ptr<ILogger> logger): m_logger(std::move(logger)) {}
-
-        QStringList detect() override
-        {
-            QStringList features;
-
-            QList<QByteArray> images = QImageReader::supportedImageFormats();
-
-            for(const QByteArray image: qAsConst(images))
-            {
-                const QString msg = QString("Qt supports %1 file format").arg(image.data());
-
-                m_logger->debug(msg);
-
-                if (image == "mng")
-                    features.append(gui::features::MngFile);
-            }
-
-            return features;
-        }
-
-        std::unique_ptr<ILogger> m_logger;
-    };
 
     struct ThumbnailUtils: IThumbnailUtils
     {
@@ -120,10 +92,9 @@ void Gui::run()
     QQuickStyle::setStyle("Fusion");
 #endif
 
-    ILoggerFactory* loggerFactory = m_coreFactory.getLoggerFactory();
+    ILoggerFactory& loggerFactory = m_coreFactory.getLoggerFactory();
 
-    auto gui_logger = loggerFactory->get("Gui");
-    auto photos_manager_logger = loggerFactory->get("Photos manager");
+    auto gui_logger = loggerFactory.get("Gui");
 
     const QString tr_path = FileSystem().getTranslationsPath();
     gui_logger->info(QString("Searching for translations in: %1").arg(tr_path));
@@ -156,22 +127,18 @@ void Gui::run()
         gui_logger->log(ILogger::Severity::Error, "Could not load translations.");
 
     // setup basic configuration
-    IConfiguration* configuration = m_coreFactory.getConfiguration();
-    configuration->setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::convertPath, QStandardPaths::findExecutable("convert"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
-    configuration->setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
+    IConfiguration& configuration = m_coreFactory.getConfiguration();
 
-    const QVariant ffmpegPath = configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-    const QFileInfo fileInfo(ffmpegPath.toString());
-
-    if (fileInfo.isExecutable() == false)
-        gui_logger->warning("Path to FFMpeg tool is invalid. Thumbnails for video files will not be available.");
+    // defaults
+    configuration.setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::magickPath, QStandardPaths::findExecutable("magick"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
+    configuration.setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
 
     //
-    auto thumbnail_generator_logger = loggerFactory->get("ThumbnailGenerator");
-    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), configuration);
-    ThumbnailManager thbMgr(m_coreFactory.getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
+    auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
+    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), &configuration);
+    ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
 
     // main window
     MainWindow mainWindow(&m_coreFactory, &thbMgr);
@@ -185,11 +152,7 @@ void Gui::run()
     mainWindow.set(&updater);
 #endif
 
-    // features
-    ImagesDetector img_det(gui_logger->subLogger("ImagesDetector"));
-    auto* detector = m_coreFactory.getFeaturesManager();
-    detector->add(&img_det);
-    detector->detect();
+    FeaturesManager features(mainWindow, configuration, gui_logger);
 
     mainWindow.show();
 

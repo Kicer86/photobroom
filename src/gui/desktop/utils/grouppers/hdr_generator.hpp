@@ -29,14 +29,14 @@ class HDRGenerator: public GeneratorUtils::BreakableTask
         struct Data
         {
             QString storage;
-            QString convertPath;
+            QString magickPath;
             QString alignImageStackPath;
             QStringList photos;
 
-            Data(): storage(), convertPath(), alignImageStackPath(), photos() {}
+            Data(): storage(), magickPath(), alignImageStackPath(), photos() {}
         };
 
-        HDRGenerator(const Data& photos, ILogger *, IExifReaderFactory *);
+        HDRGenerator(const Data& photos, ILogger *, IExifReaderFactory &);
 
         std::string name() const override;
         void run() override;

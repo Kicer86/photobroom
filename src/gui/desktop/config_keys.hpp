@@ -4,11 +4,11 @@
 
 namespace ViewConfigKeys
 {
-    const char* const itemsMargin    = "view::margin";
-    const char* const itemsSpacing   = "view::spacing";
-    const char* const thumbnailWidth = "view::thumbnailWidth";
-    const char* const bkg_color_odd  = "view::background_color_odd";
-    const char* const bkg_color_even = "view::background_color_even";
+    [[deprecated]] const char* const itemsMargin    = "view::margin";
+    [[deprecated]] const char* const itemsSpacing   = "view::spacing";
+    [[deprecated]] const char* const thumbnailWidth = "view::thumbnailWidth";
+    [[deprecated]] const char* const bkg_color_odd  = "view::background_color_odd";
+    [[deprecated]] const char* const bkg_color_even = "view::background_color_even";
 }
 
 namespace UpdateConfigKeys

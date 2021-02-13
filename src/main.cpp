@@ -21,7 +21,6 @@
 #include <core/configuration.hpp>
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
-#include <core/features_manager.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
@@ -251,8 +250,6 @@ int main(int argc, char **argv)
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
 
-    FeaturesManager featuresManager(&logger_factory);
-
     const QString configFileDir = System::getApplicationConfigDir();
     const QString configFilePath = configFileDir + "/" + "config.json";
     ConfigStorage configStorage(configFilePath);
@@ -288,11 +285,10 @@ int main(int argc, char **argv)
 
     ExifReaderFactory exifReaderFactory;
 
-    CoreFactoryAccessor coreFactory(&logger_factory,
-                                    &exifReaderFactory,
-                                    &configuration,
-                                    &taskExecutor,
-                                    &featuresManager
+    CoreFactoryAccessor coreFactory(logger_factory,
+                                    exifReaderFactory,
+                                    configuration,
+                                    taskExecutor
     );
 
     // start gui

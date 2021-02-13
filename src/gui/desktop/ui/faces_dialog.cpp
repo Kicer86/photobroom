@@ -59,7 +59,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     m_faces(),
     m_photoPath(data.path),
     ui(new Ui::FacesDialog),
-    m_exif(coreAccessor->getExifReaderFactory()->get())
+    m_exif(coreAccessor->getExifReaderFactory().get())
 {
     ui->setupUi(this);
 

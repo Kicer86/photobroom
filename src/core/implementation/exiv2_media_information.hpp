@@ -30,19 +30,15 @@ struct IExifReaderFactory;
 class CORE_EXPORT Eviv2MediaInformation: public IMediaInformation
 {
     public:
-        Eviv2MediaInformation();
+        explicit Eviv2MediaInformation(IExifReaderFactory &);
         Eviv2MediaInformation(const Eviv2MediaInformation &) = delete;
 
         Eviv2MediaInformation& operator=(const Eviv2MediaInformation &) = delete;
 
-        virtual ~Eviv2MediaInformation();
-
-        void set(IExifReaderFactory *);
-
         virtual std::optional<QSize> size(const QString &) const override;
 
     private:
-        IExifReaderFactory* m_exif;
+        IExifReaderFactory& m_exif;
 };
 
 #endif // PHOTOINFORMATION_H

@@ -57,26 +57,12 @@ namespace
 }
 
 
-TagValueModel::TagValueModel(const std::set<TagTypes>& infos):
+TagValueModel::TagValueModel(const std::set<TagTypes>& infos, ITagInfoCollector* collector, ILoggerFactory* loggerFactory):
     m_values(),
     m_tagInfos(infos),
-    m_tagInfoCollector(nullptr),
-    m_loggerFactory(nullptr)
+    m_tagInfoCollector(collector),
+    m_loggerFactory(loggerFactory)
 {
-
-}
-
-
-TagValueModel::~TagValueModel()
-{
-
-}
-
-
-void TagValueModel::set(ITagInfoCollector* collector)
-{
-    m_tagInfoCollector = collector;
-
     connect(m_tagInfoCollector, &ITagInfoCollector::setOfValuesChanged,
             this,               &TagValueModel::collectorNotification);
 
@@ -84,9 +70,9 @@ void TagValueModel::set(ITagInfoCollector* collector)
 }
 
 
-void TagValueModel::set(ILoggerFactory* loggerFactory)
+TagValueModel::~TagValueModel()
 {
-    m_loggerFactory = loggerFactory;
+
 }
 
 

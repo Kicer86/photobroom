@@ -10,7 +10,9 @@
 #include <updater/iupdater.hpp>
 
 #include "ui_utils/completer_factory.hpp"
+#include "utils/inotifications.hpp"
 #include "quick_views/qml_setup.hpp"
+#include "models/notifications_model.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -37,7 +39,7 @@ namespace Ui
     class MainWindow;
 }
 
-class MainWindow: public QMainWindow
+class MainWindow: public QMainWindow, public INotifications
 {
         Q_OBJECT
 
@@ -59,20 +61,20 @@ class MainWindow: public QMainWindow
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
         PhotosModelControllerComponent*     m_photosModelController;
-        IConfiguration*           m_configuration;
-        ILoggerFactory*           m_loggerFactory;
+        IConfiguration&           m_configuration;
+        ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;
-        ITaskExecutor*            m_executor;
+        ITaskExecutor&            m_executor;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
-        std::unique_ptr<LookTabController> m_lookTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
+        NotificationsModel        m_notifications;
         const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
@@ -94,6 +96,10 @@ class MainWindow: public QMainWindow
         void setupConfig();
 
         void showContextMenu(const QPoint &);
+
+        // INotifications:
+        int reportWarning(const QString &);
+        void removeWarning(int id);
 
     private slots:
         // album menu

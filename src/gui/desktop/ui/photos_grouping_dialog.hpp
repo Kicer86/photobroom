@@ -57,9 +57,9 @@ class PhotosGroupingDialog: public QDialog
 
     public:
         explicit PhotosGroupingDialog(const std::vector<Photo::Data> &,
-                                      IExifReaderFactory *,
-                                      ITaskExecutor *,
-                                      IConfiguration *,
+                                      IExifReaderFactory &,
+                                      ITaskExecutor &,
+                                      IConfiguration &,
                                       ILogger *,
                                       Group::Type = Group::Type::Invalid,
                                       QWidget *parent = 0);
@@ -85,10 +85,10 @@ class PhotosGroupingDialog: public QDialog
         Group::Type m_representativeType;
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
-        IExifReaderFactory* m_exifReaderFactory;
-        IConfiguration* m_config;
+        IExifReaderFactory& m_exifReaderFactory;
+        IConfiguration& m_config;
         ILogger* m_logger;
-        ITaskExecutor* m_executor;
+        ITaskExecutor& m_executor;
         bool m_workInProgress;
 
         void generationTitle(const QString &);

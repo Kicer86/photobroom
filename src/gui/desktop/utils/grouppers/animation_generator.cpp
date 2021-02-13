@@ -32,7 +32,7 @@ using std::placeholders::_1;
 ///////////////////////////////////////////////////////////////////////////////
 
 
-AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger, IExifReaderFactory* exif):
+AnimationGenerator::AnimationGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
     GeneratorUtils::BreakableTask(data.storage, exif),
     m_data(data),
     m_logger(logger)
@@ -136,7 +136,7 @@ QStringList AnimationGenerator::stabilize()
 
 QString AnimationGenerator::generateAnimation(const QStringList& photos)
 {
-    using GeneratorUtils::ConvertOutputAnalyzer;
+    using GeneratorUtils::MagickOutputAnalyzer;
 
     // generate animation
     const int photos_count = m_data.photos.size();
@@ -147,17 +147,18 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     const QString extension = format();
     const QString location = System::getTmpFile(m_storage, extension);
 
-    ConvertOutputAnalyzer coa(m_logger, photos_count);
-    connect(&coa, &ConvertOutputAnalyzer::operation, this, &AnimationGenerator::operation);
-    connect(&coa, &ConvertOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
-    connect(&coa, &ConvertOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
+    MagickOutputAnalyzer coa(m_logger, photos_count);
+    connect(&coa, &MagickOutputAnalyzer::operation, this, &AnimationGenerator::operation);
+    connect(&coa, &MagickOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
+    connect(&coa, &MagickOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
 
     emit operation(tr("Loading photos to be animated"));
 
     GeneratorUtils::execute(m_logger,
-            m_data.convertPath,
+            m_data.magickPath,
             coa,
             m_runner,
+            "convert",
             "-monitor",                                      // for convert_output_analizer
             "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
             all_but_last,

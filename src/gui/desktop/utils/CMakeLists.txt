@@ -1,41 +1,41 @@
 
 set(UTILS_SOURCES
-    config_tools.cpp
-    groups_manager.cpp
-    model_index_utils.cpp
-    painter_helpers.cpp
-    people_list_model.cpp
-    people_manipulator.cpp
-    photos_collector.cpp
-    selection_to_photoid_translator.cpp
-    signal_filter.cpp
-    tag_value_model.cpp
-    variant_display.cpp
     grouppers/animation_generator.cpp
-    grouppers/generator_utils.cpp
-    grouppers/hdr_generator.cpp
-)
-
-set(UTILS_HEADERS
-    config_tools.hpp
-    groups_manager.hpp
-    model_index_utils.hpp
-    painter_helpers.hpp
-    people_list_model.hpp
-    people_manipulator.hpp
-    photos_collector.hpp
-    selection_to_photoid_translator.hpp
-    signal_filter.hpp
-    tag_value_model.hpp
-    variant_display.hpp
     grouppers/animation_generator.hpp
+    grouppers/generator_utils.cpp
     grouppers/generator_utils.hpp
+    grouppers/hdr_generator.cpp
     grouppers/hdr_generator.hpp
+    config_tools.cpp
+    config_tools.hpp
+    features_manager.cpp
+    features_manager.hpp
+    groups_manager.cpp
+    groups_manager.hpp
+    inotifications.hpp
+    model_index_utils.cpp
+    model_index_utils.hpp
+    painter_helpers.cpp
+    painter_helpers.hpp
+    people_list_model.cpp
+    people_list_model.hpp
+    people_manipulator.cpp
+    people_manipulator.hpp
+    photos_collector.cpp
+    photos_collector.hpp
+    selection_to_photoid_translator.cpp
+    selection_to_photoid_translator.hpp
+    signal_filter.cpp
+    signal_filter.hpp
+    tag_value_model.cpp
+    tag_value_model.hpp
+    variant_display.cpp
+    variant_display.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
-add_library(gui_utils OBJECT ${UTILS_SOURCES} ${UTILS_HEADERS})
+add_library(gui_utils OBJECT ${UTILS_SOURCES})
 set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 set_target_properties(gui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_utils

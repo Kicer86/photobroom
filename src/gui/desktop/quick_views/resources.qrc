@@ -4,16 +4,19 @@
         <file>Components/internal/ComboBoxDelegate.qml</file>
         <file>Components/internal/ZoomLogic.js</file>
         <file>Components/ColorComboBox.qml</file>
+        <file>Components/ImageButton.qml</file>
         <file>Components/MultiselectGridView.qml</file>
         <file>Components/ShadowFocus.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
         <file>Components/ZoomableImage.qml</file>
         <file>Dialogs/FacesDialog.qml</file>
+        <file>Dialogs/MainWindow.qml</file>
         <file>Dialogs/PhotosView.qml</file>
         <file>Dialogs/SeriesDetection.qml</file>
         <file>Dialogs/DialogsComponents/Filter.qml</file>
         <file>Dialogs/DialogsComponents/PhotoDelegate.qml</file>
         <file>Dialogs/DialogsComponents/PhotosGridView.qml</file>
+        <file>Dialogs/DialogsComponents/NotificationsBar.qml</file>
     </qresource>
 </RCC>

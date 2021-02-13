@@ -50,7 +50,7 @@ class PhotoInfoUpdater final: public QObject
         std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase* m_db;
-        ITaskExecutor* m_tasksExecutor;
+        ITaskExecutor& m_tasksExecutor;
 
         void addTask(std::unique_ptr<UpdaterTask>);
         void taskFinished(UpdaterTask *);

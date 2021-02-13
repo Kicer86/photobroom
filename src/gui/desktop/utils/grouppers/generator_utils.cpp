@@ -83,14 +83,14 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    ConvertOutputAnalyzer::ConvertOutputAnalyzer(ILogger* logger, int photos_count):
+    MagickOutputAnalyzer::MagickOutputAnalyzer(ILogger* logger, int photos_count):
         GenericAnalyzer(logger, 10),
         m_photos_count(photos_count)
     {
     }
 
 
-    void ConvertOutputAnalyzer::processMessage(const QString& line)
+    void MagickOutputAnalyzer::processMessage(const QString& line)
     {
         switch (conversion_data.state)
         {
@@ -223,7 +223,7 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory* exif):
+    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory& exif):
         QObject(),
         m_tmpDir(System::createTmpDir("BT_tmp", System::Confidential)),
         m_storage(storage),
@@ -265,7 +265,7 @@ namespace GeneratorUtils
         emit operation(tr("Preparing photos"));
         emit progress(0);
 
-        IExifReader* exif = m_exif->get();
+        IExifReader* exif = m_exif.get();
 
         int photo_index = 0;
         QStringList rotated_photos;

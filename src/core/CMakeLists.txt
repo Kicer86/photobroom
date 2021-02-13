@@ -45,7 +45,6 @@ set(CORE_SOURCES
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
-    features_manager.hpp                                    implementation/features_manager.cpp
     image_tools.hpp                                         implementation/image_tools.cpp
     logger.hpp                                              implementation/logger.cpp
     logger_factory.hpp                                      implementation/logger_factory.cpp

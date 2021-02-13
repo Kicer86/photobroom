@@ -198,11 +198,11 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::ConvertOutputAnalyzer</name>
+    <name>GeneratorUtils::MagickOutputAnalyzer</name>
     <message>
         <location line="-156"/>
         <source>Assembling final file</source>
-        <translation>Składanie pliku wynikowego</translation>
+        <translation type="unfinished">Składanie pliku wynikowego</translation>
     </message>
 </context>
 <context>
@@ -216,37 +216,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <location line="+20"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
-    </message>
-</context>
-<context>
-    <name>LookTab</name>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
-        <source>Photos view</source>
-        <translation>Lista zdjęć</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Expanded node color #1:</source>
-        <translation>Pierwszy kolor tła grupy zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Expanded node color #2:</source>
-        <translation>Drugi kolor tła grupy zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Images spacing:</source>
-        <translation>Odstęp pomiędzy zdjęciami:</translation>
-    </message>
-</context>
-<context>
-    <name>LookTabController</name>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
-        <source>Look</source>
-        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
@@ -403,7 +372,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -430,7 +399,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+94"/>
         <source>Group...</source>
         <translation>Grupowanie...</translation>
     </message>
@@ -440,7 +409,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+88"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -450,12 +419,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-171"/>
+        <location line="-184"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+94"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -465,7 +434,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+220"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -546,6 +515,24 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
+    </message>
+</context>
+<context>
+    <name>NotificationsBar</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+100"/>
+        <source>Click here to collapse notifications.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>There are %n notification(s). Click here to read.</source>
+        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -712,60 +699,12 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+27"/>
-        <location line="+8"/>
-        <location line="+41"/>
-        <location line="+8"/>
-        <source>Missing tool</source>
-        <translation>Brakujący program</translation>
-    </message>
-    <message>
-        <location line="-56"/>
-        <location line="+49"/>
-        <source>&apos;convert&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;convert&apos; executable.
-
-&apos;convert&apos; is a tool which is a part of ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation>Program &quot;convert&quot; jest wymagany do wykonania tego zadania.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;convert&quot;.
-
-&quot;convert&quot; jest narzędziem dostepnym jako część pakietu ImageMagick.
-Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="-41"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to stabilize animation.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation>Program &quot;align_image_stack&quot; jest wymagany aby ustabilizować animację.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
-
-&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
-Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>&apos;align_image_stack&apos; tool is neccessary to generate HDR image.
-Please go to settings and setup path to &apos;align_image_stack&apos; executable.
-
-&apos;align_image_stack&apos; is a tool which is a part of Hugin.
-Visit http://hugin.sourceforge.net/ for downloads.</source>
-        <translation>Program &quot;align_image_stack&quot; jest wymagany aby utworzyć obraz HDR.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;align_image_stack&quot;.
-
-&quot;align_image_stack&quot; jest narzędziem dostepnym jako część pakietu Hugin.
-Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+45"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+92"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
@@ -938,14 +877,39 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+18"/>
+        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+18"/>
+        <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>FFProbe</source>
         <translation>FFProbe</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
@@ -978,7 +942,7 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+178"/>
+        <location filename="../src/main.cpp" line="+177"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
