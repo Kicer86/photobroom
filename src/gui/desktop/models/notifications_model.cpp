@@ -28,6 +28,20 @@ void NotificationsModel::removeWarning(int row)
 }
 
 
+void NotificationsModel::removeWarningWithId(int id)
+{
+    const auto it = std::find_if(m_data.begin(), m_data.end(), [id](const auto item) {
+        return item.first == id;
+    });
+
+    if (it != m_data.end())
+    {
+        const int pos = std::distance(m_data.begin(), it);
+        removeWarning(pos);
+    }
+}
+
+
 int NotificationsModel::getCount() const
 {
     return m_data.size();
