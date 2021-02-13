@@ -9,7 +9,7 @@ class INotifications
 public:
     virtual ~INotifications() = default;
 
-    virtual void reportWarning(const QString &) = 0;
+    virtual int reportWarning(const QString &) = 0;
 };
 
 #endif // INOTIFICATIONS_HPP_INCLUDED

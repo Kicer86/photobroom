@@ -498,9 +498,9 @@ void MainWindow::showContextMenu(const QPoint& pos)
 }
 
 
-void MainWindow::reportWarning(const QString& warning)
+int MainWindow::reportWarning(const QString& warning)
 {
-    m_notifications.insertWarning(warning);
+    return m_notifications.insertWarning(warning);
 }
 
 

@@ -98,7 +98,7 @@ class MainWindow: public QMainWindow, public INotifications
         void showContextMenu(const QPoint &);
 
         // INotifications:
-        void reportWarning(const QString &);
+        int reportWarning(const QString &);
 
     private slots:
         // album menu
