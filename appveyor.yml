@@ -46,7 +46,7 @@ install:
 
     - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
     - cmd: set VCPKG_DEFAULT_TRIPLET=x64-windows
-    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary
+    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
 
 before_build:
     - if not exist "%WINFLEXBISON_ARCHIVE%" appveyor DownloadFile "http://downloads.sourceforge.net/project/winflexbison/%WINFLEXBISON_ARCHIVE%"
