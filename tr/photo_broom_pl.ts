@@ -409,7 +409,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+88"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -419,7 +419,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-178"/>
+        <location line="-184"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -434,7 +434,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+214"/>
+        <location line="+220"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
