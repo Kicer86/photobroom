@@ -4,7 +4,7 @@ find_program(LRELEASE lrelease)
 
 if(LUPDATE AND LRELEASE)
 
-    set(translations pl)
+    set(translations pl en)
     set(qm_files)
     set(tr_update_targets)
 
