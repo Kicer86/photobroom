@@ -198,13 +198,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::ConvertOutputAnalyzer</name>
-    <message>
-        <source>Assembling final file</source>
-        <translation type="vanished">Składanie pliku wynikowego</translation>
-    </message>
-</context>
-<context>
     <name>GeneratorUtils::MagickOutputAnalyzer</name>
     <message>
         <location line="-156"/>
@@ -223,37 +216,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <location line="+20"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
-    </message>
-</context>
-<context>
-    <name>LookTab</name>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.ui" line="+20"/>
-        <source>Photos view</source>
-        <translation>Lista zdjęć</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Expanded node color #1:</source>
-        <translation>Pierwszy kolor tła grupy zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Expanded node color #2:</source>
-        <translation>Drugi kolor tła grupy zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Images spacing:</source>
-        <translation>Odstęp pomiędzy zdjęciami:</translation>
-    </message>
-</context>
-<context>
-    <name>LookTabController</name>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/look_tab.cpp" line="+68"/>
-        <source>Look</source>
-        <translation>Wygląd</translation>
     </message>
 </context>
 <context>
@@ -410,7 +372,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -437,7 +399,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+94"/>
         <source>Group...</source>
         <translation>Grupowanie...</translation>
     </message>
@@ -457,12 +419,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-177"/>
+        <location line="-178"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+94"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -557,9 +519,14 @@ Kod błędu: %1</translation>
 </context>
 <context>
     <name>NotificationsBar</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+100"/>
+        <source>Click here to collapse notifications.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+78"/>
-        <source>There are %n notification(s) awaiting.</source>
+        <location line="+1"/>
+        <source>There are %n notification(s). Click here to read.</source>
         <comment>0</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -747,18 +714,6 @@ Please go to settings and setup path to &apos;magick&apos; executable.
 &apos;magick&apos; is a tool provided by ImageMagick.
 Visit https://www.imagemagick.org/ for downloads.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;convert&apos; tool is neccessary for this operation.
-Please go to settings and setup path to &apos;convert&apos; executable.
-
-&apos;convert&apos; is a tool which is a part of ImageMagick.
-Visit https://www.imagemagick.org/ for downloads.</source>
-        <translation type="vanished">Program &quot;convert&quot; jest wymagany do wykonania tego zadania.
-Proszę przejść do ustawień aplikacji i ustawić ścieżkę do programu &quot;convert&quot;.
-
-&quot;convert&quot; jest narzędziem dostepnym jako część pakietu ImageMagick.
-Odwiedź stronę https://www.imagemagick.org/ aby go pobrać.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -974,14 +929,39 @@ Odwiedź stronę http://hugin.sourceforge.net/ aby go pobrać.</translation>
         <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+18"/>
+        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+18"/>
+        <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>FFProbe</source>
         <translation>FFProbe</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
