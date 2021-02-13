@@ -10,7 +10,7 @@ class NotificationsModel: public QAbstractListModel
     Q_PROPERTY(int count READ getCount() NOTIFY countChanged);
 
 public:
-    void insertWarning(const QString &);
+    int insertWarning(const QString &);
     Q_INVOKABLE void removeWarning(int row);
 
     int getCount() const;
@@ -22,7 +22,8 @@ signals:
     void countChanged(int);
 
 private:
-    QStringList m_data;
+    std::vector<std::pair<int, QString>> m_data;
+    int m_id = 0;
 };
 
 #endif
