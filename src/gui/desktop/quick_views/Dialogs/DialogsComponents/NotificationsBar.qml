@@ -30,6 +30,7 @@ Item {
             height: 0
             width: parent.width
 
+            spacing: 2
             model: ListModel {}
 
             Behavior on height { PropertyAnimation{} }
