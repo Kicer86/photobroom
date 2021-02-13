@@ -13,6 +13,7 @@ Required tools and libraries:
  - exiv2*
  - OpenLibrary*
  - dlib*
+ - magic_enum*
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -28,11 +29,11 @@ Required tools and libraries:
 
 
 vcpkg setup:
-vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary magic_enum
 
 In case you do not want vcpkg to download and build Qt5 (OpenLibrary's dependency)
-because it is available in your system use:
-vcpkg install --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native dlib[core,cuda,fftw3] exiv2 openlibrary
+because it is available in your system, include --overlay-ports=./ci/vcpkg-system-native
+in vcpkg invocation
 
 If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
 
