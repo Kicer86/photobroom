@@ -526,32 +526,32 @@ Error code: %1</source>
 <context>
     <name>PhotoPropertiesWidget</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="107"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="109"/>
         <source>Photo location:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="108"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="110"/>
         <source>Photo size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="109"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="111"/>
         <source>Photo geometry:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="113"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="115"/>
         <source>Photos location:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="114"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="116"/>
         <source>Photos size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="194"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="196"/>
         <source>%n byte(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -559,7 +559,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="195"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="197"/>
         <source>%n kbyte(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -567,7 +567,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="196"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="198"/>
         <source>%n Mbyte(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -575,7 +575,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="197"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="199"/>
         <source>%n Gbyte(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
