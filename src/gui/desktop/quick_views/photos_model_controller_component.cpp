@@ -53,7 +53,12 @@ void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
     m_model->setDatabase(db);
 
     if (m_db != nullptr)
+    {
         updateTimeRange();
+        connect(&m_db->backend(), &Database::IBackend::photosAdded, this, &PhotosModelControllerComponent::updateTimeRange);
+        connect(&m_db->backend(), &Database::IBackend::photosModified, this, &PhotosModelControllerComponent::updateTimeRange);
+        connect(&m_db->backend(), &Database::IBackend::photosRemoved, this, &PhotosModelControllerComponent::updateTimeRange);
+    }
 }
 
 
