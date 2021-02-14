@@ -31,6 +31,9 @@ class FacesDialog: public QDialog
         explicit FacesDialog(const Photo::Data &, ICompleterFactory *, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
         ~FacesDialog();
 
+    protected:
+        void keyPressEvent(QKeyEvent *) override;
+
     private:
         const Photo::Id m_id;
         PeopleManipulator m_peopleManipulator;
