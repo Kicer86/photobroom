@@ -72,7 +72,7 @@ Item {
             Components.ThumbnailSlider {
                 id: thumbnailSliderId
                 anchors.bottom: parent.bottom
-                anchors.right: parent.right
+                anchors.right: parent.ScrollBar.vertical.left
             }
 
             onItemDoubleClicked: {
