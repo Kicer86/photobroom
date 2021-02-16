@@ -202,7 +202,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     <message>
         <location line="-156"/>
         <source>Assembling final file</source>
-        <translation type="unfinished">Składanie pliku wynikowego</translation>
+        <translation>Składanie pliku wynikowego</translation>
     </message>
 </context>
 <context>
@@ -527,16 +527,16 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+100"/>
         <source>Click here to collapse notifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>There are %n notification(s). Click here to read.</source>
         <comment>0</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Kliknij tutaj aby wyświetlić %n powiadomienie.</numerusform>
+            <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
+            <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
         </translation>
     </message>
 </context>

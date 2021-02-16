@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="74"/>
         <source>Error occured during external program execution</source>
-        <translation type="unfinished"></translation>
+        <translation>Error occured during external program execution</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="85"/>
@@ -101,9 +101,11 @@
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Tasks&apos; panel.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Done. %n new photo found.</numerusform>
+            <numerusform>Done. %n new photos found.
+Photo broom will now collect data from photos.
+You can watch progress in &apos;Tasks&apos; panel.</numerusform>
         </translation>
     </message>
 </context>
@@ -197,7 +199,7 @@ You can watch progress in &apos;Tasks&apos; panel.</source>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="109"/>
         <source>Assembling final file</source>
-        <translation type="unfinished"></translation>
+        <translation>Assembling final file</translation>
     </message>
 </context>
 <context>
@@ -400,7 +402,7 @@ Please check your internet connection.</source>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="341"/>
         <source>Photo broom: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo broom: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="434"/>
@@ -508,15 +510,15 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="100"/>
         <source>Click here to collapse notifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Click here to collapse notifications.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="101"/>
         <source>There are %n notification(s). Click here to read.</source>
         <comment>0</comment>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>There is %n notification. Click here to read.</numerusform>
+            <numerusform>There are %n notifications. Click here to read.</numerusform>
         </translation>
     </message>
 </context>
@@ -525,7 +527,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="44"/>
         <source>NEW</source>
-        <translation type="unfinished"></translation>
+        <translation>NEW</translation>
     </message>
 </context>
 <context>
@@ -558,33 +560,33 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="196"/>
         <source>%n byte(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n byte</numerusform>
+            <numerusform>%n bytes</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="197"/>
         <source>%n kbyte(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n kbyte</numerusform>
+            <numerusform>%n kbytes</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="198"/>
         <source>%n Mbyte(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Mbyte</numerusform>
+            <numerusform>%n Mbytes</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="199"/>
         <source>%n Gbyte(s)</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n Gbyte</numerusform>
+            <numerusform>%n Gbytes</numerusform>
         </translation>
     </message>
 </context>
@@ -769,12 +771,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="36"/>
         <source>%1×%2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1×%2</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="37"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
 </context>
 <context>
