@@ -123,6 +123,7 @@ class MainWindow: public QMainWindow, public INotifications
 
         // tools menu
         void on_actionSeries_detector_triggered();
+        void on_actionPhoto_data_completion_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();

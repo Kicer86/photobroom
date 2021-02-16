@@ -282,7 +282,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -372,6 +372,11 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>Photo data completion </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -434,7 +439,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+225"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -507,7 +512,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-105"/>
+        <location line="-110"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
