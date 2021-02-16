@@ -86,6 +86,18 @@ FacesDialog::~FacesDialog()
 }
 
 
+void FacesDialog::keyPressEvent(QKeyEvent* keyEvent)
+{
+    if (keyEvent->key() == Qt::Key_Escape)
+    {
+        keyEvent->accept();
+        ui->peopleList->clearSelection();
+    }
+    else
+        QDialog::keyPressEvent(keyEvent);
+}
+
+
 void FacesDialog::updateFaceInformation()
 {
     const auto faces_count = m_peopleManipulator.facesCount();
