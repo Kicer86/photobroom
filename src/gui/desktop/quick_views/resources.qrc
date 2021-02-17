@@ -12,6 +12,7 @@
         <file>Components/ZoomableImage.qml</file>
         <file>Dialogs/FacesDialog.qml</file>
         <file>Dialogs/MainWindow.qml</file>
+        <file>Dialogs/PhotoDataCompletion.qml</file>
         <file>Dialogs/PhotosView.qml</file>
         <file>Dialogs/SeriesDetection.qml</file>
         <file>Dialogs/DialogsComponents/Filter.qml</file>
