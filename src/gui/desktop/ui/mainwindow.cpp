@@ -289,6 +289,8 @@ void MainWindow::closeProject()
         m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
         ui->tagEditor->setDatabase(nullptr);
 
+        emit currentDatabaseChanged(nullptr);
+
         updateGui();
 
         QDir::setSearchPaths("prj", QStringList() );
@@ -649,6 +651,8 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             m_photosModelController->setDatabase(db);
             m_completerFactory.set(db);
             ui->tagEditor->setDatabase(db);
+
+            emit currentDatabaseChanged(db);
 
             // TODO: I do not like this flag here...
             if (is_new)
