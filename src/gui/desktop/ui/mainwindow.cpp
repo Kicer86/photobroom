@@ -74,6 +74,13 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     updateGui();
     registerConfigTab();
 
+    connect(this, &MainWindow::currentDatabaseChanged,
+            m_photosModelController, &PhotosModelControllerComponent::setDatabase);
+    connect(this, &MainWindow::currentDatabaseChanged,
+            &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
+    connect(this, &MainWindow::currentDatabaseChanged,
+            ui->tagEditor, &TagEditorWidget::setDatabase);
+
     IconsLoader icons;
 
     ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
@@ -284,10 +291,6 @@ void MainWindow::closeProject()
         // Move m_currentPrj to a temporary place, so m_currentPrj is null and all tools will change theirs state basing on this.
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
-
-        m_photosModelController->setDatabase(nullptr);
-        m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
-        ui->tagEditor->setDatabase(nullptr);
 
         emit currentDatabaseChanged(nullptr);
 
@@ -647,10 +650,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
         case Database::StatusCodes::Ok:
         {
             Database::IDatabase* db = m_currentPrj->getDatabase();
-
-            m_photosModelController->setDatabase(db);
-            m_completerFactory.set(db);
-            ui->tagEditor->setDatabase(db);
 
             emit currentDatabaseChanged(db);
 
