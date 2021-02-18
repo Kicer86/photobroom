@@ -246,7 +246,7 @@ void PhotosModelControllerComponent::updateModelFilters()
 {
     auto filters_for_model = allFilters();
 
-    m_model->setFilters(filters_for_model);
+    m_model->setFilter(filters_for_model);
 }
 
 

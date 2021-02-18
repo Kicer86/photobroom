@@ -69,7 +69,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-void FlatModel::setFilters(const Database::Filter& filters)
+void FlatModel::setFilter(const Database::Filter& filters)
 {
     {
         std::lock_guard<std::mutex> lock(m_filtersMutex);

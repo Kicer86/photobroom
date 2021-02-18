@@ -92,7 +92,7 @@ TEST_F(FlatModelTest, dataAppended)
     QSignalSpy model_inserted(&model, &FlatModel::rowsInserted);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 2 insertions - one after db set, second after filters set
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
@@ -119,7 +119,7 @@ TEST_F(FlatModelTest, dataPrepended)
     QSignalSpy model_inserted(&model, &FlatModel::rowsInserted);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 2 insertions - one after db set, second after filters set
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
@@ -146,7 +146,7 @@ TEST_F(FlatModelTest, dataInserting)
     QSignalSpy model_inserted(&model, &FlatModel::rowsInserted);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 2 insertions - one after db set, second after filters set
     EXPECT_EQ(model_about_to_be_inserted.count(), 2);
@@ -173,7 +173,7 @@ TEST_F(FlatModelTest, dataRemovedAtFront)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -200,7 +200,7 @@ TEST_F(FlatModelTest, dataRemovedAtBack)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -227,7 +227,7 @@ TEST_F(FlatModelTest, dataRemovedInTheMiddle)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -254,7 +254,7 @@ TEST_F(FlatModelTest, removingAll)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -283,7 +283,7 @@ TEST_F(FlatModelTest, dataReplacementInTheMiddle)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
@@ -320,7 +320,7 @@ TEST_F(FlatModelTest, dataReplacementAtFront)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
@@ -357,7 +357,7 @@ TEST_F(FlatModelTest, dataReplacementAtBack)
     QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     //
     // 1 removal expected and 2 insertions - one after db set, second after filters set
@@ -389,7 +389,7 @@ TEST_F(FlatModelTest, complexChanges)
         .WillOnce(Return(final_photos_set));                  // second call after setting filters
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     EXPECT_EQ(final_photos_set, model.photos());
 }
@@ -404,7 +404,7 @@ TEST_F(FlatModelTest, PhotoModification)
         .WillByDefault(Return(initial_photos_set));
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     ON_CALL(photoOperator, onPhotos(_, _))
         .WillByDefault(Return(final_photos_set));
@@ -431,7 +431,7 @@ TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
     ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
 
     model.setDatabase(&db);
-    model.setFilters({});       // setting filters should update set of photos
+    model.setFilter({});       // setting filters should update set of photos
 
     const auto path = model.getPhotoPath(1);
     EXPECT_EQ(path, QUrl::fromLocalFile("/some/path2.jpeg"));
