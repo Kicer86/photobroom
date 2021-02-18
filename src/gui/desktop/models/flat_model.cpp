@@ -86,6 +86,12 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
+const Database::Filter & FlatModel::filter() const
+{
+    return m_filters;
+}
+
+
 const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();
