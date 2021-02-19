@@ -7,6 +7,8 @@ set(SRC
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
+    properties_controlled_model.cpp
+    properties_controlled_model.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
