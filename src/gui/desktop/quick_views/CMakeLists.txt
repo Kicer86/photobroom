@@ -10,6 +10,7 @@ qt5_add_resources(QML_RESOURCES
 )
 
 qt5_wrap_cpp(MOCED
+                bridge.hpp
                 photo_item.hpp
                 photos_model_controller_component.hpp
                 picture_item.hpp
@@ -21,6 +22,8 @@ qt5_wrap_cpp(MOCED
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 ${MOCED}
+                bridge.cpp
+                bridge.hpp
                 photo_item.cpp
                 photo_item.hpp
                 photos_model_controller_component.cpp
