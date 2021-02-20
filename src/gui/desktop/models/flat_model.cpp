@@ -103,6 +103,7 @@ const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
     const int row = index.row();
     const Photo::Id id = m_photos[row];
     const Photo::Data& data = photoData(id);
+
     return data;
 }
 
