@@ -92,6 +92,12 @@ const Database::Filter & FlatModel::filter() const
 }
 
 
+Database::IDatabase * FlatModel::database() const
+{
+    return m_db;
+}
+
+
 const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();

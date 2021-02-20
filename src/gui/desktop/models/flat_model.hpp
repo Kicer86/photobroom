@@ -46,6 +46,7 @@ class FlatModel: public APhotoInfoModel
         void setFilter(const Database::Filter &);
         const std::vector<Photo::Id>& photos() const;
         const Database::Filter& filter() const;
+        Database::IDatabase* database() const;
 
         const Photo::Data& getPhotoData(const QModelIndex &) const override;
         QVariant data(const QModelIndex& index, int role) const override;
