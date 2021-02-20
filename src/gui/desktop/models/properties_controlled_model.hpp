@@ -12,6 +12,7 @@ class PropertiesControlledModel: public QAbstractListModel
 {
     Q_OBJECT
     // Q_PROPERTY(APhotoInfoModel model READ model WRITE setModel)
+    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
 
     public:
         PropertiesControlledModel(QObject* parent = nullptr);
@@ -19,6 +20,9 @@ class PropertiesControlledModel: public QAbstractListModel
 
         QVariant data(const QModelIndex & index, int role) const override;
         int rowCount(const QModelIndex & parent) const override;
+
+        Database::IDatabase* database() const;
+        void setDatabase(Database::IDatabase *);
 
     private:
         FlatModel m_model;

@@ -18,3 +18,15 @@ int PropertiesControlledModel::rowCount(const QModelIndex& parent) const
 {
     return m_model.rowCount(parent);
 }
+
+
+Database::IDatabase* PropertiesControlledModel::database() const
+{
+    return m_model.database();
+}
+
+
+void PropertiesControlledModel::setDatabase(Database::IDatabase* db)
+{
+    m_model.setDatabase(db);
+}
