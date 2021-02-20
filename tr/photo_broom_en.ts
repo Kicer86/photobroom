@@ -526,7 +526,7 @@ Error code: %1</source>
     <name>PhotoDataCompletion</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="13"/>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="68"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="50"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

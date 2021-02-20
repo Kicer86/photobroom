@@ -544,7 +544,7 @@ Kod błędu: %1</translation>
     <name>PhotoDataCompletion</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+13"/>
-        <location line="+55"/>
+        <location line="+37"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

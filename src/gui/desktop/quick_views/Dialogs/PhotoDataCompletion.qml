@@ -14,8 +14,7 @@ Item {
         }
 
         PropertiesControlledModel {
-            id: dataModel
-
+            id: dataSource
             database: PhotoBroomProject.database
         }
 
@@ -24,32 +23,15 @@ Item {
             height: 160
             anchors.left: parent.left
             anchors.right: parent.right
-            model: ListModel {
-                ListElement {
-                    photoPath: "/home/user/photo1.jpeg"
-                    guessedInformation: "Date: 1, Time 2"
-                }
+            model: dataSource.model
 
-                ListElement {
-                    photoPath: "/home/user/photo2.jpeg"
-                    guessedInformation: "Date: 1, Time 2"
-                }
-
-                ListElement {
-                    photoPath: "/home/user/photo3.jpeg"
-                    guessedInformation: "Date: 1, Time 2"
-                }
-
-                ListElement {
-                    photoPath: "/home/user/photo4.jpeg"
-                    guessedInformation: "Date: 1, Time 2"
-                }
-            }
             delegate: Item {
-                required property string photoPath
-                required property string guessedInformation
+                required property var photoData
 
-                width: parent.width
+                readonly property string photoPath: photoData.path
+                readonly property string guessedInformation: photoDataComplete(photoData)
+
+                width: listView.width
                 height: 40
 
                 Row {
@@ -67,6 +49,10 @@ Item {
         Text {
             text: qsTr("Text")
         }
+    }
+
+    function photoDataComplete(photoData) {
+        return photoData.path + "ddd";
     }
 }
 

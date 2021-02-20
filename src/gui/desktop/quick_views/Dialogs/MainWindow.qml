@@ -22,4 +22,8 @@ Column {
 
         width: parent.width
     }
+
+    PhotoDataCompletion {
+        anchors.fill: parent
+    }
 }
