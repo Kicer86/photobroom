@@ -80,6 +80,8 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentDatabaseChanged,
             ui->tagEditor, &TagEditorWidget::setDatabase);
+    connect(this, &MainWindow::currentDatabaseChanged,
+            &m_bridge, &Bridge::setDatabase);
 
     IconsLoader icons;
 
@@ -128,6 +130,8 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 void MainWindow::setupQmlView()
 {
     assert(m_photosModelController == nullptr);
+
+    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &m_bridge);
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
