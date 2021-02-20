@@ -2,21 +2,15 @@
 #include "properties_controlled_model.hpp"
 
 PropertiesControlledModel::PropertiesControlledModel(QObject* parent)
-    : QAbstractListModel(parent)
+    : QObject(parent)
 {
 
 }
 
 
-QVariant PropertiesControlledModel::data(const QModelIndex& index, int role) const
+QAbstractItemModel* PropertiesControlledModel::model()
 {
-    return m_model.data(index, role);
-}
-
-
-int PropertiesControlledModel::rowCount(const QModelIndex& parent) const
-{
-    return m_model.rowCount(parent);
+    return &m_model;
 }
 
 
