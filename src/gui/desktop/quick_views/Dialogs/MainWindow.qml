@@ -1,29 +1,32 @@
 
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import "DialogsComponents" as Internals
 
-Column {
-    id: column
+
+SwipeView {
     objectName: "MainWindow"
 
     property bool projectOpened: false
 
     anchors.fill: parent
 
-    PhotosView {
-        enabled: projectOpened
+    Column {
+        PhotosView {
+            enabled: projectOpened
 
-        width: parent.width
-        height: parent.height - notifications.height
-    }
+            width: parent.width
+            height: parent.height - notifications.height
+        }
 
-    Internals.NotificationsBar {
-        id: notifications
+        Internals.NotificationsBar {
+            id: notifications
 
-        width: parent.width
+            width: parent.width
+        }
     }
 
     PhotoDataCompletion {
-        anchors.fill: parent
+
     }
 }
