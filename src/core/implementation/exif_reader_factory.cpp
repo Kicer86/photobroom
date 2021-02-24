@@ -11,19 +11,6 @@
 
 namespace
 {
-    struct NullFeeder: public IExifReader
-    {
-            virtual ~NullFeeder() {}
-
-        private:
-            virtual Tag::TagsList getTagsFor(const QString&) override final
-            {
-                //return empty set
-                return Tag::TagsList();
-            }
-
-    };
-
     std::recursive_mutex xmpMutex;
 }
 
