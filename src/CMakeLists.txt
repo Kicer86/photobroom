@@ -1,6 +1,5 @@
 
 find_package(OpenLibrary REQUIRED)
-find_package(exiv2            REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -52,7 +51,6 @@ target_link_libraries(photo_broom
     system
     Qt::Core
     Qt::Widgets
-    exiv2lib
 )
 
 target_include_directories(photo_broom

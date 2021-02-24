@@ -18,8 +18,6 @@
 #include <Windows.h>
 #endif
 
-#include <exiv2/exiv2.hpp>
-
 #include <core/configuration.hpp>
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
@@ -162,21 +160,6 @@ namespace
 
 int main(int argc, char **argv)
 {
-    std::recursive_mutex xmpMutex;
-    // Pass the locking mechanism to the XMP parser on initialization.
-    // Note however that this call itself is still not thread-safe.
-    Exiv2::XmpParser::initialize(
-        [](void *data, bool doLock) {
-            std::recursive_mutex *mutex = reinterpret_cast<std::recursive_mutex*>(data);
-            if (doLock) {
-                mutex->lock();
-            } else {
-                mutex->unlock();
-            }
-        },
-        &xmpMutex
-    );
-
     QApplication app(argc, argv);
     app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
 

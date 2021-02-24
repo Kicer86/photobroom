@@ -1,6 +1,7 @@
 
 #include "exif_reader_factory.hpp"
 
+#include <mutex>
 #include <thread>
 
 #include "exiv2_exif_reader.hpp"
@@ -22,12 +23,26 @@ namespace
             }
 
     };
+
+    std::recursive_mutex xmpMutex;
 }
 
 
 ExifReaderFactory::ExifReaderFactory(): m_feeders()
 {
-
+    // Pass the locking mechanism to the XMP parser on initialization.
+    // Note however that this call itself is still not thread-safe.
+    Exiv2::XmpParser::initialize(
+        [](void *data, bool doLock) {
+            std::recursive_mutex *mutex = reinterpret_cast<std::recursive_mutex*>(data);
+            if (doLock) {
+                mutex->lock();
+            } else {
+                mutex->unlock();
+            }
+        },
+        &xmpMutex
+    );
 }
 
 
