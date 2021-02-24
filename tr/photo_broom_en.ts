@@ -531,7 +531,7 @@ Error code: %1</source>
     <name>PhotoDataCompletion</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="14"/>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="51"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="54"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

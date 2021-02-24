@@ -21,9 +21,12 @@ Item {
 
         ListView {
             id: listView
+
+            clip: true
             height: 160
             anchors.left: parent.left
             anchors.right: parent.right
+
             model: dataSource.model
 
             delegate: Item {
