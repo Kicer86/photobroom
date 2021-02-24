@@ -40,8 +40,6 @@ SwipeView {
         }
 
         PhotoDataCompletion {
-            clip: true
-
             width: parent.width
             anchors.bottom: parent.bottom
             anchors.top: backButton.bottom

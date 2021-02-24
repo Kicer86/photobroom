@@ -546,15 +546,6 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>PhotoDataCompletion</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+14"/>
-        <location line="+40"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PhotoDelegate</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>

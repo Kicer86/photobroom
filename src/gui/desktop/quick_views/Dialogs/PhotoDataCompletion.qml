@@ -6,52 +6,38 @@ import photo_broom.qml 1.0
 
 Item {
 
-    Column {
-        id: column
+    PropertiesControlledModel {
+        id: dataSource
+        database: PhotoBroomProject.database
+    }
+
+    ListView {
+        id: listView
+
+        clip: true
+        height: 160
         anchors.fill: parent
 
-        Text {
-            text: qsTr("Text")
-        }
+        model: dataSource.model
 
-        PropertiesControlledModel {
-            id: dataSource
-            database: PhotoBroomProject.database
-        }
+        delegate: Item {
+            required property var photoData
 
-        ListView {
-            id: listView
+            readonly property string photoPath: photoData.path
+            readonly property string guessedInformation: photoDataComplete(photoData)
 
-            clip: true
-            height: 160
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: listView.width
+            height: 40
 
-            model: dataSource.model
+            Row {
+                CheckBox {
+                    text: photoPath
+                }
 
-            delegate: Item {
-                required property var photoData
-
-                readonly property string photoPath: photoData.path
-                readonly property string guessedInformation: photoDataComplete(photoData)
-
-                width: listView.width
-                height: 40
-
-                Row {
-                    CheckBox {
-                        text: photoPath
-                    }
-
-                    Text {
-                        text: guessedInformation
-                    }
+                Text {
+                    text: guessedInformation
                 }
             }
-        }
-
-        Text {
-            text: qsTr("Text")
         }
     }
 
