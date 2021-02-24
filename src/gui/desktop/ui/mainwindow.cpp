@@ -637,7 +637,8 @@ void MainWindow::on_actionSeries_detector_triggered()
 
 void MainWindow::on_actionPhoto_data_completion_triggered()
 {
-
+    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    mainwindow->setProperty("currentIndex", 1);
 }
 
 

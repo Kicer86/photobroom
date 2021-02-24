@@ -12,6 +12,8 @@ SwipeView {
 
     anchors.fill: parent
 
+    interactive: false
+
     Column {
         PhotosView {
             enabled: projectOpened

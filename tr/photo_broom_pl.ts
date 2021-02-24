@@ -439,7 +439,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+223"/>
+        <location line="+224"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -512,7 +512,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-109"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -522,7 +522,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+35"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+37"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
