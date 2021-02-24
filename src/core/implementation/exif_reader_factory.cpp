@@ -21,7 +21,7 @@ ExifReaderFactory::ExifReaderFactory(): m_feeders()
     // Note however that this call itself is still not thread-safe.
     Exiv2::XmpParser::initialize(
         [](void *data, bool doLock) {
-            std::recursive_mutex *mutex = reinterpret_cast<std::recursive_mutex*>(data);
+            std::recursive_mutex *mutex = static_cast<std::recursive_mutex*>(data);
             if (doLock) {
                 mutex->lock();
             } else {
