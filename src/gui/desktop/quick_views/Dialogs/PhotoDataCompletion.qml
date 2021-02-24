@@ -5,6 +5,7 @@ import photo_broom.qml 1.0
 
 
 Item {
+
     Column {
         id: column
         anchors.fill: parent

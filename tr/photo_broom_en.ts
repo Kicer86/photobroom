@@ -504,6 +504,11 @@ Please report a bug.
 Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="35"/>
+        <source>Back to photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NotificationsBar</name>
@@ -525,8 +530,8 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="13"/>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="50"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="14"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="51"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

@@ -521,6 +521,11 @@ Kod błędu: %1</translation>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+35"/>
+        <source>Back to photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NotificationsBar</name>
@@ -543,7 +548,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+13"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+14"/>
         <location line="+37"/>
         <source>Text</source>
         <translation type="unfinished"></translation>

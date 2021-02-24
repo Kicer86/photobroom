@@ -5,6 +5,7 @@ import "DialogsComponents" as Internals
 
 
 SwipeView {
+    id: mainWindow
     objectName: "MainWindow"
 
     property bool projectOpened: false
@@ -26,7 +27,24 @@ SwipeView {
         }
     }
 
-    PhotoDataCompletion {
+    Item {
 
+        Button {
+            id: backButton
+
+            text: qsTr("Back to photos")
+
+            onClicked: {
+                mainWindow.currentIndex = 0
+            }
+        }
+
+        PhotoDataCompletion {
+            clip: true
+
+            width: parent.width
+            anchors.bottom: parent.bottom
+            anchors.top: backButton.bottom
+        }
     }
 }
