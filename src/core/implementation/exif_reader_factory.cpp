@@ -1,6 +1,7 @@
 
 #include "exif_reader_factory.hpp"
 
+#include <mutex>
 #include <thread>
 
 #include "exiv2_exif_reader.hpp"
@@ -8,26 +9,30 @@
 #include "tag.hpp"
 #include "iexif_reader.hpp"
 
-namespace
-{
-    struct NullFeeder: public IExifReader
-    {
-            virtual ~NullFeeder() {}
-
-        private:
-            virtual Tag::TagsList getTagsFor(const QString&) override final
-            {
-                //return empty set
-                return Tag::TagsList();
-            }
-
-    };
-}
-
 
 ExifReaderFactory::ExifReaderFactory(): m_feeders()
 {
+    static bool initialized = false;
+    static std::recursive_mutex xmpMutex;
 
+    if (initialized == false)
+    {
+        // Pass the locking mechanism to the XMP parser on initialization.
+        // Note however that this call itself is still not thread-safe.
+        Exiv2::XmpParser::initialize(
+            [](void *data, bool doLock) {
+                std::recursive_mutex *mutex = static_cast<std::recursive_mutex*>(data);
+                if (doLock) {
+                    mutex->lock();
+                } else {
+                    mutex->unlock();
+                }
+            },
+            &xmpMutex
+        );
+
+        initialized = true;
+    }
 }
 
 
