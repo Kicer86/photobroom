@@ -11,7 +11,7 @@
 class PropertiesControlledModel: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* model READ model)
+    Q_PROPERTY(QAbstractItemModel* model READ model NOTIFY modelChanged)
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
 
     public:
@@ -22,6 +22,9 @@ class PropertiesControlledModel: public QObject
 
         Database::IDatabase* database() const;
         void setDatabase(Database::IDatabase *);
+
+    signals:
+        void modelChanged() const;
 
     private:
         FlatModel m_model;
