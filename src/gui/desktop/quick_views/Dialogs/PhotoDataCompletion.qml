@@ -9,6 +9,8 @@ Item {
     PropertiesControlledModel {
         id: dataSource
         database: PhotoBroomProject.database
+
+        tags: { "Date": "" }
     }
 
     ListView {
