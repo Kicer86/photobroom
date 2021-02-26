@@ -53,8 +53,8 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
         flags_filter.flags[flag] = 0;            //uninitialized
 
     // only normal photos
-    const Database::FilterPhotosWithGeneralFlags general_flags_filter(Database::CommonGeneralFlags::State,
-                                                                      static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+    const Database::FilterPhotosWithGeneralFlag general_flags_filter(Database::CommonGeneralFlags::State,
+                                                                     static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
 
     const Database::GroupFilter filters = {flags_filter, general_flags_filter};
 

@@ -53,7 +53,7 @@ namespace Database
             QString visit(const FilterPhotosWithPath& filter) const;
             QString visit(const FilterPhotosWithRole& filter) const;
             QString visit(const FilterPhotosWithPerson& personFilter) const;
-            QString visit(const FilterPhotosWithGeneralFlags& genericFlagsFilter) const;
+            QString visit(const FilterPhotosWithGeneralFlag& genericFlagsFilter) const;
     };
 
 }

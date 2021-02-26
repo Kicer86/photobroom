@@ -49,7 +49,7 @@ namespace Database
     struct FilterPhotosWithPath;
     struct FilterPhotosWithRole;
     struct FilterPhotosWithPerson;
-    struct FilterPhotosWithGeneralFlags;
+    struct FilterPhotosWithGeneralFlag;
 
 
     typedef std::variant<EmptyFilter,
@@ -63,7 +63,7 @@ namespace Database
                          FilterPhotosWithPath,
                          FilterPhotosWithRole,
                          FilterPhotosWithPerson,
-                         FilterPhotosWithGeneralFlags
+                         FilterPhotosWithGeneralFlag
     > Filter;
 
     struct DATABASE_EXPORT EmptyFilter
@@ -168,9 +168,9 @@ namespace Database
         Person::Id person_id;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithGeneralFlags
+    struct DATABASE_EXPORT FilterPhotosWithGeneralFlag
     {
-        explicit FilterPhotosWithGeneralFlags(const QString& name, int value);
+        explicit FilterPhotosWithGeneralFlag(const QString& name, int value);
 
         QString name;
         int value;

@@ -415,7 +415,7 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGroupMemberRole)
 TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGeneralFlags)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithGeneralFlags filter("some_name", 12345);
+    Database::FilterPhotosWithGeneralFlag filter("some_name", 12345);
 
     const QString query = generator.generate(filter);
 
