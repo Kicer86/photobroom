@@ -47,9 +47,9 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         mutable ExifReaderFactory m_exifReaderFactory;
         IConfiguration* m_configuration;
 
-        QImage readImage(const QString& path);
-        QImage readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg);
-        QImage scaleImage(const QImage& path, int height);
+        QImage readImage(const QString& path) const;
+        QImage readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const;
+        QImage scaleImage(const QImage& path, int height) const;
 };
 
 #endif // THUMBNAILGENERATOR_HPP

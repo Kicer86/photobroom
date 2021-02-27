@@ -78,7 +78,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 }
 
 
-QImage ThumbnailGenerator::readImage(const QString& path)
+QImage ThumbnailGenerator::readImage(const QString& path) const
 {
     // TODO: use QTransform here to perform one transformation instead of many
 
@@ -108,7 +108,7 @@ QImage ThumbnailGenerator::readImage(const QString& path)
 }
 
 
-QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg)
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const
 {
     const QFileInfo pathInfo(path);
 
@@ -145,7 +145,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
 }
 
 
-QImage ThumbnailGenerator::scaleImage(const QImage& image, int height)
+QImage ThumbnailGenerator::scaleImage(const QImage& image, int height) const
 {
     QImage thumbnail;
 
