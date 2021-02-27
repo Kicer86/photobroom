@@ -23,7 +23,7 @@
 using namespace std::placeholders;
 
 
-ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator* gen, IThumbnailsCache* cache):
+ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache):
     m_tasks(executor, TasksQueue::Mode::Lifo),
     m_cache(cache),
     m_generator(gen)
@@ -45,7 +45,7 @@ void ThumbnailManager::fetch(const QString& path, int desired_height, const safe
 
 std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
 {
-    std::optional img = m_cache->find(path, height);
+    std::optional img = m_cache.find(path, height);
 
     return img;
 }
@@ -55,13 +55,10 @@ QImage ThumbnailManager::find(const QString& path, int height)
 {
     QImage result;
 
-    if (m_cache)
-    {
-        const auto cached = m_cache->find(path, height);
+    const auto cached = m_cache.find(path, height);
 
-        if (cached.has_value())
-            result = *cached;
-    }
+    if (cached.has_value())
+        result = *cached;
 
     return result;
 }
@@ -69,8 +66,7 @@ QImage ThumbnailManager::find(const QString& path, int height)
 
 void ThumbnailManager::cache(const QString& path, int height, const QImage& img)
 {
-    if (m_cache)
-        m_cache->store(path, height, img);
+    m_cache.store(path, height, img);
 }
 
 

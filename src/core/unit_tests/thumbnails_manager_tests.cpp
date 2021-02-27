@@ -13,6 +13,19 @@ using namespace std::placeholders;
 using testing::_;
 using testing::Return;
 
+struct NullCache: IThumbnailsCache
+{
+    std::optional<QImage> find(const QString &, int) override
+    {
+        return {};
+    }
+
+    void store(const QString &, int, const QImage &) override
+    {
+
+    }
+};
+
 struct MockResponse
 {
     MOCK_METHOD1(result, void(QImage));
@@ -26,12 +39,14 @@ TEST(ThumbnailManagerTest, constructs)
     EXPECT_NO_THROW(
     {
         FakeTaskExecutor executor;
-        ThumbnailManager(&executor, nullptr);
+        MockThumbnailsGenerator generator;
+        MockThumbnailsCache cache;
+        ThumbnailManager(&executor, generator, cache);
     });
 }
 
 
-TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNotCache)
+TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
 {
     const QString path = "/some/example/path";
     const int height = 100;
@@ -45,7 +60,8 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNotCache)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator);
+    NullCache cache;
+    ThumbnailManager tm(&executor, generator, cache);
     tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
@@ -68,7 +84,7 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
@@ -89,7 +105,7 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
@@ -112,7 +128,7 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     tm.fetch(path, height, [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
@@ -129,7 +145,7 @@ TEST(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     const std::optional fetchedImg = tm.fetch(path, height);
 
     ASSERT_TRUE(fetchedImg.has_value());
@@ -152,7 +168,7 @@ TEST(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     const std::optional fetchedImg = tm.fetch(path, height);
 
     EXPECT_FALSE(fetchedImg.has_value());
@@ -177,7 +193,7 @@ TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
 
     FakeTaskExecutor executor;
 
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
     tm.fetch(path, requested_height, [&response](const QImage& _img){response(_img);});
 }
 
@@ -202,7 +218,7 @@ TEST(ThumbnailManagerTest, safeCallbackBasicUsage)
     EXPECT_CALL(generator, generate(path, requested_height)).Times(1).WillOnce(Return(img));
 
     FakeTaskExecutor executor;
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
 
     tm.fetch(path, requested_height, callback);
 }
@@ -230,7 +246,7 @@ TEST(ThumbnailManagerTest, safeCallbackInvalidated)
     EXPECT_CALL(generator, generate(path, requested_height)).Times(0);
 
     FakeTaskExecutor executor;
-    ThumbnailManager tm(&executor, &generator, &cache);
+    ThumbnailManager tm(&executor, generator, cache);
 
     tm.fetch(path, requested_height, callback);
 }

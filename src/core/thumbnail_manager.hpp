@@ -38,7 +38,7 @@ struct IThumbnailsCache;
 class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
+        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);
 
         void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &) override;
         void fetch(const QString& path, int desired_height, const safe_callback<const QImage &> &) override;
@@ -46,8 +46,8 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 
     private:
         TasksQueue m_tasks;
-        IThumbnailsCache* m_cache;
-        IThumbnailsGenerator* m_generator;
+        IThumbnailsCache& m_cache;
+        IThumbnailsGenerator& m_generator;
 
         QImage find(const QString &, int);
         void cache(const QString &, int, const QImage &);
@@ -69,7 +69,7 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
         template<typename T>
         void generate_task(const QString& path, int desired_height, const T& callback)
         {
-            const QImage img = m_generator->generate(path, desired_height);
+            const QImage img = m_generator.generate(path, desired_height);
 
             const int height = img.height();
             assert(height == desired_height || img.isNull());
