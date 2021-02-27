@@ -50,15 +50,18 @@ ThumbnailGenerator::~ThumbnailGenerator()
 QImage ThumbnailGenerator::generate(const QString& path, int height)
 {
     const QImage frame = readFrame(path);
-    const QImage thumb = scaleImage(frame, height);
+    const QImage thumb = scaleImage(frame, height, Mode::Height);
 
     return thumb;
 }
 
 
-QImage ThumbnailGenerator::generate(const QString&, int, IThumbnailsGenerator::Mode)
+QImage ThumbnailGenerator::generate(const QString& path, int size, IThumbnailsGenerator::Mode mode)
 {
-    return {};
+    const QImage frame = readFrame(path);
+    const QImage thumb = scaleImage(frame, size, mode);
+
+    return thumb;
 }
 
 
@@ -152,15 +155,32 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
 }
 
 
-QImage ThumbnailGenerator::scaleImage(const QImage& image, int height) const
+QImage ThumbnailGenerator::scaleImage(const QImage& image, int size, Mode mode) const
 {
     QImage thumbnail;
 
     Stopwatch stopwatch;
     stopwatch.start();
 
-    if (image.isNull() == false && image.height() != height)
-        thumbnail = image.scaledToHeight(height, Qt::SmoothTransformation);
+    if (mode == Mode::Auto)
+        mode = image.width() > image.height()? Mode::Height: Mode::Width;
+
+    if (image.isNull() == false)
+        switch(mode)
+        {
+            case Mode::Height:
+                if (image.height() != size)
+                    thumbnail = image.scaledToHeight(size, Qt::SmoothTransformation);
+                break;
+
+            case Mode::Width:
+                if (image.height() != size)
+                    thumbnail = image.scaledToHeight(size, Qt::SmoothTransformation);
+                break;
+
+            case Mode::Auto:
+                break;
+        }
 
     const int photo_scaling = stopwatch.stop();
 

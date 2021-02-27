@@ -51,7 +51,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         QImage readFrameFromImage(const QString& path) const;
         QImage readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const;
         QImage readFrame(const QString& path) const;
-        QImage scaleImage(const QImage& path, int height) const;
+        QImage scaleImage(const QImage& path, int size, Mode) const;
 };
 
 #endif // THUMBNAILGENERATOR_HPP
