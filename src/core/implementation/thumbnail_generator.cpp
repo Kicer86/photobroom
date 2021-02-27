@@ -53,7 +53,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 
     if (MediaTypes::isImageFile(path))
     {
-        image = fromImage(path);
+        image = readImage(path);
         image = scaleImage(image, height);
     }
     else if (MediaTypes::isVideoFile(path))
@@ -67,7 +67,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 
         if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
         {
-            image = fromVideo(path, ffprobePath, ffmpegPath);
+            image = readFrameFromVideo(path, ffprobePath, ffmpegPath);
             image = scaleImage(image, height);
         }
     }
@@ -78,7 +78,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 }
 
 
-QImage ThumbnailGenerator::fromImage(const QString& path)
+QImage ThumbnailGenerator::readImage(const QString& path)
 {
     // TODO: use QTransform here to perform one transformation instead of many
 
@@ -108,7 +108,7 @@ QImage ThumbnailGenerator::fromImage(const QString& path)
 }
 
 
-QImage ThumbnailGenerator::fromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg)
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg)
 {
     const QFileInfo pathInfo(path);
 
