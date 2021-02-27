@@ -49,32 +49,10 @@ ThumbnailGenerator::~ThumbnailGenerator()
 
 QImage ThumbnailGenerator::generate(const QString& path, int height)
 {
-    QImage image;
+    const QImage frame = readFrame(path);
+    const QImage thumb = scaleImage(frame, height);
 
-    if (MediaTypes::isImageFile(path))
-    {
-        image = readFrameFromImage(path);
-        image = scaleImage(image, height);
-    }
-    else if (MediaTypes::isVideoFile(path))
-    {
-        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-        const QString ffmpegPath = ffmpegVar.toString();
-        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
-        const QString ffprobePath = ffprobeVar.toString();
-        const QFileInfo mpegfileInfo(ffmpegPath);
-        const QFileInfo probefileInfo(ffprobePath);
-
-        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
-        {
-            image = readFrameFromVideo(path, ffprobePath, ffmpegPath);
-            image = scaleImage(image, height);
-        }
-    }
-    else
-        assert(!"unknown file type");
-
-    return image;
+    return thumb;
 }
 
 
@@ -146,6 +124,31 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
     }
 
     return result;
+}
+
+
+QImage ThumbnailGenerator::readFrame(const QString& path) const
+{
+    QImage image;
+
+    if (MediaTypes::isImageFile(path))
+        image = readFrameFromImage(path);
+    else if (MediaTypes::isVideoFile(path))
+    {
+        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+        const QString ffmpegPath = ffmpegVar.toString();
+        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
+        const QString ffprobePath = ffprobeVar.toString();
+        const QFileInfo mpegfileInfo(ffmpegPath);
+        const QFileInfo probefileInfo(ffprobePath);
+
+        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
+            image = readFrameFromVideo(path, ffprobePath, ffmpegPath);
+    }
+    else
+        assert(!"unknown file type");
+
+    return image;
 }
 
 
