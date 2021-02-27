@@ -41,6 +41,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
 
         // IThumbnailGenerator:
         QImage generate(const QString &, int) override;
+        QImage generate(const QString &, int, Mode) override;
 
     private:
         ILogger* m_logger;

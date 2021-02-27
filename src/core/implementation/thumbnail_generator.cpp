@@ -78,6 +78,12 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 }
 
 
+QImage ThumbnailGenerator::generate(const QString&, int, IThumbnailsGenerator::Mode)
+{
+    return {};
+}
+
+
 QImage ThumbnailGenerator::readImage(const QString& path) const
 {
     IExifReader* reader = m_exifReaderFactory.get();

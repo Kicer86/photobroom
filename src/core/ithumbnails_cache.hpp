@@ -17,9 +17,17 @@ struct IThumbnailsCache
 
 struct IThumbnailsGenerator
 {
+    enum class Mode
+    {
+        Height,
+        Width,
+        Auto,
+    };
+
     virtual ~IThumbnailsGenerator() = default;
 
     virtual QImage generate(const QString &, int) = 0;
+    virtual QImage generate(const QString &, int, Mode) = 0;
 };
 
 #endif
