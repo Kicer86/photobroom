@@ -159,9 +159,7 @@ QSize PhotoItem::calculateThumbnailSize() const
 {
     const int h = static_cast<int>(height());
     const int w = static_cast<int>(width());
-
-    QSize thbSize = m_photoSize;
-    thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
+    const QSize thbSize = m_photoSize.scaled(w, h, Qt::KeepAspectRatioByExpanding);
 
     return thbSize;
 }
