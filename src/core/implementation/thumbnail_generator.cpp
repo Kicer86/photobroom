@@ -53,7 +53,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 
     if (MediaTypes::isImageFile(path))
     {
-        image = readImage(path);
+        image = readFrameFromImage(path);
         image = scaleImage(image, height);
     }
     else if (MediaTypes::isVideoFile(path))
@@ -84,7 +84,7 @@ QImage ThumbnailGenerator::generate(const QString&, int, IThumbnailsGenerator::M
 }
 
 
-QImage ThumbnailGenerator::readImage(const QString& path) const
+QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 {
     IExifReader* reader = m_exifReaderFactory.get();
 
