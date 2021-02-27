@@ -66,7 +66,10 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
         const QFileInfo probefileInfo(ffprobePath);
 
         if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
-            image = fromVideo(path, height, ffprobePath, ffmpegPath);
+        {
+            image = fromVideo(path, ffprobePath, ffmpegPath);
+            image = scaleImage(image, height);
+        }
     }
     else
         assert(!"unknown file type");
@@ -105,7 +108,7 @@ QImage ThumbnailGenerator::fromImage(const QString& path)
 }
 
 
-QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QString& ffprobe, const QString& ffmpeg)
+QImage ThumbnailGenerator::fromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg)
 {
     const QFileInfo pathInfo(path);
 
@@ -127,7 +130,6 @@ QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QStr
             "-ss", QString::number(seconds / 10),
             "-i", absolute_path,
             "-vframes", "1",
-            "-vf", QString("scale=-1:%1").arg(height),
             "-q:v", "2",
             thumbnail_path
         };
