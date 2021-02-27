@@ -80,8 +80,6 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 
 QImage ThumbnailGenerator::readImage(const QString& path) const
 {
-    // TODO: use QTransform here to perform one transformation instead of many
-
     IExifReader* reader = m_exifReaderFactory.get();
 
     Stopwatch stopwatch;
