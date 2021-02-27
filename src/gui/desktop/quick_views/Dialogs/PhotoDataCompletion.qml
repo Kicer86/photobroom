@@ -44,7 +44,10 @@ Item {
     }
 
     function photoDataComplete(photoData) {
-        return photoData.path + "ddd";
+        const pattern = /^[^0-9]*([0-9]{4})-?([0-9]{2})-?([0-9]{2})[^0-9]*$/
+        const dateMatch = photoData.path.match(pattern);
+
+        return dateMatch.length == 0? "": dateMatch[1] + "-" + dateMatch[2] + "-" + dateMatch[3];
     }
 }
 
