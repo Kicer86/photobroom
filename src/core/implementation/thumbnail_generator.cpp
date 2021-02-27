@@ -52,7 +52,10 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
     QImage image;
 
     if (MediaTypes::isImageFile(path))
-        image = fromImage(path, height);
+    {
+        image = fromImage(path);
+        image = scaleImage(image, height);
+    }
     else if (MediaTypes::isVideoFile(path))
     {
         const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
@@ -72,7 +75,7 @@ QImage ThumbnailGenerator::generate(const QString& path, int height)
 }
 
 
-QImage ThumbnailGenerator::fromImage(const QString& path, int height)
+QImage ThumbnailGenerator::fromImage(const QString& path)
 {
     // TODO: use QTransform here to perform one transformation instead of many
 
@@ -95,16 +98,8 @@ QImage ThumbnailGenerator::fromImage(const QString& path, int height)
 
     const int photo_read = stopwatch.read(true);
 
-    if (image.isNull() == false && image.height() != height)
-        image = image.scaledToHeight(height, Qt::SmoothTransformation);
-
-    const int photo_scaling = stopwatch.stop();
-
     const QString read_time_message = QString("photo %1 read time: %2ms").arg(path).arg(photo_read);
     m_logger->debug(read_time_message);
-
-    const QString scaling_time_message = QString("photo scaling time: %1ms").arg(photo_scaling);
-    m_logger->debug(scaling_time_message);
 
     return image;
 }
@@ -145,4 +140,23 @@ QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QStr
     }
 
     return result;
+}
+
+
+QImage ThumbnailGenerator::scaleImage(const QImage& image, int height)
+{
+    QImage thumbnail;
+
+    Stopwatch stopwatch;
+    stopwatch.start();
+
+    if (image.isNull() == false && image.height() != height)
+        thumbnail = image.scaledToHeight(height, Qt::SmoothTransformation);
+
+    const int photo_scaling = stopwatch.stop();
+
+    const QString scaling_time_message = QString("photo scaling time: %1ms").arg(photo_scaling);
+    m_logger->debug(scaling_time_message);
+
+    return thumbnail;
 }
