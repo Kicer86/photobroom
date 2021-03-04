@@ -2,7 +2,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
-
+import "../Components" as Components
 
 Item {
 
@@ -29,15 +29,29 @@ Item {
             readonly property string guessedInformation: photoDataComplete(photoData)
 
             width: listView.width
-            height: 40
+            height: 60
 
             Row {
                 CheckBox {
-                    text: photoPath
+                    checkState: guessedInformation == ""? Qt.Unchecked: Qt.Checked
                 }
 
-                Text {
-                    text: guessedInformation
+                Components.PhotoThumbnail {
+
+                    width: 60
+                    height: 60
+
+                    source: photoPath
+                }
+
+                Column {
+                    Text {
+                        text: photoPath
+                    }
+
+                    Text {
+                        text: guessedInformation
+                    }
                 }
             }
         }
@@ -47,12 +61,12 @@ Item {
         const pattern = /^[^0-9]*([0-9]{4})-?([0-9]{2})-?([0-9]{2})[^0-9]*$/
         const dateMatch = photoData.path.match(pattern);
 
-        return dateMatch.length == 0? "": dateMatch[1] + "-" + dateMatch[2] + "-" + dateMatch[3];
+        return dateMatch == null? null: dateMatch[1] + "-" + dateMatch[2] + "-" + dateMatch[3];
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:3}D{i:1}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
