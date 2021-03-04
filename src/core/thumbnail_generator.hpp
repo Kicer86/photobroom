@@ -40,8 +40,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
         // IThumbnailGenerator:
-        QImage generate(const QString &, int) override;
-        QImage generate(const QString &, int, Mode) override;
+        QImage generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params) override;
 
     private:
         ILogger* m_logger;
@@ -51,7 +50,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         QImage readFrameFromImage(const QString& path) const;
         QImage readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const;
         QImage readFrame(const QString& path) const;
-        QImage scaleImage(const QImage& path, int size, Mode) const;
+        QImage scaleImage(const QImage& path, const IThumbnailsCache::ThumbnailParameters& params) const;
 };
 
 #endif // THUMBNAILGENERATOR_HPP

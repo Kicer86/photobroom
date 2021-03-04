@@ -68,7 +68,6 @@ class PhotoItem: public QQuickPaintedItem
         void setImage(const QImage &);
         void setState(State);
         void paintImage(QPainter &) const;
-        QSize calculateThumbnailSize() const;
 
     signals:
         void stateChanged();

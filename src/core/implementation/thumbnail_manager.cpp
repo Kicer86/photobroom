@@ -31,31 +31,31 @@ ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator
 }
 
 
-void ThumbnailManager::fetch(const QString& path, int desired_height, const std::function<void(const QImage &)>& callback)
+void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
-    internal_fetch(path, desired_height, callback);
+    internal_fetch(path, IThumbnailsCache::ThumbnailParameters(desired_size), callback);
 }
 
 
-void ThumbnailManager::fetch(const QString& path, int desired_height, const safe_callback<const QImage &>& callback)
+void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const safe_callback<const QImage &>& callback)
 {
-    internal_fetch(path, desired_height, callback);
+    internal_fetch(path, IThumbnailsCache::ThumbnailParameters(desired_size), callback);
 }
 
 
-std::optional<QImage> ThumbnailManager::fetch(const QString& path, int height)
+std::optional<QImage> ThumbnailManager::fetch(const QString& path, const QSize& desired_size)
 {
-    std::optional img = m_cache.find(path, height);
+    std::optional img = m_cache.find(path, IThumbnailsCache::ThumbnailParameters(desired_size));
 
     return img;
 }
 
 
-QImage ThumbnailManager::find(const QString& path, int height)
+QImage ThumbnailManager::find(const QString& path, const IThumbnailsCache::ThumbnailParameters& params)
 {
     QImage result;
 
-    const auto cached = m_cache.find(path, height);
+    const auto cached = m_cache.find(path, params);
 
     if (cached.has_value())
         result = *cached;
@@ -64,27 +64,27 @@ QImage ThumbnailManager::find(const QString& path, int height)
 }
 
 
-void ThumbnailManager::cache(const QString& path, int height, const QImage& img)
+void ThumbnailManager::cache(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const QImage& img)
 {
-    m_cache.store(path, height, img);
+    m_cache.store(path, params, img);
 }
 
 
-void ThumbnailManager::generate(const QString& path, int desired_height, const safe_callback<const QImage &>& callback)
+void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const safe_callback<const QImage &>& callback)
 {
     runOn(&m_tasks, [=, this]
     {
         if (callback.is_valid())        // callback may have become invalid, do not calculate anything to save CPU
-            generate_task(path, desired_height, callback);
+            generate_task(path, params, callback);
     });
 }
 
 
-void ThumbnailManager::generate(const QString& path, int desired_height, const std::function<void(const QImage &)>& callback)
+void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)>& callback)
 {
     runOn(&m_tasks, [=, this]
     {
-        generate_task(path, desired_height, callback);
+        generate_task(path, params, callback);
     });
 }
 

@@ -32,11 +32,11 @@ class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
     public:
         ThumbnailsCache();
 
-        std::optional<QImage> find(const QString &, int) override;
-        void store(const QString &, int , const QImage &) override;
+        std::optional<QImage> find(const QString &, const ThumbnailParameters &) override;
+        void store(const QString &, const ThumbnailParameters &, const QImage &) override;
 
     private:
-        typedef QCache<std::tuple<QString, int>, QImage> CacheContainer;
+        typedef QCache<std::tuple<QString, ThumbnailParameters>, QImage> CacheContainer;
         ol::ThreadSafeResource<CacheContainer> m_cache;
 };
 

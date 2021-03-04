@@ -8,26 +8,19 @@
 
 struct IThumbnailsCache
 {
+    typedef std::tuple<QSize> ThumbnailParameters;
+
     virtual ~IThumbnailsCache() = default;
 
-    virtual std::optional<QImage> find(const QString &, int) = 0;
-    virtual void store(const QString &, int, const QImage &) = 0;
+    virtual std::optional<QImage> find(const QString &, const ThumbnailParameters &) = 0;
+    virtual void store(const QString &, const ThumbnailParameters &, const QImage &) = 0;
 };
-
 
 struct IThumbnailsGenerator
 {
-    enum class Mode
-    {
-        Height,
-        Width,
-        Auto,
-    };
-
     virtual ~IThumbnailsGenerator() = default;
 
-    virtual QImage generate(const QString &, int) = 0;
-    virtual QImage generate(const QString &, int, Mode) = 0;
+    virtual QImage generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params) = 0;
 };
 
 #endif

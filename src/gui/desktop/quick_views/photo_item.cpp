@@ -137,10 +137,9 @@ void PhotoItem::paintImage(QPainter& painter) const
 
 void PhotoItem::fetchImage()
 {
-    const QSize thbSize = calculateThumbnailSize();
-    const int h = thbSize.height();
+    const QSize thbSize(width(), height());
 
-    auto image = m_thbMgr->fetch(m_source, h);
+    auto image = m_thbMgr->fetch(m_source, thbSize);
 
     if (image.has_value())
     {
@@ -150,16 +149,6 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
-        m_thbMgr->fetch(m_source, h, queued_slot(this, &PhotoItem::updateThumbnail));
+        m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
-}
-
-
-QSize PhotoItem::calculateThumbnailSize() const
-{
-    const int h = static_cast<int>(height());
-    const int w = static_cast<int>(width());
-    const QSize thbSize = m_photoSize.scaled(w, h, Qt::KeepAspectRatioByExpanding);
-
-    return thbSize;
 }
