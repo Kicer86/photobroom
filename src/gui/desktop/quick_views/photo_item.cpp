@@ -33,7 +33,7 @@ PhotoItem::PhotoItem(QQuickItem* parent)
 
 void PhotoItem::paint(QPainter* painter)
 {
-    if (m_thbMgr == nullptr || m_photoSize.isEmpty() || m_source.isEmpty())
+    if (m_thbMgr == nullptr || m_source.isEmpty())
         return;
 
     if (m_state == State::NotFetched)
@@ -58,17 +58,6 @@ void PhotoItem::setSource(const QString& source)
 }
 
 
-void PhotoItem::setPhotoSize(const QSize& size)
-{
-    m_photoSize = size;
-
-    if (m_photoSize.isEmpty())
-        m_photoSize = QSize(width(), height());
-
-    update();
-}
-
-
 IThumbnailsManager* PhotoItem::thumbnailsManager() const
 {
     return m_thbMgr;
@@ -78,12 +67,6 @@ IThumbnailsManager* PhotoItem::thumbnailsManager() const
 QString PhotoItem::source() const
 {
     return m_source;
-}
-
-
-QSize PhotoItem::photoSize() const
-{
-    return m_photoSize;
 }
 
 

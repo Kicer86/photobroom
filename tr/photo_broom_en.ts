@@ -530,7 +530,7 @@ Error code: %1</source>
 <context>
     <name>PhotoDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="44"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="35"/>
         <source>NEW</source>
         <translation>NEW</translation>
     </message>
