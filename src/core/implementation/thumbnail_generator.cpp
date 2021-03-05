@@ -50,7 +50,10 @@ ThumbnailGenerator::~ThumbnailGenerator()
 QImage ThumbnailGenerator::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params)
 {
     const QImage frame = readFrame(path);
-    const QImage thumb = scaleImage(frame, params);
+    QImage thumb;
+
+    if (frame.isNull() == false)
+        thumb = scaleImage(frame, params);
 
     return thumb;
 }
