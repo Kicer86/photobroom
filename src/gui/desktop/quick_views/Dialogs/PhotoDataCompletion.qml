@@ -6,6 +6,8 @@ import "../Components" as Components
 
 Item {
 
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
+
     PropertiesControlledModel {
         id: dataSource
         database: PhotoBroomProject.database
@@ -17,19 +19,32 @@ Item {
         id: listView
 
         clip: true
-        height: 160
         anchors.fill: parent
+        focus: true
 
+        spacing: 2
+        keyNavigationEnabled: true
+        highlightMoveDuration: 100
+        highlightMoveVelocity: -1
         model: dataSource.model
 
         delegate: Item {
             required property var photoData
+            required property int index
 
             readonly property string photoPath: photoData.path
             readonly property string guessedInformation: photoDataComplete(photoData)
 
             width: listView.width
             height: 60
+
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: {
+                    listView.currentIndex = index
+                }
+            }
 
             Row {
                 CheckBox {
@@ -55,6 +70,13 @@ Item {
                 }
             }
         }
+
+        highlight: Rectangle {
+            color: currentPalette.highlight
+            radius: 5
+        }
+
+        ScrollBar.vertical: ScrollBar {}
     }
 
     function photoDataComplete(photoData) {
