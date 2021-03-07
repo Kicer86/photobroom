@@ -22,24 +22,21 @@ Item {
         id: visualModel
 
         function validate() {
-
-            console.log("validating " + unknownItems.count + " new items");
-
             for(var i = 0; i < unknownItems.count; i++) {
-                var item = unsortedItems.get(i);
+                var item = unknownItems.get(i);
 
                 if (item.path != "")
-                    item.group = "items";
+                    item.groups = "items";
             }
         }
 
-        items.includeByDefault: true
+        items.includeByDefault: false
 
         groups: DelegateModelGroup {
             id: unknownItems
             name: "unknown"
 
-            includeByDefault: false
+            includeByDefault: true
 
             onChanged: {
                 visualModel.validate();
