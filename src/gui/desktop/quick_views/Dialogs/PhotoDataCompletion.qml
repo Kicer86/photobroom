@@ -97,10 +97,8 @@ Item {
 
         clip: true
         anchors.fill: parent
-        focus: true
 
         spacing: 2
-        keyNavigationEnabled: true
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
         model: visualModel
