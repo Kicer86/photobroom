@@ -1,6 +1,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQml.Models 2.15
 import photo_broom.qml 1.0
 import "../Components" as Components
 
@@ -8,6 +9,7 @@ Item {
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
+    // Model working directly on database
     PropertiesControlledModel {
         id: dataSource
         database: PhotoBroomProject.database
@@ -15,18 +17,34 @@ Item {
         tags: { "Date": "" }
     }
 
-    ListView {
-        id: listView
+    // proxy - for sorting/grouping reasons
+    DelegateModel {
+        id: visualModel
 
-        clip: true
-        anchors.fill: parent
-        focus: true
+        function validate() {
 
-        spacing: 2
-        keyNavigationEnabled: true
-        highlightMoveDuration: 100
-        highlightMoveVelocity: -1
-        model: dataSource.model
+            console.log("validating " + unknownItems.count + " new items");
+
+            for(var i = 0; i < unknownItems.count; i++) {
+                var item = unsortedItems.get(i);
+
+                if (item.path != "")
+                    item.group = "items";
+            }
+        }
+
+        items.includeByDefault: true
+
+        groups: DelegateModelGroup {
+            id: unknownItems
+            name: "unknown"
+
+            includeByDefault: false
+
+            onChanged: {
+                visualModel.validate();
+            }
+        }
 
         delegate: Item {
             required property var photoData
@@ -70,6 +88,22 @@ Item {
                 }
             }
         }
+
+        model: dataSource.model
+    }
+
+    ListView {
+        id: listView
+
+        clip: true
+        anchors.fill: parent
+        focus: true
+
+        spacing: 2
+        keyNavigationEnabled: true
+        highlightMoveDuration: 100
+        highlightMoveVelocity: -1
+        model: visualModel
 
         highlight: Rectangle {
             color: currentPalette.highlight
