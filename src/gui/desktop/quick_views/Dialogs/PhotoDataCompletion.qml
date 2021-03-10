@@ -17,16 +17,39 @@ Item {
         tags: { "Date": "" }
     }
 
+
+    Timer {
+        id: refreshTimer
+        interval: 500; running: false; repeat: false
+        onTriggered: visualModel.validate()
+    }
+
     // proxy - for sorting/grouping reasons
     DelegateModel {
         id: visualModel
 
         function validate() {
+            var allItems = unknownItems.count;
+            var processed = 0;
+            console.log("Processing " + allItems + " unknown items");
+
             for(var i = 0; i < unknownItems.count; i++) {
                 var item = unknownItems.get(i);
 
-                if (item.path != "")
-                    item.groups = "items";
+                if (item.model.photoData.path !== null && item.model.photoData.path !== "") {
+                    processed++;
+                    var guessedInformation = photoDataComplete(item.model.photoData);
+
+                    if (guessedInformation !== null && guessedInformation !== "") {
+                        item.groups = "items";
+                    }
+                }
+            }
+
+            console.log("Resolved " + processed + " items");
+
+            if (processed < allItems) {
+                refreshTimer.start();
             }
         }
 
