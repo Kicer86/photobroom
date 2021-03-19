@@ -27,6 +27,7 @@ struct MockBackend: public Database::IBackend
       std::vector<Photo::Id>());
   MOCK_METHOD1(getPhoto,
       Photo::Data(const Photo::Id &));
+  MOCK_METHOD(Photo::DataDelta, getPhotoDelta, (const Photo::Id &, const std::set<Photo::Field> &), (override));
   MOCK_METHOD(int, getPhotosCount, (const Database::Filter &), (override));
   MOCK_METHOD0(listPeople,
       std::vector<PersonName>());

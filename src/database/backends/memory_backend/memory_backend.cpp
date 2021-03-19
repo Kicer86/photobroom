@@ -112,6 +112,51 @@ namespace Database
     }
 
 
+    Photo::DataDelta MemoryBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
+    {
+        const Photo::Data data = getPhoto(id);
+
+        std::set<Photo::Field> fields = _fields;
+        if (fields.empty())
+        {
+            const auto allEntries = magic_enum::enum_values<Photo::Field>();
+            fields.insert(allEntries.begin(), allEntries.end());
+        }
+
+        Photo::DataDelta delta(id);
+
+        if (fields.contains(Photo::Field::Path))
+            delta.insert<Photo::Field::Path>(data.path);
+
+        if (fields.contains(Photo::Field::Tags))
+            delta.insert<Photo::Field::Tags>(data.tags);
+
+        if (fields.contains(Photo::Field::Geometry))
+        {
+            const auto& geometry = data.geometry;
+
+            if (geometry.isValid())
+                delta.insert<Photo::Field::Geometry>(geometry);
+        }
+
+        if (fields.contains(Photo::Field::Checksum))
+        {
+            const auto& checksum = data.sha256Sum;
+
+            if (checksum.isEmpty() == false)
+                delta.insert<Photo::Field::Checksum>(checksum);
+        }
+
+        if (fields.contains(Photo::Field::GroupInfo))
+            delta.insert<Photo::Field::GroupInfo>(data.groupInfo);
+
+        if (fields.contains(Photo::Field::Flags))
+            delta.insert<Photo::Field::Flags>(data.flags);
+
+        return delta;
+    }
+
+
     int MemoryBackend::getPhotosCount(const Filter &)
     {
         return 0;

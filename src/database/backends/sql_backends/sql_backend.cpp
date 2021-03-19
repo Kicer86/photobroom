@@ -373,10 +373,60 @@ namespace Database
                 photoData.sha256Sum = *sha256;
 
             //load flags
-            updateFlagsOn(photoData, id);
+            photoData.flags = getFlagsFor(id);
 
             // load group
             photoData.groupInfo = getGroupFor(id);
+        }
+
+        return photoData;
+    }
+
+
+    Photo::DataDelta ASqlBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
+    {
+        const bool valid_id = doesPhotoExist(id);
+        assert(valid_id);
+
+        Photo::DataDelta photoData(id);
+
+        if (valid_id)
+        {
+            std::set<Photo::Field> fields = _fields;
+
+            if (fields.empty())
+            {
+                const auto allEntries = magic_enum::enum_values<Photo::Field>();
+                fields.insert(allEntries.begin(), allEntries.end());
+            }
+
+            if (fields.contains(Photo::Field::Path))
+                photoData.insert<Photo::Field::Path>(getPathFor(id));
+
+            if (fields.contains(Photo::Field::Tags))
+                photoData.insert<Photo::Field::Tags>(getTagsFor(id));
+
+            if (fields.contains(Photo::Field::Geometry))
+            {
+                const auto geometry = getGeometryFor(id);
+
+                if (geometry.isValid())
+                    photoData.insert<Photo::Field::Geometry>(geometry);
+            }
+
+            if (fields.contains(Photo::Field::Checksum))
+            {
+                const auto checksum = getSha256For(id);
+
+                if (checksum)
+                    photoData.insert<Photo::Field::Checksum>(*checksum);
+            }
+
+            if (fields.contains(Photo::Field::GroupInfo))
+                photoData.insert<Photo::Field::GroupInfo>(getGroupFor(id));
+
+            if (fields.contains(Photo::Field::Flags))
+                photoData.insert<Photo::Field::Flags>(getFlagsFor(id));
         }
 
         return photoData;
@@ -1120,13 +1170,15 @@ namespace Database
 
     /**
      * \brief read flags for photo
-     * \param photoData input parameter - photo details
      * \param id photo id
+     * \return flags of photo
      *
      * Method will modify flags in \p photoData parameter. Other entries will not be touched
      */
-    void ASqlBackend::updateFlagsOn(Photo::Data& photoData, const Photo::Id& id) const
+    Photo::FlagValues ASqlBackend::getFlagsFor(const Photo::Id& id) const
     {
+        Photo::FlagValues flags;
+
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
         QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
@@ -1139,20 +1191,22 @@ namespace Database
         if (status && query.next())
         {
             QVariant variant = query.value(0);
-            photoData.flags[Photo::FlagsE::StagingArea] = variant.toInt();
+            flags[Photo::FlagsE::StagingArea] = variant.toInt();
 
             variant = query.value(1);
-            photoData.flags[Photo::FlagsE::ExifLoaded] = variant.toInt();
+            flags[Photo::FlagsE::ExifLoaded] = variant.toInt();
 
             variant = query.value(2);
-            photoData.flags[Photo::FlagsE::Sha256Loaded] = variant.toInt();
+            flags[Photo::FlagsE::Sha256Loaded] = variant.toInt();
 
             variant = query.value(3);
-            photoData.flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
+            flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
 
             variant = query.value(4);
-            photoData.flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
+            flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
         }
+
+        return flags;
     }
 
     /**

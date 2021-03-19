@@ -143,6 +143,7 @@ namespace Database
             std::vector<TagValue>    listTagValues(const TagTypes &, const Filter &) override final;
 
             Photo::Data              getPhoto(const Photo::Id &) override final;
+            Photo::DataDelta         getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) override final;
             int                      getPhotosCount(const Filter &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
@@ -176,7 +177,7 @@ namespace Database
             QSize                getGeometryFor(const Photo::Id &) const;
             std::optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
             GroupInfo            getGroupFor(const Photo::Id &) const;
-            void    updateFlagsOn(Photo::Data &, const Photo::Id &) const;
+            Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             bool doesPhotoExist(const Photo::Id &) const;
     };
