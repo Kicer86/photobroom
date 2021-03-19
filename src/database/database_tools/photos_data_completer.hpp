@@ -9,16 +9,17 @@
 /**
  * @brief class provides photos with extra information guessed from filename, content etc.
  */
-class DATABASE_EXPORT PhotosDataCompleter: public QObject
+class DATABASE_EXPORT PhotosDataGuesser: public QObject
 {
 public:
-    PhotosDataCompleter(Database::IDatabase &);
+    PhotosDataGuesser(Database::IDatabase &);
 
 
 private:
     Database::IDatabase& m_db;
 
     void proces(Database::IBackend &);
+    void procesIds(Database::IBackend &, const std::vector<Photo::Id> &);
     void photosFetched(const std::vector<Photo::Id> &);
 };
 

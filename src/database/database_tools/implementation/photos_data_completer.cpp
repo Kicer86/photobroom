@@ -10,24 +10,37 @@
 using namespace std::placeholders;
 
 
-PhotosDataCompleter::PhotosDataCompleter(Database::IDatabase& db)
+PhotosDataGuesser::PhotosDataGuesser(Database::IDatabase& db)
     : m_db(db)
 {
-    m_db.exec(std::bind(&PhotosDataCompleter::proces, this, _1));
+    m_db.exec(std::bind(&PhotosDataGuesser::proces, this, _1));
 }
 
 
-void PhotosDataCompleter::proces(Database::IBackend& backend)
+void PhotosDataGuesser::proces(Database::IBackend& backend)
 {
     const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, 1 } });
     const Database::FilterPhotosWithTag noDate(TagTypes::Date, TagValue(), Database::FilterPhotosWithTag::ValueMode::Equal, true);
     const Database::GroupFilter filters = {analyzed, noDate};
     const auto photos = backend.photoOperator().getPhotos(filters);
 
-    invokeMethod(this, &PhotosDataCompleter::photosFetched, photos);
+    invokeMethod(this, &PhotosDataGuesser::photosFetched, photos);
 }
 
 
-void PhotosDataCompleter::photosFetched(const std::vector<Photo::Id>& ids)
+void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
+    std::vector<Photo::Data> photos;
+
+    for(const Photo::Id& id: ids)
+    {
+        const auto data = backend.getPhoto(id);
+        photos.push_back(data);
+    }
+}
+
+
+void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
+{
+    m_db.exec(std::bind(&PhotosDataGuesser::procesIds, this, _1, ids));
 }
