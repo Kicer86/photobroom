@@ -33,6 +33,7 @@ namespace Database
         void parsePhotos(const QJsonArray &);
         Photo::DataDelta parsePhoto(const QJsonObject &);
         Tag::TagsList parseTags(const QJsonObject &);
+        QSize parseGeometry(const QJsonObject &);
     };
 }
 
