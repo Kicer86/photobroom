@@ -45,6 +45,7 @@ namespace Photo
         GroupInfo            groupInfo;
 
         Data() = default;
+        explicit Data(const DataDelta &);
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;

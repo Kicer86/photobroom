@@ -351,33 +351,8 @@ namespace Database
 
     Photo::Data ASqlBackend::getPhoto(const Photo::Id& id)
     {
-        const bool valid_id = doesPhotoExist(id);
-        assert(valid_id);
-
-        Photo::Data photoData;
-
-        if (valid_id)
-        {
-            photoData.path = getPathFor(id);
-            photoData.id   = id;
-            photoData.tags = getTagsFor(id);
-
-            //load geometry
-            const QSize geometry = getGeometryFor(id);
-            if (geometry.isValid())
-                photoData.geometry = geometry;
-
-            //load sha256
-            const std::optional<Photo::Sha256sum> sha256 = getSha256For(id);
-            if (sha256)
-                photoData.sha256Sum = *sha256;
-
-            //load flags
-            photoData.flags = getFlagsFor(id);
-
-            // load group
-            photoData.groupInfo = getGroupFor(id);
-        }
+        const Photo::DataDelta photoDelta = getPhotoDelta(id);
+        const Photo::Data photoData(photoDelta);
 
         return photoData;
     }
