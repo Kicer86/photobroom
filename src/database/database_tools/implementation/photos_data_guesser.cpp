@@ -30,12 +30,10 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 
 void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
-    std::vector<Photo::DataDelta> photos;
-
     for(const Photo::Id& id: ids)
     {
         const auto data = backend.getPhotoDelta(id, {Photo::Field::Path});
-        photos.push_back(data);
+        m_photos.push_back(data);
     }
 }
 

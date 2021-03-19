@@ -17,6 +17,7 @@ public:
 
 private:
     Database::IDatabase& m_db;
+    std::vector<Photo::DataDelta> m_photos;
 
     void proces(Database::IBackend &);
     void procesIds(Database::IBackend &, const std::vector<Photo::Id> &);
