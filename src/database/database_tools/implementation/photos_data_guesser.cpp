@@ -4,7 +4,7 @@
 #include "core/function_wrappers.hpp"
 #include "database/filter.hpp"
 #include "database/iphoto_operator.hpp"
-#include "../photos_data_completer.hpp"
+#include "../photos_data_guesser.hpp"
 
 
 using namespace std::placeholders;
