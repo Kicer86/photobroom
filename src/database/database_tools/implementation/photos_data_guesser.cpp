@@ -17,6 +17,18 @@ PhotosDataGuesser::PhotosDataGuesser(Database::IDatabase& db)
 }
 
 
+QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
+{
+    return {};
+}
+
+
+int PhotosDataGuesser::rowCount(const QModelIndex& parent) const
+{
+    return parent.isValid()? 0 : m_photos.size();
+}
+
+
 void PhotosDataGuesser::proces(Database::IBackend& backend)
 {
     const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, 1 } });
@@ -30,15 +42,28 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 
 void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
+    std::vector<Photo::DataDelta> photos;
+
     for(const Photo::Id& id: ids)
     {
-        const auto data = backend.getPhotoDelta(id, {Photo::Field::Path});
-        m_photos.push_back(data);
+        const auto delta = backend.getPhotoDelta(id, {Photo::Field::Path});
+        photos.push_back(delta);
     }
+
+    invokeMethod(this, &PhotosDataGuesser::photoDataFetched, photos);
 }
 
 
 void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
 {
     m_db.exec(std::bind(&PhotosDataGuesser::procesIds, this, _1, ids));
+}
+
+
+void PhotosDataGuesser::photoDataFetched(const std::vector<Photo::DataDelta>& data)
+{
+    const auto count = data.size();
+    beginInsertRows({}, 0, count - 1);
+    m_photos = data;
+    endInsertRows();
 }
