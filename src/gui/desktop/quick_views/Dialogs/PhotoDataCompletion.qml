@@ -10,68 +10,27 @@ Item {
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     // Model working directly on database
-    PropertiesControlledModel {
+    PhotosDataGuesser {
         id: dataSource
         database: PhotoBroomProject.database
-
-        tags: { "Date": "" }
     }
 
+    ListView {
+        id: listView
 
-    Timer {
-        id: refreshTimer
-        interval: 500; running: false; repeat: false
-        onTriggered: visualModel.validate()
-    }
+        clip: true
+        anchors.fill: parent
 
-    // proxy - for sorting/grouping reasons
-    DelegateModel {
-        id: visualModel
-
-        function validate() {
-            var allItems = unknownItems.count;
-            var processed = 0;
-            console.log("Processing " + allItems + " unknown items");
-
-            for(var i = 0; i < unknownItems.count; i++) {
-                var item = unknownItems.get(i);
-
-                if (item.model.photoData.path !== null && item.model.photoData.path !== "") {
-                    processed++;
-                    var guessedInformation = photoDataComplete(item.model.photoData);
-
-                    if (guessedInformation !== null && guessedInformation !== "") {
-                        item.groups = "items";
-                    }
-                }
-            }
-
-            console.log("Resolved " + processed + " items");
-
-            if (processed < allItems) {
-                refreshTimer.start();
-            }
-        }
-
-        items.includeByDefault: false
-
-        groups: DelegateModelGroup {
-            id: unknownItems
-            name: "unknown"
-
-            includeByDefault: true
-
-            onChanged: {
-                visualModel.validate();
-            }
-        }
+        spacing: 2
+        highlightMoveDuration: 100
+        highlightMoveVelocity: -1
+        model: dataSource
 
         delegate: Item {
-            required property var photoData
+            required property var photoPath
             required property int index
 
-            readonly property string photoPath: photoData.path
-            readonly property string guessedInformation: photoDataComplete(photoData)
+            // readonly property string guessedInformation: photoDataComplete(photoData)
 
             width: listView.width
             height: 60
@@ -86,7 +45,7 @@ Item {
 
             Row {
                 CheckBox {
-                    checkState: guessedInformation == ""? Qt.Unchecked: Qt.Checked
+                    // checkState: guessedInformation == ""? Qt.Unchecked: Qt.Checked
                 }
 
                 Components.PhotoThumbnail {
@@ -103,25 +62,11 @@ Item {
                     }
 
                     Text {
-                        text: guessedInformation
+                        //text: guessedInformation
                     }
                 }
             }
         }
-
-        model: dataSource.model
-    }
-
-    ListView {
-        id: listView
-
-        clip: true
-        anchors.fill: parent
-
-        spacing: 2
-        highlightMoveDuration: 100
-        highlightMoveVelocity: -1
-        model: visualModel
 
         highlight: Rectangle {
             color: currentPalette.highlight
@@ -129,13 +74,6 @@ Item {
         }
 
         ScrollBar.vertical: ScrollBar {}
-    }
-
-    function photoDataComplete(photoData) {
-        const pattern = /^[^0-9]*([0-9]{4})-?([0-9]{2})-?([0-9]{2})[^0-9]*$/
-        const dateMatch = photoData.path.match(pattern);
-
-        return dateMatch == null? null: dateMatch[1] + "-" + dateMatch[2] + "-" + dateMatch[3];
     }
 }
 

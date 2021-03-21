@@ -42,6 +42,7 @@ add_library(quick_views OBJECT
 target_link_libraries(quick_views
                         PUBLIC
                             core
+                            database
                             gui_models
 
                             Qt::Quick

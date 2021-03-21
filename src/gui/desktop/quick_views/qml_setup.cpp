@@ -1,14 +1,13 @@
 
-
-#include "qml_setup.hpp"
+#include <database/database_tools/photos_data_guesser.hpp>
 
 #include "bridge.hpp"
 #include "photo_item.hpp"
 #include "photos_model_controller_component.hpp"
 #include "picture_item.hpp"
 #include "selection_manager_component.hpp"
+#include "qml_setup.hpp"
 #include "models/flat_model.hpp"
-#include "models/properties_controlled_model.hpp"
 
 
 void register_qml_types()
@@ -21,7 +20,7 @@ void register_qml_types()
     qmlRegisterInterface<IThumbnailsManager>("IThumbnailsManager");
     qmlRegisterInterface<Database::IDatabase>("Database::IDatabase");
     qmlRegisterInterface<FlatModel>("FlatModel");
-    qmlRegisterType<PropertiesControlledModel>("photo_broom.qml", 1, 0, "PropertiesControlledModel");
+    qmlRegisterType<PhotosDataGuesser>("photo_broom.qml", 1, 0, "PhotosDataGuesser");
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
     qmlRegisterUncreatableMetaObject(Photo::staticMetaObject, "photo_broom.qml", 1, 0, "PhotoEnums", "Error: only enums");
 }
