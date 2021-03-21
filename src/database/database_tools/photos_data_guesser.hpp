@@ -3,6 +3,7 @@
 #define PHOTOSDATACOMPLETER_HPP
 
 #include <QAbstractListModel>
+#include <QDate>
 
 #include "database_export.h"
 #include "database/idatabase.hpp"
@@ -30,7 +31,7 @@ private:
     struct CollectedData
     {
         Photo::DataDelta photoData;
-        QString date;
+        QDate date;
     };
 
     Database::IDatabase* m_db;

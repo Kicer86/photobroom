@@ -47,7 +47,7 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
     if (role == Path)
         return m_photos[index.row()].photoData.get<Photo::Field::Path>();
     else if (role == SuggestedDate)
-        return m_photos[index.row()].date;
+        return m_photos[index.row()].date.toString(Qt::ISODate);
     else
         return {};
 }
@@ -96,14 +96,20 @@ void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector
         if (match.hasMatch())
         {
             const QStringList captured = match.capturedTexts();
-            data.date = QString("%1-%2-%3")
-                            .arg(captured[1])
-                            .arg(captured[2])
-                            .arg(captured[3]);
+
+            const int y = captured[1].toInt();
+            const int m = captured[2].toInt();
+            const int d = captured[3].toInt();
+            const QDate date(y, m, d);
+
+            if (date.isValid())
+                data.date = date;
         }
 
         photos.push_back(data);
     }
+
+    std::partition(photos.begin(), photos.end(), [](const auto& data) { return data.date.isValid(); });
 
     invokeMethod(this, &PhotosDataGuesser::photoDataFetched, photos);
 }
