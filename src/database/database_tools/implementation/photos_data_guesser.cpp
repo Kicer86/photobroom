@@ -81,8 +81,10 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 
 void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
+    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   ><  NOT NUM  >
+    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:[^0-9]+|$)");
+
     std::vector<CollectedData> photos;
-    const QRegularExpression dateExpression("^[^0-9]*([0-9]{4})-?([0-9]{2})-?([0-9]{2})[^0-9]*$");
 
     for(const Photo::Id& id: ids)
     {
