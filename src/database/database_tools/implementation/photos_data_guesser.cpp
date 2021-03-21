@@ -9,23 +9,59 @@
 
 using namespace std::placeholders;
 
-
-PhotosDataGuesser::PhotosDataGuesser(Database::IDatabase& db)
-    : m_db(db)
+namespace
 {
-    m_db.exec(std::bind(&PhotosDataGuesser::proces, this, _1));
+    enum Roles
+    {
+        Path            = Qt::UserRole + 1,
+        SuggestedDate,
+    };
+}
+
+
+PhotosDataGuesser::PhotosDataGuesser()
+    : m_db(nullptr)
+{
+
+}
+
+
+void PhotosDataGuesser::setDatabase(Database::IDatabase* db)
+{
+    m_db = db;
+
+    if (m_db != nullptr)
+        m_db->exec(std::bind(&PhotosDataGuesser::proces, this, _1));
+}
+
+
+Database::IDatabase * PhotosDataGuesser::database() const
+{
+    return m_db;
 }
 
 
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
-    return {};
+    if (role == Path)
+        return m_photos[index.row()].get<Photo::Field::Path>();
+    else
+        return {};
 }
 
 
 int PhotosDataGuesser::rowCount(const QModelIndex& parent) const
 {
     return parent.isValid()? 0 : m_photos.size();
+}
+
+
+QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
+{
+    return {
+        { Path,           "photoPath" },
+        { SuggestedDate , "suggestedDate" }
+    };
 }
 
 
@@ -56,7 +92,7 @@ void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector
 
 void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
 {
-    m_db.exec(std::bind(&PhotosDataGuesser::procesIds, this, _1, ids));
+    m_db->exec(std::bind(&PhotosDataGuesser::procesIds, this, _1, ids));
 }
 
 

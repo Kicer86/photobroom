@@ -13,14 +13,21 @@
  */
 class DATABASE_EXPORT PhotosDataGuesser: public QAbstractListModel
 {
+    Q_OBJECT
+    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
+
 public:
-    PhotosDataGuesser(Database::IDatabase &);
+    PhotosDataGuesser();
+
+    void setDatabase(Database::IDatabase *);
+    Database::IDatabase* database() const;
 
     QVariant data(const QModelIndex & index, int role) const override;
     int rowCount(const QModelIndex & parent) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
 private:
-    Database::IDatabase& m_db;
+    Database::IDatabase* m_db;
     std::vector<Photo::DataDelta> m_photos;
 
     void proces(Database::IBackend &);
