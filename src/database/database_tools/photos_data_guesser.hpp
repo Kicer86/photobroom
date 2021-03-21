@@ -27,13 +27,19 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
+    struct CollectedData
+    {
+        Photo::DataDelta photoData;
+        QString date;
+    };
+
     Database::IDatabase* m_db;
-    std::vector<Photo::DataDelta> m_photos;
+    std::vector<CollectedData> m_photos;
 
     void proces(Database::IBackend &);
     void procesIds(Database::IBackend &, const std::vector<Photo::Id> &);
     void photosFetched(const std::vector<Photo::Id> &);
-    void photoDataFetched(const std::vector<Photo::DataDelta> &);
+    void photoDataFetched(const std::vector<CollectedData> &);
 };
 
 #endif

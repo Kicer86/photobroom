@@ -1,5 +1,6 @@
 
 #include <functional>
+#include <QRegularExpression>
 
 #include "core/function_wrappers.hpp"
 #include "database/filter.hpp"
@@ -44,7 +45,9 @@ Database::IDatabase * PhotosDataGuesser::database() const
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
     if (role == Path)
-        return m_photos[index.row()].get<Photo::Field::Path>();
+        return m_photos[index.row()].photoData.get<Photo::Field::Path>();
+    else if (role == SuggestedDate)
+        return m_photos[index.row()].date;
     else
         return {};
 }
@@ -78,12 +81,26 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 
 void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
-    std::vector<Photo::DataDelta> photos;
+    std::vector<CollectedData> photos;
+    const QRegularExpression dateExpression("^[^0-9]*([0-9]{4})-?([0-9]{2})-?([0-9]{2})[^0-9]*$");
 
     for(const Photo::Id& id: ids)
     {
-        const auto delta = backend.getPhotoDelta(id, {Photo::Field::Path});
-        photos.push_back(delta);
+        CollectedData data;
+
+        data.photoData = backend.getPhotoDelta(id, {Photo::Field::Path});
+
+        const auto match = dateExpression.match(data.photoData.get<Photo::Field::Path>());
+        if (match.hasMatch())
+        {
+            const QStringList captured = match.capturedTexts();
+            data.date = QString("%1-%2-%3")
+                            .arg(captured[1])
+                            .arg(captured[2])
+                            .arg(captured[3]);
+        }
+
+        photos.push_back(data);
     }
 
     invokeMethod(this, &PhotosDataGuesser::photoDataFetched, photos);
@@ -96,7 +113,7 @@ void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
 }
 
 
-void PhotosDataGuesser::photoDataFetched(const std::vector<Photo::DataDelta>& data)
+void PhotosDataGuesser::photoDataFetched(const std::vector<CollectedData>& data)
 {
     const auto count = data.size();
     beginInsertRows({}, 0, count - 1);

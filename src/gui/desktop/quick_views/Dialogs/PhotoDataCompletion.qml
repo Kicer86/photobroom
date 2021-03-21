@@ -28,9 +28,8 @@ Item {
 
         delegate: Item {
             required property var photoPath
+            required property var suggestedDate
             required property int index
-
-            // readonly property string guessedInformation: photoDataComplete(photoData)
 
             width: listView.width
             height: 60
@@ -45,7 +44,7 @@ Item {
 
             Row {
                 CheckBox {
-                    // checkState: guessedInformation == ""? Qt.Unchecked: Qt.Checked
+                    checkState: suggestedDate == ""? Qt.Unchecked: Qt.Checked
                 }
 
                 Components.PhotoThumbnail {
@@ -62,7 +61,7 @@ Item {
                     }
 
                     Text {
-                        //text: guessedInformation
+                        text: suggestedDate
                     }
                 }
             }
