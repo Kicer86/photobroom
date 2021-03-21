@@ -29,6 +29,10 @@ PhotosDataGuesser::PhotosDataGuesser()
 
 void PhotosDataGuesser::setDatabase(Database::IDatabase* db)
 {
+    beginResetModel();
+    m_photos.clear();
+    endResetModel();
+
     m_db = db;
 
     if (m_db != nullptr)
