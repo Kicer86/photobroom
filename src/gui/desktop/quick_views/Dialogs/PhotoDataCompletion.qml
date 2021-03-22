@@ -29,6 +29,7 @@ Item {
         delegate: Item {
             required property var photoPath
             required property var suggestedDate
+            required property var suggestedTime
             required property int index
 
             width: listView.width
@@ -62,6 +63,10 @@ Item {
 
                     Text {
                         text: suggestedDate
+                    }
+
+                    Text {
+                        text: suggestedTime
                     }
                 }
             }

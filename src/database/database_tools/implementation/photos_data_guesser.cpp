@@ -16,6 +16,7 @@ namespace
     {
         Path            = Qt::UserRole + 1,
         SuggestedDate,
+        SuggestedTime,
     };
 }
 
@@ -52,6 +53,8 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
         return m_photos[index.row()].photoData.get<Photo::Field::Path>();
     else if (role == SuggestedDate)
         return m_photos[index.row()].date.toString(Qt::ISODate);
+    else if (role == SuggestedTime)
+        return m_photos[index.row()].time.toString();
     else
         return {};
 }
@@ -67,7 +70,8 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 {
     return {
         { Path,           "photoPath" },
-        { SuggestedDate , "suggestedDate" }
+        { SuggestedDate , "suggestedDate" },
+        { SuggestedTime , "suggestedTime" },
     };
 }
 
@@ -85,8 +89,8 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 
 void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
-    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   ><  NOT NUM  >
-    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:[^0-9]+|$)");
+    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   ><  _ <  HOUR  >  < MINUTE >  < SECOND >> < NOT NUM |E>
+    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:_?([0-9]{2}).?([0-9]{2}).?([0-9]{2}))?(?:[^0-9]+|$)");
 
     std::vector<CollectedData> photos;
 
@@ -108,6 +112,17 @@ void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector
 
             if (date.isValid())
                 data.date = date;
+
+            if (captured.size() == 7)
+            {
+                const int hh = captured[4].toInt();
+                const int mm = captured[5].toInt();
+                const int ss = captured[6].toInt();
+                const QTime time(hh, mm, ss);
+
+                if (time.isValid())
+                    data.time = time;
+            }
         }
 
         photos.push_back(data);
