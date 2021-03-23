@@ -23,6 +23,8 @@ public:
     void setDatabase(Database::IDatabase *);
     Database::IDatabase* database() const;
 
+    Q_INVOKABLE void performAnalysis();
+
     QVariant data(const QModelIndex & index, int role) const override;
     int rowCount(const QModelIndex & parent) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -38,6 +40,7 @@ private:
     Database::IDatabase* m_db;
     std::vector<CollectedData> m_photos;
 
+    void clear();
     void proces(Database::IBackend &);
     void procesIds(Database::IBackend &, const std::vector<Photo::Id> &);
     void photosFetched(const std::vector<Photo::Id> &);

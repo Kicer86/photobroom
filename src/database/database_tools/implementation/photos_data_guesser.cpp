@@ -30,20 +30,25 @@ PhotosDataGuesser::PhotosDataGuesser()
 
 void PhotosDataGuesser::setDatabase(Database::IDatabase* db)
 {
-    beginResetModel();
-    m_photos.clear();
-    endResetModel();
+    clear();
 
     m_db = db;
-
-    if (m_db != nullptr)
-        m_db->exec(std::bind(&PhotosDataGuesser::proces, this, _1));
 }
 
 
 Database::IDatabase * PhotosDataGuesser::database() const
 {
     return m_db;
+}
+
+
+void PhotosDataGuesser::performAnalysis()
+{
+    if (m_db != nullptr)
+    {
+        clear();
+        m_db->exec(std::bind(&PhotosDataGuesser::proces, this, _1));
+    }
 }
 
 
@@ -73,6 +78,14 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
         { SuggestedDate , "suggestedDate" },
         { SuggestedTime , "suggestedTime" },
     };
+}
+
+
+void PhotosDataGuesser::clear()
+{
+    beginResetModel();
+    m_photos.clear();
+    endResetModel();
 }
 
 
