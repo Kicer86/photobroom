@@ -23,6 +23,7 @@ namespace
 
 PhotosDataGuesser::PhotosDataGuesser()
     : m_db(nullptr)
+    , m_fetching(false)
 {
 
 }
@@ -42,12 +43,19 @@ Database::IDatabase * PhotosDataGuesser::database() const
 }
 
 
+bool PhotosDataGuesser::isFetchInProgress() const
+{
+    return m_fetching;
+}
+
+
 void PhotosDataGuesser::performAnalysis()
 {
     if (m_db != nullptr)
     {
         clear();
         m_db->exec(std::bind(&PhotosDataGuesser::proces, this, _1));
+        updateFetchStatus(true);
     }
 }
 
@@ -86,6 +94,13 @@ void PhotosDataGuesser::clear()
     beginResetModel();
     m_photos.clear();
     endResetModel();
+}
+
+
+void PhotosDataGuesser::updateFetchStatus(bool status)
+{
+    m_fetching = status;
+    emit fetchInProgressChanged(m_fetching);
 }
 
 
@@ -159,4 +174,5 @@ void PhotosDataGuesser::photoDataFetched(const std::vector<CollectedData>& data)
     beginInsertRows({}, 0, count - 1);
     m_photos = data;
     endInsertRows();
+    updateFetchStatus(false);
 }
