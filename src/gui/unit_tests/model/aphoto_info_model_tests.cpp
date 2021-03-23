@@ -1,5 +1,6 @@
 
 #include <gmock/gmock.h>
+#include <QAbstractItemModelTester>
 
 #include "database/backends/memory_backend/memory_backend.hpp"
 #include "database/database_tools/json_to_backend.hpp"
@@ -65,6 +66,12 @@ class APhotoInfoModelTest: public testing::Test
 
 using ModelTypes = testing::Types<FlatModel>;
 TYPED_TEST_SUITE(APhotoInfoModelTest, ModelTypes);
+
+
+TYPED_TEST(APhotoInfoModelTest, qtTest)
+{
+    QAbstractItemModelTester tester(&this->model, QAbstractItemModelTester::FailureReportingMode::Fatal);
+}
 
 
 TYPED_TEST(APhotoInfoModelTest, noEntriesWhenEmptyDatabase)
