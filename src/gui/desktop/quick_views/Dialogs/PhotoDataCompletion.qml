@@ -7,6 +7,10 @@ import "../Components" as Components
 
 Item {
 
+    function reload() {
+        dataSource.performAnalysis();
+    }
+
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     // Model working directly on database
