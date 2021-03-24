@@ -7,10 +7,6 @@ import "../Components" as Components
 
 Item {
 
-    function reload() {
-        dataSource.performAnalysis();
-    }
-
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     // Model working directly on database
@@ -19,11 +15,41 @@ Item {
         database: PhotoBroomProject.database
     }
 
+    Item {
+        id: statusArea
+
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: status.height
+
+        Components.InfoItem {
+            id: status
+
+            width: parent.width
+            text: qsTr("Click here to scan for additional information about photos from file names and paths.")
+
+            MouseArea {
+                anchors.fill: parent
+
+                cursorShape: Qt.PointingHandCursor
+
+                onClicked: dataSource.performAnalysis();
+            }
+        }
+    }
+
     ListView {
         id: listView
 
         clip: true
-        anchors.fill: parent
+
+        anchors.top:statusArea.bottom
+        anchors.topMargin: 5
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
 
         spacing: 2
         highlightMoveDuration: 100

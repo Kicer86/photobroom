@@ -505,7 +505,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="43"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="37"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -530,7 +530,7 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="34"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="30"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation type="unfinished"></translation>
     </message>

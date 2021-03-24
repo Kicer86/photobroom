@@ -14,12 +14,6 @@ SwipeView {
 
     interactive: false
 
-    onCurrentIndexChanged: {
-        if (currentIndex == 1) {
-            completer.reload();
-        }
-    }
-
     Column {
         PhotosView {
             enabled: projectOpened
