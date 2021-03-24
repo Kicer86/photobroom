@@ -528,6 +528,14 @@ Error code: %1</source>
     </message>
 </context>
 <context>
+    <name>PhotoDataCompletion</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="34"/>
+        <source>Click here to scan for additional information about photos from file names and paths.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PhotoDelegate</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="35"/>
