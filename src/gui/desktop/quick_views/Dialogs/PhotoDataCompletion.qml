@@ -13,6 +13,11 @@ Item {
     PhotosDataGuesser {
         id: dataSource
         database: PhotoBroomProject.database
+
+        onFetchInProgressChanged: {
+            if (fetchInProgress == false)
+                status.state = "summary";
+        }
     }
 
     Item {
@@ -25,17 +30,44 @@ Item {
 
         Components.InfoItem {
             id: status
+            state: "information"
 
             width: parent.width
-            text: qsTr("Click here to scan for additional information about photos from file names and paths.")
 
             MouseArea {
                 anchors.fill: parent
 
                 cursorShape: Qt.PointingHandCursor
 
-                onClicked: dataSource.performAnalysis();
+                onClicked: {
+                    dataSource.performAnalysis();
+                    status.state = "fetching"
+                }
             }
+
+            states: [
+                State {
+                    name: "information"
+                    PropertyChanges {
+                        target: status
+                        text: qsTr("Click here to scan for additional information about photos from file names and paths.")
+                    }
+                },
+                State {
+                    name: "fetching"
+                    PropertyChanges {
+                        target: status
+                        text: qsTr("Processing photos...")
+                    }
+                },
+                State {
+                    name: "summary"
+                    PropertyChanges {
+                        target: status
+                        text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
+                    }
+                }
+            ]
         }
     }
 
