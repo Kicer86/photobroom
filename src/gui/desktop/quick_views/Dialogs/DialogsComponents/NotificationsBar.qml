@@ -98,7 +98,7 @@ Item {
                 anchors.rightMargin: 5
 
                 text: fullMode? qsTr("Click here to collapse notifications."):
-                                qsTr("There are %n notification(s). Click here to read.", "0", listView.model.count)
+                                qsTr("There are %n notification(s). Click here to read.", "", listView.model.count)
             }
 
             MouseArea {
