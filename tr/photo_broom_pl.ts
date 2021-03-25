@@ -537,8 +537,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>There are %n notification(s). Click here to read.</source>
-        <comment>0</comment>
-        <translation>
+        <translation type="unfinished">
             <numerusform>Kliknij tutaj aby wyświetlić %n powiadomienie.</numerusform>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
@@ -548,9 +547,23 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+30"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+53"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Processing photos...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+7"/>
+        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

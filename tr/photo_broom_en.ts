@@ -520,7 +520,6 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="101"/>
         <source>There are %n notification(s). Click here to read.</source>
-        <comment>0</comment>
         <translation type="unfinished">
             <numerusform>There is %n notification. Click here to read.</numerusform>
             <numerusform>There are %n notifications. Click here to read.</numerusform>
@@ -530,9 +529,22 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="53"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="60"/>
+        <source>Processing photos...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="67"/>
+        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
