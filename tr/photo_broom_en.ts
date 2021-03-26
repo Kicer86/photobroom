@@ -513,12 +513,12 @@ Error code: %1</source>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="100"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="88"/>
         <source>Click here to collapse notifications.</source>
         <translation>Click here to collapse notifications.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="101"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="89"/>
         <source>There are %n notification(s). Click here to read.</source>
         <translation type="unfinished">
             <numerusform>There is %n notification. Click here to read.</numerusform>

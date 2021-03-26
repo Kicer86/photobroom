@@ -79,27 +79,14 @@ Item {
             ScrollBar.vertical: ScrollBar { }
         }
 
-        Rectangle {
+        Components.InfoItem {
             id: notifications
 
             height: 0
             width: parent.width
 
-            color: "deepskyblue"
-            radius: 5
-            border.width: 1
-
-            Text {
-                id: notificationsText
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 5
-                anchors.rightMargin: 5
-
-                text: fullMode? qsTr("Click here to collapse notifications."):
-                                qsTr("There are %n notification(s). Click here to read.", "", listView.model.count)
-            }
+            text: fullMode? qsTr("Click here to collapse notifications."):
+                            qsTr("There are %n notification(s). Click here to read.", "", listView.model.count)
 
             MouseArea {
                 anchors.fill: parent
@@ -126,7 +113,7 @@ Item {
 
             PropertyChanges {
                 target: notifications
-                height: notificationsText.height
+                height: notifications.desiredHeight
             }
         },
         State {
@@ -141,7 +128,7 @@ Item {
 
             PropertyChanges {
                 target: notifications
-                height: notificationsText.height
+                height: notifications.desiredHeight
             }
         }
     ]
