@@ -5,6 +5,7 @@ Rectangle {
     id: root
 
     property alias text: textItem.text
+    readonly property alias desiredHeight: textItem.height
 
     height: textItem.height
 
