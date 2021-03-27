@@ -88,11 +88,12 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
 
-
         spacing: 2
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
         model: dataSource
+
+        property var notSelected: new Set()
 
         delegate: Item {
             required property var photoPath
@@ -113,7 +114,15 @@ Item {
 
             Row {
                 CheckBox {
-                    checkState: suggestedDate == ""? Qt.Unchecked: Qt.Checked
+                    checkState: listView.notSelected.has(index)? Qt.Unchecked: Qt.Checked
+
+                    onCheckStateChanged: {
+                        if (checkState)
+                            listView.notSelected.delete(index);
+                        else
+                            listView.notSelected.add(index);
+                    }
+
                 }
 
                 Components.PhotoThumbnail {
