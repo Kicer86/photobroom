@@ -151,12 +151,10 @@ void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector
                 if (time.isValid())
                     data.time = time;
             }
+
+            photos.push_back(data);
         }
-
-        photos.push_back(data);
     }
-
-    std::partition(photos.begin(), photos.end(), [](const auto& data) { return data.date.isValid(); });
 
     invokeMethod(this, &PhotosDataGuesser::photoDataFetched, photos);
 }
