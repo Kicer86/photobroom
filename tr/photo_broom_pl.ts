@@ -565,6 +565,11 @@ Kod błędu: %1</translation>
             <numerusform></numerusform>
         </translation>
     </message>
+    <message>
+        <location line="+7"/>
+        <source>Apply changes on selected photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PhotoDelegate</name>

@@ -546,6 +546,11 @@ Error code: %1</source>
             <numerusform></numerusform>
         </translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="74"/>
+        <source>Apply changes on selected photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PhotoDelegate</name>

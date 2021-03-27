@@ -20,19 +20,19 @@ Item {
         }
     }
 
-    Item {
+    Column {
         id: statusArea
 
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: status.height
 
         Components.InfoItem {
             id: status
             state: "information"
 
             width: parent.width
+            height: desiredHeight
 
             MouseArea {
                 anchors.fill: parent
@@ -68,6 +68,12 @@ Item {
                     }
                 }
             ]
+        }
+
+        Button {
+            text: qsTr("Apply changes on selected photos")
+
+            visible: status.state == "summary"
         }
     }
 
