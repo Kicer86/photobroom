@@ -60,6 +60,12 @@ void PhotosDataGuesser::performAnalysis()
 }
 
 
+void PhotosDataGuesser::applyBut(const QList<int>& l)
+{
+
+}
+
+
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
     if (role == Path)

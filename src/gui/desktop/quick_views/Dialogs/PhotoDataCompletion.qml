@@ -74,6 +74,15 @@ Item {
             text: qsTr("Apply changes on selected photos")
 
             visible: status.state == "summary"
+
+            onClicked: {
+                var toBeExcluded = []
+
+                for (let item of listView.notSelected)
+                    toBeExcluded.push(item);
+
+                dataSource.applyBut(toBeExcluded);
+            }
         }
     }
 
@@ -122,7 +131,6 @@ Item {
                         else
                             listView.notSelected.add(index);
                     }
-
                 }
 
                 Components.PhotoThumbnail {

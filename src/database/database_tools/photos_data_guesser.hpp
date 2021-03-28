@@ -27,6 +27,7 @@ public:
     bool isFetchInProgress() const;
 
     Q_INVOKABLE void performAnalysis();
+    Q_INVOKABLE void applyBut(const QList<int> &);
 
     QVariant data(const QModelIndex & index, int role) const override;
     int rowCount(const QModelIndex & parent) const override;
