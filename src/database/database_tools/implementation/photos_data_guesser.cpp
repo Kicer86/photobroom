@@ -122,7 +122,8 @@ void PhotosDataGuesser::updateFetchStatus(bool status)
 void PhotosDataGuesser::process(Database::IBackend& backend)
 {
     const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, 1 } });
-    const Database::FilterPhotosWithTag noDate(TagTypes::Date, TagValue(), Database::FilterPhotosWithTag::ValueMode::Equal, true);
+    const Database::FilterPhotosWithTag date(TagTypes::Date);
+    const Database::FilterNotMatchingFilter noDate(date);
     const Database::GroupFilter filters = {analyzed, noDate};
     const auto photos = backend.photoOperator().getPhotos(filters);
 
