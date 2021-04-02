@@ -54,7 +54,7 @@ void PhotosDataGuesser::performAnalysis()
     if (m_db != nullptr)
     {
         clear();
-        m_db->exec(std::bind(&PhotosDataGuesser::proces, this, _1));
+        m_db->exec(std::bind(&PhotosDataGuesser::process, this, _1));
         updateFetchStatus(true);
     }
 }
@@ -119,7 +119,7 @@ void PhotosDataGuesser::updateFetchStatus(bool status)
 }
 
 
-void PhotosDataGuesser::proces(Database::IBackend& backend)
+void PhotosDataGuesser::process(Database::IBackend& backend)
 {
     const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, 1 } });
     const Database::FilterPhotosWithTag noDate(TagTypes::Date, TagValue(), Database::FilterPhotosWithTag::ValueMode::Equal, true);
@@ -130,7 +130,7 @@ void PhotosDataGuesser::proces(Database::IBackend& backend)
 }
 
 
-void PhotosDataGuesser::procesIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
+void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
     //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   >[  _ <  HOUR  >  < MINUTE >  < SECOND >] < NOT NUM |E>
     const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:_?([0-9]{2}).?([0-9]{2}).?([0-9]{2}))?(?:[^0-9]+|$)");
@@ -183,7 +183,7 @@ void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vec
 
 void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
 {
-    m_db->exec(std::bind(&PhotosDataGuesser::procesIds, this, _1, ids));
+    m_db->exec(std::bind(&PhotosDataGuesser::processIds, this, _1, ids));
 }
 
 
