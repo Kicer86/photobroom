@@ -175,9 +175,28 @@ void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vecto
 }
 
 
-void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vector<CollectedData>& photos)
+void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vector<CollectedData>& infos)
 {
+    std::vector<Photo::DataDelta> deltasToStore;
+    deltasToStore.reserve(infos.size());
 
+    for (const auto& info: infos)
+    {
+        auto photoDelta = backend.getPhotoDelta(info.photoData.getId(), { Photo::Field::Tags });
+        auto tags = photoDelta.get<Photo::Field::Tags>();
+
+        if (info.date.isValid())
+            tags[TagTypes::Date] = info.date;
+
+        if (info.time.isValid())
+            tags[TagTypes::Time] = info.time;
+
+        photoDelta.insert<Photo::Field::Tags>(tags);
+
+        deltasToStore.push_back(photoDelta);
+    }
+
+    backend.update(deltasToStore);
 }
 
 
