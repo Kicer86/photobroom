@@ -52,6 +52,7 @@ private:
     void updateFetchStatus(bool);
     void proces(Database::IBackend &);
     void procesIds(Database::IBackend &, const std::vector<Photo::Id> &);
+    void updatePhotos(Database::IBackend &, const std::vector<CollectedData> &);
     void photosFetched(const std::vector<Photo::Id> &);
     void photoDataFetched(const std::vector<CollectedData> &);
 };
