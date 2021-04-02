@@ -155,20 +155,22 @@ void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vecto
             const QDate date(y, m, d);
 
             if (date.isValid())
+            {
                 data.date = date;
 
-            if (captured.size() == 7)
-            {
-                const int hh = captured[4].toInt();
-                const int mm = captured[5].toInt();
-                const int ss = captured[6].toInt();
-                const QTime time(hh, mm, ss);
+                if (captured.size() == 7)
+                {
+                    const int hh = captured[4].toInt();
+                    const int mm = captured[5].toInt();
+                    const int ss = captured[6].toInt();
+                    const QTime time(hh, mm, ss);
 
-                if (time.isValid())
-                    data.time = time;
+                    if (time.isValid())
+                        data.time = time;
+                }
+
+                photos.push_back(data);
             }
-
-            photos.push_back(data);
         }
     }
 
