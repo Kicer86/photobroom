@@ -71,7 +71,8 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
         if (excludedSet.contains(i) == false)
             photosToProcess.push_back(m_photos[i]);
 
-    m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
+    if (photosToProcess.empty() == false)
+        m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
 }
 
 
