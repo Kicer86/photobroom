@@ -547,7 +547,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+53"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+54"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation type="unfinished"></translation>
     </message>

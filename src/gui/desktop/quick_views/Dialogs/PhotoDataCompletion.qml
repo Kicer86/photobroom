@@ -40,8 +40,9 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 onClicked: {
+                    listView.notSelected = new Set();
                     dataSource.performAnalysis();
-                    status.state = "fetching"
+                    status.state = "fetching";
                 }
             }
 
