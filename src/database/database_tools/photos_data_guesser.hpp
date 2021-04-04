@@ -17,6 +17,7 @@ class DATABASE_EXPORT PhotosDataGuesser: public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
     Q_PROPERTY(bool fetchInProgress READ isFetchInProgress NOTIFY fetchInProgressChanged)
+    Q_PROPERTY(bool updateInProgress READ isUpdateInProgress NOTIFY updateInProgressChanged)
 
 public:
     PhotosDataGuesser();
@@ -25,6 +26,7 @@ public:
     Database::IDatabase* database() const;
 
     bool isFetchInProgress() const;
+    bool isUpdateInProgress() const;
 
     Q_INVOKABLE void performAnalysis();
     Q_INVOKABLE void applyBut(const QList<int> &);
@@ -35,6 +37,7 @@ public:
 
 signals:
     void fetchInProgressChanged(bool) const;
+    void updateInProgressChanged(bool) const;
 
 private:
     struct CollectedData
@@ -47,9 +50,11 @@ private:
     Database::IDatabase* m_db;
     std::vector<CollectedData> m_photos;
     bool m_fetching;
+    bool m_updating;
 
     void clear();
     void updateFetchStatus(bool);
+    void updateUpdateStatus(bool);
     void process(Database::IBackend &);
     void processIds(Database::IBackend &, const std::vector<Photo::Id> &);
     void updatePhotos(Database::IBackend &, const std::vector<CollectedData> &);

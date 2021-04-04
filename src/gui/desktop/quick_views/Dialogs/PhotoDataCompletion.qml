@@ -7,6 +7,11 @@ import "../Components" as Components
 
 Item {
 
+    function reloadModel() {
+        listView.notSelected = new Set();
+        dataSource.performAnalysis();
+    }
+
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     // Model working directly on database
@@ -15,8 +20,17 @@ Item {
         database: PhotoBroomProject.database
 
         onFetchInProgressChanged: {
-            if (fetchInProgress == false)
+            if (fetchInProgress)
+                status.state = "fetching";
+            else
                 status.state = "summary";
+        }
+
+        onUpdateInProgressChanged: {
+            if (updateInProgress)
+                status.state = "updating"
+            else
+                reloadModel();
         }
     }
 
@@ -37,13 +51,10 @@ Item {
             MouseArea {
                 anchors.fill: parent
 
-                cursorShape: Qt.PointingHandCursor
+                enabled: status.state == "information" || status.state == "summary"
+                cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
 
-                onClicked: {
-                    listView.notSelected = new Set();
-                    dataSource.performAnalysis();
-                    status.state = "fetching";
-                }
+                onClicked: reloadModel()
             }
 
             states: [
@@ -67,6 +78,13 @@ Item {
                         target: status
                         text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
                     }
+                },
+                State {
+                    name: "updating"
+                    PropertyChanges {
+                        target: status
+                        text: qsTr("Photos are being updated")
+                    }
                 }
             ]
         }
@@ -74,7 +92,7 @@ Item {
         Button {
             text: qsTr("Apply changes on selected photos")
 
-            visible: status.state == "summary"
+            visible: status.state == "summary" && listView.count > 0
 
             onClicked: {
                 var toBeExcluded = []

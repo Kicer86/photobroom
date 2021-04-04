@@ -24,6 +24,7 @@ namespace
 PhotosDataGuesser::PhotosDataGuesser()
     : m_db(nullptr)
     , m_fetching(false)
+    , m_updating(false)
 {
 
 }
@@ -49,6 +50,12 @@ bool PhotosDataGuesser::isFetchInProgress() const
 }
 
 
+bool PhotosDataGuesser::isUpdateInProgress() const
+{
+    return m_updating;
+}
+
+
 void PhotosDataGuesser::performAnalysis()
 {
     if (m_db != nullptr)
@@ -71,8 +78,8 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
         if (excludedSet.contains(i) == false)
             photosToProcess.push_back(m_photos[i]);
 
-    if (photosToProcess.empty() == false)
-        m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
+    updateUpdateStatus(true);
+    m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
 }
 
 
@@ -117,6 +124,13 @@ void PhotosDataGuesser::updateFetchStatus(bool status)
 {
     m_fetching = status;
     emit fetchInProgressChanged(m_fetching);
+}
+
+
+void PhotosDataGuesser::updateUpdateStatus(bool status)
+{
+    m_updating = status;
+    emit updateInProgressChanged(m_updating);
 }
 
 
@@ -200,7 +214,10 @@ void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vec
         deltasToStore.push_back(photoDelta);
     }
 
-    backend.update(deltasToStore);
+    if (deltasToStore.empty() == false)
+        backend.update(deltasToStore);
+
+    updateUpdateStatus(false);
 }
 
 
