@@ -6,6 +6,8 @@ import photo_broom.qml 1.0
 import "../Components" as Components
 
 Item {
+    id: root
+    state: "information"
 
     function reloadModel() {
         listView.notSelected = new Set();
@@ -21,14 +23,14 @@ Item {
 
         onFetchInProgressChanged: {
             if (fetchInProgress)
-                status.state = "fetching";
+                root.state = "fetching";
             else
-                status.state = "summary";
+                root.state = "summary";
         }
 
         onUpdateInProgressChanged: {
             if (updateInProgress)
-                status.state = "updating"
+                root.state = "updating"
             else
                 reloadModel();
         }
@@ -43,7 +45,6 @@ Item {
 
         Components.InfoItem {
             id: status
-            state: "information"
 
             width: parent.width
             height: desiredHeight
@@ -51,48 +52,17 @@ Item {
             MouseArea {
                 anchors.fill: parent
 
-                enabled: status.state == "information" || status.state == "summary"
+                enabled: root.state == "information" || root.state == "summary"
                 cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
 
                 onClicked: reloadModel()
             }
-
-            states: [
-                State {
-                    name: "information"
-                    PropertyChanges {
-                        target: status
-                        text: qsTr("Click here to scan for additional information about photos from file names and paths.")
-                    }
-                },
-                State {
-                    name: "fetching"
-                    PropertyChanges {
-                        target: status
-                        text: qsTr("Processing photos...")
-                    }
-                },
-                State {
-                    name: "summary"
-                    PropertyChanges {
-                        target: status
-                        text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
-                    }
-                },
-                State {
-                    name: "updating"
-                    PropertyChanges {
-                        target: status
-                        text: qsTr("Photos are being updated")
-                    }
-                }
-            ]
         }
 
         Button {
             text: qsTr("Apply changes on selected photos")
 
-            visible: status.state == "summary" && listView.count > 0
+            visible: root.state == "summary" && listView.count > 0
 
             onClicked: {
                 var toBeExcluded = []
@@ -183,6 +153,37 @@ Item {
 
         ScrollBar.vertical: ScrollBar {}
     }
+
+    states: [
+        State {
+            name: "information"
+            PropertyChanges {
+                target: status
+                text: qsTr("Click here to scan for additional information about photos from file names and paths.")
+            }
+        },
+        State {
+            name: "fetching"
+            PropertyChanges {
+                target: status
+                text: qsTr("Processing photos...")
+            }
+        },
+        State {
+            name: "summary"
+            PropertyChanges {
+                target: status
+                text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
+            }
+        },
+        State {
+            name: "updating"
+            PropertyChanges {
+                target: status
+                text: qsTr("Photos are being updated")
+            }
+        }
+    ]
 }
 
 /*##^##
