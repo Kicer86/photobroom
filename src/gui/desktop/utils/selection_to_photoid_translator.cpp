@@ -30,6 +30,8 @@ std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() cons
         const QVariant dataVariant = idx.data(m_photoDataRole);
         const Photo::Data data(dataVariant.value<Photo::Data>());
 
+        assert(data.id.valid());
+
         datas.push_back(data);
     }
 

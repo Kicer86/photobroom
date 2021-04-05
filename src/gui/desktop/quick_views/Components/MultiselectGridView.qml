@@ -85,6 +85,23 @@ GridView {
             }
         }
     }
+
+    // any change in model should invalid selection as all stored indexes become invalid
+    Connections {
+        target: model
+
+        function onRowsAboutToBeInserted(parent, first, last) {
+            selectionManager.clearSelection();
+        }
+
+        function onRowsAboutToBeMoved(parent, first, last, destination, row) {
+            selectionManager.clearSelection();
+        }
+
+        function onRowsAboutToBeRemoved(parent, first, last) {
+            selectionManager.clearSelection();
+        }
+    }
 }
 
 /*##^##
