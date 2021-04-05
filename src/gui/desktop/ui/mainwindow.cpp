@@ -74,6 +74,15 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     updateGui();
     registerConfigTab();
 
+    connect(this, &MainWindow::currentDatabaseChanged,
+            m_photosModelController, &PhotosModelControllerComponent::setDatabase);
+    connect(this, &MainWindow::currentDatabaseChanged,
+            &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
+    connect(this, &MainWindow::currentDatabaseChanged,
+            ui->tagEditor, &TagEditorWidget::setDatabase);
+    connect(this, &MainWindow::currentDatabaseChanged,
+            &m_bridge, &Bridge::setDatabase);
+
     IconsLoader icons;
 
     ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
@@ -121,6 +130,8 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 void MainWindow::setupQmlView()
 {
     assert(m_photosModelController == nullptr);
+
+    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &m_bridge);
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
@@ -285,9 +296,7 @@ void MainWindow::closeProject()
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
 
-        m_photosModelController->setDatabase(nullptr);
-        m_completerFactory.set(static_cast<Database::IDatabase*>(nullptr));
-        ui->tagEditor->setDatabase(nullptr);
+        emit currentDatabaseChanged(nullptr);
 
         updateGui();
 
@@ -626,6 +635,12 @@ void MainWindow::on_actionSeries_detector_triggered()
     SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailsManager, m_currentPrj.get()}.exec();
 }
 
+void MainWindow::on_actionPhoto_data_completion_triggered()
+{
+    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    mainwindow->setProperty("currentIndex", 1);
+}
+
 
 void MainWindow::on_actionConfiguration_triggered()
 {
@@ -641,9 +656,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
         {
             Database::IDatabase* db = m_currentPrj->getDatabase();
 
-            m_photosModelController->setDatabase(db);
-            m_completerFactory.set(db);
-            ui->tagEditor->setDatabase(db);
+            emit currentDatabaseChanged(db);
 
             // TODO: I do not like this flag here...
             if (is_new)

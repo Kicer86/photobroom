@@ -9,10 +9,10 @@
 using Database::ProjectInfo;
 using Database::MemoryBackend;
 
-class JsonBackendTest: public testing::Test
+class MemoryBackendTest: public testing::Test
 {
     public:
-        JsonBackendTest()
+        MemoryBackendTest()
             : testing::Test()
         {
 
@@ -28,7 +28,7 @@ class JsonBackendTest: public testing::Test
 };
 
 
-TEST_F(JsonBackendTest, opensSuccessfully)
+TEST_F(MemoryBackendTest, opensSuccessfully)
 {
     const ProjectInfo prjInfo = getProjectInfo();
 

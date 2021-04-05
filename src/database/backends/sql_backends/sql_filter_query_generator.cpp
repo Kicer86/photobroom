@@ -341,7 +341,7 @@ namespace Database
                     .arg(personFilter.person_id);
     }
 
-    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlags& genericFlagsFilter) const
+    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlag& genericFlagsFilter) const
     {
         return QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE COALESCE(%2.value, 0) = %3")
                                 .arg(TAB_PHOTOS)

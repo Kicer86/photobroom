@@ -69,7 +69,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 }
 
 
-void FlatModel::setFilters(const Database::Filter& filters)
+void FlatModel::setFilter(const Database::Filter& filters)
 {
     {
         std::lock_guard<std::mutex> lock(m_filtersMutex);
@@ -86,11 +86,24 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
+const Database::Filter & FlatModel::filter() const
+{
+    return m_filters;
+}
+
+
+Database::IDatabase * FlatModel::database() const
+{
+    return m_db;
+}
+
+
 const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();
     const Photo::Id id = m_photos[row];
     const Photo::Data& data = photoData(id);
+
     return data;
 }
 

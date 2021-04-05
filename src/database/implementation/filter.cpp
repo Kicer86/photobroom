@@ -99,7 +99,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithGeneralFlags::FilterPhotosWithGeneralFlags(const QString& n, int v)
+    FilterPhotosWithGeneralFlag::FilterPhotosWithGeneralFlag(const QString& n, int v)
         : name(n)
         , value(v)
     {

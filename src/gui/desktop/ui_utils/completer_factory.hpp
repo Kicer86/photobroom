@@ -20,6 +20,7 @@
 #ifndef COMPLETERFACTORY_HPP
 #define COMPLETERFACTORY_HPP
 
+#include <QObject>
 #include <map>
 
 #include <core/tag.hpp>
@@ -43,7 +44,7 @@ class PeopleListModel;
  *
  * Created QCompleters will be filled with possible values for given tag type
  */
-class CompleterFactory: public ICompleterFactory
+class CompleterFactory: public QObject, public ICompleterFactory
 {
     public:
         explicit CompleterFactory(ILoggerFactory &);

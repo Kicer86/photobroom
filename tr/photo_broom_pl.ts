@@ -202,7 +202,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     <message>
         <location line="-156"/>
         <source>Assembling final file</source>
-        <translation type="unfinished">Składanie pliku wynikowego</translation>
+        <translation>Składanie pliku wynikowego</translation>
     </message>
 </context>
 <context>
@@ -282,7 +282,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Photo &amp;information</source>
         <translation>&amp;Informacje o zdjęciu</translation>
     </message>
@@ -372,7 +372,12 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Wyszukiwanie grup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
+        <location line="+5"/>
+        <source>Photo data completion </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -394,7 +399,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+113"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -434,7 +439,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+224"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -507,7 +512,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-105"/>
+        <location line="-109"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -516,29 +521,65 @@ Kod błędu: %1</translation>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+37"/>
+        <source>Back to photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+100"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+88"/>
         <source>Click here to collapse notifications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>There are %n notification(s). Click here to read.</source>
-        <comment>0</comment>
+        <translation type="unfinished">
+            <numerusform>Kliknij tutaj aby wyświetlić %n powiadomienie.</numerusform>
+            <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
+            <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>PhotoDataCompletion</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+162"/>
+        <source>Click here to scan for additional information about photos from file names and paths.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Processing photos...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+7"/>
+        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
+    <message>
+        <location line="+7"/>
+        <source>Photos are being updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-120"/>
+        <source>Apply changes on selected photos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PhotoDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+44"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+35"/>
         <source>NEW</source>
         <translation>Nowe</translation>
     </message>

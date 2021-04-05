@@ -129,6 +129,7 @@ namespace Database
 
         /// get particular photo
         virtual Photo::Data              getPhoto(const Photo::Id &) = 0;
+        virtual Photo::DataDelta         getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
 
         /// Count photos matching filter
         virtual int                      getPhotosCount(const Filter &) = 0;

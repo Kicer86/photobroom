@@ -11,6 +11,7 @@
 
 #include "ui_utils/completer_factory.hpp"
 #include "utils/inotifications.hpp"
+#include "quick_views/bridge.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "models/notifications_model.hpp"
 
@@ -72,6 +73,7 @@ class MainWindow: public QMainWindow, public INotifications
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
+        Bridge                    m_bridge;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
@@ -123,6 +125,7 @@ class MainWindow: public QMainWindow, public INotifications
 
         // tools menu
         void on_actionSeries_detector_triggered();
+        void on_actionPhoto_data_completion_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();
@@ -138,6 +141,9 @@ class MainWindow: public QMainWindow, public INotifications
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
+
+    signals:
+        void currentDatabaseChanged(Database::IDatabase *);          // emit when database is opened/closed
 };
 
 #endif // MAINWINDOW_HPP

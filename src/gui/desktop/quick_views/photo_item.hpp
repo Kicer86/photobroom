@@ -30,7 +30,6 @@ class PhotoItem: public QQuickPaintedItem
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
         Q_PROPERTY(QString source WRITE setSource READ source)
-        Q_PROPERTY(QSize photoSize WRITE setPhotoSize READ photoSize)
         Q_PROPERTY(State state READ state NOTIFY stateChanged)
         Q_ENUMS(State)
 
@@ -49,17 +48,14 @@ class PhotoItem: public QQuickPaintedItem
 
         void setThumbnailsManager(IThumbnailsManager *);
         void setSource(const QString &);
-        void setPhotoSize(const QSize &);
 
         IThumbnailsManager* thumbnailsManager() const;
         QString source() const;
-        QSize photoSize() const;
         State state() const;
 
     private:
         QImage m_image;
         QString m_source;
-        QSize m_photoSize;
         IThumbnailsManager* m_thbMgr;
         State m_state;
 
@@ -68,7 +64,6 @@ class PhotoItem: public QQuickPaintedItem
         void setImage(const QImage &);
         void setState(State);
         void paintImage(QPainter &) const;
-        QSize calculateThumbnailSize() const;
 
     signals:
         void stateChanged();

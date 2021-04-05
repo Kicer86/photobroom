@@ -38,43 +38,40 @@ struct IThumbnailsCache;
 class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator *, IThumbnailsCache * = nullptr);
+        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);
 
-        void fetch(const QString& path, int desired_height, const std::function<void(const QImage &)> &) override;
-        void fetch(const QString& path, int desired_height, const safe_callback<const QImage &> &) override;
-        std::optional<QImage> fetch(const QString& path, int height) override;
+        void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
+        void fetch(const QString& path, const QSize& desired_size, const safe_callback<const QImage &> &) override;
+        std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
 
     private:
         TasksQueue m_tasks;
-        IThumbnailsCache* m_cache;
-        IThumbnailsGenerator* m_generator;
+        IThumbnailsCache& m_cache;
+        IThumbnailsGenerator& m_generator;
 
-        QImage find(const QString &, int);
-        void cache(const QString &, int, const QImage &);
+        QImage find(const QString &, const IThumbnailsCache::ThumbnailParameters &);
+        void cache(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
 
-        void generate(const QString &, int, const safe_callback<const QImage &> &);
-        void generate(const QString &, int, const std::function<void(const QImage &)> &);
+        void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const safe_callback<const QImage &> &);
+        void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)> &);
 
         template<typename T>
-        void internal_fetch(const QString& path, int desired_height, const T& callback)
+        void internal_fetch(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const T& callback)
         {
-            const QImage cached = find(path, desired_height);
+            const QImage cached = find(path, params);
 
             if (cached.isNull())
-                generate(path, desired_height, callback);
+                generate(path, params, callback);
             else
                 callback(cached);
         }
 
         template<typename T>
-        void generate_task(const QString& path, int desired_height, const T& callback)
+        void generate_task(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const T& callback)
         {
-            const QImage img = m_generator->generate(path, desired_height);
+            const QImage img = m_generator.generate(path, params);
 
-            const int height = img.height();
-            assert(height == desired_height || img.isNull());
-
-            cache(path, desired_height, img);
+            cache(path, params, img);
             callback(img);
         }
 };

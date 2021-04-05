@@ -47,35 +47,20 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
-QImage ThumbnailGenerator::generate(const QString& path, int height)
+QImage ThumbnailGenerator::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params)
 {
-    QImage image;
+    const QImage frame = readFrame(path);
+    QImage thumb;
 
-    if (MediaTypes::isImageFile(path))
-        image = fromImage(path, height);
-    else if (MediaTypes::isVideoFile(path))
-    {
-        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-        const QString ffmpegPath = ffmpegVar.toString();
-        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
-        const QString ffprobePath = ffprobeVar.toString();
-        const QFileInfo mpegfileInfo(ffmpegPath);
-        const QFileInfo probefileInfo(ffprobePath);
+    if (frame.isNull() == false)
+        thumb = scaleImage(frame, params);
 
-        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
-            image = fromVideo(path, height, ffprobePath, ffmpegPath);
-    }
-    else
-        assert(!"unknown file type");
-
-    return image;
+    return thumb;
 }
 
 
-QImage ThumbnailGenerator::fromImage(const QString& path, int height)
+QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 {
-    // TODO: use QTransform here to perform one transformation instead of many
-
     IExifReader* reader = m_exifReaderFactory.get();
 
     Stopwatch stopwatch;
@@ -95,22 +80,14 @@ QImage ThumbnailGenerator::fromImage(const QString& path, int height)
 
     const int photo_read = stopwatch.read(true);
 
-    if (image.isNull() == false && image.height() != height)
-        image = image.scaledToHeight(height, Qt::SmoothTransformation);
-
-    const int photo_scaling = stopwatch.stop();
-
     const QString read_time_message = QString("photo %1 read time: %2ms").arg(path).arg(photo_read);
     m_logger->debug(read_time_message);
-
-    const QString scaling_time_message = QString("photo scaling time: %1ms").arg(photo_scaling);
-    m_logger->debug(scaling_time_message);
 
     return image;
 }
 
 
-QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QString& ffprobe, const QString& ffmpeg)
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const
 {
     const QFileInfo pathInfo(path);
 
@@ -132,7 +109,6 @@ QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QStr
             "-ss", QString::number(seconds / 10),
             "-i", absolute_path,
             "-vframes", "1",
-            "-vf", QString("scale=-1:%1").arg(height),
             "-q:v", "2",
             thumbnail_path
         };
@@ -145,4 +121,52 @@ QImage ThumbnailGenerator::fromVideo(const QString& path, int height, const QStr
     }
 
     return result;
+}
+
+
+QImage ThumbnailGenerator::readFrame(const QString& path) const
+{
+    QImage image;
+
+    if (MediaTypes::isImageFile(path))
+        image = readFrameFromImage(path);
+    else if (MediaTypes::isVideoFile(path))
+    {
+        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
+        const QString ffmpegPath = ffmpegVar.toString();
+        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
+        const QString ffprobePath = ffprobeVar.toString();
+        const QFileInfo mpegfileInfo(ffmpegPath);
+        const QFileInfo probefileInfo(ffprobePath);
+
+        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
+            image = readFrameFromVideo(path, ffprobePath, ffmpegPath);
+    }
+    else
+        assert(!"unknown file type");
+
+    return image;
+}
+
+
+QImage ThumbnailGenerator::scaleImage(const QImage& image, const IThumbnailsCache::ThumbnailParameters& params) const
+{
+    QImage thumbnail;
+
+    const QSize& size = std::get<0>(params);
+
+    Stopwatch stopwatch;
+    stopwatch.start();
+
+    if (image.width() < image.height())
+        thumbnail = image.scaledToWidth(size.width(), Qt::SmoothTransformation);
+    else
+        thumbnail = image.scaledToHeight(size.height(), Qt::SmoothTransformation);
+
+    const int photo_scaling = stopwatch.stop();
+
+    const QString scaling_time_message = QString("photo scaling time: %1ms").arg(photo_scaling);
+    m_logger->debug(scaling_time_message);
+
+    return thumbnail;
 }

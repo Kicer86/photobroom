@@ -64,14 +64,26 @@ namespace Database
 
         for(auto it = photo.constBegin(); it != photo.constEnd(); ++it)
         {
-            if ( it.key() == "path")
-                delta.insert<Photo::Field::Path>(it.value().toString());
+            if (it.key() == "checksum")
+                delta.insert<Photo::Field::Checksum>(it.value().toString().toUtf8());
+            else if (it.key() == "flags")
+            {
+                // TODO: implement
+            }
+            else if (it.key() == "geometry")
+            {
+                const auto geometryObj = it.value().toObject();
+                const QSize geometry = parseGeometry(geometryObj);
+                delta.insert<Photo::Field::Geometry>(geometry);
+            }
             else if (it.key() == "tags")
             {
                 const auto tags = it.value().toObject();
                 const Tag::TagsList tagsList = parseTags(tags);
                 delta.insert<Photo::Field::Tags>(tagsList);
             }
+            else if ( it.key() == "path")
+                delta.insert<Photo::Field::Path>(it.value().toString());
             else
                 throw std::invalid_argument("unexpected entry for photo");
         }
@@ -103,5 +115,25 @@ namespace Database
         }
 
         return tagsList;
+    }
+
+
+    QSize JsonToBackend::parseGeometry(const QJsonObject& geometry)
+    {
+        QSize result;
+
+        for(auto it = geometry.constBegin(); it != geometry.constEnd(); ++it)
+        {
+            const int value = it.value().toVariant().toInt();
+
+            if (it.key() == "width")
+                result.setWidth(value);
+            else if (it.key() == "height")
+                result.setHeight(value);
+            else
+                throw std::invalid_argument("unexpected entry for geometry");
+        }
+
+        return result;
     }
 }

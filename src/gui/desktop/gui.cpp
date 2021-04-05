@@ -29,32 +29,6 @@
 #include "utils/features_manager.hpp"
 
 
-namespace
-{
-
-    struct ThumbnailUtils: IThumbnailUtils
-    {
-        ThumbnailUtils(ILogger* logger, IConfiguration* config): m_gen(logger, config)
-        {
-
-        }
-
-        IThumbnailsCache* cache() override
-        {
-            return &m_cache;
-        }
-
-        IThumbnailsGenerator* generator() override
-        {
-            return &m_gen;
-        }
-
-        ThumbnailsCache m_cache;
-        ThumbnailGenerator m_gen;
-    };
-}
-
-
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory):
     m_prjManager(prjMgr),
     m_pluginLoader(pluginLoader),
@@ -137,8 +111,9 @@ void Gui::run()
 
     //
     auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
-    ThumbnailUtils thbUtils(thumbnail_generator_logger.get(), &configuration);
-    ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thbUtils.generator(), thbUtils.cache());
+    ThumbnailsCache thumbnailsCache;
+    ThumbnailGenerator thumbnailGenerator(thumbnail_generator_logger.get(), &configuration);
+    ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thumbnailGenerator, thumbnailsCache);
 
     // main window
     MainWindow mainWindow(&m_coreFactory, &thbMgr);

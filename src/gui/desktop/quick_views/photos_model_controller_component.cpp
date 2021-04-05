@@ -246,7 +246,7 @@ void PhotosModelControllerComponent::updateModelFilters()
 {
     auto filters_for_model = allFilters();
 
-    m_model->setFilters(filters_for_model);
+    m_model->setFilter(filters_for_model);
 }
 
 
@@ -312,7 +312,7 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
         filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
 
     // ignore broken photos
-    filters_for_model.push_back( Database::FilterPhotosWithGeneralFlags(Database::CommonGeneralFlags::State,
+    filters_for_model.push_back( Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,
                                                                         static_cast<int>(Database::CommonGeneralFlags::StateType::Normal))
     );
 

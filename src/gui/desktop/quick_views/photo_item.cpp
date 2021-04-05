@@ -33,7 +33,7 @@ PhotoItem::PhotoItem(QQuickItem* parent)
 
 void PhotoItem::paint(QPainter* painter)
 {
-    if (m_thbMgr == nullptr || m_photoSize.isEmpty() || m_source.isEmpty())
+    if (m_thbMgr == nullptr || m_source.isEmpty())
         return;
 
     if (m_state == State::NotFetched)
@@ -58,17 +58,6 @@ void PhotoItem::setSource(const QString& source)
 }
 
 
-void PhotoItem::setPhotoSize(const QSize& size)
-{
-    m_photoSize = size;
-
-    if (m_photoSize.isEmpty())
-        m_photoSize = QSize(width(), height());
-
-    update();
-}
-
-
 IThumbnailsManager* PhotoItem::thumbnailsManager() const
 {
     return m_thbMgr;
@@ -78,12 +67,6 @@ IThumbnailsManager* PhotoItem::thumbnailsManager() const
 QString PhotoItem::source() const
 {
     return m_source;
-}
-
-
-QSize PhotoItem::photoSize() const
-{
-    return m_photoSize;
 }
 
 
@@ -137,10 +120,9 @@ void PhotoItem::paintImage(QPainter& painter) const
 
 void PhotoItem::fetchImage()
 {
-    const QSize thbSize = calculateThumbnailSize();
-    const int h = thbSize.height();
+    const QSize thbSize(width(), height());
 
-    auto image = m_thbMgr->fetch(m_source, h);
+    auto image = m_thbMgr->fetch(m_source, thbSize);
 
     if (image.has_value())
     {
@@ -150,18 +132,6 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
-        m_thbMgr->fetch(m_source, h, queued_slot(this, &PhotoItem::updateThumbnail));
+        m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
-}
-
-
-QSize PhotoItem::calculateThumbnailSize() const
-{
-    const int h = static_cast<int>(height());
-    const int w = static_cast<int>(width());
-
-    QSize thbSize = m_photoSize;
-    thbSize.scale(w, h, Qt::KeepAspectRatioByExpanding);
-
-    return thbSize;
 }
