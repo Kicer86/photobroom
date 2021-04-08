@@ -60,28 +60,28 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+182"/>
-        <source>Collection scan in progress</source>
-        <translation>Trwa skanowanie kolekcji</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+183"/>
         <location line="+5"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <source>Collection scan canceled</source>
-        <translation>Skanowanie kolekcji przerwane</translation>
-    </message>
-    <message>
-        <location line="-121"/>
+        <location line="-132"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+121"/>
+        <source>Scan canceled</source>
+        <translation>Skanowanie kolekcji przerwane</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Scaning disk for media files...</source>
+        <translation>Skanowanie dysku w poszukiwaniu plików audio/video...</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
@@ -373,8 +373,8 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="+5"/>
-        <source>Photo data completion </source>
-        <translation type="unfinished"></translation>
+        <source>Photo data completion</source>
+        <translation>Uzupełnianie danych</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
@@ -524,7 +524,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+37"/>
         <source>Back to photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót do zdjęć</translation>
     </message>
 </context>
 <context>
@@ -537,7 +537,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>There are %n notification(s). Click here to read.</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>Kliknij tutaj aby wyświetlić %n powiadomienie.</numerusform>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
@@ -549,31 +549,31 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+162"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Processing photos...</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetwarzanie zdjęć...</translation>
     </message>
     <message numerus="yes">
         <location line="+7"/>
         <source>%n photo(s) were analysed. Review collected data and approve it.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n zdjęcie zostało przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
+            <numerusform>%n zdjęcia zostały przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
+            <numerusform>%n zdjęć zostało przeanalizowanych. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
         </translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Photos are being updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Dane zdjęć są aktualizowane</translation>
     </message>
     <message>
         <location line="-120"/>
         <source>Apply changes on selected photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz zebrane informacje dla zaznaczonych zdjęć</translation>
     </message>
 </context>
 <context>
@@ -920,7 +920,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+18"/>
         <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwiedź &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -930,12 +930,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+18"/>
         <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -945,12 +945,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+15"/>
         <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>FFProbe jest częścią programu FFMpeg.&lt;br/&gt;Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby go pobrać.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>

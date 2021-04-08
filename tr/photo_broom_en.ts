@@ -65,19 +65,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
-        <source>Collection scan canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="178"/>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="203"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
+        <source>Scan canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="182"/>
-        <source>Collection scan in progress</source>
+        <source>Scaning disk for media files...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -370,7 +370,7 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="223"/>
-        <source>Photo data completion </source>
+        <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -520,7 +520,7 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="89"/>
         <source>There are %n notification(s). Click here to read.</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>There is %n notification. Click here to read.</numerusform>
             <numerusform>There are %n notifications. Click here to read.</numerusform>
         </translation>
@@ -541,9 +541,10 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="176"/>
         <source>%n photo(s) were analysed. Review collected data and approve it.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translatorcomment>%n photos were analysed. Review collected data and approve it.</translatorcomment>
+        <translation>
+            <numerusform>%n photo was analysed. Review collected data and approve it.</numerusform>
+            <numerusform>%n photos were analysed. Review collected data and approve it.</numerusform>
         </translation>
     </message>
     <message>
@@ -619,7 +620,7 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="199"/>
         <source>%n Gbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Gbyte</numerusform>
             <numerusform>%n Gbytes</numerusform>
         </translation>
