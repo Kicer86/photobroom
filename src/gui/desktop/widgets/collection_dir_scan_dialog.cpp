@@ -174,12 +174,12 @@ void CollectionDirScanDialog::updateGui()
     switch(m_state)
     {
         case State::Canceled:
-            m_info->setText(tr("Collection scan canceled"));
+            m_info->setText(tr("Scan canceled"));
             m_button->setText(tr("Close"));
             break;
 
         case State::Scanning:
-            m_info->setText(tr("Collection scan in progress"));
+            m_info->setText(tr("Scaning disk for media files..."));
             m_button->setText(tr("Cancel"));
             break;
 

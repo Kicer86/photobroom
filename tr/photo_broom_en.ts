@@ -65,19 +65,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
-        <source>Collection scan canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="178"/>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="203"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
+        <source>Scan canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="182"/>
-        <source>Collection scan in progress</source>
+        <source>Scaning disk for media files...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

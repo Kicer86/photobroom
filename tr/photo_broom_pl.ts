@@ -60,28 +60,28 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+182"/>
-        <source>Collection scan in progress</source>
-        <translation>Trwa skanowanie kolekcji</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+183"/>
         <location line="+5"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <source>Collection scan canceled</source>
-        <translation>Skanowanie kolekcji przerwane</translation>
-    </message>
-    <message>
-        <location line="-121"/>
+        <location line="-132"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+121"/>
+        <source>Scan canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Scaning disk for media files...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Searching for new photos</source>
         <translation>Wyszukiwanie nowych zdjęć</translation>
     </message>
