@@ -370,7 +370,7 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="223"/>
-        <source>Photo data completion </source>
+        <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

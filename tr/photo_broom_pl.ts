@@ -73,12 +73,12 @@
     <message>
         <location line="+121"/>
         <source>Scan canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Skanowanie kolekcji przerwane</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Scaning disk for media files...</source>
-        <translation type="unfinished"></translation>
+        <translation>Skanowanie dysku w poszukiwaniu plików audio/video...</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -373,7 +373,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="+5"/>
-        <source>Photo data completion </source>
+        <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

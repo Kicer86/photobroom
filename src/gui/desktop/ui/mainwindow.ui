@@ -220,7 +220,7 @@
   </action>
   <action name="actionPhoto_data_completion">
    <property name="text">
-    <string>Photo data completion </string>
+    <string>Photo data completion</string>
    </property>
   </action>
  </widget>
