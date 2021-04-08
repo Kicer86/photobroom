@@ -58,21 +58,6 @@ Item {
                 onClicked: reloadModel()
             }
         }
-
-        Button {
-            text: qsTr("Apply changes on selected photos")
-
-            visible: root.state == "summary" && listView.count > 0
-
-            onClicked: {
-                var toBeExcluded = []
-
-                for (let item of listView.notSelected)
-                    toBeExcluded.push(item);
-
-                dataSource.applyBut(toBeExcluded);
-            }
-        }
     }
 
     ListView {
@@ -82,7 +67,7 @@ Item {
 
         anchors.top:statusArea.bottom
         anchors.topMargin: 5
-        anchors.bottom: parent.bottom
+        anchors.bottom: applyButton.top
         anchors.left: parent.left
         anchors.right: parent.right
 
@@ -152,6 +137,26 @@ Item {
         }
 
         ScrollBar.vertical: ScrollBar {}
+    }
+
+    Button {
+        id: applyButton
+
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+
+        text: qsTr("Apply changes on selected photos")
+
+        visible: root.state == "summary" && listView.count > 0
+
+        onClicked: {
+            var toBeExcluded = []
+
+            for (let item of listView.notSelected)
+                toBeExcluded.push(item);
+
+            dataSource.applyBut(toBeExcluded);
+        }
     }
 
     states: [

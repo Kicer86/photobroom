@@ -547,7 +547,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+162"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+167"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -571,7 +571,7 @@ Kod błędu: %1</translation>
         <translation>Dane zdjęć są aktualizowane</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-40"/>
         <source>Apply changes on selected photos</source>
         <translation>Zapisz zebrane informacje dla zaznaczonych zdjęć</translation>
     </message>
