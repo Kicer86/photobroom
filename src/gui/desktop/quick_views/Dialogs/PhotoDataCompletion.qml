@@ -71,7 +71,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        spacing: 2
+        spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
         model: dataSource
@@ -121,11 +121,7 @@ Item {
                     }
 
                     Text {
-                        text: suggestedDate
-                    }
-
-                    Text {
-                        text: suggestedTime
+                        text: qsTr("Suggested data:") + "\n" + suggestedDate + " " + suggestedTime
                     }
                 }
             }
