@@ -549,12 +549,12 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+124"/>
         <source>Guessed date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odczytana data:</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Save selected photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -569,16 +569,16 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+7"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n zdjęcie zawiera datę w nazwie pliku. Zatwierdź je, jeśli data jest poprawna.</numerusform>
+            <numerusform>%n zdjęcia zawierają datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
+            <numerusform>%n zdjęć zawiera datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
         </translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Saving results</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie wyników</translation>
     </message>
 </context>
 <context>
