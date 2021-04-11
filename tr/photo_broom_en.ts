@@ -534,6 +534,11 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="144"/>
+        <source>Save selected photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="163"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation type="unfinished"></translation>
@@ -545,21 +550,15 @@ Error code: %1</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="177"/>
-        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
-        <translatorcomment>%n photos were analysed. Review collected data and approve it.</translatorcomment>
-        <translation>
-            <numerusform>%n photo was analysed. Review collected data and approve it.</numerusform>
-            <numerusform>%n photos were analysed. Review collected data and approve it.</numerusform>
+        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="184"/>
-        <source>Photos are being updated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="144"/>
-        <source>Apply changes on selected photos</source>
+        <source>Saving results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

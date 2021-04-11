@@ -552,7 +552,12 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+20"/>
+        <source>Save selected photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -563,22 +568,17 @@ Kod błędu: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+7"/>
-        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
-        <translation>
-            <numerusform>%n zdjęcie zostało przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
-            <numerusform>%n zdjęcia zostały przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
-            <numerusform>%n zdjęć zostało przeanalizowanych. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
+        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Photos are being updated</source>
-        <translation>Dane zdjęć są aktualizowane</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <source>Apply changes on selected photos</source>
-        <translation>Zapisz zebrane informacje dla zaznaczonych zdjęć</translation>
+        <source>Saving results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

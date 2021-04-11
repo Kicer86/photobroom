@@ -141,7 +141,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
 
-        text: qsTr("Apply changes on selected photos")
+        text: qsTr("Save selected photos")
 
         visible: root.state == "summary" && listView.count > 0
 
@@ -174,14 +174,14 @@ Item {
             name: "summary"
             PropertyChanges {
                 target: status
-                text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
+                text: qsTr("For %n photo(s) dates were detected in file names. Review results and save them if valid.", "", listView.count)
             }
         },
         State {
             name: "updating"
             PropertyChanges {
                 target: status
-                text: qsTr("Photos are being updated")
+                text: qsTr("Saving results")
             }
         }
     ]
