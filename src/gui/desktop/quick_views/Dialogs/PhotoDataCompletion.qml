@@ -84,7 +84,7 @@ Item {
             required property var suggestedTime
             required property int index
 
-            width: listView.width
+            width: listView.width - listView.ScrollBar.vertical.width
             height: 60
 
             MouseArea {
