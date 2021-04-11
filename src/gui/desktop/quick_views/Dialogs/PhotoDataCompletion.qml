@@ -121,7 +121,7 @@ Item {
                     }
 
                     Text {
-                        text: qsTr("Suggested data:") + "\n" + suggestedDate + " " + suggestedTime
+                        text: qsTr("Guessed date:") + "\n" + suggestedDate + " " + suggestedTime
                     }
                 }
             }
