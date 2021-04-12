@@ -74,7 +74,7 @@ void Gui::run()
     gui_logger->info(QString("Searching for translations in: %1").arg(tr_path));
 
     // translations
-    const QLocale locale;
+    const QLocale locale = QLocale::system();
 
     const QString info = QString("System language: %1").arg(locale.name()).replace('_', "-");
     gui_logger->debug(info);
