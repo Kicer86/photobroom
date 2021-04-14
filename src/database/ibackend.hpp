@@ -215,9 +215,15 @@ inline void DB_ERROR_ON_FALSE3(bool condition, Database::StatusCodes ERRCODE, co
         throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
 }
 
-#define DB_ERROR_ON_FALSE2(CALL, ERRCODE) DB_ERROR_ON_FALSE3(CALL, StatusCodes::GeneralError, std::string())
+inline void DB_ERROR_ON_FALSE2(bool condition, Database::StatusCodes ERRCODE, const std::experimental::source_location& location = std::experimental::source_location::current())
+{
+    DB_ERROR_ON_FALSE3(condition, ERRCODE, std::string(), location);
+}
 
-#define DB_ERROR_ON_FALSE1(CALL) DB_ERROR_ON_FALSE2(CALL, StatusCodes::GeneralError)
+inline void DB_ERROR_ON_FALSE1(bool condition, const std::experimental::source_location& location = std::experimental::source_location::current())
+{
+    DB_ERROR_ON_FALSE2(condition, StatusCodes::GeneralError, location);
+}
 
 
 #endif
