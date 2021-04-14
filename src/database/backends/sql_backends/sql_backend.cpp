@@ -233,18 +233,18 @@ namespace Database
 
         try
         {
-            DB_ERROR_ON_FALSE2(prepareDB(prjInfo), StatusCodes::OpenFailed);
+            DbErrorOnFalse(prepareDB(prjInfo), StatusCodes::OpenFailed);
 
             db = QSqlDatabase::database(m_connectionName);
 
             m_dbHasSizeFeature = db.driver()->hasFeature(QSqlDriver::QuerySize);
             m_dbOpen = db.open();
 
-            DB_ERROR_ON_FALSE2(m_dbOpen, StatusCodes::OpenFailed);
-            DB_ERROR_ON_FALSE2(dbOpened(), StatusCodes::OpenFailed);
-            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::BLOB), StatusCodes::OpenFailed, "DB driver does not support BLOB");
-            DB_ERROR_ON_FALSE3(db.driver()->hasFeature(QSqlDriver::LastInsertId), StatusCodes::OpenFailed, "DB driver does not support LastInsertId");
-            DB_ERROR_ON_FALSE2(checkStructure(), StatusCodes::GeneralError);
+            DbErrorOnFalse(m_dbOpen, StatusCodes::OpenFailed);
+            DbErrorOnFalse(dbOpened(), StatusCodes::OpenFailed);
+            DbErrorOnFalse(db.driver()->hasFeature(QSqlDriver::BLOB), StatusCodes::OpenFailed, "DB driver does not support BLOB");
+            DbErrorOnFalse(db.driver()->hasFeature(QSqlDriver::LastInsertId), StatusCodes::OpenFailed, "DB driver does not support LastInsertId");
+            DbErrorOnFalse(checkStructure(), StatusCodes::GeneralError);
         }
         catch(const db_error& err)
         {
@@ -287,15 +287,15 @@ namespace Database
         {
             std::set<Photo::Id> touchedIds;
 
-            DB_ERROR_ON_FALSE1(transaction.begin());
+            DbErrorOnFalse(transaction.begin());
 
             for (const Photo::DataDelta& data: dataVector)
             {
-                DB_ERROR_ON_FALSE1(storeData(data));
+                DbErrorOnFalse(storeData(data));
                 touchedIds.insert(data.getId());
             }
 
-            DB_ERROR_ON_FALSE1(transaction.commit());
+            DbErrorOnFalse(transaction.commit());
 
             emit photosModified(touchedIds);
         }
@@ -499,29 +499,29 @@ namespace Database
 
         try
         {
-            DB_ERROR_ON_FALSE2(transaction.begin(), StatusCodes::TransactionFailed);
+            DbErrorOnFalse(transaction.begin(), StatusCodes::TransactionFailed);
 
             //check tables existance
             for (const auto& table: tables)
-                DB_ERROR_ON_FALSE1(ensureTableExists(table.second));
+                DbErrorOnFalse(ensureTableExists(table.second));
 
             QSqlQuery query(db);
 
             // table 'version' cannot be empty
-            DB_ERROR_ON_FALSE2(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+            DbErrorOnFalse(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
 
-            DB_ERROR_ON_FALSE1(query.next());
+            DbErrorOnFalse(query.next());
 
             const QVariant rows = query.value(0);
 
             //insert first entry
             if (rows == 0)
-                DB_ERROR_ON_FALSE1(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
+                DbErrorOnFalse(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                                          .arg(db_version), &query));
             else
-                DB_ERROR_ON_FALSE1(checkDBVersion());
+                DbErrorOnFalse(checkDBVersion());
 
-            DB_ERROR_ON_FALSE2(transaction.commit(), StatusCodes::TransactionCommitFailed);
+            DbErrorOnFalse(transaction.commit(), StatusCodes::TransactionCommitFailed);
         }
         catch(const db_error& err)
         {
@@ -716,23 +716,23 @@ namespace Database
 
         QSqlQuery query = getGenericQueryGenerator()->insert(db, insertData);
 
-        DB_ERROR_ON_FALSE1(m_executor.exec(query));
+        DbErrorOnFalse(m_executor.exec(query));
 
         // update id
         // Get Id from database after insert
 
         QVariant photo_id  = query.lastInsertId();
-        DB_ERROR_ON_FALSE1(photo_id.isValid());
+        DbErrorOnFalse(photo_id.isValid());
 
         id = Photo::Id(photo_id.toInt());
 
         //make sure id is set
-        DB_ERROR_ON_FALSE1(id.valid());
+        DbErrorOnFalse(id.valid());
 
         assert(data.getId().valid() == false || data.getId() == id);
         data.setId(id);
 
-        DB_ERROR_ON_FALSE1(storeData(data));
+        DbErrorOnFalse(storeData(data));
     }
 
 
@@ -975,12 +975,12 @@ namespace Database
 
         try
         {
-            DB_ERROR_ON_FALSE1(transaction.begin());
+            DbErrorOnFalse(transaction.begin());
 
             for(Photo::DataDelta& data: data_set)
                 introduce(data);
 
-            DB_ERROR_ON_FALSE1(transaction.commit());
+            DbErrorOnFalse(transaction.commit());
         }
         catch(const db_error& error)
         {
