@@ -20,9 +20,18 @@
 #ifndef IBACKEND_HPP
 #define IBACKEND_HPP
 
+#if __has_include(<source_location>)
+#include <source_location>
+using std_source_location = std::source_location;
+#elif __has_include(<experimental/source_location>)
+#include <experimental/source_location>
+using std_source_location = std::experimental::source_location;
+#else
+#error No <source_location> include
+#endif
+
 #include <set>
 #include <string>
-#include <experimental/source_location>
 #include <vector>
 #include <optional>
 #include <magic_enum.hpp>
@@ -209,20 +218,20 @@ namespace Database
 }
 
 
-inline void DB_ERROR_ON_FALSE3(bool condition, Database::StatusCodes ERRCODE, const std::string& DETAILS, const std::experimental::source_location& location = std::experimental::source_location::current())
+inline void DB_ERROR_ON_FALSE3(bool condition, Database::StatusCodes ERRCODE, const std::string& DETAILS, const std_source_location& location = std_source_location::current())
 {
     if (condition == false)
         throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
 }
 
-inline void DB_ERROR_ON_FALSE2(bool condition, Database::StatusCodes ERRCODE, const std::experimental::source_location& location = std::experimental::source_location::current())
+inline void DB_ERROR_ON_FALSE2(bool condition, Database::StatusCodes ERRCODE, const std_source_location& location = std_source_location::current())
 {
     DB_ERROR_ON_FALSE3(condition, ERRCODE, std::string(), location);
 }
 
-inline void DB_ERROR_ON_FALSE1(bool condition, const std::experimental::source_location& location = std::experimental::source_location::current())
+inline void DB_ERROR_ON_FALSE1(bool condition, const std_source_location& location = std_source_location::current())
 {
-    DB_ERROR_ON_FALSE2(condition, StatusCodes::GeneralError, location);
+    DB_ERROR_ON_FALSE2(condition, Database::StatusCodes::GeneralError, location);
 }
 
 
