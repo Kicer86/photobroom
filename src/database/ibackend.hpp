@@ -227,4 +227,11 @@ inline void DbErrorOnFalse(bool condition,
         throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
 }
 
+inline void DbErrorOnFalse(Database::BackendStatus status,
+                           const std::string& DETAILS = std::string(),
+                           const std_source_location& location = std_source_location::current())
+{
+    DbErrorOnFalse(static_cast<bool>(status), status, DETAILS, location);
+}
+
 #endif
