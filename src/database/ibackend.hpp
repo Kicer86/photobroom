@@ -220,18 +220,18 @@ namespace Database
 
 inline void DbErrorOnFalse(bool condition,
                            Database::StatusCodes ERRCODE = Database::StatusCodes::GeneralError,
-                           const std::string& DETAILS = std::string(),
+                           const std::string& details = std::string(),
                            const std_source_location& location = std_source_location::current())
 {
     if (condition == false)
-        throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
+        throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, details);
 }
 
 inline void DbErrorOnFalse(Database::BackendStatus status,
-                           const std::string& DETAILS = std::string(),
+                           const std::string& details = std::string(),
                            const std_source_location& location = std_source_location::current())
 {
-    DbErrorOnFalse(static_cast<bool>(status), status, DETAILS, location);
+    DbErrorOnFalse(static_cast<bool>(status), status, details, location);
 }
 
 #endif
