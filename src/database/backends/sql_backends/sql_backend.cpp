@@ -244,7 +244,7 @@ namespace Database
             DbErrorOnFalse(dbOpened(), StatusCodes::OpenFailed);
             DbErrorOnFalse(db.driver()->hasFeature(QSqlDriver::BLOB), StatusCodes::OpenFailed, "DB driver does not support BLOB");
             DbErrorOnFalse(db.driver()->hasFeature(QSqlDriver::LastInsertId), StatusCodes::OpenFailed, "DB driver does not support LastInsertId");
-            DbErrorOnFalse(checkStructure(), StatusCodes::GeneralError);
+            DbErrorOnFalse(checkStructure());
         }
         catch(const db_error& err)
         {
