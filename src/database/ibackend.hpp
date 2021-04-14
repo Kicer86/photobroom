@@ -218,20 +218,13 @@ namespace Database
 }
 
 
-inline void DbErrorOnFalse(bool condition, Database::StatusCodes ERRCODE, const std::string& DETAILS, const std_source_location& location = std_source_location::current())
+inline void DbErrorOnFalse(bool condition,
+                           Database::StatusCodes ERRCODE = Database::StatusCodes::GeneralError,
+                           const std::string& DETAILS = std::string(),
+                           const std_source_location& location = std_source_location::current())
 {
     if (condition == false)
         throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);
-}
-
-inline void DbErrorOnFalse(bool condition, Database::StatusCodes ERRCODE, const std_source_location& location = std_source_location::current())
-{
-    DbErrorOnFalse(condition, ERRCODE, std::string(), location);
-}
-
-inline void DbErrorOnFalse(bool condition, const std_source_location& location = std_source_location::current())
-{
-    DbErrorOnFalse(condition, Database::StatusCodes::GeneralError, location);
 }
 
 #endif
