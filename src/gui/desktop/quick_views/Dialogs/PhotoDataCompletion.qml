@@ -58,21 +58,6 @@ Item {
                 onClicked: reloadModel()
             }
         }
-
-        Button {
-            text: qsTr("Apply changes on selected photos")
-
-            visible: root.state == "summary" && listView.count > 0
-
-            onClicked: {
-                var toBeExcluded = []
-
-                for (let item of listView.notSelected)
-                    toBeExcluded.push(item);
-
-                dataSource.applyBut(toBeExcluded);
-            }
-        }
     }
 
     ListView {
@@ -82,11 +67,11 @@ Item {
 
         anchors.top:statusArea.bottom
         anchors.topMargin: 5
-        anchors.bottom: parent.bottom
+        anchors.bottom: applyButton.top
         anchors.left: parent.left
         anchors.right: parent.right
 
-        spacing: 2
+        spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
         model: dataSource
@@ -99,7 +84,7 @@ Item {
             required property var suggestedTime
             required property int index
 
-            width: listView.width
+            width: listView.width - listView.ScrollBar.vertical.width
             height: 60
 
             MouseArea {
@@ -136,11 +121,7 @@ Item {
                     }
 
                     Text {
-                        text: suggestedDate
-                    }
-
-                    Text {
-                        text: suggestedTime
+                        text: qsTr("Guessed date:") + "\n" + suggestedDate + " " + suggestedTime
                     }
                 }
             }
@@ -152,6 +133,26 @@ Item {
         }
 
         ScrollBar.vertical: ScrollBar {}
+    }
+
+    Button {
+        id: applyButton
+
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+
+        text: qsTr("Save selected photos")
+
+        visible: root.state == "summary" && listView.count > 0
+
+        onClicked: {
+            var toBeExcluded = []
+
+            for (let item of listView.notSelected)
+                toBeExcluded.push(item);
+
+            dataSource.applyBut(toBeExcluded);
+        }
     }
 
     states: [
@@ -173,14 +174,14 @@ Item {
             name: "summary"
             PropertyChanges {
                 target: status
-                text: qsTr("%n photo(s) were analysed. Review collected data and approve it.", "", listView.count)
+                text: qsTr("For %n photo(s) dates were detected in file names. Review results and save them if valid.", "", listView.count)
             }
         },
         State {
             name: "updating"
             PropertyChanges {
                 target: status
-                text: qsTr("Photos are being updated")
+                text: qsTr("Saving results")
             }
         }
     ]

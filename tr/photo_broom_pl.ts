@@ -547,7 +547,17 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+162"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+124"/>
+        <source>Guessed date:</source>
+        <translation>Odczytana data:</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Save selected photos</source>
+        <translation>Zapisz zaznaczone zdjęcia</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -558,22 +568,17 @@ Kod błędu: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+7"/>
-        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
+        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translation>
-            <numerusform>%n zdjęcie zostało przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
-            <numerusform>%n zdjęcia zostały przeanalizowane. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
-            <numerusform>%n zdjęć zostało przeanalizowanych. Przejrzyj uzyskane informacje i zaakceptuj je.</numerusform>
+            <numerusform>%n zdjęcie zawiera datę w nazwie pliku. Zatwierdź je, jeśli data jest poprawna.</numerusform>
+            <numerusform>%n zdjęcia zawierają datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
+            <numerusform>%n zdjęć zawiera datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
         </translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Photos are being updated</source>
-        <translation>Dane zdjęć są aktualizowane</translation>
-    </message>
-    <message>
-        <location line="-120"/>
-        <source>Apply changes on selected photos</source>
-        <translation>Zapisz zebrane informacje dla zaznaczonych zdjęć</translation>
+        <source>Saving results</source>
+        <translation>Zapisywanie wyników</translation>
     </message>
 </context>
 <context>

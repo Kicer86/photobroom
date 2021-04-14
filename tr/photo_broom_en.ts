@@ -529,33 +529,38 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="162"/>
-        <source>Click here to scan for additional information about photos from file names and paths.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="124"/>
+        <source>Guessed date:</source>
+        <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="169"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="144"/>
+        <source>Save selected photos</source>
+        <translation>Save selected photos</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="163"/>
+        <source>Click here to scan for additional information about photos from file names and paths.</source>
+        <translation>Click here to scan for additional information about photos from file names and paths.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="170"/>
         <source>Processing photos...</source>
-        <translation type="unfinished"></translation>
+        <translation>Processing photos...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="176"/>
-        <source>%n photo(s) were analysed. Review collected data and approve it.</source>
-        <translatorcomment>%n photos were analysed. Review collected data and approve it.</translatorcomment>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="177"/>
+        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
+        <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
         <translation>
-            <numerusform>%n photo was analysed. Review collected data and approve it.</numerusform>
-            <numerusform>%n photos were analysed. Review collected data and approve it.</numerusform>
+            <numerusform>For %n photo date was detected in file names. Review result and save it if valid.</numerusform>
+            <numerusform>For %n photos dates were detected in file names. Review results and save them if valid.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="183"/>
-        <source>Photos are being updated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="63"/>
-        <source>Apply changes on selected photos</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="184"/>
+        <source>Saving results</source>
+        <translation>Saving results</translation>
     </message>
 </context>
 <context>
@@ -571,27 +576,27 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="109"/>
         <source>Photo location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo location:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="110"/>
         <source>Photo size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo size:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="111"/>
         <source>Photo geometry:</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo geometry:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="115"/>
         <source>Photos location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Photos location:</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="116"/>
         <source>Photos size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Photos size:</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="196"/>
@@ -631,7 +636,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="160"/>
         <source>Loading photos data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Loading photos data...</translation>
     </message>
 </context>
 <context>
