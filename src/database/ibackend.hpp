@@ -27,7 +27,14 @@ using std_source_location = std::source_location;
 #include <experimental/source_location>
 using std_source_location = std::experimental::source_location;
 #else
-#error No <source_location> include
+class std_source_location
+{
+public:
+    std::string file_name() const { return {}; }
+    int line() const { return {}; }
+
+    static std_source_location current() { return {}; }
+};
 #endif
 
 #include <set>
