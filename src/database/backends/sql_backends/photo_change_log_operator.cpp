@@ -98,7 +98,7 @@ namespace Database
 
         QSqlQuery query = m_queryGenerator->insert(db, insertData);
 
-        DB_ERROR_ON_FALSE1(m_executor->exec(query));
+        DbErrorOnFalse(m_executor->exec(query));
     }
 
 }

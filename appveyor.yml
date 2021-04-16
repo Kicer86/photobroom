@@ -15,7 +15,7 @@ configuration:
 platform:
     - x64
 
-image: Visual Studio 2019
+image: Visual Studio 2019 Preview
 
 cache:
     - c:\tools\vcpkg\installed

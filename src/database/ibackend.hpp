@@ -20,11 +20,30 @@
 #ifndef IBACKEND_HPP
 #define IBACKEND_HPP
 
-#include <string>
 #include <set>
+#include <string>
 #include <vector>
 #include <optional>
 #include <magic_enum.hpp>
+
+
+#if __has_include(<source_location>)
+#include <source_location>
+using std_source_location = std::source_location;
+#elif __has_include(<experimental/source_location>)
+#include <experimental/source_location>
+using std_source_location = std::experimental::source_location;
+#else
+class std_source_location
+{
+public:
+    std::string file_name() const { return {}; }
+    int line() const { return {}; }
+
+    static std_source_location current() { return {}; }
+};
+#endif
+
 
 #include <core/tag.hpp>
 
@@ -43,17 +62,6 @@ struct ILoggerFactory;
 #ifndef __PRETTY_FUNCTION__
 #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
-
-#define DB_ERROR_ON_FALSE3(CALL, ERRCODE, DETAILS) \
-    {                                              \
-        if ( !(CALL) )                             \
-            throw db_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + " " + __PRETTY_FUNCTION__, ERRCODE, DETAILS);  \
-    }
-
-#define DB_ERROR_ON_FALSE2(CALL, ERRCODE) DB_ERROR_ON_FALSE3(CALL, StatusCodes::GeneralError, std::string())
-
-#define DB_ERROR_ON_FALSE1(CALL) DB_ERROR_ON_FALSE2(CALL, StatusCodes::GeneralError)
-
 
 namespace Database
 {
@@ -218,5 +226,21 @@ namespace Database
     };
 }
 
-#endif
 
+inline void DbErrorOnFalse(bool condition,
+                           Database::StatusCodes ERRCODE = Database::StatusCodes::GeneralError,
+                           const std::string& details = std::string(),
+                           const std_source_location& location = std_source_location::current())
+{
+    if (condition == false)
+        throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, details);
+}
+
+inline void DbErrorOnFalse(Database::BackendStatus status,
+                           const std::string& details = std::string(),
+                           const std_source_location& location = std_source_location::current())
+{
+    DbErrorOnFalse(static_cast<bool>(status), status, details, location);
+}
+
+#endif

@@ -92,8 +92,8 @@ namespace Database
                 QString("SELECT representative_id FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
 
             QSqlQuery query(db);
-            DB_ERROR_ON_FALSE1(m_executor->exec(query_str, &query));
-            DB_ERROR_ON_FALSE1(query.next());
+            DbErrorOnFalse(m_executor->exec(query_str, &query));
+            DbErrorOnFalse(query.next());
 
             const Photo::Id ph_id( query.value(0).toInt() );
 
@@ -104,7 +104,7 @@ namespace Database
             // as it won't be part of the group anymore
             modified_photos.insert(ph_id);
 
-            DB_ERROR_ON_FALSE1(db.transaction());
+            DbErrorOnFalse(db.transaction());
 
             const QString members_delete =
                 QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
@@ -112,10 +112,10 @@ namespace Database
             const QString group_delete =
                 QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
 
-            DB_ERROR_ON_FALSE1(m_executor->exec(members_delete, &query));
-            DB_ERROR_ON_FALSE1(m_executor->exec(group_delete, &query));
+            DbErrorOnFalse(m_executor->exec(members_delete, &query));
+            DbErrorOnFalse(m_executor->exec(group_delete, &query));
 
-            DB_ERROR_ON_FALSE1(db.commit());
+            DbErrorOnFalse(db.commit());
 
             // TODO: I don't like it. notifications about photos should not be raised from groups module
             m_backend->photoChangeLogOperator().groupDeleted(gid, ph_id, members);
@@ -164,7 +164,7 @@ namespace Database
         const QString members_list =
                 QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id);
 
-        DB_ERROR_ON_FALSE1(m_executor->exec(members_list, &query));
+        DbErrorOnFalse(m_executor->exec(members_list, &query));
 
         std::vector<Photo::Id> members;
 
