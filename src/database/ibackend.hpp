@@ -20,6 +20,13 @@
 #ifndef IBACKEND_HPP
 #define IBACKEND_HPP
 
+#include <set>
+#include <string>
+#include <vector>
+#include <optional>
+#include <magic_enum.hpp>
+
+
 #if __has_include(<source_location>)
 #include <source_location>
 using std_source_location = std::source_location;
@@ -37,11 +44,6 @@ public:
 };
 #endif
 
-#include <set>
-#include <string>
-#include <vector>
-#include <optional>
-#include <magic_enum.hpp>
 
 #include <core/tag.hpp>
 
