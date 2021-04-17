@@ -1,5 +1,5 @@
 
-find_package(OpenLibrary 2.2 REQUIRED QtExt)
+find_package(OpenLibrary 2.4 REQUIRED QtExt)
 
 set(CONFIG_TABS_SOURCES
     main_tab.cpp
