@@ -62,7 +62,7 @@ namespace Database
     }
 
 
-    void InsertQueryData::addValue(const QString& value)
+    void InsertQueryData::addValue(const QVariant& value)
     {
         m_data->m_args--;
         m_data->m_values.push_back(value);

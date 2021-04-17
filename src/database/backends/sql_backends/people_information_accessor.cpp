@@ -355,8 +355,8 @@ namespace Database
         queryData.setValues(fd.ph_id);
 
         const QRect& face = fd.rect;
-        const QString face_coords = face.isEmpty()?
-                                        QString():
+        const QVariant face_coords = face.isEmpty()?
+                                        QVariant():
                                         QString("%1,%2 %3x%4")
                                             .arg(face.x())
                                             .arg(face.y())
@@ -366,16 +366,16 @@ namespace Database
         queryData.addColumn("location");
         queryData.addValue(face_coords);
 
-        const QString person_id = fd.p_id.valid()?
-                                    QString::number(fd.p_id):
-                                    QString();
+        const QVariant person_id = fd.p_id.valid()?
+                                    QVariant(fd.p_id):
+                                    QVariant();
 
         queryData.addColumn("person_id");
         queryData.addValue(person_id);
 
-        const QString fingerprint_id = fd.f_id.valid()?
-                                    QString::number(fd.f_id):
-                                    QString();
+        const QVariant fingerprint_id = fd.f_id.valid()?
+                                    QVariant(fd.f_id):
+                                    QVariant();
 
         queryData.addColumn("fingerprint_id");
         queryData.addValue(fingerprint_id);

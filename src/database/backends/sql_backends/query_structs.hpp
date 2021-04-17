@@ -49,7 +49,7 @@ namespace Database
             const std::vector<QVariant>& getValues() const;
 
             void addColumn(const QString &);
-            void addValue(const QString &);
+            void addValue(const QVariant &);
 
         private:
             struct Data;
