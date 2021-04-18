@@ -21,6 +21,7 @@
 #define TAGSITEMDELEGATE_HPP
 
 #include <QStyledItemDelegate>
+#include <kratingpainter.h>
 
 #include <core/tag.hpp>
 #include "utils/tag_value_model.hpp"
@@ -48,6 +49,7 @@ class TagsItemDelegate : public QStyledItemDelegate
         TagsItemDelegate& operator=(const TagsItemDelegate &) = delete;
 
     private:
+        KRatingPainter m_ratingPainter;
         IEditorFactory& m_editorFactory;
 
         QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override;

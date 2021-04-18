@@ -114,8 +114,14 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
 
         case TagTypes::Rating:
-            result = new KRatingWidget(parent);
+        {
+            KRatingWidget* ratingWidget = new KRatingWidget(parent);
+            QPixmap star(":/gui/star.svg");
+            ratingWidget->setCustomPixmap(star);
+
+            result = ratingWidget;
             break;
+        }
 
         case TagTypes::Category:
         {

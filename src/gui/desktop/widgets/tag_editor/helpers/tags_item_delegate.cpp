@@ -24,8 +24,6 @@
 #include <QLineEdit>
 #include <QPainter>
 
-#include <kratingpainter.h>
-
 #include "ui_utils/ieditor_factory.hpp"
 #include "utils/variant_display.hpp"
 #include "tags_model.hpp"
@@ -34,7 +32,8 @@
 TagsItemDelegate::TagsItemDelegate(IEditorFactory& editorFactory):
     m_editorFactory(editorFactory)
 {
-
+    QPixmap star(":/gui/star.svg");
+    m_ratingPainter.setCustomPixmap(star);
 }
 
 
@@ -47,6 +46,7 @@ TagsItemDelegate::~TagsItemDelegate()
 QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem &, const QModelIndex& index) const
 {
     QWidget* const result = m_editorFactory.createEditor(index, parent_widget);
+    result->setAutoFillBackground(true);
 
     return result;
 }
@@ -92,7 +92,7 @@ void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
             const QVariant value = index.data(Qt::EditRole);
 
             if (value.isNull() == false)
-                KRatingPainter().paint(painter, option.rect, value.toInt());
+                m_ratingPainter.paint(painter, option.rect, value.toInt());
         }
         else if (tagType == TagTypes::Category)
         {
