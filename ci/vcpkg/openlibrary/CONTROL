@@ -1,6 +1,6 @@
 Source: openlibrary
 Version: 0.2.4
-Port-Version: 1
+Port-Version: 2
 Build-Depends: qt6
 Description: Set of various toolkits.
 Homepage: https://github.com/Kicer86/openlibrary
