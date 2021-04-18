@@ -44,6 +44,7 @@ install:
     - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
     - cmd: set VCPKG_DEFAULT_TRIPLET=x64-windows
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
+    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native upgrade --no-dry-run
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
