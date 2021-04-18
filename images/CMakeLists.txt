@@ -1,7 +1,7 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
-get_filename_component(qt_bin_dir ${QT_MOC_EXECUTABLE} DIRECTORY)
+get_filename_component(qt_bin_dir $<TARGET_FILE:Qt6::moc> DIRECTORY)
 
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/images/main_ico.ico
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/images
