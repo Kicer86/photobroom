@@ -7,7 +7,7 @@
 
 namespace SVGUtils
 {
-    QImage load(const QString& path, const QSize& size);
+    QImage load(const QString& path, const QSize& size, const QColor& background = Qt::white);
 }
 
 #endif // SVG_UTILS_HPP_INCLUDED
