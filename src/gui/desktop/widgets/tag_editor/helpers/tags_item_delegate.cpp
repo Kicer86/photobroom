@@ -25,6 +25,7 @@
 #include <QPainter>
 
 #include "ui_utils/ieditor_factory.hpp"
+#include "utils/svg_utils.hpp"
 #include "utils/variant_display.hpp"
 #include "tags_model.hpp"
 
@@ -32,8 +33,8 @@
 TagsItemDelegate::TagsItemDelegate(IEditorFactory& editorFactory):
     m_editorFactory(editorFactory)
 {
-    QPixmap star(":/gui/star.svg");
-    m_ratingPainter.setCustomPixmap(star);
+    QImage star = SVGUtils::load(":/gui/star.svg", {32, 32}, QColor(0, 0, 0, 0));
+    m_ratingPainter.setCustomPixmap(QPixmap::fromImage(star));
 }
 
 

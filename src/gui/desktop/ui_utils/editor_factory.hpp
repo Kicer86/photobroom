@@ -46,6 +46,7 @@ class EditorFactory: public IEditorFactory
         QByteArray valuePropertyName(const TagTypeInfo &) const override;
 
     private:
+        QPixmap m_star;
         ICompleterFactory* m_completerFactory;
 };
 
