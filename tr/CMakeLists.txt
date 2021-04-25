@@ -17,24 +17,11 @@ if(LUPDATE AND LRELEASE)
          ${CMAKE_SOURCE_DIR}/src/*.qml
     )
 
-    file(GLOB_RECURSE crash_catcher_source_files
-         LIST_DIRECTORIES FALSE
-         ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.cpp
-         ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.hpp
-         ${CMAKE_SOURCE_DIR}/tools/internal_crash_catcher/crash_dialog/*.ui
-    )
-
     # write down all paths into a file
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sources.lst "")
     foreach(file ${source_files})
         file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/sources.lst ${file})
         file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/sources.lst "\n")
-    endforeach()
-
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst "")
-    foreach(file ${crash_catcher_source_files})
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst ${file})
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst "\n")
     endforeach()
 
     foreach(tr IN LISTS translations)
@@ -60,38 +47,20 @@ if(LUPDATE AND LRELEASE)
                                    ${CMAKE_CURRENT_BINARY_DIR}/sources.lst
         )
 
-        add_custom_command(OUTPUT crash_catcher_dialog_${tr}.ts.flag
-                           COMMAND ${LUPDATE}
-                           ARGS    @crash_catcher_sources.lst
-                                   -noobsolete -ts
-                                   ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts
-                           COMMAND ${CMAKE_COMMAND}
-                           ARGS    -E touch crash_catcher_dialog_${tr}.ts.flag
-                           DEPENDS ${source_files}
-                                   ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_sources.lst
-        )
-
         # qm generation rules
         add_custom_command(OUTPUT photo_broom_${tr}.qm
                            COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/photo_broom_${tr}.ts -qm photo_broom_${tr}.qm
                            DEPENDS photo_broom_${tr}.ts.flag
         )
 
-        add_custom_command(OUTPUT crash_catcher_dialog_${tr}.qm
-                           COMMAND ${LRELEASE} ${PROJECT_SOURCE_DIR}/tr/crash_catcher_dialog_${tr}.ts -qm crash_catcher_dialog_${tr}.qm
-                           DEPENDS crash_catcher_dialog_${tr}.ts.flag
-        )
-
         # installation rules
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
-                      ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
                 DESTINATION ${PATH_TR}
         )
 
         # remember qm files
         list(APPEND qm_files
                     ${CMAKE_CURRENT_BINARY_DIR}/photo_broom_${tr}.qm
-                    ${CMAKE_CURRENT_BINARY_DIR}/crash_catcher_dialog_${tr}.qm
         )
 
     endforeach()
