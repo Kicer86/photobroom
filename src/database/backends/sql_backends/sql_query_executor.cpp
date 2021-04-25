@@ -94,7 +94,7 @@ namespace Database
             {
                 message += " bound values:";
                 for (auto it = bound.begin(); it != bound.end(); ++it)
-                    message += " " + it.key() + " -> " + it.value().toString();
+                    message += " '" + it->toString() + "'";
             }
 
             m_logger->error(message);

@@ -38,6 +38,7 @@
 #include <core/imodel_compositor_data_source.hpp>
 
 #include "utils/model_index_utils.hpp"
+#include "utils/svg_utils.hpp"
 #include "widgets/tag_editor/helpers/tags_model.hpp"
 #include "icompleter_factory.hpp"
 
@@ -65,9 +66,12 @@ namespace
 }
 
 
-EditorFactory::EditorFactory(): m_completerFactory(nullptr)
+EditorFactory::EditorFactory()
+    : m_star()
+    , m_completerFactory(nullptr)
 {
-
+    QImage star = SVGUtils::load(":/gui/star.svg", {32, 32});
+    m_star = QPixmap::fromImage(star);
 }
 
 
@@ -114,8 +118,13 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
 
         case TagTypes::Rating:
-            result = new KRatingWidget(parent);
+        {
+            KRatingWidget* ratingWidget = new KRatingWidget(parent);
+            ratingWidget->setCustomPixmap(m_star);
+
+            result = ratingWidget;
             break;
+        }
 
         case TagTypes::Category:
         {

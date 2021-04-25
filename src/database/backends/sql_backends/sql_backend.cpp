@@ -566,9 +566,35 @@ namespace Database
                 case 1:
                 case 2:
                 case 3:
-                case 4:
                     status = StatusCodes::VersionTooOld;
                     break;
+
+                case 4:             // add new column to TAB_PEOPLE
+                {
+                    const QString rename_people = QString("ALTER TABLE %1 RENAME TO temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(rename_people, &query);
+                    if (status == false)
+                        break;
+
+                    // recreate TAB_PEOPLE
+                    auto tab_people = tables.find(TAB_PEOPLE);
+                    if (tab_people == tables.end())
+                        break;
+
+                    status = ensureTableExists(tab_people->second);
+                    if (status == false)
+                        break;
+
+                    // fill fresh instance of TAB_PEOPLE
+                    const QString fill_people = QString("INSERT INTO %1(id, photo_id, person_id, location) SELECT id, photo_id, person_id, location FROM temporary_table")
+                                                    .arg(TAB_PEOPLE);
+
+                    status = m_executor.exec(fill_people, &query);
+                    if (status == false)
+                        break;
+                }
 
                 case 5:             // current version, break updgrades chain
                     break;
@@ -675,11 +701,11 @@ namespace Database
                         query = getGenericQueryGenerator()->update(db, updateQueryData);
                     }
 
-                    const QMap<QString, QVariant> bound = query.boundValues();
+                    const QVariantList bound = query.boundValues();
 
                     QStringList binded_values;
-                    for(QMap<QString, QVariant>::const_iterator it = bound.begin(); it != bound.end(); ++it)
-                        binded_values.append(it.key() + " = " + it.value().toString());
+                    for(auto it = bound.begin(); it != bound.end(); ++it)
+                        binded_values.append(it->toString());
 
                     const QString binded_values_msg = "Binded values: " + binded_values.join(", ");
                     m_logger->debug(binded_values_msg);

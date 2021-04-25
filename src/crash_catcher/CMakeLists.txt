@@ -1,7 +1,7 @@
 
 include(GenerateExportHeader)
 
-find_package(KF5Crash QUIET)
+find_package(KF6Crash QUIET)
 
 include_directories(${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/src)
 
@@ -21,17 +21,9 @@ if(KF5Crash_FOUND)
     set(CRASH_HANDLER_LIBRARIES KF5::Crash)
     set(CRASH_HANDLER_FOUND TRUE)
 
-endif(KF5Crash_FOUND)
-
-if(NOT CRASH_HANDLER_FOUND)
-
-    include_directories(${PROJECT_SOURCE_DIR}/tools
-                        $<TARGET_PROPERTY:catcher,INTERFACE_INCLUDE_DIRECTORIES>
-    )
-
-    set(CRASH_HANDLER_SOURCES crash_catcher_internal.cpp)
-    set(CRASH_HANDLER_LIBRARIES catcher)
-    set(CRASH_HANDLER_FOUND TRUE)
+else()
+    
+    set(CRASH_HANDLER_SOURCES crash_catcher_null.cpp)
 
 endif()
 

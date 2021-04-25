@@ -1,6 +1,6 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Widgets QuickControls2)
-find_package(OpenLibrary 2.2 REQUIRED QtExt)
+find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2)
+find_package(OpenLibrary 2.4 REQUIRED QtExt)
 
 include(GenerateExportHeader)
 
@@ -35,7 +35,7 @@ source_group(desktop\\images_model_view .*\/images_model_view\/.* )
 source_group(desktop\\ui .*\/ui\/.* )
 source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
 
-qt5_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
+qt6_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui
             ${GUI_SOURCES}

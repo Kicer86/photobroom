@@ -1,5 +1,5 @@
 
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 include(GenerateExportHeader)
 
@@ -18,7 +18,7 @@ target_include_directories(KWidgetsAddons
 
 target_link_libraries(KWidgetsAddons
                         PUBLIC
-                            Qt5::Widgets
+                            Qt::Widgets
 )
 
 set_target_properties(KWidgetsAddons PROPERTIES AUTOMOC TRUE)
@@ -35,4 +35,3 @@ generate_export_header(KWidgetsAddons
 
 install(TARGETS KWidgetsAddons RUNTIME DESTINATION ${PATH_LIBS}
                                LIBRARY DESTINATION ${PATH_LIBS})
-                               

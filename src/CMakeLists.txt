@@ -1,5 +1,6 @@
 
 find_package(OpenLibrary REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 include(GenerateExportHeader)
 
@@ -20,8 +21,6 @@ add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
-
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 set(BROOM_SOURCES main.cpp
     $<TARGET_OBJECTS:plugins>

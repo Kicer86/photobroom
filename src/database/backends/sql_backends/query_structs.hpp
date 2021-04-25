@@ -12,7 +12,6 @@
 
 #include "sql_backend_base_export.h"
 
-class QStringList;
 
 namespace Database
 {
@@ -50,7 +49,7 @@ namespace Database
             const std::vector<QVariant>& getValues() const;
 
             void addColumn(const QString &);
-            void addValue(const QString &);
+            void addValue(const QVariant &);
 
         private:
             struct Data;

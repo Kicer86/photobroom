@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
@@ -20,7 +20,7 @@ set(PROJECT_UTILS_MOC )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${CMAKE_BINARY_DIR}/exports ${CMAKE_SOURCE_DIR}/src)
 
-qt5_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
+qt6_wrap_cpp(PROJECT_UTILS_MOCED ${PROJECT_UTILS_MOC})
 
 add_library(project_utils ${PROJECT_UTILS_SOURCES} ${PROJECT_UTILS_HEADERS} ${PROJECT_UTILS_MOCED})
 target_link_libraries(project_utils PRIVATE

@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 add_library(database_memory_backend
                 memory_backend.cpp

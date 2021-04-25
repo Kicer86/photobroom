@@ -8,7 +8,7 @@ option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 
 macro(addTestTarget target)
 
-    find_package(Qt5 REQUIRED COMPONENTS Core)
+    find_package(Qt6 REQUIRED COMPONENTS Core)
 
     #get sources
     set(multiValueArgs SOURCES LIBRARIES SYSTEM_INCLUDES INCLUDES DEFINITIONS)

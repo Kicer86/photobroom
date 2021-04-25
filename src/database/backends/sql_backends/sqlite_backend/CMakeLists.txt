@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Sql)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql)
 find_package(OpenLibrary REQUIRED)
 
 set(BACKEND_SOURCES backend.cpp)
@@ -11,7 +11,7 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/src)   #required by moc
 
-qt5_wrap_cpp(BACKEND_MOCS ${BACKEND_HEADERS})
+qt6_wrap_cpp(BACKEND_MOCS ${BACKEND_HEADERS})
 
 add_library(database_sqlite_backend MODULE ${BACKEND_SOURCES} ${BACKEND_HEADERS} ${BACKEND_MOCS})
 target_link_libraries(database_sqlite_backend PRIVATE core database sql_backend_base Qt::Core Qt::Sql)

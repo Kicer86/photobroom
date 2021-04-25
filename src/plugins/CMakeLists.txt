@@ -1,5 +1,5 @@
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 
 include(GenerateExportHeader)
 
@@ -22,8 +22,8 @@ target_include_directories(plugins
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
                             SYSTEM PRIVATE
-                                ${Qt5Core_INCLUDE_DIRS}
-                                ${Qt5Gui_INCLUDE_DIRS}
+                                ${Qt6Core_INCLUDE_DIRS}
+                                ${Qt6Gui_INCLUDE_DIRS}
 )
 
 target_link_libraries(plugins

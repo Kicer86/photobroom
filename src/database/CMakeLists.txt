@@ -2,7 +2,7 @@
 add_subdirectory(backends)
 
 find_package(OpenLibrary 2.1 REQUIRED)
-find_package(Qt5     REQUIRED COMPONENTS Core Gui)
+find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Threads REQUIRED)
 find_package(MagicEnum REQUIRED)
 
@@ -73,7 +73,7 @@ set(DATABASE_MOC
     photo_types.hpp
 )
 
-qt5_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
+qt6_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 

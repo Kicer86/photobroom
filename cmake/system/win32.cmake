@@ -4,8 +4,9 @@
 
 
 function(setup_qt_environment)
-    find_package(Qt5 REQUIRED COMPONENTS Core)
-    get_filename_component(qt_bin_dir ${QT_MOC_EXECUTABLE} DIRECTORY)
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
     find_program(WINDEPLOY windeployqt
         HINTS ${qt_bin_dir}
@@ -15,7 +16,7 @@ function(setup_qt_environment)
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
 
         if(BUILD_SHARED_LIBS)
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
@@ -38,13 +39,13 @@ function(setup_qt_environment)
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
                                DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
         else()
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt5
+            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
@@ -60,7 +61,7 @@ function(setup_qt_environment)
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt5
+                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
                                DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
@@ -212,8 +213,8 @@ macro(addDeploymentActions)
     #target
     add_custom_target(deploy ALL
         DEPENDS
-            photo_broom
-            ${OUTPUT_PATH}/deploy_qt5
+                photo_broom
+                ${OUTPUT_PATH}/deploy_qt6
     )
 
     # install deployed files to proper locations

@@ -1,4 +1,6 @@
 
+find_package(Qt6 REQUIRED COMPONENTS Svg)
+
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
     grouppers/animation_generator.hpp
@@ -27,6 +29,8 @@ set(UTILS_SOURCES
     selection_to_photoid_translator.hpp
     signal_filter.cpp
     signal_filter.hpp
+    svg_utils.cpp
+    svg_utils.hpp
     tag_value_model.cpp
     tag_value_model.hpp
     variant_display.cpp
@@ -46,6 +50,8 @@ target_link_libraries(gui_utils
                             photos_crawler
                             system
                             project_utils
+
+                            Qt::Svg
 )
 
 target_include_directories(gui_utils

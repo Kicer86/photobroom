@@ -1,8 +1,9 @@
 
 set(GitHubAPI_QtBackend ON)
+set(GitHubAPI_UseQt6 TRUE)
 add_subdirectory(github_api)
 
-find_package(Qt5 REQUIRED COMPONENTS Network)
+find_package(Qt6 REQUIRED COMPONENTS Network)
 
 include(${OPENLIBRARY_USE_FILE})
 
@@ -13,21 +14,21 @@ set(SRCS
     updater.cpp
     implementation/updater_impl.cpp
     implementation/version.cpp
-    )
+)
 
 set(HEADERS
     iupdater.hpp
     updater.hpp
     implementation/updater_impl.hpp
     implementation/version.hpp
-    )
+)
 
 #set of file to be moced
 set(TO_MOC
     implementation/updater_impl.hpp
-    )
+)
 
-qt5_wrap_cpp(MOCED ${TO_MOC})
+qt6_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(updater ${SRCS} ${MOCED} ${HEADERS})
 target_link_libraries(updater PRIVATE github_api Qt::Network)
