@@ -5,7 +5,8 @@
 
 function(setup_qt_environment)
     find_package(Qt6 REQUIRED COMPONENTS Core)
-    get_filename_component(qt_bin_dir $<TARGET_FILE:Qt6::moc> DIRECTORY)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
     find_program(WINDEPLOY windeployqt
         HINTS ${qt_bin_dir}
