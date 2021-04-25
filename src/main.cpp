@@ -188,7 +188,7 @@ int main(int argc, char **argv)
 
 #ifdef OS_WIN
     QCommandLineOption enableConsole("enable-console", "Opens console with app's output messages");
-    enableConsole.setHidden(true);
+    enableConsole.setFlags(QCommandLineOption::HiddenFromHelp);
 
     parser.addOption(enableConsole);
 #endif
