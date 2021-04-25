@@ -9,6 +9,7 @@ vcpkg_from_github(
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
+    OPTIONS -DCMAKE_PREFIX_PATH=C:/Qt/6.0/msvc2019_64
 )
 
 vcpkg_install_cmake()
