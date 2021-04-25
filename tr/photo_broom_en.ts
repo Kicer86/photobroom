@@ -280,18 +280,18 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="109"/>
-        <source>Photo &amp;information</source>
-        <translation type="unfinished"></translation>
+        <source>Photo information</source>
+        <translation>Photo information</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="118"/>
-        <source>&amp;Tasks</source>
-        <translation type="unfinished"></translation>
+        <source>Tasks</source>
+        <translation>Tasks</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="127"/>
-        <source>Photo p&amp;roperties</source>
-        <translation type="unfinished"></translation>
+        <source>Photo properties</source>
+        <translation>Photo properties</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="136"/>

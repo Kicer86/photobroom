@@ -283,18 +283,18 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
     <message>
         <location line="+15"/>
-        <source>Photo &amp;information</source>
-        <translation>&amp;Informacje o zdjęciu</translation>
+        <source>Photo information</source>
+        <translation>Informacje o zdjęciu</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>&amp;Tasks</source>
-        <translation>&amp;Operacje</translation>
+        <source>Tasks</source>
+        <translation>Akcje</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Photo p&amp;roperties</source>
-        <translation>&amp;Właściwości zdjęcia</translation>
+        <source>Photo properties</source>
+        <translation>Właściwości zdjęcia</translation>
     </message>
     <message>
         <location line="+9"/>
