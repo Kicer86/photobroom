@@ -74,7 +74,7 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
     std::vector<CollectedData> photosToProcess;
     photosToProcess.reserve(m_photos.size() - excludedSet.size());
 
-    for (int i = 0; i < m_photos.size(); i++)
+    for (auto i = 0u; i < m_photos.size(); i++)
         if (excludedSet.contains(i) == false)
             photosToProcess.push_back(m_photos[i]);
 
