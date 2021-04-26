@@ -74,7 +74,7 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
     std::vector<CollectedData> photosToProcess;
     photosToProcess.reserve(m_photos.size() - excludedSet.size());
 
-    for (int i = 0; i < m_photos.size(); i++)
+    for (auto i = 0u; i < m_photos.size(); i++)
         if (excludedSet.contains(i) == false)
             photosToProcess.push_back(m_photos[i]);
 
@@ -148,8 +148,8 @@ void PhotosDataGuesser::process(Database::IBackend& backend)
 
 void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
-    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   >[  _ <  HOUR  >    < MINUTE >    < SECOND >] < NOT NUM |E>
-    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:_?([0-9]{2})\\.?([0-9]{2})\\.?([0-9]{2}))?(?:[^0-9]+|$)");
+    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   >[   _   <  HOUR  >     < MINUTE >     < SECOND >] < NOT NUM |E>
+    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:[_ ]?([0-9]{2})[.;]?([0-9]{2})[.;]?([0-9]{2}))?(?:[^0-9]+|$)");
 
     std::vector<CollectedData> photos;
 
