@@ -20,6 +20,7 @@
 
 #include <unordered_set>
 #include <QDateTime>
+#include <QElapsedTimer>
 
 #include <core/iexif_reader.hpp>
 #include <core/tags_utils.hpp>
@@ -249,8 +250,10 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
-    m_backend(backend), m_exifReader(exif)
+SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif, ILogger& logger)
+    : m_logger(logger.subLogger("SeriesDetector"))
+    , m_backend(backend)
+    , m_exifReader(exif)
 {
 
 }
@@ -265,7 +268,12 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
     const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
     // find groups
+    QElapsedTimer timer;
+    timer.start();
+
     auto sequence_groups = analyze_photos(photos, rules);
+
+    m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
 
     return sequence_groups;
 }

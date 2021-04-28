@@ -107,8 +107,10 @@ SeriesDetection::~SeriesDetection()
 
 void SeriesDetection::fetch_series(Database::IBackend& backend)
 {
+    auto logger = m_core->getLoggerFactory().get("SeriesDetection");
+
     IExifReaderFactory& exif = m_core->getExifReaderFactory();
-    SeriesDetector detector(backend, exif.get());
+    SeriesDetector detector(backend, exif.get(), *logger.get());
 
     const auto candidates = detector.listCandidates();
 

@@ -839,17 +839,17 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="133"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="135"/>
         <source>Animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="134"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="136"/>
         <source>HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="135"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="137"/>
         <source>Generic</source>
         <translation type="unfinished"></translation>
     </message>

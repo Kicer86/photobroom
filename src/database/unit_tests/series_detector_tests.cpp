@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QTime>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
@@ -26,8 +27,9 @@ TEST(SeriesDetectorTest, constructor)
     EXPECT_NO_THROW({
         MockBackend backend;
         MockExifReader exif;
+        EmptyLogger logger;
 
-        SeriesDetector sd(backend, &exif);
+        SeriesDetector sd(backend, &exif, logger);
     });
 }
 
@@ -37,6 +39,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
+    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -77,7 +80,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -93,6 +96,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
+    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -133,7 +137,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -149,6 +153,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
+    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -192,7 +197,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -208,6 +213,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
+    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -273,7 +279,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -289,10 +295,11 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
     NiceMock<MockExifReader> exif;
     Database::MemoryBackend backend;
     Database::JsonToBackend jsonReader(backend);
+    EmptyLogger logger;
 
     jsonReader.append(SeriesDB::db);
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -308,6 +315,7 @@ TEST(SeriesDetectorTest, Complexity)
     NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
+    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -330,6 +338,6 @@ TEST(SeriesDetectorTest, Complexity)
         return data;
     }));
 
-    const SeriesDetector sd(backend, &exif);
+    const SeriesDetector sd(backend, &exif, logger);
     const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
 }

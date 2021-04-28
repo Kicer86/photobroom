@@ -22,6 +22,7 @@
 #include <chrono>
 #include <deque>
 
+#include <core/ilogger.hpp>
 #include <database/group.hpp>
 #include <database/photo_data.hpp>
 #include <database_export.h>
@@ -51,11 +52,12 @@ class DATABASE_EXPORT SeriesDetector
             Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
         };
 
-        SeriesDetector(Database::IBackend &, IExifReader *);
+        SeriesDetector(Database::IBackend &, IExifReader *, ILogger &);
 
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
+        std::unique_ptr<ILogger> m_logger;
         Database::IBackend& m_backend;
         IExifReader* m_exifReader;
 

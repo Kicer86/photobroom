@@ -845,7 +845,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+133"/>
+        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+135"/>
         <source>Animation</source>
         <translation>Animacja</translation>
     </message>
