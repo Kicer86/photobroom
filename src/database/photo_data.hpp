@@ -45,7 +45,7 @@ namespace Photo
         GroupInfo            groupInfo;
 
         Data() = default;
-        explicit Data(const DataDelta &);
+        explicit Data(const DataDelta &) [[deprecated]];  // Delta has less data than Data
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
@@ -124,6 +124,8 @@ namespace Photo
             DataDelta(): m_id(), m_data() {}
 
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+
+            explicit DataDelta(const Data &);
 
             template<Field field>
             void insert(const typename DeltaTypes<field>::Storage& value)

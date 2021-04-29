@@ -68,6 +68,18 @@ namespace Photo
     }
 
 
+    DataDelta::DataDelta(const Photo::Data& data)
+        : m_id(data.id)
+    {
+        insert<Photo::Field::Tags>(data.tags);
+        insert<Photo::Field::Geometry>(data.geometry);
+        insert<Photo::Field::Checksum>(data.sha256Sum);
+        insert<Photo::Field::Flags>(data.flags);
+        insert<Photo::Field::GroupInfo>(data.groupInfo);
+        insert<Photo::Field::Path>(data.path);
+    }
+
+
     void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
