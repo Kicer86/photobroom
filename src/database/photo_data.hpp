@@ -45,7 +45,6 @@ namespace Photo
         GroupInfo            groupInfo;
 
         Data() = default;
-        explicit Data(const DataDelta &) [[deprecated]];  // Delta has less data than Data
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;

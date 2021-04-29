@@ -23,10 +23,6 @@
 
 namespace Photo
 {
-    Data::Data(const DataDelta& delta)
-    {
-        apply(delta);
-    }
 
     Data& Data::apply(const DataDelta& delta)
     {
