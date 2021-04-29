@@ -53,7 +53,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -61,7 +61,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -110,7 +110,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -118,7 +118,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -168,7 +168,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -176,7 +176,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -236,7 +236,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()) )).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -244,7 +244,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -327,7 +327,7 @@ TEST(SeriesDetectorTest, Complexity)
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
 
-    EXPECT_CALL(backend, getPhoto(_)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
+    EXPECT_CALL(backend, getPhotoDelta(_, _)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -335,7 +335,7 @@ TEST(SeriesDetectorTest, Complexity)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     const SeriesDetector sd(backend, &exif, logger);

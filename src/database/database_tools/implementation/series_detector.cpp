@@ -33,12 +33,12 @@ namespace
     class BaseGroupValidator
     {
     public:
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
             m_data = d;
         }
 
-        Photo::Data m_data;
+        Photo::DataDelta m_data;
     };
 
     template<Group::Type>
@@ -54,10 +54,10 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
             BaseGroupValidator::setCurrentPhoto(d);
-            m_sequence = m_exifReader.get(m_data.path, IExifReader::TagType::SequenceNumber);
+            m_sequence = m_exifReader.get(m_data.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
@@ -102,10 +102,10 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(d.path, IExifReader::TagType::Exposure);
+            m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
@@ -149,10 +149,10 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
             BaseGroupValidator::setCurrentPhoto(d);
-            m_current_stamp = Tag::timestamp(d.tags);
+            m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
         }
 
         bool canBePartOfGroup()
@@ -183,7 +183,7 @@ namespace
         {
             for (const Photo::Id& id: photos)
             {
-                const Photo::Data data = m_backend.getPhoto(id);
+                const Photo::DataDelta data = m_backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Tags});
                 m_photos.push_back(data);
             }
         }
@@ -202,12 +202,14 @@ namespace
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
-                    const Photo::Data& data = *it2;
+                    const Photo::DataDelta& dataDelta = *it2;
 
-                    validator.setCurrentPhoto(data);
+                    validator.setCurrentPhoto(dataDelta);
 
                     if (validator.canBePartOfGroup())
                     {
+                        const auto data = m_backend.getPhoto(dataDelta.getId());
+
                         group.members.push_back(data);
                         validator.accept();
                     }
@@ -238,7 +240,7 @@ namespace
         Database::IBackend& m_backend;
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
-        std::deque<Photo::Data> m_photos;
+        std::deque<Photo::DataDelta> m_photos;
     };
 }
 
