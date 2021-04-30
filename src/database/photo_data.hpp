@@ -48,6 +48,7 @@ namespace Photo
         Data(const Data &) = default;
 
         Data& operator=(const Data &) = default;
+        bool operator==(const Data &) const = default;
 
         Data& apply(const DataDelta &);
 

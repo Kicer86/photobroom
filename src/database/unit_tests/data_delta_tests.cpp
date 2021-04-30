@@ -32,7 +32,6 @@ TEST(DataDeltaTest, merging)
 }
 
 
-
 TEST(DataDeltaTest, mergingWithEmpty)
 {
     Photo::DataDelta d1;
@@ -45,4 +44,27 @@ TEST(DataDeltaTest, mergingWithEmpty)
     d1 |= d2;
 
     EXPECT_EQ(d1.getId(), d2.getId());
+}
+
+
+TEST(DataDeltaTest, dataAndDataDeltaConversion)
+{
+    Photo::Data d1;
+    d1.id = 15;
+    d1.sha256Sum = "1290";
+    d1.tags = { {TagTypes::Place, QString("somewhere")} };
+    d1.flags = { {Photo::FlagsE::StagingArea, 1} };
+    d1.path = "/path/file.jpeg";
+    d1.geometry = QSize(100,200);
+    d1.groupInfo = GroupInfo(Group::Id(89), GroupInfo::Member);
+
+    // Photo::Data to Photo::Delta
+    const Photo::DataDelta d2(d1);
+
+    // back to Photo::Data
+    Photo::Data d3;
+    d3.apply(d2);
+
+    // original and recreated Datas should be equal
+    EXPECT_EQ(d1, d3);
 }
