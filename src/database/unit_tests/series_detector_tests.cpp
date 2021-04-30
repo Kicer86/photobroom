@@ -10,8 +10,8 @@
 #include <unit_tests_utils/mock_photo_operator.hpp>
 
 #include "backends/memory_backend/memory_backend.hpp"
-#include "database_tools/series_detector.hpp"
 #include "database_tools/json_to_backend.hpp"
+#include "database_tools/series_detector.hpp"
 #include "unit_tests_utils/db_for_series_detection.json.hpp"
 
 

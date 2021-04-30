@@ -838,18 +838,21 @@ Error code: %1</source>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="135"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="45"/>
         <source>Animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="136"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="46"/>
         <source>HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="137"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="47"/>
         <source>Generic</source>
         <translation type="unfinished"></translation>
     </message>

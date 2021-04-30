@@ -57,9 +57,9 @@ set(DATABASE_HEADERS
     database_tools/json_to_backend.hpp
     database_tools/tag_info_collector.hpp
     database_tools/signal_mapper.hpp
-    database_tools/implementation/photo_info_updater.hpp
     database_tools/series_detector.hpp
     database_tools/series_model.hpp
+    database_tools/implementation/photo_info_updater.hpp
 )
 
 set(DATABASE_MOC
@@ -70,6 +70,7 @@ set(DATABASE_MOC
     database_tools/implementation/photos_analyzer_p.hpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/photos_data_guesser.hpp
+    database_tools/series_model.hpp
     database_tools/signal_mapper.hpp
     photo_data.hpp
     photo_types.hpp

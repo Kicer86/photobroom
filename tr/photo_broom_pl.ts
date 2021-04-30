@@ -845,21 +845,6 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+135"/>
-        <source>Animation</source>
-        <translation>Animacja</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>HDR</source>
-        <translation>HDR</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Generic</source>
-        <translation>Zwykła grupa</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
         <source>Group candidates</source>
         <translation>Potencjalne grupy</translation>
@@ -874,6 +859,24 @@ Kod błędu: %1</translation>
         <location line="+49"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
+    </message>
+</context>
+<context>
+    <name>SeriesModel</name>
+    <message>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+45"/>
+        <source>Animation</source>
+        <translation type="unfinished">animacja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>HDR</source>
+        <translation type="unfinished">HDR</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Generic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -22,9 +22,8 @@
 #include <QDialog>
 #include <QQmlPropertyMap>
 
-#include <core/function_wrappers.hpp>
 #include <core/ithumbnails_manager.hpp>
-#include <database/database_tools/series_detector.hpp>
+#include <database/database_tools/series_model.hpp>
 #include <database/photo_data.hpp>
 #include "quick_views/qml_setup.hpp"
 
@@ -50,9 +49,7 @@ class SeriesDetection: public QDialog
         ~SeriesDetection();
 
     private:
-        safe_callback_ctrl m_callback_mgr;
-        QStandardItemModel* m_tabModel;
-        QQmlPropertyMap m_modelDynamicProperties;
+        SeriesModel m_tabModel;
         ICoreFactoryAccessor* m_core;
         Database::IDatabase* m_db;
         Project* m_project;

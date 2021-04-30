@@ -157,7 +157,7 @@ Item
         },
         State {
             name: "LoadedState"
-            when: groupsModelState.loaded
+            when: groupsModelId.loaded
         }
     ]
 
