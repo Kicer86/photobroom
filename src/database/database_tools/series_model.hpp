@@ -6,7 +6,7 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
-#include <database/database_tools/series_detector.hpp>
+#include <database/database_tools/implementation/series_detector.hpp>
 #include "database_export.h"
 
 
@@ -37,14 +37,14 @@ signals:
     void loadedChanged(bool) const;
 
 private:
-    std::vector<SeriesDetector::GroupCandidate> m_condidates;
+    std::vector<GroupCandidate> m_condidates;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
     bool m_initialized;
     bool m_loaded;
 
     void fetchGroups(Database::IBackend &);
-    void updateModel(const std::vector<SeriesDetector::GroupCandidate> &);
+    void updateModel(const std::vector<GroupCandidate> &);
 };
 
 #endif

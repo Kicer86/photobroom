@@ -57,7 +57,7 @@ class SeriesDetection: public QDialog
         QML_IThumbnailsManager m_thumbnailsManager4QML;
 
         void fetch_series(Database::IBackend &);
-        void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
+        void load_series(const std::vector<GroupCandidate> &);
         void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
         int selected_row() const;
 

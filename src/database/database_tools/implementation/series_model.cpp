@@ -3,8 +3,8 @@
 #include <core/ilogger_factory.hpp>
 #include <core/iexif_reader.hpp>
 
-#include "../series_detector.hpp"
 #include "../series_model.hpp"
+#include "series_detector.hpp"
 
 
 using namespace std::placeholders;
@@ -106,7 +106,7 @@ void SeriesModel::fetchGroups(Database::IBackend& backend)
 }
 
 
-void SeriesModel::updateModel(const std::vector<SeriesDetector::GroupCandidate>& canditates)
+void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, canditates.size() - 1);
     m_condidates = canditates;

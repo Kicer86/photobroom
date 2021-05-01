@@ -35,7 +35,7 @@
 #include "quick_views/qml_utils.hpp"
 
 
-Q_DECLARE_METATYPE(SeriesDetector::GroupCandidate)
+Q_DECLARE_METATYPE(GroupCandidate)
 
 using namespace std::placeholders;
 
@@ -86,7 +86,7 @@ SeriesDetection::~SeriesDetection()
 void SeriesDetection::group(int row)
 {
     const QModelIndex firstItemInRow = m_tabModel.index(row, 0);
-    const SeriesDetector::GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<SeriesDetector::GroupCandidate>();
+    const GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<GroupCandidate>();
     launch_groupping_dialog(groupDetails.members, groupDetails.type);
 }
 

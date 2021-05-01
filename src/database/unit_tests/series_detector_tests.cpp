@@ -11,7 +11,7 @@
 
 #include "backends/memory_backend/memory_backend.hpp"
 #include "database_tools/json_to_backend.hpp"
-#include "database_tools/series_detector.hpp"
+#include "database_tools/implementation/series_detector.hpp"
 #include "unit_tests_utils/db_for_series_detection.json.hpp"
 
 
@@ -81,7 +81,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     }));
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -138,7 +138,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     }));
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -198,7 +198,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -280,7 +280,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -300,7 +300,7 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
     jsonReader.append(SeriesDB::db);
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 6);
@@ -339,5 +339,5 @@ TEST(SeriesDetectorTest, Complexity)
     }));
 
     const SeriesDetector sd(backend, &exif, logger);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../series_detector.hpp"
 
 #include <unordered_set>
 #include <QDateTime>
@@ -27,6 +26,7 @@
 #include <ibackend.hpp>
 #include <iphoto_operator.hpp>
 
+#include "series_detector.hpp"
 
 namespace
 {
@@ -189,13 +189,13 @@ namespace
         }
 
         template<Group::Type type>
-        std::vector<SeriesDetector::GroupCandidate> extract()
+        std::vector<GroupCandidate> extract()
         {
-            std::vector<SeriesDetector::GroupCandidate> results;
+            std::vector<GroupCandidate> results;
 
             for (auto it = m_photos.begin(); it != m_photos.end();)
             {
-                SeriesDetector::GroupCandidate group;
+                GroupCandidate group;
                 group.type = type;
 
                 GroupValidator<type> validator(m_exifReader, m_rules);
@@ -261,7 +261,7 @@ SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif, I
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
     std::vector<GroupCandidate> result;
 
@@ -281,7 +281,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
+std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
                                                                            const Rules& rules) const
 {
     SeriesExtractor extractor(m_backend, *m_exifReader, photos, rules);
@@ -290,7 +290,7 @@ std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const
     auto animations = extractor.extract<Group::Type::Animation>();
     auto generics = extractor.extract<Group::Type::Generic>();
 
-    std::vector<SeriesDetector::GroupCandidate> sequences;
+    std::vector<GroupCandidate> sequences;
     std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
     std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
     std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));

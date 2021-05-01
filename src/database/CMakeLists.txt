@@ -57,8 +57,9 @@ set(DATABASE_HEADERS
     database_tools/json_to_backend.hpp
     database_tools/tag_info_collector.hpp
     database_tools/signal_mapper.hpp
-    database_tools/series_detector.hpp
+    database_tools/series_candidate.hpp
     database_tools/series_model.hpp
+    database_tools/implementation/series_detector.hpp
     database_tools/implementation/photo_info_updater.hpp
 )
 

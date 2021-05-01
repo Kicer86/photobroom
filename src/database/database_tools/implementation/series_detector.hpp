@@ -27,6 +27,8 @@
 #include <database/photo_data.hpp>
 #include <database_export.h>
 
+#include "../series_candidate.hpp"
+
 
 namespace Database
 {
@@ -36,15 +38,9 @@ namespace Database
 struct IExifReader;
 
 
-class DATABASE_EXPORT SeriesDetector
+class SeriesDetector
 {
     public:
-        struct GroupCandidate
-        {
-            Group::Type type;
-            std::vector<Photo::Data> members;
-        };
-
         struct DATABASE_EXPORT Rules
         {
             std::chrono::milliseconds manualSeriesMaxGap;
@@ -61,7 +57,7 @@ class DATABASE_EXPORT SeriesDetector
         Database::IBackend& m_backend;
         IExifReader* m_exifReader;
 
-        std::vector<SeriesDetector::GroupCandidate> analyze_photos(const std::vector<Photo::Id> &, const Rules &) const;
+        std::vector<GroupCandidate> analyze_photos(const std::vector<Photo::Id> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
