@@ -24,16 +24,12 @@
 
 #include <core/ilogger.hpp>
 #include <database/group.hpp>
+#include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 #include <database_export.h>
 
 #include "../series_candidate.hpp"
 
-
-namespace Database
-{
-    struct IBackend;
-}
 
 struct IExifReader;
 
@@ -48,16 +44,17 @@ class SeriesDetector
             Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
         };
 
-        SeriesDetector(Database::IBackend &, IExifReader *, ILogger &);
+        SeriesDetector(Database::IDatabase &, IExifReader *);
+
+        static std::deque<Photo::DataDelta> loadPhotos();
 
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
-        std::unique_ptr<ILogger> m_logger;
-        Database::IBackend& m_backend;
+        Database::IDatabase& m_db;
         IExifReader* m_exifReader;
 
-        std::vector<GroupCandidate> analyze_photos(const std::vector<Photo::Id> &, const Rules &) const;
+        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::DataDelta> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

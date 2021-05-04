@@ -4,7 +4,6 @@
 #include <QDate>
 #include <QTime>
 
-#include <unit_tests_utils/empty_logger.hpp>
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
@@ -13,6 +12,7 @@
 #include "database_tools/json_to_backend.hpp"
 #include "database_tools/implementation/series_detector.hpp"
 #include "unit_tests_utils/db_for_series_detection.json.hpp"
+#include "unit_tests_utils/mock_database.hpp"
 
 
 using testing::Invoke;
@@ -22,24 +22,37 @@ using testing::ReturnRef;
 using testing::_;
 
 
-TEST(SeriesDetectorTest, constructor)
+class SeriesDetectorTest: public testing::Test
+{
+    public:
+        NiceMock<MockDatabase> db;
+        NiceMock<MockBackend> backend;
+
+        SeriesDetectorTest()
+        {
+            ON_CALL(db, execute(_)).WillByDefault(Invoke([this](const auto& task)
+            {
+                task->run(backend);
+            }));
+        }
+};
+
+
+TEST_F(SeriesDetectorTest, constructor)
 {
     EXPECT_NO_THROW({
-        MockBackend backend;
+        MockDatabase db;
         MockExifReader exif;
-        EmptyLogger logger;
 
-        SeriesDetector sd(backend, &exif, logger);
+        SeriesDetector sd(db, &exif);
     });
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario1)
+TEST_F(SeriesDetectorTest, animationDetectionScenario1)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
-    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -80,7 +93,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif, logger);
+    const SeriesDetector sd(db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -91,12 +104,10 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario2)
+TEST_F(SeriesDetectorTest, animationDetectionScenario2)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
-    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -137,7 +148,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif, logger);
+    const SeriesDetector sd(db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -148,12 +159,10 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario3)
+TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
-    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -197,7 +206,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(backend, &exif, logger);
+    const SeriesDetector sd(db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -208,12 +217,10 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 }
 
 
-TEST(SeriesDetectorTest, HDRDetectionScenario1)
+TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
-    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -279,7 +286,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif, logger);
+    const SeriesDetector sd(db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -290,16 +297,22 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
 }
 
 
-TEST(SeriesDetectorTest, PhotosTakenOneByOne)
+TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
 {
     NiceMock<MockExifReader> exif;
-    Database::MemoryBackend backend;
-    Database::JsonToBackend jsonReader(backend);
-    EmptyLogger logger;
+    Database::MemoryBackend mem_backend;
+    Database::JsonToBackend jsonReader(mem_backend);
 
     jsonReader.append(SeriesDB::db);
 
-    const SeriesDetector sd(backend, &exif, logger);
+    NiceMock<MockDatabase> mem_db;
+
+    ON_CALL(mem_db, execute(_)).WillByDefault(Invoke([&mem_backend](const auto& task)
+    {
+        task->run(mem_backend);
+    }));
+
+    const SeriesDetector sd(mem_db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -310,12 +323,10 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
 }
 
 
-TEST(SeriesDetectorTest, Complexity)
+TEST_F(SeriesDetectorTest, Complexity)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
-    EmptyLogger logger;
 
     ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
 
@@ -338,6 +349,6 @@ TEST(SeriesDetectorTest, Complexity)
         return Photo::DataDelta(data);
     }));
 
-    const SeriesDetector sd(backend, &exif, logger);
+    const SeriesDetector sd(db, &exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

@@ -842,17 +842,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="45"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
         <source>Animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="46"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
         <source>HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="47"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
         <source>Generic</source>
         <translation type="unfinished"></translation>
     </message>

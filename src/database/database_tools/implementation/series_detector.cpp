@@ -19,13 +19,14 @@
 
 #include <unordered_set>
 #include <QDateTime>
-#include <QElapsedTimer>
 
 #include <core/iexif_reader.hpp>
+#include <core/task_executor_utils.hpp>
 #include <core/tags_utils.hpp>
 #include <ibackend.hpp>
 #include <iphoto_operator.hpp>
 
+#include "database_executor_traits.hpp"
 #include "series_detector.hpp"
 
 namespace
@@ -173,19 +174,14 @@ namespace
     class SeriesExtractor
     {
     public:
-        SeriesExtractor(Database::IBackend& backend,
-                    IExifReader& exifReader,
-                    const std::vector<Photo::Id>& photos,
-                    const SeriesDetector::Rules& r)
-            : m_backend(backend)
-            , m_exifReader(exifReader)
+        SeriesExtractor(IExifReader& exifReader,
+                        const std::deque<Photo::DataDelta>& photos,
+                        const SeriesDetector::Rules& r)
+            : m_exifReader(exifReader)
             , m_rules(r)
+            , m_photos(photos)
         {
-            for (const Photo::Id& id: photos)
-            {
-                const Photo::DataDelta data = m_backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Tags});
-                m_photos.push_back(data);
-            }
+
         }
 
         template<Group::Type type>
@@ -208,7 +204,8 @@ namespace
 
                     if (validator.canBePartOfGroup())
                     {
-                        const auto data = m_backend.getPhoto(dataDelta.getId());
+                        Photo::Data data;
+                        data.apply(dataDelta);
 
                         group.members.push_back(data);
                         validator.accept();
@@ -237,7 +234,6 @@ namespace
         }
 
     private:
-        Database::IBackend& m_backend;
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
         std::deque<Photo::DataDelta> m_photos;
@@ -252,9 +248,8 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif, ILogger& logger)
-    : m_logger(logger.subLogger("SeriesDetector"))
-    , m_backend(backend)
+SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader* exif)
+    : m_db(db)
     , m_exifReader(exif)
 {
 
@@ -263,28 +258,33 @@ SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif, I
 
 std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
-    std::vector<GroupCandidate> result;
+    const std::deque<Photo::DataDelta> deltas =
+        evaluate<std::deque<Photo::DataDelta>(Database::IBackend& backend)>(&m_db, [this, &rules, &deltas](Database::IBackend& backend)
+    {
+        std::vector<GroupCandidate> result;
 
-    // find photos which are not part of any group
-    Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
-    const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
+        // find photos which are not part of any group
+        Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
 
-    // find groups
-    QElapsedTimer timer;
-    timer.start();
+        const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-    auto sequence_groups = analyze_photos(photos, rules);
+        std::deque<Photo::DataDelta> deltas;
+        for (const Photo::Id& id: photos)
+        {
+            const Photo::DataDelta data = backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Tags});
+            deltas.push_back(data);
+        }
 
-    m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
+        return deltas;
+    });
 
-    return sequence_groups;
+    return analyze_photos(deltas, rules);
 }
 
 
-std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
-                                                                           const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
 {
-    SeriesExtractor extractor(m_backend, *m_exifReader, photos, rules);
+    SeriesExtractor extractor(*m_exifReader, photos, rules);
 
     auto hdrs = extractor.extract<Group::Type::HDR>();
     auto animations = extractor.extract<Group::Type::Animation>();

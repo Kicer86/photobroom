@@ -1,7 +1,10 @@
 
 #include <core/function_wrappers.hpp>
-#include <core/ilogger_factory.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/ilogger_factory.hpp>
+#include <core/itask_executor.hpp>
+#include <core/task_executor_utils.hpp>
+#include <QElapsedTimer>
 
 #include "../series_model.hpp"
 #include "series_detector.hpp"
@@ -11,10 +14,17 @@ using namespace std::placeholders;
 
 
 SeriesModel::SeriesModel(Database::IDatabase& db, ICoreFactoryAccessor& core)
-    : m_db(db)
+    : m_logger(core.getLoggerFactory().get("SeriesModel"))
+    , m_db(db)
     , m_core(core)
     , m_initialized(false)
     , m_loaded(false)
+{
+
+}
+
+
+SeriesModel::~SeriesModel()
 {
 
 }
@@ -72,7 +82,7 @@ void SeriesModel::fetchMore(const QModelIndex& parent)
     {
         m_initialized = true;
 
-        m_db.exec(std::bind(&SeriesModel::fetchGroups, this, _1));
+        fetchGroups();
     }
 }
 
@@ -92,17 +102,27 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::fetchGroups(Database::IBackend& backend)
+void SeriesModel::fetchGroups()
 {
-    auto logger = m_core.getLoggerFactory().get("SeriesModel");
+    auto& executor = m_core.getTaskExecutor();
 
-    IExifReaderFactory& exif = m_core.getExifReaderFactory();
-    SeriesDetector detector(backend, exif.get(), *logger.get());
+    runOn(&executor,
+          [this]()
+          {
+              IExifReaderFactory& exif = m_core.getExifReaderFactory();
 
-    const auto candidates = detector.listCandidates();
+              QElapsedTimer timer;
 
-    // go back to main thread
-    invokeMethod(this, &SeriesModel::updateModel, candidates);
+              SeriesDetector detector(m_db, exif.get());
+
+              timer.start();
+              const auto candidates = detector.listCandidates();
+              m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
+
+              invokeMethod(this, &SeriesModel::updateModel, candidates);
+          },
+          "SeriesDetector"
+    );
 }
 
 

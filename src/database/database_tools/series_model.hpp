@@ -6,9 +6,11 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
-#include <database/database_tools/implementation/series_detector.hpp>
+#include <database/database_tools/series_candidate.hpp>
+
 #include "database_export.h"
 
+class SeriesDetector;
 
 class DATABASE_EXPORT SeriesModel: public QAbstractListModel
 {
@@ -24,6 +26,7 @@ public:
     };
 
     SeriesModel(Database::IDatabase &, ICoreFactoryAccessor &);
+    ~SeriesModel();
 
     bool isLoaded() const;
 
@@ -37,13 +40,14 @@ signals:
     void loadedChanged(bool) const;
 
 private:
+    std::unique_ptr<ILogger> m_logger;
     std::vector<GroupCandidate> m_condidates;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
     bool m_initialized;
     bool m_loaded;
 
-    void fetchGroups(Database::IBackend &);
+    void fetchGroups();
     void updateModel(const std::vector<GroupCandidate> &);
 };
 

@@ -864,7 +864,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+45"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
         <source>Animation</source>
         <translation type="unfinished">animacja</translation>
     </message>
