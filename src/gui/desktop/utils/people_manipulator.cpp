@@ -24,17 +24,8 @@
 #include <core/iexif_reader.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
+#include <database/database_executor_traits.hpp>
 #include <face_recognition/face_recognition.hpp>
-
-
-template<typename T>
-struct ExecutorTraits<Database::IDatabase, T>
-{
-    static void exec(Database::IDatabase* db, T&& t)
-    {
-        db->exec(std::forward<T>(t));
-    }
-};
 
 
 namespace

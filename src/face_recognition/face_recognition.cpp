@@ -19,7 +19,6 @@
 #include "face_recognition.hpp"
 
 #include <cassert>
-#include <future>
 #include <memory>
 #include <string>
 
@@ -50,15 +49,6 @@
 
 
 using namespace std::placeholders;
-
-template<typename T>
-struct ExecutorTraits<Database::IDatabase, T>
-{
-    static void exec(Database::IDatabase* db, T&& t)
-    {
-        db->exec(std::forward<T>(t));
-    }
-};
 
 namespace
 {
