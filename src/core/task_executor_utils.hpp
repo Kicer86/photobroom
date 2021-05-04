@@ -41,19 +41,20 @@ auto evaluate(E* executor, const T& task)
 
 // Run callable as a task
 template<typename Callable>
-void runOn(ITaskExecutor* executor, Callable&& callable)
+void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& taskName = {})
 {
     struct GenericTask: ITaskExecutor::ITask
     {
-        GenericTask(Callable&& callable):
-            m_callable(std::forward<Callable>(callable))
+        GenericTask(const std::string& name, Callable&& callable)
+            : m_callable(std::forward<Callable>(callable))
+            , m_name(name)
         {
 
         }
 
         std::string name() const override
         {
-            return "generic";
+            return m_name;
         }
 
         void perform() override
@@ -63,9 +64,10 @@ void runOn(ITaskExecutor* executor, Callable&& callable)
 
         private:
             typename std::remove_reference<Callable>::type m_callable;
+            std::string m_name;
     };
 
-    auto task = std::make_unique<GenericTask>(std::forward<Callable>(callable));
+    auto task = std::make_unique<GenericTask>(taskName, std::forward<Callable>(callable));
     executor->add(std::move(task));
 }
 
