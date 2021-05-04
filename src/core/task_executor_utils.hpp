@@ -15,14 +15,14 @@
 template<typename T, typename E>
 struct ExecutorTraits
 {
-    static void exec(E *, T &&);
+    static void exec(E &, T &&);
 };
 
 
 // Helper function.
 // Run a task and wait for it to be finished.
 template<typename R, typename E, typename T>
-auto evaluate(E* executor, const T& task)
+auto evaluate(E& executor, const T& task)
 {
     typedef std::packaged_task<R> PTask;
 

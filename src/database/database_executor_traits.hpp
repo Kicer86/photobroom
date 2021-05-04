@@ -7,9 +7,9 @@
 template<typename T>
 struct ExecutorTraits<Database::IDatabase, T>
 {
-    static void exec(Database::IDatabase* db, T&& t)
+    static void exec(Database::IDatabase& db, T&& t)
     {
-        db->exec(std::forward<T>(t));
+        db.exec(std::forward<T>(t));
     }
 };
 
