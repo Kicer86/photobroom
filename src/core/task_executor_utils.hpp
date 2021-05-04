@@ -41,7 +41,7 @@ auto evaluate(E& executor, const T& task)
 
 // Run callable as a task
 template<typename Callable>
-void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& taskName = {})
+void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& taskName)
 {
     struct GenericTask: ITaskExecutor::ITask
     {

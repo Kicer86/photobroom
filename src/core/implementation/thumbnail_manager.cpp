@@ -76,7 +76,7 @@ void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::Thu
     {
         if (callback.is_valid())        // callback may have become invalid, do not calculate anything to save CPU
             generate_task(path, params, callback);
-    });
+    }, "ThumbnailManager::generate");
 }
 
 
@@ -85,6 +85,6 @@ void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::Thu
     runOn(&m_tasks, [=, this]
     {
         generate_task(path, params, callback);
-    });
+    }, "ThumbnailManager::generate");
 }
 
