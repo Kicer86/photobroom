@@ -31,6 +31,7 @@ set(DATABASE_HEADERS
     apeople_information_accessor.hpp
     aphoto_change_log_operator.hpp
     database_builder.hpp
+    database_executor_traits.hpp
     database_status.hpp
     filter.hpp
     general_flags.hpp
@@ -52,36 +53,21 @@ set(DATABASE_HEADERS
     implementation/async_database.hpp
     implementation/photo_info.hpp
     implementation/photo_info_cache.hpp
+    database_tools/itag_info_collector.hpp
+    database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
     database_tools/photos_data_guesser.hpp
-    database_tools/json_to_backend.hpp
-    database_tools/tag_info_collector.hpp
     database_tools/signal_mapper.hpp
     database_tools/series_candidate.hpp
     database_tools/series_model.hpp
+    database_tools/tag_info_collector.hpp
     database_tools/implementation/series_detector.hpp
     database_tools/implementation/photo_info_updater.hpp
 )
 
-set(DATABASE_MOC
-    ibackend.hpp
-    idatabase_plugin.hpp
-    database_tools/itag_info_collector.hpp
-    database_tools/photos_analyzer.hpp
-    database_tools/implementation/photos_analyzer_p.hpp
-    database_tools/implementation/photo_info_updater.hpp
-    database_tools/photos_data_guesser.hpp
-    database_tools/series_model.hpp
-    database_tools/signal_mapper.hpp
-    photo_data.hpp
-    photo_types.hpp
-)
-
-qt6_wrap_cpp(DATABASE_MOCED ${DATABASE_MOC})
-
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS} ${DATABASE_MOCED})
+add_library(database SHARED ${DATABASE_SOURCES} ${DATABASE_HEADERS})
 target_link_libraries(database
                         PUBLIC
                             Qt::Gui
@@ -102,6 +88,8 @@ target_include_directories(database
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+set_target_properties(database PROPERTIES AUTOMOC TRUE)
 
 generate_export_header(database)
 hideSymbols(database)
