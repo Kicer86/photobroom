@@ -46,8 +46,6 @@ class SeriesDetector
 
         SeriesDetector(Database::IDatabase &, IExifReader *);
 
-        static std::deque<Photo::DataDelta> loadPhotos();
-
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
