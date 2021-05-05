@@ -44,9 +44,9 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::Data& d)
         {
-            m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
+            m_sequence = m_exifReader.get(d.path, IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
@@ -91,10 +91,10 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::Data& d)
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
+            m_exposure = m_exifReader.get(d.path, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
@@ -138,9 +138,9 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::Data& d)
         {
-            m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
+            m_current_stamp = Tag::timestamp(d.tags);
         }
 
         bool canBePartOfGroup()
@@ -162,7 +162,7 @@ namespace
     {
     public:
         SeriesExtractor(IExifReader& exifReader,
-                        const std::deque<Photo::DataDelta>& photos,
+                        const std::deque<Photo::Data>& photos,
                         const SeriesDetector::Rules& r)
             : m_exifReader(exifReader)
             , m_rules(r)
@@ -185,15 +185,12 @@ namespace
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
-                    const Photo::DataDelta& dataDelta = *it2;
+                    const Photo::Data& data = *it2;
 
-                    validator.setCurrentPhoto(dataDelta);
+                    validator.setCurrentPhoto(data);
 
                     if (validator.canBePartOfGroup())
                     {
-                        Photo::Data data;
-                        data.apply(dataDelta);
-
                         group.members.push_back(data);
                         validator.accept();
                     }
@@ -223,7 +220,7 @@ namespace
     private:
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
-        std::deque<Photo::DataDelta> m_photos;
+        std::deque<Photo::Data> m_photos;
     };
 }
 
@@ -245,8 +242,8 @@ SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader* exif)
 
 std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
-    const std::deque<Photo::DataDelta> deltas =
-        evaluate<std::deque<Photo::DataDelta>(Database::IBackend& backend)>(m_db, [this, &rules, &deltas](Database::IBackend& backend)
+    const std::deque<Photo::Data> datas =
+        evaluate<std::deque<Photo::Data>(Database::IBackend& backend)>(m_db, [this, &rules, &datas](Database::IBackend& backend)
     {
         std::vector<GroupCandidate> result;
 
@@ -255,21 +252,21 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
         const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-        std::deque<Photo::DataDelta> deltas;
+        std::deque<Photo::Data> datas;
         for (const Photo::Id& id: photos)
         {
-            const Photo::DataDelta data = backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Tags});
-            deltas.push_back(data);
+            const Photo::Data data = backend.getPhoto(id);
+            datas.push_back(data);
         }
 
-        return deltas;
+        return datas;
     });
 
-    return analyze_photos(deltas, rules);
+    return analyze_photos(datas, rules);
 }
 
 
-std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
 {
     SeriesExtractor extractor(*m_exifReader, photos, rules);
 

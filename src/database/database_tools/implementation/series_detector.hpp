@@ -52,7 +52,7 @@ class SeriesDetector
         Database::IDatabase& m_db;
         IExifReader* m_exifReader;
 
-        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::DataDelta> &, const Rules &) const;
+        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::Data> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
