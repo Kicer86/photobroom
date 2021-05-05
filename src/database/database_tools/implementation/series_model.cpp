@@ -5,6 +5,7 @@
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <QElapsedTimer>
+#include <QPromise>
 
 #include "../series_model.hpp"
 #include "series_detector.hpp"
@@ -26,7 +27,8 @@ SeriesModel::SeriesModel(Database::IDatabase& db, ICoreFactoryAccessor& core)
 
 SeriesModel::~SeriesModel()
 {
-
+    m_candidatesFuture.cancel();
+    m_candidatesFuture.waitForFinished();
 }
 
 
@@ -106,23 +108,27 @@ void SeriesModel::fetchGroups()
 {
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(&executor,
-          [this]()
-          {
-              IExifReaderFactory& exif = m_core.getExifReaderFactory();
+    m_candidatesFuture = runOn<std::vector<GroupCandidate>>
+    (
+        executor,
+        [this]()
+        {
+            IExifReaderFactory& exif = m_core.getExifReaderFactory();
 
-              QElapsedTimer timer;
+            QElapsedTimer timer;
 
-              SeriesDetector detector(m_db, exif.get());
+            SeriesDetector detector(m_db, exif.get());
 
-              timer.start();
-              const auto candidates = detector.listCandidates();
-              m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
+            timer.start();
+            const auto candidates = detector.listCandidates();
+            m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
 
-              invokeMethod(this, &SeriesModel::updateModel, candidates);
-          },
-          "SeriesDetector"
+            return candidates;
+        },
+        "SeriesDetector"
     );
+
+    m_candidatesFuture.then(std::bind(&SeriesModel::updateModel, this, _1));
 }
 
 

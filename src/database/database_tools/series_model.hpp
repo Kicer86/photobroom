@@ -3,6 +3,7 @@
 #define SERIESMODEL_HPP
 
 #include <QAbstractItemModel>
+#include <QFuture>
 
 #include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
@@ -44,6 +45,7 @@ private:
     std::vector<GroupCandidate> m_condidates;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
+    QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     bool m_initialized;
     bool m_loaded;
 
