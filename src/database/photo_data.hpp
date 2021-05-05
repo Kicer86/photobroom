@@ -124,7 +124,6 @@ namespace Photo
             DataDelta(): m_id(), m_data() {}
 
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
-
             explicit DataDelta(const Data &);
 
             template<Field field>
@@ -134,9 +133,7 @@ namespace Photo
             }
 
             void setId(const Photo::Id &);
-
             void clear();
-
             bool has(Field) const;
 
             template<Field field>
@@ -154,6 +151,7 @@ namespace Photo
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
             DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
+            DataDelta& operator=(const Data &);
 
         private:
             typedef std::variant<DeltaTypes<Field::Checksum>::Storage,

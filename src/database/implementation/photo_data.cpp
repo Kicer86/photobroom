@@ -67,12 +67,7 @@ namespace Photo
     DataDelta::DataDelta(const Photo::Data& data)
         : m_id(data.id)
     {
-        insert<Photo::Field::Tags>(data.tags);
-        insert<Photo::Field::Geometry>(data.geometry);
-        insert<Photo::Field::Checksum>(data.sha256Sum);
-        insert<Photo::Field::Flags>(data.flags);
-        insert<Photo::Field::GroupInfo>(data.groupInfo);
-        insert<Photo::Field::Path>(data.path);
+        this->operator=(data);
     }
 
 
@@ -135,6 +130,19 @@ namespace Photo
             else
                 m_data.insert(otherData);
         }
+
+        return *this;
+    }
+
+
+    DataDelta& DataDelta::operator=(const Data& data)
+    {
+        insert<Photo::Field::Tags>(data.tags);
+        insert<Photo::Field::Geometry>(data.geometry);
+        insert<Photo::Field::Checksum>(data.sha256Sum);
+        insert<Photo::Field::Flags>(data.flags);
+        insert<Photo::Field::GroupInfo>(data.groupInfo);
+        insert<Photo::Field::Path>(data.path);
 
         return *this;
     }
