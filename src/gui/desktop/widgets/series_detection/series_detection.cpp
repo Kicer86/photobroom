@@ -87,21 +87,21 @@ void SeriesDetection::group(int row)
 {
     const QModelIndex firstItemInRow = m_tabModel.index(row, 0);
     const GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<GroupCandidate>();
-    launch_groupping_dialog(groupDetails.members, groupDetails.type);
+    launch_groupping_dialog(groupDetails);
 }
 
 
-void SeriesDetection::launch_groupping_dialog(const std::vector<Photo::Data>& ph_data, Group::Type type)
+void SeriesDetection::launch_groupping_dialog(const GroupCandidate& candidate)
 {
     auto logger = m_core->getLoggerFactory().get("PhotosGrouping");
 
     PhotosGroupingDialog pgd(
-        ph_data,
+        candidate.members,
         m_core->getExifReaderFactory(),
         m_core->getTaskExecutor(),
         m_core->getConfiguration(),
         logger.get(),
-        type
+        candidate.type
     );
 
     const int exit_code = pgd.exec();

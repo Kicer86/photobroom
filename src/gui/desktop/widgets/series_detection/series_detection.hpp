@@ -58,7 +58,7 @@ class SeriesDetection: public QDialog
 
         void fetch_series(Database::IBackend &);
         void load_series(const std::vector<GroupCandidate> &);
-        void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
+        void launch_groupping_dialog(const GroupCandidate &);
         int selected_row() const;
 
     private slots:
