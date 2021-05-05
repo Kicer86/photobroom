@@ -31,22 +31,11 @@
 
 namespace
 {
-    class BaseGroupValidator
-    {
-    public:
-        void setCurrentPhoto(const Photo::DataDelta& d)
-        {
-            m_data = d;
-        }
-
-        Photo::DataDelta m_data;
-    };
-
     template<Group::Type>
     class GroupValidator;
 
     template<>
-    class GroupValidator<Group::Type::Animation>: BaseGroupValidator
+    class GroupValidator<Group::Type::Animation>
     {
     public:
         GroupValidator(IExifReader& exif, const SeriesDetector::Rules &)
@@ -57,8 +46,7 @@ namespace
 
         void setCurrentPhoto(const Photo::DataDelta& d)
         {
-            BaseGroupValidator::setCurrentPhoto(d);
-            m_sequence = m_exifReader.get(m_data.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
+            m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
@@ -140,7 +128,7 @@ namespace
     };
 
     template<>
-    class GroupValidator<Group::Type::Generic>: BaseGroupValidator
+    class GroupValidator<Group::Type::Generic>
     {
     public:
         GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
@@ -152,7 +140,6 @@ namespace
 
         void setCurrentPhoto(const Photo::DataDelta& d)
         {
-            BaseGroupValidator::setCurrentPhoto(d);
             m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
         }
 
