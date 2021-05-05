@@ -6,6 +6,8 @@
 #include <mutex>
 #include <future>
 #include <condition_variable>
+#include <QFuture>
+#include <QPromise>
 
 #include "itask_executor.hpp"
 
@@ -69,6 +71,48 @@ void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& task
 
     auto task = std::make_unique<GenericTask>(taskName, std::forward<Callable>(callable));
     executor->add(std::move(task));
+}
+
+
+// Run callable as a task
+template<typename R, typename Callable>
+QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
+{
+    struct GenericTask: ITaskExecutor::ITask
+    {
+        GenericTask(const std::string& name, Callable&& callable, QPromise<R>&& p)
+            : m_callable(std::forward<Callable>(callable))
+            , m_name(name)
+            , m_promise(std::move(p))
+        {
+
+        }
+
+        std::string name() const override
+        {
+            return m_name;
+        }
+
+        void perform() override
+        {
+            m_promise.start();
+            m_promise.addResult(m_callable());
+            m_promise.finish();
+        }
+
+        private:
+            typename std::remove_reference<Callable>::type m_callable;
+            std::string m_name;
+            QPromise<R> m_promise;
+    };
+
+    QPromise<R> promise;
+    auto future = promise.future();
+
+    auto task = std::make_unique<GenericTask>(taskName, std::forward<Callable>(callable), std::move(promise));
+    executor.add(std::move(task));
+
+    return future;
 }
 
 
