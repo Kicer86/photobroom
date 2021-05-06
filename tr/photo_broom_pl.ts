@@ -866,17 +866,17 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+57"/>
         <source>Animation</source>
-        <translation type="unfinished">animacja</translation>
+        <translation>animacja</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>HDR</source>
-        <translation type="unfinished">HDR</translation>
+        <translation>HDR</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Generic</source>
-        <translation type="unfinished"></translation>
+        <translation>ogólna</translation>
     </message>
 </context>
 <context>
