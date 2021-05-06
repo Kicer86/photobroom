@@ -34,6 +34,8 @@ namespace
     template<Group::Type>
     class GroupValidator;
 
+    class abort_exception: public std::exception {};
+
     template<>
     class GroupValidator<Group::Type::Animation>
     {
@@ -163,10 +165,12 @@ namespace
     public:
         SeriesExtractor(IExifReader& exifReader,
                         const std::deque<Photo::Data>& photos,
-                        const SeriesDetector::Rules& r)
+                        const SeriesDetector::Rules& r,
+                        const QPromise<std::vector<GroupCandidate>>* p)
             : m_exifReader(exifReader)
             , m_rules(r)
             , m_photos(photos)
+            , m_promise(p)
         {
 
         }
@@ -178,6 +182,9 @@ namespace
 
             for (auto it = m_photos.begin(); it != m_photos.end();)
             {
+                if (m_promise && m_promise->isCanceled())
+                    throw abort_exception();
+
                 GroupCandidate group;
                 group.type = type;
 
@@ -221,6 +228,7 @@ namespace
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
         std::deque<Photo::Data> m_photos;
+        const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
 }
 
@@ -232,8 +240,9 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader* exif)
+SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader* exif, const QPromise<std::vector<GroupCandidate>>* p)
     : m_db(db)
+    , m_promise(p)
     , m_exifReader(exif)
 {
 
@@ -268,16 +277,23 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
 std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
 {
-    SeriesExtractor extractor(*m_exifReader, photos, rules);
+    try
+    {
+        SeriesExtractor extractor(*m_exifReader, photos, rules, m_promise);
 
-    auto hdrs = extractor.extract<Group::Type::HDR>();
-    auto animations = extractor.extract<Group::Type::Animation>();
-    auto generics = extractor.extract<Group::Type::Generic>();
+        auto hdrs = extractor.extract<Group::Type::HDR>();
+        auto animations = extractor.extract<Group::Type::Animation>();
+        auto generics = extractor.extract<Group::Type::Generic>();
 
-    std::vector<GroupCandidate> sequences;
-    std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
-    std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
-    std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
+        std::vector<GroupCandidate> sequences;
+        std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
+        std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
+        std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
 
-    return sequences;
+        return sequences;
+    }
+    catch (const abort_exception &)
+    {
+        return {};
+    }
 }

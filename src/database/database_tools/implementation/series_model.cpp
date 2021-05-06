@@ -111,19 +111,17 @@ void SeriesModel::fetchGroups()
     m_candidatesFuture = runOn<std::vector<GroupCandidate>>
     (
         executor,
-        [this]()
+        [this](QPromise<std::vector<GroupCandidate>>& promise)
         {
             IExifReaderFactory& exif = m_core.getExifReaderFactory();
 
             QElapsedTimer timer;
 
-            SeriesDetector detector(m_db, exif.get());
+            SeriesDetector detector(m_db, exif.get(), &promise);
 
             timer.start();
-            const auto candidates = detector.listCandidates();
+            promise.addResult(detector.listCandidates());
             m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
-
-            return candidates;
         },
         "SeriesDetector"
     );

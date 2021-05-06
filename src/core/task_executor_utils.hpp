@@ -96,7 +96,7 @@ QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string
         void perform() override
         {
             m_promise.start();
-            m_promise.addResult(m_callable());
+            m_callable(m_promise);
             m_promise.finish();
         }
 
