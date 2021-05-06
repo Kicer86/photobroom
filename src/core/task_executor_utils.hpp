@@ -43,7 +43,7 @@ auto evaluate(E& executor, const T& task)
 
 // Run callable as a task
 template<typename Callable>
-void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& taskName)
+void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
 {
     struct GenericTask: ITaskExecutor::ITask
     {
@@ -70,7 +70,7 @@ void runOn(ITaskExecutor* executor, Callable&& callable, const std::string& task
     };
 
     auto task = std::make_unique<GenericTask>(taskName, std::forward<Callable>(callable));
-    executor->add(std::move(task));
+    executor.add(std::move(task));
 }
 
 

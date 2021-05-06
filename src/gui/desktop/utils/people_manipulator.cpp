@@ -119,7 +119,7 @@ void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
     auto safe_task = m_callback_ctrl.make_safe_callback<>(task);
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(&executor, safe_task, "PeopleManipulator");
+    runOn(executor, safe_task, "PeopleManipulator");
 }
 
 
