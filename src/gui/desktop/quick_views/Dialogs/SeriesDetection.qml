@@ -73,22 +73,32 @@ Item
                             margin: 5
                         }
 
-                        ColumnLayout {
+                        Item {
+                            Layout.fillWidth:  true
+                            Layout.fillHeight: true
+
                             Text {
                                 text: groupType
+
+                                anchors.bottom: membersList.top
                             }
 
                             ListView {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
+                                id: membersList
+
+                                width: parent.width
+                                height: groupsListId.thumbnailSize - 50
+                                anchors.bottom: parent.bottom
+
+                                visible: groupsListId.thumbnailSize > 100
 
                                 orientation: ListView.Horizontal
                                 model: members
 
                                 delegate: Internals.PhotoDelegate
                                 {
-                                    width: 80
-                                    height: 80
+                                    width: membersList.height
+                                    height: membersList.height
                                 }
                             }
                         }
@@ -104,7 +114,7 @@ Item
                     id: highlightId
                     color: "lightsteelblue"
                     opacity: 0.4
-                    z: 2
+                    z: -1
                 }
 
                 Components.ThumbnailSlider {

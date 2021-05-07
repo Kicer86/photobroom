@@ -828,13 +828,13 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="119"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="129"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="168"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="178"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
