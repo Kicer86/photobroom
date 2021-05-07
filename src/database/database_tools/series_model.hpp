@@ -24,6 +24,7 @@ public:
         DetailsRole = Qt::UserRole + 1,
         PhotoDataRole,
         GroupTypeRole,
+        MembersRole,
     };
 
     SeriesModel(Database::IDatabase &, ICoreFactoryAccessor &);

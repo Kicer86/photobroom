@@ -61,6 +61,8 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 
             return type;
         }
+        else if (role == MembersRole)
+            return QVariant::fromValue(candidate.members);
     }
 
     return {};
@@ -97,7 +99,8 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
     {
         { DetailsRole,   "details" },
         { PhotoDataRole, "photoData" },
-        { GroupTypeRole, "groupType" }
+        { GroupTypeRole, "groupType" },
+        { MembersRole,   "members" }
     });
 
     return roles;
