@@ -53,7 +53,7 @@ Item
                     id: delegateId
 
                     width: delegateId.ListView.view.width       // using 'parent' causes erros in output after thumbnail being resized
-                    height: photoDelegateId.height
+                    height: groupsListId.thumbnailSize
 
                     // from view
                     required property int index
@@ -63,19 +63,19 @@ Item
                     required property var groupType
                     required property var members
 
-                    RowLayout {
+                    Row {
                         anchors.fill: parent
 
                         Internals.PhotoDelegate {
                             id: photoDelegateId
-                            width: groupsListId.thumbnailSize
-                            height: groupsListId.thumbnailSize
-                            margin: 5
+
+                            width: parent.height
+                            height: parent.height
                         }
 
                         Item {
-                            Layout.fillWidth:  true
-                            Layout.fillHeight: true
+                            width: parent.width - photoDelegateId.width
+                            height: parent.height
 
                             Text {
                                 text: groupType
