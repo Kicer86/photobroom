@@ -654,12 +654,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="47"/>
         <source>Animation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">animation</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="52"/>
         <source>HDR</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HDR</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="117"/>
@@ -828,13 +828,13 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="93"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="119"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="142"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="168"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>

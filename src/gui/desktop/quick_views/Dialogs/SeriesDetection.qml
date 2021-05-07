@@ -51,10 +51,21 @@ Item
 
                 delegate: Item {
                     id: delegateId
+
                     width: delegateId.ListView.view.width       // using 'parent' causes erros in output after thumbnail being resized
                     height: photoDelegateId.height
 
-                    Row {
+                    // from view
+                    required property int index
+
+                    // from model - roles
+                    required property var photoData
+                    required property var groupType
+                    required property var members
+
+                    RowLayout {
+                        anchors.fill: parent
+
                         Internals.PhotoDelegate {
                             id: photoDelegateId
                             width: groupsListId.thumbnailSize
@@ -62,9 +73,24 @@ Item
                             margin: 5
                         }
 
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: groupType
+                        ColumnLayout {
+                            Text {
+                                text: groupType
+                            }
+
+                            ListView {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+
+                                orientation: ListView.Horizontal
+                                model: members
+
+                                delegate: Internals.PhotoDelegate
+                                {
+                                    width: 80
+                                    height: 80
+                                }
+                            }
                         }
                     }
 
