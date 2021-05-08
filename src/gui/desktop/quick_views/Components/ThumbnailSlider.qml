@@ -13,6 +13,8 @@ Item {
     height: dummyContainer.height
 
     anchors.margins: 10
+    property alias minimumSize: sliderId.from
+    property alias maximumSize: sliderId.to
 
     property alias size: sliderId.value
     property real transparency: 0.3

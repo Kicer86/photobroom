@@ -873,7 +873,7 @@ Error code: %1</source>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="32"/>
         <source>Thumbnail size:</source>
         <translation type="unfinished"></translation>
     </message>

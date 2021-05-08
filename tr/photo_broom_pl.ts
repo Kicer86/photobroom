@@ -895,7 +895,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+30"/>
+        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
