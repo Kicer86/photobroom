@@ -18,6 +18,8 @@ Item
 
     signal group(int index)
 
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
+
     RowLayout {
         id: groupsId
         anchors.fill: parent
@@ -110,7 +112,7 @@ Item
 
                 highlight: Rectangle {
                     id: highlightId
-                    color: "lightsteelblue"
+                    color: currentPalette.highlight
                     opacity: 0.4
                     z: -1
                 }
