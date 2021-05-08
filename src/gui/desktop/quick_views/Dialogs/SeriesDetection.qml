@@ -90,8 +90,6 @@ Item
                                 height: groupsListId.thumbnailSize - 50
                                 anchors.bottom: parent.bottom
 
-                                visible: groupsListId.thumbnailSize > 100
-
                                 orientation: ListView.Horizontal
                                 model: members
 
@@ -121,6 +119,8 @@ Item
                     id: thumbnailSliderId
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
+
+                    minimumSize: 100
                 }
             }
 
