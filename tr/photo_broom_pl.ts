@@ -856,7 +856,7 @@ Kod błędu: %1</translation>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+36"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>

@@ -137,19 +137,6 @@ Item
                 }
             }
         }
-
-        /* TODO: implement later
-        Item {
-            id: groupMembersId
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-            PhotosGridView {
-                anchors.fill: parent
-                //model: currentGroupModelId
-            }
-        }
-        */
     }
 
     Item {
