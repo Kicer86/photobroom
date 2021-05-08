@@ -19,6 +19,8 @@
 
 #include <QPainter>
 
+#include <core/signal_postponer.hpp>
+
 
 using namespace std::placeholders;
 
@@ -27,7 +29,8 @@ PhotoItem::PhotoItem(QQuickItem* parent)
     , m_thbMgr(nullptr)
     , m_state(State::NotFetched)
 {
-
+    using namespace std::chrono_literals;
+    lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &PhotoItem::refetch, 1000ms, 5000ms);
 }
 
 
@@ -118,6 +121,22 @@ void PhotoItem::paintImage(QPainter& painter) const
 }
 
 
+void PhotoItem::refetch()
+{
+    if (m_state == State::Fetched)
+    {
+        const QSize thbSize(width(), height());
+
+        auto image = m_thbMgr->fetch(m_source, thbSize);
+
+        if (image.has_value())
+            setImage(image.value());
+        else
+            m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+    }
+}
+
+
 void PhotoItem::fetchImage()
 {
     const QSize thbSize(width(), height());
@@ -132,6 +151,7 @@ void PhotoItem::fetchImage()
     else
     {
         setState(State::Fetching);
+
         m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
 }

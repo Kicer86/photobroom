@@ -64,6 +64,7 @@ class PhotoItem: public QQuickPaintedItem
         void setImage(const QImage &);
         void setState(State);
         void paintImage(QPainter &) const;
+        void refetch();
 
     signals:
         void stateChanged();
