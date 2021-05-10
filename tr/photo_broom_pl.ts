@@ -865,8 +865,8 @@ Kod błędu: %1</translation>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+57"/>
-        <source>Animation</source>
-        <translation>animacja</translation>
+        <source>Photo burts</source>
+        <translation>Szybka seria zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -875,8 +875,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Generic</source>
-        <translation>ogólna</translation>
+        <source>Series of photos taken at intervals of a few seconds</source>
+        <translation>Seria zdjęć wykonanych w kilkusekundowych odstępach czasu</translation>
     </message>
 </context>
 <context>

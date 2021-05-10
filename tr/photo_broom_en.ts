@@ -843,8 +843,8 @@ Error code: %1</source>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
-        <source>Animation</source>
-        <translation>animation</translation>
+        <source>Photo burts</source>
+        <translation>Photo burts</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="58"/>
@@ -853,8 +853,8 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="59"/>
-        <source>Generic</source>
-        <translation>generic</translation>
+        <source>Series of photos taken at intervals of a few seconds</source>
+        <translation>Series of photos taken at intervals of a few seconds</translation>
     </message>
 </context>
 <context>
