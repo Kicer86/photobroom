@@ -107,7 +107,14 @@ void SeriesDetection::launch_groupping_dialog(const GroupCandidate& candidate)
     const int exit_code = pgd.exec();
 
     if (exit_code == QDialog::Accepted)
-        PhotosGroupingDialogUtils::createGroup(&pgd, m_project, m_db);
+    {
+        PhotosGroupingDialogUtils::GroupDetails details;
+        details.photos = pgd.photos();
+        details.representativePhoto = pgd.getRepresentative();
+        details.type = pgd.groupType();
+
+        PhotosGroupingDialogUtils::createGroup(details, m_project, m_db);
+    }
 }
 
 

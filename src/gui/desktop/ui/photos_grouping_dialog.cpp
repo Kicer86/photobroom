@@ -55,20 +55,15 @@ namespace
 
 namespace PhotosGroupingDialogUtils
 {
-    void createGroup(PhotosGroupingDialog* dialog, Project* project, Database::IDatabase* db)
+    void createGroup(const GroupDetails& details, Project* project, Database::IDatabase* db)
     {
-        const auto& photos = dialog->photos();
-        const QString photo = dialog->getRepresentative();
-        const Group::Type type = dialog->groupType();
-
         std::vector<Photo::Id> photos_ids;
-        for(std::size_t i = 0; i < photos.size(); i++)
-            photos_ids.push_back(photos[i].id);
+        std::transform(details.photos.begin(), details.photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.id; });
 
-        const QString internalPath = copyFileToPrivateMediaLocation(project->getProjectInfo(), photo);
+        const QString internalPath = copyFileToPrivateMediaLocation(project->getProjectInfo(), details.representativePhoto);
         const QString internalPathDecorated = project->makePathRelative(internalPath);
 
-        GroupsManager::group(db, photos_ids, internalPathDecorated, type);
+        GroupsManager::group(db, photos_ids, internalPathDecorated, details.type);
     }
 }
 

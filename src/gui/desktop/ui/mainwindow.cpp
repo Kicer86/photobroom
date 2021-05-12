@@ -440,7 +440,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
                         });
 
     QMenu contextMenu;
-    QAction* groupPhotos    = contextMenu.addAction(tr("Group..."));
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
     QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
     QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
@@ -464,15 +464,12 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
+        PhotosGroupingDialogUtils::GroupDetails details;
+        details.photos = photos;
+        details.type = Group::Type::Generic;
+        details.representativePhoto = photos.front().path;
 
-        auto logger = m_loggerFactory.get("PhotosGrouping");
-
-        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
-        const int status = dialog.exec();
-
-        if (status == QDialog::Accepted)
-            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
+        PhotosGroupingDialogUtils::createGroup(details, m_currentPrj.get(), db);
     }
     else if (chosenAction == ungroupPhotos)
     {

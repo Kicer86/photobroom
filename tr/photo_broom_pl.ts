@@ -404,17 +404,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+94"/>
-        <source>Group...</source>
-        <translation>Grupowanie...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+97"/>
         <source>Recognize people...</source>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+85"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -424,12 +419,17 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-184"/>
+        <location line="-181"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+93"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -439,7 +439,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+221"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -729,7 +729,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+154"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
