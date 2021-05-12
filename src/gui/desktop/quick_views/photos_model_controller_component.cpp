@@ -316,6 +316,9 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
                                                                         static_cast<int>(Database::CommonGeneralFlags::StateType::Normal))
     );
 
+    // if photo is part of a group then show only a representatives
+    filters_for_model.push_back(Database::FilterNotMatchingFilter(Database::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role::GroupMember)));
+
     return Database::GroupFilter(filters_for_model);
 }
 
