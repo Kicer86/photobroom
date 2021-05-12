@@ -37,7 +37,7 @@ namespace
             return Group::Invalid;
     }
 
-    int groupTypeTocombobox(Group::Type type)
+    int groupTypeToCombobox(Group::Type type)
     {
         switch(type)
         {
@@ -116,7 +116,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->speedSpinBox->setValue(calculateFPS());
 
     if (type != Group::Type::Invalid)
-        ui->groupingType->setCurrentIndex(groupTypeTocombobox(type));
+        ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
