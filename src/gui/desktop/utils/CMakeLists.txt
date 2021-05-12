@@ -4,6 +4,8 @@ find_package(Qt6 REQUIRED COMPONENTS Svg)
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
     grouppers/animation_generator.hpp
+    grouppers/collage_generator.cpp
+    grouppers/collage_generator.hpp
     grouppers/generator_utils.cpp
     grouppers/generator_utils.hpp
     grouppers/hdr_generator.cpp
