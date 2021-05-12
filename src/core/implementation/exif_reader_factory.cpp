@@ -36,7 +36,7 @@ ExifReaderFactory::ExifReaderFactory(): m_feeders()
 }
 
 
-IExifReader* ExifReaderFactory::get()
+IExifReader& ExifReaderFactory::get()
 {
     //ExifTool may not be thread safe. Prepare separate object for each thread
     const auto id = std::this_thread::get_id();
@@ -50,5 +50,5 @@ IExifReader* ExifReaderFactory::get()
         it = in.first;
     }
 
-    return it->second.get();
+    return *it->second.get();
 }

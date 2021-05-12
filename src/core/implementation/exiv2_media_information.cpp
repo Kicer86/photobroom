@@ -34,11 +34,11 @@ Eviv2MediaInformation::Eviv2MediaInformation(IExifReaderFactory& exif): m_exif(e
 
 std::optional<QSize> Eviv2MediaInformation::size(const QString& path) const
 {
-    IExifReader* exif_reader = m_exif.get();
+    IExifReader& exif_reader = m_exif.get();
 
     std::optional<QSize> result;
 
-    const bool has = exif_reader->hasExif(path);
+    const bool has = exif_reader.hasExif(path);
 
     if (has)
     {
@@ -53,7 +53,7 @@ std::optional<QSize> Eviv2MediaInformation::size(const QString& path) const
         const QImageReader reader(path);
         QSize size = reader.size();
 
-        const std::optional<std::any> orientation_raw = exif_reader->get(path, IExifReader::TagType::Orientation);
+        const std::optional<std::any> orientation_raw = exif_reader.get(path, IExifReader::TagType::Orientation);
 
         int orientation = 0;
         if (orientation_raw.has_value())

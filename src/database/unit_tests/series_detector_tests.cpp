@@ -44,7 +44,7 @@ TEST_F(SeriesDetectorTest, constructor)
         MockDatabase db;
         MockExifReader exif;
 
-        SeriesDetector sd(db, &exif);
+        SeriesDetector sd(db, exif);
     });
 }
 
@@ -93,7 +93,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, &exif);
+    const SeriesDetector sd(db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -148,7 +148,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(db, &exif);
+    const SeriesDetector sd(db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -206,7 +206,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(db, &exif);
+    const SeriesDetector sd(db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -286,7 +286,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, &exif);
+    const SeriesDetector sd(db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -312,7 +312,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
         task->run(mem_backend);
     }));
 
-    const SeriesDetector sd(mem_db, &exif);
+    const SeriesDetector sd(mem_db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -349,6 +349,6 @@ TEST_F(SeriesDetectorTest, Complexity)
         return data;
     }));
 
-    const SeriesDetector sd(db, &exif);
+    const SeriesDetector sd(db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

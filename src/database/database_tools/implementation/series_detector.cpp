@@ -240,7 +240,7 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader* exif, const QPromise<std::vector<GroupCandidate>>* p)
+SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader& exif, const QPromise<std::vector<GroupCandidate>>* p)
     : m_db(db)
     , m_promise(p)
     , m_exifReader(exif)
@@ -279,7 +279,7 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 {
     try
     {
-        SeriesExtractor extractor(*m_exifReader, photos, rules, m_promise);
+        SeriesExtractor extractor(m_exifReader, photos, rules, m_promise);
 
         auto hdrs = extractor.extract<Group::Type::HDR>();
         auto animations = extractor.extract<Group::Type::Animation>();

@@ -166,10 +166,10 @@ namespace
 
         virtual void perform() override
         {
-            IExifReader* feeder = m_exifReaderFactory.get();
+            IExifReader& feeder = m_exifReaderFactory.get();
 
             // merge found tags with current tags.
-            const Tag::TagsList new_tags = feeder->getTagsFor(m_photoInfo.path);
+            const Tag::TagsList new_tags = feeder.getTagsFor(m_photoInfo.path);
             const Tag::TagsList cur_tags = m_photoInfo.tags;
 
             Tag::TagsList tags = cur_tags;

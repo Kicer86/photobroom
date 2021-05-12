@@ -354,12 +354,12 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 {
     m_model.clear();
 
-    IExifReader* exif = m_exifReaderFactory.get();
+    IExifReader& exif = m_exifReaderFactory.get();
 
     for(const Photo::Data& photo: photos)
     {
         const QString& path = photo.path;
-        const std::optional<std::any> sequence_number = exif->get(path, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
 

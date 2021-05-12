@@ -61,7 +61,7 @@ QImage ThumbnailGenerator::generate(const QString& path, const IThumbnailsCache:
 
 QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 {
-    IExifReader* reader = m_exifReaderFactory.get();
+    IExifReader& reader = m_exifReaderFactory.get();
 
     Stopwatch stopwatch;
     stopwatch.start();

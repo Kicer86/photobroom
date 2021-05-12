@@ -75,7 +75,7 @@ struct FaceRecognition::Data
 
     std::shared_ptr<ITmpDir> m_tmpDir;
     std::unique_ptr<ILogger> m_logger;
-    IExifReader* m_exif;
+    IExifReader& m_exif;
 };
 
 
