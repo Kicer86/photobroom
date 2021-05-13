@@ -21,7 +21,7 @@ struct SYSTEM_EXPORT System
     /**
      * Flags to be used for temporary directory creation.
      */
-    enum TmpOptions
+    enum TmpOption
     {
         Generic      = 1,       ///< generic temporary dir without any special requirements. This option cannot be combined with others.
         Confidential = 2,       ///< directory will be used for user private data. No system wide tmp dir should be used as a base.
@@ -65,13 +65,16 @@ struct SYSTEM_EXPORT System
      * Some temporary directories may be shared and won't\n
      * be deleted until last client releases it.
      */
-    static std::shared_ptr<ITmpDir> createTmpDir(const QString& utility, TmpOptions flags = Generic);
+    static std::shared_ptr<ITmpDir> createTmpDir(const QString& utility, QFlags<TmpOption> flags = Generic);
 
     /**
      * \brief remove all temporary files
      */
     static void cleanTemporaries();
+
+    Q_DECLARE_FLAGS(TmpOptions, TmpOption);
 };
 
+Q_DECLARE_OPERATORS_FOR_FLAGS(System::TmpOptions)
 
 #endif
