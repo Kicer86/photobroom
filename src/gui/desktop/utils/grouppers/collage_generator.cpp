@@ -4,6 +4,8 @@
 
 #include "collage_generator.hpp"
 
+// materials: https://stackoverflow.com/questions/8535633/photo-collage-algorithm
+
 namespace
 {
     bool isHorizontal(const QImage& image)
