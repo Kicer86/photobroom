@@ -46,8 +46,6 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
         return OrientedImage(m_exifReader, path).get();
     });
 
-    //std::partition(images.begin(), images.end(), isHorizontal);
-
     const QImage collage = merge(images.begin(), images.end());
 
     return collage;
@@ -58,12 +56,18 @@ QImage CollageGenerator::merge(QList<QImage>::iterator first, QList<QImage>::ite
 {
     QImage result;
 
-    if (last - first == 2)
+    if (last - first == 1)
+        result = *first;
+    else if (last - first == 2)
         result = merge(*first, *(first + 1));
     else
     {
-        QImage partial = merge(first + 1, last);
-        result = merge(partial, *first);
+        const int div = (last - first) / 2;
+
+        QImage partial1 = merge(first, first + div);
+        QImage partial2 = merge(first + div, last);
+
+        result = merge(partial1, partial2);
     }
 
     return result;
@@ -72,44 +76,52 @@ QImage CollageGenerator::merge(QList<QImage>::iterator first, QList<QImage>::ite
 
 QImage CollageGenerator::merge(const QImage& lhs, const QImage& rhs) const
 {
-    QImage result;
+    const QImage horizonal = horizontalMerge(lhs, rhs);
+    const QImage vertical = verticalMerge(lhs, rhs);
 
-    QImage leftImage  = lhs;
-    QImage rightImage = rhs;
-    const bool isLeftHorizontal  = isHorizontal(leftImage);
-    const bool isRightHorizontal = isHorizontal(rightImage);
-
-    // merge one over another
-    if (isLeftHorizontal && isRightHorizontal)
-    {
-        adjustHorizontalSizes(leftImage, rightImage);
-        assert(leftImage.width() == rightImage.width());
-
-        QImage image(QSize(leftImage.width(), leftImage.height() + rightImage.height()), QImage::Format_ARGB32);
-        image.fill(Qt::white);
-
-        QPainter painter(&image);
-        painter.drawImage(0, 0, leftImage);
-        painter.drawImage(0, leftImage.height(), rightImage);
-
-        result = image;
-    }
-    else
-    {
-        adjustVerticalSizes(leftImage, rightImage);
-        assert(leftImage.height() == rightImage.height());
-
-        QImage image(QSize(leftImage.width() + rightImage.width(), leftImage.height()), QImage::Format_ARGB32);
-        image.fill(Qt::white);
-
-        QPainter painter(&image);
-        painter.drawImage(0, 0, leftImage);
-        painter.drawImage(leftImage.width(), 0, rightImage);
-
-        result = image;
-    }
+    // return more sqare result
+    const QImage& result = std::abs(horizonal.height() - horizonal.width()) < std::abs(vertical.height() - vertical.width())?
+        horizonal:
+        vertical;
 
     return result;
+}
+
+
+QImage CollageGenerator::horizontalMerge(const QImage& lhs, const QImage& rhs) const
+{
+    QImage leftImage  = lhs;
+    QImage rightImage = rhs;
+
+    adjustVerticalSizes(leftImage, rightImage);
+    assert(leftImage.height() == rightImage.height());
+
+    QImage image(QSize(leftImage.width() + rightImage.width(), leftImage.height()), QImage::Format_ARGB32);
+    image.fill(Qt::white);
+
+    QPainter painter(&image);
+    painter.drawImage(0, 0, leftImage);
+    painter.drawImage(leftImage.width(), 0, rightImage);
+
+    return image;
+}
+
+QImage CollageGenerator::verticalMerge(const QImage& lhs, const QImage& rhs) const
+{
+    QImage leftImage  = lhs;
+    QImage rightImage = rhs;
+
+    adjustHorizontalSizes(leftImage, rightImage);
+    assert(leftImage.width() == rightImage.width());
+
+    QImage image(QSize(leftImage.width(), leftImage.height() + rightImage.height()), QImage::Format_ARGB32);
+    image.fill(Qt::white);
+
+    QPainter painter(&image);
+    painter.drawImage(0, 0, leftImage);
+    painter.drawImage(0, leftImage.height(), rightImage);
+
+    return image;
 }
 
 
