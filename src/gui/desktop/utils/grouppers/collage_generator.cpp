@@ -87,19 +87,10 @@ namespace
 
     Image takeImage(std::multiset<Image>& images, double a)
     {
-        auto best = images.begin();
-        double best_diff = std::abs(best->a - a);
-
-        for(auto it = std::next(images.begin()); it != images.end(); ++it)
+        auto best = std::min_element(images.begin(), images.end(), [a](const Image& lhs, const Image& rhs)
         {
-            const double diff = std::abs(it->a - a);
-
-            if (diff < best_diff)
-            {
-                best_diff = diff;
-                best = it;
-            }
-        }
+            return std::abs(lhs.a - a) < std::abs(rhs.a - a);
+        });
 
         Image image = *best;
         images.erase(best);
