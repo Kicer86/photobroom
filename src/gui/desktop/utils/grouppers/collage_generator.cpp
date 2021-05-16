@@ -15,11 +15,6 @@ namespace
     {
         int idx = -1;
         double a = 1.0;
-
-        bool operator<(const Image& other) const
-        {
-            return a < other.a;
-        }
     };
 
     struct Node
@@ -35,17 +30,17 @@ namespace
         std::unique_ptr<Node> right;
     };
 
-    std::pair<Image, Image> takeImgPair(std::multiset<Image>& images, double a)
+    std::pair<Image, Image> takeImgPair(std::vector<Image>& images, double a)
     {
-        auto p = images.begin();
-        auto q = prev(images.end());
-        auto i = p;
-        auto j = q;
-        double m = std::abs(p->a + q->a - a);
+        int p = 0;
+        int q = images.size() - 1;
+        int i = p;
+        int j = q;
+        double m = std::abs(images[p].a + images[q].a - a);
 
-        while (p != q)
+        while (p < q)
         {
-            const double a_sum = p->a + q->a;
+            const double a_sum = images[p].a + images[q].a;
 
             if (a_sum > a)
             {
@@ -75,17 +70,18 @@ namespace
             }
         }
 
-        Image l = *i;
-        Image r = *j;
+        Image l = images[i];
+        Image r = images[j];
 
-        images.erase(i);
-        images.erase(j);
+        // remove from back first
+        images.erase(images.begin() + j);
+        images.erase(images.begin() + i);
 
         return std::make_pair(l, r);
     }
 
 
-    Image takeImage(std::multiset<Image>& images, double a)
+    Image takeImage(std::vector<Image>& images, double a)
     {
         auto best = std::min_element(images.begin(), images.end(), [a](const Image& lhs, const Image& rhs)
         {
@@ -98,7 +94,7 @@ namespace
         return image;
     }
 
-    std::unique_ptr<Node> generateTree(std::multiset<Image>& images, int leafs, double ratio)
+    std::unique_ptr<Node> generateTree(std::vector<Image>& images, int leafs, double ratio)
     {
         std::unique_ptr<Node> node = std::make_unique<Node>();
         node->a_tar = ratio;
@@ -271,7 +267,7 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
 
 QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 {
-    std::multiset<Image> images;
+    std::vector<Image> images;
 
     for(int i = 0; i < images_list.size(); i++)
     {
@@ -281,8 +277,14 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list) const
         image.a = ratio;
         image.idx = i;
 
-        images.insert(image);
+        images.push_back(image);
     }
+
+    std::sort(images.begin(), images.end(), [](const Image& lhs, const Image& rhs)
+    {
+        return lhs.a < rhs.a;
+    });
+
 
     auto root = generateTree(images, images_list.size(), 1.0);
     recurCalcAR(root.get());
