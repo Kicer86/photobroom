@@ -195,6 +195,49 @@ namespace
             adjustTree(n->right.get(), th);
         }
     }
+
+    void calculatePositionsForImages(std::vector<QRect>& positions, Node* n, QRect available_area)
+    {
+        if (n->isLeaf)
+        {
+            const int idx = n->image.idx;
+            if (positions.size() < idx + 1)
+                positions.resize(idx + 1);
+
+            positions[idx] = available_area;
+        }
+        else
+        {
+            if (n->horizontalSplit)
+            {
+                const int l_height = available_area.width() / n->left->a;
+                const QRect l_rect(available_area.x(), available_area.y(), available_area.width(), l_height);
+                const QRect r_rect(available_area.x(), available_area.y() + l_height, available_area.width(), available_area.height() - l_height);
+
+                calculatePositionsForImages(positions, n->left.get(), l_rect);
+                calculatePositionsForImages(positions, n->right.get(), r_rect);
+            }
+            else
+            {
+                const int l_width = available_area.height() * n->left->a;
+                const QRect l_rect(available_area.x(), available_area.y(), l_width, available_area.height());
+                const QRect r_rect(available_area.x() + l_width, available_area.y(), available_area.width() - l_width, available_area.height());
+
+                calculatePositionsForImages(positions, n->left.get(), l_rect);
+                calculatePositionsForImages(positions, n->right.get(), r_rect);
+            }
+        }
+    }
+
+    QRect calculatePositionsForImages(std::vector<QRect>& positions, Node* n, int height)
+    {
+        const QSize node_size(n->a * height, height);
+        const QRect node_rect(QPoint(0, 0), node_size);
+
+        calculatePositionsForImages(positions, n, node_rect);
+
+        return node_rect;
+    }
 }
 
 
@@ -229,27 +272,28 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
         return OrientedImage(m_exifReader, path).get();
     });
 
-    const QImage collage = merge(images.begin(), images.end());
+    const QImage collage = merge(images);
 
     return collage;
 }
 
 
-QImage CollageGenerator::merge(QList<QImage>::iterator first, QList<QImage>::iterator last) const
+QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 {
     std::multiset<Image> images;
 
-    for(auto it = first; it != last; ++it)
+    for(int i = 0; i < images_list.size(); i++)
     {
-        const double ratio = static_cast<double>(it->width()) / it->height();
+        const QImage& qimage = images_list[i];
+        const double ratio = static_cast<double>(qimage.width()) / qimage.height();
         Image image;
         image.a = ratio;
-        image.idx = it - first;
+        image.idx = i;
 
         images.insert(image);
     }
 
-    auto root = generateTree(images, last - first, 1.0);
+    auto root = generateTree(images, images_list.size(), 1.0);
     recurCalcAR(root.get());
 
     double prev_a = root->a;
@@ -266,23 +310,18 @@ QImage CollageGenerator::merge(QList<QImage>::iterator first, QList<QImage>::ite
             prev_a = current_a;
     }
 
-    QImage result;
+    std::vector<QRect> positions;
+    const QRect area = calculatePositionsForImages(positions, root.get(), 1024);
 
-    if (last - first == 1)
-        result = *first;
-    else if (last - first == 2)
-        result = merge(*first, *(first + 1));
-    else
-    {
-        const int div = (last - first) / 2;
+    QImage image(area.size(), QImage::Format_ARGB32);
+    image.fill(Qt::white);
 
-        QImage partial1 = merge(first, first + div);
-        QImage partial2 = merge(first + div, last);
+    QPainter painter(&image);
 
-        result = merge(partial1, partial2);
-    }
+    for(int i = 0; i < images_list.size(); i++)
+        painter.drawImage(positions[i], images_list[i]);
 
-    return result;
+    return image;
 }
 
 

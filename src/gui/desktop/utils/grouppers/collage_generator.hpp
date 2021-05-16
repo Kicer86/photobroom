@@ -17,7 +17,7 @@ class CollageGenerator
     private:
         IExifReader& m_exifReader;
 
-        QImage merge(QList<QImage>::iterator, QList<QImage>::iterator) const;
+        QImage merge(const QList<QImage> &) const;
         QImage merge(const QImage& lhs, const QImage& rhs) const;
         QImage horizontalMerge(const QImage& lhs, const QImage& rhs) const;
         QImage verticalMerge(const QImage& lhs, const QImage& rhs) const;
