@@ -19,19 +19,28 @@ namespace
 
     struct Node
     {
-        bool isLeaf = false;
         double a_tar = 1.0;
         double a = 1.0;
         bool horizontalSplit = false;
 
-        Image image;
+        std::optional<Image> image;
 
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
+
+        bool isLeaf() const
+        {
+            return image.has_value();
+        }
     };
 
     std::pair<Image, Image> takeImgPair(std::vector<Image>& images, double a)
     {
+        assert(std::is_sorted(images.begin(), images.end(), [](const Image& lhs, const Image& rhs)
+        {
+            return lhs.a < rhs.a;
+        }));
+
         int p = 0;
         int q = images.size() - 1;
         int i = p;
@@ -98,7 +107,6 @@ namespace
     {
         std::unique_ptr<Node> node = std::make_unique<Node>();
         node->a_tar = ratio;
-        node->isLeaf = leafs == 1;
 
         if (leafs == 1)
         {
@@ -127,9 +135,7 @@ namespace
                 auto right = std::make_unique<Node>();
 
                 left->image = imagePair.first;
-                left->isLeaf = true;
                 right->image = imagePair.second;
-                right->isLeaf = true;
 
                 node->left = std::move(left);
                 node->right = std::move(right);
@@ -141,8 +147,8 @@ namespace
 
     double recurCalcAR(Node* n)
     {
-        if (n->isLeaf)
-            n->a = n->a_tar = n->image.a;
+        if (n->isLeaf())
+            n->a = n->a_tar = n->image->a;
         else
         {
             double left_a = recurCalcAR(n->left.get());
@@ -159,7 +165,7 @@ namespace
 
     void adjustTree(Node* n, double th)
     {
-        if (n->isLeaf == false)
+        if (n->isLeaf() == false)
         {
             if (n->a > n->a_tar * th)
                 n->horizontalSplit = true;
@@ -185,9 +191,9 @@ namespace
 
     void calculatePositionsForImages(std::vector<QRect>& positions, Node* n, QRect available_area)
     {
-        if (n->isLeaf)
+        if (n->isLeaf())
         {
-            const int idx = n->image.idx;
+            const int idx = n->image->idx;
             if (positions.size() < idx + 1)
                 positions.resize(idx + 1);
 
@@ -287,6 +293,7 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 
 
     auto root = generateTree(images, images_list.size(), 1.0);
+    assert(images.empty());      // all images should be used for collage
     recurCalcAR(root.get());
 
     double prev_a = root->a;
@@ -305,6 +312,8 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 
     std::vector<QRect> positions;
     const QRect area = calculatePositionsForImages(positions, root.get(), 1024);
+
+    assert(positions.size() == images_list.size());
 
     QImage image(area.size(), QImage::Format_ARGB32);
     image.fill(Qt::white);
