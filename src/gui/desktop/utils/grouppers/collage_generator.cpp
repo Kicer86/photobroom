@@ -248,6 +248,44 @@ namespace
 
         return images;
     }
+
+    std::unique_ptr<Node> generateOptimizedTree(const std::vector<Image>& images)
+    {
+        auto mutable_images = images;
+
+        auto root = generateTree(mutable_images, images.size(), 1.0);
+        assert(mutable_images.empty());      // all images should be used for collage
+        recurCalcAR(root.get());
+
+        double prev_a = root->a;
+        for(int i = 0; i < 10; i++)
+        {
+            adjustTree(root.get(), 1.3);
+            recurCalcAR(root.get());
+
+            const double current_a = root->a;
+
+            if (std::abs(current_a - prev_a) < 0.01)
+                break;
+            else
+                prev_a = current_a;
+        }
+
+        return root;
+    }
+
+    QImage generateCollageImage(const QSize& canvas, const QList<QImage>& images_list, const std::vector<QRect>& positions)
+    {
+        QImage image(canvas, QImage::Format_ARGB32);
+        image.fill(Qt::white);
+
+        QPainter painter(&image);
+
+        for(int i = 0; i < images_list.size(); i++)
+            painter.drawImage(positions[i], images_list[i]);
+
+        return image;
+    }
 }
 
 
@@ -274,6 +312,7 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
 
 QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 {
+    // Images will contain indexes identifying QImages from images_list
     std::vector<Image> images = qimagesToImages(images_list);
 
     std::sort(images.begin(), images.end(), [](const Image& lhs, const Image& rhs)
@@ -281,36 +320,13 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list) const
         return lhs.a < rhs.a;
     });
 
-    auto root = generateTree(images, images_list.size(), 1.0);
-    assert(images.empty());      // all images should be used for collage
-    recurCalcAR(root.get());
-
-    double prev_a = root->a;
-    for(int i = 0; i < 10; i++)
-    {
-        adjustTree(root.get(), 1.3);
-        recurCalcAR(root.get());
-
-        const double current_a = root->a;
-
-        if (std::abs(current_a - prev_a) < 0.01)
-            break;
-        else
-            prev_a = current_a;
-    }
+    auto root = generateOptimizedTree(images);
 
     std::vector<QRect> positions;
     const QRect area = calculatePositionsForImages(positions, root.get(), 1024);
-
     assert(positions.size() == images_list.size());
 
-    QImage image(area.size(), QImage::Format_ARGB32);
-    image.fill(Qt::white);
-
-    QPainter painter(&image);
-
-    for(int i = 0; i < images_list.size(); i++)
-        painter.drawImage(positions[i], images_list[i]);
+    const QImage image = generateCollageImage(area.size(), images_list, positions);
 
     return image;
 }
