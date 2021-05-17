@@ -15,6 +15,13 @@ namespace
     {
         int idx = -1;
         double a = 1.0;
+
+        Image(int w, int h, int i)
+            : a (static_cast<double>(w)/h)
+            , idx(i)
+        {
+
+        }
     };
 
     struct Node
@@ -231,6 +238,16 @@ namespace
 
         return node_rect;
     }
+
+    std::vector<Image> qimagesToImages(const QList<QImage>& qimages)
+    {
+        std::vector<Image> images;
+
+        for(int i = 0; i < qimages.size(); i++)
+            images.emplace_back(qimages[i].width(), qimages[i].height(), i);
+
+        return images;
+    }
 }
 
 
@@ -257,24 +274,12 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
 
 QImage CollageGenerator::merge(const QList<QImage>& images_list) const
 {
-    std::vector<Image> images;
-
-    for(int i = 0; i < images_list.size(); i++)
-    {
-        const QImage& qimage = images_list[i];
-        const double ratio = static_cast<double>(qimage.width()) / qimage.height();
-        Image image;
-        image.a = ratio;
-        image.idx = i;
-
-        images.push_back(image);
-    }
+    std::vector<Image> images = qimagesToImages(images_list);
 
     std::sort(images.begin(), images.end(), [](const Image& lhs, const Image& rhs)
     {
         return lhs.a < rhs.a;
     });
-
 
     auto root = generateTree(images, images_list.size(), 1.0);
     assert(images.empty());      // all images should be used for collage
