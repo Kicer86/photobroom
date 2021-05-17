@@ -243,24 +243,8 @@ CollageGenerator::CollageGenerator(IExifReader& exifReader)
 
 QImage CollageGenerator::generateCollage(const QStringList& paths) const
 {
-    QStringList toUse;
-
-    const auto count = paths.size();
-
-    if (count <= 40)
-        toUse = paths;
-    else
-    {
-        const int step = std::round(count / 4.0);
-
-        toUse.push_back(paths[0]);
-        toUse.push_back(paths[step]);
-        toUse.push_back(paths[count - 1 - step]);
-        toUse.push_back(paths[count - 1]);
-    }
-
     QList<QImage> images;
-    std::transform(toUse.begin(), toUse.end(), std::back_inserter(images), [this](const auto& path)
+    std::transform(paths.begin(), paths.end(), std::back_inserter(images), [this](const auto& path)
     {
         return OrientedImage(m_exifReader, path).get();
     });
