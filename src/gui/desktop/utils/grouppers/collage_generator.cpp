@@ -13,8 +13,8 @@ namespace
 {
     struct Image
     {
-        int idx = -1;
         double a = 1.0;
+        int idx = -1;
 
         Image(int w, int h, int i)
             : a (static_cast<double>(w)/h)
