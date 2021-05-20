@@ -100,8 +100,8 @@ class MainWindow: public QMainWindow, public INotifications
         void showContextMenu(const QPoint &);
 
         // INotifications:
-        int reportWarning(const QString &);
-        void removeWarning(int id);
+        int reportWarning(const QString &) override;
+        void removeWarning(int id) override;
 
     private slots:
         // album menu
