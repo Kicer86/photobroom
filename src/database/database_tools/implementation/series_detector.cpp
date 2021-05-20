@@ -252,7 +252,7 @@ SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader& exif, const
 std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
     const std::deque<Photo::Data> datas =
-        evaluate<std::deque<Photo::Data>(Database::IBackend& backend)>(m_db, [this, &rules, &datas](Database::IBackend& backend)
+        evaluate<std::deque<Photo::Data>(Database::IBackend &)>(m_db, [this, &rules, &datas](Database::IBackend& backend)
     {
         std::vector<GroupCandidate> result;
 
