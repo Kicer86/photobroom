@@ -99,6 +99,8 @@ class MainWindow: public QMainWindow, public INotifications
 
         void showContextMenu(const QPoint &);
 
+        void removeGroupOf(const Photo::Data &);
+
         // INotifications:
         int reportWarning(const QString &) override;
         void removeWarning(int id) override;

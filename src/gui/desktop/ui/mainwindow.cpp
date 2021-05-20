@@ -19,9 +19,12 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/database_builder.hpp>
 #include <database/idatabase.hpp>
+#include <database/igroup_operator.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
+#include <database/database_executor_traits.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
 #include <system/system.hpp>
@@ -443,6 +446,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     QMenu contextMenu;
     QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* manageGroup    = contextMenu.addAction(tr("Manage group..."));
     QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
     QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
@@ -450,6 +454,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
 
     groupPhotos->setEnabled(photos.size() > 1);
+    manageGroup->setEnabled(isSingleGroup);
     ungroupPhotos->setEnabled(isSingleGroup);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
@@ -483,16 +488,48 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
         PhotosGroupingDialogUtils::createGroup(details, m_currentPrj.get(), db);
     }
+    else if (chosenAction == manageGroup)
+    {
+        Database::IDatabase* db = m_currentPrj->getDatabase();
+        const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(*db, [&photos](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> members;
+
+            auto& groupOperator = backend.groupOperator();
+            const auto memberIds = groupOperator.membersOf(photos.front().groupInfo.group_id);
+
+            for (const auto& id: memberIds)
+            {
+                const Photo::Data member = backend.getPhoto(id);
+                members.push_back(member);
+            }
+
+            return members;
+        });
+
+        IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
+        auto logger = m_loggerFactory.get("PhotosGrouping");
+        PhotosGroupingDialog dialog(groupMembers, factory, m_executor, m_configuration, logger.get());
+        const int status = dialog.exec();
+
+        if (status == QDialog::Accepted)
+        {
+            // remove old group
+            removeGroupOf(photos.front());
+
+            // create new one
+            PhotosGroupingDialogUtils::GroupDetails groupDetails;
+            groupDetails.photos = groupMembers;
+            groupDetails.representativePhoto = dialog.getRepresentative();
+            groupDetails.type = dialog.groupType();
+
+            PhotosGroupingDialogUtils::createGroup(groupDetails, m_currentPrj.get(), db);
+        }
+
+    }
     else if (chosenAction == ungroupPhotos)
     {
-        const Photo::Data& representative = photos.front();
-        const GroupInfo& grpInfo = representative.groupInfo;
-        const Group::Id gid = grpInfo.group_id;
-
-        GroupsManager::ungroup(db, gid);
-
-        // delete representative file
-        QFile::remove(representative.path);
+       removeGroupOf(photos.front());
     }
     else if (chosenAction == location)
     {
@@ -513,6 +550,19 @@ void MainWindow::showContextMenu(const QPoint& pos)
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
     }
+}
+
+
+void MainWindow::removeGroupOf(const Photo::Data& representative)
+{
+    const GroupInfo& grpInfo = representative.groupInfo;
+    const Group::Id gid = grpInfo.group_id;
+
+    Database::IDatabase* db = m_currentPrj->getDatabase();
+    GroupsManager::ungroup(db, gid);
+
+    // delete representative file
+    QFile::remove(representative.path);
 }
 
 

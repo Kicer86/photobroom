@@ -377,7 +377,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+228"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+231"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -404,12 +404,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+98"/>
         <source>Recognize people...</source>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+95"/>
+        <location line="+141"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -419,7 +419,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-191"/>
+        <location line="-238"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -427,6 +427,11 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <location line="+93"/>
         <source>Group</source>
         <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Manage group...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -439,7 +444,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+277"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
