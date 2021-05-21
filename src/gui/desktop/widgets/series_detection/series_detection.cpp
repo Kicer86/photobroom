@@ -44,7 +44,7 @@ using namespace std::placeholders;
 SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  ICoreFactoryAccessor* core,
                                  IThumbnailsManager* thbMgr,
-                                 Project* project):
+                                 Project& project):
     QDialog(),
     m_tabModel(*db, *core),
     m_core(core),
@@ -109,7 +109,7 @@ void SeriesDetection::launch_groupping_dialog(const GroupCandidate& candidate)
 
     if (exit_code == QDialog::Accepted)
     {
-        const auto representat = GroupsManager::copyRepresentatToDatabase(pgd.getRepresentative(), *m_project);
+        const auto representat = GroupsManager::copyRepresentatToDatabase(pgd.getRepresentative(), m_project);
         GroupsManager::group(m_db, pgd.photos(), representat, pgd.groupType());
     }
 }

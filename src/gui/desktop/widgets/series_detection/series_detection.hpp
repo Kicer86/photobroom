@@ -45,14 +45,14 @@ class SeriesDetection: public QDialog
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, IThumbnailsManager *, Project *);
+        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, IThumbnailsManager *, Project &);
         ~SeriesDetection();
 
     private:
         SeriesModel m_tabModel;
         ICoreFactoryAccessor* m_core;
         Database::IDatabase* m_db;
-        Project* m_project;
+        Project& m_project;
         QQuickWidget* m_qmlView;
         QML_IThumbnailsManager m_thumbnailsManager4QML;
 
