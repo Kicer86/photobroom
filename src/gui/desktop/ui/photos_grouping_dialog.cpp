@@ -50,23 +50,6 @@ namespace
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-
-namespace PhotosGroupingDialogUtils
-{
-    void createGroup(const GroupDetails& details, Project* project, Database::IDatabase* db)
-    {
-        std::vector<Photo::Id> photos_ids;
-        std::transform(details.photos.begin(), details.photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.id; });
-
-        const QString internalPath = copyFileToPrivateMediaLocation(project->getProjectInfo(), details.representativePhoto);
-        const QString internalPathDecorated = project->makePathRelative(internalPath);
-
-        GroupsManager::group(db, photos_ids, internalPathDecorated, details.type);
-    }
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 

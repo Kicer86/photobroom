@@ -22,6 +22,28 @@
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
 #include <database/iphoto_operator.hpp>
+#include <project_utils/misc.hpp>
+
+
+QString GroupsManager::copyRepresentatToDatabase(const QString& representativePhoto, Project& project)
+{
+    const QString internalPath = copyFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const QString internalPathDecorated = project.makePathRelative(internalPath);
+
+    return internalPathDecorated;
+}
+
+
+void GroupsManager::group(Database::IDatabase* database,
+                          const std::vector<Photo::Data>& photos,
+                          const QString& representativePath,
+                          Group::Type type)
+{
+        std::vector<Photo::Id> photos_ids;
+        std::transform(photos.begin(), photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.id; });
+
+        group(database, photos, representativePath, type);
+}
 
 
 void GroupsManager::group(Database::IDatabase* database,

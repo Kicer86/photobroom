@@ -113,17 +113,4 @@ class PhotosGroupingDialog: public QDialog
         void cancel();
 };
 
-
-namespace PhotosGroupingDialogUtils
-{
-    struct GroupDetails
-    {
-        std::vector<Photo::Data> photos;
-        Group::Type type = Group::Type::Generic;
-        QString representativePhoto;
-    };
-
-    void createGroup(const GroupDetails &, Project *, Database::IDatabase *);
-}
-
 #endif // PHOTOS_GROUPING_DIALOG_HPP

@@ -33,6 +33,7 @@
 
 #include "ui/photos_grouping_dialog.hpp"
 #include "quick_views/qml_utils.hpp"
+#include "utils/groups_manager.hpp"
 
 
 Q_DECLARE_METATYPE(GroupCandidate)
@@ -108,12 +109,8 @@ void SeriesDetection::launch_groupping_dialog(const GroupCandidate& candidate)
 
     if (exit_code == QDialog::Accepted)
     {
-        PhotosGroupingDialogUtils::GroupDetails details;
-        details.photos = pgd.photos();
-        details.representativePhoto = pgd.getRepresentative();
-        details.type = pgd.groupType();
-
-        PhotosGroupingDialogUtils::createGroup(details, m_project, m_db);
+        const auto representat = GroupsManager::copyRepresentatToDatabase(pgd.getRepresentative(), *m_project);
+        GroupsManager::group(m_db, pgd.photos(), representat, pgd.groupType());
     }
 }
 

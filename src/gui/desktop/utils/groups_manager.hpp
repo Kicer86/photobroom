@@ -19,8 +19,9 @@
 #ifndef GROUPS_MANAGER_HPP
 #define GROUPS_MANAGER_HPP
 
-#include <database/photo_types.hpp>
+#include <database/photo_data.hpp>
 #include <database/group.hpp>
+#include <project_utils/project.hpp>
 
 
 namespace Database
@@ -31,6 +32,13 @@ namespace Database
 
 namespace GroupsManager
 {
+    QString copyRepresentatToDatabase(const QString& representativePhoto, Project &);
+
+    void group(Database::IDatabase *,
+               const std::vector<Photo::Data> &,
+               const QString& representativePath,
+               Group::Type);                                 // group set of photos as one with given (external/generated) representative
+
     void group(Database::IDatabase *,
                const std::vector<Photo::Id> &,
                const QString& representativePath,

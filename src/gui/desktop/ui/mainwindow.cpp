@@ -481,12 +481,8 @@ void MainWindow::showContextMenu(const QPoint& pos)
         const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
         collage.save(collagePath, "JPG");
 
-        PhotosGroupingDialogUtils::GroupDetails details;
-        details.photos = photos;
-        details.type = Group::Type::Generic;
-        details.representativePhoto = collagePath;
-
-        PhotosGroupingDialogUtils::createGroup(details, m_currentPrj.get(), db);
+        const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, *m_currentPrj.get());
+        GroupsManager::group(m_currentPrj->getDatabase(), photos, representantPath, Group::Type::Generic);
     }
     else if (chosenAction == manageGroup)
     {
@@ -518,12 +514,9 @@ void MainWindow::showContextMenu(const QPoint& pos)
             removeGroupOf(photos.front());
 
             // create new one
-            PhotosGroupingDialogUtils::GroupDetails groupDetails;
-            groupDetails.photos = groupMembers;
-            groupDetails.representativePhoto = dialog.getRepresentative();
-            groupDetails.type = dialog.groupType();
+            const QString representantPath = GroupsManager::copyRepresentatToDatabase(dialog.getRepresentative(), *m_currentPrj.get());
+            GroupsManager::group(m_currentPrj->getDatabase(), groupMembers, representantPath, dialog.groupType());
 
-            PhotosGroupingDialogUtils::createGroup(groupDetails, m_currentPrj.get(), db);
         }
 
     }
