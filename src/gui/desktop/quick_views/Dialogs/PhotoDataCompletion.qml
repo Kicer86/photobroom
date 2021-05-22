@@ -10,7 +10,7 @@ Item {
     state: "information"
 
     function reloadModel() {
-        listView.notSelected = new Set();
+        delegateState.clear();
         dataSource.performAnalysis();
     }
 
@@ -60,6 +60,12 @@ Item {
         }
     }
 
+    Components.DelegateState {
+        id: delegateState
+
+        defaultValue: 1
+    }
+
     ListView {
         id: listView
 
@@ -76,9 +82,9 @@ Item {
         highlightMoveVelocity: -1
         model: dataSource
 
-        property var notSelected: new Set()
-
         delegate: Item {
+            id: delegateRoot
+
             required property var photoPath
             required property var suggestedDate
             required property var suggestedTime
@@ -96,15 +102,9 @@ Item {
             }
 
             Row {
-                CheckBox {
-                    checkState: listView.notSelected.has(index)? Qt.Unchecked: Qt.Checked
-
-                    onCheckStateChanged: {
-                        if (checkState)
-                            listView.notSelected.delete(index);
-                        else
-                            listView.notSelected.add(index);
-                    }
+                Components.DelegateCheckBox {
+                    state: delegateState
+                    index: delegateRoot.index
                 }
 
                 Components.PhotoThumbnail {

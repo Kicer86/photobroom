@@ -5,6 +5,8 @@
         <file>Components/internal/ZoomLogic.js</file>
         <file>Components/ColorComboBox.qml</file>
         <file>Components/ImageButton.qml</file>
+        <file>Components/DelegateCheckBox.qml</file>
+        <file>Components/DelegateState.qml</file>
         <file>Components/InfoItem.qml</file>
         <file>Components/MultiselectGridView.qml</file>
         <file>Components/PhotoThumbnail.qml</file>
