@@ -7,12 +7,12 @@ CheckBox {
     required property int index
     required property DelegateState state
 
-    checkState: state.state(index) === 1? Qt.Checked: Qt.Unchecked
+    checkState: state.state(index) === true? Qt.Checked: Qt.Unchecked
 
     onCheckStateChanged: {
         if (checkState)
-            state.setState(index, 1);
+            state.setState(index, true);
         else
-            state.setState(index, 0);
+            state.setState(index, false);
     }
 }

@@ -63,7 +63,7 @@ Item {
     Components.DelegateState {
         id: delegateState
 
-        defaultValue: 1
+        defaultValue: true
     }
 
     ListView {
