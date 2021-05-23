@@ -25,7 +25,7 @@ Item {
         var result = []
 
         properties.forEach( (state, index, map) => {
-            if ( condition(state) )
+            if (condition(state))
                 result.push(index);
         });
 
