@@ -20,4 +20,15 @@ Item {
     function setState(index, state) {
         return properties.set(index, state);
     }
+
+    function getItems(condition) {
+        var result = []
+
+        properties.forEach( (state, index, map) => {
+            if ( condition(state) )
+                result.push(index);
+        });
+
+        return result;
+    }
 }

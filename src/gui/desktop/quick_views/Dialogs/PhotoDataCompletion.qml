@@ -146,10 +146,7 @@ Item {
         visible: root.state == "summary" && listView.count > 0
 
         onClicked: {
-            var toBeExcluded = []
-
-            for (let item of listView.notSelected)
-                toBeExcluded.push(item);
+            var toBeExcluded = delegateState.getItems((state) => {return state === false;});
 
             dataSource.applyBut(toBeExcluded);
         }
