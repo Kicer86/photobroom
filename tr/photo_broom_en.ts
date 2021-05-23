@@ -544,17 +544,17 @@ Error code: %1</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="163"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="160"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="170"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="167"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="177"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="174"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
         <translation>
@@ -563,7 +563,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="184"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="181"/>
         <source>Saving results</source>
         <translation>Saving results</translation>
     </message>
@@ -839,7 +839,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="164"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="166"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>

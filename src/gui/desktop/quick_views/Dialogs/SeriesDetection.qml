@@ -16,7 +16,7 @@ Item
 
     state: "LoadingState"
 
-    signal group(int index)
+    signal groupBut(variant rows)
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
@@ -126,12 +126,14 @@ Item
             Button {
                 id: button
                 text: qsTr("Group", "used as verb - group photos")
-                enabled: groupsListId.currentIndex != -1
 
                 Connections {
                     target: button
                     function onClicked() {
-                        seriesDetectionMainId.group(groupsListId.currentIndex)
+
+                        var unselected = delegateState.getItems((state) => {return state === false;});
+
+                        seriesDetectionMainId.groupBut(unselected);
                     }
                 }
             }

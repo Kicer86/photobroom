@@ -562,7 +562,7 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -852,18 +852,18 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+34"/>
         <source>Group candidates</source>
-        <translation>Potencjalne grupy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation>Grupuj</translation>
+        <translation type="unfinished">Grupuj</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Looking for group candidates...</source>
-        <translation>Wyszukiwanie potencjalnych grup...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

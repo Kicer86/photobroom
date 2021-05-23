@@ -19,6 +19,7 @@
 #include "series_detection.hpp"
 
 #include <QDialogButtonBox>
+#include <QJSValueIterator>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QStandardItemModel>
@@ -71,7 +72,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
 
     // wiring
     QObject* seriesDetectionMainId = QmlUtils::findQmlObject(m_qmlView, "seriesDetectionMain");
-    connect(seriesDetectionMainId, SIGNAL(group(int)), this, SLOT(group(int)));
+    connect(seriesDetectionMainId, SIGNAL(groupBut(QVariant)), this, SLOT(groupBut(QVariant)));
 
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
 }
@@ -84,11 +85,18 @@ SeriesDetection::~SeriesDetection()
 }
 
 
-void SeriesDetection::group(int row)
+void SeriesDetection::groupBut(const QVariant& rowsVariant)
 {
-    const QModelIndex firstItemInRow = m_tabModel.index(row, 0);
-    const GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<GroupCandidate>();
-    launch_groupping_dialog(groupDetails);
+    const QJSValue rawValues = rowsVariant.value<QJSValue>();
+
+    QVector<int> excludedValues;
+    const int length = rawValues.property("length").toInt();
+    for (int i = 0; i < length; i++)
+        excludedValues.append(rawValues.property(i).toInt());
+
+    //const QModelIndex firstItemInRow = m_tabModel.index(row, 0);
+    //const GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<GroupCandidate>();
+    //launch_groupping_dialog(groupDetails);
 }
 
 

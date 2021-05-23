@@ -62,7 +62,7 @@ class SeriesDetection: public QDialog
         int selected_row() const;
 
     private slots:
-        void group(int);
+        void groupBut(const QVariant &);
 };
 
 #endif // SERIESDETECTION_HPP
