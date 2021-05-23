@@ -31,17 +31,17 @@ void GroupsManager::group(Database::IDatabase* database,
 {
     if (photos.empty() == false)
     {
-        Database::IUtils& db_utils = database->utils();
-
-        database->exec([&db_utils, photos, representativePath, type](Database::IBackend& backend)
+        database->exec([photos, representativePath, type](Database::IBackend& backend)
         {
             // copy details of first member to representative
-            IPhotoInfo::Ptr firstPhoto = db_utils.getPhotoFor(photos[0]);
+            const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
 
-            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, firstPhoto->getFlag(Photo::FlagsE::StagingArea)} };
+            auto it = firstPhoto.flags.find(Photo::FlagsE::StagingArea);
+            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, it == firstPhoto.flags.end()? 0: it->second} };
+
             Photo::DataDelta data;
             data.insert<Photo::Field::Path>(representativePath);
-            data.insert<Photo::Field::Tags>(firstPhoto->getTags());
+            data.insert<Photo::Field::Tags>(firstPhoto.tags);
             data.insert<Photo::Field::Flags>(flags);
 
             // store representative photo
