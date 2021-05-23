@@ -44,16 +44,14 @@ Item
 
             ListView {
                 id: groupsListId
-                clip: true
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 property alias thumbnailSize: thumbnailSliderId.size
 
+                clip: true
                 model: groupsModelId
-
-                highlightMoveDuration : 200
-                highlightMoveVelocity : -1
+                spacing: 10
 
                 ScrollBar.vertical: ScrollBar { }
 
@@ -61,7 +59,7 @@ Item
                     id: delegateId
 
                     width: delegateId.ListView.view.width       // using 'parent' causes erros in output after thumbnail being resized
-                    height: groupsListId.thumbnailSize
+                    height: groupDetails.height
 
                     // from view
                     required property int index
@@ -71,34 +69,24 @@ Item
                     required property var groupType
                     required property var members
 
-                    MouseArea {
-                        anchors.fill: parent
-
-                        propagateComposedEvents: true
-
-                        onClicked: delegateId.ListView.view.currentIndex = index
-                    }
-
                     Row {
                         anchors.fill: parent
 
                         Components.DelegateCheckBox {
+                            id: checkBox
+
                             state: delegateState
                             index: delegateId.index
                         }
 
-                        Internals.PhotoDelegate {
-                            id: photoDelegateId
-
-                            width: parent.height
-                            height: parent.height
-                        }
-
                         Item {
-                            width: parent.width - photoDelegateId.width
-                            height: parent.height
+                            id: groupDetails
+
+                            width: parent.width - checkBox.width
+                            height: groupTypeId.height + membersList.height
 
                             Text {
+                                id: groupTypeId
                                 text: groupType
 
                                 anchors.bottom: membersList.top
@@ -107,8 +95,10 @@ Item
                             ListView {
                                 id: membersList
 
+                                clip: true
+
                                 width: parent.width
-                                height: groupsListId.thumbnailSize - 50
+                                height: groupsListId.thumbnailSize
                                 anchors.bottom: parent.bottom
 
                                 orientation: ListView.Horizontal
@@ -122,13 +112,6 @@ Item
                             }
                         }
                     }
-                }
-
-                highlight: Rectangle {
-                    id: highlightId
-                    color: currentPalette.highlight
-                    opacity: 0.4
-                    z: -1
                 }
 
                 Components.ThumbnailSlider {
