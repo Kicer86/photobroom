@@ -870,8 +870,8 @@ Kod błędu: %1</translation>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+57"/>
-        <source>Photo burts</source>
-        <translation>Szybka seria zdjęć</translation>
+        <source>Photo series</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -880,8 +880,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Series of photos taken at intervals of a few seconds</source>
-        <translation>Seria zdjęć wykonanych w kilkusekundowych odstępach czasu</translation>
+        <source>Photos taken at similar time</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

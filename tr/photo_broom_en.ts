@@ -848,8 +848,8 @@ Error code: %1</source>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
-        <source>Photo burts</source>
-        <translation>Photo burts</translation>
+        <source>Photo series</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="58"/>
@@ -858,8 +858,8 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="59"/>
-        <source>Series of photos taken at intervals of a few seconds</source>
-        <translation>Series of photos taken at intervals of a few seconds</translation>
+        <source>Photos taken at similar time</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

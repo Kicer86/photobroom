@@ -53,10 +53,10 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
             QString type;
             switch (candidate.type)
             {
-                case Group::Type::Invalid:                           break;
-                case Group::Type::Animation: type = tr("Photo burts"); break;
-                case Group::Type::HDR:       type = tr("HDR");       break;
-                case Group::Type::Generic:   type = tr("Series of photos taken at intervals of a few seconds");   break;
+                case Group::Type::Invalid:                                              break;
+                case Group::Type::Animation: type = tr("Photo series");                 break;
+                case Group::Type::HDR:       type = tr("HDR");                          break;
+                case Group::Type::Generic:   type = tr("Photos taken at similar time"); break;
             }
 
             return type;
