@@ -4,7 +4,7 @@ import QtQuick 2.15
 Item {
 
     property var properties: new Map()
-    property var defaultValue: {}
+    property var defaultValue
 
     function clear() {
         properties.clear();
