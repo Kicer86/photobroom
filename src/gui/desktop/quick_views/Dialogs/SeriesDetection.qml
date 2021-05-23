@@ -36,6 +36,12 @@ Item
                 font.pixelSize: 12
             }
 
+            Components.DelegateState {
+                id: delegateState
+
+                defaultValue: true
+            }
+
             ListView {
                 id: groupsListId
                 clip: true
@@ -65,8 +71,21 @@ Item
                     required property var groupType
                     required property var members
 
+                    MouseArea {
+                        anchors.fill: parent
+
+                        propagateComposedEvents: true
+
+                        onClicked: delegateId.ListView.view.currentIndex = index
+                    }
+
                     Row {
                         anchors.fill: parent
+
+                        Components.DelegateCheckBox {
+                            state: delegateState
+                            index: delegateId.index
+                        }
 
                         Internals.PhotoDelegate {
                             id: photoDelegateId
@@ -102,11 +121,6 @@ Item
                                 }
                             }
                         }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: delegateId.ListView.view.currentIndex = index
                     }
                 }
 
