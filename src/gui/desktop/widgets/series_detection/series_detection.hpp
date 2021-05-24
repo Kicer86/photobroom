@@ -49,7 +49,7 @@ class SeriesDetection: public QDialog
         ~SeriesDetection();
 
     private:
-        SeriesModel m_tabModel;
+        SeriesModel m_seriesModel;
         ICoreFactoryAccessor* m_core;
         Database::IDatabase* m_db;
         Project& m_project;

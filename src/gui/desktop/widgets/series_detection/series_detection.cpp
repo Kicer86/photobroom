@@ -47,7 +47,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  IThumbnailsManager* thbMgr,
                                  Project& project):
     QDialog(),
-    m_tabModel(*db, *core),
+    m_seriesModel(*db, *core),
     m_core(core),
     m_db(db),
     m_project(project),
@@ -64,7 +64,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     m_qmlView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
-    QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_tabModel);
+    QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_seriesModel);
     m_qmlView->setSource(QUrl("qrc:/ui/Dialogs/SeriesDetection.qml"));
 
     layout->addWidget(m_qmlView);
