@@ -196,7 +196,7 @@ namespace
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::IDatabase* db):
+PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
     m_mediaInformation(coreFactory),
     m_tasks(),
     m_tasksMutex(),
@@ -302,7 +302,7 @@ void PhotoInfoUpdater::apply(const Photo::DataDelta& delta)
 
 void PhotoInfoUpdater::applyFlags(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
 {
-    m_db->exec([id, generic_flag](Database::IBackend& db)
+    m_db.exec([id, generic_flag](Database::IBackend& db)
     {
         db.set(id, generic_flag.first, generic_flag.second);
     });
@@ -315,7 +315,7 @@ void PhotoInfoUpdater::flushCache()
     {
         m_logger->debug(QString("Sending %1 photos to update").arg(m_touchedPhotos.size()));
 
-        m_db->exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
+        m_db.exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
         {
             const std::vector<Photo::DataDelta> vectorOfDeltas(value_map_iterator<TouchedPhotos>(delta.cbegin()),
                                                                value_map_iterator<TouchedPhotos>(delta.cend()));

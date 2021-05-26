@@ -38,7 +38,6 @@ QString GroupsManager::copyRepresentatToDatabase(const QString& representativePh
 
 
 void GroupsManager::groupIntoCollage(
-    Database::IDatabase* db,
     IExifReaderFactory& exifFactory,
     Project& project,
     const std::vector<Photo::Data>& photos)
@@ -54,11 +53,11 @@ void GroupsManager::groupIntoCollage(
     collage.save(collagePath, "JPG");
 
     const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);
-    GroupsManager::group(db, photos, representantPath, Group::Type::Generic);
+    GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
 }
 
 
-void GroupsManager::group(Database::IDatabase* database,
+void GroupsManager::group(Database::IDatabase& database,
                           const std::vector<Photo::Data>& photos,
                           const QString& representativePath,
                           Group::Type type)
@@ -70,14 +69,14 @@ void GroupsManager::group(Database::IDatabase* database,
 }
 
 
-void GroupsManager::group(Database::IDatabase* database,
+void GroupsManager::group(Database::IDatabase& database,
                           const std::vector<Photo::Id>& photos,
                           const QString& representativePath,
                           Group::Type type)
 {
     if (photos.empty() == false)
     {
-        database->exec([photos, representativePath, type](Database::IBackend& backend)
+        database.exec([photos, representativePath, type](Database::IBackend& backend)
         {
             // copy details of first member to representative
             const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
@@ -119,9 +118,9 @@ void GroupsManager::group(Database::IDatabase* database,
 }
 
 
-void GroupsManager::ungroup(Database::IDatabase* db, const Group::Id& gid)
+void GroupsManager::ungroup(Database::IDatabase& db, const Group::Id& gid)
 {
-    db->exec([gid](Database::IBackend& backend)
+    db.exec([gid](Database::IBackend& backend)
     {
         // dissolve group
         const Photo::Id repId = backend.groupOperator().removeGroup(gid);

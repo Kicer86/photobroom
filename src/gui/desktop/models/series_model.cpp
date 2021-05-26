@@ -58,7 +58,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     {
         runOn(executor, [group, &project = m_project, &exifFactor = m_core.getExifReaderFactory()]() mutable
         {
-            GroupsManager::groupIntoCollage(project.getDatabase(), exifFactor, project, group.members);
+            GroupsManager::groupIntoCollage(exifFactor, project, group.members);
         },
         "colage group generation");
     }
@@ -147,7 +147,7 @@ void SeriesModel::fetchGroups()
 
             QElapsedTimer timer;
 
-            SeriesDetector detector(*m_project.getDatabase(), exif.get(), &promise);
+            SeriesDetector detector(m_project.getDatabase(), exif.get(), &promise);
 
             timer.start();
             promise.addResult(detector.listCandidates());

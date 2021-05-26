@@ -464,18 +464,18 @@ void MainWindow::showContextMenu(const QPoint& pos)
     else
         ungroupPhotos->setVisible(false);
 
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    Database::IDatabase& db = m_currentPrj->getDatabase();
 
     const QPoint globalPos = ui->mainViewQml->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
     if (chosenAction == groupPhotos)
     {
-        GroupsManager::groupIntoCollage(db, m_coreAccessor->getExifReaderFactory(), *m_currentPrj.get(), photos);
+        GroupsManager::groupIntoCollage(m_coreAccessor->getExifReaderFactory(), *m_currentPrj.get(), photos);
     }
     else if (chosenAction == manageGroup)
     {
-        const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(*db, [&photos](Database::IBackend& backend)
+        const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [&photos](Database::IBackend& backend)
         {
             std::vector<Photo::Data> members;
 
@@ -539,7 +539,7 @@ void MainWindow::removeGroupOf(const Photo::Data& representative)
     const GroupInfo& grpInfo = representative.groupInfo;
     const Group::Id gid = grpInfo.group_id;
 
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    Database::IDatabase& db = m_currentPrj->getDatabase();
     GroupsManager::ungroup(db, gid);
 
     // delete representative file
@@ -596,7 +596,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    Database::IDatabase& db = m_currentPrj->getDatabase();
 
     CollectionDirScanDialog scanner(m_currentPrj.get(), db);
     const int status = scanner.exec();
@@ -616,7 +616,7 @@ void MainWindow::on_actionScan_collection_triggered()
             photos.emplace_back(photo_data);
         }
 
-        db->exec([photos](Database::IBackend& backend) mutable
+        db.exec([photos](Database::IBackend& backend) mutable
         {
             backend.addPhotos(photos);
         });
@@ -694,9 +694,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
     {
         case Database::StatusCodes::Ok:
         {
-            Database::IDatabase* db = m_currentPrj->getDatabase();
+            Database::IDatabase& db = m_currentPrj->getDatabase();
 
-            emit currentDatabaseChanged(db);
+            emit currentDatabaseChanged(&db);
 
             // TODO: I do not like this flag here...
             if (is_new)

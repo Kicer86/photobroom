@@ -42,7 +42,7 @@ Q_DECLARE_METATYPE(GroupCandidate)
 using namespace std::placeholders;
 
 
-SeriesDetection::SeriesDetection(Database::IDatabase* db,
+SeriesDetection::SeriesDetection(Database::IDatabase& db,
                                  ICoreFactoryAccessor* core,
                                  IThumbnailsManager* thbMgr,
                                  Project& project):

@@ -28,7 +28,7 @@
 #include "project_utils/project.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase* db, QWidget* p):
+CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, QWidget* p):
     QDialog(p),
     m_collector(project),
     m_photosFound(),
@@ -131,7 +131,7 @@ void CollectionDirScanDialog::scan()
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
 
-    m_database->exec([db_callback](Database::IBackend& backend)
+    m_database.exec([db_callback](Database::IBackend& backend)
     {
         auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
 

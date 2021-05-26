@@ -105,7 +105,7 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
         {
             QEventLoop loop;
 
-            project->getDatabase()->init(dbPrjInfo, [&loop, &db_status](const Database::BackendStatus& status)
+            project->getDatabase().init(dbPrjInfo, [&loop, &db_status](const Database::BackendStatus& status)
             {
                 // this lambda function can be called from an unknown thread (even main thread).
                 // it is not guaranteed that `loop` already works.
