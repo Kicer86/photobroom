@@ -459,11 +459,10 @@ PersonName PeopleManipulator::storeNewPerson(const QString& name) const
 
 QString PeopleManipulator::pathFor(const Photo::Id& id) const
 {
-    return evaluate<QString(Database::IBackend &)>(&m_db, [id, db = &m_db](Database::IBackend &)
+    return evaluate<QString(Database::IBackend &)>(&m_db, [id](Database::IBackend& backend)
     {
-        Database::IUtils& db_utils = db->utils();
-        auto photo = db_utils.getPhotoFor(id);
+        auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
 
-        return photo->getPath();
+        return photo.get<Photo::Field::Path>();
     });
 }
