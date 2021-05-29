@@ -21,6 +21,7 @@
 #include <QDateTime>
 
 #include <core/iexif_reader.hpp>
+#include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
 #include <core/tags_utils.hpp>
 #include <ibackend.hpp>
@@ -28,6 +29,7 @@
 
 #include "database_executor_traits.hpp"
 #include "../series_detector.hpp"
+#include "photo_utils.hpp"
 
 namespace
 {
@@ -277,9 +279,15 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
 std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
 {
+    std::deque<Photo::Data> suitablePhotos;
+
+    std::copy_if(photos.begin(), photos.end(), std::back_inserter(suitablePhotos), [](const auto& photo) {
+        return MediaTypes::isImageFile(Photo::getPath(photo));
+    });
+
     try
     {
-        SeriesExtractor extractor(m_exifReader, photos, rules, m_promise);
+        SeriesExtractor extractor(m_exifReader, suitablePhotos, rules, m_promise);
 
         auto hdrs = extractor.extract<Group::Type::HDR>();
         auto animations = extractor.extract<Group::Type::Animation>();

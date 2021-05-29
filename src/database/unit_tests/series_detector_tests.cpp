@@ -70,7 +70,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
@@ -85,7 +85,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -125,7 +126,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -140,7 +141,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -181,7 +183,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -196,7 +198,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -247,7 +250,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -262,7 +265,8 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -278,7 +282,8 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( float((id - 1) % 3 - 1) );   // id:1 -> -1.0, id:2 -> 0.0, id:3 -> 1.0, id:4 -> -1.0 ...
@@ -342,7 +347,7 @@ TEST_F(SeriesDetectorTest, Complexity)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
 
