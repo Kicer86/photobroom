@@ -99,7 +99,7 @@ class MainWindow: public QMainWindow, public INotifications
 
         void showContextMenu(const QPoint &);
 
-        void removeGroupOf(const Photo::Data &);
+        void removeGroupOf(const std::vector<Photo::Data> &);
 
         // INotifications:
         int reportWarning(const QString &) override;

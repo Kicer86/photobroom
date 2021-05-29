@@ -462,10 +462,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
 
-    if (isSingleGroup)
-        groupPhotos->setVisible(false);
-    else
-        ungroupPhotos->setVisible(false);
+    ungroupPhotos->setVisible(groupsOnly);
 
     Database::IDatabase& db = m_currentPrj->getDatabase();
 
@@ -478,6 +475,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     }
     else if (chosenAction == manageGroup)
     {
+        assert(photos.size() == 1);
         const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [&photos](Database::IBackend& backend)
         {
             std::vector<Photo::Data> members;
@@ -502,7 +500,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
         if (status == QDialog::Accepted)
         {
             // remove old group
-            removeGroupOf(photos.front());
+            removeGroupOf(photos);
 
             // create new one
             const QString representantPath = GroupsManager::copyRepresentatToDatabase(dialog.getRepresentative(), *m_currentPrj.get());
@@ -513,7 +511,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     }
     else if (chosenAction == ungroupPhotos)
     {
-       removeGroupOf(photos.front());
+       removeGroupOf(photos);
     }
     else if (chosenAction == location)
     {
@@ -537,16 +535,21 @@ void MainWindow::showContextMenu(const QPoint& pos)
 }
 
 
-void MainWindow::removeGroupOf(const Photo::Data& representative)
+void MainWindow::removeGroupOf(const std::vector<Photo::Data>& representatives)
 {
-    const GroupInfo& grpInfo = representative.groupInfo;
-    const Group::Id gid = grpInfo.group_id;
+    for (const Photo::Data& representative: representatives)
+    {
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
 
-    Database::IDatabase& db = m_currentPrj->getDatabase();
-    GroupsManager::ungroup(db, gid);
+        assert(gid.valid());
 
-    // delete representative file
-    QFile::remove(representative.path);
+        Database::IDatabase& db = m_currentPrj->getDatabase();
+        GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
+    }
 }
 
 
