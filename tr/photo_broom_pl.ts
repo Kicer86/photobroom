@@ -377,7 +377,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+231"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -409,7 +409,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+122"/>
+        <location line="+123"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -419,7 +419,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-219"/>
+        <location line="-220"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -444,7 +444,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+258"/>
+        <location line="+259"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

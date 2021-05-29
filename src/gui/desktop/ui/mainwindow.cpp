@@ -2,6 +2,7 @@
 #include "mainwindow.hpp"
 
 #include <functional>
+#include <ranges>
 
 #include <QCloseEvent>
 #include <QDesktopServices>
@@ -21,9 +22,10 @@
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_builder.hpp>
+#include <database/database_tools/photos_analyzer.hpp>
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
-#include <database/database_tools/photos_analyzer.hpp>
+#include <database/photo_utils.hpp>
 #include <database/database_executor_traits.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
@@ -451,11 +453,12 @@ void MainWindow::showContextMenu(const QPoint& pos)
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
     QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
 
-    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
+    const bool groupsOnly = std::ranges::all_of(photos, [](const Photo::Data& photo) { return photo.groupInfo.role == GroupInfo::Role::Representative; });
+    const bool isSingleGroup = photos.size() == 1 && groupsOnly;
 
-    groupPhotos->setEnabled(photos.size() > 1);
+    groupPhotos->setEnabled(photos.size() > 1 && std::ranges::all_of(photos | std::views::transform(&Photo::getPath), &MediaTypes::isImageFile));
     manageGroup->setEnabled(isSingleGroup);
-    ungroupPhotos->setEnabled(isSingleGroup);
+    ungroupPhotos->setEnabled(groupsOnly);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
 
