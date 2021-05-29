@@ -29,8 +29,10 @@ set(DATABASE_SOURCES
     person_data.hpp
     photo_data.hpp
     photo_types.hpp
+    photo_utils.hpp
     project_info.hpp
 
+    implementation/apeople_information_accessor.cpp
     implementation/aphoto_change_log_operator.cpp
     implementation/async_database.cpp
     implementation/async_database.hpp
@@ -42,7 +44,7 @@ set(DATABASE_SOURCES
     implementation/photo_info_cache.hpp
     implementation/photo_info.cpp
     implementation/photo_info.hpp
-    implementation/apeople_information_accessor.cpp
+    implementation/photo_utils.cpp
 
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
