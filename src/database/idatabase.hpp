@@ -116,7 +116,7 @@ namespace Database
         virtual void update(const Photo::DataDelta &) = 0;
 
         // other
-        virtual IUtils& utils() = 0;
+        [[deprecated]] virtual IUtils& utils() = 0;
         virtual IBackend& backend() = 0;
 
         //init backend - connect to database or create new one

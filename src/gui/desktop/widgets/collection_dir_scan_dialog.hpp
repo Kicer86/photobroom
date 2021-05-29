@@ -56,7 +56,7 @@ class CollectionDirScanDialog: public QDialog
 
         PhotosCollector m_collector;
         std::set<QString> m_photosFound;
-        IPhotoInfo::List m_dbPhotos;
+        std::vector<Photo::DataDelta> m_dbPhotos;
         State m_state;
         const Project* m_project;
         QLabel* m_info;
@@ -75,7 +75,7 @@ class CollectionDirScanDialog: public QDialog
         void checkIfReady();
 
         void gotPhoto(const QString &);
-        void gotExistingPhotos(const IPhotoInfo::List &);
+        void gotExistingPhotos(const std::vector<Photo::DataDelta> &);
         void updateGui();
 
     signals:

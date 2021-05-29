@@ -101,9 +101,9 @@ void CollectionDirScanDialog::performAnalysis()
     m_state = State::Analyzing;
     updateGui();
 
-    for(const IPhotoInfo::Ptr& photo: m_dbPhotos)
+    for(const Photo::DataDelta& photo: m_dbPhotos)
     {
-        const QString path = photo->getPath();
+        const QString path = photo.get<Photo::Field::Path>();
 
         auto it = m_photosFound.find(path);
 
@@ -131,17 +131,17 @@ void CollectionDirScanDialog::scan()
     // collect photos from db
     auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
 
-    m_database->exec([this, db_callback](Database::IBackend& backend)
+    m_database->exec([db_callback](Database::IBackend& backend)
     {
         auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
 
-        IPhotoInfo::List photoInfos;
-        photoInfos.reserve(photos.size());
+        std::vector<Photo::DataDelta> photoDeltas;
+        photoDeltas.reserve(photos.size());
 
         for(const Photo::Id& id: photos)
-            photoInfos.push_back(m_database->utils().getPhotoFor(id));
+            photoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
 
-        db_callback(photoInfos);
+        db_callback(photoDeltas);
     });
 }
 
@@ -160,7 +160,7 @@ void CollectionDirScanDialog::gotPhoto(const QString& path)
 }
 
 
-void CollectionDirScanDialog::gotExistingPhotos(const IPhotoInfo::List& photos)
+void CollectionDirScanDialog::gotExistingPhotos(const std::vector<Photo::DataDelta>& photos)
 {
     m_dbPhotos = photos;
     m_gotDBPhotos = true;
