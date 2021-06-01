@@ -464,6 +464,36 @@ namespace Database
     }
 
 
+    void ASqlBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
+    {
+        UpdateQueryData data(TAB_THUMBS);
+        data.addCondition("photo_id", QString::number(id));
+        data.setColumns("photo_id", "data");
+        data.setValues(QString::number(id), thumbnail);
+
+        updateOrInsert(data);
+    }
+
+
+    QByteArray ASqlBackend::getThumbnail(const Photo::Id& id)
+    {
+        const QString thbQuery = QString("SELECT data FROM %1 WHERE photo_id=%2")
+            .arg(TAB_THUMBS)
+            .arg(QString::number(id));
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const bool status = m_executor.exec(thbQuery, &query);
+
+        const QByteArray thumbnail = status && query.next()?
+            query.value(0).toByteArray():
+            QByteArray {};
+
+        return thumbnail;
+    }
+
+
     std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
         FilterPhotosWithFlags filter;

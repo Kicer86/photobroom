@@ -97,6 +97,7 @@ namespace Database
                     message += " '" + it->toString() + "'";
             }
 
+            qDebug() << message;
             m_logger->error(message);
         }
 

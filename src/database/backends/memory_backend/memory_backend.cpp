@@ -187,6 +187,18 @@ namespace Database
     }
 
 
+    void MemoryBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
+    {
+        m_thumbnails[id] = thumbnail;
+    }
+
+
+    QByteArray MemoryBackend::getThumbnail(const Photo::Id& id)
+    {
+        return m_thumbnails[id];
+    }
+
+
     std::vector<Photo::Id> MemoryBackend::markStagedAsReviewed()
     {
         std::vector<Photo::Id> ids;

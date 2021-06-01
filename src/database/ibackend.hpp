@@ -162,8 +162,10 @@ namespace Database
          */
         virtual std::optional<int>       get(const Photo::Id& id, const QString& name) = 0;
 
+        virtual void setThumbnail(const Photo::Id &, const QByteArray &) = 0;
+
         // reading extra data
-        //virtual QByteArray getThumbnail(const Photo::Id &) = 0;                               // get thumbnail for photo
+        virtual QByteArray getThumbnail(const Photo::Id &) = 0;
 
         // modify data
 
