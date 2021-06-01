@@ -46,6 +46,7 @@ set(DATABASE_SOURCES
     implementation/photo_info.hpp
     implementation/photo_utils.cpp
 
+    database_tools/db_thumbnail_generator.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
@@ -56,6 +57,7 @@ set(DATABASE_SOURCES
     database_tools/signal_mapper.hpp
     database_tools/tag_info_collector.hpp
 
+    database_tools/implementation/db_thumbnail_generator.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_info_updater.hpp
