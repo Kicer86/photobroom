@@ -41,7 +41,6 @@ class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
         explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);
 
         void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
-        void fetch(const QString& path, const QSize& desired_size, const safe_callback<const QImage &> &) override;
         std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
 
     private:

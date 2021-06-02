@@ -37,12 +37,6 @@ void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, con
 }
 
 
-void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const safe_callback<const QImage &>& callback)
-{
-    internal_fetch(path, IThumbnailsCache::ThumbnailParameters(desired_size), callback);
-}
-
-
 std::optional<QImage> ThumbnailManager::fetch(const QString& path, const QSize& desired_size)
 {
     std::optional img = m_cache.find(path, IThumbnailsCache::ThumbnailParameters(desired_size));
