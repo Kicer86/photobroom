@@ -22,9 +22,9 @@
 #include <QDialog>
 #include <QQmlPropertyMap>
 
-#include <core/ithumbnails_manager.hpp>
 #include <database/photo_data.hpp>
 
+#include "utils/ithumbnails_manager.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "models/series_model.hpp"
 

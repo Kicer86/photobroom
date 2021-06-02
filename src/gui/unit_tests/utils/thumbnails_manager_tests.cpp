@@ -6,7 +6,7 @@
 #include "unit_tests_utils/fake_task_executor.hpp"
 #include "unit_tests_utils/mock_thumbnails_generator.hpp"
 #include "unit_tests_utils/mock_thumbnails_cache.hpp"
-#include "thumbnail_manager.hpp"
+#include "utils/thumbnail_manager.hpp"
 
 
 using namespace std::placeholders;

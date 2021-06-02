@@ -1,7 +1,7 @@
 
 #include <gmock/gmock.h>
 
-#include <core/ithumbnails_cache.hpp>
+#include <gui/desktop/utils/ithumbnails_cache.hpp>
 
 struct MockThumbnailsCache: IThumbnailsCache
 {

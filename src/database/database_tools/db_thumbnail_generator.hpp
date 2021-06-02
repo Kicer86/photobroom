@@ -1,5 +1,5 @@
 
-#include <core/ithumbnails_cache.hpp>
+#include <core/ithumbnails_generator.hpp>
 
 #include "database_export.h"
 

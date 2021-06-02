@@ -16,11 +16,4 @@ struct IThumbnailsCache
     virtual void store(const QString &, const ThumbnailParameters &, const QImage &) = 0;
 };
 
-struct IThumbnailsGenerator
-{
-    virtual ~IThumbnailsGenerator() = default;
-
-    virtual QImage generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params) = 0;
-};
-
 #endif

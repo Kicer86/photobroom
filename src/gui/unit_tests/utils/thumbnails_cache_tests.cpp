@@ -1,7 +1,7 @@
 
 #include <gmock/gmock.h>
 
-#include <core/thumbnails_cache.hpp>
+#include "gui/desktop/utils/thumbnails_cache.hpp"
 
 TEST(ThumbnailsCacheTest, isConstructible)
 {

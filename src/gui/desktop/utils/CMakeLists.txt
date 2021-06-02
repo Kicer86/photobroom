@@ -17,6 +17,8 @@ set(UTILS_SOURCES
     groups_manager.cpp
     groups_manager.hpp
     inotifications.hpp
+    ithumbnails_cache.hpp
+    ithumbnails_manager.hpp
     model_index_utils.cpp
     model_index_utils.hpp
     painter_helpers.cpp
@@ -35,6 +37,10 @@ set(UTILS_SOURCES
     svg_utils.hpp
     tag_value_model.cpp
     tag_value_model.hpp
+    thumbnails_cache.hpp
+    thumbnails_cache.cpp
+    thumbnail_manager.hpp
+    thumbnail_manager.cpp
     variant_display.cpp
     variant_display.hpp
 )

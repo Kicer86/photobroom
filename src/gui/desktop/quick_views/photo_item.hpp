@@ -21,8 +21,8 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
-#include <core/ithumbnails_manager.hpp>
 #include <core/function_wrappers.hpp>
+#include "utils/ithumbnails_manager.hpp"
 
 
 class PhotoItem: public QQuickPaintedItem

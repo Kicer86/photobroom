@@ -19,15 +19,13 @@
 #ifndef THUMBNAILS_CACHE_HPP
 #define THUMBNAILS_CACHE_HPP
 
-#include "ithumbnails_cache.hpp"
-
 #include <QCache>
-
 #include <OpenLibrary/putils/ts_resource.hpp>
 
-#include "core_export.h"
+#include "ithumbnails_cache.hpp"
 
-class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
+
+class ThumbnailsCache: public IThumbnailsCache
 {
     public:
         ThumbnailsCache();

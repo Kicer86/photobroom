@@ -23,19 +23,17 @@
 #include <optional>
 
 #include <QImage>
+#include <core/task_executor_utils.hpp>
+#include <core/ithumbnails_generator.hpp>
 
 #include "ithumbnails_cache.hpp"
 #include "ithumbnails_manager.hpp"
-#include "task_executor_utils.hpp"
-
-#include "core_export.h"
-
 
 struct ITaskExecutor;
 struct IThumbnailsCache;
 
 
-class CORE_EXPORT ThumbnailManager: public IThumbnailsManager
+class ThumbnailManager: public IThumbnailsManager
 {
     public:
         explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);

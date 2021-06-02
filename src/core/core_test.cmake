@@ -15,8 +15,6 @@ addTestTarget(core
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
                     implementation/tag.cpp
-                    implementation/thumbnail_manager.cpp
-                    implementation/thumbnails_cache.cpp
                     implementation/task_executor_utils.cpp
                     imodel_compositor_data_source.hpp
 
@@ -30,8 +28,6 @@ addTestTarget(core
                     unit_tests/status_tests.cpp
                     unit_tests/tag_name_info_tests.cpp
                     unit_tests/tag_value_tests.cpp
-                    unit_tests/thumbnails_manager_tests.cpp
-                    unit_tests/thumbnails_cache_tests.cpp
                 LIBRARIES
                     GTest::gtest
                     GTest::gmock
