@@ -57,6 +57,15 @@ void GroupsManager::groupIntoCollage(
 }
 
 
+void GroupsManager::groupIntoUnified(
+    Project& project,
+    const std::vector<Photo::Data>& photos)
+{
+    const QString representantPath = GroupsManager::copyRepresentatToDatabase(photos.front().path, project);
+    GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
+}
+
+
 void GroupsManager::group(Database::IDatabase& database,
                           const std::vector<Photo::Data>& photos,
                           const QString& representativePath,

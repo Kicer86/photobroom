@@ -39,6 +39,9 @@ namespace GroupsManager
                           Project &,
                           const std::vector<Photo::Data> &);
 
+    void groupIntoUnified(Project &,
+                          const std::vector<Photo::Data> &);
+
     void group(Database::IDatabase &,
                const std::vector<Photo::Data> &,
                const QString& representativePath,
