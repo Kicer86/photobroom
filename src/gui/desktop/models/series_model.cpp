@@ -60,7 +60,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
         {
             GroupsManager::groupIntoUnified(project, group.members);
         },
-        "colage group generation");
+        "unified group generation");
     }
 }
 
