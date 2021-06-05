@@ -56,9 +56,9 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     for (const auto& group: toStore)
     {
-        runOn(executor, [group, &project = m_project, &exifFactor = m_core.getExifReaderFactory()]() mutable
+        runOn(executor, [group, &project = m_project]() mutable
         {
-            GroupsManager::groupIntoCollage(exifFactor, project, group.members);
+            GroupsManager::groupIntoUnified(project, group.members);
         },
         "colage group generation");
     }
