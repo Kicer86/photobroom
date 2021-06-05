@@ -42,14 +42,15 @@ bool SeriesModel::isLoaded() const
 void SeriesModel::groupBut(const QSet<int>& excludedRows)
 {
     std::vector<GroupCandidate> toStore;
+    std::vector<GroupCandidate> left;
 
     for(int i = 0; i < m_candidates.size(); i++)
     {
-        if (excludedRows.contains(i))
-            continue;
-
         const auto& candidate = m_candidates[i];
-        toStore.push_back(candidate);
+
+        excludedRows.contains(i)?
+            left.push_back(candidate):
+            toStore.push_back(candidate);
     }
 
     auto& executor = m_core.getTaskExecutor();
@@ -62,6 +63,12 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
         },
         "unified group generation");
     }
+
+    beginResetModel();
+    m_candidates.clear();
+    endResetModel();
+
+    updateModel(left);
 }
 
 

@@ -131,6 +131,7 @@ Item
                         var unselected = delegateState.getItems((state) => {return state === false;});
 
                         groupsModelId.groupBut(unselected);
+                        delegateState.clear();
                     }
                 }
             }
