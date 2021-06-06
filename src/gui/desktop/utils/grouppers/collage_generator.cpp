@@ -68,7 +68,7 @@ namespace
                 }
                 --q;
             }
-            else if (a_sum <= a)
+            else if (a_sum < a)
             {
                 if (std::abs(a_sum - a) < m)
                 {
