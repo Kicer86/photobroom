@@ -14,8 +14,6 @@
 
 class QPixmap;
 
-struct Sha256Assigner;
-
 namespace Database
 {
     struct IDatabase;
