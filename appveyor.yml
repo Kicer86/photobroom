@@ -26,6 +26,10 @@ artifacts:
     name: PhotoBroom_installer
 
 install:
+    - cd C:\Tools\vcpkg
+    - git pull
+    - .\bootstrap-vcpkg.bat
+    - cd %APPVEYOR_BUILD_FOLDER%
     - if exist "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2"
         ( echo "CUDA dir exists" ) ELSE
         ( echo "Downloading CUDA binaries" &&
