@@ -9,7 +9,7 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 Required tools and libraries:
  - cmake - version 3.16 or later
- - Qt5 - version 5.15
+ - Qt6 - version 6.0
  - exiv2*
  - OpenLibrary*
  - dlib*
@@ -29,11 +29,11 @@ Required tools and libraries:
 
 
 vcpkg setup:
-vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary magic_enum
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary magic_enum qtquickcontrols2 qtsvg
 
-In case you do not want vcpkg to download and build Qt5 (OpenLibrary's dependency)
+In case you do not want vcpkg to download and build Qt6 (required by both photo broom and openlibrary)
 because it is available in your system, include --overlay-ports=./ci/vcpkg-system-native
-in vcpkg invocation
+in vcpkg invocation and do not include qtquickcontrols2 and qtsvg ports.
 
 If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
 
