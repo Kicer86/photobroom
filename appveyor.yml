@@ -18,8 +18,8 @@ platform:
 image: Visual Studio 2019
 
 cache:
-    - c:\tools\vcpkg\installed
-    - c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+    #- c:\tools\vcpkg\installed
+    #- c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
 
 artifacts:
   - path: build/PhotoBroom-1.5.0-*.exe
