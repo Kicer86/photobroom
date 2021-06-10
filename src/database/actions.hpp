@@ -37,11 +37,7 @@ namespace Database::Actions
 
         SortByTag(const SortByTag &) = default;
 
-        bool operator==(const SortByTag& other) const
-        {
-            return tag == other.tag &&
-                   sort_order == other.sort_order;
-        }
+        friend auto operator<=>(const SortByTag&, const SortByTag&) = default;
 
         const TagTypes tag;
         const Qt::SortOrder sort_order;
@@ -55,10 +51,7 @@ namespace Database::Actions
         {
         }
 
-        bool operator==(const SortByTimestamp& other) const
-        {
-            return sort_order == other.sort_order;
-        }
+        friend auto operator<=>(const SortByTimestamp &, const SortByTimestamp &) = default;
 
         const Qt::SortOrder sort_order;
     };
