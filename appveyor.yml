@@ -26,6 +26,7 @@ artifacts:
     name: PhotoBroom_installer
 
 install:
+    - choco install imagemagick.app
     - cd C:\Tools\vcpkg
     - git pull
     - .\bootstrap-vcpkg.bat
