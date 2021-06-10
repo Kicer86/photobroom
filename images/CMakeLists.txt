@@ -1,5 +1,5 @@
 
-find_program(Magick Magick REQUIRED)
+find_program(Magick magick REQUIRED)
 
 add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/images/main_ico.ico
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/images
