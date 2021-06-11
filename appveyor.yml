@@ -18,8 +18,8 @@ platform:
 image: Visual Studio 2019
 
 cache:
-    #- c:\tools\vcpkg\installed
-    #- c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2
+    - c:\tools\vcpkg\installed                                      -> ci/appveyor_cache_clean_trigger
+    - c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2      -> ci/appveyor_cache_clean_trigger
 
 artifacts:
   - path: build/PhotoBroom-1.5.0-*.exe
