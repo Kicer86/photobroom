@@ -27,6 +27,7 @@ artifacts:
 
 install:
     - choco install imagemagick.app
+    - refreshenv
     - cd C:\Tools\vcpkg
     - git pull
     - .\bootstrap-vcpkg.bat
