@@ -54,6 +54,7 @@ install:
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native upgrade --no-dry-run
     - cmd: set APPVEYOR_SAVE_CACHE_ON_ERROR=true
+    - cmd: set APPVEYOR_CACHE_ENTRY_ZIP_ARGS=-t7z -m0=lzma -mx=9
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
