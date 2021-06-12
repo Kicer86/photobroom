@@ -53,6 +53,7 @@ install:
     - cmd: set VCPKG_DEFAULT_TRIPLET=x64-windows
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native upgrade --no-dry-run
+    - cmd: set APPVEYOR_SAVE_CACHE_ON_ERROR=true
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
