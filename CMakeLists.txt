@@ -128,7 +128,6 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
-add_subdirectory(tools)
 add_subdirectory(external)
 
 #system dependent stuff

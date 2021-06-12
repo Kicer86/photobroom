@@ -42,10 +42,7 @@ struct GroupInfo
 
     GroupInfo& operator=(const GroupInfo &) = default;
 
-    bool operator==(const GroupInfo& other) const
-    {
-        return std::tie(group_id, role) == std::tie(other.group_id, other.role);
-    }
+    friend auto operator<=>(const GroupInfo&, const GroupInfo&) = default;
 };
 
 #endif
