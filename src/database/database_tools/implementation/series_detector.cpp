@@ -27,7 +27,7 @@
 #include <iphoto_operator.hpp>
 
 #include "database_executor_traits.hpp"
-#include "series_detector.hpp"
+#include "../series_detector.hpp"
 
 namespace
 {

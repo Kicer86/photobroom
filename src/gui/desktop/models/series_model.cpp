@@ -4,17 +4,20 @@
 #include <core/ilogger_factory.hpp>
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
+#include <database/database_tools/series_detector.hpp>
 #include <QElapsedTimer>
 #include <QPromise>
 
-#include "../series_model.hpp"
+#include "gui/desktop/utils/groups_manager.hpp"
+#include "series_model.hpp"
 
 
 using namespace std::placeholders;
 
 
-SeriesModel::SeriesModel(Database::IDatabase& db, ICoreFactoryAccessor& core)
-    : m_db(db)
+SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core)
+    : m_logger(core.getLoggerFactory().get("SeriesModel"))
+    , m_project(project)
     , m_core(core)
     , m_initialized(false)
     , m_loaded(false)
@@ -36,11 +39,37 @@ bool SeriesModel::isLoaded() const
 }
 
 
+void SeriesModel::groupBut(const QSet<int>& excludedRows)
+{
+    std::vector<GroupCandidate> toStore;
+
+    for(int i = 0; i < m_candidates.size(); i++)
+    {
+        if (excludedRows.contains(i))
+            continue;
+
+        const auto& candidate = m_candidates[i];
+        toStore.push_back(candidate);
+    }
+
+    auto& executor = m_core.getTaskExecutor();
+
+    for (const auto& group: toStore)
+    {
+        runOn(executor, [group, &project = m_project, &exifFactor = m_core.getExifReaderFactory()]() mutable
+        {
+            GroupsManager::groupIntoCollage(project.getDatabase(), exifFactor, project, group.members);
+        },
+        "colage group generation");
+    }
+}
+
+
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && index.column() == 0 && index.row() < m_condidates.size())
+    if (index.isValid() && index.column() == 0 && index.row() < m_candidates.size())
     {
-        const auto& candidate = m_condidates[index.row()];
+        const auto& candidate = m_candidates[index.row()];
 
         if (role == PhotoDataRole)
             return QVariant::fromValue(candidate.members.front());
@@ -69,7 +98,7 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 
 int SeriesModel::rowCount(const QModelIndex& parent) const
 {
-    return m_condidates.size();
+    return m_candidates.size();
 }
 
 
@@ -107,14 +136,34 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 
 void SeriesModel::fetchGroups()
 {
+    auto& executor = m_core.getTaskExecutor();
 
+    m_candidatesFuture = runOn<std::vector<GroupCandidate>>
+    (
+        executor,
+        [this](QPromise<std::vector<GroupCandidate>>& promise)
+        {
+            IExifReaderFactory& exif = m_core.getExifReaderFactory();
+
+            QElapsedTimer timer;
+
+            SeriesDetector detector(*m_project.getDatabase(), exif.get(), &promise);
+
+            timer.start();
+            promise.addResult(detector.listCandidates());
+            m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
+        },
+        "SeriesDetector"
+    );
+
+    m_candidatesFuture.then(std::bind(&SeriesModel::updateModel, this, _1));
 }
 
 
 void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, canditates.size() - 1);
-    m_condidates = canditates;
+    m_candidates = canditates;
     endInsertRows();
 
     m_loaded = true;

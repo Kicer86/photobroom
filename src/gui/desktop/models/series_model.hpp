@@ -8,12 +8,11 @@
 #include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/series_candidate.hpp>
-
-#include "database_export.h"
+#include <project_utils/project.hpp>
 
 class SeriesDetector;
 
-class DATABASE_DEPRECATED_EXPORT SeriesModel: public QAbstractListModel
+class SeriesModel: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
@@ -27,10 +26,11 @@ public:
         MembersRole,
     };
 
-    SeriesModel(Database::IDatabase &, ICoreFactoryAccessor &);
+    SeriesModel(Project &, ICoreFactoryAccessor &);
     ~SeriesModel();
 
     bool isLoaded() const;
+    Q_INVOKABLE void groupBut(const QSet<int> &);
 
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;
@@ -42,8 +42,9 @@ signals:
     void loadedChanged(bool) const;
 
 private:
-    std::vector<GroupCandidate> m_condidates;
-    Database::IDatabase& m_db;
+    std::unique_ptr<ILogger> m_logger;
+    std::vector<GroupCandidate> m_candidates;
+    Project& m_project;
     ICoreFactoryAccessor& m_core;
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     bool m_initialized;

@@ -23,9 +23,10 @@
 #include <QQmlPropertyMap>
 
 #include <core/ithumbnails_manager.hpp>
-#include <database/database_tools/series_model.hpp>
 #include <database/photo_data.hpp>
+
 #include "quick_views/qml_setup.hpp"
+#include "models/series_model.hpp"
 
 
 class QStandardItemModel;
@@ -58,11 +59,6 @@ class SeriesDetection: public QDialog
 
         void fetch_series(Database::IBackend &);
         void load_series(const std::vector<GroupCandidate> &);
-        void launch_groupping_dialog(const GroupCandidate &);
-        int selected_row() const;
-
-    private slots:
-        void groupBut(const QVariant &);
 };
 
 #endif // SERIESDETECTION_HPP

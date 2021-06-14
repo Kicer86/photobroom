@@ -471,22 +471,10 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        QStringList paths;
-        std::transform(photos.begin(), photos.end(), std::back_inserter(paths), [](const auto& data) { return data.path; });
-
-        CollageGenerator generator(m_coreAccessor->getExifReaderFactory().get());
-        const auto collage = generator.generateCollage(paths);
-
-        auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
-        const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
-        collage.save(collagePath, "JPG");
-
-        const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, *m_currentPrj.get());
-        GroupsManager::group(m_currentPrj->getDatabase(), photos, representantPath, Group::Type::Generic);
+        GroupsManager::groupIntoCollage(db, m_coreAccessor->getExifReaderFactory(), *m_currentPrj.get(), photos);
     }
     else if (chosenAction == manageGroup)
     {
-        Database::IDatabase* db = m_currentPrj->getDatabase();
         const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(*db, [&photos](Database::IBackend& backend)
         {
             std::vector<Photo::Data> members;
@@ -515,7 +503,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
             // create new one
             const QString representantPath = GroupsManager::copyRepresentatToDatabase(dialog.getRepresentative(), *m_currentPrj.get());
-            GroupsManager::group(m_currentPrj->getDatabase(), groupMembers, representantPath, dialog.groupType());
+            GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
 
         }
 

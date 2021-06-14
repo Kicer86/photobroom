@@ -7,6 +7,8 @@ set(SRC
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
+    series_model.cpp
+    series_model.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
@@ -19,6 +21,7 @@ target_link_libraries(gui_models
                             database
                         PRIVATE
                             core
+                            project_utils
 )
 
 target_include_directories(gui_models

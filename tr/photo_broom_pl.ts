@@ -409,7 +409,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+122"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -419,7 +419,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-231"/>
+        <location line="-219"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -444,7 +444,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+270"/>
+        <location line="+258"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -850,7 +850,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+34"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
         <source>Group candidates</source>
         <translation type="unfinished"></translation>
     </message>
@@ -861,7 +861,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished">Grupuj</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+37"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -869,17 +869,20 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+57"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+84"/>
         <source>Photo series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>Photos taken at similar time</source>
         <translation type="unfinished"></translation>
     </message>

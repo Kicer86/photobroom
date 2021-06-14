@@ -47,7 +47,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
                                  IThumbnailsManager* thbMgr,
                                  Project& project):
     QDialog(),
-    m_seriesModel(*db, *core),
+    m_seriesModel(project, *core),
     m_core(core),
     m_db(db),
     m_project(project),
@@ -70,10 +70,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase* db,
     layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);
 
-    // wiring
-    QObject* seriesDetectionMainId = QmlUtils::findQmlObject(m_qmlView, "seriesDetectionMain");
-    connect(seriesDetectionMainId, SIGNAL(groupBut(QVariant)), this, SLOT(groupBut(QVariant)));
-
     connect(dialog_buttons, &QDialogButtonBox::rejected, this, &QDialog::accept);
 }
 
@@ -82,48 +78,4 @@ SeriesDetection::~SeriesDetection()
 {
     // delete qml view before all other objects it referes to will be deleted
     delete m_qmlView;
-}
-
-
-void SeriesDetection::groupBut(const QVariant& rowsVariant)
-{
-    const QJSValue rawValues = rowsVariant.value<QJSValue>();
-
-    QVector<int> excludedValues;
-    const int length = rawValues.property("length").toInt();
-    for (int i = 0; i < length; i++)
-        excludedValues.append(rawValues.property(i).toInt());
-
-    //const QModelIndex firstItemInRow = m_tabModel.index(row, 0);
-    //const GroupCandidate groupDetails = firstItemInRow.data(SeriesModel::DetailsRole).value<GroupCandidate>();
-    //launch_groupping_dialog(groupDetails);
-}
-
-
-void SeriesDetection::launch_groupping_dialog(const GroupCandidate& candidate)
-{
-    auto logger = m_core->getLoggerFactory().get("PhotosGrouping");
-
-    PhotosGroupingDialog pgd(
-        candidate.members,
-        m_core->getExifReaderFactory(),
-        m_core->getTaskExecutor(),
-        m_core->getConfiguration(),
-        logger.get(),
-        candidate.type
-    );
-
-    const int exit_code = pgd.exec();
-
-    if (exit_code == QDialog::Accepted)
-    {
-        const auto representat = GroupsManager::copyRepresentatToDatabase(pgd.getRepresentative(), m_project);
-        GroupsManager::group(m_db, pgd.photos(), representat, pgd.groupType());
-    }
-}
-
-
-int SeriesDetection::selected_row() const
-{
-    return 0;
 }

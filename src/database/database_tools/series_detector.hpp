@@ -29,13 +29,13 @@
 #include <database/photo_data.hpp>
 #include <database_export.h>
 
-#include "../series_candidate.hpp"
+#include "series_candidate.hpp"
 
 
 struct IExifReader;
 
 
-class SeriesDetector
+class DATABASE_EXPORT SeriesDetector
 {
     public:
         struct DATABASE_EXPORT Rules

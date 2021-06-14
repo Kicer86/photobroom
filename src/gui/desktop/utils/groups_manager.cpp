@@ -23,6 +23,9 @@
 #include <database/igroup_operator.hpp>
 #include <database/iphoto_operator.hpp>
 #include <project_utils/misc.hpp>
+#include <system/system.hpp>
+
+#include "utils/grouppers/collage_generator.hpp"
 
 
 QString GroupsManager::copyRepresentatToDatabase(const QString& representativePhoto, Project& project)
@@ -34,15 +37,36 @@ QString GroupsManager::copyRepresentatToDatabase(const QString& representativePh
 }
 
 
+void GroupsManager::groupIntoCollage(
+    Database::IDatabase* db,
+    IExifReaderFactory& exifFactory,
+    Project& project,
+    const std::vector<Photo::Data>& photos)
+{
+    QStringList paths;
+    std::transform(photos.begin(), photos.end(), std::back_inserter(paths), [](const auto& data) { return data.path; });
+
+    CollageGenerator generator(exifFactory.get());
+    const auto collage = generator.generateCollage(paths);
+
+    auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
+    const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
+    collage.save(collagePath, "JPG");
+
+    const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);
+    GroupsManager::group(db, photos, representantPath, Group::Type::Generic);
+}
+
+
 void GroupsManager::group(Database::IDatabase* database,
                           const std::vector<Photo::Data>& photos,
                           const QString& representativePath,
                           Group::Type type)
 {
-        std::vector<Photo::Id> photos_ids;
-        std::transform(photos.begin(), photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.id; });
+    std::vector<Photo::Id> photos_ids;
+    std::transform(photos.begin(), photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.id; });
 
-        group(database, photos, representativePath, type);
+    group(database, photos_ids, representativePath, type);
 }
 
 

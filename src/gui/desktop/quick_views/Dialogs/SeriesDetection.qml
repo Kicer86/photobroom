@@ -16,8 +16,6 @@ Item
 
     state: "LoadingState"
 
-    signal groupBut(variant rows)
-
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     RowLayout {
@@ -130,10 +128,9 @@ Item
                 Connections {
                     target: button
                     function onClicked() {
-
                         var unselected = delegateState.getItems((state) => {return state === false;});
 
-                        seriesDetectionMainId.groupBut(unselected);
+                        groupsModelId.groupBut(unselected);
                     }
                 }
             }
