@@ -20,22 +20,19 @@ function(setup_qt_environment)
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
-
+                                       
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
@@ -49,7 +46,6 @@ function(setup_qt_environment)
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
@@ -57,7 +53,6 @@ function(setup_qt_environment)
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
-                                       --no-compiler-runtime
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
@@ -144,33 +139,19 @@ macro(addDeploymentActions)
     )
     set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
 
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(libs_qt6 zstd pcre2-16 harfbuzz freetype brotlidec libpng16 bz2 brotlicommon)
 
-        set(libs_Compiler libgcc_s_dw2-1 libstdc++-6 libwinpthread-1 libgomp-1)
 
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
+        # include compiler's runtime copied by windeploy in installer as extra install step
         if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-            set(redistributable_file_name vcredist_x64)
+            set(redistributable_file_name vc_redist.x64.exe)
         else()
-            set(redistributable_file_name vcredist_x86)
+            set(redistributable_file_name vc_redist.x86.exe)
         endif()
 
-        find_program(VS_REDIST
-                     ${redistributable_file_name}
-                     DOC "Visual Studio redistributable package installer"
-                     HINTS "$ENV{PROGRAMFILES}/Microsoft Visual Studio/2019/Community/VC/Redist/MSVC/*"
-                           "$ENV{PROGRAMFILES\(x86\)}/Microsoft Visual Studio/2019/Community/VC/Redist/MSVC/*"
-                    )
-
-        if(VS_REDIST)
-            #recipe from: http://www.cmake.org/pipermail/cmake/2012-January/048540.html
-            install(PROGRAMS ${VS_REDIST} DESTINATION tmp)
-
-            set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\tmp\\\\${redistributable_file_name}\\\"'")
-        else()
-            message(WARNING "Could not find Visual Studio redistributable package installer")
-        endif()
+        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\${redistributable_file_name}\\\"'")
 
         set(libs_Compiler )
 
@@ -193,6 +174,10 @@ macro(addDeploymentActions)
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OPENSSL_ROOT_DIR}/bin
                          OPTIONAL
+    )
+
+    install_external_lib(NAME "Qt6_third_party"
+                         DLLFILES ${libs_qt6}
     )
 
     install_external_lib(NAME "Compiler"
