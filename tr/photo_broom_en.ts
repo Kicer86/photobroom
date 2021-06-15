@@ -374,84 +374,89 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="226"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="233"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="227"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="234"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="235"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="242"/>
         <source>Internet connection problem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="236"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="243"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="349"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="356"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="350"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="357"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="443"/>
-        <source>Group...</source>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="450"/>
+        <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="444"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="451"/>
+        <source>Manage group...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="452"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="445"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="453"/>
         <source>Open photo location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="446"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="454"/>
         <source>Recognize people...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="534"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="580"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="534"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="580"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="599"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="645"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="605"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="651"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="669"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="679"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="715"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="725"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="670"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="716"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -459,7 +464,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="680"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="726"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -467,12 +472,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="688"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="734"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="689"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="735"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -482,23 +487,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="699"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="745"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="700"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="746"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="708"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="754"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="709"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="755"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -539,17 +544,17 @@ Error code: %1</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="163"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="160"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="170"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="167"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="177"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="174"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
         <translation>
@@ -558,7 +563,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="184"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="181"/>
         <source>Saving results</source>
         <translation>Saving results</translation>
     </message>
@@ -654,12 +659,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="47"/>
         <source>Animation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">animation</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="52"/>
         <source>HDR</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HDR</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="117"/>
@@ -712,28 +717,28 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="159"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="283"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="159"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="283"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="375"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="353"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="376"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
@@ -828,29 +833,35 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="93"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="126"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="142"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="164"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="133"/>
-        <source>Animation</source>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="91"/>
+        <source>Photo series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="134"/>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="92"/>
         <source>HDR</source>
-        <translation type="unfinished"></translation>
+        <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="135"/>
-        <source>Generic</source>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="93"/>
+        <source>Photos taken at similar time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -870,7 +881,7 @@ Error code: %1</source>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="32"/>
         <source>Thumbnail size:</source>
         <translation type="unfinished"></translation>
     </message>

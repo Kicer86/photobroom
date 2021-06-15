@@ -72,7 +72,7 @@ class PROJECT_UTILS_EXPORT Project
 
         bool lockProject();
 
-        Database::IDatabase* getDatabase() const;
+        Database::IDatabase& getDatabase() const;
         const ProjectInfo& getProjectInfo() const;
         QString makePathRelative(const QString &) const;
         QString makePathAbsolute(const QString &) const;

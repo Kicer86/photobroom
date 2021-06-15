@@ -72,19 +72,19 @@ void ThumbnailManager::cache(const QString& path, const IThumbnailsCache::Thumbn
 
 void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const safe_callback<const QImage &>& callback)
 {
-    runOn(&m_tasks, [=, this]
+    runOn(m_tasks, [=, this]
     {
         if (callback.is_valid())        // callback may have become invalid, do not calculate anything to save CPU
             generate_task(path, params, callback);
-    });
+    }, "ThumbnailManager::generate");
 }
 
 
 void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)>& callback)
 {
-    runOn(&m_tasks, [=, this]
+    runOn(m_tasks, [=, this]
     {
         generate_task(path, params, callback);
-    });
+    }, "ThumbnailManager::generate");
 }
 

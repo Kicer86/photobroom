@@ -113,9 +113,9 @@ bool Project::lockProject()
 }
 
 
-Database::IDatabase* Project::getDatabase() const
+Database::IDatabase& Project::getDatabase() const
 {
-    return m_database.get();
+    return *m_database.get();
 }
 
 

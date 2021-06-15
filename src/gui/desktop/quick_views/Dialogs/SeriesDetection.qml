@@ -16,7 +16,7 @@ Item
 
     state: "LoadingState"
 
-    signal group(int index)
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     RowLayout {
         id: groupsId
@@ -34,86 +34,108 @@ Item
                 font.pixelSize: 12
             }
 
+            Components.DelegateState {
+                id: delegateState
+
+                defaultValue: true
+            }
+
             ListView {
                 id: groupsListId
-                clip: true
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 property alias thumbnailSize: thumbnailSliderId.size
 
+                clip: true
                 model: groupsModelId
-
-                highlightMoveDuration : 200
-                highlightMoveVelocity : -1
+                spacing: 10
 
                 ScrollBar.vertical: ScrollBar { }
 
                 delegate: Item {
                     id: delegateId
+
                     width: delegateId.ListView.view.width       // using 'parent' causes erros in output after thumbnail being resized
-                    height: photoDelegateId.height
+                    height: groupDetails.height
+
+                    // from view
+                    required property int index
+
+                    // from model - roles
+                    required property var photoData
+                    required property var groupType
+                    required property var members
 
                     Row {
-                        Internals.PhotoDelegate {
-                            id: photoDelegateId
-                            width: groupsListId.thumbnailSize
-                            height: groupsListId.thumbnailSize
-                            margin: 5
-                        }
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: groupType
-                        }
-                    }
-
-                    MouseArea {
                         anchors.fill: parent
-                        onClicked: delegateId.ListView.view.currentIndex = index
-                    }
-                }
 
-                highlight: Rectangle {
-                    id: highlightId
-                    color: "lightsteelblue"
-                    opacity: 0.4
-                    z: 2
+                        Components.DelegateCheckBox {
+                            id: checkBox
+
+                            state: delegateState
+                            index: delegateId.index
+                        }
+
+                        Item {
+                            id: groupDetails
+
+                            width: parent.width - checkBox.width
+                            height: groupTypeId.height + membersList.height
+
+                            Text {
+                                id: groupTypeId
+                                text: groupType
+
+                                anchors.bottom: membersList.top
+                            }
+
+                            ListView {
+                                id: membersList
+
+                                clip: true
+
+                                width: parent.width
+                                height: groupsListId.thumbnailSize
+                                anchors.bottom: parent.bottom
+
+                                orientation: ListView.Horizontal
+                                model: members
+
+                                delegate: Internals.PhotoDelegate
+                                {
+                                    width: membersList.height
+                                    height: membersList.height
+                                }
+                            }
+                        }
+                    }
                 }
 
                 Components.ThumbnailSlider {
                     id: thumbnailSliderId
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
+
+                    minimumSize: 100
                 }
             }
 
             Button {
                 id: button
                 text: qsTr("Group", "used as verb - group photos")
-                enabled: groupsListId.currentIndex != -1
 
                 Connections {
                     target: button
                     function onClicked() {
-                        seriesDetectionMainId.group(groupsListId.currentIndex)
+                        var unselected = delegateState.getItems((state) => {return state === false;});
+
+                        groupsModelId.groupBut(unselected);
+                        delegateState.clear();
                     }
                 }
             }
         }
-
-        /* TODO: implement later
-        Item {
-            id: groupMembersId
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-            PhotosGridView {
-                anchors.fill: parent
-                //model: currentGroupModelId
-            }
-        }
-        */
     }
 
     Item {
@@ -157,7 +179,7 @@ Item
         },
         State {
             name: "LoadedState"
-            when: groupsModelState.loaded
+            when: groupsModelId.loaded
         }
     ]
 

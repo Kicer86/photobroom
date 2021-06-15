@@ -37,7 +37,7 @@ class CollectionDirScanDialog: public QDialog
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const Project *, Database::IDatabase *, QWidget* parent = nullptr);
+        CollectionDirScanDialog(const Project *, Database::IDatabase &, QWidget* parent = nullptr);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
@@ -61,7 +61,7 @@ class CollectionDirScanDialog: public QDialog
         const Project* m_project;
         QLabel* m_info;
         QPushButton* m_button;
-        Database::IDatabase* m_database;
+        Database::IDatabase& m_database;
         std::atomic<bool> m_gotPhotos;
         std::atomic<bool> m_gotDBPhotos;
 

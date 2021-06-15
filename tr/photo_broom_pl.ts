@@ -377,7 +377,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -404,17 +404,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+94"/>
-        <source>Group...</source>
-        <translation>Grupowanie...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+98"/>
         <source>Recognize people...</source>
         <translation>Rozpoznawanie osób...</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+126"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -424,12 +419,22 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-184"/>
+        <location line="-223"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+93"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Manage group...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Ungroup</source>
         <translation>Rozbij grupę</translation>
     </message>
@@ -439,7 +444,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+224"/>
+        <location line="+262"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -557,7 +562,7 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -729,7 +734,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+137"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -845,35 +850,41 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/series_detection/series_detection.cpp" line="+133"/>
-        <source>Animation</source>
-        <translation>Animacja</translation>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
+        <source>Group candidates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+94"/>
+        <source>Group</source>
+        <comment>used as verb - group photos</comment>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>Looking for group candidates...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SeriesModel</name>
+    <message>
+        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+91"/>
+        <source>Photo series</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Generic</source>
-        <translation>Zwykła grupa</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
-        <source>Group candidates</source>
-        <translation>Potencjalne grupy</translation>
-    </message>
-    <message>
-        <location line="+61"/>
-        <source>Group</source>
-        <comment>used as verb - group photos</comment>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Looking for group candidates...</source>
-        <translation>Wyszukiwanie potencjalnych grup...</translation>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
+        <source>Photos taken at similar time</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -892,7 +903,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+30"/>
+        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>

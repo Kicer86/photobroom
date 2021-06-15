@@ -20,7 +20,7 @@ class CORE_EXPORT ExifReaderFactory: public IExifReaderFactory
         ExifReaderFactory& operator=(const ExifReaderFactory &) = delete;
 
         // ITagFeederFactory:
-        IExifReader* get() override;
+        IExifReader& get() override;
 
     private:
         std::map<std::thread::id, std::unique_ptr<IExifReader>> m_feeders;

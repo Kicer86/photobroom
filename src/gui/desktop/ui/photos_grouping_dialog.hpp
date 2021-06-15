@@ -113,10 +113,4 @@ class PhotosGroupingDialog: public QDialog
         void cancel();
 };
 
-
-namespace PhotosGroupingDialogUtils
-{
-    void createGroup(PhotosGroupingDialog *, Project *, Database::IDatabase *);
-}
-
 #endif // PHOTOS_GROUPING_DIALOG_HPP

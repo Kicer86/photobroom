@@ -29,7 +29,7 @@ OrientedImage::OrientedImage():
 }
 
 
-OrientedImage::OrientedImage(IExifReader* exif, const QString& src):
+OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
     m_oriented()
 {
     QImage img(src);
@@ -37,7 +37,7 @@ OrientedImage::OrientedImage(IExifReader* exif, const QString& src):
 
     if (img.isNull() == false)
     {
-        const std::optional<std::any> orientation_raw = exif->get(src, IExifReader::TagType::Orientation);
+        const std::optional<std::any> orientation_raw = exif.get(src, IExifReader::TagType::Orientation);
         const int orientation = orientation_raw.has_value()?
                                     std::any_cast<int>(*orientation_raw):
                                     0;

@@ -24,17 +24,8 @@
 #include <core/iexif_reader.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
+#include <database/database_executor_traits.hpp>
 #include <face_recognition/face_recognition.hpp>
-
-
-template<typename T>
-struct ExecutorTraits<Database::IDatabase, T>
-{
-    static void exec(Database::IDatabase* db, T&& t)
-    {
-        db->exec(std::forward<T>(t));
-    }
-};
 
 
 namespace
@@ -128,7 +119,7 @@ void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
     auto safe_task = m_callback_ctrl.make_safe_callback<>(task);
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(&executor, safe_task);
+    runOn(executor, safe_task, "PeopleManipulator");
 }
 
 
@@ -323,7 +314,7 @@ void PeopleManipulator::store_fingerprints()
         if (face.fingerprint.id().valid() == false)
         {
             const PersonFingerprint::Id fid =
-                evaluate<PersonFingerprint::Id(Database::IBackend &)>(&m_db, [fingerprint = face.fingerprint](Database::IBackend& backend)
+                evaluate<PersonFingerprint::Id(Database::IBackend &)>(m_db, [fingerprint = face.fingerprint](Database::IBackend& backend)
             {
                 return backend.peopleInformationAccessor().store(fingerprint);
             });
@@ -352,7 +343,7 @@ void PeopleManipulator::store_people_information()
 std::vector<QRect> PeopleManipulator::fetchFacesFromDb() const
 {
     return evaluate<std::vector<QRect>(Database::IBackend &)>
-        (&m_db, [id = m_pid](Database::IBackend& backend)
+        (m_db, [id = m_pid](Database::IBackend& backend)
     {
         std::vector<QRect> faces;
 
@@ -369,7 +360,7 @@ std::vector<QRect> PeopleManipulator::fetchFacesFromDb() const
 std::vector<PersonInfo> PeopleManipulator::fetchPeopleFromDb() const
 {
     return evaluate<std::vector<PersonInfo>(Database::IBackend &)>
-        (&m_db, [id = m_pid](Database::IBackend& backend)
+        (m_db, [id = m_pid](Database::IBackend& backend)
     {
         auto people = backend.peopleInformationAccessor().listPeople(id);
 
@@ -382,7 +373,7 @@ std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> PeopleMani
 {
     typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
 
-    return evaluate<Result(Database::IBackend &)>(&m_db, [](Database::IBackend& backend)
+    return evaluate<Result(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
         std::vector<Person::Fingerprint> people_fingerprints;
         std::vector<Person::Id> people;
@@ -408,8 +399,7 @@ std::map<PersonInfo::Id, PersonFingerprint> PeopleManipulator::fetchFingerprints
 {
     typedef std::map<PersonInfo::Id, PersonFingerprint> Result;
 
-    return evaluate<Result(Database::IBackend &)>
-                    (&m_db, [ids](Database::IBackend& backend)
+    return evaluate<Result(Database::IBackend &)>(m_db, [ids](Database::IBackend& backend)
     {
         const Result result = backend.peopleInformationAccessor().fingerprintsFor(ids);
 
@@ -420,7 +410,7 @@ std::map<PersonInfo::Id, PersonFingerprint> PeopleManipulator::fetchFingerprints
 
 std::vector<PersonName> PeopleManipulator::fetchPeople() const
 {
-    return evaluate<std::vector<PersonName>(Database::IBackend &)>(&m_db, [](Database::IBackend& backend)
+    return evaluate<std::vector<PersonName>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
         auto people = backend.peopleInformationAccessor().listPeople();
 
@@ -432,7 +422,7 @@ std::vector<PersonName> PeopleManipulator::fetchPeople() const
 PersonName PeopleManipulator::personData(const Person::Id& id) const
 {
     const PersonName person = evaluate<PersonName (Database::IBackend &)>
-        (&m_db, [id](Database::IBackend& backend)
+        (m_db, [id](Database::IBackend& backend)
     {
         const auto people = backend.peopleInformationAccessor().person(id);
 
@@ -446,7 +436,7 @@ PersonName PeopleManipulator::personData(const Person::Id& id) const
 PersonName PeopleManipulator::storeNewPerson(const QString& name) const
 {
     const PersonName person = evaluate<PersonName (Database::IBackend &)>
-            (&m_db, [name](Database::IBackend& backend)
+            (m_db, [name](Database::IBackend& backend)
     {
         const PersonName d(Person::Id(), name);
         const auto id = backend.peopleInformationAccessor().store(d);
@@ -459,7 +449,7 @@ PersonName PeopleManipulator::storeNewPerson(const QString& name) const
 
 QString PeopleManipulator::pathFor(const Photo::Id& id) const
 {
-    return evaluate<QString(Database::IBackend &)>(&m_db, [id](Database::IBackend& backend)
+    return evaluate<QString(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
     {
         auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
 

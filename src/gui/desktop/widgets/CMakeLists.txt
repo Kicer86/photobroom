@@ -7,7 +7,6 @@ set(SRCS
     media_preview.cpp
     multi_value_line_edit.cpp
     photo_properties.cpp
-    table_widget_with_limited_drop.cpp
     tasks_view_widget.cpp
     project_creator/project_creator_dialog.cpp
     series_detection/series_detection.cpp
@@ -24,7 +23,6 @@ set(HEADERS
     media_preview.hpp
     multi_value_line_edit.hpp
     photo_properties.hpp
-    table_widget_with_limited_drop.hpp
     tasks_view_widget.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp

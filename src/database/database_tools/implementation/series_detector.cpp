@@ -16,35 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../series_detector.hpp"
 
 #include <unordered_set>
 #include <QDateTime>
 
 #include <core/iexif_reader.hpp>
+#include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
 #include <core/tags_utils.hpp>
 #include <ibackend.hpp>
 #include <iphoto_operator.hpp>
 
+#include "database_executor_traits.hpp"
+#include "../series_detector.hpp"
+#include "photo_utils.hpp"
 
 namespace
 {
-    class BaseGroupValidator
-    {
-    public:
-        void setCurrentPhoto(const Photo::Data& d)
-        {
-            m_data = d;
-        }
-
-        Photo::Data m_data;
-    };
-
     template<Group::Type>
     class GroupValidator;
 
+    class abort_exception: public std::exception {};
+
     template<>
-    class GroupValidator<Group::Type::Animation>: BaseGroupValidator
+    class GroupValidator<Group::Type::Animation>
     {
     public:
         GroupValidator(IExifReader& exif, const SeriesDetector::Rules &)
@@ -55,8 +50,7 @@ namespace
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            BaseGroupValidator::setCurrentPhoto(d);
-            m_sequence = m_exifReader.get(m_data.path, IExifReader::TagType::SequenceNumber);
+            m_sequence = m_exifReader.get(d.path, IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
@@ -138,7 +132,7 @@ namespace
     };
 
     template<>
-    class GroupValidator<Group::Type::Generic>: BaseGroupValidator
+    class GroupValidator<Group::Type::Generic>
     {
     public:
         GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
@@ -150,7 +144,6 @@ namespace
 
         void setCurrentPhoto(const Photo::Data& d)
         {
-            BaseGroupValidator::setCurrentPhoto(d);
             m_current_stamp = Tag::timestamp(d.tags);
         }
 
@@ -172,29 +165,29 @@ namespace
     class SeriesExtractor
     {
     public:
-        SeriesExtractor(Database::IBackend& backend,
-                    IExifReader& exifReader,
-                    const std::vector<Photo::Id>& photos,
-                    const SeriesDetector::Rules& r)
-            : m_backend(backend)
-            , m_exifReader(exifReader)
+        SeriesExtractor(IExifReader& exifReader,
+                        const std::deque<Photo::Data>& photos,
+                        const SeriesDetector::Rules& r,
+                        const QPromise<std::vector<GroupCandidate>>* p)
+            : m_exifReader(exifReader)
             , m_rules(r)
+            , m_photos(photos)
+            , m_promise(p)
         {
-            for (const Photo::Id& id: photos)
-            {
-                const Photo::Data data = m_backend.getPhoto(id);
-                m_photos.push_back(data);
-            }
+
         }
 
         template<Group::Type type>
-        std::vector<SeriesDetector::GroupCandidate> extract()
+        std::vector<GroupCandidate> extract()
         {
-            std::vector<SeriesDetector::GroupCandidate> results;
+            std::vector<GroupCandidate> results;
 
             for (auto it = m_photos.begin(); it != m_photos.end();)
             {
-                SeriesDetector::GroupCandidate group;
+                if (m_promise && m_promise->isCanceled())
+                    throw abort_exception();
+
+                GroupCandidate group;
                 group.type = type;
 
                 GroupValidator<type> validator(m_exifReader, m_rules);
@@ -234,10 +227,10 @@ namespace
         }
 
     private:
-        Database::IBackend& m_backend;
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
         std::deque<Photo::Data> m_photos;
+        const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
 }
 
@@ -249,41 +242,66 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IBackend& backend, IExifReader* exif):
-    m_backend(backend), m_exifReader(exif)
+SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader& exif, const QPromise<std::vector<GroupCandidate>>* p)
+    : m_db(db)
+    , m_promise(p)
+    , m_exifReader(exif)
 {
 
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
-    std::vector<GroupCandidate> result;
+    const std::deque<Photo::Data> datas =
+        evaluate<std::deque<Photo::Data>(Database::IBackend &)>(m_db, [this, &rules, &datas](Database::IBackend& backend)
+    {
+        std::vector<GroupCandidate> result;
 
-    // find photos which are not part of any group
-    Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
-    const auto photos = m_backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
+        // find photos which are not part of any group
+        Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
 
-    // find groups
-    auto sequence_groups = analyze_photos(photos, rules);
+        const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-    return sequence_groups;
+        std::deque<Photo::Data> datas;
+        for (const Photo::Id& id: photos)
+        {
+            const Photo::Data data = backend.getPhoto(id);
+            datas.push_back(data);
+        }
+
+        return datas;
+    });
+
+    return analyze_photos(datas, rules);
 }
 
 
-std::vector<SeriesDetector::GroupCandidate> SeriesDetector::analyze_photos(const std::vector<Photo::Id>& photos,
-                                                                           const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
 {
-    SeriesExtractor extractor(m_backend, *m_exifReader, photos, rules);
+    std::deque<Photo::Data> suitablePhotos;
 
-    auto hdrs = extractor.extract<Group::Type::HDR>();
-    auto animations = extractor.extract<Group::Type::Animation>();
-    auto generics = extractor.extract<Group::Type::Generic>();
+    std::copy_if(photos.begin(), photos.end(), std::back_inserter(suitablePhotos), [](const auto& photo) {
+        return MediaTypes::isImageFile(Photo::getPath(photo));
+    });
 
-    std::vector<SeriesDetector::GroupCandidate> sequences;
-    std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
-    std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
-    std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
+    try
+    {
+        SeriesExtractor extractor(m_exifReader, suitablePhotos, rules, m_promise);
 
-    return sequences;
+        auto hdrs = extractor.extract<Group::Type::HDR>();
+        auto animations = extractor.extract<Group::Type::Animation>();
+        auto generics = extractor.extract<Group::Type::Generic>();
+
+        std::vector<GroupCandidate> sequences;
+        std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
+        std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
+        std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
+
+        return sequences;
+    }
+    catch (const abort_exception &)
+    {
+        return {};
+    }
 }

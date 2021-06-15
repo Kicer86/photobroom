@@ -19,7 +19,6 @@
 #include "face_recognition.hpp"
 
 #include <cassert>
-#include <future>
 #include <memory>
 #include <string>
 
@@ -51,15 +50,6 @@
 
 using namespace std::placeholders;
 
-template<typename T>
-struct ExecutorTraits<Database::IDatabase, T>
-{
-    static void exec(Database::IDatabase* db, T&& t)
-    {
-        db->exec(std::forward<T>(t));
-    }
-};
-
 namespace
 {
     std::mutex g_dlibMutex;   // global mutex for dlib usage.
@@ -85,7 +75,7 @@ struct FaceRecognition::Data
 
     std::shared_ptr<ITmpDir> m_tmpDir;
     std::unique_ptr<ILogger> m_logger;
-    IExifReader* m_exif;
+    IExifReader& m_exif;
 };
 
 

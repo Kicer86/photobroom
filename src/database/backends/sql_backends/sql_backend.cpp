@@ -352,7 +352,9 @@ namespace Database
     Photo::Data ASqlBackend::getPhoto(const Photo::Id& id)
     {
         const Photo::DataDelta photoDelta = getPhotoDelta(id);
-        const Photo::Data photoData(photoDelta);
+
+        Photo::Data photoData;
+        photoData.apply(photoDelta);            // photoDelta contains full information about photo, so photoData will be complete
 
         return photoData;
     }

@@ -23,7 +23,7 @@ class PhotoInfoUpdater final: public QObject
         Q_OBJECT
 
     public:
-        explicit PhotoInfoUpdater(ICoreFactoryAccessor *, Database::IDatabase* db);
+        explicit PhotoInfoUpdater(ICoreFactoryAccessor *, Database::IDatabase& db);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -49,7 +49,7 @@ class PhotoInfoUpdater final: public QObject
         std::thread::id m_threadId;
         std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
-        Database::IDatabase* m_db;
+        Database::IDatabase& m_db;
         ITaskExecutor& m_tasksExecutor;
 
         void addTask(std::unique_ptr<UpdaterTask>);

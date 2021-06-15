@@ -30,7 +30,7 @@ class CORE_EXPORT OrientedImage
 {
     public:
         OrientedImage();
-        OrientedImage(IExifReader *, const QString& path);
+        OrientedImage(IExifReader &, const QString& path);
 
         QImage get() const;
         const QImage* operator->() const;

@@ -39,7 +39,7 @@ class PhotosAnalyzerImpl: public QObject
         Q_OBJECT
 
     public:
-        PhotosAnalyzerImpl(ICoreFactoryAccessor *, Database::IDatabase *);
+        PhotosAnalyzerImpl(ICoreFactoryAccessor *, Database::IDatabase &);
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
         PhotosAnalyzerImpl& operator=(const PhotosAnalyzerImpl&) = delete;
 
@@ -47,7 +47,7 @@ class PhotosAnalyzerImpl: public QObject
 
         void set(ITasksView* tasksView);
 
-        Database::IDatabase* getDatabase();
+        Database::IDatabase& getDatabase();
 
         void stop();
 
@@ -56,7 +56,7 @@ class PhotosAnalyzerImpl: public QObject
         QTimer m_timer;
         std::vector<Photo::Id> m_photosToUpdate;
         QMetaObject::Connection m_backendConnection;
-        Database::IDatabase* m_database;
+        Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxTasks;

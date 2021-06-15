@@ -9,9 +9,10 @@
 #include <unit_tests_utils/mock_photo_operator.hpp>
 
 #include "backends/memory_backend/memory_backend.hpp"
-#include "database_tools/series_detector.hpp"
 #include "database_tools/json_to_backend.hpp"
+#include "database_tools/series_detector.hpp"
 #include "unit_tests_utils/db_for_series_detection.json.hpp"
+#include "unit_tests_utils/mock_database.hpp"
 
 
 using testing::Invoke;
@@ -21,20 +22,35 @@ using testing::ReturnRef;
 using testing::_;
 
 
-TEST(SeriesDetectorTest, constructor)
+class SeriesDetectorTest: public testing::Test
+{
+    public:
+        NiceMock<MockDatabase> db;
+        NiceMock<MockBackend> backend;
+
+        SeriesDetectorTest()
+        {
+            ON_CALL(db, execute(_)).WillByDefault(Invoke([this](const auto& task)
+            {
+                task->run(backend);
+            }));
+        }
+};
+
+
+TEST_F(SeriesDetectorTest, constructor)
 {
     EXPECT_NO_THROW({
-        MockBackend backend;
+        MockDatabase db;
         MockExifReader exif;
 
-        SeriesDetector sd(backend, &exif);
+        SeriesDetector sd(db, exif);
     });
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario1)
+TEST_F(SeriesDetectorTest, animationDetectionScenario1)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -54,7 +70,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
@@ -69,7 +85,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -77,8 +94,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const SeriesDetector sd(db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -88,9 +105,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario1)
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario2)
+TEST_F(SeriesDetectorTest, animationDetectionScenario2)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -110,7 +126,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -125,7 +141,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -133,8 +150,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const SeriesDetector sd(db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -144,9 +161,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario2)
 }
 
 
-TEST(SeriesDetectorTest, animationDetectionScenario3)
+TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -167,7 +183,7 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -182,7 +198,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -192,8 +209,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const SeriesDetector sd(db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -203,9 +220,8 @@ TEST(SeriesDetectorTest, animationDetectionScenario3)
 }
 
 
-TEST(SeriesDetectorTest, HDRDetectionScenario1)
+TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -234,7 +250,7 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
@@ -249,7 +265,8 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( (id - 1) % 3 + 1);   // id:1 -> 1, id:2 -> 2, id:3 -> 3, id:4 -> 1 ...
@@ -265,7 +282,8 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
-        const QString id_str = pathSplitted.back();
+        QString id_str = pathSplitted.back();
+        id_str.remove(".jpeg");
         const int id = id_str.toInt();
 
         result = std::any( float((id - 1) % 3 - 1) );   // id:1 -> -1.0, id:2 -> 0.0, id:3 -> 1.0, id:4 -> -1.0 ...
@@ -273,8 +291,8 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const SeriesDetector sd(db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
@@ -284,16 +302,23 @@ TEST(SeriesDetectorTest, HDRDetectionScenario1)
 }
 
 
-TEST(SeriesDetectorTest, PhotosTakenOneByOne)
+TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
 {
     NiceMock<MockExifReader> exif;
-    Database::MemoryBackend backend;
-    Database::JsonToBackend jsonReader(backend);
+    Database::MemoryBackend mem_backend;
+    Database::JsonToBackend jsonReader(mem_backend);
 
     jsonReader.append(SeriesDB::db);
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    NiceMock<MockDatabase> mem_db;
+
+    ON_CALL(mem_db, execute(_)).WillByDefault(Invoke([&mem_backend](const auto& task)
+    {
+        task->run(mem_backend);
+    }));
+
+    const SeriesDetector sd(mem_db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 6);
@@ -303,9 +328,8 @@ TEST(SeriesDetectorTest, PhotosTakenOneByOne)
 }
 
 
-TEST(SeriesDetectorTest, Complexity)
+TEST_F(SeriesDetectorTest, Complexity)
 {
-    NiceMock<MockBackend> backend;
     NiceMock<MockExifReader> exif;
     NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -323,13 +347,13 @@ TEST(SeriesDetectorTest, Complexity)
     {
         Photo::Data data;
         data.id = id;
-        data.path = QString("path: %1").arg(id);        // add id to path so exif mock can use it for data mocking
+        data.path = QString("path: %1.jpeg").arg(id);        // add id to path so exif mock can use it for data mocking
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
 
         return data;
     }));
 
-    const SeriesDetector sd(backend, &exif);
-    const std::vector<SeriesDetector::GroupCandidate> groupCanditates = sd.listCandidates();
+    const SeriesDetector sd(db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

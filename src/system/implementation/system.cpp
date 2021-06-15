@@ -127,7 +127,7 @@ QString System::getTmpFile(const QString& path, const QString& fileExt)
 }
 
 
-std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, TmpOptions flags)
+std::shared_ptr<ITmpDir> System::createTmpDir(const QString& utility, QFlags<TmpOption> flags)
 {
     // Either only Generic was set or anything but Generic.
     assert(flags == Generic || ((flags & Generic) == 0));

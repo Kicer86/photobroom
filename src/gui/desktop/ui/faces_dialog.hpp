@@ -41,7 +41,7 @@ class FacesDialog: public QDialog
         QString m_photoPath;
         QSize m_photoSize;
         Ui::FacesDialog *ui;
-        IExifReader* m_exif;
+        IExifReader& m_exif;
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);

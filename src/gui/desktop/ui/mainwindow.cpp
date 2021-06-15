@@ -2,6 +2,7 @@
 #include "mainwindow.hpp"
 
 #include <functional>
+#include <ranges>
 
 #include <QCloseEvent>
 #include <QDesktopServices>
@@ -19,11 +20,16 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/database_builder.hpp>
-#include <database/idatabase.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
+#include <database/idatabase.hpp>
+#include <database/igroup_operator.hpp>
+#include <database/photo_utils.hpp>
+#include <database/database_executor_traits.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
+#include <system/system.hpp>
 
 #include "config.hpp"
 
@@ -36,6 +42,7 @@
 #include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
+#include "utils/grouppers/collage_generator.hpp"
 #include "utils/selection_to_photoid_translator.hpp"
 #include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
@@ -440,50 +447,71 @@ void MainWindow::showContextMenu(const QPoint& pos)
                         });
 
     QMenu contextMenu;
-    QAction* groupPhotos    = contextMenu.addAction(tr("Group..."));
+    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
+    QAction* manageGroup    = contextMenu.addAction(tr("Manage group..."));
     QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
     QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
 
-    const bool isSingleGroup = photos.size() == 1 && photos.front().groupInfo.role == GroupInfo::Role::Representative;
+    const bool groupsOnly = std::ranges::all_of(photos, [](const Photo::Data& photo) { return photo.groupInfo.role == GroupInfo::Role::Representative; });
+    const bool isSingleGroup = photos.size() == 1 && groupsOnly;
 
-    groupPhotos->setEnabled(photos.size() > 1);
-    ungroupPhotos->setEnabled(isSingleGroup);
+    groupPhotos->setEnabled(photos.size() > 1 && std::ranges::all_of(photos | std::views::transform(&Photo::getPath), &MediaTypes::isImageFile));
+    manageGroup->setEnabled(isSingleGroup);
+    ungroupPhotos->setEnabled(groupsOnly);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
 
-    if (isSingleGroup)
-        groupPhotos->setVisible(false);
-    else
-        ungroupPhotos->setVisible(false);
+    ungroupPhotos->setVisible(groupsOnly);
 
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    Database::IDatabase& db = m_currentPrj->getDatabase();
 
     const QPoint globalPos = ui->mainViewQml->mapToGlobal(pos);
     QAction* chosenAction = contextMenu.exec(globalPos);
 
     if (chosenAction == groupPhotos)
     {
+        GroupsManager::groupIntoCollage(m_coreAccessor->getExifReaderFactory(), *m_currentPrj.get(), photos);
+    }
+    else if (chosenAction == manageGroup)
+    {
+        assert(photos.size() == 1);
+        const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [&photos](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> members;
+
+            auto& groupOperator = backend.groupOperator();
+            const auto memberIds = groupOperator.membersOf(photos.front().groupInfo.group_id);
+
+            for (const auto& id: memberIds)
+            {
+                const Photo::Data member = backend.getPhoto(id);
+                members.push_back(member);
+            }
+
+            return members;
+        });
+
         IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
-
         auto logger = m_loggerFactory.get("PhotosGrouping");
-
-        PhotosGroupingDialog dialog(photos, factory, m_executor, m_configuration, logger.get());
+        PhotosGroupingDialog dialog(groupMembers, factory, m_executor, m_configuration, logger.get());
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)
-            PhotosGroupingDialogUtils::createGroup(&dialog, m_currentPrj.get(), db);
+        {
+            // remove old group
+            removeGroupOf(photos);
+
+            // create new one
+            const QString representantPath = GroupsManager::copyRepresentatToDatabase(dialog.getRepresentative(), *m_currentPrj.get());
+            GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
+
+        }
+
     }
     else if (chosenAction == ungroupPhotos)
     {
-        const Photo::Data& representative = photos.front();
-        const GroupInfo& grpInfo = representative.groupInfo;
-        const Group::Id gid = grpInfo.group_id;
-
-        GroupsManager::ungroup(db, gid);
-
-        // delete representative file
-        QFile::remove(representative.path);
+       removeGroupOf(photos);
     }
     else if (chosenAction == location)
     {
@@ -503,6 +531,24 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
         FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
+    }
+}
+
+
+void MainWindow::removeGroupOf(const std::vector<Photo::Data>& representatives)
+{
+    for (const Photo::Data& representative: representatives)
+    {
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
+
+        assert(gid.valid());
+
+        Database::IDatabase& db = m_currentPrj->getDatabase();
+        GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
     }
 }
 
@@ -556,7 +602,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-    Database::IDatabase* db = m_currentPrj->getDatabase();
+    Database::IDatabase& db = m_currentPrj->getDatabase();
 
     CollectionDirScanDialog scanner(m_currentPrj.get(), db);
     const int status = scanner.exec();
@@ -576,7 +622,7 @@ void MainWindow::on_actionScan_collection_triggered()
             photos.emplace_back(photo_data);
         }
 
-        db->exec([photos](Database::IBackend& backend) mutable
+        db.exec([photos](Database::IBackend& backend) mutable
         {
             backend.addPhotos(photos);
         });
@@ -632,7 +678,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailsManager, m_currentPrj.get()}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_thumbnailsManager, *m_currentPrj.get()}.exec();
 }
 
 void MainWindow::on_actionPhoto_data_completion_triggered()
@@ -654,9 +700,9 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
     {
         case Database::StatusCodes::Ok:
         {
-            Database::IDatabase* db = m_currentPrj->getDatabase();
+            Database::IDatabase& db = m_currentPrj->getDatabase();
 
-            emit currentDatabaseChanged(db);
+            emit currentDatabaseChanged(&db);
 
             // TODO: I do not like this flag here...
             if (is_new)

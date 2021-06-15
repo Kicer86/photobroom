@@ -41,7 +41,7 @@ struct CORE_EXPORT IExifReaderFactory
 {
     virtual ~IExifReaderFactory() = default;
 
-    virtual IExifReader* get() = 0;
+    virtual IExifReader& get() = 0;
 };
 
 #endif

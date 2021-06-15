@@ -22,11 +22,11 @@
 #include <QDialog>
 #include <QQmlPropertyMap>
 
-#include <core/function_wrappers.hpp>
 #include <core/ithumbnails_manager.hpp>
-#include <database/database_tools/series_detector.hpp>
 #include <database/photo_data.hpp>
+
 #include "quick_views/qml_setup.hpp"
+#include "models/series_model.hpp"
 
 
 class QStandardItemModel;
@@ -46,26 +46,19 @@ class SeriesDetection: public QDialog
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase *, ICoreFactoryAccessor *, IThumbnailsManager *, Project *);
+        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, IThumbnailsManager *, Project &);
         ~SeriesDetection();
 
     private:
-        safe_callback_ctrl m_callback_mgr;
-        QStandardItemModel* m_tabModel;
-        QQmlPropertyMap m_modelDynamicProperties;
+        SeriesModel m_seriesModel;
         ICoreFactoryAccessor* m_core;
-        Database::IDatabase* m_db;
-        Project* m_project;
+        Database::IDatabase& m_db;
+        Project& m_project;
         QQuickWidget* m_qmlView;
         QML_IThumbnailsManager m_thumbnailsManager4QML;
 
         void fetch_series(Database::IBackend &);
-        void load_series(const std::vector<SeriesDetector::GroupCandidate> &);
-        void launch_groupping_dialog(const std::vector<Photo::Data> &, Group::Type);
-        int selected_row() const;
-
-    private slots:
-        void group(int);
+        void load_series(const std::vector<GroupCandidate> &);
 };
 
 #endif // SERIESDETECTION_HPP

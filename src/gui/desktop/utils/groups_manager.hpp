@@ -19,8 +19,10 @@
 #ifndef GROUPS_MANAGER_HPP
 #define GROUPS_MANAGER_HPP
 
-#include <database/photo_types.hpp>
+#include <core/iexif_reader.hpp>
+#include <database/photo_data.hpp>
 #include <database/group.hpp>
+#include <project_utils/project.hpp>
 
 
 namespace Database
@@ -31,12 +33,26 @@ namespace Database
 
 namespace GroupsManager
 {
-    void group(Database::IDatabase *,
+    QString copyRepresentatToDatabase(const QString& representativePhoto, Project &);
+
+    void groupIntoCollage(IExifReaderFactory &,
+                          Project &,
+                          const std::vector<Photo::Data> &);
+
+    void groupIntoUnified(Project &,
+                          const std::vector<Photo::Data> &);
+
+    void group(Database::IDatabase &,
+               const std::vector<Photo::Data> &,
+               const QString& representativePath,
+               Group::Type);                                 // group set of photos as one with given (external/generated) representative
+
+    void group(Database::IDatabase &,
                const std::vector<Photo::Id> &,
                const QString& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
 
-    void ungroup(Database::IDatabase *, const Group::Id &);
+    void ungroup(Database::IDatabase &, const Group::Id &);
 }
 
 #endif // GROUPS_MANAGER_HPP

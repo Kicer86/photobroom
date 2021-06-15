@@ -37,7 +37,7 @@ namespace
             return Group::Invalid;
     }
 
-    int groupTypeTocombobox(Group::Type type)
+    int groupTypeToCombobox(Group::Type type)
     {
         switch(type)
         {
@@ -47,28 +47,6 @@ namespace
         }
 
         return -1;
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-namespace PhotosGroupingDialogUtils
-{
-    void createGroup(PhotosGroupingDialog* dialog, Project* project, Database::IDatabase* db)
-    {
-        const auto& photos = dialog->photos();
-        const QString photo = dialog->getRepresentative();
-        const Group::Type type = dialog->groupType();
-
-        std::vector<Photo::Id> photos_ids;
-        for(std::size_t i = 0; i < photos.size(); i++)
-            photos_ids.push_back(photos[i].id);
-
-        const QString internalPath = copyFileToPrivateMediaLocation(project->getProjectInfo(), photo);
-        const QString internalPathDecorated = project->makePathRelative(internalPath);
-
-        GroupsManager::group(db, photos_ids, internalPathDecorated, type);
     }
 }
 
@@ -116,7 +94,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->speedSpinBox->setValue(calculateFPS());
 
     if (type != Group::Type::Invalid)
-        ui->groupingType->setCurrentIndex(groupTypeTocombobox(type));
+        ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
@@ -359,12 +337,12 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 {
     m_model.clear();
 
-    IExifReader* exif = m_exifReaderFactory.get();
+    IExifReader& exif = m_exifReaderFactory.get();
 
     for(const Photo::Data& photo: photos)
     {
         const QString& path = photo.path;
-        const std::optional<std::any> sequence_number = exif->get(path, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
 

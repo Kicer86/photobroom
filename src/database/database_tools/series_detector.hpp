@@ -21,16 +21,16 @@
 
 #include <chrono>
 #include <deque>
+#include <QPromise>
 
+#include <core/ilogger.hpp>
 #include <database/group.hpp>
+#include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 #include <database_export.h>
 
+#include "series_candidate.hpp"
 
-namespace Database
-{
-    struct IBackend;
-}
 
 struct IExifReader;
 
@@ -38,12 +38,6 @@ struct IExifReader;
 class DATABASE_EXPORT SeriesDetector
 {
     public:
-        struct GroupCandidate
-        {
-            Group::Type type;
-            std::vector<Photo::Data> members;
-        };
-
         struct DATABASE_EXPORT Rules
         {
             std::chrono::milliseconds manualSeriesMaxGap;
@@ -51,15 +45,16 @@ class DATABASE_EXPORT SeriesDetector
             Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
         };
 
-        SeriesDetector(Database::IBackend &, IExifReader *);
+        SeriesDetector(Database::IDatabase &, IExifReader &, const QPromise<std::vector<GroupCandidate>> * = nullptr);
 
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
-        Database::IBackend& m_backend;
-        IExifReader* m_exifReader;
+        Database::IDatabase& m_db;
+        const QPromise<std::vector<GroupCandidate>>* m_promise;
+        IExifReader& m_exifReader;
 
-        std::vector<SeriesDetector::GroupCandidate> analyze_photos(const std::vector<Photo::Id> &, const Rules &) const;
+        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::Data> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

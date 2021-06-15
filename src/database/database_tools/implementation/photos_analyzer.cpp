@@ -27,7 +27,7 @@
 #include "../photos_analyzer.hpp"
 
 
-PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase* database):
+PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_updater(coreFactory, database),
     m_timer(),
     m_database(database),
@@ -58,7 +58,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 
     const Database::GroupFilter filters = {flags_filter, general_flags_filter};
 
-    m_database->exec([this, filters](Database::IBackend& backend)
+    m_database.exec([this, filters](Database::IBackend& backend)
     {
         auto photos = backend.photoOperator().getPhotos(filters);
 
@@ -87,7 +87,7 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 }
 
 
-Database::IDatabase* PhotosAnalyzerImpl::getDatabase()
+Database::IDatabase& PhotosAnalyzerImpl::getDatabase()
 {
     return m_database;
 }
@@ -115,7 +115,7 @@ void PhotosAnalyzerImpl::processPhotos()
         std::copy(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess, std::back_inserter(photosToProcess));
         m_photosToUpdate.erase(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess);
 
-        m_database->exec([photosToProcess, this](Database::IBackend& backend)
+        m_database.exec([photosToProcess, this](Database::IBackend& backend)
         {
             std::vector<Photo::Data> photos;
             photos.reserve(m_photosToUpdate.size());
@@ -187,7 +187,7 @@ void PhotosAnalyzerImpl::refreshView()
 
 
 PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory,
-                               Database::IDatabase* database)
+                               Database::IDatabase& database)
     : m_data(new PhotosAnalyzerImpl(coreFactory, database))
 {
 

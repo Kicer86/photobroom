@@ -205,6 +205,8 @@ const Database::Filter& FlatModel::filters() const
 
 const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
 {
+    assert(m_idToRow.find(id) != m_idToRow.end());
+
     auto it = m_properties.find(id);
 
     if (it == m_properties.end())
@@ -326,6 +328,8 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
     m_idToRow.clear();
     for(std::size_t i = 0; i < m_photos.size(); i++)
         m_idToRow.emplace(m_photos[i], i);
+
+    assert(m_idToRow.size() == m_photos.size());
 }
 
 
@@ -333,13 +337,12 @@ void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& p
 {
     auto it = m_idToRow.find(id);
 
-    const int row = it == m_idToRow.end()? -1 : it->second;
-    assert(row != -1);
-
-    m_properties[id] = properties;
-
-    if (row != -1)
+    // photo may have been removed from model in the meantime (between fetchPhotoProperties and fetchedPhotoProperties execution)
+    if (it != m_idToRow.end())
     {
+        const int row = it->second;
+        m_properties[id] = properties;
+
         const QModelIndex idx = createIndex(row, 0);
         emit dataChanged(idx, idx, {PhotoDataRole});
     }
