@@ -128,7 +128,7 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
 {
     TagValue result;
 
-    const QVariant::Type type = variant.type();
+    const int type = variant.typeId();
 
     switch(type)
     {
@@ -136,23 +136,23 @@ TagValue TagValue::fromQVariant(const QVariant& variant)
             assert(!"unknown type");
             break;
 
-        case QVariant::String:
+        case QMetaType::Type::QString:
             result = TagValue( variant.toString() );
             break;
 
-        case QVariant::Date:
+        case QMetaType::Type::QDate:
             result = TagValue( variant.toDate() );
             break;
 
-        case QVariant::Time:
+        case QMetaType::Type::QTime:
             result = TagValue( variant.toTime() );
             break;
 
-        case QVariant::Int:
+        case QMetaType::Type::Int:
             result = TagValue( variant.toInt() );
             break;
 
-        case QVariant::Color:
+        case QMetaType::Type::QColor:
         {
             const QColor color = variant.value<QColor>();
 

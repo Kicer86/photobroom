@@ -89,8 +89,8 @@ void TagsView::updateRow(int row)
     QAbstractItemModel* m = QTableView::model();
     const QModelIndex item = m->index(row, 1);
     const QVariant d = item.data();
-    const QVariant::Type t = d.type();
+    const int t = d.typeId();
 
-    if (t == QVariant::StringList)
+    if (t == QMetaType::Type::QStringList)
         verticalHeader()->setSectionResizeMode(row, QHeaderView::ResizeToContents);
 }

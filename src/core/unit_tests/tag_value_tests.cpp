@@ -25,7 +25,7 @@ TEST(TagValueTest, DateSetter)
     const TagValue ctv(date);
 
     ASSERT_EQ(tv.type(), Tag::ValueType::Date);
-    ASSERT_EQ(tv.get().type(), QMetaType::QDate);
+    ASSERT_EQ(tv.get().typeId(), QMetaType::Type::QDate);
     EXPECT_EQ(tv.getDate(), date);
     EXPECT_EQ(ctv.getDate(), date);
     EXPECT_EQ(tv.rawValue(), date.toString("yyyy.MM.dd"));
@@ -39,7 +39,7 @@ TEST(TagValueTest, TimeSetter)
     const TagValue ctv(time);
 
     ASSERT_EQ(tv.type(), Tag::ValueType::Time);
-    ASSERT_EQ(tv.get().type(), QMetaType::QTime);
+    ASSERT_EQ(tv.get().typeId(), QMetaType::Type::QTime);
     EXPECT_EQ(tv.getTime(), time);
     EXPECT_EQ(ctv.getTime(), time);
     EXPECT_EQ(tv.rawValue(), time.toString("HH:mm:ss"));
@@ -53,7 +53,7 @@ TEST(TagValueTest, StringSetter)
     const TagValue ctv(str);
 
     ASSERT_EQ(tv.type(), Tag::ValueType::String);
-    ASSERT_EQ(tv.get().type(), QMetaType::QString);
+    ASSERT_EQ(tv.get().typeId(), QMetaType::Type::QString);
     EXPECT_EQ(tv.getString(), str);
     EXPECT_EQ(ctv.getString(), str);
     EXPECT_EQ(tv.rawValue(), str);
@@ -67,7 +67,7 @@ TEST(TagValueTest, IntSetter)
     const TagValue ctv(value);
 
     ASSERT_EQ(tv.type(), Tag::ValueType::Int);
-    ASSERT_EQ(tv.get().type(), QMetaType::Int);
+    ASSERT_EQ(tv.get().typeId(), QMetaType::Type::Int);
     EXPECT_EQ(tv.get(), value);
     EXPECT_EQ(tv.rawValue(), QString::number(value));
 }
@@ -80,7 +80,7 @@ TEST(TagValueTest, ColorSetter)
     const TagValue ctv(value);
 
     ASSERT_EQ(tv.type(), Tag::ValueType::Color);
-    ASSERT_EQ(tv.get().type(), QMetaType::QColor);
+    ASSERT_EQ(tv.get().typeId(), QMetaType::Type::QColor);
     EXPECT_EQ(tv.get(), value);
     EXPECT_EQ(tv.rawValue(), QString::number(value.rgba64()));
 }
@@ -162,7 +162,7 @@ TEST_P(TagValueRawSetterTest, rawSetter)
     TagValue tv = TagValue::fromRaw(raw_value, std::get<1>(parameters));
 
     ASSERT_EQ(tv.type(), std::get<2>(parameters));
-    ASSERT_EQ(tv.get().type(), std::get<3>(parameters));
+    ASSERT_EQ(tv.get().typeId(), std::get<3>(parameters));
     EXPECT_EQ(tv.rawValue(), raw_value);
 }
 
@@ -199,7 +199,7 @@ TEST_P(TagValueVariantSetterTest, variantSetter)
     TagValue tv = TagValue::fromQVariant(raw_value);
 
     ASSERT_EQ(tv.type(), std::get<1>(parameters));
-    ASSERT_EQ(tv.get().type(), std::get<2>(parameters));
+    ASSERT_EQ(tv.get().typeId(), std::get<2>(parameters));
     EXPECT_EQ(tv.get(), raw_value);
 }
 

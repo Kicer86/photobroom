@@ -30,42 +30,42 @@
 
 QString localize(const QVariant& v, const QLocale& l)
 {
-    const QVariant::Type type = v.type();
+    const int type = v.typeId();
     QString result;
 
     switch(type)
     {
-        case QVariant::Date:
+        case QMetaType::Type::QDate:
         {
             QDate d = v.toDate();
             result = l.toString(d, QLocale::ShortFormat);
             break;
         }
 
-        case QVariant::Time:
+        case QMetaType::Type::QTime:
         {
             QTime t = v.toTime();
             result = l.toString(t, "hh:mm:ss");
             break;
         }
 
-        case QVariant::String:
+        case QMetaType::Type::QString:
             result = v.toString();
             break;
 
-        case QVariant::StringList:
+        case QMetaType::Type::QStringList:
             result = v.toStringList().join(", ");
             break;
 
-        case QVariant::Int:
+        case QMetaType::Type::Int:
             result = QString::number(v.toInt());
             break;
 
-        case QVariant::ULongLong:
+        case QMetaType::Type::ULongLong:
             result = QString::number(v.toULongLong());
             break;
 
-        case QVariant::Color:
+        case QMetaType::Type::QColor:
             result = QString::number(v.value<QColor>().rgba64());
             break;
 
