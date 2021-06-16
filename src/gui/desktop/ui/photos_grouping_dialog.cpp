@@ -44,6 +44,7 @@ namespace
             case Group::Type::Invalid:   return -1;
             case Group::Type::Animation: return 0;
             case Group::Type::HDR:       return 1;
+            case Group::Type::Generic:   return 2;
         }
 
         return -1;
@@ -244,7 +245,7 @@ void PhotosGroupingDialog::previewPressed()
             break;
 
         case Group::Generic:
-            assert(!"implement");
+            makeCollage();
             break;
 
         case Group::Invalid:
@@ -330,6 +331,11 @@ void PhotosGroupingDialog::makeHDR()
     m_representativeFile.clear();
 
     refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::makeCollage()
+{
 }
 
 

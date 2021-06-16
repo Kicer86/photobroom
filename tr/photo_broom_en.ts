@@ -667,78 +667,94 @@ Error code: %1</source>
         <translation type="unfinished">HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="117"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="122"/>
         <source>fps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="126"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
         <source>Delay before restart:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="133"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="138"/>
         <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="140"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="145"/>
         <source>Stabilize image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="183"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="188"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="192"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="197"/>
         <source>Animation speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="199"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="204"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="244"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="57"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="233"/>
+        <source>Collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="238"/>
+        <source>One of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="246"/>
+        <source>Form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="274"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="298"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="325"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="355"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="138"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="262"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="138"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="262"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="353"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="359"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="360"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>

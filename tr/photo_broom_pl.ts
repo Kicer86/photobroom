@@ -689,7 +689,7 @@ Kod błędu: %1</translation>
         <translation>HDR</translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="+145"/>
         <source>Animation speed:</source>
         <translation>Prędkość&#xa0;animacji:</translation>
     </message>
@@ -724,7 +724,23 @@ Kod błędu: %1</translation>
         <translation>Typ pliku:</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="-147"/>
+        <location line="+176"/>
+        <source>Collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>One of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
@@ -734,7 +750,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+137"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+138"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -755,7 +771,7 @@ Kod błędu: %1</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+97"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
