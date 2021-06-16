@@ -23,7 +23,7 @@ function(setup_qt_environment)
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
-                                       
+
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/tr
                                        --libdir ${OUTPUT_PATH}/deploy/lib
@@ -220,6 +220,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY     ${PROJECT_NAME})
 set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY  ${PROJECT_NAME})
 
 #define Start menu
+set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
 set(CPACK_PACKAGE_EXECUTABLES
     photo_broom "Photo Broom"
 )
