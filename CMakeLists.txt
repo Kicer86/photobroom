@@ -12,7 +12,6 @@ project(PhotoBroom VERSION 1.5.0)
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/cmake_modules;
-    ${CMAKE_SOURCE_DIR}/cmake/modules;
 )
 
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -20,11 +19,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
-
-if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS TARGETS)
-endif()
 
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindEasyExif.cmake)
