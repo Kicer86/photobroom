@@ -733,28 +733,28 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="138"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="262"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="139"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="263"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="138"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="139"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="262"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="263"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="359"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="330"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="360"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="331"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>

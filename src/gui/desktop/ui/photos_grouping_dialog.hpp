@@ -8,6 +8,8 @@
 
 #include <database/iphoto_info.hpp>
 
+#include "utils/grouppers/generator_utils.hpp"
+
 
 class MediaPreview;
 class Project;
@@ -105,6 +107,7 @@ class PhotosGroupingDialog: public QDialog
         void makeCollage();
         void fillModel(const std::vector<Photo::Data> &);
         double calculateFPS() const;
+        void startTask(std::unique_ptr<GeneratorUtils::BreakableTask>);
 
         QStringList getPhotos() const;
         void scalePreview();

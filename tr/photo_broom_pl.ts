@@ -750,7 +750,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+138"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+139"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -771,7 +771,7 @@ Kod błędu: %1</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+97"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+67"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

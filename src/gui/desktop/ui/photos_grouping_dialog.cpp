@@ -97,6 +97,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     if (type != Group::Type::Invalid)
         ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
+    connect(ui->previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
     connect(m_preview, &MediaPreview::scalableContentAvailable, [this](bool av)
@@ -285,22 +286,7 @@ void PhotosGroupingDialog::makeAnimation()
 
     auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
-    connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-    connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-    connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-    connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-    connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
-
-    m_executor.add(std::move(animation_task));
-    ui->generationProgressBar->setEnabled(true);
-    ui->animationOptions->setEnabled(false);
-    m_preview->clean();
-    m_workInProgress = true;
-    m_representativeFile.clear();
-
-    refreshDialogButtons();
+    startTask(std::move(animation_task));
 }
 
 
@@ -315,22 +301,7 @@ void PhotosGroupingDialog::makeHDR()
 
     auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
-    connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-    connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-    connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-    connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-    connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
-
-    m_executor.add(std::move(hdr_task));
-    ui->generationProgressBar->setEnabled(true);
-    ui->animationOptions->setEnabled(false);
-    m_preview->clean();
-    m_workInProgress = true;
-    m_representativeFile.clear();
-
-    refreshDialogButtons();
+    startTask(std::move(hdr_task));
 }
 
 
@@ -375,6 +346,26 @@ double PhotosGroupingDialog::calculateFPS() const
     const auto diff = back(timestamps) - front(timestamps);
 
     return diff.count() > 0? (m_photos.size() * 1000.0 / diff.count()): 10.0;
+}
+
+
+void PhotosGroupingDialog::startTask(std::unique_ptr<GeneratorUtils::BreakableTask> task)
+{
+    connect(this, &PhotosGroupingDialog::cancel, task.get(), &AnimationGenerator::cancel);
+    connect(task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+    connect(task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+    connect(task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
+
+    m_executor.add(std::move(task));
+    ui->generationProgressBar->setEnabled(true);
+    ui->animationOptions->setEnabled(false);
+    m_preview->clean();
+    m_workInProgress = true;
+    m_representativeFile.clear();
+
+    refreshDialogButtons();
 }
 
 
