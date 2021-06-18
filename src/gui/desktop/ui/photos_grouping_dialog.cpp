@@ -224,12 +224,6 @@ void PhotosGroupingDialog::refreshDialogButtons()
 }
 
 
-void PhotosGroupingDialog::typeChanged()
-{
-
-}
-
-
 void PhotosGroupingDialog::previewPressed()
 {
     const int tool_page = ui->optionsWidget->currentIndex();

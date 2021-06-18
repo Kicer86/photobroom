@@ -99,7 +99,6 @@ class PhotosGroupingDialog: public QDialog
         void generationCanceled();
         void generationError(const QString &, const QStringList &);
         void refreshDialogButtons();
-        void typeChanged();
         void previewPressed();
         void previewCancelPressed();
         void makeAnimation();
