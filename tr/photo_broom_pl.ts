@@ -750,20 +750,25 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+139"/>
-        <location line="+124"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+148"/>
+        <location line="+112"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-124"/>
+        <location line="-112"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+112"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
+    </message>
+    <message>
+        <location line="+57"/>
+        <source>Error during collage generation. Possibly too many images.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
@@ -771,7 +776,7 @@ Kod błędu: %1</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+67"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+34"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

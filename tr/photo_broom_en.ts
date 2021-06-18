@@ -733,28 +733,33 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="139"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="263"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="148"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="260"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="139"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="148"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="263"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="260"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="330"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="317"/>
+        <source>Error during collage generation. Possibly too many images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="351"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="331"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="352"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>

@@ -22,6 +22,7 @@
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/animation_generator.hpp"
 #include "utils/grouppers/hdr_generator.hpp"
+#include "utils/grouppers/collage_generator.hpp"
 #include "widgets/media_preview.hpp"
 
 
@@ -33,6 +34,8 @@ namespace
             return Group::Animation;
         else if (c == 1)
             return Group::HDR;
+        else if (c == 2)
+            return Group::Generic;
         else
             return Group::Invalid;
     }
@@ -49,6 +52,12 @@ namespace
 
         return -1;
     }
+
+    enum GenericForm
+    {
+        Collage = 0,
+        OneOf   = 1,
+    };
 }
 
 
@@ -178,13 +187,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     if (m_representativeFile.isEmpty() == false)
         m_preview->setMedia(m_representativeFile);
 
-    ui->generationProgressBar->reset();
-    ui->generationProgressBar->setDisabled(true);
-    ui->operationName->setText("");
-    ui->animationOptions->setEnabled(true);
-    ui->previewButtons->setCurrentIndex(0);
-
-    refreshDialogButtons();
+    switchUiToGenerationFinished();
 }
 
 
@@ -226,6 +229,8 @@ void PhotosGroupingDialog::refreshDialogButtons()
 
 void PhotosGroupingDialog::previewPressed()
 {
+    switchUiToGeneration();
+
     const int tool_page = ui->optionsWidget->currentIndex();
     auto type = comboboxToGroupType(tool_page);
 
@@ -247,8 +252,6 @@ void PhotosGroupingDialog::previewPressed()
             assert(!"I should not be here");
             break;
     }
-
-    ui->previewButtons->setCurrentIndex(1);
 }
 
 
@@ -301,6 +304,30 @@ void PhotosGroupingDialog::makeHDR()
 
 void PhotosGroupingDialog::makeCollage()
 {
+    const GenericForm genericForm = static_cast<GenericForm>(ui->genericForm->currentIndex());
+
+    switch (genericForm)
+    {
+        case GenericForm::Collage:
+        {
+            CollageGenerator generator(m_exifReaderFactory.get());
+            const QImage collage = generator.generateCollage(getPhotos());
+
+            if (collage.isNull())
+                generationError(tr("Error during collage generation. Possibly too many images."), {});
+            else
+            {
+                const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+
+                collage.save(collagePath);
+                generationDone(collagePath);
+            }
+            break;
+        }
+
+        case GenericForm::OneOf:
+            break;
+    }
 }
 
 
@@ -353,11 +380,31 @@ void PhotosGroupingDialog::startTask(std::unique_ptr<GeneratorUtils::BreakableTa
     connect(task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
     m_executor.add(std::move(task));
+}
+
+
+void PhotosGroupingDialog::switchUiToGeneration()
+{
+    ui->previewButtons->setCurrentIndex(1);
+
     ui->generationProgressBar->setEnabled(true);
-    ui->animationOptions->setEnabled(false);
+    ui->optionsWidget->setEnabled(false);
     m_preview->clean();
     m_workInProgress = true;
     m_representativeFile.clear();
+
+    refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::switchUiToGenerationFinished()
+{
+    ui->previewButtons->setCurrentIndex(0);
+
+    ui->generationProgressBar->reset();
+    ui->generationProgressBar->setDisabled(true);
+    ui->operationName->setText("");
+    ui->optionsWidget->setEnabled(true);
 
     refreshDialogButtons();
 }

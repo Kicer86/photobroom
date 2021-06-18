@@ -107,6 +107,8 @@ class PhotosGroupingDialog: public QDialog
         void fillModel(const std::vector<Photo::Data> &);
         double calculateFPS() const;
         void startTask(std::unique_ptr<GeneratorUtils::BreakableTask>);
+        void switchUiToGeneration();
+        void switchUiToGenerationFinished();
 
         QStringList getPhotos() const;
         void scalePreview();
