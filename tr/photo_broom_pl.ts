@@ -729,7 +729,12 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+175"/>
+        <source>height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>

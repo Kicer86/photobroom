@@ -707,17 +707,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="255"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="232"/>
+        <source>height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="266"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="279"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="290"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="336"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="347"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -224,8 +224,19 @@
              </layout>
             </widget>
             <widget class="QWidget" name="hdrOptions"/>
-            <widget class="QWidget" name="genericOptions">
-             <layout class="QFormLayout" name="formLayout"/>
+            <widget class="QWidget" name="collageOptions">
+             <layout class="QFormLayout" name="formLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>height:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="collageHeight"/>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
