@@ -35,7 +35,7 @@ namespace
         else if (c == 1)
             return Group::HDR;
         else if (c == 2)
-            return Group::Generic;
+            return Group::Collage;
         else
             return Group::Invalid;
     }
@@ -45,9 +45,10 @@ namespace
         switch(type)
         {
             case Group::Type::Invalid:   return -1;
+            case Group::Type::Generic:   return -1;         // not expected
             case Group::Type::Animation: return 0;
             case Group::Type::HDR:       return 1;
-            case Group::Type::Generic:   return 2;
+            case Group::Type::Collage:   return 2;
         }
 
         return -1;
@@ -255,11 +256,12 @@ void PhotosGroupingDialog::previewPressed()
             makeHDR();
             break;
 
-        case Group::Generic:
+        case Group::Collage:
             makeCollage();
             break;
 
         case Group::Invalid:
+        case Group::Generic:
             assert(!"I should not be here");
             break;
     }
@@ -315,29 +317,17 @@ void PhotosGroupingDialog::makeHDR()
 
 void PhotosGroupingDialog::makeCollage()
 {
-    const GenericForm genericForm = static_cast<GenericForm>(ui->genericForm->currentIndex());
+    CollageGenerator generator(m_exifReaderFactory.get());
+    const QImage collage = generator.generateCollage(getPhotos());
 
-    switch (genericForm)
+    if (collage.isNull())
+        generationError(tr("Error during collage generation. Possibly too many images."), {});
+    else
     {
-        case GenericForm::Collage:
-        {
-            CollageGenerator generator(m_exifReaderFactory.get());
-            const QImage collage = generator.generateCollage(getPhotos());
+        const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
 
-            if (collage.isNull())
-                generationError(tr("Error during collage generation. Possibly too many images."), {});
-            else
-            {
-                const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
-
-                collage.save(collagePath);
-                generationDone(collagePath);
-            }
-            break;
-        }
-
-        case GenericForm::OneOf:
-            break;
+        collage.save(collagePath);
+        generationDone(collagePath);
     }
 }
 

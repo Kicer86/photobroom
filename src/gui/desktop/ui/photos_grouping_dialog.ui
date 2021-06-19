@@ -225,29 +225,7 @@
             </widget>
             <widget class="QWidget" name="hdrOptions"/>
             <widget class="QWidget" name="genericOptions">
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="1">
-               <widget class="QComboBox" name="genericForm">
-                <item>
-                 <property name="text">
-                  <string>Collage</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>One of</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Form:</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <layout class="QFormLayout" name="formLayout"/>
             </widget>
            </widget>
           </item>

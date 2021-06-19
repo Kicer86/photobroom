@@ -725,22 +725,11 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="-147"/>
-        <location line="+176"/>
         <source>Collage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>One of</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Form:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+198"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
@@ -750,28 +739,28 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+148"/>
-        <location line="+123"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+149"/>
+        <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
     </message>
     <message>
-        <location line="-123"/>
+        <location line="-124"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację i wyjść?</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+124"/>
         <source>Do you really want to stop current work?</source>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+51"/>
         <source>Error during collage generation. Possibly too many images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+33"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>

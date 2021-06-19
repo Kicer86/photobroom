@@ -703,68 +703,57 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="57"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="233"/>
         <source>Collage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="238"/>
-        <source>One of</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="246"/>
-        <source>Form:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="277"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="255"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="301"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="279"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="358"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="336"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="148"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="271"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="149"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="273"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="148"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="149"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="271"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="273"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="328"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="324"/>
         <source>Error during collage generation. Possibly too many images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="366"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="367"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="357"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
