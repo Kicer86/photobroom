@@ -771,12 +771,17 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+39"/>
+        <source>exposure (EV)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+34"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="-2"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>

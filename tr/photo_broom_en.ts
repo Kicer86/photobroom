@@ -754,13 +754,18 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="351"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="352"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
         <source>sequence number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
+        <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

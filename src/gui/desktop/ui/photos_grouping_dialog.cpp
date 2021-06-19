@@ -341,15 +341,19 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
     {
         const QString& path = photo.path;
         const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
+        const QString exposure_str = exposure_number.has_value()? QString::number( std::any_cast<float>(*exposure_number)): "-";
 
         QStandardItem* pathItem = new QStandardItem(path);
         QStandardItem* sequenceItem = new QStandardItem(sequence_str);
+        QStandardItem* exposureItem = new QStandardItem(exposure_str);
 
-        m_model.appendRow({pathItem, sequenceItem});
+        m_model.appendRow({pathItem, sequenceItem, exposureItem});
         m_model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
         m_model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
+        m_model.setHeaderData(2, Qt::Horizontal, tr("exposure (EV)"));
     }
 }
 
