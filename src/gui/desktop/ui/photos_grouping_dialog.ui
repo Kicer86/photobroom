@@ -253,6 +253,9 @@
           </item>
           <item>
            <widget class="QStackedWidget" name="previewButtons">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
             <widget class="QWidget" name="generate">
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>

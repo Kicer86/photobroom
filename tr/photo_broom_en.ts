@@ -718,17 +718,17 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="274"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="277"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="298"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="301"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="355"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="358"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>

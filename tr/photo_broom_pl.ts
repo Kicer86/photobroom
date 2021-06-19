@@ -740,7 +740,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+31"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
