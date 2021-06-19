@@ -215,11 +215,14 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
 
     layout->addLayout(infoLayout);
 
-    QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
-    outputContainer->setReadOnly(true);
-    outputContainer->setPlainText(output.join("\n"));
-    outputContainer->setWordWrapMode(QTextOption::NoWrap);
-    layout->addWidget(outputContainer);
+    if (output.isEmpty() == false)
+    {
+        QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
+        outputContainer->setReadOnly(true);
+        outputContainer->setPlainText(output.join("\n"));
+        outputContainer->setWordWrapMode(QTextOption::NoWrap);
+        layout->addWidget(outputContainer);
+    }
 
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &errorReporter);
     layout->addWidget(buttons);
