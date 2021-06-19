@@ -205,7 +205,15 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
     errorReporter.setModal(true);
 
     QVBoxLayout* layout = new QVBoxLayout(&errorReporter);
-    layout->addWidget(new QLabel(info));
+
+    QHBoxLayout* infoLayout = new QHBoxLayout;
+
+    QLabel* infoIcon = new QLabel;
+    infoIcon->setPixmap(style()->standardPixmap(QStyle::SP_MessageBoxCritical));
+    infoLayout->addWidget(infoIcon);
+    infoLayout->addWidget(new QLabel(info));
+
+    layout->addLayout(infoLayout);
 
     QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
     outputContainer->setReadOnly(true);

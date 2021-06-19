@@ -734,7 +734,7 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="148"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="260"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -744,27 +744,27 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="260"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="317"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="325"/>
         <source>Error during collage generation. Possibly too many images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="362"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
