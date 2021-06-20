@@ -23,6 +23,8 @@ add_library(quick_views OBJECT
                 ${MOCED}
                 bridge.cpp
                 bridge.hpp
+                photo_data_qml.cpp
+                photo_data_qml.hpp
                 photo_item.cpp
                 photo_item.hpp
                 photos_model_controller_component.cpp
