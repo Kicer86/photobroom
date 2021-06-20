@@ -10,7 +10,7 @@ class Bridge: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged);
+    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged)
 
     public:
         Bridge(QObject* parent = nullptr);
