@@ -712,53 +712,58 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="266"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="239"/>
+        <source>1024</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="290"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="294"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="347"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="351"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="149"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="273"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="154"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="278"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="149"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="154"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="273"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="278"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="324"/>
-        <source>Error during collage generation. Possibly too many images.</source>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="330"/>
+        <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="361"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="362"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="357"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>

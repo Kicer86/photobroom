@@ -296,7 +296,7 @@ CollageGenerator::CollageGenerator(IExifReader& exifReader)
 }
 
 
-QImage CollageGenerator::generateCollage(const QStringList& paths) const
+QImage CollageGenerator::generateCollage(const QStringList& paths, int height) const
 {
     QList<QImage> images;
     std::transform(paths.begin(), paths.end(), std::back_inserter(images), [this](const auto& path)
@@ -304,13 +304,13 @@ QImage CollageGenerator::generateCollage(const QStringList& paths) const
         return OrientedImage(m_exifReader, path).get();
     });
 
-    const QImage collage = merge(images);
+    const QImage collage = merge(images, height);
 
     return collage;
 }
 
 
-QImage CollageGenerator::merge(const QList<QImage>& images_list) const
+QImage CollageGenerator::merge(const QList<QImage>& images_list, int height) const
 {
     // Images will contain indexes identifying QImages from images_list
     std::vector<Image> images = qimagesToImages(images_list);
@@ -323,7 +323,7 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list) const
     auto root = generateOptimizedTree(images);
 
     std::vector<QRect> positions;
-    const QRect area = calculatePositionsForImages(positions, root.get(), 1024);
+    const QRect area = calculatePositionsForImages(positions, root.get(), height);
     assert(positions.size() == images_list.size());
 
     const QImage image = area.isValid()?

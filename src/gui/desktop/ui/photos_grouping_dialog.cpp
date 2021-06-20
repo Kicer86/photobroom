@@ -104,6 +104,11 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->generationProgressBar->reset();
     ui->speedSpinBox->setValue(calculateFPS());
 
+    QIntValidator* heightValidator = new QIntValidator(this);
+    heightValidator->setBottom(100);
+    heightValidator->setTop(65536);
+    ui->collageHeight->setValidator(heightValidator);
+
     if (type != Group::Type::Invalid)
         ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
@@ -318,10 +323,11 @@ void PhotosGroupingDialog::makeHDR()
 void PhotosGroupingDialog::makeCollage()
 {
     CollageGenerator generator(m_exifReaderFactory.get());
-    const QImage collage = generator.generateCollage(getPhotos());
+    const int height = ui->collageHeight->text().toInt();
+    const QImage collage = generator.generateCollage(getPhotos(), height);
 
     if (collage.isNull())
-        generationError(tr("Error during collage generation. Possibly too many images."), {});
+        generationError(tr("Error during collage generation. Possibly too many images, or height to small or too big."), {});
     else
     {
         const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
