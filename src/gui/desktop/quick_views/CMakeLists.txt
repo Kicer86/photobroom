@@ -11,6 +11,7 @@ qt6_add_resources(QML_RESOURCES
 
 qt6_wrap_cpp(MOCED
                 bridge.hpp
+                photo_data_qml.hpp
                 photo_item.hpp
                 photos_model_controller_component.hpp
                 picture_item.hpp

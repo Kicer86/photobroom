@@ -30,7 +30,7 @@ Item {
             x: 5
             y: 5
 
-            visible: photoData.flags[PhotoEnums.StagingArea] == 1
+            visible: photoDataProperies.flags[PhotoEnums.StagingArea] == 1
 
             text: qsTr("NEW")
             font.pixelSize: 12
@@ -39,6 +39,11 @@ Item {
             color: "white"
             style: Text.Outline
             styleColor: "black"
+
+            PhotoDataQml {
+                id: photoDataProperies
+                data: photoData
+            }
         }
     }
 }
