@@ -19,7 +19,7 @@ void register_qml_types()
     qmlRegisterType<PhotosModelControllerComponent>("photo_broom.qml", 1, 0, "PhotosModelController");
     qmlRegisterType<SelectionManagerComponent>("photo_broom.qml", 1, 0, "SelectionManager");
     qmlRegisterType<PhotosDataGuesser>("photo_broom.qml", 1, 0, "PhotosDataGuesser");
-    qmlRegisterType<PhotoDataQml>("photo_broom.qml", 1, 0, "PhotosDataQml");
+    qmlRegisterType<PhotoDataQml>("photo_broom.qml", 1, 0, "PhotoDataQml");
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
     qmlRegisterInterface<IThumbnailsManager>("IThumbnailsManager", 1);
     qmlRegisterInterface<Database::IDatabase>("Database::IDatabase", 1);
