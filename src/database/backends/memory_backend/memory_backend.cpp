@@ -530,7 +530,7 @@ namespace Database
             onPhotos(photo_data, byTime);
             onPhotos(photo_data, byDate);
         }
-        else if (auto sort_action = std::get_if<Actions::SortByID>(&action))
+        else if (std::get_if<Actions::SortByID>(&action))
         {
             std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
             {
