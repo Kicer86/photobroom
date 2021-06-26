@@ -41,7 +41,6 @@ class SeriesDetectorTest: public testing::Test
 TEST_F(SeriesDetectorTest, constructor)
 {
     EXPECT_NO_THROW({
-        MockDatabase db;
         MockExifReader exif;
 
         SeriesDetector sd(db, exif);
