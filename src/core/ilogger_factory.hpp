@@ -22,10 +22,10 @@
 
 #include <memory>
 #include <vector>
-
 #include <QStringList>
 
-struct ILogger;
+#include "ilogger.hpp"
+
 
 struct ILoggerFactory
 {
