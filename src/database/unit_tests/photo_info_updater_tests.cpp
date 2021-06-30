@@ -60,8 +60,8 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     photoDelta.get<Photo::Field::Flags>().emplace(Photo::FlagsE::ExifLoaded, 1);
 
     // expect database update for given photo
-    const std::vector<Photo::DataDelta> expected_update{photoDelta};
-    EXPECT_CALL(backend, update(expected_update));
+    const std::vector<Photo::DataDelta> expectedUpdate{photoDelta};
+    EXPECT_CALL(backend, update(expectedUpdate));
 
     updater.updateTags(photo);
 }
