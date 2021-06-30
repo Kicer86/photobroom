@@ -23,14 +23,14 @@ using testing::NiceMock;
 
 TEST(PhotoInfoUpdaterTest, exifUpdate)
 {
-    MockBackend backend;
     FakeTaskExecutor taskExecutor;
-    ExifReaderFactoryMock exifFactoryMock;
-    MockExifReader exifReader;
+    NiceMock<MockBackend> backend;
+    NiceMock<ExifReaderFactoryMock> exifFactoryMock;
+    NiceMock<MockExifReader> exifReader;
     NiceMock<ILoggerFactoryMock> loggerFactoryMock;
     NiceMock<IConfigurationMock> configurationMock;
     NiceMock<ICoreFactoryAccessorMock> coreFactory;
-    MockDatabase db;
+    NiceMock<MockDatabase> db;
 
     ON_CALL(coreFactory, getExifReaderFactory).WillByDefault(ReturnRef(exifFactoryMock));
     ON_CALL(coreFactory, getConfiguration).WillByDefault(ReturnRef(configurationMock));
