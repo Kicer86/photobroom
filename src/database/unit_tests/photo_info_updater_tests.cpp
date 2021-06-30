@@ -47,8 +47,6 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
         task->run(backend);
     }));
 
-    PhotoInfoUpdater updater(&coreFactory, db);
-
     // orignal state of photo
     Photo::Data photo;
     photo.id = Photo::Id(123);
@@ -63,5 +61,6 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     const std::vector<Photo::DataDelta> expectedUpdate{photoDelta};
     EXPECT_CALL(backend, update(expectedUpdate));
 
+    PhotoInfoUpdater updater(&coreFactory, db);
     updater.updateTags(photo);
 }
