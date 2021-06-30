@@ -54,7 +54,9 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     photo.tags = { {TagTypes::Event, TagValue::fromType<TagTypes::Event>("qweasd")}, {TagTypes::Rating, 5} };
 
     // expected state after calling updater
-    Photo::DataDelta photoDelta(photo);
+    Photo::DataDelta photoDelta(photo.id);
+    photoDelta.insert<Photo::Field::Tags>(photo.tags);
+    photoDelta.insert<Photo::Field::Flags>(photo.flags);
     photoDelta.get<Photo::Field::Flags>().emplace(Photo::FlagsE::ExifLoaded, 1);
 
     // expect database update for given photo
