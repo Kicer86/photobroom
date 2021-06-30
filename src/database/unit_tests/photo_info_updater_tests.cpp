@@ -1,0 +1,67 @@
+
+#include <gmock/gmock.h>
+
+#include "database_tools/implementation/photo_info_updater.hpp"
+#include "unit_tests_utils/empty_logger.hpp"
+#include "unit_tests_utils/fake_task_executor.hpp"
+#include "unit_tests_utils/mock_backend.hpp"
+#include "unit_tests_utils/mock_core_factory_accessor.hpp"
+#include "unit_tests_utils/mock_configuration.hpp"
+#include "unit_tests_utils/mock_database.hpp"
+#include "unit_tests_utils/mock_exif_reader_factory.hpp"
+#include "unit_tests_utils/mock_exif_reader.hpp"
+#include "unit_tests_utils/mock_logger_factory.hpp"
+#include "unit_tests_utils/printers.hpp"
+
+
+using testing::_;
+using testing::An;
+using testing::Invoke;
+using testing::ReturnRef;
+using testing::NiceMock;
+
+
+TEST(PhotoInfoUpdaterTest, exifUpdate)
+{
+    MockBackend backend;
+    FakeTaskExecutor taskExecutor;
+    ExifReaderFactoryMock exifFactoryMock;
+    MockExifReader exifReader;
+    NiceMock<ILoggerFactoryMock> loggerFactoryMock;
+    NiceMock<IConfigurationMock> configurationMock;
+    NiceMock<ICoreFactoryAccessorMock> coreFactory;
+    MockDatabase db;
+
+    ON_CALL(coreFactory, getExifReaderFactory).WillByDefault(ReturnRef(exifFactoryMock));
+    ON_CALL(coreFactory, getConfiguration).WillByDefault(ReturnRef(configurationMock));
+    ON_CALL(coreFactory, getLoggerFactory).WillByDefault(ReturnRef(loggerFactoryMock));
+    ON_CALL(coreFactory, getTaskExecutor).WillByDefault(ReturnRef(taskExecutor));
+    ON_CALL(exifFactoryMock, get).WillByDefault(ReturnRef(exifReader));
+    ON_CALL(loggerFactoryMock, get(An<const QString &>())).WillByDefault(Invoke([](const auto &)
+    {
+        return std::make_unique<EmptyLogger>();
+    }));
+
+    ON_CALL(db, execute).WillByDefault(Invoke([&backend](std::unique_ptr<Database::IDatabase::ITask>&& task)
+    {
+        task->run(backend);
+    }));
+
+    PhotoInfoUpdater updater(&coreFactory, db);
+
+    // orignal state of photo
+    Photo::Data photo;
+    photo.id = Photo::Id(123);
+    photo.flags = { {Photo::FlagsE::StagingArea, 1}, {Photo::FlagsE::Sha256Loaded, 2} };
+    photo.tags = { {TagTypes::Event, TagValue::fromType<TagTypes::Event>("qweasd")}, {TagTypes::Rating, 5} };
+
+    // expected state after calling updater
+    Photo::DataDelta photoDelta(photo);
+    photoDelta.get<Photo::Field::Flags>().emplace(Photo::FlagsE::ExifLoaded, 1);
+
+    // expect database update for given photo
+    const std::vector<Photo::DataDelta> expected_update{photoDelta};
+    EXPECT_CALL(backend, update(expected_update));
+
+    updater.updateTags(photo);
+}

@@ -168,10 +168,12 @@ namespace
         {
             IExifReader& feeder = m_exifReaderFactory.get();
 
-            // merge found tags with current tags.
+            // collect data
             const Tag::TagsList new_tags = feeder.getTagsFor(m_photoInfo.path);
             const Tag::TagsList cur_tags = m_photoInfo.tags;
+            Photo::FlagValues cur_flags = m_photoInfo.flags;
 
+            // merge new_tags with cur_tags
             Tag::TagsList tags = cur_tags;
 
             for (const auto& entry: new_tags)
@@ -182,9 +184,14 @@ namespace
                     tags.insert(entry);
             }
 
+            // update flags
+            Photo::FlagValues flags = cur_flags;
+            flags.emplace(Photo::FlagsE::ExifLoaded, 1);
+
+            // store new data
             Photo::DataDelta delta(m_photoInfo.id);
             delta.insert<Photo::Field::Tags>(tags);
-            delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::ExifLoaded, 1}} );
+            delta.insert<Photo::Field::Flags>(flags);
 
             apply(delta);
         }
@@ -257,13 +264,18 @@ void PhotoInfoUpdater::waitForActiveTasks()
     {
         return m_tasks.empty();
     });
+
+    flushCache();
 }
 
 
 void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 {
-    std::lock_guard<std::mutex> lock(m_tasksMutex);
-    m_tasks.insert(task.get());
+    {
+        std::lock_guard<std::mutex> lock(m_tasksMutex);
+        m_tasks.insert(task.get());
+    }
+
     m_tasksExecutor.add(std::move(task));
 }
 
