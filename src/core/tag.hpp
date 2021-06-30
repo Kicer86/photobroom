@@ -107,7 +107,7 @@ class CORE_EXPORT TagValue
         }
 
         template<TagTypes type>
-        static TagValue fromType(const TagTypeTraits<type>::ValueType& value)
+        static TagValue fromType(const typename TagTypeTraits<type>::ValueType& value)
         {
             return TagValue(value);
         }
