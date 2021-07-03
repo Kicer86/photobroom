@@ -103,8 +103,7 @@ namespace Database
         auto cache = std::make_unique<PhotoInfoCache>(logger.get());
         auto database = std::make_unique<AsyncDatabase>(std::move(backend), std::move(cache), logger.get());
 
-        // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
-        return std::move(database);
+        return database;
     }
 
 }

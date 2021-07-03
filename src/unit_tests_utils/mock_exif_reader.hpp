@@ -1,3 +1,6 @@
+#ifndef MOCK_EXIF_READER_HPP_INCLUDED
+#define MOCK_EXIF_READER_HPP_INCLUDED
+
 
 #include <any>
 #include <optional>
@@ -14,3 +17,5 @@ struct MockExifReader: IExifReader
     MOCK_METHOD1(getTagsFor, Tag::TagsList(const QString &));
     MOCK_METHOD2(get, std::optional<std::any>(const QString &, const TagType &));
 };
+
+#endif

@@ -9,6 +9,7 @@ addTestTarget(database
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
                     database_tools/implementation/json_to_backend.cpp
+                    database_tools/implementation/photo_info_updater.cpp
                     database_tools/implementation/series_detector.cpp
                     implementation/aphoto_change_log_operator.cpp
                     implementation/filter.cpp
@@ -22,6 +23,7 @@ addTestTarget(database
                     unit_tests/generic_sql_query_constructor_tests.cpp
                     unit_tests/json_to_backend_tests.cpp
                     unit_tests/memory_backend_tests.cpp
+                    unit_tests/photo_info_updater_tests.cpp
                     unit_tests/sql_filter_query_generator_tests.cpp
                     unit_tests/series_detector_tests.cpp
                     unit_tests/tag_info_collector_tests.cpp

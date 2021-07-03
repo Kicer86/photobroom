@@ -146,6 +146,16 @@ namespace Photo
                 return std::get<Result>(raw);
             }
 
+            template<Field field>
+            typename DeltaTypes<field>::Storage& get()
+            {
+                typedef typename DeltaTypes<field>::Storage Result;
+
+                Storage& raw = get(field);
+
+                return std::get<Result>(raw);
+            }
+
             const Photo::Id& getId() const;
 
             bool operator<(const DataDelta &) const;
@@ -165,6 +175,7 @@ namespace Photo
             std::map<Field, Storage> m_data;
 
             const Storage& get(Field) const;
+            Storage& get(Field);
     };
 
 }

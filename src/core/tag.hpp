@@ -89,6 +89,9 @@ class CORE_EXPORT TagTypeInfo
 template<typename T>
 struct TagValueTraits {};
 
+template<TagTypes>
+struct TagTypeTraits {};
+
 
 class CORE_EXPORT TagValue
 {
@@ -101,6 +104,12 @@ class CORE_EXPORT TagValue
         TagValue(const T& value): m_type(TagValueTraits<T>::type), m_value(value)
         {
             static_assert(sizeof(typename TagValueTraits<T>::StorageType) > 0, "Unexpected type");
+        }
+
+        template<TagTypes type>
+        static TagValue fromType(const typename TagTypeTraits<type>::ValueType& value)
+        {
+            return TagValue(value);
         }
 
         static TagValue fromRaw(const QString &, const Tag::ValueType &);    // tag's value as stored in db
@@ -194,6 +203,13 @@ struct TagValueTraits<QColor>
 {
     typedef QColor StorageType;
     constexpr static auto type = Tag::ValueType::Color;
+};
+
+
+template<>
+struct TagTypeTraits<TagTypes::Event>
+{
+    typedef QString ValueType;
 };
 
 

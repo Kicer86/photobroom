@@ -72,7 +72,7 @@ struct SYSTEM_EXPORT System
      */
     static void cleanTemporaries();
 
-    Q_DECLARE_FLAGS(TmpOptions, TmpOption);
+    Q_DECLARE_FLAGS(TmpOptions, TmpOption)
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(System::TmpOptions)

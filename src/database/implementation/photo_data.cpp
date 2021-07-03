@@ -155,4 +155,13 @@ namespace Photo
 
         return it->second;
     }
+
+
+    DataDelta::Storage& DataDelta::get(Photo::Field field)
+    {
+        assert(has(field));
+        auto it = m_data.find(field);
+
+        return it->second;
+    }
 }

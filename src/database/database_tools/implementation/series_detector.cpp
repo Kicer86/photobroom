@@ -38,6 +38,13 @@ namespace
 
     class abort_exception: public std::exception {};
 
+    int readExposure(const std::any& exposure)
+    {
+        const float exp = std::any_cast<float>(exposure);
+
+        return static_cast<int>(exp * 100);   // convert original exposure to centi-exposure
+    }
+
     template<>
     class GroupValidator<Group::Type::Animation>
     {
@@ -107,7 +114,7 @@ namespace
 
             if (has_exif_data)
             {
-                const int e = std::any_cast<float>(m_exposure.value());
+                const int e = readExposure(m_exposure.value());
 
                 auto e_it = m_exposures.find(e);
 
@@ -123,12 +130,12 @@ namespace
 
             Base::accept();
 
-            const int e = std::any_cast<float>(m_exposure.value());
+            const int e = readExposure(m_exposure.value());
             m_exposures.insert(e);
         }
 
         std::optional<std::any> m_exposure;
-        std::unordered_set<float> m_exposures;
+        std::unordered_set<int> m_exposures;
     };
 
     template<>

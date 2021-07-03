@@ -15,7 +15,7 @@ class EmptyLogger: public ILogger
         void debug(const QString &) override {}
         void trace(const QString &) override {}
 
-        std::unique_ptr<ILogger> subLogger(const QString &)
+        std::unique_ptr<ILogger> subLogger(const QString &) override
         {
             return std::make_unique<EmptyLogger>();
         }
