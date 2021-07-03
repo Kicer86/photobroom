@@ -37,10 +37,10 @@ namespace
 
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
+    , m_newPhotosOnly(false)
     , m_model(new FlatModel(this))
     , m_db(nullptr)
     , m_completerFactory(nullptr)
-    , m_newPhotosOnly(false)
 {
     m_searchLauncher.setSingleShot(true);
     connect(&m_searchLauncher, &QTimer::timeout, this, &PhotosModelControllerComponent::updateModelFilters);
