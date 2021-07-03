@@ -41,4 +41,5 @@ void PhotoDataQml::setPhotoData(const Photo::Data& photo)
     m_photo = photo;
 
     emit photoDataChanged(m_photo);
+    emit flagsChanged(getFlags());
 }

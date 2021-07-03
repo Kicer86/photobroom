@@ -14,7 +14,7 @@ class PhotoDataQml: public QObject
         Q_OBJECT
 
     public:
-        Q_PROPERTY(QVariantMap flags READ getFlags)
+        Q_PROPERTY(QVariantMap flags READ getFlags NOTIFY flagsChanged)
         Q_PROPERTY(Photo::Data data READ getPhotoData WRITE setPhotoData NOTIFY photoDataChanged)
 
         PhotoDataQml(QObject* parent = nullptr);
@@ -35,6 +35,7 @@ class PhotoDataQml: public QObject
 
     signals:
         void photoDataChanged(const Photo::Data &) const;
+        void flagsChanged(const QVariantMap &) const;
 
     private:
         Photo::Data m_photo;
