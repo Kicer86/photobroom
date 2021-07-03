@@ -26,24 +26,27 @@ Item {
 
         source: photoData.path
 
+        PhotoDataQml {
+            id: photoDataProperies
+            data: photoData
+        }
+
         Text {
             x: 5
             y: 5
 
-            visible: photoDataProperies.flags[PhotoEnums.StagingArea] == 1
+            property bool isNew: photoDataProperies.flags[PhotoEnums.StagingArea] === 1
+            property bool isGroup: photoDataProperies.group
 
-            text: qsTr("NEW")
+            visible: isNew || isGroup
+
+            text: (isNew? qsTr("NEW"): "") + (isGroup? " " + qsTr("Group", "a noun"): "")
             font.pixelSize: 12
             font.family: "Nimbus Mono PS"
 
             color: "white"
             style: Text.Outline
             styleColor: "black"
-
-            PhotoDataQml {
-                id: photoDataProperies
-                data: photoData
-            }
         }
     }
 }

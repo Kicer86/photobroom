@@ -571,9 +571,15 @@ Error code: %1</source>
 <context>
     <name>PhotoDelegate</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="35"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="43"/>
         <source>NEW</source>
-        <translation>NEW</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="43"/>
+        <source>Group</source>
+        <comment>a noun</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
