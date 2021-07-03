@@ -42,4 +42,11 @@ void PhotoDataQml::setPhotoData(const Photo::Data& photo)
 
     emit photoDataChanged(m_photo);
     emit flagsChanged(getFlags());
+    emit isGroupChanged(isGroup());
+}
+
+
+bool PhotoDataQml::isGroup() const
+{
+    return m_photo.groupInfo.role == GroupInfo::Representative;
 }

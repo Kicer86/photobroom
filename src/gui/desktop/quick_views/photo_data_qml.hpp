@@ -16,6 +16,7 @@ class PhotoDataQml: public QObject
     public:
         Q_PROPERTY(QVariantMap flags READ getFlags NOTIFY flagsChanged)
         Q_PROPERTY(Photo::Data data READ getPhotoData WRITE setPhotoData NOTIFY photoDataChanged)
+        Q_PROPERTY(bool group READ isGroup NOTIFY isGroupChanged)
 
         PhotoDataQml(QObject* parent = nullptr);
         PhotoDataQml(const Photo::Data &);
@@ -33,9 +34,12 @@ class PhotoDataQml: public QObject
         const Photo::Data& getPhotoData() const;
         void setPhotoData(const Photo::Data &);
 
+        bool isGroup() const;
+
     signals:
         void photoDataChanged(const Photo::Data &) const;
         void flagsChanged(const QVariantMap &) const;
+        void isGroupChanged(bool) const;
 
     private:
         Photo::Data m_photo;
