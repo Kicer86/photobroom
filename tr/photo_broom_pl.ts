@@ -426,12 +426,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+93"/>
         <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Manage group...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj grupą...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -591,13 +591,13 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+43"/>
         <source>NEW</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Group</source>
         <comment>a noun</comment>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupa</translation>
     </message>
 </context>
 <context>
@@ -732,20 +732,15 @@ Kod błędu: %1</translation>
     <message>
         <location line="-147"/>
         <source>Collage</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolaż</translation>
     </message>
     <message>
         <location line="+175"/>
         <source>height:</source>
-        <translation type="unfinished"></translation>
+        <translation>wysokość:</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>1024</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+38"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
@@ -773,12 +768,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+52"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>exposure (EV)</source>
-        <translation type="unfinished"></translation>
+        <translation>ekspozycja (EV)</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
@@ -883,18 +878,18 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
         <source>Group candidates</source>
-        <translation type="unfinished"></translation>
+        <translation>Potencjalne grupy</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Looking for group candidates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
 </context>
 <context>
@@ -903,7 +898,7 @@ Kod błędu: %1</translation>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+91"/>
         <source>Photo series</source>
-        <translation type="unfinished"></translation>
+        <translation>Seria zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -915,7 +910,7 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>Photos taken at similar time</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia wykonane w podobnym czasie</translation>
     </message>
 </context>
 <context>

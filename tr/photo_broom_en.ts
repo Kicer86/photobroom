@@ -718,11 +718,6 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="239"/>
-        <source>1024</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
