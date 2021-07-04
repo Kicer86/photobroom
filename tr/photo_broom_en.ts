@@ -569,20 +569,6 @@ Error code: %1</source>
     </message>
 </context>
 <context>
-    <name>PhotoDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="43"/>
-        <source>NEW</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="43"/>
-        <source>Group</source>
-        <comment>a noun</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PhotoPropertiesWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="109"/>
