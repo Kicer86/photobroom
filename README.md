@@ -6,6 +6,7 @@ It is written in c++ and is distributed under GPLv3 license which can be found i
 For build instructions see build.txt file in 'docs' directory.
 
 Icons made by [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) from [www.flaticon.com](https://www.flaticon.com/)
+Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)
 
 [![Build Status](https://travis-ci.org/Kicer86/photobroom.svg?branch=master)](https://travis-ci.org/Kicer86/photobroom)
 [![Build status](https://ci.appveyor.com/api/projects/status/eftrokfd2kkd3sa6?svg=true)](https://ci.appveyor.com/project/Kicer86/photobroom)
