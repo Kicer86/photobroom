@@ -45,12 +45,17 @@ void GroupsManager::groupIntoCollage(
     QStringList paths;
     std::transform(photos.begin(), photos.end(), std::back_inserter(paths), [](const auto& data) { return data.path; });
 
+    const Photo::Data highest = *std::max_element(photos.begin(), photos.end(), [](const auto& lhs, const auto& rhs)
+    {
+        return lhs.geometry.height() < rhs.geometry.height();
+    });
+
     CollageGenerator generator(exifFactory.get());
-    const auto collage = generator.generateCollage(paths);
+    const auto collage = generator.generateCollage(paths, highest.geometry.height());
 
     auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
     const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
-    collage.save(collagePath, "JPG");
+    collage.save(collagePath);
 
     const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);

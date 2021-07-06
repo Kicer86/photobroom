@@ -26,19 +26,68 @@ Item {
 
         source: photoData.path
 
-        Text {
+        PhotoDataQml {
+            id: photoDataProperies
+            data: photoData
+        }
+
+        Item {
             x: 5
             y: 5
 
-            visible: photoData.flags[PhotoEnums.StagingArea] == 1
+            width: 24
+            height: 24
 
-            text: qsTr("NEW")
-            font.pixelSize: 12
-            font.family: "Nimbus Mono PS"
+            visible: photoDataProperies.flags[PhotoEnums.StagingArea] === 1
 
-            color: "white"
-            style: Text.Outline
-            styleColor: "black"
+            Rectangle {
+                anchors.fill: parent
+
+                opacity: 0.7
+
+                radius: 12
+                color: "white"
+            }
+
+            Image {
+                anchors.fill: parent
+
+                sourceSize.width: 24
+                sourceSize.height: 24
+
+                source: "qrc:/gui/new.svg"
+            }
         }
+
+        Item {
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.bottomMargin: 5
+            anchors.leftMargin: 5
+
+            width: 24
+            height: 24
+
+            visible: photoDataProperies.group
+
+            Rectangle {
+                anchors.fill: parent
+
+                opacity: 0.7
+
+                radius: 3
+                color: "white"
+            }
+
+            Image {
+                anchors.fill: parent
+
+                sourceSize.width: 24
+                sourceSize.height: 24
+
+                source: "qrc:/gui/paper.svg"
+            }
+        }
+
     }
 }

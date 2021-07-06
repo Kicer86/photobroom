@@ -76,7 +76,7 @@ Item {
             }
 
             onItemDoubleClicked: {
-                fullscreenImage.setPhoto(index);
+                fullscreenImage.setPhoto(gridView.index);
             }
         }
 

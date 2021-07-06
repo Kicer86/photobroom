@@ -7,7 +7,7 @@
 class NotificationsModel: public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ getCount() NOTIFY countChanged);
+    Q_PROPERTY(int count READ getCount() NOTIFY countChanged)
 
 public:
     int insertWarning(const QString &);

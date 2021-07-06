@@ -2,6 +2,7 @@
 #include <database/database_tools/photos_data_guesser.hpp>
 
 #include "bridge.hpp"
+#include "photo_data_qml.hpp"
 #include "photo_item.hpp"
 #include "photos_model_controller_component.hpp"
 #include "picture_item.hpp"
@@ -18,6 +19,7 @@ void register_qml_types()
     qmlRegisterType<PhotosModelControllerComponent>("photo_broom.qml", 1, 0, "PhotosModelController");
     qmlRegisterType<SelectionManagerComponent>("photo_broom.qml", 1, 0, "SelectionManager");
     qmlRegisterType<PhotosDataGuesser>("photo_broom.qml", 1, 0, "PhotosDataGuesser");
+    qmlRegisterType<PhotoDataQml>("photo_broom.qml", 1, 0, "PhotoDataQml");
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
     qmlRegisterInterface<IThumbnailsManager>("IThumbnailsManager", 1);
     qmlRegisterInterface<Database::IDatabase>("Database::IDatabase", 1);

@@ -50,20 +50,6 @@ namespace Photo
     }
 
 
-    QVariantMap Data::getFlags() const
-    {
-        QVariantMap result;
-
-        for(const auto& flag: flags)
-        {
-            const QString id = QString::number(static_cast<int>(flag.first));
-            result[id] = flag.second;
-        }
-
-        return result;
-    }
-
-
     DataDelta::DataDelta(const Photo::Data& data)
         : m_id(data.id)
     {

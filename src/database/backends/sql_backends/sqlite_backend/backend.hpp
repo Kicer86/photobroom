@@ -43,8 +43,8 @@ namespace Database
             Q_OBJECT
 
 #ifndef STATIC_PLUGINS
-            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "sqlite_backend.json");
-            Q_INTERFACES(Database::IPlugin);   //'Database' namespace is obligatory
+            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "sqlite_backend.json")
+            Q_INTERFACES(Database::IPlugin)    //'Database' namespace is obligatory
 #endif
 
         public:

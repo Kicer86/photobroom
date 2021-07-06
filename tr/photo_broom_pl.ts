@@ -426,12 +426,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
     <message>
         <location line="+93"/>
         <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Manage group...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj grupą...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -587,14 +587,6 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>PhotoDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="+35"/>
-        <source>NEW</source>
-        <translation>Nowe</translation>
-    </message>
-</context>
-<context>
     <name>PhotoPropertiesWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+109"/>
@@ -689,7 +681,7 @@ Kod błędu: %1</translation>
         <translation>HDR</translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="+145"/>
         <source>Animation speed:</source>
         <translation>Prędkość&#xa0;animacji:</translation>
     </message>
@@ -724,7 +716,17 @@ Kod błędu: %1</translation>
         <translation>Typ pliku:</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="-147"/>
+        <source>Collage</source>
+        <translation>Kolaż</translation>
+    </message>
+    <message>
+        <location line="+175"/>
+        <source>height:</source>
+        <translation>wysokość:</translation>
+    </message>
+    <message>
+        <location line="+38"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
@@ -734,7 +736,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+137"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+154"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -750,12 +752,22 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
+        <location line="+52"/>
+        <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
+        <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>exposure (EV)</source>
+        <translation>ekspozycja (EV)</translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="-2"/>
         <source>photo path</source>
         <translation>ścieżka zdjęcia</translation>
     </message>
@@ -768,7 +780,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+100"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
@@ -852,18 +864,18 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+32"/>
         <source>Group candidates</source>
-        <translation type="unfinished"></translation>
+        <translation>Potencjalne grupy</translation>
     </message>
     <message>
         <location line="+94"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>Looking for group candidates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
 </context>
 <context>
@@ -872,7 +884,7 @@ Kod błędu: %1</translation>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+91"/>
         <source>Photo series</source>
-        <translation type="unfinished"></translation>
+        <translation>Seria zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -884,7 +896,7 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>Photos taken at similar time</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia wykonane w podobnym czasie</translation>
     </message>
 </context>
 <context>

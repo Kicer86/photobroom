@@ -22,6 +22,7 @@
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/animation_generator.hpp"
 #include "utils/grouppers/hdr_generator.hpp"
+#include "utils/grouppers/collage_generator.hpp"
 #include "widgets/media_preview.hpp"
 
 
@@ -33,6 +34,8 @@ namespace
             return Group::Animation;
         else if (c == 1)
             return Group::HDR;
+        else if (c == 2)
+            return Group::Collage;
         else
             return Group::Invalid;
     }
@@ -42,12 +45,20 @@ namespace
         switch(type)
         {
             case Group::Type::Invalid:   return -1;
+            case Group::Type::Generic:   return -1;         // not expected
             case Group::Type::Animation: return 0;
             case Group::Type::HDR:       return 1;
+            case Group::Type::Collage:   return 2;
         }
 
         return -1;
     }
+
+    enum GenericForm
+    {
+        Collage = 0,
+        OneOf   = 1,
+    };
 }
 
 
@@ -93,9 +104,15 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
     ui->generationProgressBar->reset();
     ui->speedSpinBox->setValue(calculateFPS());
 
+    QIntValidator* heightValidator = new QIntValidator(this);
+    heightValidator->setBottom(100);
+    heightValidator->setTop(65536);
+    ui->collageHeight->setValidator(heightValidator);
+
     if (type != Group::Type::Invalid)
         ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
+    connect(ui->previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
     connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
     connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
     connect(m_preview, &MediaPreview::scalableContentAvailable, [this](bool av)
@@ -176,13 +193,7 @@ void PhotosGroupingDialog::generationDone(const QString& location)
     if (m_representativeFile.isEmpty() == false)
         m_preview->setMedia(m_representativeFile);
 
-    ui->generationProgressBar->reset();
-    ui->generationProgressBar->setDisabled(true);
-    ui->operationName->setText("");
-    ui->animationOptions->setEnabled(true);
-    ui->previewButtons->setCurrentIndex(0);
-
-    refreshDialogButtons();
+    switchUiToGenerationFinished();
 }
 
 
@@ -200,13 +211,24 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
     errorReporter.setModal(true);
 
     QVBoxLayout* layout = new QVBoxLayout(&errorReporter);
-    layout->addWidget(new QLabel(info));
 
-    QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
-    outputContainer->setReadOnly(true);
-    outputContainer->setPlainText(output.join("\n"));
-    outputContainer->setWordWrapMode(QTextOption::NoWrap);
-    layout->addWidget(outputContainer);
+    QHBoxLayout* infoLayout = new QHBoxLayout;
+
+    QLabel* infoIcon = new QLabel;
+    infoIcon->setPixmap(style()->standardPixmap(QStyle::SP_MessageBoxCritical));
+    infoLayout->addWidget(infoIcon);
+    infoLayout->addWidget(new QLabel(info));
+
+    layout->addLayout(infoLayout);
+
+    if (output.isEmpty() == false)
+    {
+        QPlainTextEdit* outputContainer = new QPlainTextEdit(&errorReporter);
+        outputContainer->setReadOnly(true);
+        outputContainer->setPlainText(output.join("\n"));
+        outputContainer->setWordWrapMode(QTextOption::NoWrap);
+        layout->addWidget(outputContainer);
+    }
 
     QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &errorReporter);
     layout->addWidget(buttons);
@@ -222,14 +244,10 @@ void PhotosGroupingDialog::refreshDialogButtons()
 }
 
 
-void PhotosGroupingDialog::typeChanged()
-{
-
-}
-
-
 void PhotosGroupingDialog::previewPressed()
 {
+    switchUiToGeneration();
+
     const int tool_page = ui->optionsWidget->currentIndex();
     auto type = comboboxToGroupType(tool_page);
 
@@ -243,16 +261,15 @@ void PhotosGroupingDialog::previewPressed()
             makeHDR();
             break;
 
-        case Group::Generic:
-            assert(!"implement");
+        case Group::Collage:
+            makeCollage();
             break;
 
         case Group::Invalid:
+        case Group::Generic:
             assert(!"I should not be here");
             break;
     }
-
-    ui->previewButtons->setCurrentIndex(1);
 }
 
 
@@ -284,22 +301,7 @@ void PhotosGroupingDialog::makeAnimation()
 
     auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    connect(this, &PhotosGroupingDialog::cancel, animation_task.get(), &AnimationGenerator::cancel);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved,        this, &PhotosGroupingDialog::scalePreview);
-    connect(animation_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-    connect(animation_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-    connect(animation_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-    connect(animation_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-    connect(animation_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
-
-    m_executor.add(std::move(animation_task));
-    ui->generationProgressBar->setEnabled(true);
-    ui->animationOptions->setEnabled(false);
-    m_preview->clean();
-    m_workInProgress = true;
-    m_representativeFile.clear();
-
-    refreshDialogButtons();
+    startTask(std::move(animation_task));
 }
 
 
@@ -314,22 +316,25 @@ void PhotosGroupingDialog::makeHDR()
 
     auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
 
-    connect(this, &PhotosGroupingDialog::cancel, hdr_task.get(), &AnimationGenerator::cancel);
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved,  this, &PhotosGroupingDialog::scalePreview);
-    connect(hdr_task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
-    connect(hdr_task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
-    connect(hdr_task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
-    connect(hdr_task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
-    connect(hdr_task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
+    startTask(std::move(hdr_task));
+}
 
-    m_executor.add(std::move(hdr_task));
-    ui->generationProgressBar->setEnabled(true);
-    ui->animationOptions->setEnabled(false);
-    m_preview->clean();
-    m_workInProgress = true;
-    m_representativeFile.clear();
 
-    refreshDialogButtons();
+void PhotosGroupingDialog::makeCollage()
+{
+    CollageGenerator generator(m_exifReaderFactory.get());
+    const int height = ui->collageHeight->text().toInt();
+    const QImage collage = generator.generateCollage(getPhotos(), height);
+
+    if (collage.isNull())
+        generationError(tr("Error during collage generation. Possibly too many images, or height to small or too big."), {});
+    else
+    {
+        const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+
+        collage.save(collagePath);
+        generationDone(collagePath);
+    }
 }
 
 
@@ -343,15 +348,19 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
     {
         const QString& path = photo.path;
         const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
 
         const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
+        const QString exposure_str = exposure_number.has_value()? QString::number( std::any_cast<float>(*exposure_number)): "-";
 
         QStandardItem* pathItem = new QStandardItem(path);
         QStandardItem* sequenceItem = new QStandardItem(sequence_str);
+        QStandardItem* exposureItem = new QStandardItem(exposure_str);
 
-        m_model.appendRow({pathItem, sequenceItem});
+        m_model.appendRow({pathItem, sequenceItem, exposureItem});
         m_model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
         m_model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
+        m_model.setHeaderData(2, Qt::Horizontal, tr("exposure (EV)"));
     }
 }
 
@@ -369,6 +378,46 @@ double PhotosGroupingDialog::calculateFPS() const
     const auto diff = back(timestamps) - front(timestamps);
 
     return diff.count() > 0? (m_photos.size() * 1000.0 / diff.count()): 10.0;
+}
+
+
+void PhotosGroupingDialog::startTask(std::unique_ptr<GeneratorUtils::BreakableTask> task)
+{
+    connect(this, &PhotosGroupingDialog::cancel, task.get(), &AnimationGenerator::cancel);
+    connect(task.get(), &AnimationGenerator::operation, this, &PhotosGroupingDialog::generationTitle);
+    connect(task.get(), &AnimationGenerator::progress,  this, &PhotosGroupingDialog::generationProgress);
+    connect(task.get(), &AnimationGenerator::finished,  this, &PhotosGroupingDialog::generationDone);
+    connect(task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
+    connect(task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
+
+    m_executor.add(std::move(task));
+}
+
+
+void PhotosGroupingDialog::switchUiToGeneration()
+{
+    ui->previewButtons->setCurrentIndex(1);
+
+    ui->generationProgressBar->setEnabled(true);
+    ui->optionsWidget->setEnabled(false);
+    m_preview->clean();
+    m_workInProgress = true;
+    m_representativeFile.clear();
+
+    refreshDialogButtons();
+}
+
+
+void PhotosGroupingDialog::switchUiToGenerationFinished()
+{
+    ui->previewButtons->setCurrentIndex(0);
+
+    ui->generationProgressBar->reset();
+    ui->generationProgressBar->setDisabled(true);
+    ui->operationName->setText("");
+    ui->optionsWidget->setEnabled(true);
+
+    refreshDialogButtons();
 }
 
 

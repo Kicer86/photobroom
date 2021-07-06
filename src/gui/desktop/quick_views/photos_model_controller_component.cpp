@@ -49,10 +49,18 @@ PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
 
 void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 {
-    m_db = db;
     m_model->setDatabase(db);
 
-    if (m_db != nullptr)
+    if (db == nullptr && m_db != nullptr)
+    {
+        disconnect(&m_db->backend(), &Database::IBackend::photosAdded, this, &PhotosModelControllerComponent::updateTimeRange);
+        disconnect(&m_db->backend(), &Database::IBackend::photosModified, this, &PhotosModelControllerComponent::updateTimeRange);
+        disconnect(&m_db->backend(), &Database::IBackend::photosRemoved, this, &PhotosModelControllerComponent::updateTimeRange);
+    }
+
+    m_db = db;
+
+    if (db != nullptr)
     {
         updateTimeRange();
         connect(&m_db->backend(), &Database::IBackend::photosAdded, this, &PhotosModelControllerComponent::updateTimeRange);
@@ -147,20 +155,20 @@ int PhotosModelControllerComponent::category() const
         auto it = std::find(cats.cbegin(), cats.cend(), m_categoryFilter);
 
         assert(it != cats.end());
-        return std::distance(cats.cbegin(), it) + 1;
+        return static_cast<int>(std::distance(cats.cbegin(), it)) + 1;
     }
 }
 
 
 float PhotosModelControllerComponent::ratingFrom() const
 {
-    return m_ratingFrom / 2.0;
+    return static_cast<float>(m_ratingFrom) / 2.0f;
 }
 
 
 float PhotosModelControllerComponent::ratingTo() const
 {
-    return m_ratingTo / 2.0;
+    return static_cast<float>(m_ratingTo) / 2.0f;
 }
 
 
@@ -216,7 +224,7 @@ void PhotosModelControllerComponent::setCategory(int category)
 
 void PhotosModelControllerComponent::setRankFrom(float from)
 {
-    m_ratingFrom = from * 2;
+    m_ratingFrom = static_cast<int>(from * 2);
 
     updateModelFilters();
 }
@@ -224,7 +232,7 @@ void PhotosModelControllerComponent::setRankFrom(float from)
 
 void PhotosModelControllerComponent::setRankTo(float to)
 {
-    m_ratingTo = to * 2;
+    m_ratingTo = static_cast<int>(to * 2);
 
     updateModelFilters();
 }

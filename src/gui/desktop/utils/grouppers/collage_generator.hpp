@@ -12,12 +12,12 @@ class CollageGenerator
     public:
         CollageGenerator(IExifReader &);
 
-        QImage generateCollage(const QStringList& paths) const;
+        QImage generateCollage(const QStringList& paths, int height) const;
 
     private:
         IExifReader& m_exifReader;
 
-        QImage merge(const QList<QImage> &) const;
+        QImage merge(const QList<QImage> &, int height) const;
 };
 
 #endif

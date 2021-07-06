@@ -569,14 +569,6 @@ Error code: %1</source>
     </message>
 </context>
 <context>
-    <name>PhotoDelegate</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/PhotoDelegate.qml" line="35"/>
-        <source>NEW</source>
-        <translation>NEW</translation>
-    </message>
-</context>
-<context>
     <name>PhotoPropertiesWidget</name>
     <message>
         <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="109"/>
@@ -667,86 +659,106 @@ Error code: %1</source>
         <translation type="unfinished">HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="117"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="122"/>
         <source>fps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="126"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
         <source>Delay before restart:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="133"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="138"/>
         <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="140"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="145"/>
         <source>Stabilize image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="183"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="188"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="192"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="197"/>
         <source>Animation speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="199"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="204"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="244"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="57"/>
+        <source>Collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="232"/>
+        <source>height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="294"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="325"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="351"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="154"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="278"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="137"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="154"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="261"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="278"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="353"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="330"/>
+        <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="361"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="362"/>
         <source>sequence number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
+        <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="92"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="100"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>

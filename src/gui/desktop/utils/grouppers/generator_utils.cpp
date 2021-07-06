@@ -34,7 +34,7 @@ namespace
 
     const QRegularExpression cp_regExp("^(?:Creating control points between|Optimizing Variables).*");
     const QRegularExpression run_regExp("^Run called.*");
-    const QRegularExpression save_regExp("^saving.*");
+    const QRegularExpression remapping_regExp("^remapping.*");
 }
 
 namespace GeneratorUtils
@@ -161,7 +161,7 @@ namespace GeneratorUtils
                 break;
 
             case Data::SavingImages:
-                if (save_regExp.match(line).hasMatch())
+                if (remapping_regExp.match(line).hasMatch())
                 {
                     stabilization_data.photos_saved++;
 

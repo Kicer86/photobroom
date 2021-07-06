@@ -55,6 +55,7 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
                 case Group::Type::Animation: type = tr("Photo series");                 break;
                 case Group::Type::HDR:       type = tr("HDR");                          break;
                 case Group::Type::Generic:   type = tr("Photos taken at similar time"); break;
+                case Group::Type::Collage:   assert(!"not expected nor implemented");   break;
             }
 
             return type;

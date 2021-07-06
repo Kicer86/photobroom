@@ -16,7 +16,8 @@ namespace Group
         Invalid   = 0,
         Animation = 1,
         HDR       = 2,
-        Generic   = 3,
+        Generic   = 3,      // bunch of photos
+        Collage   = 4,
     };
 }
 
