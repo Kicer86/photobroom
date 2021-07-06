@@ -49,10 +49,18 @@ PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
 
 void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 {
-    m_db = db;
     m_model->setDatabase(db);
 
-    if (m_db != nullptr)
+    if (db == nullptr && m_db != nullptr)
+    {
+        disconnect(&m_db->backend(), &Database::IBackend::photosAdded, this, &PhotosModelControllerComponent::updateTimeRange);
+        disconnect(&m_db->backend(), &Database::IBackend::photosModified, this, &PhotosModelControllerComponent::updateTimeRange);
+        disconnect(&m_db->backend(), &Database::IBackend::photosRemoved, this, &PhotosModelControllerComponent::updateTimeRange);
+    }
+
+    m_db = db;
+
+    if (db != nullptr)
     {
         updateTimeRange();
         connect(&m_db->backend(), &Database::IBackend::photosAdded, this, &PhotosModelControllerComponent::updateTimeRange);

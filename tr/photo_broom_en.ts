@@ -758,7 +758,7 @@ Error code: %1</source>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="92"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="100"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
