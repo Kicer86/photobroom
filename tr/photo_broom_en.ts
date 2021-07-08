@@ -1008,5 +1008,15 @@ Error code: %1</source>
         <source>flag</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/main.cpp" line="191"/>
+        <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="192"/>
+        <source>image memory limit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

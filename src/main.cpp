@@ -187,6 +187,12 @@ int main(int argc, char **argv)
 
     QCommandLineOption disableCrashCatcher("disable-crash-catcher", "Turns off crash catcher");
 
+    QCommandLineOption imageMemoryLimit("image-memory-limit",
+                                        QCoreApplication::translate("main", "Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos."),
+                                        QCoreApplication::translate("main", "image memory limit"),
+                                        "512"
+    );
+
 #ifdef OS_WIN
     QCommandLineOption enableConsole("enable-console", "Opens console with app's output messages");
     enableConsole.setFlags(QCommandLineOption::HiddenFromHelp);
@@ -197,6 +203,7 @@ int main(int argc, char **argv)
     parser.addOption(logingLevelOption);
     parser.addOption(developerOptions);
     parser.addOption(disableCrashCatcher);
+    parser.addOption(imageMemoryLimit);
 
     parser.process(app);
 
@@ -232,6 +239,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    const int memoryLimit = parser.value(imageMemoryLimit).toInt();
     const bool crashCatcherDisabled = parser.isSet(disableCrashCatcher);
 
 #ifdef OS_WIN
@@ -293,7 +301,7 @@ int main(int argc, char **argv)
     );
 
     // setup
-    QImageReader::setAllocationLimit(512);
+    QImageReader::setAllocationLimit(memoryLimit);
 
     // start gui
     Gui(prjManager, pluginLoader, coreFactory).run();

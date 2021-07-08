@@ -1030,5 +1030,15 @@ Kod błędu: %1</translation>
         <source>flag</source>
         <translation>flaga</translation>
     </message>
+    <message>
+        <location line="+6"/>
+        <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>image memory limit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
