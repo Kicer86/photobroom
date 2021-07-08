@@ -1011,7 +1011,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+177"/>
+        <location filename="../src/main.cpp" line="+178"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
@@ -1029,6 +1029,16 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <source>flag</source>
         <translation>flaga</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>image memory limit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
