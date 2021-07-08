@@ -8,6 +8,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDir>
+#include <QImageReader>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -290,6 +291,9 @@ int main(int argc, char **argv)
                                     configuration,
                                     taskExecutor
     );
+
+    // setup
+    QImageReader::setAllocationLimit(512);
 
     // start gui
     Gui(prjManager, pluginLoader, coreFactory).run();
