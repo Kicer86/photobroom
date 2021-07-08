@@ -44,7 +44,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                    this, &FlatModel::updatePhotos);
 
         disconnect(&backend, &Database::IBackend::photosRemoved,
-                   this, &FlatModel::updatePhotos);
+                   this, &FlatModel::removePhotos);
 
         disconnect(&backend, &Database::IBackend::photosModified,
                    this, &FlatModel::updatePhotos);
@@ -59,7 +59,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::updatePhotos);
 
         connect(&backend, &Database::IBackend::photosRemoved,
-                this, &FlatModel::updatePhotos);
+                this, &FlatModel::removePhotos);
 
         connect(&backend, &Database::IBackend::photosModified,
                 this, &FlatModel::updatePhotos);
@@ -192,6 +192,37 @@ void FlatModel::resetModel()
     beginResetModel();
     removeAllPhotos();
     endResetModel();
+}
+
+
+void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
+{
+    const std::set<Photo::Id> toBeRemoved(idsToBeRemoved.begin(), idsToBeRemoved.end());
+    typedef std::vector<Photo::Id>::iterator PhotoIt;
+
+    std::vector<std::pair<PhotoIt, PhotoIt>> rangesToBeRemoved;
+    rangesToBeRemoved.push_back({m_photos.end(), m_photos.end()});              // prepare empty range to be used by loop below
+
+    for(auto it = m_photos.begin(); it != m_photos.end(); ++it)
+    {
+        if (toBeRemoved.contains(*it))
+        {
+            // update last range
+            if (rangesToBeRemoved.back().first == m_photos.end())
+                rangesToBeRemoved.back().first = it;
+
+            rangesToBeRemoved.back().second = std::next(it);
+        }
+        else if (rangesToBeRemoved.back().first != m_photos.end())
+            rangesToBeRemoved.push_back({m_photos.end(), m_photos.end()});      // there was a valid range in rangesToBeRemoved, prepare for new one
+    }
+
+    // remove possibly empty range at the end
+    if (rangesToBeRemoved.back().first == m_photos.end())
+        rangesToBeRemoved.pop_back();
+
+    for (const auto& range: rangesToBeRemoved)
+        erasePhotos(range.first, range.second);
 }
 
 
