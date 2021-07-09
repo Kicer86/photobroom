@@ -506,7 +506,7 @@ TEST_F(FlatModelTest, complexChangesByBackend)
 
     EXPECT_CALL(photoOperator, onPhotos(_, _))
         .WillOnce(Return(initial_photos_set))                 // first call after db set
-        .WillOnce(Return(final_photos_set));                  // second call after backend.photosAdded
+        .WillOnce(Return(final_photos_set));                  // second call after backend.photosAdded. TODO: this is not nice that test is aware of implementation
 
     model.setDatabase(&db);
     backend.photosRemoved( {Photo::Id(11), Photo::Id(12), Photo::Id(13), Photo::Id(17), Photo::Id(18)} );
