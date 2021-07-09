@@ -186,7 +186,7 @@ namespace
 
             // update flags
             Photo::FlagValues flags = cur_flags;
-            flags.emplace(Photo::FlagsE::ExifLoaded, 1);
+            flags[Photo::FlagsE::ExifLoaded] = 1;
 
             // store new data
             Photo::DataDelta delta(m_photoInfo.id);
