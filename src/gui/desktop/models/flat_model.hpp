@@ -70,6 +70,7 @@ class FlatModel: public APhotoInfoModel
         void removeAllPhotos();
         void resetModel();
         void removePhotos(const std::vector<Photo::Id> &);
+        void invalidatePhotos(const std::set<Photo::Id> &);
         const Database::Filter& filters() const;
 
         const Photo::Data& photoData(const Photo::Id &) const;

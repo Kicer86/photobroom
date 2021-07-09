@@ -47,7 +47,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                    this, &FlatModel::removePhotos);
 
         disconnect(&backend, &Database::IBackend::photosModified,
-                   this, &FlatModel::updatePhotos);
+                   this, &FlatModel::invalidatePhotos);
     }
 
     m_db = db;
@@ -62,7 +62,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::removePhotos);
 
         connect(&backend, &Database::IBackend::photosModified,
-                this, &FlatModel::updatePhotos);
+                this, &FlatModel::invalidatePhotos);
     }
 
     reloadPhotos();
@@ -223,6 +223,18 @@ void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
 
     for (const auto& range: rangesToBeRemoved)
         erasePhotos(range.first, range.second);
+}
+
+
+void FlatModel::invalidatePhotos(const std::set<Photo::Id>& ids)
+{
+    for(const Photo::Id& id: ids)
+    {
+        const auto it = m_properties.find(id);
+
+        if (it != m_properties.end())
+            m_properties.erase(it);
+    }
 }
 
 
