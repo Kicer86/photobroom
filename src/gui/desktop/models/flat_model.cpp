@@ -197,32 +197,58 @@ void FlatModel::resetModel()
 
 void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
 {
-    const std::set<Photo::Id> toBeRemoved(idsToBeRemoved.begin(), idsToBeRemoved.end());
-    typedef std::vector<Photo::Id>::iterator PhotoIt;
-
-    std::vector<std::pair<PhotoIt, PhotoIt>> rangesToBeRemoved;
-    rangesToBeRemoved.push_back({m_photos.end(), m_photos.end()});              // prepare empty range to be used by loop below
-
-    for(auto it = m_photos.begin(); it != m_photos.end(); ++it)
+    std::vector<int> rowsToBeRemoved;
+    for(const auto& id: idsToBeRemoved)
     {
-        if (toBeRemoved.contains(*it))
-        {
-            // update last range
-            if (rangesToBeRemoved.back().first == m_photos.end())
-                rangesToBeRemoved.back().first = it;
+        auto it = m_idToRow.find(id);
 
-            rangesToBeRemoved.back().second = std::next(it);
-        }
-        else if (rangesToBeRemoved.back().first != m_photos.end())
-            rangesToBeRemoved.push_back({m_photos.end(), m_photos.end()});      // there was a valid range in rangesToBeRemoved, prepare for new one
+        if (it != m_idToRow.end())
+            rowsToBeRemoved.push_back(it->second);
     }
 
-    // remove possibly empty range at the end
-    if (rangesToBeRemoved.back().first == m_photos.end())
-        rangesToBeRemoved.pop_back();
+    std::ranges::sort(rowsToBeRemoved);
+
+    std::vector<std::pair<int, int>> rangesToBeRemoved;
+
+    for(std::size_t i = 0; i < rowsToBeRemoved.size(); i++)
+    {
+        const auto& row_i = rowsToBeRemoved[i];
+
+        // last element in rowsToBeRemoved
+        if (i + 1 == rowsToBeRemoved.size())
+            rangesToBeRemoved.push_back({row_i, row_i + 1});
+
+        for(std::size_t j = i + 1; j < rowsToBeRemoved.size(); j++)
+        {
+            const auto& row_j = rowsToBeRemoved[j];
+            const auto& row_jm1 = rowsToBeRemoved[j - 1];
+
+            // consecutive items are not consecutive numbers? finish current range
+            if (row_j - row_jm1 != 1)
+            {
+                rangesToBeRemoved.push_back({row_i, row_jm1 + 1});
+                i = j - 1;
+                break;
+            }
+
+            // current 'j' item is last on? finish range
+            if (j + 1 == rowsToBeRemoved.size())
+            {
+                rangesToBeRemoved.push_back({row_i, row_j + 1});
+                i = j;
+                break;
+            }
+        }
+    }
+
+    // remove from back
+    std::ranges::reverse(rangesToBeRemoved);
 
     for (const auto& range: rangesToBeRemoved)
-        erasePhotos(range.first, range.second);
+    {
+        erasePhotos(m_photos.begin() + range.first,
+                    m_photos.begin() + range.second);
+    }
 }
 
 
