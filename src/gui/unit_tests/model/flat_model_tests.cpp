@@ -499,21 +499,20 @@ TEST_F(FlatModelTest, complexChanges)
 }
 
 
-TEST_F(FlatModelTest, PhotoModification)
+TEST_F(FlatModelTest, PhotosReorder)
 {
     const auto initial_photos_set = std::vector<Photo::Id>{ Photo::Id(1), Photo::Id(2), Photo::Id(3) };
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(3), Photo::Id(2)};
 
-    ON_CALL(photoOperator, onPhotos(_, _))
-        .WillByDefault(Return(initial_photos_set));
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set))
+        .WillOnce(Return(final_photos_set));
 
     model.setDatabase(&db);
     model.setFilter({});       // setting filters should update set of photos
 
     ON_CALL(photoOperator, onPhotos(_, _))
         .WillByDefault(Return(final_photos_set));
-
-    backend.photosModified({ Photo::Id(2) });
 
     EXPECT_EQ(final_photos_set, model.photos());
 }
