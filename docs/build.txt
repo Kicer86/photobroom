@@ -29,7 +29,7 @@ Required tools and libraries:
 
 
 vcpkg setup:
-vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary magic_enum qtquickcontrols2 qtsvg qttools
+vcpkg install --overlay-ports=./ci/vcpkg dlib[core,cuda,fftw3] exiv2 openlibrary magic-enum qtquickcontrols2 qtsvg qttools
 
 In case you do not want vcpkg to download and build Qt6 (required by both photo broom and openlibrary)
 because it is available in your system, include --overlay-ports=./ci/vcpkg-system-native
