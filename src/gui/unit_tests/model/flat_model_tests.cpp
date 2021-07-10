@@ -535,6 +535,24 @@ TEST_F(FlatModelTest, PhotosReorder)
 }
 
 
+TEST_F(FlatModelTest, DataChange)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{ Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4) };
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));
+
+    QSignalSpy model_data_changed(&model, &FlatModel::dataChanged);
+
+    model.setDatabase(&db);
+    backend.photosModified({Photo::Id(2), Photo::Id(3)});
+
+    ASSERT_EQ(model_data_changed.count(), 1);
+    EXPECT_EQ(model_data_changed.at(0).at(0).toModelIndex(), model.index(1, 0, {}));       // we expect that rows from 1 to 2
+    EXPECT_EQ(model_data_changed.at(0).at(1).toModelIndex(), model.index(2, 0, {}));       // have changed
+}
+
+
 TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
 {
     NiceMock<MockDatabase> db;

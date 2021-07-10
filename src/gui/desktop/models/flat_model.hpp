@@ -135,6 +135,8 @@ class FlatModel: public APhotoInfoModel
                     *output++ = it->second;
             }
         }
+
+        QModelIndex indexForRow(int r) const;
 };
 
 #endif // FLATMODEL_HPP

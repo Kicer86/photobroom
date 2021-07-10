@@ -259,6 +259,15 @@ void FlatModel::invalidatePhotos(const std::set<Photo::Id>& ids)
         if (it != m_properties.end())
             m_properties.erase(it);
     }
+
+    std::vector<int> rowsToBeInvalidated;
+    rowsOfIds(ids.begin(), ids.end(), std::back_inserter(rowsToBeInvalidated));
+
+    std::vector<std::pair<int, int>> rangesToBeInvalidated;
+    findConsecutiveRanges(rowsToBeInvalidated.begin(), rowsToBeInvalidated.end(), std::back_inserter(rangesToBeInvalidated));
+
+    for(const auto& range: rangesToBeInvalidated)
+        emit dataChanged(indexForRow(range.first), indexForRow(range.second));
 }
 
 
@@ -413,4 +422,10 @@ void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& p
         const QModelIndex idx = createIndex(row, 0);
         emit dataChanged(idx, idx, {PhotoDataRole});
     }
+}
+
+
+QModelIndex FlatModel::indexForRow(int r) const
+{
+    return createIndex(r, 0);
 }
