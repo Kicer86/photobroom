@@ -52,7 +52,7 @@ namespace
         {
             auto lit = findLastConsecutive(first, last);
 
-            *output++ = std::make_pair(*first, *lit + 1);
+            *output++ = std::make_pair(*first, *lit);
             first = lit;
         }
     }
@@ -245,7 +245,7 @@ void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
     for (const auto& range: rangesToBeRemoved)
     {
         erasePhotos(m_photos.begin() + range.first,
-                    m_photos.begin() + range.second);
+                    m_photos.begin() + range.second + 1);
     }
 }
 
