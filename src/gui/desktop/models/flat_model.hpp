@@ -127,7 +127,7 @@ class FlatModel: public APhotoInfoModel
         {
             while(first != last)
             {
-                const Photo::Id& id = *first;
+                const Photo::Id& id = *first++;
 
                 auto it = m_idToRow.find(id);
 
