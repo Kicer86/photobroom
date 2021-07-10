@@ -120,6 +120,21 @@ class FlatModel: public APhotoInfoModel
 
             return r;
         }
+
+        // helpers
+        template<std::forward_iterator InputIt, typename OutputIt>
+        void rowsOfIds(InputIt first, InputIt last, OutputIt output)
+        {
+            while(first != last)
+            {
+                const Photo::Id& id = *first;
+
+                auto it = m_idToRow.find(id);
+
+                if (it != m_idToRow.end())
+                    *output++ = it->second;
+            }
+        }
 };
 
 #endif // FLATMODEL_HPP

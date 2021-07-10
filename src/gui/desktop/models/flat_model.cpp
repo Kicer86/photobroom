@@ -44,6 +44,18 @@ namespace
 
         return lastConsecutive;
     }
+
+    template<std::forward_iterator T, typename O>
+    void findConsecutiveRanges(T first, T last, O output)
+    {
+        for(; first != last; ++first)
+        {
+            auto lit = findLastConsecutive(first, last);
+
+            *output++ = std::make_pair(*first, *lit + 1);
+            first = lit;
+        }
+    }
 }
 
 
@@ -220,25 +232,12 @@ void FlatModel::resetModel()
 void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
 {
     std::vector<int> rowsToBeRemoved;
-    for(const auto& id: idsToBeRemoved)
-    {
-        auto it = m_idToRow.find(id);
-
-        if (it != m_idToRow.end())
-            rowsToBeRemoved.push_back(it->second);
-    }
+    rowsOfIds(idsToBeRemoved.begin(), idsToBeRemoved.end(), std::back_inserter(rowsToBeRemoved));
 
     std::ranges::sort(rowsToBeRemoved);
 
     std::vector<std::pair<int, int>> rangesToBeRemoved;
-
-    for(auto it = rowsToBeRemoved.begin(); it != rowsToBeRemoved.end(); ++it)
-    {
-        auto lit = findLastConsecutive(it, rowsToBeRemoved.end());
-
-        rangesToBeRemoved.push_back( {*it, *lit + 1} );
-        it = lit;
-    }
+    findConsecutiveRanges(rowsToBeRemoved.begin(), rowsToBeRemoved.end(), std::back_inserter(rangesToBeRemoved));
 
     // remove from back
     std::ranges::reverse(rangesToBeRemoved);
