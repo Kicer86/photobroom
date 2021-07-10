@@ -25,6 +25,28 @@
 #include <database/iphoto_operator.hpp>
 
 
+namespace
+{
+    template<std::forward_iterator T>
+    T findLastConsecutive(T first, T last)
+    {
+        T lastConsecutive = first;
+        auto value = *first++;
+
+        while(first != last)
+        {
+            if (*first - value != 1)
+                break;
+
+            lastConsecutive = first;
+            value = *first++;
+        }
+
+        return lastConsecutive;
+    }
+}
+
+
 /// @todo: get rid of const_cast and, if possible, remove mutables
 using namespace std::placeholders;
 
@@ -210,35 +232,12 @@ void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
 
     std::vector<std::pair<int, int>> rangesToBeRemoved;
 
-    for(std::size_t i = 0; i < rowsToBeRemoved.size(); i++)
+    for(auto it = rowsToBeRemoved.begin(); it != rowsToBeRemoved.end(); ++it)
     {
-        const auto& row_i = rowsToBeRemoved[i];
+        auto lit = findLastConsecutive(it, rowsToBeRemoved.end());
 
-        // last element in rowsToBeRemoved
-        if (i + 1 == rowsToBeRemoved.size())
-            rangesToBeRemoved.push_back({row_i, row_i + 1});
-
-        for(std::size_t j = i + 1; j < rowsToBeRemoved.size(); j++)
-        {
-            const auto& row_j = rowsToBeRemoved[j];
-            const auto& row_jm1 = rowsToBeRemoved[j - 1];
-
-            // consecutive items are not consecutive numbers? finish current range
-            if (row_j - row_jm1 != 1)
-            {
-                rangesToBeRemoved.push_back({row_i, row_jm1 + 1});
-                i = j - 1;
-                break;
-            }
-
-            // current 'j' item is last on? finish range
-            if (j + 1 == rowsToBeRemoved.size())
-            {
-                rangesToBeRemoved.push_back({row_i, row_j + 1});
-                i = j;
-                break;
-            }
-        }
+        rangesToBeRemoved.push_back( {*it, *lit + 1} );
+        it = lit;
     }
 
     // remove from back
