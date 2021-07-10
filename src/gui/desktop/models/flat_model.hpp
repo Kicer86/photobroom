@@ -69,6 +69,8 @@ class FlatModel: public APhotoInfoModel
         void updatePhotos();
         void removeAllPhotos();
         void resetModel();
+        void removePhotos(const std::vector<Photo::Id> &);
+        void invalidatePhotos(const std::set<Photo::Id> &);
         const Database::Filter& filters() const;
 
         const Photo::Data& photoData(const Photo::Id &) const;
@@ -118,6 +120,23 @@ class FlatModel: public APhotoInfoModel
 
             return r;
         }
+
+        // helpers
+        template<std::forward_iterator InputIt, typename OutputIt>
+        void rowsOfIds(InputIt first, InputIt last, OutputIt output)
+        {
+            while(first != last)
+            {
+                const Photo::Id& id = *first++;
+
+                auto it = m_idToRow.find(id);
+
+                if (it != m_idToRow.end())
+                    *output++ = it->second;
+            }
+        }
+
+        QModelIndex indexForRow(int r) const;
 };
 
 #endif // FLATMODEL_HPP

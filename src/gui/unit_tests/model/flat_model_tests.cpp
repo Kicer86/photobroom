@@ -187,6 +187,32 @@ TEST_F(FlatModelTest, dataRemovedAtFront)
 }
 
 
+TEST_F(FlatModelTest, dataRemovedAtFrontByBackend)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(2), Photo::Id(3)};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));                // first call after db set
+
+    QSignalSpy model_about_to_be_removed(&model, &FlatModel::rowsAboutToBeRemoved);
+    QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
+
+    model.setDatabase(&db);
+    backend.photosRemoved( {Photo::Id(1)} );                  // emit notification about photo removal
+
+    // 1 removal expected
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
+
+    // we expect 1 item to be removed on position 0
+    EXPECT_EQ(model_removed.at(0).at(1).toInt(), 0);       // first(0) instance of signal, second(1) argument  (first)
+    EXPECT_EQ(model_removed.at(0).at(2).toInt(), 0);       // first(0) instance of signal, third(2) argument   (last)
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
 TEST_F(FlatModelTest, dataRemovedAtBack)
 {
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
@@ -201,6 +227,32 @@ TEST_F(FlatModelTest, dataRemovedAtBack)
 
     model.setDatabase(&db);
     model.setFilter({});       // setting filters should update set of photos
+
+    // 1 removal expected
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
+
+    // we expect 1 item to be removed on position 2
+    EXPECT_EQ(model_removed.at(0).at(1).toInt(), 2);       // first(0) instance of signal, second(1) argument  (first)
+    EXPECT_EQ(model_removed.at(0).at(2).toInt(), 2);       // first(0) instance of signal, third(2) argument   (last)
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
+TEST_F(FlatModelTest, dataRemovedAtBackByBackend)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));                // first call after db set
+
+    QSignalSpy model_about_to_be_removed(&model, &FlatModel::rowsAboutToBeRemoved);
+    QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
+
+    model.setDatabase(&db);
+    backend.photosRemoved( {Photo::Id(3)} );                  // emit notification about photo removal
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -241,6 +293,32 @@ TEST_F(FlatModelTest, dataRemovedInTheMiddle)
 }
 
 
+TEST_F(FlatModelTest, dataRemovedInTheMiddleByBackend)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(3)};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));                // first call after db set
+
+    QSignalSpy model_about_to_be_removed(&model, &FlatModel::rowsAboutToBeRemoved);
+    QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
+
+    model.setDatabase(&db);
+    backend.photosRemoved( {Photo::Id(2)} );                  // emit notification about photo removal
+
+    // 1 removal expected
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
+
+    // we expect 1 item to be removed on position 1
+    EXPECT_EQ(model_removed.at(0).at(1).toInt(), 1);       // first(0) instance of signal, second(1) argument  (first)
+    EXPECT_EQ(model_removed.at(0).at(2).toInt(), 1);       // first(0) instance of signal, third(2) argument   (last)
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
 TEST_F(FlatModelTest, removingAll)
 {
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
@@ -255,6 +333,32 @@ TEST_F(FlatModelTest, removingAll)
 
     model.setDatabase(&db);
     model.setFilter({});       // setting filters should update set of photos
+
+    // 1 removal expected
+    ASSERT_EQ(model_about_to_be_removed.count(), 1);
+    ASSERT_EQ(model_removed.count(), 1);
+
+    // we expect 3 items to be removed
+    EXPECT_EQ(model_removed.at(0).at(1).toInt(), 0);       // first(0) instance of signal, second(1) argument  (first)
+    EXPECT_EQ(model_removed.at(0).at(2).toInt(), 2);       // first(0) instance of signal, third(2) argument   (last)
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
+TEST_F(FlatModelTest, removingAllByBackend)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
+    const auto final_photos_set = std::vector<Photo::Id>{};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));                // first call after db set
+
+    QSignalSpy model_about_to_be_removed(&model, &FlatModel::rowsAboutToBeRemoved);
+    QSignalSpy model_removed(&model, &FlatModel::rowsRemoved);
+
+    model.setDatabase(&db);
+    backend.photosRemoved( {Photo::Id(1), Photo::Id(2), Photo::Id(3)} ); // emit notification about photo removal
 
     // 1 removal expected
     ASSERT_EQ(model_about_to_be_removed.count(), 1);
@@ -395,13 +499,31 @@ TEST_F(FlatModelTest, complexChanges)
 }
 
 
-TEST_F(FlatModelTest, PhotoModification)
+TEST_F(FlatModelTest, complexChangesByBackend)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{                            Photo::Id(11), Photo::Id(12), Photo::Id(13), Photo::Id(14),                               Photo::Id(15), Photo::Id(16), Photo::Id(17), Photo::Id(18)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(21), Photo::Id(22),                                              Photo::Id(14), Photo::Id(23), Photo::Id(24), Photo::Id(15), Photo::Id(16),                              Photo::Id(25), Photo::Id(26)};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set))                 // first call after db set
+        .WillOnce(Return(final_photos_set));                  // second call after backend.photosAdded. TODO: this is not nice that test is aware of implementation
+
+    model.setDatabase(&db);
+    backend.photosRemoved( {Photo::Id(11), Photo::Id(12), Photo::Id(13), Photo::Id(17), Photo::Id(18)} );
+    backend.photosAdded( {Photo::Id(21), Photo::Id(22), Photo::Id(23), Photo::Id(24), Photo::Id(25), Photo::Id(26)} );
+
+    EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
+TEST_F(FlatModelTest, PhotosReorder)
 {
     const auto initial_photos_set = std::vector<Photo::Id>{ Photo::Id(1), Photo::Id(2), Photo::Id(3) };
     const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(3), Photo::Id(2)};
 
-    ON_CALL(photoOperator, onPhotos(_, _))
-        .WillByDefault(Return(initial_photos_set));
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set))
+        .WillOnce(Return(final_photos_set));
 
     model.setDatabase(&db);
     model.setFilter({});       // setting filters should update set of photos
@@ -409,9 +531,25 @@ TEST_F(FlatModelTest, PhotoModification)
     ON_CALL(photoOperator, onPhotos(_, _))
         .WillByDefault(Return(final_photos_set));
 
-    backend.photosModified({ Photo::Id(2) });
-
     EXPECT_EQ(final_photos_set, model.photos());
+}
+
+
+TEST_F(FlatModelTest, DataChange)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{ Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4) };
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set));
+
+    QSignalSpy model_data_changed(&model, &FlatModel::dataChanged);
+
+    model.setDatabase(&db);
+    backend.photosModified({Photo::Id(2), Photo::Id(3)});
+
+    ASSERT_EQ(model_data_changed.count(), 1);
+    EXPECT_EQ(model_data_changed.at(0).at(0).toModelIndex(), model.index(1, 0, {}));       // we expect that rows from 1 to 2
+    EXPECT_EQ(model_data_changed.at(0).at(1).toModelIndex(), model.index(2, 0, {}));       // have changed
 }
 
 

@@ -25,6 +25,40 @@
 #include <database/iphoto_operator.hpp>
 
 
+namespace
+{
+    template<std::forward_iterator T>
+    T findLastConsecutive(T first, T last)
+    {
+        T lastConsecutive = first;
+        auto value = *first++;
+
+        while(first != last)
+        {
+            if (*first - value != 1)
+                break;
+
+            lastConsecutive = first;
+            value = *first++;
+        }
+
+        return lastConsecutive;
+    }
+
+    template<std::forward_iterator T, typename O>
+    void findConsecutiveRanges(T first, T last, O output)
+    {
+        for(; first != last; ++first)
+        {
+            auto lit = findLastConsecutive(first, last);
+
+            *output++ = std::make_pair(*first, *lit);
+            first = lit;
+        }
+    }
+}
+
+
 /// @todo: get rid of const_cast and, if possible, remove mutables
 using namespace std::placeholders;
 
@@ -44,10 +78,10 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                    this, &FlatModel::updatePhotos);
 
         disconnect(&backend, &Database::IBackend::photosRemoved,
-                   this, &FlatModel::updatePhotos);
+                   this, &FlatModel::removePhotos);
 
         disconnect(&backend, &Database::IBackend::photosModified,
-                   this, &FlatModel::updatePhotos);
+                   this, &FlatModel::invalidatePhotos);
     }
 
     m_db = db;
@@ -59,10 +93,10 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::updatePhotos);
 
         connect(&backend, &Database::IBackend::photosRemoved,
-                this, &FlatModel::updatePhotos);
+                this, &FlatModel::removePhotos);
 
         connect(&backend, &Database::IBackend::photosModified,
-                this, &FlatModel::updatePhotos);
+                this, &FlatModel::invalidatePhotos);
     }
 
     reloadPhotos();
@@ -192,6 +226,48 @@ void FlatModel::resetModel()
     beginResetModel();
     removeAllPhotos();
     endResetModel();
+}
+
+
+void FlatModel::removePhotos(const std::vector<Photo::Id>& idsToBeRemoved)
+{
+    std::vector<int> rowsToBeRemoved;
+    rowsOfIds(idsToBeRemoved.begin(), idsToBeRemoved.end(), std::back_inserter(rowsToBeRemoved));
+
+    std::ranges::sort(rowsToBeRemoved);
+
+    std::vector<std::pair<int, int>> rangesToBeRemoved;
+    findConsecutiveRanges(rowsToBeRemoved.begin(), rowsToBeRemoved.end(), std::back_inserter(rangesToBeRemoved));
+
+    // remove from back
+    std::ranges::reverse(rangesToBeRemoved);
+
+    for (const auto& range: rangesToBeRemoved)
+    {
+        erasePhotos(m_photos.begin() + range.first,
+                    m_photos.begin() + range.second + 1);
+    }
+}
+
+
+void FlatModel::invalidatePhotos(const std::set<Photo::Id>& ids)
+{
+    for(const Photo::Id& id: ids)
+    {
+        const auto it = m_properties.find(id);
+
+        if (it != m_properties.end())
+            m_properties.erase(it);
+    }
+
+    std::vector<int> rowsToBeInvalidated;
+    rowsOfIds(ids.begin(), ids.end(), std::back_inserter(rowsToBeInvalidated));
+
+    std::vector<std::pair<int, int>> rangesToBeInvalidated;
+    findConsecutiveRanges(rowsToBeInvalidated.begin(), rowsToBeInvalidated.end(), std::back_inserter(rangesToBeInvalidated));
+
+    for(const auto& range: rangesToBeInvalidated)
+        emit dataChanged(indexForRow(range.first), indexForRow(range.second));
 }
 
 
@@ -346,4 +422,10 @@ void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& p
         const QModelIndex idx = createIndex(row, 0);
         emit dataChanged(idx, idx, {PhotoDataRole});
     }
+}
+
+
+QModelIndex FlatModel::indexForRow(int r) const
+{
+    return createIndex(r, 0);
 }
