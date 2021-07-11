@@ -5,7 +5,6 @@
 #include <map>
 #include <set>
 
-#include "map_iterator.hpp"
 #include "qmodelindex_comparator.hpp"
 
 namespace

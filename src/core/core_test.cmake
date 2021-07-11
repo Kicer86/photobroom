@@ -23,10 +23,8 @@ addTestTarget(core
                     unit_tests/containers_utils_tests.cpp
                     unit_tests/function_wrappers_tests.cpp
                     unit_tests/lazy_ptr_tests.cpp
-                    unit_tests/map_iterator_tests.cpp
                     unit_tests/model_compositor_tests.cpp
                     #unit_tests/oriented_image_tests.cpp
-                    unit_tests/ptr_iterator_tests.cpp
                     unit_tests/qmodelindex_comparator_tests.cpp
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp

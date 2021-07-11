@@ -41,7 +41,6 @@
 #include <core/task_executor.hpp>
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
-#include <core/map_iterator.hpp>
 #include <database/filter.hpp>
 #include <database/project_info.hpp>
 
