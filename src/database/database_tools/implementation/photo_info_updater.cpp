@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include <memory>
+#include <ranges>
 
 #include <QImage>
 #include <QFile>
@@ -17,7 +18,6 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/imedia_information.hpp>
-#include <core/map_iterator.hpp>
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 
@@ -329,8 +329,8 @@ void PhotoInfoUpdater::flushCache()
 
         m_db.exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
         {
-            const std::vector<Photo::DataDelta> vectorOfDeltas(value_map_iterator<TouchedPhotos>(delta.cbegin()),
-                                                               value_map_iterator<TouchedPhotos>(delta.cend()));
+            const auto deltaValues = std::views::values(delta);
+            const std::vector<Photo::DataDelta> vectorOfDeltas(deltaValues.begin(), deltaValues.end());
 
             db.update(vectorOfDeltas);
         });

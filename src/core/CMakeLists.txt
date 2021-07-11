@@ -30,10 +30,7 @@ set(CORE_SOURCES
     function_wrappers.hpp
     generic_concepts.hpp
     id.hpp
-    iterator_wrapper.hpp
     lazy_ptr.hpp
-    map_iterator.hpp
-    ptr_iterator.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
 
