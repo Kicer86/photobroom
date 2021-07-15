@@ -49,7 +49,6 @@ class ThumbnailManager: public IThumbnailsManager
         QImage find(const QString &, const IThumbnailsCache::ThumbnailParameters &);
         void cache(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
 
-        void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const safe_callback<const QImage &> &);
         void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)> &);
 
         template<typename T>

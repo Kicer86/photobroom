@@ -6,7 +6,6 @@
 #include <optional>
 #include <QSize>
 
-#include <core/function_wrappers.hpp>
 
 struct IThumbnailsManager
 {
