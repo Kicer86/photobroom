@@ -6,10 +6,15 @@
 #include <optional>
 #include <QSize>
 
+#include <database/photo_types.hpp>
+
 
 struct IThumbnailsManager
 {
     virtual ~IThumbnailsManager() = default;
+
+    // Request thumbnail. Third parameter is a callback which will be called as soon as thumbnail is accessible.
+    virtual void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) = 0;
 
     // Request thumbnail. Third parameter is a callback which will be called as soon as thumbnail is accessible.
     virtual void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) = 0;

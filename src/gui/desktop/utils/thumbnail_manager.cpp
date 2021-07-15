@@ -31,6 +31,12 @@ ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator
 }
 
 
+void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
+{
+
+}
+
+
 void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
     internal_fetch(path, IThumbnailsCache::ThumbnailParameters(desired_size), callback);

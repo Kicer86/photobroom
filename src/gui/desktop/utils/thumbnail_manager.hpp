@@ -38,6 +38,7 @@ class ThumbnailManager: public IThumbnailsManager
     public:
         explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);
 
+        void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
 
