@@ -36,7 +36,7 @@ PhotoItem::PhotoItem(QQuickItem* parent)
 
 void PhotoItem::paint(QPainter* painter)
 {
-    if (m_thbMgr == nullptr || m_source.isEmpty())
+    if (m_thbMgr == nullptr || m_id.valid() == false)
         return;
 
     if (m_state == State::NotFetched)
@@ -53,9 +53,9 @@ void PhotoItem::setThumbnailsManager(IThumbnailsManager* mgr)
 }
 
 
-void PhotoItem::setSource(const QString& source)
+void PhotoItem::setSource(const Photo::Id& id)
 {
-    m_source = source;
+    m_id = id;
 
     update();
 }
@@ -67,9 +67,9 @@ IThumbnailsManager* PhotoItem::thumbnailsManager() const
 }
 
 
-QString PhotoItem::source() const
+const Photo::Id& PhotoItem::source() const
 {
-    return m_source;
+    return m_id;
 }
 
 
@@ -127,12 +127,12 @@ void PhotoItem::refetch()
     {
         const QSize thbSize(width(), height());
 
-        auto image = m_thbMgr->fetch(m_source, thbSize);
+        auto image = m_thbMgr->fetch( m_id, thbSize);
 
         if (image.has_value())
             setImage(image.value());
         else
-            m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+            m_thbMgr->fetch( m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
 }
 
@@ -141,7 +141,7 @@ void PhotoItem::fetchImage()
 {
     const QSize thbSize(width(), height());
 
-    auto image = m_thbMgr->fetch(m_source, thbSize);
+    auto image = m_thbMgr->fetch(m_id, thbSize);
 
     if (image.has_value())
     {
@@ -152,6 +152,6 @@ void PhotoItem::fetchImage()
     {
         setState(State::Fetching);
 
-        m_thbMgr->fetch(m_source, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+        m_thbMgr->fetch( m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
 }

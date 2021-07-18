@@ -10,7 +10,7 @@ import photo_broom.qml 1.0
 Item {
     id: root
 
-    property string source: ""
+    property var photoID
 
     BusyIndicator {
         id: busyId
@@ -26,7 +26,7 @@ Item {
         anchors.fill: parent
         opacity: 0
 
-        source: root.source
+        photoID: root.photoID
 
         thumbnails: thumbnailsManager.get()
     }

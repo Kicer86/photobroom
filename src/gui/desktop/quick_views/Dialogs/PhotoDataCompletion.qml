@@ -85,6 +85,7 @@ Item {
         delegate: Item {
             id: delegateRoot
 
+            required property var photoID
             required property var photoPath
             required property var suggestedDate
             required property var suggestedTime
@@ -112,12 +113,12 @@ Item {
                     width: 60
                     height: 60
 
-                    source: photoPath
+                    photoID: delegateRoot.photoID
                 }
 
                 Column {
                     Text {
-                        text: photoPath
+                        text: delegateRoot.photoPath
                     }
 
                     Text {

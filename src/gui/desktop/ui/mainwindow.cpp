@@ -377,9 +377,13 @@ void MainWindow::updateTools()
     {
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
         m_photosAnalyzer->set(ui->tasksWidget);
+        m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
     }
     else
+    {
         m_photosAnalyzer.reset();
+        m_thumbnailsManager->setDatabaseCache(nullptr);
+    }
 }
 
 
