@@ -53,7 +53,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
     // not cached in memory, search in db (if possible)
     if (cached.isNull())
     {
-        m_tasks.addLight(inlineTask("database thumbnail fetch", [=, this]()
+        m_tasks.add(inlineTask("database thumbnail fetch", [=, this]()
         {
             // load thumbnail from db
             QByteArray dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
@@ -73,10 +73,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 });
 
                 // generate base thumbnail
-                baseThumbnail = evaluate<QImage(), ITaskExecutor>(m_tasks, [=, this]()
-                {
-                    return m_generator.generate(photoData.get<Photo::Field::Path>(), IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize));
-                });
+                baseThumbnail = m_generator.generate(photoData.get<Photo::Field::Path>(), IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize));
 
                 // store thumbnail in db
                 QBuffer buf(&dbThumb);
@@ -91,10 +88,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 baseThumbnail = QImage::fromData(dbThumb, "JPG");
 
             // resize base thumbnail to required size
-            const QImage thumbnail = evaluate<QImage(), ITaskExecutor>(m_tasks, [baseThumbnail, params, this]()
-            {
-                return m_generator.generateFrom(baseThumbnail, params);
-            });
+            const QImage thumbnail =  m_generator.generateFrom(baseThumbnail, params);
 
             cache(id_path, params, thumbnail);
             callback(thumbnail);
