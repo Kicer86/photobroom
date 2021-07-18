@@ -59,6 +59,12 @@ QImage ThumbnailGenerator::generate(const QString& path, const ThumbnailParamete
 }
 
 
+QImage ThumbnailGenerator::generateFrom(const QImage& image, const ThumbnailParameters& params)
+{
+    return scaleImage(image, params);
+}
+
+
 QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 {
     IExifReader& reader = m_exifReaderFactory.get();

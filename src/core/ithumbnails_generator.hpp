@@ -13,6 +13,7 @@ public:
     virtual ~IThumbnailsGenerator() = default;
 
     virtual QImage generate(const QString &, const ThumbnailParameters& params) = 0;
+    virtual QImage generateFrom(const QImage &, const ThumbnailParameters& params) = 0;
 };
 
 #endif
