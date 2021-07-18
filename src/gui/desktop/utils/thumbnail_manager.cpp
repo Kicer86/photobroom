@@ -53,7 +53,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
     // not cached in memory, search in db (if possible)
     if (cached.isNull())
     {
-        m_tasks.addLight(inlineTask("database thumbnail fetch", [this, id, callback, params]()
+        m_tasks.addLight(inlineTask("database thumbnail fetch", [=, this]()
         {
             // load thumbnail from db
             QByteArray dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
@@ -96,6 +96,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 return m_generator.generateFrom(baseThumbnail, params);
             });
 
+            cache(id_path, params, thumbnail);
             callback(thumbnail);
         }));
     }
