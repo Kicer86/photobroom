@@ -117,7 +117,14 @@ std::optional<QImage> ThumbnailManager::fetch(const Photo::Id& id, const QSize& 
 
 void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
-    internal_fetch(path, IThumbnailsCache::ThumbnailParameters(desired_size), callback);
+    const IThumbnailsCache::ThumbnailParameters params(desired_size);
+
+    const QImage cached = find(path, params);
+
+    if (cached.isNull())
+        generate(path, params, callback);
+    else
+        callback(cached);
 }
 
 
@@ -158,7 +165,9 @@ void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::Thu
 {
     runOn(m_tasks, [=, this]
     {
-        generate_task(path, params, callback);
+        const QImage img = m_generator.generate(path, params);
+
+        cache(path, params, img);
+        callback(img);
     }, "ThumbnailManager::generate");
 }
-

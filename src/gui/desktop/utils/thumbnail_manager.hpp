@@ -44,7 +44,7 @@ class ThumbnailManager: public IThumbnailsManager
         void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
 
-        void setDatabaseCache(Database::IDatabase *);
+        void setDatabaseCache(Database::IDatabase *) override;
 
     private:
         TasksQueue m_tasks;
@@ -56,26 +56,6 @@ class ThumbnailManager: public IThumbnailsManager
         void cache(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
 
         void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)> &);
-
-        template<typename T>
-        void internal_fetch(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const T& callback)
-        {
-            const QImage cached = find(path, params);
-
-            if (cached.isNull())
-                generate(path, params, callback);
-            else
-                callback(cached);
-        }
-
-        template<typename T>
-        void generate_task(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const T& callback)
-        {
-            const QImage img = m_generator.generate(path, params);
-
-            cache(path, params, img);
-            callback(img);
-        }
 };
 
 #endif // THUMBNAILMANAGER_HPP
