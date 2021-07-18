@@ -90,6 +90,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             else
                 baseThumbnail = QImage::fromData(dbThumb, "JPG");
 
+            // resize base thumbnail to required size
             const QImage thumbnail = evaluate<QImage(), ITaskExecutor>(m_tasks, [baseThumbnail, params, this]()
             {
                 return m_generator.generateFrom(baseThumbnail, params);
