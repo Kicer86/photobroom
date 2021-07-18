@@ -3,6 +3,7 @@
 #define CONFIGURATION_CONSTANTS_HPP
 
 #include <vector>
+#include <QSize>
 
 #include "core_export.h"
 
@@ -25,6 +26,11 @@ namespace ExternalToolsConfigKeys
     const char* const magickPath  = "tool_path::magick";
     const char* const ffmpegPath  = "tool_path::ffmpeg";
     const char* const ffprobePath = "tool_path::ffprobe";
+}
+
+namespace Parameters
+{
+    const QSize databaseThumbnailSize(400, 400);
 }
 
 #endif
