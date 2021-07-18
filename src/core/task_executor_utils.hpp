@@ -166,6 +166,6 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
 };
 
 
-CORE_EXPORT std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()> task);
+CORE_EXPORT std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task);
 
 #endif

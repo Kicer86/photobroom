@@ -10,7 +10,7 @@ namespace
     class InlineTask: public ITaskExecutor::ITask
     {
         public:
-            InlineTask(const std::string& name, std::function<void()> task)
+            InlineTask(const std::string& name, std::function<void()>&& task)
                 : m_name(name)
                 , m_task(task)
             {
@@ -167,7 +167,7 @@ void TasksQueue::task_finished()
 }
 
 
-std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()> task)
+std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task)
 {
-    return std::make_unique<InlineTask>(name, task);
+    return std::make_unique<InlineTask>(name, std::move(task));
 }
