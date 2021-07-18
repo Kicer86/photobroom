@@ -156,4 +156,7 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         void task_finished();
 };
 
+
+CORE_EXPORT std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()> task);
+
 #endif
