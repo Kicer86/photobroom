@@ -15,12 +15,12 @@ using testing::Return;
 
 struct NullCache: IThumbnailsCache
 {
-    std::optional<QImage> find(const QString &, const IThumbnailsCache::ThumbnailParameters& params) override
+    std::optional<QImage> find(const QString &, const IThumbnailsCache::ThumbnailParameters &) override
     {
         return {};
     }
 
-    void store(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const QImage &) override
+    void store(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &) override
     {
 
     }

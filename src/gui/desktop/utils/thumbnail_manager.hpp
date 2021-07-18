@@ -25,6 +25,7 @@
 #include <QImage>
 #include <core/task_executor_utils.hpp>
 #include <core/ithumbnails_generator.hpp>
+#include <database/idatabase.hpp>
 
 #include "ithumbnails_cache.hpp"
 #include "ithumbnails_manager.hpp"
@@ -36,16 +37,20 @@ struct IThumbnailsCache;
 class ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &);
+        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &, Database::IDatabase * = nullptr);
 
         void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
+        std::optional<QImage> fetch(const Photo::Id& id, const QSize& desired_size) override;
         void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
+
+        void setDatabaseCache(Database::IDatabase *);
 
     private:
         TasksQueue m_tasks;
         IThumbnailsCache& m_cache;
         IThumbnailsGenerator& m_generator;
+        Database::IDatabase* m_db;
 
         QImage find(const QString &, const IThumbnailsCache::ThumbnailParameters &);
         void cache(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
