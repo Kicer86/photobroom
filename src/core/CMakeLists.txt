@@ -32,6 +32,7 @@ set(CORE_SOURCES
     lazy_ptr.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
+    task_executor_traits.hpp
 
     #utilities
     base_tags.hpp                                           implementation/base_tags.cpp
