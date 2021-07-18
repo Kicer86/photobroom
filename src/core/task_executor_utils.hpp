@@ -43,7 +43,7 @@ auto evaluate(E& executor, const T& task)
 
 // Run callable as a task
 template<typename Callable>
-void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
+void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
 {
     struct GenericTask: ITaskExecutor::ITask
     {
@@ -76,7 +76,7 @@ void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& task
 
 // Run callable as a task
 template<typename R, typename Callable>
-QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
+QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
 {
     struct GenericTask: ITaskExecutor::ITask
     {
