@@ -1,6 +1,6 @@
 
-#ifndef MOCK_BACKEND_HPP
-#define MOCK_BACKEND_HPP
+#ifndef MOCK_THUMBNAILS_GENERATOR_HPP
+#define MOCK_THUMBNAILS_GENERATOR_HPP
 
 
 #include <gmock/gmock.h>
