@@ -42,13 +42,8 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 {
     assert(m_db != nullptr);
 
-    // use id as a path to search for thumbnail in cache.
-    // TODO: cache needs to be changed to use ids only.
-
-    const QString id_path = QString::number(id);
     const IThumbnailsCache::ThumbnailParameters params(desired_size);
-
-    const QImage cached = find(id_path, params);
+    const QImage cached = find(id, params);
 
     // not cached in memory, search in db (if possible)
     if (cached.isNull())
@@ -90,7 +85,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             // resize base thumbnail to required size
             const QImage thumbnail =  m_generator.generateFrom(baseThumbnail, params);
 
-            cache(id_path, params, thumbnail);
+            cache(id, params, thumbnail);
             callback(thumbnail);
         }));
     }
@@ -101,32 +96,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 
 std::optional<QImage> ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size)
 {
-    // use id as a path to search for thumbnail in cache.
-    // TODO: cache needs to be changed to use ids only.
-
-    const QString id_path = QString::number(id);
-    std::optional img = m_cache.find(id_path, IThumbnailsCache::ThumbnailParameters(desired_size));
-
-    return img;
-}
-
-
-void ThumbnailManager::fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
-{
-    const IThumbnailsCache::ThumbnailParameters params(desired_size);
-
-    const QImage cached = find(path, params);
-
-    if (cached.isNull())
-        generate(path, params, callback);
-    else
-        callback(cached);
-}
-
-
-std::optional<QImage> ThumbnailManager::fetch(const QString& path, const QSize& desired_size)
-{
-    std::optional img = m_cache.find(path, IThumbnailsCache::ThumbnailParameters(desired_size));
+    std::optional img = m_cache.find(id, IThumbnailsCache::ThumbnailParameters(desired_size));
 
     return img;
 }
@@ -138,11 +108,11 @@ void ThumbnailManager::setDatabaseCache(Database::IDatabase* db)
 }
 
 
-QImage ThumbnailManager::find(const QString& path, const IThumbnailsCache::ThumbnailParameters& params)
+QImage ThumbnailManager::find(const Photo::Id& id, const IThumbnailsCache::ThumbnailParameters& params)
 {
     QImage result;
 
-    const auto cached = m_cache.find(path, params);
+    const auto cached = m_cache.find(id, params);
 
     if (cached.has_value())
         result = *cached;
@@ -151,19 +121,7 @@ QImage ThumbnailManager::find(const QString& path, const IThumbnailsCache::Thumb
 }
 
 
-void ThumbnailManager::cache(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const QImage& img)
+void ThumbnailManager::cache(const Photo::Id& id, const IThumbnailsCache::ThumbnailParameters& params, const QImage& img)
 {
-    m_cache.store(path, params, img);
-}
-
-
-void ThumbnailManager::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)>& callback)
-{
-    runOn(m_tasks, [=, this]
-    {
-        const QImage img = m_generator.generate(path, params);
-
-        cache(path, params, img);
-        callback(img);
-    }, "ThumbnailManager::generate");
+    m_cache.store(id, params, img);
 }

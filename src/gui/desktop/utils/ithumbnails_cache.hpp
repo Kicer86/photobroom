@@ -5,6 +5,8 @@
 #include <optional>
 #include <QImage>
 
+#include <database/photo_types.hpp>
+
 
 struct IThumbnailsCache
 {
@@ -12,8 +14,8 @@ struct IThumbnailsCache
 
     virtual ~IThumbnailsCache() = default;
 
-    virtual std::optional<QImage> find(const QString &, const ThumbnailParameters &) = 0;
-    virtual void store(const QString &, const ThumbnailParameters &, const QImage &) = 0;
+    virtual std::optional<QImage> find(const Photo::Id &, const ThumbnailParameters &) = 0;
+    virtual void store(const Photo::Id &, const ThumbnailParameters &, const QImage &) = 0;
 };
 
 #endif

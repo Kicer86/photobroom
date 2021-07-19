@@ -3,6 +3,7 @@
 
 #include "gui/desktop/utils/thumbnails_cache.hpp"
 
+
 TEST(ThumbnailsCacheTest, isConstructible)
 {
     ThumbnailsCache cache;
@@ -12,9 +13,9 @@ TEST(ThumbnailsCacheTest, returnsNothingWhenEmpty)
 {
     ThumbnailsCache cache;
 
-    std::optional img1 = cache.find("", QSize(0, 0));
-    std::optional img2 = cache.find("/", QSize(100, 100));
-    std::optional img3 = cache.find(".", QSize(-100, -100));
+    std::optional img1 = cache.find(Photo::Id(1), QSize(0, 0));
+    std::optional img2 = cache.find(Photo::Id(100), QSize(100, 100));
+    std::optional img3 = cache.find(Photo::Id(3456), QSize(-100, -100));
 
     EXPECT_FALSE(img1.has_value());
     EXPECT_FALSE(img2.has_value());
@@ -34,21 +35,21 @@ TEST(ThumbnailsCacheTest, returnsWhatWasStored)
     const QImage img3(height3 * 2, height3, QImage::Format_RGB32);
 
     ThumbnailsCache cache;
-    cache.store("img1", QSize(height1, height1), img1);
-    cache.store("img2", QSize(height2, height2), img2);
-    cache.store("img3", QSize(height3, height3), img3);
+    cache.store(Photo::Id(1), QSize(height1, height1), img1);
+    cache.store(Photo::Id(2), QSize(height2, height2), img2);
+    cache.store(Photo::Id(3), QSize(height3, height3), img3);
 
-    const std::optional img1a = cache.find("img1", QSize(0, 0));
-    const std::optional img1b = cache.find("img1", QSize(height1, height1));
-    const std::optional img1c = cache.find("img1", QSize(height1 * 2, height1 * 2));
+    const std::optional img1a = cache.find(Photo::Id(1), QSize(0, 0));
+    const std::optional img1b = cache.find(Photo::Id(1), QSize(height1, height1));
+    const std::optional img1c = cache.find(Photo::Id(1), QSize(height1 * 2, height1 * 2));
 
-    const std::optional img2a = cache.find("img2", QSize(0, 0));
-    const std::optional img2b = cache.find("img2", QSize(height2, height2));
-    const std::optional img2c = cache.find("img2", QSize(height2 * 2, height2 * 2));
+    const std::optional img2a = cache.find(Photo::Id(2), QSize(0, 0));
+    const std::optional img2b = cache.find(Photo::Id(2), QSize(height2, height2));
+    const std::optional img2c = cache.find(Photo::Id(2), QSize(height2 * 2, height2 * 2));
 
-    const std::optional img3a = cache.find("img3", QSize(0, 0));
-    const std::optional img3b = cache.find("img3", QSize(height3, height3));
-    const std::optional img3c = cache.find("img3", QSize(height3 * 2, height3 * 2));
+    const std::optional img3a = cache.find(Photo::Id(3), QSize(0, 0));
+    const std::optional img3b = cache.find(Photo::Id(3), QSize(height3, height3));
+    const std::optional img3c = cache.find(Photo::Id(3), QSize(height3 * 2, height3 * 2));
 
     EXPECT_FALSE(img1a.has_value());
     EXPECT_TRUE(img1b.has_value());

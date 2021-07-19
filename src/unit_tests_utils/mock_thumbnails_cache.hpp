@@ -5,6 +5,6 @@
 
 struct MockThumbnailsCache: IThumbnailsCache
 {
-    MOCK_METHOD(std::optional<QImage>, find, (const QString &, const IThumbnailsCache::ThumbnailParameters& params), (override));
-    MOCK_METHOD(void, store, (const QString &, const IThumbnailsCache::ThumbnailParameters& params, const QImage &), (override));
+    MOCK_METHOD(std::optional<QImage>, find, (const Photo::Id &, const IThumbnailsCache::ThumbnailParameters& params), (override));
+    MOCK_METHOD(void, store, (const Photo::Id &, const IThumbnailsCache::ThumbnailParameters& params, const QImage &), (override));
 };

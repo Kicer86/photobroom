@@ -41,8 +41,6 @@ class ThumbnailManager: public IThumbnailsManager
 
         void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         std::optional<QImage> fetch(const Photo::Id& id, const QSize& desired_size) override;
-        void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
-        std::optional<QImage> fetch(const QString& path, const QSize& desired_size) override;
 
         void setDatabaseCache(Database::IDatabase *) override;
 
@@ -52,10 +50,8 @@ class ThumbnailManager: public IThumbnailsManager
         IThumbnailsGenerator& m_generator;
         Database::IDatabase* m_db;
 
-        QImage find(const QString &, const IThumbnailsCache::ThumbnailParameters &);
-        void cache(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
-
-        void generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params, const std::function<void(const QImage &)> &);
+        QImage find(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &);
+        void cache(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
 };
 
 #endif // THUMBNAILMANAGER_HPP

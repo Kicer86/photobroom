@@ -6,21 +6,27 @@
 #include "unit_tests_utils/fake_task_executor.hpp"
 #include "unit_tests_utils/mock_thumbnails_generator.hpp"
 #include "unit_tests_utils/mock_thumbnails_cache.hpp"
+#include "unit_tests_utils/mock_backend.hpp"
+#include "unit_tests_utils/mock_database.hpp"
+#include "unit_tests_utils/printers.hpp"
 #include "utils/thumbnail_manager.hpp"
 
 
 using namespace std::placeholders;
 using testing::_;
+using testing::Invoke;
+using testing::NiceMock;
 using testing::Return;
+using testing::ReturnRef;
 
 struct NullCache: IThumbnailsCache
 {
-    std::optional<QImage> find(const QString &, const IThumbnailsCache::ThumbnailParameters &) override
+    std::optional<QImage> find(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &) override
     {
         return {};
     }
 
-    void store(const QString &, const IThumbnailsCache::ThumbnailParameters &, const QImage &) override
+    void store(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &, const QImage &) override
     {
 
     }
@@ -34,7 +40,33 @@ struct MockResponse
 };
 
 
-TEST(ThumbnailManagerTest, constructs)
+class ThumbnailManagerTest: public testing::Test
+{
+public:
+    ThumbnailManagerTest()
+    {
+        ON_CALL(db, execute(_)).WillByDefault(Invoke([this](std::unique_ptr<Database::IDatabase::ITask>&& task)
+        {
+            task->run(backend);
+        }));
+
+        ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
+
+        ON_CALL(backend, getPhotoDelta).WillByDefault(Invoke([](const auto& id, const auto& data)
+        {
+            Photo::DataDelta delta(id);
+            delta.insert<Photo::Field::Path>(QString("%1.jpeg").arg(id.value()));
+
+            return delta;
+        }));
+    }
+
+    NiceMock<MockDatabase> db;
+    NiceMock<MockBackend> backend;
+};
+
+
+TEST_F(ThumbnailManagerTest, constructs)
 {
     EXPECT_NO_THROW(
     {
@@ -46,9 +78,9 @@ TEST(ThumbnailManagerTest, constructs)
 }
 
 
-TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
+TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(5);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
@@ -56,19 +88,21 @@ TEST(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
     EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generate(_, _)).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generateFrom(img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
 
     FakeTaskExecutor executor;
 
     NullCache cache;
     ThumbnailManager tm(&executor, generator, cache);
-    tm.fetch(path, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
+    tm.setDatabaseCache(&db);
+    tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
-TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
+TEST_F(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id = Photo::Id(7);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
@@ -76,22 +110,24 @@ TEST(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
-    EXPECT_CALL(cache, store(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
+    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
+    EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generate(_, _)).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generateFrom(img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
 
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    tm.fetch(path, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
+    tm.setDatabaseCache(&db);
+    tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
-TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
+TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(11);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
@@ -99,20 +135,21 @@ TEST(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
     MockThumbnailsGenerator generator;
 
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    tm.fetch(path, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
+    tm.setDatabaseCache(&db);
+    tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
-TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
+TEST_F(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(13);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
@@ -120,74 +157,78 @@ TEST(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
     EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(QImage()));
-    EXPECT_CALL(cache, store(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
+    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(QImage()));
+    EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generate(_, _)).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generateFrom(img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
 
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    tm.fetch(path, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
+    tm.setDatabaseCache(&db);
+    tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
 
 
-TEST(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
+TEST_F(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(17);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockThumbnailsGenerator generator;
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    const std::optional fetchedImg = tm.fetch(path, QSize(height, height));
+    tm.setDatabaseCache(&db);
+    const std::optional fetchedImg = tm.fetch(id, QSize(height, height));
 
     ASSERT_TRUE(fetchedImg.has_value());
     EXPECT_EQ(fetchedImg.value(), img);
 }
 
 
-TEST(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
+TEST_F(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(19);
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
-    EXPECT_CALL(cache, store(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(0);
+    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
+    EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(0);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(0);
+    EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(0);
 
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    const std::optional fetchedImg = tm.fetch(path, QSize(height, height));
+    tm.setDatabaseCache(&db);
+    const std::optional fetchedImg = tm.fetch(id, QSize(height, height));
 
     EXPECT_FALSE(fetchedImg.has_value());
 }
 
 
-TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
+TEST_F(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
 {
-    const QString path = "/some/example/path";
+    const Photo::Id id(23);
     const int requested_height = 100;
     QImage img;                         // emulate broken image with no height
 
     MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(path, { QSize(requested_height, requested_height) })).Times(1).WillOnce(Return(std::optional<QImage>{}));
-    EXPECT_CALL(cache, store(path, { QSize(requested_height, requested_height) }, img)).Times(1);
+    EXPECT_CALL(cache, find(id, { QSize(requested_height, requested_height) })).Times(1).WillOnce(Return(std::optional<QImage>{}));
+    EXPECT_CALL(cache, store(id, { QSize(requested_height, requested_height) }, img)).Times(1);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(path, IThumbnailsCache::ThumbnailParameters(QSize(requested_height, requested_height))))
-        .Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generate(_, _)).Times(1).WillOnce(Return(img));
+    EXPECT_CALL(generator, generateFrom(img, IThumbnailsCache::ThumbnailParameters(QSize(requested_height, requested_height)))).WillRepeatedly(Return(img));
 
     MockResponse response;
     EXPECT_CALL(response, result(img)).Times(1);
@@ -195,5 +236,6 @@ TEST(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
     FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
-    tm.fetch(path, QSize(requested_height, requested_height), [&response](const QImage& _img){response(_img);});
+    tm.setDatabaseCache(&db);
+    tm.fetch(id, QSize(requested_height, requested_height), [&response](const QImage& _img){response(_img);});
 }

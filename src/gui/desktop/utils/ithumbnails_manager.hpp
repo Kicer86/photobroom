@@ -19,12 +19,6 @@ struct IThumbnailsManager
     // Return thumbnail if immediately accessible. Otherwise result is empty.
     virtual std::optional<QImage> fetch(const Photo::Id& id, const QSize& desired_size) = 0;
 
-    // Request thumbnail. Third parameter is a callback which will be called as soon as thumbnail is accessible.
-    virtual void fetch(const QString& path, const QSize& desired_size, const std::function<void(const QImage &)> &) = 0;
-
-    // Return thumbnail if immediately accessible. Otherwise result is empty.
-    virtual std::optional<QImage> fetch(const QString& path, const QSize& desired_size) = 0;
-
     virtual void setDatabaseCache(Database::IDatabase *) = 0;
 };
 
