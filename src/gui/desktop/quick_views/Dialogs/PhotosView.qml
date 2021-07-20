@@ -41,7 +41,6 @@ Item {
     }
 
     Item {
-
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
@@ -76,7 +75,7 @@ Item {
             }
 
             onItemDoubleClicked: {
-                fullscreenImage.setPhoto(gridView.index);
+                fullscreenImage.setPhoto(index);
             }
         }
 

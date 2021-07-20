@@ -5,6 +5,35 @@
 #include "containers_utils.hpp"
 
 
+namespace
+{
+    class InlineTask: public ITaskExecutor::ITask
+    {
+        public:
+            InlineTask(const std::string& name, std::function<void()>&& task)
+                : m_name(name)
+                , m_task(task)
+            {
+
+            }
+
+            std::string name() const override
+            {
+                return m_name;
+            }
+
+            void perform() override
+            {
+                m_task();
+            }
+
+        private:
+            const std::string m_name;
+            std::function<void()> m_task;
+    };
+}
+
+
 struct TasksQueue::IntTask: ITaskExecutor::ITask
 {
     IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
@@ -135,4 +164,10 @@ void TasksQueue::task_finished()
         m_noWork.notify_one();
 
     try_to_fire();
+}
+
+
+std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task)
+{
+    return std::make_unique<InlineTask>(name, std::move(task));
 }

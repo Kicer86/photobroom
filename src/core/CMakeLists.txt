@@ -15,14 +15,13 @@ set(CORE_SOURCES
     ilogger.hpp
     ilogger_factory.hpp
     ilogger.hpp
-    ithumbnails_cache.hpp
-    ithumbnails_manager.hpp
     imedia_information.hpp
     imodel_compositor_data_source.hpp
     iexif_reader.hpp
     ifeatures_manager.hpp
     itask_executor.hpp
     itasks_view.hpp
+    ithumbnails_generator.hpp
     iview_task.hpp
 
     #tiny utilities
@@ -33,6 +32,7 @@ set(CORE_SOURCES
     lazy_ptr.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
+    task_executor_traits.hpp
 
     #utilities
     base_tags.hpp                                           implementation/base_tags.cpp
@@ -58,10 +58,8 @@ set(CORE_SOURCES
     task_executor.hpp                                       implementation/task_executor.cpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
-    thread_utils.hpp
-    thumbnails_cache.hpp                                    implementation/thumbnails_cache.cpp
     thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
-    thumbnail_manager.hpp                                   implementation/thumbnail_manager.cpp
+    thread_utils.hpp
 
     # internal implementation
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp

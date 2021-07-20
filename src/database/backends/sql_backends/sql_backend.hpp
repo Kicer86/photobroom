@@ -148,6 +148,9 @@ namespace Database
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
 
+            void setThumbnail(const Photo::Id &, const QByteArray &) override;
+            QByteArray getThumbnail(const Photo::Id &) override;
+
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 

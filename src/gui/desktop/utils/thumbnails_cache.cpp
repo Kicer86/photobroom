@@ -26,12 +26,12 @@ uint qHash(const IThumbnailsCache::ThumbnailParameters& params)
     return qHash(size.width()) ^ qHash(size.height());
 }
 
-uint qHash(const std::tuple<QString, IThumbnailsCache::ThumbnailParameters>& key)
+uint qHash(const std::tuple<Photo::Id, IThumbnailsCache::ThumbnailParameters>& key)
 {
-    const QString& path = std::get<0>(key);
+    const Photo::Id& id = std::get<0>(key);
     const IThumbnailsCache::ThumbnailParameters& params = std::get<1>(key);
 
-    return qHash(path) ^ qHash(params);
+    return qHash(id.value()) ^ qHash(params);
 }
 
 
@@ -40,11 +40,11 @@ ThumbnailsCache::ThumbnailsCache(): m_cache(1024)
 }
 
 
-std::optional<QImage> ThumbnailsCache::find(const QString& path, const ThumbnailParameters& params)
+std::optional<QImage> ThumbnailsCache::find(const Photo::Id& id, const ThumbnailParameters& params)
 {
     std::optional<QImage> result;
 
-    QImage* img = m_cache.lock()->object(std::tie(path, params));
+    QImage* img = m_cache.lock()->object(std::tie(id, params));
 
     if (img)
         result = *img;
@@ -53,8 +53,8 @@ std::optional<QImage> ThumbnailsCache::find(const QString& path, const Thumbnail
 }
 
 
-void ThumbnailsCache::store(const QString& path, const ThumbnailParameters& params, const QImage& img)
+void ThumbnailsCache::store(const Photo::Id& id, const ThumbnailParameters& params, const QImage& img)
 {
     QImage* copy = new QImage(img);
-    m_cache.lock()->insert(std::tie(path, params), copy);
+    m_cache.lock()->insert(std::tie(id, params), copy);
 }

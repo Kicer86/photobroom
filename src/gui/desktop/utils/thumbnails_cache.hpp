@@ -19,24 +19,22 @@
 #ifndef THUMBNAILS_CACHE_HPP
 #define THUMBNAILS_CACHE_HPP
 
-#include "ithumbnails_cache.hpp"
-
 #include <QCache>
-
 #include <OpenLibrary/putils/ts_resource.hpp>
 
-#include "core_export.h"
+#include "ithumbnails_cache.hpp"
 
-class CORE_EXPORT ThumbnailsCache: public IThumbnailsCache
+
+class ThumbnailsCache: public IThumbnailsCache
 {
     public:
         ThumbnailsCache();
 
-        std::optional<QImage> find(const QString &, const ThumbnailParameters &) override;
-        void store(const QString &, const ThumbnailParameters &, const QImage &) override;
+        std::optional<QImage> find(const Photo::Id &, const ThumbnailParameters &) override;
+        void store(const Photo::Id &, const ThumbnailParameters &, const QImage &) override;
 
     private:
-        typedef QCache<std::tuple<QString, ThumbnailParameters>, QImage> CacheContainer;
+        typedef QCache<std::tuple<Photo::Id, ThumbnailParameters>, QImage> CacheContainer;
         ol::ThreadSafeResource<CacheContainer> m_cache;
 };
 

@@ -47,7 +47,7 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
-QImage ThumbnailGenerator::generate(const QString& path, const IThumbnailsCache::ThumbnailParameters& params)
+QImage ThumbnailGenerator::generate(const QString& path, const ThumbnailParameters& params)
 {
     const QImage frame = readFrame(path);
     QImage thumb;
@@ -56,6 +56,12 @@ QImage ThumbnailGenerator::generate(const QString& path, const IThumbnailsCache:
         thumb = scaleImage(frame, params);
 
     return thumb;
+}
+
+
+QImage ThumbnailGenerator::generateFrom(const QImage& image, const ThumbnailParameters& params)
+{
+    return scaleImage(image, params);
 }
 
 
@@ -149,7 +155,7 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
 }
 
 
-QImage ThumbnailGenerator::scaleImage(const QImage& image, const IThumbnailsCache::ThumbnailParameters& params) const
+QImage ThumbnailGenerator::scaleImage(const QImage& image, const ThumbnailParameters& params) const
 {
     QImage thumbnail;
 

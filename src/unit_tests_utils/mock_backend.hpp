@@ -39,6 +39,8 @@ struct MockBackend: public Database::IBackend
       void(const Photo::Id &, const QString &, int value));
   MOCK_METHOD2(get,
       std::optional<int>(const Photo::Id &, const QString &));
+  MOCK_METHOD(void, setThumbnail, (const Photo::Id &, const QByteArray &), (override));
+  MOCK_METHOD(QByteArray, getThumbnail, (const Photo::Id &), (override));
   MOCK_METHOD0(markStagedAsReviewed,
       std::vector<Photo::Id>());
   MOCK_METHOD1(init,

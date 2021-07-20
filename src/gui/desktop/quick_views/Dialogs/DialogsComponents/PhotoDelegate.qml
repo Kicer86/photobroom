@@ -24,7 +24,7 @@ Item {
         height: delegateId.height - delegateId.margin * 2
         width:  delegateId.width - delegateId.margin * 2
 
-        source: photoData.path
+        photoID: photoData.id
 
         PhotoDataQml {
             id: photoDataProperies

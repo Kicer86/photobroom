@@ -21,15 +21,15 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 
-#include <core/ithumbnails_manager.hpp>
 #include <core/function_wrappers.hpp>
+#include "utils/ithumbnails_manager.hpp"
 
 
 class PhotoItem: public QQuickPaintedItem
 {
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
-        Q_PROPERTY(QString source WRITE setSource READ source)
+        Q_PROPERTY(Photo::Id photoID WRITE setSource READ source)
         Q_PROPERTY(State state READ state NOTIFY stateChanged)
         Q_ENUMS(State)
 
@@ -47,17 +47,17 @@ class PhotoItem: public QQuickPaintedItem
         void paint(QPainter *painter) override;
 
         void setThumbnailsManager(IThumbnailsManager *);
-        void setSource(const QString &);
+        void setSource(const Photo::Id &);
 
         IThumbnailsManager* thumbnailsManager() const;
-        QString source() const;
+        const Photo::Id& source() const;
         State state() const;
 
     private:
         QImage m_image;
-        QString m_source;
         IThumbnailsManager* m_thbMgr;
         State m_state;
+        Photo::Id m_id;
 
         void updateThumbnail(const QImage &);
         void fetchImage();

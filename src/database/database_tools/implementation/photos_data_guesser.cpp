@@ -15,6 +15,7 @@ namespace
     enum Roles
     {
         Path            = Qt::UserRole + 1,
+        PhotoID,
         SuggestedDate,
         SuggestedTime,
     };
@@ -85,12 +86,16 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
 
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
+    const auto& photo = m_photos[index.row()];
+
     if (role == Path)
-        return m_photos[index.row()].photoData.get<Photo::Field::Path>();
+        return photo.photoData.get<Photo::Field::Path>();
+    else if (role == PhotoID)
+        return QVariant::fromValue(photo.photoData.getId());
     else if (role == SuggestedDate)
-        return m_photos[index.row()].date.toString(Qt::ISODate);
+        return photo.date.toString(Qt::ISODate);
     else if (role == SuggestedTime)
-        return m_photos[index.row()].time.toString();
+        return photo.time.toString();
     else
         return {};
 }
@@ -106,6 +111,7 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 {
     return {
         { Path,           "photoPath" },
+        { PhotoID,        "photoID" },
         { SuggestedDate , "suggestedDate" },
         { SuggestedTime , "suggestedTime" },
     };

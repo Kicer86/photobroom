@@ -242,8 +242,8 @@ namespace
 }
 
 
-SeriesDetector::Rules::Rules(std::chrono::milliseconds manualSeriesMaxGap)
-    : manualSeriesMaxGap(manualSeriesMaxGap)
+SeriesDetector::Rules::Rules(std::chrono::milliseconds gap)
+    : manualSeriesMaxGap(gap)
 {
 
 }

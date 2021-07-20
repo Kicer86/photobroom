@@ -33,6 +33,8 @@ namespace Database
             int getPhotosCount(const Filter &) override;
             void set(const Photo::Id& id, const QString& name, int value) override;
             std::optional<int> get(const Photo::Id& id, const QString& name) override;
+            void setThumbnail(const Photo::Id &, const QByteArray &) override;
+            QByteArray getThumbnail(const Photo::Id &) override;
             std::vector<Photo::Id> markStagedAsReviewed() override;
             BackendStatus init(const ProjectInfo &) override;
             void closeConnections() override;
@@ -107,6 +109,7 @@ namespace Database
             std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
             std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
             std::vector<LogEntry> m_logEntries;
+            std::map<Photo::Id, QByteArray> m_thumbnails;
 
             int m_nextPhotoId = 0;
             int m_nextPersonName = 0;

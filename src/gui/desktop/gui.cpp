@@ -16,8 +16,6 @@
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/thumbnail_generator.hpp>
-#include <core/thumbnail_manager.hpp>
-#include <core/thumbnails_cache.hpp>
 #include <system/filesystem.hpp>
 
 #ifdef UPDATER_ENABLED
@@ -27,6 +25,8 @@
 #include "ui/mainwindow.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "utils/features_manager.hpp"
+#include "utils/thumbnails_cache.hpp"
+#include "utils/thumbnail_manager.hpp"
 
 
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory):

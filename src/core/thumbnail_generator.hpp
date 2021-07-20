@@ -19,10 +19,9 @@
 #ifndef THUMBNAILGENERATOR_HPP
 #define THUMBNAILGENERATOR_HPP
 
-#include "ithumbnails_cache.hpp"
-
-#include "exif_reader_factory.hpp"
 #include "core_export.h"
+#include "exif_reader_factory.hpp"
+#include "ithumbnails_generator.hpp"
 
 
 struct IConfiguration;
@@ -40,7 +39,8 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
         // IThumbnailGenerator:
-        QImage generate(const QString &, const IThumbnailsCache::ThumbnailParameters& params) override;
+        QImage generate(const QString &, const ThumbnailParameters& params) override;
+        QImage generateFrom(const QImage &, const ThumbnailParameters& params) override;
 
     private:
         ILogger* m_logger;
@@ -50,7 +50,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         QImage readFrameFromImage(const QString& path) const;
         QImage readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const;
         QImage readFrame(const QString& path) const;
-        QImage scaleImage(const QImage& path, const IThumbnailsCache::ThumbnailParameters& params) const;
+        QImage scaleImage(const QImage& path, const ThumbnailParameters& params) const;
 };
 
 #endif // THUMBNAILGENERATOR_HPP

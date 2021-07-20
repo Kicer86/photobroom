@@ -404,7 +404,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+102"/>
         <source>Recognize people...</source>
         <translation>Rozpoznawanie osób...</translation>
     </message>
@@ -419,12 +419,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-223"/>
+        <location line="-227"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+97"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -552,7 +552,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+124"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+125"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -788,7 +788,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+188"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+187"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>

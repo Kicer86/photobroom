@@ -36,6 +36,7 @@ addTestTarget(database_backends
                     unit_tests_for_backends/photos_change_log_tests.cpp
                     unit_tests_for_backends/photos_tests.cpp
                     unit_tests_for_backends/tags_tests.cpp
+                    unit_tests_for_backends/thumbnails_tests.cpp
 
                     # dependencies
                     implementation/apeople_information_accessor.cpp

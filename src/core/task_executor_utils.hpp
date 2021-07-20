@@ -41,9 +41,18 @@ auto evaluate(E& executor, const T& task)
 }
 
 
+// Helper function.
+// Run a task and do not wait for it to be finished.
+template<typename E, typename T>
+void execute(E& executor, T&& task)
+{
+    ExecutorTraits<E, T>::exec(executor, std::move(task));
+}
+
+
 // Run callable as a task
 template<typename Callable>
-void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
+void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
 {
     struct GenericTask: ITaskExecutor::ITask
     {
@@ -76,7 +85,7 @@ void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& task
 
 // Run callable as a task
 template<typename R, typename Callable>
-QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName)
+QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
 {
     struct GenericTask: ITaskExecutor::ITask
     {
@@ -155,5 +164,8 @@ class CORE_EXPORT TasksQueue final: public ITaskExecutor
         void fire();
         void task_finished();
 };
+
+
+CORE_EXPORT std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task);
 
 #endif
