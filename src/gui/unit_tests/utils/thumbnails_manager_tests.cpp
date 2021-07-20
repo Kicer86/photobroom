@@ -64,6 +64,7 @@ public:
 
     NiceMock<MockDatabase> db;
     NiceMock<MockBackend> backend;
+    FakeTaskExecutor executor;
 };
 
 
@@ -71,7 +72,6 @@ TEST_F(ThumbnailManagerTest, constructs)
 {
     EXPECT_NO_THROW(
     {
-        FakeTaskExecutor executor;
         MockThumbnailsGenerator generator;
         MockThumbnailsCache cache;
         ThumbnailManager(&executor, generator, cache);
@@ -79,7 +79,7 @@ TEST_F(ThumbnailManagerTest, constructs)
 }
 
 
-TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
+TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenOneWasNotFoundInCache)
 {
     const Photo::Id id(5);
     const int height = 100;
@@ -90,10 +90,17 @@ TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
     EXPECT_CALL(response, result(img)).Times(1);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize))).Times(1).WillOnce(Return(base_img));
-    EXPECT_CALL(generator, generateFrom(base_img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
 
-    FakeTaskExecutor executor;
+    // call for thumbnail for database cache
+    EXPECT_CALL(generator, generate(QString("5.jpeg"),
+                                    IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize)))
+        .Times(1)
+        .WillOnce(Return(base_img));
+
+    // call for requested thumbnail
+    EXPECT_CALL(generator, generateFrom(base_img,
+                                        IThumbnailsCache::ThumbnailParameters(QSize(height, height))))
+        .WillRepeatedly(Return(img));
 
     NullCache cache;
     ThumbnailManager tm(&executor, generator, cache);
@@ -102,7 +109,7 @@ TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenNoCache)
 }
 
 
-TEST_F(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
+TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
 {
     const Photo::Id id = Photo::Id(7);
     const int height = 100;
@@ -112,15 +119,23 @@ TEST_F(ThumbnailManagerTest, updateCacheAfterPhotoGeneration)
     MockResponse response;
     EXPECT_CALL(response, result(img)).Times(1);
 
+    // memory cache behavior
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
     EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
 
+    // generator behavior
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize))).Times(1).WillOnce(Return(base_img));
-    EXPECT_CALL(generator, generateFrom(base_img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
+    EXPECT_CALL(generator, generate(QString("7.jpeg"),
+                                    IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize)))
+        .Times(1)
+        .WillOnce(Return(base_img));
+    EXPECT_CALL(generator, generateFrom(base_img,
+                                        IThumbnailsCache::ThumbnailParameters(QSize(height, height))))
+        .WillRepeatedly(Return(img));
 
-    FakeTaskExecutor executor;
+    // database behavior (thumbnail storage)
+    EXPECT_CALL(backend, setThumbnail(id, _)).Times(1);
 
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
@@ -140,35 +155,9 @@ TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
-    MockThumbnailsGenerator generator;
-
-    FakeTaskExecutor executor;
-
-    ThumbnailManager tm(&executor, generator, cache);
-    tm.setDatabaseCache(&db);
-    tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
-}
-
-
-TEST_F(ThumbnailManagerTest, useGeneratorWhenCacheSetButHasNoResults)
-{
-    const Photo::Id id(13);
-    const int height = 100;
-    QImage img(height * 2, height, QImage::Format_RGB32);
-    QImage base_img(Parameters::databaseThumbnailSize, QImage::Format_RGB32);
-
-    MockResponse response;
-    EXPECT_CALL(response, result(img)).Times(1);
-
-    MockThumbnailsCache cache;
-    EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(QImage()));
-    EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
+    EXPECT_CALL(backend, setThumbnail(id, _)).Times(0);
 
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize))).Times(1).WillOnce(Return(base_img));
-    EXPECT_CALL(generator, generateFrom(base_img, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).WillRepeatedly(Return(img));
-
-    FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
@@ -185,8 +174,6 @@ TEST_F(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
     MockThumbnailsGenerator generator;
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
-
-    FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
@@ -209,8 +196,6 @@ TEST_F(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
 
     MockThumbnailsGenerator generator;
     EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(0);
-
-    FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
@@ -237,8 +222,6 @@ TEST_F(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
 
     MockResponse response;
     EXPECT_CALL(response, result(img)).Times(1);
-
-    FakeTaskExecutor executor;
 
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
