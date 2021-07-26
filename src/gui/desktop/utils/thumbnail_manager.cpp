@@ -38,6 +38,12 @@ ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator
 }
 
 
+ThumbnailManager::~ThumbnailManager()
+{
+    m_callbackCtrl.invalidate();
+}
+
+
 void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
     assert(m_db != nullptr);
@@ -48,7 +54,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
     // not cached in memory, search in db (if possible)
     if (cached.isNull())
     {
-        m_tasks.add(inlineTask("database thumbnail fetch", [=, this]()
+        auto task = m_callbackCtrl.make_safe_callback([=, this]()
         {
             // load thumbnail from db
             QByteArray dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
@@ -87,7 +93,9 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 
             cache(id, params, thumbnail);
             callback(thumbnail);
-        }));
+        });
+
+        m_tasks.add(inlineTask("database thumbnail fetch", task));
     }
     else
         callback(cached);
@@ -104,6 +112,7 @@ std::optional<QImage> ThumbnailManager::fetch(const Photo::Id& id, const QSize& 
 
 void ThumbnailManager::setDatabaseCache(Database::IDatabase* db)
 {
+    m_callbackCtrl.invalidate();
     m_db = db;
 }
 

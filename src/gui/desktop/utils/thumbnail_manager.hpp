@@ -24,6 +24,7 @@
 
 #include <QImage>
 #include <core/task_executor_utils.hpp>
+#include <core/function_wrappers.hpp>
 #include <core/ithumbnails_generator.hpp>
 #include <database/idatabase.hpp>
 
@@ -38,6 +39,7 @@ class ThumbnailManager: public IThumbnailsManager
 {
     public:
         explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &, Database::IDatabase * = nullptr);
+        ~ThumbnailManager();
 
         void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
         std::optional<QImage> fetch(const Photo::Id& id, const QSize& desired_size) override;
@@ -45,6 +47,7 @@ class ThumbnailManager: public IThumbnailsManager
         void setDatabaseCache(Database::IDatabase *) override;
 
     private:
+        safe_callback_ctrl m_callbackCtrl;
         TasksQueue m_tasks;
         IThumbnailsCache& m_cache;
         IThumbnailsGenerator& m_generator;
