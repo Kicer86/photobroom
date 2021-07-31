@@ -14,6 +14,7 @@ SwipeView {
 
     interactive: false
 
+    // main view
     Column {
         PhotosView {
             enabled: projectOpened
@@ -29,6 +30,7 @@ SwipeView {
         }
     }
 
+    // photo data completion view
     Item {
 
         Button {
