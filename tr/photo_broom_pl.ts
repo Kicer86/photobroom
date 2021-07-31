@@ -527,7 +527,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+37"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+39"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>

@@ -30,6 +30,7 @@ std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() cons
         const QVariant dataVariant = idx.data(m_photoDataRole);
         const Photo::Data data(dataVariant.value<Photo::Data>());
 
+        // TODO: it is valid situation for id to be invalid when model has not loaded all data yet
         assert(data.id.valid());
 
         datas.push_back(data);
