@@ -15,6 +15,10 @@ SwipeView {
 
     interactive: false
 
+    onCurrentIndexChanged: {
+        selectedPhotos = [];            // reset selected photos when view changes
+    }
+
     // main view
     Column {
         PhotosView {
