@@ -7,51 +7,34 @@
 #include "utils/model_index_utils.hpp"
 
 
-SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(const SelectionManagerComponent& selectionManager,
-                                                             const QAbstractItemModel& model)
-    : m_selectionManager(selectionManager)
-    , m_model(model)
-    , m_photoDataRole(-1)
+SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(Database::IDatabase& db)
+    : m_db(db)
 {
-    m_photoDataRole = utils::getRoleByName(model, "photoData");
 
-    assert(m_photoDataRole != -1);
+}
+
+void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>& ids)
+{
+    m_db.exec([ids, this](Database::IBackend& backend)
+    {
+        std::vector<Photo::Data> data;
+
+        for (const auto& id: ids)
+            data.push_back(backend.getPhoto(id));
+
+        setSelected(data);
+    });;
 }
 
 
 std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() const
 {
-    const auto rows = m_selectionManager.selected();
-    std::vector<Photo::Data> datas;
-
-    for(const int& row: rows)
-    {
-        const QModelIndex idx = m_model.index(row, 0);
-        const QVariant dataVariant = idx.data(m_photoDataRole);
-        const Photo::Data data(dataVariant.value<Photo::Data>());
-
-        // TODO: it is valid situation for id to be invalid when model has not loaded all data yet
-        assert(data.id.valid());
-
-        datas.push_back(data);
-    }
-
-    return datas;
+    return m_selected;
 }
 
 
-SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const SelectionToPhotoDataTranslator& translator, QObject* p)
-    : QObject(p)
-    , m_translator(translator)
+void SelectionToPhotoDataTranslator::setSelected(const std::vector<Photo::Data>& data)
 {
-    connect(&manager, &SelectionManagerComponent::selectionChanged,
-            this, &SelectionChangeNotifier::translate);
-}
-
-
-void SelectionChangeNotifier::translate() const
-{
-    const auto datas = m_translator.getSelectedDatas();
-
-    emit selectionChanged(datas);
+    m_selected = data;
+    emit selectionChanged(m_selected);
 }

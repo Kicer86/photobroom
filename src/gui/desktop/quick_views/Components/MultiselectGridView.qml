@@ -12,8 +12,6 @@ GridView {
 
     SelectionManager {
         id: selectionManager
-
-        objectName: "selectionManager"
     }
 
     MouseArea {

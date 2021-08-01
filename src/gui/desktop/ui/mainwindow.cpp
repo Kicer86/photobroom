@@ -148,15 +148,8 @@ void MainWindow::setupQmlView()
 
     m_photosModelController->setCompleterFactory(&m_completerFactory);
 
-    SelectionManagerComponent* selectionManager =
-        qobject_cast<SelectionManagerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "selectionManager"));
-
-    m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(*selectionManager, *m_photosModelController->model());
-
-    SelectionChangeNotifier* translator = new SelectionChangeNotifier(*selectionManager, *m_selectionTranslator.get(), this);
-
-    connect(translator, &SelectionChangeNotifier::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
-    connect(translator, &SelectionChangeNotifier::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
+    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(selectedPhotos()));
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
@@ -249,6 +242,21 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             logger->info("Application is up to date");
             break;
     }
+}
+
+
+void MainWindow::selectedPhotos()
+{
+    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    QVariant selected = mainwindow->property("selectedPhotos");
+
+    const auto listOfSelected = selected.value<QJSValue>().toVariant().toList();
+    const auto selectedIds = std::ranges::views::transform(listOfSelected, [](const QVariant& item)
+    {
+        return item.value<Photo::Id>();
+    });
+
+    m_selectionTranslator->selectedPhotos({selectedIds.begin(), selectedIds.end()});
 }
 
 
@@ -378,11 +386,16 @@ void MainWindow::updateTools()
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
         m_photosAnalyzer->set(ui->tasksWidget);
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
+
+        m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(m_currentPrj->getDatabase());
+        connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
+        connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
     }
     else
     {
         m_photosAnalyzer.reset();
         m_thumbnailsManager->setDatabaseCache(nullptr);
+        m_selectionTranslator.reset();
     }
 }
 
