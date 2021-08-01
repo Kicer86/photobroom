@@ -456,12 +456,12 @@ void MainWindow::showContextMenu(const QPoint& pos)
     const std::vector<Photo::Data> selected_photos = m_selectionTranslator->getSelectedDatas();
 
     std::vector<Photo::Data> photos;
-    std::remove_copy_if(selected_photos.cbegin(),
-                        selected_photos.cend(),
-                        std::back_inserter(photos),
-                        [](const Photo::Data& photo){
-                            return QFile::exists(photo.path) == false;
-                        });
+    std::remove_copy_if(selected_photos.cbegin(), selected_photos.cend(), std::back_inserter(photos), [](const Photo::Data& photo){
+        return QFile::exists(photo.path) == false;
+    });
+
+    if (photos.empty())
+        return;
 
     QMenu contextMenu;
     QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
