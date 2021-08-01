@@ -16,7 +16,7 @@ class SelectionToPhotoDataTranslator: public QObject
         Q_OBJECT
 
     public:
-        SelectionToPhotoDataTranslator(Database::IDatabase &);
+        explicit SelectionToPhotoDataTranslator(Database::IDatabase &);
         ~SelectionToPhotoDataTranslator();
 
         void selectedPhotos(const std::vector<Photo::Id> &);
