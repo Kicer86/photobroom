@@ -149,7 +149,7 @@ void MainWindow::setupQmlView()
     m_photosModelController->setCompleterFactory(&m_completerFactory);
 
     QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(selectedPhotos()));
+    connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(photosSelected()));
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
@@ -245,7 +245,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 }
 
 
-void MainWindow::selectedPhotos()
+void MainWindow::photosSelected()
 {
     QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
     QVariant selected = mainwindow->property("selectedPhotos");
