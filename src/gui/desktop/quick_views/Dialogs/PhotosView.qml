@@ -12,6 +12,8 @@ import "DialogsComponents" as Internals
 Item {
     id: photosViewId
 
+    property var selectedPhotos: []                // list of selected photo ids
+
     PhotosModelController {
         id: photosModelControllerId
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
@@ -74,8 +76,17 @@ Item {
                 anchors.right: parent.ScrollBar.vertical.left
             }
 
-            onItemDoubleClicked: {
-                fullscreenImage.setPhoto(index);
+            onItemDoubleClicked: (index) => fullscreenImage.setPhoto(index)
+
+            onSelectedIndexesChanged: function() {
+                var ids = [];
+
+                selectedIndexes.forEach((index) => {
+                    var id = gridView.model.getId(index);
+                    ids.push(id);
+                });
+
+                selectedPhotos = ids;
             }
         }
 

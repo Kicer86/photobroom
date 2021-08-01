@@ -766,12 +766,12 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="187"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="198"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="191"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="202"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
