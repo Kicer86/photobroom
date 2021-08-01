@@ -24,15 +24,16 @@ GridView {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
             var shift = mouse.modifiers & Qt.ShiftModifier;
 
-            if (ctrl == false && shift == false)
-                selectionManager.clearSelection();
-
             var index = grid.indexAt(mouse.x, mouse.y + contentY);
 
             if (shift)
                 selectionManager.selectTo(index);
-            else
-                selectionManager.toggleIndexSelection(index);
+            else {
+                if (ctrl)
+                    selectionManager.toggleIndexSelection(index);
+                else
+                    selectionManager.clearAndToggleIndexSelection(index);
+            }
 
             grid.currentIndex = index;
 
