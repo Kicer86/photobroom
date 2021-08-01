@@ -15,6 +15,8 @@ class SelectionManagerComponent: public QObject
     public:
         explicit SelectionManagerComponent(QObject * = nullptr);
 
+        Q_PROPERTY(QList<int> selected READ selected NOTIFY selectedChanged)
+
         Q_INVOKABLE void toggleIndexSelection(int);
         Q_INVOKABLE void clearSelection();
         Q_INVOKABLE void selectTo(int);
@@ -30,6 +32,8 @@ class SelectionManagerComponent: public QObject
     signals:
         void selectionChanged(const QList<int>& unselected,
                               const QList<int>& selected) const;
+
+        void selectedChanged(const QList<int> &) const;
 };
 
 #endif // SELECTIONMANAGERCOMPONENT_HPP

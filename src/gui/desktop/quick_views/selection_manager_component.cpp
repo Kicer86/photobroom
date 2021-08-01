@@ -94,4 +94,5 @@ void SelectionManagerComponent::calculateChange(const std::set<int>& previous, c
                         std::back_inserter(selected_items));
 
     emit selectionChanged(unselected_items, selected_items);
+    emit selectedChanged( {current.begin(), current.end()} );
 }
