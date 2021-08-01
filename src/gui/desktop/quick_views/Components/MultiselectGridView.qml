@@ -20,7 +20,7 @@ GridView {
         acceptedButtons: Qt.LeftButton
         propagateComposedEvents: true
 
-        onClicked: {
+        onClicked: function(mouse) {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
             var shift = mouse.modifiers & Qt.ShiftModifier;
 
@@ -39,8 +39,10 @@ GridView {
 
             mouse.accepted = false;
         }
-        onWheel: {
+
+        onWheel: function(wheel) {
             wheel.accepted = true;
+
             if (!grid.contentItem) {
                 return;
             }
@@ -49,20 +51,24 @@ GridView {
             var newX = grid.contentX - wheel.angleDelta.x;
 
             const maxX = grid.contentItem.width - grid.width;
+
             if (newX < 0) {
                 newX = 0;
             } else if (newX > maxX) {
                 newX = maxX;
             }
+
             grid.contentX = newX;
 
             var newY = grid.contentY - wheel.angleDelta.y;
             const maxY = grid.contentItem.height - grid.height;
+
             if (newY < 0) {
                 newY = 0;
             } else if (newY > maxY) {
                 newY = maxY;
             }
+
             grid.contentY = newY;
         }
     }
