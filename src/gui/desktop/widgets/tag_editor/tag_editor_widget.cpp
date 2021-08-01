@@ -75,4 +75,6 @@ void TagEditorWidget::editPhotos(const std::vector<Photo::Data>& photos)
         ids.push_back(photo.id);
 
     m_model->setPhotos(ids);
+
+    setDisabled(photos.empty());
 }
