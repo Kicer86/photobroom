@@ -13,9 +13,18 @@ SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(Database::IDataba
 
 }
 
+
+SelectionToPhotoDataTranslator::~SelectionToPhotoDataTranslator()
+{
+    m_callbackCtrl.invalidate();
+}
+
+
 void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>& ids)
 {
-    m_db.exec([ids, this](Database::IBackend& backend)
+    m_callbackCtrl.invalidate();   // new selection, drop any pending tasks
+
+    auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
     {
         std::vector<Photo::Data> data;
 
@@ -23,7 +32,9 @@ void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>
             data.push_back(backend.getPhoto(id));
 
         setSelected(data);
-    });;
+    });
+
+    m_db.exec(db_task);
 }
 
 

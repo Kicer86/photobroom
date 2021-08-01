@@ -4,6 +4,7 @@
 
 #include <QObject>
 
+#include <core/function_wrappers.hpp>
 #include <database/photo_types.hpp>
 #include <database/photo_data.hpp>
 #include <database/idatabase.hpp>
@@ -16,12 +17,14 @@ class SelectionToPhotoDataTranslator: public QObject
 
     public:
         SelectionToPhotoDataTranslator(Database::IDatabase &);
+        ~SelectionToPhotoDataTranslator();
 
         void selectedPhotos(const std::vector<Photo::Id> &);
 
         std::vector<Photo::Data> getSelectedDatas() const;
 
     private:
+        safe_callback_ctrl m_callbackCtrl;
         std::vector<Photo::Data> m_selected;
         Database::IDatabase& m_db;
 
