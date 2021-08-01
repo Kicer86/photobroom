@@ -3,6 +3,7 @@
 #define SELECTIONTOPHOTOIDTRANSLATOR_HPP
 
 #include <QObject>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/function_wrappers.hpp>
 #include <database/photo_types.hpp>
@@ -25,7 +26,7 @@ class SelectionToPhotoDataTranslator: public QObject
 
     private:
         safe_callback_ctrl m_callbackCtrl;
-        std::vector<Photo::Data> m_selected;
+        mutable ol::ThreadSafeResource<std::vector<Photo::Data>> m_selected;
         Database::IDatabase& m_db;
 
         void setSelected(const std::vector<Photo::Data> &);

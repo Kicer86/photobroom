@@ -40,12 +40,12 @@ void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>
 
 std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() const
 {
-    return m_selected;
+    return m_selected.lock().get();
 }
 
 
 void SelectionToPhotoDataTranslator::setSelected(const std::vector<Photo::Data>& data)
 {
-    m_selected = data;
-    emit selectionChanged(m_selected);
+    *m_selected.lock() = data;
+    emit selectionChanged(data);
 }
