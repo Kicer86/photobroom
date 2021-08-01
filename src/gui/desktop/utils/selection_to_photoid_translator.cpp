@@ -22,20 +22,26 @@ SelectionToPhotoDataTranslator::~SelectionToPhotoDataTranslator()
 
 void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>& ids)
 {
-    m_callbackCtrl.invalidate();    // new selection, drop any pending tasks
-    m_selected.lock()->clear();       // new selection - drop cached data
+    m_callbackCtrl.invalidate();        // new selection, drop any pending tasks
 
-    auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
+    if (ids.empty())
+        setSelected({});
+    else
     {
-        std::vector<Photo::Data> data;
+        m_selected.lock()->clear();     // new query - drop cached data
 
-        for (const auto& id: ids)
-            data.push_back(backend.getPhoto(id));
+        auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> data;
 
-        setSelected(data);
-    });
+            for (const auto& id: ids)
+                data.push_back(backend.getPhoto(id));
 
-    m_db.exec(db_task);
+            setSelected(data);
+        });
+
+        m_db.exec(db_task);
+    }
 }
 
 
