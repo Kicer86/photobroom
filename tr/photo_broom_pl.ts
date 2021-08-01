@@ -377,7 +377,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+226"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -399,12 +399,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+128"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+107"/>
         <source>Recognize people...</source>
         <translation>Rozpoznawanie osób...</translation>
     </message>
@@ -419,12 +419,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-227"/>
+        <location line="-232"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+102"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -527,7 +527,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+37"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+48"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
@@ -552,12 +552,12 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+125"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+127"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+24"/>
         <source>Save selected photos</source>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
@@ -788,7 +788,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+187"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+198"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>

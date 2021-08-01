@@ -7,50 +7,52 @@
 #include "utils/model_index_utils.hpp"
 
 
-SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(const SelectionManagerComponent& selectionManager,
-                                                             const QAbstractItemModel& model)
-    : m_selectionManager(selectionManager)
-    , m_model(model)
-    , m_photoDataRole(-1)
+SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(Database::IDatabase& db)
+    : m_db(db)
 {
-    m_photoDataRole = utils::getRoleByName(model, "photoData");
 
-    assert(m_photoDataRole != -1);
+}
+
+
+SelectionToPhotoDataTranslator::~SelectionToPhotoDataTranslator()
+{
+    m_callbackCtrl.invalidate();
+}
+
+
+void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>& ids)
+{
+    m_callbackCtrl.invalidate();        // new selection, drop any pending tasks
+
+    if (ids.empty())
+        setSelected({});
+    else
+    {
+        m_selected.lock()->clear();     // new query - drop cached data
+
+        auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> data;
+
+            for (const auto& id: ids)
+                data.push_back(backend.getPhoto(id));
+
+            setSelected(data);
+        });
+
+        m_db.exec(db_task);
+    }
 }
 
 
 std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() const
 {
-    const auto rows = m_selectionManager.selected();
-    std::vector<Photo::Data> datas;
-
-    for(const int& row: rows)
-    {
-        const QModelIndex idx = m_model.index(row, 0);
-        const QVariant dataVariant = idx.data(m_photoDataRole);
-        const Photo::Data data(dataVariant.value<Photo::Data>());
-
-        assert(data.id.valid());
-
-        datas.push_back(data);
-    }
-
-    return datas;
+    return m_selected.lock().get();
 }
 
 
-SelectionChangeNotifier::SelectionChangeNotifier(const SelectionManagerComponent& manager, const SelectionToPhotoDataTranslator& translator, QObject* p)
-    : QObject(p)
-    , m_translator(translator)
+void SelectionToPhotoDataTranslator::setSelected(const std::vector<Photo::Data>& data)
 {
-    connect(&manager, &SelectionManagerComponent::selectionChanged,
-            this, &SelectionChangeNotifier::translate);
-}
-
-
-void SelectionChangeNotifier::translate() const
-{
-    const auto datas = m_translator.getSelectedDatas();
-
-    emit selectionChanged(datas);
+    *m_selected.lock() = data;
+    emit selectionChanged(data);
 }

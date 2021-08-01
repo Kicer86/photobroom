@@ -9,17 +9,27 @@ SwipeView {
     objectName: "MainWindow"
 
     property bool projectOpened: false
+    property var selectedPhotos: []
 
     anchors.fill: parent
 
     interactive: false
 
+    onCurrentIndexChanged: {
+        selectedPhotos = [];            // reset selected photos when view changes
+    }
+
+    // main view
     Column {
         PhotosView {
             enabled: projectOpened
 
             width: parent.width
             height: parent.height - notifications.height
+
+            onSelectedPhotosChanged: {
+                mainWindow.selectedPhotos = selectedPhotos;
+            }
         }
 
         Internals.NotificationsBar {
@@ -29,6 +39,7 @@ SwipeView {
         }
     }
 
+    // photo data completion view
     Item {
 
         Button {
@@ -46,6 +57,10 @@ SwipeView {
             width: parent.width
             anchors.bottom: parent.bottom
             anchors.top: backButton.bottom
+
+            onSelectedPhotoChanged: {
+                mainWindow.selectedPhotos = [ selectedPhoto ];
+            }
         }
     }
 }

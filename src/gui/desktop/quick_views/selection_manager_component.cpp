@@ -10,24 +10,22 @@ SelectionManagerComponent::SelectionManagerComponent(QObject* p)
 }
 
 
+void SelectionManagerComponent::clearAndToggleIndexSelection(int index)
+{
+    const auto previous = m_selected;
+
+    clear();
+    toggle(index);
+
+    calculateChange(previous, m_selected);
+}
+
+
 void SelectionManagerComponent::toggleIndexSelection(int index)
 {
     const auto previous = m_selected;
 
-    if (index >= 0)
-    {
-        auto it = m_selected.find(index);
-
-        if (it == m_selected.end())
-        {
-            m_selected.insert(index);
-            m_previouslySelected = index;
-        }
-        else
-            m_selected.erase(it);
-    }
-    else
-        m_selected.clear();
+    toggle(index);
 
     calculateChange(previous, m_selected);
 }
@@ -37,8 +35,7 @@ void SelectionManagerComponent::clearSelection()
 {
     const auto previous = m_selected;
 
-    m_previouslySelected = -1;
-    m_selected.clear();
+    clear();
 
     calculateChange(previous, m_selected);
 }
@@ -61,7 +58,6 @@ void SelectionManagerComponent::selectTo(int index)
             m_selected.insert(i);
     }
 
-
     calculateChange(previous, m_selected);
 }
 
@@ -76,12 +72,7 @@ bool SelectionManagerComponent::isIndexSelected(int index) const
 
 QList<int> SelectionManagerComponent::selected() const
 {
-    QList<int> result;    // todo: use constructor after switch to Qt 5.14
-
-    for (const auto& v: m_selected)
-        result.append(v);
-
-    return result;
+    return QList<int>(m_selected.begin(), m_selected.end());
 }
 
 
@@ -99,4 +90,31 @@ void SelectionManagerComponent::calculateChange(const std::set<int>& previous, c
                         std::back_inserter(selected_items));
 
     emit selectionChanged(unselected_items, selected_items);
+    emit selectedChanged( {current.begin(), current.end()} );
+}
+
+
+void SelectionManagerComponent::toggle(int index)
+{
+    if (index >= 0)
+    {
+        auto it = m_selected.find(index);
+
+        if (it == m_selected.end())
+        {
+            m_selected.insert(index);
+            m_previouslySelected = index;
+        }
+        else
+            m_selected.erase(it);
+    }
+    else
+        m_selected.clear();
+}
+
+
+void SelectionManagerComponent::clear()
+{
+    m_previouslySelected = -1;
+    m_selected.clear();
 }

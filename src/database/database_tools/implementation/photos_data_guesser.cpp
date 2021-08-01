@@ -84,6 +84,12 @@ void PhotosDataGuesser::applyBut(const QList<int>& excluded)
 }
 
 
+Photo::Id PhotosDataGuesser::getId(int row) const
+{
+    return m_photos[row].photoData.getId();
+}
+
+
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
     const auto& photo = m_photos[index.row()];

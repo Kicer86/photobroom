@@ -143,6 +143,7 @@ class MainWindow: public QMainWindow, public INotifications
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
+        void photosSelected();
 
     signals:
         void currentDatabaseChanged(Database::IDatabase *);          // emit when database is opened/closed

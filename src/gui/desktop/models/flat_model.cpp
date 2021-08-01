@@ -197,6 +197,12 @@ QUrl FlatModel::getPhotoPath(int row) const
 }
 
 
+Photo::Id FlatModel::getId(int row) const
+{
+    return m_photos[row];
+}
+
+
 void FlatModel::reloadPhotos()
 {
     resetModel();

@@ -3,44 +3,37 @@
 #define SELECTIONTOPHOTOIDTRANSLATOR_HPP
 
 #include <QObject>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
+#include <core/function_wrappers.hpp>
 #include <database/photo_types.hpp>
 #include <database/photo_data.hpp>
+#include <database/idatabase.hpp>
 #include "quick_views/selection_manager_component.hpp"
 
 
-class QAbstractItemModel;
-class QItemSelectionModel;
-
-
-class SelectionToPhotoDataTranslator
-{
-    public:
-        SelectionToPhotoDataTranslator(const SelectionManagerComponent &, const QAbstractItemModel& model);
-
-        std::vector<Photo::Data> getSelectedDatas() const;
-
-    private:
-        const SelectionManagerComponent& m_selectionManager;
-        const QAbstractItemModel& m_model;
-        int m_photoDataRole;
-};
-
-
-class SelectionChangeNotifier: public QObject
+class SelectionToPhotoDataTranslator: public QObject
 {
         Q_OBJECT
 
     public:
-        SelectionChangeNotifier(const SelectionManagerComponent &, const SelectionToPhotoDataTranslator &, QObject* = nullptr);
+        explicit SelectionToPhotoDataTranslator(Database::IDatabase &);
+        ~SelectionToPhotoDataTranslator();
+
+        void selectedPhotos(const std::vector<Photo::Id> &);
+
+        std::vector<Photo::Data> getSelectedDatas() const;
+
+    private:
+        safe_callback_ctrl m_callbackCtrl;
+        mutable ol::ThreadSafeResource<std::vector<Photo::Data>> m_selected;
+        Database::IDatabase& m_db;
+
+        void setSelected(const std::vector<Photo::Data> &);
 
     signals:
         void selectionChanged(const std::vector<Photo::Data> &) const;
-
-    private:
-        const SelectionToPhotoDataTranslator& m_translator;
-
-        void translate() const;
 };
 
-#endif // SELECTIONTOPHOTOIDTRANSLATOR_HPP
+
+#endif

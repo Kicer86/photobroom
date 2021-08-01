@@ -8,10 +8,10 @@ import photo_broom.qml 1.0
 GridView {
     id: grid
 
+    property alias selectedIndexes: selectionManager.selected
+
     SelectionManager {
         id: selectionManager
-
-        objectName: "selectionManager"
     }
 
     MouseArea {
@@ -20,26 +20,29 @@ GridView {
         acceptedButtons: Qt.LeftButton
         propagateComposedEvents: true
 
-        onClicked: {
+        onClicked: function(mouse) {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
             var shift = mouse.modifiers & Qt.ShiftModifier;
-
-            if (ctrl == false && shift == false)
-                selectionManager.clearSelection();
 
             var index = grid.indexAt(mouse.x, mouse.y + contentY);
 
             if (shift)
                 selectionManager.selectTo(index);
-            else
-                selectionManager.toggleIndexSelection(index);
+            else {
+                if (ctrl)
+                    selectionManager.toggleIndexSelection(index);
+                else
+                    selectionManager.clearAndToggleIndexSelection(index);
+            }
 
             grid.currentIndex = index;
 
             mouse.accepted = false;
         }
-        onWheel: {
+
+        onWheel: function(wheel) {
             wheel.accepted = true;
+
             if (!grid.contentItem) {
                 return;
             }
@@ -48,20 +51,24 @@ GridView {
             var newX = grid.contentX - wheel.angleDelta.x;
 
             const maxX = grid.contentItem.width - grid.width;
+
             if (newX < 0) {
                 newX = 0;
             } else if (newX > maxX) {
                 newX = maxX;
             }
+
             grid.contentX = newX;
 
             var newY = grid.contentY - wheel.angleDelta.y;
             const maxY = grid.contentItem.height - grid.height;
+
             if (newY < 0) {
                 newY = 0;
             } else if (newY > maxY) {
                 newY = maxY;
             }
+
             grid.contentY = newY;
         }
     }
