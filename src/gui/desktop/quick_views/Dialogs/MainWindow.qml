@@ -9,6 +9,7 @@ SwipeView {
     objectName: "MainWindow"
 
     property bool projectOpened: false
+    property var selectedPhotos: []
 
     anchors.fill: parent
 
@@ -21,6 +22,10 @@ SwipeView {
 
             width: parent.width
             height: parent.height - notifications.height
+
+            onSelectedPhotosChanged: {
+                mainWindow.selectedPhotos = selectedPhotos;
+            }
         }
 
         Internals.NotificationsBar {
@@ -48,6 +53,10 @@ SwipeView {
             width: parent.width
             anchors.bottom: parent.bottom
             anchors.top: backButton.bottom
+
+            onSelectedPhotoChanged: {
+                mainWindow.selectedPhotos = [ selectedPhoto ];
+            }
         }
     }
 }
