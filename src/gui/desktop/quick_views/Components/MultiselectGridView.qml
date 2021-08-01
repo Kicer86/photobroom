@@ -8,6 +8,8 @@ import photo_broom.qml 1.0
 GridView {
     id: grid
 
+    property alias selectedIndexes: selectionManager.selected
+
     SelectionManager {
         id: selectionManager
 
