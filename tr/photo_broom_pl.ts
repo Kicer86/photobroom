@@ -552,12 +552,12 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+125"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+127"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+24"/>
         <source>Save selected photos</source>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>

@@ -9,6 +9,8 @@ Item {
     id: root
     state: "information"
 
+    property var selectedPhoto: []      // selected photo
+
     function reloadModel() {
         delegateState.clear();
         dataSource.performAnalysis();
@@ -134,6 +136,10 @@ Item {
         }
 
         ScrollBar.vertical: ScrollBar {}
+
+        onCurrentIndexChanged: {
+            root.selectedPhoto = dataSource.getId(currentIndex);
+        }
     }
 
     Button {

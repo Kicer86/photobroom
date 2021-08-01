@@ -534,27 +534,27 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="125"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="127"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="145"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="151"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="161"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="167"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="168"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="174"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="175"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="181"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
         <translation>
@@ -563,7 +563,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="182"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="188"/>
         <source>Saving results</source>
         <translation>Saving results</translation>
     </message>
