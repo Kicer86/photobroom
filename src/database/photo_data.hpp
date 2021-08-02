@@ -113,6 +113,7 @@ namespace Photo
             DataDelta(): m_id(), m_data() {}
 
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+            explicit DataDelta(const Data& oldData, const Data& newData);
             explicit DataDelta(const Data &);
 
             template<Field field>
