@@ -22,6 +22,7 @@
 
 #include <variant>
 #include <QImage>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/tag.hpp>
 
@@ -168,6 +169,8 @@ namespace Photo
             Storage& get(Field);
     };
 
+    using SafeData = ol::ThreadSafeResource<Data>;
+    using SharedData = std::shared_ptr<SafeData>;
 }
 
 #endif // PHOTO_DATA_HPP
