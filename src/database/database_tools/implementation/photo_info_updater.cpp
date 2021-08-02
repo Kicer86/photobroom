@@ -73,9 +73,7 @@ namespace
 
         virtual void perform() override
         {
-            auto photoDelta = m_photoInfo->lock();
-
-            QFile file(photoDelta->path);
+            QFile file(m_photoInfo->lock()->path);
             bool status = file.open(QFile::ReadOnly);
             assert(status);
 
@@ -88,6 +86,7 @@ namespace
 
             assert(hexHash.isEmpty() == false);
 
+            auto photoDelta = m_photoInfo->lock();
             photoDelta->sha256Sum = hexHash;
             photoDelta->flags[Photo::FlagsE::Sha256Loaded] = 1;
         }
@@ -114,10 +113,9 @@ namespace
 
         virtual void perform() override
         {
+            const std::optional<QSize> size = m_mediaInformation->size(m_photoInfo->lock()->path);
+
             auto photoDelta = m_photoInfo->lock();
-
-            const std::optional<QSize> size = m_mediaInformation->size(photoDelta->path);
-
             if (size.has_value())
             {
                 photoDelta->geometry = *size;
@@ -157,10 +155,11 @@ namespace
         virtual void perform() override
         {
             IExifReader& feeder = m_exifReaderFactory.get();
-            auto photoDelta = m_photoInfo->lock();
 
             // collect data
-            const Tag::TagsList new_tags = feeder.getTagsFor(photoDelta->path);
+            const Tag::TagsList new_tags = feeder.getTagsFor(m_photoInfo->lock()->path);
+
+            auto photoDelta = m_photoInfo->lock();
             const Tag::TagsList& cur_tags = photoDelta->tags;
 
             // merge new_tags with cur_tags
