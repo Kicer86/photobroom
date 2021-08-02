@@ -12,7 +12,7 @@ class DataFromPathExtractor
     public:
         DataFromPathExtractor();
 
-        Tag::TagsList extract(const QString& path);
+        Tag::TagsList extract(const QString& path) const;
 
     private:
         QRegularExpression m_expr;

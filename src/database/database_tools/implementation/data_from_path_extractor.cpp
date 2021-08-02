@@ -13,7 +13,7 @@ DataFromPathExtractor::DataFromPathExtractor()
 }
 
 
-Tag::TagsList DataFromPathExtractor::extract(const QString& path)
+Tag::TagsList DataFromPathExtractor::extract(const QString& path) const
 {
     auto matchIt = m_expr.globalMatch(path);
 
