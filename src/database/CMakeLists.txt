@@ -56,6 +56,8 @@ set(DATABASE_SOURCES
     database_tools/signal_mapper.hpp
     database_tools/tag_info_collector.hpp
 
+    database_tools/implementation/data_from_path_extractor.cpp
+    database_tools/implementation/data_from_path_extractor.hpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_info_updater.hpp
