@@ -631,7 +631,7 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="173"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="167"/>
         <source>Loading photos data...</source>
         <translation>Loading photos data...</translation>
     </message>

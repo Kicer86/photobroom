@@ -47,8 +47,6 @@ class PhotosAnalyzerImpl: public QObject
 
         void set(ITasksView* tasksView);
 
-        Database::IDatabase& getDatabase();
-
         void stop();
 
     private:

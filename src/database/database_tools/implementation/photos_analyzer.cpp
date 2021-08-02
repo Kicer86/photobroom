@@ -87,12 +87,6 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 }
 
 
-Database::IDatabase& PhotosAnalyzerImpl::getDatabase()
-{
-    return m_database;
-}
-
-
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
     m_photosToUpdate.insert(m_photosToUpdate.end(), ids.begin(), ids.end());
