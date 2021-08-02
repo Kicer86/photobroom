@@ -39,7 +39,7 @@ namespace Database
             Q_OBJECT
 
 #ifndef STATIC_PLUGINS
-            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "mysql_backend.json");
+            Q_PLUGIN_METADATA(IID DatabasePluginInterface_iid FILE "mysql_backend.json")
             Q_INTERFACES(Database::IPlugin);   //'Database' namespace is obligatory
 #endif
 
