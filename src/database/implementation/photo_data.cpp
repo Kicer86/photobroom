@@ -54,6 +54,8 @@ namespace Photo
     {
         assert(oldData.id == newData.id);
 
+        setId(oldData.id);
+
         if (oldData.flags != newData.flags)
         {
             FlagValues diffFlags;
