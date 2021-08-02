@@ -133,11 +133,24 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 {
     for(const auto& photo: photos)
     {
+        Photo::SharedData sharedDelta(new Photo::SafeData(photo), [oldPhotoData = photo, this](Photo::SafeData* safeData)
+        {
+            const Photo::Data newPhotoData = *safeData->lock();
+            const Photo::DataDelta delta(oldPhotoData, newPhotoData);
+
+            m_database.exec([delta](Database::IBackend& backend)
+            {
+                backend.update( {delta} );
+            });
+
+            delete safeData;
+        });
+
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
-            m_updater.updateGeometry(photo);
+            m_updater.updateGeometry(sharedDelta);
 
         if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
-            m_updater.updateTags(photo);
+            m_updater.updateTags(sharedDelta);
     }
 
     m_loadingPhotos = false;

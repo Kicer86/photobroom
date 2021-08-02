@@ -54,15 +54,14 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     photo.tags = { {TagTypes::Event, TagValue::fromType<TagTypes::Event>("qweasd")}, {TagTypes::Rating, 5} };
 
     // expected state after calling updater
-    Photo::DataDelta photoDelta(photo.id);
-    photoDelta.insert<Photo::Field::Tags>(photo.tags);
-    photoDelta.insert<Photo::Field::Flags>(photo.flags);
-    photoDelta.get<Photo::Field::Flags>().emplace(Photo::FlagsE::ExifLoaded, 1);
-
-    // expect database update for given photo
-    const std::vector<Photo::DataDelta> expectedUpdate{photoDelta};
-    EXPECT_CALL(backend, update(expectedUpdate));
+    Photo::Data newPhotoData(photo);
+    newPhotoData.flags[Photo::FlagsE::ExifLoaded] = 1;
 
     PhotoInfoUpdater updater(&coreFactory, db);
-    updater.updateTags(photo);
+
+    Photo::SharedData sharedData = std::make_shared<Photo::SafeData>(photo);
+    updater.updateTags(sharedData);
+
+    const auto lockedData = sharedData->lock();
+    EXPECT_EQ(*lockedData, newPhotoData);
 }

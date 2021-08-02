@@ -27,7 +27,9 @@
 
 struct UpdaterTask: ITaskExecutor::ITask
 {
-    UpdaterTask(PhotoInfoUpdater* updater): m_updater(updater)
+    UpdaterTask(PhotoInfoUpdater* updater, const Photo::SharedData& delta)
+        : m_updater(updater)
+        , m_photoInfo(delta)
     {
 
     }
@@ -35,11 +37,6 @@ struct UpdaterTask: ITaskExecutor::ITask
     virtual ~UpdaterTask()
     {
         m_updater->taskFinished(this);
-    }
-
-    void apply(const Photo::DataDelta& delta)
-    {
-        invokeMethod(m_updater, &PhotoInfoUpdater::apply, delta);
     }
 
     void apply(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
@@ -51,6 +48,7 @@ struct UpdaterTask: ITaskExecutor::ITask
     UpdaterTask& operator=(const UpdaterTask &) = delete;
 
     PhotoInfoUpdater* m_updater;
+    Photo::SharedData m_photoInfo;
 };
 
 
@@ -60,9 +58,8 @@ namespace
     struct Sha256Assigner: UpdaterTask
     {
         Sha256Assigner(PhotoInfoUpdater* updater,
-                       const Photo::Data& photoInfo):
-            UpdaterTask(updater),
-            m_photoInfo(photoInfo)
+                       const Photo::SharedData& photoInfo)
+            : UpdaterTask(updater, photoInfo)
         {
         }
 
@@ -76,7 +73,9 @@ namespace
 
         virtual void perform() override
         {
-            QFile file(m_photoInfo.path);
+            auto photoDelta = m_photoInfo->lock();
+
+            QFile file(photoDelta->path);
             bool status = file.open(QFile::ReadOnly);
             assert(status);
 
@@ -89,14 +88,9 @@ namespace
 
             assert(hexHash.isEmpty() == false);
 
-            Photo::DataDelta delta(m_photoInfo.id);
-            delta.insert<Photo::Field::Checksum>(hexHash);
-            delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::Sha256Loaded, 1}} );
-
-            apply(delta);
+            photoDelta->sha256Sum = hexHash;
+            photoDelta->flags[Photo::FlagsE::Sha256Loaded] = 1;
         }
-
-        Photo::Data m_photoInfo;
     };
 
 
@@ -104,10 +98,9 @@ namespace
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
                          IMediaInformation* photoInformation,
-                         const Photo::Data& photoInfo):
-            UpdaterTask(updater),
-            m_photoInfo(photoInfo),
-            m_mediaInformation(photoInformation)
+                         const Photo::SharedData& photoInfo)
+            : UpdaterTask(updater, photoInfo)
+            , m_mediaInformation(photoInformation)
         {
         }
 
@@ -121,38 +114,35 @@ namespace
 
         virtual void perform() override
         {
-            const std::optional<QSize> size = m_mediaInformation->size(m_photoInfo.path);
+            auto photoDelta = m_photoInfo->lock();
+
+            const std::optional<QSize> size = m_mediaInformation->size(photoDelta->path);
 
             if (size.has_value())
             {
-                Photo::DataDelta delta(m_photoInfo.id);
-                delta.insert<Photo::Field::Geometry>(*size);
-                delta.insert<Photo::Field::Flags>( {{Photo::FlagsE::GeometryLoaded, 1}} );
+                photoDelta->geometry = *size;
+                photoDelta->flags[Photo::FlagsE::GeometryLoaded] = 1;
 
-                apply(delta);
             }
             else
             {
-                Photo::DataDelta delta(m_photoInfo.id);
-
-                apply(m_photoInfo.id, {
+                apply(photoDelta->id,
+                {
                     Database::CommonGeneralFlags::State,
                     static_cast<int>(Database::CommonGeneralFlags::StateType::Broken)
                 });
             }
         }
 
-        Photo::Data m_photoInfo;
         IMediaInformation* m_mediaInformation;
     };
 
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, IExifReaderFactory& exifReaderFactory, const Photo::Data& photoInfo):
-            UpdaterTask(updater),
-            m_photoInfo(photoInfo),
-            m_exifReaderFactory(exifReaderFactory)
+        TagsCollector(PhotoInfoUpdater* updater, IExifReaderFactory& exifReaderFactory, const Photo::SharedData& photoInfo)
+            : UpdaterTask(updater, photoInfo)
+            , m_exifReaderFactory(exifReaderFactory)
         {
         }
 
@@ -167,11 +157,11 @@ namespace
         virtual void perform() override
         {
             IExifReader& feeder = m_exifReaderFactory.get();
+            auto photoDelta = m_photoInfo->lock();
 
             // collect data
-            const Tag::TagsList new_tags = feeder.getTagsFor(m_photoInfo.path);
-            const Tag::TagsList cur_tags = m_photoInfo.tags;
-            Photo::FlagValues cur_flags = m_photoInfo.flags;
+            const Tag::TagsList new_tags = feeder.getTagsFor(photoDelta->path);
+            const Tag::TagsList& cur_tags = photoDelta->tags;
 
             // merge new_tags with cur_tags
             Tag::TagsList tags = cur_tags;
@@ -184,19 +174,10 @@ namespace
                     tags.insert(entry);
             }
 
-            // update flags
-            Photo::FlagValues flags = cur_flags;
-            flags[Photo::FlagsE::ExifLoaded] = 1;
-
-            // store new data
-            Photo::DataDelta delta(m_photoInfo.id);
-            delta.insert<Photo::Field::Tags>(tags);
-            delta.insert<Photo::Field::Flags>(flags);
-
-            apply(delta);
+            photoDelta->flags[Photo::FlagsE::ExifLoaded] = 1;
+            photoDelta->tags = tags;
         }
 
-        Photo::Data m_photoInfo;
         IExifReaderFactory& m_exifReaderFactory;
     };
 
@@ -208,15 +189,12 @@ PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::
     m_tasks(),
     m_tasksMutex(),
     m_finishedTask(),
-    m_threadId(std::this_thread::get_id()),
     m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db),
     m_tasksExecutor(coreFactory->getTaskExecutor())
 {
-    m_cacheFlushTimer.setSingleShot(true);
 
-    connect(&m_cacheFlushTimer, &QTimer::timeout, this, &PhotoInfoUpdater::flushCache);
 }
 
 
@@ -226,7 +204,7 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 }
 
 
-void PhotoInfoUpdater::updateSha256(const Photo::Data& photoInfo)
+void PhotoInfoUpdater::updateSha256(const Photo::SharedData& photoInfo)
 {
     auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
 
@@ -234,7 +212,7 @@ void PhotoInfoUpdater::updateSha256(const Photo::Data& photoInfo)
 }
 
 
-void PhotoInfoUpdater::updateGeometry(const Photo::Data& photoInfo)
+void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 {
     auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
 
@@ -242,7 +220,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::Data& photoInfo)
 }
 
 
-void PhotoInfoUpdater::updateTags(const Photo::Data& photoInfo)
+void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 {
     auto task = std::make_unique<TagsCollector>(this, m_coreFactory->getExifReaderFactory(), photoInfo);
 
@@ -264,8 +242,6 @@ void PhotoInfoUpdater::waitForActiveTasks()
     {
         return m_tasks.empty();
     });
-
-    flushCache();
 }
 
 
@@ -293,52 +269,10 @@ void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
 }
 
 
-void PhotoInfoUpdater::apply(const Photo::DataDelta& delta)
-{
-    assert(m_threadId == std::this_thread::get_id());
-
-    m_touchedPhotos[delta.getId()] |= delta;
-
-    // when cache has too many changes, let timer fire to flush cache
-    const bool runs = m_cacheFlushTimer.isActive();
-    const bool canKick = m_cacheFlushTimer.interval() - m_cacheFlushTimer.remainingTime() > 1000; // time since last kick > 1s?
-    const std::size_t count = m_touchedPhotos.size();
-
-    if (count < 500 && (runs == false || canKick))
-    {
-        resetFlushTimer();
-        m_logger->debug(QString("Restarting flush timer. %1 photos waiting for flush").arg(count));
-    }
-}
-
-
 void PhotoInfoUpdater::applyFlags(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
 {
     m_db.exec([id, generic_flag](Database::IBackend& db)
     {
         db.set(id, generic_flag.first, generic_flag.second);
     });
-}
-
-
-void PhotoInfoUpdater::flushCache()
-{
-    if (m_touchedPhotos.empty() == false)
-    {
-        m_logger->debug(QString("Sending %1 photos to update").arg(m_touchedPhotos.size()));
-
-        m_db.exec([delta = std::move(m_touchedPhotos)](Database::IBackend& db)
-        {
-            const auto deltaValues = std::views::values(delta);
-            const std::vector<Photo::DataDelta> vectorOfDeltas(deltaValues.begin(), deltaValues.end());
-
-            db.update(vectorOfDeltas);
-        });
-    }
-}
-
-
-void PhotoInfoUpdater::resetFlushTimer()
-{
-    m_cacheFlushTimer.start(5000);
 }
