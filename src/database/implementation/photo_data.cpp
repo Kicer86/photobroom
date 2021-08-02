@@ -57,15 +57,7 @@ namespace Photo
         setId(oldData.id);
 
         if (oldData.flags != newData.flags)
-        {
-            FlagValues diffFlags;
-
-            std::set_difference(newData.flags.begin(), newData.flags.end(),
-                                oldData.flags.begin(), oldData.flags.end(),
-                                std::inserter(diffFlags, diffFlags.end()));
-
-            insert<Photo::Field::Flags>(diffFlags);
-        }
+            insert<Photo::Field::Flags>(newData.flags);
 
         if (oldData.geometry != newData.geometry)
             insert<Photo::Field::Geometry>(newData.geometry);

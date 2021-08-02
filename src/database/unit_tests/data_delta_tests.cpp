@@ -97,7 +97,9 @@ TEST(DataDeltaTest, DataDiff)
     Photo::DataDelta d2(oldData, newData2);
 
     EXPECT_EQ(d1.getId(), oldData.id);
-    EXPECT_THAT(d1.get<Photo::Field::Flags>(), UnorderedElementsAre( std::pair{Photo::FlagsE::Sha256Loaded, 1}, std::pair{Photo::FlagsE::ExifLoaded, 0} ));
+    EXPECT_THAT(d1.get<Photo::Field::Flags>(), UnorderedElementsAre( std::pair{Photo::FlagsE::GeometryLoaded, 2},
+                                                                     std::pair{Photo::FlagsE::Sha256Loaded, 1},
+                                                                     std::pair{Photo::FlagsE::ExifLoaded, 0} ));
     EXPECT_EQ(d1.get<Photo::Field::Geometry>(), QSize(200, 200));
     EXPECT_EQ(d1.get<Photo::Field::GroupInfo>(), GroupInfo(Group::Id(6), GroupInfo::Member));
     EXPECT_EQ(d1.get<Photo::Field::Path>(), "12345");
