@@ -106,7 +106,7 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 
 int SeriesModel::rowCount(const QModelIndex& parent) const
 {
-    return m_candidates.size();
+    return parent.isValid()? 0: m_candidates.size();
 }
 
 
