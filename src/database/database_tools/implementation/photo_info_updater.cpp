@@ -113,7 +113,8 @@ namespace
 
         virtual void perform() override
         {
-            const std::optional<QSize> size = m_mediaInformation->size(m_photoInfo->lock()->path);
+            const QString path = m_photoInfo->lock()->path;
+            const std::optional<QSize> size = m_mediaInformation->size(path);
 
             auto photoDelta = m_photoInfo->lock();
             if (size.has_value())
@@ -157,7 +158,8 @@ namespace
             IExifReader& feeder = m_exifReaderFactory.get();
 
             // collect data
-            const Tag::TagsList new_tags = feeder.getTagsFor(m_photoInfo->lock()->path);
+            const QString path = m_photoInfo->lock()->path;
+            const Tag::TagsList new_tags = feeder.getTagsFor(path);
 
             auto photoDelta = m_photoInfo->lock();
             const Tag::TagsList& cur_tags = photoDelta->tags;
