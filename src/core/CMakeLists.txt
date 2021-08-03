@@ -35,6 +35,7 @@ set(CORE_SOURCES
     task_executor_traits.hpp
 
     #utilities
+    accumulative_queue.hpp
     base_tags.hpp                                           implementation/base_tags.cpp
     configuration.hpp                                       implementation/configuration.cpp
     constants.hpp                                           implementation/constants.cpp
