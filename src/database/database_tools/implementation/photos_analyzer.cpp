@@ -27,9 +27,14 @@
 #include "../photos_analyzer.hpp"
 
 
+using namespace std::chrono_literals;
+using namespace std::placeholders;
+
+
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_updater(coreFactory, database),
     m_timer(),
+    m_updateQueue(1000, 5s, std::bind(&PhotosAnalyzerImpl::flushQueue, this, _1, _2)),
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
@@ -127,18 +132,8 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 {
     for(const auto& photo: photos)
     {
-        Photo::SharedData sharedDelta(new Photo::SafeData(photo), [oldPhotoData = photo, this](Photo::SafeData* safeData)
-        {
-            const Photo::Data newPhotoData = *safeData->lock();
-            const Photo::DataDelta delta(oldPhotoData, newPhotoData);
-
-            m_database.exec([delta](Database::IBackend& backend)
-            {
-                backend.update( {delta} );
-            });
-
-            delete safeData;
-        });
+        auto storage = make_cross_thread_function<Photo::SafeData *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, photo, _1));
+        Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
 
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
             m_updater.updateGeometry(sharedDelta);
@@ -148,6 +143,28 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
     }
 
     m_loadingPhotos = false;
+}
+
+
+void PhotosAnalyzerImpl::photoUpdated(const Photo::Data& oldPhotoData, Photo::SafeData* safeData)
+{
+    const Photo::Data newPhotoData = *safeData->lock();
+    const Photo::DataDelta delta(oldPhotoData, newPhotoData);
+
+    m_updateQueue.push(delta);
+
+    delete safeData;
+}
+
+
+void PhotosAnalyzerImpl::flushQueue(PhotosQueue::ContainerIt first, PhotosQueue::ContainerIt last)
+{
+    std::vector<Photo::DataDelta> toFlush(first, last);
+
+    m_database.exec([toFlush](Database::IBackend& backend)
+    {
+        backend.update(toFlush);
+    });
 }
 
 
