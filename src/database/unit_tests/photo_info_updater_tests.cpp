@@ -57,7 +57,7 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     Photo::Data newPhotoData(photo);
     newPhotoData.flags[Photo::FlagsE::ExifLoaded] = 1;
 
-    PhotoInfoUpdater updater(&coreFactory, db);
+    PhotoInfoUpdater updater(taskExecutor, &coreFactory, db);
 
     Photo::SharedData sharedData = std::make_shared<Photo::SafeData>(photo);
     updater.updateTags(sharedData);

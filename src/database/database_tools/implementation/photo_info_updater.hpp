@@ -19,10 +19,8 @@ struct UpdaterTask;
 //TODO: construct photo manualy. Add fillers manualy on demand
 class PhotoInfoUpdater final: public QObject
 {
-        Q_OBJECT
-
     public:
-        explicit PhotoInfoUpdater(ICoreFactoryAccessor *, Database::IDatabase& db);
+        explicit PhotoInfoUpdater(ITaskExecutor &, ICoreFactoryAccessor *, Database::IDatabase& db);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -32,27 +30,17 @@ class PhotoInfoUpdater final: public QObject
         void updateGeometry(const Photo::SharedData &);
         void updateTags(const Photo::SharedData &);
 
-        int tasksInProgress();
-        void waitForActiveTasks();
-
     private:
         friend struct UpdaterTask;
 
         MediaInformation m_mediaInformation;
-        std::set<UpdaterTask *> m_tasks;
-        std::mutex m_tasksMutex;
-        std::condition_variable m_finishedTask;
         std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase& m_db;
         ITaskExecutor& m_tasksExecutor;
 
         void addTask(std::unique_ptr<UpdaterTask>);
-        void taskFinished(UpdaterTask *);
         void applyFlags(const Photo::Id &, const std::pair<QString, int>& generic_flag);
-
-    signals:
-        void photoProcessed();
 };
 
 #endif

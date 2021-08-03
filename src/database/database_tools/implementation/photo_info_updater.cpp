@@ -36,7 +36,7 @@ struct UpdaterTask: ITaskExecutor::ITask
 
     virtual ~UpdaterTask()
     {
-        m_updater->taskFinished(this);
+
     }
 
     void apply(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
@@ -185,15 +185,12 @@ namespace
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
+PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
     m_mediaInformation(coreFactory),
-    m_tasks(),
-    m_tasksMutex(),
-    m_finishedTask(),
     m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db),
-    m_tasksExecutor(coreFactory->getTaskExecutor())
+    m_tasksExecutor(executor)
 {
 
 }
@@ -201,7 +198,7 @@ PhotoInfoUpdater::PhotoInfoUpdater(ICoreFactoryAccessor* coreFactory, Database::
 
 PhotoInfoUpdater::~PhotoInfoUpdater()
 {
-    waitForActiveTasks();
+
 }
 
 
@@ -229,44 +226,9 @@ void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 }
 
 
-int PhotoInfoUpdater::tasksInProgress()
-{
-    return static_cast<int>(m_tasks.size());
-}
-
-
-
-void PhotoInfoUpdater::waitForActiveTasks()
-{
-    std::unique_lock<std::mutex> lock(m_tasksMutex);
-    m_finishedTask.wait(lock, [&]
-    {
-        return m_tasks.empty();
-    });
-}
-
-
 void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 {
-    {
-        std::lock_guard<std::mutex> lock(m_tasksMutex);
-        m_tasks.insert(task.get());
-    }
-
     m_tasksExecutor.add(std::move(task));
-}
-
-
-void PhotoInfoUpdater::taskFinished(UpdaterTask* task)
-{
-    {
-        std::lock_guard<std::mutex> lock(m_tasksMutex);
-        m_tasks.erase(task);
-    }
-
-    m_finishedTask.notify_one();
-
-    emit photoProcessed();
 }
 
 
