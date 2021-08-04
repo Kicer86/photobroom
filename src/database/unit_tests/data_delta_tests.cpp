@@ -68,3 +68,50 @@ TEST(DataDeltaTest, dataAndDataDeltaConversion)
     // original and recreated Datas should be equal
     EXPECT_EQ(d1, d3);
 }
+
+
+TEST(DataDeltaTest, DataDiff)
+{
+    Photo::Data oldData;
+    oldData.id = Photo::Id(15);
+    oldData.flags[Photo::FlagsE::ExifLoaded] = 1;
+    oldData.flags[Photo::FlagsE::GeometryLoaded] = 2;
+    oldData.geometry = QSize(100, 200);
+    oldData.groupInfo = GroupInfo(Group::Id(5), GroupInfo::Member);
+    oldData.path = "1234";
+    oldData.sha256Sum = "5678";
+    oldData.tags[TagTypes::Event] = QString("tttr");
+
+    Photo::Data newData1(oldData);
+    newData1.flags[Photo::FlagsE::Sha256Loaded] = 1;
+    newData1.flags[Photo::FlagsE::ExifLoaded] = 0;
+    newData1.geometry = QSize(200, 200);
+    newData1.groupInfo = GroupInfo(Group::Id(6), GroupInfo::Member);
+    newData1.path = "12345";
+    newData1.sha256Sum = "56785";
+    newData1.tags[TagTypes::Event] = QString("tttrq");
+
+    Photo::Data newData2(oldData);
+
+    Photo::DataDelta d1(oldData, newData1);
+    Photo::DataDelta d2(oldData, newData2);
+
+    EXPECT_EQ(d1.getId(), oldData.id);
+    EXPECT_THAT(d1.get<Photo::Field::Flags>(), UnorderedElementsAre( std::pair{Photo::FlagsE::GeometryLoaded, 2},
+                                                                     std::pair{Photo::FlagsE::Sha256Loaded, 1},
+                                                                     std::pair{Photo::FlagsE::ExifLoaded, 0} ));
+    EXPECT_EQ(d1.get<Photo::Field::Geometry>(), QSize(200, 200));
+    EXPECT_EQ(d1.get<Photo::Field::GroupInfo>(), GroupInfo(Group::Id(6), GroupInfo::Member));
+    EXPECT_EQ(d1.get<Photo::Field::Path>(), "12345");
+    EXPECT_EQ(d1.get<Photo::Field::Checksum>(), "56785");
+    EXPECT_THAT(d1.get<Photo::Field::Tags>(), UnorderedElementsAre( std::pair{TagTypes::Event, QString("tttrq")} ));
+
+    EXPECT_EQ(d2.getId(), oldData.id);
+    EXPECT_FALSE(d2.has(Photo::Field::Flags));
+    EXPECT_FALSE(d2.has(Photo::Field::Geometry));
+    EXPECT_FALSE(d2.has(Photo::Field::GroupInfo));
+    EXPECT_FALSE(d2.has(Photo::Field::Path));
+    EXPECT_FALSE(d2.has(Photo::Field::Checksum));
+    EXPECT_FALSE(d2.has(Photo::Field::Tags));
+}
+

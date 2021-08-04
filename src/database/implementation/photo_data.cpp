@@ -50,6 +50,40 @@ namespace Photo
     }
 
 
+    DataDelta::DataDelta(const Data& oldData, const Data& newData)
+    {
+        assert(oldData.id == newData.id);
+
+        setId(oldData.id);
+
+        if (oldData.flags != newData.flags)
+            insert<Photo::Field::Flags>(newData.flags);
+
+        if (oldData.geometry != newData.geometry)
+            insert<Photo::Field::Geometry>(newData.geometry);
+
+        if (oldData.groupInfo != newData.groupInfo)
+            insert<Photo::Field::GroupInfo>(newData.groupInfo);
+
+        if (oldData.path != newData.path)
+            insert<Photo::Field::Path>(newData.path);
+
+        if (oldData.sha256Sum != newData.sha256Sum)
+            insert<Photo::Field::Checksum>(newData.sha256Sum);
+
+        if (oldData.tags != newData.tags)
+        {
+            Tag::TagsList diffTags;
+
+            std::set_difference(newData.tags.begin(), newData.tags.end(),
+                                oldData.tags.begin(), oldData.tags.end(),
+                                std::inserter(diffTags, diffTags.end()));
+
+            insert<Photo::Field::Tags>(diffTags);
+        }
+    }
+
+
     DataDelta::DataDelta(const Photo::Data& data)
         : m_id(data.id)
     {

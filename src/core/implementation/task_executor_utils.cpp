@@ -81,12 +81,7 @@ TasksQueue::~TasksQueue()
 {
     clear();  // drop all tasks awaiting
 
-    // wait for tasks being executed
-    std::unique_lock<std::recursive_mutex> lock(m_tasksMutex);
-    m_noWork.wait(lock, [this]
-    {
-        return m_executingTasks == 0;
-    });
+    waitForPendingTasks();
 }
 
 
@@ -105,6 +100,23 @@ void TasksQueue::clear()
 {
     std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
     m_waitingTasks.clear();
+}
+
+
+std::size_t TasksQueue::size() const
+{
+    return m_waitingTasks.size();
+}
+
+
+void TasksQueue::waitForPendingTasks()
+{
+    // wait for tasks being executed
+    std::unique_lock<std::recursive_mutex> lock(m_tasksMutex);
+    m_noWork.wait(lock, [this]
+    {
+        return m_executingTasks == 0;
+    });
 }
 
 

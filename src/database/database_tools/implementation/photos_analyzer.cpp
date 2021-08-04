@@ -27,19 +27,21 @@
 #include "../photos_analyzer.hpp"
 
 
+using namespace std::chrono_literals;
+using namespace std::placeholders;
+
+
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
-    m_updater(coreFactory, database),
+    m_taskQueue(&coreFactory->getTaskExecutor()),
+    m_updater(m_taskQueue, coreFactory, database),
     m_timer(),
+    m_updateQueue(1000, 5s, std::bind(&PhotosAnalyzerImpl::flushQueue, this, _1, _2)),
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
-    m_maxTasks(0),
-    m_workers(coreFactory->getTaskExecutor().heavyWorkers()),
-    m_loadingPhotos(false)
+    m_maxTasks(0)
 {
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
-    connect(&m_updater, &PhotoInfoUpdater::photoProcessed,
-            this, &PhotosAnalyzerImpl::processPhotos);
 
     m_timer.start(500);
 
@@ -87,45 +89,18 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 }
 
 
-Database::IDatabase& PhotosAnalyzerImpl::getDatabase()
-{
-    return m_database;
-}
-
-
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    m_photosToUpdate.insert(m_photosToUpdate.end(), ids.begin(), ids.end());
-
-    processPhotos();
-}
-
-
-void PhotosAnalyzerImpl::processPhotos()
-{
-    if (m_loadingPhotos == false &&
-        m_photosToUpdate.empty() == false &&
-        m_updater.tasksInProgress() < m_workers * 2)
+    m_database.exec([ids, this](Database::IBackend& backend)
     {
-        m_loadingPhotos = true;
+        std::vector<Photo::Data> photos;
+        photos.reserve(ids.size());
 
-        std::vector<Photo::Id> photosToProcess;
-        const int toProcess = std::min(m_photosToUpdate.size(), m_workers);
+        for(const auto& id: ids)
+            photos.push_back(backend.getPhoto(id));
 
-        std::copy(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess, std::back_inserter(photosToProcess));
-        m_photosToUpdate.erase(m_photosToUpdate.begin(), m_photosToUpdate.begin() + toProcess);
-
-        m_database.exec([photosToProcess, this](Database::IBackend& backend)
-        {
-            std::vector<Photo::Data> photos;
-            photos.reserve(m_photosToUpdate.size());
-
-            for(const auto& id: photosToProcess)
-                photos.push_back(backend.getPhoto(id));
-
-            invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photos);
-        });
-    }
+        invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photos);
+    });
 }
 
 
@@ -133,33 +108,56 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 {
     for(const auto& photo: photos)
     {
+        auto storage = make_cross_thread_function<Photo::SafeData *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, photo, _1));
+        Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
+
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
-            m_updater.updateGeometry(photo);
+            m_updater.updateGeometry(sharedDelta);
 
         if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
-            m_updater.updateTags(photo);
+            m_updater.updateTags(sharedDelta);
     }
+}
 
-    m_loadingPhotos = false;
+
+void PhotosAnalyzerImpl::photoUpdated(const Photo::Data& oldPhotoData, Photo::SafeData* safeData)
+{
+    const Photo::Data newPhotoData = *safeData->lock();
+    const Photo::DataDelta delta(oldPhotoData, newPhotoData);
+
+    m_updateQueue.push(delta);
+
+    delete safeData;
+}
+
+
+void PhotosAnalyzerImpl::flushQueue(PhotosQueue::ContainerIt first, PhotosQueue::ContainerIt last)
+{
+    std::vector<Photo::DataDelta> toFlush(first, last);
+
+    m_database.exec([toFlush](Database::IBackend& backend)
+    {
+        backend.update(toFlush);
+    });
 }
 
 
 void PhotosAnalyzerImpl::stop()
 {
     disconnect(m_backendConnection);
-    m_photosToUpdate.clear();
-    m_updater.waitForActiveTasks();
+    m_taskQueue.clear();
+    m_taskQueue.waitForPendingTasks();
 }
 
 
 void PhotosAnalyzerImpl::setupRefresher()
 {
-    if (m_updater.tasksInProgress() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
+    if (m_taskQueue.size() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
     {
         m_maxTasks = 0;
         m_viewTask = m_tasksView->add(tr("Loading photos data..."));
     }
-    else if (m_updater.tasksInProgress() == 0 && m_photosToUpdate.size() == 0 && m_viewTask != nullptr)
+    else if (m_taskQueue.size() == 0 && m_viewTask != nullptr)
     {
         m_viewTask->finished();
         m_viewTask = nullptr;
@@ -173,7 +171,7 @@ void PhotosAnalyzerImpl::refreshView()
 
     if (m_viewTask != nullptr)
     {
-        const int current_size = m_photosToUpdate.size() + m_updater.tasksInProgress();
+        const std::size_t current_size = m_taskQueue.size();
         m_maxTasks = std::max(m_maxTasks, current_size);
 
         IProgressBar* progressBar = m_viewTask->getProgressBar();

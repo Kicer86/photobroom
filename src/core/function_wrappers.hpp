@@ -154,9 +154,9 @@ void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&..
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
 template<typename... Args, typename F>
-auto make_cross_thread_function(QObject* object, const F& function)
+std::function<void(Args...)> make_cross_thread_function(QObject* object, const F& function)
 {
-    std::function result = [=](Args&&... args)
+    std::function<void(Args...)> result = [=](Args&&... args)
     {
         call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
     };

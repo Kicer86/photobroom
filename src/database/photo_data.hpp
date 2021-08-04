@@ -22,6 +22,7 @@
 
 #include <variant>
 #include <QImage>
+#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/tag.hpp>
 
@@ -113,6 +114,7 @@ namespace Photo
             DataDelta(): m_id(), m_data() {}
 
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+            explicit DataDelta(const Data& oldData, const Data& newData);
             explicit DataDelta(const Data &);
 
             template<Field field>
@@ -167,6 +169,8 @@ namespace Photo
             Storage& get(Field);
     };
 
+    using SafeData = ol::ThreadSafeResource<Data>;
+    using SharedData = std::shared_ptr<SafeData>;
 }
 
 #endif // PHOTO_DATA_HPP

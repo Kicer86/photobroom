@@ -27,8 +27,10 @@
 
 #include <QTimer>
 
+#include <core/accumulative_queue.hpp>
 #include <core/itasks_view.hpp>
 #include <core/iview_task.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 
 #include "photo_info_updater.hpp"
@@ -47,27 +49,27 @@ class PhotosAnalyzerImpl: public QObject
 
         void set(ITasksView* tasksView);
 
-        Database::IDatabase& getDatabase();
-
         void stop();
 
     private:
+        using PhotosQueue = AccumulativeQueue<Photo::DataDelta>;
+
+        TasksQueue m_taskQueue;
         PhotoInfoUpdater m_updater;
         QTimer m_timer;
-        std::vector<Photo::Id> m_photosToUpdate;
+        PhotosQueue m_updateQueue;
         QMetaObject::Connection m_backendConnection;
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
-        int m_maxTasks;
-        const std::size_t m_workers;
-        bool m_loadingPhotos;
+        std::size_t m_maxTasks;
 
         void setupRefresher();
         void refreshView();
         void addPhotos(const std::vector<Photo::Id> &);
-        void processPhotos();
         void updatePhotos(const std::vector<Photo::Data> &);
+        void photoUpdated(const Photo::Data &, Photo::SafeData *);
+        void flushQueue(PhotosQueue::ContainerIt, PhotosQueue::ContainerIt);
 };
 
 #endif // PHOTOSANALYZER_PRIVATE_HPP
