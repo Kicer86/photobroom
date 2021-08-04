@@ -28,10 +28,6 @@ artifacts:
 install:
     - choco install imagemagick.app
     - refreshenv
-    - cd C:\Tools\vcpkg
-    - git pull
-    - .\bootstrap-vcpkg.bat
-    - cd %APPVEYOR_BUILD_FOLDER%
     - if exist "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2"
         ( echo "CUDA dir exists" ) ELSE
         ( echo "Downloading CUDA binaries" &&
@@ -52,7 +48,6 @@ install:
     - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
     - cmd: set VCPKG_DEFAULT_TRIPLET=x64-windows
     - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
-    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native upgrade --no-dry-run
     - cmd: set APPVEYOR_SAVE_CACHE_ON_ERROR=true
     - cmd: set APPVEYOR_CACHE_ENTRY_ZIP_ARGS=-t7z -m0=lzma -mx=9
 
