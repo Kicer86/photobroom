@@ -307,8 +307,8 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 
     m_logger.debug(QString("Validating media type took %1s").arg(timer.elapsed() / 1000));
 
-    // drop images which are not made close to another one
-    timer.start();
+    // drop images which were not made in similar time
+    timer.restart();
     std::deque<Photo::DataDelta> prefiltered;
     for(std::size_t i = 0; i < suitablePhotos.size(); i++)
     {
@@ -339,6 +339,8 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
         if (any)
             prefiltered.push_back(suitablePhotos[i]);
     }
+
+    m_logger.debug(QString("Prefiltration time: %1s").arg(timer.elapsed() / 1000));
 
     try
     {
