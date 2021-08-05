@@ -6,6 +6,7 @@
 #include "database/filter.hpp"
 #include "database/iphoto_operator.hpp"
 #include "../photos_data_guesser.hpp"
+#include "data_from_path_extractor.hpp"
 
 
 using namespace std::placeholders;
@@ -160,44 +161,31 @@ void PhotosDataGuesser::process(Database::IBackend& backend)
 
 void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
 {
-    //                                       <  NOT NUM  ><  YEAR  >     <  MONTH >     <  DAY   >[   _   <  HOUR  >     < MINUTE >     < SECOND >] < NOT NUM |E>
-    const QRegularExpression dateExpression("(?:[^0-9]+|^)([0-9]{4})[.-]?([0-9]{2})[.-]?([0-9]{2})(?:[_ ]?([0-9]{2})[.;]?([0-9]{2})[.;]?([0-9]{2}))?(?:[^0-9]+|$)");
+    static const DataFromPathExtractor extractor;
 
     std::vector<CollectedData> photos;
 
     for(const Photo::Id& id: ids)
     {
-        CollectedData data;
+        const Photo::DataDelta photoData = backend.getPhotoDelta(id, {Photo::Field::Path});
+        const auto tags = extractor.extract(photoData.get<Photo::Field::Path>());
 
-        data.photoData = backend.getPhotoDelta(id, {Photo::Field::Path});
-
-        const auto match = dateExpression.match(data.photoData.get<Photo::Field::Path>());
-        if (match.hasMatch())
+        if (tags.empty() == false)
         {
-            const QStringList captured = match.capturedTexts();
+            CollectedData data;
 
-            const int y = captured[1].toInt();
-            const int m = captured[2].toInt();
-            const int d = captured[3].toInt();
-            const QDate date(y, m, d);
+            auto it = tags.find(TagTypes::Date);
 
-            if (date.isValid())
-            {
-                data.date = date;
+            if (it != tags.end())
+                data.date = it->second.getDate();
 
-                if (captured.size() == 7)
-                {
-                    const int hh = captured[4].toInt();
-                    const int mm = captured[5].toInt();
-                    const int ss = captured[6].toInt();
-                    const QTime time(hh, mm, ss);
+            it = tags.find(TagTypes::Time);
 
-                    if (time.isValid())
-                        data.time = time;
-                }
+            if (it != tags.end())
+                data.time = it->second.getTime();
 
-                photos.push_back(data);
-            }
+            data.photoData = photoData;
+            photos.push_back(data);
         }
     }
 

@@ -19,6 +19,7 @@ addTestTarget(database
 
                     # tests:
                     unit_tests/data_delta_tests.cpp
+                    unit_tests/data_from_path_extractor_tests.cpp
                     unit_tests/db_error_tests.cpp
                     unit_tests/generic_sql_query_constructor_tests.cpp
                     unit_tests/json_to_backend_tests.cpp
