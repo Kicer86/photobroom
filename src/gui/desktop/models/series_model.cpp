@@ -5,6 +5,7 @@
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
+#include <database/database_executor_traits.hpp>
 #include <QElapsedTimer>
 #include <QPromise>
 
@@ -44,7 +45,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     std::vector<GroupCandidate> toStore;
     std::vector<GroupCandidate> left;
 
-    for(int i = 0; i < m_candidates.size(); i++)
+    for(std::size_t i = 0; i < m_candidates.size(); i++)
     {
         const auto& candidate = m_candidates[i];
 
@@ -59,7 +60,19 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     {
         runOn(executor, [group, &project = m_project]() mutable
         {
-            GroupsManager::groupIntoUnified(project, group.members);
+            const std::vector<Photo::Data> photos =
+                evaluate<std::vector<Photo::Data>(Database::IBackend &)>(project.getDatabase(), [members = group.members](Database::IBackend& backend)
+            {
+                std::vector<Photo::Data> data;
+                std::transform(members.begin(), members.end(), std::back_inserter(data), [&backend](const Photo::DataDelta& delta)
+                {
+                    return backend.getPhoto(delta.getId());
+                });
+
+                return data;
+            });
+
+            GroupsManager::groupIntoUnified(project, photos);
         },
         "unified group generation");
     }

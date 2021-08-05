@@ -55,7 +55,7 @@ class DATABASE_EXPORT SeriesDetector
         const QPromise<std::vector<GroupCandidate>>* m_promise;
         IExifReader& m_exifReader;
 
-        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::Data> &, const Rules &) const;
+        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::DataDelta> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP

@@ -7,4 +7,9 @@ namespace Photo
     {
         return data.path;
     }
+
+    const QString& getPath(const Photo::DataDelta& data)
+    {
+        return data.get<Photo::Field::Path>();
+    }
 }

@@ -55,9 +55,9 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
-            m_sequence = m_exifReader.get(d.path, IExifReader::TagType::SequenceNumber);
+            m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup()
@@ -102,10 +102,10 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(d.path, IExifReader::TagType::Exposure);
+            m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup()
@@ -149,9 +149,9 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::Data& d)
+        void setCurrentPhoto(const Photo::DataDelta& d)
         {
-            m_current_stamp = Tag::timestamp(d.tags);
+            m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
         }
 
         bool canBePartOfGroup()
@@ -173,7 +173,7 @@ namespace
     {
     public:
         SeriesExtractor(IExifReader& exifReader,
-                        const std::deque<Photo::Data>& photos,
+                        const std::deque<Photo::DataDelta>& photos,
                         const SeriesDetector::Rules& r,
                         const QPromise<std::vector<GroupCandidate>>* p)
             : m_exifReader(exifReader)
@@ -201,7 +201,7 @@ namespace
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
-                    const Photo::Data& data = *it2;
+                    const Photo::DataDelta& data = *it2;
 
                     validator.setCurrentPhoto(data);
 
@@ -236,7 +236,7 @@ namespace
     private:
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
-        std::deque<Photo::Data> m_photos;
+        std::deque<Photo::DataDelta> m_photos;
         const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
 }
@@ -264,8 +264,8 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
     QElapsedTimer timer;
     timer.start();
 
-    const std::deque<Photo::Data> candidates =
-        evaluate<std::deque<Photo::Data>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
+    const std::deque<Photo::DataDelta> candidates =
+        evaluate<std::deque<Photo::DataDelta>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
         std::vector<GroupCandidate> result;
 
@@ -274,11 +274,10 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
         const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-        std::deque<Photo::Data> deltas;
+        std::deque<Photo::DataDelta> deltas;
         for (const Photo::Id& id: photos)
         {
-            //const Photo::DataDelta delta = backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
-            const Photo::Data delta = backend.getPhoto(id);
+            const Photo::DataDelta delta = backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
             deltas.push_back(delta);
         }
 
@@ -293,12 +292,12 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 }
 
 
-std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
 {
     using namespace std::chrono_literals;
 
     QElapsedTimer timer;
-    std::deque<Photo::Data> suitablePhotos;
+    std::deque<Photo::DataDelta> suitablePhotos;
 
     // grouping works for images only
     timer.start();
@@ -310,25 +309,25 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 
     // drop images which are not made close to another one
     timer.start();
-    std::deque<Photo::Data> prefiltered;
+    std::deque<Photo::DataDelta> prefiltered;
     for(std::size_t i = 0; i < suitablePhotos.size(); i++)
     {
         std::vector<std::chrono::milliseconds> neighbours;
 
-        const auto currentTimestamp = Tag::timestamp(suitablePhotos[i].tags);
+        const auto currentTimestamp = Tag::timestamp(suitablePhotos[i].get<Photo::Field::Tags>());
 
         if (currentTimestamp == 0ms)
             continue;
 
         if (i > 0)
         {
-            const auto previousTimestamp = Tag::timestamp(suitablePhotos[i - 1].tags);
+            const auto previousTimestamp = Tag::timestamp(suitablePhotos[i - 1].get<Photo::Field::Tags>());
             neighbours.push_back(previousTimestamp);
         }
 
         if (i < suitablePhotos.size() - 1)
         {
-            const auto nextTimestamp = Tag::timestamp(suitablePhotos[i + 1].tags);
+            const auto nextTimestamp = Tag::timestamp(suitablePhotos[i + 1].get<Photo::Field::Tags>());
             neighbours.push_back(nextTimestamp);
         }
 

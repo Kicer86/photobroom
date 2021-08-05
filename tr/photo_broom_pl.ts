@@ -882,7 +882,7 @@ Kod błędu: %1</translation>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+91"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+104"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
