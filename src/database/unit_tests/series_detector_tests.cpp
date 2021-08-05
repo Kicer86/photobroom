@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QTime>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
@@ -27,6 +28,7 @@ class SeriesDetectorTest: public testing::Test
     public:
         NiceMock<MockDatabase> db;
         NiceMock<MockBackend> backend;
+        EmptyLogger logger;
 
         SeriesDetectorTest()
         {
@@ -43,7 +45,7 @@ TEST_F(SeriesDetectorTest, constructor)
     EXPECT_NO_THROW({
         MockExifReader exif;
 
-        SeriesDetector sd(db, exif);
+        SeriesDetector sd(logger, db, exif);
     });
 }
 
@@ -93,7 +95,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -149,7 +151,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -208,7 +210,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -290,7 +292,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -316,7 +318,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
         task->run(mem_backend);
     }));
 
-    const SeriesDetector sd(mem_db, exif);
+    const SeriesDetector sd(logger, mem_db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -353,6 +355,6 @@ TEST_F(SeriesDetectorTest, Complexity)
         return data;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

@@ -249,8 +249,9 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds gap)
 }
 
 
-SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader& exif, const QPromise<std::vector<GroupCandidate>>* p)
-    : m_db(db)
+SeriesDetector::SeriesDetector(ILogger& logger, Database::IDatabase& db, IExifReader& exif, const QPromise<std::vector<GroupCandidate>>* p)
+    : m_logger(logger)
+    , m_db(db)
     , m_promise(p)
     , m_exifReader(exif)
 {
@@ -260,6 +261,9 @@ SeriesDetector::SeriesDetector(Database::IDatabase& db, IExifReader& exif, const
 
 std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) const
 {
+    QElapsedTimer timer;
+    timer.start();
+
     const std::deque<Photo::Data> candidates =
         evaluate<std::deque<Photo::Data>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
@@ -270,15 +274,20 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
         const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
-        std::deque<Photo::Data> datas;
+        std::deque<Photo::Data> deltas;
         for (const Photo::Id& id: photos)
         {
-            const Photo::Data data = backend.getPhoto(id);
-            datas.push_back(data);
+            //const Photo::DataDelta delta = backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
+            const Photo::Data delta = backend.getPhoto(id);
+            deltas.push_back(delta);
         }
 
-        return datas;
+        return deltas;
     });
+
+    const QString log = QString("Collecting photos for grouping took %1s").arg(timer.elapsed() / 1000);
+
+    m_logger.debug(log);
 
     return analyze_photos(candidates, rules);
 }
@@ -286,24 +295,74 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
 std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::Data>& photos, const Rules& rules) const
 {
+    using namespace std::chrono_literals;
+
+    QElapsedTimer timer;
     std::deque<Photo::Data> suitablePhotos;
 
+    // grouping works for images only
+    timer.start();
     std::copy_if(photos.begin(), photos.end(), std::back_inserter(suitablePhotos), [](const auto& photo) {
         return MediaTypes::isImageFile(Photo::getPath(photo));
     });
 
+    m_logger.debug(QString("Validating media type took %1s").arg(timer.elapsed() / 1000));
+
+    // drop images which are not made close to another one
+    timer.start();
+    std::deque<Photo::Data> prefiltered;
+    for(std::size_t i = 0; i < suitablePhotos.size(); i++)
+    {
+        std::vector<std::chrono::milliseconds> neighbours;
+
+        const auto currentTimestamp = Tag::timestamp(suitablePhotos[i].tags);
+
+        if (currentTimestamp == 0ms)
+            continue;
+
+        if (i > 0)
+        {
+            const auto previousTimestamp = Tag::timestamp(suitablePhotos[i - 1].tags);
+            neighbours.push_back(previousTimestamp);
+        }
+
+        if (i < suitablePhotos.size() - 1)
+        {
+            const auto nextTimestamp = Tag::timestamp(suitablePhotos[i + 1].tags);
+            neighbours.push_back(nextTimestamp);
+        }
+
+        const bool any = std::any_of(neighbours.begin(), neighbours.end(), [&currentTimestamp, rules](const auto& neighbourTimestamp)
+        {
+            return std::chrono::abs(currentTimestamp - neighbourTimestamp) <= rules.manualSeriesMaxGap;
+        });
+
+        if (any)
+            prefiltered.push_back(suitablePhotos[i]);
+    }
+
     try
     {
-        SeriesExtractor extractor(m_exifReader, suitablePhotos, rules, m_promise);
+        SeriesExtractor extractor(m_exifReader, prefiltered, rules, m_promise);
 
+        timer.restart();
         auto hdrs = extractor.extract<Group::Type::HDR>();
-        auto animations = extractor.extract<Group::Type::Animation>();
-        auto generics = extractor.extract<Group::Type::Generic>();
+        m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
+        timer.restart();
+        auto animations = extractor.extract<Group::Type::Animation>();
+        m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
+
+        timer.restart();
+        auto generics = extractor.extract<Group::Type::Generic>();
+        m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
+
+        timer.restart();
         std::vector<GroupCandidate> sequences;
         std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
         std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
         std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
+        m_logger.debug(QString("Finalization took: %1s").arg(timer.elapsed() / 1000));
 
         return sequences;
     }

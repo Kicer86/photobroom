@@ -155,7 +155,8 @@ void SeriesModel::fetchGroups()
 
             QElapsedTimer timer;
 
-            SeriesDetector detector(m_project.getDatabase(), exif.get(), &promise);
+            auto detectLogger = m_logger->subLogger("SeriesDetector");
+            SeriesDetector detector(*detectLogger, m_project.getDatabase(), exif.get(), &promise);
 
             timer.start();
             promise.addResult(detector.listCandidates());
@@ -172,6 +173,7 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, canditates.size() - 1);
     m_candidates = canditates;
+    m_logger->info(QString("Got %1 group canditates").arg(canditates.size()));
     endInsertRows();
 
     m_loaded = true;
