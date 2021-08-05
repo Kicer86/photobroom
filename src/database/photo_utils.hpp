@@ -10,7 +10,7 @@
 
 namespace Photo
 {
-    DATABASE_EXPORT QString getPath(const Photo::Data &);
+    DATABASE_EXPORT const QString& getPath(const Photo::Data &);
 }
 
 #endif // PHOTO_UTILS_HPP_INCLUDED

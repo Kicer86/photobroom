@@ -3,7 +3,7 @@
 
 namespace Photo
 {
-    QString getPath(const Photo::Data& data)
+    const QString& getPath(const Photo::Data& data)
     {
         return data.path;
     }
