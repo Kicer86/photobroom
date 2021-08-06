@@ -334,11 +334,11 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
     m_logger.debug(log);
 
-    return analyze_photos(candidates, rules);
+    return analyzePhotos(candidates, rules);
 }
 
 
-std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
 {
     QElapsedTimer timer;
     std::deque<Photo::DataDelta> suitablePhotos;
