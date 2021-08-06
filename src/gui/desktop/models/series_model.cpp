@@ -64,9 +64,9 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
                 evaluate<std::vector<Photo::Data>(Database::IBackend &)>(project.getDatabase(), [members = group.members](Database::IBackend& backend)
             {
                 std::vector<Photo::Data> data;
-                std::transform(members.begin(), members.end(), std::back_inserter(data), [&backend](const Photo::DataDelta& delta)
+                std::transform(members.begin(), members.end(), std::back_inserter(data), [&backend](const Photo::Id& id)
                 {
-                    return backend.getPhoto(delta.getId());
+                    return backend.getPhoto(id);
                 });
 
                 return data;
@@ -127,6 +127,7 @@ bool SeriesModel::canFetchMore(const QModelIndex& parent) const
 {
     return parent.isValid() == false && m_initialized == false;
 }
+
 
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {

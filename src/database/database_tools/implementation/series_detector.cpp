@@ -207,7 +207,7 @@ namespace
 
                     if (validator.canBePartOfGroup())
                     {
-                        group.members.push_back(data);
+                        group.members.push_back(data.getId());
                         validator.accept();
                     }
                     else
