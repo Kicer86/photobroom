@@ -33,8 +33,6 @@
 
 namespace
 {
-    template<Group::Type>
-    class GroupValidator;
 
     class abort_exception: public std::exception {};
 
@@ -45,22 +43,32 @@ namespace
         return static_cast<int>(exp * 100);   // convert original exposure to centi-exposure
     }
 
-    template<>
-    class GroupValidator<Group::Type::Animation>
+    class IGroupValidator
     {
     public:
-        GroupValidator(IExifReader& exif, const SeriesDetector::Rules &)
+        virtual ~IGroupValidator() = default;
+        virtual void setCurrentPhoto(const Photo::DataDelta &) = 0;
+        virtual bool canBePartOfGroup() const = 0;
+        virtual void accept() = 0;
+        virtual void reset() = 0;
+        virtual Group::Type type() const = 0;
+    };
+
+    class GroupValidator_Animation: public IGroupValidator
+    {
+    public:
+        GroupValidator_Animation(IExifReader& exif, const SeriesDetector::Rules &)
             : m_exifReader(exif)
         {
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::DataDelta& d) override
         {
             m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
         }
 
-        bool canBePartOfGroup()
+        bool canBePartOfGroup() const override
         {
             const bool has_exif_data = m_sequence.has_value();
 
@@ -75,7 +83,7 @@ namespace
                 return false;
         }
 
-        void accept()
+        void accept() override
         {
             assert(m_sequence);
 
@@ -84,31 +92,42 @@ namespace
             m_sequence_numbers.insert(s);
         }
 
+        void reset() override
+        {
+            m_sequence.reset();
+            m_sequence_numbers.clear();
+        }
+
+        Group::Type type() const override
+        {
+            return Group::Animation;
+        }
+
         std::optional<std::any> m_sequence;
 
         std::unordered_set<int> m_sequence_numbers;
         IExifReader& m_exifReader;
     };
 
-    template<>
-    class GroupValidator<Group::Type::HDR>: GroupValidator<Group::Type::Animation>
+
+    class GroupValidator_HDR: public GroupValidator_Animation
     {
-        typedef GroupValidator<Group::Type::Animation> Base;
+        typedef GroupValidator_Animation Base;
 
     public:
-        GroupValidator(IExifReader& exif, const SeriesDetector::Rules& r)
+        GroupValidator_HDR(IExifReader& exif, const SeriesDetector::Rules& r)
             : Base(exif, r)
         {
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::DataDelta& d) override
         {
             Base::setCurrentPhoto(d);
             m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
         }
 
-        bool canBePartOfGroup()
+        bool canBePartOfGroup() const override
         {
             const bool has_exif_data = Base::canBePartOfGroup() && m_exposure;
 
@@ -124,7 +143,7 @@ namespace
                 return false;
         }
 
-        void accept()
+        void accept() override
         {
             assert(m_exposure);
 
@@ -134,34 +153,55 @@ namespace
             m_exposures.insert(e);
         }
 
+        void reset() override
+        {
+            Base::reset();
+            m_exposure.reset();
+            m_exposures.clear();
+        }
+
+        Group::Type type() const override
+        {
+            return Group::HDR;
+        }
+
         std::optional<std::any> m_exposure;
         std::unordered_set<int> m_exposures;
     };
 
-    template<>
-    class GroupValidator<Group::Type::Generic>
+    class GroupValidator_Generic: public IGroupValidator
     {
     public:
-        GroupValidator(IExifReader &, const SeriesDetector::Rules& r)
+        GroupValidator_Generic(const SeriesDetector::Rules& r)
             : m_prev_stamp(0)
             , m_rules(r)
         {
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d)
+        void setCurrentPhoto(const Photo::DataDelta& d) override
         {
             m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
         }
 
-        bool canBePartOfGroup()
+        bool canBePartOfGroup() const override
         {
             return m_prev_stamp.count() == 0 || m_current_stamp - m_prev_stamp <= m_rules.manualSeriesMaxGap;
         }
 
-        void accept()
+        void accept() override
         {
             m_prev_stamp = m_current_stamp;
+        }
+
+        void reset() override
+        {
+            m_prev_stamp = std::chrono::milliseconds(0);
+        }
+
+        Group::Type type() const override
+        {
+            return Group::Generic;
         }
 
         std::chrono::milliseconds m_prev_stamp,
@@ -173,21 +213,16 @@ namespace
     {
     public:
         SeriesExtractor(Database::IDatabase& db,
-                        IExifReader& exifReader,
                         const std::deque<Photo::DataDelta>& photos,
-                        const SeriesDetector::Rules& r,
                         const QPromise<std::vector<GroupCandidate>>* p)
             : m_db(db)
-            , m_exifReader(exifReader)
-            , m_rules(r)
             , m_photos(photos)
             , m_promise(p)
         {
 
         }
 
-        template<Group::Type type>
-        std::vector<GroupCandidate> extract()
+        std::vector<GroupCandidate> extract( IGroupValidator& validator)
         {
             std::vector<GroupCandidate> results;
 
@@ -196,7 +231,8 @@ namespace
                 if (m_promise && m_promise->isCanceled())
                     throw abort_exception();
 
-                GroupValidator<type> validator(m_exifReader, m_rules);
+                validator.reset();
+
                 std::vector<Photo::Id> members;
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
@@ -219,7 +255,7 @@ namespace
                 if (membersCount > 1)
                 {
                     GroupCandidate group;
-                    group.type = type;
+                    group.type = validator.type();
 
                     // Id to Data  TODO: this can be done in background
                     std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
@@ -246,8 +282,6 @@ namespace
 
     private:
         Database::IDatabase& m_db;
-        IExifReader& m_exifReader;
-        const SeriesDetector::Rules& m_rules;
         std::deque<Photo::DataDelta> m_photos;
         const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
@@ -358,18 +392,21 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 
     try
     {
-        SeriesExtractor extractor(m_db, m_exifReader, prefiltered, rules, m_promise);
+        SeriesExtractor extractor(m_db, prefiltered, m_promise);
 
         timer.restart();
-        auto hdrs = extractor.extract<Group::Type::HDR>();
+        GroupValidator_HDR hdrValidator(m_exifReader, rules);
+        auto hdrs = extractor.extract(hdrValidator);
         m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        auto animations = extractor.extract<Group::Type::Animation>();
+        GroupValidator_Animation animationsValidator(m_exifReader, rules);
+        auto animations = extractor.extract(animationsValidator);
         m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        auto generics = extractor.extract<Group::Type::Generic>();
+        GroupValidator_Generic genericValidator(rules);
+        auto generics = extractor.extract(genericValidator);
         m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
