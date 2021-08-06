@@ -172,7 +172,7 @@ namespace
     class GroupValidator_Generic: public IGroupValidator
     {
     public:
-        GroupValidator_Generic(const SeriesDetector::Rules& r)
+        explicit GroupValidator_Generic(const SeriesDetector::Rules& r)
             : m_prev_stamp(0)
             , m_rules(r)
         {
