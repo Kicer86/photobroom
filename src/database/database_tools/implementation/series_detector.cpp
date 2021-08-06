@@ -172,11 +172,13 @@ namespace
     class SeriesExtractor
     {
     public:
-        SeriesExtractor(IExifReader& exifReader,
+        SeriesExtractor(Database::IDatabase& db,
+                        IExifReader& exifReader,
                         const std::deque<Photo::DataDelta>& photos,
                         const SeriesDetector::Rules& r,
                         const QPromise<std::vector<GroupCandidate>>* p)
-            : m_exifReader(exifReader)
+            : m_db(db)
+            , m_exifReader(exifReader)
             , m_rules(r)
             , m_photos(photos)
             , m_promise(p)
@@ -194,10 +196,8 @@ namespace
                 if (m_promise && m_promise->isCanceled())
                     throw abort_exception();
 
-                GroupCandidate group;
-                group.type = type;
-
                 GroupValidator<type> validator(m_exifReader, m_rules);
+                std::vector<Photo::Id> members;
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
@@ -207,22 +207,33 @@ namespace
 
                     if (validator.canBePartOfGroup())
                     {
-                        group.members.push_back(data.getId());
+                        members.push_back(data.getId());
                         validator.accept();
                     }
                     else
                         break;
                 }
 
-                const auto members = group.members.size();
+                const auto membersCount = members.size();
 
-                // each photo should have different exposure
-                if (members > 1)
+                if (membersCount > 1)
                 {
+                    GroupCandidate group;
+                    group.type = type;
+
+                    // Id to Data  TODO: this can be done in background
+                    std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
+                    {
+                        return evaluate<Photo::Data(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
+                        {
+                            return backend.getPhoto(id);
+                        });
+                    });
+
                     results.push_back(group);
 
                     auto first = it;
-                    auto last = first + members;
+                    auto last = first + membersCount;
 
                     it = m_photos.erase(first, last);
                 }
@@ -234,6 +245,7 @@ namespace
         }
 
     private:
+        Database::IDatabase& m_db;
         IExifReader& m_exifReader;
         const SeriesDetector::Rules& m_rules;
         std::deque<Photo::DataDelta> m_photos;
@@ -346,7 +358,7 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 
     try
     {
-        SeriesExtractor extractor(m_exifReader, prefiltered, rules, m_promise);
+        SeriesExtractor extractor(m_db, m_exifReader, prefiltered, rules, m_promise);
 
         timer.restart();
         auto hdrs = extractor.extract<Group::Type::HDR>();

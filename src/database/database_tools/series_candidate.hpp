@@ -8,7 +8,7 @@
 struct GroupCandidate
 {
     Group::Type type;
-    std::vector<Photo::Id> members;
+    std::vector<Photo::Data> members;
 };
 
 #endif // SERIES_CANDIDATE_HPP_INCLUDED

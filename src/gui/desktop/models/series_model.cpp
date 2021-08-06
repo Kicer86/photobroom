@@ -60,19 +60,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     {
         runOn(executor, [group, &project = m_project]() mutable
         {
-            const std::vector<Photo::Data> photos =
-                evaluate<std::vector<Photo::Data>(Database::IBackend &)>(project.getDatabase(), [members = group.members](Database::IBackend& backend)
-            {
-                std::vector<Photo::Data> data;
-                std::transform(members.begin(), members.end(), std::back_inserter(data), [&backend](const Photo::Id& id)
-                {
-                    return backend.getPhoto(id);
-                });
-
-                return data;
-            });
-
-            GroupsManager::groupIntoUnified(project, photos);
+            GroupsManager::groupIntoUnified(project, group.members);
         },
         "unified group generation");
     }
