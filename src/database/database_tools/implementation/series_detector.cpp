@@ -340,8 +340,6 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 
 std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
 {
-    using namespace std::chrono_literals;
-
     QElapsedTimer timer;
     std::deque<Photo::DataDelta> suitablePhotos;
 
@@ -355,36 +353,7 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
 
     // drop images which were not made in similar time
     timer.restart();
-    std::deque<Photo::DataDelta> prefiltered;
-    for(std::size_t i = 0; i < suitablePhotos.size(); i++)
-    {
-        std::vector<std::chrono::milliseconds> neighbours;
-
-        const auto currentTimestamp = Tag::timestamp(suitablePhotos[i].get<Photo::Field::Tags>());
-
-        if (currentTimestamp == 0ms)
-            continue;
-
-        if (i > 0)
-        {
-            const auto previousTimestamp = Tag::timestamp(suitablePhotos[i - 1].get<Photo::Field::Tags>());
-            neighbours.push_back(previousTimestamp);
-        }
-
-        if (i < suitablePhotos.size() - 1)
-        {
-            const auto nextTimestamp = Tag::timestamp(suitablePhotos[i + 1].get<Photo::Field::Tags>());
-            neighbours.push_back(nextTimestamp);
-        }
-
-        const bool any = std::any_of(neighbours.begin(), neighbours.end(), [&currentTimestamp, rules](const auto& neighbourTimestamp)
-        {
-            return std::chrono::abs(currentTimestamp - neighbourTimestamp) <= rules.manualSeriesMaxGap;
-        });
-
-        if (any)
-            prefiltered.push_back(suitablePhotos[i]);
-    }
+    std::deque<Photo::DataDelta> prefiltered = removeSingles(suitablePhotos, rules);
 
     m_logger.debug(QString("Prefiltration time: %1s. %2 photos left.")
         .arg(timer.elapsed() / 1000)
@@ -422,4 +391,42 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
     {
         return {};
     }
+}
+
+
+std::deque<Photo::DataDelta> SeriesDetector::removeSingles(const std::deque<Photo::DataDelta>& suitablePhotos, const Rules& rules) const
+{
+    std::deque<Photo::DataDelta> prefiltered;
+
+    for(std::size_t i = 0; i < suitablePhotos.size(); i++)
+    {
+        std::vector<std::chrono::milliseconds> neighbours;
+
+        const auto currentTimestamp = Tag::timestamp(suitablePhotos[i].get<Photo::Field::Tags>());
+
+        if (currentTimestamp == std::chrono::milliseconds(0))
+            continue;
+
+        if (i > 0)
+        {
+            const auto previousTimestamp = Tag::timestamp(suitablePhotos[i - 1].get<Photo::Field::Tags>());
+            neighbours.push_back(previousTimestamp);
+        }
+
+        if (i < suitablePhotos.size() - 1)
+        {
+            const auto nextTimestamp = Tag::timestamp(suitablePhotos[i + 1].get<Photo::Field::Tags>());
+            neighbours.push_back(nextTimestamp);
+        }
+
+        const bool any = std::any_of(neighbours.begin(), neighbours.end(), [&currentTimestamp, rules](const auto& neighbourTimestamp)
+        {
+            return std::chrono::abs(currentTimestamp - neighbourTimestamp) <= rules.manualSeriesMaxGap;
+        });
+
+        if (any)
+            prefiltered.push_back(suitablePhotos[i]);
+    }
+
+    return prefiltered;
 }

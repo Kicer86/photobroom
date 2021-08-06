@@ -56,6 +56,7 @@ class DATABASE_EXPORT SeriesDetector
         IExifReader& m_exifReader;
 
         std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::DataDelta> &, const Rules &) const;
+        std::deque<Photo::DataDelta> removeSingles(const std::deque<Photo::DataDelta> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
