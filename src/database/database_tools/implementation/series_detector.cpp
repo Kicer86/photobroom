@@ -340,7 +340,9 @@ std::vector<GroupCandidate> SeriesDetector::analyze_photos(const std::deque<Phot
             prefiltered.push_back(suitablePhotos[i]);
     }
 
-    m_logger.debug(QString("Prefiltration time: %1s").arg(timer.elapsed() / 1000));
+    m_logger.debug(QString("Prefiltration time: %1s. %2 photos left.")
+        .arg(timer.elapsed() / 1000)
+        .arg(prefiltered.size()));
 
     try
     {
