@@ -40,15 +40,11 @@ namespace Database
             void set(IDatabase *);
 
         signals:
-            void photosAdded(const std::vector<IPhotoInfo::Ptr> &) const;         // emited after new photos were added to database
             void photoModified(const IPhotoInfo::Ptr &) const;                    // emited when photo updated
-            void photosRemoved(const std::vector<Photo::Id> &) const;             // emited after photos removal
-            void photosMarkedAsReviewed(const std::vector<Photo::Id> &) const;    // emited when done with photos marking
 
         private:
             IDatabase* m_db;
 
-            void i_photosAdded(const std::vector<Photo::Id> &) const;
             void i_photosModified(const std::set<Photo::Id> &) const;
     };
 }
