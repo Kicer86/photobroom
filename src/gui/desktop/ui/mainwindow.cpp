@@ -472,15 +472,17 @@ void MainWindow::showContextMenu(const QPoint& pos)
     QAction* location       = contextMenu.addAction(tr("Open photo location"));
     QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
 
-    const bool groupsOnly = std::ranges::all_of(photos, [](const Photo::Data& photo) { return photo.groupInfo.role == GroupInfo::Role::Representative; });
+    const bool groupsOnly = std::ranges::all_of(photos, &Photo::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = photos.size() == 1 && groupsOnly;
-    const bool imagesOnly = std::ranges::all_of(photos | std::views::transform(qOverload<const Photo::Data &>(&Photo::getPath)), &MediaTypes::isImageFile);
+    const bool imagesOnly = std::ranges::all_of(photos | std::views::transform(qOverload<const Photo::Data &>(&Photo::getPath)), &MediaTypes::isImageFile) &&
+                            std::ranges::all_of(photos, &Photo::is<GroupInfo::Role::None>);
+    const bool isSingleImage = photos.size() == 1 && imagesOnly;
 
     groupPhotos->setEnabled(photos.size() > 1 && imagesOnly);
     manageGroup->setEnabled(isSingleGroup);
     ungroupPhotos->setEnabled(groupsOnly);
     location->setEnabled(photos.size() == 1);
-    faces->setEnabled(m_enableFaceRecognition && photos.size() == 1 && MediaTypes::isImageFile(photos.front().path));
+    faces->setEnabled(m_enableFaceRecognition && isSingleImage);
 
     ungroupPhotos->setVisible(groupsOnly);
 
