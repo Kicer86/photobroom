@@ -13,10 +13,11 @@ class QCoreApplication;
 struct ICoreFactoryAccessor;
 struct IPluginLoader;
 struct IProjectManager;
+class IFeaturesManager;
 
 struct GUI_EXPORT Gui
 {
-    Gui(IProjectManager &, IPluginLoader &, ICoreFactoryAccessor &);
+    Gui(IProjectManager &, IPluginLoader &, ICoreFactoryAccessor &, IFeaturesManager &);
     ~Gui();
     Gui(const Gui &) = delete;
     Gui& operator=(const Gui &) = delete;
@@ -27,6 +28,7 @@ struct GUI_EXPORT Gui
         IProjectManager& m_prjManager;
         IPluginLoader& m_pluginLoader;
         ICoreFactoryAccessor& m_coreFactory;
+        IFeaturesManager& m_featuresManager;
 };
 
 #endif

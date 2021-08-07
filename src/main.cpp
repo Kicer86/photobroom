@@ -19,6 +19,7 @@
 #include <core/exif_reader_factory.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
+#include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
 #include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
@@ -29,6 +30,7 @@
 
 #include "paths.hpp"
 #include "config_storage.hpp"
+#include "features.hpp"
 
 
 namespace
@@ -39,6 +41,24 @@ namespace
         Disabled,
         Ok,
         Error,
+    };
+
+    class CommandLineToggles: public IFeaturesManager
+    {
+        public:
+            CommandLineToggles(const std::set<QString>& toggles)
+                : m_toggles(toggles)
+            {
+
+            }
+
+            bool has(const QString& key) const override
+            {
+                return m_toggles.contains(key);
+            }
+
+        private:
+            const std::set<QString> m_toggles;
     };
 }
 
@@ -65,7 +85,7 @@ int main(int argc, char **argv)
     );
 
     QCommandLineOption developerOptions("feature-toggle",
-                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher"),
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug"),
                                          QCoreApplication::translate("main", "flag")
     );
 
@@ -140,6 +160,11 @@ int main(int argc, char **argv)
     if (crashCatcherDisabled == false)
         status = CrashCatcher::init(argv[0]) ? CrashCatcherStatus::Ok : CrashCatcherStatus::Error;
 
+    std::set<QString> toggles;
+    if (featureToggles.contains("debug"))
+        toggles.insert(cmdline_fatures::Debug);
+    CommandLineToggles cmdLineToggles(toggles);
+
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
 
@@ -188,7 +213,7 @@ int main(int argc, char **argv)
     QImageReader::setAllocationLimit(memoryLimit);
 
     // start gui
-    Gui(prjManager, pluginLoader, coreFactory).run();
+    Gui(prjManager, pluginLoader, coreFactory, cmdLineToggles).run();
 
     taskExecutor.stop();
 

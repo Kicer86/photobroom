@@ -305,81 +305,86 @@ Check paths in configuration window.</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="136"/>
+        <source>debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="145"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="141"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="150"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="149"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="158"/>
         <source>&amp;Add photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="154"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="163"/>
         <source>&amp;About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="159"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="168"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="164"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="173"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="169"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="178"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="174"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="183"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="179"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="188"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="187"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="196"/>
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="195"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="204"/>
         <source>T&amp;asks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="200"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="209"/>
         <source>&amp;Scan collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="208"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="217"/>
         <source>&amp;Photo properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="213"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="222"/>
         <source>&amp;Face organizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="218"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="227"/>
         <source>Series detector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="223"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="232"/>
         <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
@@ -999,32 +1004,32 @@ Error code: %1</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="62"/>
+        <location filename="../src/main.cpp" line="82"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="63"/>
+        <location filename="../src/main.cpp" line="83"/>
         <source>loging level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="68"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
+        <location filename="../src/main.cpp" line="88"/>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="69"/>
+        <location filename="../src/main.cpp" line="89"/>
         <source>flag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="75"/>
+        <location filename="../src/main.cpp" line="95"/>
         <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="76"/>
+        <location filename="../src/main.cpp" line="96"/>
         <source>image memory limit</source>
         <translation type="unfinished"></translation>
     </message>

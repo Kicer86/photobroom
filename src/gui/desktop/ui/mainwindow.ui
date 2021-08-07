@@ -40,7 +40,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCollection">
@@ -130,6 +130,15 @@
     <number>2</number>
    </attribute>
    <widget class="PhotoPropertiesWidget" name="photoPropertiesWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="debugDockWidget">
+   <property name="windowTitle">
+    <string>debug</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="debugContentWidget"/>
   </widget>
   <action name="actionNew_collection">
    <property name="text">
