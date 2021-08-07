@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QTime>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
@@ -27,6 +28,7 @@ class SeriesDetectorTest: public testing::Test
     public:
         NiceMock<MockDatabase> db;
         NiceMock<MockBackend> backend;
+        EmptyLogger logger;
 
         SeriesDetectorTest()
         {
@@ -43,7 +45,7 @@ TEST_F(SeriesDetectorTest, constructor)
     EXPECT_NO_THROW({
         MockExifReader exif;
 
-        SeriesDetector sd(db, exif);
+        SeriesDetector sd(logger, db, exif);
     });
 }
 
@@ -65,7 +67,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -73,7 +75,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg(id), "hh.mm.s"));  // simulate different time - use id as second
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -93,7 +95,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -121,7 +123,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -129,7 +131,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -149,7 +151,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -178,7 +180,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -186,7 +188,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -208,7 +210,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -245,7 +247,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     };
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()) )).WillByDefault(Return(all_photos));
-    ON_CALL(backend, getPhoto(_)).WillByDefault(Invoke([](const Photo::Id& id) -> Photo::Data
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -253,7 +255,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.00.%1").arg( (id - 1) / 3), "hh.mm.s"));  // simulate same time within a group
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -290,7 +292,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -316,7 +318,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
         task->run(mem_backend);
     }));
 
-    const SeriesDetector sd(mem_db, exif);
+    const SeriesDetector sd(logger, mem_db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -342,7 +344,7 @@ TEST_F(SeriesDetectorTest, Complexity)
 
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
 
-    EXPECT_CALL(backend, getPhoto(_)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id) -> Photo::Data
+    EXPECT_CALL(backend, getPhotoDelta(_, _)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
         data.id = id;
@@ -350,9 +352,9 @@ TEST_F(SeriesDetectorTest, Complexity)
         data.tags.emplace(TagTypes::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
         data.tags.emplace(TagTypes::Time, QTime::fromString(QString("12.%1.00").arg(id), "hh.m.ss"));  // simulate different time - use id as minute
 
-        return data;
+        return Photo::DataDelta(data);
     }));
 
-    const SeriesDetector sd(db, exif);
+    const SeriesDetector sd(logger, db, exif);
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }

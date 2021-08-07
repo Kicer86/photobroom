@@ -163,7 +163,7 @@ namespace Photo
                                  DeltaTypes<Field::GroupInfo>::Storage> Storage;
 
             Photo::Id                m_id;
-            std::map<Field, Storage> m_data;
+            std::unordered_map<Field, Storage> m_data;
 
             const Storage& get(Field) const;
             Storage& get(Field);

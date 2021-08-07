@@ -473,7 +473,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
     const bool groupsOnly = std::ranges::all_of(photos, [](const Photo::Data& photo) { return photo.groupInfo.role == GroupInfo::Role::Representative; });
     const bool isSingleGroup = photos.size() == 1 && groupsOnly;
 
-    groupPhotos->setEnabled(photos.size() > 1 && std::ranges::all_of(photos | std::views::transform(&Photo::getPath), &MediaTypes::isImageFile));
+    groupPhotos->setEnabled(photos.size() > 1 && std::ranges::all_of(photos | std::views::transform(qOverload<const Photo::Data &>(&Photo::getPath)), &MediaTypes::isImageFile));
     manageGroup->setEnabled(isSingleGroup);
     ungroupPhotos->setEnabled(groupsOnly);
     location->setEnabled(photos.size() == 1);

@@ -5,6 +5,7 @@
 #include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
+#include <database/database_executor_traits.hpp>
 #include <QElapsedTimer>
 #include <QPromise>
 
@@ -44,7 +45,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     std::vector<GroupCandidate> toStore;
     std::vector<GroupCandidate> left;
 
-    for(int i = 0; i < m_candidates.size(); i++)
+    for(std::size_t i = 0; i < m_candidates.size(); i++)
     {
         const auto& candidate = m_candidates[i];
 
@@ -115,6 +116,7 @@ bool SeriesModel::canFetchMore(const QModelIndex& parent) const
     return parent.isValid() == false && m_initialized == false;
 }
 
+
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {
     if (parent.isValid() == false)
@@ -155,7 +157,8 @@ void SeriesModel::fetchGroups()
 
             QElapsedTimer timer;
 
-            SeriesDetector detector(m_project.getDatabase(), exif.get(), &promise);
+            auto detectLogger = m_logger->subLogger("SeriesDetector");
+            SeriesDetector detector(*detectLogger, m_project.getDatabase(), exif.get(), &promise);
 
             timer.start();
             promise.addResult(detector.listCandidates());
@@ -172,6 +175,7 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, canditates.size() - 1);
     m_candidates = canditates;
+    m_logger->info(QString("Got %1 group canditates").arg(canditates.size()));
     endInsertRows();
 
     m_loaded = true;

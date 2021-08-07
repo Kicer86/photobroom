@@ -8,7 +8,7 @@ namespace Tag
 {
     std::chrono::milliseconds timestamp(const TagsList& tags)
     {
-        qint64 timestamp = -1;
+        qint64 timestamp = 0;
 
         const auto dateIt = tags.find(TagTypes::Date);
 

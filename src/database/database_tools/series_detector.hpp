@@ -45,16 +45,18 @@ class DATABASE_EXPORT SeriesDetector
             Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
         };
 
-        SeriesDetector(Database::IDatabase &, IExifReader &, const QPromise<std::vector<GroupCandidate>> * = nullptr);
+        SeriesDetector(ILogger &, Database::IDatabase &, IExifReader &, const QPromise<std::vector<GroupCandidate>> * = nullptr);
 
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
+        ILogger& m_logger;
         Database::IDatabase& m_db;
         const QPromise<std::vector<GroupCandidate>>* m_promise;
         IExifReader& m_exifReader;
 
-        std::vector<GroupCandidate> analyze_photos(const std::deque<Photo::Data> &, const Rules &) const;
+        std::vector<GroupCandidate> analyzePhotos(const std::deque<Photo::DataDelta> &, const Rules &) const;
+        std::deque<Photo::DataDelta> removeSingles(const std::deque<Photo::DataDelta> &, const Rules &) const;
 };
 
 #endif // SERIESDETECTOR_HPP
