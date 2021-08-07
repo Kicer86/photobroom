@@ -26,6 +26,7 @@ set(CORE_SOURCES
 
     #tiny utilities
     containers_utils.hpp
+    features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
     function_wrappers.hpp
     generic_concepts.hpp
     id.hpp
