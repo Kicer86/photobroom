@@ -25,6 +25,7 @@ add_subdirectory(system)
 set(BROOM_SOURCES
     config_storage.cpp
     config_storage.hpp
+    features.hpp
     main.cpp
     $<TARGET_OBJECTS:plugins>
 )
