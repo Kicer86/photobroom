@@ -121,6 +121,19 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
+    <name>DebugWindow</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+15"/>
+        <source>Executor tasks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Database tasks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>

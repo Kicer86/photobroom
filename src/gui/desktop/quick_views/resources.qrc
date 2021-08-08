@@ -14,6 +14,7 @@
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
         <file>Components/ZoomableImage.qml</file>
+        <file>Dialogs/DebugWindow.qml</file>
         <file>Dialogs/FacesDialog.qml</file>
         <file>Dialogs/MainWindow.qml</file>
         <file>Dialogs/PhotoDataCompletion.qml</file>

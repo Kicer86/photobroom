@@ -118,6 +118,19 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     </message>
 </context>
 <context>
+    <name>DebugWindow</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="15"/>
+        <source>Executor tasks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="26"/>
+        <source>Database tasks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="108"/>
