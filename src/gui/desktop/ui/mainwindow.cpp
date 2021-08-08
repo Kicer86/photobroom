@@ -31,6 +31,7 @@
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
 #include <system/system.hpp>
+#include <features.hpp>
 
 #include "config.hpp"
 
@@ -109,6 +110,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     ui->tagEditor->set(&m_completerFactory);
 
+    ui->debugDockWidget->setVisible(featuresManager.has(cmdline_fatures::Debug));
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
 

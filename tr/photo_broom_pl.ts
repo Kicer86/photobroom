@@ -392,7 +392,7 @@ Check paths in configuration window.</source>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+227"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+229"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
