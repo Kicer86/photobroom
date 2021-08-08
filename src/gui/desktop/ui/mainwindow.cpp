@@ -65,7 +65,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
-    m_executor(coreFactory->getTaskExecutor()),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
     m_configDialogManager(new ConfigDialogManager),
@@ -515,7 +514,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
         IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
         auto logger = m_loggerFactory.get("PhotosGrouping");
-        PhotosGroupingDialog dialog(groupMembers, factory, m_executor, m_configuration, logger.get());
+        PhotosGroupingDialog dialog(groupMembers, factory, m_coreAccessor->getTaskExecutor(), m_configuration, logger.get());
         const int status = dialog.exec();
 
         if (status == QDialog::Accepted)

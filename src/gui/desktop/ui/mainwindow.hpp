@@ -66,7 +66,6 @@ class MainWindow: public QMainWindow
         IConfiguration&           m_configuration;
         ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;
-        ITaskExecutor&            m_executor;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
