@@ -115,8 +115,10 @@ void Gui::run()
     ThumbnailGenerator thumbnailGenerator(thumbnail_generator_logger.get(), &configuration);
     ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thumbnailGenerator, thumbnailsCache);
 
+    FeaturesManager guiFeatures(configuration, gui_logger);
+
     // main window
-    MainWindow mainWindow(&m_coreFactory, &thbMgr);
+    MainWindow mainWindow(guiFeatures, &m_coreFactory, &thbMgr);
 
     mainWindow.set(&m_prjManager);
     mainWindow.set(&m_pluginLoader);
@@ -126,8 +128,6 @@ void Gui::run()
     Updater updater;
     mainWindow.set(&updater);
 #endif
-
-    FeaturesManager features(mainWindow, configuration, gui_logger);
 
     mainWindow.show();
 
