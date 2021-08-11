@@ -22,7 +22,10 @@ add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
 
-set(BROOM_SOURCES main.cpp
+set(BROOM_SOURCES
+    config_storage.cpp
+    config_storage.hpp
+    main.cpp
     $<TARGET_OBJECTS:plugins>
 )
 
