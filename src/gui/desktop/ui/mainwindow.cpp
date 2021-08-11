@@ -483,7 +483,6 @@ void MainWindow::showContextMenu(const QPoint& pos)
     ungroupPhotos->setEnabled(groupsOnly);
     location->setEnabled(photos.size() == 1);
     faces->setEnabled(m_enableFaceRecognition && isSingleImage);
-
     ungroupPhotos->setVisible(groupsOnly);
 
     Database::IDatabase& db = m_currentPrj->getDatabase();
