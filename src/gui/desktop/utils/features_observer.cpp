@@ -36,8 +36,8 @@ void FeaturesObserver::featureChanged(const QString& feature, bool value)
 
             if (it != m_warnings.end())
             {
-                m_warnings.erase(it);
                 m_model.removeWarningWithId(it->second);
+                m_warnings.erase(it);
             }
         }
         else
