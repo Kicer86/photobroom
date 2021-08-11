@@ -17,6 +17,7 @@
 #include <core/constants.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/ifeatures_manager.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
@@ -54,7 +55,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 
 
-MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
+MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
     m_thumbnailsManager4QML(thbMgr),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
@@ -72,6 +73,7 @@ MainWindow::MainWindow(ICoreFactoryAccessor* coreFactory, IThumbnailsManager* th
     m_toolsTabCtrl(new ToolsTabController),
     m_recentCollections(),
     m_completerFactory(m_loggerFactory),
+    m_featuresObserver(featuresManager, m_notifications),
     m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
     // setup
@@ -567,18 +569,6 @@ void MainWindow::removeGroupOf(const std::vector<Photo::Data>& representatives)
         // delete representative file
         QFile::remove(representative.path);
     }
-}
-
-
-int MainWindow::reportWarning(const QString& warning)
-{
-    return m_notifications.insertWarning(warning);
-}
-
-
-void MainWindow::removeWarning(int id)
-{
-    m_notifications.removeWarningWithId(id);
 }
 
 

@@ -6,14 +6,15 @@
 
 #include <QMainWindow>
 
+#include <core/ifeatures_manager.hpp>
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
+#include "models/notifications_model.hpp"
 #include "ui_utils/completer_factory.hpp"
-#include "utils/inotifications.hpp"
 #include "quick_views/bridge.hpp"
 #include "quick_views/qml_setup.hpp"
-#include "models/notifications_model.hpp"
+#include "utils/features_observer.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -40,12 +41,12 @@ namespace Ui
     class MainWindow;
 }
 
-class MainWindow: public QMainWindow, public INotifications
+class MainWindow: public QMainWindow
 {
         Q_OBJECT
 
     public:
-        explicit MainWindow(ICoreFactoryAccessor *, IThumbnailsManager*, QWidget *parent = 0);
+        explicit MainWindow(IFeaturesManager &, ICoreFactoryAccessor *, IThumbnailsManager *, QWidget *parent = 0);
         MainWindow(const MainWindow &) = delete;
         virtual ~MainWindow();
 
@@ -77,6 +78,7 @@ class MainWindow: public QMainWindow, public INotifications
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
+        FeaturesObserver          m_featuresObserver;
         const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
@@ -100,10 +102,6 @@ class MainWindow: public QMainWindow, public INotifications
         void showContextMenu(const QPoint &);
 
         void removeGroupOf(const std::vector<Photo::Data> &);
-
-        // INotifications:
-        int reportWarning(const QString &) override;
-        void removeWarning(int id) override;
 
     private slots:
         // album menu

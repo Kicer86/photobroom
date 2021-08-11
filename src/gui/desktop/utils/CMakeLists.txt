@@ -14,9 +14,10 @@ set(UTILS_SOURCES
     config_tools.hpp
     features_manager.cpp
     features_manager.hpp
+    features_observer.cpp
+    features_observer.hpp
     groups_manager.cpp
     groups_manager.hpp
-    inotifications.hpp
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     model_index_utils.cpp
