@@ -214,9 +214,11 @@ namespace
     public:
         SeriesExtractor(Database::IDatabase& db,
                         const std::deque<Photo::DataDelta>& photos,
+                        std::unique_ptr<ILogger> logger,
                         const QPromise<std::vector<GroupCandidate>>* p)
             : m_db(db)
             , m_photos(photos)
+            , m_logger(std::move(logger))
             , m_promise(p)
         {
 
@@ -257,6 +259,10 @@ namespace
                     GroupCandidate group;
                     group.type = validator.type();
 
+                    QStringList ids;
+                    std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& id){ return QString::number(id); });
+                    m_logger->trace(QString("Detected series of %1 photos: %2").arg(membersCount).arg(ids.join(", ")));
+
                     // Id to Data  TODO: this can be done in background
                     std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
                     {
@@ -283,6 +289,7 @@ namespace
     private:
         Database::IDatabase& m_db;
         std::deque<Photo::DataDelta> m_photos;
+        std::unique_ptr<ILogger> m_logger;
         const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
 }
@@ -360,7 +367,7 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
 
     try
     {
-        SeriesExtractor extractor(m_db, prefiltered, m_promise);
+        SeriesExtractor extractor(m_db, prefiltered, m_logger.subLogger("SeriesExtractor"), m_promise);
 
         timer.restart();
         GroupValidator_HDR hdrValidator(m_exifReader, rules);
