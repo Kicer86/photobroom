@@ -5,6 +5,8 @@
 void FeaturesManagerCompositor::add(IFeaturesManager* manager)
 {
     m_managers.push_back(manager);
+
+    connect(manager, &IFeaturesManager::featureChanged, this, &FeaturesManagerCompositor::featureChanged);
 }
 
 
