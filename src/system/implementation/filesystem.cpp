@@ -57,8 +57,8 @@ QString FileSystem::commonPath(const QString& p1, const QString& p2 ) const
 {
     int common_part = 0;
 
-    const int min = std::min( p1.length(), p2.length());
-    const int max = std::max( p1.length(), p2.length());
+    const auto min = std::min( p1.length(), p2.length());
+    const auto max = std::max( p1.length(), p2.length());
 
     for(int i = 0; i < min; i++)
     {
