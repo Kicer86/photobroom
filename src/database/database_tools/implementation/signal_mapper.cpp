@@ -40,30 +40,10 @@ namespace Database
             IBackend& backend = db->backend();
 
             // conversion required (use Qt::DirectConnection to be sure we were called from IBackend's thread)
-            connect(&backend, &IBackend::photosAdded, this, &SignalMapper::i_photosAdded, Qt::DirectConnection);
             connect(&backend, &IBackend::photosModified, this, &SignalMapper::i_photosModified, Qt::DirectConnection);
-
-            // direct reemits
-            connect(&backend, &IBackend::photosRemoved, this, &SignalMapper::photosRemoved);
-            connect(&backend, &IBackend::photosMarkedAsReviewed, this, &SignalMapper::photosMarkedAsReviewed);
         }
 
         m_db = db;
-    }
-
-
-    void SignalMapper::i_photosAdded(const std::vector<Photo::Id>& ids) const
-    {
-        std::vector<IPhotoInfo::Ptr> photos;
-        photos.reserve(ids.size());
-
-        for (const Photo::Id& id: ids)
-        {
-            IPhotoInfo::Ptr photo = m_db->utils().getPhotoFor(id);
-            photos.push_back(photo);
-        }
-
-        emit photosAdded(photos);
     }
 
 

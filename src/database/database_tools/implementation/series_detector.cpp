@@ -321,11 +321,10 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
         const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
 
         std::deque<Photo::DataDelta> deltas;
-        for (const Photo::Id& id: photos)
+        std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)
         {
-            const Photo::DataDelta delta = backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
-            deltas.push_back(delta);
-        }
+            return backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
+        });
 
         return deltas;
     });
@@ -345,7 +344,7 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
 
     // grouping works for images only
     timer.start();
-    std::copy_if(photos.begin(), photos.end(), std::back_inserter(suitablePhotos), [](const auto& photo) {
+    std::ranges::copy_if(photos, std::back_inserter(suitablePhotos), [](const auto& photo) {
         return MediaTypes::isImageFile(Photo::getPath(photo));
     });
 
@@ -380,9 +379,9 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
 
         timer.restart();
         std::vector<GroupCandidate> sequences;
-        std::copy(hdrs.begin(), hdrs.end(), std::back_inserter(sequences));
-        std::copy(animations.begin(), animations.end(), std::back_inserter(sequences));
-        std::copy(generics.begin(), generics.end(), std::back_inserter(sequences));
+        std::ranges::copy(hdrs, std::back_inserter(sequences));
+        std::ranges::copy(animations, std::back_inserter(sequences));
+        std::ranges::copy(generics, std::back_inserter(sequences));
         m_logger.debug(QString("Finalization took: %1s").arg(timer.elapsed() / 1000));
 
         return sequences;
@@ -419,7 +418,7 @@ std::deque<Photo::DataDelta> SeriesDetector::removeSingles(const std::deque<Phot
             neighbours.push_back(nextTimestamp);
         }
 
-        const bool any = std::any_of(neighbours.begin(), neighbours.end(), [&currentTimestamp, rules](const auto& neighbourTimestamp)
+        const bool any = std::ranges::any_of(neighbours, [&currentTimestamp, rules](const auto& neighbourTimestamp)
         {
             return std::chrono::abs(currentTimestamp - neighbourTimestamp) <= rules.manualSeriesMaxGap;
         });
