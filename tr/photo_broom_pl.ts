@@ -877,7 +877,7 @@ Kod błędu: %1</translation>
         <translation>Potencjalne grupy</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+96"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
