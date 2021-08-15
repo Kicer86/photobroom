@@ -14,13 +14,41 @@ class ObservableExecutor: public QObject, public T
 
         void add(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
-            T::add(std::move(task));
+            std::unique_ptr<Task> observedTask = std::make_unique<Task>(std::move(task));
+
+            T::add(std::move(observedTask));
         }
 
         void addLight(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
-            T::addLight(std::move(task));
+            std::unique_ptr<Task> observedTask = std::make_unique<Task>(std::move(task));
+
+            T::addLight(std::move(observedTask));
         }
+
+    private:
+        class Task: public ITaskExecutor::ITask
+        {
+            public:
+                Task(std::unique_ptr<ITaskExecutor::ITask>&& task)
+                    : m_task(std::move(task))
+                {
+
+                }
+
+                std::string name() const override
+                {
+                    return m_task->name();
+                }
+
+                void perform() override
+                {
+                    m_task->perform();
+                }
+
+            private:
+                std::unique_ptr<ITaskExecutor::ITask> m_task;
+        };
 };
 
 #endif
