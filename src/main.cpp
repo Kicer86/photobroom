@@ -17,10 +17,11 @@
 
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
-#include <core/logger_factory.hpp>
-#include <core/task_executor.hpp>
 #include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
+#include <core/logger_factory.hpp>
+#include <core/task_executor.hpp>
+#include <core/observable_task_executor.hpp>
 #include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -177,7 +178,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     auto taskExecutorLogger = logger_factory.get("TaskExecutor");
-    TaskExecutor taskExecutor(taskExecutorLogger.get());
+    ObservableTaskExecutor<TaskExecutor> taskExecutor(taskExecutorLogger.get());
 
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);

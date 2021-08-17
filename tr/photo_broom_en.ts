@@ -1017,32 +1017,32 @@ Error code: %1</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="82"/>
+        <location filename="../src/main.cpp" line="83"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="83"/>
+        <location filename="../src/main.cpp" line="84"/>
         <source>loging level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="88"/>
+        <location filename="../src/main.cpp" line="89"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="89"/>
+        <location filename="../src/main.cpp" line="90"/>
         <source>flag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="95"/>
+        <location filename="../src/main.cpp" line="96"/>
         <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="96"/>
+        <location filename="../src/main.cpp" line="97"/>
         <source>image memory limit</source>
         <translation type="unfinished"></translation>
     </message>
