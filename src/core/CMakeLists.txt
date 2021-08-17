@@ -32,6 +32,7 @@ set(CORE_SOURCES
     id.hpp
     lazy_ptr.hpp
     observable_executor.hpp
+    observable_task_executor.hpp
     slicer.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
