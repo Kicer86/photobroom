@@ -7,8 +7,40 @@
 
 #include <core/itask_executor.hpp>
 
+
+class ObservableExecutorProperties: public QObject
+{
+    Q_OBJECT
+
+    public:
+
+    protected:
+        int m_awaitingTasks = 0;
+        int m_tasksExecuted = 0;
+        std::mutex m_countersMutex;
+
+        void newTaskInQueue()
+        {
+            std::lock_guard<std::mutex> l(m_countersMutex);
+            m_awaitingTasks++;
+        }
+
+        void taskMovedToExecution()
+        {
+            std::lock_guard<std::mutex> l(m_countersMutex);
+            m_awaitingTasks--;
+            m_tasksExecuted++;
+        }
+
+        void taskExecuted()
+        {
+            std::lock_guard<std::mutex> l(m_countersMutex);
+            m_tasksExecuted--;
+        }
+};
+
 template<typename T> requires std::is_base_of<ITaskExecutor, T>::value
-class ObservableExecutor: public QObject, public T
+class ObservableExecutor: public ObservableExecutorProperties, public T
 {
     public:
         template<typename ...Args>
@@ -51,29 +83,6 @@ class ObservableExecutor: public QObject, public T
             private:
                 std::unique_ptr<ITaskExecutor::ITask> m_task;
         };
-
-        int m_awaitingTasks = 0;
-        int m_tasksExecuted = 0;
-        std::mutex m_countersMutex;
-
-        void newTaskInQueue()
-        {
-            std::lock_guard<std::mutex> l(m_countersMutex);
-            m_awaitingTasks++;
-        }
-
-        void taskMovedToExecution()
-        {
-            std::lock_guard<std::mutex> l(m_countersMutex);
-            m_awaitingTasks--;
-            m_tasksExecuted++;
-        }
-
-        void taskExecuted()
-        {
-            std::lock_guard<std::mutex> l(m_countersMutex);
-            m_tasksExecuted--;
-        }
 };
 
 #endif
