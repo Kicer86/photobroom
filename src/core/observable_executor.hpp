@@ -13,29 +13,48 @@ class ObservableExecutorProperties: public QObject
     Q_OBJECT
 
     public:
+        Q_PROPERTY(int awaitingTasks READ awaitingTasks NOTIFY awaitingTasksChanged)
+        Q_PROPERTY(int tasksExecuted READ tasksExecuted NOTIFY tasksExecutedChanged)
+
+        int awaitingTasks() const
+        {
+            return m_awaitingTasks;
+        }
+
+        int tasksExecuted() const
+        {
+            return m_tasksExecuted;
+        }
+
+    signals:
+        void awaitingTasksChanged(int) const;
+        void tasksExecutedChanged(int) const;
 
     protected:
-        int m_awaitingTasks = 0;
-        int m_tasksExecuted = 0;
-        std::mutex m_countersMutex;
+        std::atomic<int> m_awaitingTasks = 0;
+        std::atomic<int> m_tasksExecuted = 0;
 
         void newTaskInQueue()
         {
-            std::lock_guard<std::mutex> l(m_countersMutex);
             m_awaitingTasks++;
+
+            emit awaitingTasksChanged(m_awaitingTasks);
         }
 
         void taskMovedToExecution()
         {
-            std::lock_guard<std::mutex> l(m_countersMutex);
             m_awaitingTasks--;
             m_tasksExecuted++;
+
+            emit awaitingTasksChanged(m_awaitingTasks);
+            emit tasksExecutedChanged(m_tasksExecuted);
         }
 
         void taskExecuted()
         {
-            std::lock_guard<std::mutex> l(m_countersMutex);
             m_tasksExecuted--;
+
+            emit tasksExecutedChanged(m_tasksExecuted);
         }
 };
 
