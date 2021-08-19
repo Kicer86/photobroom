@@ -1,8 +1,17 @@
 
 #include "observable_executor.hpp"
+#include "observables_registry.hpp"
+
 
 ObservableExecutor::ObservableExecutor()
 {
+    ObservablesRegistry::instance().add(this);
+}
+
+
+ObservableExecutor::~ObservableExecutor()
+{
+    ObservablesRegistry::instance().remove(this);
 }
 
 

@@ -13,6 +13,7 @@ class CORE_EXPORT ObservableExecutor: public QObject
 
     public:
         ObservableExecutor();
+        virtual ~ObservableExecutor();
 
         Q_PROPERTY(int awaitingTasks READ awaitingTasks NOTIFY awaitingTasksChanged)
         Q_PROPERTY(int tasksExecuted READ tasksExecuted NOTIFY tasksExecutedChanged)
