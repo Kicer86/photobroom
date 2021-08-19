@@ -15,26 +15,20 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
         void add(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
-            std::unique_ptr<Task> observedTask = std::make_unique<Task>(std::move(task));
+            std::unique_ptr<Task> observedTask = std::make_unique<Task>(*this, std::move(task));
 
             T::add(std::move(observedTask));
-        }
-
-        void addLight(std::unique_ptr<ITaskExecutor::ITask>&& task) override
-        {
-            std::unique_ptr<Task> observedTask = std::make_unique<Task>(std::move(task));
-
-            T::addLight(std::move(observedTask));
         }
 
     private:
         class Task: public ITaskExecutor::ITask
         {
             public:
-                Task(std::unique_ptr<ITaskExecutor::ITask>&& task)
+                Task(ObservableTaskExecutor& executor, std::unique_ptr<ITaskExecutor::ITask>&& task)
                     : m_task(std::move(task))
+                    , m_executor(executor)
                 {
-
+                    m_executor.newTaskInQueue();
                 }
 
                 std::string name() const override
@@ -44,12 +38,17 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
                 void perform() override
                 {
+                    m_executor.taskMovedToExecution();
                     m_task->perform();
+                    m_executor.taskExecuted();
                 }
 
             private:
                 std::unique_ptr<ITaskExecutor::ITask> m_task;
+                ObservableTaskExecutor& m_executor;
         };
+
+        friend class Task;
 };
 
 
