@@ -33,6 +33,7 @@ set(CORE_SOURCES
     lazy_ptr.hpp
     observable_executor.hpp                                 implementation/observable_executor.cpp
     observable_task_executor.hpp
+    observables_registry.hpp                                implementation/observables_registry.cpp
     slicer.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
