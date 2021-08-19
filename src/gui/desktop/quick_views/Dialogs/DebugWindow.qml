@@ -4,43 +4,31 @@ import photo_broom.qml 1.0
 
 
 Item {
-    width: grid.width
-    height: grid.height
+    width: repeater.width
+    height: repeater.height
 
     Repeater {
-        model: ObservablesRegistry.executors
+        id: repeater
 
-        Text {
-            text: "foo " + modelData.awaitingTasks + " " + modelData.tasksExecuted
-        }
-    }
-
-    Grid {
-        id: grid
         width: childrenRect.width
         height: childrenRect.height
-        columns: 2
 
-        Text {
-            text: qsTr("Executor tasks:")
-            font.pixelSize: 12
-        }
+        model: ObservablesRegistry.executors
 
-        Text {
-            id: executorTasks
-            text: "0"
-            font.pixelSize: 12
-        }
+        Column {
 
-        Text {
-            text: qsTr("Database tasks:")
-            font.pixelSize: 12
-        }
+            Text {
+                text: "Executor"
+                font.bold: true
+            }
 
-        Text {
-            id: databaseTasks
-            text: "0"
-            font.pixelSize: 12
+            Text {
+                text: qsTr("Tasks in queue") + ": " + modelData.awaitingTasks
+            }
+
+            Text {
+                text: qsTr("Tasks executed")+ ": " + modelData.tasksExecuted
+            }
         }
     }
 }
