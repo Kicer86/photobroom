@@ -26,6 +26,7 @@
 #include <core/task_executor_utils.hpp>
 #include <core/function_wrappers.hpp>
 #include <core/ithumbnails_generator.hpp>
+#include <core/observable_task_executor.hpp>
 #include <database/idatabase.hpp>
 
 #include "ithumbnails_cache.hpp"
@@ -48,7 +49,7 @@ class ThumbnailManager: public IThumbnailsManager
 
     private:
         safe_callback_ctrl m_callbackCtrl;
-        TasksQueue m_tasks;
+        ObservableTaskExecutor<TasksQueue> m_tasks;
         IThumbnailsCache& m_cache;
         IThumbnailsGenerator& m_generator;
         Database::IDatabase* m_db;
