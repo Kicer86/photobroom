@@ -23,7 +23,7 @@ class CORE_EXPORT ObservablesRegistry: public QObject
         void remove(ObservableExecutor *);
 
     signals:
-        void executorsChanged(const QList<ObservableExecutor *> &) const;
+        void executorsChanged(const QSet<ObservableExecutor *> &) const;
 
     private:
         QSet<ObservableExecutor *> m_executors;

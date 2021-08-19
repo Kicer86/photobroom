@@ -19,6 +19,8 @@ const QSet<ObservableExecutor *>& ObservablesRegistry::executors() const
 void ObservablesRegistry::add(ObservableExecutor* executor)
 {
     m_executors.insert(executor);
+
+    emit executorsChanged(m_executors);
 }
 
 
@@ -26,4 +28,6 @@ void ObservablesRegistry::add(ObservableExecutor* executor)
 void ObservablesRegistry::remove(ObservableExecutor* executor)
 {
     m_executors.remove(executor);
+
+    emit executorsChanged(m_executors);
 }
