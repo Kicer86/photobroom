@@ -31,7 +31,7 @@ set(CORE_SOURCES
     generic_concepts.hpp
     id.hpp
     lazy_ptr.hpp
-    observable_executor.hpp
+    observable_executor.hpp                                 implementation/observable_executor.cpp
     observable_task_executor.hpp
     slicer.hpp
     status.hpp
