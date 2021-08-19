@@ -2,6 +2,14 @@
 #include "observables_registry.hpp"
 
 
+ObservablesRegistry& ObservablesRegistry::instance()
+{
+    static ObservablesRegistry registry;
+
+    return registry;
+}
+
+
 const QSet<ObservableExecutor *>& ObservablesRegistry::executors() const
 {
     return m_executors;

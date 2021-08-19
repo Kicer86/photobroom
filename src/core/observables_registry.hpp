@@ -16,7 +16,7 @@ class CORE_EXPORT ObservablesRegistry: public QObject
     Q_PROPERTY(QSet<ObservableExecutor *> executors READ executors NOTIFY executorsChanged)
 
     public:
-        virtual ~ObservablesRegistry() = default;
+        static ObservablesRegistry& instance();
 
         const QSet<ObservableExecutor *>& executors() const;
         void add(ObservableExecutor *);
@@ -27,6 +27,8 @@ class CORE_EXPORT ObservablesRegistry: public QObject
 
     private:
         QSet<ObservableExecutor *> m_executors;
+
+        ObservablesRegistry() = default;
 };
 
 #endif
