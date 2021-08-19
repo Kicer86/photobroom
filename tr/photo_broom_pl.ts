@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+15"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+25"/>
         <source>Executor tasks:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -325,7 +325,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+13"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -405,7 +405,7 @@ Check paths in configuration window.</source>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+229"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

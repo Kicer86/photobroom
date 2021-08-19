@@ -1,9 +1,19 @@
 
 import QtQuick 2.0
+import photo_broom.qml 1.0
+
 
 Item {
     width: grid.width
     height: grid.height
+
+    Repeater {
+        model: ObservablesRegistry.executors
+
+        Text {
+            text: "foo " + modelData.awaitingTasks + " " + modelData.tasksExecuted
+        }
+    }
 
     Grid {
         id: grid

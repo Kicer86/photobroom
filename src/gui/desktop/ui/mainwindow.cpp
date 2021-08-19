@@ -21,6 +21,7 @@
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/media_types.hpp>
+#include <core/observables_registry.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_builder.hpp>
 #include <database/database_tools/photos_analyzer.hpp>
@@ -142,6 +143,7 @@ void MainWindow::setupQmlView()
     assert(m_photosModelController == nullptr);
 
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &m_bridge);
+    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
@@ -156,6 +158,8 @@ void MainWindow::setupQmlView()
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
+
+    ui->debugDockContent->setSource(QUrl("qrc:/ui/Dialogs/DebugWindow.qml"));
 }
 
 
