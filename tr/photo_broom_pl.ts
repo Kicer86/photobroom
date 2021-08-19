@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+26"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+22"/>
         <source>Tasks in queue</source>
         <translation type="unfinished"></translation>
     </message>

@@ -120,12 +120,12 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="26"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="22"/>
         <source>Tasks in queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="26"/>
         <source>Tasks executed</source>
         <translation type="unfinished"></translation>
     </message>
