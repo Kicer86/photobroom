@@ -20,6 +20,11 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
             T::add(std::move(observedTask));
         }
 
+        QString name() const override
+        {
+            return typeid(T).name();
+        }
+
     private:
         class Task: public ITaskExecutor::ITask
         {

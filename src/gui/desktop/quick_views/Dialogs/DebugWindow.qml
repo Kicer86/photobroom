@@ -14,7 +14,7 @@ Item {
 
             Column {
                 Text {
-                    text: "Executor"
+                    text: modelData.name
                     font.bold: true
                 }
 
