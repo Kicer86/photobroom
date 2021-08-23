@@ -19,9 +19,35 @@ class ObservableDatabase: public ObservableExecutor, public T
         }
 
     private:
+        class Task: public Database::IDatabaseThread::ITask
+        {
+            public:
+                Task(ObservableDatabase& executor, std::unique_ptr<Database::IDatabaseThread::ITask>&& task)
+                    : m_task(std::move(task))
+                    , m_executor(executor)
+                {
+                    m_executor.newTaskInQueue();
+                }
+
+                void run(Database::IBackend& backend) override
+                {
+                    m_executor.taskMovedToExecution();
+                    m_task->run(backend);
+                    m_executor.taskExecuted();
+                }
+
+            private:
+                std::unique_ptr<Database::IDatabaseThread::ITask> m_task;
+                ObservableDatabase& m_executor;
+        };
+
+        friend class Task;
+
         void execute(std::unique_ptr<Database::IDatabaseThread::ITask>&& task) override
         {
-            T::execute(std::move(task));
+            auto observedTask = std::make_unique<Task>(*this, std::move(task));
+
+            T::execute(std::move(observedTask));
         }
 };
 
