@@ -24,7 +24,6 @@ void ObservablesRegistry::add(ObservableExecutor* executor)
 }
 
 
-
 void ObservablesRegistry::remove(ObservableExecutor* executor)
 {
     m_executors.remove(executor);
