@@ -25,6 +25,7 @@
 
 #include "database_export.h"
 
+
 namespace Database
 {
     struct IDatabase;
@@ -43,6 +44,7 @@ namespace Database
             void photoModified(const IPhotoInfo::Ptr &) const;                    // emited when photo updated
 
         private:
+            mutable std::mutex m_dbMutex;
             IDatabase* m_db;
 
             void i_photosModified(const std::set<Photo::Id> &) const;
