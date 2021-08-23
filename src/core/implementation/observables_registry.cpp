@@ -18,9 +18,15 @@ const QSet<ObservableExecutor *>& ObservablesRegistry::executors() const
 
 void ObservablesRegistry::add(ObservableExecutor* executor)
 {
-    m_executors.insert(executor);
+    // postpone add, 'executor' can be call 'add()' from its constructor
+    // and therefore may be not fully constructed which may cause some pure virtual calls
+    QMetaObject::invokeMethod(this, [executor, this]()
+    {
+        m_executors.insert(executor);
 
-    emit executorsChanged(m_executors);
+        emit executorsChanged(m_executors);
+    },
+    Qt::QueuedConnection);
 }
 
 
