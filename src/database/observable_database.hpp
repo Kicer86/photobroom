@@ -20,6 +20,10 @@ class ObservableDatabase: public ObservableExecutor, public T
 
     private:
 
+        void execute(std::unique_ptr<Database::IDatabaseThread::ITask>&& task) override
+        {
+            T::execute(std::move(task));
+        }
 };
 
 #endif
