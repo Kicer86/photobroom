@@ -26,6 +26,7 @@ set(DATABASE_SOURCES
     iphoto_info_cache.hpp
     iphoto_info.hpp
     iphoto_operator.hpp
+    observable_database.hpp
     person_data.hpp
     photo_data.hpp
     photo_types.hpp
