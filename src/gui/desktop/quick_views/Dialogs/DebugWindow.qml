@@ -25,6 +25,10 @@ Item {
                 Text {
                     text: qsTr("Tasks executed")+ ": " + modelData.tasksExecuted
                 }
+
+                Text {
+                    text: qsTr("Execution speed")+ ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
+                }
             }
         }
     }

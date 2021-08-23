@@ -132,6 +132,17 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <source>Tasks executed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+4"/>
+        <source>Execution speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FacesDialog</name>

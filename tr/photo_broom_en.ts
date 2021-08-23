@@ -129,6 +129,17 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
         <source>Tasks executed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="30"/>
+        <source>Execution speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="30"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FacesDialog</name>
