@@ -7,6 +7,8 @@ ObservableExecutor::ObservableExecutor()
 {
     ObservablesRegistry::instance().add(this);
 
+    m_executionSpeedBuffer.fill(0);
+
     connect(&m_executionSpeedTimer, &QTimer::timeout, this, &ObservableExecutor::updateExecutionSpeed);
     m_executionSpeedTimer.start(std::chrono::seconds(1));
 }
