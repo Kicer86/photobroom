@@ -24,6 +24,12 @@
 namespace Photo
 {
 
+    Data::Data(const Photo::Id& i)
+        : id(i)
+    {
+
+    }
+
     Data& Data::apply(const DataDelta& delta)
     {
         id = delta.getId();
