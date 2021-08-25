@@ -789,7 +789,7 @@ namespace Database
         assert(data.getId().valid() == false || data.getId() == id);
         data.setId(id);
 
-        DbErrorOnFalse(storeData(data));
+        DbErrorOnFalse(storeData(data, Photo::Data(id)));
     }
 
 
@@ -800,6 +800,12 @@ namespace Database
     {
         const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
 
+        return storeData(data, currentStateOfPhoto);
+    }
+
+
+    bool ASqlBackend::storeData(const Photo::DataDelta& data, const Photo::Data& currentStateOfPhoto)
+    {
         assert(data.getId());
 
         bool status = true;
@@ -840,6 +846,7 @@ namespace Database
 
         return status;
     }
+
 
     /**
      * \brief store photo's dimensions
