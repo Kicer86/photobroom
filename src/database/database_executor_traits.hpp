@@ -2,6 +2,7 @@
 #ifndef DATABASE_EXECUTOR_TRAITS_HPP_INCLUDED
 #define DATABASE_EXECUTOR_TRAITS_HPP_INCLUDED
 
+#include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 
 template<typename T>
