@@ -18,6 +18,7 @@
 
 #include "thumbnail_generator.hpp"
 
+#include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
@@ -30,7 +31,6 @@
 #include "ilogger.hpp"
 #include "image_tools.hpp"
 #include "media_types.hpp"
-#include "stopwatch.hpp"
 
 
 ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IConfiguration* config):
@@ -69,7 +69,7 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 {
     IExifReader& reader = m_exifReaderFactory.get();
 
-    Stopwatch stopwatch;
+    QElapsedTimer stopwatch;
     stopwatch.start();
 
     QImage image;
@@ -84,7 +84,7 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
         m_logger->error(error);
     }
 
-    const int photo_read = stopwatch.read(true);
+    const qint64 photo_read = stopwatch.elapsed();
 
     const QString read_time_message = QString("photo %1 read time: %2ms").arg(path).arg(photo_read);
     m_logger->debug(read_time_message);
@@ -161,7 +161,7 @@ QImage ThumbnailGenerator::scaleImage(const QImage& image, const ThumbnailParame
 
     const QSize& size = std::get<0>(params);
 
-    Stopwatch stopwatch;
+    QElapsedTimer stopwatch;
     stopwatch.start();
 
     if (image.width() < image.height())
@@ -169,7 +169,7 @@ QImage ThumbnailGenerator::scaleImage(const QImage& image, const ThumbnailParame
     else
         thumbnail = image.scaledToHeight(size.height(), Qt::SmoothTransformation);
 
-    const int photo_scaling = stopwatch.stop();
+    const qint64 photo_scaling = stopwatch.elapsed();
 
     const QString scaling_time_message = QString("photo scaling time: %1ms").arg(photo_scaling);
     m_logger->debug(scaling_time_message);
