@@ -3,21 +3,25 @@
 #define STOPWATCH_HPP
 
 #include <chrono>
+#include <utility>
 
 #include "core_export.h"
+
 
 class CORE_EXPORT Stopwatch final
 {
     public:
+        using Measure = std::pair<std::chrono::milliseconds, std::chrono::milliseconds>;
+
         Stopwatch();
         ~Stopwatch();
 
         void start();
-        int read(bool reset = false);
-        int stop();
+        Measure read();
 
     private:
-        std::chrono::time_point<std::chrono::steady_clock> m_last;
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 };
 
 #endif

@@ -3,6 +3,7 @@ find_package(OpenLibrary 2.3  REQUIRED putils)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
+find_package(Boost            REQUIRED COMPONENTS chrono)
 
 include(GenerateExportHeader)
 include(${OPENLIBRARY_USE_FILE})
@@ -90,6 +91,7 @@ target_link_libraries(core
                             Qt::Core
                             Qt::Gui
                         PRIVATE
+                            Boost::chrono
                             system
                             ${OPENLIBRARY_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}

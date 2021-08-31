@@ -1,10 +1,19 @@
 
 #include <cassert>
+#include <boost/chrono.hpp>
 
 #include "stopwatch.hpp"
 
+
+struct Stopwatch::Impl
+{
+    std::chrono::time_point<std::chrono::steady_clock> m_lastWall;
+    boost::chrono::thread_clock::time_point m_lastCpu;
+};
+
+
 Stopwatch::Stopwatch():
-    m_last()
+    m_impl(std::make_unique<Impl>())
 {
 
 }
@@ -17,29 +26,25 @@ Stopwatch::~Stopwatch()
 
 void Stopwatch::start()
 {
-    assert(m_last == std::chrono::time_point<std::chrono::steady_clock>());
-    m_last = std::chrono::steady_clock::now();
+    assert(m_impl->m_lastCpu == boost::chrono::thread_clock::time_point());
+    assert(m_impl->m_lastWall == std::chrono::time_point<std::chrono::steady_clock>());
+
+    m_impl->m_lastWall = std::chrono::steady_clock::now();
+    m_impl->m_lastCpu = boost::chrono::thread_clock::now();
 }
 
 
-int Stopwatch::read(bool reset)
+Stopwatch::Measure Stopwatch::read()
 {
-    const auto now = std::chrono::steady_clock::now();
+    const auto nowWall = std::chrono::steady_clock::now();
+    const auto nowCpu = boost::chrono::thread_clock::now();
 
-    if (reset)
-        m_last = now;
+    const auto diffWall = nowWall - m_impl->m_lastWall;
+    const auto diffWall_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diffWall);
 
-    const auto diff = now - m_last;
-    const auto diff_ms = std::chrono::duration_cast<std::chrono::milliseconds>(diff).count();
+    const auto diffCpu = nowCpu - m_impl->m_lastCpu;
+    const auto diffCpu_ms = boost::chrono::duration_cast<boost::chrono::milliseconds>(diffCpu);
+    const auto stdDiffCpu_ms = std::chrono::milliseconds(diffCpu_ms.count());
 
-    return static_cast<int>(diff_ms);
-}
-
-
-int Stopwatch::stop()
-{
-    const int result = read();
-    m_last = std::chrono::time_point<std::chrono::steady_clock>();
-
-    return result;
+    return Measure(diffWall_ms, stdDiffCpu_ms);
 }
