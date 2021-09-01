@@ -132,20 +132,39 @@ QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string
 class CORE_EXPORT TasksQueue final: public ITaskExecutor
 {
     public:
+
+        /// Determines queue behavior
         enum class Mode
         {
-            Fifo,
-            Lifo,
+            Fifo,               ///< Execute tasks in order of insertion. First inserted will be first to execute.
+            Lifo,               ///< Execute tasks in reversed order of insertion. Last inserted will be first to execute.
         };
 
         TasksQueue(ITaskExecutor *, Mode = Mode::Fifo);
         ~TasksQueue();
 
+        /**
+         * @brief Insert new task to queue.
+         */
         void push(std::unique_ptr<ITaskExecutor::ITask> &&);
+
+        /**
+         * @brief Remove queued items.
+         *
+         * Remove tasks staying in queue. Tasks already being executed are not touched.
+         */
         void clear();
 
+        /**
+         * @returns number of items wating in queue. Tasks being executed are not counted in.
+         */
         std::size_t size() const;
 
+        /**
+         * @brief Wait for tasks being executed.
+         *
+         * Blocks current thread until all tasks being executed are done.
+         */
         void waitForPendingTasks();
 
         void add(std::unique_ptr<ITask> &&) override;
