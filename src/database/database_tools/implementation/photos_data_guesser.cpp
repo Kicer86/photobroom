@@ -110,7 +110,7 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 
 int PhotosDataGuesser::rowCount(const QModelIndex& parent) const
 {
-    return parent.isValid()? 0 : m_photos.size();
+    return parent.isValid()? 0 : static_cast<int>(m_photos.size());
 }
 
 
@@ -229,7 +229,7 @@ void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
 
 void PhotosDataGuesser::photoDataFetched(const std::vector<CollectedData>& data)
 {
-    const auto count = data.size();
+    const int count = static_cast<int>(data.size());
     beginInsertRows({}, 0, count - 1);
     m_photos = data;
     endInsertRows();

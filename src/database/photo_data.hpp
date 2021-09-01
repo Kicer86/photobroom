@@ -47,6 +47,7 @@ namespace Photo
 
         Data() = default;
         Data(const Data &) = default;
+        Data(const Photo::Id& id);
 
         Data& operator=(const Data &) = default;
         bool operator==(const Data &) const = default;

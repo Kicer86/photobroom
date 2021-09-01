@@ -202,9 +202,9 @@ namespace Database
 
 void Database::PhotoOperator::processAction(ActionContext& context, const Database::Action& action) const
 {
-    if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
+    if (auto sort_by_tag = std::get_if<Actions::SortByTag>(&action))
     {
-        auto it = namesForJoins.find(sort_action->tag);
+        auto it = namesForJoins.find(sort_by_tag->tag);
 
         if (it != namesForJoins.end())
         {
@@ -213,18 +213,18 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
             context.joins.append(QString("LEFT JOIN %1 %4 ON (%2.id = %4.photo_id AND %4.name = %3)")
                 .arg(TAB_TAGS)
                 .arg(TAB_PHOTOS)
-                .arg(sort_action->tag)
+                .arg(sort_by_tag->tag)
                 .arg(joinName));
 
             context.sortOrder.append(QString("%2.value %1")
-                .arg(sort_action->sort_order == Qt::AscendingOrder? "ASC": "DESC")
+                .arg(sort_by_tag->sort_order == Qt::AscendingOrder? "ASC": "DESC")
                 .arg(joinName));
         }
     }
-    else if (auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
+    else if (auto sort_by_timestamp = std::get_if<Actions::SortByTimestamp>(&action))
     {
-        const Actions::SortByTag byDate(TagTypes::Date, sort_action->sort_order);
-        const Actions::SortByTag byTime(TagTypes::Time, sort_action->sort_order);
+        const Actions::SortByTag byDate(TagTypes::Date, sort_by_timestamp->sort_order);
+        const Actions::SortByTag byTime(TagTypes::Time, sort_by_timestamp->sort_order);
         processAction(context, byDate);
         processAction(context, byTime);
     }

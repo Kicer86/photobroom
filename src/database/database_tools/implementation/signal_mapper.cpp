@@ -32,8 +32,10 @@ namespace Database
 
     void SignalMapper::set(IDatabase* db)
     {
+        std::lock_guard<std::mutex> guard(m_dbMutex);
+
         if (m_db != nullptr)
-            m_db->backend().disconnect(this);
+            disconnect(&m_db->backend(), &IBackend::photosModified, this, &SignalMapper::i_photosModified);
 
         if (db != nullptr)
         {
@@ -49,9 +51,13 @@ namespace Database
 
     void SignalMapper::i_photosModified(const std::set<Photo::Id>& ids) const
     {
+        std::lock_guard<std::mutex> guard(m_dbMutex);
+
+        auto& utils = m_db->utils();
+
         for (const Photo::Id& id: ids)
         {
-            IPhotoInfo::Ptr photo = m_db->utils().getPhotoFor(id);
+            IPhotoInfo::Ptr photo = utils.getPhotoFor(id);
             emit photoModified(photo);
         }
     }
