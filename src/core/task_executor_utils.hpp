@@ -53,6 +53,7 @@ void execute(E& executor, T&& task)
 // Run callable as a task
 template<typename Callable>
 void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
+    requires std::is_invocable_v<Callable>
 {
     struct GenericTask: ITaskExecutor::ITask
     {

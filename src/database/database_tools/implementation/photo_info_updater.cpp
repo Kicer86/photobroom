@@ -66,12 +66,12 @@ namespace
         Sha256Assigner(const Sha256Assigner &) = delete;
         Sha256Assigner& operator=(const Sha256Assigner &) = delete;
 
-        virtual std::string name() const override
+        std::string name() const override
         {
             return "Photo hash generation";
         }
 
-        virtual void perform() override
+        void perform() override
         {
             QFile file(m_photoInfo->lock()->path);
             bool status = file.open(QFile::ReadOnly);
@@ -106,12 +106,12 @@ namespace
         GeometryAssigner(const GeometryAssigner &) = delete;
         GeometryAssigner& operator=(const GeometryAssigner &) = delete;
 
-        virtual std::string name() const override
+        std::string name() const override
         {
             return "Photo geometry setter";
         }
 
-        virtual void perform() override
+        void perform() override
         {
             const QString path = m_photoInfo->lock()->path;
             const std::optional<QSize> size = m_mediaInformation->size(path);
@@ -148,12 +148,12 @@ namespace
         TagsCollector(const TagsCollector &) = delete;
         TagsCollector& operator=(const TagsCollector &) = delete;
 
-        virtual std::string name() const override
+        std::string name() const override
         {
             return "Photo tags collection";
         }
 
-        virtual void perform() override
+        void perform() override
         {
             IExifReader& feeder = m_exifReaderFactory.get();
 
