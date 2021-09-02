@@ -21,6 +21,28 @@ struct ExecutorTraits
 };
 
 
+class abort_exception: public std::exception {};
+
+
+class CORE_EXPORT WorkState
+{
+    public:
+        /**
+         * @brief Set state to abort
+         */
+        void abort();
+
+        /**
+         * @brief Throw exception if state was set to abort
+         * @throw abort_exception
+         */
+        void throwIfAbort();
+
+    private:
+        bool m_abort = false;
+};
+
+
 // Helper function.
 // Run a task and wait for it to be finished.
 template<typename R, typename E, typename T>

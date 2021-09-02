@@ -34,6 +34,19 @@ namespace
 }
 
 
+void WorkState::abort()
+{
+    m_abort = true;
+}
+
+
+void WorkState::throwIfAbort()
+{
+    if (m_abort)
+        throw abort_exception();
+}
+
+
 struct TasksQueue::IntTask: ITaskExecutor::ITask
 {
     IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):

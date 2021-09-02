@@ -34,8 +34,6 @@
 namespace
 {
 
-    class abort_exception: public std::exception {};
-
     int readExposure(const std::any& exposure)
     {
         const float exp = std::any_cast<float>(exposure);
