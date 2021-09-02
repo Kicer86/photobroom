@@ -3,8 +3,9 @@
 #define SLICER_HPP_INCLUDED
 
 
-template<typename T, typename O>
+template<std::random_access_iterator T, typename O>
 void slice(T first, T last, long chunkSize, O o)
+    requires std::is_invocable_v<O, T, T>
 {
     while(first != last)
     {
