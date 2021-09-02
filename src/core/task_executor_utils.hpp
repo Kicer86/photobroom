@@ -27,6 +27,10 @@ class abort_exception: public std::exception {};
 class CORE_EXPORT WorkState
 {
     public:
+        WorkState() = default;
+        WorkState(const WorkState &) = delete;
+        WorkState& operator=(const WorkState &) = delete;
+
         /**
          * @brief Set state to abort
          */
