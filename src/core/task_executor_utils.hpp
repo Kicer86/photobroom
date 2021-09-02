@@ -126,11 +126,15 @@ QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string
 }
 
 
-// Helper class.
-// A subqueue for ITaskExecutor.
-// Its purpose is to have a queue of tasks to be executed by executor
-// but controled by client ( can be clean()ed )
-class CORE_EXPORT TasksQueue final: public ITaskExecutor
+/**
+ * @brief A subqueue for ITaskExecutor.
+ *
+ * Purpose of this class is to have a queue of tasks to be executed by executor
+ * but controled by client (can be cleaned)
+ *
+ * @see clear
+ */
+class CORE_EXPORT TasksQueue: public ITaskExecutor
 {
     public:
 
