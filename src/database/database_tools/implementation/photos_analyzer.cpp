@@ -95,24 +95,33 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
     runOn(m_taskQueue, [this, ids]()
     {
-        slice(ids.begin(), ids.end(), 200, [this](auto first, auto last)
+        try
         {
-            const std::vector<Photo::Data> photoData =
-                evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
+            slice(ids.begin(), ids.end(), 200, [this](auto first, auto last)
             {
-                std::vector<Photo::Data> photos;
-                photos.reserve(last - first);
-
-                std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
+                const std::vector<Photo::Data> photoData =
+                    evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
                 {
-                    return backend.getPhoto(id);
+                    std::vector<Photo::Data> photos;
+                    photos.reserve(last - first);
+
+                    std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
+                    {
+                        return backend.getPhoto(id);
+                    });
+
+                    return photos;
                 });
 
-                return photos;
-            });
+                invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photoData);
 
-            invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photoData);
-        });
+                m_workState.throwIfAbort();
+            });
+        }
+        catch(const abort_exception &)
+        {
+
+        }
     },
     "Fetching photo details"
     );
@@ -161,6 +170,7 @@ void PhotosAnalyzerImpl::stop()
 {
     disconnect(m_backendConnection);
     m_taskQueue.clear();
+    m_workState.abort();
     m_taskQueue.waitForPendingTasks();
 }
 
@@ -209,17 +219,11 @@ PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory,
 
 PhotosAnalyzer::~PhotosAnalyzer()
 {
-    stop();
+
 }
 
 
 void PhotosAnalyzer::set(ITasksView* tasksView)
 {
     m_data->set(tasksView);
-}
-
-
-void PhotosAnalyzer::stop()
-{
-    m_data->stop();
 }
