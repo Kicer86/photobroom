@@ -48,7 +48,6 @@ class PhotosAnalyzerImpl: public QObject
         ~PhotosAnalyzerImpl();
 
         void set(ITasksView* tasksView);
-
         void stop();
 
     private:
