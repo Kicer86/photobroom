@@ -32,8 +32,8 @@ struct CORE_EXPORT ITaskExecutor
     {
         virtual ~ITask() = default;
 
-        virtual std::string name() const = 0;       //task's name
-        virtual void perform() = 0;
+        virtual std::string name() const = 0;               ///< @return task's name
+        virtual void perform() = 0;                         ///< @brief perform job
     };
 
     virtual ~ITaskExecutor() = default;

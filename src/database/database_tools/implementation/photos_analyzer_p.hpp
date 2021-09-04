@@ -48,7 +48,6 @@ class PhotosAnalyzerImpl: public QObject
         ~PhotosAnalyzerImpl();
 
         void set(ITasksView* tasksView);
-
         void stop();
 
     private:
@@ -58,6 +57,7 @@ class PhotosAnalyzerImpl: public QObject
         PhotoInfoUpdater m_updater;
         QTimer m_timer;
         PhotosQueue m_updateQueue;
+        WorkState m_workState;
         QMetaObject::Connection m_backendConnection;
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;

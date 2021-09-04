@@ -48,7 +48,6 @@ class DATABASE_EXPORT PhotosAnalyzer final: public QObject
         PhotosAnalyzer& operator=(const PhotosAnalyzer &) = delete;
 
         void set(ITasksView *);
-        void stop();
 
     private:
         std::unique_ptr<PhotosAnalyzerImpl> m_data;

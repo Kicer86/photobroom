@@ -21,6 +21,32 @@ struct ExecutorTraits
 };
 
 
+class abort_exception: public std::exception {};
+
+
+class CORE_EXPORT WorkState
+{
+    public:
+        WorkState() = default;
+        WorkState(const WorkState &) = delete;
+        WorkState& operator=(const WorkState &) = delete;
+
+        /**
+         * @brief Set state to abort
+         */
+        void abort();
+
+        /**
+         * @brief Throw exception if state was set to abort
+         * @throw abort_exception
+         */
+        void throwIfAbort();
+
+    private:
+        bool m_abort = false;
+};
+
+
 // Helper function.
 // Run a task and wait for it to be finished.
 template<typename R, typename E, typename T>
@@ -53,6 +79,7 @@ void execute(E& executor, T&& task)
 // Run callable as a task
 template<typename Callable>
 void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
+    requires std::is_invocable_v<Callable>
 {
     struct GenericTask: ITaskExecutor::ITask
     {
@@ -125,11 +152,15 @@ QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string
 }
 
 
-// Helper class.
-// A subqueue for ITaskExecutor.
-// Its purpose is to have a queue of tasks to be executed by executor
-// but controled by client ( can be clean()ed )
-class CORE_EXPORT TasksQueue final: public ITaskExecutor
+/**
+ * @brief A subqueue for ITaskExecutor.
+ *
+ * Purpose of this class is to have a queue of tasks to be executed by executor
+ * but controled by client (can be cleaned)
+ *
+ * @see clear
+ */
+class CORE_EXPORT TasksQueue: public ITaskExecutor
 {
     public:
 

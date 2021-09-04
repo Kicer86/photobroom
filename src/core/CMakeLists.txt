@@ -30,6 +30,7 @@ set(CORE_SOURCES
     generic_concepts.hpp
     id.hpp
     lazy_ptr.hpp
+    slicer.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
     task_executor_traits.hpp
@@ -54,7 +55,6 @@ set(CORE_SOURCES
     qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
     search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
     signal_postponer.hpp                                    implementation/signal_postponer.cpp
-    stopwatch.hpp                                           implementation/stopwatch.cpp
     tag.hpp                                                 implementation/tag.cpp
     task_executor.hpp                                       implementation/task_executor.cpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp

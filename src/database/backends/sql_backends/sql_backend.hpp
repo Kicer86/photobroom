@@ -170,6 +170,7 @@ namespace Database
 
             void introduce(Photo::DataDelta &);
             bool storeData(const Photo::DataDelta &);
+            bool storeData(const Photo::DataDelta& newData, const Photo::Data& oldData);
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
             bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;

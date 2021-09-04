@@ -44,7 +44,7 @@ void HDRGenerator::run()
     const QStringList rotated = rotatePhotos(m_data.photos, m_tmpDir->path());
 
     // blend them!
-    const int photos_count = m_data.photos.size();
+    const int photos_count = static_cast<int>(m_data.photos.size());
     AISOutputAnalyzer analyzer(m_logger, photos_count);
     connect(&analyzer, &AISOutputAnalyzer::operation, this, &HDRGenerator::operation);
     connect(&analyzer, &AISOutputAnalyzer::progress,  this, &HDRGenerator::progress);

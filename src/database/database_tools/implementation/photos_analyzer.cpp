@@ -20,8 +20,10 @@
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/itask_executor.hpp>
+#include <core/slicer.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/general_flags.hpp>
+#include <database/database_executor_traits.hpp>
 
 #include "photos_analyzer_p.hpp"
 #include "../photos_analyzer.hpp"
@@ -91,16 +93,38 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    m_database.exec([ids, this](Database::IBackend& backend)
+    runOn(m_taskQueue, [this, ids]()
     {
-        std::vector<Photo::Data> photos;
-        photos.reserve(ids.size());
+        try
+        {
+            slice(ids.begin(), ids.end(), 200, [this](auto first, auto last)
+            {
+                const std::vector<Photo::Data> photoData =
+                    evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
+                {
+                    std::vector<Photo::Data> photos;
+                    photos.reserve(last - first);
 
-        for(const auto& id: ids)
-            photos.push_back(backend.getPhoto(id));
+                    std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
+                    {
+                        return backend.getPhoto(id);
+                    });
 
-        invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photos);
-    });
+                    return photos;
+                });
+
+                invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photoData);
+
+                m_workState.throwIfAbort();
+            });
+        }
+        catch(const abort_exception &)
+        {
+
+        }
+    },
+    "Fetching photo details"
+    );
 }
 
 
@@ -146,6 +170,7 @@ void PhotosAnalyzerImpl::stop()
 {
     disconnect(m_backendConnection);
     m_taskQueue.clear();
+    m_workState.abort();
     m_taskQueue.waitForPendingTasks();
 }
 
@@ -194,17 +219,11 @@ PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory,
 
 PhotosAnalyzer::~PhotosAnalyzer()
 {
-    stop();
+
 }
 
 
 void PhotosAnalyzer::set(ITasksView* tasksView)
 {
     m_data->set(tasksView);
-}
-
-
-void PhotosAnalyzer::stop()
-{
-    m_data->stop();
 }
