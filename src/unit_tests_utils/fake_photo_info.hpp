@@ -5,7 +5,7 @@
 #include "database/iphoto_info.hpp"
 
 
-class FakePhotoInfo: public IPhotoInfo
+class FakePhotoInfo final: public IPhotoInfo
 {
 public:
     explicit FakePhotoInfo(const Photo::Data& data):

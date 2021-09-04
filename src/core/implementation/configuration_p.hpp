@@ -30,7 +30,7 @@
 class QJsonValueRef;
 struct IConfigObserver;
 
-class ConfigurationPrivate: public QObject
+class ConfigurationPrivate final: public QObject
 {
     public:
         /**

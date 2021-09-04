@@ -32,7 +32,7 @@ namespace Database
     struct IBackend;
     struct ISqlQueryExecutor;
 
-    class PhotoOperator: public IPhotoOperator
+    class PhotoOperator final: public IPhotoOperator
     {
         public:
             PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *);

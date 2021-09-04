@@ -29,7 +29,7 @@ struct ILogger;
 namespace Database
 {
 
-    class SqlQueryExecutor: public ISqlQueryExecutor
+    class SqlQueryExecutor final: public ISqlQueryExecutor
     {
         public:
             SqlQueryExecutor();

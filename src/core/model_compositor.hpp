@@ -28,7 +28,7 @@
 /**
  * @brief Unite many data sources into one
  */
-class CORE_EXPORT ModelCompositor: public QAbstractListModel
+class CORE_EXPORT ModelCompositor final: public QAbstractListModel
 {
     public:
         ModelCompositor(QObject* parent = nullptr);

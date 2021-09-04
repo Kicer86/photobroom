@@ -4,7 +4,7 @@
 
 #include "ianalyzer.hpp"
 
-class FileAnalyzer: public IAnalyzer
+class FileAnalyzer final: public IAnalyzer
 {
     public:
         FileAnalyzer();

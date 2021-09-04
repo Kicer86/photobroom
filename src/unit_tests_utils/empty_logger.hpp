@@ -4,7 +4,7 @@
 
 #include <core/ilogger.hpp>
 
-class EmptyLogger: public ILogger
+class EmptyLogger final: public ILogger
 {
     public:
         void log(Severity, const QString &) override {}

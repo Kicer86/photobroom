@@ -26,7 +26,7 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
         }
 
     private:
-        class Task: public ITaskExecutor::ITask
+        class Task final: public ITaskExecutor::ITask
         {
             public:
                 Task(ObservableTaskExecutor& executor, std::unique_ptr<ITaskExecutor::ITask>&& task)

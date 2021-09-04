@@ -71,7 +71,7 @@ namespace Database
     struct ProjectInfo;
 
     // for internal usage
-    class db_error: std::exception
+    class db_error final: std::exception
     {
             std::string m_err;
             StatusCodes m_status;
