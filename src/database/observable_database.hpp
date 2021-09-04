@@ -11,7 +11,7 @@ class ObservableDatabase: public ObservableExecutor, public T
 {
     public:
         template<typename ...Args>
-        ObservableDatabase(Args... args): T(std::forward<Args>(args)...) {}
+        explicit ObservableDatabase(Args... args): T(std::forward<Args>(args)...) {}
 
         QString name() const override
         {
