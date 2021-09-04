@@ -9,7 +9,7 @@ void slice(T first, T last, long chunkSize, O o)
 {
     while(first != last)
     {
-        const auto maxChunkSize = last - first;
+        const long maxChunkSize = last - first;
         chunkSize = std::min(chunkSize, maxChunkSize);
 
         auto from = first;
