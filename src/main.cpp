@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     );
 
     QCommandLineOption developerOptions("feature-toggle",
-                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug"),
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher"),
                                          QCoreApplication::translate("main", "flag")
     );
 
@@ -162,8 +162,6 @@ int main(int argc, char **argv)
         status = CrashCatcher::init(argv[0]) ? CrashCatcherStatus::Ok : CrashCatcherStatus::Error;
 
     std::set<QString> toggles;
-    if (featureToggles.contains("debug"))
-        toggles.insert(cmdline_fatures::Debug);
     CommandLineToggles cmdLineToggles(toggles);
 
     LoggerFactory logger_factory(basePath);

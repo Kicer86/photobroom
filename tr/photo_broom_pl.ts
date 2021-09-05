@@ -416,7 +416,7 @@ Check paths in configuration window.</source>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+235"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -1061,7 +1061,7 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug</source>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

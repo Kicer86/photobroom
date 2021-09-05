@@ -111,7 +111,9 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     ui->tagEditor->set(&m_completerFactory);
 
-    ui->debugDockWidget->setVisible(featuresManager.has(cmdline_fatures::Debug));
+    connect(&ObservablesRegistry::instance(), &ObservablesRegistry::executorsChanged,
+            this, [this](const auto& executors) { ui->debugDockWidget->setVisible(executors.isEmpty() == false); });
+
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
 

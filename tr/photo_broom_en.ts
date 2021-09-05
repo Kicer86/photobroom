@@ -413,89 +413,89 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="233"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="235"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="234"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="236"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="242"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="244"/>
         <source>Internet connection problem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="243"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="245"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="371"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="373"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="372"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="374"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="474"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="476"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="475"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="477"/>
         <source>Manage group...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="476"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="478"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="477"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="479"/>
         <source>Open photo location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="478"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="480"/>
         <source>Recognize people...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="594"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="596"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="594"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="596"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="659"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="661"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="665"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="667"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="729"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="739"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="731"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="741"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="730"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="732"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -503,7 +503,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="740"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="742"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -511,12 +511,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="748"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="750"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="749"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="751"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -526,23 +526,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="759"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="761"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="760"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="762"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="768"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="770"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="769"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="771"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -1039,7 +1039,7 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/main.cpp" line="89"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug</source>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
