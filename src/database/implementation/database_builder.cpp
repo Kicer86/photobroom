@@ -36,6 +36,7 @@
 #include "ibackend.hpp"
 #include "photo_info.hpp"
 #include "project_info.hpp"
+#include "observable_database.hpp"
 
 //TODO: cleanup this file!
 
@@ -101,7 +102,7 @@ namespace Database
         std::unique_ptr<IBackend> backend = plugin->constructBackend(m_impl->m_configuration, logger.get());
 
         auto cache = std::make_unique<PhotoInfoCache>(logger.get());
-        auto database = std::make_unique<AsyncDatabase>(std::move(backend), std::move(cache), logger.get());
+        auto database = std::make_unique<ObservableDatabase<AsyncDatabase>>(std::move(backend), std::move(cache), logger.get());
 
         return database;
     }

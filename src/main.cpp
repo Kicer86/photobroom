@@ -17,9 +17,11 @@
 
 #include <core/core_factory_accessor.hpp>
 #include <core/exif_reader_factory.hpp>
+#include <core/ifeatures_manager.hpp>
+#include <core/ilogger.hpp>
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
-#include <core/ilogger.hpp>
+#include <core/observable_task_executor.hpp>
 #include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -29,6 +31,7 @@
 
 #include "paths.hpp"
 #include "config_storage.hpp"
+#include "features.hpp"
 
 
 namespace
@@ -39,6 +42,24 @@ namespace
         Disabled,
         Ok,
         Error,
+    };
+
+    class CommandLineToggles: public IFeaturesManager
+    {
+        public:
+            CommandLineToggles(const std::set<QString>& toggles)
+                : m_toggles(toggles)
+            {
+
+            }
+
+            bool has(const QString& key) const override
+            {
+                return m_toggles.contains(key);
+            }
+
+        private:
+            const std::set<QString> m_toggles;
     };
 }
 
@@ -140,6 +161,9 @@ int main(int argc, char **argv)
     if (crashCatcherDisabled == false)
         status = CrashCatcher::init(argv[0]) ? CrashCatcherStatus::Ok : CrashCatcherStatus::Error;
 
+    std::set<QString> toggles;
+    CommandLineToggles cmdLineToggles(toggles);
+
     LoggerFactory logger_factory(basePath);
     logger_factory.setLogingLevel(logingLevel);
 
@@ -152,7 +176,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     auto taskExecutorLogger = logger_factory.get("TaskExecutor");
-    TaskExecutor taskExecutor(taskExecutorLogger.get());
+    ObservableTaskExecutor<TaskExecutor> taskExecutor(taskExecutorLogger.get());
 
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);
@@ -188,7 +212,7 @@ int main(int argc, char **argv)
     QImageReader::setAllocationLimit(memoryLimit);
 
     // start gui
-    Gui(prjManager, pluginLoader, coreFactory).run();
+    Gui(prjManager, pluginLoader, coreFactory, cmdLineToggles).run();
 
     taskExecutor.stop();
 

@@ -16,7 +16,7 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
@@ -48,6 +48,11 @@ if(MSVC_VERSION)
 elseif(APPLE)
     #enable auto_ptr. Disabled by clang on MacOS for c++17 but required by exiv 0.27
     add_definitions(-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
+endif()
+
+#objdump
+if(ENABLE_OBJDUMPING)
+    add_custom_target(DumpObjs ALL)
 endif()
 
 #options:

@@ -16,7 +16,7 @@ namespace Database
     /**
     * \brief memory based backend
     */
-    class DATABASE_MEMORY_BACKEND_EXPORT MemoryBackend:
+    class DATABASE_MEMORY_BACKEND_EXPORT MemoryBackend final:
         public IBackend,
                APeopleInformationAccessor,
                APhotoChangeLogOperator,

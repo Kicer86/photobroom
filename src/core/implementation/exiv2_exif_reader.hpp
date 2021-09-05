@@ -41,7 +41,7 @@ struct Exiv2Helper
 };
 
 
-class Exiv2ExifReader: public AExifReader
+class Exiv2ExifReader final: public AExifReader
 {
     public:
         Exiv2ExifReader();

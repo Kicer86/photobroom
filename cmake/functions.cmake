@@ -1,11 +1,12 @@
 
-#usage:
-#addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
-#function will add executable with tests and will register it for ctest.
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
+option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
 
+#usage:
+#addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
+#function will add executable with tests and will register it for ctest.
 macro(addTestTarget target)
 
     find_package(Qt6 REQUIRED COMPONENTS Core)
@@ -192,24 +193,6 @@ function(disableWarnings target)
 endfunction(disableWarnings)
 
 
-function(stringify_enums output input)
-
-    get_filename_component(input_file_name ${input} NAME_WE)
-    set(generated_file_name "${input_file_name}.strings.hpp")
-
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name}
-                       COMMAND enum_to_string ${CMAKE_CURRENT_SOURCE_DIR}/${input} ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name}
-                       DEPENDS enum_to_string
-                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${input}
-    )
-
-    set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name} PROPERTIES GENERATED TRUE)
-
-    set(${output} ${CMAKE_CURRENT_BINARY_DIR}/${generated_file_name} PARENT_SCOPE)
-
-endfunction()
-
-
 function(stringify_file output_file input_file variable_with_type namespace)
 
     file(READ ${input_file} file_content)
@@ -224,3 +207,28 @@ function(stringify_file output_file input_file variable_with_type namespace)
     file(APPEND ${output_file} "}\n")
 
 endfunction(stringify_file)
+
+
+function(objdump_target target)
+
+    if(ENABLE_OBJDUMPING)
+        find_program(OBJDUMP objdump REQUIRED)
+
+        set(targetName "objdump_${target}")
+        set(lstFile ${PROJECT_BINARY_DIR}/listings/${target}.lst)
+        file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/listings)
+
+        add_custom_command(
+            OUTPUT ${lstFile}
+            COMMAND ${OBJDUMP} -d -M intel $<TARGET_FILE:${target}> > ${lstFile}
+            DEPENDS ${target}
+        )
+
+        add_custom_target(
+            ${targetName}
+            DEPENDS ${lstFile}
+        )
+
+        add_dependencies(DumpObjs ${targetName})
+    endif()
+endfunction()

@@ -36,7 +36,7 @@ class QString;
 struct ILoggerFactory;
 
 
-class CORE_EXPORT Logger: public ILogger
+class CORE_EXPORT Logger final: public ILogger
 {
     public:
         Logger(std::mutex &, std::ostream &, const QString& utility, Severity, const ILoggerFactory *);

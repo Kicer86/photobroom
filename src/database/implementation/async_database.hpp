@@ -57,7 +57,7 @@ namespace Database
     };
 
 
-    class AsyncDatabase final: public IDatabase
+    class AsyncDatabase: public IDatabase
     {
         public:
             AsyncDatabase(std::unique_ptr<IBackend> &&, std::unique_ptr<IPhotoInfoCache> &&, ILogger *);

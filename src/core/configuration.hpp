@@ -49,7 +49,7 @@ struct IConfigStorage
 };
 
 
-class CORE_EXPORT Configuration: public IConfiguration
+class CORE_EXPORT Configuration final: public IConfiguration
 {
     public:
         /**

@@ -10,6 +10,7 @@
 #endif
 
 #include <core/constants.hpp>
+#include <core/features_manager_compositor.hpp>
 #include <core/iconfiguration.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger.hpp>
@@ -29,10 +30,11 @@
 #include "utils/thumbnail_manager.hpp"
 
 
-Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory):
-    m_prjManager(prjMgr),
-    m_pluginLoader(pluginLoader),
-    m_coreFactory(coreFactory)
+Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory, IFeaturesManager& features)
+    : m_prjManager(prjMgr)
+    , m_pluginLoader(pluginLoader)
+    , m_coreFactory(coreFactory)
+    , m_featuresManager(features)
 {
     register_qml_types();
 
@@ -117,8 +119,12 @@ void Gui::run()
 
     FeaturesManager guiFeatures(configuration, gui_logger);
 
+    FeaturesManagerCompositor allFeatures;
+    allFeatures.add(&guiFeatures);
+    allFeatures.add(&m_featuresManager);
+
     // main window
-    MainWindow mainWindow(guiFeatures, &m_coreFactory, &thbMgr);
+    MainWindow mainWindow(allFeatures, &m_coreFactory, &thbMgr);
 
     mainWindow.set(&m_prjManager);
     mainWindow.set(&m_pluginLoader);

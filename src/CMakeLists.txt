@@ -25,6 +25,7 @@ add_subdirectory(system)
 set(BROOM_SOURCES
     config_storage.cpp
     config_storage.hpp
+    features.hpp
     main.cpp
     $<TARGET_OBJECTS:plugins>
 )
@@ -60,6 +61,8 @@ target_include_directories(photo_broom
 )
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
+
+objdump_target(photo_broom)
 
 if(WIN32)
     #photo_broom on Windows requires Images (for exe file ico)

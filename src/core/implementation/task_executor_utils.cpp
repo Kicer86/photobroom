@@ -47,7 +47,7 @@ void WorkState::throwIfAbort()
 }
 
 
-struct TasksQueue::IntTask: ITaskExecutor::ITask
+struct TasksQueue::IntTask final: ITaskExecutor::ITask
 {
     IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
         m_task(std::move(callable)),

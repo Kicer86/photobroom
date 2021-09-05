@@ -121,6 +121,30 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
+    <name>DebugWindow</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+22"/>
+        <source>Tasks in queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Tasks executed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Execution speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
@@ -308,6 +332,11 @@ Check paths in configuration window.</source>
     </message>
     <message>
         <location line="+9"/>
+        <source>debug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -387,7 +416,7 @@ Check paths in configuration window.</source>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+227"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+235"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -1021,7 +1050,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+62"/>
+        <location filename="../src/main.cpp" line="+83"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
@@ -1033,7 +1062,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+5"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
-        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>

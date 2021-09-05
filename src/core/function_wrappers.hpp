@@ -26,7 +26,7 @@ struct safe_callback_data
 // Usefull when calling object's method from another thread
 // as we are sure target object exists (or nothing happens)
 template<typename... Args>
-class safe_callback
+class safe_callback final
 {
     public:
         safe_callback(const std::shared_ptr<safe_callback_data>& data, const std::function<void(Args...)>& callback): m_data(data), m_callback(callback) {}

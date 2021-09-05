@@ -30,6 +30,7 @@
 #include <core/accumulative_queue.hpp>
 #include <core/itasks_view.hpp>
 #include <core/iview_task.hpp>
+#include <core/observable_task_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
 
@@ -53,7 +54,7 @@ class PhotosAnalyzerImpl: public QObject
     private:
         using PhotosQueue = AccumulativeQueue<Photo::DataDelta>;
 
-        TasksQueue m_taskQueue;
+        ObservableTaskExecutor<TasksQueue> m_taskQueue;
         PhotoInfoUpdater m_updater;
         QTimer m_timer;
         PhotosQueue m_updateQueue;

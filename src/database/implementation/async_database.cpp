@@ -109,7 +109,7 @@ namespace Database
     };
 
 
-    struct CustomAction: IThreadTask
+    struct CustomAction final: IThreadTask
     {
         CustomAction(std::unique_ptr<Database::IDatabase::ITask>&& operation): m_operation(std::move(operation))
         {
@@ -125,7 +125,7 @@ namespace Database
     };
 
 
-    struct DbCloseTask: IThreadTask
+    struct DbCloseTask final: IThreadTask
     {
         DbCloseTask() = default;
 

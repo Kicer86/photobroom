@@ -77,7 +77,7 @@ namespace Database
 
         protected:
             template<typename Callable>
-            struct Task: ITask
+            struct Task final: ITask
             {
                 Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
 

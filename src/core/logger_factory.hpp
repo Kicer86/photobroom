@@ -28,7 +28,7 @@
 
 #include "core_export.h"
 
-class CORE_EXPORT LoggerFactory: public ILoggerFactory
+class CORE_EXPORT LoggerFactory final: public ILoggerFactory
 {
     public:
         LoggerFactory(const QString &);

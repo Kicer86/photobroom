@@ -47,7 +47,5 @@ std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 
 std::unique_ptr<ILogger> LoggerFactory::get(const QStringList& utility) const
 {
-    auto logger = std::make_unique<Logger>(m_outputMutex, m_logFile, utility, m_logingLevel, this);
-
-    return std::move(logger);
+    return std::make_unique<Logger>(m_outputMutex, m_logFile, utility, m_logingLevel, this);
 }

@@ -26,10 +26,14 @@ set(CORE_SOURCES
 
     #tiny utilities
     containers_utils.hpp
+    features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
     function_wrappers.hpp
     generic_concepts.hpp
     id.hpp
     lazy_ptr.hpp
+    observable_executor.hpp                                 implementation/observable_executor.cpp
+    observable_task_executor.hpp
+    observables_registry.hpp                                implementation/observables_registry.cpp
     slicer.hpp
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
@@ -112,6 +116,8 @@ hideSymbols(core)
 if(BUILD_SHARED_LIBS)
     install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
                          LIBRARY DESTINATION ${PATH_LIBS})
+
+    objdump_target(core)
 endif()
 
 if(BUILD_TESTING)
