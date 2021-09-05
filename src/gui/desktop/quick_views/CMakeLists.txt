@@ -11,7 +11,6 @@ qt6_add_resources(QML_RESOURCES
 
 qt6_wrap_cpp(MOCED
                 bridge.hpp
-                debug_model.hpp
                 photo_data_qml.hpp
                 photo_item.hpp
                 photos_model_controller_component.hpp
@@ -25,8 +24,6 @@ add_library(quick_views OBJECT
                 ${MOCED}
                 bridge.cpp
                 bridge.hpp
-                debug_model.cpp
-                debug_model.hpp
                 photo_data_qml.cpp
                 photo_data_qml.hpp
                 photo_item.cpp
