@@ -16,7 +16,7 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
 
