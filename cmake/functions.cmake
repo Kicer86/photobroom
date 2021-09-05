@@ -1,11 +1,11 @@
 
-#usage:
-#addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
-#function will add executable with tests and will register it for ctest.
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 
+#usage:
+#addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
+#function will add executable with tests and will register it for ctest.
 macro(addTestTarget target)
 
     find_package(Qt6 REQUIRED COMPONENTS Core)
