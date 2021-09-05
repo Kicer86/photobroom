@@ -83,6 +83,8 @@ hideSymbols(gui)
 if(BUILD_SHARED_LIBS)
     install(TARGETS gui RUNTIME DESTINATION ${PATH_LIBS}
                         LIBRARY DESTINATION ${PATH_LIBS})
+
+    objdump_target(gui)
 endif()
 
 if(BUILD_TESTING)

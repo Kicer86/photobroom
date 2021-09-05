@@ -2,6 +2,7 @@
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
+option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
 
 #usage:
 #addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
@@ -206,3 +207,28 @@ function(stringify_file output_file input_file variable_with_type namespace)
     file(APPEND ${output_file} "}\n")
 
 endfunction(stringify_file)
+
+
+function(objdump_target target)
+
+    if(ENABLE_OBJDUMPING)
+        find_program(OBJDUMP objdump REQUIRED)
+
+        set(targetName "objdump_${target}")
+        set(lstFile ${PROJECT_BINARY_DIR}/listings/${target}.lst)
+        file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/listings)
+
+        add_custom_command(
+            OUTPUT ${lstFile}
+            COMMAND ${OBJDUMP} -d -M intel $<TARGET_FILE:${target}> > ${lstFile}
+            DEPENDS ${target}
+        )
+
+        add_custom_target(
+            ${targetName}
+            DEPENDS ${lstFile}
+        )
+
+        add_dependencies(DumpObjs ${targetName})
+    endif()
+endfunction()

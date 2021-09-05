@@ -116,6 +116,8 @@ hideSymbols(core)
 if(BUILD_SHARED_LIBS)
     install(TARGETS core RUNTIME DESTINATION ${PATH_LIBS}
                          LIBRARY DESTINATION ${PATH_LIBS})
+
+    objdump_target(core)
 endif()
 
 if(BUILD_TESTING)

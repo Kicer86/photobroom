@@ -62,6 +62,8 @@ target_include_directories(photo_broom
 
 install(TARGETS photo_broom RUNTIME DESTINATION ${PATH_BIN})
 
+objdump_target(photo_broom)
+
 if(WIN32)
     #photo_broom on Windows requires Images (for exe file ico)
     add_dependencies(photo_broom Images)

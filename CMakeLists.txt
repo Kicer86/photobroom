@@ -50,6 +50,11 @@ elseif(APPLE)
     add_definitions(-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
 endif()
 
+#objdump
+if(ENABLE_OBJDUMPING)
+    add_custom_target(DumpObjs ALL)
+endif()
+
 #options:
 option(BUILD_LEARNING_TESTS "Build learning tests" OFF)
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
