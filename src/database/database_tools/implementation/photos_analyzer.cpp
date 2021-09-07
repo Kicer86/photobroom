@@ -41,7 +41,8 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr),
-    m_maxTasks(0)
+    m_totalTasks(0),
+    m_doneTasks(0)
 {
     connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
 
@@ -148,6 +149,7 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
     {
         auto storage = make_cross_thread_function<Photo::SafeData *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, photo, _1));
         Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
+        m_totalTasks++;
 
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
             m_updater.updateGeometry(sharedDelta);
@@ -164,6 +166,7 @@ void PhotosAnalyzerImpl::photoUpdated(const Photo::Data& oldPhotoData, Photo::Sa
     const Photo::DataDelta delta(oldPhotoData, newPhotoData);
 
     m_updateQueue.push(delta);
+    m_doneTasks++;
 
     delete safeData;
 }
@@ -193,7 +196,8 @@ void PhotosAnalyzerImpl::setupRefresher()
 {
     if (m_taskQueue.size() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
     {
-        m_maxTasks = 0;
+        m_totalTasks = 0;
+        m_doneTasks = 0;
         m_viewTask = m_tasksView->add(tr("Extracting data from photos"));
     }
     else if (m_taskQueue.size() == 0 && m_viewTask != nullptr)
@@ -210,12 +214,9 @@ void PhotosAnalyzerImpl::refreshView()
 
     if (m_viewTask != nullptr)
     {
-        const std::size_t current_size = m_taskQueue.size();
-        m_maxTasks = std::max(m_maxTasks, current_size);
-
         IProgressBar* progressBar = m_viewTask->getProgressBar();
-        progressBar->setMaximum(m_maxTasks);
-        progressBar->setValue(m_maxTasks - current_size);
+        progressBar->setMaximum(m_totalTasks);
+        progressBar->setValue(m_doneTasks);
         progressBar->setFormat("%v/%m");
     }
 }

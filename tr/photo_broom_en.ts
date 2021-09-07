@@ -670,14 +670,14 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="97"/>
-        <source>Loading media information</source>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="98"/>
+        <source>Loading photos needing update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="197"/>
-        <source>Loading photos data...</source>
-        <translation>Loading photos data...</translation>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="201"/>
+        <source>Extracting data from photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

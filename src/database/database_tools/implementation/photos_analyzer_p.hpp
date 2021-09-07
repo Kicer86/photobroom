@@ -63,7 +63,8 @@ class PhotosAnalyzerImpl: public QObject
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
-        std::size_t m_maxTasks;
+        std::size_t m_totalTasks;
+        std::size_t m_doneTasks;
 
         void setupRefresher();
         void refreshView();
