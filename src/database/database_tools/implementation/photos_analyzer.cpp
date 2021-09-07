@@ -66,7 +66,8 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     {
         auto photos = backend.photoOperator().getPhotos(filters);
 
-        invokeMethod(this, &PhotosAnalyzerImpl::addPhotos, photos);
+        if (photos.empty() == false)
+            invokeMethod(this, &PhotosAnalyzerImpl::addPhotos, photos);
 
         // as all uninitialized photos were found.
         // start watching for any new photos added later.
@@ -93,11 +94,19 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    runOn(m_taskQueue, [this, ids]()
+    IViewTask* loadTask = m_tasksView->add(tr("Loading photos needing update"));
+
+    runOn(m_taskQueue, [this, ids, loadTask]()
     {
+        const auto count = ids.size();
+
         try
         {
-            slice(ids.begin(), ids.end(), 200, [this](auto first, auto last)
+            int progress = 0;
+            loadTask->getProgressBar()->setMinimum(0);
+            loadTask->getProgressBar()->setMaximum(count);
+
+            slice(ids.begin(), ids.end(), 200, [this, loadTask, &progress](auto first, auto last)
             {
                 const std::vector<Photo::Data> photoData =
                     evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
@@ -114,6 +123,9 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
                 });
 
                 invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photoData);
+                progress += last - first;
+
+                loadTask->getProgressBar()->setValue(progress);
 
                 m_workState.throwIfAbort();
             });
@@ -122,6 +134,8 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
         {
 
         }
+
+        loadTask->finished();
     },
     "Fetching photo details"
     );
@@ -180,7 +194,7 @@ void PhotosAnalyzerImpl::setupRefresher()
     if (m_taskQueue.size() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
     {
         m_maxTasks = 0;
-        m_viewTask = m_tasksView->add(tr("Loading photos data..."));
+        m_viewTask = m_tasksView->add(tr("Extracting data from photos"));
     }
     else if (m_taskQueue.size() == 0 && m_viewTask != nullptr)
     {
