@@ -54,6 +54,11 @@ namespace
             m_progressBar->setValue(v);
         }
 
+        void setFormat(const QString& format) override
+        {
+            m_progressBar->setFormat(format);
+        }
+
         QProgressBar* m_progressBar;
     };
 }
