@@ -36,7 +36,6 @@ using namespace std::placeholders;
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(&coreFactory->getTaskExecutor()),
     m_updater(m_taskQueue, coreFactory, database),
-    m_timer(),
     m_updateQueue(1000, 5s, std::bind(&PhotosAnalyzerImpl::flushQueue, this, _1, _2)),
     m_database(database),
     m_tasksView(nullptr),
@@ -44,9 +43,9 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     m_totalTasks(0),
     m_doneTasks(0)
 {
-    connect(&m_timer, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
+    connect(&m_progressRefresh, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
 
-    m_timer.start(500);
+    m_progressRefresh.start(500);
 
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)

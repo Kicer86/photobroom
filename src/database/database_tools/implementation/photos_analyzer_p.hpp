@@ -56,7 +56,7 @@ class PhotosAnalyzerImpl: public QObject
 
         ObservableTaskExecutor<TasksQueue> m_taskQueue;
         PhotoInfoUpdater m_updater;
-        QTimer m_timer;
+        QTimer m_progressRefresh;
         PhotosQueue m_updateQueue;
         WorkState m_workState;
         QMetaObject::Connection m_backendConnection;
