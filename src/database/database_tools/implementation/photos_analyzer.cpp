@@ -193,16 +193,16 @@ void PhotosAnalyzerImpl::stop()
 
 void PhotosAnalyzerImpl::setupRefresher()
 {
-    if (m_taskQueue.size() > 0 && m_viewTask == nullptr)         //there are tasks but no view task
-    {
-        m_totalTasks = 0;
-        m_doneTasks = 0;
+    const int work = m_totalTasks - m_doneTasks;
+
+    if (work > 0 && m_viewTask == nullptr)         //there are tasks but no view task
         m_viewTask = m_tasksView->add(tr("Extracting data from photos"));
-    }
-    else if (m_taskQueue.size() == 0 && m_viewTask != nullptr)
+    else if (work == 0 && m_viewTask != nullptr)
     {
         m_viewTask->finished();
         m_viewTask = nullptr;
+        m_totalTasks = 0;
+        m_doneTasks = 0;
     }
 }
 

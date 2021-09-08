@@ -675,7 +675,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="200"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="199"/>
         <source>Extracting data from photos</source>
         <translation type="unfinished"></translation>
     </message>

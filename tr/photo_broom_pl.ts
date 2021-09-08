@@ -699,7 +699,7 @@ Kod błędu: %1</translation>
         <translation>Wczytywanie zdjęć wymagających aktualizacji</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+102"/>
         <source>Extracting data from photos</source>
         <translation>Wydobywanie informacji ze zdjęć</translation>
     </message>
