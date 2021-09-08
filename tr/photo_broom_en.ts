@@ -670,7 +670,7 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="97"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="93"/>
         <source>Loading photos needing update</source>
         <translation type="unfinished"></translation>
     </message>

@@ -43,10 +43,6 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     m_totalTasks(0),
     m_doneTasks(0)
 {
-    connect(&m_progressRefresh, &QTimer::timeout, this, &PhotosAnalyzerImpl::refreshView);
-
-    m_progressRefresh.start(500);
-
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
 
@@ -156,6 +152,8 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
         if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
             m_updater.updateTags(sharedDelta);
     }
+
+    refreshView();
 }
 
 
@@ -166,6 +164,8 @@ void PhotosAnalyzerImpl::photoUpdated(const Photo::Data& oldPhotoData, Photo::Sa
 
     m_updateQueue.push(delta);
     m_doneTasks++;
+
+    refreshView();
 
     delete safeData;
 }
