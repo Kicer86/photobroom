@@ -36,7 +36,7 @@ class ObservableDatabase: public ObservableExecutor, public T
                     m_executor.taskExecuted();
                 }
 
-                const std::string& name() override
+                std::string name() override
                 {
                     return m_task->name();
                 }

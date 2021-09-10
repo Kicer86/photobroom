@@ -70,7 +70,7 @@ namespace Database
         {
             virtual ~ITask() = default;
             virtual void run(IBackend &) = 0;
-            virtual const std::string& name() = 0;
+            virtual std::string name() = 0;
         };
 
         protected:
@@ -89,7 +89,7 @@ namespace Database
                     m_f(backend);
                 }
 
-                const std::string& name() override
+                std::string name() override
                 {
                     return m_name;
                 }
