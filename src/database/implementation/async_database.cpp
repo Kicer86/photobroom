@@ -62,20 +62,25 @@ namespace Database
 
             for(;;)
             {
-                std::optional< std::unique_ptr<IDatabaseThread::ITask> > task = m_tasks.pop();
+                std::optional< std::unique_ptr<IDatabaseThread::ITask> > taskOpt = m_tasks.pop();
 
-                if (task)
+                if (taskOpt)
                 {
                     QElapsedTimer timer;
                     timer.start();
 
-                    (*task)->run(m_backend);
+                    const auto& task = *taskOpt;
+
+                    task->run(m_backend);
 
                     const qint64 elapsed = timer.elapsed();
 
                     if (elapsed > 100)
                     {
-                        const QString message = QString("DB task took %1ms").arg(elapsed);
+                        const QString message = QString("DB task '%2' took %1ms")
+                            .arg(elapsed)
+                            .arg(QString::fromStdString(task->name()));
+
                         m_logger->warning(message);
                     }
                 }
