@@ -52,20 +52,20 @@ Logger::Logger(std::mutex& output_mutex, std::ostream& stream, const QString& ut
 
 void Logger::log(ILogger::Severity sev, const QString& message)
 {
-    std::lock_guard<std::mutex> lock(m_outputMutex);
-
-    const QString s = severity(sev);
-    const QString m = QString("%1 %2 [%3][%4]: %5")
-                        .arg(currentDate())
-                        .arg(currentTime())
-                        .arg(s)
-                        .arg(m_utility.join(":"))
-                        .arg(message);
-
-    const std::string message_str = m.toStdString();
-
     if (sev <= m_severity)
     {
+        std::lock_guard<std::mutex> lock(m_outputMutex);
+
+        const QString s = severity(sev);
+        const QString m = QString("%1 %2 [%3][%4]: %5")
+                            .arg(currentDate())
+                            .arg(currentTime())
+                            .arg(s)
+                            .arg(m_utility.join(":"))
+                            .arg(message);
+
+        const std::string message_str = m.toStdString();
+
         m_file << message_str << "\n";
 
         std::cout << message_str << std::endl;
