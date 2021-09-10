@@ -36,6 +36,11 @@ class ObservableDatabase: public ObservableExecutor, public T
                     m_executor.taskExecuted();
                 }
 
+                const std::string& name() override
+                {
+                    return m_task->name();
+                }
+
             private:
                 std::unique_ptr<Database::IDatabaseThread::ITask> m_task;
                 ObservableDatabase& m_executor;
