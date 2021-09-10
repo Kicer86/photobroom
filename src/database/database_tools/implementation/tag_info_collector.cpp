@@ -25,7 +25,10 @@
 #include "idatabase.hpp"
 
 
-TagInfoCollector::TagInfoCollector(): m_tags(), m_tags_mutex(), m_database(nullptr), m_observerId(0)
+TagInfoCollector::TagInfoCollector(std::unique_ptr<ILogger> logger)
+    : m_logger(std::move(logger))
+    , m_database(nullptr)
+    , m_observerId(0)
 {
     connect(&m_mapper, &Database::SignalMapper::photoModified,
             this,      &TagInfoCollector::photoModified);
@@ -78,6 +81,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
     // For now we just read all tags from changed photos and append their values.
 
     std::unique_lock<std::mutex> lock(m_tags_mutex);
+    m_logger->trace(QString("updating values for tags from photo %1").arg(photoInfo->getID()));
 
     for(const auto& tag: tags)
     {

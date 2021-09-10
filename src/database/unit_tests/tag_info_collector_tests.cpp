@@ -11,6 +11,7 @@
 #include "unit_tests_utils/mock_photo_info.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
 #include "unit_tests_utils/mock_db_utils.hpp"
+#include "unit_tests_utils/empty_logger.hpp"
 
 
 using ::testing::Invoke;
@@ -55,14 +56,14 @@ TEST_F(TagInfoCollectorTest, Constructor)
 {
     EXPECT_NO_THROW(
     {
-        TagInfoCollector tagInfoCollector;
+        TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     });
 }
 
 
 TEST_F(TagInfoCollectorTest, GetWithoutDatabase)
 {
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
 
     std::vector<TagTypes> tags = BaseTags::getAll();
 
@@ -95,7 +96,7 @@ TEST_F(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return(std::vector<TagValue>{QColor(Qt::red), QColor(Qt::blue)}) );
 
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     tagInfoCollector.set(&database);
 
     const std::vector<TagValue>& dates = tagInfoCollector.get(TagTypes::Date);
@@ -152,7 +153,7 @@ TEST_F(TagInfoCollectorTest, EmptyDatabase)
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return( std::vector<TagValue>()) );
 
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     tagInfoCollector.set(&database);
 
     const std::vector<TagValue>& dates = tagInfoCollector.get(TagTypes::Date);
@@ -195,7 +196,7 @@ TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
     EXPECT_CALL(backend, listTagValues(TagTypes::Category, _))
         .WillOnce( Return( std::vector<TagValue>()) );
 
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     tagInfoCollector.set(&database);
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();
@@ -247,7 +248,7 @@ TEST_F(TagInfoCollectorTest, ObserversNotification)
     EXPECT_CALL(observer, event(_))
         .Times(8);
 
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     QObject::connect(&tagInfoCollector, &TagInfoCollector::setOfValuesChanged,
                      &observer, &Observer::event);
 
@@ -274,7 +275,7 @@ TEST_F(TagInfoCollectorTest, ObserversNotification)
 
 TEST_F(TagInfoCollectorTest, ReactionOnPhotoChange)
 {
-    TagInfoCollector tagInfoCollector;
+    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
     tagInfoCollector.set(&database);
 
     auto photoInfo = std::make_shared<NiceMock<MockPhotoInfo>>();

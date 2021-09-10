@@ -22,6 +22,7 @@
 #include <QCompleter>
 #include <QStringListModel>
 
+#include <core/ilogger_factory.hpp>
 #include <core/model_compositor.hpp>
 #include <database/database_tools/tag_info_collector.hpp>
 
@@ -45,7 +46,7 @@ namespace
 
 
 CompleterFactory::CompleterFactory(ILoggerFactory& lf):
-    m_tagInfoCollector(),
+    m_tagInfoCollector(lf.get("TagInfoCollector")),
     m_tagValueModels(),
     m_peopleListModel(),
     m_loggerFactory(lf)

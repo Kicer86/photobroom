@@ -22,6 +22,7 @@
 
 #include <mutex>
 
+#include <core/ilogger.hpp>
 #include <database/database_tools/signal_mapper.hpp>
 
 #include "itag_info_collector.hpp"
@@ -36,7 +37,7 @@ namespace Database
 class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 {
     public:
-        TagInfoCollector();
+        TagInfoCollector(std::unique_ptr<ILogger>);
         TagInfoCollector(const TagInfoCollector &) = delete;
         ~TagInfoCollector();
 
@@ -50,6 +51,7 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
         Database::SignalMapper m_mapper;
         mutable std::map<TagTypes, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
+        std::unique_ptr<ILogger> m_logger;
         Database::IDatabase* m_database;
         int m_observerId;
 
