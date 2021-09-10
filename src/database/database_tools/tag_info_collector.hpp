@@ -39,7 +39,7 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
     public:
         TagInfoCollector(std::unique_ptr<ILogger>);
         TagInfoCollector(const TagInfoCollector &) = delete;
-        ~TagInfoCollector();
+        ~TagInfoCollector() = default;
 
         TagInfoCollector& operator=(const TagInfoCollector &) = delete;
 

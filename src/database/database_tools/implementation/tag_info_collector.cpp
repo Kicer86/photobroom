@@ -35,12 +35,6 @@ TagInfoCollector::TagInfoCollector(std::unique_ptr<ILogger> logger)
 }
 
 
-TagInfoCollector::~TagInfoCollector()
-{
-
-}
-
-
 void TagInfoCollector::set(Database::IDatabase* db)
 {
     m_database = db;
