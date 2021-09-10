@@ -39,6 +39,8 @@
 
 class PhotosAnalyzerImpl: public QObject
 {
+        Q_OBJECT
+
     public:
         PhotosAnalyzerImpl(ICoreFactoryAccessor *, Database::IDatabase &);
         PhotosAnalyzerImpl(const PhotosAnalyzerImpl&) = delete;
