@@ -42,7 +42,7 @@ bool SeriesModel::isLoaded() const
 
 void SeriesModel::groupBut(const QSet<int>& excludedRows)
 {
-    std::vector<GroupCandidate> toStore;
+    std::vector<std::vector<Photo::Data>> toStore;
     std::vector<GroupCandidate> left;
 
     for(std::size_t i = 0; i < m_candidates.size(); i++)
@@ -51,19 +51,16 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
         excludedRows.contains(i)?
             left.push_back(candidate):
-            toStore.push_back(candidate);
+            toStore.push_back(candidate.members);
     }
 
     auto& executor = m_core.getTaskExecutor();
 
-    for (const auto& group: toStore)
+    runOn(executor, [groups = std::move(toStore), &project = m_project]() mutable
     {
-        runOn(executor, [group, &project = m_project]() mutable
-        {
-            GroupsManager::groupIntoUnified(project, group.members);
-        },
-        "unified group generation");
-    }
+        GroupsManager::groupIntoUnified(project, groups);
+    },
+    "unified group generation");
 
     beginResetModel();
     m_candidates.clear();
