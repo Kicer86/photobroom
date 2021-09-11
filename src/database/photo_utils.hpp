@@ -10,6 +10,7 @@
 
 namespace Photo
 {
+    DATABASE_EXPORT const Photo::Id& getId(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
 
