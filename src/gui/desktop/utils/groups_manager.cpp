@@ -22,6 +22,7 @@
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
 #include <database/iphoto_operator.hpp>
+#include <database/photo_utils.hpp>
 #include <project_utils/misc.hpp>
 #include <system/system.hpp>
 
@@ -68,6 +69,24 @@ void GroupsManager::groupIntoUnified(
 {
     const QString representantPath = GroupsManager::copyRepresentatToDatabase(photos.front().path, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
+}
+
+
+void GroupsManager::groupIntoUnified(Project& project, const std::vector<std::vector<Photo::Data>>& groups)
+{
+    std::vector<GroupDetails> groupsDetails;
+
+    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const auto& group)
+    {
+        const QString representativePath = GroupsManager::copyRepresentatToDatabase(group.front().path, project);
+
+        std::vector<Photo::Id> ids;
+        std::transform(group.begin(), group.end(), std::back_inserter(ids), Photo::getId);
+
+        return GroupDetails{ .members = ids, .representativePath = representativePath, .type = Group::Type::Generic };
+    });
+
+    group(project.getDatabase(), groupsDetails);
 }
 
 
