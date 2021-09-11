@@ -92,6 +92,8 @@ void GroupsManager::group(Database::IDatabase& database,
     {
         database.exec([photos, representativePath, type](Database::IBackend& backend)
         {
+            auto transaction = backend.openTransaction();
+
             // copy details of first member to representative
             const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
 
