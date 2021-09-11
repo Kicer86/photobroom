@@ -88,11 +88,24 @@ void GroupsManager::group(Database::IDatabase& database,
                           const QString& representativePath,
                           Group::Type type)
 {
-    if (photos.empty() == false)
+    group(database, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
+}
+
+
+void GroupsManager::group(Database::IDatabase& database, const std::vector<GroupDetails>& groups)
+{
+    database.exec([groups](Database::IBackend& backend)
     {
-        database.exec([photos, representativePath, type](Database::IBackend& backend)
+        auto transaction = backend.openTransaction();
+
+        for (const auto& group: groups)
         {
-            auto transaction = backend.openTransaction();
+            const auto& photos = group.members;
+            if (photos.empty())
+                continue;
+
+            const QString& representativePath = group.representativePath;
+            const Group::Type& type = group.type;
 
             // copy details of first member to representative
             const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
@@ -129,14 +142,8 @@ void GroupsManager::group(Database::IDatabase& database,
             }
 
             backend.update(deltas);
-        });
-    }
-}
-
-
-void group(Database::IDatabase& db, const std::vector<GroupInfo>& groups)
-{
-
+        }
+    });
 }
 
 
