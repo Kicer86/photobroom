@@ -134,6 +134,12 @@ void GroupsManager::group(Database::IDatabase& database,
 }
 
 
+void group(Database::IDatabase& db, const std::vector<GroupInfo>& groups)
+{
+
+}
+
+
 void GroupsManager::ungroup(Database::IDatabase& db, const Group::Id& gid)
 {
     db.exec([gid](Database::IBackend& backend)
