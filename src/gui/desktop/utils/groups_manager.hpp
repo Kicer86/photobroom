@@ -40,7 +40,8 @@ namespace GroupsManager
         Group::Type type;
     };
 
-    QString copyRepresentatToDatabase(const QString& representativePhoto, Project &);
+    QString linkRepresentatToDatabase(const QString& representativePhoto, Project &);
+    QString moveRepresentatToDatabase(const QString& representativePhoto, Project &);
 
     void groupIntoCollage(IExifReaderFactory &,
                           Project &,

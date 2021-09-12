@@ -29,9 +29,18 @@
 #include "utils/grouppers/collage_generator.hpp"
 
 
-QString GroupsManager::copyRepresentatToDatabase(const QString& representativePhoto, Project& project)
+QString GroupsManager::linkRepresentatToDatabase(const QString& representativePhoto, Project& project)
 {
-    const QString internalPath = copyFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const QString internalPath = linkFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const QString internalPathDecorated = project.makePathRelative(internalPath);
+
+    return internalPathDecorated;
+}
+
+
+QString GroupsManager::moveRepresentatToDatabase(const QString& representativePhoto, Project& project)
+{
+    const QString internalPath = moveFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
     const QString internalPathDecorated = project.makePathRelative(internalPath);
 
     return internalPathDecorated;
@@ -58,7 +67,7 @@ void GroupsManager::groupIntoCollage(
     const QString collagePath = System::getUniqueFileName(tmpDir->path(), "jpeg");
     collage.save(collagePath);
 
-    const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);
+    const QString representantPath = GroupsManager::moveRepresentatToDatabase(collagePath, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
 }
 
@@ -67,7 +76,7 @@ void GroupsManager::groupIntoUnified(
     Project& project,
     const std::vector<Photo::Data>& photos)
 {
-    const QString representantPath = GroupsManager::copyRepresentatToDatabase(photos.front().path, project);
+    const QString representantPath = GroupsManager::linkRepresentatToDatabase(photos.front().path, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
 }
 
@@ -78,7 +87,7 @@ void GroupsManager::groupIntoUnified(Project& project, const std::vector<std::ve
 
     std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const auto& group)
     {
-        const QString representativePath = GroupsManager::copyRepresentatToDatabase(group.front().path, project);
+        const QString representativePath = GroupsManager::linkRepresentatToDatabase(group.front().path, project);
 
         std::vector<Photo::Id> ids;
         std::transform(group.begin(), group.end(), std::back_inserter(ids), Photo::getId);
