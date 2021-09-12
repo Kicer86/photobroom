@@ -106,7 +106,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
         const int seconds = videoDetailsReader.durationOf(absolute_path);
 
         auto tmpDir = System::createTmpDir("FromVideoTask", System::Confidential);
-        const QString thumbnail_path = System::getTmpFile(tmpDir->path(), "jpeg");
+        const QString thumbnail_path = System::getUniqueFileName(tmpDir->path(), "jpeg");
 
         QProcess ffmpeg_process4thumbnail;
         const QStringList ffmpeg_thumbnail_args =

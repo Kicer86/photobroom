@@ -145,7 +145,7 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
     const QString extension = format();
-    const QString location = System::getTmpFile(m_storage, extension);
+    const QString location = System::getUniqueFileName(m_storage, extension);
 
     MagickOutputAnalyzer coa(m_logger, photos_count);
     connect(&coa, &MagickOutputAnalyzer::operation, this, &AnimationGenerator::operation);

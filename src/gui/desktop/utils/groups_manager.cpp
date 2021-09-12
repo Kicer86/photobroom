@@ -55,7 +55,7 @@ void GroupsManager::groupIntoCollage(
     const auto collage = generator.generateCollage(paths, highest.geometry.height());
 
     auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
-    const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
+    const QString collagePath = System::getUniqueFileName(tmpDir->path(), "jpeg");
     collage.save(collagePath);
 
     const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);

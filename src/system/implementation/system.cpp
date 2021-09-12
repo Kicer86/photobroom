@@ -103,7 +103,7 @@ QString System::getApplicationConfigDir()
 }
 
 
-QString System::getTmpFile(const QString& path, const QString& fileExt)
+QString System::getUniqueFileName(const QString& path, const QString& fileExt)
 {
     static int v = 0;
 

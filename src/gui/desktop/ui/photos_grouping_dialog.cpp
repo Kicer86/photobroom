@@ -330,7 +330,7 @@ void PhotosGroupingDialog::makeCollage()
         generationError(tr("Error during collage generation. Possibly too many images, or height to small or too big."), {});
     else
     {
-        const QString collagePath = System::getTmpFile(m_tmpDir->path(), "jpeg");
+        const QString collagePath = System::getUniqueFileName(m_tmpDir->path(), "jpeg");
 
         collage.save(collagePath);
         generationDone(collagePath);

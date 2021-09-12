@@ -52,7 +52,7 @@ struct SYSTEM_EXPORT System
      *
      * Returns unique file name with given extension in given tmp dir
      */
-    static QString getTmpFile(const QString& directory, const QString& fileExt);
+    static QString getUniqueFileName(const QString& directory, const QString& fileExt);
 
     /**
      * \brief temporary dir creator
