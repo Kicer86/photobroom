@@ -34,34 +34,31 @@ namespace
 
         return std::filesystem::path(relativePath.toStdString());;
     }
+
+    QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const QFileInfo pathInfo(path);
+        const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
+
+        std::filesystem::rename(sourcePath, uniqueFileName);
+
+        return uniqueFileName.c_str();
+    }
+
+    QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const std::filesystem::path sourcePath = prepareSourcePath(prjInfo, path);
+
+        std::filesystem::create_symlink(sourcePath, uniqueFileName);
+
+        return uniqueFileName.c_str();
+    }
 }
 
 
-QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
-{
-    const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
-    const QFileInfo pathInfo(path);
-    const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
-
-    std::filesystem::rename(sourcePath, uniqueFileName);
-
-    return uniqueFileName.c_str();
-}
-
-
-
-QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
-{
-    const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
-    const std::filesystem::path sourcePath = prepareSourcePath(prjInfo, path);
-
-    std::filesystem::create_symlink(sourcePath, uniqueFileName);
-
-    return uniqueFileName.c_str();
-}
-
-
-QString includeFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+QString includeFileInPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
     return path.left(5) == "prj:/"?
         linkFileToPrivateMediaLocation(prjInfo, path):

@@ -31,7 +31,7 @@
 
 QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)
 {
-    const QString internalPath = includeFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const QString internalPath = includeFileInPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
     const QString internalPathDecorated = project.makePathRelative(internalPath);
 
     return internalPathDecorated;
