@@ -531,7 +531,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
             removeGroupOf(photos);
 
             // create new one
-            const QString representantPath = GroupsManager::moveRepresentatToDatabase(dialog.getRepresentative(), *m_currentPrj.get());
+            const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_currentPrj.get());
             GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
 
         }
