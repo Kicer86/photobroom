@@ -13,40 +13,40 @@
 
 namespace
 {
-    QString prepareDesitnationPath(const ProjectInfo& prjInfo, const QString& path)
+    std::filesystem::path prepareDesitnationPath(const ProjectInfo& prjInfo, const QString& path)
     {
         const QFileInfo originalFileInfo(path);
         const QString extension = originalFileInfo.completeSuffix();
         const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
         const QString uniqueFileName = System::getUniqueFileName(mediaLocation, extension);
-        QFile::remove(uniqueFileName);          // std::filesystem::copy() is not happy when desitnation file exists
-                                                // even when using std::filesystem::copy_options::overwrite_existing flag
+        QFile::remove(uniqueFileName);          // remove destination file
 
-        return uniqueFileName;
+        const QFileInfo uniqueFileInfo(uniqueFileName);
+        return uniqueFileInfo.filesystemAbsoluteFilePath();
     }
 }
 
 
 QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
-    const QString uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const std::filesystem::path uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const QFileInfo pathInfo(path);
+    const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
-    std::filesystem::rename(path.toStdString(),
-                            uniqueFileName.toStdString());
+    std::filesystem::rename(sourcePath, uniqueFileName);
 
-    return uniqueFileName;
+    return uniqueFileName.c_str();
 }
 
 
 
 QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
-    const QString uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const std::filesystem::path uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const QFileInfo pathInfo(path);
+    const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
-    std::filesystem::copy(path.toStdString(),
-                          uniqueFileName.toStdString(),
-                          std::filesystem::copy_options::overwrite_existing |
-                          std::filesystem::copy_options::create_symlinks);
+    std::filesystem::create_symlink(sourcePath, uniqueFileName);
 
-    return uniqueFileName;
+    return uniqueFileName.c_str();
 }
