@@ -13,7 +13,7 @@
 
 namespace
 {
-    std::filesystem::path prepareDesitnationPath(const ProjectInfo& prjInfo, const QString& path)
+    std::filesystem::path prepareDestinationPath(const ProjectInfo& prjInfo, const QString& path)
     {
         const QFileInfo originalFileInfo(path);
         const QString extension = originalFileInfo.completeSuffix();
@@ -29,7 +29,7 @@ namespace
 
 QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
-    const std::filesystem::path uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
     const QFileInfo pathInfo(path);
     const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
@@ -42,7 +42,7 @@ QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
 
 QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
-    const std::filesystem::path uniqueFileName = prepareDesitnationPath(prjInfo, path);
+    const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
     const QFileInfo pathInfo(path);
     const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
