@@ -59,3 +59,11 @@ QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
 
     return uniqueFileName.c_str();
 }
+
+
+QString includeFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+{
+    return path.left(5) == "prj:/"?
+        linkFileToPrivateMediaLocation(prjInfo, path):
+        moveFileToPrivateMediaLocation(prjInfo, path);
+}
