@@ -24,6 +24,16 @@ namespace
         const QFileInfo uniqueFileInfo(uniqueFileName);
         return uniqueFileInfo.filesystemAbsoluteFilePath();
     }
+
+    std::filesystem::path prepareSourcePath(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
+        const QFileInfo pathInfo(path);
+        const QDir mediaDir(mediaLocation);
+        const QString relativePath = mediaDir.relativeFilePath(pathInfo.absoluteFilePath());
+
+        return std::filesystem::path(relativePath.toStdString());;
+    }
 }
 
 
@@ -43,8 +53,7 @@ QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString
 QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
 {
     const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
-    const QFileInfo pathInfo(path);
-    const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
+    const std::filesystem::path sourcePath = prepareSourcePath(prjInfo, path);
 
     std::filesystem::create_symlink(sourcePath, uniqueFileName);
 
