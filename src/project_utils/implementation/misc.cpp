@@ -19,9 +19,8 @@ namespace
         const QString extension = originalFileInfo.completeSuffix();
         const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
         const QString uniqueFileName = System::getUniqueFileName(mediaLocation, extension);
-        QFile::remove(uniqueFileName);          // remove destination file
-
         const QFileInfo uniqueFileInfo(uniqueFileName);
+
         return uniqueFileInfo.filesystemAbsoluteFilePath();
     }
 
