@@ -64,7 +64,7 @@ target_link_libraries(gui_utils
 )
 
 target_include_directories(gui_utils
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
 )

@@ -70,7 +70,7 @@ target_link_libraries(gui_widgets
 )
 
 target_include_directories(gui_widgets
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
 )

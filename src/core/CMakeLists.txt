@@ -102,9 +102,8 @@ target_link_libraries(core
 target_include_directories(core PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
-                                SYSTEM PRIVATE
-                                    ${OPENLIBRARY_INCLUDE_DIRS}
                                 PRIVATE
+                                    ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

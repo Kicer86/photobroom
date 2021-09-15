@@ -52,7 +52,7 @@ target_link_libraries(gui_ui
 )
 
 target_include_directories(gui_ui
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
                                 ${CMAKE_CURRENT_BINARY_DIR}
 )

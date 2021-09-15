@@ -83,7 +83,7 @@ target_link_libraries(database
 )
 
 target_include_directories(database
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${OPENLIBRARY_INCLUDE_DIRS}
                                 ${MAGIC_ENUM_INCLUDE_DIRS}
                             PUBLIC
