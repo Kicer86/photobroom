@@ -39,6 +39,8 @@ set(DATABASE_SOURCES
     implementation/async_database.hpp
     implementation/database_builder.cpp
     implementation/filter.cpp
+    implementation/notifications_accumulator.cpp
+    implementation/notifications_accumulator.hpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info_cache.cpp
