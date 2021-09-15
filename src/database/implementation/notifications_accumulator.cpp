@@ -6,7 +6,7 @@ namespace Database
 
     void NotificationsAccumulator::photosAdded(const std::vector<Photo::Id>& photos)
     {
-        m_photosAdded = photos;
+        m_photosAdded.insert(m_photosAdded.end(), photos.begin(), photos.end());
     }
 
 
