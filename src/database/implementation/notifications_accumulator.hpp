@@ -3,7 +3,9 @@
 #define NOTIFICATIONSACCUMULATOR_HPP
 
 #include <QObject>
-#include "photo_types.hpp"
+
+#include "../photo_types.hpp"
+
 
 namespace Database
 {

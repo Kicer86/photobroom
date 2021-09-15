@@ -42,6 +42,7 @@ addTestTarget(database_backends
                     # dependencies
                     implementation/apeople_information_accessor.cpp
                     implementation/aphoto_change_log_operator.cpp
+                    implementation/notifications_accumulator.cpp
 
                     # main()
                     unit_tests_for_backends/main.cpp
