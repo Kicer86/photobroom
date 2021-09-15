@@ -19,7 +19,7 @@
 #ifndef TRANSACTION_HPP
 #define TRANSACTION_HPP
 
-#include <QString>
+#include <QObject>
 
 class NestedTransaction;
 
@@ -40,12 +40,18 @@ class Transaction final
 };
 
 
-class NestedTransaction final
+class NestedTransaction final: public QObject
 {
+        Q_OBJECT
+
     public:
         NestedTransaction();
 
         void setConnectionName(const QString &);
+
+    signals:
+        void commited();
+        void rolledback();
 
     private:
         friend class Transaction;

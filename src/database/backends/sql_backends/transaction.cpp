@@ -96,9 +96,17 @@ bool NestedTransaction::tr_commit()
         QSqlDatabase db = QSqlDatabase::database(m_connection_name);
 
         if (m_clean)
+        {
             status = db.commit();
+
+            emit commited();
+        }
         else
+        {
             db.rollback();
+
+            emit rolledback();
+        }
     }
     else
         status = true;
