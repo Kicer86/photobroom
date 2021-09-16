@@ -25,6 +25,7 @@ namespace Database
     {
         public:
             MemoryBackend();
+            ~MemoryBackend();
 
             // IBackend interface
             bool addPhotos(std::vector<Photo::DataDelta>& photos) override;
@@ -45,6 +46,8 @@ namespace Database
             IPhotoOperator& photoOperator() override;
             IPhotoChangeLogOperator& photoChangeLogOperator() override;
             IPeopleInformationAccessor& peopleInformationAccessor() override;
+
+            struct DB;
 
         private:
             // APeopleInformationAccessor interface
@@ -73,17 +76,17 @@ namespace Database
             bool removePhotos(const Filter &) override;
             std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
             std::vector<Photo::Id> getPhotos(const Filter &) override;
-
             //
-            typedef std::map<QString, int> Flags;
-            typedef std::pair<Photo::Id, Group::Type> GroupData;
-            typedef std::tuple<Photo::Id, Operation, Field, QString> LogEntry;
 
             static Photo::Id getIdFor(const Photo::Data& d);
             static Person::Id getIdFor(const PersonName& pn);
             static PersonInfo::Id getIdFor(const PersonInfo& pn);
 
             void onPhotos(std::vector<Photo::Data> &, const Action &) const;
+
+            typedef std::map<QString, int> Flags;
+            typedef std::pair<Photo::Id, Group::Type> GroupData;
+            typedef std::tuple<Photo::Id, Operation, Field, QString> LogEntry;
 
             template<typename T, typename IdT>
             struct IdComparer
@@ -104,22 +107,6 @@ namespace Database
                 }
 
                 using is_transparent = void;
-            };
-
-            struct DB
-            {
-                std::map<Photo::Id, Flags> m_flags;
-                std::map<Group::Id, GroupData> m_groups;
-                std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
-                std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
-                std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
-                std::vector<LogEntry> m_logEntries;
-                std::map<Photo::Id, QByteArray> m_thumbnails;
-
-                int m_nextPhotoId = 0;
-                int m_nextPersonName = 0;
-                int m_nextGroup = 0;
-                int m_nextPersonInfo = 0;
             };
 
             std::unique_ptr<DB> m_db;

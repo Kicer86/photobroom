@@ -31,9 +31,53 @@ namespace
 namespace Database
 {
 
+    struct MemoryBackend::DB
+    {
+        std::map<Photo::Id, Flags> m_flags;
+        std::map<Group::Id, GroupData> m_groups;
+        std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
+        std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
+        std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+        std::vector<LogEntry> m_logEntries;
+        std::map<Photo::Id, QByteArray> m_thumbnails;
+
+        int m_nextPhotoId = 0;
+        int m_nextPersonName = 0;
+        int m_nextGroup = 0;
+        int m_nextPersonInfo = 0;
+    };
+
+    class Transaction: public Database::ITransaction
+    {
+        public:
+            Transaction(std::unique_ptr<MemoryBackend::DB>& db)
+                : m_dbRef(db)
+                , m_savedState(std::make_unique<MemoryBackend::DB>(*db))
+            {
+
+            }
+
+            void abort() override               // on abort restore saved state
+            {
+                m_dbRef.swap(m_savedState);
+            }
+
+        private:
+            std::unique_ptr<MemoryBackend::DB>& m_dbRef;
+            std::unique_ptr<MemoryBackend::DB> m_savedState;
+    };
+
+
     MemoryBackend::MemoryBackend()
         : m_db(std::make_unique<DB>())
     {
+
+    }
+
+
+    MemoryBackend::~MemoryBackend()
+    {
+
     }
 
 
@@ -231,7 +275,7 @@ namespace Database
 
     std::unique_ptr<ITransaction> MemoryBackend::openTransaction()
     {
-        return nullptr;
+        return std::make_unique<Transaction>(m_db);
     }
 
     IGroupOperator& MemoryBackend::groupOperator()
