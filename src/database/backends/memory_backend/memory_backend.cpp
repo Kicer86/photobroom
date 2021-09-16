@@ -31,6 +31,30 @@ namespace
 namespace Database
 {
 
+    namespace
+    {
+        class Transaction: public Database::ITransaction
+        {
+            public:
+                Transaction(std::unique_ptr<MemoryBackend::DB>& db)
+                    : m_dbRef(db)
+                    , m_savedState(std::make_unique<MemoryBackend::DB>(*db))
+                {
+
+                }
+
+                void abort() override               // on abort restore saved state
+                {
+                    m_dbRef.swap(m_savedState);
+                }
+
+            private:
+                std::unique_ptr<MemoryBackend::DB>& m_dbRef;
+                std::unique_ptr<MemoryBackend::DB> m_savedState;
+        };
+    }
+
+
     struct MemoryBackend::DB
     {
         std::map<Photo::Id, Flags> m_flags;
@@ -45,26 +69,6 @@ namespace Database
         int m_nextPersonName = 0;
         int m_nextGroup = 0;
         int m_nextPersonInfo = 0;
-    };
-
-    class Transaction: public Database::ITransaction
-    {
-        public:
-            Transaction(std::unique_ptr<MemoryBackend::DB>& db)
-                : m_dbRef(db)
-                , m_savedState(std::make_unique<MemoryBackend::DB>(*db))
-            {
-
-            }
-
-            void abort() override               // on abort restore saved state
-            {
-                m_dbRef.swap(m_savedState);
-            }
-
-        private:
-            std::unique_ptr<MemoryBackend::DB>& m_dbRef;
-            std::unique_ptr<MemoryBackend::DB> m_savedState;
     };
 
 
