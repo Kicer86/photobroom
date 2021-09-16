@@ -24,6 +24,8 @@ namespace Database
                IPhotoOperator
     {
         public:
+            MemoryBackend();
+
             // IBackend interface
             bool addPhotos(std::vector<Photo::DataDelta>& photos) override;
             bool update(const std::vector<Photo::DataDelta> &) override;
@@ -104,18 +106,23 @@ namespace Database
                 using is_transparent = void;
             };
 
-            std::map<Photo::Id, Flags> m_flags;
-            std::map<Group::Id, GroupData> m_groups;
-            std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
-            std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
-            std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
-            std::vector<LogEntry> m_logEntries;
-            std::map<Photo::Id, QByteArray> m_thumbnails;
+            struct DB
+            {
+                std::map<Photo::Id, Flags> m_flags;
+                std::map<Group::Id, GroupData> m_groups;
+                std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
+                std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
+                std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+                std::vector<LogEntry> m_logEntries;
+                std::map<Photo::Id, QByteArray> m_thumbnails;
 
-            int m_nextPhotoId = 0;
-            int m_nextPersonName = 0;
-            int m_nextGroup = 0;
-            int m_nextPersonInfo = 0;
+                int m_nextPhotoId = 0;
+                int m_nextPersonName = 0;
+                int m_nextGroup = 0;
+                int m_nextPersonInfo = 0;
+            };
+
+            std::unique_ptr<DB> m_db;
     };
 }
 
