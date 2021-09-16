@@ -26,6 +26,7 @@ set(DATABASE_SOURCES
     iphoto_info_cache.hpp
     iphoto_info.hpp
     iphoto_operator.hpp
+    notifications_accumulator.hpp
     observable_database.hpp
     person_data.hpp
     photo_data.hpp
@@ -40,7 +41,6 @@ set(DATABASE_SOURCES
     implementation/database_builder.cpp
     implementation/filter.cpp
     implementation/notifications_accumulator.cpp
-    implementation/notifications_accumulator.hpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info_cache.cpp

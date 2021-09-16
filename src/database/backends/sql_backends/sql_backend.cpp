@@ -42,8 +42,8 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
+#include <database/notifications_accumulator.hpp>
 #include <database/project_info.hpp>
-#include <database/implementation/notifications_accumulator.hpp>
 
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"

@@ -4,12 +4,12 @@
 
 #include <QObject>
 
-#include "../photo_types.hpp"
-
+#include "photo_types.hpp"
+#include "database_export.h"
 
 namespace Database
 {
-    class NotificationsAccumulator final: public QObject
+    class DATABASE_EXPORT NotificationsAccumulator final: public QObject
     {
             Q_OBJECT
 
