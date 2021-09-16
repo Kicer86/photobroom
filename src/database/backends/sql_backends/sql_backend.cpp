@@ -100,7 +100,6 @@ namespace Database
         m_logger = l->subLogger({"ASqlBackend"});
         m_executor.set(m_logger.get());
 
-
         // Wiring notifications.
         // Backend should not emit any notifications until all transactions are finished.
         // Only when top root transaction is accepted then notifications should be fired.
