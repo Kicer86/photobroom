@@ -46,6 +46,7 @@ namespace Database
 {
     class Entry;
     class InsertQueryData;
+    class NotificationsAccumulator;
     class UpdateQueryData;
     struct IGenericSqlQueryGenerator;
     struct TableDefinition;
@@ -128,6 +129,7 @@ namespace Database
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
+            std::unique_ptr<NotificationsAccumulator> m_notificationsAccumulator;
             lazy_ptr<IPeopleInformationAccessor, std::function<IPeopleInformationAccessor*()>> m_peopleInfoAccessor;
             mutable NestedTransaction m_tr_db;
             QString m_connectionName;

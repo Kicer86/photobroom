@@ -43,6 +43,7 @@
 #include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
 #include <database/project_info.hpp>
+#include <database/implementation/notifications_accumulator.hpp>
 
 #include "isql_query_constructor.hpp"
 #include "tables.hpp"
@@ -88,6 +89,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
+        m_notificationsAccumulator(std::make_unique<NotificationsAccumulator>()),
         m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
@@ -97,6 +99,20 @@ namespace Database
     {
         m_logger = l->subLogger({"ASqlBackend"});
         m_executor.set(m_logger.get());
+
+
+        // Wiring notifications.
+        // Backend should not emit any notifications until all transactions are finished.
+        // Only when top root transaction is accepted then notifications should be fired.
+        // Otherwise no notifications shall be emitted.
+        connect(m_notificationsAccumulator.get(), &NotificationsAccumulator::photosAddedSignal,
+                this, &ASqlBackend::photosAdded);
+
+        connect(&m_tr_db, &NestedTransaction::commited,
+                m_notificationsAccumulator.get(), &NotificationsAccumulator::fireChanges);
+
+        connect(&m_tr_db, &NestedTransaction::rolledback,
+                m_notificationsAccumulator.get(), &NotificationsAccumulator::ignoreChanges);
     }
 
 
@@ -295,15 +311,23 @@ namespace Database
 
     bool ASqlBackend::addPhotos(std::vector<Photo::DataDelta>& data)
     {
-        const bool status = insert(data);
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        Transaction transaction(m_tr_db);
+        transaction.begin();
 
-        std::vector<Photo::Id> photos;
-        photos.reserve(data.size());
+        bool status = insert(data);
 
-        for(std::size_t i = 0; i < data.size(); i++)
-            photos.push_back(data[i].getId());
+        if (status)
+        {
+            std::vector<Photo::Id> photos;
+            photos.reserve(data.size());
 
-        emit photosAdded(photos);
+            for(std::size_t i = 0; i < data.size(); i++)
+                photos.push_back(data[i].getId());
+
+            m_notificationsAccumulator->photosAdded(photos);
+            status = transaction.commit();
+        }
 
         return status;
     }
