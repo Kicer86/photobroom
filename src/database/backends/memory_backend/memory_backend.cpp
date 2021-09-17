@@ -85,7 +85,7 @@ namespace Database
     struct MemoryBackend::Impl
     {
         NotificationsAccumulator m_notifications;
-        TransactionManager<TransactionWrapper<Transaction>> m_tr;
+        TransactionManager<Transaction> m_tr;
     };
 
 
@@ -108,7 +108,7 @@ namespace Database
 
     bool MemoryBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
     {
-        auto tr = openInternalTransaction();
+        auto tr = openTransaction();
 
         std::vector<Photo::Id> ids;
         ids.reserve(photos.size());
@@ -139,7 +139,7 @@ namespace Database
 
     bool MemoryBackend::update(const std::vector<Photo::DataDelta>& deltas)
     {
-        auto tr = openInternalTransaction();
+        auto tr = openTransaction();
         std::set<Photo::Id> ids;
 
         for (const auto& delta: deltas)
@@ -303,7 +303,7 @@ namespace Database
 
     std::shared_ptr<ITransaction> MemoryBackend::openTransaction()
     {
-        return openInternalTransaction();
+        return m_impl->m_tr.openTransaction(m_db, m_impl->m_notifications);
     }
 
     IGroupOperator& MemoryBackend::groupOperator()
@@ -641,12 +641,6 @@ namespace Database
         {
             assert(!"Unknown action");
         }
-    }
-
-
-    std::shared_ptr<Database::ITransaction> MemoryBackend::openInternalTransaction()
-    {
-        return m_impl->m_tr.openTransaction(m_db, m_impl->m_notifications);
     }
 
 }

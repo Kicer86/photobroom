@@ -132,7 +132,7 @@ namespace Database
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
             lazy_ptr<IPeopleInformationAccessor, std::function<IPeopleInformationAccessor*()>> m_peopleInfoAccessor;
             NotificationsAccumulator m_notificationsAccumulator;
-            mutable TransactionManager<TransactionWrapper<SqlTransaction>> m_tr_db;
+            mutable TransactionManager<SqlTransaction> m_tr_db;
             QString m_connectionName;
             std::unique_ptr<ILogger> m_logger;
             SqlQueryExecutor m_executor;

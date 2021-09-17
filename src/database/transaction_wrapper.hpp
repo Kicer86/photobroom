@@ -32,18 +32,18 @@ namespace Database
     };
 
 
-    template<typename T> requires std::is_base_of<ITransaction, T>::value
+    template<typename T>
     class TransactionManager
     {
         public:
             template<typename ...Args>
-            std::shared_ptr<T> openTransaction(Args&... args)
+            std::shared_ptr<ITransaction> openTransaction(Args&... args)
             {
                 auto tr = m_tr.lock();
 
                 if (tr.get() == nullptr)
                 {
-                    tr = std::make_shared<T>(args...);
+                    tr = std::make_shared<TransactionWrapper<T>>(args...);
                     m_tr = tr;
                 }
 
@@ -51,7 +51,7 @@ namespace Database
             }
 
         private:
-            std::weak_ptr<T> m_tr;
+            std::weak_ptr<TransactionWrapper<T>> m_tr;
     };
 }
 
