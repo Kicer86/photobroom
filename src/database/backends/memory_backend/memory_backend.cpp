@@ -55,9 +55,10 @@ namespace Database
         class Transaction: public Database::ITransaction
         {
             public:
-                Transaction(std::unique_ptr<MemoryBackend::DB>& db)
-                    : m_dbRef(db)
-                    , m_savedState(std::make_unique<MemoryBackend::DB>(*db))
+                Transaction(std::unique_ptr<MemoryBackend::DB>& db, std::unique_ptr<NotificationsAccumulator>& notifications)
+                    : m_savedState(std::make_unique<MemoryBackend::DB>(*db))
+                    , m_dbRef(db)
+                    , m_notifications(notifications)
                 {
 
                 }
@@ -65,7 +66,12 @@ namespace Database
                 ~Transaction()
                 {
                     if (m_abort)                    // on abort restore saved state
+                    {
                         m_dbRef.swap(m_savedState);
+                        m_notifications->ignoreChanges();
+                    }
+                    else
+                        m_notifications->fireChanges();
                 }
 
                 void abort() override
@@ -74,8 +80,9 @@ namespace Database
                 }
 
             private:
-                std::unique_ptr<MemoryBackend::DB>& m_dbRef;
                 std::unique_ptr<MemoryBackend::DB> m_savedState;
+                std::unique_ptr<MemoryBackend::DB>& m_dbRef;
+                std::unique_ptr<NotificationsAccumulator>& m_notifications;
                 bool m_abort = false;
         };
     }
@@ -102,7 +109,8 @@ namespace Database
         : m_db(std::make_unique<DB>())
         , m_notifications(std::make_unique<NotificationsAccumulator>())
     {
-
+        connect(m_notifications.get(), &NotificationsAccumulator::photosAddedSignal,
+                this, &MemoryBackend::photosAdded);
     }
 
 
@@ -114,6 +122,8 @@ namespace Database
 
     bool MemoryBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
     {
+        auto tr = openInternalTransaction();
+
         std::vector<Photo::Id> ids;
         ids.reserve(photos.size());
 
@@ -135,7 +145,7 @@ namespace Database
             m_db->m_nextPhotoId++;
         }
 
-        emit photosAdded(ids);
+        m_notifications->photosAdded(ids);
 
         return true;
     }
@@ -655,7 +665,7 @@ namespace Database
 
         if (tr.get() == nullptr)
         {
-            tr = std::make_shared<Transaction>(m_db);
+            tr = std::make_shared<Transaction>(m_db, m_notifications);
             m_transaction = tr;
         }
 
