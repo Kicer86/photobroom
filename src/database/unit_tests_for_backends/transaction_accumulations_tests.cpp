@@ -22,9 +22,12 @@ TYPED_TEST(TransactionAccumulationsTests, newPhotos)
     std::vector photos2{photo2};
 
     QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosAdded);
-    this->m_backend->addPhotos(photos1);
-    this->m_backend->addPhotos(photos2);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->addPhotos(photos1);
+        this->m_backend->addPhotos(photos2);
+    }
 
     // insertions should be accumulated into one notification
-    //EXPECT_EQ(notifications.count(), 1);
+    EXPECT_EQ(notifications.count(), 1);
 }
