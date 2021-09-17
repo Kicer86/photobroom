@@ -42,7 +42,6 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
-#include <database/notifications_accumulator.hpp>
 #include <database/project_info.hpp>
 
 #include "isql_query_constructor.hpp"
@@ -56,41 +55,10 @@
 // about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
 
-namespace
-{
-    class ClientTransaction: public Database::ITransaction
-    {
-            Transaction m_tr;
-            bool m_aborted = false;
-
-        public:
-            ClientTransaction(NestedTransaction& tr)
-                : m_tr(tr)
-            {
-                m_tr.begin();
-            }
-
-            ~ClientTransaction()
-            {
-                if (m_aborted)
-                    m_tr.rollback();
-                else
-                    m_tr.commit();
-            }
-
-            void abort() override
-            {
-                m_aborted = true;
-            }
-    };
-}
-
-
 namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
-        m_notificationsAccumulator(std::make_unique<NotificationsAccumulator>()),
         m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
@@ -105,16 +73,10 @@ namespace Database
         // Backend should not emit any notifications until all transactions are finished.
         // Only when top root transaction is accepted then notifications should be fired.
         // Otherwise no notifications shall be emitted.
-        connect(m_notificationsAccumulator.get(), &NotificationsAccumulator::photosAddedSignal,
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosAddedSignal,
                 this, &ASqlBackend::photosAdded);
-        connect(m_notificationsAccumulator.get(), &NotificationsAccumulator::photosModifiedSignal,
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosModifiedSignal,
                 this, &ASqlBackend::photosModified);
-
-        connect(&m_tr_db, &NestedTransaction::commited,
-                m_notificationsAccumulator.get(), &NotificationsAccumulator::fireChanges);
-
-        connect(&m_tr_db, &NestedTransaction::rolledback,
-                m_notificationsAccumulator.get(), &NotificationsAccumulator::ignoreChanges);
     }
 
 
@@ -147,7 +109,7 @@ namespace Database
 
     std::shared_ptr<ITransaction> ASqlBackend::openTransaction()
     {
-        return std::make_shared<ClientTransaction>(m_tr_db);
+        return m_tr_db.openTransaction(m_connectionName, m_notificationsAccumulator);
     }
 
 
@@ -278,7 +240,6 @@ namespace Database
         //store thread id for further validation
         m_executor.set( std::this_thread::get_id() );
         m_connectionName = prjInfo.databaseLocation;
-        m_tr_db.setConnectionName(m_connectionName);
 
         BackendStatus status = StatusCodes::Ok;
         QSqlDatabase db;
@@ -313,9 +274,7 @@ namespace Database
 
     bool ASqlBackend::addPhotos(std::vector<Photo::DataDelta>& data)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        Transaction transaction(m_tr_db);
-        transaction.begin();
+        auto tr = openTransaction();
 
         bool status = insert(data);
 
@@ -327,8 +286,7 @@ namespace Database
             for(std::size_t i = 0; i < data.size(); i++)
                 photos.push_back(data[i].getId());
 
-            m_notificationsAccumulator->photosAdded(photos);
-            status = transaction.commit();
+            m_notificationsAccumulator.photosAdded(photos);
         }
 
         return status;
@@ -339,15 +297,11 @@ namespace Database
     {
         bool status = true;
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         try
         {
             std::set<Photo::Id> touchedIds;
-
-            DbErrorOnFalse(transaction.begin());
 
             for (const Photo::DataDelta& data: dataVector)
             {
@@ -355,13 +309,14 @@ namespace Database
                 touchedIds.insert(data.getId());
             }
 
-            m_notificationsAccumulator->photosModified(touchedIds);
-            DbErrorOnFalse(transaction.commit());
+            m_notificationsAccumulator.photosModified(touchedIds);
         }
         catch(const db_error& error)
         {
             m_logger->error(error.what());
             status = false;
+
+            tr->abort();
         }
 
         return status;
@@ -585,12 +540,11 @@ namespace Database
     {
         BackendStatus status;
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         try
         {
-            DbErrorOnFalse(transaction.begin(), StatusCodes::TransactionFailed);
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
             //check tables existance
             for (const auto& table: tables)
@@ -611,13 +565,13 @@ namespace Database
                                                          .arg(db_version), &query));
             else
                 DbErrorOnFalse(checkDBVersion());
-
-            DbErrorOnFalse(transaction.commit(), StatusCodes::TransactionCommitFailed);
         }
         catch(const db_error& err)
         {
             m_logger->error(err.what());
             status = err.status();
+
+            tr->abort();
         }
 
         return status;
@@ -1091,25 +1045,21 @@ namespace Database
      */
     bool ASqlBackend::insert(std::vector<Photo::DataDelta>& data_set)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         bool status = true;
 
         try
         {
-            DbErrorOnFalse(transaction.begin());
-
             for(Photo::DataDelta& data: data_set)
                 introduce(data);
-
-            DbErrorOnFalse(transaction.commit());
         }
         catch(const db_error& error)
         {
             m_logger->error(error.what());
             status = false;
+
+            tr->abort();
         }
 
         return status;
