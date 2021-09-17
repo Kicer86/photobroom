@@ -31,3 +31,25 @@ TYPED_TEST(TransactionAccumulationsTests, newPhotos)
     // insertions should be accumulated into one notification
     EXPECT_EQ(notifications.count(), 1);
 }
+
+
+TYPED_TEST(TransactionAccumulationsTests, newPhotosAborted)
+{
+    Photo::DataDelta photo1, photo2;
+    photo1.insert<Photo::Field::Path>("/path/photo.jpeg");
+    photo2.insert<Photo::Field::Path>("/path/photo.jpeg");
+
+    std::vector photos1{photo1};
+    std::vector photos2{photo2};
+
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosAdded);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->addPhotos(photos1);
+        this->m_backend->addPhotos(photos2);
+        transaction->abort();
+    }
+
+    // transaction aborted - no notifications
+    EXPECT_EQ(notifications.count(), 0);
+}

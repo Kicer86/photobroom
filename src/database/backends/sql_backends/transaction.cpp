@@ -50,6 +50,7 @@ bool Transaction::commit()
 
 void Transaction::rollback()
 {
+    m_commited = true;
     m_db.tr_rollback();
 }
 

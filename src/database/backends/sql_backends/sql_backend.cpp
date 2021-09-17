@@ -72,13 +72,14 @@ namespace
 
             ~ClientTransaction()
             {
-                if (m_aborted == false)
+                if (m_aborted)
+                    m_tr.rollback();
+                else
                     m_tr.commit();
             }
 
             void abort() override
             {
-                m_tr.rollback();
                 m_aborted = true;
             }
     };
