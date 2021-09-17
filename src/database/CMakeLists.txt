@@ -34,6 +34,7 @@ set(DATABASE_SOURCES
     photo_types.hpp
     photo_utils.hpp
     project_info.hpp
+    transaction_wrapper.hpp
 
     implementation/apeople_information_accessor.cpp
     implementation/aphoto_change_log_operator.cpp
