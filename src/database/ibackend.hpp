@@ -24,26 +24,8 @@
 #include <string>
 #include <vector>
 #include <optional>
-#include <magic_enum.hpp>
-
-
-#if __has_include(<source_location>)
 #include <source_location>
-using std_source_location = std::source_location;
-#elif __has_include(<experimental/source_location>)
-#include <experimental/source_location>
-using std_source_location = std::experimental::source_location;
-#else
-class std_source_location
-{
-public:
-    std::string file_name() const { return {}; }
-    int line() const { return {}; }
-
-    static std_source_location current() { return {}; }
-};
-#endif
-
+#include <magic_enum.hpp>
 
 #include <core/tag.hpp>
 
@@ -236,7 +218,7 @@ namespace Database
 inline void DbErrorOnFalse(bool condition,
                            Database::StatusCodes ERRCODE = Database::StatusCodes::GeneralError,
                            const std::string& details = std::string(),
-                           const std_source_location& location = std_source_location::current())
+                           const std::source_location& location = std::source_location::current())
 {
     if (condition == false)
         throw Database::db_error(std::string(location.file_name()) + ":" + std::to_string(location.line()) + " " + __PRETTY_FUNCTION__, ERRCODE, details);
@@ -244,7 +226,7 @@ inline void DbErrorOnFalse(bool condition,
 
 inline void DbErrorOnFalse(Database::BackendStatus status,
                            const std::string& details = std::string(),
-                           const std_source_location& location = std_source_location::current())
+                           const std::source_location& location = std::source_location::current())
 {
     DbErrorOnFalse(static_cast<bool>(status), status, details, location);
 }
