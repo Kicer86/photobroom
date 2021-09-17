@@ -34,24 +34,6 @@ namespace Database
 
     namespace
     {
-        class ClientTransaction: public Database::ITransaction
-        {
-            public:
-                ClientTransaction(std::shared_ptr<Database::ITransaction> tr)
-                    : m_tr(tr)
-                {
-
-                }
-
-                void abort() override
-                {
-                    m_tr->abort();
-                }
-
-            private:
-                std::shared_ptr<ITransaction> m_tr;
-        };
-
         class Transaction: public Database::ITransaction
         {
             public:
@@ -317,11 +299,9 @@ namespace Database
 
     }
 
-    std::unique_ptr<ITransaction> MemoryBackend::openTransaction()
+    std::shared_ptr<ITransaction> MemoryBackend::openTransaction()
     {
-        auto tr = openInternalTransaction();
-
-        return std::make_unique<ClientTransaction>(tr);
+        return  openInternalTransaction();
     }
 
     IGroupOperator& MemoryBackend::groupOperator()

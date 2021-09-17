@@ -43,7 +43,7 @@ namespace Database
             std::vector<Photo::Id> markStagedAsReviewed() override;
             BackendStatus init(const ProjectInfo &) override;
             void closeConnections() override;
-            std::unique_ptr<ITransaction> openTransaction() override;
+            std::shared_ptr<ITransaction> openTransaction() override;
             IGroupOperator& groupOperator() override;
             IPhotoOperator& photoOperator() override;
             IPhotoChangeLogOperator& photoChangeLogOperator() override;

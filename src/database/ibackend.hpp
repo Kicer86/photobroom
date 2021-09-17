@@ -196,7 +196,7 @@ namespace Database
         virtual void closeConnections() = 0;
 
         /// \brief begin transaction
-        virtual std::unique_ptr<ITransaction> openTransaction() = 0;
+        virtual std::shared_ptr<ITransaction> openTransaction() = 0;
 
         // TODO: a set of 'operators' which are about to replace methods above
         //       in the name of interface segregation and repository pattern (see #272 on github)

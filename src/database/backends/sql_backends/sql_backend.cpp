@@ -145,9 +145,9 @@ namespace Database
     }
 
 
-    std::unique_ptr<ITransaction> ASqlBackend::openTransaction()
+    std::shared_ptr<ITransaction> ASqlBackend::openTransaction()
     {
-        return std::make_unique<ClientTransaction>(m_tr_db);
+        return std::make_shared<ClientTransaction>(m_tr_db);
     }
 
 

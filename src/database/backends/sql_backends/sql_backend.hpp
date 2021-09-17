@@ -63,7 +63,7 @@ namespace Database
             bool operator==(const ASqlBackend& other) = delete;
 
             void closeConnections() override;
-            std::unique_ptr<ITransaction> openTransaction() override;
+            std::shared_ptr<ITransaction> openTransaction() override;
 
             /**
              * \brief Get connection name
