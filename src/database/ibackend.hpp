@@ -53,6 +53,7 @@ public:
 #include "person_data.hpp"
 #include "photo_data.hpp"
 #include "ipeople_information_accessor.hpp"
+#include "itransaction.hpp"
 #include "database_export.h"
 
 
@@ -97,14 +98,6 @@ namespace Database
             {
                 return m_err.c_str();
             }
-    };
-
-    class ITransaction
-    {
-        public:
-            virtual ~ITransaction() = default;
-
-            virtual void abort() = 0;
     };
 
     /** \brief Low level database interface.
