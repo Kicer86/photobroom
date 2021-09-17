@@ -107,6 +107,8 @@ namespace Database
         // Otherwise no notifications shall be emitted.
         connect(m_notificationsAccumulator.get(), &NotificationsAccumulator::photosAddedSignal,
                 this, &ASqlBackend::photosAdded);
+        connect(m_notificationsAccumulator.get(), &NotificationsAccumulator::photosModifiedSignal,
+                this, &ASqlBackend::photosModified);
 
         connect(&m_tr_db, &NestedTransaction::commited,
                 m_notificationsAccumulator.get(), &NotificationsAccumulator::fireChanges);
@@ -353,9 +355,8 @@ namespace Database
                 touchedIds.insert(data.getId());
             }
 
+            m_notificationsAccumulator->photosModified(touchedIds);
             DbErrorOnFalse(transaction.commit());
-
-            emit photosModified(touchedIds);
         }
         catch(const db_error& error)
         {

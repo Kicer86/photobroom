@@ -111,6 +111,8 @@ namespace Database
     {
         connect(m_notifications.get(), &NotificationsAccumulator::photosAddedSignal,
                 this, &MemoryBackend::photosAdded);
+        connect(m_notifications.get(), &NotificationsAccumulator::photosModifiedSignal,
+                this, &MemoryBackend::photosModified);
     }
 
 
@@ -153,6 +155,7 @@ namespace Database
 
     bool MemoryBackend::update(const std::vector<Photo::DataDelta>& deltas)
     {
+        auto tr = openInternalTransaction();
         std::set<Photo::Id> ids;
 
         for (const auto& delta: deltas)
@@ -170,7 +173,7 @@ namespace Database
             ids.insert(delta.getId());
         }
 
-        emit photosModified(ids);
+        m_notifications->photosModified(ids);
 
         return true;
     }
