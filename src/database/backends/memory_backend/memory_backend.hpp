@@ -114,8 +114,9 @@ namespace Database
             };
 
             std::unique_ptr<DB> m_db;
-            std::unique_ptr<NotificationsAccumulator> m_notifications;
-            std::weak_ptr<Database::ITransaction> m_transaction;
+
+            struct Impl;
+            std::unique_ptr<Impl> m_impl;
     };
 }
 

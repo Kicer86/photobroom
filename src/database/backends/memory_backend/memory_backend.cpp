@@ -2,6 +2,7 @@
 #include <QFileInfo>
 
 #include "memory_backend.hpp"
+#include "database/transaction_wrapper.hpp"
 #include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
 
@@ -34,10 +35,10 @@ namespace Database
 
     namespace
     {
-        class Transaction: public Database::ITransaction
+        class Transaction
         {
             public:
-                Transaction(std::unique_ptr<MemoryBackend::DB>& db, std::unique_ptr<NotificationsAccumulator>& notifications)
+                Transaction(std::unique_ptr<MemoryBackend::DB>& db, NotificationsAccumulator& notifications)
                     : m_savedState(std::make_unique<MemoryBackend::DB>(*db))
                     , m_dbRef(db)
                     , m_notifications(notifications)
@@ -45,27 +46,21 @@ namespace Database
 
                 }
 
-                ~Transaction()
+                void rollback()
                 {
-                    if (m_abort)                    // on abort restore saved state
-                    {
-                        m_dbRef.swap(m_savedState);
-                        m_notifications->ignoreChanges();
-                    }
-                    else
-                        m_notifications->fireChanges();
+                    m_dbRef.swap(m_savedState);
+                    m_notifications.ignoreChanges();
                 }
 
-                void abort() override
+                void commit()
                 {
-                    m_abort = true;
+                    m_notifications.fireChanges();
                 }
 
             private:
                 std::unique_ptr<MemoryBackend::DB> m_savedState;
                 std::unique_ptr<MemoryBackend::DB>& m_dbRef;
-                std::unique_ptr<NotificationsAccumulator>& m_notifications;
-                bool m_abort = false;
+                NotificationsAccumulator& m_notifications;
         };
     }
 
@@ -87,13 +82,20 @@ namespace Database
     };
 
 
+    struct MemoryBackend::Impl
+    {
+        NotificationsAccumulator m_notifications;
+        TransactionManager<TransactionWrapper<Transaction>> m_tr;
+    };
+
+
     MemoryBackend::MemoryBackend()
         : m_db(std::make_unique<DB>())
-        , m_notifications(std::make_unique<NotificationsAccumulator>())
+        , m_impl(std::make_unique<Impl>())
     {
-        connect(m_notifications.get(), &NotificationsAccumulator::photosAddedSignal,
+        connect(&m_impl->m_notifications, &NotificationsAccumulator::photosAddedSignal,
                 this, &MemoryBackend::photosAdded);
-        connect(m_notifications.get(), &NotificationsAccumulator::photosModifiedSignal,
+        connect(&m_impl->m_notifications, &NotificationsAccumulator::photosModifiedSignal,
                 this, &MemoryBackend::photosModified);
     }
 
@@ -129,7 +131,7 @@ namespace Database
             m_db->m_nextPhotoId++;
         }
 
-        m_notifications->photosAdded(ids);
+        m_impl->m_notifications.photosAdded(ids);
 
         return true;
     }
@@ -155,7 +157,7 @@ namespace Database
             ids.insert(delta.getId());
         }
 
-        m_notifications->photosModified(ids);
+        m_impl->m_notifications.photosModified(ids);
 
         return true;
     }
@@ -301,7 +303,7 @@ namespace Database
 
     std::shared_ptr<ITransaction> MemoryBackend::openTransaction()
     {
-        return  openInternalTransaction();
+        return openInternalTransaction();
     }
 
     IGroupOperator& MemoryBackend::groupOperator()
@@ -644,15 +646,7 @@ namespace Database
 
     std::shared_ptr<Database::ITransaction> MemoryBackend::openInternalTransaction()
     {
-        std::shared_ptr<Database::ITransaction> tr = m_transaction.lock();
-
-        if (tr.get() == nullptr)
-        {
-            tr = std::make_shared<Transaction>(m_db, m_notifications);
-            m_transaction = tr;
-        }
-
-        return tr;
+        return m_impl->m_tr.openTransaction(m_db, m_impl->m_notifications);
     }
 
 }
