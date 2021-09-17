@@ -13,6 +13,8 @@
 
 namespace Database
 {
+    class NotificationsAccumulator;
+
     /**
     * \brief memory based backend
     */
@@ -84,6 +86,8 @@ namespace Database
 
             void onPhotos(std::vector<Photo::Data> &, const Action &) const;
 
+            std::shared_ptr<Database::ITransaction> openInternalTransaction();
+
             typedef std::map<QString, int> Flags;
             typedef std::pair<Photo::Id, Group::Type> GroupData;
             typedef std::tuple<Photo::Id, Operation, Field, QString> LogEntry;
@@ -110,6 +114,8 @@ namespace Database
             };
 
             std::unique_ptr<DB> m_db;
+            std::unique_ptr<NotificationsAccumulator> m_notifications;
+            std::weak_ptr<Database::ITransaction> m_transaction;
     };
 }
 

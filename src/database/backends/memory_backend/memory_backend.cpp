@@ -2,6 +2,7 @@
 #include <QFileInfo>
 
 #include "memory_backend.hpp"
+#include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
 
 
@@ -33,6 +34,24 @@ namespace Database
 
     namespace
     {
+        class ClientTransaction: public Database::ITransaction
+        {
+            public:
+                ClientTransaction(std::shared_ptr<Database::ITransaction> tr)
+                    : m_tr(tr)
+                {
+
+                }
+
+                void abort() override
+                {
+                    m_tr->abort();
+                }
+
+            private:
+                std::shared_ptr<ITransaction> m_tr;
+        };
+
         class Transaction: public Database::ITransaction
         {
             public:
@@ -43,14 +62,21 @@ namespace Database
 
                 }
 
-                void abort() override               // on abort restore saved state
+                ~Transaction()
                 {
-                    m_dbRef.swap(m_savedState);
+                    if (m_abort)                    // on abort restore saved state
+                        m_dbRef.swap(m_savedState);
+                }
+
+                void abort() override
+                {
+                    m_abort = true;
                 }
 
             private:
                 std::unique_ptr<MemoryBackend::DB>& m_dbRef;
                 std::unique_ptr<MemoryBackend::DB> m_savedState;
+                bool m_abort = false;
         };
     }
 
@@ -74,6 +100,7 @@ namespace Database
 
     MemoryBackend::MemoryBackend()
         : m_db(std::make_unique<DB>())
+        , m_notifications(std::make_unique<NotificationsAccumulator>())
     {
 
     }
@@ -279,7 +306,9 @@ namespace Database
 
     std::unique_ptr<ITransaction> MemoryBackend::openTransaction()
     {
-        return std::make_unique<Transaction>(m_db);
+        auto tr = openInternalTransaction();
+
+        return std::make_unique<ClientTransaction>(tr);
     }
 
     IGroupOperator& MemoryBackend::groupOperator()
@@ -617,6 +646,20 @@ namespace Database
         {
             assert(!"Unknown action");
         }
+    }
+
+
+    std::shared_ptr<Database::ITransaction> MemoryBackend::openInternalTransaction()
+    {
+        std::shared_ptr<Database::ITransaction> tr = m_transaction.lock();
+
+        if (tr.get() == nullptr)
+        {
+            tr = std::make_shared<Transaction>(m_db);
+            m_transaction = tr;
+        }
+
+        return tr;
     }
 
 }
