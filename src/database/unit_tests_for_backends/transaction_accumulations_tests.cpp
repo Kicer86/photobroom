@@ -76,3 +76,25 @@ TYPED_TEST(TransactionAccumulationsTests, photosUpdate)
     // modifications should be accumulated into one notification
     EXPECT_EQ(notifications.count(), 1);
 }
+
+
+TYPED_TEST(TransactionAccumulationsTests, photosUpdateAborted)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db1);
+
+    auto ids = this->m_backend->photoOperator().getPhotos(Database::EmptyFilter{});
+    auto photo1 = this->m_backend->getPhotoDelta(ids.front());
+    auto photo2 = this->m_backend->getPhotoDelta(ids.back());
+
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->update({photo1});
+        this->m_backend->update({photo2});
+        transaction->abort();
+    }
+
+    // transaction aborted - no notifications
+    EXPECT_EQ(notifications.count(), 0);
+}
