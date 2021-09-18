@@ -42,7 +42,7 @@ namespace
 
         std::filesystem::rename(sourcePath, uniqueFileName);
 
-        return uniqueFileName.c_str();
+        return QString::fromStdString(uniqueFileName.string());
     }
 
     QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
@@ -52,7 +52,7 @@ namespace
 
         std::filesystem::create_symlink(sourcePath, uniqueFileName);
 
-        return uniqueFileName.c_str();
+        return QString::fromStdString(uniqueFileName.string());
     }
 }
 
