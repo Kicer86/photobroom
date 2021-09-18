@@ -51,6 +51,7 @@ set(DATABASE_SOURCES
     implementation/photo_info.hpp
     implementation/photo_utils.cpp
 
+    database_tools/common_backend_operations.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
