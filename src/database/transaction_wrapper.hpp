@@ -12,7 +12,7 @@ namespace Database
     {
         public:
             template<typename ...Args>
-            TransactionWrapper(Args&... args): T(args...) {}
+            explicit TransactionWrapper(Args&... args): T(args...) {}
 
             ~TransactionWrapper()
             {
