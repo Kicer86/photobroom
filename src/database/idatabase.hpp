@@ -59,9 +59,8 @@ namespace Database
     {
         virtual ~IDatabaseThread() = default;
 
-        template<typename Callable>
+        template<typename Callable> requires std::is_invocable_v<Callable, IBackend&>
         void exec(Callable&& f, const std::string& name = std::source_location::current().function_name())
-            requires std::is_invocable_v<Callable, IBackend &>
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f), name);
             execute(std::move(task));
