@@ -74,9 +74,9 @@ namespace Database
         // Only when top root transaction is accepted then notifications should be fired.
         // Otherwise no notifications shall be emitted.
         connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosAddedSignal,
-                this, &ASqlBackend::photosAdded);
+                this, &ASqlBackend::photosAdded, Qt::DirectConnection);
         connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosModifiedSignal,
-                this, &ASqlBackend::photosModified);
+                this, &ASqlBackend::photosModified, Qt::DirectConnection);
     }
 
 
