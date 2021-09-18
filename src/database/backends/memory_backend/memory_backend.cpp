@@ -5,6 +5,7 @@
 #include "database/transaction_wrapper.hpp"
 #include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
+#include "database/photo_utils.hpp"
 
 
 namespace
@@ -540,9 +541,16 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id &) const
+    std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id& id) const
     {
+        std::vector<Photo::Data> members;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const Photo::Data& data)
+        {
+            return data.groupInfo.group_id == id && data.groupInfo.role == GroupInfo::Role::Member;
+        });
+
         std::vector<Photo::Id> ids;
+        std::transform(members.begin(), members.end(), std::back_inserter(ids), &Photo::getId);
 
         return ids;
     }
