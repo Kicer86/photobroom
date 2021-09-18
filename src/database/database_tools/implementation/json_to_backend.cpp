@@ -8,6 +8,7 @@
 
 #include "../json_to_backend.hpp"
 #include "database/ibackend.hpp"
+#include "database/igroup_operator.hpp"
 
 
 namespace Database
@@ -40,27 +41,39 @@ namespace Database
         const QJsonValue photos = obj.value("photos");
         if (photos.isArray())
             parsePhotos(photos.toArray());
+
+        const QJsonValue groups = obj.value("groups");
+        if (photos.isArray())
+            parseGroups(groups.toArray());
     }
 
 
     void JsonToBackend::parsePhotos(const QJsonArray& photos)
     {
         std::vector<Photo::DataDelta> photosList;
+        std::vector<QString> ids;
 
         for(const QJsonValue& photo: photos)
             if (photo.isObject())
             {
-                const auto photoDelta = parsePhoto(photo.toObject());
+                auto [photoDelta, id] = parsePhoto(photo.toObject());
                 photosList.push_back(photoDelta);
+                ids.push_back(id);
             }
 
         m_backend.addPhotos(photosList);
+
+        // bind json ids with stored photos ids
+        for(int i = 0; i < ids.size(); i++)
+            if (ids[i].isEmpty() == false)
+                m_idsMap.emplace(ids[i], photosList[i].getId());
     }
 
 
-    Photo::DataDelta JsonToBackend::parsePhoto(const QJsonObject& photo)
+    std::pair<Photo::DataDelta, QString> JsonToBackend::parsePhoto(const QJsonObject& photo)
     {
         Photo::DataDelta delta;
+        QString id;
 
         for(auto it = photo.constBegin(); it != photo.constEnd(); ++it)
         {
@@ -82,13 +95,15 @@ namespace Database
                 const Tag::TagsList tagsList = parseTags(tags);
                 delta.insert<Photo::Field::Tags>(tagsList);
             }
-            else if ( it.key() == "path")
+            else if (it.key() == "path")
                 delta.insert<Photo::Field::Path>(it.value().toString());
+            else if (it.key() == "id")
+                id = it.value().toString();
             else
                 throw std::invalid_argument("unexpected entry for photo");
         }
 
-        return delta;
+        return {delta, id};
     }
 
 
@@ -135,5 +150,51 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    void JsonToBackend::parseGroups(const QJsonArray& groups)
+    {
+        for(const QJsonValue& group: groups)
+            if (group.isObject())
+            {
+                const Group groupInfo = parseGroup(group.toObject());
+                const auto grpId = m_backend.groupOperator().addGroup(groupInfo.representative, ::Group::Type::Generic);
+
+                std::vector<Photo::DataDelta> deltas;
+                for(const auto& member: groupInfo.members)
+                {
+                    Photo::DataDelta delta(member);
+                    delta.insert<Photo::Field::GroupInfo>(GroupInfo(grpId, GroupInfo::Role::Member));
+
+                    deltas.push_back(delta);
+                }
+
+                m_backend.update(deltas);
+            }
+    }
+
+
+    JsonToBackend::Group JsonToBackend::parseGroup(const QJsonObject& group)
+    {
+        const QString representative = group.value("representative").toString();
+        const QJsonArray membersArray = group.value("members").toArray();
+
+        std::vector<QString> members;
+        std::transform(membersArray.begin(), membersArray.end(), std::back_inserter(members), [](const QJsonValue& value)
+        {
+            return value.toString();
+        });
+
+        auto idToPhotoId = [this](const QString& id) -> Photo::Id
+        {
+            return m_idsMap.at(id);
+        };
+
+        const Photo::Id representative_id = idToPhotoId(representative);
+        std::vector<Photo::Id> memberIds;
+        std::transform(members.begin(), members.end(), std::back_inserter(memberIds), idToPhotoId);
+
+        return {.representative = representative_id, .members = memberIds};
     }
 }
