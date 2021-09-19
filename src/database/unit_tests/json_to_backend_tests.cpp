@@ -2,7 +2,6 @@
 #include <QDate>
 #include <core/tag.hpp>
 
-#include "core/containers_utils.hpp"
 #include "database/backends/memory_backend/memory_backend.hpp"
 #include "database_tools/json_to_backend.hpp"
 #include "database_tools/common_backend_operations.hpp"
@@ -77,16 +76,12 @@ TEST(JsonToBackendTest, groupsImport)
 
     const auto ids = backend.photoOperator().getPhotos(Database::EmptyFilter{});
     const std::vector<Photo::Data> photos = Database::fetchPhotoData(backend, ids.begin(), ids.end());
-
-    std::set<Group::Id> groups;
-    for(const auto& photo: photos)
-        if (photo.groupInfo.group_id.valid())
-            groups.insert(photo.groupInfo.group_id);
+    const std::vector<Group::Id> groups = backend.groupOperator().listGroups();
 
     ASSERT_THAT(groups.size(), Eq(2));
 
-    const auto group1Members = backend.groupOperator().membersOf(front(groups));
-    const auto group2Members = backend.groupOperator().membersOf(back(groups));
+    const auto group1Members = backend.groupOperator().membersOf(groups.front());
+    const auto group2Members = backend.groupOperator().membersOf(groups.back());
 
     EXPECT_THAT(group1Members.size(), Eq(6));
     EXPECT_THAT(group2Members.size(), Eq(5));
