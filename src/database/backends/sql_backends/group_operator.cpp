@@ -53,6 +53,7 @@ namespace Database
     Group::Id GroupOperator::addGroup(const Photo::Id& id, Group::Type type)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        auto tr = m_backend.openTransaction();
 
         Group::Id grp_id;
 
@@ -76,7 +77,7 @@ namespace Database
                 grp_id = Group::Id(group_id.toInt());
 
                 m_backend.photoChangeLogOperator().groupCreated(grp_id, type, id);
-                emit m_backend.photosModified( {id} );      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
+                m_notifications.photosModified( {id} );      // photo is now a representative
             }
         }
 

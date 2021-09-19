@@ -206,3 +206,34 @@ TYPED_TEST(TransactionAccumulationsTests, groupsRemovalAbortedInTheMiddle)
     // transaction aborted - no notifications
     EXPECT_EQ(notifications.count(), 0);
 }
+
+
+TYPED_TEST(TransactionAccumulationsTests, groupsCreation)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+
+    {
+        auto tr = this->m_backend->openTransaction();
+        converter.append(GroupsDB::db);
+    }
+
+    // modifications should be accumulated into one notification
+    EXPECT_EQ(notifications.count(), 1);
+}
+
+
+TYPED_TEST(TransactionAccumulationsTests, groupsCreationAborted)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+
+    {
+        auto tr = this->m_backend->openTransaction();
+        converter.append(GroupsDB::db);
+        tr->abort();
+    }
+
+    // transaction aborted - no notifications
+    EXPECT_EQ(notifications.count(), 0);
+}
