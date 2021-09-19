@@ -38,6 +38,7 @@ set(CORE_SOURCES
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
     task_executor_traits.hpp
+    utils.hpp
 
     #utilities
     accumulative_queue.hpp
