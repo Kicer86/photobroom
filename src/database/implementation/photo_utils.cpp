@@ -3,11 +3,6 @@
 
 namespace Photo
 {
-    const Photo::Id& getId(const Photo::Data& data)
-    {
-        return data.id;
-    }
-
     const QString& getPath(const Photo::Data& data)
     {
         return data.path;
