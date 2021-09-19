@@ -129,7 +129,8 @@ namespace Database
                                                               getGenericQueryGenerator(),
                                                               &m_executor,
                                                               m_logger.get(),
-                                                              this
+                                                              *this,
+                                                              m_notificationsAccumulator
                                                              );
 
         return *m_groupOperator.get();

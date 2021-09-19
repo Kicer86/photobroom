@@ -4,7 +4,9 @@
 #include "common.hpp"
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
+#include "unit_tests_utils/sample_db_with_groups.json.hpp"
 
+using testing::Eq;
 
 template<typename T>
 struct TransactionAccumulationsTests: DatabaseTest<T>
@@ -137,6 +139,68 @@ TYPED_TEST(TransactionAccumulationsTests, photosUpdateAbortedInMiddle)
         this->m_backend->update({photo1});
         transaction->abort();
         this->m_backend->update({photo2});
+    }
+
+    // transaction aborted - no notifications
+    EXPECT_EQ(notifications.count(), 0);
+}
+
+
+TYPED_TEST(TransactionAccumulationsTests, groupsRemoval)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(GroupsDB::db);
+
+    const auto groups = this->m_backend->groupOperator().listGroups();
+    ASSERT_THAT(groups.size(), Eq(2));
+
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->groupOperator().removeGroup(groups.front());
+        this->m_backend->groupOperator().removeGroup(groups.back());
+    }
+
+    // modifications should be accumulated into one notification
+    EXPECT_EQ(notifications.count(), 1);
+}
+
+
+TYPED_TEST(TransactionAccumulationsTests, groupsRemovalAborted)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(GroupsDB::db);
+
+    const auto groups = this->m_backend->groupOperator().listGroups();
+    ASSERT_THAT(groups.size(), Eq(2));
+
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->groupOperator().removeGroup(groups.front());
+        this->m_backend->groupOperator().removeGroup(groups.back());
+        transaction->abort();
+    }
+
+    // transaction aborted - no notifications
+    EXPECT_EQ(notifications.count(), 0);
+}
+
+
+TYPED_TEST(TransactionAccumulationsTests, groupsRemovalAbortedInTheMiddle)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(GroupsDB::db);
+
+    const auto groups = this->m_backend->groupOperator().listGroups();
+    ASSERT_THAT(groups.size(), Eq(2));
+
+    QSignalSpy notifications(this->m_backend.get(), &Database::IBackend::photosModified);
+    {
+        auto transaction = this->m_backend->openTransaction();
+        this->m_backend->groupOperator().removeGroup(groups.front());
+        transaction->abort();
+        this->m_backend->groupOperator().removeGroup(groups.back());
     }
 
     // transaction aborted - no notifications

@@ -31,11 +31,12 @@ namespace Database
     struct IBackend;
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
+    class NotificationsAccumulator;
 
     class GroupOperator final: public IGroupOperator
     {
         public:
-            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend &, NotificationsAccumulator &);
 
             Group::Id addGroup(const Photo::Id &, Group::Type) override;
             Photo::Id removeGroup(const Group::Id &) override;
@@ -45,10 +46,11 @@ namespace Database
 
         private:
             QString m_connectionName;
+            NotificationsAccumulator& m_notifications;
             const IGenericSqlQueryGenerator* m_queryGenerator;
             ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
-            IBackend* m_backend;
+            IBackend& m_backend;
     };
 }
 

@@ -25,6 +25,7 @@
 
 #include "database/ibackend.hpp"
 #include "database/iphoto_change_log_operator.hpp"
+#include "database/notifications_accumulator.hpp"
 #include "isql_query_constructor.hpp"
 #include "isql_query_executor.hpp"
 #include "query_structs.hpp"
@@ -37,8 +38,10 @@ namespace Database
                                  const IGenericSqlQueryGenerator* generator,
                                  ISqlQueryExecutor* executor,
                                  ILogger* logger,
-                                 IBackend* backend):
+                                 IBackend& backend,
+                                 NotificationsAccumulator& notifications):
         m_connectionName(name),
+        m_notifications(notifications),
         m_queryGenerator(generator),
         m_executor(executor),
         m_logger(logger),
@@ -72,8 +75,8 @@ namespace Database
             {
                 grp_id = Group::Id(group_id.toInt());
 
-                m_backend->photoChangeLogOperator().groupCreated(grp_id, type, id);
-                emit m_backend->photosModified( {id} );      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
+                m_backend.photoChangeLogOperator().groupCreated(grp_id, type, id);
+                emit m_backend.photosModified( {id} );      // photo is now a representative  TODO: I don't like it. notifications about photos should not be raised from groups module
             }
         }
 
@@ -85,6 +88,7 @@ namespace Database
     {
         Photo::Id representativePhoto;
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        auto tr = m_backend.openTransaction();
 
         try
         {
@@ -104,8 +108,6 @@ namespace Database
             // as it won't be part of the group anymore
             modified_photos.insert(ph_id);
 
-            DbErrorOnFalse(db.transaction());
-
             const QString members_delete =
                 QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
 
@@ -115,17 +117,14 @@ namespace Database
             DbErrorOnFalse(m_executor->exec(members_delete, &query));
             DbErrorOnFalse(m_executor->exec(group_delete, &query));
 
-            DbErrorOnFalse(db.commit());
-
-            // TODO: I don't like it. notifications about photos should not be raised from groups module
-            m_backend->photoChangeLogOperator().groupDeleted(gid, ph_id, members);
-            emit m_backend->photosModified(modified_photos);
+            m_backend.photoChangeLogOperator().groupDeleted(gid, ph_id, members);
+            m_notifications.photosModified(modified_photos);
 
             representativePhoto = ph_id;
         }
         catch(const db_error& ex)
         {
-            db.rollback();
+            tr->abort();
 
             m_logger->error(ex.what());
         }
