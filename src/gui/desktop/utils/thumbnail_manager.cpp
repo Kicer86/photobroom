@@ -46,6 +46,7 @@ ThumbnailManager::~ThumbnailManager()
 
 void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
+    assert(id.valid());
     assert(m_db != nullptr);
 
     const IThumbnailsCache::ThumbnailParameters params(desired_size);
