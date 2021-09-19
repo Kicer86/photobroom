@@ -179,4 +179,26 @@ namespace Database
 
         return members;
     }
+
+
+    std::vector<Group::Id> GroupOperator::listGroups() const
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const QString groups_list =
+                QString("SELECT id FROM %1").arg(TAB_GROUPS);
+
+        DbErrorOnFalse(m_executor->exec(groups_list, &query));
+
+        std::vector<Group::Id> groups;
+
+        while(query.next())
+        {
+            const Group::Id grp_id(query.value(0).toInt());
+            groups.push_back(grp_id);
+        }
+
+        return groups;
+    }
 }

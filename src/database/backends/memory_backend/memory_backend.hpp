@@ -72,6 +72,7 @@ namespace Database
             Photo::Id removeGroup(const Group::Id &) override;
             Group::Type type(const Group::Id &) const override;
             std::vector<Photo::Id> membersOf(const Group::Id &) const override;
+            std::vector<Group::Id> listGroups() const override;
 
             // IPhotoOperator interface
             bool removePhoto(const Photo::Id &) override;

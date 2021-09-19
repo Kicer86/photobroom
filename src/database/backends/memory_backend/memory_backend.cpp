@@ -1,6 +1,7 @@
 
 #include <QFileInfo>
 
+#include <core/utils.hpp>
 #include "memory_backend.hpp"
 #include "database/transaction_wrapper.hpp"
 #include "database/notifications_accumulator.hpp"
@@ -551,6 +552,26 @@ namespace Database
 
         std::vector<Photo::Id> ids;
         std::transform(members.begin(), members.end(), std::back_inserter(ids), &Photo::getId);
+
+        return ids;
+    }
+
+
+    std::vector<Group::Id> MemoryBackend::listGroups() const
+    {
+        std::vector<Photo::Data> representatives;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const Photo::Data& data)
+        {
+            return data.groupInfo.role == GroupInfo::Role::Representative;
+        });
+
+        const GroupInfo grp = extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>(representatives[0]);
+
+        std::vector<GroupInfo> infos;
+        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), &extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>);
+
+        std::vector<Group::Id> ids;
+        std::transform(infos.begin(), infos.end(), std::back_inserter(ids), &extract<GroupInfo, Group::Id, &GroupInfo::group_id>);
 
         return ids;
     }
