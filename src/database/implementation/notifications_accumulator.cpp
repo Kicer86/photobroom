@@ -17,8 +17,11 @@ namespace Database
 
     void NotificationsAccumulator::fireChanges()
     {
-        emit photosAddedSignal(m_photosAdded);
-        emit photosModifiedSignal(m_photosModified);
+        if (m_photosAdded.empty() == false)
+            emit photosAddedSignal(m_photosAdded);
+
+        if (m_photosModified.empty() == false)
+            emit photosModifiedSignal(m_photosModified);
     }
 
 
