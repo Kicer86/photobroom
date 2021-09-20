@@ -123,16 +123,16 @@ void PhotoItem::paintImage(QPainter& painter) const
 
 void PhotoItem::refetch()
 {
-    if (m_state == State::Fetched)
+    if (m_state == State::Fetched && m_id.valid())
     {
         const QSize thbSize(width(), height());
 
-        auto image = m_thbMgr->fetch( m_id, thbSize);
+        auto image = m_thbMgr->fetch(m_id, thbSize);
 
         if (image.has_value())
             setImage(image.value());
         else
-            m_thbMgr->fetch( m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+            m_thbMgr->fetch(m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
     }
 }
 
