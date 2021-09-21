@@ -99,6 +99,7 @@ void TagInfoCollector::photoModified(const IPhotoInfo::Ptr& photoInfo)
 
 void TagInfoCollector::updateAllTags()
 {
+    m_logger->trace("updating all tags");
     auto tagNames = BaseTags::getAll();
 
     for(const TagTypes& baseTagName: tagNames)
