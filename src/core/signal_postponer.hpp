@@ -48,7 +48,7 @@ class CORE_EXPORT SignalPostponer: public QObject
             m_patienceTimer.setSingleShot(true);
         }
 
-        ~SignalPostponer() {}
+        ~SignalPostponer() = default;
 
         void setDelay(const std::chrono::milliseconds &);
         void setPatiece(const std::chrono::milliseconds &);
