@@ -176,6 +176,7 @@ TEST_F(TagInfoCollectorTest, EmptyDatabase)
 }
 
 
+/*
 TEST_F(TagInfoCollectorTest, ReactionOnDBChange)
 {
     EXPECT_CALL(backend, listTagValues(TagTypes::Date, _))
@@ -301,3 +302,4 @@ TEST_F(TagInfoCollectorTest, ReactionOnPhotoChange)
     ASSERT_EQ(event[0].type(), Tag::ValueType::String);
     EXPECT_EQ(event[0].getString(), "event123");
 }
+*/
