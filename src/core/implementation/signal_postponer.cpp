@@ -18,8 +18,6 @@
 
 #include "signal_postponer.hpp"
 
-using namespace std::chrono;
-
 
 void SignalPostponer::setDelay(const std::chrono::milliseconds& d)
 {
@@ -46,4 +44,60 @@ void SignalPostponer::stop()
 {
     m_lazinessTimer.stop();
     m_patienceTimer.stop();
+}
+
+
+SignalBlocker::SignalBlocker(std::chrono::milliseconds blockTime, QObject* p)
+    : QObject(p)
+    , m_blockTime(blockTime)
+    , m_dirty(false)
+    , m_locked(false)
+{
+
+}
+
+
+void SignalBlocker::notify()
+{
+    std::lock_guard<std::recursive_mutex> _(m_mutex);
+    m_dirty = true;
+
+    tryFire();
+}
+
+
+void SignalBlocker::tryFire()
+{
+    std::lock_guard<std::recursive_mutex> _(m_mutex);
+
+    if (m_locked == false && m_dirty)
+    {
+        auto locker = lock();
+
+        emit fire(locker);
+    }
+}
+
+
+SignalBlocker::Locker SignalBlocker::lock()
+{
+    std::lock_guard<std::recursive_mutex> _(m_mutex);
+    assert(m_locked == false);
+
+    QObject* obj = new QObject(this);
+    lazy_connect(obj, &QObject::destroyed, this, &SignalBlocker::unlock, m_blockTime, m_blockTime);
+
+    m_locked = true;
+
+    return QSharedPointer<QObject>(obj);
+}
+
+
+void SignalBlocker::unlock()
+{
+    std::lock_guard<std::recursive_mutex> _(m_mutex);
+    assert(m_locked);
+
+    m_locked = false;
+    tryFire();
 }

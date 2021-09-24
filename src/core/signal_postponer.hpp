@@ -20,16 +20,20 @@
 #define SIGNALPOSTPONER_HPP
 
 #include <chrono>
+#include <mutex>
 #include <optional>
 
 #include <QObject>
 #include <QTimer>
+#include <QSharedPointer>
 
 #include "core_export.h"
 
 
 class CORE_EXPORT SignalPostponer: public QObject
 {
+     Q_OBJECT
+
     public:
         template<typename Fire>
         SignalPostponer(Fire fire, QObject* p):
@@ -83,5 +87,30 @@ void lazy_connect(SrcObj* src, Signal1 sig1,
 
     QObject::connect(src, sig1, postponer, &SignalPostponer::notify, type);
 }
+
+
+class CORE_EXPORT SignalBlocker: public QObject
+{
+    Q_OBJECT
+
+public:
+    typedef QSharedPointer<QObject> Locker;
+
+    SignalBlocker(std::chrono::milliseconds blockTime, QObject* p);
+    void notify();
+
+signals:
+    void fire(Locker) const;
+
+private:
+    std::recursive_mutex m_mutex;
+    std::chrono::milliseconds m_blockTime;
+    bool m_dirty;
+    bool m_locked;
+
+    void tryFire();
+    Locker lock();
+    void unlock();
+};
 
 #endif // SIGNALPOSTPONER_HPP
