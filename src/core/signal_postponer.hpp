@@ -96,7 +96,7 @@ class CORE_EXPORT SignalBlocker: public QObject
 public:
     typedef QSharedPointer<QObject> Locker;
 
-    SignalBlocker(std::chrono::milliseconds blockTime, QObject* p);
+    SignalBlocker(std::chrono::milliseconds blockTime, QObject* parent = nullptr);
     void notify();
 
 signals:
@@ -112,5 +112,17 @@ private:
     Locker lock();
     void unlock();
 };
+
+
+template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
+void blocked_connect(SrcObj* src, Signal1 sig1,
+                     Dst* dst, Signal2 slot1,
+                     const std::chrono::milliseconds& block = std::chrono::milliseconds(0),
+                     Qt::ConnectionType type = Qt::AutoConnection)
+{
+    SignalBlocker* blocker = new SignalBlocker(block, src);
+    QObject::connect(src, sig1, blocker, &SignalBlocker::notify);
+    QObject::connect(blocker, &SignalBlocker::fire, dst, slot1, type);
+}
 
 #endif // SIGNALPOSTPONER_HPP
