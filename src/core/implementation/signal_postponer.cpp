@@ -86,7 +86,9 @@ SignalBlocker::Locker SignalBlocker::lock()
     assert(m_locked == false);
 
     QObject* obj = new QObject(this);
-    lazy_connect(obj, &QObject::destroyed, this, &SignalBlocker::unlock, m_blockTime, m_blockTime);
+    connect(obj, &QObject::destroyed, this, [this]{
+        QTimer::singleShot(m_blockTime, this, &SignalBlocker::unlock);
+    });
 
     m_locked = true;
 
