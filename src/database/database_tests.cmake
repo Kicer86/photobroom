@@ -1,7 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Sql)
+find_package(Qt6 REQUIRED COMPONENTS Sql Test)
 
 addTestTarget(database
                 SOURCES
@@ -13,6 +13,7 @@ addTestTarget(database
                     database_tools/implementation/series_detector.cpp
                     implementation/aphoto_change_log_operator.cpp
                     implementation/filter.cpp
+                    implementation/notifications_accumulator.cpp
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
                     # memory backend linked
@@ -24,6 +25,7 @@ addTestTarget(database
                     unit_tests/generic_sql_query_constructor_tests.cpp
                     unit_tests/json_to_backend_tests.cpp
                     unit_tests/memory_backend_tests.cpp
+                    unit_tests/notifications_accumulator_tests.cpp
                     unit_tests/photo_info_updater_tests.cpp
                     unit_tests/sql_filter_query_generator_tests.cpp
                     unit_tests/series_detector_tests.cpp
@@ -40,6 +42,7 @@ addTestTarget(database
                     Qt::Core
                     Qt::Gui
                     Qt::Sql
+                    Qt::Test
                     GTest::gtest
                     GTest::gmock
 

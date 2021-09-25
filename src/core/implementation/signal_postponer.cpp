@@ -72,6 +72,7 @@ void SignalBlocker::tryFire()
 
     if (m_locked == false && m_dirty)
     {
+        m_dirty = false;
         auto locker = lock();
 
         emit fire(locker);

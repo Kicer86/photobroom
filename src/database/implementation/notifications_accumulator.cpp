@@ -22,10 +22,18 @@ namespace Database
 
         if (m_photosModified.empty() == false)
             emit photosModifiedSignal(m_photosModified);
+
+        clearNotifications();
     }
 
 
     void NotificationsAccumulator::ignoreChanges()
+    {
+        clearNotifications();
+    }
+
+
+    void NotificationsAccumulator::clearNotifications()
     {
         m_photosAdded.clear();
         m_photosModified.clear();

@@ -27,6 +27,8 @@ namespace Database
             std::vector<Photo::Id> m_photosAdded;
             std::set<Photo::Id> m_photosModified;
 
+            void clearNotifications();
+
         signals:
             void photosAddedSignal(const std::vector<Photo::Id> &) const;
             void photosModifiedSignal(const std::set<Photo::Id> &) const;
