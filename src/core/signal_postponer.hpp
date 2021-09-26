@@ -29,7 +29,7 @@
 
 #include "core_export.h"
 
-
+/** @brief Helper for @ref lazy_connect. Not meant to be used directly */
 class CORE_EXPORT SignalPostponer: public QObject
 {
      Q_OBJECT
