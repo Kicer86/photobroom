@@ -68,24 +68,24 @@ class CORE_EXPORT SignalPostponer: public QObject
 };
 
 
-template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
-void lazy_connect(SrcObj* src, Signal1 sig1,
-                  Dst* dst, Signal2 slot1,
+template<typename SrcObj, typename Signal, typename Dst, typename Slot>
+void lazy_connect(SrcObj* src, Signal sig,
+                  Dst* dst, Slot slot,
                   const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
                   const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000),
                   Qt::ConnectionType type = Qt::AutoConnection)
 {
-    SignalPostponer* postponer = new SignalPostponer([dst, slot1]()
-        {
-            // launch destination slot
-            (dst->*slot1)();
-        },
-        src);
+    SignalPostponer* postponer = new SignalPostponer([dst, slot]()
+    {
+        // launch destination slot
+        (dst->*slot)();
+    },
+    src);
 
     postponer->setDelay(delay);
     postponer->setPatiece(patience);
 
-    QObject::connect(src, sig1, postponer, &SignalPostponer::notify, type);
+    QObject::connect(src, sig, postponer, &SignalPostponer::notify, type);
 }
 
 
@@ -114,15 +114,15 @@ private:
 };
 
 
-template<typename SrcObj, typename Signal1, typename Dst, typename Signal2>
-SignalBlocker* blocked_connect(SrcObj* src, Signal1 sig1,
-                               Dst* dst, Signal2 slot1,
+template<typename SrcObj, typename Signal, typename Dst, typename Slot>
+SignalBlocker* blocked_connect(SrcObj* src, Signal sig,
+                               Dst* dst, Slot slot,
                                const std::chrono::milliseconds& block = std::chrono::milliseconds(0),
                                Qt::ConnectionType type = Qt::AutoConnection)
 {
     SignalBlocker* blocker = new SignalBlocker(block, src);
-    QObject::connect(src, sig1, blocker, &SignalBlocker::notify);
-    QObject::connect(blocker, &SignalBlocker::fire, dst, slot1, type);
+    QObject::connect(src, sig, blocker, &SignalBlocker::notify);
+    QObject::connect(blocker, &SignalBlocker::fire, dst, slot, type);
 
     return blocker;
 }
