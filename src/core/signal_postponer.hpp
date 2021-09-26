@@ -29,7 +29,7 @@
 
 #include "core_export.h"
 
-/** @brief Helper for @ref lazy_connect. Not meant to be used directly */
+/** @brief Helper for @ref lazy_connect. Not meant to be used directly. */
 class CORE_EXPORT SignalPostponer: public QObject
 {
      Q_OBJECT
@@ -89,6 +89,7 @@ void lazy_connect(SrcObj* src, Signal sig,
 }
 
 
+/** @brief Helper class for @ref blocked_connect. Not meant to be use directly. */
 class CORE_EXPORT SignalBlocker: public QObject
 {
     Q_OBJECT
