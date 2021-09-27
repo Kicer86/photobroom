@@ -68,6 +68,29 @@ class CORE_EXPORT SignalPostponer: public QObject
 };
 
 
+/** @brief Create lazy Qt connection between signal and slot.
+ *
+ * Function creates 'lazy' connection (similar to Qt's QObject::connect).
+ * Main goal is to group frequently emitted signals and call slot once.
+ * When signal is emitted, lazy connection will wait for `delay` milliseconds.
+ * If no signal is emmited in that time, `slot` will be invoked.
+ * Otherwise lazy connection will wait again `delay` milliseconds,
+ * for another signal emission. If signal is being emitted
+ * over and over `patience` is the final, total awaiting time. When
+ * excited, slot will be invoked.
+ *
+ * Please mind that lazy_connect will create an instance of a SignalPostponer
+ * object attached as a child to `src` object. If `src` object is
+ * destroyed no slots will be invoked even when signal was emitted before
+ * object deletion.
+ *
+ * @param src source object.
+ * @param sig signal.
+ * @param dst destination object.
+ * @param slot slot.
+ * @param delay minimal delay between signal emission and slot invocation.
+ * @param patience maximal delay between signal emission and slot invocation.
+ */
 template<typename SrcObj, typename Signal, typename Dst, typename Slot>
 void lazy_connect(SrcObj* src, Signal sig,
                   Dst* dst, Slot slot,
@@ -115,6 +138,26 @@ private:
 };
 
 
+/**
+ * @brief blocks slot invocation until previous invocation is complete.
+ *
+ * Function creates 'blocked' connection (similar to Qt's QObject::connect).
+ * Goal of blocked connection is to prevent calling slot faster than it executes.
+ * When signal is emitted slot will be invoked, but connection becomes
+ * suspended until slot finishes execution. If signal was emitted many
+ * times during that period, slot will be called only once.
+ * Blocked connection passes extra object to invoked slot. As long as
+ * this object (or a copy of it) exists, slot invocation is suspended.
+ * Suspension time can be addiotionaly extendend with `block` parameter:
+ * when last copy of object passed to slot is destroyed,
+ * connection will be suspended for addiotional `block` milliseconds.
+ *
+ * @param src source object.
+ * @param sig signal.
+ * @param dst destination object.
+ * @param slot slot.
+ * @param block addiotional suspension time in milliseconds.
+ */
 template<typename SrcObj, typename Signal, typename Dst, typename Slot>
 SignalBlocker* blocked_connect(SrcObj* src, Signal sig,
                                Dst* dst, Slot slot,
