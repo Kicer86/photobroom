@@ -72,15 +72,15 @@ class CORE_EXPORT SignalPostponer: public QObject
  *
  * Function creates 'lazy' connection (similar to Qt's QObject::connect).
  * Main goal is to group frequently emitted signals and call slot once.
- * When signal is emitted, lazy connection will wait for `delay` milliseconds.
- * If no signal is emmited in that time, `slot` will be invoked.
- * Otherwise lazy connection will wait again `delay` milliseconds,
+ * When signal is emitted, lazy connection will wait for @p delay milliseconds.
+ * If no signal is emmited in that time, @p slot will be invoked.
+ * Otherwise lazy connection will wait again @p delay milliseconds,
  * for another signal emission. If signal is being emitted
- * over and over `patience` is the final, total awaiting time. When
+ * over and over @p patience is the final, total awaiting time. When
  * excited, slot will be invoked.
  *
  * Please mind that lazy_connect will create an instance of a SignalPostponer
- * object attached as a child to `src` object. If `src` object is
+ * object attached as a child to @p src object. If @p src object is
  * destroyed no slots will be invoked even when signal was emitted before
  * object deletion.
  *
@@ -141,16 +141,16 @@ private:
 /**
  * @brief blocks slot invocation until previous invocation is complete.
  *
- * Function creates 'blocked' connection (similar to Qt's QObject::connect).
+ * Function creates @p blocked connection (similar to Qt's QObject::connect).
  * Goal of blocked connection is to prevent calling slot faster than it executes.
  * When signal is emitted slot will be invoked, but connection becomes
  * suspended until slot finishes execution. If signal was emitted many
  * times during that period, slot will be called only once.
  * Blocked connection passes extra object to invoked slot. As long as
  * this object (or a copy of it) exists, slot invocation is suspended.
- * Suspension time can be addiotionaly extendend with `block` parameter:
+ * Suspension time can be additionaly extendend with @p block parameter:
  * when last copy of object passed to slot is destroyed,
- * connection will be suspended for addiotional `block` milliseconds.
+ * connection will be suspended for addiotional @p block milliseconds.
  *
  * @param src source object.
  * @param sig signal.
