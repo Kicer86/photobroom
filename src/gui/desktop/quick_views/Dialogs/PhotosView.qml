@@ -90,6 +90,34 @@ Item {
             }
         }
 
+        Rectangle {
+            // gallery shadow for full screen mode
+            id: shadow
+
+            anchors.fill: gridView
+            color: "black"
+            opacity: 0.0
+
+            states: [
+                State {
+                    name: "hidden"
+
+                    PropertyChanges {
+                        target: shadow
+                        opacity: 0.0
+                    }
+                },
+                State {
+                    name: "visible"
+
+                    PropertyChanges {
+                        target: shadow
+                        opacity: 0.7
+                    }
+                }
+            ]
+        }
+
         Image {
             // image in full screen mode
 
@@ -101,6 +129,7 @@ Item {
                 fullscreenImage.opacity = 1.0;
                 fullscreenImage.focus = true;
                 fullscreenImage.currentIndex = index;
+                shadow.state = "visible"
 
                 console.log("Fullscreen mode for photo: " + fullscreenImage.source);
             }
@@ -123,6 +152,7 @@ Item {
 
                 onClicked: {
                     fullscreenImage.opacity = 0.0
+                    shadow.state = "hidden"
                 }
             }
 
