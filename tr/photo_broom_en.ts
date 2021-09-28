@@ -805,12 +805,12 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="198"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="172"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="202"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="176"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>

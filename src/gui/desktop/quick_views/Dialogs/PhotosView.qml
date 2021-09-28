@@ -13,6 +13,7 @@ Item {
     id: photosViewId
 
     property var selectedPhotos: []                // list of selected photo ids
+    state: "gallery"
 
     PhotosModelController {
         id: photosModelControllerId
@@ -50,7 +51,6 @@ Item {
 
         Internals.PhotosGridView {
             // grid with photos
-
             id: gridView
 
             anchors.fill: parent
@@ -90,6 +90,16 @@ Item {
             }
         }
 
+        Rectangle {
+            // gallery shadow for full screen mode
+            id: shadow
+
+            anchors.fill: gridView
+            color: "black"
+
+            Behavior on opacity { PropertyAnimation{} }
+        }
+
         Image {
             // image in full screen mode
 
@@ -98,16 +108,16 @@ Item {
             function setPhoto(index) {
                 var path = gridView.model.getPhotoPath(index);
                 fullscreenImage.source = path;
-                fullscreenImage.opacity = 1.0;
                 fullscreenImage.focus = true;
                 fullscreenImage.currentIndex = index;
+
+                photosViewId.state = "fullscreen";
 
                 console.log("Fullscreen mode for photo: " + fullscreenImage.source);
             }
 
             anchors.fill: parent
             visible: opacity != 0.0
-            opacity: 0.0
 
             asynchronous: true
             autoTransform: true
@@ -122,7 +132,7 @@ Item {
                 propagateComposedEvents: false
 
                 onClicked: {
-                    fullscreenImage.opacity = 0.0
+                    photosViewId.state = "gallery"
                 }
             }
 
@@ -130,42 +140,6 @@ Item {
                 if (fullscreenImage.status == Image.Error)
                     fullscreenImage.source = "qrc:/gui/error.svg";
             }
-
-            /*
-            Keys.onPressed: {
-                if (event.key == Qt.Key_Left) {
-                    fullscreenImage.setPhoto(fullscreenImage.currentIndex - 1);
-                    event.accepted = true;
-                }
-                else if (event.key == Qt.Key_Right) {
-                    fullscreenImage.setPhoto(fullscreenImage.currentIndex + 1);
-                    event.accepted = true;
-                }
-            }
-            Text {
-                id: leftArrow
-                color: "#ffffff"
-                text: "<"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                font.family: "Times New Roman"
-                font.pointSize: parent.height/4
-
-                transform: Scale { origin.x: 0; xScale: 0.5}
-            }
-
-            Text {
-                id: rightArrow
-                color: "#ffffff"
-                text: ">"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                font.family: "Times New Roman"
-                font.pointSize: parent.height/4
-
-                transform: Scale { origin.x: rightArrow.width; xScale: 0.5}
-            }
-            */
         }
     }
 
@@ -227,6 +201,38 @@ Item {
             PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
         }
     }
+
+    states: [
+        State {
+            name: "gallery"
+            when: filterId.newPhotosOnly == false
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: fullscreenImage
+                opacity: 0.0
+            }
+        },
+        State {
+            name: "fullscreen"
+            when: filterId.newPhotosOnly
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0.7
+            }
+
+            PropertyChanges {
+                target: fullscreenImage
+                opacity: 1.0
+            }
+        }
+    ]
+
 }
 
 
