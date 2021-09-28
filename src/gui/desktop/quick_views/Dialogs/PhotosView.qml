@@ -51,7 +51,6 @@ Item {
 
         Internals.PhotosGridView {
             // grid with photos
-
             id: gridView
 
             anchors.fill: parent
