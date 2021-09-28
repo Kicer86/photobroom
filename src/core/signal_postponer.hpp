@@ -36,7 +36,7 @@ class CORE_EXPORT SignalPostponer: public QObject
 
     public:
         template<typename Fire>
-        SignalPostponer(Fire fire, QObject* p):
+        explicit SignalPostponer(Fire fire, QObject* p):
             QObject(p),
             m_delay(std::chrono::milliseconds(250)),
             m_patience(std::chrono::milliseconds(1000))
@@ -120,7 +120,7 @@ class CORE_EXPORT SignalBlocker: public QObject
 public:
     typedef QSharedPointer<QObject> Locker;
 
-    SignalBlocker(std::chrono::milliseconds blockTime, QObject* parent = nullptr);
+    explicit SignalBlocker(std::chrono::milliseconds blockTime, QObject* parent = nullptr);
     void notify();
 
 signals:
