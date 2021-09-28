@@ -13,6 +13,7 @@ Item {
     id: photosViewId
 
     property var selectedPhotos: []                // list of selected photo ids
+    state: "gallery"
 
     PhotosModelController {
         id: photosModelControllerId
@@ -96,28 +97,8 @@ Item {
 
             anchors.fill: gridView
             color: "black"
-            opacity: 0.0
 
             Behavior on opacity { PropertyAnimation{} }
-
-            states: [
-                State {
-                    name: "hidden"
-
-                    PropertyChanges {
-                        target: shadow
-                        opacity: 0.0
-                    }
-                },
-                State {
-                    name: "visible"
-
-                    PropertyChanges {
-                        target: shadow
-                        opacity: 0.7
-                    }
-                }
-            ]
         }
 
         Image {
@@ -128,17 +109,16 @@ Item {
             function setPhoto(index) {
                 var path = gridView.model.getPhotoPath(index);
                 fullscreenImage.source = path;
-                fullscreenImage.opacity = 1.0;
                 fullscreenImage.focus = true;
                 fullscreenImage.currentIndex = index;
-                shadow.state = "visible"
+
+                photosViewId.state = "fullscreen";
 
                 console.log("Fullscreen mode for photo: " + fullscreenImage.source);
             }
 
             anchors.fill: parent
             visible: opacity != 0.0
-            opacity: 0.0
 
             asynchronous: true
             autoTransform: true
@@ -153,8 +133,7 @@ Item {
                 propagateComposedEvents: false
 
                 onClicked: {
-                    fullscreenImage.opacity = 0.0
-                    shadow.state = "hidden"
+                    photosViewId.state = "gallery"
                 }
             }
 
@@ -259,6 +238,38 @@ Item {
             PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
         }
     }
+
+    states: [
+        State {
+            name: "gallery"
+            when: filterId.newPhotosOnly == false
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: fullscreenImage
+                opacity: 0.0
+            }
+        },
+        State {
+            name: "fullscreen"
+            when: filterId.newPhotosOnly
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0.7
+            }
+
+            PropertyChanges {
+                target: fullscreenImage
+                opacity: 1.0
+            }
+        }
+    ]
+
 }
 
 
