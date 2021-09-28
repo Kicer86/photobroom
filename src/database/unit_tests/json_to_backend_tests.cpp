@@ -74,7 +74,6 @@ TEST(JsonToBackendTest, groupsImport)
 
     converter.append(GroupsDB::db);
 
-    const auto ids = backend.photoOperator().getPhotos(Database::EmptyFilter{});
     const std::vector<Group::Id> groups = backend.groupOperator().listGroups();
 
     ASSERT_THAT(groups.size(), Eq(2));
