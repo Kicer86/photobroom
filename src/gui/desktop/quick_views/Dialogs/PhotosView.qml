@@ -140,42 +140,6 @@ Item {
                 if (fullscreenImage.status == Image.Error)
                     fullscreenImage.source = "qrc:/gui/error.svg";
             }
-
-            /*
-            Keys.onPressed: {
-                if (event.key == Qt.Key_Left) {
-                    fullscreenImage.setPhoto(fullscreenImage.currentIndex - 1);
-                    event.accepted = true;
-                }
-                else if (event.key == Qt.Key_Right) {
-                    fullscreenImage.setPhoto(fullscreenImage.currentIndex + 1);
-                    event.accepted = true;
-                }
-            }
-            Text {
-                id: leftArrow
-                color: "#ffffff"
-                text: "<"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                font.family: "Times New Roman"
-                font.pointSize: parent.height/4
-
-                transform: Scale { origin.x: 0; xScale: 0.5}
-            }
-
-            Text {
-                id: rightArrow
-                color: "#ffffff"
-                text: ">"
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                font.family: "Times New Roman"
-                font.pointSize: parent.height/4
-
-                transform: Scale { origin.x: rightArrow.width; xScale: 0.5}
-            }
-            */
         }
     }
 
