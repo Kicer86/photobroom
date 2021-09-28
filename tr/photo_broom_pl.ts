@@ -827,7 +827,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+228"/>
+        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+230"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>

@@ -98,6 +98,8 @@ Item {
             color: "black"
             opacity: 0.0
 
+            Behavior on opacity { PropertyAnimation{} }
+
             states: [
                 State {
                     name: "hidden"
