@@ -78,7 +78,7 @@
     <message>
         <location line="+5"/>
         <source>Scaning disk for media files...</source>
-        <translation>Skanowanie dysku w poszukiwaniu plików audio/video...</translation>
+        <translation>Skanowanie dysku w poszukiwaniu plików multimedialnych...</translation>
     </message>
     <message>
         <location line="+5"/>
