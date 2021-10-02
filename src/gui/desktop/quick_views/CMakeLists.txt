@@ -55,5 +55,3 @@ target_include_directories(quick_views
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-generate_export_header(quick_views)
