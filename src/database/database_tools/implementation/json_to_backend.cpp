@@ -64,7 +64,7 @@ namespace Database
         m_backend.addPhotos(photosList);
 
         // bind json ids with stored photos ids
-        for(int i = 0; i < ids.size(); i++)
+        for(std::size_t i = 0; i < ids.size(); i++)
             if (ids[i].isEmpty() == false)
                 m_idsMap.emplace(ids[i], photosList[i].getId());
     }

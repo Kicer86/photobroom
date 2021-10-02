@@ -371,7 +371,7 @@ namespace Database
     }
 
 
-    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id>& id)
+    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id> &)
     {
         std::map<PersonInfo::Id, PersonFingerprint> fingerprints;
 
@@ -564,8 +564,6 @@ namespace Database
         {
             return data.groupInfo.role == GroupInfo::Role::Representative;
         });
-
-        const GroupInfo grp = extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>(representatives[0]);
 
         std::vector<GroupInfo> infos;
         std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), &extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>);

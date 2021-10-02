@@ -193,7 +193,7 @@ void PhotosAnalyzerImpl::stop()
 
 void PhotosAnalyzerImpl::setupRefresher()
 {
-    const int work = m_totalTasks - m_doneTasks;
+    const auto work = m_totalTasks - m_doneTasks;
 
     if (work > 0 && m_viewTask == nullptr)         //there are tasks but no view task
         m_viewTask = m_tasksView->add(tr("Extracting data from photos"));
