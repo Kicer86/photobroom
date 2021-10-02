@@ -21,7 +21,7 @@ target_include_directories(plugins
                                 ${CMAKE_BINARY_DIR}/exports
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${Qt6Core_INCLUDE_DIRS}
                                 ${Qt6Gui_INCLUDE_DIRS}
 )

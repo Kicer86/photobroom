@@ -670,9 +670,14 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="183"/>
-        <source>Loading photos data...</source>
-        <translation>Loading photos data...</translation>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="93"/>
+        <source>Loading photos needing update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="199"/>
+        <source>Extracting data from photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -899,19 +904,19 @@ Error code: %1</source>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="92"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="89"/>
         <source>Photo series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="93"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="90"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="94"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="91"/>
         <source>Photos taken at similar time</source>
         <translation type="unfinished"></translation>
     </message>

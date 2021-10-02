@@ -1,43 +1,65 @@
 
 #include "misc.hpp"
 
+#include <filesystem>
 #include <QDataStream>
 #include <QDir>
 #include <QFileInfo>
 #include <QTemporaryFile>
 
 #include "project.hpp"
+#include <system/system.hpp>
 
 
-QString copyFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+namespace
 {
-    const QFileInfo originalFileInfo(path);
-    const QString extension = originalFileInfo.completeSuffix();
-    const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
-    const QString newFilePathPattern = QString("%1/XXXXXX.%2").arg(mediaLocation).arg(extension);
-
-    QFile originalFile(path);
-    originalFile.open(QFile::ReadOnly);
-
-    QTemporaryFile newFile(newFilePathPattern);
-    newFile.setAutoRemove(false);
-    newFile.open();
-
-    bool work = true;
-    do
+    std::filesystem::path prepareDestinationPath(const ProjectInfo& prjInfo, const QString& path)
     {
-        const int bufferSize = 1024*1024;
-        char data[bufferSize];
-        const quint64 read = originalFile.read(data, bufferSize);
+        const QFileInfo originalFileInfo(path);
+        const QString extension = originalFileInfo.completeSuffix();
+        const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
+        const QString uniqueFileName = System::getUniqueFileName(mediaLocation, extension);
+        const QFileInfo uniqueFileInfo(uniqueFileName);
 
-        if (read > 0)
-            newFile.write(data, read);
-
-        work = read == bufferSize;
+        return uniqueFileInfo.filesystemAbsoluteFilePath();
     }
-    while(work);
 
-    const QString newFilePath = newFile.fileName();
+    std::filesystem::path prepareSourcePath(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
+        const QFileInfo pathInfo(path);
+        const QDir mediaDir(mediaLocation);
+        const QString relativePath = mediaDir.relativeFilePath(pathInfo.absoluteFilePath());
 
-    return newFilePath;
+        return std::filesystem::path(relativePath.toStdString());;
+    }
+
+    QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const QFileInfo pathInfo(path);
+        const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
+
+        std::filesystem::rename(sourcePath, uniqueFileName);
+
+        return QString::fromStdString(uniqueFileName.string());
+    }
+
+    QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    {
+        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const std::filesystem::path sourcePath = prepareSourcePath(prjInfo, path);
+
+        std::filesystem::create_symlink(sourcePath, uniqueFileName);
+
+        return QString::fromStdString(uniqueFileName.string());
+    }
+}
+
+
+QString includeFileInPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+{
+    return path.left(5) == "prj:/"?
+        linkFileToPrivateMediaLocation(prjInfo, path):
+        moveFileToPrivateMediaLocation(prjInfo, path);
 }

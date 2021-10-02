@@ -1,7 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Gui Sql)
+find_package(Qt6 REQUIRED COMPONENTS Gui Sql Test)
 
 add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
 
@@ -37,10 +37,12 @@ addTestTarget(database_backends
                     unit_tests_for_backends/photos_tests.cpp
                     unit_tests_for_backends/tags_tests.cpp
                     unit_tests_for_backends/thumbnails_tests.cpp
+                    unit_tests_for_backends/transaction_accumulations_tests.cpp
 
                     # dependencies
                     implementation/apeople_information_accessor.cpp
                     implementation/aphoto_change_log_operator.cpp
+                    implementation/notifications_accumulator.cpp
 
                     # main()
                     unit_tests_for_backends/main.cpp
@@ -55,6 +57,7 @@ addTestTarget(database_backends
                     Qt::Core
                     Qt::Gui
                     Qt::Sql
+                    Qt::Test
                     GTest::gtest
                     GTest::gmock
 

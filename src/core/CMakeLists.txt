@@ -38,6 +38,7 @@ set(CORE_SOURCES
     status.hpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
     task_executor_traits.hpp
+    utils.hpp
 
     #utilities
     accumulative_queue.hpp
@@ -73,6 +74,9 @@ set(CORE_SOURCES
     implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
     implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
+
+    #
+    implementation/init.cpp
 )
 
 if(CMAKE_USE_PTHREADS_INIT AND NOT APPLE)
@@ -102,9 +106,8 @@ target_link_libraries(core
 target_include_directories(core PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
-                                SYSTEM PRIVATE
-                                    ${OPENLIBRARY_INCLUDE_DIRS}
                                 PRIVATE
+                                    ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

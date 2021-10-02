@@ -31,23 +31,26 @@ namespace Database
     struct IBackend;
     struct IGenericSqlQueryGenerator;
     struct ISqlQueryExecutor;
+    class NotificationsAccumulator;
 
     class GroupOperator final: public IGroupOperator
     {
         public:
-            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            GroupOperator(const QString &, const IGenericSqlQueryGenerator *, Database::ISqlQueryExecutor *, ILogger *, IBackend &, NotificationsAccumulator &);
 
             Group::Id addGroup(const Photo::Id &, Group::Type) override;
             Photo::Id removeGroup(const Group::Id &) override;
             Group::Type type(const Group::Id &) const override;
             std::vector<Photo::Id> membersOf(const Group::Id &) const override;
+            std::vector<Group::Id> listGroups() const override;
 
         private:
             QString m_connectionName;
+            NotificationsAccumulator& m_notifications;
             const IGenericSqlQueryGenerator* m_queryGenerator;
             ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
-            IBackend* m_backend;
+            IBackend& m_backend;
     };
 }
 

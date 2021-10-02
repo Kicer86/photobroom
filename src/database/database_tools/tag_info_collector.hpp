@@ -22,7 +22,8 @@
 
 #include <mutex>
 
-#include <database/database_tools/signal_mapper.hpp>
+#include <core/ilogger.hpp>
+#include <core/signal_postponer.hpp>
 
 #include "itag_info_collector.hpp"
 #include "../iphoto_info.hpp"
@@ -36,9 +37,9 @@ namespace Database
 class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 {
     public:
-        TagInfoCollector();
+        TagInfoCollector(std::unique_ptr<ILogger>);
         TagInfoCollector(const TagInfoCollector &) = delete;
-        ~TagInfoCollector();
+        ~TagInfoCollector() = default;
 
         TagInfoCollector& operator=(const TagInfoCollector &) = delete;
 
@@ -47,17 +48,15 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
         const std::vector<TagValue>& get(const TagTypes &) const override;
 
     private:
-        Database::SignalMapper m_mapper;
         mutable std::map<TagTypes, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
+        std::unique_ptr<ILogger> m_logger;
         Database::IDatabase* m_database;
-        int m_observerId;
 
         void gotTagValues(const TagTypes &, const std::vector<TagValue> &);
-        void photoModified(const IPhotoInfo::Ptr &);
 
-        void updateAllTags();
-        void updateValuesFor(const TagTypes &);
+        void updateAllTags(SignalBlocker::Locker = {});
+        void updateValuesFor(const TagTypes &, SignalBlocker::Locker = {});
 };
 
 #endif // TAGINFOCOLLECTOR_H

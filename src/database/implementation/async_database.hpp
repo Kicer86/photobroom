@@ -86,7 +86,7 @@ namespace Database
             bool m_working;
 
             //store task to be executed by thread
-            void addTask(std::unique_ptr<IThreadTask> &&);
+            void addTask(std::unique_ptr<IDatabaseThread::ITask> &&);
             void stopExecutor();
     };
 

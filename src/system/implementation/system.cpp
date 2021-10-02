@@ -3,6 +3,7 @@
 
 #include <mutex>
 
+#include <QCache>
 #include <QCoreApplication>
 #include <QDir>
 #include <QStandardPaths>
@@ -103,27 +104,33 @@ QString System::getApplicationConfigDir()
 }
 
 
-QString System::getTmpFile(const QString& path, const QString& fileExt)
+QString System::getUniqueFileName(const QString& path, const QString& fileExt)
 {
-    static int v = 0;
+    static QCache<QString, int> state(10);
 
-    QFile f;
+    int* cachedValue = state.object(path);
+    int value = cachedValue == nullptr?
+        QDir(path).entryList().size():
+        *cachedValue;
+
+    QString full_path;
 
     for(;;)
     {
-        const QString full_path = QString("%1/%2.%3")
-                                    .arg(path)
-                                    .arg(v++, 6, 16, QLatin1Char('0'))
-                                    .arg(fileExt);
+        full_path = QString("%1/%2.%3")
+                        .arg(path)
+                        .arg(value++, 8, 16, QLatin1Char('0'))
+                        .arg(fileExt);
 
-        f.setFileName(full_path);
-        const bool s = f.open(QIODevice::NewOnly);
+        const bool exists = QFile::exists(full_path);
 
-        if (s)
+        if (exists == false)
             break;
     }
 
-    return f.fileName();
+    state.insert(full_path, new int(value));
+
+    return full_path;
 }
 
 

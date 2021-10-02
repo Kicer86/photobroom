@@ -33,7 +33,14 @@ namespace Database
 
 namespace GroupsManager
 {
-    QString copyRepresentatToDatabase(const QString& representativePhoto, Project &);
+    struct GroupDetails
+    {
+        std::vector<Photo::Id> members;
+        QString representativePath;
+        Group::Type type;
+    };
+
+    QString includeRepresentatInDatabase(const QString& representativePhoto, Project &);
 
     void groupIntoCollage(IExifReaderFactory &,
                           Project &,
@@ -41,6 +48,9 @@ namespace GroupsManager
 
     void groupIntoUnified(Project &,
                           const std::vector<Photo::Data> &);
+
+    void groupIntoUnified(Project &,
+                          const std::vector<std::vector<Photo::Data>> &);       // create many groups at once
 
     void group(Database::IDatabase &,
                const std::vector<Photo::Data> &,
@@ -51,6 +61,8 @@ namespace GroupsManager
                const std::vector<Photo::Id> &,
                const QString& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
+
+    void group(Database::IDatabase &, const std::vector<GroupDetails> &);
 
     void ungroup(Database::IDatabase &, const Group::Id &);
 }

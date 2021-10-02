@@ -4,12 +4,15 @@
 
 #include <QString>
 
+#include <core/utils.hpp>
 #include <database/photo_data.hpp>
 #include <database_export.h>
 
 
 namespace Photo
 {
+    inline auto& getId = extract<Photo::Data, Photo::Id, &Photo::Data::id>;
+
     DATABASE_EXPORT const QString& getPath(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
 

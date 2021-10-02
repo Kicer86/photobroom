@@ -13,6 +13,7 @@ namespace Database
         virtual Photo::Id removeGroup(const Group::Id &) = 0;
         virtual Group::Type type(const Group::Id &) const = 0;
         virtual std::vector<Photo::Id> membersOf(const Group::Id &) const = 0;
+        virtual std::vector<Group::Id> listGroups() const = 0;
     };
 }
 

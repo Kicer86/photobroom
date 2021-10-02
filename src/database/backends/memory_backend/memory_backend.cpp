@@ -1,8 +1,12 @@
 
 #include <QFileInfo>
 
+#include <core/utils.hpp>
 #include "memory_backend.hpp"
+#include "database/transaction_wrapper.hpp"
+#include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
+#include "database/photo_utils.hpp"
 
 
 namespace
@@ -31,8 +35,83 @@ namespace
 namespace Database
 {
 
+    namespace
+    {
+        class Transaction
+        {
+            public:
+                Transaction(std::unique_ptr<MemoryBackend::DB>& db, NotificationsAccumulator& notifications)
+                    : m_savedState(std::make_unique<MemoryBackend::DB>(*db))
+                    , m_dbRef(db)
+                    , m_notifications(notifications)
+                {
+
+                }
+
+                void rollback()
+                {
+                    m_dbRef.swap(m_savedState);
+                    m_notifications.ignoreChanges();
+                }
+
+                void commit()
+                {
+                    m_notifications.fireChanges();
+                }
+
+            private:
+                std::unique_ptr<MemoryBackend::DB> m_savedState;
+                std::unique_ptr<MemoryBackend::DB>& m_dbRef;
+                NotificationsAccumulator& m_notifications;
+        };
+    }
+
+
+    struct MemoryBackend::DB
+    {
+        std::map<Photo::Id, Flags> m_flags;
+        std::map<Group::Id, GroupData> m_groups;
+        std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
+        std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
+        std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+        std::vector<LogEntry> m_logEntries;
+        std::map<Photo::Id, QByteArray> m_thumbnails;
+
+        int m_nextPhotoId = 0;
+        int m_nextPersonName = 0;
+        int m_nextGroup = 0;
+        int m_nextPersonInfo = 0;
+    };
+
+
+    struct MemoryBackend::Impl
+    {
+        NotificationsAccumulator m_notifications;
+        TransactionManager<Transaction> m_tr;
+    };
+
+
+    MemoryBackend::MemoryBackend()
+        : m_db(std::make_unique<DB>())
+        , m_impl(std::make_unique<Impl>())
+    {
+        connect(&m_impl->m_notifications, &NotificationsAccumulator::photosAddedSignal,
+                this, &MemoryBackend::photosAdded);
+        connect(&m_impl->m_notifications, &NotificationsAccumulator::photosModifiedSignal,
+                this, &MemoryBackend::photosModified);
+    }
+
+
+    MemoryBackend::~MemoryBackend()
+    {
+
+    }
+
+
     bool MemoryBackend::addPhotos(std::vector<Photo::DataDelta>& photos)
     {
+        auto tr = openTransaction();
+
         std::vector<Photo::Id> ids;
         ids.reserve(photos.size());
 
@@ -40,21 +119,21 @@ namespace Database
         {
             assert(delta.getId().valid() == false);
 
-            const Photo::Id id(m_nextPhotoId);
+            const Photo::Id id(m_db->m_nextPhotoId);
             delta.setId(id);
 
             Photo::Data data;
             data.apply(delta);
 
-            auto [it, i] = m_photos.insert(data);      // insert empty Data for given id
+            auto [it, i] = m_db->m_photos.insert(data);      // insert empty Data for given id
             assert(i == true);
 
             ids.push_back(data.id);
 
-            m_nextPhotoId++;
+            m_db->m_nextPhotoId++;
         }
 
-        emit photosAdded(ids);
+        m_impl->m_notifications.photosAdded(ids);
 
         return true;
     }
@@ -62,24 +141,25 @@ namespace Database
 
     bool MemoryBackend::update(const std::vector<Photo::DataDelta>& deltas)
     {
+        auto tr = openTransaction();
         std::set<Photo::Id> ids;
 
         for (const auto& delta: deltas)
         {
-            auto it = m_photos.find(delta.getId());
+            auto it = m_db->m_photos.find(delta.getId());
 
             Photo::Data data = *it;
             photoChangeLogOperator().storeDifference(data, delta);
 
             data.apply(delta);
 
-            it = m_photos.erase(it);
-            m_photos.insert(it, data);
+            it = m_db->m_photos.erase(it);
+            m_db->m_photos.insert(it, data);
 
             ids.insert(delta.getId());
         }
 
-        emit photosModified(ids);
+        m_impl->m_notifications.photosModified(ids);
 
         return true;
     }
@@ -89,7 +169,7 @@ namespace Database
     {
         std::set<TagValue> values;
 
-        for(const auto& photo: m_photos)
+        for(const auto& photo: m_db->m_photos)
         {
             auto it = photo.tags.find(type);
             if (it != photo.tags.end() && it->second.type() != Tag::ValueType::Empty)
@@ -107,8 +187,8 @@ namespace Database
 
     Photo::Data MemoryBackend::getPhoto(const Photo::Id& id)
     {
-        auto it = m_photos.find(id);
-        return it == m_photos.end()? Photo::Data(): *it;
+        auto it = m_db->m_photos.find(id);
+        return it == m_db->m_photos.end()? Photo::Data(): *it;
     }
 
 
@@ -165,7 +245,7 @@ namespace Database
 
     void MemoryBackend::set(const Photo::Id &id, const QString& name, int value)
     {
-        m_flags[id][name] = value;
+        m_db->m_flags[id][name] = value;
     }
 
 
@@ -173,9 +253,9 @@ namespace Database
     {
         std::optional<int> result;
 
-        auto it = m_flags.find(id);
+        auto it = m_db->m_flags.find(id);
 
-        if (it != m_flags.end())
+        if (it != m_db->m_flags.end())
         {
             auto f_it = it->second.find(name);
 
@@ -189,13 +269,13 @@ namespace Database
 
     void MemoryBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
     {
-        m_thumbnails[id] = thumbnail;
+        m_db->m_thumbnails[id] = thumbnail;
     }
 
 
     QByteArray MemoryBackend::getThumbnail(const Photo::Id& id)
     {
-        return m_thumbnails[id];
+        return m_db->m_thumbnails[id];
     }
 
 
@@ -223,6 +303,10 @@ namespace Database
 
     }
 
+    std::shared_ptr<ITransaction> MemoryBackend::openTransaction()
+    {
+        return m_impl->m_tr.openTransaction(m_db, m_impl->m_notifications);
+    }
 
     IGroupOperator& MemoryBackend::groupOperator()
     {
@@ -251,9 +335,9 @@ namespace Database
     std::vector<PersonName> MemoryBackend::listPeople()
     {
         std::vector<PersonName> result;
-        result.reserve(m_peopleNames.size());
+        result.reserve(m_db->m_peopleNames.size());
 
-        std::copy(m_peopleNames.cbegin(), m_peopleNames.cend(), std::back_inserter(result));
+        std::copy(m_db->m_peopleNames.cbegin(), m_db->m_peopleNames.cend(), std::back_inserter(result));
 
         return result;
     }
@@ -263,7 +347,7 @@ namespace Database
     {
         std::vector<PersonInfo> people;
 
-        std::copy_if(m_peopleInfo.cbegin(), m_peopleInfo.cend(), std::back_inserter(people), [id](const auto& info)
+        std::copy_if(m_db->m_peopleInfo.cbegin(), m_db->m_peopleInfo.cend(), std::back_inserter(people), [id](const auto& info)
         {
             return info.ph_id == id;
         });
@@ -274,8 +358,8 @@ namespace Database
 
     PersonName MemoryBackend::person(const Person::Id& id)
     {
-        auto it = m_peopleNames.find(id);
-        return it == m_peopleNames.end()? PersonName(): *it;
+        auto it = m_db->m_peopleNames.find(id);
+        return it == m_db->m_peopleNames.end()? PersonName(): *it;
     }
 
 
@@ -287,7 +371,7 @@ namespace Database
     }
 
 
-    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id>& id)
+    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id> &)
     {
         std::map<PersonInfo::Id, PersonFingerprint> fingerprints;
 
@@ -301,28 +385,28 @@ namespace Database
 
         if (id.valid())
         {
-            auto it = m_peopleNames.find(id);
-            if (it == m_peopleNames.end())
+            auto it = m_db->m_peopleNames.find(id);
+            if (it == m_db->m_peopleNames.end())
                 id = Person::Id();
             else
             {
-                it = m_peopleNames.erase(it);
-                m_peopleNames.insert(it, pn);
+                it = m_db->m_peopleNames.erase(it);
+                m_db->m_peopleNames.insert(it, pn);
             }
         }
         else
         {
-            auto it = std::find_if(m_peopleNames.cbegin(), m_peopleNames.cend(), [name = pn.name()](const auto& n)
+            auto it = std::find_if(m_db->m_peopleNames.cbegin(), m_db->m_peopleNames.cend(), [name = pn.name()](const auto& n)
             {
                 return n.name() == name;
             });
 
-            if (it == m_peopleNames.cend())
+            if (it == m_db->m_peopleNames.cend())
             {
-                id = Person::Id(m_nextPersonName++);
+                id = Person::Id(m_db->m_nextPersonName++);
                 const PersonName personWithId(id, pn.name());
 
-                m_peopleNames.insert(personWithId);
+                m_db->m_peopleNames.insert(personWithId);
             }
             else
                 id = it->id();
@@ -342,9 +426,9 @@ namespace Database
 
     void MemoryBackend::dropPersonInfo(const PersonInfo::Id& id)
     {
-        auto it = m_peopleInfo.find(id);
-        if (it != m_peopleInfo.end())
-            m_peopleInfo.erase(it);
+        auto it = m_db->m_peopleInfo.find(id);
+        if (it != m_db->m_peopleInfo.end())
+            m_db->m_peopleInfo.erase(it);
     }
 
 
@@ -352,15 +436,15 @@ namespace Database
     {
         auto mpi = pi;
         if (mpi.id.valid() == false)
-            mpi.id = m_nextPersonInfo++;
+            mpi.id = m_db->m_nextPersonInfo++;
 
-        auto it = m_peopleInfo.find(mpi.id);
-        if (it == m_peopleInfo.end())
-            m_peopleInfo.insert(mpi);
+        auto it = m_db->m_peopleInfo.find(mpi.id);
+        if (it == m_db->m_peopleInfo.end())
+            m_db->m_peopleInfo.insert(mpi);
         else
         {
-            it = m_peopleInfo.erase(it);
-            m_peopleInfo.insert(it, mpi);
+            it = m_db->m_peopleInfo.erase(it);
+            m_db->m_peopleInfo.insert(it, mpi);
         }
 
         return mpi.id;
@@ -370,7 +454,7 @@ namespace Database
     void MemoryBackend::append(const Photo::Id& id, Operation operation, Field field, const QString& data)
     {
         const auto entry = std::make_tuple(id, operation, field, data);
-        m_logEntries.push_back(entry);
+        m_db->m_logEntries.push_back(entry);
     }
 
 
@@ -378,7 +462,7 @@ namespace Database
     {
         QStringList list;
 
-        for(const auto& entry: m_logEntries)
+        for(const auto& entry: m_db->m_logEntries)
         {
             const QString formatted = format(std::get<0>(entry),
                                              std::get<1>(entry),
@@ -395,8 +479,8 @@ namespace Database
 
     Group::Id MemoryBackend::addGroup(const Photo::Id& representative_photo, Group::Type type)
     {
-        Group::Id gid(m_nextGroup++);
-        m_groups.emplace(gid, std::pair(representative_photo, type));
+        Group::Id gid(m_db->m_nextGroup++);
+        m_db->m_groups.emplace(gid, std::pair(representative_photo, type));
 
         GroupInfo group(gid, GroupInfo::Role::Representative);
         Photo::DataDelta delta(representative_photo);
@@ -412,15 +496,15 @@ namespace Database
     {
         Photo::Id r_id;
 
-        auto it = m_groups.find(gid);
+        auto it = m_db->m_groups.find(gid);
 
-        if (it != m_groups.end())
+        if (it != m_db->m_groups.end())
         {
-            m_groups.erase(gid);
+            m_db->m_groups.erase(gid);
 
             std::vector<Photo::Id> photosToClear;
 
-            for(Photo::Data data: m_photos)
+            for(Photo::Data data: m_db->m_photos)
                 if (data.groupInfo.role != GroupInfo::Role::None &&
                     data.groupInfo.group_id == gid)
                 {
@@ -458,9 +542,34 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id &) const
+    std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id& id) const
     {
+        std::vector<Photo::Data> members;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const Photo::Data& data)
+        {
+            return data.groupInfo.group_id == id && data.groupInfo.role == GroupInfo::Role::Member;
+        });
+
         std::vector<Photo::Id> ids;
+        std::transform(members.begin(), members.end(), std::back_inserter(ids), &Photo::getId);
+
+        return ids;
+    }
+
+
+    std::vector<Group::Id> MemoryBackend::listGroups() const
+    {
+        std::vector<Photo::Data> representatives;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const Photo::Data& data)
+        {
+            return data.groupInfo.role == GroupInfo::Role::Representative;
+        });
+
+        std::vector<GroupInfo> infos;
+        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), &extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>);
+
+        std::vector<Group::Id> ids;
+        std::transform(infos.begin(), infos.end(), std::back_inserter(ids), &extract<GroupInfo, Group::Id, &GroupInfo::group_id>);
 
         return ids;
     }
@@ -501,7 +610,7 @@ namespace Database
     {
         std::vector<Photo::Id> ids;
 
-        for(const auto& photo: m_photos)
+        for(const auto& photo: m_db->m_photos)
             ids.push_back(photo.id);
 
         return ids;

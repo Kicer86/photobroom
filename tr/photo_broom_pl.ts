@@ -78,7 +78,7 @@
     <message>
         <location line="+5"/>
         <source>Scaning disk for media files...</source>
-        <translation>Skanowanie dysku w poszukiwaniu plików audio/video...</translation>
+        <translation>Skanowanie dysku w poszukiwaniu plików multimedialnych...</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -125,23 +125,23 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+22"/>
         <source>Tasks in queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadań w kolejce</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Tasks executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadań wykonywanych</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Execution speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość wykonywania</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation type="unfinished"></translation>
+        <translation>zadań/sekunda</translation>
     </message>
 </context>
 <context>
@@ -179,7 +179,9 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <source>Path for tool %1 is not set or is invalid.
 Some functionality may be disabled.
 Check paths in configuration window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka do programu %1 jest nieustawiona bądź jest niepoprawna.
+Pewne funkcjonalności mogą być niedostępne.
+Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
 </context>
 <context>
@@ -323,7 +325,7 @@ Check paths in configuration window.</source>
     <message>
         <location line="+9"/>
         <source>Tasks</source>
-        <translation>Akcje</translation>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -333,7 +335,7 @@ Check paths in configuration window.</source>
     <message>
         <location line="+9"/>
         <source>debug</source>
-        <translation type="unfinished"></translation>
+        <translation>debug</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -692,9 +694,14 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+183"/>
-        <source>Loading photos data...</source>
-        <translation>Wczytywanie danych ze zdjęć...</translation>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+93"/>
+        <source>Loading photos needing update</source>
+        <translation>Wczytywanie zdjęć wymagających aktualizacji</translation>
+    </message>
+    <message>
+        <location line="+106"/>
+        <source>Extracting data from photos</source>
+        <translation>Wydobywanie informacji ze zdjęć</translation>
     </message>
 </context>
 <context>
@@ -921,7 +928,7 @@ Kod błędu: %1</translation>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+92"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+89"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
@@ -1062,7 +1069,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+5"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1072,12 +1079,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+6"/>
         <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit rozmiaru obrazów w megabajtach. 512MB to wartość domyślna, która zezwala na otwieranie zdjęć o rozmiarze 512/4 = 128 mega pikseli.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>image memory limit</source>
-        <translation type="unfinished"></translation>
+        <translation>limit rozmiaru obrazu</translation>
     </message>
 </context>
 </TS>

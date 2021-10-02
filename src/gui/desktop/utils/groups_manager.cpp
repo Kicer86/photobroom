@@ -22,15 +22,16 @@
 #include <database/idatabase.hpp>
 #include <database/igroup_operator.hpp>
 #include <database/iphoto_operator.hpp>
+#include <database/photo_utils.hpp>
 #include <project_utils/misc.hpp>
 #include <system/system.hpp>
 
 #include "utils/grouppers/collage_generator.hpp"
 
 
-QString GroupsManager::copyRepresentatToDatabase(const QString& representativePhoto, Project& project)
+QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)
 {
-    const QString internalPath = copyFileToPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const QString internalPath = includeFileInPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
     const QString internalPathDecorated = project.makePathRelative(internalPath);
 
     return internalPathDecorated;
@@ -54,10 +55,10 @@ void GroupsManager::groupIntoCollage(
     const auto collage = generator.generateCollage(paths, highest.geometry.height());
 
     auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
-    const QString collagePath = System::getTmpFile(tmpDir->path(), "jpeg");
+    const QString collagePath = System::getUniqueFileName(tmpDir->path(), "jpeg");
     collage.save(collagePath);
 
-    const QString representantPath = GroupsManager::copyRepresentatToDatabase(collagePath, project);
+    const QString representantPath = GroupsManager::includeRepresentatInDatabase(collagePath, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
 }
 
@@ -66,8 +67,26 @@ void GroupsManager::groupIntoUnified(
     Project& project,
     const std::vector<Photo::Data>& photos)
 {
-    const QString representantPath = GroupsManager::copyRepresentatToDatabase(photos.front().path, project);
+    const QString representantPath = GroupsManager::includeRepresentatInDatabase(photos.front().path, project);
     GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
+}
+
+
+void GroupsManager::groupIntoUnified(Project& project, const std::vector<std::vector<Photo::Data>>& groups)
+{
+    std::vector<GroupDetails> groupsDetails;
+
+    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const auto& group)
+    {
+        const QString representativePath = GroupsManager::includeRepresentatInDatabase(group.front().path, project);
+
+        std::vector<Photo::Id> ids;
+        std::transform(group.begin(), group.end(), std::back_inserter(ids), Photo::getId);
+
+        return GroupDetails{ .members = ids, .representativePath = representativePath, .type = Group::Type::Generic };
+    });
+
+    group(project.getDatabase(), groupsDetails);
 }
 
 
@@ -88,10 +107,25 @@ void GroupsManager::group(Database::IDatabase& database,
                           const QString& representativePath,
                           Group::Type type)
 {
-    if (photos.empty() == false)
+    group(database, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
+}
+
+
+void GroupsManager::group(Database::IDatabase& database, const std::vector<GroupDetails>& groups)
+{
+    database.exec([groups](Database::IBackend& backend)
     {
-        database.exec([photos, representativePath, type](Database::IBackend& backend)
+        auto transaction = backend.openTransaction();
+
+        for (const auto& group: groups)
         {
+            const auto& photos = group.members;
+            if (photos.empty())
+                continue;
+
+            const QString& representativePath = group.representativePath;
+            const Group::Type& type = group.type;
+
             // copy details of first member to representative
             const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
 
@@ -127,8 +161,8 @@ void GroupsManager::group(Database::IDatabase& database,
             }
 
             backend.update(deltas);
-        });
-    }
+        }
+    });
 }
 
 

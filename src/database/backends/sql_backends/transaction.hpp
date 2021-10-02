@@ -1,3 +1,4 @@
+
 /*
  * Photo Broom - photos management tool.
  * Copyright (C) 2019  Michał Walenciak <Kicer86@gmail.com>
@@ -21,42 +22,20 @@
 
 #include <QString>
 
-class NestedTransaction;
+#include "database/notifications_accumulator.hpp"
 
 
-class Transaction final
+class SqlTransaction
 {
     public:
-        explicit Transaction(NestedTransaction &);
-        ~Transaction();
+        SqlTransaction(const QString &, Database::NotificationsAccumulator &);
 
-        bool begin();
-        bool commit();
+        void commit();
         void rollback();
 
     private:
-        NestedTransaction& m_db;
-        bool m_commited;
-};
-
-
-class NestedTransaction final
-{
-    public:
-        NestedTransaction();
-
-        void setConnectionName(const QString &);
-
-    private:
-        friend class Transaction;
-
         QString m_connection_name;
-        int m_level;
-        bool m_clean;
-
-        bool tr_begin();
-        bool tr_commit();
-        bool tr_rollback();
+        Database::NotificationsAccumulator& m_notifications;
 };
 
 #endif

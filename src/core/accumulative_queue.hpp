@@ -18,8 +18,8 @@ class AccumulativeQueue: public QObject
         AccumulativeQueue(std::size_t package_size_limit,
                           std::chrono::milliseconds max_waiting_time,
                           std::function<void(ContainerIt, ContainerIt)> flush)
-            : m_flush(flush)
-            , m_timeout(max_waiting_time)
+            : m_timeout(max_waiting_time)
+            , m_flush(flush)
             , m_sizeLimit(package_size_limit)
         {
             m_timer.setSingleShot(true);

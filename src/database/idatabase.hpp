@@ -24,6 +24,7 @@
 #include <functional>
 #include <memory>
 #include <set>
+#include <source_location>
 #include <string>
 
 #include <QObject>
@@ -42,6 +43,12 @@
 struct ILogger;
 struct IConfiguration;
 
+#ifdef _MSC_VER
+#define CURRENT_LOCATION ""
+#else
+#define CURRENT_LOCATION std::source_location::current().function_name()
+#endif
+
 namespace Database
 {
     template<typename T>
@@ -58,14 +65,10 @@ namespace Database
     {
         virtual ~IDatabaseThread() = default;
 
-        template<typename Callable>
-        void exec(Callable&& f)
+        template<typename Callable> requires std::is_invocable_v<Callable, IBackend &>
+        void exec(Callable&& f, const std::string& name = CURRENT_LOCATION)
         {
-            // as concept doesn't work, static_assert is used
-            // to give some idea how to use this method
-            static_assert(std::is_invocable<Callable, IBackend &>::value);
-
-            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f));
+            auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f), name);
             execute(std::move(task));
         }
 
@@ -73,21 +76,33 @@ namespace Database
         {
             virtual ~ITask() = default;
             virtual void run(IBackend &) = 0;
+            virtual std::string name() = 0;
         };
 
         protected:
             template<typename Callable>
             struct Task final: ITask
             {
-                Task(Callable&& f): m_f(std::forward<Callable>(f)) {}
+                Task(Callable&& f, const std::string& name)
+                    : m_f(std::forward<Callable>(f))
+                    , m_name(name)
+                {
+
+                }
 
                 void run(IBackend& backend) override
                 {
                     m_f(backend);
                 }
 
+                std::string name() override
+                {
+                    return m_name;
+                }
+
                 typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
                 Callable_T m_f;
+                std::string m_name;
             };
 
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
@@ -127,4 +142,5 @@ namespace Database
     };
 }
 
+#undef CURRENT_LOCATION
 #endif

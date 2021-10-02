@@ -16,100 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "transaction.hpp"
 #include <QSqlDatabase>
 
+#include "transaction.hpp"
 
-Transaction::Transaction(NestedTransaction& db):
-    m_db(db),
-    m_commited(false)
+
+SqlTransaction::SqlTransaction(const QString& connectionName, Database::NotificationsAccumulator& notifications)
+    : m_connection_name(connectionName)
+    , m_notifications(notifications)
 {
-
+    QSqlDatabase db = QSqlDatabase::database(m_connection_name);
+    db.transaction();
 }
 
 
-Transaction::~Transaction()
+void SqlTransaction::commit()
 {
-    if (m_commited == false)
-        m_db.tr_rollback();
+    QSqlDatabase db = QSqlDatabase::database(m_connection_name);
+    db.commit();
+
+    m_notifications.fireChanges();
 }
 
 
-bool Transaction::begin()
+void SqlTransaction::rollback()
 {
-    return m_db.tr_begin();
+    QSqlDatabase db = QSqlDatabase::database(m_connection_name);
+    db.rollback();
+
+    m_notifications.ignoreChanges();
 }
-
-
-bool Transaction::commit()
-{
-    m_commited = true;
-    return m_db.tr_commit();
-}
-
-
-void Transaction::rollback()
-{
-    m_db.tr_rollback();
-}
-
-
-NestedTransaction::NestedTransaction():
-    m_connection_name(),
-    m_level(0),
-    m_clean(true)
-{
-
-}
-
-
-void NestedTransaction::setConnectionName(const QString& name)
-{
-    m_connection_name = name;
-}
-
-
-bool NestedTransaction::tr_begin()
-{
-    bool status = true;
-    m_level++;
-
-    if (m_level == 1)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connection_name);
-        status = db.transaction();
-        m_clean = status;
-    }
-
-    return status;
-}
-
-bool NestedTransaction::tr_commit()
-{
-    assert(m_level > 0);
-
-    bool status = false;
-    m_level--;
-
-    if (m_level == 0)
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connection_name);
-
-        if (m_clean)
-            status = db.commit();
-        else
-            db.rollback();
-    }
-    else
-        status = true;
-
-    return status;
-}
-
-
-bool NestedTransaction::tr_rollback()
-{
-    m_clean = false;
-    return tr_commit();
-}
-

@@ -26,14 +26,23 @@ namespace Database
         void append(const QString &);
 
     private:
+        struct Group
+        {
+            Photo::Id representative;
+            std::vector<Photo::Id> members;
+        };
+
+        std::map<QString, Photo::Id> m_idsMap;
         IBackend& m_backend;
 
         void parse(const QByteArray &);
         void parse(const QJsonObject &);
         void parsePhotos(const QJsonArray &);
-        Photo::DataDelta parsePhoto(const QJsonObject &);
+        std::pair<Photo::DataDelta, QString> parsePhoto(const QJsonObject &);
         Tag::TagsList parseTags(const QJsonObject &);
         QSize parseGeometry(const QJsonObject &);
+        void parseGroups(const QJsonArray &);
+        Group parseGroup(const QJsonObject &);
     };
 }
 

@@ -28,6 +28,7 @@
 #include <QLabel>
 
 #include <core/iview_task.hpp>
+#include <core/function_wrappers.hpp>
 
 
 namespace
@@ -41,17 +42,22 @@ namespace
 
         void setMaximum(int v) override
         {
-            m_progressBar->setMaximum(v);
+            invokeMethod(m_progressBar, &QProgressBar::setMaximum, v);
         }
 
         void setMinimum(int v) override
         {
-            m_progressBar->setMinimum(v);
+            invokeMethod(m_progressBar, &QProgressBar::setMinimum, v);
         }
 
         void setValue(int v) override
         {
-            m_progressBar->setValue(v);
+            invokeMethod(m_progressBar, &QProgressBar::setValue, v);
+        }
+
+        void setFormat(const QString& format) override
+        {
+            invokeMethod(m_progressBar, &QProgressBar::setFormat, format);
         }
 
         QProgressBar* m_progressBar;
@@ -108,7 +114,7 @@ IProgressBar* TasksViewWidget::Task::getProgressBar()
 
 void TasksViewWidget::Task::finished()
 {
-    m_parent->finished(this);
+    invokeMethod(m_parent, &TasksViewWidget::finished, this);
 }
 
 

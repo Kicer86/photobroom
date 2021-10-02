@@ -68,6 +68,15 @@ namespace Database
     {
         m_logger = l->subLogger({"ASqlBackend"});
         m_executor.set(m_logger.get());
+
+        // Wiring notifications.
+        // Backend should not emit any notifications until all transactions are finished.
+        // Only when top root transaction is accepted then notifications should be fired.
+        // Otherwise no notifications shall be emitted.
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosAddedSignal,
+                this, &ASqlBackend::photosAdded, Qt::DirectConnection);
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosModifiedSignal,
+                this, &ASqlBackend::photosModified, Qt::DirectConnection);
     }
 
 
@@ -98,6 +107,12 @@ namespace Database
     }
 
 
+    std::shared_ptr<ITransaction> ASqlBackend::openTransaction()
+    {
+        return m_tr_db.openTransaction(m_connectionName, m_notificationsAccumulator);
+    }
+
+
     const QString& ASqlBackend::getConnectionName() const
     {
         return m_connectionName;
@@ -114,7 +129,8 @@ namespace Database
                                                               getGenericQueryGenerator(),
                                                               &m_executor,
                                                               m_logger.get(),
-                                                              this
+                                                              *this,
+                                                              m_notificationsAccumulator
                                                              );
 
         return *m_groupOperator.get();
@@ -225,7 +241,6 @@ namespace Database
         //store thread id for further validation
         m_executor.set( std::this_thread::get_id() );
         m_connectionName = prjInfo.databaseLocation;
-        m_tr_db.setConnectionName(m_connectionName);
 
         BackendStatus status = StatusCodes::Ok;
         QSqlDatabase db;
@@ -260,15 +275,20 @@ namespace Database
 
     bool ASqlBackend::addPhotos(std::vector<Photo::DataDelta>& data)
     {
-        const bool status = insert(data);
+        auto tr = openTransaction();
 
-        std::vector<Photo::Id> photos;
-        photos.reserve(data.size());
+        bool status = insert(data);
 
-        for(std::size_t i = 0; i < data.size(); i++)
-            photos.push_back(data[i].getId());
+        if (status)
+        {
+            std::vector<Photo::Id> photos;
+            photos.reserve(data.size());
 
-        emit photosAdded(photos);
+            for(std::size_t i = 0; i < data.size(); i++)
+                photos.push_back(data[i].getId());
+
+            m_notificationsAccumulator.photosAdded(photos);
+        }
 
         return status;
     }
@@ -278,15 +298,11 @@ namespace Database
     {
         bool status = true;
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         try
         {
             std::set<Photo::Id> touchedIds;
-
-            DbErrorOnFalse(transaction.begin());
 
             for (const Photo::DataDelta& data: dataVector)
             {
@@ -294,14 +310,14 @@ namespace Database
                 touchedIds.insert(data.getId());
             }
 
-            DbErrorOnFalse(transaction.commit());
-
-            emit photosModified(touchedIds);
+            m_notificationsAccumulator.photosModified(touchedIds);
         }
         catch(const db_error& error)
         {
             m_logger->error(error.what());
             status = false;
+
+            tr->abort();
         }
 
         return status;
@@ -525,12 +541,11 @@ namespace Database
     {
         BackendStatus status;
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         try
         {
-            DbErrorOnFalse(transaction.begin(), StatusCodes::TransactionFailed);
+            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
             //check tables existance
             for (const auto& table: tables)
@@ -551,13 +566,13 @@ namespace Database
                                                          .arg(db_version), &query));
             else
                 DbErrorOnFalse(checkDBVersion());
-
-            DbErrorOnFalse(transaction.commit(), StatusCodes::TransactionCommitFailed);
         }
         catch(const db_error& err)
         {
             m_logger->error(err.what());
             status = err.status();
+
+            tr->abort();
         }
 
         return status;
@@ -1031,25 +1046,21 @@ namespace Database
      */
     bool ASqlBackend::insert(std::vector<Photo::DataDelta>& data_set)
     {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
-        Transaction transaction(m_tr_db);
+        auto tr = openTransaction();
 
         bool status = true;
 
         try
         {
-            DbErrorOnFalse(transaction.begin());
-
             for(Photo::DataDelta& data: data_set)
                 introduce(data);
-
-            DbErrorOnFalse(transaction.commit());
         }
         catch(const db_error& error)
         {
             m_logger->error(error.what());
             status = false;
+
+            tr->abort();
         }
 
         return status;

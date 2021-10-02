@@ -26,12 +26,15 @@ set(DATABASE_SOURCES
     iphoto_info_cache.hpp
     iphoto_info.hpp
     iphoto_operator.hpp
+    itransaction.hpp
+    notifications_accumulator.hpp
     observable_database.hpp
     person_data.hpp
     photo_data.hpp
     photo_types.hpp
     photo_utils.hpp
     project_info.hpp
+    transaction_wrapper.hpp
 
     implementation/apeople_information_accessor.cpp
     implementation/aphoto_change_log_operator.cpp
@@ -39,6 +42,7 @@ set(DATABASE_SOURCES
     implementation/async_database.hpp
     implementation/database_builder.cpp
     implementation/filter.cpp
+    implementation/notifications_accumulator.cpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_info_cache.cpp
@@ -47,6 +51,7 @@ set(DATABASE_SOURCES
     implementation/photo_info.hpp
     implementation/photo_utils.cpp
 
+    database_tools/common_backend_operations.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
@@ -83,7 +88,7 @@ target_link_libraries(database
 )
 
 target_include_directories(database
-                            SYSTEM PRIVATE
+                            PRIVATE
                                 ${OPENLIBRARY_INCLUDE_DIRS}
                                 ${MAGIC_ENUM_INCLUDE_DIRS}
                             PUBLIC

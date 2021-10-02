@@ -51,7 +51,7 @@ void HDRGenerator::run()
     connect(&analyzer, &AISOutputAnalyzer::finished,  this, &HDRGenerator::finished);
 
     emit operation(tr("generating HDR"));
-    const QString location = System::getTmpFile(m_storage, "hdr");
+    const QString location = System::getUniqueFileName(m_storage, "hdr");
 
     GeneratorUtils::execute(m_logger,
             m_data.alignImageStackPath,
@@ -64,7 +64,7 @@ void HDRGenerator::run()
             "-o", location,
             rotated);
 
-    const QString output = System::getTmpFile(m_storage, "jpeg");
+    const QString output = System::getUniqueFileName(m_storage, "jpeg");
     MagickOutputAnalyzer moa(m_logger, photos_count);
     connect(&moa, &MagickOutputAnalyzer::operation, this, &HDRGenerator::operation);
     connect(&moa, &MagickOutputAnalyzer::progress,  this, &HDRGenerator::progress);

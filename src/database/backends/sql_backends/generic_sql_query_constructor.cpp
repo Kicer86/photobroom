@@ -108,9 +108,9 @@ namespace Database
 
         QString assigments;
         assert(columns.size() == valuePlaceholders.size());
-        const int s = std::min(columns.size(), valuePlaceholders.size());
+        const auto s = std::min(columns.size(), valuePlaceholders.size());
 
-        for(int i = 0; i < s; i++)
+        for(std::size_t i = 0; i < s; i++)
         {
             assigments += columns[i] + "=" + valuePlaceholders[i];
 

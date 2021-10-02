@@ -40,12 +40,6 @@
 
 namespace Database
 {
-    struct IThreadTask
-    {
-        virtual ~IThreadTask() {}
-        virtual void execute(IBackend &) = 0;
-    };
-
     struct Executor
     {
         Executor(Database::IBackend& backend, ILogger* logger):
@@ -68,21 +62,25 @@ namespace Database
 
             for(;;)
             {
-                std::optional< std::unique_ptr<IThreadTask> > task = m_tasks.pop();
+                std::optional< std::unique_ptr<IDatabaseThread::ITask> > taskOpt = m_tasks.pop();
 
-                if (task)
+                if (taskOpt)
                 {
                     QElapsedTimer timer;
                     timer.start();
 
-                    IThreadTask* baseTask = task->get();
-                    baseTask->execute(m_backend);
+                    const auto& task = *taskOpt;
+
+                    task->run(m_backend);
 
                     const qint64 elapsed = timer.elapsed();
 
                     if (elapsed > 100)
                     {
-                        const QString message = QString("DB task took %1ms").arg(elapsed);
+                        const QString message = QString("DB task '%2' took %1ms")
+                            .arg(elapsed)
+                            .arg(QString::fromStdString(task->name()));
+
                         m_logger->warning(message);
                     }
                 }
@@ -97,41 +95,29 @@ namespace Database
         }
 
 
-        void addTask(std::unique_ptr<IThreadTask>&& task)
+        void addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
         {
             m_tasks.push(std::move(task));
         }
 
         private:
-            ol::TS_Queue<std::unique_ptr<IThreadTask>> m_tasks;
+            ol::TS_Queue<std::unique_ptr<IDatabaseThread::ITask>> m_tasks;
             Database::IBackend& m_backend;
             std::unique_ptr<ILogger> m_logger;
     };
 
-
-    struct CustomAction final: IThreadTask
-    {
-        CustomAction(std::unique_ptr<Database::IDatabase::ITask>&& operation): m_operation(std::move(operation))
-        {
-
-        }
-
-        virtual void execute(IBackend& backend) override
-        {
-            m_operation->run(backend);
-        }
-
-        std::unique_ptr<Database::IDatabase::ITask> m_operation;
-    };
-
-
-    struct DbCloseTask final: IThreadTask
+    struct DbCloseTask final: IDatabaseThread::ITask
     {
         DbCloseTask() = default;
 
-        void execute(IBackend& backend) override
+        void run(IBackend& backend) override
         {
-           backend.closeConnections();
+            backend.closeConnections();
+        }
+
+        std::string name() override
+        {
+            return "DB close";
         }
     };
 
@@ -272,9 +258,8 @@ namespace Database
     }
 
 
-    void AsyncDatabase::execute(std::unique_ptr<ITask>&& action)
+    void AsyncDatabase::execute(std::unique_ptr<IDatabaseThread::ITask>&& task)
     {
-        auto task = std::make_unique<CustomAction>(std::move(action));
         addTask(std::move(task));
     }
 
@@ -291,12 +276,12 @@ namespace Database
     }
 
 
-    void AsyncDatabase::addTask(std::unique_ptr<IThreadTask>&& task)
+    void AsyncDatabase::addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())
         if (std::this_thread::get_id() == m_thread.get_id())
-            task->execute(*m_backend.get());
+            task->run(*m_backend.get());
         else
         {
             assert(m_working);

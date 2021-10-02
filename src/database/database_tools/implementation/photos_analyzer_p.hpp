@@ -25,7 +25,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#include <QTimer>
+#include <QObject>
 
 #include <core/accumulative_queue.hpp>
 #include <core/itasks_view.hpp>
@@ -56,14 +56,14 @@ class PhotosAnalyzerImpl: public QObject
 
         ObservableTaskExecutor<TasksQueue> m_taskQueue;
         PhotoInfoUpdater m_updater;
-        QTimer m_timer;
         PhotosQueue m_updateQueue;
         WorkState m_workState;
         QMetaObject::Connection m_backendConnection;
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
-        std::size_t m_maxTasks;
+        std::size_t m_totalTasks;
+        std::size_t m_doneTasks;
 
         void setupRefresher();
         void refreshView();
