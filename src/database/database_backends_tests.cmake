@@ -9,8 +9,8 @@ addTestTarget(database_backends
                 SOURCES
                     # engines
                     backends/sql_backends/sqlite_backend/backend.cpp
-                    backends/sql_backends/mysql_backend/backend.cpp
-                    backends/sql_backends/mysql_backend/mysql_server.cpp
+                    #backends/sql_backends/mysql_backend/backend.cpp
+                    #backends/sql_backends/mysql_backend/mysql_server.cpp
                     # memory backend linked
 
                     # other sql stuff
@@ -67,4 +67,7 @@ addTestTarget(database_backends
 
                 DEFINITIONS
                     STATIC_PLUGINS
+                    DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
 )

@@ -1,8 +1,6 @@
 
-if(NOT WIN32)
-    add_subdirectory(mysql_backend)
-endif()
 
+#add_subdirectory(mysql_backend)
 add_subdirectory(sqlite_backend)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql)

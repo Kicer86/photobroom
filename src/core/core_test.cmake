@@ -41,4 +41,7 @@ addTestTarget(core
                     ${OPENLIBRARY_INCLUDE_DIRS}
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
+
+                DEFINITIONS
+                    CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
 )
