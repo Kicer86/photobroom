@@ -99,6 +99,14 @@ namespace Database
             }
     };
 
+    class ITransaction
+    {
+        public:
+            virtual ~ITransaction() = default;
+
+            virtual void abort() = 0;
+    };
+
     /** \brief Low level database interface.
      *
      * It defines way of communication with database backend.\n
@@ -186,6 +194,9 @@ namespace Database
 
         /// \brief close database connection
         virtual void closeConnections() = 0;
+
+        /// \brief begin transaction
+        virtual std::unique_ptr<ITransaction> openTransaction() = 0;
 
         // TODO: a set of 'operators' which are about to replace methods above
         //       in the name of interface segregation and repository pattern (see #272 on github)

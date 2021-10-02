@@ -55,6 +55,35 @@
 // about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
 
+namespace
+{
+    class ClientTransaction: public Database::ITransaction
+    {
+            Transaction m_tr;
+            bool m_aborted = false;
+
+        public:
+            ClientTransaction(NestedTransaction& tr)
+                : m_tr(tr)
+            {
+                m_tr.begin();
+            }
+
+            ~ClientTransaction()
+            {
+                if (m_aborted == false)
+                    m_tr.commit();
+            }
+
+            void abort() override
+            {
+                m_tr.rollback();
+                m_aborted = true;
+            }
+    };
+}
+
+
 namespace Database
 {
 
@@ -95,6 +124,12 @@ namespace Database
         }
 
         QSqlDatabase::removeDatabase(m_connectionName);
+    }
+
+
+    std::unique_ptr<ITransaction> ASqlBackend::openTransaction()
+    {
+        return std::make_unique<ClientTransaction>(m_tr_db);
     }
 
 

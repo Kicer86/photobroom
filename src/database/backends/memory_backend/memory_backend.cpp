@@ -223,6 +223,10 @@ namespace Database
 
     }
 
+    std::unique_ptr<ITransaction> MemoryBackend::openTransaction()
+    {
+        return nullptr;
+    }
 
     IGroupOperator& MemoryBackend::groupOperator()
     {

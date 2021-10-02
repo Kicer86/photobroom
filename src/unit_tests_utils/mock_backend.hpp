@@ -45,8 +45,8 @@ struct MockBackend: public Database::IBackend
       std::vector<Photo::Id>());
   MOCK_METHOD1(init,
       Database::BackendStatus(const Database::ProjectInfo &));
-  MOCK_METHOD0(closeConnections,
-      void());
+  MOCK_METHOD(void, closeConnections, (), (override));
+  MOCK_METHOD(std::unique_ptr<Database::ITransaction>, openTransaction, (), (override));
 
   MOCK_METHOD(Database::IGroupOperator&, groupOperator, (), (override));
   MOCK_METHOD(Database::IPhotoOperator&, photoOperator, (), (override));
