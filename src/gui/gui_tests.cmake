@@ -54,7 +54,10 @@ addTestTarget(gui
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop
                     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
-                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_SOURCE_DIR}        
+                    
+                DEFINITIONS
+                    GUI_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
 )
 
 

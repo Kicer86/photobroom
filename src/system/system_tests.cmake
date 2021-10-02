@@ -19,4 +19,7 @@ addTestTarget(system
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_BINARY_DIR}
+                    
+                DEFINITIONS
+                    SYSTEM_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
 )
