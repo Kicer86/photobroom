@@ -74,6 +74,9 @@ set(CORE_SOURCES
     implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
     implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
+
+    #
+    implementation/init.cpp
 )
 
 if(CMAKE_USE_PTHREADS_INIT AND NOT APPLE)
