@@ -31,6 +31,7 @@ public:
 
     bool isLoaded() const;
     Q_INVOKABLE void groupBut(const QSet<int> &);
+    Q_INVOKABLE bool isEmpty() const;
 
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;

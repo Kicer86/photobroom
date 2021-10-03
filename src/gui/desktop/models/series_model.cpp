@@ -70,6 +70,12 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 }
 
 
+bool SeriesModel::isEmpty() const
+{
+    return rowCount({}) == 0;
+}
+
+
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
     if (index.isValid() && index.column() == 0 && index.row() < m_candidates.size())
