@@ -22,6 +22,8 @@ Item
         id: groupsId
         anchors.fill: parent
 
+        Behavior on opacity { PropertyAnimation{} }
+
         ColumnLayout {
             id: column
             width: 200
@@ -144,6 +146,8 @@ Item
         id: loadingId
         anchors.fill: parent
 
+        Behavior on opacity { PropertyAnimation{} }
+
         Item {
             id: containerId
             width: childrenRect.width
@@ -170,6 +174,17 @@ Item
         }
     }
 
+    Text {
+        id: emptyListInfo
+
+        Behavior on opacity { PropertyAnimation{} }
+
+        text: qsTr("There are no group candidates.")
+        anchors.verticalCenter: loadingId.verticalCenter
+        anchors.horizontalCenter: loadingId.horizontalCenter
+        font.pixelSize: 12
+    }
+
     states: [
         State {
             name: "LoadingState"
@@ -178,32 +193,41 @@ Item
                 target: groupsId
                 opacity: 0
             }
+
+            PropertyChanges {
+                target: emptyListInfo
+                opacity: 0
+            }
         },
         State {
             name: "LoadedState"
-            when: groupsModelId.loaded
+            when: groupsModelId.loaded && groupsModelId.isEmpty() === false
+
+            PropertyChanges {
+                target: emptyListInfo
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: loadingId
+                opacity: 0
+            }
+        },
+        State {
+            name: "LoadedEmptyState"
+            when: groupsModelId.loaded && groupsModelId.isEmpty()
+
+            PropertyChanges {
+                target: groupsId
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: loadingId
+                opacity: 0
+            }
         }
     ]
-
-    transitions:
-        Transition {
-        from: "LoadingState"
-        to: "LoadedState"
-        ParallelAnimation {
-            PropertyAnimation {
-                target: loadingId
-                properties: "opacity"
-                from: 1
-                to: 0
-            }
-            PropertyAnimation {
-                target: groupsId
-                properties: "opacity"
-                from: 0
-                to: 1
-            }
-        }
-    }
 }
 
 /*##^##
