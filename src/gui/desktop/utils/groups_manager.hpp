@@ -49,8 +49,8 @@ namespace GroupsManager
     void groupIntoUnified(Project &,
                           const std::vector<Photo::Data> &);
 
-    void groupIntoUnified(Project &,
-                          const std::vector<std::vector<Photo::Data>> &);       // create many groups at once
+    QFuture<void> groupIntoUnified(Project &,
+                                   const std::vector<std::vector<Photo::Data>> &);       // create many groups at once
 
     void group(Database::IDatabase &,
                const std::vector<Photo::Data> &,
@@ -62,7 +62,7 @@ namespace GroupsManager
                const QString& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
 
-    void group(Database::IDatabase &, const std::vector<GroupDetails> &);
+    QFuture<void> group(Database::IDatabase &, const std::vector<GroupDetails> &);
 
     void ungroup(Database::IDatabase &, const Group::Id &);
 }
