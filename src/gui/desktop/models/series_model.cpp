@@ -3,6 +3,7 @@
 #include <core/iexif_reader.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/itask_executor.hpp>
+#include <core/itasks_view_utils.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
 #include <database/database_executor_traits.hpp>
@@ -57,9 +58,13 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(executor, [groups = std::move(toStore), &project = m_project]() mutable
+    runOn(executor, [this, groups = std::move(toStore), &project = m_project]() mutable
     {
-        GroupsManager::groupIntoUnified(project, groups);
+        auto future = GroupsManager::groupIntoUnified(project, groups);
+
+        QMetaObject::invokeMethod(this, [this, f = std::move(future)]() mutable {
+            TasksViewUtils::addFutureTask(this->m_tasksView, std::move(f));
+        });
     },
     "unified group generation");
 
