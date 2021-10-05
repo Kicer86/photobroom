@@ -30,6 +30,7 @@ set(CORE_SOURCES
     function_wrappers.hpp
     generic_concepts.hpp
     id.hpp
+    itasks_view_utils.hpp                                   implementation/itasks_view_utils.cpp
     lazy_ptr.hpp
     observable_executor.hpp                                 implementation/observable_executor.cpp
     observable_task_executor.hpp
