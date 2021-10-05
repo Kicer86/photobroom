@@ -119,11 +119,16 @@ QFuture<void> GroupsManager::group(Database::IDatabase& database, const std::vec
 
     database.exec([groups, db_promise = std::move(promise)](Database::IBackend& backend) mutable
     {
-        db_promise.setProgressRange(0, groups.size());
+        const std::size_t groupSize = groups.size();
+
+        db_promise.start();
+        db_promise.setProgressRange(0, groupSize);
+
         auto transaction = backend.openTransaction();
 
-        for (const auto& group: groups)
+        for (int i = 0; i < groupSize; i++)
         {
+            const auto& group = groups[i];
             const auto& photos = group.members;
             if (photos.empty())
                 continue;
@@ -166,7 +171,11 @@ QFuture<void> GroupsManager::group(Database::IDatabase& database, const std::vec
             }
 
             backend.update(deltas);
+
+            db_promise.setProgressValue(i);
         }
+
+        db_promise.finish();
     });
 
     return future;
