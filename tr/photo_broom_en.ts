@@ -909,19 +909,19 @@ Error code: %1</source>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="95"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="96"/>
         <source>Photo series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="96"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="97"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="97"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="98"/>
         <source>Photos taken at similar time</source>
         <translation type="unfinished"></translation>
     </message>

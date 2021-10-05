@@ -16,10 +16,11 @@
 using namespace std::placeholders;
 
 
-SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core)
+SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksView& taskView)
     : m_logger(core.getLoggerFactory().get("SeriesModel"))
     , m_project(project)
     , m_core(core)
+    , m_tasksView(taskView)
     , m_initialized(false)
     , m_loaded(false)
 {

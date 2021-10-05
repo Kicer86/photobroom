@@ -6,9 +6,11 @@
 #include <QFuture>
 
 #include <core/icore_factory_accessor.hpp>
+#include <core/itasks_view.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/series_candidate.hpp>
 #include <project_utils/project.hpp>
+
 
 class SeriesDetector;
 
@@ -26,7 +28,7 @@ public:
         MembersRole,
     };
 
-    SeriesModel(Project &, ICoreFactoryAccessor &);
+    SeriesModel(Project &, ICoreFactoryAccessor &, ITasksView &);
     ~SeriesModel();
 
     bool isLoaded() const;
@@ -47,6 +49,7 @@ private:
     std::vector<GroupCandidate> m_candidates;
     Project& m_project;
     ICoreFactoryAccessor& m_core;
+    ITasksView& m_tasksView;
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     bool m_initialized;
     bool m_loaded;
