@@ -122,7 +122,8 @@ QFuture<void> GroupsManager::group(Database::IDatabase& database, const std::vec
         const std::size_t groupSize = groups.size();
 
         db_promise.start();
-        db_promise.setProgressRange(0, groupSize);
+        db_promise.setProgressValueAndText(0, QObject::tr("Saving group details."));
+        db_promise.setProgressRange(0, groupSize - 1);
 
         auto transaction = backend.openTransaction();
 

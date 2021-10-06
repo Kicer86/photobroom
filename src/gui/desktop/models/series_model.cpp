@@ -58,12 +58,13 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(executor, [this, groups = std::move(toStore), &project = m_project]() mutable
+    runOn(executor, [thread = this->thread(), tasks = &m_tasksView, groups = std::move(toStore), &project = m_project]() mutable
     {
         auto future = GroupsManager::groupIntoUnified(project, groups);
 
-        QMetaObject::invokeMethod(this, [this, f = std::move(future)]() mutable {
-            TasksViewUtils::addFutureTask(this->m_tasksView, std::move(f));
+        QMetaObject::invokeMethod(thread, [tasks, future]() mutable
+        {
+            TasksViewUtils::addFutureTask(*tasks, future);
         });
     },
     "unified group generation");
