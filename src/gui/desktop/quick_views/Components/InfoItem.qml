@@ -7,8 +7,6 @@ Rectangle {
     property alias text: textItem.text
     readonly property alias desiredHeight: textItem.height
 
-    height: textItem.height
-
     color: "deepskyblue"
     radius: 5
     border.width: 1
