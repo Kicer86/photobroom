@@ -149,6 +149,16 @@ void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&..
 }
 
 
+template<typename F, typename... Args>
+void call_from_this_thread(QThread* thread, const F& function, Args&&... args)
+{
+    QMetaObject::invokeMethod(thread, [function, args...]()
+    {
+        function(args...);
+    });
+}
+
+
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
 template<typename... Args, typename F>
@@ -157,6 +167,18 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
     std::function<void(Args...)> result = [=](Args&&... args)
     {
         call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
+    };
+
+    return result;
+}
+
+
+template<typename... Args, typename F>
+std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
+{
+    std::function<void(Args...)> result = [=](Args&&... args)
+    {
+        call_from_this_thread(thread, function, std::forward<Args>(args)...);
     };
 
     return result;
