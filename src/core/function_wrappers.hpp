@@ -127,9 +127,8 @@ class safe_callback_ctrl final
 
 // extends QMetaObject::invokeMethod by version with arguments
 template<typename Obj, typename F, typename... Args>
-void invokeMethod(Obj* object, const F& method, Args&&... args)
+void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is_base_of<QObject, Obj>::value
 {
-    static_assert(std::is_base_of<QObject, Obj>::value, "Obj must be QObject");
     QMetaObject::invokeMethod(object, [object, method, args...]()
     {
         (object->*method)(args...);
