@@ -880,11 +880,6 @@ Error code: %1</source>
         <source>?</source>
         <translation>?</translation>
     </message>
-    <message>
-        <location filename="../src/gui/desktop/utils/groups_manager.cpp" line="125"/>
-        <source>Saving group details.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SeriesDetection</name>
@@ -928,6 +923,11 @@ Error code: %1</source>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
         <source>Photos taken at similar time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="67"/>
+        <source>Saving group details.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

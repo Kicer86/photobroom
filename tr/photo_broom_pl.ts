@@ -904,11 +904,6 @@ Kod błędu: %1</translation>
         <source>?</source>
         <translation>?</translation>
     </message>
-    <message>
-        <location filename="../src/gui/desktop/utils/groups_manager.cpp" line="+125"/>
-        <source>Saving group details.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SeriesDetection</name>
@@ -953,6 +948,11 @@ Kod błędu: %1</translation>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>Photos taken at similar time</source>
         <translation>Zdjęcia wykonane w podobnym czasie</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="-37"/>
+        <source>Saving group details.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

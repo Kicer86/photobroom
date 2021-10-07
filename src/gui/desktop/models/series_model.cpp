@@ -64,7 +64,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
         QMetaObject::invokeMethod(thread, [tasks, future]() mutable
         {
-            TasksViewUtils::addFutureTask(*tasks, future);
+            TasksViewUtils::addFutureTask(*tasks, future, tr("Saving group details."));
         });
     },
     "unified group generation");

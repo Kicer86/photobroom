@@ -11,7 +11,7 @@
 
 namespace TasksViewUtils
 {
-    CORE_EXPORT void addFutureTask(ITasksView& view, const QFuture<void>& future);
+    CORE_EXPORT void addFutureTask(ITasksView& view, const QFuture<void>& future, const QString& name);
 }
 
 #endif
