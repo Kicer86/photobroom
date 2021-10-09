@@ -926,7 +926,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+12"/>
         <source>There are no group candidates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak potencjalnych grup.</translation>
     </message>
 </context>
 <context>
@@ -952,7 +952,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="-34"/>
         <source>Saving group details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tworzenie grup.</translation>
     </message>
 </context>
 <context>

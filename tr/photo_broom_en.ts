@@ -902,7 +902,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="182"/>
         <source>There are no group candidates.</source>
-        <translation type="unfinished"></translation>
+        <translation>There are no group candidates.</translation>
     </message>
 </context>
 <context>
@@ -911,7 +911,7 @@ Error code: %1</source>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="102"/>
         <source>Photo series</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo series</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
@@ -923,12 +923,12 @@ Error code: %1</source>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
         <source>Photos taken at similar time</source>
-        <translation type="unfinished"></translation>
+        <translation>Photos taken at similar time</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>Saving group details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Saving group details.</translation>
     </message>
 </context>
 <context>
