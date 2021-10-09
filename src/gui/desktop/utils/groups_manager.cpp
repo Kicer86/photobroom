@@ -73,7 +73,7 @@ void GroupsManager::groupIntoUnified(
 }
 
 
-QFuture<void> GroupsManager::groupIntoUnified(Project& project, const std::vector<std::vector<Photo::Data>>& groups)
+void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<Photo::Data>>& groups)
 {
     std::vector<GroupDetails> groupsDetails;
 
@@ -87,7 +87,7 @@ QFuture<void> GroupsManager::groupIntoUnified(Project& project, const std::vecto
         return GroupDetails{ .members = ids, .representativePath = representativePath, .type = Group::Type::Generic };
     });
 
-    return group(project.getDatabase(), groupsDetails);
+    return group(project.getDatabase(), std::move(promise), groupsDetails);
 }
 
 
@@ -108,15 +108,12 @@ void GroupsManager::group(Database::IDatabase& database,
                           const QString& representativePath,
                           Group::Type type)
 {
-    group(database, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
+    group(database, {}, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
 }
 
 
-QFuture<void> GroupsManager::group(Database::IDatabase& database, const std::vector<GroupDetails>& groups)
+void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promise, const std::vector<GroupDetails>& groups)
 {
-    QPromise<void> promise;
-    QFuture<void> future = promise.future();
-
     database.exec([groups, db_promise = std::move(promise)](Database::IBackend& backend) mutable
     {
         const std::size_t groupSize = groups.size();
@@ -178,8 +175,6 @@ QFuture<void> GroupsManager::group(Database::IDatabase& database, const std::vec
 
         db_promise.finish();
     });
-
-    return future;
 }
 
 

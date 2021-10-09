@@ -58,18 +58,16 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     auto& executor = m_core.getTaskExecutor();
 
-    auto progressTask = make_cross_thread_function<const QFuture<void>>(this->thread(), [tasks = &m_tasksView](const QFuture<void>& future)
-    {
-        TasksViewUtils::addFutureTask(*tasks, future, tr("Saving group details."));
-    });
+    QPromise<void> promise;
+    QFuture<void> future = promise.future();;
 
-    runOn(executor, [groups = std::move(toStore), &project = m_project, progressTask]() mutable
+    runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
     {
-        auto future = GroupsManager::groupIntoUnified(project, groups);
-
-        progressTask(future);
+        GroupsManager::groupIntoUnified(project, std::move(promise), groups);
     },
     "unified group generation");
+
+    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving group details."));
 
     beginResetModel();
     m_candidates.clear();

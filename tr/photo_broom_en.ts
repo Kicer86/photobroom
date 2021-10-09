@@ -909,24 +909,24 @@ Error code: %1</source>
     <name>SeriesModel</name>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="102"/>
         <source>Photo series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="105"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="106"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
         <source>Photos taken at similar time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="63"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>Saving group details.</source>
         <translation type="unfinished"></translation>
     </message>
