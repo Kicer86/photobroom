@@ -19,6 +19,8 @@
 #ifndef GROUPS_MANAGER_HPP
 #define GROUPS_MANAGER_HPP
 
+#include <QPromise>
+
 #include <core/iexif_reader.hpp>
 #include <database/photo_data.hpp>
 #include <database/group.hpp>
