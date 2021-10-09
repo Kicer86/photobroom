@@ -19,6 +19,8 @@
 #ifndef GROUPS_MANAGER_HPP
 #define GROUPS_MANAGER_HPP
 
+#include <QPromise>
+
 #include <core/iexif_reader.hpp>
 #include <database/photo_data.hpp>
 #include <database/group.hpp>
@@ -50,6 +52,7 @@ namespace GroupsManager
                           const std::vector<Photo::Data> &);
 
     void groupIntoUnified(Project &,
+                          QPromise<void> &&,
                           const std::vector<std::vector<Photo::Data>> &);       // create many groups at once
 
     void group(Database::IDatabase &,
@@ -62,7 +65,7 @@ namespace GroupsManager
                const QString& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
 
-    void group(Database::IDatabase &, const std::vector<GroupDetails> &);
+    void group(Database::IDatabase &, QPromise<void> &&, const std::vector<GroupDetails> &);
 
     void ungroup(Database::IDatabase &, const Group::Id &);
 }

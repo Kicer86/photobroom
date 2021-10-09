@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "groups_manager.hpp"
+#include <QPromise>
 
 #include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
@@ -27,6 +27,7 @@
 #include <system/system.hpp>
 
 #include "utils/grouppers/collage_generator.hpp"
+#include "groups_manager.hpp"
 
 
 QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)
@@ -72,7 +73,7 @@ void GroupsManager::groupIntoUnified(
 }
 
 
-void GroupsManager::groupIntoUnified(Project& project, const std::vector<std::vector<Photo::Data>>& groups)
+void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<Photo::Data>>& groups)
 {
     std::vector<GroupDetails> groupsDetails;
 
@@ -86,7 +87,7 @@ void GroupsManager::groupIntoUnified(Project& project, const std::vector<std::ve
         return GroupDetails{ .members = ids, .representativePath = representativePath, .type = Group::Type::Generic };
     });
 
-    group(project.getDatabase(), groupsDetails);
+    return group(project.getDatabase(), std::move(promise), groupsDetails);
 }
 
 
@@ -107,18 +108,25 @@ void GroupsManager::group(Database::IDatabase& database,
                           const QString& representativePath,
                           Group::Type type)
 {
-    group(database, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
+    group(database, {}, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
 }
 
 
-void GroupsManager::group(Database::IDatabase& database, const std::vector<GroupDetails>& groups)
+void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promise, const std::vector<GroupDetails>& groups)
 {
-    database.exec([groups](Database::IBackend& backend)
+    database.exec([groups, db_promise = std::move(promise)](Database::IBackend& backend) mutable
     {
+        const std::size_t groupSize = groups.size();
+
+        db_promise.start();
+        db_promise.setProgressRange(0, groupSize - 1);
+        db_promise.setProgressValue(0);
+
         auto transaction = backend.openTransaction();
 
-        for (const auto& group: groups)
+        for (int i = 0; i < groupSize; i++)
         {
+            const auto& group = groups[i];
             const auto& photos = group.members;
             if (photos.empty())
                 continue;
@@ -161,7 +169,11 @@ void GroupsManager::group(Database::IDatabase& database, const std::vector<Group
             }
 
             backend.update(deltas);
+
+            db_promise.setProgressValue(i);
         }
+
+        db_promise.finish();
     });
 }
 

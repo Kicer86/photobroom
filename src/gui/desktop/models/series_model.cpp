@@ -3,6 +3,7 @@
 #include <core/iexif_reader.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/itask_executor.hpp>
+#include <core/itasks_view_utils.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
 #include <database/database_executor_traits.hpp>
@@ -16,10 +17,11 @@
 using namespace std::placeholders;
 
 
-SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core)
+SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksView& taskView)
     : m_logger(core.getLoggerFactory().get("SeriesModel"))
     , m_project(project)
     , m_core(core)
+    , m_tasksView(taskView)
     , m_initialized(false)
     , m_loaded(false)
 {
@@ -56,17 +58,28 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     auto& executor = m_core.getTaskExecutor();
 
-    runOn(executor, [groups = std::move(toStore), &project = m_project]() mutable
+    QPromise<void> promise;
+    QFuture<void> future = promise.future();;
+
+    runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
     {
-        GroupsManager::groupIntoUnified(project, groups);
+        GroupsManager::groupIntoUnified(project, std::move(promise), groups);
     },
     "unified group generation");
+
+    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving group details."));
 
     beginResetModel();
     m_candidates.clear();
     endResetModel();
 
     updateModel(left);
+}
+
+
+bool SeriesModel::isEmpty() const
+{
+    return rowCount({}) == 0;
 }
 
 

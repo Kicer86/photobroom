@@ -22,6 +22,7 @@
 #include <QDialog>
 #include <QQmlPropertyMap>
 
+#include <core/itasks_view.hpp>
 #include <database/photo_data.hpp>
 
 #include "utils/ithumbnails_manager.hpp"
@@ -46,7 +47,7 @@ class SeriesDetection: public QDialog
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, IThumbnailsManager *, Project &);
+        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, ITasksView &, IThumbnailsManager *, Project &);
         ~SeriesDetection();
 
     private:

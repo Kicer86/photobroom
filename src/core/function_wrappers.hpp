@@ -127,9 +127,8 @@ class safe_callback_ctrl final
 
 // extends QMetaObject::invokeMethod by version with arguments
 template<typename Obj, typename F, typename... Args>
-void invokeMethod(Obj* object, const F& method, Args&&... args)
+void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is_base_of<QObject, Obj>::value
 {
-    static_assert(std::is_base_of<QObject, Obj>::value, "Obj must be QObject");
     QMetaObject::invokeMethod(object, [object, method, args...]()
     {
         (object->*method)(args...);
@@ -150,6 +149,16 @@ void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&..
 }
 
 
+template<typename F, typename... Args>
+void call_from_this_thread(QThread* thread, const F& function, Args&&... args)
+{
+    QMetaObject::invokeMethod(thread, [function, args...]()
+    {
+        function(args...);
+    });
+}
+
+
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
 template<typename... Args, typename F>
@@ -158,6 +167,18 @@ std::function<void(Args...)> make_cross_thread_function(QObject* object, const F
     std::function<void(Args...)> result = [=](Args&&... args)
     {
         call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
+    };
+
+    return result;
+}
+
+
+template<typename... Args, typename F>
+std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
+{
+    std::function<void(Args...)> result = [=](Args&&... args)
+    {
+        call_from_this_thread(thread, function, std::forward<Args>(args)...);
     };
 
     return result;

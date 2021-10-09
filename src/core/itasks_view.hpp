@@ -4,7 +4,6 @@
 
 #include <QString>
 
-class QProgressBar;
 
 struct IViewTask;
 
@@ -14,5 +13,6 @@ struct ITasksView
 
     virtual IViewTask* add(const QString& name) = 0;
 };
+
 
 #endif

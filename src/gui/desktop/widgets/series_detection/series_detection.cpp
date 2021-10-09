@@ -44,10 +44,11 @@ using namespace std::placeholders;
 
 SeriesDetection::SeriesDetection(Database::IDatabase& db,
                                  ICoreFactoryAccessor* core,
+                                 ITasksView& tasksView,
                                  IThumbnailsManager* thbMgr,
                                  Project& project):
     QDialog(),
-    m_seriesModel(project, *core),
+    m_seriesModel(project, *core, tasksView),
     m_core(core),
     m_db(db),
     m_project(project),
