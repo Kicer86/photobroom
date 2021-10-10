@@ -127,8 +127,8 @@ signals:
     void fire(Locker) const;
 
 private:
+    QTimer m_timer;
     std::recursive_mutex m_mutex;
-    std::chrono::milliseconds m_blockTime;
     bool m_dirty;
     bool m_locked;
 
@@ -161,12 +161,11 @@ private:
 template<typename SrcObj, typename Signal, typename Dst, typename Slot>
 SignalBlocker* blocked_connect(SrcObj* src, Signal sig,
                                Dst* dst, Slot slot,
-                               const std::chrono::milliseconds& block = std::chrono::milliseconds(0),
-                               Qt::ConnectionType type = Qt::AutoConnection)
+                               const std::chrono::milliseconds& block = std::chrono::milliseconds(0))
 {
     SignalBlocker* blocker = new SignalBlocker(block, src);
     QObject::connect(src, sig, blocker, &SignalBlocker::notify);
-    QObject::connect(blocker, &SignalBlocker::fire, dst, slot, type);
+    QObject::connect(blocker, &SignalBlocker::fire, dst, slot);
 
     return blocker;
 }
