@@ -87,7 +87,7 @@ SignalBlocker::Locker SignalBlocker::lock()
     std::lock_guard<std::recursive_mutex> _(m_mutex);
     assert(m_locked == false);
 
-    QObject* obj = new QObject(this);
+    QObject* obj = new QObject;
     connect(obj, &QObject::destroyed, &m_timer, qOverload<>(&QTimer::start));
 
     m_locked = true;
