@@ -156,7 +156,7 @@ private:
  * @param sig signal.
  * @param dst destination object.
  * @param slot slot.
- * @param block addiotional suspension time in milliseconds.
+ * @param block additional suspension time in milliseconds.
  */
 template<typename SrcObj, typename Signal, typename Dst, typename Slot>
 SignalBlocker* blocked_connect(SrcObj* src, Signal sig,
