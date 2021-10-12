@@ -7,6 +7,7 @@ function(setup_qt_environment)
     find_package(Qt6 REQUIRED COMPONENTS Core)
     get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
 	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+    file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
 
     find_program(WINDEPLOY windeployqt
         HINTS ${qt_bin_dir}
@@ -18,46 +19,39 @@ function(setup_qt_environment)
         if(BUILD_SHARED_LIBS)
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
         else()
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
@@ -127,8 +121,7 @@ macro(addDeploymentActions)
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cudnn64_7                                          #required by dlib when compiled with CUDA and BLAS support
-                  cublas64_11
+    set(libs_dlib cublas64_11                              #dlib dependencies
                   cublasLt64_11
                   openblas
                   liblapack
@@ -137,12 +130,14 @@ macro(addDeploymentActions)
                   libwinpthread-1
                   libquadmath-0
     )
+    set(libs_nvidia
+        cudnn64_8                                          #required by dlib when compiled with CUDA
+    )
     set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
 
-    set(libs_qt6 zstd pcre2-16 harfbuzz freetype brotlidec libpng16 bz2 brotlicommon)
+    set(libs_qt6 zstd pcre2-16 harfbuzz freetype brotlidec libpng16 bz2 brotlicommon sqlite3)
 
-
-   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
         # include compiler's runtime copied by windeploy in installer as extra install step
         if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
@@ -169,6 +164,13 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_dlib}
     )
 
+
+    install_external_lib(NAME "NVidia"
+                         DLLFILES ${libs_dlib}
+                         HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
+                         OPTIONAL
+    )
+
     install_external_lib(NAME "OpenSSL"
                          DLLFILES ${libs_openssl}
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
@@ -188,24 +190,17 @@ macro(addDeploymentActions)
     # hierarchy setup
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_dirs
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/dlib
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
-                      )
-
     setup_qt_environment()
 
     #target
     add_custom_target(deploy ALL
         DEPENDS
-                photo_broom
-                ${OUTPUT_PATH}/deploy_qt6
+            photo_broom
+            ${OUTPUT_PATH}/deploy_qt6
     )
 
     # install deployed files to proper locations
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
+    install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
 
 endmacro(addDeploymentActions)
 

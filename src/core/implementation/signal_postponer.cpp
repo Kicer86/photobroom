@@ -49,11 +49,13 @@ void SignalPostponer::stop()
 
 SignalBlocker::SignalBlocker(std::chrono::milliseconds blockTime, QObject* p)
     : QObject(p)
-    , m_blockTime(blockTime)
     , m_dirty(false)
     , m_locked(false)
 {
+    m_timer.setSingleShot(true);
+    m_timer.setInterval(blockTime);
 
+    connect(&m_timer, &QTimer::timeout, this, &SignalBlocker::unlock);
 }
 
 
@@ -85,10 +87,8 @@ SignalBlocker::Locker SignalBlocker::lock()
     std::lock_guard<std::recursive_mutex> _(m_mutex);
     assert(m_locked == false);
 
-    QObject* obj = new QObject(this);
-    connect(obj, &QObject::destroyed, this, [this]{
-        QTimer::singleShot(m_blockTime, this, &SignalBlocker::unlock);
-    });
+    QObject* obj = new QObject;
+    connect(obj, &QObject::destroyed, &m_timer, qOverload<>(&QTimer::start));
 
     m_locked = true;
 

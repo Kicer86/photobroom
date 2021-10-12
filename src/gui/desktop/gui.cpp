@@ -5,7 +5,8 @@
 #include <QStandardPaths>
 #include <QTranslator>
 
-#ifdef WIN32
+#ifdef OS_WIN
+    #include <QQuickWindow>
     #include <QQuickStyle>
 #endif
 
@@ -44,6 +45,10 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
+
+#ifdef OS_WIN
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);          // TODO: required by QQuickWidget https://doc.qt.io/qt-6/quick-changes-qt6.html#changes-to-qquickwidget
+#endif
 }
 
 
