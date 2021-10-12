@@ -127,7 +127,7 @@ macro(addDeploymentActions)
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cudnn64_7                                          #required by dlib when compiled with CUDA and BLAS support
+    set(libs_dlib cudnn64_8                                          #required by dlib when compiled with CUDA and BLAS support
                   cublas64_11
                   cublasLt64_11
                   openblas
@@ -167,6 +167,7 @@ macro(addDeploymentActions)
 
     install_external_lib(NAME "DLIB"
                          DLLFILES ${libs_dlib}
+                         HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
     )
 
     install_external_lib(NAME "OpenSSL"
