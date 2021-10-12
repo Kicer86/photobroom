@@ -7,6 +7,7 @@ function(setup_qt_environment)
     find_package(Qt6 REQUIRED COMPONENTS Core)
     get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
 	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+    file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
 
     find_program(WINDEPLOY windeployqt
         HINTS ${qt_bin_dir}
@@ -18,46 +19,39 @@ function(setup_qt_environment)
         if(BUILD_SHARED_LIBS)
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
         else()
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/tr
-                                       --libdir ${OUTPUT_PATH}/deploy/lib
+                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS ${OUTPUT_PATH}/deploy_dirs
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
@@ -189,24 +183,17 @@ macro(addDeploymentActions)
     # hierarchy setup
     set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 
-    add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_dirs
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/deploy
-                       COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_PATH}/dlib
-                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_dirs
-                      )
-
     setup_qt_environment()
 
     #target
     add_custom_target(deploy ALL
         DEPENDS
-                photo_broom
-                ${OUTPUT_PATH}/deploy_qt6
+            photo_broom
+            ${OUTPUT_PATH}/deploy_qt6
     )
 
     # install deployed files to proper locations
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/tr/ DESTINATION ${PATH_LIBS})
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/lib/ DESTINATION ${PATH_LIBS})
+    install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
 
 endmacro(addDeploymentActions)
 
