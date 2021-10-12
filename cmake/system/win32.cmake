@@ -121,8 +121,7 @@ macro(addDeploymentActions)
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cudnn64_8                                          #required by dlib when compiled with CUDA and BLAS support
-                  cublas64_11
+    set(libs_dlib cublas64_11                              #dlib dependencies
                   cublasLt64_11
                   openblas
                   liblapack
@@ -131,12 +130,14 @@ macro(addDeploymentActions)
                   libwinpthread-1
                   libquadmath-0
     )
+    set(libs_nvidia
+        cudnn64_8                                          #required by dlib when compiled with CUDA
+    )
     set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
 
     set(libs_qt6 zstd pcre2-16 harfbuzz freetype brotlidec libpng16 bz2 brotlicommon)
 
-
-   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
         # include compiler's runtime copied by windeploy in installer as extra install step
         if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
@@ -161,7 +162,13 @@ macro(addDeploymentActions)
 
     install_external_lib(NAME "DLIB"
                          DLLFILES ${libs_dlib}
+    )
+
+
+    install_external_lib(NAME "NVidia"
+                         DLLFILES ${libs_dlib}
                          HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
+                         OPTIONAL
     )
 
     install_external_lib(NAME "OpenSSL"
