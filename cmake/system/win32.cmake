@@ -135,7 +135,18 @@ macro(addDeploymentActions)
     )
     set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
 
-    set(libs_qt6 zstd pcre2-16 harfbuzz freetype brotlidec libpng16 bz2 brotlicommon sqlite3)
+    set(libs_qt6
+        zstd
+        pcre2-16
+        harfbuzz
+        freetype
+        brotlidec
+        libpng16
+        bz2
+        brotlicommon
+        sqlite3
+        jpeg62
+    )
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
