@@ -177,7 +177,7 @@ macro(addDeploymentActions)
 
 
     install_external_lib(NAME "NVidia"
-                         DLLFILES ${libs_dlib}
+                         DLLFILES ${libs_nvidia}
                          HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
                          OPTIONAL
     )
