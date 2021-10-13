@@ -16,11 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "oriented_image.hpp"
 
 #include <any>
+#include <QFileInfo>
+#include <QImageReader>
 
 #include <core/iexif_reader.hpp>
+#include "oriented_image.hpp"
 
 
 OrientedImage::OrientedImage():
@@ -35,7 +37,12 @@ OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
     QImage img(src);
     QImage rotated;
 
-    if (img.isNull() == false)
+    if (img.isNull())
+    {
+        QImageReader check(src);
+        qDebug() << check.errorString();
+    }
+    else
     {
         const std::optional<std::any> orientation_raw = exif.get(src, IExifReader::TagType::Orientation);
         const int orientation = orientation_raw.has_value()?
