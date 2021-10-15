@@ -1,6 +1,13 @@
 
-find_program(LUPDATE lupdate)
-find_program(LRELEASE lrelease)
+set(tools_hints)
+if(WIN32)
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+	get_filename_component(tools_hints ${qt_moc_path} DIRECTORY)
+endif()
+
+find_program(LUPDATE lupdate HINTS ${tools_hints})
+find_program(LRELEASE lrelease HINTS ${tools_hints})
 
 if(LUPDATE AND LRELEASE)
 
@@ -72,5 +79,6 @@ if(LUPDATE AND LRELEASE)
     )
 
     add_dependencies(photo_broom translations)
-
+else()
+    message(WARNING "Translations disabled due to missing lupdate or lrelease tools")
 endif()
