@@ -33,7 +33,7 @@ install:
         ( echo "Downloading CUDA binaries" &&
           mkdir "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2" &&
           curl -L -o "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda_x64.zip"
-               https://www.dropbox.com/s/usjl5zfiha7e66s/cuda_x64.zip &&
+               https://www.dropbox.com/s/a83waz8g0s9wz22/cuda_x64.zip &&
           7z x "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda_x64.zip" -o"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\" )
 
     - if exist "c:\tools\vcpkg\installed"
