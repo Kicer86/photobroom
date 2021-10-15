@@ -72,5 +72,6 @@ if(LUPDATE AND LRELEASE)
     )
 
     add_dependencies(photo_broom translations)
-
+else()
+    message(WARNING "Translations disabled due to missing lupdate or lrelease tools")
 endif()
