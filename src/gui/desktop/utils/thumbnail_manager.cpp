@@ -115,6 +115,7 @@ void ThumbnailManager::setDatabaseCache(Database::IDatabase* db)
 {
     m_callbackCtrl.invalidate();
     m_db = db;
+    m_cache.clear();
 }
 
 

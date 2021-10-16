@@ -32,6 +32,7 @@ class ThumbnailsCache: public IThumbnailsCache
 
         std::optional<QImage> find(const Photo::Id &, const ThumbnailParameters &) override;
         void store(const Photo::Id &, const ThumbnailParameters &, const QImage &) override;
+        void clear() override;
 
     private:
         typedef QCache<std::tuple<Photo::Id, ThumbnailParameters>, QImage> CacheContainer;

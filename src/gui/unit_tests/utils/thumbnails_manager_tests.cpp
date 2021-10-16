@@ -31,6 +31,11 @@ struct NullCache: IThumbnailsCache
     {
 
     }
+
+    void clear () override
+    {
+
+    }
 };
 
 struct MockResponse
@@ -226,4 +231,16 @@ TEST_F(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
     ThumbnailManager tm(&executor, generator, cache);
     tm.setDatabaseCache(&db);
     tm.fetch(id, QSize(requested_height, requested_height), [&response](const QImage& _img){response(_img);});
+}
+
+
+TEST_F(ThumbnailManagerTest, cacheClearOnDbChange)
+{
+    MockThumbnailsGenerator generator;
+    MockThumbnailsCache cache;
+    EXPECT_CALL(cache, clear()).Times(2);
+
+    ThumbnailManager tm(&executor, generator, cache);
+    tm.setDatabaseCache(&db);
+    tm.setDatabaseCache(&db);
 }
