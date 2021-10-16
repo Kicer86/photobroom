@@ -16,6 +16,7 @@ struct IThumbnailsCache
 
     virtual std::optional<QImage> find(const Photo::Id &, const ThumbnailParameters &) = 0;
     virtual void store(const Photo::Id &, const ThumbnailParameters &, const QImage &) = 0;
+    virtual void clear() = 0;
 };
 
 #endif

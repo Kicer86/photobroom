@@ -58,3 +58,9 @@ void ThumbnailsCache::store(const Photo::Id& id, const ThumbnailParameters& para
     QImage* copy = new QImage(img);
     m_cache.lock()->insert(std::tie(id, params), copy);
 }
+
+
+void ThumbnailsCache::clear()
+{
+    m_cache.lock()->clear();
+}
