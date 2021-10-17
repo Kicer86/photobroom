@@ -3,6 +3,7 @@
 
 #include <cassert>
 
+#include <QCompleter>
 #include <QDrag>
 #include <QLineEdit>
 #include <QMimeData>
@@ -13,12 +14,13 @@
 #include <core/down_cast.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/model_compositor.hpp>
 #include <core/image_tools.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
 #include "ui_faces_dialog.h"
-#include "ui_utils/icompleter_factory.hpp"
+#include "utils/people_list_model.hpp"
 #include "quick_views/qml_utils.hpp"
 
 using namespace std::placeholders;
@@ -28,16 +30,21 @@ namespace
     class TableDelegate: public QStyledItemDelegate
     {
         public:
-            TableDelegate(ICompleterFactory* completerFactory, QObject* p):
-                QStyledItemDelegate(p),
-                m_completerFactory(completerFactory)
+            TableDelegate(Database::IDatabase& db, QObject* p):
+                QStyledItemDelegate(p)
             {
+                m_peopleModel.setDB(&db);
             }
 
             QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
             {
                 const QString value = index.data(Qt::EditRole).toString();
-                auto completer = m_completerFactory->createPeopleCompleter();
+
+                QCompleter* completer = new QCompleter;
+                ModelCompositor* model_compositor = new ModelCompositor(completer);
+                model_compositor->add(&m_peopleModel);
+
+                completer->setModel(model_compositor);
 
                 QLineEdit* lineEdit = new QLineEdit(value, parent);
                 lineEdit->setGeometry(option.rect);
@@ -48,11 +55,11 @@ namespace
             }
 
         private:
-            ICompleterFactory* m_completerFactory;
+            PeopleListModel m_peopleModel;
     };
 }
 
-FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFactory, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
+FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
     m_id(data.id),
     m_peopleManipulator(data.id, prj->getDatabase(), *coreAccessor),
@@ -64,7 +71,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICompleterFactory* completerFa
     ui->setupUi(this);
 
     ui->quickView->setSource(QUrl("qrc:/ui/Dialogs/FacesDialog.qml"));
-    ui->peopleList->setItemDelegate(new TableDelegate(completerFactory, this));
+    ui->peopleList->setItemDelegate(new TableDelegate(prj->getDatabase(), this));
 
     connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
             this, &FacesDialog::updateFaceInformation);

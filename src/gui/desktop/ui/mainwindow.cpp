@@ -557,7 +557,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
         const QString relative_path = first.path;
         const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
 
-        FacesDialog faces_dialog(first, &m_completerFactory, m_coreAccessor, m_currentPrj.get());
+        FacesDialog faces_dialog(first, m_coreAccessor, m_currentPrj.get());
         faces_dialog.exec();
     }
 }

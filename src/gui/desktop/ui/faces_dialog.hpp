@@ -21,14 +21,13 @@ namespace Ui {
 }
 
 class Project;
-struct ICompleterFactory;
 
 class FacesDialog: public QDialog
 {
         Q_OBJECT
 
     public:
-        explicit FacesDialog(const Photo::Data &, ICompleterFactory *, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
+        explicit FacesDialog(const Photo::Data &, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
         ~FacesDialog();
 
     protected:
