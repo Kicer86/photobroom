@@ -73,6 +73,7 @@ TEST(DataFromPathExtractorTest, ValidDateAndTime)
     const auto tags8 = extractor.extract("/2015-10-20/20151020183114.MTS");
     const auto tags9 = extractor.extract("2020-07-21-sdfgg_t_kjyy/2020-07-21/20200721104521.MTS");
     const auto tags10 = extractor.extract("q erty/vcxjfdsfjk/gfkrtklbvj/2010-01-16 23;57;20.jpg");
+    const auto tags11 = extractor.extract("z ff/huh6u6/2019_08_26_18_04_41.mp4");
 
     EXPECT_THAT( tags1, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2015, 07, 05)}, std::pair{TagTypes::Time, QTime(13, 58, 43)} ) );
     EXPECT_THAT( tags2, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2014, 11, 22)}, std::pair{TagTypes::Time, QTime(16, 49, 31)} ) );
@@ -84,4 +85,5 @@ TEST(DataFromPathExtractorTest, ValidDateAndTime)
     EXPECT_THAT( tags8, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2015, 10, 20)}, std::pair{TagTypes::Time, QTime(18, 31, 14)} ) );
     EXPECT_THAT( tags9, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2020, 07, 21)}, std::pair{TagTypes::Time, QTime(10, 45, 21)} ) );
     EXPECT_THAT( tags10, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2010, 01, 16)}, std::pair{TagTypes::Time, QTime(23, 57, 20)} ) );
+    EXPECT_THAT( tags11, UnorderedElementsAre( std::pair{TagTypes::Date, QDate(2019, 8, 26)},  std::pair{TagTypes::Time, QTime(18, 04, 41)} ) );
 }
