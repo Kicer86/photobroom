@@ -8,7 +8,7 @@ if (POLICY CMP0100)
     cmake_policy(SET CMP0100 NEW)
 endif()
 
-project(PhotoBroom VERSION 1.5.0)
+project(PhotoBroom VERSION 1.6.0)
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/cmake_modules;
