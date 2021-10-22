@@ -41,13 +41,10 @@ install:
         ( echo "prefilling VCPKG cache" &&
           curl -L -o "c:\tools\vcpkg\vcpkg_dlib.zip"
                https://www.dropbox.com/s/tzfr09sl3ubmgq6/vcpkg_dlib.zip &&
-          7z x "c:\tools\vcpkg\vcpkg_dlib.zip" -y -o"c:\tools\vcpkg\" &&
-          curl -L -o "c:\tools\vcpkg\vcpkg_qt6.zip"
-               https://www.dropbox.com/s/2mansbtpudd4d27/vcpkg-qt6.zip &&
-          7z x "c:\tools\vcpkg\vcpkg_qt6.zip" -y -o"c:\tools\vcpkg\" )
+          7z x "c:\tools\vcpkg\vcpkg_dlib.zip" -y -o"c:\tools\vcpkg\")
     - cmd: echo set(VCPKG_BUILD_TYPE release) >> c:\tools\vcpkg\triplets\x64-windows.cmake
     - cmd: set VCPKG_DEFAULT_TRIPLET=x64-windows
-    - vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
+    - vcpkg install exiv2 magic-enum
     - cmd: set APPVEYOR_SAVE_CACHE_ON_ERROR=true
     - cmd: set APPVEYOR_CACHE_ENTRY_ZIP_ARGS=-t7z -m0=lzma -mx=9
 

@@ -92,7 +92,7 @@ install:
         popd;
     fi
 
-  - $HOME/tools/vcpkg/vcpkg --overlay-ports=./ci/vcpkg --overlay-ports=./ci/vcpkg-system-native install exiv2 openlibrary magic-enum
+  - $HOME/tools/vcpkg/vcpkg install exiv2 magic-enum
 
 before_script:
   - if [ $DEBUG -eq 1 ]; then
