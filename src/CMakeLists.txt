@@ -1,5 +1,4 @@
 
-find_package(OpenLibrary REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
 include(GenerateExportHeader)

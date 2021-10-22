@@ -847,7 +847,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+63"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="+62"/>
         <source>Photo collection creator</source>
         <translation>Tworzenie kolekcji zdjęć</translation>
     </message>

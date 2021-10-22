@@ -2,7 +2,6 @@
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(GTest REQUIRED CONFIG)
-find_package(OpenLibrary 2.1 REQUIRED utils)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
 
@@ -38,10 +37,9 @@ addTestTarget(core
 
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src
-                    ${OPENLIBRARY_INCLUDE_DIRS}
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
 
                 DEFINITIONS
-                    CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )

@@ -7,9 +7,6 @@
 
 #include <QPointer>
 
-#include <OpenLibrary/putils/ts_resource.hpp>
-
-
 // Internal struct with data shared between safe_callback and safe_callback_ctrl
 struct safe_callback_data
 {

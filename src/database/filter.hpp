@@ -25,8 +25,8 @@
 #include <variant>
 
 #include <QString>
-#include <OpenLibrary/utils/data_ptr.hpp>
 
+#include <core/data_ptr.hpp>
 #include <core/tag.hpp>
 #include <core/search_expression_evaluator.hpp>
 

@@ -10,6 +10,7 @@ set(SRCS
     tasks_view_widget.cpp
     project_creator/project_creator_dialog.cpp
     series_detection/series_detection.cpp
+    qtext_choosefile.cpp
     tag_editor/tag_editor_widget.cpp
     tag_editor/helpers/tags_item_delegate.cpp
     tag_editor/helpers/tags_operator.cpp
@@ -26,6 +27,7 @@ set(HEADERS
     tasks_view_widget.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
+    qtext_choosefile.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/itags_operator.hpp
     tag_editor/helpers/tags_item_delegate.hpp
@@ -43,6 +45,7 @@ set(TO_MOC
     series_detection/series_detection.hpp
     tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
+    qtext_choosefile.hpp
 )
 
 source_group(files .*)

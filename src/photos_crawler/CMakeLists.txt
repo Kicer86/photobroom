@@ -1,9 +1,7 @@
 
-find_package(OpenLibrary REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(Threads)
 
-include(${OPENLIBRARY_USE_FILE})
 include(GenerateExportHeader)
 
 include_directories(${CMAKE_BINARY_DIR}/exports)

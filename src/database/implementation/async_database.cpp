@@ -23,11 +23,10 @@
 #include <memory>
 #include <QElapsedTimer>
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-
 #include <core/down_cast.hpp>
 #include <core/logger_factory.hpp>
 #include <core/thread_utils.hpp>
+#include <core/ts_queue.hpp>
 
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"

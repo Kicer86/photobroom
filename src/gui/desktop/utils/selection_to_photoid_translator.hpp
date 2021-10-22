@@ -3,7 +3,6 @@
 #define SELECTIONTOPHOTOIDTRANSLATOR_HPP
 
 #include <QObject>
-#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/function_wrappers.hpp>
 #include <database/photo_types.hpp>

@@ -119,7 +119,6 @@ macro(addDeploymentActions)
     find_package(OpenSSL)
 
     # install required dll files
-    set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
     set(libs_dlib cublas64_11                              #dlib dependencies
                   cublasLt64_11
@@ -162,10 +161,6 @@ macro(addDeploymentActions)
         set(libs_Compiler )
 
     endif()
-
-    install_external_lib(NAME "OpenLibrary"
-                         DLLFILES ${libs_OL}
-    )
 
     install_external_lib(NAME "Exiv2"
                          DLLFILES ${libs_exiv2}

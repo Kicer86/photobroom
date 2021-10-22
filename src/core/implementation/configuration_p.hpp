@@ -25,7 +25,7 @@
 
 #include <QTimer>
 
-#include <OpenLibrary/putils/ts_resource.hpp>
+#include "ts_resource.hpp"
 
 class QJsonValueRef;
 struct IConfigObserver;
