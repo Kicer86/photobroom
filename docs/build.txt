@@ -9,7 +9,7 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 Required tools and libraries:
  - cmake - version 3.16 or later
- - Qt6 - version 6.0 or higher
+ - Qt6 - version 6.0 or higher*
  - exiv2*
  - dlib*
  - magic_enum*
@@ -27,19 +27,25 @@ Required tools and libraries:
   for download, build and install all marked libraries.
 
 
-vcpkg setup:
+Build tips:
+To install all required depenencies with vcpkg use the following command:
 vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtquickcontrols2 qtsvg qttools
 
-In case you do not want vcpkg to download and build Qt6
-because it is available in your system, do not include qtbase qtquickcontrols2, qtsvg and qttools ports.
+You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
+
+In case you do not want vcpkg to download and build Qt6 (for any reason)
+do not include qtbase qtquickcontrols2, qtsvg and qttools.
+In such case remeber to provide path to your Qt installation during cmake invocation for example with:
+cmake -DCMAKE_PREFIX_PATH=C:/Qt/6.2/msvc2019_64 path/to/sources
 
 If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
+
+If you want to build unit tests include 'gtest' package.
 
 
 Tested compilers (with c++20 support):
 1. gcc (Linux and Windows)
-2. clang (Linux)
-3. Visual Studio 2019 (Windows)
+2. Visual Studio 2019 (Windows)
 
 
 PhotoBroom cannot be run without installation step.
