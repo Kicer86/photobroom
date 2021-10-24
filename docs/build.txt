@@ -29,16 +29,17 @@ Required tools and libraries:
 
 Build tips:
 To install all required depenencies with vcpkg use the following command:
-vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtquickcontrols2 qtsvg qttools
+vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 
-In case you do not want vcpkg to download and build Qt6 (for any reason)
-do not include qtbase qtquickcontrols2, qtsvg and qttools.
+If you do not want vcpkg to download and build Qt6 (for any reason) do not include Qt packages.
 In such case remeber to provide path to your Qt installation during cmake invocation for example with:
 cmake -DCMAKE_PREFIX_PATH=C:/Qt/6.2/msvc2019_64 path/to/sources
 
-If your system does not have NVidia GPU, use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
+If your system does not have NVidia GPU (or you do not want to use gpu acceleration for photo analysis),
+use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
+Please mind that face recognition without gpu support is slower.
 
 If you want to build unit tests include 'gtest' package.
 
