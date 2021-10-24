@@ -51,11 +51,13 @@ TEST(DataFromPathExtractorTest, ValidDate)
     const auto tags2 = extractor.extract("2022-12-50_11-99-99/2010.10-11/11112010039.mp4");
     const auto tags3 = extractor.extract("/2010.05.22-23/DSCF8415.mkv");
     const auto tags4 = extractor.extract("2017-06-01-QQQ-WWW/024.jpg");
+    const auto tags5 = extractor.extract("zzzq-11-11-2016/GFFHGHGJ/JHGJYY/GFH/R#YHHG/00019.MTS");
 
     EXPECT_THAT( tags1, ElementsAre( std::pair{TagTypes::Date, QDate(2007, 11, 06)} ) );
     EXPECT_THAT( tags2, ElementsAre( std::pair{TagTypes::Date, QDate(2010, 10, 11)} ) );
     EXPECT_THAT( tags3, ElementsAre( std::pair{TagTypes::Date, QDate(2010, 05, 22)} ) );
     EXPECT_THAT( tags4, ElementsAre( std::pair{TagTypes::Date, QDate(2017, 06, 01)} ) );
+    EXPECT_THAT( tags5, ElementsAre( std::pair{TagTypes::Date, QDate(2016, 11, 11)} ) );
 }
 
 
