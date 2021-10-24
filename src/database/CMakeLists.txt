@@ -1,7 +1,6 @@
 
 add_subdirectory(backends)
 
-find_package(OpenLibrary 2.1 REQUIRED)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Threads REQUIRED)
 find_package(MagicEnum REQUIRED)
@@ -88,12 +87,9 @@ target_link_libraries(database
 )
 
 target_include_directories(database
-                            PRIVATE
-                                ${OPENLIBRARY_INCLUDE_DIRS}
-                                ${MAGIC_ENUM_INCLUDE_DIRS}
                             PUBLIC
+                                ${MAGIC_ENUM_INCLUDE_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
-                                ${OPENLIBRARY_INCLUDE_DIRS}
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}

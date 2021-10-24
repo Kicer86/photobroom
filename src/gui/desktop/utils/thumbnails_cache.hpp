@@ -20,8 +20,8 @@
 #define THUMBNAILS_CACHE_HPP
 
 #include <QCache>
-#include <OpenLibrary/putils/ts_resource.hpp>
 
+#include <core/ts_resource.hpp>
 #include "ithumbnails_cache.hpp"
 
 

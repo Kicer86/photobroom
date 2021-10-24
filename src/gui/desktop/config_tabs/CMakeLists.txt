@@ -1,6 +1,4 @@
 
-find_package(OpenLibrary 2.4 REQUIRED QtExt)
-
 set(CONFIG_TABS_SOURCES
     main_tab.cpp
     tools_tab.cpp
@@ -34,13 +32,10 @@ target_link_libraries(gui_config_tabs
                         PRIVATE
                             core
                             Qt::Widgets
-                            ${OPENLIBRARY_LIBRARIES}
 )
 
 target_include_directories(gui_config_tabs
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
                                 ${CMAKE_CURRENT_BINARY_DIR}
-                            PRIVATE
-                                ${OPENLIBRARY_INCLUDE_DIRS}
 )

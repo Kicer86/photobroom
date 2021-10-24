@@ -22,9 +22,9 @@
 
 #include <variant>
 #include <QImage>
-#include <OpenLibrary/putils/ts_resource.hpp>
 
 #include <core/tag.hpp>
+#include <core/ts_resource.hpp>
 
 #include "database_export.h"
 #include "group.hpp"

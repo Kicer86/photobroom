@@ -823,47 +823,47 @@ Error code: %1</source>
 <context>
     <name>ProjectCreatorDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="63"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="62"/>
         <source>Photo collection creator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="67"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="66"/>
         <source>Collection name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="76"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="75"/>
         <source>Database engine:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="85"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="84"/>
         <source>Engine options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="88"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="87"/>
         <source>Photos storage location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="90"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="89"/>
         <source>&lt;small&gt;Photos storage location is a place where all your photos and videos will be kept.&lt;br&gt;Also Photo Broom&apos;s database will be kept there.&lt;br&gt;Location may already contain photos and videos which will be automatically loaded.&lt;br&gt;&lt;b&gt;Photo Broom does not modify or move your files. All applied informations are stored in database not in files itself.&lt;/b&gt;&lt;/small&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="99"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="98"/>
         <source>Location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="99"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="98"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="101"/>
+        <location filename="../src/gui/desktop/widgets/project_creator/project_creator_dialog.cpp" line="100"/>
         <source>Photos location</source>
         <translation type="unfinished"></translation>
     </message>

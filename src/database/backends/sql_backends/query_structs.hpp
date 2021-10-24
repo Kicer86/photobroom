@@ -4,11 +4,10 @@
 
 #include <memory>
 #include <vector>
-
 #include <QString>
 #include <QVariant>
 
-#include <utils/data_ptr.hpp>
+#include <core/data_ptr.hpp>
 
 #include "sql_backend_base_export.h"
 

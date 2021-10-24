@@ -1,6 +1,5 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui)
-find_package(OpenLibrary REQUIRED utils)
 
 set(PROJECT_UTILS_SOURCES
     implementation/misc.cpp
@@ -29,7 +28,6 @@ target_link_libraries(project_utils PRIVATE
                                     system
                                     Qt::Core
                                     Qt::Gui
-                                    ${OPENLIBRARY_LIBRARIES}
                      )
 target_include_directories(project_utils PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

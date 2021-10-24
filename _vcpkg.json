@@ -10,7 +10,6 @@
         "name": "dlib",
         "features": [ "cuda", "fftw3" ]
     },
-    "exiv2",
-    "openlibrary"
+    "exiv2"
   ]
 }

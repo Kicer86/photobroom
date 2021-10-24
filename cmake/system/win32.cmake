@@ -2,11 +2,7 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
-
 function(setup_qt_environment)
-    find_package(Qt6 REQUIRED COMPONENTS Core)
-    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
-	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
     file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
 
     find_program(WINDEPLOY windeployqt
@@ -119,9 +115,8 @@ macro(addDeploymentActions)
     find_package(OpenSSL)
 
     # install required dll files
-    set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cublas64_11                              #dlib dependencies
+    set(libs_dlib cublas64_11                               #dlib dependencies
                   cublasLt64_11
                   openblas
                   liblapack
@@ -131,9 +126,12 @@ macro(addDeploymentActions)
                   libquadmath-0
     )
     set(libs_nvidia
-        cudnn64_8                                          #required by dlib when compiled with CUDA
+        cudnn64_8                                           #required by dlib when compiled with CUDA
     )
-    set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
+    set(libs_openssl                                        #required by github_api for secure connections
+        libcrypto-1_1-x64
+        libssl-1_1-x64
+    )
 
     set(libs_qt6
         zstd
@@ -163,10 +161,6 @@ macro(addDeploymentActions)
 
     endif()
 
-    install_external_lib(NAME "OpenLibrary"
-                         DLLFILES ${libs_OL}
-    )
-
     install_external_lib(NAME "Exiv2"
                          DLLFILES ${libs_exiv2}
     )
@@ -187,11 +181,14 @@ macro(addDeploymentActions)
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OPENSSL_ROOT_DIR}/bin
                          OPTIONAL
-    )
-
-    install_external_lib(NAME "Qt6_third_party"
-                         DLLFILES ${libs_qt6}
-    )
+    ) 
+    
+    if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
+        message("Including Qt's 3rd party libraries")
+        install_external_lib(NAME "Qt6_third_party"
+                            DLLFILES ${libs_qt6}
+        )
+    endif()
 
     install_external_lib(NAME "Compiler"
                          DLLFILES ${libs_Compiler}
@@ -214,6 +211,10 @@ macro(addDeploymentActions)
     install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
 
 endmacro(addDeploymentActions)
+
+find_package(Qt6 REQUIRED COMPONENTS Core)
+get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
 #enable deployment
 addDeploymentActions()

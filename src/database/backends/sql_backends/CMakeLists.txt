@@ -4,7 +4,6 @@
 add_subdirectory(sqlite_backend)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql)
-find_package(OpenLibrary REQUIRED)
 
 set(SOURCES
         generic_sql_query_constructor.cpp

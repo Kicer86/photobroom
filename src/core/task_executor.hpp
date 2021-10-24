@@ -22,10 +22,9 @@
 
 #include <thread>
 
-#include <OpenLibrary/putils/ts_queue.hpp>
-
 #include "core_export.h"
 #include "itask_executor.hpp"
+#include "ts_queue.hpp"
 
 
 struct ILogger;

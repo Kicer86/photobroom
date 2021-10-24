@@ -6,8 +6,6 @@
 
 #include <QImageReader>
 
-#include <OpenLibrary/putils/ts_resource.hpp>
-
 #include <core/tag.hpp>
 #include <core/task_executor.hpp>
 

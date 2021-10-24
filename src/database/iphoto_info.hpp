@@ -26,8 +26,6 @@
 
 #include <core/tag.hpp>
 
-#include <OpenLibrary/putils/ts_resource.hpp>
-
 #include "database_export.h"
 
 #include "photo_data.hpp"

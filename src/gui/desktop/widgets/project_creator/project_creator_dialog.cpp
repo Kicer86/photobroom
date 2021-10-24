@@ -33,11 +33,10 @@
 #include <QStackedLayout>
 #include <QString>
 
-#include <OpenLibrary/QtExt/qtext_choosefile.hpp>
-
 #include <database/idatabase_plugin.hpp>
 #include <plugins/iplugin_loader.hpp>
 #include <project_utils/iproject_manager.hpp>
+#include "widgets/qtext_choosefile.hpp"
 
 
 namespace

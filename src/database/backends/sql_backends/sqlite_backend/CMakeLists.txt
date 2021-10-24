@@ -1,6 +1,5 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Sql)
-find_package(OpenLibrary REQUIRED)
 
 set(BACKEND_SOURCES backend.cpp)
 set(BACKEND_HEADERS backend.hpp)

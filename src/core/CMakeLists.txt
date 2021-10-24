@@ -1,11 +1,9 @@
 
-find_package(OpenLibrary 2.3  REQUIRED putils)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
-include(${OPENLIBRARY_USE_FILE})
 
 set(CORE_SOURCES
     #interfaces
@@ -47,6 +45,7 @@ set(CORE_SOURCES
     configuration.hpp                                       implementation/configuration.cpp
     constants.hpp                                           implementation/constants.cpp
     core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
+    data_ptr.hpp
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
@@ -65,6 +64,8 @@ set(CORE_SOURCES
     task_executor.hpp                                       implementation/task_executor.cpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
+    ts_queue.hpp
+    ts_resource.hpp
     thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
     thread_utils.hpp
 
@@ -99,7 +100,6 @@ target_link_libraries(core
                             Qt::Gui
                         PRIVATE
                             system
-                            ${OPENLIBRARY_LIBRARIES}
                             ${CMAKE_THREAD_LIBS_INIT}
                             exiv2lib
 )
@@ -108,7 +108,6 @@ target_include_directories(core PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
                                     ${CMAKE_SOURCE_DIR}/src
                                 PRIVATE
-                                    ${OPENLIBRARY_INCLUDE_DIRS}
                                     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
