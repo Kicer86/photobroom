@@ -2,11 +2,7 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
-
 function(setup_qt_environment)
-    find_package(Qt6 REQUIRED COMPONENTS Core)
-    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
-	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
     file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
 
     find_program(WINDEPLOY windeployqt
@@ -185,9 +181,10 @@ macro(addDeploymentActions)
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OPENSSL_ROOT_DIR}/bin
                          OPTIONAL
-    )
-
+    ) 
+    
     if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
+        message("Including Qt's 3rd party libraries")
         install_external_lib(NAME "Qt6_third_party"
                             DLLFILES ${libs_qt6}
         )
@@ -214,6 +211,10 @@ macro(addDeploymentActions)
     install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
 
 endmacro(addDeploymentActions)
+
+find_package(Qt6 REQUIRED COMPONENTS Core)
+get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
 #enable deployment
 addDeploymentActions()
