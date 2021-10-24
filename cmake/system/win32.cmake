@@ -187,9 +187,11 @@ macro(addDeploymentActions)
                          OPTIONAL
     )
 
-    install_external_lib(NAME "Qt6_third_party"
-                         DLLFILES ${libs_qt6}
-    )
+    if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
+        install_external_lib(NAME "Qt6_third_party"
+                            DLLFILES ${libs_qt6}
+        )
+    endif()
 
     install_external_lib(NAME "Compiler"
                          DLLFILES ${libs_Compiler}
