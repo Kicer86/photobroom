@@ -87,9 +87,8 @@ target_link_libraries(database
 )
 
 target_include_directories(database
-                            PRIVATE
-                                ${MAGIC_ENUM_INCLUDE_DIRS}
                             PUBLIC
+                                ${MAGIC_ENUM_INCLUDE_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src
