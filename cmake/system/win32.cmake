@@ -120,7 +120,7 @@ macro(addDeploymentActions)
 
     # install required dll files
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cublas64_11                              #dlib dependencies
+    set(libs_dlib cublas64_11                               #dlib dependencies
                   cublasLt64_11
                   openblas
                   liblapack
@@ -130,9 +130,12 @@ macro(addDeploymentActions)
                   libquadmath-0
     )
     set(libs_nvidia
-        cudnn64_8                                          #required by dlib when compiled with CUDA
+        cudnn64_8                                           #required by dlib when compiled with CUDA
     )
-    set(libs_openssl libcrypto-1_1-x64 libssl-1_1-x64)               #required by github_api for secure connections
+    set(libs_openssl                                        #required by github_api for secure connections
+        libcrypto-1_1-x64
+        libssl-1_1-x64
+    )
 
     set(libs_qt6
         zstd
