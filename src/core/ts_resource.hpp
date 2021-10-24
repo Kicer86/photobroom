@@ -16,7 +16,7 @@ namespace ol
     ThreadSafeResource is a template class which allows to wrap any object (resource) into a thread safe container.
     Resource object must be constructed together with ThreadSafeResource (see ThreadSafeResource::ThreadSafeResource()).
     Then it can accessed by one thread at once. Any access to resource when it is already locked will cause in wait operation.
-    To access locked resource call ThreadSafeResource::lock(). An Accessor object will be returned which is responsible for resource unlocking 
+    To access locked resource call ThreadSafeResource::lock(). An Accessor object will be returned which is responsible for resource unlocking
     when no longer used.
     */
 
@@ -148,7 +148,7 @@ namespace ol
             //! Contructor
             /*! Constructs ThreadSafeResource together with locked resource. */
             template<typename... Args>
-            ThreadSafeResource(const Args&... args): m_mutex(), m_resource(args...)
+            explicit ThreadSafeResource(const Args&... args): m_mutex(), m_resource(args...)
             {
             }
 
