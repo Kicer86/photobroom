@@ -6,79 +6,70 @@ find_package(Threads          REQUIRED)
 include(GenerateExportHeader)
 
 set(CORE_SOURCES
-    #interfaces
-    iconfiguration.hpp
-    icore_factory_accessor.hpp
-    ifeatures_manager.hpp
-    ilogger.hpp
-    ilogger_factory.hpp
-    ilogger.hpp
-    imedia_information.hpp
-    imodel_compositor_data_source.hpp
-    iexif_reader.hpp
-    ifeatures_manager.hpp
-    itask_executor.hpp
-    itasks_view.hpp
-    ithumbnails_generator.hpp
-    iview_task.hpp
-
-    #tiny utilities
-    containers_utils.hpp
-    features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
-    function_wrappers.hpp
-    generic_concepts.hpp
-    id.hpp
-    itasks_view_utils.hpp                                   implementation/itasks_view_utils.cpp
-    lazy_ptr.hpp
-    observable_executor.hpp                                 implementation/observable_executor.cpp
-    observable_task_executor.hpp
-    observables_registry.hpp                                implementation/observables_registry.cpp
-    slicer.hpp
-    status.hpp
-    tags_utils.hpp                                          implementation/tags_utils.cpp
-    task_executor_traits.hpp
-    utils.hpp
-
-    #utilities
-    accumulative_queue.hpp
-    base_tags.hpp                                           implementation/base_tags.cpp
-    configuration.hpp                                       implementation/configuration.cpp
-    constants.hpp                                           implementation/constants.cpp
-    core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
-    data_ptr.hpp
-    disk_observer.hpp                                       implementation/disk_observer.cpp
-    exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
-    ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
-    image_tools.hpp                                         implementation/image_tools.cpp
-    logger.hpp                                              implementation/logger.cpp
-    logger_factory.hpp                                      implementation/logger_factory.cpp
-    media_information.hpp                                   implementation/media_information.cpp
-    media_types.hpp                                         implementation/media_types.cpp
-    model_compositor.hpp                                    implementation/model_compositor.cpp
-    oriented_image.hpp                                      implementation/oriented_image.cpp
-    qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
-    qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
-    search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
-    signal_postponer.hpp                                    implementation/signal_postponer.cpp
-    tag.hpp                                                 implementation/tag.cpp
-    task_executor.hpp                                       implementation/task_executor.cpp
-    task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
-    time_guardian.hpp                                       implementation/time_guardian.cpp
-    ts_queue.hpp
-    ts_resource.hpp
-    thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
-    thread_utils.hpp
-
-    # internal implementation
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
     implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
     implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
-    implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
-
-    #
     implementation/init.cpp
+    implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
+    accumulative_queue.hpp
+    base_tags.hpp                                           implementation/base_tags.cpp
+    configuration.hpp                                       implementation/configuration.cpp
+    constants.hpp                                           implementation/constants.cpp
+    containers_utils.hpp
+    core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
+    data_ptr.hpp
+    disk_observer.hpp                                       implementation/disk_observer.cpp
+    exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
+    features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
+    ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
+    function_wrappers.hpp
+    generic_concepts.hpp
+    iconfiguration.hpp
+    icore_factory_accessor.hpp
+    id.hpp
+    iexif_reader.hpp
+    ifeatures_manager.hpp
+    ifeatures_manager.hpp
+    ilogger_factory.hpp
+    ilogger.hpp
+    ilogger.hpp
+    image_tools.hpp                                         implementation/image_tools.cpp
+    imedia_information.hpp
+    imodel_compositor_data_source.hpp
+    itask_executor.hpp
+    itasks_view.hpp
+    itasks_view_utils.hpp                                   implementation/itasks_view_utils.cpp
+    ithumbnails_generator.hpp
+    iview_task.hpp
+    lazy_ptr.hpp
+    logger_factory.hpp                                      implementation/logger_factory.cpp
+    logger.hpp                                              implementation/logger.cpp
+    media_information.hpp                                   implementation/media_information.cpp
+    media_types.hpp                                         implementation/media_types.cpp
+    model_compositor.hpp                                    implementation/model_compositor.cpp
+    observable_executor.hpp                                 implementation/observable_executor.cpp
+    observables_registry.hpp                                implementation/observables_registry.cpp
+    observable_task_executor.hpp
+    oriented_image.hpp                                      implementation/oriented_image.cpp
+    qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
+    qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
+    search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
+    signal_postponer.hpp                                    implementation/signal_postponer.cpp
+    slicer.hpp
+    status.hpp
+    tag.hpp                                                 implementation/tag.cpp
+    tags_utils.hpp                                          implementation/tags_utils.cpp
+    task_executor.hpp                                       implementation/task_executor.cpp
+    task_executor_traits.hpp
+    task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
+    thread_utils.hpp
+    thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
+    time_guardian.hpp                                       implementation/time_guardian.cpp
+    ts_queue.hpp
+    ts_resource.hpp
+    utils.hpp
 )
 
 if(CMAKE_USE_PTHREADS_INIT AND NOT APPLE)
