@@ -26,7 +26,7 @@
 
 struct IConfiguration;
 
-class FFmpegMediaInformation : public IMediaInformation
+class FFmpegMediaInformation
 {
     public:
         explicit FFmpegMediaInformation(IConfiguration &);
@@ -38,7 +38,7 @@ class FFmpegMediaInformation : public IMediaInformation
 
         virtual ~FFmpegMediaInformation() = default;
 
-        std::optional<QSize> size(const QString &) const override;
+        std::optional<QSize> size(const QString &) const;
 
     private:
         QString m_ffprobePath;

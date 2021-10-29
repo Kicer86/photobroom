@@ -98,3 +98,11 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
 
     return result;
 }
+
+
+FileInformation MediaInformation::getInformation(const QString&) const
+{
+    FileInformation info;
+
+    return info;
+}
