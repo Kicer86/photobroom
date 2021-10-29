@@ -4,3 +4,7 @@ http://photoqt.org/  check this viewer
 https://ezgif.com/help/alternative-animated-image-formats  animated image formats
 
 http://sandlab.cs.uchicago.edu/fawkes/ face recognition cloaker
+
+about exif:
+https://exiftool.org/commentary.html
+https://dev.exiv2.org/issues/0000813
