@@ -17,7 +17,7 @@
  *
  */
 
-#include "exiv2_media_information.hpp"
+#include "image_media_information.hpp"
 
 #include <any>
 
@@ -26,13 +26,13 @@
 #include "iexif_reader.hpp"
 
 
-Eviv2MediaInformation::Eviv2MediaInformation(IExifReaderFactory& exif): m_exif(exif)
+ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif): m_exif(exif)
 {
 
 }
 
 
-std::optional<QSize> Eviv2MediaInformation::size(const QString& path) const
+std::optional<QSize> ImageMediaInformation::size(const QString& path) const
 {
     IExifReader& exif_reader = m_exif.get();
 

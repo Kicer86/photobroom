@@ -28,7 +28,7 @@
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
 #include "media_types.hpp"
-#include "implementation/exiv2_media_information.hpp"
+#include "implementation/image_media_information.hpp"
 #include "implementation/ffmpeg_media_information.hpp"
 
 
@@ -46,7 +46,7 @@ namespace
 
 struct MediaInformation::Impl
 {
-    Eviv2MediaInformation m_exif_info;
+    ImageMediaInformation m_exif_info;
     FFmpegMediaInformation m_ffmpeg_info;
     std::unique_ptr<ILogger> m_logger;
 
