@@ -41,7 +41,6 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
         MediaInformation& operator=(const MediaInformation &) = delete;
         MediaInformation& operator=(MediaInformation &&) = delete;
 
-        std::optional<QSize> size(const QString &) const override;
         FileInformation getInformation(const QString &) const override;
 
     private:

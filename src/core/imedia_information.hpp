@@ -31,7 +31,6 @@ struct IMediaInformation
 {
     virtual ~IMediaInformation() = default;
 
-    virtual std::optional<QSize> size(const QString &) const = 0;
     virtual FileInformation getInformation(const QString &) const = 0;
 };
 

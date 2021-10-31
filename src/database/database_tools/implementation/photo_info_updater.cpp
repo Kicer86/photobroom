@@ -114,14 +114,13 @@ namespace
         void perform() override
         {
             const QString path = m_photoInfo->lock()->path;
-            const std::optional<QSize> size = m_mediaInformation->size(path);
+            const FileInformation info = m_mediaInformation->getInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
-            if (size.has_value())
+            if (info.common.dimension.isValid())
             {
-                photoDelta->geometry = *size;
+                photoDelta->geometry = info.common.dimension;
                 photoDelta->flags[Photo::FlagsE::GeometryLoaded] = 1;
-
             }
             else
             {

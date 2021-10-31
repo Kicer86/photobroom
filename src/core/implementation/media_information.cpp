@@ -32,18 +32,6 @@
 #include "implementation/video_media_information.hpp"
 
 
-namespace
-{
-    QSize imageSize(const QString& path)
-    {
-        const QImageReader reader(path);
-        const QSize size = reader.size();
-
-        return size;
-    }
-}
-
-
 struct MediaInformation::Impl
 {
     std::unique_ptr<ILogger> m_logger;
@@ -72,44 +60,18 @@ MediaInformation::~MediaInformation()
 }
 
 
-std::optional<QSize> MediaInformation::size(const QString& path) const
-{
-    const QFileInfo fileInfo(path);
-    const QString full_path = fileInfo.absoluteFilePath();
-
-    std::optional<QSize> result = m_impl->m_image_info.size(full_path);      // try to use exif (so orientation will be considered)
-
-    if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
-    {
-        const QSize imgSize = imageSize(full_path);
-        if (imgSize.isValid())
-            result = imgSize;
-    }
-
-    if (result.has_value() == false && MediaTypes::isVideoFile(full_path))  // still no data, and video file
-        result = m_impl->m_video_info.size(full_path);
-
-    if (result.has_value() == false)
-    {
-        const QString error = QString("Could not load image data from '%1'. File format unknown or file corrupted").arg(path);
-
-        m_impl->m_logger->error(error);
-    }
-
-    return result;
-}
-
-
 FileInformation MediaInformation::getInformation(const QString& path) const
 {
     FileInformation info;
+    const QFileInfo fileInfo(path);
+    const QString full_path = fileInfo.absoluteFilePath();
 
-    if (MediaTypes::isImageFile(path))
-        info = m_impl->m_image_info.getInformation(path);
-    else if (MediaTypes::isVideoFile(path))
-        info = m_impl->m_video_info.getInformation(path);
+    if (MediaTypes::isImageFile(full_path))
+        info = m_impl->m_image_info.getInformation(full_path);
+    else if (MediaTypes::isVideoFile(full_path))
+        info = m_impl->m_video_info.getInformation(full_path);
     else
-        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(path));
+        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(full_path));
 
     return info;
 }
