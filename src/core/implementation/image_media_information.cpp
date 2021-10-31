@@ -68,3 +68,12 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path) const
 
     return result;
 }
+
+
+ImageFile ImageMediaInformation::getInformation(const QString& path) const
+{
+    ImageFile imageFile;
+    imageFile.dimension = *size(path);
+
+    return imageFile;
+}

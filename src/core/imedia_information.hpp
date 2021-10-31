@@ -9,6 +9,7 @@
 
 struct MediaFile
 {
+    QSize dimension;
 };
 
 struct ImageFile: MediaFile
