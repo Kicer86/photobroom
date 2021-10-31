@@ -3,13 +3,14 @@
 #define IMEDIAINFORMATION_HPP
 
 #include <optional>
-
 #include <QSize>
+#include <QDateTime>
 
 
 struct MediaFile
 {
     QSize dimension;
+    QDateTime creationTime;
 };
 
 struct ImageFile
