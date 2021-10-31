@@ -46,3 +46,12 @@ std::optional<QSize> VideoMediaInformation::size(const QString& path) const
 
     return resolution;
 }
+
+
+VideoFile VideoMediaInformation::getInformation(const QString& path) const
+{
+    VideoFile videoFile;
+    videoFile.dimension = *size(path);
+
+    return videoFile;
+}
