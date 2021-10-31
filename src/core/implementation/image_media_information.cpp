@@ -26,7 +26,9 @@
 #include "iexif_reader.hpp"
 
 
-ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif): m_exif(exif)
+ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif, ILogger& logger)
+    : m_exif(exif)
+    , m_logger(logger)
 {
 
 }
@@ -34,25 +36,48 @@ ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif): m_exif(e
 
 std::optional<QSize> ImageMediaInformation::size(const QString& path) const
 {
+    // Here we could have used exif's
+    // Exif.Photo.PixelYDimension or
+    // Exif.Image.ImageWidth
+    // kind of tags to get photo dimensions (if exif available).
+    // But it may happend that a photo was rotated in an editor
+    // and exif's dimensions were not touched. It will cause wrong results.
+    // Therefore QImageReader is used here as basic source of image resolution.
+
     IExifReader& exif_reader = m_exif.get();
 
     std::optional<QSize> result;
+
+    const QImageReader reader(path);
+    result = reader.size();
 
     const bool has = exif_reader.hasExif(path);
 
     if (has)
     {
-        // Here we could have used exif's
-        // Exif.Photo.PixelYDimension or
-        // Exif.Image.ImageWidth
-        // kind of tags to get photo dimensions.
-        // But it may happend that a photo was rotated in an editor
-        // and exif was not touched. It will cause wrong results here.
-        // Therefore QImageReader is used here.
+        const std::optional<std::any> xdim = exif_reader.get(path, IExifReader::TagType::PixelXDimension);
+        const std::optional<std::any> ydim = exif_reader.get(path, IExifReader::TagType::PixelYDimension);
 
-        const QImageReader reader(path);
-        QSize size = reader.size();
+        if (xdim.has_value() && ydim.has_value())
+        {
+            const long x = std::any_cast<long>(*xdim);
+            const long y = std::any_cast<long>(*ydim);
 
+            // use exif if QImageReader could not handle image
+            if (result->isEmpty())
+                result = QSize(x, y);
+            else if (x != result->width() || y != result->height())   // perform validation for debug purposes
+                m_logger.warning(
+                    QString("For photo %5 exif data are inconsistent with image data: Image reports %1x%2 resolution while exif reports: %3x%4.")
+                    .arg(result->width())
+                    .arg(result->height())
+                    .arg(x)
+                    .arg(y)
+                    .arg(path)
+                );
+        }
+
+        // apply orientation if available
         const std::optional<std::any> orientation_raw = exif_reader.get(path, IExifReader::TagType::Orientation);
 
         int orientation = 0;
@@ -60,10 +85,10 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path) const
             orientation = std::any_cast<int>(*orientation_raw);
 
         // orientations 5, 6, 7 and 8 require 90⁰ degree rotations which swap dimensions
-        if (orientation > 4)
-            size.transpose();
+        const bool needsRotation = orientation > 4;
 
-        result = size;
+        if (needsRotation)
+            result->transpose();
     }
 
     return result;

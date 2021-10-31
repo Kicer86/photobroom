@@ -46,14 +46,14 @@ namespace
 
 struct MediaInformation::Impl
 {
+    std::unique_ptr<ILogger> m_logger;
     ImageMediaInformation m_image_info;
     VideoMediaInformation m_video_info;
-    std::unique_ptr<ILogger> m_logger;
 
     explicit Impl(ICoreFactoryAccessor* coreFactory):
-        m_image_info(coreFactory->getExifReaderFactory()),
-        m_video_info(coreFactory->getConfiguration()),
-        m_logger(coreFactory->getLoggerFactory().get("Media Information"))
+        m_logger(coreFactory->getLoggerFactory().get("Media Information")),
+        m_image_info(coreFactory->getExifReaderFactory(), *m_logger),
+        m_video_info(coreFactory->getConfiguration())
     {
 
     }

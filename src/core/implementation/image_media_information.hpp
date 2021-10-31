@@ -21,6 +21,7 @@
 #define PHOTOINFORMATION_HPP
 
 #include "imedia_information.hpp"
+#include "ilogger.hpp"
 
 #include "core_export.h"
 
@@ -30,7 +31,7 @@ struct IExifReaderFactory;
 class CORE_EXPORT ImageMediaInformation
 {
     public:
-        explicit ImageMediaInformation(IExifReaderFactory &);
+        explicit ImageMediaInformation(IExifReaderFactory &, ILogger&);
         ImageMediaInformation(const ImageMediaInformation &) = delete;
 
         ImageMediaInformation& operator=(const ImageMediaInformation &) = delete;
@@ -40,6 +41,7 @@ class CORE_EXPORT ImageMediaInformation
 
     private:
         IExifReaderFactory& m_exif;
+        ILogger& m_logger;
 };
 
 #endif // PHOTOINFORMATION_H
