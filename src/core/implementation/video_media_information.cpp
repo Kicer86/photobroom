@@ -17,7 +17,6 @@
  *
  */
 
-#include "ffmpeg_media_information.hpp"
 
 #include <cassert>
 
@@ -26,9 +25,10 @@
 #include "constants.hpp"
 #include "iconfiguration.hpp"
 #include "ffmpeg_video_details_reader.hpp"
+#include "video_media_information.hpp"
 
 
-FFmpegMediaInformation::FFmpegMediaInformation(IConfiguration& configuration):
+VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
     m_ffprobePath()
 {
     const QVariant ffprobeVar = configuration.getEntry(ExternalToolsConfigKeys::ffprobePath);
@@ -37,7 +37,7 @@ FFmpegMediaInformation::FFmpegMediaInformation(IConfiguration& configuration):
 }
 
 
-std::optional<QSize> FFmpegMediaInformation::size(const QString& path) const
+std::optional<QSize> VideoMediaInformation::size(const QString& path) const
 {
     assert(m_ffprobePath.isEmpty() == false);
 
