@@ -34,6 +34,15 @@ ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif, ILogger& 
 }
 
 
+FileInformation ImageMediaInformation::getInformation(const QString& path) const
+{
+    FileInformation info;
+    info.common.dimension = *size(path);
+
+    return info;
+}
+
+
 std::optional<QSize> ImageMediaInformation::size(const QString& path) const
 {
     // Here we could have used exif's
@@ -92,13 +101,4 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path) const
     }
 
     return result;
-}
-
-
-FileInformation ImageMediaInformation::getInformation(const QString& path) const
-{
-    FileInformation info;
-    info.common.dimension = *size(path);
-
-    return info;
 }

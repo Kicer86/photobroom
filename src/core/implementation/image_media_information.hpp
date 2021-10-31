@@ -36,12 +36,13 @@ class CORE_EXPORT ImageMediaInformation
 
         ImageMediaInformation& operator=(const ImageMediaInformation &) = delete;
 
-        std::optional<QSize> size(const QString &) const;
         FileInformation getInformation(const QString &) const;
 
     private:
         IExifReaderFactory& m_exif;
         ILogger& m_logger;
+
+        std::optional<QSize> size(const QString &) const;
 };
 
 #endif // PHOTOINFORMATION_H
