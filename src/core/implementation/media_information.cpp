@@ -46,13 +46,13 @@ namespace
 
 struct MediaInformation::Impl
 {
-    ImageMediaInformation m_exif_info;
-    VideoMediaInformation m_ffmpeg_info;
+    ImageMediaInformation m_image_info;
+    VideoMediaInformation m_video_info;
     std::unique_ptr<ILogger> m_logger;
 
     explicit Impl(ICoreFactoryAccessor* coreFactory):
-        m_exif_info(coreFactory->getExifReaderFactory()),
-        m_ffmpeg_info(coreFactory->getConfiguration()),
+        m_image_info(coreFactory->getExifReaderFactory()),
+        m_video_info(coreFactory->getConfiguration()),
         m_logger(coreFactory->getLoggerFactory().get("Media Information"))
     {
 
@@ -77,7 +77,7 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
     const QFileInfo fileInfo(path);
     const QString full_path = fileInfo.absoluteFilePath();
 
-    std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will be considered)
+    std::optional<QSize> result = m_impl->m_image_info.size(full_path);      // try to use exif (so orientation will be considered)
 
     if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
     {
@@ -87,7 +87,7 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
     }
 
     if (result.has_value() == false && MediaTypes::isVideoFile(full_path))  // still no data, and video file
-        result = m_impl->m_ffmpeg_info.size(full_path);
+        result = m_impl->m_video_info.size(full_path);
 
     if (result.has_value() == false)
     {
@@ -100,9 +100,16 @@ std::optional<QSize> MediaInformation::size(const QString& path) const
 }
 
 
-FileInformation MediaInformation::getInformation(const QString&) const
+FileInformation MediaInformation::getInformation(const QString& path) const
 {
     FileInformation info;
+
+    if (MediaTypes::isImageFile(path))
+        info = m_impl->m_image_info.getInformation(path);
+    else if (MediaTypes::isVideoFile(path))
+        info = m_impl->m_video_info.getInformation(path);
+    else
+        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(path));
 
     return info;
 }
