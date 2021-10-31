@@ -39,7 +39,7 @@ class VideoMediaInformation
         virtual ~VideoMediaInformation() = default;
 
         std::optional<QSize> size(const QString &) const;
-        VideoFile getInformation(const QString &) const;
+        FileInformation getInformation(const QString &) const;
 
     private:
         QString m_ffprobePath;

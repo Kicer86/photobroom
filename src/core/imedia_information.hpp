@@ -12,15 +12,19 @@ struct MediaFile
     QSize dimension;
 };
 
-struct ImageFile: MediaFile
+struct ImageFile
 {
 };
 
-struct VideoFile: MediaFile
+struct VideoFile
 {
 };
 
-using FileInformation = std::variant<ImageFile, VideoFile>;
+struct FileInformation
+{
+    MediaFile common;
+    std::variant<ImageFile, VideoFile> details;
+};
 
 
 struct IMediaInformation
