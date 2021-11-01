@@ -138,10 +138,11 @@ namespace
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, IExifReaderFactory& exifReaderFactory, const Photo::SharedData& photoInfo)
+        TagsCollector(PhotoInfoUpdater* updater, IMediaInformation& mediaInformation, const Photo::SharedData& photoInfo)
             : UpdaterTask(updater, photoInfo)
-            , m_exifReaderFactory(exifReaderFactory)
+            , m_mediaInformation(mediaInformation)
         {
+
         }
 
         TagsCollector(const TagsCollector &) = delete;
@@ -154,31 +155,26 @@ namespace
 
         void perform() override
         {
-            IExifReader& feeder = m_exifReaderFactory.get();
-
             // collect data
             const QString path = m_photoInfo->lock()->path;
-            const Tag::TagsList new_tags = feeder.getTagsFor(path);
+            const FileInformation info = m_mediaInformation.getInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
-            const Tag::TagsList& cur_tags = photoDelta->tags;
 
-            // merge new_tags with cur_tags
-            Tag::TagsList tags = cur_tags;
-
-            for (const auto& entry: new_tags)
+            if (info.common.creationTime.isValid())
             {
-                auto it = tags.find(entry.first);
+                Tag::TagsList tags = photoDelta->tags;
 
-                if (it == tags.end())   // no such tag yet?
-                    tags.insert(entry);
+                tags[TagTypes::Date] = info.common.creationTime.date();
+                tags[TagTypes::Time] = info.common.creationTime.time();
+
+                photoDelta->tags = tags;
             }
 
             photoDelta->flags[Photo::FlagsE::ExifLoaded] = 1;
-            photoDelta->tags = tags;
         }
 
-        IExifReaderFactory& m_exifReaderFactory;
+        IMediaInformation& m_mediaInformation;
     };
 
 }
@@ -219,7 +215,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 
 void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 {
-    auto task = std::make_unique<TagsCollector>(this, m_coreFactory->getExifReaderFactory(), photoInfo);
+    auto task = std::make_unique<TagsCollector>(this, m_mediaInformation, photoInfo);
 
     addTask(std::move(task));
 }
