@@ -8,8 +8,6 @@
 #include "unit_tests_utils/mock_core_factory_accessor.hpp"
 #include "unit_tests_utils/mock_configuration.hpp"
 #include "unit_tests_utils/mock_database.hpp"
-#include "unit_tests_utils/mock_exif_reader_factory.hpp"
-#include "unit_tests_utils/mock_exif_reader.hpp"
 #include "unit_tests_utils/mock_logger_factory.hpp"
 #include "unit_tests_utils/mock_media_information.hpp"
 #include "unit_tests_utils/printers.hpp"
@@ -23,12 +21,10 @@ using testing::ReturnRef;
 using testing::NiceMock;
 
 
-TEST(PhotoInfoUpdaterTest, exifUpdate)
+TEST(PhotoInfoUpdaterTest, tagsUpdate)
 {
     FakeTaskExecutor taskExecutor;
     NiceMock<MockBackend> backend;
-    NiceMock<ExifReaderFactoryMock> exifFactoryMock;
-    NiceMock<MockExifReader> exifReader;
     NiceMock<ILoggerFactoryMock> loggerFactoryMock;
     NiceMock<IConfigurationMock> configurationMock;
     NiceMock<ICoreFactoryAccessorMock> coreFactory;
@@ -36,11 +32,9 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     NiceMock<MediaInformationMock> mediaInformation;
 
     ON_CALL(mediaInformation, getInformation).WillByDefault(Return(FileInformation{}));
-    ON_CALL(coreFactory, getExifReaderFactory).WillByDefault(ReturnRef(exifFactoryMock));
     ON_CALL(coreFactory, getConfiguration).WillByDefault(ReturnRef(configurationMock));
     ON_CALL(coreFactory, getLoggerFactory).WillByDefault(ReturnRef(loggerFactoryMock));
     ON_CALL(coreFactory, getTaskExecutor).WillByDefault(ReturnRef(taskExecutor));
-    ON_CALL(exifFactoryMock, get).WillByDefault(ReturnRef(exifReader));
     ON_CALL(loggerFactoryMock, get(An<const QString &>())).WillByDefault(Invoke([](const auto &)
     {
         return std::make_unique<EmptyLogger>();
