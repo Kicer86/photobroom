@@ -40,6 +40,7 @@ FileInformation ImageMediaInformation::getInformation(const QString& path) const
 
     FileInformation info;
     info.common.dimension = *size(path, exif);
+    info.common.creationTime = creationTime(path, exif);
 
     return info;
 }
@@ -98,6 +99,34 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 
         if (needsRotation)
             result->transpose();
+    }
+
+    return result;
+}
+
+
+QDateTime ImageMediaInformation::creationTime(const QString& path, IExifReader& exif) const
+{
+    QDateTime result;
+
+    const auto datetime_raw = exif.get(path, IExifReader::TagType::DateTimeOriginal);
+
+    if (datetime_raw.has_value())
+    {
+        const auto datetime = std::any_cast<std::string>(*datetime_raw);
+        const QString v(datetime.c_str());
+        const QStringList time_splitted = v.split(" ");
+
+        if (time_splitted.size() == 2)
+        {
+            QString date_raw = time_splitted[0];
+            const QString time_raw = time_splitted[1];
+
+            const QDate date = QDate::fromString(date_raw, "yyyy:MM:dd");
+            const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
+
+            result = QDateTime(date, time);
+        }
     }
 
     return result;
