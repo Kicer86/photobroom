@@ -26,36 +26,26 @@
 #include <QTime>
 
 
-FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg): m_ffprobePath(ffmpeg)
+FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg, const QString& path)
+    : m_ffprobePath(ffmpeg)
+    , m_output(outputFor(path))
 {
     assert(ffmpeg.isEmpty() == false);
 }
 
 
-bool FFMpegVideoDetailsReader::hasDetails(const QString& filePath) const
+bool FFMpegVideoDetailsReader::hasDetails() const
 {
-    QProcess ffprobe_process;
-    ffprobe_process.setProcessChannelMode(QProcess::MergedChannels);
-
-    const QStringList ffprobe_args = { filePath };
-
-    ffprobe_process.start(m_ffprobePath, ffprobe_args );
-    const bool status = ffprobe_process.waitForFinished() &&
-                        ffprobe_process.exitCode() == 0;
-
-    return status;
+    return m_output.empty() == false;
 }
 
 
-
-std::optional<QSize> FFMpegVideoDetailsReader::resolutionOf(const QString& video_file) const
+std::optional<QSize> FFMpegVideoDetailsReader::resolutionOf() const
 {
-    const QStringList output = outputFor(video_file);
-
     QRegularExpression resolution_regex(".*Stream [^ ]+ Video:.*, ([0-9]+)x([0-9]+).*");
 
     std::optional<QSize> result;
-    for(const QString& line: output)
+    for(const QString& line: m_output)
     {
         const auto match = resolution_regex.match(line);
 
@@ -70,7 +60,7 @@ std::optional<QSize> FFMpegVideoDetailsReader::resolutionOf(const QString& video
 
             result = QSize(resolution_x, resolution_y);
 
-            const int r = rotation(output);
+            const int r = rotation();
 
             if (r == 90)
                 result->transpose();
@@ -83,15 +73,13 @@ std::optional<QSize> FFMpegVideoDetailsReader::resolutionOf(const QString& video
 }
 
 
-int FFMpegVideoDetailsReader::durationOf(const QString& video_file) const
+int FFMpegVideoDetailsReader::durationOf() const
 {
-    const QStringList output = outputFor(video_file);
-
     QRegularExpression duration_regex(".*Duration: ([0-9:\\.]+).*");
 
     int duration = -1;
 
-    for(const QString& line: output)
+    for(const QString& line: m_output)
     {
         const auto match = duration_regex.match(line);
 
@@ -119,6 +107,7 @@ QStringList FFMpegVideoDetailsReader::outputFor(const QString& video_file) const
 
     ffprobe_process.start(m_ffprobePath, ffprobe_args );
     bool status = ffprobe_process.waitForFinished();
+    status &= ffprobe_process.exitCode() == 0;
 
     QStringList result;
     if (status)
@@ -132,12 +121,12 @@ QStringList FFMpegVideoDetailsReader::outputFor(const QString& video_file) const
 }
 
 
-int FFMpegVideoDetailsReader::rotation(const QStringList& output) const
+int FFMpegVideoDetailsReader::rotation() const
 {
     QRegularExpression rotation_regex(" *rotate *: ([0-9]+).*");
     int rotation = 0;
 
-    for(const QString& line: output)
+    for(const QString& line: m_output)
     {
         const auto match = rotation_regex.match(line);
 

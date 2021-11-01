@@ -39,10 +39,10 @@ VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
-    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
+    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath, path);
 
     FileInformation info;
-    info.common.dimension = videoDetailsReader.resolutionOf(path);
+    info.common.dimension = videoDetailsReader.resolutionOf();
 
     return info;
 }

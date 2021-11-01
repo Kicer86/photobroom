@@ -31,7 +31,7 @@
 class FFMpegVideoDetailsReader
 {
     public:
-        explicit FFMpegVideoDetailsReader(const QString& ffprobePath);
+        explicit FFMpegVideoDetailsReader(const QString& ffprobePath, const QString& path);
         FFMpegVideoDetailsReader(const FFMpegVideoDetailsReader &) = delete;
         FFMpegVideoDetailsReader(FFMpegVideoDetailsReader &&) = delete;
 
@@ -40,16 +40,17 @@ class FFMpegVideoDetailsReader
 
         virtual ~FFMpegVideoDetailsReader() = default;
 
-        bool hasDetails(const QString &) const;                 // checks if given file contains any data to be read
+        bool hasDetails() const;                  // checks if given file contains any data to be read
 
-        std::optional<QSize> resolutionOf(const QString& video_file) const;
-        int durationOf(const QString& video_file) const;        // video duration in seconds
+        std::optional<QSize> resolutionOf() const;
+        int durationOf() const;                   // video duration in seconds
 
     private:
         const QString m_ffprobePath;
+        const QStringList m_output;
 
         QStringList outputFor(const QString &) const;
-        int rotation(const QStringList &) const;
+        int rotation() const;
 };
 
 #endif // FFMPEGVIDEODETAILSREADER_HPP
