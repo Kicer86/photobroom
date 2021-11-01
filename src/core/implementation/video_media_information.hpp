@@ -42,8 +42,6 @@ class VideoMediaInformation
 
     private:
         QString m_ffprobePath;
-
-        std::optional<QSize> size(const QString &) const;
 };
 
 #endif // VIDEOINFORMATION_HPP

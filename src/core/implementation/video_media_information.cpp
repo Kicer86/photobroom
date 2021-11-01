@@ -39,19 +39,11 @@ VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
+    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
+    const auto resolution = videoDetailsReader.resolutionOf(path);
+
     FileInformation info;
-    info.common.dimension = *size(path);
+    info.common.dimension = resolution? *resolution: QSize{};
 
     return info;
-}
-
-
-std::optional<QSize> VideoMediaInformation::size(const QString& path) const
-{
-    assert(m_ffprobePath.isEmpty() == false);
-
-    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
-    const std::optional<QSize> resolution = videoDetailsReader.resolutionOf(path);
-
-    return resolution;
 }
