@@ -11,12 +11,14 @@
 #include "unit_tests_utils/mock_exif_reader_factory.hpp"
 #include "unit_tests_utils/mock_exif_reader.hpp"
 #include "unit_tests_utils/mock_logger_factory.hpp"
+#include "unit_tests_utils/mock_media_information.hpp"
 #include "unit_tests_utils/printers.hpp"
 
 
 using testing::_;
 using testing::An;
 using testing::Invoke;
+using testing::Return;
 using testing::ReturnRef;
 using testing::NiceMock;
 
@@ -31,7 +33,9 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     NiceMock<IConfigurationMock> configurationMock;
     NiceMock<ICoreFactoryAccessorMock> coreFactory;
     NiceMock<MockDatabase> db;
+    NiceMock<MediaInformationMock> mediaInformation;
 
+    ON_CALL(mediaInformation, getInformation).WillByDefault(Return(FileInformation{}));
     ON_CALL(coreFactory, getExifReaderFactory).WillByDefault(ReturnRef(exifFactoryMock));
     ON_CALL(coreFactory, getConfiguration).WillByDefault(ReturnRef(configurationMock));
     ON_CALL(coreFactory, getLoggerFactory).WillByDefault(ReturnRef(loggerFactoryMock));
@@ -57,7 +61,7 @@ TEST(PhotoInfoUpdaterTest, exifUpdate)
     Photo::Data newPhotoData(photo);
     newPhotoData.flags[Photo::FlagsE::ExifLoaded] = 1;
 
-    PhotoInfoUpdater updater(taskExecutor, &coreFactory, db);
+    PhotoInfoUpdater updater(taskExecutor, mediaInformation, &coreFactory, db);
 
     Photo::SharedData sharedData = std::make_shared<Photo::SafeData>(photo);
     updater.updateTags(sharedData);

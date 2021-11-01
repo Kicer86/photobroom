@@ -55,6 +55,7 @@ class PhotosAnalyzerImpl: public QObject
         using PhotosQueue = AccumulativeQueue<Photo::DataDelta>;
 
         ObservableTaskExecutor<TasksQueue> m_taskQueue;
+        MediaInformation m_mediaInformation;
         PhotoInfoUpdater m_updater;
         PhotosQueue m_updateQueue;
         WorkState m_workState;

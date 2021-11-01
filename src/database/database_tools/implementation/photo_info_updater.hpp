@@ -20,7 +20,7 @@ struct UpdaterTask;
 class PhotoInfoUpdater final: public QObject
 {
     public:
-        explicit PhotoInfoUpdater(ITaskExecutor &, ICoreFactoryAccessor *, Database::IDatabase& db);
+        explicit PhotoInfoUpdater(ITaskExecutor &, IMediaInformation &, ICoreFactoryAccessor *, Database::IDatabase& db);
         ~PhotoInfoUpdater();
 
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
@@ -33,7 +33,7 @@ class PhotoInfoUpdater final: public QObject
     private:
         friend struct UpdaterTask;
 
-        MediaInformation m_mediaInformation;
+        IMediaInformation& m_mediaInformation;
         std::unique_ptr<ILogger> m_logger;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase& m_db;

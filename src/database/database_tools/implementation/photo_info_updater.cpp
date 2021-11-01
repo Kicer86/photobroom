@@ -180,8 +180,8 @@ namespace
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
-    m_mediaInformation(coreFactory),
+PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, IMediaInformation& mediaInformation, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
+    m_mediaInformation(mediaInformation),
     m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db),
