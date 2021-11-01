@@ -20,6 +20,7 @@
 #ifndef PHOTOINFORMATION_HPP
 #define PHOTOINFORMATION_HPP
 
+#include "iexif_reader.hpp"
 #include "imedia_information.hpp"
 #include "ilogger.hpp"
 
@@ -42,7 +43,7 @@ class CORE_EXPORT ImageMediaInformation
         IExifReaderFactory& m_exif;
         ILogger& m_logger;
 
-        std::optional<QSize> size(const QString &) const;
+        std::optional<QSize> size(const QString &, IExifReader &) const;
 };
 
 #endif // PHOTOINFORMATION_H

@@ -36,14 +36,16 @@ ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif, ILogger& 
 
 FileInformation ImageMediaInformation::getInformation(const QString& path) const
 {
+    IExifReader& exif = m_exif.get();
+
     FileInformation info;
-    info.common.dimension = *size(path);
+    info.common.dimension = *size(path, exif);
 
     return info;
 }
 
 
-std::optional<QSize> ImageMediaInformation::size(const QString& path) const
+std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReader& exif) const
 {
     // Here we could have used exif's
     // Exif.Photo.PixelYDimension or
@@ -53,19 +55,17 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path) const
     // and exif's dimensions were not touched. It will cause wrong results.
     // Therefore QImageReader is used here as basic source of image resolution.
 
-    IExifReader& exif_reader = m_exif.get();
-
     std::optional<QSize> result;
 
     const QImageReader reader(path);
     result = reader.size();
 
-    const bool has = exif_reader.hasExif(path);
+    const bool has = exif.hasExif(path);
 
     if (has)
     {
-        const std::optional<std::any> xdim = exif_reader.get(path, IExifReader::TagType::PixelXDimension);
-        const std::optional<std::any> ydim = exif_reader.get(path, IExifReader::TagType::PixelYDimension);
+        const std::optional<std::any> xdim = exif.get(path, IExifReader::TagType::PixelXDimension);
+        const std::optional<std::any> ydim = exif.get(path, IExifReader::TagType::PixelYDimension);
 
         if (xdim.has_value() && ydim.has_value())
         {
@@ -87,7 +87,7 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path) const
         }
 
         // apply orientation if available
-        const std::optional<std::any> orientation_raw = exif_reader.get(path, IExifReader::TagType::Orientation);
+        const std::optional<std::any> orientation_raw = exif.get(path, IExifReader::TagType::Orientation);
 
         int orientation = 0;
         if (orientation_raw.has_value())
