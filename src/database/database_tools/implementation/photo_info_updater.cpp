@@ -116,9 +116,9 @@ namespace
             const FileInformation info = m_mediaInformation->getInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
-            if (info.common.dimension.isValid())
+            if (info.common.dimension.has_value())
             {
-                photoDelta->geometry = info.common.dimension;
+                photoDelta->geometry = info.common.dimension.value();
                 photoDelta->flags[Photo::FlagsE::GeometryLoaded] = 1;
             }
             else
@@ -160,12 +160,12 @@ namespace
 
             auto photoDelta = m_photoInfo->lock();
 
-            if (info.common.creationTime.isValid())
+            if (info.common.creationTime.has_value())
             {
                 Tag::TagsList tags = photoDelta->tags;
 
-                tags[TagTypes::Date] = info.common.creationTime.date();
-                tags[TagTypes::Time] = info.common.creationTime.time();
+                tags[TagTypes::Date] = info.common.creationTime->date();
+                tags[TagTypes::Time] = info.common.creationTime->time();
 
                 photoDelta->tags = tags;
             }

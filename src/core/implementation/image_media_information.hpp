@@ -44,7 +44,7 @@ class CORE_EXPORT ImageMediaInformation
         ILogger& m_logger;
 
         std::optional<QSize> size(const QString &, IExifReader &) const;
-        QDateTime creationTime(const QString &, IExifReader &) const;
+        std::optional<QDateTime> creationTime(const QString &, IExifReader &) const;
 };
 
 #endif // PHOTOINFORMATION_H

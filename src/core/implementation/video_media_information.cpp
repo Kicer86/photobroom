@@ -40,10 +40,9 @@ VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
     const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath);
-    const auto resolution = videoDetailsReader.resolutionOf(path);
 
     FileInformation info;
-    info.common.dimension = resolution? *resolution: QSize{};
+    info.common.dimension = videoDetailsReader.resolutionOf(path);
 
     return info;
 }

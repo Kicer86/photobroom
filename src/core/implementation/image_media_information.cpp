@@ -39,7 +39,7 @@ FileInformation ImageMediaInformation::getInformation(const QString& path) const
     IExifReader& exif = m_exif.get();
 
     FileInformation info;
-    info.common.dimension = *size(path, exif);
+    info.common.dimension = size(path, exif);
     info.common.creationTime = creationTime(path, exif);
 
     return info;
@@ -59,7 +59,10 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
     std::optional<QSize> result;
 
     const QImageReader reader(path);
-    result = reader.size();
+    const QSize size = reader.size();
+
+    if (size.isValid())
+        result = size;
 
     const bool has = exif.hasExif(path);
 
@@ -74,7 +77,7 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
             const long y = std::any_cast<long>(*ydim);
 
             // use exif if QImageReader could not handle image
-            if (result->isEmpty())
+            if (!result)
                 result = QSize(x, y);
             else if (x != result->width() || y != result->height())   // perform validation for debug purposes
                 m_logger.warning(
@@ -105,9 +108,9 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 }
 
 
-QDateTime ImageMediaInformation::creationTime(const QString& path, IExifReader& exif) const
+std::optional<QDateTime> ImageMediaInformation::creationTime(const QString& path, IExifReader& exif) const
 {
-    QDateTime result;
+    std::optional<QDateTime> result;
 
     const auto datetime_raw = exif.get(path, IExifReader::TagType::DateTimeOriginal);
 

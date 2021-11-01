@@ -9,8 +9,8 @@
 
 struct MediaFile
 {
-    QSize dimension;
-    QDateTime creationTime;
+    std::optional<QSize> dimension;
+    std::optional<QDateTime> creationTime;
 };
 
 struct ImageFile
