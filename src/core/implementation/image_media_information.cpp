@@ -100,7 +100,7 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
         // orientations 5, 6, 7 and 8 require 90⁰ degree rotations which swap dimensions
         const bool needsRotation = orientation > 4;
 
-        if (needsRotation)
+        if (needsRotation && result)
             result->transpose();
     }
 
@@ -127,8 +127,12 @@ std::optional<QDateTime> ImageMediaInformation::creationTime(const QString& path
 
             const QDate date = QDate::fromString(date_raw, "yyyy:MM:dd");
             const QTime time = QTime::fromString(time_raw, "hh:mm:ss");
+            const QDateTime datetime(date, time);
 
-            result = QDateTime(date, time);
+            if (datetime.isValid())
+                result = datetime;
+            else
+                m_logger.warning(QString("File %1 contains broken exif data").arg(path));
         }
     }
 
