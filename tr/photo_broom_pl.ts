@@ -782,7 +782,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+154"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+153"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -803,7 +803,7 @@ Kod błędu: %1</translation>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+37"/>
         <source>exposure (EV)</source>
         <translation>ekspozycja (EV)</translation>
     </message>
