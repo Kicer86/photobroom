@@ -23,6 +23,7 @@
 
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
+#include <core/utils.hpp>
 #include <system/system.hpp>
 
 
@@ -259,8 +260,7 @@ namespace GeneratorUtils
     }
 
 
-    QStringList BreakableTask::rotatePhotos(const QStringList& photos,
-                                            const QString& storage)
+    QStringList BreakableTask::preparePhotos(const QStringList& photos, int scale, const QString& storage)
     {
         emit operation(tr("Preparing photos"));
         emit progress(0);
@@ -268,7 +268,7 @@ namespace GeneratorUtils
         IExifReader& exif = m_exif.get();
 
         int photo_index = 0;
-        QStringList rotated_photos;
+        QStringList prepared_photos;
 
         const int p_s = photos.size();
 
@@ -279,15 +279,20 @@ namespace GeneratorUtils
                                     .arg(storage)
                                     .arg(photo_index);
 
-            Image::normalize(photo, location, exif);
+            const OrientedImage normalized = Image::normalized(photo, exif);
+            const QImage scaled = scale == 100?
+                normalized.get():
+                normalized->scaled(normalized->width() * scale / 100, normalized->height() * scale / 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-            rotated_photos << location;
+            scaled.save(location);
+
+            prepared_photos << location;
             photo_index++;
 
             emit progress( (i + 1) * 100 /p_s );
         }
 
-        return rotated_photos;
+        return prepared_photos;
     }
 
 }

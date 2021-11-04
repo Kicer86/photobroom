@@ -4,22 +4,22 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="74"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
         <source>Error occured during external program execution</source>
         <translation>Error occured during external program execution</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="85"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="88"/>
         <source>Preparing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="102"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
         <source>Stabilizing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="155"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="153"/>
         <source>Loading photos to be animated</source>
         <translation type="unfinished"></translation>
     </message>
@@ -215,7 +215,7 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="158"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="159"/>
         <source>Saving stabilized images</source>
         <translation type="unfinished"></translation>
     </message>
@@ -231,7 +231,7 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::MagickOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="109"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="110"/>
         <source>Assembling final file</source>
         <translation>Assembling final file</translation>
     </message>
@@ -748,12 +748,12 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="291"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="294"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="315"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
