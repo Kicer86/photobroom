@@ -199,7 +199,7 @@ namespace GeneratorUtils
 
             virtual void run() = 0;
 
-            QStringList preparePhotos(const QStringList& photos, int scale, const QString& storage);
+            QStringList preparePhotos(const QStringList& photos, int scale);
 
         signals:
             void operation(const QString &) const;

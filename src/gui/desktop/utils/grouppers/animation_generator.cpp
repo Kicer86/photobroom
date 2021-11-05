@@ -60,9 +60,7 @@ void AnimationGenerator::run()
     // stabilize?
     try
     {
-        auto dirForPreparedPhotos = System::createTmpDir("AG_prepared", System::Confidential);
-
-        const QStringList prepared = preparePhotos(m_data.photos, m_data.scale, dirForPreparedPhotos->path());
+        const QStringList prepared = preparePhotos(m_data.photos, m_data.scale);
         const QStringList images_to_be_used = m_data.stabilize?
                                               stabilize(prepared):
                                               prepared;

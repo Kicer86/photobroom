@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+75"/>
         <source>Error occured during external program execution</source>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>

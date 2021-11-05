@@ -226,7 +226,7 @@ namespace GeneratorUtils
 
     BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory& exif):
         QObject(),
-        m_tmpDir(System::createTmpDir("BT_tmp", System::Confidential)),
+        m_tmpDir(System::createTmpDir("BT_tmp", System::Confidential | System::BigFiles)),
         m_storage(storage),
         m_runner(),
         m_exif(exif)
@@ -260,7 +260,7 @@ namespace GeneratorUtils
     }
 
 
-    QStringList BreakableTask::preparePhotos(const QStringList& photos, int scale, const QString& storage)
+    QStringList BreakableTask::preparePhotos(const QStringList& photos, int scale)
     {
         emit operation(tr("Preparing photos"));
         emit progress(0);
@@ -276,7 +276,7 @@ namespace GeneratorUtils
         {
             const QString& photo = photos[i];
             const QString location = QString("%1/%2.tiff")
-                                    .arg(storage)
+                                    .arg(m_tmpDir->path())
                                     .arg(photo_index);
 
             const OrientedImage normalized = Image::normalized(photo, exif);

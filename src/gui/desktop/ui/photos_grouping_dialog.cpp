@@ -73,7 +73,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
-    m_tmpDir(System::createTmpDir("PGD_wd", System::Confidential)),
+    m_tmpDir(System::createTmpDir("PGD_wd", System::Confidential | System::BigFiles)),
     m_sortProxy(),
     m_representativeFile(),
     m_photos(photos),
