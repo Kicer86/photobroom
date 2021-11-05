@@ -40,7 +40,7 @@ namespace
         const QFileInfo pathInfo(path);
         const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
-        std::filesystem::rename(sourcePath, uniqueFileName);
+        std::filesystem::copy(sourcePath, uniqueFileName);
 
         return QString::fromStdString(uniqueFileName.string());
     }

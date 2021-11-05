@@ -73,8 +73,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photo
                                            Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
-    m_model(),
-    m_tmpDir(System::createTmpDir("PGD_wd", System::Confidential)),
+    m_tmpDir(System::createTmpDir("PGD_wd", System::Confidential | System::BigFiles)),
     m_sortProxy(),
     m_representativeFile(),
     m_photos(photos),
@@ -344,13 +343,17 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 
     IExifReader& exif = m_exifReaderFactory.get();
 
+    const QRegularExpression burstRE(".*BURST([0-9]+).*");
+
     for(const Photo::Data& photo: photos)
     {
         const QString& path = photo.path;
         const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
         const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
 
-        const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): "-";
+        const QRegularExpressionMatch burstMatch = burstRE.match(path);
+        const QString burst_str = burstMatch.hasMatch()? burstMatch.captured(1) : "-";
+        const QString sequence_str = sequence_number.has_value()? QString::number( std::any_cast<int>(*sequence_number)): burst_str;
         const QString exposure_str = exposure_number.has_value()? QString::number( std::any_cast<float>(*exposure_number)): "-";
 
         QStandardItem* pathItem = new QStandardItem(path);
