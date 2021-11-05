@@ -1,6 +1,7 @@
 
 #include "notifications_accumulator.hpp"
 
+
 namespace Database
 {
 
@@ -15,13 +16,25 @@ namespace Database
         m_photosModified.insert(photos.begin(), photos.end());
     }
 
+
+    void NotificationsAccumulator::photosRemoved(const std::vector<Photo::Id>& photos)
+    {
+        m_photosRemoved.insert(m_photosRemoved.end(), photos.begin(), photos.end());
+    }
+
+
     void NotificationsAccumulator::fireChanges()
     {
+        raiseDeletion();
+
         if (m_photosAdded.empty() == false)
             emit photosAddedSignal(m_photosAdded);
 
         if (m_photosModified.empty() == false)
             emit photosModifiedSignal(m_photosModified);
+
+        if (m_photosRemoved.empty() == false)
+            emit photosRemovedSignal(m_photosRemoved);
 
         clearNotifications();
     }
@@ -37,6 +50,17 @@ namespace Database
     {
         m_photosAdded.clear();
         m_photosModified.clear();
+        m_photosRemoved.clear();
+    }
+
+
+    void NotificationsAccumulator::raiseDeletion()
+    {
+        for(const Photo::Id& id: m_photosRemoved)
+        {
+            std::erase(m_photosAdded, id);
+            m_photosModified.erase(id);
+        }
     }
 
 }
