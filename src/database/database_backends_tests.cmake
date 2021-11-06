@@ -9,7 +9,7 @@ addTestTarget(database_backends
                     backends/sql_backends/sqlite_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/mysql_server.cpp
-                    # memory backend linked
+                    backends/memory_backend/memory_backend.cpp
 
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
@@ -38,17 +38,17 @@ addTestTarget(database_backends
                     unit_tests_for_backends/transaction_accumulations_tests.cpp
 
                     # dependencies
+                    database_tools/implementation/tag_info_collector.cpp
                     implementation/apeople_information_accessor.cpp
                     implementation/aphoto_change_log_operator.cpp
                     implementation/notifications_accumulator.cpp
+                    notifications_accumulator.hpp
 
                     # main()
                     unit_tests_for_backends/main.cpp
 
                 LIBRARIES
                     core
-                    database
-                    database_memory_backend
                     plugins
                     sample_dbs
                     system
@@ -62,9 +62,12 @@ addTestTarget(database_backends
                 INCLUDES
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/memory_backend
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/sqlite_backend
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/mysql_backend
+                    ${OPENLIBRARY_INCLUDE_DIRS}
 
                 DEFINITIONS
                     STATIC_PLUGINS                          # build in all plugins
