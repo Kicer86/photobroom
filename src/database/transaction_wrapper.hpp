@@ -8,7 +8,7 @@
 namespace Database
 {
     template<typename T>
-    class TransactionWrapper: public Database::ITransaction, T
+    class TransactionWrapper final: public Database::ITransaction, T
     {
         public:
             template<typename ...Args>
