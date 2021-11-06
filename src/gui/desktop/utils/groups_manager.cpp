@@ -182,6 +182,8 @@ void GroupsManager::ungroup(Database::IDatabase& db, const Group::Id& gid)
 {
     db.exec([gid](Database::IBackend& backend)
     {
+        auto tr = backend.openTransaction();
+
         // dissolve group
         const Photo::Id repId = backend.groupOperator().removeGroup(gid);
 
