@@ -3,8 +3,6 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(Qt6 REQUIRED COMPONENTS Gui Sql Test)
 
-add_definitions(-DSTATIC_PLUGINS)  # build in all plugins
-
 addTestTarget(database_backends
                 SOURCES
                     # engines
@@ -69,8 +67,8 @@ addTestTarget(database_backends
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends/mysql_backend
 
                 DEFINITIONS
-                    STATIC_PLUGINS
-                    DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
-                    DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
-                    DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    STATIC_PLUGINS                          # build in all plugins
+                    DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )
