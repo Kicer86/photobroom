@@ -78,6 +78,8 @@ namespace Database
                 this, &ASqlBackend::photosAdded, Qt::DirectConnection);
         connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosModifiedSignal,
                 this, &ASqlBackend::photosModified, Qt::DirectConnection);
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosRemovedSignal,
+                this, &ASqlBackend::photosRemoved, Qt::DirectConnection);
     }
 
 
