@@ -15,7 +15,11 @@ class DataFromPathExtractor
         Tag::TagsList extract(const QString& path) const;
 
     private:
-        QRegularExpression m_expr;
+        QRegularExpression m_expr1;
+        QRegularExpression m_expr2;
+
+        Tag::TagsList extractRegex1(const QString& path) const;
+        Tag::TagsList extractRegex2(const QString& path) const;
 };
 
 
