@@ -22,6 +22,7 @@
 
 #include <optional>
 
+#include <QDateTime>
 #include <QSize>
 #include <QStringList>
 
@@ -40,10 +41,11 @@ class FFMpegVideoDetailsReader
 
         virtual ~FFMpegVideoDetailsReader() = default;
 
-        bool hasDetails() const;                  // checks if given file contains any data to be read
+        bool hasDetails() const;                        // checks if given file contains any data to be read
 
         std::optional<QSize> resolutionOf() const;
-        int durationOf() const;                   // video duration in seconds
+        int durationOf() const;                         // video duration in seconds
+        std::optional<QDateTime> creationTime() const;  // creation time from video metadata
 
     private:
         const QString m_ffprobePath;

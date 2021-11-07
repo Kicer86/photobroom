@@ -116,8 +116,8 @@ std::optional<QDateTime> ImageMediaInformation::creationTime(const QString& path
 
     if (datetime_raw.has_value())
     {
-        const auto datetime = std::any_cast<std::string>(*datetime_raw);
-        const QString v(datetime.c_str());
+        const auto datetimeStr = std::any_cast<std::string>(*datetime_raw);
+        const QString v(datetimeStr.c_str());
         const QStringList time_splitted = v.split(" ");
 
         if (time_splitted.size() == 2)

@@ -43,6 +43,7 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
 
     FileInformation info;
     info.common.dimension = videoDetailsReader.resolutionOf();
+    info.common.creationTime = videoDetailsReader.creationTime();
 
     return info;
 }

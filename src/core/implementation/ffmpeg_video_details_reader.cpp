@@ -23,7 +23,8 @@
 
 #include <QProcess>
 #include <QRegularExpression>
-#include <QTime>
+#include <QDateTime>
+#include <QTimeZone>
 
 
 FFMpegVideoDetailsReader::FFMpegVideoDetailsReader(const QString& ffmpeg, const QString& path)
@@ -142,4 +143,33 @@ int FFMpegVideoDetailsReader::rotation() const
     }
 
     return rotation;
+}
+
+
+std::optional<QDateTime> FFMpegVideoDetailsReader::creationTime() const
+{
+    QRegularExpression rotation_regex(" *creation_time *: ([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2}).*");
+    std::optional<QDateTime> time;
+
+    for(const QString& line: m_output)
+    {
+        const auto match = rotation_regex.match(line);
+
+        if (match.hasMatch())
+        {
+            const QStringList captured = match.capturedTexts();
+            const int y = captured[1].toInt();
+            const int m = captured[2].toInt();
+            const int d = captured[3].toInt();
+            const int hh = captured[4].toInt();
+            const int mm = captured[5].toInt();
+            const int ss = captured[6].toInt();
+
+            time = QDateTime(QDate(y, m, d), QTime(hh, mm, ss), QTimeZone::utc()).toLocalTime();
+
+            break;
+        }
+    }
+
+    return time;
 }
