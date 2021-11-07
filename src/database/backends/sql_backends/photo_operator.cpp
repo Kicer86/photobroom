@@ -57,11 +57,16 @@ namespace Database
         };
     }
 
-    PhotoOperator::PhotoOperator(const QString& connection, ISqlQueryExecutor* executor, ILogger* logger, IBackend* backend):
+    PhotoOperator::PhotoOperator(const QString& connection,
+                                 ISqlQueryExecutor* executor,
+                                 ILogger* logger,
+                                 IBackend* backend,
+                                 NotificationsAccumulator& notificationsAccumulator):
         m_connectionName(connection),
         m_executor(executor),
         m_logger(logger),
-        m_backend(backend)
+        m_backend(backend),
+        m_notifications(notificationsAccumulator)
     {
 
     }
@@ -115,17 +120,15 @@ namespace Database
             QString("DROP TABLE drop_indices")
         };
 
-        status = db.transaction();
+        auto tr = m_backend->openTransaction();
 
         if (status)
             status = m_executor->exec(queries, &query);
 
         if (status)
-            status = db.commit();
+            m_notifications.photosRemoved(ids);
         else
-            db.rollback();
-
-        emit m_backend->photosRemoved(ids);
+            tr->abort();
 
         return status;
     }
