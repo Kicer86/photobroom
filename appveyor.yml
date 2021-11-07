@@ -8,6 +8,7 @@ branches:
     - master
     - appveyor
     - v1.4-branch
+    - v1.5-branch
 
 configuration:
     - Release

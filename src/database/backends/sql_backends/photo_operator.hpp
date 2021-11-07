@@ -22,6 +22,7 @@
 #include <QString>
 
 #include <database/iphoto_operator.hpp>
+#include <database/notifications_accumulator.hpp>
 
 
 class QSqlQuery;
@@ -35,7 +36,7 @@ namespace Database
     class PhotoOperator final: public IPhotoOperator
     {
         public:
-            PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *);
+            PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *, NotificationsAccumulator &);
 
             bool removePhoto(const Photo::Id &) override;
             bool removePhotos(const Filter &) override;
@@ -56,6 +57,7 @@ namespace Database
             ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
             IBackend* m_backend;
+            NotificationsAccumulator& m_notifications;
 
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
             void processAction(ActionContext &, const Action &) const;

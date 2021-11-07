@@ -574,3 +574,20 @@ TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
     const auto path = model.getPhotoPath(1);
     EXPECT_EQ(path, QUrl::fromLocalFile("/some/path2.jpeg"));
 }
+
+
+TEST_F(FlatModelTest, includeIgnoredPhotosIfTheyMatchNow)
+{
+    const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
+    const auto final_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2), Photo::Id(3)};
+
+    EXPECT_CALL(photoOperator, onPhotos(_, _))
+        .WillOnce(Return(initial_photos_set))                 // first call after db set
+        .WillOnce(Return(final_photos_set));                  // called after photo modification. WARNING: this is implementation aware
+
+    model.setDatabase(&db);
+    EXPECT_EQ(initial_photos_set, model.photos());
+
+    backend.photosModified({Photo::Id(3)});                   // photo with id = 3 changed and now matches filters
+    EXPECT_EQ(final_photos_set, model.photos());
+}

@@ -5,18 +5,23 @@ find_package(Qt6 REQUIRED COMPONENTS Sql Test)
 
 addTestTarget(database
                 SOURCES
+                    backends/memory_backend/memory_backend.cpp
                     backends/sql_backends/generic_sql_query_constructor.cpp
                     backends/sql_backends/sql_filter_query_generator.cpp
                     backends/sql_backends/query_structs.cpp
                     database_tools/implementation/json_to_backend.cpp
                     database_tools/implementation/photo_info_updater.cpp
                     database_tools/implementation/series_detector.cpp
+                    database_tools/implementation/tag_info_collector.cpp
+                    implementation/apeople_information_accessor.cpp
                     implementation/aphoto_change_log_operator.cpp
                     implementation/filter.cpp
                     implementation/notifications_accumulator.cpp
+                    implementation/person_data.cpp
                     implementation/photo_data.cpp
                     implementation/photo_info.cpp
-                    # memory backend linked
+                    implementation/photo_utils.cpp
+                    notifications_accumulator.hpp
 
                     # tests:
                     unit_tests/data_delta_tests.cpp
@@ -37,7 +42,6 @@ addTestTarget(database
                 LIBRARIES
                     core
                     database
-                    database_memory_backend
                     sample_dbs
                     Qt::Core
                     Qt::Gui
@@ -51,7 +55,11 @@ addTestTarget(database
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
-                                        
+                    ${CMAKE_CURRENT_BINARY_DIR}/backends/memory_backend
+
                 DEFINITIONS
-                    DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    STATIC_PLUGINS
+                    DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )

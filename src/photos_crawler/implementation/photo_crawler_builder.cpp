@@ -18,8 +18,5 @@ PhotoCrawlerBuilder::~PhotoCrawlerBuilder()
 
 std::unique_ptr<IAnalyzer> PhotoCrawlerBuilder::buildFullFileAnalyzer()
 {
-    auto analyzer = std::make_unique<FileAnalyzer>();
-
-    // TODO: added due to bug in clang: http://stackoverflow.com/questions/36752678/clang-returning-stdunique-ptr-with-type-conversion
-    return std::move(analyzer);
+    return std::make_unique<FileAnalyzer>();
 }

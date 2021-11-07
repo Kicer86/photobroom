@@ -124,7 +124,7 @@ void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promis
 
         auto transaction = backend.openTransaction();
 
-        for (int i = 0; i < groupSize; i++)
+        for (std::size_t i = 0; i < groupSize; i++)
         {
             const auto& group = groups[i];
             const auto& photos = group.members;
@@ -182,6 +182,8 @@ void GroupsManager::ungroup(Database::IDatabase& db, const Group::Id& gid)
 {
     db.exec([gid](Database::IBackend& backend)
     {
+        auto tr = backend.openTransaction();
+
         // dissolve group
         const Photo::Id repId = backend.groupOperator().removeGroup(gid);
 

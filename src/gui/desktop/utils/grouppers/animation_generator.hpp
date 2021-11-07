@@ -42,10 +42,10 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             QString format;
             double fps;
             double delay;
-            double scale;
+            int scale;                          // % of original size
             bool stabilize;
 
-            Data(): storage(), magickPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(0.0), stabilize(false) {}
+            Data(): storage(), magickPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(100), stabilize(false) {}
         };
 
         AnimationGenerator(const Data& data, ILogger *, IExifReaderFactory &);
@@ -61,7 +61,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
         Data m_data;
         ILogger* m_logger;
 
-        QStringList stabilize();
+        QStringList stabilize(const QStringList &);
         QString generateAnimation(const QStringList &);
         QString format() const;
 };

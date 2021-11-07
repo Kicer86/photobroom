@@ -1,3 +1,4 @@
+
 /*
  * Photo Broom - photos management tool.
  * This class is meant to be included to each project using it.
@@ -77,6 +78,8 @@ namespace Database
                 this, &ASqlBackend::photosAdded, Qt::DirectConnection);
         connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosModifiedSignal,
                 this, &ASqlBackend::photosModified, Qt::DirectConnection);
+        connect(&m_notificationsAccumulator, &NotificationsAccumulator::photosRemovedSignal,
+                this, &ASqlBackend::photosRemoved, Qt::DirectConnection);
     }
 
 
@@ -143,7 +146,8 @@ namespace Database
             m_photoOperator = std::make_unique<PhotoOperator>(m_connectionName,
                                                               &m_executor,
                                                               m_logger.get(),
-                                                              this
+                                                              this,
+                                                              m_notificationsAccumulator
                                                              );
 
         return *m_photoOperator.get();

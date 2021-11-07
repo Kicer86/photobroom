@@ -60,9 +60,10 @@ void AnimationGenerator::run()
     // stabilize?
     try
     {
+        const QStringList prepared = preparePhotos(m_data.photos, m_data.scale);
         const QStringList images_to_be_used = m_data.stabilize?
-                                              stabilize():
-                                              m_data.photos;
+                                              stabilize(prepared):
+                                              prepared;
 
         // generate animation (if there was no cancel during stabilization)
         const QString animation_path = generateAnimation(images_to_be_used);
@@ -76,22 +77,17 @@ void AnimationGenerator::run()
 }
 
 
-QStringList AnimationGenerator::stabilize()
+QStringList AnimationGenerator::stabilize(const QStringList& photos)
 {
     using GeneratorUtils::AISOutputAnalyzer;
 
-    const int photos_count = m_data.photos.size();
+    const int photos_count = photos.size();
 
     emit operation(tr("Preparing photos"));
     emit progress(0);
     // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
-
-    // align_image_stack doesn't respect photo's rotation
-    // generate rotated copies of original images
-    auto dirForRotatedPhotos = System::createTmpDir("AG_rotate", System::Confidential);
-    const QStringList rotated_photos = rotatePhotos(m_data.photos, dirForRotatedPhotos->path());
 
     AISOutputAnalyzer analyzer(m_logger, photos_count);
     connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);
@@ -112,7 +108,7 @@ QStringList AnimationGenerator::stabilize()
             "-d", "-i", "-x", "-y", "-z",
             "-s", "0",
             "-a", output_prefix,
-            rotated_photos);
+            photos);
 
     if (m_runner.getExitCode() != 0)
     {
@@ -167,7 +163,6 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
             "+repage",                                       // [1]
             "-auto-orient",
             "-loop", "0",
-            "-scale", QString::number(m_data.scale) + "%",
             location);
 
     return location;

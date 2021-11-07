@@ -499,7 +499,7 @@ void MainWindow::showContextMenu(const QPoint& pos)
 
     if (chosenAction == groupPhotos)
     {
-        GroupsManager::groupIntoCollage(m_coreAccessor->getExifReaderFactory(), *m_currentPrj.get(), photos);
+        GroupsManager::groupIntoUnified(*m_currentPrj.get(), photos);
     }
     else if (chosenAction == manageGroup)
     {

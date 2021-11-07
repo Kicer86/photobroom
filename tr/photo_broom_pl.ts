@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+74"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+75"/>
         <source>Error occured during external program execution</source>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
@@ -14,7 +14,7 @@
         <translation>Przygotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+12"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
@@ -220,7 +220,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+158"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+159"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -228,7 +228,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+107"/>
+        <location line="+106"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -236,7 +236,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>GeneratorUtils::MagickOutputAnalyzer</name>
     <message>
-        <location line="-156"/>
+        <location line="-155"/>
         <source>Assembling final file</source>
         <translation>Składanie pliku wynikowego</translation>
     </message>
@@ -772,17 +772,17 @@ Kod błędu: %1</translation>
         <translation>wysokość:</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+59"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+60"/>
         <source>Preview:</source>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+154"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+153"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -803,12 +803,12 @@ Kod błędu: %1</translation>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+37"/>
         <source>exposure (EV)</source>
         <translation>ekspozycja (EV)</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-57"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="-36"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>

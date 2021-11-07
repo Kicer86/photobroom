@@ -19,6 +19,7 @@ namespace Database
 
             void photosAdded(const std::vector<Photo::Id> &);
             void photosModified(const std::set<Photo::Id> &);
+            void photosRemoved(const std::vector<Photo::Id> &);
 
             void fireChanges();
             void ignoreChanges();
@@ -26,12 +27,15 @@ namespace Database
         private:
             std::vector<Photo::Id> m_photosAdded;
             std::set<Photo::Id> m_photosModified;
+            std::vector<Photo::Id> m_photosRemoved;
 
             void clearNotifications();
+            void raiseDeletion();
 
         signals:
             void photosAddedSignal(const std::vector<Photo::Id> &) const;
             void photosModifiedSignal(const std::set<Photo::Id> &) const;
+            void photosRemovedSignal(const std::vector<Photo::Id> &) const;
     };
 }
 
