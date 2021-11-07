@@ -148,7 +148,7 @@ int FFMpegVideoDetailsReader::rotation() const
 
 std::optional<QDateTime> FFMpegVideoDetailsReader::creationTime() const
 {
-    QRegularExpression rotation_regex(" *creation_time *: ([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2}).*");
+    QRegularExpression rotation_regex(" *creation_time *: ([0-9]{4})-([0-9]{2})-([0-9]{2})[T ]([0-9]{2}):([0-9]{2}):([0-9]{2})(.000000Z)?");
     std::optional<QDateTime> time;
 
     for(const QString& line: m_output)
@@ -165,7 +165,9 @@ std::optional<QDateTime> FFMpegVideoDetailsReader::creationTime() const
             const int mm = captured[5].toInt();
             const int ss = captured[6].toInt();
 
-            time = QDateTime(QDate(y, m, d), QTime(hh, mm, ss), QTimeZone::utc()).toLocalTime();
+            time = captured.size() == 8?        // "Z" detected and captured? UTC time, local otherwise
+                QDateTime(QDate(y, m, d), QTime(hh, mm, ss), QTimeZone::utc()).toLocalTime():
+                QDateTime(QDate(y, m, d), QTime(hh, mm, ss));
 
             break;
         }
