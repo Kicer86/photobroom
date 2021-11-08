@@ -129,7 +129,7 @@ namespace ol
                     m_is_not_full.notify_one();
                 }
 
-                return std::move(result);
+                return result;
             }
 
             //! Get data.
@@ -153,7 +153,7 @@ namespace ol
                     m_is_not_full.notify_one();
                 }
 
-                return std::move(result);
+                return result;
             }
 
             //! Take objects count.
@@ -171,7 +171,6 @@ namespace ol
                 const bool result = m_queue.empty();
                 return result;
             }
-
 
             //! Clears queue's content
             void clear()

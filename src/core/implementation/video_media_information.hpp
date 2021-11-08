@@ -26,19 +26,19 @@
 
 struct IConfiguration;
 
-class FFmpegMediaInformation : public IMediaInformation
+class VideoMediaInformation
 {
     public:
-        explicit FFmpegMediaInformation(IConfiguration &);
-        FFmpegMediaInformation(const FFmpegMediaInformation &) = delete;
-        FFmpegMediaInformation(FFmpegMediaInformation &&) = delete;
+        explicit VideoMediaInformation(IConfiguration &);
+        VideoMediaInformation(const VideoMediaInformation &) = delete;
+        VideoMediaInformation(VideoMediaInformation &&) = delete;
 
-        FFmpegMediaInformation& operator=(const FFmpegMediaInformation &) = delete;
-        FFmpegMediaInformation& operator=(FFmpegMediaInformation &&) = delete;
+        VideoMediaInformation& operator=(const VideoMediaInformation &) = delete;
+        VideoMediaInformation& operator=(VideoMediaInformation &&) = delete;
 
-        virtual ~FFmpegMediaInformation() = default;
+        virtual ~VideoMediaInformation() = default;
 
-        std::optional<QSize> size(const QString &) const override;
+        FileInformation getInformation(const QString &) const;
 
     private:
         QString m_ffprobePath;

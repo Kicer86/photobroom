@@ -14,7 +14,6 @@
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/iconfiguration.hpp>
-#include <core/iexif_reader.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/ilogger.hpp>
 #include <core/imedia_information.hpp>
@@ -114,14 +113,13 @@ namespace
         void perform() override
         {
             const QString path = m_photoInfo->lock()->path;
-            const std::optional<QSize> size = m_mediaInformation->size(path);
+            const FileInformation info = m_mediaInformation->getInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
-            if (size.has_value())
+            if (info.common.dimension.has_value())
             {
-                photoDelta->geometry = *size;
+                photoDelta->geometry = info.common.dimension.value();
                 photoDelta->flags[Photo::FlagsE::GeometryLoaded] = 1;
-
             }
             else
             {
@@ -139,10 +137,11 @@ namespace
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, IExifReaderFactory& exifReaderFactory, const Photo::SharedData& photoInfo)
+        TagsCollector(PhotoInfoUpdater* updater, IMediaInformation& mediaInformation, const Photo::SharedData& photoInfo)
             : UpdaterTask(updater, photoInfo)
-            , m_exifReaderFactory(exifReaderFactory)
+            , m_mediaInformation(mediaInformation)
         {
+
         }
 
         TagsCollector(const TagsCollector &) = delete;
@@ -155,38 +154,33 @@ namespace
 
         void perform() override
         {
-            IExifReader& feeder = m_exifReaderFactory.get();
-
             // collect data
             const QString path = m_photoInfo->lock()->path;
-            const Tag::TagsList new_tags = feeder.getTagsFor(path);
+            const FileInformation info = m_mediaInformation.getInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
-            const Tag::TagsList& cur_tags = photoDelta->tags;
 
-            // merge new_tags with cur_tags
-            Tag::TagsList tags = cur_tags;
-
-            for (const auto& entry: new_tags)
+            if (info.common.creationTime.has_value())
             {
-                auto it = tags.find(entry.first);
+                Tag::TagsList tags = photoDelta->tags;
 
-                if (it == tags.end())   // no such tag yet?
-                    tags.insert(entry);
+                tags[TagTypes::Date] = info.common.creationTime->date();
+                tags[TagTypes::Time] = info.common.creationTime->time();
+
+                photoDelta->tags = tags;
             }
 
             photoDelta->flags[Photo::FlagsE::ExifLoaded] = 1;
-            photoDelta->tags = tags;
         }
 
-        IExifReaderFactory& m_exifReaderFactory;
+        IMediaInformation& m_mediaInformation;
     };
 
 }
 
 
-PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
-    m_mediaInformation(coreFactory),
+PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, IMediaInformation& mediaInformation, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
+    m_mediaInformation(mediaInformation),
     m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
     m_coreFactory(coreFactory),
     m_db(db),
@@ -220,7 +214,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 
 void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 {
-    auto task = std::make_unique<TagsCollector>(this, m_coreFactory->getExifReaderFactory(), photoInfo);
+    auto task = std::make_unique<TagsCollector>(this, m_mediaInformation, photoInfo);
 
     addTask(std::move(task));
 }

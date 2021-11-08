@@ -28,32 +28,20 @@
 #include "ilogger_factory.hpp"
 #include "ilogger.hpp"
 #include "media_types.hpp"
-#include "implementation/exiv2_media_information.hpp"
-#include "implementation/ffmpeg_media_information.hpp"
-
-
-namespace
-{
-    QSize imageSize(const QString& path)
-    {
-        const QImageReader reader(path);
-        const QSize size = reader.size();
-
-        return size;
-    }
-}
+#include "implementation/image_media_information.hpp"
+#include "implementation/video_media_information.hpp"
 
 
 struct MediaInformation::Impl
 {
-    Eviv2MediaInformation m_exif_info;
-    FFmpegMediaInformation m_ffmpeg_info;
     std::unique_ptr<ILogger> m_logger;
+    ImageMediaInformation m_image_info;
+    VideoMediaInformation m_video_info;
 
     explicit Impl(ICoreFactoryAccessor* coreFactory):
-        m_exif_info(coreFactory->getExifReaderFactory()),
-        m_ffmpeg_info(coreFactory->getConfiguration()),
-        m_logger(coreFactory->getLoggerFactory().get("Media Information"))
+        m_logger(coreFactory->getLoggerFactory().get("Media Information")),
+        m_image_info(coreFactory->getExifReaderFactory(), *m_logger),
+        m_video_info(coreFactory->getConfiguration())
     {
 
     }
@@ -72,29 +60,18 @@ MediaInformation::~MediaInformation()
 }
 
 
-std::optional<QSize> MediaInformation::size(const QString& path) const
+FileInformation MediaInformation::getInformation(const QString& path) const
 {
+    FileInformation info;
     const QFileInfo fileInfo(path);
     const QString full_path = fileInfo.absoluteFilePath();
 
-    std::optional<QSize> result = m_impl->m_exif_info.size(full_path);      // try to use exif (so orientation will be considered)
+    if (MediaTypes::isImageFile(full_path))
+        info = m_impl->m_image_info.getInformation(full_path);
+    else if (MediaTypes::isVideoFile(full_path))
+        info = m_impl->m_video_info.getInformation(full_path);
+    else
+        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(full_path));
 
-    if (result.has_value() == false && MediaTypes::isImageFile(full_path))  // no exif, but image file - read its dimensions from image properties
-    {
-        const QSize imgSize = imageSize(full_path);
-        if (imgSize.isValid())
-            result = imgSize;
-    }
-
-    if (result.has_value() == false && MediaTypes::isVideoFile(full_path))  // still no data, and video file
-        result = m_impl->m_ffmpeg_info.size(full_path);
-
-    if (result.has_value() == false)
-    {
-        const QString error = QString("Could not load image data from '%1'. File format unknown or file corrupted").arg(path);
-
-        m_impl->m_logger->error(error);
-    }
-
-    return result;
+    return info;
 }

@@ -9,10 +9,11 @@ set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
-    implementation/exiv2_media_information.hpp              implementation/exiv2_media_information.cpp
-    implementation/ffmpeg_media_information.hpp             implementation/ffmpeg_media_information.cpp
+    implementation/ffmpeg_video_details_reader.hpp          implementation/ffmpeg_video_details_reader.cpp
+    implementation/image_media_information.hpp              implementation/image_media_information.cpp
     implementation/init.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
+    implementation/video_media_information.hpp              implementation/video_media_information.cpp
     accumulative_queue.hpp
     base_tags.hpp                                           implementation/base_tags.cpp
     configuration.hpp                                       implementation/configuration.cpp
@@ -23,7 +24,6 @@ set(CORE_SOURCES
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
-    ffmpeg_video_details_reader.hpp                         implementation/ffmpeg_video_details_reader.cpp
     function_wrappers.hpp
     generic_concepts.hpp
     iconfiguration.hpp

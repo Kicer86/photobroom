@@ -20,25 +20,31 @@
 #ifndef PHOTOINFORMATION_HPP
 #define PHOTOINFORMATION_HPP
 
+#include "iexif_reader.hpp"
 #include "imedia_information.hpp"
+#include "ilogger.hpp"
 
 #include "core_export.h"
 
 struct IExifReaderFactory;
 
 
-class CORE_EXPORT Eviv2MediaInformation: public IMediaInformation
+class CORE_EXPORT ImageMediaInformation
 {
     public:
-        explicit Eviv2MediaInformation(IExifReaderFactory &);
-        Eviv2MediaInformation(const Eviv2MediaInformation &) = delete;
+        explicit ImageMediaInformation(IExifReaderFactory &, ILogger&);
+        ImageMediaInformation(const ImageMediaInformation &) = delete;
 
-        Eviv2MediaInformation& operator=(const Eviv2MediaInformation &) = delete;
+        ImageMediaInformation& operator=(const ImageMediaInformation &) = delete;
 
-        virtual std::optional<QSize> size(const QString &) const override;
+        FileInformation getInformation(const QString &) const;
 
     private:
         IExifReaderFactory& m_exif;
+        ILogger& m_logger;
+
+        std::optional<QSize> size(const QString &, IExifReader &) const;
+        std::optional<QDateTime> creationTime(const QString &, IExifReader &) const;
 };
 
 #endif // PHOTOINFORMATION_H
