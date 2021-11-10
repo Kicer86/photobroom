@@ -11,7 +11,7 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 {
     public:
         template<typename ...Args>
-        explicit ObservableTaskExecutor(Args... args): T(std::forward<Args>(args)...) {}
+        explicit ObservableTaskExecutor(Args&&... args): T(std::forward<Args>(args)...) {}
 
         void add(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
