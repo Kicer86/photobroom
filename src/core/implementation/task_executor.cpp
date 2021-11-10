@@ -29,15 +29,15 @@
 #include "thread_utils.hpp"
 
 
-TaskExecutor::TaskExecutor(ILogger* logger):
+TaskExecutor::TaskExecutor(ILogger& logger, int threadsToUse):
     m_tasks(),
     m_taskEater(),
     m_logger(logger),
-    m_threads(std::thread::hardware_concurrency()),
+    m_threads(threadsToUse),
     m_lightTasks(0),
     m_working(true)
 {
-    m_logger->info(QString("TaskExecutor: %1 threads detected.").arg(m_threads));
+    m_logger.info(QString("Using %1 threads.").arg(m_threads));
 
     m_taskEater = std::thread( [&]
     {
@@ -138,7 +138,7 @@ void TaskExecutor::eat()
             {
                 set_thread_name("TE::HeavyTask");
 
-                m_logger->debug("Starting TaskExecutor thread");
+                m_logger.debug("Starting TaskExecutor thread");
 
                 while(true)
                 {
@@ -158,7 +158,7 @@ void TaskExecutor::eat()
                 }
 
                 --running_tasks;
-                m_logger->debug("Quitting TaskExecutor thread");
+                m_logger.debug("Quitting TaskExecutor thread");
 
                 // notify manager that thread is gone
                 free_worker.notify_one();
@@ -182,7 +182,7 @@ void TaskExecutor::eat()
         return running_tasks == 0;
     });
 
-    m_logger->info("TaskExecutor: shutting down.");
+    m_logger.info("TaskExecutor: shutting down.");
 }
 
 

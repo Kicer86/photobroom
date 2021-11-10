@@ -1096,5 +1096,15 @@ Kod błędu: %1</translation>
         <source>image memory limit</source>
         <translation>limit rozmiaru obrazu</translation>
     </message>
+    <message>
+        <location line="+6"/>
+        <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>threads count</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

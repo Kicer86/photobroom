@@ -98,6 +98,15 @@ int main(int argc, char **argv)
                                         "512"
     );
 
+    const int threadsCount = std::thread::hardware_concurrency();
+    QCommandLineOption threadsLimit("threads-limit",
+                                    QCoreApplication::translate("main", "Limit for working threads count. "
+                                                                        "Photo broom will not use more working threads than specified here. "
+                                                                        "Another limitation is number of available CPU cores which won't be exceeded either."),
+                                    QCoreApplication::translate("main", "threads count"),
+                                    QString::number(threadsCount)
+    );
+
 #ifdef OS_WIN
     QCommandLineOption enableConsole("enable-console", "Opens console with app's output messages");
     enableConsole.setFlags(QCommandLineOption::HiddenFromHelp);
@@ -109,6 +118,7 @@ int main(int argc, char **argv)
     parser.addOption(developerOptions);
     parser.addOption(disableCrashCatcher);
     parser.addOption(imageMemoryLimit);
+    parser.addOption(threadsLimit);
 
     parser.process(app);
 
@@ -144,6 +154,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    const int threadsLimitValue = parser.value(threadsLimit).toInt();
+    const int threadsToUse = std::clamp(threadsLimitValue, 1, threadsCount);        // use at least 1 thread but no more than 'threadsCount' nor 'threadsLimitValue'
     const int memoryLimit = parser.value(imageMemoryLimit).toInt();
     const bool crashCatcherDisabled = parser.isSet(disableCrashCatcher);
 
@@ -176,7 +188,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     auto taskExecutorLogger = logger_factory.get("TaskExecutor");
-    ObservableTaskExecutor<TaskExecutor> taskExecutor(taskExecutorLogger.get());
+    ObservableTaskExecutor<TaskExecutor> taskExecutor(*taskExecutorLogger, threadsToUse);
 
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);

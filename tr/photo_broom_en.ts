@@ -1072,5 +1072,15 @@ Error code: %1</source>
         <source>image memory limit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/main.cpp" line="103"/>
+        <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="106"/>
+        <source>threads count</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
