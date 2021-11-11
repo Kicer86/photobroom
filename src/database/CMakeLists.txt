@@ -67,6 +67,7 @@ set(DATABASE_SOURCES
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photos_analyzer.cpp
+    database_tools/implementation/photos_analyzer_constants.hpp
     database_tools/implementation/photos_data_guesser.cpp
     database_tools/implementation/series_detector.cpp
     database_tools/implementation/series_model.cpp

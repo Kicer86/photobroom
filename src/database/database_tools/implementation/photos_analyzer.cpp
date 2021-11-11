@@ -26,12 +26,13 @@
 #include <database/database_executor_traits.hpp>
 
 #include "photos_analyzer_p.hpp"
+#include "photos_analyzer_constants.hpp"
 #include "../photos_analyzer.hpp"
 
 
 using namespace std::chrono_literals;
 using namespace std::placeholders;
-
+using namespace PhotosAnalyzerConsts;
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(&coreFactory->getTaskExecutor()),
@@ -50,12 +51,12 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     // GeometryLoaded < 1
     Database::FilterPhotosWithFlags geometryFilter;
     geometryFilter.comparison[Photo::FlagsE::GeometryLoaded] = Database::ComparisonOp::Less;
-    geometryFilter.flags[Photo::FlagsE::GeometryLoaded] = 1;
+    geometryFilter.flags[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
 
     // ExifLoaded < 1
     Database::FilterPhotosWithFlags exifFilter;
     exifFilter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
-    exifFilter.flags[Photo::FlagsE::ExifLoaded] = 1;
+    exifFilter.flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
 
     // group flag filters
     Database::GroupFilter flagsFilter = {geometryFilter, exifFilter};
@@ -155,10 +156,10 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
         Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
         m_totalTasks++;
 
-        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < 1)
+        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
             m_updater.updateGeometry(sharedDelta);
 
-        if (photo.flags.at(Photo::FlagsE::ExifLoaded) < 1)
+        if (photo.flags.at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
             m_updater.updateTags(sharedDelta);
     }
 

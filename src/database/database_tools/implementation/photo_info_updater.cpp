@@ -21,8 +21,11 @@
 #include <core/task_executor.hpp>
 
 #include "database/general_flags.hpp"
+#include "photos_analyzer_constants.hpp"
 
 // TODO: unit tests
+
+using namespace PhotosAnalyzerConsts;
 
 struct UpdaterTask: ITaskExecutor::ITask
 {
@@ -122,7 +125,7 @@ namespace
             if (info.common.dimension.has_value())
             {
                 photoDelta->geometry = info.common.dimension.value();
-                photoDelta->flags[Photo::FlagsE::GeometryLoaded] = 1;
+                photoDelta->flags[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
             }
             else
             {
@@ -170,7 +173,7 @@ namespace
                 photoDelta->tags = tags;
             }
 
-            photoDelta->flags[Photo::FlagsE::ExifLoaded] = 1;
+            photoDelta->flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
         }
     };
 
