@@ -155,10 +155,10 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
         Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
         m_totalTasks++;
 
-        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
+        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < 1)
             m_updater.updateGeometry(sharedDelta);
 
-        if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
+        if (photo.flags.at(Photo::FlagsE::ExifLoaded) < 1)
             m_updater.updateTags(sharedDelta);
     }
 
