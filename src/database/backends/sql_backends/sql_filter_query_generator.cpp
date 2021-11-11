@@ -128,10 +128,10 @@ namespace Database
 
         switch (desciption.valueMode)
         {
-            case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
-            case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;
-            case FilterPhotosWithTag::ValueMode::LessOrEqual:    comparisonType = "<="; break;
-            case FilterPhotosWithTag::ValueMode::Less:           comparisonType = "<";  break;
+            case ValueMode::Greater:        comparisonType = ">";  break;
+            case ValueMode::GreaterOrEqual: comparisonType = ">="; break;
+            case ValueMode::LessOrEqual:    comparisonType = "<="; break;
+            case ValueMode::Less:           comparisonType = "<";  break;
             default: break;
         }
 
