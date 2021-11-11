@@ -36,6 +36,22 @@ namespace Database
             else
                 return "tags.value";
         }
+
+        QString comparisonString(ValueMode mode)
+        {
+            QString comparisonType;
+
+            switch (mode)
+            {
+                case ValueMode::Greater:        comparisonType = ">";  break;
+                case ValueMode::GreaterOrEqual: comparisonType = ">="; break;
+                case ValueMode::LessOrEqual:    comparisonType = "<="; break;
+                case ValueMode::Less:           comparisonType = "<";  break;
+                case ValueMode::Equal:          comparisonType = "=";  break;
+            }
+
+            return comparisonType;
+        }
     }
 
     SqlFilterQueryGenerator::SqlFilterQueryGenerator()
@@ -124,16 +140,7 @@ namespace Database
     {
         QString result;
         QString condition;
-        QString comparisonType = "=";
-
-        switch (desciption.valueMode)
-        {
-            case ValueMode::Greater:        comparisonType = ">";  break;
-            case ValueMode::GreaterOrEqual: comparisonType = ">="; break;
-            case ValueMode::LessOrEqual:    comparisonType = "<="; break;
-            case ValueMode::Less:           comparisonType = "<";  break;
-            default: break;
-        }
+        const QString comparisonType = comparisonString(desciption.valueMode);
 
         if (desciption.tagValue.type() != Tag::ValueType::Empty)
         {
@@ -189,10 +196,12 @@ namespace Database
         {
             const QString flagName = getFlagName(it.first);
             const int flagValue = it.second;
+            const QString comparisonType = comparisonString(flags.comparisonMode(it.first));
 
-            conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
+            conditions.append(QString(TAB_FLAGS ".%1 %3 '%2'")
                                 .arg(flagName)
-                                .arg(flagValue));
+                                .arg(flagValue)
+                                .arg(comparisonType));
         }
 
         QString merged_conditions;

@@ -22,13 +22,15 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     Database::FilterPhotosWithFlags filter;
 
     filter.flags[Photo::FlagsE::ExifLoaded] = 1;
+    filter.comparison[Photo::FlagsE::ExifLoaded] = Database::ValueMode::Less;
     QString query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded < '1'", query);
 
     filter.flags.clear();
     filter.flags[Photo::FlagsE::Sha256Loaded] = 2;
+    filter.comparison[Photo::FlagsE::Sha256Loaded] = Database::ValueMode::Greater;
     query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
+    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded > '2'", query);
 
     filter.flags.clear();
     filter.flags[Photo::FlagsE::StagingArea] = 3;
@@ -299,7 +301,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 
     Database::FilterPhotosWithFlags flags;
     flags.flags[Photo::FlagsE::ExifLoaded] = 100;
+    flags.comparison[Photo::FlagsE::ExifLoaded] = Database::ValueMode::GreaterOrEqual;
     flags.flags[Photo::FlagsE::StagingArea] = 200;
+    flags.comparison[Photo::FlagsE::StagingArea] = Database::ValueMode::LessOrEqual;
     flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
 
     Database::FilterPhotosWithId id;
@@ -314,7 +318,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
         "SELECT id FROM photos WHERE "
         "id IN "
         "("
-            "SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' )"
+            "SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE ( flags.staging_area <= '200' OR flags.tags_loaded >= '100' )"
         ") "
         "AND id IN "
         "("

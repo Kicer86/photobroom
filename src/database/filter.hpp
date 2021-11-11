@@ -103,6 +103,8 @@ namespace Database
         FilterPhotosWithFlags();
         FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
 
+        ValueMode comparisonMode(Photo::FlagsE) const;
+
         enum class Mode
         {
             And,
@@ -110,6 +112,7 @@ namespace Database
         };
 
         std::map<Photo::FlagsE, int> flags;
+        std::map<Photo::FlagsE, ValueMode> comparison;
         Mode mode;
     };
 

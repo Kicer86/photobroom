@@ -57,6 +57,13 @@ namespace Database
     }
 
 
+    ValueMode FilterPhotosWithFlags::comparisonMode(Photo::FlagsE flag) const
+    {
+        auto it = comparison.find(flag);
+        return it == comparison.end()? ValueMode::Equal: it->second;
+    }
+
+
     FilterPhotosWithSha256::FilterPhotosWithSha256(): sha256("")
     {
 
