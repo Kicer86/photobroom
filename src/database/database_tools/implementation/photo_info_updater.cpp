@@ -157,12 +157,27 @@ namespace
 
         void perform() override
         {
+            // make sure we wan't to update
+            QString path;
+            {
+                auto lockedPhoto = m_photoInfo->lock();
+                const auto tags = lockedPhoto->tags;
+                path = lockedPhoto->path;
+
+                // If media already has date or time update, do not override it.
+                // Just update ExifLoaded flag. It could be set to previous version, so bump it
+                if (tags.contains(TagTypes::Date) || tags.contains(TagTypes::Time))
+                {
+                    lockedPhoto->flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+                    return;
+                }
+            }
+
             // collect data
-            const QString path = m_photoInfo->lock()->path;
             const FileInformation info = getFileInformation(path);
 
+            // lock photo again (we do not need to keep resource unavailable during 'getFileInformation')
             auto photoDelta = m_photoInfo->lock();
-
             if (info.common.creationTime.has_value())
             {
                 Tag::TagsList tags = photoDelta->tags;

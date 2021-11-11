@@ -4,7 +4,7 @@
 
 namespace PhotosAnalyzerConsts
 {
-    const int ExifFlagVersion = 1;
+    const int ExifFlagVersion = 2;
     const int GeometryFlagVersion = 1;
 }
 
