@@ -255,6 +255,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     Database::FilterPhotosWithTag tag2_filter(TagTypes::Event, QString("test_value2"));
 
     Database::GroupFilter all_filters = {tag1_filter, tag2_filter};
+    all_filters.mode = Database::LogicalOp::Or;
     const QString query = generator.generate(all_filters);
 
     const QString expected_query =
@@ -264,7 +265,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '2' AND tags.value = 'test_value'"
         ") "
-        "AND id IN "
+        "OR id IN "
         "("
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '1' AND tags.value = 'test_value2'"

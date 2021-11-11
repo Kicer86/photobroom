@@ -92,6 +92,7 @@ namespace Database
         GroupFilter(const std::initializer_list<Filter> &);
 
         std::vector<Filter> filters;
+        LogicalOp mode = LogicalOp::And;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag

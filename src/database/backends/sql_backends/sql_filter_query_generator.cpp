@@ -52,6 +52,19 @@ namespace Database
 
             return comparisonType;
         }
+
+        QString logicalString(LogicalOp mode)
+        {
+            QString logicalType;
+
+            switch (mode)
+            {
+                case LogicalOp::And:        logicalType = "AND";  break;
+                case LogicalOp::Or:         logicalType = "OR";  break;
+            }
+
+            return logicalType;
+        }
     }
 
     SqlFilterQueryGenerator::SqlFilterQueryGenerator()
@@ -129,7 +142,7 @@ namespace Database
                 const auto next = std::next(it);
 
                 if (next != filters_data.end())
-                    result += " AND ";
+                    result += " " + logicalString(groupFilter.mode) + " ";
             }
         }
 
