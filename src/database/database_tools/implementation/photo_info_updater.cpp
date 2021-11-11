@@ -43,6 +43,11 @@ struct UpdaterTask: ITaskExecutor::ITask
         invokeMethod(m_updater, &PhotoInfoUpdater::applyFlags, id, generic_flag);
     }
 
+    FileInformation getFileInformation(const QString& path)
+    {
+        return m_updater->getFileInformation(path);
+    }
+
     UpdaterTask(const UpdaterTask &) = delete;
     UpdaterTask& operator=(const UpdaterTask &) = delete;
 
@@ -95,10 +100,8 @@ namespace
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
-                         IMediaInformation* photoInformation,
                          const Photo::SharedData& photoInfo)
             : UpdaterTask(updater, photoInfo)
-            , m_mediaInformation(photoInformation)
         {
         }
 
@@ -113,7 +116,7 @@ namespace
         void perform() override
         {
             const QString path = m_photoInfo->lock()->path;
-            const FileInformation info = m_mediaInformation->getInformation(path);
+            const FileInformation info = getFileInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
             if (info.common.dimension.has_value())
@@ -130,16 +133,13 @@ namespace
                 });
             }
         }
-
-        IMediaInformation* m_mediaInformation;
     };
 
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, IMediaInformation& mediaInformation, const Photo::SharedData& photoInfo)
+        TagsCollector(PhotoInfoUpdater* updater, const Photo::SharedData& photoInfo)
             : UpdaterTask(updater, photoInfo)
-            , m_mediaInformation(mediaInformation)
         {
 
         }
@@ -156,7 +156,7 @@ namespace
         {
             // collect data
             const QString path = m_photoInfo->lock()->path;
-            const FileInformation info = m_mediaInformation.getInformation(path);
+            const FileInformation info = getFileInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
 
@@ -172,16 +172,14 @@ namespace
 
             photoDelta->flags[Photo::FlagsE::ExifLoaded] = 1;
         }
-
-        IMediaInformation& m_mediaInformation;
     };
 
 }
 
 
 PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, IMediaInformation& mediaInformation, ICoreFactoryAccessor* coreFactory, Database::IDatabase& db):
-    m_mediaInformation(mediaInformation),
     m_logger(coreFactory->getLoggerFactory().get("PhotoInfoUpdater")),
+    m_mediaInformation(mediaInformation),
     m_coreFactory(coreFactory),
     m_db(db),
     m_tasksExecutor(executor)
@@ -206,7 +204,7 @@ void PhotoInfoUpdater::updateSha256(const Photo::SharedData& photoInfo)
 
 void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 {
-    auto task = std::make_unique<GeometryAssigner>(this, &m_mediaInformation, photoInfo);
+    auto task = std::make_unique<GeometryAssigner>(this, photoInfo);
 
     addTask(std::move(task));
 }
@@ -214,7 +212,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 
 void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 {
-    auto task = std::make_unique<TagsCollector>(this, m_mediaInformation, photoInfo);
+    auto task = std::make_unique<TagsCollector>(this, photoInfo);
 
     addTask(std::move(task));
 }
@@ -232,4 +230,20 @@ void PhotoInfoUpdater::applyFlags(const Photo::Id& id, const std::pair<QString, 
     {
         db.set(id, generic_flag.first, generic_flag.second);
     });
+}
+
+
+FileInformation PhotoInfoUpdater::getFileInformation(const QString& path)
+{
+    std::lock_guard _(m_fileInfosMutex);
+
+    FileInformation* info = m_fileInfos.object(path);
+    if (info == nullptr)
+    {
+        auto fetchedInfo = std::make_unique<FileInformation>(m_mediaInformation.getInformation(path));
+        info = fetchedInfo.get();
+        m_fileInfos.insert(path, fetchedInfo.release());
+    }
+
+    return *info;
 }

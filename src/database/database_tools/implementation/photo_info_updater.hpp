@@ -4,6 +4,7 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <QCache>
 #include <QTimer>
 
 #include <core/exif_reader_factory.hpp>
@@ -33,14 +34,17 @@ class PhotoInfoUpdater final: public QObject
     private:
         friend struct UpdaterTask;
 
-        IMediaInformation& m_mediaInformation;
+        QCache<QString, FileInformation> m_fileInfos;
+        std::mutex m_fileInfosMutex;
         std::unique_ptr<ILogger> m_logger;
+        IMediaInformation& m_mediaInformation;
         ICoreFactoryAccessor* m_coreFactory;
         Database::IDatabase& m_db;
         ITaskExecutor& m_tasksExecutor;
 
         void addTask(std::unique_ptr<UpdaterTask>);
         void applyFlags(const Photo::Id &, const std::pair<QString, int>& generic_flag);
+        FileInformation getFileInformation(const QString &);
 };
 
 #endif
