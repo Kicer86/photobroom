@@ -282,7 +282,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
     Database::FilterPhotosWithFlags flags;
     flags.flags[Photo::FlagsE::ExifLoaded] = 100;
     flags.flags[Photo::FlagsE::StagingArea] = 200;
-    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
+    flags.mode = Database::Mode::Or;
 
     filters.push_back(flags);
 
@@ -304,7 +304,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
     flags.comparison[Photo::FlagsE::ExifLoaded] = Database::ValueMode::GreaterOrEqual;
     flags.flags[Photo::FlagsE::StagingArea] = 200;
     flags.comparison[Photo::FlagsE::StagingArea] = Database::ValueMode::LessOrEqual;
-    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
+    flags.mode = Database::Mode::Or;
 
     Database::FilterPhotosWithId id;
     id.filter = Photo::Id(1234567890);

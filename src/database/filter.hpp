@@ -75,6 +75,12 @@ namespace Database
         GreaterOrEqual,
     };
 
+    enum class Mode
+    {
+        And,
+        Or,
+    };
+
     struct DATABASE_EXPORT EmptyFilter
     {
 
@@ -104,12 +110,6 @@ namespace Database
         FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
 
         ValueMode comparisonMode(Photo::FlagsE) const;
-
-        enum class Mode
-        {
-            And,
-            Or,
-        };
 
         std::map<Photo::FlagsE, int> flags;
         std::map<Photo::FlagsE, ValueMode> comparison;

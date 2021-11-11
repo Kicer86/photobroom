@@ -208,11 +208,11 @@ namespace Database
 
         switch (flags.mode)
         {
-            case FilterPhotosWithFlags::Mode::And:
+            case Mode::And:
                 merged_conditions = conditions.join(" AND ");
                 break;
 
-            case FilterPhotosWithFlags::Mode::Or:
+            case Mode::Or:
                 merged_conditions = "( " + conditions.join(" OR ") + " )";
                 break;
         }
