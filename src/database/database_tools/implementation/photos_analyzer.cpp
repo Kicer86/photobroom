@@ -47,17 +47,25 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
 
-    Database::FilterPhotosWithFlags flags_filter;
-    flags_filter.mode = Database::LogicalOp::Or;
+    // GeometryLoaded < 1
+    Database::FilterPhotosWithFlags geometryFilter;
+    geometryFilter.comparison[Photo::FlagsE::GeometryLoaded] = Database::ComparisonOp::Less;
+    geometryFilter.flags[Photo::FlagsE::GeometryLoaded] = 1;
 
-    for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
-        flags_filter.flags[flag] = 0;            //uninitialized
+    // ExifLoaded < 1
+    Database::FilterPhotosWithFlags exifFilter;
+    exifFilter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
+    exifFilter.flags[Photo::FlagsE::ExifLoaded] = 1;
+
+    // group flag filters
+    Database::GroupFilter flagsFilter = {geometryFilter, exifFilter};
+    flagsFilter.mode = Database::LogicalOp::Or;
 
     // only normal photos
-    const Database::FilterPhotosWithGeneralFlag general_flags_filter(Database::CommonGeneralFlags::State,
-                                                                     static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+    const Database::FilterPhotosWithGeneralFlag generalFlagsFilter(Database::CommonGeneralFlags::State,
+                                                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
 
-    const Database::GroupFilter filters = {flags_filter, general_flags_filter};
+    const Database::GroupFilter filters = {flagsFilter, generalFlagsFilter};
 
     m_database.exec([this, filters](Database::IBackend& backend)
     {
