@@ -37,17 +37,17 @@ namespace Database
                 return "tags.value";
         }
 
-        QString comparisonString(ValueMode mode)
+        QString comparisonString(ComparisonOp mode)
         {
             QString comparisonType;
 
             switch (mode)
             {
-                case ValueMode::Greater:        comparisonType = ">";  break;
-                case ValueMode::GreaterOrEqual: comparisonType = ">="; break;
-                case ValueMode::LessOrEqual:    comparisonType = "<="; break;
-                case ValueMode::Less:           comparisonType = "<";  break;
-                case ValueMode::Equal:          comparisonType = "=";  break;
+                case ComparisonOp::Greater:        comparisonType = ">";  break;
+                case ComparisonOp::GreaterOrEqual: comparisonType = ">="; break;
+                case ComparisonOp::LessOrEqual:    comparisonType = "<="; break;
+                case ComparisonOp::Less:           comparisonType = "<";  break;
+                case ComparisonOp::Equal:          comparisonType = "=";  break;
             }
 
             return comparisonType;
@@ -208,11 +208,11 @@ namespace Database
 
         switch (flags.mode)
         {
-            case Mode::And:
+            case LogicalOp::And:
                 merged_conditions = conditions.join(" AND ");
                 break;
 
-            case Mode::Or:
+            case LogicalOp::Or:
                 merged_conditions = "( " + conditions.join(" OR ") + " )";
                 break;
         }

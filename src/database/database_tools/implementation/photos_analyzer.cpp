@@ -48,7 +48,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     //TODO: use independent updaters here (issue #102)
 
     Database::FilterPhotosWithFlags flags_filter;
-    flags_filter.mode = Database::Mode::Or;
+    flags_filter.mode = Database::LogicalOp::Or;
 
     for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
         flags_filter.flags[flag] = 0;            //uninitialized
