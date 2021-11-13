@@ -136,15 +136,18 @@ std::optional<QDateTime> ExiftoolVideoDetailsReader::creationTime() const
         const QString datetimeStr = p == -1? datetimeRaw: datetimeRaw.first(p);
         const QDateTime datetime = QDateTime::fromString(datetimeStr, "yyyy:MM:dd hh:mm:ss");
 
-        result = datetime;
+        if (datetime.isValid())
+            result = datetime;
     }
-    else if ( (datetimeIt = m_entries.find("Create Date")) != m_entries.end())
+
+    if ( !result && (datetimeIt = m_entries.find("Create Date")) != m_entries.end())
     {
         const QString& datetimeStr = datetimeIt->second;
         QDateTime datetime = QDateTime::fromString(datetimeStr, "yyyy:MM:dd hh:mm:ss");
         datetime.setTimeZone(QTimeZone::utc());
 
-        result = datetime.toLocalTime();
+        if (datetime.isValid())
+            result = datetime.toLocalTime();
     }
 
     return result;

@@ -120,3 +120,17 @@ TEST(ExiftoolVideoDetailsReaderTest, creationTime3)
     ASSERT_TRUE(creation);
     EXPECT_EQ(*creation, QDateTime(QDate(2021, 10, 6), QTime(13, 7, 17)));
 }
+
+
+TEST(ExiftoolVideoDetailsReaderTest, invalidCreationTime)
+{
+    std::map<QString, QString> entries =
+    {
+        {"Date/Time Original", "0000:00:00 00:00:00"},
+        {"Create Date",        "0000:00:00 00:00:00"}
+    };
+    const ExiftoolVideoDetailsReader reader(entries);
+    const std::optional<QDateTime> creation = reader.creationTime();
+
+    EXPECT_FALSE(creation);
+}
