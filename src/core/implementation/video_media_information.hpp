@@ -41,7 +41,7 @@ class VideoMediaInformation
         FileInformation getInformation(const QString &) const;
 
     private:
-        QString m_ffprobePath;
+        QString m_exiftoolPath;
 };
 
 #endif // VIDEOINFORMATION_HPP

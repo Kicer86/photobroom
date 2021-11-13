@@ -10,6 +10,7 @@ addTestTarget(core
                 SOURCES
                     implementation/base_tags.cpp
                     #implementation/oriented_image.cpp
+                    implementation/exiftool_video_details_reader.cpp
                     implementation/model_compositor.cpp
                     implementation/qmodelindex_selector.cpp
                     implementation/qmodelindex_comparator.cpp
@@ -18,6 +19,7 @@ addTestTarget(core
                     imodel_compositor_data_source.hpp
 
                     unit_tests/containers_utils_tests.cpp
+                    unit_tests/exiftool_video_details_reader_tests.cpp
                     unit_tests/function_wrappers_tests.cpp
                     unit_tests/lazy_ptr_tests.cpp
                     unit_tests/model_compositor_tests.cpp

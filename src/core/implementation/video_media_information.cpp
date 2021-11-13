@@ -28,18 +28,17 @@
 #include "video_media_information.hpp"
 
 
-VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
-    m_ffprobePath()
+VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration)
 {
-    const QVariant ffprobeVar = configuration.getEntry(ExternalToolsConfigKeys::ffprobePath);
+    const QVariant exiftoolVar = configuration.getEntry(ExternalToolsConfigKeys::exiftoolPath);
 
-    m_ffprobePath = ffprobeVar.toString();
+    m_exiftoolPath = exiftoolVar.toString();
 }
 
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
-    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath, path);
+    const FFMpegVideoDetailsReader videoDetailsReader(m_exiftoolPath, path);
 
     FileInformation info;
     info.common.dimension = videoDetailsReader.resolutionOf();
