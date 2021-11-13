@@ -1037,6 +1037,16 @@ Kod błędu: %1</translation>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
     </message>
     <message>
+        <location line="+62"/>
+        <source>Exiftool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
         <location line="+4"/>
         <source>Select executable</source>
@@ -1052,6 +1062,7 @@ Kod błędu: %1</translation>
         <location line="+2"/>
         <location line="+2"/>
         <location line="+2"/>
+        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1059,7 +1070,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+53"/>
+        <location line="+59"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>

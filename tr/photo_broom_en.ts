@@ -1013,6 +1013,16 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="194"/>
+        <source>Exiftool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="206"/>
+        <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="20"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="24"/>
         <source>Select executable</source>
@@ -1028,6 +1038,7 @@ Error code: %1</source>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="30"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="32"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="34"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="36"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1035,7 +1046,7 @@ Error code: %1</source>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="87"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="95"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>

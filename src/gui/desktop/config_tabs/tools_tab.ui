@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>375</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -126,7 +126,7 @@
         </property>
        </widget>
       </item>
-      <item row="12" column="0" colspan="2">
+      <item row="14" column="0" colspan="2">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>External tools are not needed for Photo Broom to work, but may impact available features.</string>
@@ -136,7 +136,7 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="0" colspan="2">
+      <item row="13" column="0" colspan="2">
        <spacer name="verticalSpacer_5">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -187,6 +187,31 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="exiftoolLabel">
+        <property name="text">
+         <string>Exiftool</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12"  column="0" colspan="2">
+       <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <pointsize>7</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QtExtChooseFile" name="exiftoolPath" native="true"/>
       </item>
      </layout>
     </widget>
