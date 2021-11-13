@@ -106,3 +106,17 @@ TEST(ExiftoolVideoDetailsReaderTest, creationTime2)
     const QDateTime expectedDate = expectedDateUtc.toLocalTime();
     EXPECT_EQ(*creation, expectedDate);
 }
+
+
+TEST(ExiftoolVideoDetailsReaderTest, creationTime3)
+{
+    std::map<QString, QString> entries =
+    {
+        {"Date/Time Original", "2021:10:06 13:07:17"}
+    };
+    const ExiftoolVideoDetailsReader reader(entries);
+    const std::optional<QDateTime> creation = reader.creationTime();
+
+    ASSERT_TRUE(creation);
+    EXPECT_EQ(*creation, QDateTime(QDate(2021, 10, 6), QTime(13, 7, 17)));
+}

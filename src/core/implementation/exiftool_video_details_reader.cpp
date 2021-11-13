@@ -133,7 +133,7 @@ std::optional<QDateTime> ExiftoolVideoDetailsReader::creationTime() const
     {
         const QString& datetimeRaw = datetimeIt->second;
         const auto p = datetimeRaw.indexOf("+");             // crop timezone info
-        const QString datetimeStr = datetimeRaw.first(p);
+        const QString datetimeStr = p == -1? datetimeRaw: datetimeRaw.first(p);
         const QDateTime datetime = QDateTime::fromString(datetimeStr, "yyyy:MM:dd hh:mm:ss");
 
         result = datetime;
