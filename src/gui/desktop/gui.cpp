@@ -114,7 +114,6 @@ void Gui::run()
     configuration.setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
     configuration.setDefaultValue(ExternalToolsConfigKeys::magickPath, QStandardPaths::findExecutable("magick"));
     configuration.setDefaultValue(ExternalToolsConfigKeys::ffmpegPath, QStandardPaths::findExecutable("ffmpeg"));
-    configuration.setDefaultValue(ExternalToolsConfigKeys::ffprobePath, QStandardPaths::findExecutable("ffprobe"));
     configuration.setDefaultValue(ExternalToolsConfigKeys::exiftoolPath, QStandardPaths::findExecutable("exiftool"));
 
     //

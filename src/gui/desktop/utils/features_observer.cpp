@@ -8,10 +8,10 @@ namespace
 {
     const std::map<QString, QString> Tools =
     {
-        { gui::features::ToolMagick,  "Magick"          },
-        { gui::features::ToolAIS     ,"AlignImageStack" },
-        { gui::features::ToolFFMpeg  ,"FFMpeg"          },
-        { gui::features::ToolFFProbe ,"FFProbe"         }
+        { gui::features::ToolMagick   ,"Magick"          },
+        { gui::features::ToolAIS      ,"AlignImageStack" },
+        { gui::features::ToolFFMpeg   ,"FFMpeg"          },
+        { gui::features::ToolExifTool ,"ExifTool"        }
     };
 }
 

@@ -1007,7 +1007,7 @@ Kod błędu: %1</translation>
         <translation>Odwiedź &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+23"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
@@ -1017,32 +1017,22 @@ Kod błędu: %1</translation>
         <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+38"/>
         <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
         <translation>Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>FFProbe</source>
-        <translation>FFProbe</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation>FFProbe jest częścią programu FFMpeg.&lt;br/&gt;Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+61"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="-38"/>
         <source>Exiftool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+15"/>
         <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1062,7 +1052,6 @@ Kod błędu: %1</translation>
         <location line="+2"/>
         <location line="+2"/>
         <location line="+2"/>
-        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1070,7 +1059,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+59"/>
+        <location line="+53"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
