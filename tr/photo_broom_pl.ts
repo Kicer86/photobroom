@@ -694,7 +694,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+94"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+103"/>
         <source>Loading photos needing update</source>
         <translation>Wczytywanie zdjęć wymagających aktualizacji</translation>
     </message>
@@ -1007,7 +1007,7 @@ Kod błędu: %1</translation>
         <translation>Odwiedź &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+23"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
@@ -1017,24 +1017,19 @@ Kod błędu: %1</translation>
         <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+38"/>
         <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
         <translation>Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>FFProbe</source>
-        <translation>FFProbe</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation>FFProbe jest częścią programu FFMpeg.&lt;br/&gt;Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+61"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
+    </message>
+    <message>
+        <location line="-23"/>
+        <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
+        <translation>Odwiedź &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
@@ -1095,6 +1090,16 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <source>image memory limit</source>
         <translation>limit rozmiaru obrazu</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
+        <translation>Limit wątków roboczych. Photo broom nie użyje większej liczby wątków robocznych niż podana wartość. Drugim limitem jest liczba rdzeni procesora, która również nie zostanie przekroczona.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>threads count</source>
+        <translation>liczba wątków</translation>
     </message>
 </context>
 </TS>

@@ -21,10 +21,10 @@ namespace
 
     std::vector<ToolInfo> Tools =
     {
-        { "Magick",          gui::features::ToolMagick  ,ExternalToolsConfigKeys::magickPath  },
-        { "AlignImageStack", gui::features::ToolAIS     ,ExternalToolsConfigKeys::aisPath     },
-        { "FFMpeg",          gui::features::ToolFFMpeg  ,ExternalToolsConfigKeys::ffmpegPath  },
-        { "FFProbe",         gui::features::ToolFFProbe ,ExternalToolsConfigKeys::ffprobePath }
+        { "Magick",          gui::features::ToolMagick   ,ExternalToolsConfigKeys::magickPath  },
+        { "AlignImageStack", gui::features::ToolAIS      ,ExternalToolsConfigKeys::aisPath     },
+        { "FFMpeg",          gui::features::ToolFFMpeg   ,ExternalToolsConfigKeys::ffmpegPath  },
+        { "ExifTool",        gui::features::ToolExifTool ,ExternalToolsConfigKeys::exiftoolPath }
     };
 }
 

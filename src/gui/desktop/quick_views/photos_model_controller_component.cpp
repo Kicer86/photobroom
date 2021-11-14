@@ -292,8 +292,8 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
         const QDate from = m_dates[m_timeView.first];
         const QDate to = m_dates[m_timeView.second];
 
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, from, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual, true) );
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, to, Database::FilterPhotosWithTag::ValueMode::LessOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, from, Database::ComparisonOp::GreaterOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, to, Database::ComparisonOp::LessOrEqual, true) );
     }
 
     const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
@@ -314,10 +314,10 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
     }
 
     if (m_ratingFrom > 0)
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingFrom, Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingFrom, Database::ComparisonOp::GreaterOrEqual) );
 
     if (m_ratingTo < 10)
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::FilterPhotosWithTag::ValueMode::LessOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::ComparisonOp::LessOrEqual) );
 
     // ignore broken photos
     filters_for_model.push_back( Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,

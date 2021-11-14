@@ -29,7 +29,7 @@ class ToolsTab : public QWidget
         QtExtChooseFile* aisPath() const;
         QtExtChooseFile* magickPath() const;
         QtExtChooseFile* ffmpegPath() const;
-        QtExtChooseFile* ffprobePath() const;
+        QtExtChooseFile* exiftoolPath() const;
 
     private:
         Ui::ToolsTab *ui;

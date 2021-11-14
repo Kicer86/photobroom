@@ -31,7 +31,7 @@ struct ILogger;
 
 struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
-    explicit TaskExecutor(ILogger *);
+    explicit TaskExecutor(ILogger &, int threadsToUse);
     TaskExecutor(const TaskExecutor &) = delete;
     virtual ~TaskExecutor();
 
@@ -50,7 +50,7 @@ private:
     std::thread m_taskEater;
     std::mutex m_lightTasksMutex;
     std::condition_variable m_lightTaskFinished;
-    ILogger* m_logger;
+    ILogger& m_logger;
     unsigned int m_threads;
     int m_lightTasks;
     bool m_working;

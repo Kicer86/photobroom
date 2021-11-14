@@ -26,12 +26,13 @@
 #include <database/database_executor_traits.hpp>
 
 #include "photos_analyzer_p.hpp"
+#include "photos_analyzer_constants.hpp"
 #include "../photos_analyzer.hpp"
 
 
 using namespace std::chrono_literals;
 using namespace std::placeholders;
-
+using namespace PhotosAnalyzerConsts;
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(&coreFactory->getTaskExecutor()),
@@ -47,17 +48,25 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
 
-    Database::FilterPhotosWithFlags flags_filter;
-    flags_filter.mode = Database::FilterPhotosWithFlags::Mode::Or;
+    // GeometryLoaded < 1
+    Database::FilterPhotosWithFlags geometryFilter;
+    geometryFilter.comparison[Photo::FlagsE::GeometryLoaded] = Database::ComparisonOp::Less;
+    geometryFilter.flags[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
 
-    for (auto flag : { Photo::FlagsE::ExifLoaded, Photo::FlagsE::GeometryLoaded })
-        flags_filter.flags[flag] = 0;            //uninitialized
+    // ExifLoaded < 1
+    Database::FilterPhotosWithFlags exifFilter;
+    exifFilter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
+    exifFilter.flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+
+    // group flag filters
+    Database::GroupFilter flagsFilter = {geometryFilter, exifFilter};
+    flagsFilter.mode = Database::LogicalOp::Or;
 
     // only normal photos
-    const Database::FilterPhotosWithGeneralFlag general_flags_filter(Database::CommonGeneralFlags::State,
-                                                                     static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+    const Database::FilterPhotosWithGeneralFlag generalFlagsFilter(Database::CommonGeneralFlags::State,
+                                                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
 
-    const Database::GroupFilter filters = {flags_filter, general_flags_filter};
+    const Database::GroupFilter filters = {flagsFilter, generalFlagsFilter};
 
     m_database.exec([this, filters](Database::IBackend& backend)
     {
@@ -147,10 +156,10 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
         Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
         m_totalTasks++;
 
-        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) == 0)
+        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
             m_updater.updateGeometry(sharedDelta);
 
-        if (photo.flags.at(Photo::FlagsE::ExifLoaded) == 0)
+        if (photo.flags.at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
             m_updater.updateTags(sharedDelta);
     }
 

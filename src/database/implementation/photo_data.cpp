@@ -78,15 +78,7 @@ namespace Photo
             insert<Photo::Field::Checksum>(newData.sha256Sum);
 
         if (oldData.tags != newData.tags)
-        {
-            Tag::TagsList diffTags;
-
-            std::set_difference(newData.tags.begin(), newData.tags.end(),
-                                oldData.tags.begin(), oldData.tags.end(),
-                                std::inserter(diffTags, diffTags.end()));
-
-            insert<Photo::Field::Tags>(diffTags);
-        }
+            insert<Photo::Field::Tags>(newData.tags);
     }
 
 

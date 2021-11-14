@@ -22,13 +22,15 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     Database::FilterPhotosWithFlags filter;
 
     filter.flags[Photo::FlagsE::ExifLoaded] = 1;
+    filter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
     QString query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded = '1'", query);
+    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded < '1'", query);
 
     filter.flags.clear();
     filter.flags[Photo::FlagsE::Sha256Loaded] = 2;
+    filter.comparison[Photo::FlagsE::Sha256Loaded] = Database::ComparisonOp::Greater;
     query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded = '2'", query);
+    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded > '2'", query);
 
     filter.flags.clear();
     filter.flags[Photo::FlagsE::StagingArea] = 3;
@@ -73,7 +75,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithTagValueCasting)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Rating, 5, Database::FilterPhotosWithTag::ValueMode::Equal);
+    Database::FilterPhotosWithTag filter(TagTypes::Rating, 5, Database::ComparisonOp::Equal);
 
     const QString query = generator.generate(filter);
 
@@ -87,7 +89,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithTagValueCasting)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Equal);
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Equal);
 
     const QString query = generator.generate(filter);
 
@@ -101,7 +103,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreater)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Greater);
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Greater);
 
     const QString query = generator.generate(filter);
 
@@ -115,7 +117,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreaterOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::GreaterOrEqual);
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::GreaterOrEqual);
 
     const QString query = generator.generate(filter);
 
@@ -129,7 +131,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::Less);
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Less);
 
     const QString query = generator.generate(filter);
 
@@ -143,7 +145,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::FilterPhotosWithTag::ValueMode::LessOrEqual);
+    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::LessOrEqual);
 
     const QString query = generator.generate(filter);
 
@@ -253,6 +255,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     Database::FilterPhotosWithTag tag2_filter(TagTypes::Event, QString("test_value2"));
 
     Database::GroupFilter all_filters = {tag1_filter, tag2_filter};
+    all_filters.mode = Database::LogicalOp::Or;
     const QString query = generator.generate(all_filters);
 
     const QString expected_query =
@@ -262,7 +265,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '2' AND tags.value = 'test_value'"
         ") "
-        "AND id IN "
+        "OR id IN "
         "("
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '1' AND tags.value = 'test_value2'"
@@ -280,7 +283,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleOrFilters)
     Database::FilterPhotosWithFlags flags;
     flags.flags[Photo::FlagsE::ExifLoaded] = 100;
     flags.flags[Photo::FlagsE::StagingArea] = 200;
-    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
+    flags.mode = Database::LogicalOp::Or;
 
     filters.push_back(flags);
 
@@ -299,8 +302,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
 
     Database::FilterPhotosWithFlags flags;
     flags.flags[Photo::FlagsE::ExifLoaded] = 100;
+    flags.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::GreaterOrEqual;
     flags.flags[Photo::FlagsE::StagingArea] = 200;
-    flags.mode = Database::FilterPhotosWithFlags::Mode::Or;
+    flags.comparison[Photo::FlagsE::StagingArea] = Database::ComparisonOp::LessOrEqual;
+    flags.mode = Database::LogicalOp::Or;
 
     Database::FilterPhotosWithId id;
     id.filter = Photo::Id(1234567890);
@@ -314,7 +319,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesMergeOfIdFilterWithFlagsOne)
         "SELECT id FROM photos WHERE "
         "id IN "
         "("
-            "SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE ( flags.staging_area = '200' OR flags.tags_loaded = '100' )"
+            "SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE ( flags.staging_area <= '200' OR flags.tags_loaded >= '100' )"
         ") "
         "AND id IN "
         "("

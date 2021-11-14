@@ -670,12 +670,12 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="94"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="103"/>
         <source>Loading photos needing update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="200"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="209"/>
         <source>Extracting data from photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -983,33 +983,28 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="54"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="67"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="72"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="85"/>
         <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="97"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="123"/>
         <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="107"/>
-        <source>FFProbe</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="122"/>
-        <source>FFProbe is part of FFMpeg.&lt;br/&gt;Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="132"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="184"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="161"/>
+        <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1070,6 +1065,16 @@ Error code: %1</source>
     <message>
         <location filename="../src/main.cpp" line="97"/>
         <source>image memory limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="103"/>
+        <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="106"/>
+        <source>threads count</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

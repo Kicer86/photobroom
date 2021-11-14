@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 
 #include "database_tools/implementation/photo_info_updater.hpp"
+#include "database_tools/implementation/photos_analyzer_constants.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
 #include "unit_tests_utils/fake_task_executor.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
@@ -19,7 +20,7 @@ using testing::Invoke;
 using testing::Return;
 using testing::ReturnRef;
 using testing::NiceMock;
-
+using namespace PhotosAnalyzerConsts;
 
 TEST(PhotoInfoUpdaterTest, tagsUpdate)
 {
@@ -53,7 +54,7 @@ TEST(PhotoInfoUpdaterTest, tagsUpdate)
 
     // expected state after calling updater
     Photo::Data newPhotoData(photo);
-    newPhotoData.flags[Photo::FlagsE::ExifLoaded] = 1;
+    newPhotoData.flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
 
     PhotoInfoUpdater updater(taskExecutor, mediaInformation, &coreFactory, db);
 

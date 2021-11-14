@@ -66,6 +66,21 @@ namespace Database
                          FilterPhotosWithGeneralFlag
     > Filter;
 
+    enum class ComparisonOp
+    {
+        Equal,
+        Less,
+        LessOrEqual,
+        Greater,
+        GreaterOrEqual,
+    };
+
+    enum class LogicalOp
+    {
+        And,
+        Or,
+    };
+
     struct DATABASE_EXPORT EmptyFilter
     {
 
@@ -77,24 +92,17 @@ namespace Database
         GroupFilter(const std::initializer_list<Filter> &);
 
         std::vector<Filter> filters;
+        LogicalOp mode = LogicalOp::And;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag
     {
         TagTypes tagType;
         TagValue tagValue;
-
-        enum class ValueMode
-        {
-            Equal,
-            Less,
-            LessOrEqual,
-            Greater,
-            GreaterOrEqual,
-        } valueMode;
+        ComparisonOp valueMode;
         bool includeEmpty;
 
-        FilterPhotosWithTag(const TagTypes &, const TagValue & = TagValue(), ValueMode = ValueMode::Equal, bool include_empty = false);
+        FilterPhotosWithTag(const TagTypes &, const TagValue & = TagValue(), ComparisonOp = ComparisonOp::Equal, bool include_empty = false);
     };
 
     struct DATABASE_EXPORT FilterPhotosWithFlags
@@ -102,14 +110,11 @@ namespace Database
         FilterPhotosWithFlags();
         FilterPhotosWithFlags(const std::map<Photo::FlagsE, int> &);
 
-        enum class Mode
-        {
-            And,
-            Or,
-        };
+        ComparisonOp comparisonMode(Photo::FlagsE) const;
 
         std::map<Photo::FlagsE, int> flags;
-        Mode mode;
+        std::map<Photo::FlagsE, ComparisonOp> comparison;
+        LogicalOp mode;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithSha256

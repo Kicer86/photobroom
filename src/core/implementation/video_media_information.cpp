@@ -24,22 +24,23 @@
 
 #include "constants.hpp"
 #include "iconfiguration.hpp"
-#include "ffmpeg_video_details_reader.hpp"
+#include "exiftool_video_details_reader.hpp"
 #include "video_media_information.hpp"
 
 
-VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration):
-    m_ffprobePath()
+VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration)
 {
-    const QVariant ffprobeVar = configuration.getEntry(ExternalToolsConfigKeys::ffprobePath);
+    const QVariant exiftoolVar = configuration.getEntry(ExternalToolsConfigKeys::exiftoolPath);
 
-    m_ffprobePath = ffprobeVar.toString();
+    m_exiftoolPath = exiftoolVar.toString();
 }
 
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
-    const FFMpegVideoDetailsReader videoDetailsReader(m_ffprobePath, path);
+    const auto output = ExiftoolUtils::exiftoolOutput(m_exiftoolPath, path);
+    const auto parsed = ExiftoolUtils::parseOutput(output);
+    const ExiftoolVideoDetailsReader videoDetailsReader(parsed);
 
     FileInformation info;
     info.common.dimension = videoDetailsReader.resolutionOf();

@@ -25,7 +25,7 @@
 
 #include <system/system.hpp>
 #include "constants.hpp"
-#include "ffmpeg_video_details_reader.hpp"
+#include "exiftool_video_details_reader.hpp"
 #include "iconfiguration.hpp"
 #include "iexif_reader.hpp"
 #include "ilogger.hpp"
@@ -93,7 +93,7 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 }
 
 
-QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& ffprobe, const QString& ffmpeg) const
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& exiftool, const QString& ffmpeg) const
 {
     const QFileInfo pathInfo(path);
 
@@ -102,28 +102,33 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
     if (pathInfo.exists())
     {
         const QString absolute_path = pathInfo.absoluteFilePath();
-        const FFMpegVideoDetailsReader videoDetailsReader(ffprobe, absolute_path);
-        const int seconds = videoDetailsReader.durationOf();
+        const auto output = ExiftoolUtils::exiftoolOutput(exiftool, absolute_path);
+        const auto entries = ExiftoolUtils::parseOutput(output);
+        const ExiftoolVideoDetailsReader videoDetailsReader(entries);
+        const std::optional<int> seconds = videoDetailsReader.durationOf();
 
-        auto tmpDir = System::createTmpDir("FromVideoTask", System::Confidential);
-        const QString thumbnail_path = System::getUniqueFileName(tmpDir->path(), "jpeg");
-
-        QProcess ffmpeg_process4thumbnail;
-        const QStringList ffmpeg_thumbnail_args =
+        if (seconds)
         {
-            "-y",                                        // overwrite file created with QTemporaryFile
-            "-ss", QString::number(seconds / 10),
-            "-i", absolute_path,
-            "-vframes", "1",
-            "-q:v", "2",
-            thumbnail_path
-        };
+            auto tmpDir = System::createTmpDir("FromVideoTask", System::Confidential);
+            const QString thumbnail_path = System::getUniqueFileName(tmpDir->path(), "jpeg");
 
-        ffmpeg_process4thumbnail.start(ffmpeg, ffmpeg_thumbnail_args );
-        const bool status = ffmpeg_process4thumbnail.waitForFinished();
+            QProcess ffmpeg_process4thumbnail;
+            const QStringList ffmpeg_thumbnail_args =
+            {
+                "-y",                                        // overwrite file created with QTemporaryFile
+                "-ss", QString::number(*seconds / 10),
+                "-i", absolute_path,
+                "-vframes", "1",
+                "-q:v", "2",
+                thumbnail_path
+            };
 
-        if (status)
-            result = QImage(thumbnail_path);
+            ffmpeg_process4thumbnail.start(ffmpeg, ffmpeg_thumbnail_args );
+            const bool status = ffmpeg_process4thumbnail.waitForFinished();
+
+            if (status)
+                result = QImage(thumbnail_path);
+        }
     }
 
     return result;
@@ -140,13 +145,13 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
     {
         const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
         const QString ffmpegPath = ffmpegVar.toString();
-        const QVariant ffprobeVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffprobePath);
-        const QString ffprobePath = ffprobeVar.toString();
+        const QVariant exiftoolVar = m_configuration->getEntry(ExternalToolsConfigKeys::exiftoolPath);
+        const QString exiftoolPath = exiftoolVar.toString();
         const QFileInfo mpegfileInfo(ffmpegPath);
-        const QFileInfo probefileInfo(ffprobePath);
+        const QFileInfo exiftoolFileInfo(exiftoolPath);
 
-        if (mpegfileInfo.isExecutable() && probefileInfo.isExecutable())
-            image = readFrameFromVideo(path, ffprobePath, ffmpegPath);
+        if (mpegfileInfo.isExecutable() && exiftoolFileInfo.isExecutable())
+            image = readFrameFromVideo(path, exiftoolPath, ffmpegPath);
     }
     else
         assert(!"unknown file type");

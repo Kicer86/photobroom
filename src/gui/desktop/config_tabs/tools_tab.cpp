@@ -31,8 +31,8 @@ ToolsTab::ToolsTab(QWidget *parent) :
     ui->magickPath->setBrowseCallback(chooseExecutable);
     ui->ffmpegPath->setBrowseButtonText(tr("Browse"));
     ui->ffmpegPath->setBrowseCallback(chooseExecutable);
-    ui->ffprobePath->setBrowseButtonText(tr("Browse"));
-    ui->ffprobePath->setBrowseCallback(chooseExecutable);
+    ui->exiftoolPath->setBrowseButtonText(tr("Browse"));
+    ui->exiftoolPath->setBrowseCallback(chooseExecutable);
 }
 
 
@@ -60,9 +60,9 @@ QtExtChooseFile* ToolsTab::ffmpegPath() const
 }
 
 
-QtExtChooseFile* ToolsTab::ffprobePath() const
+QtExtChooseFile* ToolsTab::exiftoolPath() const
 {
-    return ui->ffprobePath;
+    return ui->exiftoolPath;
 }
 
 
@@ -98,12 +98,12 @@ QWidget* ToolsTabController::constructTab()
     const QString aisPath = config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     const QString magickPath = config->getEntry(ExternalToolsConfigKeys::magickPath).toString();
     const QString ffmpegPath = config->getEntry(ExternalToolsConfigKeys::ffmpegPath).toString();
-    const QString ffprobePath = config->getEntry(ExternalToolsConfigKeys::ffprobePath).toString();
+    const QString exiftoolPath = config->getEntry(ExternalToolsConfigKeys::exiftoolPath).toString();
 
     tab->aisPath()->setValue(aisPath);
     tab->magickPath()->setValue(magickPath);
     tab->ffmpegPath()->setValue(ffmpegPath);
-    tab->ffprobePath()->setValue(ffprobePath);
+    tab->exiftoolPath()->setValue(exiftoolPath);
 
     connect(tab, &QObject::destroyed, [this](QObject* t)
     {
@@ -123,14 +123,14 @@ void ToolsTabController::applyConfiguration()
     const QString aisPath = tab->aisPath()->value();
     const QString magickPath = tab->magickPath()->value();
     const QString ffmpegPath = tab->ffmpegPath()->value();
-    const QString ffprobePath = tab->ffprobePath()->value();
+    const QString exiftoolPath = tab->exiftoolPath()->value();
 
     IConfiguration* config = configuration();
 
     config->setEntry(ExternalToolsConfigKeys::aisPath, aisPath);
     config->setEntry(ExternalToolsConfigKeys::magickPath, magickPath);
     config->setEntry(ExternalToolsConfigKeys::ffmpegPath, ffmpegPath);
-    config->setEntry(ExternalToolsConfigKeys::ffprobePath, ffprobePath);
+    config->setEntry(ExternalToolsConfigKeys::exiftoolPath, exiftoolPath);
 }
 
 

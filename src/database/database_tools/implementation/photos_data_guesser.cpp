@@ -7,6 +7,7 @@
 #include "database/iphoto_operator.hpp"
 #include "../photos_data_guesser.hpp"
 #include "data_from_path_extractor.hpp"
+#include "photos_analyzer_constants.hpp"
 
 
 using namespace std::placeholders;
@@ -149,7 +150,7 @@ void PhotosDataGuesser::updateUpdateStatus(bool status)
 
 void PhotosDataGuesser::process(Database::IBackend& backend)
 {
-    const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, 1 } });
+    const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
     const Database::FilterPhotosWithTag date(TagTypes::Date);
     const Database::FilterNotMatchingFilter noDate(date);
     const Database::GroupFilter filters = {analyzed, noDate};

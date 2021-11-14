@@ -36,6 +36,35 @@ namespace Database
             else
                 return "tags.value";
         }
+
+        QString comparisonString(ComparisonOp mode)
+        {
+            QString comparisonType;
+
+            switch (mode)
+            {
+                case ComparisonOp::Greater:        comparisonType = ">";  break;
+                case ComparisonOp::GreaterOrEqual: comparisonType = ">="; break;
+                case ComparisonOp::LessOrEqual:    comparisonType = "<="; break;
+                case ComparisonOp::Less:           comparisonType = "<";  break;
+                case ComparisonOp::Equal:          comparisonType = "=";  break;
+            }
+
+            return comparisonType;
+        }
+
+        QString logicalString(LogicalOp mode)
+        {
+            QString logicalType;
+
+            switch (mode)
+            {
+                case LogicalOp::And:        logicalType = "AND";  break;
+                case LogicalOp::Or:         logicalType = "OR";  break;
+            }
+
+            return logicalType;
+        }
     }
 
     SqlFilterQueryGenerator::SqlFilterQueryGenerator()
@@ -113,7 +142,7 @@ namespace Database
                 const auto next = std::next(it);
 
                 if (next != filters_data.end())
-                    result += " AND ";
+                    result += " " + logicalString(groupFilter.mode) + " ";
             }
         }
 
@@ -124,16 +153,7 @@ namespace Database
     {
         QString result;
         QString condition;
-        QString comparisonType = "=";
-
-        switch (desciption.valueMode)
-        {
-            case FilterPhotosWithTag::ValueMode::Greater:        comparisonType = ">";  break;
-            case FilterPhotosWithTag::ValueMode::GreaterOrEqual: comparisonType = ">="; break;
-            case FilterPhotosWithTag::ValueMode::LessOrEqual:    comparisonType = "<="; break;
-            case FilterPhotosWithTag::ValueMode::Less:           comparisonType = "<";  break;
-            default: break;
-        }
+        const QString comparisonType = comparisonString(desciption.valueMode);
 
         if (desciption.tagValue.type() != Tag::ValueType::Empty)
         {
@@ -189,21 +209,23 @@ namespace Database
         {
             const QString flagName = getFlagName(it.first);
             const int flagValue = it.second;
+            const QString comparisonType = comparisonString(flags.comparisonMode(it.first));
 
-            conditions.append(QString(TAB_FLAGS ".%1 = '%2'")
+            conditions.append(QString(TAB_FLAGS ".%1 %3 '%2'")
                                 .arg(flagName)
-                                .arg(flagValue));
+                                .arg(flagValue)
+                                .arg(comparisonType));
         }
 
         QString merged_conditions;
 
         switch (flags.mode)
         {
-            case FilterPhotosWithFlags::Mode::And:
+            case LogicalOp::And:
                 merged_conditions = conditions.join(" AND ");
                 break;
 
-            case FilterPhotosWithFlags::Mode::Or:
+            case LogicalOp::Or:
                 merged_conditions = "( " + conditions.join(" OR ") + " )";
                 break;
         }

@@ -33,7 +33,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithTag::FilterPhotosWithTag(const TagTypes& type, const TagValue& value, ValueMode mode, bool include_empty):
+    FilterPhotosWithTag::FilterPhotosWithTag(const TagTypes& type, const TagValue& value, ComparisonOp mode, bool include_empty):
         tagType(type),
         tagValue(value),
         valueMode(mode),
@@ -43,7 +43,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithFlags::FilterPhotosWithFlags(): flags(), mode(Mode::And)
+    FilterPhotosWithFlags::FilterPhotosWithFlags(): flags(), mode(LogicalOp::And)
     {
 
     }
@@ -51,9 +51,16 @@ namespace Database
 
     FilterPhotosWithFlags::FilterPhotosWithFlags(const std::map<Photo::FlagsE, int>& f)
         : flags(f)
-        , mode(Mode::And)
+        , mode(LogicalOp::And)
     {
 
+    }
+
+
+    ComparisonOp FilterPhotosWithFlags::comparisonMode(Photo::FlagsE flag) const
+    {
+        auto it = comparison.find(flag);
+        return it == comparison.end()? ComparisonOp::Equal: it->second;
     }
 
 
