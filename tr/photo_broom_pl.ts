@@ -1027,14 +1027,9 @@ Kod błędu: %1</translation>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
     </message>
     <message>
-        <location line="-38"/>
-        <source>Exiftool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="-23"/>
         <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwiedź &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
@@ -1099,12 +1094,12 @@ Kod błędu: %1</translation>
     <message>
         <location line="+6"/>
         <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit wątków roboczych. Photo broom nie użyje większej liczby wątków robocznych niż podana wartość. Drugim limitem jest liczba rdzeni procesora, która również nie zostanie przekroczona.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>threads count</source>
-        <translation type="unfinished"></translation>
+        <translation>liczba wątków</translation>
     </message>
 </context>
 </TS>

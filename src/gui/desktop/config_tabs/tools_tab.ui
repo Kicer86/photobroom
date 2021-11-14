@@ -143,7 +143,7 @@
       <item row="9" column="0">
        <widget class="QLabel" name="exiftoolLabel">
         <property name="text">
-         <string>Exiftool</string>
+         <string notr="true">Exiftool</string>
         </property>
        </widget>
       </item>
