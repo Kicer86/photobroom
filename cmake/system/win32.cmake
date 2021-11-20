@@ -159,10 +159,28 @@ function(download_tools)
         )
     endif()
 
-        install(DIRECTORY ${OUTPUT_PATH}/tools/ExifTool/
+    install(DIRECTORY ${OUTPUT_PATH}/tools/ExifTool/
         DESTINATION tools/ExifTool
     )
-    
+
+    if(NOT EXISTS tools/Hugin-2020.0.0-win64.msi)
+        message("Downloading Hugin")
+        file(DOWNLOAD 
+            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi tools/Hugin-2020.0.0-win64.msi
+            SHOW_PROGRESS
+        )   
+        
+        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi" hugin_source)
+        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin" hugin_destination)
+        execute_process(
+            COMMAND msiexec /a ${hugin_source} /quiet TARGETDIR=${hugin_destination}
+        )
+    endif()
+
+    install(FILES ${OUTPUT_PATH}/tools/Hugin/Hugin/bin/align_image_stack.exe
+        DESTINATION tools/Hugin
+    )
+        
 endfunction(download_tools)
 
 
