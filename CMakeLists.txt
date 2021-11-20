@@ -123,18 +123,18 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-#subdirs
-add_subdirectory(images)
-add_subdirectory(src)
-add_subdirectory(tr)
-add_subdirectory(external)
-
 #system dependent stuff
 if(UNIX OR CYGWIN)
     include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
 elseif(WIN32)
     include(${PROJECT_SOURCE_DIR}/cmake/system/win32.cmake)
 endif(UNIX OR CYGWIN)
+
+#subdirs
+add_subdirectory(images)
+add_subdirectory(src)
+add_subdirectory(tr)
+add_subdirectory(external)
 
 #documentation
 find_program(DOXYGEN doxygen)
