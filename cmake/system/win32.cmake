@@ -153,14 +153,11 @@ function(download_tools)
             INPUT tools/exiftool-12.35.zip
             DESTINATION tools
         )
-        file(ARCHIVE_EXTRACT 
-            INPUT tools/exiftool\(-k\).exe
-            DESTINATION tools/ExifTool
-        )
     endif()
 
-    install(DIRECTORY ${OUTPUT_PATH}/tools/ExifTool/
-        DESTINATION tools/ExifTool
+    install(FILES ${OUTPUT_PATH}/tools/exiftool\(-k\).exe
+        DESTINATION tools/ExifTool/
+        RENAME exiftool.exe
     )
 
     if(NOT EXISTS tools/Hugin-2020.0.0-win64.msi)
