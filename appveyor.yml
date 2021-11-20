@@ -27,8 +27,6 @@ artifacts:
     name: PhotoBroom_installer
 
 install:
-    - choco install imagemagick.app
-    - refreshenv
     - if exist "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2"
         ( echo "CUDA dir exists" ) ELSE
         ( echo "Downloading CUDA binaries" &&
