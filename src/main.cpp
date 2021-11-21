@@ -22,6 +22,7 @@
 #include <core/logger_factory.hpp>
 #include <core/task_executor.hpp>
 #include <core/observable_task_executor.hpp>
+#include <core/observables_registry.hpp>
 #include <crash_catcher/crash_catcher.hpp>
 #include <database/database_builder.hpp>
 #include <gui/gui.hpp>
@@ -86,7 +87,7 @@ int main(int argc, char **argv)
     );
 
     QCommandLineOption developerOptions("feature-toggle",
-                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher"),
+                                         QCoreApplication::translate("main", "Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view"),
                                          QCoreApplication::translate("main", "flag")
     );
 
@@ -124,6 +125,8 @@ int main(int argc, char **argv)
 
         std::cout << "crash catcher test activated. Will crash in 3 seconds" << std::endl;
     }
+
+    ObservablesRegistry::instance().enable(featureToggles.contains("debug-view"));
 
     const QString logingLevelStr = parser.value(logingLevelOption);
     ILogger::Severity logingLevel = ILogger::Severity::Warning;
