@@ -826,7 +826,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+100"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+101"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
