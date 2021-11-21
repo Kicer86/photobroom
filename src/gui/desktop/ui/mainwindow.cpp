@@ -111,8 +111,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     ui->tagEditor->set(&m_completerFactory);
 
-    connect(&ObservablesRegistry::instance(), &ObservablesRegistry::executorsChanged,
-            this, [this](const auto& executors) { ui->debugDockWidget->setVisible(executors.isEmpty() == false); });
+    // hide debug dock if ObservablesRegistry is disabled
+    ui->debugDockWidget->setVisible(ObservablesRegistry::instance().isEnabled());
 
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);

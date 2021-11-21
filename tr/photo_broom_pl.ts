@@ -1067,7 +1067,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+83"/>
+        <location filename="../src/main.cpp" line="+84"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
@@ -1078,8 +1078,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
-        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
