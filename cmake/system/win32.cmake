@@ -110,6 +110,77 @@ function(install_external_lib)
 endfunction(install_external_lib)
 
 
+function(download_tools)
+    if(NOT EXISTS tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
+        message("Downloading ImageMagick")
+        file(DOWNLOAD 
+            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            SHOW_PROGRESS
+        )
+        file(ARCHIVE_EXTRACT 
+            INPUT tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            DESTINATION tools/ImageMagick
+        )
+    endif()
+
+    install(DIRECTORY ${OUTPUT_PATH}/tools/ImageMagick/
+        DESTINATION tools/ImageMagick
+    )
+
+    if(NOT EXISTS tools/ffmpeg-release-essentials.7z)
+        message("Downloading FFMpeg")
+        file(DOWNLOAD 
+            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z tools/ffmpeg-release-essentials.7z
+            SHOW_PROGRESS
+        )
+        file(ARCHIVE_EXTRACT 
+            INPUT tools/ffmpeg-release-essentials.7z
+            DESTINATION tools
+        )
+    endif()
+    
+    install(DIRECTORY ${OUTPUT_PATH}/tools/ffmpeg-4.4.1-essentials_build/   # version :/ not nice to have it here
+        DESTINATION tools/FFMpeg
+    )
+
+    if(NOT EXISTS tools/exiftool-12.35.zip)
+        message("Downloading ExifTool")
+        file(DOWNLOAD 
+            https://exiftool.org/exiftool-12.35.zip tools/exiftool-12.35.zip
+            SHOW_PROGRESS
+        )
+        file(ARCHIVE_EXTRACT 
+            INPUT tools/exiftool-12.35.zip
+            DESTINATION tools
+        )
+    endif()
+
+    install(FILES ${OUTPUT_PATH}/tools/exiftool\(-k\).exe
+        DESTINATION tools/ExifTool/
+        RENAME exiftool.exe
+    )
+
+    if(NOT EXISTS tools/Hugin-2020.0.0-win64.msi)
+        message("Downloading Hugin")
+        file(DOWNLOAD 
+            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi tools/Hugin-2020.0.0-win64.msi
+            SHOW_PROGRESS
+        )   
+        
+        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi" hugin_source)
+        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin" hugin_destination)
+        execute_process(
+            COMMAND msiexec /a ${hugin_source} /quiet TARGETDIR=${hugin_destination}
+        )
+    endif()
+
+    install(FILES ${OUTPUT_PATH}/tools/Hugin/Hugin/bin/align_image_stack.exe
+        DESTINATION tools/Hugin
+    )
+        
+endfunction(download_tools)
+
+
 macro(addDeploymentActions)
 
     find_package(OpenSSL)
@@ -218,6 +289,9 @@ get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
 #enable deployment
 addDeploymentActions()
+
+#download tools
+download_tools()
 
 #uninstall previous version of photo broom
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
