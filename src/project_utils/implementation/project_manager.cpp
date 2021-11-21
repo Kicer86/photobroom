@@ -20,6 +20,7 @@
 #include "project_manager.hpp"
 
 #include <cassert>
+#include <future>
 
 #include <QSettings>
 #include <QFileInfo>
