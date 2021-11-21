@@ -16,17 +16,20 @@ function(setup_qt_environment)
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
+                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
+                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
+                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
@@ -38,12 +41,14 @@ function(setup_qt_environment)
             add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
+                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
+                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 

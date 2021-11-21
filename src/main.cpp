@@ -66,6 +66,10 @@ namespace
 
 int main(int argc, char **argv)
 {
+#ifdef OS_WIN
+    QCoreApplication::setLibraryPaths({ "qt_plugins" });
+#endif
+
     QApplication app(argc, argv);
     app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
 
