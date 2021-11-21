@@ -103,21 +103,16 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 
         if (lock_status)
         {
-            QEventLoop loop;
+            std::promise<Database::BackendStatus> openResult;
+            auto openFuture = openResult.get_future();
 
-            project->getDatabase().init(dbPrjInfo, [&loop, &db_status](const Database::BackendStatus& status)
+            project->getDatabase().init(dbPrjInfo, [&openResult](const Database::BackendStatus& status)
             {
-                // this lambda function can be called from an unknown thread (even main thread).
-                // it is not guaranteed that `loop` already works.
-                // Make sure we will quit it by creating a delayed slot call.
-                // TODO: tricky...
-                QObject obj;
-                QObject::connect(&obj, &QObject::destroyed, &loop, &QEventLoop::quit, Qt::QueuedConnection);
-
-                db_status = status;
+                openResult.set_value(status);
             });
 
-            loop.exec();
+            openFuture.wait();          // here we wait for result. If called from main thread, gui will be frozen until db gets open
+            db_status = openFuture.get();
         }
         else
         {
