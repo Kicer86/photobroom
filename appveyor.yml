@@ -1,7 +1,7 @@
 
 # Warning: File generated from ci/appveyor.yml.in
 
-version: 1.5.1.{build}
+version: 1.5.2.{build}
 
 branches:
   only:
@@ -23,7 +23,7 @@ cache:
     - c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2      -> ci/appveyor_cache_drop_trigger
 
 artifacts:
-  - path: build/PhotoBroom-1.5.1-*.exe
+  - path: build/PhotoBroom-1.5.2-*.exe
     name: PhotoBroom_installer
 
 install:
