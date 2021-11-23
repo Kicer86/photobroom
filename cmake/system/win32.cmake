@@ -118,6 +118,10 @@ macro(addDeploymentActions)
 
     find_package(OpenSSL)
 
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+	get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+
     # install required dll files
     set(libs_OL ${CMAKE_IMPORT_LIBRARY_PREFIX}QtExt)
     set(libs_exiv2 exiv2 zlib1 iconv-2)
@@ -146,6 +150,7 @@ macro(addDeploymentActions)
         brotlicommon
         sqlite3
         jpeg62
+        opengl32sw                  
     )
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -175,7 +180,6 @@ macro(addDeploymentActions)
                          DLLFILES ${libs_dlib}
     )
 
-
     install_external_lib(NAME "NVidia"
                          DLLFILES ${libs_nvidia}
                          HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
@@ -191,6 +195,7 @@ macro(addDeploymentActions)
 
     install_external_lib(NAME "Qt6_third_party"
                          DLLFILES ${libs_qt6}
+                         HINTS ${qt_bin_dir}
     )
 
     install_external_lib(NAME "Compiler"
