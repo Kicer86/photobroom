@@ -50,6 +50,7 @@ PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
 void PhotosModelControllerComponent::setDatabase(Database::IDatabase* db)
 {
     m_model->setDatabase(db);
+    clear();
 
     if (db == nullptr && m_db != nullptr)
     {
@@ -247,6 +248,12 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 void PhotosModelControllerComponent::markNewAsReviewed()
 {
     m_db->exec(std::bind(&PhotosModelControllerComponent::markPhotosAsReviewed, this, _1));
+}
+
+
+void PhotosModelControllerComponent::clear()
+{
+    setAvailableDates({});
 }
 
 

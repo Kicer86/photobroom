@@ -826,7 +826,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+100"/>
+        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+101"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
@@ -1062,7 +1062,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+87"/>
+        <location filename="../src/main.cpp" line="+88"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
@@ -1073,8 +1073,8 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher</source>
-        <translation>Aktywacja eksperymentalnych funkcjonalności. Użyj tej opcji dla każdej z flagi, których chcesz użyć. Dostępne flagi: test-crash-catcher</translation>
+        <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>

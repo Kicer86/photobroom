@@ -104,6 +104,7 @@ class PhotosModelControllerComponent: public QObject
         Database::IDatabase* m_db;
         ICompleterFactory* m_completerFactory;
 
+        void clear();
         void updateModelFilters();
         void setAvailableDates(const std::vector<TagValue> &);
         void updateTimeRange();
