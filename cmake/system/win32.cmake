@@ -270,6 +270,7 @@ macro(addDeploymentActions)
     else()
         install_external_lib(NAME "Qt6_third_party"
                              DLLFILES ${libs_qt6_nonvcpkg}
+                             HINTS ${qt_bin_dir}
         )
     endif()
 
