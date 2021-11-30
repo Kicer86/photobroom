@@ -22,7 +22,7 @@
 
 #include <core/function_wrappers.hpp>
 #include "utils/ithumbnails_manager.hpp"
-#include "media_item.hpp"
+#include "amedia_item.hpp"
 
 
 class PhotoItem: public AMediaItem

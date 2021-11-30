@@ -1,5 +1,5 @@
 
-#include "media_item.hpp"
+#include "amedia_item.hpp"
 
 
 AMediaItem::AMediaItem(QQuickItem* p)
