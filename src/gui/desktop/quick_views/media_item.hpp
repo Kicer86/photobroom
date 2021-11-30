@@ -5,7 +5,7 @@
 #include <QQuickPaintedItem>
 
 
-class MediaItem: public QQuickPaintedItem
+class AMediaItem: public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
@@ -19,7 +19,7 @@ public:
         Fetched
     };
 
-    MediaItem(QQuickItem* parent = nullptr);
+    AMediaItem(QQuickItem* parent = nullptr);
 
     State state() const;
 

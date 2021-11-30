@@ -25,7 +25,7 @@
 using namespace std::placeholders;
 
 PhotoItem::PhotoItem(QQuickItem* parent)
-    : MediaItem(parent)
+    : AMediaItem(parent)
     , m_thbMgr(nullptr)
 {
     using namespace std::chrono_literals;

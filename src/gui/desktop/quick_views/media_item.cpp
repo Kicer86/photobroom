@@ -2,7 +2,7 @@
 #include "media_item.hpp"
 
 
-MediaItem::MediaItem(QQuickItem* p)
+AMediaItem::AMediaItem(QQuickItem* p)
     : QQuickPaintedItem(p)
     , m_state(State::NotFetched)
 {
@@ -10,13 +10,13 @@ MediaItem::MediaItem(QQuickItem* p)
 }
 
 
-MediaItem::State MediaItem::state() const
+AMediaItem::State AMediaItem::state() const
 {
     return m_state;
 }
 
 
-void MediaItem::setState(MediaItem::State state)
+void AMediaItem::setState(AMediaItem::State state)
 {
     const bool changed = state != m_state;
     m_state = state;

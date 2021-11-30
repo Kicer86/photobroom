@@ -25,7 +25,7 @@
 #include "media_item.hpp"
 
 
-class PhotoItem: public MediaItem
+class PhotoItem: public AMediaItem
 {
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
