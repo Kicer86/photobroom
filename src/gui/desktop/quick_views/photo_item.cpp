@@ -25,9 +25,8 @@
 using namespace std::placeholders;
 
 PhotoItem::PhotoItem(QQuickItem* parent)
-    : QQuickPaintedItem(parent)
+    : MediaItem(parent)
     , m_thbMgr(nullptr)
-    , m_state(State::NotFetched)
 {
     using namespace std::chrono_literals;
     lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &PhotoItem::refetch, 1000ms, 5000ms);
@@ -39,7 +38,7 @@ void PhotoItem::paint(QPainter* painter)
     if (m_thbMgr == nullptr || m_id.valid() == false)
         return;
 
-    if (m_state == State::NotFetched)
+    if (state() == State::NotFetched)
         fetchImage();
 
     if (m_image.isNull() == false)
@@ -73,12 +72,6 @@ const Photo::Id& PhotoItem::source() const
 }
 
 
-PhotoItem::State PhotoItem::state() const
-{
-    return m_state;
-}
-
-
 void PhotoItem::updateThumbnail(const QImage& image)
 {
     setImage(image);
@@ -93,16 +86,6 @@ void PhotoItem::setImage(const QImage& image)
         m_image.load(":/gui/error.svg");
     else
         m_image = image;
-}
-
-
-void PhotoItem::setState(PhotoItem::State state)
-{
-    const bool changed = state != m_state;
-    m_state = state;
-
-    if (changed)
-        emit stateChanged();
 }
 
 
@@ -123,7 +106,7 @@ void PhotoItem::paintImage(QPainter& painter) const
 
 void PhotoItem::refetch()
 {
-    if (m_state == State::Fetched && m_id.valid())
+    if (state() == State::Fetched && m_id.valid())
     {
         const QSize thbSize(width(), height());
 

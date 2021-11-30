@@ -7,8 +7,30 @@
 
 class MediaItem: public QQuickPaintedItem
 {
+    Q_OBJECT
+    Q_PROPERTY(State state READ state NOTIFY stateChanged)
+    Q_ENUMS(State)
+
 public:
-    void paint(QPainter* painter) override;
+    enum class State
+    {
+        NotFetched,
+        Fetching,
+        Fetched
+    };
+
+    MediaItem(QQuickItem* parent = nullptr);
+
+    State state() const;
+
+protected:
+    void setState(State);
+
+private:
+    State m_state;
+
+signals:
+    void stateChanged();
 };
 
 #endif
