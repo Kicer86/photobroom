@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DebugWindow.qml" line="+22"/>
+        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="+22"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -152,7 +152,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/FacesDialog.qml" line="+108"/>
+        <location filename="../src/gui/desktop/quick_views/Views/FacesDialog.qml" line="+108"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>
@@ -192,7 +192,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/Filter.qml" line="+59"/>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/Filter.qml" line="+59"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -568,7 +568,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/MainWindow.qml" line="+48"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+48"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
@@ -576,7 +576,7 @@ Kod błędu: %1</translation>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/DialogsComponents/NotificationsBar.qml" line="+88"/>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/NotificationsBar.qml" line="+88"/>
         <source>Click here to collapse notifications.</source>
         <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>
@@ -593,7 +593,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotoDataCompletion.qml" line="+127"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="+127"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -834,7 +834,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/PhotosView.qml" line="+172"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+172"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>
@@ -908,7 +908,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Dialogs/SeriesDetection.qml" line="+34"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="+34"/>
         <source>Group candidates</source>
         <translation>Potencjalne grupy</translation>
     </message>

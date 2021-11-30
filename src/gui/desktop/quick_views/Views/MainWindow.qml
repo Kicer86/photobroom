@@ -1,7 +1,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import "DialogsComponents" as Internals
+import "ViewsComponents" as Internals
 
 
 SwipeView {

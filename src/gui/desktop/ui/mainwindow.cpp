@@ -148,7 +148,7 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
-    ui->mainViewQml->setSource(QUrl("qrc:/ui/Dialogs/MainWindow.qml"));
+    ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
@@ -161,7 +161,7 @@ void MainWindow::setupQmlView()
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 
-    ui->debugDockContent->setSource(QUrl("qrc:/ui/Dialogs/DebugWindow.qml"));
+    ui->debugDockContent->setSource(QUrl("qrc:/ui/Views/DebugWindow.qml"));
 }
 
 

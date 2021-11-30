@@ -14,15 +14,15 @@
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
         <file>Components/ZoomableImage.qml</file>
-        <file>Dialogs/DebugWindow.qml</file>
-        <file>Dialogs/FacesDialog.qml</file>
-        <file>Dialogs/MainWindow.qml</file>
-        <file>Dialogs/PhotoDataCompletion.qml</file>
-        <file>Dialogs/PhotosView.qml</file>
-        <file>Dialogs/SeriesDetection.qml</file>
-        <file>Dialogs/DialogsComponents/Filter.qml</file>
-        <file>Dialogs/DialogsComponents/PhotoDelegate.qml</file>
-        <file>Dialogs/DialogsComponents/PhotosGridView.qml</file>
-        <file>Dialogs/DialogsComponents/NotificationsBar.qml</file>
+        <file>Views/DebugWindow.qml</file>
+        <file>Views/FacesDialog.qml</file>
+        <file>Views/MainWindow.qml</file>
+        <file>Views/PhotoDataCompletion.qml</file>
+        <file>Views/PhotosView.qml</file>
+        <file>Views/SeriesDetection.qml</file>
+        <file>Views/ViewsComponents/Filter.qml</file>
+        <file>Views/ViewsComponents/PhotoDelegate.qml</file>
+        <file>Views/ViewsComponents/PhotosGridView.qml</file>
+        <file>Views/ViewsComponents/NotificationsBar.qml</file>
     </qresource>
 </RCC>
