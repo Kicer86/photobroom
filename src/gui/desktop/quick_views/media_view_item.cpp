@@ -9,7 +9,10 @@
 
 
 MediaViewItem::MediaViewItem()
+    : m_core(ObjectsAccessor::instance().coreFactory())
 {
+    assert(m_core != nullptr);
+
     connect(this, &MediaViewItem::sourceChanged, this, &MediaViewItem::reload);
 }
 
@@ -47,7 +50,7 @@ void MediaViewItem::reload(const Photo::Id& id)
 
 void MediaViewItem::setImage(const QString& path)
 {
-    auto& exifReader = ObjectsAccessor::instance().coreFactory()->getExifReaderFactory().get();
+    auto& exifReader = m_core->getExifReaderFactory().get();
     m_image = OrientedImage(exifReader, path).get();
 
     update();
