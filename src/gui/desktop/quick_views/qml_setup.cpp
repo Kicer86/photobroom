@@ -2,6 +2,7 @@
 #include <database/database_tools/photos_data_guesser.hpp>
 
 #include "bridge.hpp"
+#include "media_view_item.hpp"
 #include "photo_data_qml.hpp"
 #include "photo_item.hpp"
 #include "photos_model_controller_component.hpp"
@@ -14,6 +15,7 @@
 void register_qml_types()
 {
     qmlRegisterType<ObjectsAccessor>("photo_broom.qml", 1, 0, "PhotoBroomProject");
+    qmlRegisterType<MediaViewItem>("photo_broom.qml", 1, 0, "MediaView");
     qmlRegisterType<PhotoItem>("photo_broom.qml", 1, 0, "Photo");
     qmlRegisterType<PictureItem>("photo_broom.qml", 1, 0, "Picture");
     qmlRegisterType<PhotosModelControllerComponent>("photo_broom.qml", 1, 0, "PhotosModelController");
