@@ -1,5 +1,5 @@
 
-#include "bridge.hpp"
+#include "objects_accessor.hpp"
 
 
 ObjectsAccessor::ObjectsAccessor(QObject* parent)

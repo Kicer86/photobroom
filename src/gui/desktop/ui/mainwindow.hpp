@@ -12,7 +12,7 @@
 
 #include "models/notifications_model.hpp"
 #include "ui_utils/completer_factory.hpp"
-#include "quick_views/bridge.hpp"
+#include "quick_views/objects_accessor.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "utils/features_observer.hpp"
 

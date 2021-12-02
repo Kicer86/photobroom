@@ -1,8 +1,8 @@
 
 #include <database/database_tools/photos_data_guesser.hpp>
 
-#include "bridge.hpp"
 #include "media_view_item.hpp"
+#include "objects_accessor.hpp"
 #include "photo_data_qml.hpp"
 #include "photo_item.hpp"
 #include "photos_model_controller_component.hpp"
