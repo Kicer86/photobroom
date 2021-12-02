@@ -4,7 +4,7 @@
 
 #include "amedia_item.hpp"
 
-class MediaView : public AMediaItem
+class MediaViewItem : public AMediaItem
 {
 };
 
