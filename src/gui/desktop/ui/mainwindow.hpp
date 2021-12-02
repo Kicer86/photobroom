@@ -12,7 +12,6 @@
 
 #include "models/notifications_model.hpp"
 #include "ui_utils/completer_factory.hpp"
-#include "quick_views/objects_accessor.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "utils/features_observer.hpp"
 
@@ -73,7 +72,6 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
-        ObjectsAccessor           m_bridge;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;

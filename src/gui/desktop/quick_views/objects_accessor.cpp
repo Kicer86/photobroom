@@ -9,6 +9,15 @@ ObjectsAccessor::ObjectsAccessor(QObject* parent)
 
 }
 
+
+ObjectsAccessor& ObjectsAccessor::instance()
+{
+    static ObjectsAccessor i;
+
+    return i;
+}
+
+
 void ObjectsAccessor::setDatabase(Database::IDatabase* database)
 {
     m_database = database;

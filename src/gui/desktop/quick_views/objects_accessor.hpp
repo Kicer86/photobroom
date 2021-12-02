@@ -13,8 +13,7 @@ class ObjectsAccessor: public QObject
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged)
 
     public:
-        ObjectsAccessor(QObject* parent = nullptr);
-        ~ObjectsAccessor() = default;
+        static ObjectsAccessor& instance();
 
         void setDatabase(Database::IDatabase *);
         Database::IDatabase* database() const;
@@ -24,6 +23,9 @@ class ObjectsAccessor: public QObject
 
     private:
         Database::IDatabase* m_database;
+
+        ObjectsAccessor(QObject* parent = nullptr);
+        ~ObjectsAccessor() = default;
 };
 
 #endif
