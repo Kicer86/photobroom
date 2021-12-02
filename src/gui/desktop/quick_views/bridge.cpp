@@ -2,14 +2,14 @@
 #include "bridge.hpp"
 
 
-Bridge::Bridge(QObject* parent)
+ObjectsAccessor::ObjectsAccessor(QObject* parent)
     : QObject(parent)
     , m_database(nullptr)
 {
 
 }
 
-void Bridge::setDatabase(Database::IDatabase* database)
+void ObjectsAccessor::setDatabase(Database::IDatabase* database)
 {
     m_database = database;
 
@@ -17,7 +17,7 @@ void Bridge::setDatabase(Database::IDatabase* database)
 }
 
 
-Database::IDatabase* Bridge::database() const
+Database::IDatabase* ObjectsAccessor::database() const
 {
     return m_database;
 }

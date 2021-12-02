@@ -6,15 +6,15 @@
 
 #include <database/idatabase.hpp>
 
-class Bridge: public QObject
+class ObjectsAccessor: public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged)
 
     public:
-        Bridge(QObject* parent = nullptr);
-        ~Bridge() = default;
+        ObjectsAccessor(QObject* parent = nullptr);
+        ~ObjectsAccessor() = default;
 
         void setDatabase(Database::IDatabase *);
         Database::IDatabase* database() const;

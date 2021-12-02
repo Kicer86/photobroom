@@ -91,7 +91,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     connect(this, &MainWindow::currentDatabaseChanged,
             ui->tagEditor, &TagEditorWidget::setDatabase);
     connect(this, &MainWindow::currentDatabaseChanged,
-            &m_bridge, &Bridge::setDatabase);
+            &m_bridge, &ObjectsAccessor::setDatabase);
 
     IconsLoader icons;
 
