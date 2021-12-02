@@ -1,7 +1,9 @@
 
 #include <QPainter>
 
+#include <core/iexif_reader.hpp>
 #include <core/function_wrappers.hpp>
+#include <core/oriented_image.hpp>
 #include "media_view_item.hpp"
 #include "objects_accessor.hpp"
 
@@ -45,7 +47,8 @@ void MediaViewItem::reload(const Photo::Id& id)
 
 void MediaViewItem::setImage(const QString& path)
 {
-    m_image = QImage(path);
+    auto& exifReader = ObjectsAccessor::instance().coreFactory()->getExifReaderFactory().get();
+    m_image = OrientedImage(exifReader, path).get();
 
     update();
 }
