@@ -5,6 +5,7 @@
 ObjectsAccessor::ObjectsAccessor(QObject* parent)
     : QObject(parent)
     , m_database(nullptr)
+    , m_core(nullptr)
 {
 
 }
@@ -26,7 +27,18 @@ void ObjectsAccessor::setDatabase(Database::IDatabase* database)
 }
 
 
+void ObjectsAccessor::setCoreFactory(ICoreFactoryAccessor* core)
+{
+    m_core = core;
+}
+
+
 Database::IDatabase* ObjectsAccessor::database() const
 {
     return m_database;
+}
+
+ICoreFactoryAccessor* ObjectsAccessor::coreFactory() const
+{
+    return m_core;
 }

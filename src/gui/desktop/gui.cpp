@@ -25,6 +25,7 @@
 #endif
 
 #include "ui/mainwindow.hpp"
+#include "quick_views/objects_accessor.hpp"
 #include "quick_views/qml_setup.hpp"
 #include "utils/features_manager.hpp"
 #include "utils/thumbnails_cache.hpp"
@@ -45,6 +46,8 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");
     qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
+
+    ObjectsAccessor::instance().setCoreFactory(&coreFactory);
 
 #ifdef OS_WIN
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);          // TODO: required by QQuickWidget https://doc.qt.io/qt-6/quick-changes-qt6.html#changes-to-qquickwidget

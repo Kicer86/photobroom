@@ -4,7 +4,9 @@
 
 #include <QObject>
 
+#include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
+
 
 class ObjectsAccessor: public QObject
 {
@@ -16,13 +18,17 @@ class ObjectsAccessor: public QObject
         static ObjectsAccessor& instance();
 
         void setDatabase(Database::IDatabase *);
+        void setCoreFactory(ICoreFactoryAccessor *);
+
         Database::IDatabase* database() const;
+        ICoreFactoryAccessor* coreFactory() const;
 
     signals:
         void databaseChanged(Database::IDatabase *) const;
 
     private:
         Database::IDatabase* m_database;
+        ICoreFactoryAccessor* m_core;
 
         ObjectsAccessor(QObject* parent = nullptr);
         ~ObjectsAccessor() = default;
