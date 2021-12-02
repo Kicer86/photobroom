@@ -12,7 +12,7 @@ qt6_add_resources(QML_RESOURCES
 qt6_wrap_cpp(MOCED
                 amedia_item.hpp
                 bridge.hpp
-                media_view.hpp
+                media_view_item.hpp
                 photo_data_qml.hpp
                 photo_item.hpp
                 photos_model_controller_component.hpp
@@ -28,8 +28,8 @@ add_library(quick_views OBJECT
                 amedia_item.hpp
                 bridge.cpp
                 bridge.hpp
-                media_view.cpp
-                media_view.hpp
+                media_view_item.cpp
+                media_view_item.hpp
                 photo_data_qml.cpp
                 photo_data_qml.hpp
                 photo_item.cpp
