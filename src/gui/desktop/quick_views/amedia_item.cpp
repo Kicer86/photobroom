@@ -10,9 +10,23 @@ AMediaItem::AMediaItem(QQuickItem* p)
 }
 
 
+void AMediaItem::setSource(const Photo::Id& id)
+{
+    m_id = id;
+
+    update();
+}
+
+
 AMediaItem::State AMediaItem::state() const
 {
     return m_state;
+}
+
+
+const Photo::Id& AMediaItem::source() const
+{
+    return m_id;
 }
 
 

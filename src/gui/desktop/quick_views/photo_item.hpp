@@ -29,7 +29,6 @@ class PhotoItem: public AMediaItem
 {
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
-        Q_PROPERTY(Photo::Id photoID WRITE setSource READ source)
 
     public:
         PhotoItem(QQuickItem *parent = nullptr);
@@ -38,15 +37,12 @@ class PhotoItem: public AMediaItem
         void paint(QPainter *painter) override;
 
         void setThumbnailsManager(IThumbnailsManager *);
-        void setSource(const Photo::Id &);
 
         IThumbnailsManager* thumbnailsManager() const;
-        const Photo::Id& source() const;
 
     private:
         QImage m_image;
         IThumbnailsManager* m_thbMgr;
-        Photo::Id m_id;
 
         void updateThumbnail(const QImage &);
         void fetchImage();
