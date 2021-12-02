@@ -9,7 +9,7 @@ class AMediaItem: public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
-    Q_PROPERTY(Photo::Id photoID WRITE setSource READ source)
+    Q_PROPERTY(Photo::Id photoID WRITE setSource READ source NOTIFY sourceChanged)
     Q_ENUMS(State)
 
 public:
@@ -36,6 +36,7 @@ private:
 
 signals:
     void stateChanged();
+    void sourceChanged(const Photo::Id &);
 };
 
 #endif

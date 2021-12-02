@@ -13,6 +13,7 @@ AMediaItem::AMediaItem(QQuickItem* p)
 void AMediaItem::setSource(const Photo::Id& id)
 {
     m_id = id;
+    emit sourceChanged(id);
 
     update();
 }
