@@ -34,7 +34,7 @@ const Photo::Id& MediaViewCtrl::source() const
 }
 
 
-QString MediaViewCtrl::path() const
+QUrl MediaViewCtrl::path() const
 {
     return m_path;
 }
@@ -52,12 +52,12 @@ void MediaViewCtrl::setPath(const QString& path)
 
     const QFileInfo pathInfo(path);
 
-    m_path = pathInfo.absoluteFilePath();       // QML's MediaPlayer does not like 'prj:' prefix
+    m_path = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
     emit pathChanged(m_path);
 
-    if (MediaTypes::isImageFile(m_path))
+    if (MediaTypes::isImageFile(path))
         setMode(Mode::StaticImage);
-    else if (MediaTypes::isVideoFile(m_path))
+    else if (MediaTypes::isVideoFile(path))
         setMode(Mode::Video);
 }
 
