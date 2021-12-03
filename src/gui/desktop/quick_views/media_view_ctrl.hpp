@@ -21,6 +21,7 @@ public:
         Unknown,
         StaticImage,
         AnimatedImage,
+        Video,
     };
 
     void setSource(const Photo::Id &);

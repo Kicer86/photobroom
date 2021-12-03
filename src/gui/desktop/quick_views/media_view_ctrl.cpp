@@ -1,4 +1,6 @@
 
+#include <QFileInfo>
+
 #include <core/function_wrappers.hpp>
 #include <core/media_types.hpp>
 
@@ -48,11 +50,15 @@ void MediaViewCtrl::setPath(const QString& path)
 {
     setMode(Mode::Unknown);
 
-    m_path = path;
+    const QFileInfo pathInfo(path);
+
+    m_path = pathInfo.absoluteFilePath();       // QML's MediaPlayer does not like 'prj:' prefix
     emit pathChanged(m_path);
 
     if (MediaTypes::isImageFile(m_path))
         setMode(Mode::StaticImage);
+    else if (MediaTypes::isVideoFile(m_path))
+        setMode(Mode::Video);
 }
 
 
