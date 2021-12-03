@@ -5,7 +5,6 @@ import photo_broom.qml 1.0
 
 
 Item {
-
     property alias photoID: ctrl.photoID
 
     MediaViewCtrl {
@@ -16,7 +15,6 @@ Item {
         id: staticImage
 
         Image {
-
             anchors.fill: parent
 
             source: ctrl.path
