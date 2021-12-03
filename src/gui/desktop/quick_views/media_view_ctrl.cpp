@@ -46,14 +46,13 @@ MediaViewCtrl::Mode MediaViewCtrl::mode() const
 
 void MediaViewCtrl::setPath(const QString& path)
 {
+    setMode(Mode::Unknown);
+
     m_path = path;
+    emit pathChanged(m_path);
 
     if (MediaTypes::isImageFile(m_path))
-    {
         setMode(Mode::StaticImage);
-    }
-
-    emit pathChanged(m_path);
 }
 
 
