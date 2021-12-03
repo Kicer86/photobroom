@@ -50,9 +50,15 @@ void MediaViewCtrl::setPath(const QString& path)
 
     if (MediaTypes::isImageFile(m_path))
     {
-        m_mode = Mode::StaticImage;
-        emit modeChanged(m_mode);
+        setMode(Mode::StaticImage);
     }
 
     emit pathChanged(m_path);
+}
+
+
+void MediaViewCtrl::setMode(Mode mode)
+{
+    m_mode = mode;
+    emit modeChanged(m_mode);
 }

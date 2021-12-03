@@ -40,6 +40,8 @@ private:
     Photo::Id m_id;
 
     void setPath(const QString &);
+    void setMode(Mode);
 };
 
 #endif
+
