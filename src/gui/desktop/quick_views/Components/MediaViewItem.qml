@@ -12,60 +12,52 @@ Item {
         id: ctrl
     }
 
-    Image {
+    Component {
         id: staticImage
 
-        anchors.fill: parent
+        Image {
 
-        enabled: ctrl.mode === MediaViewCtrl.StaticImage
-        visible: enabled
+            anchors.fill: parent
 
-        source: enabled? ctrl.path: ""
-        asynchronous: true
-        autoTransform: true
-        fillMode: Image.PreserveAspectFit
+            source: ctrl.path
+            asynchronous: true
+            autoTransform: true
+            fillMode: Image.PreserveAspectFit
+        }
     }
 
-    VideoOutput {
+    Component {
         id: video
 
-        anchors.fill: parent
+        VideoOutput {
+            id: videoOutputItem
+            anchors.fill: parent
 
-        enabled: ctrl.mode === MediaViewCtrl.Video
-        visible: enabled
+            fillMode: Image.PreserveAspectFit
 
-        fillMode: Image.PreserveAspectFit
+            MediaPlayer {
+                id: player
+                source: ctrl.path
+                audioOutput: AudioOutput {}
+                videoOutput: videoOutputItem
 
-        onEnabledChanged: {
-            if (video.enabled === false)
-                player.shutdown();
-        }
-
-        MediaPlayer {
-            id: player
-            source: video.enabled? ctrl.path: ""
-            audioOutput: AudioOutput {}
-            videoOutput: video
-
-            onErrorOccurred: function(error, errorString) {
-                console.log("Error (" + error + ") when opening file " + ctrl.path + " : " + errorString);
-                player.shutdown();
-            }
-
-            onSourceChanged: {
-                if (source != "")
-                {
-                    console.log("Playing video: " + player.source);
-                    player.play();
+                onErrorOccurred: function(error, errorString) {
+                    console.log("Error (" + error + ") when opening file " + ctrl.path + " : " + errorString);
                 }
-                else
-                    console.log("Source changed to empty");
-            }
 
-            function shutdown() {
-                player.stop();
-                console.log("Stopping video");
+                onSourceChanged: {
+                    if (source != "")
+                    {
+                        console.log("Playing video: " + player.source);
+                        player.play();
+                    }
+                    else
+                        console.log("Source changed to empty");
+                }
             }
         }
     }
+
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.StaticImage? staticImage: undefined; anchors.fill: parent }
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Video?       video:       undefined; anchors.fill: parent }
 }
