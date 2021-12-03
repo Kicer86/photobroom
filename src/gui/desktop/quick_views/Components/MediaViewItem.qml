@@ -36,6 +36,11 @@ Item {
 
         fillMode: Image.PreserveAspectFit
 
+        onEnabledChanged: {
+            if (video.enabled === false)
+                player.shutdown();
+        }
+
         MediaPlayer {
             id: player
             source: video.enabled? ctrl.path: ""
@@ -44,19 +49,22 @@ Item {
 
             onErrorOccurred: function(error, errorString) {
                 console.log("Error (" + error + ") when opening file " + ctrl.path + " : " + errorString);
+                player.shutdown();
             }
 
             onSourceChanged: {
-                if (source == "")
-                {
-                    player.stop();
-                    console.log("Stopping video");
-                }
-                else
+                if (source != "")
                 {
                     console.log("Playing video: " + player.source);
                     player.play();
                 }
+                else
+                    console.log("Source changed to empty");
+            }
+
+            function shutdown() {
+                player.stop();
+                console.log("Stopping video");
             }
         }
     }
