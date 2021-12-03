@@ -12,6 +12,7 @@ qt6_add_resources(QML_RESOURCES
 qt6_wrap_cpp(MOCED
                 media_renderers/gif_renderer.hpp
                 amedia_item.hpp
+                media_view_ctrl.hpp
                 media_view_item.hpp
                 objects_accessor.hpp
                 photo_data_qml.hpp
@@ -29,6 +30,8 @@ add_library(quick_views OBJECT
                 media_renderers/gif_renderer.hpp
                 amedia_item.cpp
                 amedia_item.hpp
+                media_view_ctrl.cpp
+                media_view_ctrl.hpp
                 media_view_item.cpp
                 media_view_item.hpp
                 objects_accessor.cpp
