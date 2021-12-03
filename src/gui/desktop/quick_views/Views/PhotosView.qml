@@ -128,7 +128,8 @@ Item {
                 propagateComposedEvents: false
 
                 onClicked: {
-                    photosViewId.state = "gallery"
+                    photosViewId.state = "gallery";
+                    fullscreenImage.photoID = gridView.model.getId(-1);
                 }
             }
         }
