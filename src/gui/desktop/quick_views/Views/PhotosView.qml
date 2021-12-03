@@ -100,14 +100,14 @@ Item {
             Behavior on opacity { PropertyAnimation{} }
         }
 
-        MediaView {
+        Components.MediaViewItem {
             // image in full screen mode
 
             id: fullscreenImage
 
             function setPhoto(index) {
-                var path = gridView.model.getId(index);
-                fullscreenImage.photoID = path;
+                var id = gridView.model.getId(index);
+                fullscreenImage.photoID = id;
                 fullscreenImage.focus = true;
                 fullscreenImage.currentIndex = index;
 
