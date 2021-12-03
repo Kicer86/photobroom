@@ -47,7 +47,7 @@ Item {
             }
 
             onSourceChanged: {
-                if (source === "")
+                if (source == "")
                 {
                     player.stop();
                     console.log("Stopping video");
