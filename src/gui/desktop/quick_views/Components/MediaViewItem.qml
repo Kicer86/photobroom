@@ -10,10 +10,6 @@ Item {
 
     MediaViewCtrl {
         id: ctrl
-
-        onModeChanged: function(mode) {
-
-        }
     }
 
     Image {
