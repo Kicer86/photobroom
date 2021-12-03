@@ -9,8 +9,22 @@ Item {
     MediaViewCtrl {
         id: ctrl
 
-        onModeChanged: function(path) {
+        onModeChanged: function(mode) {
 
         }
+    }
+
+    Image {
+        id: staticImage
+
+        anchors.fill: parent
+
+        enabled:  ctrl.mode === MediaViewCtrl.StaticImage
+        visible: enabled
+
+        source: enabled? ctrl.path: ""
+        asynchronous: true
+        autoTransform: true
+        fillMode: Image.PreserveAspectFit
     }
 }
