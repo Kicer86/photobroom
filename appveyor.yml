@@ -21,6 +21,7 @@ image: Visual Studio 2019
 cache:
     - c:\tools\vcpkg\installed                                      -> ci/appveyor_cache_drop_trigger
     - c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2      -> ci/appveyor_cache_drop_trigger
+    - build\tools
 
 artifacts:
   - path: build/PhotoBroom-1.6.0-*.exe
