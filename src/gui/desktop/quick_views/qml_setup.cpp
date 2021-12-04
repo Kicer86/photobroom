@@ -16,7 +16,7 @@ void register_qml_types()
 {
     qmlRegisterType<ObjectsAccessor>("photo_broom.qml", 1, 0, "PhotoBroomProject");
     qmlRegisterType<MediaViewCtrl>("photo_broom.qml", 1, 0, "MediaViewCtrl");
-    qmlRegisterType<PhotoItem>("photo_broom.qml", 1, 0, "Photo");
+    qmlRegisterType<StaticImageThumbnailItem>("photo_broom.qml", 1, 0, "Photo");
     qmlRegisterType<PictureItem>("photo_broom.qml", 1, 0, "Picture");
     qmlRegisterType<PhotosModelControllerComponent>("photo_broom.qml", 1, 0, "PhotosModelController");
     qmlRegisterType<SelectionManagerComponent>("photo_broom.qml", 1, 0, "SelectionManager");

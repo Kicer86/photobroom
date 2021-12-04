@@ -24,16 +24,16 @@
 
 using namespace std::placeholders;
 
-PhotoItem::PhotoItem(QQuickItem* parent)
+StaticImageThumbnailItem::StaticImageThumbnailItem(QQuickItem* parent)
     : AMediaItem(parent)
     , m_thbMgr(nullptr)
 {
     using namespace std::chrono_literals;
-    lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &PhotoItem::refetch, 1000ms, 5000ms);
+    lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &StaticImageThumbnailItem::refetch, 1000ms, 5000ms);
 }
 
 
-void PhotoItem::paint(QPainter* painter)
+void StaticImageThumbnailItem::paint(QPainter* painter)
 {
     if (m_thbMgr == nullptr || source().valid() == false)
         return;
@@ -46,19 +46,19 @@ void PhotoItem::paint(QPainter* painter)
 }
 
 
-void PhotoItem::setThumbnailsManager(IThumbnailsManager* mgr)
+void StaticImageThumbnailItem::setThumbnailsManager(IThumbnailsManager* mgr)
 {
     m_thbMgr = mgr;
 }
 
 
-IThumbnailsManager* PhotoItem::thumbnailsManager() const
+IThumbnailsManager* StaticImageThumbnailItem::thumbnailsManager() const
 {
     return m_thbMgr;
 }
 
 
-void PhotoItem::updateThumbnail(const QImage& image)
+void StaticImageThumbnailItem::updateThumbnail(const QImage& image)
 {
     setImage(image);
     setState(State::Fetched);
@@ -66,7 +66,7 @@ void PhotoItem::updateThumbnail(const QImage& image)
 }
 
 
-void PhotoItem::setImage(const QImage& image)
+void StaticImageThumbnailItem::setImage(const QImage& image)
 {
     if (image.isNull())
         m_image.load(":/gui/error.svg");
@@ -75,7 +75,7 @@ void PhotoItem::setImage(const QImage& image)
 }
 
 
-void PhotoItem::paintImage(QPainter& painter) const
+void StaticImageThumbnailItem::paintImage(QPainter& painter) const
 {
     assert(m_image.isNull() == false);
 
@@ -90,7 +90,7 @@ void PhotoItem::paintImage(QPainter& painter) const
 }
 
 
-void PhotoItem::refetch()
+void StaticImageThumbnailItem::refetch()
 {
     if (state() == State::Fetched && source().valid())
     {
@@ -101,12 +101,12 @@ void PhotoItem::refetch()
         if (image.has_value())
             setImage(image.value());
         else
-            m_thbMgr->fetch(source(), thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+            m_thbMgr->fetch(source(), thbSize, queued_slot(this, &StaticImageThumbnailItem::updateThumbnail));
     }
 }
 
 
-void PhotoItem::fetchImage()
+void StaticImageThumbnailItem::fetchImage()
 {
     const QSize thbSize(width(), height());
 
@@ -121,6 +121,6 @@ void PhotoItem::fetchImage()
     {
         setState(State::Fetching);
 
-        m_thbMgr->fetch(source(), thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+        m_thbMgr->fetch(source(), thbSize, queued_slot(this, &StaticImageThumbnailItem::updateThumbnail));
     }
 }

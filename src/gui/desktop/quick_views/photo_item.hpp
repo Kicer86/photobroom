@@ -25,14 +25,14 @@
 #include "amedia_item.hpp"
 
 
-class PhotoItem: public AMediaItem
+class StaticImageThumbnailItem: public AMediaItem
 {
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
 
     public:
-        PhotoItem(QQuickItem *parent = nullptr);
-        ~PhotoItem() = default;
+        StaticImageThumbnailItem(QQuickItem *parent = nullptr);
+        ~StaticImageThumbnailItem() = default;
 
         void paint(QPainter *painter) override;
 
