@@ -222,6 +222,10 @@ macro(addDeploymentActions)
         jpeg62
     )
 
+    set(libs_qt6_nonvcpkg
+        opengl32sw
+    )
+
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
         # include compiler's runtime copied by windeploy in installer as extra install step
@@ -260,9 +264,13 @@ macro(addDeploymentActions)
     )
 
     if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
-        message("Including Qt's 3rd party libraries")
         install_external_lib(NAME "Qt6_third_party"
-                            DLLFILES ${libs_qt6}
+                             DLLFILES ${libs_qt6}
+        )
+    else()
+        install_external_lib(NAME "Qt6_third_party"
+                             DLLFILES ${libs_qt6_nonvcpkg}
+                             HINTS ${qt_bin_dir}
         )
     endif()
 
