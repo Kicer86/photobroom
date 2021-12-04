@@ -118,11 +118,11 @@ endfunction(install_external_lib)
 function(download_tools)
     if(NOT EXISTS tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
         message("Downloading ImageMagick")
-        file(DOWNLOAD 
+        file(DOWNLOAD
             https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip tools/ImageMagick-7.1.0-portable-Q16-x64.zip
             SHOW_PROGRESS
         )
-        file(ARCHIVE_EXTRACT 
+        file(ARCHIVE_EXTRACT
             INPUT tools/ImageMagick-7.1.0-portable-Q16-x64.zip
             DESTINATION tools/ImageMagick
         )
@@ -134,27 +134,27 @@ function(download_tools)
 
     if(NOT EXISTS tools/ffmpeg-release-essentials.7z)
         message("Downloading FFMpeg")
-        file(DOWNLOAD 
+        file(DOWNLOAD
             https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z tools/ffmpeg-release-essentials.7z
             SHOW_PROGRESS
         )
-        file(ARCHIVE_EXTRACT 
+        file(ARCHIVE_EXTRACT
             INPUT tools/ffmpeg-release-essentials.7z
             DESTINATION tools
         )
     endif()
-    
+
     install(DIRECTORY ${OUTPUT_PATH}/tools/ffmpeg-4.4.1-essentials_build/   # version :/ not nice to have it here
         DESTINATION tools/FFMpeg
     )
 
     if(NOT EXISTS tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
-        file(DOWNLOAD 
+        file(DOWNLOAD
             https://exiftool.org/exiftool-12.35.zip tools/exiftool-12.35.zip
             SHOW_PROGRESS
         )
-        file(ARCHIVE_EXTRACT 
+        file(ARCHIVE_EXTRACT
             INPUT tools/exiftool-12.35.zip
             DESTINATION tools
         )
@@ -167,11 +167,11 @@ function(download_tools)
 
     if(NOT EXISTS tools/Hugin-2020.0.0-win64.msi)
         message("Downloading Hugin")
-        file(DOWNLOAD 
+        file(DOWNLOAD
             https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi tools/Hugin-2020.0.0-win64.msi
             SHOW_PROGRESS
-        )   
-        
+        )
+
         file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi" hugin_source)
         file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin" hugin_destination)
         execute_process(
@@ -182,7 +182,7 @@ function(download_tools)
     install(FILES ${OUTPUT_PATH}/tools/Hugin/Hugin/bin/align_image_stack.exe
         DESTINATION tools/Hugin
     )
-        
+
 endfunction(download_tools)
 
 
@@ -257,8 +257,8 @@ macro(addDeploymentActions)
                          HINTS ${CMAKE_INSTALL_PREFIX}/lib
                                ${OPENSSL_ROOT_DIR}/bin
                          OPTIONAL
-    ) 
-    
+    )
+
     if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
         message("Including Qt's 3rd party libraries")
         install_external_lib(NAME "Qt6_third_party"
