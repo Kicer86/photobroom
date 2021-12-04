@@ -16,7 +16,7 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
 
     Database::IDatabase* db = ObjectsAccessor::instance().database();
 
-    if (db)
+    if (db && id.valid())
     {
         db->exec([this, id](Database::IBackend& backend)
         {
