@@ -20,7 +20,7 @@ Item {
         Behavior on opacity { PropertyAnimation {} }
     }
 
-    Photo {
+    StaticImageThumbnail {
         id: image
 
         anchors.fill: parent
@@ -34,11 +34,11 @@ Item {
     states: [
         State {
             name: "unknown"
-            when: image.state === Photo.NotFetched
+            when: image.state === StaticImageThumbnail.NotFetched
         },
         State {
             name: "loading"
-            when: image.state === Photo.Fetching
+            when: image.state === StaticImageThumbnail.Fetching
             PropertyChanges {
                 target: busyId
                 running: true
@@ -46,7 +46,7 @@ Item {
         },
         State {
             name: "done"
-            when: image.state === Photo.Fetched
+            when: image.state === StaticImageThumbnail.Fetched
             PropertyChanges {
                 target: busyId
                 running: false
