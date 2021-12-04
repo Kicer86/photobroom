@@ -56,7 +56,7 @@ before_build:
     - cmd: set qt_arch=msvc2019_64
     - cmd: set USE_QT_VER=6.2
     - cmd: set CMAKE_PREFIX_PATH=C:/Qt/%USE_QT_VER%/%qt_arch%
-    - cmd: mkdir build
+    - cmd: if not exist "build" mkdir C:\VTS mkdir build
     - cmd: cd build
     - cmd: cmake -G%generator%
                  -A%platform%
