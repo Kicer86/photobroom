@@ -3,7 +3,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 import "../Components" as Components
-import "DialogsComponents" as Internals
+import "ViewsComponents" as Internals
 
 /*
  * Series detection dialog

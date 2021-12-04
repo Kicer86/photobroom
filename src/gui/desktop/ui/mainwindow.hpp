@@ -73,7 +73,7 @@ class MainWindow: public QMainWindow
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
-        Bridge                    m_bridge;
+        ObjectsAccessor           m_bridge;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;

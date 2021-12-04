@@ -13,7 +13,7 @@
 
 void register_qml_types()
 {
-    qmlRegisterType<Bridge>("photo_broom.qml", 1, 0, "PhotoBroomProject");
+    qmlRegisterType<ObjectsAccessor>("photo_broom.qml", 1, 0, "PhotoBroomProject");
     qmlRegisterType<PhotoItem>("photo_broom.qml", 1, 0, "Photo");
     qmlRegisterType<PictureItem>("photo_broom.qml", 1, 0, "Picture");
     qmlRegisterType<PhotosModelControllerComponent>("photo_broom.qml", 1, 0, "PhotosModelController");

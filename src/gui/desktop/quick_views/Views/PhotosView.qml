@@ -3,7 +3,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 import "../Components" as Components
-import "DialogsComponents" as Internals
+import "ViewsComponents" as Internals
 
 /*
  * Top level view for diplaying photos from APhotoInfoModel.

@@ -66,7 +66,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase& db,
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
     QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_seriesModel);
-    m_qmlView->setSource(QUrl("qrc:/ui/Dialogs/SeriesDetection.qml"));
+    m_qmlView->setSource(QUrl("qrc:/ui/Views/SeriesDetection.qml"));
 
     layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);
