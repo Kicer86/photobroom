@@ -14,7 +14,7 @@ qt6_wrap_cpp(MOCED
                 media_view_ctrl.hpp
                 objects_accessor.hpp
                 photo_data_qml.hpp
-                photo_item.hpp
+                static_image_thumbnail_item.hpp
                 photos_model_controller_component.hpp
                 picture_item.hpp
                 qml_setup.hpp
@@ -32,8 +32,6 @@ add_library(quick_views OBJECT
                 objects_accessor.hpp
                 photo_data_qml.cpp
                 photo_data_qml.hpp
-                photo_item.cpp
-                photo_item.hpp
                 photos_model_controller_component.cpp
                 photos_model_controller_component.hpp
                 picture_item.cpp
@@ -44,8 +42,9 @@ add_library(quick_views OBJECT
                 qml_utils.hpp
                 selection_manager_component.cpp
                 selection_manager_component.hpp
+                static_image_thumbnail_item.cpp
+                static_image_thumbnail_item.hpp
 )
-
 
 target_link_libraries(quick_views
                         PUBLIC

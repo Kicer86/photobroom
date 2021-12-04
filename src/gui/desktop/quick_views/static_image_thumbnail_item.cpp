@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "photo_item.hpp"
+#include "static_image_thumbnail_item.hpp"
 
 #include <QPainter>
 

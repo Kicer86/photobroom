@@ -4,7 +4,7 @@
 #include "media_view_ctrl.hpp"
 #include "objects_accessor.hpp"
 #include "photo_data_qml.hpp"
-#include "photo_item.hpp"
+#include "static_image_thumbnail_item.hpp"
 #include "photos_model_controller_component.hpp"
 #include "picture_item.hpp"
 #include "selection_manager_component.hpp"
