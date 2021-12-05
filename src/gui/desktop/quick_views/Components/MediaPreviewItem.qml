@@ -14,14 +14,13 @@ Item {
     Component {
         id: staticImage
 
-        StaticImageThumbnail {
+        Waiter {
+            StaticImageThumbnail {
+                anchors.fill: parent
 
-            anchors.fill: parent
-            opacity: 0
-
-            photoID: ctrl.photoID
-
-            thumbnails: thumbnailsManager.get()
+                photoID: ctrl.photoID
+                thumbnails: thumbnailsManager.get()
+            }
         }
     }
 
