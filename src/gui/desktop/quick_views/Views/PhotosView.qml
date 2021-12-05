@@ -129,7 +129,6 @@ Item {
 
                 onClicked: {
                     photosViewId.state = "gallery";
-                    fullscreenImage.photoID = gridView.model.getId(-1);
                 }
             }
         }
