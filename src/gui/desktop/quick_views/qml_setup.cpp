@@ -27,4 +27,5 @@ void register_qml_types()
     qmlRegisterInterface<Database::IDatabase>("Database::IDatabase", 1);
     qmlRegisterInterface<FlatModel>("FlatModel", 1);
     qmlRegisterUncreatableMetaObject(Photo::staticMetaObject, "photo_broom.qml", 1, 0, "PhotoEnums", "Error: only enums");
+    qmlRegisterUncreatableMetaObject(AMediaItem::staticMetaObject, "photo_broom.qml", 1, 0, "AMediaItem", "Error: only enums");
 }
