@@ -15,6 +15,7 @@
         <file>Components/ShadowFocus.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
+        <file>Components/Waiter.qml</file>
         <file>Components/ZoomableImage.qml</file>
         <file>Views/DebugWindow.qml</file>
         <file>Views/FacesDialog.qml</file>
