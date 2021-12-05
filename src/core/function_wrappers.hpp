@@ -205,7 +205,7 @@ auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 // construct a functor which invoked will invoke a method
 // (slot) of given object. Will do nothing when given object is destroyed.
 // Similar to safe_callback_ctrl (but uses Qt mechanism to guarantee (?) threadsafety)
-// Instead of queued_slot() method is invoked in caller's thread
+// In contrast to queued_slot() method is invoked in caller's thread
 template<typename ObjT, typename R, typename ...Args>
 std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
