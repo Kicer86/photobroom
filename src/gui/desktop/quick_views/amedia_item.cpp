@@ -4,7 +4,7 @@
 
 AMediaItem::AMediaItem(QQuickItem* p)
     : QQuickPaintedItem(p)
-    , m_state(State::NotFetched)
+    , m_state(Status::NotFetched)
 {
 
 }
@@ -19,7 +19,7 @@ void AMediaItem::setSource(const Photo::Id& id)
 }
 
 
-AMediaItem::State AMediaItem::state() const
+AMediaItem::Status AMediaItem::state() const
 {
     return m_state;
 }
@@ -31,7 +31,7 @@ const Photo::Id& AMediaItem::source() const
 }
 
 
-void AMediaItem::setState(AMediaItem::State state)
+void AMediaItem::setState(AMediaItem::Status state)
 {
     const bool changed = state != m_state;
     m_state = state;

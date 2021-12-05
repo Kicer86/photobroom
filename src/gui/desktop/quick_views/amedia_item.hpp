@@ -8,12 +8,12 @@
 class AMediaItem: public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
+    Q_PROPERTY(Status status READ state NOTIFY stateChanged)
     Q_PROPERTY(Photo::Id photoID WRITE setSource READ source NOTIFY sourceChanged)
-    Q_ENUMS(State)
+    Q_ENUMS(Status)
 
 public:
-    enum class State
+    enum class Status
     {
         NotFetched,
         Fetching,
@@ -24,14 +24,14 @@ public:
 
     void setSource(const Photo::Id &);
 
-    State state() const;
+    Status state() const;
     const Photo::Id& source() const;
 
 protected:
-    void setState(State);
+    void setState(Status);
 
 private:
-    State m_state;
+    Status m_state;
     Photo::Id m_id;
 
 signals:

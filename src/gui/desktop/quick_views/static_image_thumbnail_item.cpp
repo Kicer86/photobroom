@@ -38,7 +38,7 @@ void StaticImageThumbnailItem::paint(QPainter* painter)
     if (m_thbMgr == nullptr || source().valid() == false)
         return;
 
-    if (state() == State::NotFetched)
+    if (state() == Status::NotFetched)
         fetchImage();
 
     if (m_image.isNull() == false)
@@ -61,7 +61,7 @@ IThumbnailsManager* StaticImageThumbnailItem::thumbnailsManager() const
 void StaticImageThumbnailItem::updateThumbnail(const QImage& image)
 {
     setImage(image);
-    setState(State::Fetched);
+    setState(Status::Fetched);
     update();
 }
 
@@ -92,7 +92,7 @@ void StaticImageThumbnailItem::paintImage(QPainter& painter) const
 
 void StaticImageThumbnailItem::refetch()
 {
-    if (state() == State::Fetched && source().valid())
+    if (state() == Status::Fetched && source().valid())
     {
         const QSize thbSize(width(), height());
 
@@ -115,11 +115,11 @@ void StaticImageThumbnailItem::fetchImage()
     if (image.has_value())
     {
         setImage(image.value());
-        setState(State::Fetched);
+        setState(Status::Fetched);
     }
     else
     {
-        setState(State::Fetching);
+        setState(Status::Fetching);
 
         m_thbMgr->fetch(source(), thbSize, queued_slot(this, &StaticImageThumbnailItem::updateThumbnail));
     }

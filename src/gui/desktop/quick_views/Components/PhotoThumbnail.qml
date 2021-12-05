@@ -34,11 +34,11 @@ Item {
     states: [
         State {
             name: "unknown"
-            when: image.state === StaticImageThumbnail.NotFetched
+            when: image.status === StaticImageThumbnail.NotFetched
         },
         State {
             name: "loading"
-            when: image.state === StaticImageThumbnail.Fetching
+            when: image.status === StaticImageThumbnail.Fetching
             PropertyChanges {
                 target: busyId
                 running: true
@@ -46,7 +46,7 @@ Item {
         },
         State {
             name: "done"
-            when: image.state === StaticImageThumbnail.Fetched
+            when: image.status === StaticImageThumbnail.Fetched
             PropertyChanges {
                 target: busyId
                 running: false
