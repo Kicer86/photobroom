@@ -24,6 +24,7 @@ Components.MultiselectGridView {
     delegate: PhotoDelegate {
         id: delegateId
 
+        required property var index
         property bool selected
 
         width:  cellWidth

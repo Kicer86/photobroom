@@ -17,6 +17,7 @@ Item {
     width: 50
     height: 50
     property int margin: 2
+    required property var photoData
 
     Components.MediaPreviewItem {
 
