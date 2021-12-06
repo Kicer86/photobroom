@@ -151,7 +151,7 @@ function(download_tools)
     if(NOT EXISTS tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
-            https://web.archive.org/web/20211122235924/https://exiftool.org/exiftool-12.35.zip tools/exiftool-12.35.zip
+            https://exiftool.org/exiftool-12.35.zip tools/exiftool-12.35.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
