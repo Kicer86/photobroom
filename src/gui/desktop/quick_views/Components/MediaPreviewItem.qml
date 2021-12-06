@@ -23,6 +23,7 @@ Item {
 
         Waiter {
             busyIndicator: busyId
+
             StaticImageThumbnail {
                 anchors.fill: parent
 
@@ -32,6 +33,21 @@ Item {
         }
     }
 
-    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.StaticImage? staticImage: undefined; anchors.fill: parent }
+    Component {
+        id: animatedImage
+
+        AnimatedImage {
+            anchors.fill: parent
+
+            source: ctrl.path
+            asynchronous: true
+            autoTransform: true
+            fillMode: Image.PreserveAspectFit
+        }
+    }
+
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.StaticImage ||
+                              ctrl.mode === MediaViewCtrl.Video?         staticImage:   undefined; anchors.fill: parent }
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.AnimatedImage? animatedImage: undefined; anchors.fill: parent }
 }
 
