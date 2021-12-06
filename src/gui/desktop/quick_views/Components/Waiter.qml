@@ -1,7 +1,6 @@
 
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 
 /*
@@ -11,18 +10,11 @@ import photo_broom.qml 1.0
 Item {
 
     default required property var embeddedItem
+    required property var busyIndicator
 
     Component.onCompleted: {
         embeddedItem.opacity = 0;
         children.push(embeddedItem);
-    }
-
-    BusyIndicator {
-        id: busyId
-
-        anchors.centerIn: parent
-
-        Behavior on opacity { PropertyAnimation {} }
     }
 
     states: [
