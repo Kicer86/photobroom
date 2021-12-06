@@ -11,7 +11,6 @@
         <file>Components/MediaPreviewItem.qml</file>
         <file>Components/MediaViewItem.qml</file>
         <file>Components/MultiselectGridView.qml</file>
-        <file>Components/PhotoThumbnail.qml</file>
         <file>Components/ShadowFocus.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>

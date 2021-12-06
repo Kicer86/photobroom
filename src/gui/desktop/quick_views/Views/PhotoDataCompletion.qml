@@ -110,7 +110,7 @@ Item {
                     index: delegateRoot.index
                 }
 
-                Components.PhotoThumbnail {
+                Components.MediaPreviewItem {
 
                     width: 60
                     height: 60
