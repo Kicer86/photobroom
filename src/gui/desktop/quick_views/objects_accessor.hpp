@@ -7,7 +7,12 @@
 #include <core/icore_factory_accessor.hpp>
 #include <database/idatabase.hpp>
 
-
+/**
+ * @brief A Singleton class providing access to business logic from UI items
+ *
+ * This class is meant be used in UI only, as it is hard to provide all required objects
+ * to UI components via interfaces.
+ */
 class ObjectsAccessor: public QObject
 {
     Q_OBJECT
