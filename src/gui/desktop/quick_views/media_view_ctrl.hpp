@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QUrl>
 
+#include <core/function_wrappers.hpp>
 #include <database/photo_types.hpp>
 
 
@@ -17,6 +18,8 @@ class MediaViewCtrl: public QObject
     Q_ENUMS(Mode)
 
 public:
+    ~MediaViewCtrl();
+
     enum class Mode
     {
         Unknown,
@@ -37,6 +40,7 @@ signals:
     void modeChanged(Mode) const;
 
 private:
+    safe_callback_ctrl m_callbackCtrl;
     QUrl m_path;
     Mode m_mode;
     Photo::Id m_id;

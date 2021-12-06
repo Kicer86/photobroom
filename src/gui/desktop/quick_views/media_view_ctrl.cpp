@@ -8,6 +8,12 @@
 #include "objects_accessor.hpp"
 
 
+MediaViewCtrl::~MediaViewCtrl()
+{
+    m_callbackCtrl.invalidate();
+}
+
+
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
     m_id = id;
@@ -18,12 +24,15 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
 
     if (db && id.valid())
     {
-        db->exec([this, id](Database::IBackend& backend)
+        auto task = m_callbackCtrl.make_safe_callback<Database::IBackend &>([this, id](Database::IBackend& backend)
         {
+            // MediaViewCtrl may be destroyed here
             const Photo::Data data = backend.getPhoto(id);
 
             invokeMethod(this, &MediaViewCtrl::setPath, data.path);
         });
+
+        db->exec(task);
     }
 }
 
