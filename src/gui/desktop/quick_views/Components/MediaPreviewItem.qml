@@ -18,20 +18,17 @@ Item {
         anchors.centerIn: parent
     }
 
-    Component {
-        id: staticImage
+    Waiter {
+        anchors.fill: parent
 
-        Waiter {
-            busyIndicator: busyId
-            StaticImageThumbnail {
-                anchors.fill: parent
+        busyIndicator: busyId
 
-                photoID: ctrl.photoID
-                thumbnails: thumbnailsManager.get()
-            }
+        StaticImageThumbnail {
+            anchors.fill: parent
+
+            photoID: ctrl.photoID
+            thumbnails: thumbnailsManager.get()
         }
     }
-
-    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.StaticImage? staticImage: undefined; anchors.fill: parent }
 }
 
