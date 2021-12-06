@@ -18,6 +18,7 @@ class MediaViewCtrl: public QObject
     Q_ENUMS(Mode)
 
 public:
+    MediaViewCtrl() = default;
     ~MediaViewCtrl();
 
     enum class Mode
