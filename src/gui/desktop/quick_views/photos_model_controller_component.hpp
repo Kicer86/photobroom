@@ -36,7 +36,7 @@ class PhotosModelControllerComponent: public QObject
         Q_OBJECT
 
         // getters
-        Q_PROPERTY(QAbstractItemModel* photos READ model NOTIFY modelChanged)
+        Q_PROPERTY(QAbstractItemModel* photos READ model CONSTANT)
         Q_PROPERTY(unsigned int datesCount READ datesCount NOTIFY datesCountChanged)
         Q_PROPERTY(QStringList categories READ categories NOTIFY categoriesChanged)
 
@@ -83,7 +83,6 @@ class PhotosModelControllerComponent: public QObject
         Q_INVOKABLE void markNewAsReviewed();
 
     signals:
-        void modelChanged() const;
         void categoriesChanged() const;
         void datesCountChanged() const;
 

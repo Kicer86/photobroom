@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "photo_item.hpp"
+#include "static_image_thumbnail_item.hpp"
 
 #include <QPainter>
 
@@ -24,22 +24,21 @@
 
 using namespace std::placeholders;
 
-PhotoItem::PhotoItem(QQuickItem* parent)
-    : QQuickPaintedItem(parent)
+StaticImageThumbnailItem::StaticImageThumbnailItem(QQuickItem* parent)
+    : AMediaItem(parent)
     , m_thbMgr(nullptr)
-    , m_state(State::NotFetched)
 {
     using namespace std::chrono_literals;
-    lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &PhotoItem::refetch, 1000ms, 5000ms);
+    lazy_connect(this, &QQuickPaintedItem::widthChanged, this, &StaticImageThumbnailItem::refetch, 1000ms, 5000ms);
 }
 
 
-void PhotoItem::paint(QPainter* painter)
+void StaticImageThumbnailItem::paint(QPainter* painter)
 {
-    if (m_thbMgr == nullptr || m_id.valid() == false)
+    if (m_thbMgr == nullptr || source().valid() == false)
         return;
 
-    if (m_state == State::NotFetched)
+    if (state() == Status::NotFetched)
         fetchImage();
 
     if (m_image.isNull() == false)
@@ -47,47 +46,27 @@ void PhotoItem::paint(QPainter* painter)
 }
 
 
-void PhotoItem::setThumbnailsManager(IThumbnailsManager* mgr)
+void StaticImageThumbnailItem::setThumbnailsManager(IThumbnailsManager* mgr)
 {
     m_thbMgr = mgr;
 }
 
 
-void PhotoItem::setSource(const Photo::Id& id)
-{
-    m_id = id;
-
-    update();
-}
-
-
-IThumbnailsManager* PhotoItem::thumbnailsManager() const
+IThumbnailsManager* StaticImageThumbnailItem::thumbnailsManager() const
 {
     return m_thbMgr;
 }
 
 
-const Photo::Id& PhotoItem::source() const
-{
-    return m_id;
-}
-
-
-PhotoItem::State PhotoItem::state() const
-{
-    return m_state;
-}
-
-
-void PhotoItem::updateThumbnail(const QImage& image)
+void StaticImageThumbnailItem::updateThumbnail(const QImage& image)
 {
     setImage(image);
-    setState(State::Fetched);
+    setState(Status::Fetched);
     update();
 }
 
 
-void PhotoItem::setImage(const QImage& image)
+void StaticImageThumbnailItem::setImage(const QImage& image)
 {
     if (image.isNull())
         m_image.load(":/gui/error.svg");
@@ -96,17 +75,7 @@ void PhotoItem::setImage(const QImage& image)
 }
 
 
-void PhotoItem::setState(PhotoItem::State state)
-{
-    const bool changed = state != m_state;
-    m_state = state;
-
-    if (changed)
-        emit stateChanged();
-}
-
-
-void PhotoItem::paintImage(QPainter& painter) const
+void StaticImageThumbnailItem::paintImage(QPainter& painter) const
 {
     assert(m_image.isNull() == false);
 
@@ -121,37 +90,37 @@ void PhotoItem::paintImage(QPainter& painter) const
 }
 
 
-void PhotoItem::refetch()
+void StaticImageThumbnailItem::refetch()
 {
-    if (m_state == State::Fetched && m_id.valid())
+    if (state() == Status::Fetched && source().valid())
     {
         const QSize thbSize(width(), height());
 
-        auto image = m_thbMgr->fetch(m_id, thbSize);
+        auto image = m_thbMgr->fetch(source(), thbSize);
 
         if (image.has_value())
             setImage(image.value());
         else
-            m_thbMgr->fetch(m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+            m_thbMgr->fetch(source(), thbSize, queued_slot(this, &StaticImageThumbnailItem::updateThumbnail));
     }
 }
 
 
-void PhotoItem::fetchImage()
+void StaticImageThumbnailItem::fetchImage()
 {
     const QSize thbSize(width(), height());
 
-    auto image = m_thbMgr->fetch(m_id, thbSize);
+    auto image = m_thbMgr->fetch(source(), thbSize);
 
     if (image.has_value())
     {
         setImage(image.value());
-        setState(State::Fetched);
+        setState(Status::Fetched);
     }
     else
     {
-        setState(State::Fetching);
+        setState(Status::Fetching);
 
-        m_thbMgr->fetch( m_id, thbSize, queued_slot(this, &PhotoItem::updateThumbnail));
+        m_thbMgr->fetch(source(), thbSize, queued_slot(this, &StaticImageThumbnailItem::updateThumbnail));
     }
 }

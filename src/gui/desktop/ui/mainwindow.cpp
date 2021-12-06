@@ -49,6 +49,7 @@
 #include "utils/selection_to_photoid_translator.hpp"
 #include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
+#include "quick_views/objects_accessor.hpp"
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
 #include "quick_views/selection_manager_component.hpp"
@@ -91,7 +92,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     connect(this, &MainWindow::currentDatabaseChanged,
             ui->tagEditor, &TagEditorWidget::setDatabase);
     connect(this, &MainWindow::currentDatabaseChanged,
-            &m_bridge, &ObjectsAccessor::setDatabase);
+            &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
 
     IconsLoader icons;
 
@@ -144,7 +145,7 @@ void MainWindow::setupQmlView()
 {
     assert(m_photosModelController == nullptr);
 
-    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &m_bridge);
+    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);

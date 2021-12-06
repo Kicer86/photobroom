@@ -18,56 +18,37 @@
 #ifndef PHOTOITEM_HPP
 #define PHOTOITEM_HPP
 
-#include <QQuickPaintedItem>
 #include <QImage>
 
 #include <core/function_wrappers.hpp>
 #include "utils/ithumbnails_manager.hpp"
+#include "amedia_item.hpp"
 
 
-class PhotoItem: public QQuickPaintedItem
+class StaticImageThumbnailItem: public AMediaItem
 {
         Q_OBJECT
         Q_PROPERTY(IThumbnailsManager* thumbnails WRITE setThumbnailsManager READ thumbnailsManager)
-        Q_PROPERTY(Photo::Id photoID WRITE setSource READ source)
-        Q_PROPERTY(State state READ state NOTIFY stateChanged)
-        Q_ENUMS(State)
 
     public:
-        enum class State
-        {
-            NotFetched,
-            Fetching,
-            Fetched
-        };
-
-        PhotoItem(QQuickItem *parent = nullptr);
-        ~PhotoItem() = default;
+        StaticImageThumbnailItem(QQuickItem *parent = nullptr);
+        ~StaticImageThumbnailItem() = default;
 
         void paint(QPainter *painter) override;
 
         void setThumbnailsManager(IThumbnailsManager *);
-        void setSource(const Photo::Id &);
 
         IThumbnailsManager* thumbnailsManager() const;
-        const Photo::Id& source() const;
-        State state() const;
 
     private:
         QImage m_image;
         IThumbnailsManager* m_thbMgr;
-        State m_state;
-        Photo::Id m_id;
 
         void updateThumbnail(const QImage &);
         void fetchImage();
         void setImage(const QImage &);
-        void setState(State);
         void paintImage(QPainter &) const;
         void refetch();
-
-    signals:
-        void stateChanged();
 };
 
 

@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS
+find_package(Qt6 6.2 REQUIRED COMPONENTS
                  Quick
                  QuickWidgets
 )
@@ -10,9 +10,11 @@ qt6_add_resources(QML_RESOURCES
 )
 
 qt6_wrap_cpp(MOCED
-                bridge.hpp
+                amedia_item.hpp
+                media_view_ctrl.hpp
+                objects_accessor.hpp
                 photo_data_qml.hpp
-                photo_item.hpp
+                static_image_thumbnail_item.hpp
                 photos_model_controller_component.hpp
                 picture_item.hpp
                 qml_setup.hpp
@@ -22,12 +24,14 @@ qt6_wrap_cpp(MOCED
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 ${MOCED}
-                bridge.cpp
-                bridge.hpp
+                amedia_item.cpp
+                amedia_item.hpp
+                media_view_ctrl.cpp
+                media_view_ctrl.hpp
+                objects_accessor.cpp
+                objects_accessor.hpp
                 photo_data_qml.cpp
                 photo_data_qml.hpp
-                photo_item.cpp
-                photo_item.hpp
                 photos_model_controller_component.cpp
                 photos_model_controller_component.hpp
                 picture_item.cpp
@@ -38,8 +42,9 @@ add_library(quick_views OBJECT
                 qml_utils.hpp
                 selection_manager_component.cpp
                 selection_manager_component.hpp
+                static_image_thumbnail_item.cpp
+                static_image_thumbnail_item.hpp
 )
-
 
 target_link_libraries(quick_views
                         PUBLIC

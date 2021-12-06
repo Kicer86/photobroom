@@ -8,11 +8,13 @@
         <file>Components/DelegateCheckBox.qml</file>
         <file>Components/DelegateState.qml</file>
         <file>Components/InfoItem.qml</file>
+        <file>Components/MediaPreviewItem.qml</file>
+        <file>Components/MediaViewItem.qml</file>
         <file>Components/MultiselectGridView.qml</file>
-        <file>Components/PhotoThumbnail.qml</file>
         <file>Components/ShadowFocus.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
+        <file>Components/Waiter.qml</file>
         <file>Components/ZoomableImage.qml</file>
         <file>Views/DebugWindow.qml</file>
         <file>Views/FacesDialog.qml</file>

@@ -1,44 +1,30 @@
 
+
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import photo_broom.qml 1.0
 
 /*
- * photo thumbnail
+ * Item displays a provided busy indicator until `embeddedItem` (needs to inherit AMediaItem class) is ready to be shown
  */
 
 Item {
-    id: root
 
-    property var photoID
+    default required property var embeddedItem
+    required property var busyIndicator
 
-    BusyIndicator {
-        id: busyId
-
-        anchors.centerIn: parent
-
-        Behavior on opacity { PropertyAnimation {} }
-    }
-
-    Photo {
-        id: image
-
-        anchors.fill: parent
-        opacity: 0
-
-        photoID: root.photoID
-
-        thumbnails: thumbnailsManager.get()
+    Component.onCompleted: {
+        embeddedItem.opacity = 0;
+        children.push(embeddedItem);
     }
 
     states: [
         State {
             name: "unknown"
-            when: image.state === Photo.NotFetched
+            when: embeddedItem.status === AMediaItem.NotFetched
         },
         State {
             name: "loading"
-            when: image.state === Photo.Fetching
+            when: embeddedItem.status === AMediaItem.Fetching
             PropertyChanges {
                 target: busyId
                 running: true
@@ -46,7 +32,7 @@ Item {
         },
         State {
             name: "done"
-            when: image.state === Photo.Fetched
+            when: embeddedItem.status === AMediaItem.Fetched
             PropertyChanges {
                 target: busyId
                 running: false
@@ -59,7 +45,7 @@ Item {
             from: "loading"
             to: "done"
             PropertyAnimation {
-                target: image
+                target: embeddedItem
                 properties: "opacity"
                 from: 0
                 to: 1
@@ -69,7 +55,7 @@ Item {
             from: "unknown"
             to: "done"
             PropertyAnimation {
-                target: image
+                target: embeddedItem
                 properties: "opacity"
                 from: 0
                 to: 1

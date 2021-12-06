@@ -17,8 +17,9 @@ Item {
     width: 50
     height: 50
     property int margin: 2
+    required property var photoData
 
-    Components.PhotoThumbnail {
+    Components.MediaPreviewItem {
 
         anchors.centerIn: parent
         height: delegateId.height - delegateId.margin * 2

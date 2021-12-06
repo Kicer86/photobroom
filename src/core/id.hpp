@@ -78,6 +78,17 @@ class Id
             return m_value;
         }
 
+        void swap(Id& other)
+        {
+            std::swap(m_value, other.m_value);
+            std::swap(m_valid, other.m_valid);
+        }
+
+        void invalidate()
+        {
+            swap(*this, {});
+        }
+
     private:
         T m_value;
         bool m_valid;

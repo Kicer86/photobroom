@@ -100,28 +100,24 @@ Item {
             Behavior on opacity { PropertyAnimation{} }
         }
 
-        Image {
+        Components.MediaViewItem {
             // image in full screen mode
 
             id: fullscreenImage
 
             function setPhoto(index) {
-                var path = gridView.model.getPhotoPath(index);
-                fullscreenImage.source = path;
+                var id = gridView.model.getId(index);
+                fullscreenImage.photoID = id;
                 fullscreenImage.focus = true;
                 fullscreenImage.currentIndex = index;
 
                 photosViewId.state = "fullscreen";
 
-                console.log("Fullscreen mode for photo: " + fullscreenImage.source);
+                console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
             }
 
             anchors.fill: parent
             visible: opacity != 0.0
-
-            asynchronous: true
-            autoTransform: true
-            fillMode: Image.PreserveAspectFit
 
             property int currentIndex: 0
 
@@ -132,13 +128,8 @@ Item {
                 propagateComposedEvents: false
 
                 onClicked: {
-                    photosViewId.state = "gallery"
+                    photosViewId.state = "gallery";
                 }
-            }
-
-            onStatusChanged: {
-                if (fullscreenImage.status == Image.Error)
-                    fullscreenImage.source = "qrc:/gui/error.svg";
             }
         }
     }
