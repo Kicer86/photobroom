@@ -64,7 +64,9 @@ void MediaViewCtrl::setPath(const QString& path)
     m_path = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
     emit pathChanged(m_path);
 
-    if (MediaTypes::isImageFile(path))
+    if (MediaTypes::isAnimatedImageFile(path))
+        setMode(Mode::AnimatedImage);
+    else if (MediaTypes::isImageFile(path))
         setMode(Mode::StaticImage);
     else if (MediaTypes::isVideoFile(path))
         setMode(Mode::Video);
