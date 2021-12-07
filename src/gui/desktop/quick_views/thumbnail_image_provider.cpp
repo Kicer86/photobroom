@@ -7,7 +7,6 @@
 
 namespace
 {
-
     class AsyncImageResponse : public QQuickImageResponse
     {
         public:
@@ -45,7 +44,7 @@ ThumbnailImageProvider::ThumbnailImageProvider(IThumbnailsManager& mgr)
 
 QQuickImageResponse* ThumbnailImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
 {
-    bool status = true;;
+    bool status = true;
     const int rawId = id.toInt(&status);
     assert(status && rawId != -1);
 
