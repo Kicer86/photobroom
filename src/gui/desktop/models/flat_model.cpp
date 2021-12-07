@@ -199,9 +199,9 @@ QUrl FlatModel::getPhotoPath(int row) const
 
 Photo::Id FlatModel::getId(int row) const
 {
-    return row >=0 && row < static_cast<int>(m_photos.size())?
-        m_photos[static_cast<std::size_t>(row)]:
-        Photo::Id{};
+    assert(row >= 0 && row < static_cast<int>(m_photos.size()));
+
+    return m_photos[row];
 }
 
 
@@ -302,7 +302,7 @@ const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
     if (it == m_properties.end())
     {
         fetchPhotoData(id);
-        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::Data());   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
+        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::Data(id));   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
     }
 
     return it->second;
