@@ -19,6 +19,7 @@ qt6_wrap_cpp(MOCED
                 picture_item.hpp
                 qml_setup.hpp
                 selection_manager_component.hpp
+                thumbnail_image_provider.hpp
 )
 
 add_library(quick_views OBJECT
@@ -44,6 +45,8 @@ add_library(quick_views OBJECT
                 selection_manager_component.hpp
                 static_image_thumbnail_item.cpp
                 static_image_thumbnail_item.hpp
+                thumbnail_image_provider.cpp
+                thumbnail_image_provider.hpp
 )
 
 target_link_libraries(quick_views
