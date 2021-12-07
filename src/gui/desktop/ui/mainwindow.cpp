@@ -76,6 +76,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_recentCollections(),
     m_completerFactory(m_loggerFactory),
     m_featuresObserver(featuresManager, m_notifications),
+    m_thumbnailImageProvider(*thbMgr),
     m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
     // setup
@@ -150,6 +151,7 @@ void MainWindow::setupQmlView()
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
+    ui->mainViewQml->engine()->addImageProvider("thumbnail", &m_thumbnailImageProvider);
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
