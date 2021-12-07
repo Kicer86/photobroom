@@ -21,15 +21,13 @@ Item {
     Component {
         id: staticImage
 
-        Waiter {
-            busyIndicator: busyId
+        Image {
+            anchors.fill: parent
 
-            StaticImageThumbnail {
-                anchors.fill: parent
-
-                photoID: ctrl.photoID
-                thumbnails: thumbnailsManager.get()
-            }
+            source: "image://thumbnail/" + ctrl.photoIDString
+            sourceSize.width: width
+            sourceSize.height: height
+            fillMode: Image.PreserveAspectCrop
         }
     }
 
