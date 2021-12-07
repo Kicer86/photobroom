@@ -16,9 +16,11 @@ MediaViewCtrl::~MediaViewCtrl()
 
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
+    assert(id.valid());
     m_id = id;
 
     emit sourceChanged(id);
+    emit photoIDStringChanged(photoIDString());
 
     Database::IDatabase* db = ObjectsAccessor::instance().database();
 
@@ -40,6 +42,12 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
 const Photo::Id& MediaViewCtrl::source() const
 {
     return m_id;
+}
+
+
+QString MediaViewCtrl::photoIDString() const
+{
+    return QString::number(m_id);
 }
 
 

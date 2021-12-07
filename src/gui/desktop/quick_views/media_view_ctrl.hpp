@@ -13,6 +13,7 @@ class MediaViewCtrl: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Photo::Id photoID WRITE setSource READ source NOTIFY sourceChanged)
+    Q_PROPERTY(QString photoIDString READ photoIDString NOTIFY photoIDStringChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
     Q_PROPERTY(Mode mode READ mode NOTIFY modeChanged)
     Q_ENUMS(Mode)
@@ -32,11 +33,13 @@ public:
     void setSource(const Photo::Id &);
 
     const Photo::Id& source() const;
+    QString photoIDString() const;
     QUrl path() const;
     Mode mode() const;
 
 signals:
     void sourceChanged(const Photo::Id &) const;
+    void photoIDStringChanged(const QString &) const;
     void pathChanged(const QUrl &) const;
     void modeChanged(Mode) const;
 
