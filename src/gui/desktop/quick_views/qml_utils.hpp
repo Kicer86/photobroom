@@ -4,15 +4,18 @@
 
 #include <QString>
 #include <QVariant>
+#include "utils/ithumbnails_manager.hpp"
 
 class QQuickWidget;
 class QQmlPropertyMap;
+
 
 namespace QmlUtils
 {
     QObject* findQmlObject(QQuickWidget *, const QString& objectName);
     void registerObject(QQuickWidget *, const QString& objectName, QObject *);
     void registerObjectProperties(QQuickWidget *, const QString& objectName, QQmlPropertyMap* properties);
+    void registerImageProviders(QQuickWidget *, IThumbnailsManager &);
 }
 
 #define INVOKABLE_ACCESSOR_FOR_INTERFACE(INTERFACE_NAME)          \

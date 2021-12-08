@@ -6,6 +6,9 @@
 #include <QQmlContext>
 #include <QQmlPropertyMap>
 
+#include "quick_views/thumbnail_image_provider.hpp"
+
+
 namespace QmlUtils
 {
     QObject* findQmlObject(QQuickWidget* qml, const QString& objectName)
@@ -28,5 +31,11 @@ namespace QmlUtils
     {
         auto rootContext = qml->rootContext();
         rootContext->setContextProperty(objectName, properties);
+    }
+
+
+    void registerImageProviders(QQuickWidget* widget, IThumbnailsManager& thbMgr)
+    {
+        widget->engine()->addImageProvider("thumbnail", new ThumbnailImageProvider(thbMgr));
     }
 }
