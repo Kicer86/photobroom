@@ -10,11 +10,9 @@ qt6_add_resources(QML_RESOURCES
 )
 
 qt6_wrap_cpp(MOCED
-                amedia_item.hpp
                 media_view_ctrl.hpp
                 objects_accessor.hpp
                 photo_data_qml.hpp
-                static_image_thumbnail_item.hpp
                 photos_model_controller_component.hpp
                 picture_item.hpp
                 qml_setup.hpp
@@ -25,8 +23,6 @@ qt6_wrap_cpp(MOCED
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 ${MOCED}
-                amedia_item.cpp
-                amedia_item.hpp
                 media_view_ctrl.cpp
                 media_view_ctrl.hpp
                 objects_accessor.cpp
@@ -43,8 +39,6 @@ add_library(quick_views OBJECT
                 qml_utils.hpp
                 selection_manager_component.cpp
                 selection_manager_component.hpp
-                static_image_thumbnail_item.cpp
-                static_image_thumbnail_item.hpp
                 thumbnail_image_provider.cpp
                 thumbnail_image_provider.hpp
 )
