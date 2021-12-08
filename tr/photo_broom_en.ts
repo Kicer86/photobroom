@@ -884,23 +884,23 @@ Error code: %1</source>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="34"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="33"/>
         <source>Group candidates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="130"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="129"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="170"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="169"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="182"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="181"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>
@@ -908,19 +908,16 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="55"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="102"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="56"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="57"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>

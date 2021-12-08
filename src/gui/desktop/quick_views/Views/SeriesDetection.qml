@@ -12,7 +12,6 @@ import "ViewsComponents" as Internals
 Item
 {
     id: seriesDetectionMainId
-    objectName: "seriesDetectionMain"
 
     state: "LoadingState"
 
