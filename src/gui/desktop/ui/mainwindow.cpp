@@ -53,6 +53,7 @@
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
 #include "quick_views/selection_manager_component.hpp"
+#include "quick_views/thumbnail_image_provider.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
@@ -76,7 +77,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_recentCollections(),
     m_completerFactory(m_loggerFactory),
     m_featuresObserver(featuresManager, m_notifications),
-    m_thumbnailImageProvider(*thbMgr),
     m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
     // setup
@@ -151,7 +151,7 @@ void MainWindow::setupQmlView()
 
     QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
-    ui->mainViewQml->engine()->addImageProvider("thumbnail", &m_thumbnailImageProvider);
+    ui->mainViewQml->engine()->addImageProvider("thumbnail", new ThumbnailImageProvider(*m_thumbnailsManager));
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);

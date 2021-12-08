@@ -14,7 +14,6 @@
 #include "ui_utils/completer_factory.hpp"
 #include "utils/features_observer.hpp"
 #include "quick_views/qml_setup.hpp"
-#include "quick_views/thumbnail_image_provider.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -77,7 +76,6 @@ class MainWindow: public QMainWindow
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
-        ThumbnailImageProvider    m_thumbnailImageProvider;
         const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
