@@ -154,7 +154,7 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
             image = readFrameFromVideo(path, exiftoolPath, ffmpegPath);
     }
     else
-        assert(!"unknown file type");
+        m_logger->error(QString("Unknown file type: %1").arg(path));
 
     return image;
 }
