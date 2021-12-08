@@ -56,7 +56,6 @@ set(DATABASE_SOURCES
     database_tools/photos_analyzer.hpp
     database_tools/photos_data_guesser.hpp
     database_tools/series_candidate.hpp
-    database_tools/series_model.hpp
     database_tools/series_detector.hpp
     database_tools/signal_mapper.hpp
     database_tools/tag_info_collector.hpp
@@ -70,7 +69,6 @@ set(DATABASE_SOURCES
     database_tools/implementation/photos_analyzer_constants.hpp
     database_tools/implementation/photos_data_guesser.cpp
     database_tools/implementation/series_detector.cpp
-    database_tools/implementation/series_model.cpp
     database_tools/implementation/signal_mapper.cpp
     database_tools/implementation/tag_info_collector.cpp
 )
