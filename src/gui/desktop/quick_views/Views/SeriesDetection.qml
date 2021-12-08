@@ -106,7 +106,7 @@ Item
 
                                 delegate: Internals.PhotoDelegate
                                 {
-                                    property var photoData: members[index]
+                                    photoData: members[index]
 
                                     width: membersList.height
                                     height: membersList.height
