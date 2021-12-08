@@ -45,15 +45,13 @@ using namespace std::placeholders;
 SeriesDetection::SeriesDetection(Database::IDatabase& db,
                                  ICoreFactoryAccessor* core,
                                  ITasksView& tasksView,
-                                 IThumbnailsManager* thbMgr,
                                  Project& project):
     QDialog(),
     m_seriesModel(project, *core, tasksView),
     m_core(core),
     m_db(db),
     m_project(project),
-    m_qmlView(nullptr),
-    m_thumbnailsManager4QML(thbMgr)
+    m_qmlView(nullptr)
 {
     // dialog top layout setup
     resize(320, 480);
@@ -64,7 +62,6 @@ SeriesDetection::SeriesDetection(Database::IDatabase& db,
     m_qmlView = new QQuickWidget(this);
     m_qmlView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    QmlUtils::registerObject(m_qmlView, "thumbnailsManager", &m_thumbnailsManager4QML);
     QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_seriesModel);
     m_qmlView->setSource(QUrl("qrc:/ui/Views/SeriesDetection.qml"));
 

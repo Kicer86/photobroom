@@ -21,12 +21,11 @@
 
 #include <QDialog>
 #include <QQmlPropertyMap>
+#include <QQuickWidget>
 
 #include <core/itasks_view.hpp>
 #include <database/photo_data.hpp>
 
-#include "utils/ithumbnails_manager.hpp"
-#include "quick_views/qml_setup.hpp"
 #include "models/series_model.hpp"
 
 
@@ -40,14 +39,13 @@ namespace Database
 
 class Project;
 struct ICoreFactoryAccessor;
-struct IThumbnailsManager;
 
 class SeriesDetection: public QDialog
 {
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, ITasksView &, IThumbnailsManager *, Project &);
+        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, ITasksView &, Project &);
         ~SeriesDetection();
 
     private:
@@ -56,7 +54,6 @@ class SeriesDetection: public QDialog
         Database::IDatabase& m_db;
         Project& m_project;
         QQuickWidget* m_qmlView;
-        QML_IThumbnailsManager m_thumbnailsManager4QML;
 
         void fetch_series(Database::IBackend &);
         void load_series(const std::vector<GroupCandidate> &);
