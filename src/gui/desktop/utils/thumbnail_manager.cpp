@@ -29,8 +29,9 @@
 using namespace std::placeholders;
 
 
-ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache, Database::IDatabase* db):
+ThumbnailManager::ThumbnailManager(ITaskExecutor* executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache, std::unique_ptr<ILogger> logger, Database::IDatabase* db):
     m_tasks(executor, TasksQueue::Mode::Lifo),
+    m_logger(std::move(logger)),
     m_cache(cache),
     m_generator(gen),
     m_db(db)
@@ -48,6 +49,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 {
     assert(id.valid());
     assert(m_db != nullptr);
+    assert(desired_size.isEmpty() == false);
 
     const IThumbnailsCache::ThumbnailParameters params(desired_size);
     const QImage cached = find(id, params);
@@ -77,20 +79,34 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 // generate base thumbnail
                 baseThumbnail = m_generator.generate(photoData.get<Photo::Field::Path>(), IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize));
 
-                // store thumbnail in db
-                QBuffer buf(&dbThumb);
-                baseThumbnail.save(&buf, "JPG");
-
-                execute<Database::IDatabase>(*m_db, [id, dbThumb](Database::IBackend& backend)
+                if (baseThumbnail.isNull())
+                    m_logger->error(QString("Generator returned empty thumbnail for %1").arg(photoData.get<Photo::Field::Path>()));
+                else
                 {
-                    backend.setThumbnail(id, dbThumb);
-                });
+                    // store thumbnail in db
+                    QBuffer buf(&dbThumb);
+                    baseThumbnail.save(&buf, "JPG");
+
+                    execute<Database::IDatabase>(*m_db, [id, dbThumb](Database::IBackend& backend)
+                    {
+                        backend.setThumbnail(id, dbThumb);
+                    });
+                }
             }
             else
+            {
                 baseThumbnail = QImage::fromData(dbThumb, "JPG");
 
+                if (baseThumbnail.isNull())
+                    m_logger->error(QString("Error when loading JPG file from raw data for photo %1").arg(id));
+            }
+
+            // handle errors in generation
+            if (baseThumbnail.isNull())
+                baseThumbnail.load(":/gui/error.svg");
+
             // resize base thumbnail to required size
-            const QImage thumbnail =  m_generator.generateFrom(baseThumbnail, params);
+            const QImage thumbnail = m_generator.generateFrom(baseThumbnail, params);
 
             cache(id, params, thumbnail);
             callback(thumbnail);

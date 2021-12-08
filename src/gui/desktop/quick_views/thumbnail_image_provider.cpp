@@ -7,22 +7,22 @@
 
 namespace
 {
-    class AsyncImageResponse : public QQuickImageResponse
+    class AsyncImageResponse: public QQuickImageResponse
     {
         public:
             AsyncImageResponse(const Photo::Id &id, const QSize &requestedSize, IThumbnailsManager& thbMgr)
             {
-                thbMgr.fetch(id, requestedSize, [this](const QImage& thumb)
-                {
-                    invokeMethod(this, &AsyncImageResponse::handleDone, thumb);
-                });
+                if (requestedSize.isEmpty())
+                    handleDone({});
+                else
+                    thbMgr.fetch(id, requestedSize, [this](const QImage& thumb)
+                    {
+                        invokeMethod(this, &AsyncImageResponse::handleDone, thumb);
+                    });
             }
 
             void handleDone(QImage image)
             {
-                if (image.isNull())
-                    image.load(":/gui/error.svg");
-
                 m_image = image;
                 emit finished();
             }
