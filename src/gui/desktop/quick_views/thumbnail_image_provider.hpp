@@ -10,7 +10,7 @@
 class ThumbnailImageProvider: public QQuickAsyncImageProvider
 {
 public:
-    ThumbnailImageProvider(IThumbnailsManager &);
+    explicit ThumbnailImageProvider(IThumbnailsManager &);
 
     QQuickImageResponse* requestImageResponse(const QString &id, const QSize &requestedSize) override;
 
