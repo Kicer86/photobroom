@@ -20,6 +20,9 @@ namespace
 
             void handleDone(QImage image)
             {
+                if (image.isNull())
+                    image.load(":/gui/error.svg");
+
                 m_image = image;
                 emit finished();
             }
