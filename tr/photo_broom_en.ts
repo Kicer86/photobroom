@@ -889,18 +889,18 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="129"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="132"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="169"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="172"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="181"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="184"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>

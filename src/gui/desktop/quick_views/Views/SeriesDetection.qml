@@ -105,6 +105,9 @@ Item
 
                                 delegate: Internals.PhotoDelegate
                                 {
+                                    // from view
+                                    required property int index
+
                                     photoData: members[index]
 
                                     width: membersList.height

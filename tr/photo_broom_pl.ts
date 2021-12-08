@@ -913,7 +913,7 @@ Kod błędu: %1</translation>
         <translation>Potencjalne grupy</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+99"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
