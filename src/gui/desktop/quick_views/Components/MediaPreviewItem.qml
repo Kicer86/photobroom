@@ -56,5 +56,7 @@ Item {
     Loader { sourceComponent: ctrl.mode !== MediaViewCtrl.Unknown &&
                               ctrl.mode !== MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
     Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
+
+    // TODO: use AnimatedImage for all kinds of non-static media files when https://bugreports.qt.io/browse/QTBUG-30524 is fixed
 }
 
