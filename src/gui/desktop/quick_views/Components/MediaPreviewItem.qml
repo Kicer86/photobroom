@@ -36,7 +36,25 @@ Item {
         }
     }
 
+    Component {
+        id: errorImage
 
-    Loader { sourceComponent: ctrl.mode !== MediaViewCtrl.Unknown? staticImage: undefined; anchors.fill: parent }
+         Waiter {
+            busyIndicator: busyId
+
+            Image {
+                anchors.fill: parent
+
+                source: "qrc:/gui/error.svg"
+                sourceSize.width: width
+                sourceSize.height: height
+            }
+         }
+    }
+
+
+    Loader { sourceComponent: ctrl.mode !== MediaViewCtrl.Unknown &&
+                              ctrl.mode !== MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
 }
 

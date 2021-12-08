@@ -25,6 +25,7 @@ public:
     enum class Mode
     {
         Unknown,
+        Error,
         StaticImage,
         AnimatedImage,
         Video,

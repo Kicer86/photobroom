@@ -78,6 +78,8 @@ void MediaViewCtrl::setPath(const QString& path)
         setMode(Mode::StaticImage);
     else if (MediaTypes::isVideoFile(path))
         setMode(Mode::Video);
+    else
+        setMode(Mode::Error);
 }
 
 
