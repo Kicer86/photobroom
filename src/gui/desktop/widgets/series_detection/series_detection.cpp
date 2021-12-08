@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QQmlEngine>
 #include <QQuickWidget>
 
 #include <core/icore_factory_accessor.hpp>
@@ -45,7 +46,8 @@ using namespace std::placeholders;
 SeriesDetection::SeriesDetection(Database::IDatabase& db,
                                  ICoreFactoryAccessor* core,
                                  ITasksView& tasksView,
-                                 Project& project):
+                                 Project& project,
+                                 IThumbnailsManager& thbMgr):
     QDialog(),
     m_seriesModel(project, *core, tasksView),
     m_core(core),
@@ -63,6 +65,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase& db,
     m_qmlView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_seriesModel);
+    QmlUtils::registerImageProviders(m_qmlView, thbMgr);
     m_qmlView->setSource(QUrl("qrc:/ui/Views/SeriesDetection.qml"));
 
     layout->addWidget(m_qmlView);

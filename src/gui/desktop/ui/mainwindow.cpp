@@ -695,7 +695,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, *m_currentPrj.get()}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
 
 void MainWindow::on_actionPhoto_data_completion_triggered()

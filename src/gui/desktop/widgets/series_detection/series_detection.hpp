@@ -27,6 +27,7 @@
 #include <database/photo_data.hpp>
 
 #include "models/series_model.hpp"
+#include "utils/ithumbnails_manager.hpp"
 
 
 class QStandardItemModel;
@@ -45,7 +46,7 @@ class SeriesDetection: public QDialog
         Q_OBJECT
 
     public:
-        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, ITasksView &, Project &);
+        SeriesDetection(Database::IDatabase &, ICoreFactoryAccessor *, ITasksView &, Project &, IThumbnailsManager &);
         ~SeriesDetection();
 
     private:
