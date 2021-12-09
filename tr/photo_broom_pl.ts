@@ -908,12 +908,12 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="+34"/>
+        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="+33"/>
         <source>Group candidates</source>
         <translation>Potencjalne grupy</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+99"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
@@ -932,25 +932,22 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/series_model.cpp" line="+55"/>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="+102"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+1"/>
         <source>Photos taken at similar time</source>
         <translation>Zdjęcia wykonane w podobnym czasie</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="-34"/>
+        <location line="-34"/>
         <source>Saving group details.</source>
         <translation>Tworzenie grup.</translation>
     </message>

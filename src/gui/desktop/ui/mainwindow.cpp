@@ -53,13 +53,13 @@
 #include "quick_views/qml_utils.hpp"
 #include "quick_views/photos_model_controller_component.hpp"
 #include "quick_views/selection_manager_component.hpp"
+#include "quick_views/thumbnail_image_provider.hpp"
 #include "ui_mainwindow.h"
 #include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 
 
 MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
-    m_thumbnailsManager4QML(thbMgr),
     ui(new Ui::MainWindow),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
@@ -148,8 +148,8 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    QmlUtils::registerObject(ui->mainViewQml, "thumbnailsManager", &m_thumbnailsManager4QML);
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
+    QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
     m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
     assert(m_photosModelController != nullptr);
@@ -695,7 +695,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, m_thumbnailsManager, *m_currentPrj.get()}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
 
 void MainWindow::on_actionPhoto_data_completion_triggered()

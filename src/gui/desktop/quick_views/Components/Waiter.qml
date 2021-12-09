@@ -4,7 +4,7 @@ import QtQuick 2.15
 import photo_broom.qml 1.0
 
 /*
- * Item displays a provided busy indicator until `embeddedItem` (needs to inherit AMediaItem class) is ready to be shown
+ * Item displays a provided busy indicator until `embeddedItem` (needs to be `Image` based) is ready to be shown
  */
 
 Item {
@@ -20,11 +20,11 @@ Item {
     states: [
         State {
             name: "unknown"
-            when: embeddedItem.status === AMediaItem.NotFetched
+            when: embeddedItem.status === Image.Null
         },
         State {
             name: "loading"
-            when: embeddedItem.status === AMediaItem.Fetching
+            when: embeddedItem.status === Image.Loading
             PropertyChanges {
                 target: busyId
                 running: true
@@ -32,7 +32,7 @@ Item {
         },
         State {
             name: "done"
-            when: embeddedItem.status === AMediaItem.Fetched
+            when: embeddedItem.status === Image.Ready
             PropertyChanges {
                 target: busyId
                 running: false

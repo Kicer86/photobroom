@@ -6,7 +6,4 @@
 
 void register_qml_types();
 
-struct IThumbnailsManager;
-INVOKABLE_ACCESSOR_FOR_INTERFACE(IThumbnailsManager);
-
 #endif

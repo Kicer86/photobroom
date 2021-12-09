@@ -12,7 +12,6 @@ import "ViewsComponents" as Internals
 Item
 {
     id: seriesDetectionMainId
-    objectName: "seriesDetectionMain"
 
     state: "LoadingState"
 
@@ -106,7 +105,10 @@ Item
 
                                 delegate: Internals.PhotoDelegate
                                 {
-                                    property var photoData: members[index]
+                                    // from view
+                                    required property int index
+
+                                    photoData: members[index]
 
                                     width: membersList.height
                                     height: membersList.height

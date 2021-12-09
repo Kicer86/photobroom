@@ -18,17 +18,45 @@ Item {
         anchors.centerIn: parent
     }
 
-    Waiter {
-        anchors.fill: parent
+    Component {
+        id: staticImage
 
-        busyIndicator: busyId
+        Waiter {
+            busyIndicator: busyId
 
-        StaticImageThumbnail {
-            anchors.fill: parent
+            Image {
+                anchors.fill: parent
 
-            photoID: ctrl.photoID
-            thumbnails: thumbnailsManager.get()
+                source: "image://thumbnail/" + ctrl.photoIDString
+                sourceSize.width: width
+                sourceSize.height: height
+                fillMode: Image.PreserveAspectCrop
+                cache: false
+            }
         }
     }
+
+    Component {
+        id: errorImage
+
+         Waiter {
+            busyIndicator: busyId
+
+            Image {
+                anchors.fill: parent
+
+                source: "qrc:/gui/error.svg"
+                sourceSize.width: width
+                sourceSize.height: height
+            }
+         }
+    }
+
+
+    Loader { sourceComponent: ctrl.mode !== MediaViewCtrl.Unknown &&
+                              ctrl.mode !== MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
+    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
+
+    // TODO: use AnimatedImage for all kinds of non-static media files when https://bugreports.qt.io/browse/QTBUG-30524 is fixed
 }
 

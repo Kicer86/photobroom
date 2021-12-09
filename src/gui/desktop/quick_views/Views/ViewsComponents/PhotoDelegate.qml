@@ -25,11 +25,11 @@ Item {
         height: delegateId.height - delegateId.margin * 2
         width:  delegateId.width - delegateId.margin * 2
 
-        photoID: photoData.id
+        photoID: delegateId.photoData.id
 
         PhotoDataQml {
             id: photoDataProperies
-            data: photoData
+            data: delegateId.photoData
         }
 
         Item {

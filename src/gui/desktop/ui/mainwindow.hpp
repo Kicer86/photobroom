@@ -12,7 +12,6 @@
 
 #include "models/notifications_model.hpp"
 #include "ui_utils/completer_factory.hpp"
-#include "quick_views/qml_setup.hpp"
 #include "utils/features_observer.hpp"
 
 class ConfigDialogManager;
@@ -56,7 +55,6 @@ class MainWindow: public QMainWindow
         void set(IUpdater *);
 
     private:
-        QML_IThumbnailsManager    m_thumbnailsManager4QML;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;

@@ -16,9 +16,11 @@ MediaViewCtrl::~MediaViewCtrl()
 
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
+    assert(id.valid());
     m_id = id;
 
     emit sourceChanged(id);
+    emit photoIDStringChanged(photoIDString());
 
     Database::IDatabase* db = ObjectsAccessor::instance().database();
 
@@ -43,6 +45,12 @@ const Photo::Id& MediaViewCtrl::source() const
 }
 
 
+QString MediaViewCtrl::photoIDString() const
+{
+    return QString::number(m_id);
+}
+
+
 QUrl MediaViewCtrl::path() const
 {
     return m_path;
@@ -64,10 +72,14 @@ void MediaViewCtrl::setPath(const QString& path)
     m_path = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
     emit pathChanged(m_path);
 
-    if (MediaTypes::isImageFile(path))
+    if (MediaTypes::isAnimatedImageFile(path))
+        setMode(Mode::AnimatedImage);
+    else if (MediaTypes::isImageFile(path))
         setMode(Mode::StaticImage);
     else if (MediaTypes::isVideoFile(path))
         setMode(Mode::Video);
+    else
+        setMode(Mode::Error);
 }
 
 
