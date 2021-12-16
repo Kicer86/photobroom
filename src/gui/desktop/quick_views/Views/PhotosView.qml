@@ -123,6 +123,7 @@ Item {
 
             Behavior on opacity { PropertyAnimation{} }
 
+            /*
             MouseArea {
                 anchors.fill: parent
                 propagateComposedEvents: false
@@ -131,6 +132,7 @@ Item {
                     photosViewId.state = "gallery";
                 }
             }
+            */
         }
     }
 
