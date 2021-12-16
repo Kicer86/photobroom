@@ -33,6 +33,17 @@ Item {
 
             fillMode: Image.PreserveAspectFit
 
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: {
+                    if (mediaPlayer.playbackState === MediaPlayer.PlayingState)
+                        mediaPlayer.pause();
+                    else
+                        mediaPlayer.play();
+                }
+            }
+
             MediaPlayer {
                 id: mediaPlayer
                 source: ctrl.path
