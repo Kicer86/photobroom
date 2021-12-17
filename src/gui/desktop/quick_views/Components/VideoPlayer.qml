@@ -55,7 +55,7 @@ VideoOutput {
             id: progressBar
             anchors.fill: parent
             anchors.margins: 0
-            height: 20
+
             color: "lightGray"
 
             Rectangle {
@@ -75,6 +75,30 @@ VideoOutput {
                     pos = mediaPlayer.duration * mouse.x / width
                     mediaPlayer.position = pos
                 }
+            }
+        }
+
+        Text {
+            anchors.centerIn: parent
+
+            text: (mediaPlayer.playbackState === MediaPlayer.PlayingState? qsTr("Playing"): qsTr("Paused")) + " " +
+                  msToTime(mediaPlayer.position) + " / " + msToTime(mediaPlayer.duration)
+
+            function msToTime(s) {
+
+                function pad(n, z) {
+                    z = z || 2;
+                    return ('00' + n).slice(-z);
+                }
+
+                var ms = s % 1000;
+                s = (s - ms) / 1000;
+                var secs = s % 60;
+                s = (s - secs) / 60;
+                var mins = s % 60;
+                var hrs = (s - mins) / 60;
+
+                return pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
             }
         }
     }
