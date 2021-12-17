@@ -1,6 +1,5 @@
 
 import QtQuick
-import QtMultimedia
 import photo_broom.qml 1.0
 
 
