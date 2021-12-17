@@ -48,14 +48,14 @@ VideoOutput {
         anchors.left:   parent.left
         anchors.right:  parent.right
 
-        height: 10
+        height: 20
 
         // based on https://titanwolf.org/Network/Articles/Article?AID=7a7ba3ff-e8f4-4662-832a-b55a8f2e84d6
         Rectangle {
             id: progressBar
             anchors.fill: parent
             anchors.margins: 0
-            height: 10
+            height: 20
             color: "lightGray"
 
             Rectangle {
