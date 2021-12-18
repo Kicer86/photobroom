@@ -44,6 +44,8 @@ Item {
     }
 
     Item {
+        id: photosArea
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
@@ -76,7 +78,7 @@ Item {
                 anchors.right: parent.ScrollBar.vertical.left
             }
 
-            onItemDoubleClicked: (index) => fullscreenImage.setPhoto(index)
+            onItemDoubleClicked: (index) => turnOnFullscreenMode(index)
 
             onSelectedIndexesChanged: function() {
                 var ids = [];
@@ -105,34 +107,17 @@ Item {
 
             id: fullscreenImage
 
-            function setPhoto(index) {
-                var id = gridView.model.getId(index);
-                fullscreenImage.photoID = id;
-                fullscreenImage.focus = true;
-                fullscreenImage.currentIndex = index;
-
-                photosViewId.state = "fullscreen";
-
-                console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
-            }
-
             anchors.fill: parent
             visible: opacity != 0.0
 
-            property int currentIndex: 0
-
             Behavior on opacity { PropertyAnimation{} }
 
-            /*
-            MouseArea {
-                anchors.fill: parent
-                propagateComposedEvents: false
-
-                onClicked: {
+            Keys.onPressed: function(event) {
+                if (event.key == Qt.Key_Escape) {
                     photosViewId.state = "gallery";
+                    event.accepted = true;
                 }
             }
-            */
         }
     }
 
@@ -195,10 +180,25 @@ Item {
         }
     }
 
+    function turnOnFullscreenMode(index) {
+        photosViewId.state = "fullscreen"
+
+        var id = gridView.model.getId(index);
+        fullscreenImage.photoID = id;
+        fullscreenImage.forceActiveFocus(Qt.MouseFocusReason);
+
+        console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
+    }
+
+    function turnOnGalleryMode() {
+        photosViewId.state = "gallery"
+
+        gridView.forceActiveFocus(Qt.MouseFocusReason);
+    }
+
     states: [
         State {
             name: "gallery"
-            when: filterId.newPhotosOnly == false
 
             PropertyChanges {
                 target: shadow
@@ -212,7 +212,6 @@ Item {
         },
         State {
             name: "fullscreen"
-            when: filterId.newPhotosOnly
 
             PropertyChanges {
                 target: shadow
