@@ -92,30 +92,37 @@ Item {
             }
         }
 
-        Rectangle {
-            // gallery shadow for full screen mode
-            id: shadow
-
-            anchors.fill: gridView
-            color: "black"
-
-            Behavior on opacity { PropertyAnimation{} }
-        }
-
-        Components.MediaViewItem {
-            // image in full screen mode
-
-            id: fullscreenImage
-
+        Item {
+            id: fullscreenView
             anchors.fill: parent
+
             visible: opacity != 0.0
 
             Behavior on opacity { PropertyAnimation{} }
 
-            Keys.onPressed: function(event) {
-                if (event.key == Qt.Key_Escape) {
-                    turnOnGalleryMode();
-                    event.accepted = true;
+            Rectangle {
+                // gallery shadow for full screen mode
+                id: shadow
+
+                anchors.fill: parent
+                color: "black"
+                opacity: 0.7
+
+                Behavior on opacity { PropertyAnimation{} }
+            }
+
+            Components.MediaViewItem {
+                // image in full screen mode
+
+                id: fullscreenImage
+
+                anchors.fill: parent
+
+                Keys.onPressed: function(event) {
+                    if (event.key == Qt.Key_Escape) {
+                        turnOnGalleryMode();
+                        event.accepted = true;
+                    }
                 }
             }
         }
@@ -202,12 +209,7 @@ Item {
             name: "gallery"
 
             PropertyChanges {
-                target: shadow
-                opacity: 0.0
-            }
-
-            PropertyChanges {
-                target: fullscreenImage
+                target: fullscreenView
                 opacity: 0.0
             }
         },
@@ -215,12 +217,7 @@ Item {
             name: "fullscreen"
 
             PropertyChanges {
-                target: shadow
-                opacity: 0.7
-            }
-
-            PropertyChanges {
-                target: fullscreenImage
+                target: fullscreenView
                 opacity: 1.0
             }
 

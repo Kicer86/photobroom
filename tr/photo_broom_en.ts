@@ -810,12 +810,12 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="150"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="157"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="154"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="161"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
