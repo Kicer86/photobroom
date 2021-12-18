@@ -114,7 +114,7 @@ Item {
 
             Keys.onPressed: function(event) {
                 if (event.key == Qt.Key_Escape) {
-                    photosViewId.state = "gallery";
+                    turnOnGalleryMode();
                     event.accepted = true;
                 }
             }
@@ -193,6 +193,7 @@ Item {
     function turnOnGalleryMode() {
         photosViewId.state = "gallery"
 
+        fullscreenImage.reset();
         gridView.forceActiveFocus(Qt.MouseFocusReason);
     }
 
