@@ -223,6 +223,11 @@ Item {
                 target: fullscreenImage
                 opacity: 1.0
             }
+
+            PropertyChanges {
+                target: gridView
+                enabled: false
+            }
         }
     ]
 
