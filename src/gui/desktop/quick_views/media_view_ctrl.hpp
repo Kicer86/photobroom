@@ -32,6 +32,7 @@ public:
     };
 
     void setSource(const Photo::Id &);
+    Q_INVOKABLE void reset();                       ///< go into Unknown Mode - equivalent of setting invalid PhotoId
 
     const Photo::Id& source() const;
     QString photoIDString() const;
