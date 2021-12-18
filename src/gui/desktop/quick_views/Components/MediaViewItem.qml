@@ -6,6 +6,11 @@ import photo_broom.qml 1.0
 Item {
     property alias photoID: ctrl.photoID
 
+    // disable view
+    function reset() {
+        ctrl.reset();
+    }
+
     MediaViewCtrl {
         id: ctrl
     }
