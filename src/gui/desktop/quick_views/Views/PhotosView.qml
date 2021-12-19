@@ -58,7 +58,7 @@ Item {
             anchors.fill: parent
 
             clip: true
-            focus: true
+            activeFocusOnTab: true
             keyNavigationEnabled: true
 
             model: photosModelControllerId.photos
@@ -90,6 +90,8 @@ Item {
 
                 selectedPhotos = ids;
             }
+
+            Components.Focuser { }
         }
 
         Item {
@@ -124,6 +126,8 @@ Item {
                         event.accepted = true;
                     }
                 }
+
+                Components.Focuser { }
             }
         }
     }
