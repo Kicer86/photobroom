@@ -43,7 +43,7 @@ Item {
         visible: photosModelControllerId.datesCount > 0
     }
 
-    Item {
+    StackView {
         id: photosArea
 
         anchors.left: parent.left
@@ -51,11 +51,14 @@ Item {
         anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
-        Internals.PhotosGridView {
+        focus: true
+        focusPolicy: Qt.StrongFocus
+
+        initialItem: Internals.PhotosGridView {
             // grid with photos
             id: gridView
 
-            anchors.fill: parent
+            StackView.visible: true
 
             clip: true
             activeFocusOnTab: true
@@ -90,13 +93,38 @@ Item {
 
                 selectedPhotos = ids;
             }
-
-            Components.Focuser { }
         }
+
+        pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0.0; to: 1.0} }
+        pushExit:  Transition { PropertyAction    { property: "enabled"; value: false} }
+
+        popEnter:  Transition { PropertyAction    { property: "enabled"; value: true} }
+        popExit:   Transition { PropertyAnimation { property: "opacity"; to: 0.0} }
+
+        Keys.onPressed: function(event) {
+            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
+                photosArea.pop();
+                event.accepted = true;
+            }
+        }
+
+        // TODO: troublesome item. Without it StackView does not get focus when clicked
+        // so Keys.onPressed won't work. Adding this item helps, but requires z:1,
+        // otherwise any new page pushed to StackView overlaps it and it does not work.
+        // z:1 from the other side causes that scrollbars and other elements of
+        // Internals.PhotosGridView (initial page) do not get focus for some reason...
+        // Current solution is not perfect either - after poping page, Internals.PhotosGridView
+        // requires double click to get focus. But that's the least broken solution.
+        Components.Focuser { enabled: photosArea.depth > 1; z: 1}
+    }
+
+    Component {
+        id: fullscreenPage
 
         Item {
             id: fullscreenView
-            anchors.fill: parent
+
+            property alias photoID: fullscreenImage.photoID
 
             visible: opacity != 0.0
 
@@ -109,33 +137,12 @@ Item {
                 anchors.fill: parent
                 color: "black"
                 opacity: 0.7
-
-                Behavior on opacity { PropertyAnimation{} }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    propagateComposedEvents: false
-
-                    onClicked: {}
-                }
             }
 
             Components.MediaViewItem {
-                // image in full screen mode
-
                 id: fullscreenImage
 
                 anchors.fill: parent
-
-                Keys.onPressed: function(event) {
-                    if (event.key == Qt.Key_Escape) {
-                        turnOnGalleryMode();
-                        event.accepted = true;
-                    }
-                }
-
-                Components.Focuser { }
             }
         }
     }
@@ -200,41 +207,11 @@ Item {
     }
 
     function turnOnFullscreenMode(index) {
-        photosViewId.state = "fullscreen"
-
         var id = gridView.model.getId(index);
-        fullscreenImage.photoID = id;
-        fullscreenImage.forceActiveFocus(Qt.MouseFocusReason);
 
+        photosArea.push(fullscreenPage, {"photoID": id});
         console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
     }
-
-    function turnOnGalleryMode() {
-        photosViewId.state = "gallery"
-
-        fullscreenImage.reset();
-        gridView.forceActiveFocus(Qt.MouseFocusReason);
-    }
-
-    states: [
-        State {
-            name: "gallery"
-
-            PropertyChanges {
-                target: fullscreenView
-                opacity: 0.0
-            }
-        },
-        State {
-            name: "fullscreen"
-
-            PropertyChanges {
-                target: fullscreenView
-                opacity: 1.0
-            }
-        }
-    ]
-
 }
 
 
