@@ -111,6 +111,14 @@ Item {
                 opacity: 0.7
 
                 Behavior on opacity { PropertyAnimation{} }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    propagateComposedEvents: false
+
+                    onClicked: {}
+                }
             }
 
             Components.MediaViewItem {
@@ -223,11 +231,6 @@ Item {
             PropertyChanges {
                 target: fullscreenView
                 opacity: 1.0
-            }
-
-            PropertyChanges {
-                target: gridView
-                enabled: false
             }
         }
     ]
