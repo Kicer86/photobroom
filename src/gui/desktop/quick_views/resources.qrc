@@ -7,6 +7,7 @@
         <file>Components/ImageButton.qml</file>
         <file>Components/DelegateCheckBox.qml</file>
         <file>Components/DelegateState.qml</file>
+        <file>Components/Focuser.qml</file>
         <file>Components/InfoItem.qml</file>
         <file>Components/MediaPreviewItem.qml</file>
         <file>Components/MediaViewItem.qml</file>
