@@ -555,18 +555,18 @@ TEST_F(FlatModelTest, DataChange)
 
 TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
 {
-    NiceMock<MockDatabase> db;
-    Database::MemoryBackend backend;
-    Database::JsonToBackend jsonReader(backend);
+    NiceMock<MockDatabase> memoryDb;
+    Database::MemoryBackend memoryBackend;
+    Database::JsonToBackend jsonReader(memoryBackend);
 
     jsonReader.append(SampleDB::db1);
 
-    ON_CALL(db, execute(_)).WillByDefault(Invoke([&backend](auto&& task)
+    ON_CALL(db, execute(_)).WillByDefault(Invoke([&memoryBackend](auto&& task)
     {
-        task->run(backend);
+        task->run(memoryBackend);
     }));
 
-    ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
+    ON_CALL(db, backend).WillByDefault(ReturnRef(memoryBackend));
 
     model.setDatabase(&db);
     model.setFilter({});       // setting filters should update set of photos
