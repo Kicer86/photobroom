@@ -13,18 +13,14 @@ struct MockDatabase: Database::IDatabase
 {
     MOCK_METHOD(void, update, (const Photo::DataDelta &), (override) );
 
-    MOCK_METHOD2(getPhotos, void(const std::vector<Photo::Id> &, const std::function<void(const std::vector<IPhotoInfo::Ptr> &)> &) );
-
-    MOCK_METHOD0(markStagedAsReviewed, void());
-
-    MOCK_METHOD0(utils,   Database::IUtils&());
-    MOCK_METHOD0(backend, Database::IBackend&());
+    MOCK_METHOD(Database::IUtils&, utils, (), (override));
+    MOCK_METHOD(Database::IBackend&, backend, (), (override));
 
     MOCK_METHOD(void, execute, (std::unique_ptr<Database::IDatabase::ITask> &&), (override));
 
-    MOCK_METHOD2(init, void(const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &) );
+    MOCK_METHOD(void, init, (const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &), (override) );
 
-    MOCK_METHOD0(closeConnections, void() );
+    MOCK_METHOD(void, closeConnections, (), (override));
 };
 
 #endif
