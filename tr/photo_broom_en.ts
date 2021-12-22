@@ -810,12 +810,12 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="163"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="176"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="167"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="180"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1029,6 +1029,19 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="87"/>
         <source>External tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoPlayer</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="84"/>
+        <source>Playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="84"/>
+        <source>Paused</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

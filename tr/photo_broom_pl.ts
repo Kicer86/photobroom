@@ -834,7 +834,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+163"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+176"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>
@@ -1054,6 +1054,19 @@ Kod błędu: %1</translation>
         <location line="+53"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
+    </message>
+</context>
+<context>
+    <name>VideoPlayer</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="+84"/>
+        <source>Playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Paused</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

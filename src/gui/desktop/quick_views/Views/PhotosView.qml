@@ -43,20 +43,25 @@ Item {
         visible: photosModelControllerId.datesCount > 0
     }
 
-    Item {
+    StackView {
+        id: photosArea
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
         anchors.bottom: infoItem.top
 
-        Internals.PhotosGridView {
+        focus: true
+        focusPolicy: Qt.StrongFocus
+
+        initialItem: Internals.PhotosGridView {
             // grid with photos
             id: gridView
 
-            anchors.fill: parent
+            StackView.visible: true
 
             clip: true
-            focus: true
+            activeFocusOnTab: true
             keyNavigationEnabled: true
 
             model: photosModelControllerId.photos
@@ -76,7 +81,7 @@ Item {
                 anchors.right: parent.ScrollBar.vertical.left
             }
 
-            onItemDoubleClicked: (index) => fullscreenImage.setPhoto(index)
+            onItemDoubleClicked: (index) => turnOnFullscreenMode(index)
 
             onSelectedIndexesChanged: function() {
                 var ids = [];
@@ -90,46 +95,54 @@ Item {
             }
         }
 
-        Rectangle {
-            // gallery shadow for full screen mode
-            id: shadow
+        pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0.0; to: 1.0} }
+        pushExit:  Transition { PropertyAction    { property: "enabled"; value: false} }
 
-            anchors.fill: gridView
-            color: "black"
+        popEnter:  Transition { PropertyAction    { property: "enabled"; value: true} }
+        popExit:   Transition { PropertyAnimation { property: "opacity"; to: 0.0} }
 
-            Behavior on opacity { PropertyAnimation{} }
+        Keys.onPressed: function(event) {
+            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
+                photosArea.pop();
+                event.accepted = true;
+            }
         }
 
-        Components.MediaViewItem {
-            // image in full screen mode
+        // TODO: troublesome item. Without it StackView does not get focus when clicked
+        // so Keys.onPressed won't work. Adding this item helps, but requires z:1,
+        // otherwise any new page pushed to StackView overlaps it and it does not work.
+        // z:1 from the other side causes that scrollbars and other elements of
+        // Internals.PhotosGridView (initial page) do not get focus for some reason...
+        // Current solution is not perfect either - after poping page, Internals.PhotosGridView
+        // requires double click to get focus. But that's the least broken solution.
+        Components.Focuser { enabled: photosArea.depth > 1; z: 1}
+    }
 
-            id: fullscreenImage
+    Component {
+        id: fullscreenPage
 
-            function setPhoto(index) {
-                var id = gridView.model.getId(index);
-                fullscreenImage.photoID = id;
-                fullscreenImage.focus = true;
-                fullscreenImage.currentIndex = index;
+        Item {
+            id: fullscreenView
 
-                photosViewId.state = "fullscreen";
+            property alias photoID: fullscreenImage.photoID
 
-                console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
-            }
-
-            anchors.fill: parent
             visible: opacity != 0.0
-
-            property int currentIndex: 0
 
             Behavior on opacity { PropertyAnimation{} }
 
-            MouseArea {
-                anchors.fill: parent
-                propagateComposedEvents: false
+            Rectangle {
+                // gallery shadow for full screen mode
+                id: shadow
 
-                onClicked: {
-                    photosViewId.state = "gallery";
-                }
+                anchors.fill: parent
+                color: "black"
+                opacity: 0.7
+            }
+
+            Components.MediaViewItem {
+                id: fullscreenImage
+
+                anchors.fill: parent
             }
         }
     }
@@ -193,37 +206,12 @@ Item {
         }
     }
 
-    states: [
-        State {
-            name: "gallery"
-            when: filterId.newPhotosOnly == false
+    function turnOnFullscreenMode(index) {
+        var id = gridView.model.getId(index);
 
-            PropertyChanges {
-                target: shadow
-                opacity: 0.0
-            }
-
-            PropertyChanges {
-                target: fullscreenImage
-                opacity: 0.0
-            }
-        },
-        State {
-            name: "fullscreen"
-            when: filterId.newPhotosOnly
-
-            PropertyChanges {
-                target: shadow
-                opacity: 0.7
-            }
-
-            PropertyChanges {
-                target: fullscreenImage
-                opacity: 1.0
-            }
-        }
-    ]
-
+        photosArea.push(fullscreenPage, {"photoID": id});
+        console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
+    }
 }
 
 

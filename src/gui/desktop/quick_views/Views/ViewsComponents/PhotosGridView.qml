@@ -56,4 +56,6 @@ Components.MultiselectGridView {
     currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }
+
+    Components.Focuser { }
 }
