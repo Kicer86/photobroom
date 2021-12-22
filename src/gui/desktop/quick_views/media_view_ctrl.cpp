@@ -16,15 +16,11 @@ MediaViewCtrl::~MediaViewCtrl()
 
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
+    assert(id.valid());
     m_id = id;
 
-    setMode(Mode::Unknown);             // mode Unknown until path is figured out
-
-    if (id.valid())
-    {
-        emit sourceChanged(id);
-        emit photoIDStringChanged(photoIDString());
-    }
+    emit sourceChanged(id);
+    emit photoIDStringChanged(photoIDString());
 
     Database::IDatabase* db = ObjectsAccessor::instance().database();
 
@@ -40,12 +36,6 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
 
         db->exec(task);
     }
-}
-
-
-void MediaViewCtrl::reset()
-{
-    setSource({});
 }
 
 
