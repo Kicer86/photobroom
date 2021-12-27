@@ -24,6 +24,7 @@
         <file>Views/PhotoDataCompletion.qml</file>
         <file>Views/PhotosView.qml</file>
         <file>Views/SeriesDetection.qml</file>
+        <file>Views/TagEditor.qml</file>
         <file>Views/ViewsComponents/Filter.qml</file>
         <file>Views/ViewsComponents/PhotoDelegate.qml</file>
         <file>Views/ViewsComponents/PhotosGridView.qml</file>
