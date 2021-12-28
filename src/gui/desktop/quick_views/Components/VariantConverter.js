@@ -5,6 +5,7 @@ function variantToString(type, variant) {
         var date = new Date(variant);
         return date.toLocaleDateString(Qt.locale(), Locale.ShortFormat);
     }
-    else
-        return variant;
+    else {
+        return variant === undefined? null : variant.toString();
+    }
 }
