@@ -1,4 +1,6 @@
 
+#include <QQuickWindow>
+
 #include <database/database_tools/photos_data_guesser.hpp>
 
 #include "context_menu_manager.hpp"
@@ -14,6 +16,8 @@
 
 void register_qml_types()
 {
+    QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
+
     qmlRegisterType<ContextMenuManager>("photo_broom.qml", 1, 0, "ContextMenuManager");
     qmlRegisterType<ObjectsAccessor>("photo_broom.qml", 1, 0, "PhotoBroomProject");
     qmlRegisterType<MediaViewCtrl>("photo_broom.qml", 1, 0, "MediaViewCtrl");
