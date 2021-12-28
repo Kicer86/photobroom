@@ -19,13 +19,13 @@ namespace
 }
 
 
-TagTypeInfo::TagTypeInfo(): m_tag(TagTypes::Invalid)
+TagTypeInfo::TagTypeInfo(): m_tag(Tag::Types::Invalid)
 {
 
 }
 
 
-TagTypeInfo::TagTypeInfo(const TagTypes& tag): m_tag(tag)
+TagTypeInfo::TagTypeInfo(const Tag::Types& tag): m_tag(tag)
 {
 
 }
@@ -87,7 +87,7 @@ QString TagTypeInfo::getDisplayName() const
 }
 
 
-TagTypes TagTypeInfo::getTag() const
+Tag::Types TagTypeInfo::getTag() const
 {
     return m_tag;
 }

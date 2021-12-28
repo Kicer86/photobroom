@@ -52,7 +52,7 @@ TEST(DataDeltaTest, dataAndDataDeltaConversion)
     Photo::Data d1;
     d1.id = 15;
     d1.sha256Sum = "1290";
-    d1.tags = { {TagTypes::Place, QString("somewhere")} };
+    d1.tags = { {Tag::Types::Place, QString("somewhere")} };
     d1.flags = { {Photo::FlagsE::StagingArea, 1} };
     d1.path = "/path/file.jpeg";
     d1.geometry = QSize(100,200);
@@ -80,7 +80,7 @@ TEST(DataDeltaTest, DataDiff)
     oldData.groupInfo = GroupInfo(Group::Id(5), GroupInfo::Member);
     oldData.path = "1234";
     oldData.sha256Sum = "5678";
-    oldData.tags[TagTypes::Event] = QString("tttr");
+    oldData.tags[Tag::Types::Event] = QString("tttr");
 
     Photo::Data newData1(oldData);
     newData1.flags[Photo::FlagsE::Sha256Loaded] = 1;
@@ -89,7 +89,7 @@ TEST(DataDeltaTest, DataDiff)
     newData1.groupInfo = GroupInfo(Group::Id(6), GroupInfo::Member);
     newData1.path = "12345";
     newData1.sha256Sum = "56785";
-    newData1.tags[TagTypes::Event] = QString("tttrq");
+    newData1.tags[Tag::Types::Event] = QString("tttrq");
 
     Photo::Data newData2(oldData);
 
@@ -104,7 +104,7 @@ TEST(DataDeltaTest, DataDiff)
     EXPECT_EQ(d1.get<Photo::Field::GroupInfo>(), GroupInfo(Group::Id(6), GroupInfo::Member));
     EXPECT_EQ(d1.get<Photo::Field::Path>(), "12345");
     EXPECT_EQ(d1.get<Photo::Field::Checksum>(), "56785");
-    EXPECT_THAT(d1.get<Photo::Field::Tags>(), UnorderedElementsAre( std::pair{TagTypes::Event, QString("tttrq")} ));
+    EXPECT_THAT(d1.get<Photo::Field::Tags>(), UnorderedElementsAre( std::pair{Tag::Types::Event, QString("tttrq")} ));
 
     EXPECT_EQ(d2.getId(), oldData.id);
     EXPECT_FALSE(d2.has(Photo::Field::Flags));

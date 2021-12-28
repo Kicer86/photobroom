@@ -57,7 +57,7 @@ namespace
 }
 
 
-TagValueModel::TagValueModel(const std::set<TagTypes>& infos, ITagInfoCollector* collector, ILoggerFactory* loggerFactory):
+TagValueModel::TagValueModel(const std::set<Tag::Types>& infos, ITagInfoCollector* collector, ILoggerFactory* loggerFactory):
     m_values(),
     m_tagInfos(infos),
     m_tagInfoCollector(collector),
@@ -88,7 +88,7 @@ void TagValueModel::updateData()
 
     QString combined_name;
 
-    for(const TagTypes& info: m_tagInfos)
+    for(const Tag::Types& info: m_tagInfos)
     {
         const auto& values = m_tagInfoCollector->get(info);
         std::transform( values.begin(), values.end(), std::back_inserter(m_values), [](const TagValue& value){
@@ -115,7 +115,7 @@ void TagValueModel::updateData()
 }
 
 
-void TagValueModel::collectorNotification(const TagTypes& tagType)
+void TagValueModel::collectorNotification(const Tag::Types& tagType)
 {
     if ( m_tagInfos.find(tagType) != m_tagInfos.end())
         updateData();

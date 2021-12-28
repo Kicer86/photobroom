@@ -12,7 +12,7 @@ namespace
         return encodedValue;
     }
 
-    QString encodeTag(const TagTypes& tag, const TagValue& value)
+    QString encodeTag(const Tag::Types& tag, const TagValue& value)
     {
         const QString encoded = QString("%1 %2")
                                     .arg(tag)
@@ -21,7 +21,7 @@ namespace
         return encoded;
     }
 
-    QString encodeTag(const TagTypes& tag, const TagValue& valueOld, const TagValue& valueNew)
+    QString encodeTag(const Tag::Types& tag, const TagValue& valueOld, const TagValue& valueNew)
     {
         const QString encoded = QString("%1 %2 %3")
                                     .arg(tag)
@@ -40,7 +40,7 @@ namespace
         return array;
     }
 
-    std::tuple<TagTypes, TagValue> decodeTag2(const QString& encoded)
+    std::tuple<Tag::Types, TagValue> decodeTag2(const QString& encoded)
     {
         const QStringList items = encoded.split(" ");
         assert(items.size() == 2);
@@ -48,13 +48,13 @@ namespace
         const QString& tagInfoStr = items.front();
         const QString& tagValueStr = items.back();
 
-        const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
+        const Tag::Types tagType = static_cast<Tag::Types>(tagInfoStr.toInt());
         const QString decodedTagValue = decodeTag(tagValueStr);
 
         return std::make_tuple(tagType, decodedTagValue);
     }
 
-    std::tuple<TagTypes, TagValue, TagValue> decodeTag3(const QString& encoded)
+    std::tuple<Tag::Types, TagValue, TagValue> decodeTag3(const QString& encoded)
     {
         const QStringList items = encoded.split(" ");
         assert(items.size() == 3);
@@ -63,7 +63,7 @@ namespace
         const QString& oldTagValueStr = items[1];
         const QString& newTagValueStr = items[2];
 
-        const TagTypes tagType = static_cast<TagTypes>(tagInfoStr.toInt());
+        const Tag::Types tagType = static_cast<Tag::Types>(tagInfoStr.toInt());
         const QString decodedOldTagValue = decodeTag(oldTagValueStr);
         const QString decodedNewTagValue = decodeTag(newTagValueStr);
 
@@ -115,9 +115,9 @@ namespace Database
 
     void APhotoChangeLogOperator::process(const Photo::Id& id, const Tag::TagsList& oldTags, const Tag::TagsList& newTags)
     {
-        std::vector<std::pair<TagTypes, TagValue>> tagsRemoved;
-        std::vector<std::tuple<TagTypes, TagValue, TagValue>> tagsChanged;
-        std::vector<std::pair<TagTypes, TagValue>> tagsAdded;
+        std::vector<std::pair<Tag::Types, TagValue>> tagsRemoved;
+        std::vector<std::tuple<Tag::Types, TagValue, TagValue>> tagsChanged;
+        std::vector<std::pair<Tag::Types, TagValue>> tagsAdded;
 
         compare(oldTags, newTags,
                 std::back_inserter(tagsRemoved),

@@ -48,14 +48,14 @@ void TagInfoCollector::set(Database::IDatabase* db)
 }
 
 
-const std::vector<TagValue>& TagInfoCollector::get(const TagTypes& info) const
+const std::vector<TagValue>& TagInfoCollector::get(const Tag::Types& info) const
 {
     std::lock_guard<std::mutex> lock(m_tags_mutex);
     return m_tags[info];
 }
 
 
-void TagInfoCollector::gotTagValues(const TagTypes& tagType, const std::vector<TagValue>& values)
+void TagInfoCollector::gotTagValues(const Tag::Types& tagType, const std::vector<TagValue>& values)
 {
     std::unique_lock<std::mutex> lock(m_tags_mutex);
     m_tags[tagType] = values;
@@ -70,12 +70,12 @@ void TagInfoCollector::updateAllTags(SignalBlocker::Locker locker)
     m_logger->trace("updating all tags");
     auto tagNames = BaseTags::getAll();
 
-    for(const TagTypes& baseTagName: tagNames)
+    for(const Tag::Types& baseTagName: tagNames)
         updateValuesFor(baseTagName, locker);
 }
 
 
-void TagInfoCollector::updateValuesFor(const TagTypes& tagType, SignalBlocker::Locker locker)
+void TagInfoCollector::updateValuesFor(const Tag::Types& tagType, SignalBlocker::Locker locker)
 {
     if (m_database != nullptr)
     {

@@ -29,9 +29,9 @@ namespace Database
 
     namespace
     {
-        QString castedTagValue(const TagTypes& type)
+        QString castedTagValue(const Tag::Types& type)
         {
-            if (type == Rating)
+            if (type == Tag::Rating)
                 return "CAST(tags.value AS INTEGER)";
             else
                 return "tags.value";

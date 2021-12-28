@@ -52,7 +52,7 @@ Tag::TagsList DataFromPathExtractor::extractRegex1(const QString& path) const
 
         if (date.isValid())
         {
-            tags.emplace(TagTypes::Date, date);
+            tags.emplace(Tag::Types::Date, date);
 
             if (captured.size() == 7)
             {
@@ -62,7 +62,7 @@ Tag::TagsList DataFromPathExtractor::extractRegex1(const QString& path) const
                 const QTime time(hh, mm, ss);
 
                 if (time.isValid())
-                    tags.emplace(TagTypes::Time, time);
+                    tags.emplace(Tag::Types::Time, time);
             }
 
             break;
@@ -102,7 +102,7 @@ Tag::TagsList DataFromPathExtractor::extractRegex2(const QString& path) const
 
         if (date.isValid())
         {
-            tags.emplace(TagTypes::Date, date);
+            tags.emplace(Tag::Types::Date, date);
 
             break;
         }

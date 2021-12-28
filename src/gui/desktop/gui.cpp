@@ -41,7 +41,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     register_qml_types();
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
-    qRegisterMetaType<TagTypes>("TagTypes");
+    qRegisterMetaType<Tag::Types>("Tag::Types");
     qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
     qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");

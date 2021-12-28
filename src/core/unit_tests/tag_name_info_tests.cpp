@@ -11,13 +11,13 @@ TEST(TagNameInfoTest, emptyAfterConstruction)
 
     EXPECT_EQ(info.getName(), QString());
     EXPECT_EQ(info.getDisplayName(), QString());
-    EXPECT_EQ(info.getTag(), TagTypes::Invalid);
+    EXPECT_EQ(info.getTag(), Tag::Types::Invalid);
 }
 
 
 TEST(TagNameInfoTest, copyOperation)
 {
-    const TagTypeInfo info(TagTypes::Date);
+    const TagTypeInfo info(Tag::Types::Date);
     const TagTypeInfo info2(info);
 
     TagTypeInfo info3;
@@ -53,7 +53,7 @@ TEST(TagNameInfoTest, compareOperation)
         }
 }
 
-typedef std::pair<TagTypes, Tag::ValueType> TagNameInfoExpectations;
+typedef std::pair<Tag::Types, Tag::ValueType> TagNameInfoExpectations;
 struct TagNameInfoTest2: testing::TestWithParam<TagNameInfoExpectations> {};
 
 TEST_P(TagNameInfoTest2, ProperValues)
@@ -69,9 +69,9 @@ TEST_P(TagNameInfoTest2, ProperValues)
 INSTANTIATE_TEST_CASE_P(ExtensionsTest,
                         TagNameInfoTest2,
                         testing::Values(
-                            TagNameInfoExpectations{TagTypes::Event, Tag::ValueType::String },
-                            TagNameInfoExpectations{TagTypes::Place, Tag::ValueType::String },
-                            TagNameInfoExpectations{TagTypes::Date,  Tag::ValueType::Date   },
-                            TagNameInfoExpectations{TagTypes::Time,  Tag::ValueType::Time   }
+                            TagNameInfoExpectations{Tag::Types::Event, Tag::ValueType::String },
+                            TagNameInfoExpectations{Tag::Types::Place, Tag::ValueType::String },
+                            TagNameInfoExpectations{Tag::Types::Date,  Tag::ValueType::Date   },
+                            TagNameInfoExpectations{Tag::Types::Time,  Tag::ValueType::Time   }
                         )
 );

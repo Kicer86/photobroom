@@ -32,7 +32,7 @@ struct ITagInfoCollector;
 class TagValueModel: public IModelCompositorDataSource
 {
     public:
-        TagValueModel(const std::set<TagTypes> &, ITagInfoCollector *, ILoggerFactory *);
+        TagValueModel(const std::set<Tag::Types> &, ITagInfoCollector *, ILoggerFactory *);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
@@ -41,12 +41,12 @@ class TagValueModel: public IModelCompositorDataSource
 
     private:
         QStringList m_values;
-        std::set<TagTypes> m_tagInfos;
+        std::set<Tag::Types> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
         ILoggerFactory* m_loggerFactory;
 
         void updateData();
-        void collectorNotification(const TagTypes &);
+        void collectorNotification(const Tag::Types &);
 };
 
 #endif // TAGVALUEMODEL_HPP

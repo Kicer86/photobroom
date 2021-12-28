@@ -28,7 +28,7 @@ namespace Database::Actions
 {
     struct SortByTag
     {
-        SortByTag(TagTypes t, Qt::SortOrder order = Qt::AscendingOrder)
+        SortByTag(Tag::Types t, Qt::SortOrder order = Qt::AscendingOrder)
             : tag(t)
             , sort_order(order)
         {
@@ -39,7 +39,7 @@ namespace Database::Actions
 
         friend auto operator<=>(const SortByTag&, const SortByTag&) = default;
 
-        const TagTypes tag;
+        const Tag::Types tag;
         const Qt::SortOrder sort_order;
     };
 

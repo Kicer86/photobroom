@@ -10,12 +10,12 @@ namespace Tag
     {
         qint64 timestamp = 0;
 
-        const auto dateIt = tags.find(TagTypes::Date);
+        const auto dateIt = tags.find(Tag::Types::Date);
 
         if (dateIt != tags.end())
         {
             const QDate date = dateIt->second.getDate();
-            const auto timeIt = tags.find(TagTypes::Time);
+            const auto timeIt = tags.find(Tag::Types::Time);
             const QTime time = timeIt != tags.end()? timeIt->second.getTime(): QTime();
             const QDateTime dateTime(date, time);
 

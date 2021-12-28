@@ -54,7 +54,7 @@ namespace
     };
 
     template<typename T>
-    T* make_editor(ICompleterFactory* completerFactory, const TagTypes& tagType, QWidget* parent)
+    T* make_editor(ICompleterFactory* completerFactory, const Tag::Types& tagType, QWidget* parent)
     {
         T* editor = new T(parent);
         QCompleter* completer = completerFactory->createCompleter(tagType);
@@ -104,20 +104,20 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
 
     switch(tagType)
     {
-        case TagTypes::Event:
-        case TagTypes::Place:
+        case Tag::Types::Event:
+        case Tag::Types::Place:
             result = make_editor<QLineEdit>(m_completerFactory, tagType, parent);
             break;
 
-        case TagTypes::Date:
+        case Tag::Types::Date:
             result = new QDateEdit(parent);
             break;
 
-        case TagTypes::Time:
+        case Tag::Types::Time:
             result = new TimeEditor(parent);
             break;
 
-        case TagTypes::Rating:
+        case Tag::Types::Rating:
         {
             KRatingWidget* ratingWidget = new KRatingWidget(parent);
             ratingWidget->setCustomPixmap(m_star);
@@ -126,10 +126,10 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
         }
 
-        case TagTypes::Category:
+        case Tag::Types::Category:
         {
             KColorCombo* combo = new KColorCombo(parent);
-            IModelCompositorDataSource* model = m_completerFactory->accessModel(TagTypes::Category);
+            IModelCompositorDataSource* model = m_completerFactory->accessModel(Tag::Types::Category);
             const QStringList& colorsList = model->data();
 
             QList<QColor> colors;
@@ -146,7 +146,7 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
             break;
         }
 
-        case TagTypes::Invalid:
+        case Tag::Types::Invalid:
         default:
             assert(!"Unexpected call");
             break;
@@ -164,28 +164,28 @@ QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
 
     switch(tagType)
     {
-        case TagTypes::Event:
-        case TagTypes::Place:
+        case Tag::Types::Event:
+        case Tag::Types::Place:
             result = "text";
             break;
 
-        case TagTypes::Date:
+        case Tag::Types::Date:
             result = "date";
             break;
 
-        case TagTypes::Time:
+        case Tag::Types::Time:
             result = "time";
             break;
 
-        case TagTypes::Rating:
+        case Tag::Types::Rating:
             result = "rating";
             break;
 
-        case TagTypes::Category:
+        case Tag::Types::Category:
             result = "color";
             break;
 
-        case TagTypes::Invalid:
+        case Tag::Types::Invalid:
         default:
             assert(!"Unexpected call");
             break;

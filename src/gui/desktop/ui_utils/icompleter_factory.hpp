@@ -17,13 +17,13 @@ struct ICompleterFactory
      * @brief create QCompleter for given type
      * \return Pointer to QCompleter. It is client's responsibility to delete it
      */
-    virtual QCompleter* createCompleter(const TagTypes &) = 0;
+    virtual QCompleter* createCompleter(const Tag::Types &) = 0;
 
     /**
      * @brief create QCompleter for given set of types
      * \return Pointer to QCompleter. It is client's responsibility to delete it
      */
-    virtual QCompleter* createCompleter(const std::set<TagTypes> &) = 0;
+    virtual QCompleter* createCompleter(const std::set<Tag::Types> &) = 0;
 
     /**
      * @brief create QCompleter with people names
@@ -35,7 +35,7 @@ struct ICompleterFactory
      * @brief access model with values for given tag type
      * \return Pointer to IModelCompositorDataSource - completition list.
      */
-    virtual IModelCompositorDataSource* accessModel(const TagTypes &) = 0;
+    virtual IModelCompositorDataSource* accessModel(const Tag::Types &) = 0;
 
     /**
      * @brief access model with list of people names

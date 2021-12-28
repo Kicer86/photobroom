@@ -96,13 +96,13 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
             ids.push_back(photos.back().getId());
 
             const IPhotoInfo::Ptr photo1 = this->m_backend->getPhotoFor(ids[0]);
-            const TagNameInfo pi1(TagTypes::_People);
+            const TagNameInfo pi1(Tag::Types::_People);
             const TagValue pv1({QString("person 1"), QString("person 2")});
 
             photo1->setTag(pi1, pv1);
 
             const IPhotoInfo::Ptr photo2 = this->m_backend->getPhotoFor(ids[1]);
-            const TagNameInfo pi2(TagTypes::_People);
+            const TagNameInfo pi2(Tag::Types::_People);
             const TagValue pv2({QString("person 2"), QString("person 3")});
 
             photo2->setTag(pi2, pv2);
@@ -139,7 +139,7 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
             // verfy photo1's tag
             const auto tags1 = photo1->getTags();
             ASSERT_EQ(tags1.size(), 1);                 // just people
-            ASSERT_EQ(tags1.begin()->first.getTag(), TagTypes::People);
+            ASSERT_EQ(tags1.begin()->first.getTag(), Tag::Types::People);
 
             const auto peopleTagValues1 = tags1.begin()->second;
             const auto peopleList1 = peopleTagValues1.getList();
@@ -150,7 +150,7 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
             // verfy photo2's tag
             const auto tags2 = photo2->getTags();
             ASSERT_EQ(tags2.size(), 1);                 // just people
-            ASSERT_EQ(tags2.begin()->first.getTag(), TagTypes::People);
+            ASSERT_EQ(tags2.begin()->first.getTag(), Tag::Types::People);
 
             const auto peopleTagValues2 = tags2.begin()->second;
             const auto peopleList2 = peopleTagValues2.getList();
@@ -202,12 +202,12 @@ TYPED_TEST(PeopleTest, assignmentToPhotoTouchesPeople)
             // add more people to photo
             auto photo = this->m_backend->getPhotoFor(ids[0]);
             auto tags = photo->getTags();
-            auto peopleTags = tags.find(TagNameInfo(TagTypes::People));
+            auto peopleTags = tags.find(TagNameInfo(Tag::Types::People));
             ASSERT_NE(peopleTags, tags.end());
 
             auto peopleList = peopleTags->second.getList();
             peopleList.push_back(TagValue("person 987"));
-            photo->setTag(TagNameInfo(TagTypes::People), peopleList);
+            photo->setTag(TagNameInfo(Tag::Types::People), peopleList);
 
             // verify if original person wasn't touched, and if we have a new companion
             {
@@ -530,7 +530,7 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
                                         TagValue("Per2"),
                                         TagValue("Per3")});
 
-                photo->setTag(TagNameInfo(TagTypes::People), people);
+                photo->setTag(TagNameInfo(Tag::Types::People), people);
 
                 // verify people count
                 const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
@@ -542,7 +542,7 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
                 const TagValue people({ TagValue("Per1"),
                                         TagValue("Per3")});
 
-                photo->setTag(TagNameInfo(TagTypes::People), people);
+                photo->setTag(TagNameInfo(Tag::Types::People), people);
 
                 // verify people count
                 const auto ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);

@@ -86,16 +86,16 @@ void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
     {
         const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
         const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
-        const TagTypes tagType = tagInfoRole.getTag();
+        const Tag::Types tagType = tagInfoRole.getTag();
 
-        if (tagType == TagTypes::Rating)
+        if (tagType == Tag::Types::Rating)
         {
             const QVariant value = index.data(Qt::EditRole);
 
             if (value.isNull() == false)
                 m_ratingPainter.paint(painter, option.rect, value.toInt());
         }
-        else if (tagType == TagTypes::Category)
+        else if (tagType == Tag::Types::Category)
         {
             const QVariant value = index.data(Qt::EditRole);
 

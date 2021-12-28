@@ -45,18 +45,18 @@ class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 
         void set(Database::IDatabase *);
 
-        const std::vector<TagValue>& get(const TagTypes &) const override;
+        const std::vector<TagValue>& get(const Tag::Types &) const override;
 
     private:
-        mutable std::map<TagTypes, std::vector<TagValue>> m_tags;
+        mutable std::map<Tag::Types, std::vector<TagValue>> m_tags;
         mutable std::mutex m_tags_mutex;
         std::unique_ptr<ILogger> m_logger;
         Database::IDatabase* m_database;
 
-        void gotTagValues(const TagTypes &, const std::vector<TagValue> &);
+        void gotTagValues(const Tag::Types &, const std::vector<TagValue> &);
 
         void updateAllTags(SignalBlocker::Locker = {});
-        void updateValuesFor(const TagTypes &, SignalBlocker::Locker = {});
+        void updateValuesFor(const Tag::Types &, SignalBlocker::Locker = {});
 };
 
 #endif // TAGINFOCOLLECTOR_H

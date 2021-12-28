@@ -75,7 +75,7 @@ void PhotosModelControllerComponent::setCompleterFactory(ICompleterFactory* comp
 {
     m_completerFactory = completerFactory;
 
-    auto categoriesModel = completerFactory->accessModel(TagTypes::Category);
+    auto categoriesModel = completerFactory->accessModel(Tag::Types::Category);
     connect(categoriesModel, &IModelCompositorDataSource::dataChanged,
             this, &PhotosModelControllerComponent::categoriesChanged);
 
@@ -299,8 +299,8 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
         const QDate from = m_dates[m_timeView.first];
         const QDate to = m_dates[m_timeView.second];
 
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, from, Database::ComparisonOp::GreaterOrEqual, true) );
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Date, to, Database::ComparisonOp::LessOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(Tag::Types::Date, from, Database::ComparisonOp::GreaterOrEqual, true) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(Tag::Types::Date, to, Database::ComparisonOp::LessOrEqual, true) );
     }
 
     const SearchExpressionEvaluator::Expression expression = SearchExpressionEvaluator(expressions_separator).evaluate(m_searchExpression);
@@ -316,15 +316,15 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
 
     if (m_categoryFilter.isEmpty() == false)
     {
-        auto categoryFitler = Database::FilterPhotosWithTag(TagTypes::Category, m_categoryFilter);
+        auto categoryFitler = Database::FilterPhotosWithTag(Tag::Types::Category, m_categoryFilter);
         filters_for_model.push_back(categoryFitler);
     }
 
     if (m_ratingFrom > 0)
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingFrom, Database::ComparisonOp::GreaterOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(Tag::Types::Rating, m_ratingFrom, Database::ComparisonOp::GreaterOrEqual) );
 
     if (m_ratingTo < 10)
-        filters_for_model.push_back( Database::FilterPhotosWithTag(TagTypes::Rating, m_ratingTo, Database::ComparisonOp::LessOrEqual) );
+        filters_for_model.push_back( Database::FilterPhotosWithTag(Tag::Types::Rating, m_ratingTo, Database::ComparisonOp::LessOrEqual) );
 
     // ignore broken photos
     filters_for_model.push_back( Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,
@@ -342,7 +342,7 @@ QStringList PhotosModelControllerComponent::rawCategories() const
 {
     if (m_completerFactory)
     {
-        auto categoriesModel = m_completerFactory->accessModel(TagTypes::Category);
+        auto categoriesModel = m_completerFactory->accessModel(Tag::Types::Category);
         const auto rawValues = categoriesModel->data();
 
         return rawValues;
@@ -354,9 +354,9 @@ QStringList PhotosModelControllerComponent::rawCategories() const
 
 void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& backend)
 {
-    auto dates = backend.listTagValues(TagTypes::Date, {});
+    auto dates = backend.listTagValues(Tag::Types::Date, {});
 
-    const Database::FilterPhotosWithTag with_date_filter(TagTypes::Date);
+    const Database::FilterPhotosWithTag with_date_filter(Tag::Types::Date);
     const Database::FilterNotMatchingFilter without_date_filter(with_date_filter);
     const auto photos_without_date_tag = backend.photoOperator().getPhotos(without_date_filter);
 
