@@ -21,72 +21,87 @@ SwipeView {
     }
 
     // main view
-    Column {
-        PhotosView {
-            id: photosView
+    SplitView {
+        Column {
+            SplitView.preferredWidth: parent.width * 3/4
 
-            enabled: projectOpened
+            PhotosView {
+                id: photosView
 
-            width: parent.width
-            height: parent.height - notifications.height
+                enabled: projectOpened
 
-            onSelectedPhotosChanged: {
-                mainWindow.selectedPhotos = selectedPhotos;
-            }
+                width: parent.width
+                height: parent.height - notifications.height
 
-            MouseArea {
-                anchors.fill: parent
-
-                acceptedButtons: Qt.RightButton
-                propagateComposedEvents: true
-
-                onClicked: function(mouse) {
-                    contextMenu.selection = photosView.selectedPhotos;
-                    contextMenu.popup(mouse.x, mouse.y);
-                }
-            }
-
-            Menu {
-                id: contextMenu
-
-                property alias selection: contextMenuManager.selection
-
-                ContextMenuManager {
-                    id: contextMenuManager
-
-                    project: PhotoBroomProject.project
-                    coreFactory: PhotoBroomProject.coreFactory
+                onSelectedPhotosChanged: {
+                    mainWindow.selectedPhotos = selectedPhotos;
                 }
 
-                Instantiator {
-                    id: instantiator
+                MouseArea {
+                    anchors.fill: parent
 
-                    model: contextMenuManager.model
+                    acceptedButtons: Qt.RightButton
+                    propagateComposedEvents: true
 
-                    delegate: MenuItem {
-                        required property var actionName
-                        required property var actionEnabled
-                        required property var actionIndex
+                    onClicked: function(mouse) {
+                        contextMenu.selection = photosView.selectedPhotos;
+                        contextMenu.popup(mouse.x, mouse.y);
+                    }
+                }
 
-                        enabled: actionEnabled
-                        text: actionName
+                Menu {
+                    id: contextMenu
 
-                        onTriggered: {
-                            contextMenu.close();
-                            contextMenuManager.model.trigger(actionIndex);
-                        }
+                    property alias selection: contextMenuManager.selection
+
+                    ContextMenuManager {
+                        id: contextMenuManager
+
+                        project: PhotoBroomProject.project
+                        coreFactory: PhotoBroomProject.coreFactory
                     }
 
-                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
-                    onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    Instantiator {
+                        id: instantiator
+
+                        model: contextMenuManager.model
+
+                        delegate: MenuItem {
+                            required property var actionName
+                            required property var actionEnabled
+                            required property var actionIndex
+
+                            enabled: actionEnabled
+                            text: actionName
+
+                            onTriggered: {
+                                contextMenu.close();
+                                contextMenuManager.model.trigger(actionIndex);
+                            }
+                        }
+
+                        onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                        onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    }
                 }
+            }
+
+            Internals.NotificationsBar {
+                id: notifications
+
+                width: parent.width
             }
         }
 
-        Internals.NotificationsBar {
-            id: notifications
+        Column {
+            SplitView.fillWidth: true
 
-            width: parent.width
+            TagEditor {
+                width: parent.width
+                height: 300
+
+                selection: mainWindow.selectedPhotos
+            }
         }
     }
 
