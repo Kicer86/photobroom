@@ -12,6 +12,7 @@
 #include "selection_manager_component.hpp"
 #include "qml_setup.hpp"
 #include "models/flat_model.hpp"
+#include "widgets/tag_editor/helpers/tags_model.hpp"        // TODO: move tags model to a better place
 
 
 void register_qml_types()
@@ -26,6 +27,7 @@ void register_qml_types()
     qmlRegisterType<SelectionManagerComponent>("photo_broom.qml", 1, 0, "SelectionManager");
     qmlRegisterType<PhotosDataGuesser>("photo_broom.qml", 1, 0, "PhotosDataGuesser");
     qmlRegisterType<PhotoDataQml>("photo_broom.qml", 1, 0, "PhotoDataQml");
+    qmlRegisterType<TagsModel>("photo_broom.qml", 1, 0, "TagsModel");
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
     qmlRegisterInterface<Database::IDatabase>("Database::IDatabase", 1);
     qmlRegisterInterface<FlatModel>("FlatModel", 1);

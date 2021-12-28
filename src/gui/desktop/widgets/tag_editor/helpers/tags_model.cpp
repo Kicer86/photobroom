@@ -31,9 +31,14 @@
 using namespace std::chrono;
 using namespace std::placeholders;
 
+namespace
+{
+    TagsOperator tagsOperator;
+}
+
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_tagsOperator(nullptr),
+    m_tagsOperator(&tagsOperator),              // TODO: I do not like it, but that's simplest way to set TagsOperator for QML usage
     m_database(nullptr)
 {
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
@@ -67,6 +72,20 @@ void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 Tag::TagsList TagsModel::getTags() const
 {
     return m_tagsOperator->getTags();
+}
+
+
+Database::IDatabase* TagsModel::getDatabase() const
+{
+    return m_database;
+}
+
+
+const std::vector<Photo::Id>& TagsModel::getPhotos() const
+{
+    // TODO: a bug, but this method is not expected to be used. photos are not being stored so we have nothing to return.
+    //       The problem is that Qt's properties system requires getter.
+    return {};
 }
 
 
@@ -119,6 +138,16 @@ bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
     endInsertRows();
 
     return true;
+}
+
+
+QHash<int, QByteArray> TagsModel::roleNames() const
+{
+    QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
+
+    names.insert(TagTypeRole, QByteArray("tagType"));
+
+    return names;
 }
 
 
@@ -334,7 +363,7 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
 
     QVector<int> touchedRoles;
 
-    if (r < static_cast<int>(m_keys.size()) && ( c == 0 || c == 1) )
+    if (r < static_cast<int>(m_keys.size()) && (c == 0 || c == 1) )
     {
         touchedRoles.append(role);
 

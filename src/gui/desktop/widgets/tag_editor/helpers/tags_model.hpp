@@ -23,12 +23,7 @@
 #include <QAbstractItemModel>
 
 #include <database/iphoto_info.hpp>
-
-
-namespace Database
-{
-    struct IDatabase;
-}
+#include <database/idatabase.hpp>
 
 struct ITagsOperator;
 
@@ -36,6 +31,8 @@ struct ITagsOperator;
 class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
+        Q_PROPERTY(Database::IDatabase* database WRITE set READ getDatabase)
+        Q_PROPERTY(std::vector<Photo::Id> selection WRITE setPhotos READ getPhotos)
 
     public:
         enum Roles
@@ -54,11 +51,14 @@ class TagsModel: public QAbstractItemModel
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
+        Database::IDatabase* getDatabase() const;
+        const std::vector<Photo::Id>& getPhotos() const;
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;
         bool setItemData(const QModelIndex & index, const QMap<int, QVariant> & roles) override;
         bool insertRows(int row, int count, const QModelIndex & parent) override;
+        QHash<int, QByteArray> roleNames() const override;
 
         QVariant data(const QModelIndex & index, int role) const override;
         Qt::ItemFlags flags(const QModelIndex &index) const override;
