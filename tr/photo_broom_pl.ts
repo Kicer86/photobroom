@@ -958,7 +958,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+50"/>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+53"/>
         <source>Photo information</source>
         <translation type="unfinished">Informacje o zdjęciu</translation>
     </message>
