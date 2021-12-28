@@ -932,6 +932,14 @@ Error code: %1</source>
     </message>
 </context>
 <context>
+    <name>TagEditor</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="50"/>
+        <source>Photo information</source>
+        <translation type="unfinished">Photo information</translation>
+    </message>
+</context>
+<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="205"/>
