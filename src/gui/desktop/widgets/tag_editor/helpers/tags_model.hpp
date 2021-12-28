@@ -40,7 +40,7 @@ class TagsModel: public QAbstractItemModel
     public:
         enum Roles
         {
-            TagInfoRole = Qt::UserRole,
+            TagTypeRole = Qt::UserRole,
         };
 
         explicit TagsModel(QObject * = 0);

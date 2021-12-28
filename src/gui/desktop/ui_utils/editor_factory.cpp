@@ -89,18 +89,16 @@ void EditorFactory::set(ICompleterFactory* completerFactory)
 
 QWidget* EditorFactory::createEditor(const QModelIndex& index, QWidget* parent)
 {
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
+    const QVariant tagTypeRaw = index.data(TagsModel::TagTypeRole);
+    const Tag::Types tagType = tagTypeRaw.value<Tag::Types>();
 
-    return createEditor(tagInfoRole, parent);
+    return createEditor(tagType, parent);
 }
 
 
-QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
+QWidget* EditorFactory::createEditor(const Tag::Types& tagType, QWidget* parent)
 {
     QWidget* result = nullptr;
-
-    const auto tagType = info.getTag();
 
     switch(tagType)
     {
@@ -156,11 +154,9 @@ QWidget* EditorFactory::createEditor(const TagTypeInfo& info, QWidget* parent)
 }
 
 
-QByteArray EditorFactory::valuePropertyName(const TagTypeInfo& info) const
+QByteArray EditorFactory::valuePropertyName(const Tag::Types& tagType) const
 {
     QByteArray result;
-
-    const auto tagType = info.getTag();
 
     switch(tagType)
     {

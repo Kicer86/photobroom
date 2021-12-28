@@ -9,8 +9,8 @@ struct IEditorFactory
     virtual ~IEditorFactory() = default;
 
     virtual QWidget* createEditor(const QModelIndex &, QWidget* parent) = 0;
-    virtual QWidget* createEditor(const TagTypeInfo &, QWidget* parent) = 0;
-    virtual QByteArray valuePropertyName(const TagTypeInfo &) const = 0;
+    virtual QWidget* createEditor(const Tag::Types &, QWidget* parent) = 0;
+    virtual QByteArray valuePropertyName(const Tag::Types &) const = 0;
 };
 
 #endif
