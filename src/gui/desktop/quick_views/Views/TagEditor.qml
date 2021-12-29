@@ -1,7 +1,6 @@
 
 import QtQuick
 import photo_broom.qml 1.0
-import "../Components/VariantConverter.js" as Logic
 
 
 TableView {
@@ -33,14 +32,19 @@ TableView {
         border.color: sysPalette.button
 
         required property bool selected
+        required property int column
         required property var display
         required property var tagType
+
+        Variant {
+            id: variant
+        }
 
         Text {
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
 
-            text: Logic.variantToString(tagType, display);
+            text: column === 0? display: variant.localize(tagType, display);
         }
     }
 
