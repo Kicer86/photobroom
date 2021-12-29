@@ -1,6 +1,8 @@
 
+#include <core/containers_utils.hpp>
+#include <core/base_tags.hpp>
+
 #include "aphoto_change_log_operator.hpp"
-#include "core/containers_utils.hpp"
 
 
 namespace
@@ -229,11 +231,11 @@ namespace Database
                     case Remove:
                     {
                         auto encoded = decodeTag2(data);
-                        const TagTypeInfo tag_info(std::get<0>(encoded));
+                        const Tag::Types tag_type(std::get<0>(encoded));
                         const TagValue& tag_value = std::get<1>(encoded);
 
                         result = QString("%1: %2")
-                                    .arg(tag_info.getName())
+                                    .arg(BaseTags::getName(tag_type))
                                     .arg(tag_value.rawValue());
                     }
                     break;
@@ -241,12 +243,12 @@ namespace Database
                     case Modify:
                     {
                         auto encoded = decodeTag3(data);
-                        const TagTypeInfo tag_info(std::get<0>(encoded));
+                        const Tag::Types tag_type(std::get<0>(encoded));
                         const TagValue& old_tag_value = std::get<1>(encoded);
                         const TagValue& new_tag_value = std::get<2>(encoded);
 
                         result = QString("%1: %2 -> %3")
-                                    .arg(tag_info.getName())
+                                    .arg(BaseTags::getName(tag_type))
                                     .arg(old_tag_value.rawValue())
                                     .arg(new_tag_value.rawValue());
                     }

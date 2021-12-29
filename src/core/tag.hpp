@@ -49,44 +49,6 @@ namespace Tag
 }
 
 
-/**
- * \brief details about tag type
- */
-class CORE_EXPORT TagTypeInfo
-{
-    public:
-        TagTypeInfo();
-        explicit TagTypeInfo(const Tag::Types &);
-        TagTypeInfo(const TagTypeInfo& other);
-
-        bool operator==(const TagTypeInfo& other) const;
-        bool operator<(const TagTypeInfo& other) const;
-        bool operator>(const TagTypeInfo& other) const;
-        TagTypeInfo& operator=(const TagTypeInfo& other);
-
-        /**
-        * \brief Return raw tag name
-        * \return result of Base::getName
-        */
-        QString getName() const;
-
-        /**
-        * \brief Return localized tag name
-        * \return result of Base::getTr
-        */
-        QString getDisplayName() const;
-
-        /**
-        * \brief Return tag type
-        * \return tag type
-        */
-        Tag::Types getTag() const;
-
-    private:
-        Tag::Types m_tag;
-};
-
-
 template<typename T>
 struct TagValueTraits {};
 
@@ -219,6 +181,5 @@ namespace Tag
     typedef std::map<Tag::Types, TagValue> TagsList;
 }
 
-Q_DECLARE_METATYPE(TagTypeInfo)
 
 #endif

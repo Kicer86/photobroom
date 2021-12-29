@@ -2,8 +2,6 @@
 #ifndef IEDITOR_FACTORY_HPP
 #define IEDITOR_FACTORY_HPP
 
-class TagTypeInfo;
-
 struct IEditorFactory
 {
     virtual ~IEditorFactory() = default;

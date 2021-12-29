@@ -5,7 +5,6 @@
 class QCompleter;
 class QAbstractItemModel;
 
-class TagTypeInfo;
 class IModelCompositorDataSource;
 
 
