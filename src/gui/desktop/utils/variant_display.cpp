@@ -23,12 +23,11 @@
 
 #include <QColor>
 #include <QDate>
-#include <QLocale>
 #include <QTime>
 #include <QVariant>
 
 
-QString localize(const QVariant& v, const QLocale& l)
+QString Variant::localize(const QVariant& v, const QLocale& l)
 {
     const int type = v.typeId();
     QString result;
@@ -36,18 +35,12 @@ QString localize(const QVariant& v, const QLocale& l)
     switch(type)
     {
         case QMetaType::Type::QDate:
-        {
-            QDate d = v.toDate();
-            result = l.toString(d, QLocale::ShortFormat);
+            result = localize(Tag::Date, v, l);
             break;
-        }
 
         case QMetaType::Type::QTime:
-        {
-            QTime t = v.toTime();
-            result = l.toString(t, "hh:mm:ss");
+            result = localize(Tag::Time, v, l);
             break;
-        }
 
         case QMetaType::Type::QString:
             result = v.toString();
@@ -66,13 +59,55 @@ QString localize(const QVariant& v, const QLocale& l)
             break;
 
         case QMetaType::Type::QColor:
-            result = QString::number(v.value<QColor>().rgba64());
+            result = localize(Tag::Category, v, l);
             break;
 
         default:
             assert(!"unexpected type");
             break;
     }
+
+    return result;
+}
+
+
+QString Variant::localize(Tag::Types type, const QVariant& v, const QLocale& l)
+{
+    QString result;
+
+    if (v.isValid())
+        switch(type)
+        {
+            case Tag::Date:
+            {
+                QDate d = v.toDate();
+                result = l.toString(d, QLocale::ShortFormat);
+                break;
+            }
+
+            case Tag::Time:
+            {
+                QTime t = v.toTime();
+                result = l.toString(t, "hh:mm:ss");
+                break;
+            }
+
+            case Tag::Event:
+            case Tag::Place:
+                result = v.toString();
+                break;
+
+            case Tag::Category:
+                result = QString::number(v.value<QColor>().rgba64());
+                break;
+
+            case Tag::Rating:
+                result = QString::number(v.toInt());
+                break;
+
+            case Tag::Invalid:
+                break;
+        }
 
     return result;
 }

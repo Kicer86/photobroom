@@ -55,7 +55,7 @@ QWidget* TagsItemDelegate::createEditor(QWidget* parent_widget, const QStyleOpti
 
 QString TagsItemDelegate::displayText(const QVariant& value, const QLocale& locale) const
 {
-    return localize(value, locale);
+    return Variant::localize(value, locale);
 }
 
 
