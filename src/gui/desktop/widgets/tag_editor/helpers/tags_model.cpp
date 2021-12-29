@@ -251,7 +251,9 @@ void TagsModel::clearModel()
 
 void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
 {
-    if (m_database)
+    if (ids.empty())
+        loadPhotos({});
+    else if (m_database)
     {
         auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
         auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);

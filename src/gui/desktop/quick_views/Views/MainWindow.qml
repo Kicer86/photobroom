@@ -10,7 +10,7 @@ SwipeView {
     objectName: "MainWindow"
 
     property bool projectOpened: false
-    property var selectedPhotos: []
+    property var selectedPhotos: null
 
     anchors.fill: parent
 
@@ -125,7 +125,7 @@ SwipeView {
             anchors.top: backButton.bottom
 
             onSelectedPhotoChanged: {
-                mainWindow.selectedPhotos = [ selectedPhoto ];
+                mainWindow.selectedPhotos = selectedPhoto;
             }
         }
     }
