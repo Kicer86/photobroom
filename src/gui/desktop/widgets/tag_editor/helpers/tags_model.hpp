@@ -32,7 +32,6 @@ class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
         Q_PROPERTY(Database::IDatabase* database WRITE set READ getDatabase)
-        Q_PROPERTY(std::vector<Photo::Id> selection WRITE setPhotos READ getPhotos)
 
     public:
         enum Roles
@@ -46,13 +45,12 @@ class TagsModel: public QAbstractItemModel
 
         void set(Database::IDatabase *);
         void set(ITagsOperator *);
-        void setPhotos(const std::vector<Photo::Id> &);
+        Q_INVOKABLE void setPhotos(const std::vector<Photo::Id> &);
 
         TagsModel& operator=(const TagsModel &) = delete;
 
         Tag::TagsList getTags() const;
         Database::IDatabase* getDatabase() const;
-        const std::vector<Photo::Id>& getPhotos() const;
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;

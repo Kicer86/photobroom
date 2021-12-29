@@ -7,7 +7,7 @@ TableView {
 
     id: view
 
-    property alias selection: tagsModel.selection
+    required property var selection
 
     topMargin: columnsHeader.implicitHeight + 10
 
@@ -22,6 +22,7 @@ TableView {
     columnWidthProvider: columnWidthFun
 
     onWidthChanged: view.forceLayout();
+    onSelectionChanged: tagsModel.setPhotos(selection)
 
     delegate: Rectangle {
 

@@ -81,14 +81,6 @@ Database::IDatabase* TagsModel::getDatabase() const
 }
 
 
-const std::vector<Photo::Id>& TagsModel::getPhotos() const
-{
-    // TODO: a bug, but this method is not expected to be used. photos are not being stored so we have nothing to return.
-    //       The problem is that Qt's properties system requires getter.
-    return {};
-}
-
-
 bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     const QVector<int> touchedRoles = setDataInternal(index, value, role);

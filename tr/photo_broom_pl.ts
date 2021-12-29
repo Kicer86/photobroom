@@ -958,7 +958,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+57"/>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+58"/>
         <source>Photo information</source>
         <translation type="unfinished">Informacje o zdjęciu</translation>
     </message>
@@ -966,7 +966,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+234"/>
+        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+226"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
