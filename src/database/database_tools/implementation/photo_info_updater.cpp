@@ -166,7 +166,7 @@ namespace
 
                 // If media already has date or time update, do not override it.
                 // Just update ExifLoaded flag. It could be set to previous version, so bump it
-                if (tags.contains(TagTypes::Date) || tags.contains(TagTypes::Time))
+                if (tags.contains(Tag::Types::Date) || tags.contains(Tag::Types::Time))
                 {
                     lockedPhoto->flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
                     return;
@@ -182,8 +182,8 @@ namespace
             {
                 Tag::TagsList tags = photoDelta->tags;
 
-                tags[TagTypes::Date] = info.common.creationTime->date();
-                tags[TagTypes::Time] = info.common.creationTime->time();
+                tags[Tag::Types::Date] = info.common.creationTime->date();
+                tags[Tag::Types::Time] = info.common.creationTime->time();
 
                 photoDelta->tags = tags;
             }

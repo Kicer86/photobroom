@@ -118,13 +118,13 @@ namespace Database
                 continue;
 
             if (it.key() == "date")
-                tagsList[TagTypes::Date] = QDate::fromString(value, Qt::ISODate);
+                tagsList[Tag::Types::Date] = QDate::fromString(value, Qt::ISODate);
             else if (it.key() == "time")
-                tagsList[TagTypes::Time] = QTime::fromString(value);
+                tagsList[Tag::Types::Time] = QTime::fromString(value);
             else if (it.key() == "event")
-                tagsList[TagTypes::Event] = value;
+                tagsList[Tag::Types::Event] = value;
             else if (it.key() == "place")
-                tagsList[TagTypes::Place] = value;
+                tagsList[Tag::Types::Place] = value;
             else
                 throw std::invalid_argument("unexpected entry for tag");
         }

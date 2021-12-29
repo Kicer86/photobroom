@@ -21,7 +21,7 @@ void EasyExifTagFeeder::collect(const QByteArray& data)
 }
 
 
-std::string EasyExifTagFeeder::read(TagTypes type)
+std::string EasyExifTagFeeder::read(Tag::Types type)
 {
     std::string result;
 

@@ -151,7 +151,7 @@ void PhotosDataGuesser::updateUpdateStatus(bool status)
 void PhotosDataGuesser::process(Database::IBackend& backend)
 {
     const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
-    const Database::FilterPhotosWithTag date(TagTypes::Date);
+    const Database::FilterPhotosWithTag date(Tag::Types::Date);
     const Database::FilterNotMatchingFilter noDate(date);
     const Database::GroupFilter filters = {analyzed, noDate};
     const auto photos = backend.photoOperator().getPhotos(filters);
@@ -175,12 +175,12 @@ void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vecto
         {
             CollectedData data;
 
-            auto it = tags.find(TagTypes::Date);
+            auto it = tags.find(Tag::Types::Date);
 
             if (it != tags.end())
                 data.date = it->second.getDate();
 
-            it = tags.find(TagTypes::Time);
+            it = tags.find(Tag::Types::Time);
 
             if (it != tags.end())
                 data.time = it->second.getTime();
@@ -205,10 +205,10 @@ void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vec
         auto tags = photoDelta.get<Photo::Field::Tags>();
 
         if (info.date.isValid())
-            tags[TagTypes::Date] = info.date;
+            tags[Tag::Types::Date] = info.date;
 
         if (info.time.isValid())
-            tags[TagTypes::Time] = info.time;
+            tags[Tag::Types::Time] = info.time;
 
         photoDelta.insert<Photo::Field::Tags>(tags);
 

@@ -68,13 +68,13 @@ void CompleterFactory::set(Database::IDatabase* db)
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const TagTypes& info)
+QCompleter* CompleterFactory::createCompleter(const Tag::Types& info)
 {
-    return createCompleter( std::set<TagTypes>({info}) );
+    return createCompleter( std::set<Tag::Types>({info}) );
 }
 
 
-QCompleter* CompleterFactory::createCompleter(const std::set<TagTypes>& infos)
+QCompleter* CompleterFactory::createCompleter(const std::set<Tag::Types>& infos)
 {
     IModelCompositorDataSource* model = getModelFor(infos);
 
@@ -88,7 +88,7 @@ QCompleter* CompleterFactory::createPeopleCompleter()
 }
 
 
-IModelCompositorDataSource* CompleterFactory::accessModel(const TagTypes& tagType)
+IModelCompositorDataSource* CompleterFactory::accessModel(const Tag::Types& tagType)
 {
     return getModelFor({tagType});
 }
@@ -100,7 +100,7 @@ const IModelCompositorDataSource& CompleterFactory::accessPeopleModel()
 }
 
 
-IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<TagTypes>& infos)
+IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<Tag::Types>& infos)
 {
     auto it = m_tagValueModels.find(infos);
 

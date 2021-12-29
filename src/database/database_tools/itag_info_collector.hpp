@@ -15,12 +15,12 @@ struct DATABASE_EXPORT ITagInfoCollector: public QObject
 {
     virtual ~ITagInfoCollector() = default;
 
-    virtual const std::vector<TagValue>& get(const TagTypes &) const = 0;
+    virtual const std::vector<TagValue>& get(const Tag::Types &) const = 0;
 
     Q_OBJECT
 
 signals:
-    void setOfValuesChanged(const TagTypes &);
+    void setOfValuesChanged(const Tag::Types &);
 };
 
 #endif

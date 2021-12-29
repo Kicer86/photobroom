@@ -2,6 +2,8 @@
 #ifndef CONTAINERS_UTILS
 #define CONTAINERS_UTILS
 
+#include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <vector>
 

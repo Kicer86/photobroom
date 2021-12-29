@@ -46,14 +46,14 @@ namespace Database
             { TAB_PHOTOS,         "id"       }
         };
 
-        std::map<TagTypes, const char *> namesForJoins =
+        std::map<Tag::Types, const char *> namesForJoins =
         {
-            { TagTypes::Event,    "event_tag"    },
-            { TagTypes::Place,    "place_tag"    },
-            { TagTypes::Date,     "date_tag"     },
-            { TagTypes::Time,     "time_tag"     },
-            { TagTypes::Rating,   "rating_tag"   },
-            { TagTypes::Category, "category_tag" },
+            { Tag::Types::Event,    "event_tag"    },
+            { Tag::Types::Place,    "place_tag"    },
+            { Tag::Types::Date,     "date_tag"     },
+            { Tag::Types::Time,     "time_tag"     },
+            { Tag::Types::Rating,   "rating_tag"   },
+            { Tag::Types::Category, "category_tag" },
         };
     }
 
@@ -226,8 +226,8 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
     }
     else if (auto sort_by_timestamp = std::get_if<Actions::SortByTimestamp>(&action))
     {
-        const Actions::SortByTag byDate(TagTypes::Date, sort_by_timestamp->sort_order);
-        const Actions::SortByTag byTime(TagTypes::Time, sort_by_timestamp->sort_order);
+        const Actions::SortByTag byDate(Tag::Types::Date, sort_by_timestamp->sort_order);
+        const Actions::SortByTag byTime(Tag::Types::Time, sort_by_timestamp->sort_order);
         processAction(context, byDate);
         processAction(context, byTime);
     }

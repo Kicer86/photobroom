@@ -80,7 +80,7 @@ public:
         m_data.tags = tags;
     }
 
-    void setTag(const TagTypes& type, const TagValue& value) override
+    void setTag(const Tag::Types& type, const TagValue& value) override
     {
         m_data.tags[type] = value;
     }

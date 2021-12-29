@@ -32,7 +32,7 @@ namespace Database
             // IBackend interface
             bool addPhotos(std::vector<Photo::DataDelta>& photos) override;
             bool update(const std::vector<Photo::DataDelta> &) override;
-            std::vector<TagValue> listTagValues(const TagTypes &, const Filter &) override;
+            std::vector<TagValue> listTagValues(const Tag::Types &, const Filter &) override;
             Photo::Data getPhoto(const Photo::Id &) override;
             Photo::DataDelta getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> &) override;
             int getPhotosCount(const Filter &) override;

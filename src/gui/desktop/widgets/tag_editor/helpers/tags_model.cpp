@@ -250,12 +250,12 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
     m_tagsOperator->operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
-    const std::vector<TagTypes> all_tags = BaseTags::getAll();
+    const std::vector<Tag::Types> all_tags = BaseTags::getAll();
 
-    std::vector<std::pair<TagTypeInfo, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
+    std::vector<std::pair<Tag::Types, TagValue>> tags(photo_tags.cbegin(), photo_tags.cend());
 
-    // to the list of photo's tags add rest if tags with empty values
-    for (const TagTypes& base_tag: all_tags)
+    // to the list of photo's tags append tags with empty values
+    for (const Tag::Types& base_tag: all_tags)
     {
         auto f = std::find_if(photo_tags.cbegin(), photo_tags.cend(),
                               [base_tag](const Tag::TagsList::value_type& tag_data)
@@ -264,7 +264,7 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
         });
 
         if (f == photo_tags.cend())
-            tags.emplace_back(TagTypeInfo(base_tag), TagValue());
+            tags.emplace_back(base_tag, TagValue());
     }
 
     assert(rowCount() == 0);
@@ -280,19 +280,19 @@ void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
 
     for (const auto& tag: tags)
     {
-        const TagTypeInfo tag_info(tag.first);
+        const Tag::Types& tag_type = tag.first;
         const TagValue tag_value(tag.second);
 
         QModelIndex name = index(row, 0);
         QModelIndex value = index(row, 1);
 
-        setDataInternal(name, tag_info.getDisplayName(), Qt::DisplayRole);
+        setDataInternal(name, BaseTags::getTr(tag_type), Qt::DisplayRole);
 
         const QVariant dispRole = tag_value.get();
-        const QVariant tagInfoRole = QVariant::fromValue(tag_info);
+        const QVariant tagTypeRole = QVariant::fromValue(tag_type);
 
         setDataInternal(value, dispRole, Qt::DisplayRole);
-        setDataInternal(value, tagInfoRole, TagInfoRole);
+        setDataInternal(value, tagTypeRole, TagTypeRole);
 
         row++;
     }
@@ -318,10 +318,10 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
                     TagValue():
                     TagValue::fromQVariant(valueRaw);
 
-            const QVariant nameRaw = itemIndex.data(TagInfoRole);
-            const TagTypeInfo nameInfo = nameRaw.value<TagTypeInfo>();
+            const QVariant typeRaw = itemIndex.data(TagTypeRole);
+            const Tag::Types typeInfo = typeRaw.value<Tag::Types>();
 
-            m_tagsOperator->insert(nameInfo.getTag(), value);
+            m_tagsOperator->insert(typeInfo, value);
         }
     }
 }

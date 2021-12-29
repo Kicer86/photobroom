@@ -97,12 +97,12 @@ namespace Database
 
     struct DATABASE_EXPORT FilterPhotosWithTag
     {
-        TagTypes tagType;
+        Tag::Types tagType;
         TagValue tagValue;
         ComparisonOp valueMode;
         bool includeEmpty;
 
-        FilterPhotosWithTag(const TagTypes &, const TagValue & = TagValue(), ComparisonOp = ComparisonOp::Equal, bool include_empty = false);
+        FilterPhotosWithTag(const Tag::Types &, const TagValue & = TagValue(), ComparisonOp = ComparisonOp::Equal, bool include_empty = false);
     };
 
     struct DATABASE_EXPORT FilterPhotosWithFlags

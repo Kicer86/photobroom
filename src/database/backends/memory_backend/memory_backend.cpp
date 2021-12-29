@@ -17,7 +17,7 @@ namespace
         return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
     }
 
-    int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const TagTypes& tagType, Qt::SortOrder order)
+    int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const Tag::Types& tagType, Qt::SortOrder order)
     {
         const auto l_it = lhs.tags.find(tagType);
         const auto r_it = rhs.tags.find(tagType);
@@ -165,7 +165,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> MemoryBackend::listTagValues(const TagTypes& type, const Filter &)
+    std::vector<TagValue> MemoryBackend::listTagValues(const Tag::Types& type, const Filter &)
     {
         std::set<TagValue> values;
 
@@ -646,8 +646,8 @@ namespace Database
         }
         else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
         {
-            const Actions::SortByTag byDate(TagTypes::Date, sort_action->sort_order);
-            const Actions::SortByTag byTime(TagTypes::Time, sort_action->sort_order);
+            const Actions::SortByTag byDate(Tag::Types::Date, sort_action->sort_order);
+            const Actions::SortByTag byTime(Tag::Types::Time, sort_action->sort_order);
             onPhotos(photo_data, byTime);
             onPhotos(photo_data, byDate);
         }

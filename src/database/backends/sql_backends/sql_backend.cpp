@@ -328,7 +328,7 @@ namespace Database
     }
 
 
-    std::vector<TagValue> ASqlBackend::listTagValues(const TagTypes& tagType, const Filter& filter)
+    std::vector<TagValue> ASqlBackend::listTagValues(const Tag::Types& tagType, const Filter& filter)
     {
         std::vector<TagValue> result;
 
@@ -1094,7 +1094,7 @@ namespace Database
 
         while(status && query.next())
         {
-            const TagTypes tagNameType = static_cast<TagTypes>( query.value(1).toInt() );
+            const Tag::Types tagNameType = static_cast<Tag::Types>( query.value(1).toInt() );
             const QVariant value = query.value(2);
 
             // storing routine doesn't store empty tags (see store() for tags)

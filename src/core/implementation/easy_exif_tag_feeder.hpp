@@ -19,7 +19,7 @@ class EasyExifTagFeeder: public AExifReader
         easyexif::EXIFInfo m_exif_data;
 
         void collect(const QByteArray &) override;
-        std::string read(TagTypes) override;
+        std::string read(Tag::Types) override;
 };
 
 #endif

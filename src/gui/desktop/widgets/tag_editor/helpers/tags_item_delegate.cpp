@@ -61,9 +61,9 @@ QString TagsItemDelegate::displayText(const QVariant& value, const QLocale& loca
 
 void TagsItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
-    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+    const QVariant tagTypeRoleRaw = index.data(TagsModel::TagTypeRole);
+    const Tag::Types tagTypeRole = tagTypeRoleRaw.value<Tag::Types>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagTypeRole);
 
     model->setData(index, editor->property(property), Qt::EditRole);
 }
@@ -71,9 +71,9 @@ void TagsItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, 
 
 void TagsItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
-    const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-    const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
-    const QByteArray property = m_editorFactory.valuePropertyName(tagInfoRole);
+    const QVariant tagTypeRoleRaw = index.data(TagsModel::TagTypeRole);
+    const Tag::Types tagTypeRole = tagTypeRoleRaw.value<Tag::Types>();
+    const QByteArray property = m_editorFactory.valuePropertyName(tagTypeRole);
     const QVariant value = index.data(Qt::EditRole);
 
     editor->setProperty(property, value);
@@ -84,18 +84,17 @@ void TagsItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opti
 {
     if ( (option.state & QStyle::State_Editing) == 0)
     {
-        const QVariant tagInfoRoleRaw = index.data(TagsModel::TagInfoRole);
-        const TagTypeInfo tagInfoRole = tagInfoRoleRaw.value<TagTypeInfo>();
-        const TagTypes tagType = tagInfoRole.getTag();
+        const QVariant tagTypeRoleRaw = index.data(TagsModel::TagTypeRole);
+        const Tag::Types tagType = tagTypeRoleRaw.value<Tag::Types>();
 
-        if (tagType == TagTypes::Rating)
+        if (tagType == Tag::Types::Rating)
         {
             const QVariant value = index.data(Qt::EditRole);
 
             if (value.isNull() == false)
                 m_ratingPainter.paint(painter, option.rect, value.toInt());
         }
-        else if (tagType == TagTypes::Category)
+        else if (tagType == Tag::Types::Category)
         {
             const QVariant value = index.data(Qt::EditRole);
 

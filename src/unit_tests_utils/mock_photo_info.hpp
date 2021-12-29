@@ -25,7 +25,7 @@ struct MockPhotoInfo: IPhotoInfo
     MOCK_METHOD1(setData, void(const Photo::Data &));
     MOCK_METHOD1(setSha256, void(const Photo::Sha256sum &));
     MOCK_METHOD1(setTags, void(const Tag::TagsList &));
-    MOCK_METHOD2(setTag, void(const TagTypes &, const TagValue &));
+    MOCK_METHOD2(setTag, void(const Tag::Types &, const TagValue &));
     MOCK_METHOD1(setGeometry, void(const QSize &));
     MOCK_METHOD1(setGroup, void(const GroupInfo &));
 

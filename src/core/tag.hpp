@@ -15,24 +15,25 @@
 
 #include "core_export.h"
 
-/**
- * \brief List of tag types
- */
-enum TagTypes
-{
-    // indexed, as those values will be stored in db and should not change without a reason.
-    Invalid = 0,
-    Event   = 1,
-    Place   = 2,
-    Date    = 3,
-    Time    = 4,
-    // _People [[deprecated]] = 5,        // not valid anymore
-    Rating  = 6,
-    Category = 7,
-};
 
 namespace Tag
 {
+    /**
+    * \brief List of tag types
+    */
+    enum Types
+    {
+        // indexed, as those values will be stored in db and should not change without a reason.
+        Invalid = 0,
+        Event   = 1,
+        Place   = 2,
+        Date    = 3,
+        Time    = 4,
+        // _People [[deprecated]] = 5,        // not valid anymore
+        Rating  = 6,
+        Category = 7,
+    };
+
     /**
      * @brief List of possible tag value types
      */
@@ -48,48 +49,10 @@ namespace Tag
 }
 
 
-/**
- * \brief details about tag type
- */
-class CORE_EXPORT TagTypeInfo
-{
-    public:
-        TagTypeInfo();
-        explicit TagTypeInfo(const TagTypes &);
-        TagTypeInfo(const TagTypeInfo& other);
-
-        bool operator==(const TagTypeInfo& other) const;
-        bool operator<(const TagTypeInfo& other) const;
-        bool operator>(const TagTypeInfo& other) const;
-        TagTypeInfo& operator=(const TagTypeInfo& other);
-
-        /**
-        * \brief Return raw tag name
-        * \return result of Base::getName
-        */
-        QString getName() const;
-
-        /**
-        * \brief Return localized tag name
-        * \return result of Base::getTr
-        */
-        QString getDisplayName() const;
-
-        /**
-        * \brief Return tag type
-        * \return tag type
-        */
-        TagTypes getTag() const;
-
-    private:
-        TagTypes m_tag;
-};
-
-
 template<typename T>
 struct TagValueTraits {};
 
-template<TagTypes>
+template<Tag::Types>
 struct TagTypeTraits {};
 
 
@@ -106,7 +69,7 @@ class CORE_EXPORT TagValue
             static_assert(sizeof(typename TagValueTraits<T>::StorageType) > 0, "Unexpected type");
         }
 
-        template<TagTypes type>
+        template<Tag::Types type>
         static TagValue fromType(const typename TagTypeTraits<type>::ValueType& value)
         {
             return TagValue(value);
@@ -207,7 +170,7 @@ struct TagValueTraits<QColor>
 
 
 template<>
-struct TagTypeTraits<TagTypes::Event>
+struct TagTypeTraits<Tag::Types::Event>
 {
     typedef QString ValueType;
 };
@@ -215,9 +178,8 @@ struct TagTypeTraits<TagTypes::Event>
 
 namespace Tag
 {
-    typedef std::map<TagTypes, TagValue> TagsList;
+    typedef std::map<Tag::Types, TagValue> TagsList;
 }
 
-Q_DECLARE_METATYPE(TagTypeInfo)
 
 #endif

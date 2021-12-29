@@ -47,7 +47,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Date, QString("test_value"));
+    Database::FilterPhotosWithTag filter(Tag::Types::Date, QString("test_value"));
 
     const QString query = generator.generate(filter);
 
@@ -61,7 +61,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilter)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time);
 
     const QString query = generator.generate(filter);
 
@@ -75,7 +75,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithEmptyValue)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithTagValueCasting)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Rating, 5, Database::ComparisonOp::Equal);
+    Database::FilterPhotosWithTag filter(Tag::Types::Rating, 5, Database::ComparisonOp::Equal);
 
     const QString query = generator.generate(filter);
 
@@ -89,7 +89,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithTagValueCasting)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Equal);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time, QTime(12,34), Database::ComparisonOp::Equal);
 
     const QString query = generator.generate(filter);
 
@@ -103,7 +103,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToEqual)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreater)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Greater);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time, QTime(12,34), Database::ComparisonOp::Greater);
 
     const QString query = generator.generate(filter);
 
@@ -117,7 +117,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreaterOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::GreaterOrEqual);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time, QTime(12,34), Database::ComparisonOp::GreaterOrEqual);
 
     const QString query = generator.generate(filter);
 
@@ -131,7 +131,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToGreate
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::Less);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time, QTime(12,34), Database::ComparisonOp::Less);
 
     const QString query = generator.generate(filter);
 
@@ -145,7 +145,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLess)
 TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOrEqual)
 {
     Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithTag filter(TagTypes::Time, QTime(12,34), Database::ComparisonOp::LessOrEqual);
+    Database::FilterPhotosWithTag filter(Tag::Types::Time, QTime(12,34), Database::ComparisonOp::LessOrEqual);
 
     const QString query = generator.generate(filter);
 
@@ -160,7 +160,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
 
-    Database::FilterPhotosWithTag sub_filter1(TagTypes::Time);
+    Database::FilterPhotosWithTag sub_filter1(Tag::Types::Time);
     Database::FilterNotMatchingFilter filter = Database::Filter(sub_filter1);
 
     const QString query = generator.generate(Database::Filter(filter));
@@ -211,7 +211,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     filters.push_back(sha_filter);
 
     //tag
-    Database::FilterPhotosWithTag tag_filter(TagTypes::Place, QString("place 1"));
+    Database::FilterPhotosWithTag tag_filter(Tag::Types::Place, QString("place 1"));
     filters.push_back(tag_filter);
 
     //flags
@@ -249,10 +249,10 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagFiltersMergingWell)
     Database::SqlFilterQueryGenerator generator;
 
     // #1 tag
-    Database::FilterPhotosWithTag tag1_filter(TagTypes::Place, QString("test_value"));
+    Database::FilterPhotosWithTag tag1_filter(Tag::Types::Place, QString("test_value"));
 
     // #2 tag
-    Database::FilterPhotosWithTag tag2_filter(TagTypes::Event, QString("test_value2"));
+    Database::FilterPhotosWithTag tag2_filter(Tag::Types::Event, QString("test_value2"));
 
     Database::GroupFilter all_filters = {tag1_filter, tag2_filter};
     all_filters.mode = Database::LogicalOp::Or;

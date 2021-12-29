@@ -29,10 +29,10 @@ TEST(JsonToBackendTest, emptyJson)
 TEST(JsonToBackendTest, photo)
 {
     Tag::TagsList tags = {
-        { TagTypes::Date, QDate::fromString("01.01.2001") },
-        { TagTypes::Time, QTime::fromString("12:34:56", "HH:mm:ss") },
-        { TagTypes::Event, QString("qwerty") },
-        { TagTypes::Place, QString("asdfgh") }
+        { Tag::Types::Date, QDate::fromString("01.01.2001") },
+        { Tag::Types::Time, QTime::fromString("12:34:56", "HH:mm:ss") },
+        { Tag::Types::Event, QString("qwerty") },
+        { Tag::Types::Place, QString("asdfgh") }
     };
 
     Photo::DataDelta photo;

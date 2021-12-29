@@ -33,7 +33,7 @@ namespace Database
     }
 
 
-    FilterPhotosWithTag::FilterPhotosWithTag(const TagTypes& type, const TagValue& value, ComparisonOp mode, bool include_empty):
+    FilterPhotosWithTag::FilterPhotosWithTag(const Tag::Types& type, const TagValue& value, ComparisonOp mode, bool include_empty):
         tagType(type),
         tagValue(value),
         valueMode(mode),

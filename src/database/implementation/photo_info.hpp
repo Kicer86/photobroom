@@ -52,7 +52,7 @@ class PhotoInfo final: public IPhotoInfo
         void setSha256(const Photo::Sha256sum &) override;
         void setGeometry(const QSize &) override;
         void setTags(const Tag::TagsList &) override;
-        void setTag(const TagTypes &, const TagValue &) override;
+        void setTag(const Tag::Types &, const TagValue &) override;
         void setGroup(const GroupInfo &) override;
 
         //flags

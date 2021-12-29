@@ -54,19 +54,19 @@ class CompleterFactory: public QObject, public ICompleterFactory
 
         void set(Database::IDatabase *);
 
-        QCompleter* createCompleter(const TagTypes &) override;
-        QCompleter* createCompleter(const std::set<TagTypes> &) override;
+        QCompleter* createCompleter(const Tag::Types &) override;
+        QCompleter* createCompleter(const std::set<Tag::Types> &) override;
         QCompleter* createPeopleCompleter() override;
-        IModelCompositorDataSource* accessModel(const TagTypes &) override;
+        IModelCompositorDataSource* accessModel(const Tag::Types &) override;
         const IModelCompositorDataSource& accessPeopleModel() override;
 
     private:
         TagInfoCollector m_tagInfoCollector;
-        std::map<std::set<TagTypes>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
+        std::map<std::set<Tag::Types>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
         PeopleListModel m_peopleListModel;
         ILoggerFactory& m_loggerFactory;
 
-        IModelCompositorDataSource* getModelFor(const std::set<TagTypes> &);
+        IModelCompositorDataSource* getModelFor(const std::set<Tag::Types> &);
 };
 
 #endif // COMPLETERFACTORY_HPP

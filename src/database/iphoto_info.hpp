@@ -60,7 +60,7 @@ struct DATABASE_EXPORT IPhotoInfo
     virtual void setData(const Photo::Data &) = 0;          // sets all data
     virtual void setSha256(const Photo::Sha256sum &) = 0;
     virtual void setTags(const Tag::TagsList &) = 0;                  // set tags. tags with empty values (TagValue::type == Empty) will be ignored
-    virtual void setTag(const TagTypes &, const TagValue &) = 0;      // set tag. if TagValue is empty, tag will be removed
+    virtual void setTag(const Tag::Types &, const TagValue &) = 0;      // set tag. if TagValue is empty, tag will be removed
     virtual void setGeometry(const QSize &) = 0;
     virtual void setGroup(const GroupInfo &) = 0;
 

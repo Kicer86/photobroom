@@ -115,7 +115,7 @@ namespace Database
         //read data
 
         /// list all values of tag for photos matching provided filter
-        virtual std::vector<TagValue>    listTagValues(const TagTypes &,
+        virtual std::vector<TagValue>    listTagValues(const Tag::Types &,
                                                        const Filter &) = 0;
 
         /// get particular photo

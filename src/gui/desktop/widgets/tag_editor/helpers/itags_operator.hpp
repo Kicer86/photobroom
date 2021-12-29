@@ -16,9 +16,9 @@ struct ITagsOperator
 
     virtual Tag::TagsList getTags() const = 0;                                  // list of common tags
 
-    virtual void setTag(const TagTypes &, const TagValue &) = 0;                // set tag to value
+    virtual void setTag(const Tag::Types &, const TagValue &) = 0;                // set tag to value
     virtual void setTags(const Tag::TagsList &) = 0;                            // set list of tags
-    virtual void insert(const TagTypes& name, const TagValue &) = 0;            // set or update exisiting tag
+    virtual void insert(const Tag::Types& name, const TagValue &) = 0;            // set or update exisiting tag
 };
 
 
