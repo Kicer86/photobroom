@@ -11,10 +11,19 @@ Item {
         id: variant
     }
 
-    Text {
-        anchors.fill: parent
+    Component {
+        id: textDelegate
 
-        verticalAlignment: Text.AlignVCenter
-        text: variant.localize(tagType, value);
+        Text {
+            verticalAlignment: Text.AlignVCenter
+            text: variant.localize(tagType, value);
+        }
+    }
+
+    Loader {
+        sourceComponent: tagType === TagEnums.Place ||
+                         tagType === TagEnums.Event ||
+                         tagType === TagEnums.Date  ||
+                         tagType === TagEnums.Time   ? textDelegate: undefined; anchors.fill: parent
     }
 }
