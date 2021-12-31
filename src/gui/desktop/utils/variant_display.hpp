@@ -35,6 +35,7 @@ class Variant: public QObject
 public:
     Q_INVOKABLE static QString localize(const QVariant &, const QLocale & = QLocale());
     Q_INVOKABLE static QString localize(Tag::Types type, const QVariant &, const QLocale & = QLocale());
+    Q_INVOKABLE static QString toColor(const QVariant &);       // TODO: it should be part of localize, but there are too many clients right now to break compatibility
 };
 
 #endif // VARIANTDISPLAY_HPP

@@ -111,3 +111,9 @@ QString Variant::localize(Tag::Types type, const QVariant& v, const QLocale& l)
 
     return result;
 }
+
+
+QString Variant::toColor(const QVariant& v)
+{
+    return v.value<QColor>().name();
+}
