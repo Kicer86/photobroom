@@ -1,6 +1,7 @@
 
 import QtQuick
 import photo_broom.qml 1.0
+import "ViewsComponents" as Internals
 
 
 TableView {
@@ -25,6 +26,7 @@ TableView {
     onSelectionChanged: tagsModel.setPhotos(selection)
 
     delegate: Rectangle {
+        id: delegate
 
         implicitWidth: 35
         implicitHeight: 35
@@ -37,16 +39,25 @@ TableView {
         required property var display
         required property var tagType
 
-        Variant {
-            id: variant
+        Component {
+            id: labelDelegate
+
+            Text {
+                verticalAlignment: Text.AlignVCenter
+                text: display
+            }
         }
 
-        Text {
-            anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
+        Component {
+            id: valueDelegate
 
-            text: column === 0? display: variant.localize(tagType, display);
+            Internals.TagValueDelegate {
+                tagType: delegate.tagType
+                value: delegate.display
+            }
         }
+
+        Loader { sourceComponent: column === 0? labelDelegate: valueDelegate; anchors.fill: parent }
     }
 
     Text {
