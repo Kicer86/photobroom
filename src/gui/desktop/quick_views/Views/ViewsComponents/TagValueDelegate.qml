@@ -31,6 +31,12 @@ Item {
         }
     }
 
+    Component {
+        id: ratingDelegate
+
+        Item {}
+    }
+
     Loader {
         active: value !== undefined
         sourceComponent: tagType === TagEnums.Place ||
@@ -42,5 +48,10 @@ Item {
     Loader {
         active: value !== undefined
         sourceComponent: tagType === TagEnums.Category? categoryDelegate: undefined; anchors.fill: parent
+    }
+
+    Loader {
+        active: value !== undefined
+        sourceComponent: tagType === TagEnums.Rating? ratingDelegate: undefined; anchors.fill: parent
     }
 }
