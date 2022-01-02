@@ -11,7 +11,7 @@ Item {
 
     Row {
         Repeater {
-            model: ~~(rating / 2)
+            model: ~~(rating / 2)                   // handle full stars
 
             Image {
                 x: modelData * cellSize
@@ -24,7 +24,7 @@ Item {
         }
 
         Repeater {
-            model: rating % 2
+            model: rating % 2                       // optional half star
 
             Image {
                 height: ratingItem.cellSize
@@ -36,7 +36,7 @@ Item {
         }
 
         Repeater {
-            model: ~~((10 - rating) / 2)
+            model: ~~((10 - rating) / 2)            // remaining stars - empty ones
 
             Image {
                 x: modelData * cellSize
