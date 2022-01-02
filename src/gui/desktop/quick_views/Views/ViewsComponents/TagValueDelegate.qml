@@ -1,6 +1,7 @@
 
 import QtQuick
 import photo_broom.qml 1.0
+import "../../Components" as Components
 
 
 Item {
@@ -34,7 +35,9 @@ Item {
     Component {
         id: ratingDelegate
 
-        Item {}
+        Components.StarRating {
+            rating: variant.localize(tagType, value);
+        }
     }
 
     Loader {
