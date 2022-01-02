@@ -13,6 +13,7 @@
         <file>Components/MediaViewItem.qml</file>
         <file>Components/MultiselectGridView.qml</file>
         <file>Components/ShadowFocus.qml</file>
+        <file>Components/StarRating.qml</file>
         <file>Components/ThumbnailSlider.qml</file>
         <file>Components/TimeRange.qml</file>
         <file>Components/VideoPlayer.qml</file>
