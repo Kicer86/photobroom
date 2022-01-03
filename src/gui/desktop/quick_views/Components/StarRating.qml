@@ -5,11 +5,19 @@ import QtQuick
 Item {
     id: ratingItem
 
+    implicitWidth: container.width
+    implicitHeight: container.height
+
     property int rating: 0
 
     property int cellSize: height
 
     Row {
+        id: container
+
+        width: childrenRect.width
+        height: childrenRect.height
+
         Repeater {
             model: ~~(rating / 2)                   // handle full stars
 
