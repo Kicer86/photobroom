@@ -28,8 +28,8 @@ TableView {
     delegate: Rectangle {
         id: delegate
 
-        implicitWidth: 35
-        implicitHeight: 35
+        implicitWidth: 30
+        implicitHeight: 30
 
         color: selected ? sysPalette.highlight : sysPalette.base
         border.color: sysPalette.button
@@ -57,7 +57,10 @@ TableView {
             }
         }
 
-        Loader { sourceComponent: column === 0? labelDelegate: valueDelegate; anchors.fill: parent }
+        Loader {
+            sourceComponent: column === 0? labelDelegate: valueDelegate
+            anchors.fill: parent
+        }
     }
 
     Text {
