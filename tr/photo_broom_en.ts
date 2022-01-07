@@ -934,7 +934,7 @@ Error code: %1</source>
 <context>
     <name>TagEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="72"/>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="105"/>
         <source>Photo information</source>
         <translation type="unfinished">Photo information</translation>
     </message>

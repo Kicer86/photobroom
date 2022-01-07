@@ -51,9 +51,42 @@ TableView {
         Component {
             id: valueDelegate
 
-            Internals.TagValueDelegate {
-                tagType: delegate.tagType
-                value: delegate.display
+            Item {
+                id: valueDelegateItem
+
+                property bool editState: false
+
+                Component {
+                    id: tagViewer
+                    Internals.TagValueDelegate {
+
+                        tagType: delegate.tagType
+                        value: delegate.display
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onDoubleClicked: {
+                                editorLoader.sourceComponent = tagEditor
+                            }
+                        }
+                    }
+                }
+
+                Component {
+                    id: tagEditor
+
+                    Internals.TagValueEditor {
+                        tagType: delegate.tagType
+                        value: delegate.display
+                    }
+                }
+
+                Loader {
+                    id: editorLoader
+                    sourceComponent: valueDelegateItem.editState? tagEditor: tagViewer
+                    anchors.fill: parent
+                }
             }
         }
 
