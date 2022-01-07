@@ -4,6 +4,7 @@
         <file>Components/internal/ComboBoxDelegate.qml</file>
         <file>Components/internal/ZoomLogic.js</file>
         <file>Components/ColorComboBox.qml</file>
+        <file>Components/DateEdit.qml</file>
         <file>Components/ImageButton.qml</file>
         <file>Components/DelegateCheckBox.qml</file>
         <file>Components/DelegateState.qml</file>
