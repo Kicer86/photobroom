@@ -20,6 +20,8 @@ Item {
         Components.DateEdit {
             anchors.fill: parent
             value: editor.value
+
+            onAccepted: console.log("accepted")
         }
     }
 
