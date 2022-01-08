@@ -84,6 +84,11 @@ TableView {
                             model.edit = value;
                             valueDelegateItem.editState = false;
                         }
+
+                        Keys.onPressed: function(event) {
+                            if (event.key == Qt.Key_Escape)
+                                valueDelegateItem.editState = false;
+                        }
                     }
                 }
 
