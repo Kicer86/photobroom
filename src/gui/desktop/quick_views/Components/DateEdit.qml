@@ -8,8 +8,11 @@ Row {
 
     TextInput {
         id: input
-        inputMask: "99.99.9999"
 
+        height: parent.height
+        verticalAlignment: TextInput.AlignVCenter
+
+        inputMask: "99.99.9999"
         color: valid? "black": "red"
 
         property bool valid: true
