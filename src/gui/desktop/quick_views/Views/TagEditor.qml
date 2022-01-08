@@ -67,7 +67,7 @@ TableView {
                             anchors.fill: parent
 
                             onDoubleClicked: {
-                                editorLoader.sourceComponent = tagEditor
+                                valueDelegateItem.editState = true;
                             }
                         }
                     }
@@ -79,6 +79,11 @@ TableView {
                     Internals.TagValueEditor {
                         tagType: delegate.tagType
                         value: delegate.display
+
+                        onAccepted: function(value) {
+                            model.edit = value;
+                            valueDelegateItem.editState = false;
+                        }
                     }
                 }
 

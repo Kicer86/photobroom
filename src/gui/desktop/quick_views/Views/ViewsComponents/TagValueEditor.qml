@@ -10,6 +10,8 @@ Item {
     required property var tagType
     required property var value
 
+    signal accepted(var value)
+
     Variant {
         id: variant
     }
@@ -21,7 +23,7 @@ Item {
             anchors.fill: parent
             value: editor.value
 
-            onAccepted: console.log("accepted")
+            onAccepted: editor.accepted(value)
         }
     }
 
