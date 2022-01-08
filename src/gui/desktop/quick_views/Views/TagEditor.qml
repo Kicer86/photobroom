@@ -39,6 +39,8 @@ TableView {
         required property var display
         required property var tagType
 
+        property bool editState: false
+
         Component {
             id: labelDelegate
 
@@ -49,59 +51,43 @@ TableView {
         }
 
         Component {
-            id: valueDelegate
+            id: tagViewer
+            Internals.TagValueDelegate {
 
-            Item {
-                id: valueDelegateItem
+                tagType: delegate.tagType
+                value: delegate.display
 
-                property bool editState: false
-
-                Component {
-                    id: tagViewer
-                    Internals.TagValueDelegate {
-
-                        tagType: delegate.tagType
-                        value: delegate.display
-
-                        MouseArea {
-                            anchors.fill: parent
-
-                            onDoubleClicked: {
-                                valueDelegateItem.editState = true;
-                            }
-                        }
-                    }
-                }
-
-                Component {
-                    id: tagEditor
-
-                    Internals.TagValueEditor {
-                        tagType: delegate.tagType
-                        value: delegate.display
-
-                        onAccepted: function(value) {
-                            model.edit = value;
-                            valueDelegateItem.editState = false;
-                        }
-
-                        Keys.onPressed: function(event) {
-                            if (event.key == Qt.Key_Escape)
-                                valueDelegateItem.editState = false;
-                        }
-                    }
-                }
-
-                Loader {
-                    id: editorLoader
-                    sourceComponent: valueDelegateItem.editState? tagEditor: tagViewer
+                MouseArea {
                     anchors.fill: parent
+
+                    onDoubleClicked: {
+                        delegate.editState = true;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: tagEditor
+
+            Internals.TagValueEditor {
+                tagType: delegate.tagType
+                value: delegate.display
+
+                onAccepted: function(value) {
+                    model.edit = value;
+                    delegate.editState = false;
+                }
+
+                Keys.onPressed: function(event) {
+                    if (event.key == Qt.Key_Escape)
+                        delegate.editState = false;
                 }
             }
         }
 
         Loader {
-            sourceComponent: column === 0? labelDelegate: valueDelegate
+            sourceComponent: column === 0? labelDelegate: (delegate.editState? tagEditor: tagViewer)
             anchors.fill: parent
         }
     }
