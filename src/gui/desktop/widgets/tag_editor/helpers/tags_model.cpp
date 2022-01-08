@@ -20,6 +20,7 @@
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
+#include <QDateTime>
 
 #include <core/function_wrappers.hpp>
 #include <core/base_tags.hpp>
@@ -83,7 +84,8 @@ Database::IDatabase* TagsModel::getDatabase() const
 
 bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    const QVector<int> touchedRoles = setDataInternal(index, value, role);
+    const QVariant fixedValue = correctInput(index, value);
+    const QVector<int> touchedRoles = setDataInternal(index, fixedValue, role);
     const bool set = touchedRoles.empty() == false;
 
     if (set)
@@ -381,4 +383,36 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
     }
 
     return touchedRoles;
+}
+
+
+QVariant TagsModel::correctInput(const QModelIndex& idx, const QVariant& value) const
+{
+    // qml views are unable to distinguish between QTime and QDate as QDateTime is being used
+    // fix that
+    QVariant result;
+
+    if (idx.column() == 1)      // values
+    {
+        const int type = value.typeId();
+        if (type == QMetaType::Type::QDateTime)
+        {
+            const auto& roles = m_values[static_cast<unsigned>(idx.row())];
+            auto it = roles.find(TagTypeRole);
+
+            if (it != roles.end())
+            {
+                const auto tagType = it->value<Tag::Types>();
+
+                if (tagType == Tag::Types::Date)
+                    result = value.toDate();
+                else if (tagType == Tag::Types::Time)
+                    result = value.toTime();
+                else
+                    assert(!"not expected situation");
+            }
+        }
+    }
+
+    return result;
 }
