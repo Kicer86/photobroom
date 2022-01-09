@@ -28,7 +28,7 @@ Row {
                 root.value = userDate
         }
 
-        onAccepted: root.accepted()
+        onEditingFinished: root.accepted()
     }
 
     Component.onCompleted: {
