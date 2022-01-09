@@ -31,7 +31,7 @@
         <file>Views/ViewsComponents/PhotoDelegate.qml</file>
         <file>Views/ViewsComponents/PhotosGridView.qml</file>
         <file>Views/ViewsComponents/NotificationsBar.qml</file>
-        <file>Views/ViewsComponents/TagValueDelegate.qml</file>
         <file>Views/ViewsComponents/TagValueEditor.qml</file>
+        <file>Views/ViewsComponents/TagValueViewer.qml</file>
     </qresource>
 </RCC>

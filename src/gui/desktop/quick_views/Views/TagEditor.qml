@@ -52,7 +52,8 @@ TableView {
 
         Component {
             id: tagViewer
-            Internals.TagValueDelegate {
+
+            Internals.TagValueViewer {
 
                 tagType: delegate.tagType
                 value: delegate.display
