@@ -32,7 +32,7 @@ Row {
     }
 
     Component.onCompleted: {
-        input.text = root.value.toLocaleDateString(null, "dd.MM.yyyy");
+        input.text = root.value.toLocaleDateString(Qt.locale(), "dd.MM.yyyy");
         input.forceActiveFocus();
     }
 }
