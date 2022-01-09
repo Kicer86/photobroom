@@ -97,11 +97,11 @@ bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int rol
 
 bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
 {
-    const int r = index.row();
+    const unsigned r = static_cast<unsigned>(index.row());
     const int c = index.column();
 
-    assert(r < static_cast<int>(m_keys.size()));
-    assert(r < static_cast<int>(m_values.size()));
+    assert(r < m_keys.size());
+    assert(r < m_values.size());
     assert(c == 0 || c == 1);
 
     auto& vec = c == 0? m_keys: m_values;
