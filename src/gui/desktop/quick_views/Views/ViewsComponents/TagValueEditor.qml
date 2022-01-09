@@ -21,14 +21,13 @@ Item {
 
         Components.DateEdit {
             anchors.fill: parent
-            value: editor.value
+            value: editor.value === undefined? new Date(): editor.value
 
             onAccepted: editor.accepted(value)
         }
     }
 
     Loader {
-        active: value !== undefined
         sourceComponent: tagType === TagEnums.Date? dateEditor: undefined
 
         anchors.fill: parent
