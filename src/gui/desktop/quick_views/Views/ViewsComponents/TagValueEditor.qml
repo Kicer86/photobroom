@@ -27,8 +27,25 @@ Item {
         }
     }
 
+    Component {
+        id: timeEditor
+
+        Components.TimeEdit {
+            anchors.fill: parent
+            value: editor.value === undefined? new Date(): editor.value
+
+            onAccepted: editor.accepted(value)
+        }
+    }
+
     Loader {
         sourceComponent: tagType === TagEnums.Date? dateEditor: undefined
+
+        anchors.fill: parent
+    }
+
+    Loader {
+        sourceComponent: tagType === TagEnums.Time? timeEditor: undefined
 
         anchors.fill: parent
     }
