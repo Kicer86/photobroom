@@ -38,6 +38,23 @@ Item {
         }
     }
 
+    Component {
+        id: textEditor
+
+        TextInput {
+            anchors.fill: parent
+            height: parent.height
+
+            selectByMouse: true
+            verticalAlignment: TextInput.AlignVCenter
+            text: editor.value === undefined? "": editor.value
+
+            onEditingFinished: editor.accepted(text)
+
+            Component.onCompleted: forceActiveFocus();
+        }
+    }
+
     Loader {
         sourceComponent: tagType === TagEnums.Date? dateEditor: undefined
 
@@ -46,6 +63,12 @@ Item {
 
     Loader {
         sourceComponent: tagType === TagEnums.Time? timeEditor: undefined
+
+        anchors.fill: parent
+    }
+
+    Loader {
+        sourceComponent: tagType === TagEnums.Place || tagType === TagEnums.Event? textEditor: undefined
 
         anchors.fill: parent
     }
