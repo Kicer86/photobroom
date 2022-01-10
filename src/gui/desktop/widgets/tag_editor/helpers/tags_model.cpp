@@ -390,7 +390,7 @@ QVariant TagsModel::correctInput(const QModelIndex& idx, const QVariant& value) 
 {
     // qml views are unable to distinguish between QTime and QDate as QDateTime is being used
     // fix that
-    QVariant result;
+    QVariant result = value;
 
     if (idx.column() == 1)      // values
     {
