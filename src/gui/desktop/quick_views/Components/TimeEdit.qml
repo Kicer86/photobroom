@@ -14,7 +14,7 @@ Row {
 
         height: parent.height
         verticalAlignment: TextInput.AlignVCenter
-
+        selectByMouse: true
         inputMask: "00:00:00"
         color: valid? "black": "red"
 
