@@ -55,6 +55,18 @@ Item {
         }
     }
 
+    Component {
+        id: ratingsEditor
+
+        Components.StarRating {
+            rating: value
+
+            MouseArea {
+                anchors.fill: parent
+            }
+        }
+    }
+
     Loader {
         sourceComponent: tagType === TagEnums.Date? dateEditor: undefined
 
@@ -69,6 +81,12 @@ Item {
 
     Loader {
         sourceComponent: tagType === TagEnums.Place || tagType === TagEnums.Event? textEditor: undefined
+
+        anchors.fill: parent
+    }
+
+    Loader {
+        sourceComponent: tagType === TagEnums.Rating? ratingsEditor: undefined
 
         anchors.fill: parent
     }
