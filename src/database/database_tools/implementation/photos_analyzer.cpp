@@ -79,7 +79,9 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
         // start watching for any new photos added later.
         m_backendConnection = connect(&backend, &Database::IBackend::photosAdded,
                                       this, &PhotosAnalyzerImpl::addPhotos);
-    });
+    },
+    "PhotosAnalyzerImpl: fetching nonanalyzed photos"
+    );
 }
 
 

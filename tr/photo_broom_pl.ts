@@ -694,7 +694,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+103"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+105"/>
         <source>Loading photos needing update</source>
         <translation>Wczytywanie zdjęć wymagających aktualizacji</translation>
     </message>
