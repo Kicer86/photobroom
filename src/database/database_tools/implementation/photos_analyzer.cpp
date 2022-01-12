@@ -145,7 +145,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 
         loadTask->finished();
     },
-    "Fetching photo details"
+    "PhotosAnalyzerImpl: fetching photo details"
     );
 }
 
