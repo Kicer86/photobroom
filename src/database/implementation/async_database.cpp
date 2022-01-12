@@ -73,15 +73,14 @@ namespace Database
                     task->run(m_backend);
 
                     const qint64 elapsed = timer.elapsed();
+                    const QString message = QString("task '%2' took %1ms")
+                        .arg(elapsed)
+                        .arg(QString::fromStdString(task->name()));
 
                     if (elapsed > 100)
-                    {
-                        const QString message = QString("DB task '%2' took %1ms")
-                            .arg(elapsed)
-                            .arg(QString::fromStdString(task->name()));
-
                         m_logger->warning(message);
-                    }
+                    else
+                        m_logger->trace(message);
                 }
                 else
                     break;

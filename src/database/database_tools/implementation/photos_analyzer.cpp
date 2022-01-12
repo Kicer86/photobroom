@@ -79,7 +79,9 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
         // start watching for any new photos added later.
         m_backendConnection = connect(&backend, &Database::IBackend::photosAdded,
                                       this, &PhotosAnalyzerImpl::addPhotos);
-    });
+    },
+    "PhotosAnalyzerImpl: fetching nonanalyzed photos"
+    );
 }
 
 
@@ -110,7 +112,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
         {
             int progress = 0;
             loadTask->getProgressBar()->setMinimum(0);
-            loadTask->getProgressBar()->setMaximum(count);
+            loadTask->getProgressBar()->setMaximum(static_cast<int>(count));
 
             slice(ids.begin(), ids.end(), 200, [this, loadTask, &progress](auto first, auto last)
             {
@@ -118,7 +120,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
                     evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
                 {
                     std::vector<Photo::Data> photos;
-                    photos.reserve(last - first);
+                    photos.reserve(static_cast<unsigned>(last - first));
 
                     std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
                     {
@@ -143,7 +145,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 
         loadTask->finished();
     },
-    "Fetching photo details"
+    "PhotosAnalyzerImpl: fetching photo details"
     );
 }
 
