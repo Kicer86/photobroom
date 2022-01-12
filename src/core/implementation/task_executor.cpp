@@ -123,6 +123,7 @@ void TaskExecutor::eat()
     std::atomic<unsigned int> running_tasks(0);
     std::condition_variable free_worker;
     std::mutex free_worker_mutex;
+    int id = 0;
 
     while(m_working)
     {
@@ -134,11 +135,15 @@ void TaskExecutor::eat()
         {
             ++running_tasks;
 
-            std::thread thread([&]
+            std::thread thread([&, th_id = ++id]
             {
+
+                const QString loggerName = QString("Thread #%1").arg(th_id);
+                auto threadLogger = m_logger.subLogger(loggerName);
+
                 set_thread_name("TE::HeavyTask");
 
-                m_logger.debug("Starting TaskExecutor thread");
+                threadLogger->debug("Starting TaskExecutor thread");
 
                 while(true)
                 {
@@ -151,14 +156,24 @@ void TaskExecutor::eat()
 
                         assert(task.get() != nullptr);
 
+                        const std::string taskName = task->name();
+
+                        const auto start = std::chrono::steady_clock::now();
                         execute(std::move(task));
+                        const auto end = std::chrono::steady_clock::now();
+
+                        threadLogger->trace(
+                            QString("task '%1' took %2ms")
+                                .arg(taskName.c_str())
+                                .arg(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count())
+                        );
                     }
                     else
                         break;
                 }
 
                 --running_tasks;
-                m_logger.debug("Quitting TaskExecutor thread");
+                threadLogger->debug("Quitting TaskExecutor thread");
 
                 // notify manager that thread is gone
                 free_worker.notify_one();
