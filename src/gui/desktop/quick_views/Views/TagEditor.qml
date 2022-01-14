@@ -80,6 +80,8 @@ TableView {
                     delegate.editState = false;
                 }
 
+                onRejected: delegate.editState = false;
+
                 Keys.onPressed: function(event) {
                     if (event.key == Qt.Key_Escape)
                         delegate.editState = false;

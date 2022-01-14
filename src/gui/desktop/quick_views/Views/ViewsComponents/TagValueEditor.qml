@@ -11,6 +11,7 @@ Item {
     required property var value
 
     signal accepted(var value)
+    signal rejected()
 
     Variant {
         id: variant
@@ -62,6 +63,7 @@ Item {
             rating: value
 
             onAccepted: editor.accepted(rating)
+            onRejected: editor.rejected()
         }
     }
 
