@@ -60,6 +60,8 @@ Item {
 
         Components.StarRatingEditor {
             rating: value
+
+            onAccepted: editor.accepted(rating)
         }
     }
 
