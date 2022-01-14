@@ -7,6 +7,8 @@ Item {
     id: rootItem
 
     property int rating: 0
+    signal accepted()
+    signal rejected()
 
     implicitWidth: editor.implicitWidth
     implicitHeight: editor.implicitHeight
@@ -30,6 +32,16 @@ Item {
             onPositionChanged: function(mouse) {
                 const v = (mouse.x / editor.implicitWidth + 0.15 / 5) * 10;
                 editor.rating = clamp(v, 0, 10);
+            }
+
+            onClicked: function(mouse) {
+                if (mouse.button === Qt.RightButton)
+                    rootItem.rejected();
+                else if (mouse.button === Qt.LeftButton)
+                {
+                    rootItem.rating =  editor.rating
+                    rootItem.accepted();
+                }
             }
         }
     }
