@@ -28,6 +28,7 @@ Item {
             anchors.fill: parent
 
             hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onPositionChanged: function(mouse) {
                 const v = (mouse.x / editor.implicitWidth + 0.15 / 5) * 10;
