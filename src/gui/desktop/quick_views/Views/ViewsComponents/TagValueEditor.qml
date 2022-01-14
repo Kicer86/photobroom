@@ -58,12 +58,8 @@ Item {
     Component {
         id: ratingsEditor
 
-        Components.StarRating {
+        Components.StarRatingEditor {
             rating: value
-
-            MouseArea {
-                anchors.fill: parent
-            }
         }
     }
 
