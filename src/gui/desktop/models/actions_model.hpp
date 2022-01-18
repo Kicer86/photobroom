@@ -5,10 +5,14 @@
 #include <QAbstractListModel>
 #include <QAction>
 
+#include "roles_expansion.hpp"
 
-class ActionsModel: public QAbstractListModel
+
+class ActionsModel: public RolesExpansion<QAbstractListModel>
 {
 public:
+    ActionsModel();
+
     QVariant data(const QModelIndex & index, int role) const override;
     int rowCount(const QModelIndex & parent) const override;
 
