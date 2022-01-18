@@ -9,6 +9,7 @@ set(SRC
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
+    roles_expansion.hpp
     series_model.cpp
     series_model.hpp
 )
