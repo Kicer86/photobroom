@@ -28,7 +28,6 @@ struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
-class PhotosModelControllerComponent;
 class Project;
 class SelectionToPhotoDataTranslator;
 struct ProjectInfo;
@@ -59,7 +58,6 @@ class MainWindow: public QMainWindow
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
-        PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration&           m_configuration;
         ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;

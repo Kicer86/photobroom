@@ -49,6 +49,9 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(float ratingFrom READ ratingFrom WRITE setRankFrom)
         Q_PROPERTY(float ratingTo READ ratingTo WRITE setRankTo)
 
+        // other elements
+        Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
+
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
 
@@ -59,6 +62,7 @@ class PhotosModelControllerComponent: public QObject
         APhotoInfoModel* model() const;
         QStringList categories() const;
         unsigned int datesCount() const;
+        Database::IDatabase* database() const;
 
         // getters for filter
         unsigned int timeViewFrom() const;

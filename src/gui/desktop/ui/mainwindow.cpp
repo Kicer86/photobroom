@@ -64,7 +64,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
-    m_photosModelController(nullptr),
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
@@ -85,8 +84,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     updateGui();
     registerConfigTab();
 
-    connect(this, &MainWindow::currentDatabaseChanged,
-            m_photosModelController, &PhotosModelControllerComponent::setDatabase);
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentDatabaseChanged,
@@ -143,18 +140,16 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::setupQmlView()
 {
-    assert(m_photosModelController == nullptr);
-
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
     QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
-    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
+    PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
-    assert(m_photosModelController != nullptr);
+    assert(controller != nullptr);
 
-    m_photosModelController->setCompleterFactory(&m_completerFactory);
+    controller->setCompleterFactory(&m_completerFactory);
 
     QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
     connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(photosSelected()));
