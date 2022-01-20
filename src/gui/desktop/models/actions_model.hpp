@@ -16,11 +16,11 @@ public:
     QVariant data(const QModelIndex & index, int role) const override;
     int rowCount(const QModelIndex & parent) const override;
 
-    void addAction(QAction *);
+    void addActions(std::vector<std::unique_ptr<QAction>> &&);
     void clear();
 
 private:
-    std::vector<QAction *> m_actions;
+    std::vector<std::unique_ptr<QAction>> m_actions;
 };
 
 #endif

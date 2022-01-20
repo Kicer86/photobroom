@@ -27,7 +27,7 @@ QVariant ActionsModel::data(const QModelIndex& index, int role) const
 
     if (c == 0 && r < m_actions.size())
     {
-        QAction* action = m_actions[r];
+        auto& action = m_actions[r];
 
         switch(role)
         {
@@ -54,12 +54,13 @@ int ActionsModel::rowCount(const QModelIndex& parent) const
 }
 
 
-void ActionsModel::addAction(QAction* action)
+void ActionsModel::addActions(std::vector<std::unique_ptr<QAction>>&& actions)
 {
     const int items = static_cast<int>(m_actions.size());
-    beginInsertRows({}, items, items);
+    const int new_items = static_cast<int>(actions.size());
+    beginInsertRows({}, items, items + new_items - 1);
 
-    m_actions.push_back(action);
+    m_actions.insert(m_actions.end(), std::make_move_iterator(actions.begin()), std::make_move_iterator(actions.end()));
 
     endInsertRows();
 }
