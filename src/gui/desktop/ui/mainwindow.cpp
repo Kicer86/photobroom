@@ -90,6 +90,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
             ui->tagEditor, &TagEditorWidget::setDatabase);
     connect(this, &MainWindow::currentDatabaseChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
+    connect(this, &MainWindow::currentProjectChanged,
+            &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
     IconsLoader icons;
 
@@ -317,6 +319,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         emit currentDatabaseChanged(nullptr);
+        emit currentProjectChanged(nullptr);
 
         updateGui();
 
@@ -710,6 +713,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             Database::IDatabase& db = m_currentPrj->getDatabase();
 
             emit currentDatabaseChanged(&db);
+            emit currentProjectChanged(m_currentPrj.get());
 
             // TODO: I do not like this flag here...
             if (is_new)

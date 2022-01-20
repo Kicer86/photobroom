@@ -5,6 +5,7 @@
 ObjectsAccessor::ObjectsAccessor(QObject* parent)
     : QObject(parent)
     , m_database(nullptr)
+    , m_project(nullptr)
     , m_core(nullptr)
 {
 
@@ -27,6 +28,14 @@ void ObjectsAccessor::setDatabase(Database::IDatabase* database)
 }
 
 
+void ObjectsAccessor::setProject(Project* prj)
+{
+    m_project = prj;
+
+    emit projectChanged(prj);
+}
+
+
 void ObjectsAccessor::setCoreFactory(ICoreFactoryAccessor* core)
 {
     m_core = core;
@@ -37,6 +46,13 @@ Database::IDatabase* ObjectsAccessor::database() const
 {
     return m_database;
 }
+
+
+Project* ObjectsAccessor::project() const
+{
+    return m_project;
+}
+
 
 ICoreFactoryAccessor* ObjectsAccessor::coreFactory() const
 {

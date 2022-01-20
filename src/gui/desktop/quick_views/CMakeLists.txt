@@ -51,6 +51,7 @@ target_link_libraries(quick_views
                             core
                             database
                             gui_models
+                            project_utils
 
                             Qt::Quick
                             Qt::QuickWidgets

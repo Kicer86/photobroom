@@ -138,6 +138,7 @@ class MainWindow: public QMainWindow
 
     signals:
         void currentDatabaseChanged(Database::IDatabase *);          // emit when database is opened/closed
+        void currentProjectChanged(Project *);
 };
 
 #endif // MAINWINDOW_HPP

@@ -418,7 +418,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+231"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -440,7 +440,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+126"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -485,7 +485,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
-        <location line="+250"/>
+        <location line="+251"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -558,7 +558,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-110"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
