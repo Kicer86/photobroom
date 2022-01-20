@@ -118,6 +118,34 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     </message>
 </context>
 <context>
+    <name>ContextMenuManager</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="80"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="81"/>
+        <source>Manage group...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="82"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="83"/>
+        <source>Open photo location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="84"/>
+        <source>Recognize people...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DebugWindow</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="22"/>

@@ -121,6 +121,34 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
+    <name>ContextMenuManager</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+80"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Manage group...</source>
+        <translation type="unfinished">Zarządzaj grupą...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ungroup</source>
+        <translation type="unfinished">Rozbij grupę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open photo location</source>
+        <translation type="unfinished">Otwórz katalog ze zdjęciem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recognize people...</source>
+        <translation type="unfinished">Rozpoznawanie osób...</translation>
+    </message>
+</context>
+<context>
     <name>DebugWindow</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="+22"/>

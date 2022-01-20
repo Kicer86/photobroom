@@ -50,6 +50,7 @@ target_link_libraries(quick_views
                         PUBLIC
                             core
                             database
+                            face_recognition
                             gui_models
                             project_utils
 
