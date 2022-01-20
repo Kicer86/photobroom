@@ -596,9 +596,9 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+48"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+95"/>
         <source>Back to photos</source>
-        <translation>Powrót do zdjęć</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

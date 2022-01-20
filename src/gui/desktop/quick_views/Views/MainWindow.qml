@@ -2,6 +2,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "ViewsComponents" as Internals
+import photo_broom.qml
 
 
 SwipeView {
@@ -22,6 +23,8 @@ SwipeView {
     // main view
     Column {
         PhotosView {
+            id: photosView
+
             enabled: projectOpened
 
             width: parent.width
@@ -29,6 +32,50 @@ SwipeView {
 
             onSelectedPhotosChanged: {
                 mainWindow.selectedPhotos = selectedPhotos;
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                acceptedButtons: Qt.RightButton
+                propagateComposedEvents: true
+
+                onClicked: function(mouse) {
+                    contextMenu.selection = photosView.selectedPhotos;
+                    contextMenu.popup(mouse.x, mouse.y);
+                }
+            }
+
+            Menu {
+                id: contextMenu
+
+                property alias selection: contextMenuManager.selection
+
+                ContextMenuManager {
+                    id: contextMenuManager
+
+                    project: PhotoBroomProject.project
+                }
+
+                Instantiator {
+                    id: instantiator
+
+                    model: contextMenuManager.model
+
+                    delegate: MenuItem {
+                        required property var actionName
+                        required property var actionEnabled
+                        required property var actionIndex
+
+                        enabled: actionEnabled
+                        text: actionName
+
+                        onTriggered: contextMenuManager.model.trigger(actionIndex)
+                    }
+
+                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                    onObjectRemoved: (object) => contextMenu.removeItem(object)
+                }
             }
         }
 
