@@ -8,6 +8,7 @@ namespace
     {
         ActionName = Qt::UserRole + 1,
         ActionEnabled,
+        ActionIndex,
     };
 }
 
@@ -16,6 +17,7 @@ ActionsModel::ActionsModel()
 {
     registerRole(ActionName, "actionName");
     registerRole(ActionEnabled, "actionEnabled");
+    registerRole(ActionIndex, "actionIndex");
 }
 
 
@@ -37,6 +39,10 @@ QVariant ActionsModel::data(const QModelIndex& index, int role) const
 
             case ActionEnabled:
                 result = action->isEnabled();
+                break;
+
+            case ActionIndex:
+                result = r;
                 break;
 
             default:
@@ -74,4 +80,12 @@ void ActionsModel::clear()
     m_actions.clear();
 
     endRemoveRows();
+}
+
+
+void ActionsModel::trigger(unsigned index)
+{
+    assert(index >= 0 && index < m_actions.size());
+
+    m_actions[index]->trigger();
 }

@@ -10,6 +10,8 @@
 
 class ActionsModel: public RolesExpansion<QAbstractListModel>
 {
+    Q_OBJECT
+
 public:
     ActionsModel();
 
@@ -18,6 +20,8 @@ public:
 
     void addActions(std::vector<std::unique_ptr<QAction>> &&);
     void clear();
+
+    Q_INVOKABLE void trigger(unsigned);
 
 private:
     std::vector<std::unique_ptr<QAction>> m_actions;
