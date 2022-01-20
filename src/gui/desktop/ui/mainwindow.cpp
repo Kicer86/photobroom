@@ -333,9 +333,6 @@ void MainWindow::setupView()
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-
-    connect(ui->mainViewQml, &QWidget::customContextMenuRequested,
-            this, &MainWindow::showContextMenu);
 }
 
 
