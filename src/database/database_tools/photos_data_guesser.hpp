@@ -15,7 +15,7 @@
 class DATABASE_EXPORT PhotosDataGuesser: public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
+    Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase REQUIRED)
     Q_PROPERTY(bool fetchInProgress READ isFetchInProgress NOTIFY fetchInProgressChanged)
     Q_PROPERTY(bool updateInProgress READ isUpdateInProgress NOTIFY updateInProgressChanged)
 

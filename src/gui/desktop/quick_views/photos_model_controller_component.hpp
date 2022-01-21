@@ -50,7 +50,7 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(float ratingTo READ ratingTo WRITE setRankTo)
 
         // other elements
-        Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase)
+        Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase REQUIRED)
 
     public:
         PhotosModelControllerComponent(QObject * = nullptr);
