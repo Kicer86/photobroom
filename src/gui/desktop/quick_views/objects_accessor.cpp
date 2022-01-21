@@ -39,6 +39,8 @@ void ObjectsAccessor::setProject(Project* prj)
 void ObjectsAccessor::setCoreFactory(ICoreFactoryAccessor* core)
 {
     m_core = core;
+
+    emit coreFactoryChanged(core);
 }
 
 

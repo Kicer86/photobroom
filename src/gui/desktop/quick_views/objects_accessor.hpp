@@ -20,6 +20,7 @@ class ObjectsAccessor: public QObject
 
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged)
     Q_PROPERTY(Project* project READ project WRITE setProject NOTIFY projectChanged)
+    Q_PROPERTY(ICoreFactoryAccessor* coreFactory READ coreFactory WRITE setCoreFactory NOTIFY coreFactoryChanged)
 
     public:
         static ObjectsAccessor& instance();
@@ -35,6 +36,7 @@ class ObjectsAccessor: public QObject
     signals:
         void databaseChanged(Database::IDatabase *) const;
         void projectChanged(Project *) const;
+        void coreFactoryChanged(ICoreFactoryAccessor *) const;
 
     private:
         Database::IDatabase* m_database;
