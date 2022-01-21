@@ -1,6 +1,9 @@
 
 #include <ranges>
+#include <QDesktopServices>
 #include <QFile>
+#include <QFileInfo>
+#include <QUrl>
 
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
@@ -9,6 +12,7 @@
 #include <database/igroup_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
+#include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
@@ -103,6 +107,8 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
     connect(groupPhotos, &QAction::triggered, this, &ContextMenuManager::groupPhotosAction);
     connect(manageGroup, &QAction::triggered, this, &ContextMenuManager::manageGroupsAction);
     connect(ungroupPhotos, &QAction::triggered, this, &ContextMenuManager::ungroupAction);
+    connect(location,    &QAction::triggered, this, &ContextMenuManager::locationAction);
+    connect(faces,       &QAction::triggered, this, &ContextMenuManager::facesAction);
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
@@ -194,4 +200,25 @@ void ContextMenuManager::manageGroupsAction()
 void ContextMenuManager::ungroupAction()
 {
     removeGroupOf(m_photos);
+}
+
+void ContextMenuManager::locationAction()
+{
+    const Photo::Data& first = m_photos.front();
+    const QString relative_path = first.path;
+    const QString absolute_path = m_project->makePathAbsolute(relative_path);
+    const QFileInfo photoFileInfo(absolute_path);
+    const QString file_dir = photoFileInfo.path();
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+}
+
+void ContextMenuManager::facesAction()
+{
+    const Photo::Data& first = m_photos.front();
+    const QString relative_path = first.path;
+    const ProjectInfo prjInfo = m_project->getProjectInfo();
+
+    FacesDialog faces_dialog(first, m_core, m_project);
+    faces_dialog.exec();
 }

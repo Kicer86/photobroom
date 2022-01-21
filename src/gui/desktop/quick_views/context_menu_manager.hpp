@@ -50,6 +50,8 @@ private:
     void groupPhotosAction();
     void manageGroupsAction();
     void ungroupAction();
+    void locationAction();
+    void facesAction();
 };
 
 #endif

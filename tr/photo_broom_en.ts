@@ -120,27 +120,27 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="97"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="101"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="98"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="102"/>
         <source>Manage group...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="99"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="103"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="100"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="104"/>
         <source>Open photo location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="101"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="105"/>
         <source>Recognize people...</source>
         <translation type="unfinished"></translation>
     </message>

@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+97"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+101"/>
         <source>Group</source>
         <translation type="unfinished">Grupuj</translation>
     </message>
