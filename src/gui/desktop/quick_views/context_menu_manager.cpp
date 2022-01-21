@@ -102,6 +102,7 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
 
     connect(groupPhotos, &QAction::triggered, this, &ContextMenuManager::groupPhotosAction);
     connect(manageGroup, &QAction::triggered, this, &ContextMenuManager::manageGroupsAction);
+    connect(ungroupPhotos, &QAction::triggered, this, &ContextMenuManager::ungroupAction);
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
@@ -187,4 +188,10 @@ void ContextMenuManager::manageGroupsAction()
         const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_project);
         GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
     }
+}
+
+
+void ContextMenuManager::ungroupAction()
+{
+    removeGroupOf(m_photos);
 }

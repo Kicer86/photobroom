@@ -49,6 +49,7 @@ private:
 
     void groupPhotosAction();
     void manageGroupsAction();
+    void ungroupAction();
 };
 
 #endif
