@@ -71,7 +71,10 @@ SwipeView {
                         enabled: actionEnabled
                         text: actionName
 
-                        onTriggered: contextMenuManager.model.trigger(actionIndex)
+                        onTriggered: {
+                            contextMenu.close();
+                            contextMenuManager.model.trigger(actionIndex);
+                        }
                     }
 
                     onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
