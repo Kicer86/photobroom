@@ -85,7 +85,7 @@ void ActionsModel::clear()
 
 void ActionsModel::trigger(unsigned index)
 {
-    assert(index >= 0 && index < m_actions.size());
+    assert(index < m_actions.size());
 
     m_actions[index]->trigger();
 }
