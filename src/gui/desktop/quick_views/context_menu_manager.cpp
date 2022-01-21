@@ -205,6 +205,7 @@ void ContextMenuManager::ungroupAction()
     removeGroupOf(m_photos);
 }
 
+
 void ContextMenuManager::locationAction()
 {
     const Photo::Data& first = m_photos.front();
@@ -215,6 +216,7 @@ void ContextMenuManager::locationAction()
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
 }
+
 
 void ContextMenuManager::facesAction()
 {
