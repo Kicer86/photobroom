@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+101"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+104"/>
         <source>Group</source>
         <translation type="unfinished">Grupuj</translation>
     </message>
@@ -446,7 +446,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+233"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+225"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -473,12 +473,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+107"/>
-        <source>Recognize people...</source>
-        <translation>Rozpoznawanie osób...</translation>
-    </message>
-    <message>
-        <location line="+114"/>
+        <location line="+102"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -488,32 +483,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-101"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+102"/>
-        <source>Group</source>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Manage group...</source>
-        <translation>Zarządzaj grupą...</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ungroup</source>
-        <translation>Rozbij grupę</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open photo location</source>
-        <translation>Otwórz katalog ze zdjęciem</translation>
-    </message>
-    <message>
-        <location line="+251"/>
+        <location line="+237"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

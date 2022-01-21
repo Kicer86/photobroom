@@ -72,7 +72,6 @@ class MainWindow: public QMainWindow
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
-        const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -91,10 +90,6 @@ class MainWindow: public QMainWindow
 
         void setupQmlView();
         void setupConfig();
-
-        void showContextMenu(const QPoint &);
-
-        void removeGroupOf(const std::vector<Photo::Data> &);
 
     private slots:
         // album menu
