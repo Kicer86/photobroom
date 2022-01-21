@@ -219,8 +219,6 @@ void ContextMenuManager::locationAction()
 void ContextMenuManager::facesAction()
 {
     const Photo::Data& first = m_photos.front();
-    const QString relative_path = first.path;
-    const ProjectInfo prjInfo = m_project->getProjectInfo();
 
     FacesDialog faces_dialog(first, m_core, m_project);
     faces_dialog.exec();
