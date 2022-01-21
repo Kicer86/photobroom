@@ -82,6 +82,9 @@ void ContextMenuManager::setProject(Project* prj)
 void ContextMenuManager::setCoreFactory(ICoreFactoryAccessor* core)
 {
     m_core = core;
+
+    if (m_enableFaceRecognition == false)
+        m_core->getLoggerFactory().get("ContextMenuManager")->warning("Face recognition cannot be enabled");
 }
 
 
