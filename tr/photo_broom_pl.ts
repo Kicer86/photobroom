@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+80"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+97"/>
         <source>Group</source>
         <translation type="unfinished">Grupuj</translation>
     </message>
@@ -596,7 +596,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+95"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+96"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>

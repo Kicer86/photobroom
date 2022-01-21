@@ -55,6 +55,7 @@ SwipeView {
                     id: contextMenuManager
 
                     project: PhotoBroomProject.project
+                    coreFactory: PhotoBroomProject.coreFactory
                 }
 
                 Instantiator {

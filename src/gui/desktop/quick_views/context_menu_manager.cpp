@@ -3,8 +3,13 @@
 #include <QFile>
 
 #include <core/media_types.hpp>
+#include <core/task_executor_utils.hpp>
+#include <core/ilogger_factory.hpp>
+#include <database/database_executor_traits.hpp>
+#include <database/igroup_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
+#include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
 
@@ -31,6 +36,12 @@ QList<QVariant> ContextMenuManager::selection() const
 Project* ContextMenuManager::project() const
 {
     return m_project;
+}
+
+
+ICoreFactoryAccessor * ContextMenuManager::coreFactory() const
+{
+    return m_core;
 }
 
 
@@ -64,6 +75,12 @@ void ContextMenuManager::setProject(Project* prj)
 }
 
 
+void ContextMenuManager::setCoreFactory(ICoreFactoryAccessor* core)
+{
+    m_core = core;
+}
+
+
 void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPhotos)
 {
     m_photos.clear();
@@ -84,6 +101,7 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
     QAction* faces          = new QAction(tr("Recognize people..."));
 
     connect(groupPhotos, &QAction::triggered, this, &ContextMenuManager::groupPhotosAction);
+    connect(manageGroup, &QAction::triggered, this, &ContextMenuManager::manageGroupsAction);
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
@@ -110,7 +128,63 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
 }
 
 
+void ContextMenuManager::removeGroupOf(const std::vector<Photo::Data>& representatives)
+{
+    for (const Photo::Data& representative: representatives)
+    {
+        const GroupInfo& grpInfo = representative.groupInfo;
+        const Group::Id gid = grpInfo.group_id;
+
+        assert(gid.valid());
+
+        Database::IDatabase& db = m_project->getDatabase();
+        GroupsManager::ungroup(db, gid);
+
+        // delete representative file
+        QFile::remove(representative.path);
+    }
+}
+
+
 void ContextMenuManager::groupPhotosAction()
 {
     GroupsManager::groupIntoUnified(*m_project, m_photos);
+}
+
+
+void ContextMenuManager::manageGroupsAction()
+{
+    Database::IDatabase& db = m_project->getDatabase();
+
+
+    const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [this](Database::IBackend& backend)
+    {
+        std::vector<Photo::Data> members;
+
+        auto& groupOperator = backend.groupOperator();
+        const auto memberIds = groupOperator.membersOf(m_photos.front().groupInfo.group_id);
+
+        for (const auto& id: memberIds)
+        {
+            const Photo::Data member = backend.getPhoto(id);
+            members.push_back(member);
+        }
+
+        return members;
+    });
+
+    IExifReaderFactory& factory = m_core->getExifReaderFactory();
+    auto logger = m_core->getLoggerFactory().get("PhotosGrouping");
+    PhotosGroupingDialog dialog(groupMembers, factory, m_core->getTaskExecutor(), m_core->getConfiguration(), logger.get());
+    const int status = dialog.exec();
+
+    if (status == QDialog::Accepted)
+    {
+        // remove old group
+        removeGroupOf(m_photos);
+
+        // create new one
+        const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_project);
+        GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
+    }
 }

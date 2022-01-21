@@ -120,27 +120,27 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="80"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="97"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="81"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="98"/>
         <source>Manage group...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="82"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="99"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="83"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="100"/>
         <source>Open photo location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="84"/>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="101"/>
         <source>Recognize people...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -577,7 +577,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="95"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="96"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
