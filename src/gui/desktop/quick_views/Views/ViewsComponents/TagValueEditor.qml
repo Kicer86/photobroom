@@ -25,6 +25,8 @@ Item {
             value: editor.value === undefined? new Date(): editor.value
 
             onAccepted: editor.accepted(value)
+
+            Component.onCompleted: forceActiveFocus();
         }
     }
 
@@ -36,6 +38,8 @@ Item {
             value: editor.value === undefined? new Date(): editor.value
 
             onAccepted: editor.accepted(value)
+
+            Component.onCompleted: forceActiveFocus();
         }
     }
 

@@ -33,9 +33,6 @@ Row {
         onEditingFinished: root.accepted()
     }
 
-    Component.onCompleted: {
-        input.text = root.value.toLocaleTimeString(Qt.locale(), "hh:mm:ss");
-        input.forceActiveFocus();
-    }
+    Component.onCompleted: input.text = root.value.toLocaleTimeString(Qt.locale(), "hh:mm:ss")
 }
 
