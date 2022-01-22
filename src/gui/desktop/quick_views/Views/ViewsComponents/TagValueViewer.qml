@@ -42,19 +42,18 @@ Item {
 
     Loader {
         active: value !== undefined
-        sourceComponent: tagType === TagEnums.Place ||
-                         tagType === TagEnums.Event ||
-                         tagType === TagEnums.Date  ||
-                         tagType === TagEnums.Time    ? textDelegate: undefined; anchors.fill: parent
-    }
+        anchors.fill: parent
 
-    Loader {
-        active: value !== undefined
-        sourceComponent: tagType === TagEnums.Category? categoryDelegate: undefined; anchors.fill: parent
-    }
-
-    Loader {
-        active: value !== undefined
-        sourceComponent: tagType === TagEnums.Rating? ratingDelegate: undefined; anchors.fill: parent
+        sourceComponent: {
+            switch(tagType) {
+                case TagEnums.Date: return textDelegate;
+                case TagEnums.Time: return textDelegate;
+                case TagEnums.Place: return textDelegate;
+                case TagEnums.Event: return textDelegate;
+                case TagEnums.Rating: return ratingDelegate;
+                case TagEnums.Category: return categoryDelegate;
+                default: return undefined;
+            }
+        }
     }
 }
