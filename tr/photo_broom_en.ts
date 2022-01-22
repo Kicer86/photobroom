@@ -1098,5 +1098,10 @@ Error code: %1</source>
         <source>threads count</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/external/qml-colorpicker/test/main.qml" line="11"/>
+        <source>Hello Colorpicker</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

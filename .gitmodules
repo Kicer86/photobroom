@@ -10,3 +10,6 @@
 [submodule "src/updater/github_api"]
 	path = src/updater/github_api
 	url = https://github.com/Kicer86/github_api.git
+[submodule "src/gui/desktop/quick_views/external/qml-colorpicker"]
+	path = src/gui/desktop/quick_views/external/qml-colorpicker
+	url = https://github.com/rshest/qml-colorpicker.git
