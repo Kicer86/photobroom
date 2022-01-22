@@ -1,8 +1,9 @@
 
 import QtQuick
+import QtQuick.Controls
 import photo_broom.qml 1.0
 import "../../Components" as Components
-
+import "../../external/qml-colorpicker/colorpicker" as Colorpicker
 
 Item {
     id: editor
@@ -73,6 +74,39 @@ Item {
         }
     }
 
+    Component {
+        id: categoryEditor
+
+        Item {
+            id: editorRect
+
+            Popup {
+                id: popup
+
+                property point _pos: mapToItem(Overlay.overlay, editorRect.x, editorRect.y)
+                parent: Overlay.overlay
+                x: width > editorRect.width? _pos.x - (width - editorRect.width) : _pos.x
+                y: _pos.y + editorRect.height
+                width: 290
+                height: 175
+                modal: true
+                focus: true
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+                Colorpicker.Colorpicker {
+                    id: picker
+                    anchors.fill: parent
+
+                    enableAlphaChannel: false
+                    enableDetails: false
+                    paletteMode: true
+                }
+
+                Component.onCompleted: popup.open()
+            }
+        }
+    }
+
     Loader {
         sourceComponent: {
             switch(tagType) {
@@ -81,6 +115,7 @@ Item {
                 case TagEnums.Place: return textEditor;
                 case TagEnums.Event: return textEditor;
                 case TagEnums.Rating: return ratingsEditor;
+                case TagEnums.Category: return categoryEditor;
                 default: {
                     console.log("unknown tag type for TagValueEditor");
                     return undefined;
