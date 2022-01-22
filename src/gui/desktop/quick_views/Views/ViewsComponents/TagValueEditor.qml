@@ -77,7 +77,10 @@ Item {
                 case TagEnums.Place: return textEditor;
                 case TagEnums.Event: return textEditor;
                 case TagEnums.Rating: return ratingsEditor;
-                default: return undefined;
+                default: {
+                    console.log("unknown tag type for TagValueEditor");
+                    return undefined;
+                }
             }
         }
 

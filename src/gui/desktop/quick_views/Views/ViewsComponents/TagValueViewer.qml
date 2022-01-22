@@ -52,7 +52,10 @@ Item {
                 case TagEnums.Event: return textDelegate;
                 case TagEnums.Rating: return ratingDelegate;
                 case TagEnums.Category: return categoryDelegate;
-                default: return undefined;
+                default: {
+                    console.log("unknown tag type for TagValueViewer");
+                    return undefined;
+                }
             }
         }
     }
