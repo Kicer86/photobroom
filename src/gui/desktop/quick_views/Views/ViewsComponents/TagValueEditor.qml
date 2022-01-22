@@ -60,33 +60,26 @@ Item {
         id: ratingsEditor
 
         Components.StarRatingEditor {
-            rating: value
+            rating: editor.value === undefined? 0: editor.value
 
             onAccepted: editor.accepted(rating)
             onRejected: editor.rejected()
+
+            Component.onCompleted: forceActiveFocus();
         }
     }
 
     Loader {
-        sourceComponent: tagType === TagEnums.Date? dateEditor: undefined
-
-        anchors.fill: parent
-    }
-
-    Loader {
-        sourceComponent: tagType === TagEnums.Time? timeEditor: undefined
-
-        anchors.fill: parent
-    }
-
-    Loader {
-        sourceComponent: tagType === TagEnums.Place || tagType === TagEnums.Event? textEditor: undefined
-
-        anchors.fill: parent
-    }
-
-    Loader {
-        sourceComponent: tagType === TagEnums.Rating? ratingsEditor: undefined
+        sourceComponent: {
+            switch(tagType) {
+                case TagEnums.Date: return dateEditor;
+                case TagEnums.Time: return timeEditor;
+                case TagEnums.Place: return textEditor;
+                case TagEnums.Event: return textEditor;
+                case TagEnums.Rating: return ratingsEditor;
+                default: return undefined;
+            }
+        }
 
         anchors.fill: parent
     }
