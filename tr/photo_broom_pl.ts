@@ -121,6 +121,34 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     </message>
 </context>
 <context>
+    <name>ContextMenuManager</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+104"/>
+        <source>Group</source>
+        <translation type="unfinished">Grupuj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Manage group...</source>
+        <translation type="unfinished">Zarządzaj grupą...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ungroup</source>
+        <translation type="unfinished">Rozbij grupę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open photo location</source>
+        <translation type="unfinished">Otwórz katalog ze zdjęciem</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Recognize people...</source>
+        <translation type="unfinished">Rozpoznawanie osób...</translation>
+    </message>
+</context>
+<context>
     <name>DebugWindow</name>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="+22"/>
@@ -418,7 +446,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+236"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+225"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -440,17 +468,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+126"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+107"/>
-        <source>Recognize people...</source>
-        <translation>Rozpoznawanie osób...</translation>
-    </message>
-    <message>
-        <location line="+116"/>
+        <location line="+102"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -460,32 +483,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-222"/>
+        <location line="-101"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+102"/>
-        <source>Group</source>
-        <translation>Grupuj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Manage group...</source>
-        <translation>Zarządzaj grupą...</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ungroup</source>
-        <translation>Rozbij grupę</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open photo location</source>
-        <translation>Otwórz katalog ze zdjęciem</translation>
-    </message>
-    <message>
-        <location line="+252"/>
+        <location line="+237"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -558,7 +561,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-109"/>
+        <location line="-110"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -568,9 +571,9 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+48"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+99"/>
         <source>Back to photos</source>
-        <translation>Powrót do zdjęć</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,7 +837,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+176"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+178"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>

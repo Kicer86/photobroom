@@ -19,6 +19,8 @@ Item {
         id: photosModelControllerId
         objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
 
+        database: PhotoBroomProject.database
+
         newPhotosOnly: filterId.newPhotosOnly
         category: filterId.categoryComboBox.currentIndex
         ratingFrom: filterId.ratingSlider.first.value

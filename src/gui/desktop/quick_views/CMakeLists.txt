@@ -10,6 +10,7 @@ qt6_add_resources(QML_RESOURCES
 )
 
 qt6_wrap_cpp(MOCED
+                context_menu_manager.hpp
                 media_view_ctrl.hpp
                 objects_accessor.hpp
                 photo_data_qml.hpp
@@ -23,6 +24,8 @@ qt6_wrap_cpp(MOCED
 add_library(quick_views OBJECT
                 ${QML_RESOURCES}
                 ${MOCED}
+                context_menu_manager.cpp
+                context_menu_manager.hpp
                 media_view_ctrl.cpp
                 media_view_ctrl.hpp
                 objects_accessor.cpp
@@ -47,7 +50,9 @@ target_link_libraries(quick_views
                         PUBLIC
                             core
                             database
+                            face_recognition
                             gui_models
+                            project_utils
 
                             Qt::Quick
                             Qt::QuickWidgets

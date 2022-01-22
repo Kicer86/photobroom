@@ -122,6 +122,12 @@ unsigned int PhotosModelControllerComponent::datesCount() const
 }
 
 
+Database::IDatabase* PhotosModelControllerComponent::database() const
+{
+    return m_db;
+}
+
+
 unsigned int PhotosModelControllerComponent::timeViewFrom() const
 {
     return m_timeView.first;

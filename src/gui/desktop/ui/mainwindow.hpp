@@ -28,7 +28,6 @@ struct IProjectManager;
 struct IConfiguration;
 struct IView;
 
-class PhotosModelControllerComponent;
 class Project;
 class SelectionToPhotoDataTranslator;
 struct ProjectInfo;
@@ -59,7 +58,6 @@ class MainWindow: public QMainWindow
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
-        PhotosModelControllerComponent*     m_photosModelController;
         IConfiguration&           m_configuration;
         ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;
@@ -74,7 +72,6 @@ class MainWindow: public QMainWindow
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
-        const bool                m_enableFaceRecognition;
 
         void closeEvent(QCloseEvent *) override;
 
@@ -93,10 +90,6 @@ class MainWindow: public QMainWindow
 
         void setupQmlView();
         void setupConfig();
-
-        void showContextMenu(const QPoint &);
-
-        void removeGroupOf(const std::vector<Photo::Data> &);
 
     private slots:
         // album menu
@@ -140,6 +133,7 @@ class MainWindow: public QMainWindow
 
     signals:
         void currentDatabaseChanged(Database::IDatabase *);          // emit when database is opened/closed
+        void currentProjectChanged(Project *);
 };
 
 #endif // MAINWINDOW_HPP

@@ -1,5 +1,7 @@
 
 set(SRC
+    actions_model.cpp
+    actions_model.hpp
     aphoto_info_model.cpp
     aphoto_info_model.hpp
     flat_model.cpp
@@ -7,6 +9,7 @@ set(SRC
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
+    roles_expansion.hpp
     series_model.cpp
     series_model.hpp
 )

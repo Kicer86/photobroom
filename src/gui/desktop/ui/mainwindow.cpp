@@ -5,7 +5,6 @@
 #include <ranges>
 
 #include <QCloseEvent>
-#include <QDesktopServices>
 #include <QFileDialog>
 #include <QLayout>
 #include <QMenuBar>
@@ -55,8 +54,6 @@
 #include "quick_views/selection_manager_component.hpp"
 #include "quick_views/thumbnail_image_provider.hpp"
 #include "ui_mainwindow.h"
-#include "ui/faces_dialog.hpp"
-#include "ui/photos_grouping_dialog.hpp"
 
 
 MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
@@ -64,7 +61,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
-    m_photosModelController(nullptr),
     m_configuration(coreFactory->getConfiguration()),
     m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
@@ -73,10 +69,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
     m_toolsTabCtrl(new ToolsTabController),
-    m_recentCollections(),
     m_completerFactory(m_loggerFactory),
-    m_featuresObserver(featuresManager, m_notifications),
-    m_enableFaceRecognition(FaceRecognition::checkSystem())
+    m_featuresObserver(featuresManager, m_notifications)
 {
     // setup
     ui->setupUi(this);
@@ -86,13 +80,13 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     registerConfigTab();
 
     connect(this, &MainWindow::currentDatabaseChanged,
-            m_photosModelController, &PhotosModelControllerComponent::setDatabase);
-    connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentDatabaseChanged,
             ui->tagEditor, &TagEditorWidget::setDatabase);
     connect(this, &MainWindow::currentDatabaseChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
+    connect(this, &MainWindow::currentProjectChanged,
+            &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
     IconsLoader icons;
 
@@ -117,9 +111,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
-
-    if (m_enableFaceRecognition == false)
-        m_loggerFactory.get("MainWindow")->warning("Face recognition cannot be enabled");
 }
 
 
@@ -143,18 +134,16 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::setupQmlView()
 {
-    assert(m_photosModelController == nullptr);
-
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
     QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
-    m_photosModelController = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
+    PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 
-    assert(m_photosModelController != nullptr);
+    assert(controller != nullptr);
 
-    m_photosModelController->setCompleterFactory(&m_completerFactory);
+    controller->setCompleterFactory(&m_completerFactory);
 
     QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
     connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(photosSelected()));
@@ -322,6 +311,7 @@ void MainWindow::closeProject()
         auto prj = std::move(m_currentPrj);
 
         emit currentDatabaseChanged(nullptr);
+        emit currentProjectChanged(nullptr);
 
         updateGui();
 
@@ -338,9 +328,6 @@ void MainWindow::setupView()
     connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-
-    connect(ui->mainViewQml, &QWidget::customContextMenuRequested,
-            this, &MainWindow::showContextMenu);
 }
 
 
@@ -458,127 +445,6 @@ void MainWindow::loadRecentCollections()
         m_recentCollections = rawList.split(";");
 
     updateMenus();
-}
-
-
-void MainWindow::showContextMenu(const QPoint& pos)
-{
-    const std::vector<Photo::Data> selected_photos = m_selectionTranslator->getSelectedDatas();
-
-    std::vector<Photo::Data> photos;
-    std::remove_copy_if(selected_photos.cbegin(), selected_photos.cend(), std::back_inserter(photos), [](const Photo::Data& photo){
-        return QFile::exists(photo.path) == false;
-    });
-
-    if (photos.empty())
-        return;
-
-    QMenu contextMenu;
-    QAction* groupPhotos    = contextMenu.addAction(tr("Group"));
-    QAction* manageGroup    = contextMenu.addAction(tr("Manage group..."));
-    QAction* ungroupPhotos  = contextMenu.addAction(tr("Ungroup"));
-    QAction* location       = contextMenu.addAction(tr("Open photo location"));
-    QAction* faces          = contextMenu.addAction(tr("Recognize people..."));
-
-    const bool groupsOnly = std::ranges::all_of(photos, &Photo::is<GroupInfo::Role::Representative>);
-    const bool isSingleGroup = photos.size() == 1 && groupsOnly;
-    const bool imagesOnly = std::ranges::all_of(photos | std::views::transform(qOverload<const Photo::Data &>(&Photo::getPath)), &MediaTypes::isImageFile) &&
-                            std::ranges::all_of(photos, &Photo::is<GroupInfo::Role::None>);
-    const bool isSingleImage = photos.size() == 1 && imagesOnly;
-
-    groupPhotos->setEnabled(photos.size() > 1 && imagesOnly);
-    manageGroup->setEnabled(isSingleGroup);
-    ungroupPhotos->setEnabled(groupsOnly);
-    location->setEnabled(photos.size() == 1);
-    faces->setEnabled(m_enableFaceRecognition && isSingleImage);
-    ungroupPhotos->setVisible(groupsOnly);
-
-    Database::IDatabase& db = m_currentPrj->getDatabase();
-
-    const QPoint globalPos = ui->mainViewQml->mapToGlobal(pos);
-    QAction* chosenAction = contextMenu.exec(globalPos);
-
-    if (chosenAction == groupPhotos)
-    {
-        GroupsManager::groupIntoUnified(*m_currentPrj.get(), photos);
-    }
-    else if (chosenAction == manageGroup)
-    {
-        assert(photos.size() == 1);
-        const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [&photos](Database::IBackend& backend)
-        {
-            std::vector<Photo::Data> members;
-
-            auto& groupOperator = backend.groupOperator();
-            const auto memberIds = groupOperator.membersOf(photos.front().groupInfo.group_id);
-
-            for (const auto& id: memberIds)
-            {
-                const Photo::Data member = backend.getPhoto(id);
-                members.push_back(member);
-            }
-
-            return members;
-        });
-
-        IExifReaderFactory& factory = m_coreAccessor->getExifReaderFactory();
-        auto logger = m_loggerFactory.get("PhotosGrouping");
-        PhotosGroupingDialog dialog(groupMembers, factory, m_coreAccessor->getTaskExecutor(), m_configuration, logger.get());
-        const int status = dialog.exec();
-
-        if (status == QDialog::Accepted)
-        {
-            // remove old group
-            removeGroupOf(photos);
-
-            // create new one
-            const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_currentPrj.get());
-            GroupsManager::group(db, groupMembers, representantPath, dialog.groupType());
-
-        }
-
-    }
-    else if (chosenAction == ungroupPhotos)
-    {
-       removeGroupOf(photos);
-    }
-    else if (chosenAction == location)
-    {
-        const Photo::Data& first = photos.front();
-        const QString relative_path = first.path;
-        const QString absolute_path = m_currentPrj->makePathAbsolute(relative_path);
-        const QFileInfo photoFileInfo(absolute_path);
-        const QString file_dir = photoFileInfo.path();
-
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
-    }
-    else if (chosenAction == faces)
-    {
-        const Photo::Data& first = photos.front();
-        const QString relative_path = first.path;
-        const ProjectInfo prjInfo = m_currentPrj->getProjectInfo();
-
-        FacesDialog faces_dialog(first, m_coreAccessor, m_currentPrj.get());
-        faces_dialog.exec();
-    }
-}
-
-
-void MainWindow::removeGroupOf(const std::vector<Photo::Data>& representatives)
-{
-    for (const Photo::Data& representative: representatives)
-    {
-        const GroupInfo& grpInfo = representative.groupInfo;
-        const Group::Id gid = grpInfo.group_id;
-
-        assert(gid.valid());
-
-        Database::IDatabase& db = m_currentPrj->getDatabase();
-        GroupsManager::ungroup(db, gid);
-
-        // delete representative file
-        QFile::remove(representative.path);
-    }
 }
 
 
@@ -720,6 +586,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             Database::IDatabase& db = m_currentPrj->getDatabase();
 
             emit currentDatabaseChanged(&db);
+            emit currentProjectChanged(m_currentPrj.get());
 
             // TODO: I do not like this flag here...
             if (is_new)
