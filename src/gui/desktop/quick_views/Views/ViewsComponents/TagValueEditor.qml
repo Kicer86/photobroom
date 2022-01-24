@@ -87,19 +87,26 @@ Item {
                 parent: Overlay.overlay
                 x: width > editorRect.width? _pos.x - (width - editorRect.width) : _pos.x
                 y: _pos.y + editorRect.height
-                width: 290
-                height: 175
                 modal: true
                 focus: true
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
-                Colorpicker.Colorpicker {
-                    id: picker
+                Column {
                     anchors.fill: parent
 
-                    enableAlphaChannel: false
-                    enableDetails: false
-                    paletteMode: true
+                    Colorpicker.Colorpicker {
+                        id: picker
+
+                        enableAlphaChannel: false
+                        enableDetails: false
+                        paletteMode: true
+                    }
+
+                    RoundButton {
+                        height: 17
+                        text: qsTr("Apply")
+                        radius: 3
+                    }
                 }
 
                 Component.onCompleted: popup.open()

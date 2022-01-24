@@ -940,6 +940,14 @@ Error code: %1</source>
     </message>
 </context>
 <context>
+    <name>TagValueEditor</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="107"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="228"/>
