@@ -106,6 +106,8 @@ Item {
                         height: 17
                         text: qsTr("Apply")
                         radius: 3
+
+                        onClicked: editor.accepted(picker.colorValue)
                     }
                 }
 
