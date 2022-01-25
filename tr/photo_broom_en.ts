@@ -942,7 +942,7 @@ Error code: %1</source>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="107"/>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="109"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>

@@ -83,13 +83,15 @@ Item {
             Popup {
                 id: popup
 
-                property point _pos: mapToItem(Overlay.overlay, editorRect.x, editorRect.y)
                 parent: Overlay.overlay
                 x: width > editorRect.width? _pos.x - (width - editorRect.width) : _pos.x
                 y: _pos.y + editorRect.height
                 modal: true
                 focus: true
-                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+                property point _pos: mapToItem(Overlay.overlay, editorRect.x, editorRect.y)
+                property bool _accepted: false
 
                 Column {
                     anchors.fill: parent
@@ -107,11 +109,18 @@ Item {
                         text: qsTr("Apply")
                         radius: 3
 
-                        onClicked: editor.accepted(picker.colorValue)
+                        onClicked: {
+                            popup._accepted = true;
+                            editor.accepted(picker.colorValue);
+                        }
                     }
                 }
 
                 Component.onCompleted: popup.open()
+                onClosed: {
+                    if (!_accepted)
+                        editor.rejected();
+                }
             }
         }
     }
