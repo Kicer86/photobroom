@@ -35,8 +35,8 @@ TableView {
         implicitWidth: 30
         implicitHeight: 30
 
-        color: selected ? sysPalette.highlight : sysPalette.base
-        border.color: sysPalette.button
+        color: sysPalette.base
+        border.color: selected ? sysPalette.highlight : sysPalette.button
 
         required property bool selected
         required property int column
