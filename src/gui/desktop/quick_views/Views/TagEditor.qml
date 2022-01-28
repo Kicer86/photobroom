@@ -101,7 +101,9 @@ TableView {
 
         Loader {
             sourceComponent: column === 0? labelDelegate: (delegate.editState? tagEditor: tagViewer)
+
             anchors.fill: parent
+            anchors.margins: 3
         }
     }
 
