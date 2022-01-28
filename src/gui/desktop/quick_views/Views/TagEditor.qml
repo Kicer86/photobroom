@@ -59,6 +59,7 @@ TableView {
             id: tagViewer
 
             Internals.TagValueViewer {
+                id: tagViewerItem
 
                 tagType: delegate.tagType
                 value: delegate.display
@@ -73,7 +74,13 @@ TableView {
                     onClicked: {
                         const index = view.model.index(row, column);
                         view.selectionModel.select(index, ItemSelectionModel.ClearAndSelect);
+                        tagViewerItem.forceActiveFocus();
                     }
+                }
+
+                Keys.onPressed: function(event) {
+                    if (event.key == Qt.Key_Delete)
+                        console.log("delete pressed");
                 }
             }
         }
