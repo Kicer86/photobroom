@@ -571,7 +571,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+116"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+112"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>

@@ -16,9 +16,7 @@ SwipeView {
 
     interactive: false
 
-    onCurrentIndexChanged: {
-        selectedPhotos = [];            // reset selected photos when view changes
-    }
+    onCurrentIndexChanged: selectedPhotos = [];            // reset selected photos when view changes
 
     // main view
     SplitView {
@@ -33,9 +31,7 @@ SwipeView {
                 width: parent.width
                 height: parent.height - notifications.height
 
-                onSelectedPhotosChanged: {
-                    mainWindow.selectedPhotos = selectedPhotos;
-                }
+                onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
                 MouseArea {
                     anchors.fill: parent
@@ -115,9 +111,7 @@ SwipeView {
 
             text: qsTr("Back to photos")
 
-            onClicked: {
-                mainWindow.currentIndex = 0
-            }
+            onClicked: mainWindow.currentIndex = 0
         }
 
         PhotoDataCompletion {
@@ -126,9 +120,7 @@ SwipeView {
             anchors.bottom: parent.bottom
             anchors.top: backButton.bottom
 
-            onSelectedPhotoChanged: {
-                mainWindow.selectedPhotos = selectedPhoto;
-            }
+            onSelectedPhotoChanged: mainWindow.selectedPhotos = selectedPhoto
         }
     }
 }
