@@ -25,6 +25,10 @@ TableView {
     onWidthChanged: view.forceLayout();
     onSelectionChanged: tagsModel.setPhotos(selection)
 
+    selectionModel: ItemSelectionModel {
+        model: view.model
+    }
+
     delegate: Rectangle {
         id: delegate
 
@@ -36,6 +40,7 @@ TableView {
 
         required property bool selected
         required property int column
+        required property int row
         required property var display
         required property var tagType
 
@@ -63,6 +68,11 @@ TableView {
 
                     onDoubleClicked: {
                         delegate.editState = true;
+                    }
+
+                    onClicked: {
+                        const index = view.model.index(row, column);
+                        view.selectionModel.select(index, ItemSelectionModel.ClearAndSelect);
                     }
                 }
             }
