@@ -100,6 +100,8 @@ SwipeView {
                 width: parent.width
                 height: 300
 
+                enabled: projectOpened
+
                 selection: mainWindow.selectedPhotos
             }
         }
