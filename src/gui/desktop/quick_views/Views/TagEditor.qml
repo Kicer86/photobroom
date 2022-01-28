@@ -79,8 +79,10 @@ TableView {
                 }
 
                 Keys.onPressed: function(event) {
-                    if (event.key == Qt.Key_Delete)
-                        console.log("delete pressed");
+                    if (event.key == Qt.Key_Delete) {
+                        const index = view.model.index(row, column);
+                        view.model.setData(index, undefined);
+                    }
                 }
             }
         }
