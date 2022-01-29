@@ -54,7 +54,6 @@ target_link_libraries(gui_widgets
                             project_utils
                             quick_views
                             system
-                            KWidgetsAddons
                             Qt::Widgets
                             Qt::QuickWidgets
 )

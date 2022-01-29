@@ -1,9 +1,6 @@
 [submodule "cmake_modules"]
 	path = cmake_modules
 	url = https://github.com/Kicer86/cmake_modules.git
-[submodule "external/kwidgetsaddons"]
-	path = external/kwidgetsaddons
-	url = https://invent.kde.org/frameworks/kwidgetsaddons.git
 [submodule "src/face_recognition/dlib_wrapper/face_recognition_models"]
 	path = src/face_recognition/dlib_wrapper/face_recognition_models
 	url = https://github.com/ageitgey/face_recognition_models.git

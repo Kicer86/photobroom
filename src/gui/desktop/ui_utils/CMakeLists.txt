@@ -23,7 +23,6 @@ target_link_libraries(gui_ui_utils
                         PRIVATE
                             core
                             database
-                            KWidgetsAddons
                             Qt::Widgets
 )
 
