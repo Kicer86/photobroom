@@ -12,7 +12,7 @@
 #include "selection_manager_component.hpp"
 #include "qml_setup.hpp"
 #include "models/flat_model.hpp"
-#include "widgets/tag_editor/helpers/tags_model.hpp"        // TODO: move tags model to a better place
+#include "models/tags_model.hpp"        // TODO: move tags model to a better place
 #include "utils/variant_display.hpp"
 
 
