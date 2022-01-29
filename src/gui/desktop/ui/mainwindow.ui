@@ -113,15 +113,6 @@
    </attribute>
    <widget class="TasksViewWidget" name="tasksWidget"/>
   </widget>
-  <widget class="QDockWidget" name="photoPropertiesDockWidget">
-   <property name="windowTitle">
-    <string>Photo properties</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="PhotoPropertiesWidget" name="photoPropertiesWidget"/>
-  </widget>
   <action name="actionNew_collection">
    <property name="text">
     <string>&amp;New</string>
@@ -226,11 +217,6 @@
    <extends>QWidget</extends>
    <header>widgets/tasks_view_widget.hpp</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PhotoPropertiesWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/photo_properties.hpp</header>
   </customwidget>
  </customwidgets>
  <resources>

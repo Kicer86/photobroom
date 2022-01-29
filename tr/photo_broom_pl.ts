@@ -352,11 +352,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Photo properties</source>
-        <translation>Właściwości zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+9"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -458,7 +453,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+124"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -621,36 +616,38 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>PhotoPropertiesWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+109"/>
-        <source>Photo location:</source>
-        <translation>Ścieżka do zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photo size:</source>
-        <translation>Rozmiar zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photo geometry:</source>
-        <translation>Wymiary zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Photos location:</source>
-        <translation>Ścieżka do zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photos size:</source>
-        <translation>Rozmiar zdjęć:</translation>
+    <name>PhotoPropertiesModel</name>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+80"/>
+        <source>Photo(s) location:</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location line="+80"/>
+        <location line="+1"/>
+        <source>Photo(s) size:</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>Photo(s) geometry:</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+85"/>
         <source>%n byte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n bajt</numerusform>
             <numerusform>%n bajty</numerusform>
             <numerusform>%n bajtów</numerusform>
@@ -659,7 +656,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n kbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n kbajt</numerusform>
             <numerusform>%n kbajty</numerusform>
             <numerusform>%n kbajtów</numerusform>
@@ -668,7 +665,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Mbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n Mbajt</numerusform>
             <numerusform>%n Mbajty</numerusform>
             <numerusform>%n Mbajtów</numerusform>
@@ -677,7 +674,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Gbyte(s)</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>%n Gbajt</numerusform>
             <numerusform>%n Gbajty</numerusform>
             <numerusform>%n Gbajtów</numerusform>
@@ -888,7 +885,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-163"/>
+        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-134"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>

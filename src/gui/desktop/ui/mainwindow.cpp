@@ -206,7 +206,7 @@ void MainWindow::updateWindowsMenu()
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
-    ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
+    //ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
 }
 
 
@@ -323,7 +323,6 @@ void MainWindow::setupView()
 
     // connect to docks
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-    connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 }
 
 
@@ -381,7 +380,7 @@ void MainWindow::updateTools()
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
 
         m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(m_currentPrj->getDatabase());
-        connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
+        //connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
     }
     else
     {
@@ -548,9 +547,9 @@ void MainWindow::on_actionTasks_triggered()
 
 void MainWindow::on_actionPhoto_properties_triggered()
 {
-    const bool state = ui->actionPhoto_properties->isChecked();
+    //const bool state = ui->actionPhoto_properties->isChecked();
 
-    ui->photoPropertiesDockWidget->setVisible(state);
+    //ui->photoPropertiesDockWidget->setVisible(state);
 }
 
 

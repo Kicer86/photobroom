@@ -21,38 +21,27 @@
 #define PHOTOPROPERTIES_HPP
 
 #include <QScrollArea>
+#include <QStandardItemModel>
 
 #include <database/photo_data.hpp>
 
-class QLabel;
-class QStackedLayout;
 
 class APhotoInfoModel;
 
 
-class PhotoPropertiesWidget: public QScrollArea
+class PhotoPropertiesModel: public QStandardItemModel
 {
         Q_OBJECT
 
     public:
-        PhotoPropertiesWidget(QWidget * = nullptr);
-        PhotoPropertiesWidget(const PhotoPropertiesWidget &) = delete;
-        ~PhotoPropertiesWidget();
-
-        PhotoPropertiesWidget& operator=(const PhotoPropertiesWidget &) = delete;
+        PhotoPropertiesModel(QObject * = nullptr);
+        ~PhotoPropertiesModel();
 
         void setPhotos(const std::vector<Photo::Data> &);
 
     private:
-        QLabel* m_locationLabel;
-        QLabel* m_sizeLabel;
-        QLabel* m_geometryLabel;
-        QLabel* m_locationValue;
-        QLabel* m_sizeValue;
-        QLabel* m_geometryValue;
-
-        void refreshLabels(const std::vector<Photo::Data> &) const;
-        void refreshValues(const std::vector<Photo::Data> &) const;
+        void refreshLabels(const std::vector<Photo::Data> &);
+        void refreshValues(const std::vector<Photo::Data> &);
 
         QString sizeHuman(qint64) const;
 };
