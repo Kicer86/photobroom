@@ -20,6 +20,14 @@ namespace QmlUtils
     }
 
 
+    QQuickItem* findQuickItem(QQuickWidget* qml, const QString& objectName)
+    {
+        QObject* obj = findQmlObject(qml, objectName);
+
+        return qobject_cast<QQuickItem *>(obj);
+    }
+
+
     void registerObject(QQuickWidget* qml, const QString& objectName, QObject* object)
     {
         auto rootContext = qml->rootContext();
