@@ -106,6 +106,10 @@ SwipeView {
             DebugWindow {
                 objectName: "DebugWindow"
             }
+
+            MediaProperties {
+
+            }
         }
     }
 
