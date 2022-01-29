@@ -103,7 +103,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_toolsTabCtrl->set(&m_configuration);
 
     // hide debug dock if ObservablesRegistry is disabled
-    ui->debugDockWidget->setVisible(ObservablesRegistry::instance().isEnabled());
+    QQuickItem* debugWindow = QmlUtils::findQuickItem(ui->mainViewQml, "DebugWindow");
+    debugWindow->setVisible(ObservablesRegistry::instance().isEnabled());
 
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
@@ -146,8 +147,6 @@ void MainWindow::setupQmlView()
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
-
-    ui->debugDockContent->setSource(QUrl("qrc:/ui/Views/DebugWindow.qml"));
 }
 
 

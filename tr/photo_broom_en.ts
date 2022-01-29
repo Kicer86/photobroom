@@ -352,148 +352,143 @@ Check paths in configuration window.</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="127"/>
-        <source>debug</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="140"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="145"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="132"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="153"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="140"/>
         <source>&amp;Add photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="158"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="145"/>
         <source>&amp;About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="163"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="150"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="168"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="155"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="173"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="160"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="178"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="165"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="183"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="170"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="191"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="178"/>
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="199"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="186"/>
         <source>T&amp;asks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="204"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="191"/>
         <source>&amp;Scan collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="212"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="199"/>
         <source>&amp;Photo properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="217"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="204"/>
         <source>&amp;Face organizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="222"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="209"/>
         <source>Series detector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="227"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="214"/>
         <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="223"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="225"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="224"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="233"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="232"/>
         <source>Internet connection problem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="234"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="233"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="359"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="358"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="360"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="359"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="458"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="457"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="458"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="457"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="523"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="522"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="529"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="528"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="597"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="607"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="596"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="606"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="598"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="597"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -501,7 +496,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="608"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="607"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -509,12 +504,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="616"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="615"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="617"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="616"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -524,30 +519,30 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="627"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="626"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="628"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="627"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="636"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="635"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="637"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="636"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="114"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="118"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>

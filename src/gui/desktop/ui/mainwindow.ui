@@ -122,19 +122,6 @@
    </attribute>
    <widget class="PhotoPropertiesWidget" name="photoPropertiesWidget"/>
   </widget>
-  <widget class="QDockWidget" name="debugDockWidget">
-   <property name="windowTitle">
-    <string>debug</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QQuickWidget" name="debugDockContent">
-    <property name="resizeMode">
-     <enum>QQuickWidget::SizeRootObjectToView</enum>
-    </property>
-   </widget>
-  </widget>
   <action name="actionNew_collection">
    <property name="text">
     <string>&amp;New</string>

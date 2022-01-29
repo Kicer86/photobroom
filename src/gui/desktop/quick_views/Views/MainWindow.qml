@@ -102,6 +102,10 @@ SwipeView {
 
                 selection: mainWindow.selectedPhotos
             }
+
+            DebugWindow {
+                objectName: "DebugWindow"
+            }
         }
     }
 

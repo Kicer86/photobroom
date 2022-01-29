@@ -357,11 +357,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>debug</source>
-        <translation>debug</translation>
-    </message>
-    <message>
-        <location line="+13"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -441,7 +436,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -566,7 +561,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+114"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+118"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
