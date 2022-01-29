@@ -4,11 +4,6 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS
                  QuickWidgets
 )
 
-# consider https://doc.qt.io/QtQuickCompiler/ in case of load performance problems
-qt6_add_resources(QML_RESOURCES
-                    resources.qrc
-)
-
 qt6_wrap_cpp(MOCED
                 context_menu_manager.hpp
                 media_view_ctrl.hpp
@@ -22,7 +17,6 @@ qt6_wrap_cpp(MOCED
 )
 
 add_library(quick_views OBJECT
-                ${QML_RESOURCES}
                 ${MOCED}
                 context_menu_manager.cpp
                 context_menu_manager.hpp
@@ -44,6 +38,18 @@ add_library(quick_views OBJECT
                 selection_manager_component.hpp
                 thumbnail_image_provider.cpp
                 thumbnail_image_provider.hpp
+)
+
+# consider https://doc.qt.io/QtQuickCompiler/ in case of load performance problems
+file(GLOB_RECURSE
+    QML_RESOURCES
+    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+    *.qml
+)
+
+qt6_add_resources(quick_views "UI"
+                    PREFIX "/ui"
+                    FILES ${QML_RESOURCES}
 )
 
 target_link_libraries(quick_views

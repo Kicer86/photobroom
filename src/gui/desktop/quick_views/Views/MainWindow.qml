@@ -10,83 +10,98 @@ SwipeView {
     objectName: "MainWindow"
 
     property bool projectOpened: false
-    property var selectedPhotos: []
+    property var selectedPhotos: null
 
     anchors.fill: parent
 
     interactive: false
 
-    onCurrentIndexChanged: {
-        selectedPhotos = [];            // reset selected photos when view changes
-    }
+    onCurrentIndexChanged: selectedPhotos = [];            // reset selected photos when view changes
 
     // main view
-    Column {
-        PhotosView {
-            id: photosView
+    SplitView {
+        Column {
+            SplitView.preferredWidth: parent.width * 3/4
 
-            enabled: projectOpened
+            PhotosView {
+                id: photosView
 
-            width: parent.width
-            height: parent.height - notifications.height
+                enabled: projectOpened
 
-            onSelectedPhotosChanged: {
-                mainWindow.selectedPhotos = selectedPhotos;
-            }
+                width: parent.width
+                height: parent.height - notifications.height
 
-            MouseArea {
-                anchors.fill: parent
+                onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
-                acceptedButtons: Qt.RightButton
-                propagateComposedEvents: true
+                MouseArea {
+                    anchors.fill: parent
 
-                onClicked: function(mouse) {
-                    contextMenu.selection = photosView.selectedPhotos;
-                    contextMenu.popup(mouse.x, mouse.y);
-                }
-            }
+                    acceptedButtons: Qt.RightButton
+                    propagateComposedEvents: true
 
-            Menu {
-                id: contextMenu
-
-                property alias selection: contextMenuManager.selection
-
-                ContextMenuManager {
-                    id: contextMenuManager
-
-                    project: PhotoBroomProject.project
-                    coreFactory: PhotoBroomProject.coreFactory
+                    onClicked: function(mouse) {
+                        contextMenu.selection = photosView.selectedPhotos;
+                        contextMenu.popup(mouse.x, mouse.y);
+                    }
                 }
 
-                Instantiator {
-                    id: instantiator
+                Menu {
+                    id: contextMenu
 
-                    model: contextMenuManager.model
+                    property alias selection: contextMenuManager.selection
 
-                    delegate: MenuItem {
-                        required property var actionName
-                        required property var actionEnabled
-                        required property var actionIndex
+                    ContextMenuManager {
+                        id: contextMenuManager
 
-                        enabled: actionEnabled
-                        text: actionName
-
-                        onTriggered: {
-                            contextMenu.close();
-                            contextMenuManager.model.trigger(actionIndex);
-                        }
+                        project: PhotoBroomProject.project
+                        coreFactory: PhotoBroomProject.coreFactory
                     }
 
-                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
-                    onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    Instantiator {
+                        id: instantiator
+
+                        model: contextMenuManager.model
+
+                        delegate: MenuItem {
+                            required property var actionName
+                            required property var actionEnabled
+                            required property var actionIndex
+
+                            enabled: actionEnabled
+                            text: actionName
+
+                            onTriggered: {
+                                contextMenu.close();
+                                contextMenuManager.model.trigger(actionIndex);
+                            }
+                        }
+
+                        onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                        onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    }
                 }
+            }
+
+            Internals.NotificationsBar {
+                id: notifications
+
+                width: parent.width
             }
         }
 
-        Internals.NotificationsBar {
-            id: notifications
+        Column {
+            SplitView.fillWidth: true
 
-            width: parent.width
+            TagEditor {
+                objectName: "TagEditor"
+
+                width: parent.width
+                height: 300
+
+                enabled: projectOpened
+
+                selection: mainWindow.selectedPhotos
+            }
         }
     }
 
@@ -98,9 +113,7 @@ SwipeView {
 
             text: qsTr("Back to photos")
 
-            onClicked: {
-                mainWindow.currentIndex = 0
-            }
+            onClicked: mainWindow.currentIndex = 0
         }
 
         PhotoDataCompletion {
@@ -109,9 +122,7 @@ SwipeView {
             anchors.bottom: parent.bottom
             anchors.top: backButton.bottom
 
-            onSelectedPhotoChanged: {
-                mainWindow.selectedPhotos = [ selectedPhoto ];
-            }
+            onSelectedPhotoChanged: mainWindow.selectedPhotos = selectedPhoto
         }
     }
 }

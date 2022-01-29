@@ -20,6 +20,7 @@
 #include "tags_model.hpp"
 
 #include <QItemSelectionModel>
+#include <QDateTime>
 
 #include <core/function_wrappers.hpp>
 #include <core/base_tags.hpp>
@@ -31,9 +32,14 @@
 using namespace std::chrono;
 using namespace std::placeholders;
 
+namespace
+{
+    TagsOperator tagsOperator;
+}
+
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_tagsOperator(nullptr),
+    m_tagsOperator(&tagsOperator),              // TODO: I do not like it, but that's simplest way to set TagsOperator for QML usage
     m_database(nullptr)
 {
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
@@ -70,9 +76,16 @@ Tag::TagsList TagsModel::getTags() const
 }
 
 
+Database::IDatabase* TagsModel::getDatabase() const
+{
+    return m_database;
+}
+
+
 bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    const QVector<int> touchedRoles = setDataInternal(index, value, role);
+    const QVariant fixedValue = correctInput(index, value);
+    const QVector<int> touchedRoles = setDataInternal(index, fixedValue, role);
     const bool set = touchedRoles.empty() == false;
 
     if (set)
@@ -84,11 +97,11 @@ bool TagsModel::setData(const QModelIndex& index, const QVariant& value, int rol
 
 bool TagsModel::setItemData(const QModelIndex& index, const QMap<int, QVariant>& roles)
 {
-    const int r = index.row();
+    const unsigned r = static_cast<unsigned>(index.row());
     const int c = index.column();
 
-    assert(r < static_cast<int>(m_keys.size()));
-    assert(r < static_cast<int>(m_values.size()));
+    assert(r < m_keys.size());
+    assert(r < m_values.size());
     assert(c == 0 || c == 1);
 
     auto& vec = c == 0? m_keys: m_values;
@@ -119,6 +132,16 @@ bool TagsModel::insertRows(int row, int count, const QModelIndex& parent)
     endInsertRows();
 
     return true;
+}
+
+
+QHash<int, QByteArray> TagsModel::roleNames() const
+{
+    QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
+
+    names.insert(TagTypeRole, QByteArray("tagType"));
+
+    return names;
 }
 
 
@@ -222,7 +245,9 @@ void TagsModel::clearModel()
 
 void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
 {
-    if (m_database)
+    if (ids.empty())
+        loadPhotos({});
+    else if (m_database)
     {
         auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
         auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
@@ -334,7 +359,7 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
 
     QVector<int> touchedRoles;
 
-    if (r < static_cast<int>(m_keys.size()) && ( c == 0 || c == 1) )
+    if (r < static_cast<int>(m_keys.size()) && (c == 0 || c == 1) )
     {
         touchedRoles.append(role);
 
@@ -358,4 +383,36 @@ QVector<int> TagsModel::setDataInternal(const QModelIndex& index, const QVariant
     }
 
     return touchedRoles;
+}
+
+
+QVariant TagsModel::correctInput(const QModelIndex& idx, const QVariant& value) const
+{
+    // qml views are unable to distinguish between QTime and QDate as QDateTime is being used
+    // fix that
+    QVariant result = value;
+
+    if (idx.column() == 1)      // values
+    {
+        const int type = value.typeId();
+        if (type == QMetaType::Type::QDateTime)
+        {
+            const auto& roles = m_values[static_cast<unsigned>(idx.row())];
+            auto it = roles.find(TagTypeRole);
+
+            if (it != roles.end())
+            {
+                const auto tagType = it->value<Tag::Types>();
+
+                if (tagType == Tag::Types::Date)
+                    result = value.toDate();
+                else if (tagType == Tag::Types::Time)
+                    result = value.toTime();
+                else
+                    assert(!"not expected situation");
+            }
+        }
+    }
+
+    return result;
 }

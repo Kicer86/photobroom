@@ -126,7 +126,6 @@ endif(UNIX OR CYGWIN)
 add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
-add_subdirectory(external)
 
 #documentation
 find_program(DOXYGEN doxygen)

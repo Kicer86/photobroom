@@ -347,11 +347,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <location line="+9"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
@@ -446,7 +441,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+225"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -468,12 +463,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+125"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+99"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -483,7 +478,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-101"/>
+        <location line="-98"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
@@ -561,7 +556,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-110"/>
+        <location line="-113"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -571,7 +566,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+99"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+114"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -956,9 +951,25 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>TagEditor</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+125"/>
+        <source>Photo information</source>
+        <translation type="unfinished">Informacje o zdjęciu</translation>
+    </message>
+</context>
+<context>
+    <name>TagValueEditor</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="+109"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+205"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+228"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
@@ -1113,6 +1124,11 @@ Kod błędu: %1</translation>
         <location line="+3"/>
         <source>threads count</source>
         <translation>liczba wątków</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/external/qml-colorpicker/test/main.qml" line="+11"/>
+        <source>Hello Colorpicker</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

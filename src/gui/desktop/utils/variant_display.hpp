@@ -20,13 +20,22 @@
 #ifndef VARIANTDISPLAY_HPP
 #define VARIANTDISPLAY_HPP
 
+#include <QLocale>
 #include <QString>
 
+#include <core/tags_utils.hpp>
+
 class QVariant;
-class QLocale;
 
 
-QString localize(const QVariant &, const QLocale &);
+class Variant: public QObject
+{
+    Q_OBJECT
 
+public:
+    Q_INVOKABLE static QString localize(const QVariant &, const QLocale & = QLocale());
+    Q_INVOKABLE static QString localize(Tag::Types type, const QVariant &, const QLocale & = QLocale());
+    Q_INVOKABLE static QString toColor(const QVariant &);       // TODO: it should be part of localize, but there are too many clients right now to break compatibility
+};
 
 #endif // VARIANTDISPLAY_HPP

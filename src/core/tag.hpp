@@ -18,6 +18,8 @@
 
 namespace Tag
 {
+    Q_NAMESPACE_EXPORT(CORE_EXPORT)
+
     /**
     * \brief List of tag types
     */
@@ -33,6 +35,8 @@ namespace Tag
         Rating  = 6,
         Category = 7,
     };
+
+    Q_ENUM_NS(Types)
 
     /**
      * @brief List of possible tag value types

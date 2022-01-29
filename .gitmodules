@@ -1,12 +1,12 @@
 [submodule "cmake_modules"]
 	path = cmake_modules
 	url = https://github.com/Kicer86/cmake_modules.git
-[submodule "external/kwidgetsaddons"]
-	path = external/kwidgetsaddons
-	url = https://invent.kde.org/frameworks/kwidgetsaddons.git
 [submodule "src/face_recognition/dlib_wrapper/face_recognition_models"]
 	path = src/face_recognition/dlib_wrapper/face_recognition_models
 	url = https://github.com/ageitgey/face_recognition_models.git
 [submodule "src/updater/github_api"]
 	path = src/updater/github_api
 	url = https://github.com/Kicer86/github_api.git
+[submodule "src/gui/desktop/quick_views/external/qml-colorpicker"]
+	path = src/gui/desktop/quick_views/external/qml-colorpicker
+	url = https://github.com/rshest/qml-colorpicker.git

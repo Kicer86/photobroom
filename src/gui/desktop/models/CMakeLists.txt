@@ -6,12 +6,17 @@ set(SRC
     aphoto_info_model.hpp
     flat_model.cpp
     flat_model.hpp
+    itags_operator.hpp
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
     roles_expansion.hpp
     series_model.cpp
     series_model.hpp
+    tags_model.cpp
+    tags_model.hpp
+    tags_operator.cpp
+    tags_operator.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

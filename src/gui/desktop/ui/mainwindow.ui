@@ -104,15 +104,6 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="tagEditorDockWidget">
-   <property name="windowTitle">
-    <string>Photo information</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="TagEditorWidget" name="tagEditor"/>
-  </widget>
   <widget class="QDockWidget" name="tasksDockWidget">
    <property name="windowTitle">
     <string>Tasks</string>
@@ -242,12 +233,6 @@
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
-  <customwidget>
-   <class>TagEditorWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/tag_editor/tag_editor_widget.hpp</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>TasksViewWidget</class>

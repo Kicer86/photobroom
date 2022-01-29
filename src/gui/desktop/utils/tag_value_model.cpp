@@ -88,18 +88,16 @@ void TagValueModel::updateData()
 
     QString combined_name;
 
-    for(const Tag::Types& info: m_tagInfos)
+    for(const Tag::Types& tagType: m_tagInfos)
     {
-        const auto& values = m_tagInfoCollector->get(info);
-        std::transform( values.begin(), values.end(), std::back_inserter(m_values), [](const TagValue& value){
-            const QLocale locale;
-
-            return localize(value.get(), locale);
+        const auto& values = m_tagInfoCollector->get(tagType);
+        std::transform( values.begin(), values.end(), std::back_inserter(m_values), [tagType](const TagValue& value){
+            return Variant::localize(tagType, value.get());
         });
 
         combined_name += combined_name.isEmpty()?
-            BaseTags::getName(info) :
-            ", " + BaseTags::getName(info);
+            BaseTags::getName(tagType) :
+            ", " + BaseTags::getName(tagType);
     }
 
     const QString values_joined = limited_join(m_values.begin(), m_values.end(), 10, ", ");
