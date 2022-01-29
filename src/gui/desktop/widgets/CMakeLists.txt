@@ -3,9 +3,7 @@ find_package(Qt6 REQUIRED COMPONENTS QuickWidgets Widgets)
 
 set(SRCS
     collection_dir_scan_dialog.cpp
-    color_pick_button.cpp
     media_preview.cpp
-    multi_value_line_edit.cpp
     photo_properties.cpp
     tasks_view_widget.cpp
     project_creator/project_creator_dialog.cpp
@@ -15,9 +13,7 @@ set(SRCS
 
 set(HEADERS
     collection_dir_scan_dialog.hpp
-    color_pick_button.hpp
     media_preview.hpp
-    multi_value_line_edit.hpp
     photo_properties.hpp
     tasks_view_widget.hpp
     project_creator/project_creator_dialog.hpp
