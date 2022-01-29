@@ -945,12 +945,12 @@ Error code: %1</source>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="228"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="228"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="229"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="229"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>

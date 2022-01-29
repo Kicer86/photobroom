@@ -11,8 +11,6 @@ set(SRCS
     project_creator/project_creator_dialog.cpp
     series_detection/series_detection.cpp
     qtext_choosefile.cpp
-    tag_editor/helpers/tags_operator.cpp
-    tag_editor/helpers/tags_model.cpp
 )
 
 set(HEADERS
@@ -25,9 +23,6 @@ set(HEADERS
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
     qtext_choosefile.hpp
-    tag_editor/helpers/itags_operator.hpp
-    tag_editor/helpers/tags_operator.hpp
-    tag_editor/helpers/tags_model.hpp
 )
 
 #set of file to be moced
@@ -37,7 +32,6 @@ set(TO_MOC
     photo_properties.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
-    tag_editor/helpers/tags_model.hpp
     qtext_choosefile.hpp
 )
 

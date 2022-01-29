@@ -969,7 +969,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/tag_editor/helpers/tags_model.cpp" line="+228"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+228"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
