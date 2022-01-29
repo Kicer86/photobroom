@@ -203,7 +203,10 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    //ui->actionTags_editor->setChecked(ui->tagEditorDockWidget->isVisible());
+    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
+    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+
+    ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
     ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
 }
@@ -529,9 +532,12 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionTags_editor_triggered()
 {
-    //const bool state = ui->actionTags_editor->isChecked();
+    const bool state = ui->actionTags_editor->isChecked();
 
-    //ui->tagEditorDockWidget->setVisible(state);
+    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
+    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+
+    tagEditor->setVisible(state);
 }
 
 

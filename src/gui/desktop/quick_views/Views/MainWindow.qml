@@ -93,6 +93,8 @@ SwipeView {
             SplitView.fillWidth: true
 
             TagEditor {
+                objectName: "TagEditor"
+
                 width: parent.width
                 height: 300
 
