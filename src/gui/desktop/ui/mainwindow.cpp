@@ -202,8 +202,7 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
-    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
@@ -533,8 +532,7 @@ void MainWindow::on_actionTags_editor_triggered()
 {
     const bool state = ui->actionTags_editor->isChecked();
 
-    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
-    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
 
     tagEditor->setVisible(state);
 }

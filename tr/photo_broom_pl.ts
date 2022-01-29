@@ -436,7 +436,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -478,7 +478,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+237"/>
+        <location line="+236"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -551,7 +551,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-112"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
