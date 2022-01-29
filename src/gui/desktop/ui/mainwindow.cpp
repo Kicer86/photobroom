@@ -82,8 +82,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentDatabaseChanged,
-            ui->tagEditor, &TagEditorWidget::setDatabase);
-    connect(this, &MainWindow::currentDatabaseChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
@@ -103,8 +101,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
-
-    ui->tagEditor->set(&m_completerFactory);
 
     // hide debug dock if ObservablesRegistry is disabled
     ui->debugDockWidget->setVisible(ObservablesRegistry::instance().isEnabled());
@@ -207,7 +203,7 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    ui->actionTags_editor->setChecked(ui->tagEditorDockWidget->isVisible());
+    //ui->actionTags_editor->setChecked(ui->tagEditorDockWidget->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
     ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
 }
@@ -325,7 +321,6 @@ void MainWindow::setupView()
     setupQmlView();
 
     // connect to docks
-    connect(ui->tagEditorDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
     connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 }
@@ -385,7 +380,6 @@ void MainWindow::updateTools()
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
 
         m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(m_currentPrj->getDatabase());
-        connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->tagEditor, &TagEditorWidget::editPhotos);
         connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
     }
     else
@@ -403,8 +397,6 @@ void MainWindow::updateWidgets()
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
     notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
-
-    ui->tagEditor->setEnabled(prj);
 }
 
 
@@ -537,9 +529,9 @@ void MainWindow::on_actionAbout_Qt_triggered()
 
 void MainWindow::on_actionTags_editor_triggered()
 {
-    const bool state = ui->actionTags_editor->isChecked();
+    //const bool state = ui->actionTags_editor->isChecked();
 
-    ui->tagEditorDockWidget->setVisible(state);
+    //ui->tagEditorDockWidget->setVisible(state);
 }
 
 

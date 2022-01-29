@@ -347,11 +347,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <location line="+9"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
@@ -446,7 +441,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+225"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+221"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -468,12 +463,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+125"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+99"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -483,12 +478,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-101"/>
+        <location line="-98"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+237"/>
+        <location line="+234"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

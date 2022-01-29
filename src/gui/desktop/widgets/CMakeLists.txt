@@ -11,10 +11,7 @@ set(SRCS
     project_creator/project_creator_dialog.cpp
     series_detection/series_detection.cpp
     qtext_choosefile.cpp
-    tag_editor/tag_editor_widget.cpp
-    tag_editor/helpers/tags_item_delegate.cpp
     tag_editor/helpers/tags_operator.cpp
-    tag_editor/helpers/tags_view.cpp
     tag_editor/helpers/tags_model.cpp
 )
 
@@ -28,11 +25,8 @@ set(HEADERS
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
     qtext_choosefile.hpp
-    tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/itags_operator.hpp
-    tag_editor/helpers/tags_item_delegate.hpp
     tag_editor/helpers/tags_operator.hpp
-    tag_editor/helpers/tags_view.hpp
     tag_editor/helpers/tags_model.hpp
 )
 
@@ -43,7 +37,6 @@ set(TO_MOC
     photo_properties.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
-    tag_editor/tag_editor_widget.hpp
     tag_editor/helpers/tags_model.hpp
     qtext_choosefile.hpp
 )
