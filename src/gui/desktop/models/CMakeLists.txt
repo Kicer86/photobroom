@@ -10,6 +10,8 @@ set(SRC
     model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
+    photo_properties_model.cpp
+    photo_properties_model.hpp
     roles_expansion.hpp
     series_model.cpp
     series_model.hpp
@@ -29,6 +31,7 @@ target_link_libraries(gui_models
                         PRIVATE
                             core
                             project_utils
+                            system
 )
 
 target_include_directories(gui_models

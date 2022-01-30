@@ -18,12 +18,10 @@
  */
 
 
-#include "photo_properties.hpp"
+#include "photo_properties_model.hpp"
 
 #include <QDir>
 #include <QFileInfo>
-#include <QGridLayout>
-#include <QLabel>
 
 #include <system/filesystem.hpp>
 

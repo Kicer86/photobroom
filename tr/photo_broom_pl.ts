@@ -618,7 +618,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+80"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+78"/>
         <source>Photo(s) location:</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -885,7 +885,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-134"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-134"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>

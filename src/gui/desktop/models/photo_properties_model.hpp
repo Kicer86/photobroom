@@ -20,7 +20,6 @@
 #ifndef PHOTOPROPERTIES_HPP
 #define PHOTOPROPERTIES_HPP
 
-#include <QScrollArea>
 #include <QStandardItemModel>
 
 #include <database/photo_data.hpp>
