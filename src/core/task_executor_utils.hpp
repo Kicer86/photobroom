@@ -6,6 +6,7 @@
 #include <mutex>
 #include <future>
 #include <condition_variable>
+#include <source_location>
 #include <QFuture>
 #include <QPromise>
 
