@@ -31,7 +31,7 @@ struct ITagsOperator;
 class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
-        Q_PROPERTY(Database::IDatabase* database WRITE set READ getDatabase)
+        Q_PROPERTY(Database::IDatabase* database WRITE set READ getDatabase REQUIRED)
 
     public:
         enum Roles
