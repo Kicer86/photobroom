@@ -1,5 +1,6 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(QtClick)
 
 include(GenerateExportHeader)
 
@@ -51,6 +52,7 @@ target_link_libraries(photo_broom
     gui
     project_utils
     system
+    $<$<TARGET_EXISTS:QtClick::QtClick>:QtClick::QtClick>
     Qt::Core
     Qt::Widgets
 )
