@@ -106,7 +106,9 @@ void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::Data>& photos)
     QStandardItem* sizeItem = new QStandardItem(tr("Photo(s) size:", "", s));
     QStandardItem* geomItem = new QStandardItem(tr("Photo(s) geometry:", "", s));
 
-    insertColumn(0, {locItem, sizeItem, geomItem});
+    setItem(0, 0, locItem);
+    setItem(1, 0, sizeItem);
+    setItem(2, 0, geomItem);
 }
 
 
@@ -174,7 +176,9 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
         geomItem->setText(geometryStr);
     }
 
-    insertColumn(1, {locItem, sizeItem, geomItem});
+    setItem(0, 1, locItem);
+    setItem(1, 1, sizeItem);
+    setItem(2, 1, geomItem);
 }
 
 

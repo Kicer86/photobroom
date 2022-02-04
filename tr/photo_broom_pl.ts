@@ -645,7 +645,7 @@ Kod błędu: %1</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location line="+85"/>
+        <location line="+89"/>
         <source>%n byte(s)</source>
         <translation type="unfinished">
             <numerusform>%n bajt</numerusform>
@@ -885,7 +885,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-160"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-164"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
