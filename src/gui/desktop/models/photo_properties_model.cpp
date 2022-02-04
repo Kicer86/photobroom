@@ -20,6 +20,7 @@
 
 #include "photo_properties_model.hpp"
 
+#include <algorithm>
 #include <QDir>
 #include <QFileInfo>
 
@@ -64,10 +65,36 @@ PhotoPropertiesModel::~PhotoPropertiesModel()
 }
 
 
-void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Data>& photos)
+void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
-    refreshLabels(photos);
-    refreshValues(photos);
+    m_db = db;
+}
+
+
+void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
+{
+    if (m_db)
+    {
+        m_db->exec([this, ids](Database::IBackend& backend)
+        {
+            std::vector<Photo::Data> photos;
+            std::transform(ids.begin(), ids.end(), std::back_inserter(photos), [&backend](const Photo::Id& id) { return backend.getPhoto(id); });
+
+            QMetaObject::invokeMethod(this, [this, photos]
+            {
+                refreshLabels(photos);
+                refreshValues(photos);
+            });
+        },
+        "fetching Photo::Data for PhotoPropertiesModel"
+        );
+    }
+}
+
+
+Database::IDatabase* PhotoPropertiesModel::database() const
+{
+    return m_db;
 }
 
 

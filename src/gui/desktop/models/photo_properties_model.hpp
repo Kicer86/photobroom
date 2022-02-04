@@ -22,6 +22,7 @@
 
 #include <QStandardItemModel>
 
+#include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 
 
@@ -31,14 +32,19 @@ class APhotoInfoModel;
 class PhotoPropertiesModel: public QStandardItemModel
 {
         Q_OBJECT
+        Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
 
     public:
         PhotoPropertiesModel(QObject * = nullptr);
         ~PhotoPropertiesModel();
 
-        void setPhotos(const std::vector<Photo::Data> &);
+        void setDatabase(Database::IDatabase *);
+        Q_INVOKABLE void setPhotos(const std::vector<Photo::Id> &);
+
+        Database::IDatabase* database() const;
 
     private:
+        Database::IDatabase* m_db = nullptr;
         void refreshLabels(const std::vector<Photo::Data> &);
         void refreshValues(const std::vector<Photo::Data> &);
 

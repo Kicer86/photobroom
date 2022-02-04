@@ -598,7 +598,7 @@ Error code: %1</source>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="78"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="105"/>
         <source>Photo(s) location:</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -606,7 +606,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="79"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="106"/>
         <source>Photo(s) size:</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -614,7 +614,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="80"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="107"/>
         <source>Photo(s) geometry:</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -622,7 +622,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="165"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="192"/>
         <source>%n byte(s)</source>
         <translation type="unfinished">
             <numerusform>%n byte</numerusform>
@@ -630,7 +630,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="166"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="193"/>
         <source>%n kbyte(s)</source>
         <translation type="unfinished">
             <numerusform>%n kbyte</numerusform>
@@ -638,7 +638,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="167"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="194"/>
         <source>%n Mbyte(s)</source>
         <translation type="unfinished">
             <numerusform>%n Mbyte</numerusform>
@@ -646,7 +646,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="168"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="195"/>
         <source>%n Gbyte(s)</source>
         <translation type="unfinished">
             <numerusform>%n Gbyte</numerusform>
@@ -858,12 +858,12 @@ Error code: %1</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="34"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="35"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="35"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="36"/>
         <source>?</source>
         <translation>?</translation>
     </message>
