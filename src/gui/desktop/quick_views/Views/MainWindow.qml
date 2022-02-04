@@ -103,12 +103,24 @@ SwipeView {
                 selection: mainWindow.selectedPhotos
             }
 
-            DebugWindow {
-                objectName: "DebugWindow"
+            TableView {
+                width: parent.width
+                height: 100
+
+                model: PhotoPropertiesModel {
+                    property var _photos: mainWindow.selectedPhotos
+                    database: PhotoBroomProject.database
+
+                    on_PhotosChanged: setPhotos(_photos)
+                }
+
+                delegate: Text {
+                    text: display
+                }
             }
 
-            MediaProperties {
-
+            DebugWindow {
+                objectName: "DebugWindow"
             }
         }
     }

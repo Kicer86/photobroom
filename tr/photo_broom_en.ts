@@ -537,7 +537,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="122"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="134"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>
