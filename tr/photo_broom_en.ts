@@ -890,7 +890,7 @@ Error code: %1</source>
         <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="132"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Group</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="172"/>
