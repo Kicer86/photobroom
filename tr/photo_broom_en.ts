@@ -537,12 +537,12 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="108"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="111"/>
         <source>Photo information</source>
         <translation type="unfinished">Photo information</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="141"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="143"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>
@@ -918,14 +918,6 @@ Error code: %1</source>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>Saving group details.</source>
         <translation>Saving group details.</translation>
-    </message>
-</context>
-<context>
-    <name>TagEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="126"/>
-        <source>Photo information</source>
-        <translation>Photo information</translation>
     </message>
 </context>
 <context>

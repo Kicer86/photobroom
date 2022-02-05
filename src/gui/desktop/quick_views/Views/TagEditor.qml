@@ -5,13 +5,11 @@ import "ViewsComponents" as Internals
 
 
 TableView {
-
     id: view
 
     required property var selection
 
-    topMargin: columnsHeader.implicitHeight + 10
-    implicitHeight: contentHeight + columnsHeader.implicitHeight + 10
+    implicitHeight: contentHeight
 
     SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
@@ -52,7 +50,7 @@ TableView {
 
             Text {
                 verticalAlignment: Text.AlignVCenter
-                text: display
+                text: display === undefined? "": display
             }
         }
 
@@ -115,15 +113,6 @@ TableView {
             anchors.fill: parent
             anchors.margins: 3
         }
-    }
-
-    Text {
-        id: columnsHeader
-
-        y: view.contentY
-        z: 2
-
-        text: qsTr("Photo information")
     }
 
     /*

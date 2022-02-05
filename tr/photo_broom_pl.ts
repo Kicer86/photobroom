@@ -556,12 +556,12 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+108"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+111"/>
         <source>Photo information</source>
         <translation type="unfinished">Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+32"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
@@ -945,14 +945,6 @@ Kod błędu: %1</translation>
         <location line="-34"/>
         <source>Saving group details.</source>
         <translation>Tworzenie grup.</translation>
-    </message>
-</context>
-<context>
-    <name>TagEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+126"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
     </message>
 </context>
 <context>

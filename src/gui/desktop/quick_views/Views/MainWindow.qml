@@ -94,19 +94,21 @@ SwipeView {
 
             spacing: 10
 
-            TagEditor {
-                objectName: "TagEditor"
-
+            GroupBox {
                 width: parent.width
 
-                enabled: projectOpened
+                TagEditor {
+                    objectName: "TagEditor"
+                    enabled: projectOpened
+                    width: parent.width
 
-                selection: mainWindow.selectedPhotos
+                    selection: mainWindow.selectedPhotos
+                }
             }
 
             GroupBox {
-                title: qsTr("Photo information")
                 width: parent.width
+                title: qsTr("Photo information")
 
                 TableView {
                     id: propertiesTable
