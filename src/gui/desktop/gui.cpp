@@ -4,9 +4,9 @@
 #include <QApplication>
 #include <QStandardPaths>
 #include <QTranslator>
+#include <QQuickWindow>
 
 #ifdef OS_WIN
-    #include <QQuickWindow>
     #include <QQuickStyle>
 #endif
 
@@ -49,9 +49,10 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
 
     ObjectsAccessor::instance().setCoreFactory(&coreFactory);
 
-#ifdef OS_WIN
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);          // TODO: required by QQuickWidget https://doc.qt.io/qt-6/quick-changes-qt6.html#changes-to-qquickwidget
-#endif
+    // TODO: required by QQuickWidget
+    // https://doc.qt.io/qt-6/qquickwidget.html#details
+    // https://doc.qt.io/qt-6/quick-changes-qt6.html#changes-to-qquickwidget
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
 }
 
 
