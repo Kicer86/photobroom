@@ -105,7 +105,7 @@ SwipeView {
 
             TableView {
                 width: parent.width
-                height: 100
+                implicitHeight: contentHeight
 
                 model: PhotoPropertiesModel {
                     property var _photos: mainWindow.selectedPhotos
