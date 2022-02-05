@@ -537,7 +537,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="134"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="133"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>
@@ -918,7 +918,7 @@ Error code: %1</source>
 <context>
     <name>TagEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="125"/>
+        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="126"/>
         <source>Photo information</source>
         <translation>Photo information</translation>
     </message>

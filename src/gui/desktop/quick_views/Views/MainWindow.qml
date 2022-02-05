@@ -96,7 +96,6 @@ SwipeView {
                 objectName: "TagEditor"
 
                 width: parent.width
-                height: 300
 
                 enabled: projectOpened
 

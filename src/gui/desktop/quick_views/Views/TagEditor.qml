@@ -11,6 +11,7 @@ TableView {
     required property var selection
 
     topMargin: columnsHeader.implicitHeight + 10
+    implicitHeight: contentHeight + columnsHeader.implicitHeight
 
     SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
