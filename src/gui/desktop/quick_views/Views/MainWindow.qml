@@ -109,7 +109,7 @@ SwipeView {
 
             GroupBox {
                 width: parent.width
-                title: qsTr("<b>Photo information</b>")
+                title: qsTr("<b>Media information</b>")
 
                 TableView {
                     id: propertiesTable

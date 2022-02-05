@@ -558,17 +558,17 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+99"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>&lt;b&gt;Photo information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Informacje&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Informacje debugowe&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -635,34 +635,34 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+105"/>
         <source>Photo(s) location:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>lokalizacja zdjęcia:</numerusform>
+            <numerusform>lokalizacja zdjęć:</numerusform>
+            <numerusform>lokalizacja zdjęć:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>Photo(s) size:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Rozmiar zdjęcia:</numerusform>
+            <numerusform>Rozmiar zdjęć:</numerusform>
+            <numerusform>Rozmiar zdjęć:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>Photo(s) geometry:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Wymiary zdjęcia:</numerusform>
+            <numerusform>Wymiary zdjęć:</numerusform>
+            <numerusform>Wymiary zdjęć:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+89"/>
         <source>%n byte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n bajt</numerusform>
             <numerusform>%n bajty</numerusform>
             <numerusform>%n bajtów</numerusform>
@@ -671,7 +671,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n kbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n kbajt</numerusform>
             <numerusform>%n kbajty</numerusform>
             <numerusform>%n kbajtów</numerusform>
@@ -680,7 +680,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Mbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Mbajt</numerusform>
             <numerusform>%n Mbajty</numerusform>
             <numerusform>%n Mbajtów</numerusform>
@@ -689,7 +689,7 @@ Kod błędu: %1</translation>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n Gbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Gbajt</numerusform>
             <numerusform>%n Gbajty</numerusform>
             <numerusform>%n Gbajtów</numerusform>

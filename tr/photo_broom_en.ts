@@ -539,17 +539,17 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="99"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Properties&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="112"/>
-        <source>&lt;b&gt;Photo information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Media information&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="134"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Debug window&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="149"/>
@@ -615,31 +615,31 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="105"/>
         <source>Photo(s) location:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>photo location:</numerusform>
+            <numerusform>photos location:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="106"/>
         <source>Photo(s) size:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Photo size:</numerusform>
+            <numerusform>Photos size:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="107"/>
         <source>Photo(s) geometry:</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Photo geometry:</numerusform>
+            <numerusform>Photos gemoetry:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="196"/>
         <source>%n byte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n byte</numerusform>
             <numerusform>%n bytes</numerusform>
         </translation>
@@ -647,7 +647,7 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="197"/>
         <source>%n kbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n kbyte</numerusform>
             <numerusform>%n kbytes</numerusform>
         </translation>
@@ -655,7 +655,7 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="198"/>
         <source>%n Mbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Mbyte</numerusform>
             <numerusform>%n Mbytes</numerusform>
         </translation>
@@ -663,7 +663,7 @@ Error code: %1</source>
     <message numerus="yes">
         <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="199"/>
         <source>%n Gbyte(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n Gbyte</numerusform>
             <numerusform>%n Gbytes</numerusform>
         </translation>
@@ -674,12 +674,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="105"/>
         <source>Loading photos needing update</source>
-        <translation type="unfinished"></translation>
+        <translation>Loading photos needing update</translation>
     </message>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="211"/>
         <source>Extracting data from photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Extracting data from photos</translation>
     </message>
 </context>
 <context>
