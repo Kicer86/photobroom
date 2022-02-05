@@ -537,17 +537,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="111"/>
-        <source>Photo information</source>
-        <translation type="unfinished">Photo information</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="132"/>
-        <source>Debug window</source>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="99"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="148"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="112"/>
+        <source>&lt;b&gt;Photo information&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="134"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="149"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>

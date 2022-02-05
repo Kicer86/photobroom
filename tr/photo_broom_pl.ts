@@ -556,17 +556,22 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+111"/>
-        <source>Photo information</source>
-        <translation type="unfinished">Informacje o zdjęciu</translation>
-    </message>
-    <message>
-        <location line="+21"/>
-        <source>Debug window</source>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+99"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+13"/>
+        <source>&lt;b&gt;Photo information&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>

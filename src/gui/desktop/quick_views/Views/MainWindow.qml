@@ -96,6 +96,7 @@ SwipeView {
 
             GroupBox {
                 width: parent.width
+                title: qsTr("<b>Properties</b>")
 
                 TagEditor {
                     objectName: "TagEditor"
@@ -108,7 +109,7 @@ SwipeView {
 
             GroupBox {
                 width: parent.width
-                title: qsTr("Photo information")
+                title: qsTr("<b>Photo information</b>")
 
                 TableView {
                     id: propertiesTable
@@ -129,8 +130,8 @@ SwipeView {
             }
 
             GroupBox {
-                title: qsTr("Debug window")
                 width: parent.width
+                title: qsTr("<b>Debug window</b>")
 
                 DebugWindow {
                     objectName: "DebugWindow"
