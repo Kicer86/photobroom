@@ -122,27 +122,27 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="104"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Group</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="105"/>
         <source>Manage group...</source>
-        <translation type="unfinished"></translation>
+        <translation>Manage group...</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="106"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungroup</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="107"/>
         <source>Open photo location</source>
-        <translation type="unfinished"></translation>
+        <translation>Open photo location</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="108"/>
         <source>Recognize people...</source>
-        <translation type="unfinished"></translation>
+        <translation>Recognize people...</translation>
     </message>
 </context>
 <context>
@@ -150,23 +150,23 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="22"/>
         <source>Tasks in queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasks in queue</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="26"/>
         <source>Tasks executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasks executed</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="30"/>
         <source>Execution speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Execution speed</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="30"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">tps</translation>
     </message>
 </context>
 <context>
@@ -549,7 +549,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="114"/>
         <source>Back to photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Back to photos</translation>
     </message>
 </context>
 <context>
@@ -931,7 +931,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="125"/>
         <source>Photo information</source>
-        <translation type="unfinished">Photo information</translation>
+        <translation>Photo information</translation>
     </message>
 </context>
 <context>
@@ -939,7 +939,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="109"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Apply</translation>
     </message>
 </context>
 <context>
@@ -947,12 +947,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/models/tags_model.cpp" line="228"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/tags_model.cpp" line="229"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Value</translation>
     </message>
 </context>
 <context>
@@ -1051,12 +1051,12 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="84"/>
         <source>Playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Playing</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="84"/>
         <source>Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Paused</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1074,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/main.cpp" line="94"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
-        <translation type="unfinished"></translation>
+        <translation>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="95"/>
@@ -1104,7 +1104,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/external/qml-colorpicker/test/main.qml" line="11"/>
         <source>Hello Colorpicker</source>
-        <translation type="unfinished"></translation>
+        <translation>Hello Colorpicker</translation>
     </message>
 </context>
 </TS>

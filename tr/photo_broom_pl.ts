@@ -125,27 +125,27 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
     <message>
         <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+104"/>
         <source>Group</source>
-        <translation type="unfinished">Grupuj</translation>
+        <translation>Grupuj</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Manage group...</source>
-        <translation type="unfinished">Zarządzaj grupą...</translation>
+        <translation>Zarządzaj grupą...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Rozbij grupę</translation>
+        <translation>Rozbij grupę</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open photo location</source>
-        <translation type="unfinished">Otwórz katalog ze zdjęciem</translation>
+        <translation>Otwórz katalog ze zdjęciem</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Recognize people...</source>
-        <translation type="unfinished">Rozpoznawanie osób...</translation>
+        <translation>Rozpoznawanie osób...</translation>
     </message>
 </context>
 <context>
@@ -169,7 +169,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <location line="+0"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation>zadań/sekunda</translation>
+        <translation>zadań/sekundę</translation>
     </message>
 </context>
 <context>
@@ -568,7 +568,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+114"/>
         <source>Back to photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót do zdjęć</translation>
     </message>
 </context>
 <context>
@@ -955,7 +955,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+125"/>
         <source>Photo information</source>
-        <translation type="unfinished">Informacje o zdjęciu</translation>
+        <translation>Informacje o zdjęciu</translation>
     </message>
 </context>
 <context>
@@ -963,7 +963,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="+109"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
 </context>
 <context>
@@ -1075,12 +1075,12 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="+84"/>
         <source>Playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Pauza</translation>
     </message>
 </context>
 <context>
@@ -1098,7 +1098,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+5"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywuje eksperymentalne funkcjonalności. Użyj tego parametru dla każdej z opcji, którą chcesz aktywować: test-crash-catcher, debug-view</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1128,7 +1128,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_views/external/qml-colorpicker/test/main.qml" line="+11"/>
         <source>Hello Colorpicker</source>
-        <translation type="unfinished"></translation>
+        <translation>Hello Colorpicker</translation>
     </message>
 </context>
 </TS>
