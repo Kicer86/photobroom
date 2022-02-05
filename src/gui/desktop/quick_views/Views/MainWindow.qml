@@ -104,30 +104,25 @@ SwipeView {
                 selection: mainWindow.selectedPhotos
             }
 
-            TableView {
-                id: propertiesTable
-                topMargin: propertiesHeader.implicitHeight + 10
+            GroupBox {
+                title: qsTr("Photo information")
                 width: parent.width
-                implicitHeight: propertiesHeader.implicitHeight + contentHeight + 10
 
-                model: PhotoPropertiesModel {
-                    property var _photos: mainWindow.selectedPhotos
-                    database: PhotoBroomProject.database
+                TableView {
+                    id: propertiesTable
+                    implicitHeight: contentHeight
+                    implicitWidth: contentWidth
 
-                    on_PhotosChanged: setPhotos(_photos)
-                }
+                    model: PhotoPropertiesModel {
+                        property var _photos: mainWindow.selectedPhotos
+                        database: PhotoBroomProject.database
 
-                delegate: Text {
-                    text: display
-                }
+                        on_PhotosChanged: setPhotos(_photos)
+                    }
 
-                Text {
-                    id: propertiesHeader
-
-                    y: propertiesTable.contentY
-                    z: 2
-
-                    text: qsTr("Photo information")
+                    delegate: Text {
+                        text: display
+                    }
                 }
             }
 

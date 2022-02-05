@@ -537,12 +537,12 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="130"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="108"/>
         <source>Photo information</source>
         <translation type="unfinished">Photo information</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="146"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="141"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>
