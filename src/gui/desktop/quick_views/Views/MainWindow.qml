@@ -103,8 +103,10 @@ SwipeView {
             }
 
             TableView {
+                id: propertiesTable
+                topMargin: propertiesHeader.implicitHeight + 10
                 width: parent.width
-                implicitHeight: contentHeight
+                implicitHeight: propertiesHeader.implicitHeight + contentHeight + 10
 
                 model: PhotoPropertiesModel {
                     property var _photos: mainWindow.selectedPhotos
@@ -115,6 +117,15 @@ SwipeView {
 
                 delegate: Text {
                     text: display
+                }
+
+                Text {
+                    id: propertiesHeader
+
+                    y: propertiesTable.contentY
+                    z: 2
+
+                    text: qsTr("Photo information")
                 }
             }
 
