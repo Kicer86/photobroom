@@ -542,7 +542,12 @@ Error code: %1</source>
         <translation type="unfinished">Photo information</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="143"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="132"/>
+        <source>Debug window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="148"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>

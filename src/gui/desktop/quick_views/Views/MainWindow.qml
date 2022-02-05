@@ -128,8 +128,13 @@ SwipeView {
                 }
             }
 
-            DebugWindow {
-                objectName: "DebugWindow"
+            GroupBox {
+                title: qsTr("Debug window")
+                width: parent.width
+
+                DebugWindow {
+                    objectName: "DebugWindow"
+                }
             }
         }
     }

@@ -561,7 +561,12 @@ Kod błędu: %1</translation>
         <translation type="unfinished">Informacje o zdjęciu</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
+        <source>Debug window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
