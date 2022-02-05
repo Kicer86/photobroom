@@ -556,7 +556,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+128"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+130"/>
         <source>Photo information</source>
         <translation type="unfinished">Informacje o zdjęciu</translation>
     </message>

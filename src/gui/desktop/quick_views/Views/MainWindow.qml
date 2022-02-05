@@ -92,6 +92,8 @@ SwipeView {
         Column {
             SplitView.fillWidth: true
 
+            spacing: 10
+
             TagEditor {
                 objectName: "TagEditor"
 
