@@ -1,6 +1,6 @@
 
-#ifndef SELECTIONTOPHOTOIDTRANSLATOR_HPP
-#define SELECTIONTOPHOTOIDTRANSLATOR_HPP
+#ifndef ID_TO_DATA_CONVERTER_HPP_INCLUDED
+#define ID_TO_DATA_CONVERTER_HPP_INCLUDED
 
 #include <QObject>
 
@@ -33,4 +33,4 @@ class SelectionToPhotoDataTranslator: public QObject
 };
 
 
-#endif
+#endif // ID_TO_DATA_CONVERTER_HPP_INCLUDED

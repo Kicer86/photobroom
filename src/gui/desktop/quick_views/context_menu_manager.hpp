@@ -8,7 +8,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <project_utils/project.hpp>
 #include "models/actions_model.hpp"
-#include "utils/selection_to_photoid_translator.hpp"
+#include "utils/id_to_data_converter.hpp"
 
 
 class ContextMenuManager: public QObject

@@ -18,6 +18,8 @@ set(UTILS_SOURCES
     features_observer.hpp
     groups_manager.cpp
     groups_manager.hpp
+    id_to_data_converter.cpp
+    id_to_data_converter.hpp
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     model_index_utils.cpp
@@ -30,8 +32,6 @@ set(UTILS_SOURCES
     people_manipulator.hpp
     photos_collector.cpp
     photos_collector.hpp
-    selection_to_photoid_translator.cpp
-    selection_to_photoid_translator.hpp
     signal_filter.cpp
     signal_filter.hpp
     svg_utils.cpp

@@ -1,5 +1,5 @@
 
-#include "selection_to_photoid_translator.hpp"
+#include "id_to_data_converter.hpp"
 
 #include <QItemSelectionModel>
 

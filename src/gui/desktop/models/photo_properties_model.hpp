@@ -25,7 +25,7 @@
 #include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 
-#include "../utils/selection_to_photoid_translator.hpp"
+#include "../utils/id_to_data_converter.hpp"
 
 
 class APhotoInfoModel;
