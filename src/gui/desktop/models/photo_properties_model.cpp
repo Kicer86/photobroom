@@ -18,12 +18,11 @@
  */
 
 
-#include "photo_properties.hpp"
+#include "photo_properties_model.hpp"
 
+#include <algorithm>
 #include <QDir>
 #include <QFileInfo>
-#include <QGridLayout>
-#include <QLabel>
 
 #include <system/filesystem.hpp>
 
@@ -53,75 +52,74 @@ namespace
 }
 
 
-PhotoPropertiesWidget::PhotoPropertiesWidget(QWidget* p):
-    QScrollArea(p),
-    m_locationLabel(new QLabel(this)),
-    m_sizeLabel(new QLabel(this)),
-    m_geometryLabel(new QLabel(this)),
-    m_locationValue(new QLabel(this)),
-    m_sizeValue(new QLabel(this)),
-    m_geometryValue(new QLabel(this))
-{
-    QWidget* area = new QWidget(this);
-    QGridLayout* l = new QGridLayout(area);
-
-    l->addWidget(m_locationLabel, 0, 0);
-    l->addWidget(m_sizeLabel, 1, 0);
-    l->addWidget(m_geometryLabel, 2, 0);
-
-    l->addWidget(m_locationValue, 0, 1);
-    l->addWidget(m_sizeValue, 1, 1);
-    l->addWidget(m_geometryValue, 2, 1);
-
-    l->setColumnStretch(1, 1);
-    l->setRowStretch(3, 1);
-
-    setWidgetResizable(true);
-    setWidget(area);
-
-    m_locationValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
-    m_sizeValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
-    m_geometryValue->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
-
-    m_locationValue->setWordWrap(true);
-}
-
-
-PhotoPropertiesWidget::~PhotoPropertiesWidget()
+PhotoPropertiesModel::PhotoPropertiesModel(QObject* p):
+    QStandardItemModel(p)
 {
 
 }
 
 
-void PhotoPropertiesWidget::setPhotos(const std::vector<Photo::Data>& photos)
+PhotoPropertiesModel::~PhotoPropertiesModel()
 {
-    refreshLabels(photos);
-    refreshValues(photos);
+
 }
 
 
-void PhotoPropertiesWidget::refreshLabels(const std::vector<Photo::Data>& photos) const
+void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
-    const std::size_t s = photos.size();
-
-    if (s < 2)
+    m_db = db;
+    if (m_db)
     {
-        m_locationLabel->setText(tr("Photo location:"));
-        m_sizeLabel->setText(tr("Photo size:"));
-        m_geometryLabel->setText(tr("Photo geometry:"));
+        m_translator = std::make_unique<SelectionToPhotoDataTranslator>(*db);
+
+        connect(m_translator.get(), &SelectionToPhotoDataTranslator::selectionChanged, this, &PhotoPropertiesModel::gotPhotoData);
     }
     else
-    {
-        m_locationLabel->setText(tr("Photos location:"));
-        m_sizeLabel->setText(tr("Photos size:"));
-        m_geometryLabel->setText("Photos geometry:");
-    }
+        m_translator.reset();
 }
 
 
-void PhotoPropertiesWidget::refreshValues(const std::vector<Photo::Data>& photos) const
+void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
+{
+    if (m_translator)
+        m_translator->selectedPhotos(ids);
+}
+
+
+Database::IDatabase* PhotoPropertiesModel::database() const
+{
+    return m_db;
+}
+
+
+void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::Data>& data)
+{
+    refreshLabels(data);
+    refreshValues(data);
+}
+
+
+void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::Data>& photos)
+{
+    const int s = static_cast<int>(photos.size());
+
+    QStandardItem* locItem  = new QStandardItem(tr("Photo(s) location:", "", s));
+    QStandardItem* sizeItem = new QStandardItem(tr("Photo(s) size:", "", s));
+    QStandardItem* geomItem = new QStandardItem(tr("Photo(s) geometry:", "", s));
+
+    setItem(0, 0, locItem);
+    setItem(1, 0, sizeItem);
+    setItem(2, 0, geomItem);
+}
+
+
+void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
 {
     const std::size_t s = photos.size();
+
+    QStandardItem* locItem  = new QStandardItem;
+    QStandardItem* sizeItem = new QStandardItem;
+    QStandardItem* geomItem = new QStandardItem;
 
     // calcualte photos size
     std::size_t size = 0;
@@ -136,9 +134,9 @@ void PhotoPropertiesWidget::refreshValues(const std::vector<Photo::Data>& photos
     // handle various cases
     if (s == 0)
     {
-        m_locationValue->setText("---");
-        m_sizeValue->setText("---");
-        m_geometryValue->setText("---");
+        locItem->setText("---");
+        sizeItem->setText("---");
+        geomItem->setText("---");
     }
     else if (s == 1)
     {
@@ -147,10 +145,9 @@ void PhotoPropertiesWidget::refreshValues(const std::vector<Photo::Data>& photos
         const QString geometry = geometryToStr(photo);
 
         // update values
-        m_locationValue->setText(cutPrj(filePath));
-        m_sizeValue->setText(size_human);
-
-        m_geometryValue->setText(geometry);
+        locItem->setText(cutPrj(filePath));
+        sizeItem->setText(size_human);
+        geomItem->setText(geometry);
     }
     else
     {
@@ -175,14 +172,18 @@ void PhotoPropertiesWidget::refreshValues(const std::vector<Photo::Data>& photos
         const QString geometryStr = equal? geometryToStr(geometry): "---";
 
         // update values
-        m_locationValue->setText(cutPrj(decorated_path));
-        m_sizeValue->setText(size_human);
-        m_geometryValue->setText(geometryStr);
+        locItem->setText(cutPrj(decorated_path));
+        sizeItem->setText(size_human);
+        geomItem->setText(geometryStr);
     }
+
+    setItem(0, 1, locItem);
+    setItem(1, 1, sizeItem);
+    setItem(2, 1, geomItem);
 }
 
 
-QString PhotoPropertiesWidget::sizeHuman(qint64 size) const
+QString PhotoPropertiesModel::sizeHuman(qint64 size) const
 {
     int i = 0;
     for(; i < 4 && size > 20480; i++)

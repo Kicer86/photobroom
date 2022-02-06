@@ -20,39 +20,38 @@
 #ifndef PHOTOPROPERTIES_HPP
 #define PHOTOPROPERTIES_HPP
 
-#include <QScrollArea>
+#include <QStandardItemModel>
 
+#include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 
-class QLabel;
-class QStackedLayout;
+#include "../utils/selection_to_photoid_translator.hpp"
+
 
 class APhotoInfoModel;
 
 
-class PhotoPropertiesWidget: public QScrollArea
+class PhotoPropertiesModel: public QStandardItemModel
 {
         Q_OBJECT
+        Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
 
     public:
-        PhotoPropertiesWidget(QWidget * = nullptr);
-        PhotoPropertiesWidget(const PhotoPropertiesWidget &) = delete;
-        ~PhotoPropertiesWidget();
+        explicit PhotoPropertiesModel(QObject * = nullptr);
+        ~PhotoPropertiesModel();
 
-        PhotoPropertiesWidget& operator=(const PhotoPropertiesWidget &) = delete;
+        void setDatabase(Database::IDatabase *);
+        Q_INVOKABLE void setPhotos(const std::vector<Photo::Id> &);
 
-        void setPhotos(const std::vector<Photo::Data> &);
+        Database::IDatabase* database() const;
 
     private:
-        QLabel* m_locationLabel;
-        QLabel* m_sizeLabel;
-        QLabel* m_geometryLabel;
-        QLabel* m_locationValue;
-        QLabel* m_sizeValue;
-        QLabel* m_geometryValue;
+        Database::IDatabase* m_db = nullptr;
+        std::unique_ptr<SelectionToPhotoDataTranslator> m_translator;
 
-        void refreshLabels(const std::vector<Photo::Data> &) const;
-        void refreshValues(const std::vector<Photo::Data> &) const;
+        void gotPhotoData(const std::vector<Photo::Data> &);
+        void refreshLabels(const std::vector<Photo::Data> &);
+        void refreshValues(const std::vector<Photo::Data> &);
 
         QString sizeHuman(qint64) const;
 };

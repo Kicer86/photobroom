@@ -4,8 +4,8 @@ import photo_broom.qml 1.0
 
 
 Item {
-    width: childrenRect.width
-    height: childrenRect.height
+    implicitWidth: childrenRect.width
+    implicitHeight: childrenRect.height
 
     Column {
         Repeater {

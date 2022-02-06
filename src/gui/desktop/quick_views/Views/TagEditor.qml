@@ -5,12 +5,11 @@ import "ViewsComponents" as Internals
 
 
 TableView {
-
     id: view
 
     required property var selection
 
-    topMargin: columnsHeader.implicitHeight + 10
+    implicitHeight: contentHeight
 
     SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
@@ -51,7 +50,7 @@ TableView {
 
             Text {
                 verticalAlignment: Text.AlignVCenter
-                text: display
+                text: display === undefined? "": display
             }
         }
 
@@ -115,36 +114,6 @@ TableView {
             anchors.margins: 3
         }
     }
-
-    Text {
-        id: columnsHeader
-
-        y: view.contentY
-        z: 2
-
-        text: qsTr("Photo information")
-    }
-
-    /*
-    Row {
-        id: columnsHeader
-        y: view.contentY
-        z: 2
-
-        Repeater {
-            model: view.columns > 0 ? view.columns : 1
-
-            Text {
-                width: view.columnWidthProvider(modelData)
-                height: 35
-                padding: 10
-
-                text: view.model.headerData(modelData, Qt.Horizontal)
-                verticalAlignment: Text.AlignVCenter
-            }
-        }
-    }
-    */
 
     TextMetrics {
         id: metrics

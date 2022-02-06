@@ -352,16 +352,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Photo properties</source>
-        <translation>Właściwości zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>debug</source>
-        <translation>debug</translation>
-    </message>
-    <message>
-        <location line="+13"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -422,8 +412,8 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>&amp;Photo properties</source>
-        <translation>&amp;Właściwości zdjęcia</translation>
+        <source>&amp;Media information</source>
+        <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -441,7 +431,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -463,12 +453,12 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+109"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+95"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -478,12 +468,12 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-98"/>
+        <location line="-94"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+237"/>
+        <location line="+234"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -556,7 +546,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-113"/>
+        <location line="-114"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -566,7 +556,22 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+114"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+101"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Informacje&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Informacje debugowe&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Back to photos</source>
         <translation>Powrót do zdjęć</translation>
     </message>
@@ -626,34 +631,36 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>PhotoPropertiesWidget</name>
-    <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="+109"/>
-        <source>Photo location:</source>
-        <translation>Ścieżka do zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photo size:</source>
-        <translation>Rozmiar zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photo geometry:</source>
-        <translation>Wymiary zdjęcia:</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Photos location:</source>
-        <translation>Ścieżka do zdjęć:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Photos size:</source>
-        <translation>Rozmiar zdjęć:</translation>
+    <name>PhotoPropertiesModel</name>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+106"/>
+        <source>Photo(s) location:</source>
+        <translation>
+            <numerusform>lokalizacja zdjęcia:</numerusform>
+            <numerusform>lokalizacja zdjęć:</numerusform>
+            <numerusform>lokalizacja zdjęć:</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
-        <location line="+80"/>
+        <location line="+1"/>
+        <source>Photo(s) size:</source>
+        <translation>
+            <numerusform>Rozmiar zdjęcia:</numerusform>
+            <numerusform>Rozmiar zdjęć:</numerusform>
+            <numerusform>Rozmiar zdjęć:</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>Photo(s) geometry:</source>
+        <translation>
+            <numerusform>Wymiary zdjęcia:</numerusform>
+            <numerusform>Wymiary zdjęć:</numerusform>
+            <numerusform>Wymiary zdjęć:</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+89"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
@@ -893,7 +900,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/photo_properties.cpp" line="-163"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-165"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
@@ -948,14 +955,6 @@ Kod błędu: %1</translation>
         <location line="-34"/>
         <source>Saving group details.</source>
         <translation>Tworzenie grup.</translation>
-    </message>
-</context>
-<context>
-    <name>TagEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_views/Views/TagEditor.qml" line="+125"/>
-        <source>Photo information</source>
-        <translation>Informacje o zdjęciu</translation>
     </message>
 </context>
 <context>

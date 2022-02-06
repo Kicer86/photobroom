@@ -45,7 +45,6 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
-#include "utils/selection_to_photoid_translator.hpp"
 #include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/objects_accessor.hpp"
@@ -103,7 +102,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_toolsTabCtrl->set(&m_configuration);
 
     // hide debug dock if ObservablesRegistry is disabled
-    ui->debugDockWidget->setVisible(ObservablesRegistry::instance().isEnabled());
+    QQuickItem* debugWindow = QmlUtils::findQuickItem(ui->mainViewQml, "DebugWindow");
+    debugWindow->setVisible(ObservablesRegistry::instance().isEnabled());
 
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
@@ -146,8 +146,6 @@ void MainWindow::setupQmlView()
 
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
-
-    ui->debugDockContent->setSource(QUrl("qrc:/ui/Views/DebugWindow.qml"));
 }
 
 
@@ -203,12 +201,12 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
-    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
-    ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
+    ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
 }
 
 
@@ -240,21 +238,6 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             logger->info("Application is up to date");
             break;
     }
-}
-
-
-void MainWindow::photosSelected()
-{
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    QVariant selected = mainwindow->property("selectedPhotos");
-
-    const auto listOfSelected = selected.value<QJSValue>().toVariant().toList();
-    const auto selectedIds = std::ranges::views::transform(listOfSelected, [](const QVariant& item)
-    {
-        return item.value<Photo::Id>();
-    });
-
-    m_selectionTranslator->selectedPhotos({selectedIds.begin(), selectedIds.end()});
 }
 
 
@@ -325,7 +308,6 @@ void MainWindow::setupView()
 
     // connect to docks
     connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
-    connect(ui->photoPropertiesDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 }
 
 
@@ -381,15 +363,11 @@ void MainWindow::updateTools()
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
         m_photosAnalyzer->set(ui->tasksWidget);
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
-
-        m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(m_currentPrj->getDatabase());
-        connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
     }
     else
     {
         m_photosAnalyzer.reset();
         m_thumbnailsManager->setDatabaseCache(nullptr);
-        m_selectionTranslator.reset();
     }
 }
 
@@ -534,8 +512,7 @@ void MainWindow::on_actionTags_editor_triggered()
 {
     const bool state = ui->actionTags_editor->isChecked();
 
-    QObject* tagEditorObject = QmlUtils::findQmlObject(ui->mainViewQml, "TagEditor");
-    QQuickItem* tagEditor = qobject_cast<QQuickItem *>(tagEditorObject);
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
 
     tagEditor->setVisible(state);
 }
@@ -553,7 +530,9 @@ void MainWindow::on_actionPhoto_properties_triggered()
 {
     const bool state = ui->actionPhoto_properties->isChecked();
 
-    ui->photoPropertiesDockWidget->setVisible(state);
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
+
+    propertiesWindow->setVisible(state);
 }
 
 

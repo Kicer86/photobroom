@@ -92,15 +92,54 @@ SwipeView {
         Column {
             SplitView.fillWidth: true
 
-            TagEditor {
+            spacing: 10
+
+            GroupBox {
                 objectName: "TagEditor"
 
                 width: parent.width
-                height: 300
+                title: qsTr("<b>Properties</b>")
 
-                enabled: projectOpened
+                TagEditor {
+                    enabled: projectOpened
+                    width: parent.width
 
-                selection: mainWindow.selectedPhotos
+                    selection: mainWindow.selectedPhotos
+                }
+            }
+
+            GroupBox {
+                objectName: "PropertiesWindow"
+
+                width: parent.width
+                title: qsTr("<b>Media information</b>")
+
+                TableView {
+                    id: propertiesTable
+                    implicitHeight: contentHeight
+                    implicitWidth: contentWidth
+                    columnSpacing: 5
+
+                    model: PhotoPropertiesModel {
+                        property var _photos: mainWindow.selectedPhotos
+                        database: PhotoBroomProject.database
+
+                        on_PhotosChanged: setPhotos(_photos)
+                    }
+
+                    delegate: Text {
+                        text: display
+                    }
+                }
+            }
+
+            GroupBox {
+                width: parent.width
+                title: qsTr("<b>Debug window</b>")
+
+                DebugWindow {
+                    objectName: "DebugWindow"
+                }
             }
         }
     }
