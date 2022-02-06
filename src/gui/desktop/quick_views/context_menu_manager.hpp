@@ -36,7 +36,7 @@ signals:
     void selectionChanged(const QList<QVariant> &);
 
 private:
-    std::unique_ptr<SelectionToPhotoDataTranslator> m_translator;
+    std::unique_ptr<IdToDataConverter> m_translator;
     std::vector<Photo::Data> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;

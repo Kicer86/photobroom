@@ -9,13 +9,13 @@
 #include <database/idatabase.hpp>
 
 
-class SelectionToPhotoDataTranslator: public QObject
+class IdToDataConverter: public QObject
 {
         Q_OBJECT
 
     public:
-        explicit SelectionToPhotoDataTranslator(Database::IDatabase &);
-        ~SelectionToPhotoDataTranslator();
+        explicit IdToDataConverter(Database::IDatabase &);
+        ~IdToDataConverter();
 
         void selectedPhotos(const std::vector<Photo::Id> &);
 

@@ -7,20 +7,20 @@
 #include "utils/model_index_utils.hpp"
 
 
-SelectionToPhotoDataTranslator::SelectionToPhotoDataTranslator(Database::IDatabase& db)
+IdToDataConverter::IdToDataConverter(Database::IDatabase& db)
     : m_db(db)
 {
 
 }
 
 
-SelectionToPhotoDataTranslator::~SelectionToPhotoDataTranslator()
+IdToDataConverter::~IdToDataConverter()
 {
     m_callbackCtrl.invalidate();
 }
 
 
-void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>& ids)
+void IdToDataConverter::selectedPhotos(const std::vector<Photo::Id>& ids)
 {
     m_callbackCtrl.invalidate();        // new selection, drop any pending tasks
 
@@ -45,13 +45,13 @@ void SelectionToPhotoDataTranslator::selectedPhotos(const std::vector<Photo::Id>
 }
 
 
-std::vector<Photo::Data> SelectionToPhotoDataTranslator::getSelectedDatas() const
+std::vector<Photo::Data> IdToDataConverter::getSelectedDatas() const
 {
     return m_selected.lock().get();
 }
 
 
-void SelectionToPhotoDataTranslator::setSelected(const std::vector<Photo::Data>& data)
+void IdToDataConverter::setSelected(const std::vector<Photo::Data>& data)
 {
     *m_selected.lock() = data;
     emit selectionChanged(data);
