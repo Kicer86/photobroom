@@ -45,7 +45,6 @@
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
-#include "utils/selection_to_photoid_translator.hpp"
 #include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
 #include "quick_views/objects_accessor.hpp"
@@ -242,21 +241,6 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 }
 
 
-void MainWindow::photosSelected()
-{
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    QVariant selected = mainwindow->property("selectedPhotos");
-
-    const auto listOfSelected = selected.value<QJSValue>().toVariant().toList();
-    const auto selectedIds = std::ranges::views::transform(listOfSelected, [](const QVariant& item)
-    {
-        return item.value<Photo::Id>();
-    });
-
-    m_selectionTranslator->selectedPhotos({selectedIds.begin(), selectedIds.end()});
-}
-
-
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     // TODO: close project!
@@ -379,15 +363,11 @@ void MainWindow::updateTools()
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
         m_photosAnalyzer->set(ui->tasksWidget);
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
-
-        m_selectionTranslator = std::make_unique<SelectionToPhotoDataTranslator>(m_currentPrj->getDatabase());
-        //connect(m_selectionTranslator.get(), &SelectionToPhotoDataTranslator::selectionChanged, ui->photoPropertiesWidget, &PhotoPropertiesWidget::setPhotos);
     }
     else
     {
         m_photosAnalyzer.reset();
         m_thumbnailsManager->setDatabaseCache(nullptr);
-        m_selectionTranslator.reset();
     }
 }
 

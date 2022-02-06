@@ -29,7 +29,6 @@ struct IConfiguration;
 struct IView;
 
 class Project;
-class SelectionToPhotoDataTranslator;
 struct ProjectInfo;
 struct IThumbnailsManager;
 
@@ -67,7 +66,6 @@ class MainWindow: public QMainWindow
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
-        std::unique_ptr<SelectionToPhotoDataTranslator> m_selectionTranslator;
         QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
@@ -129,7 +127,6 @@ class MainWindow: public QMainWindow
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
-        void photosSelected();
 
     signals:
         void currentDatabaseChanged(Database::IDatabase *);          // emit when database is opened/closed
