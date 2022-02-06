@@ -412,8 +412,8 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>&amp;Photo properties</source>
-        <translation>&amp;Właściwości zdjęcia</translation>
+        <source>&amp;Media information</source>
+        <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
         <location line="+5"/>

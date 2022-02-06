@@ -303,7 +303,7 @@ Check paths in configuration window.</source>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="14"/>
         <source>Photo broom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Photo broom</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="48"/>
@@ -407,8 +407,8 @@ Check paths in configuration window.</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="190"/>
-        <source>&amp;Photo properties</source>
-        <translation type="unfinished"></translation>
+        <source>&amp;Media information</source>
+        <translation>&amp;Media information</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="195"/>
