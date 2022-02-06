@@ -95,11 +95,12 @@ SwipeView {
             spacing: 10
 
             GroupBox {
+                objectName: "TagEditor"
+
                 width: parent.width
                 title: qsTr("<b>Properties</b>")
 
                 TagEditor {
-                    objectName: "TagEditor"
                     enabled: projectOpened
                     width: parent.width
 
@@ -108,6 +109,8 @@ SwipeView {
             }
 
             GroupBox {
+                objectName: "PropertiesWindow"
+
                 width: parent.width
                 title: qsTr("<b>Media information</b>")
 

@@ -203,10 +203,11 @@ void MainWindow::checkVersion()
 void MainWindow::updateWindowsMenu()
 {
     QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
-    //ui->actionPhoto_properties->setChecked(ui->photoPropertiesDockWidget->isVisible());
+    ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
 }
 
 
@@ -547,9 +548,11 @@ void MainWindow::on_actionTasks_triggered()
 
 void MainWindow::on_actionPhoto_properties_triggered()
 {
-    //const bool state = ui->actionPhoto_properties->isChecked();
+    const bool state = ui->actionPhoto_properties->isChecked();
 
-    //ui->photoPropertiesDockWidget->setVisible(state);
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
+
+    propertiesWindow->setVisible(state);
 }
 
 
