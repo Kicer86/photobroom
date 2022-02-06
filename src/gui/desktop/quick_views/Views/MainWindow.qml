@@ -115,6 +115,7 @@ SwipeView {
                     id: propertiesTable
                     implicitHeight: contentHeight
                     implicitWidth: contentWidth
+                    columnSpacing: 5
 
                     model: PhotoPropertiesModel {
                         property var _photos: mainWindow.selectedPhotos

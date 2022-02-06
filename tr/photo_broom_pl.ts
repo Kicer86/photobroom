@@ -566,7 +566,7 @@ Kod błędu: %1</translation>
         <translation>&lt;b&gt;Informacje&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Informacje debugowe&lt;/b&gt;</translation>
     </message>

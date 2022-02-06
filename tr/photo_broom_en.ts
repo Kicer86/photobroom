@@ -547,12 +547,12 @@ Error code: %1</source>
         <translation>&lt;b&gt;Media information&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="134"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="135"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Debug window&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="149"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="150"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>
