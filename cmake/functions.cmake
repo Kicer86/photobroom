@@ -195,16 +195,19 @@ endfunction(disableWarnings)
 
 function(stringify_file output_file input_file variable_with_type namespace)
 
-    file(READ ${input_file} file_content)
+    if(${input_file} IS_NEWER_THAN ${output_file})
 
-    file(WRITE ${output_file} "#pragma once\n\n")
+        file(READ ${input_file} file_content)
 
-    file(APPEND ${output_file} "namespace ${namespace} {\n")
-    file(APPEND ${output_file} "inline ${variable_with_type} = ")
-    file(APPEND ${output_file} "R\"(")
-    file(APPEND ${output_file} ${file_content})
-    file(APPEND ${output_file} ")\";\n")
-    file(APPEND ${output_file} "}\n")
+        file(WRITE ${output_file} "#pragma once\n\n")
+
+        file(APPEND ${output_file} "namespace ${namespace} {\n")
+        file(APPEND ${output_file} "inline ${variable_with_type} = ")
+        file(APPEND ${output_file} "R\"(")
+        file(APPEND ${output_file} ${file_content})
+        file(APPEND ${output_file} ")\";\n")
+        file(APPEND ${output_file} "}\n")
+    endif()
 
 endfunction(stringify_file)
 
