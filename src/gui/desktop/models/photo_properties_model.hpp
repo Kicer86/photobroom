@@ -25,6 +25,8 @@
 #include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
 
+#include "../utils/selection_to_photoid_translator.hpp"
+
 
 class APhotoInfoModel;
 
@@ -45,6 +47,9 @@ class PhotoPropertiesModel: public QStandardItemModel
 
     private:
         Database::IDatabase* m_db = nullptr;
+        std::unique_ptr<SelectionToPhotoDataTranslator> m_translator;
+
+        void gotPhotoData(const std::vector<Photo::Data> &);
         void refreshLabels(const std::vector<Photo::Data> &);
         void refreshValues(const std::vector<Photo::Data> &);
 

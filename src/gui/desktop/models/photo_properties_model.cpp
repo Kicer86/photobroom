@@ -68,33 +68,34 @@ PhotoPropertiesModel::~PhotoPropertiesModel()
 void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
+    if (m_db)
+    {
+        m_translator = std::make_unique<SelectionToPhotoDataTranslator>(*db);
+
+        connect(m_translator.get(), &SelectionToPhotoDataTranslator::selectionChanged, this, &PhotoPropertiesModel::gotPhotoData);
+    }
+    else
+        m_translator.reset();
 }
 
 
 void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
 {
-    if (m_db)
-    {
-        m_db->exec([this, ids](Database::IBackend& backend)
-        {
-            std::vector<Photo::Data> photos;
-            std::transform(ids.begin(), ids.end(), std::back_inserter(photos), [&backend](const Photo::Id& id) { return backend.getPhoto(id); });
-
-            QMetaObject::invokeMethod(this, [this, photos]
-            {
-                refreshLabels(photos);
-                refreshValues(photos);
-            });
-        },
-        "fetching Photo::Data for PhotoPropertiesModel"
-        );
-    }
+    if (m_translator)
+        m_translator->selectedPhotos(ids);
 }
 
 
 Database::IDatabase* PhotoPropertiesModel::database() const
 {
     return m_db;
+}
+
+
+void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::Data>& data)
+{
+    refreshLabels(data);
+    refreshValues(data);
 }
 
 

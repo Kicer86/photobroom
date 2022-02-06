@@ -5,10 +5,8 @@
 #include <QObject>
 
 #include <core/function_wrappers.hpp>
-#include <database/photo_types.hpp>
 #include <database/photo_data.hpp>
 #include <database/idatabase.hpp>
-#include "quick_views/selection_manager_component.hpp"
 
 
 class SelectionToPhotoDataTranslator: public QObject

@@ -633,7 +633,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+105"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+106"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>lokalizacja zdjęcia:</numerusform>
@@ -900,7 +900,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-164"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-165"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
