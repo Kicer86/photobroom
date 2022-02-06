@@ -35,7 +35,7 @@ class PhotoPropertiesModel: public QStandardItemModel
         Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
 
     public:
-        PhotoPropertiesModel(QObject * = nullptr);
+        explicit PhotoPropertiesModel(QObject * = nullptr);
         ~PhotoPropertiesModel();
 
         void setDatabase(Database::IDatabase *);
