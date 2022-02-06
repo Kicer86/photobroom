@@ -115,27 +115,6 @@ TableView {
         }
     }
 
-    /*
-    Row {
-        id: columnsHeader
-        y: view.contentY
-        z: 2
-
-        Repeater {
-            model: view.columns > 0 ? view.columns : 1
-
-            Text {
-                width: view.columnWidthProvider(modelData)
-                height: 35
-                padding: 10
-
-                text: view.model.headerData(modelData, Qt.Horizontal)
-                verticalAlignment: Text.AlignVCenter
-            }
-        }
-    }
-    */
-
     TextMetrics {
         id: metrics
     }
