@@ -72,7 +72,7 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
     {
         m_translator = std::make_unique<IdToDataConverter>(*db);
 
-        connect(m_translator.get(), &IdToDataConverter::selectionChanged, this, &PhotoPropertiesModel::gotPhotoData);
+        connect(m_translator.get(), &IdToDataConverter::photoDataFetched, this, &PhotoPropertiesModel::gotPhotoData);
     }
     else
         m_translator.reset();
@@ -82,7 +82,7 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
 {
     if (m_translator)
-        m_translator->selectedPhotos(ids);
+        m_translator->fetchIds(ids);
 }
 
 

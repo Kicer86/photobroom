@@ -20,16 +20,14 @@ IdToDataConverter::~IdToDataConverter()
 }
 
 
-void IdToDataConverter::selectedPhotos(const std::vector<Photo::Id>& ids)
+void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids)
 {
-    m_callbackCtrl.invalidate();        // new selection, drop any pending tasks
+    m_callbackCtrl.invalidate();        // new query, drop any pending tasks
 
     if (ids.empty())
-        setSelected({});
+        storePhotoData({});
     else
     {
-        m_selected.lock()->clear();     // new query - drop cached data
-
         auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
         {
             std::vector<Photo::Data> data;
@@ -37,7 +35,7 @@ void IdToDataConverter::selectedPhotos(const std::vector<Photo::Id>& ids)
             for (const auto& id: ids)
                 data.push_back(backend.getPhoto(id));
 
-            setSelected(data);
+            storePhotoData(data);
         });
 
         m_db.exec(db_task);
@@ -45,14 +43,7 @@ void IdToDataConverter::selectedPhotos(const std::vector<Photo::Id>& ids)
 }
 
 
-std::vector<Photo::Data> IdToDataConverter::getSelectedDatas() const
+void IdToDataConverter::storePhotoData(const std::vector<Photo::Data>& data)
 {
-    return m_selected.lock().get();
-}
-
-
-void IdToDataConverter::setSelected(const std::vector<Photo::Data>& data)
-{
-    *m_selected.lock() = data;
-    emit selectionChanged(data);
+    emit photoDataFetched(data);
 }

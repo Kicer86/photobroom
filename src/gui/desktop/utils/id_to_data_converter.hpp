@@ -17,19 +17,16 @@ class IdToDataConverter: public QObject
         explicit IdToDataConverter(Database::IDatabase &);
         ~IdToDataConverter();
 
-        void selectedPhotos(const std::vector<Photo::Id> &);
-
-        std::vector<Photo::Data> getSelectedDatas() const;
+        void fetchIds(const std::vector<Photo::Id> &);
 
     private:
         safe_callback_ctrl m_callbackCtrl;
-        mutable ol::ThreadSafeResource<std::vector<Photo::Data>> m_selected;
         Database::IDatabase& m_db;
 
-        void setSelected(const std::vector<Photo::Data> &);
+        void storePhotoData(const std::vector<Photo::Data> &);
 
     signals:
-        void selectionChanged(const std::vector<Photo::Data> &) const;
+        void photoDataFetched(const std::vector<Photo::Data> &) const;
 };
 
 
