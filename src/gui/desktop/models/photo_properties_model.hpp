@@ -24,8 +24,8 @@
 
 #include <database/idatabase.hpp>
 #include <database/photo_data.hpp>
+#include <database/database_tools/id_to_data_converter.hpp>
 
-#include "../utils/id_to_data_converter.hpp"
 
 
 class APhotoInfoModel;

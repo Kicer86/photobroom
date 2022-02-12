@@ -8,8 +8,10 @@
 #include <database/photo_data.hpp>
 #include <database/idatabase.hpp>
 
+#include "database_export.h"
 
-class IdToDataConverter: public QObject
+
+class DATABASE_EXPORT IdToDataConverter: public QObject
 {
         Q_OBJECT
 

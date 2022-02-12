@@ -18,8 +18,6 @@ set(UTILS_SOURCES
     features_observer.hpp
     groups_manager.cpp
     groups_manager.hpp
-    id_to_data_converter.cpp
-    id_to_data_converter.hpp
     ithumbnails_cache.hpp
     ithumbnails_manager.hpp
     model_index_utils.cpp

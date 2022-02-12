@@ -51,6 +51,7 @@ set(DATABASE_SOURCES
     implementation/photo_utils.cpp
 
     database_tools/common_backend_operations.hpp
+    database_tools/id_to_data_converter.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
@@ -62,6 +63,7 @@ set(DATABASE_SOURCES
 
     database_tools/implementation/data_from_path_extractor.cpp
     database_tools/implementation/data_from_path_extractor.hpp
+    database_tools/implementation/id_to_data_converter.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_info_updater.hpp

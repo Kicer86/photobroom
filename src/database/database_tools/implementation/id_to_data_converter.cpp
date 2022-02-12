@@ -1,10 +1,9 @@
 
-#include "id_to_data_converter.hpp"
+#include "../id_to_data_converter.hpp"
 
 #include <QItemSelectionModel>
 
 #include <database/photo_data.hpp>
-#include "utils/model_index_utils.hpp"
 
 
 IdToDataConverter::IdToDataConverter(Database::IDatabase& db)
