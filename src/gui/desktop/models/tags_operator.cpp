@@ -22,15 +22,29 @@
 #include <QObject>
 
 
-TagsOperator::TagsOperator(): m_photos()
+TagsOperator::TagsOperator()
 {
 
 }
 
 
-void TagsOperator::operateOn(const std::vector<IPhotoInfo::Ptr>& photos)
+void TagsOperator::setDb(Database::IDatabase* db)
 {
-    m_photos = photos;
+    m_db = db;
+}
+
+
+void TagsOperator::operateOn(const std::vector<Photo::Data>& photos)
+{
+    m_diffs.clear();
+
+    for(const auto& photo: photos)
+    {
+        Photo::DataDelta delta(photo.id);
+        delta.insert<Photo::Field::Tags>(photo.tags);
+
+        m_diffs.push_back(delta);
+    }
 }
 
 
@@ -49,9 +63,9 @@ Tag::TagsList TagsOperator::getTags() const
     Tag::TagsList commonTags;
     bool first = true;
 
-    for (const auto& photo: m_photos)
+    for (const auto& photo: m_diffs)
     {
-        const Tag::TagsList tags = photo->getTags();
+        const Tag::TagsList& tags = photo.get<Photo::Field::Tags>();
 
         if (first)
             commonTags = tags, first = false;
@@ -72,15 +86,16 @@ Tag::TagsList TagsOperator::getTags() const
 
 void TagsOperator::setTag(const Tag::Types& name, const TagValue& values)
 {
-    for (auto& photo: m_photos)
-        photo->setTag(name, values);
-}
+    for(auto& delta: m_diffs)
+    {
+        Tag::TagsList& tags = delta.get<Photo::Field::Tags>();
+        tags[name] = values;
+    }
 
-
-void TagsOperator::setTags(const Tag::TagsList& tags)
-{
-    for (auto& photo: m_photos)
-        photo->setTags(tags);
+    m_db->exec([deltas = m_diffs](Database::IBackend& backend)
+    {
+        backend.update(deltas);
+    });
 }
 
 

@@ -4,10 +4,8 @@
 
 #include "database/backends/memory_backend/memory_backend.hpp"
 #include "database/database_tools/json_to_backend.hpp"
-#include "unit_tests_utils/fake_photo_info.hpp"
 #include "unit_tests_utils/mock_database.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
-#include "unit_tests_utils/mock_db_utils.hpp"
 #include "utils/model_index_utils.hpp"
 
 #include "flat_model.hpp"
@@ -32,16 +30,6 @@ class APhotoInfoModelTest: public testing::Test
 
             ON_CALL(db, backend).WillByDefault(ReturnRef(backend));
 
-            ON_CALL(db, utils).WillByDefault(ReturnRef(utils));
-
-            ON_CALL(utils, getPhotoFor(_)).WillByDefault(Invoke([this](const Photo::Id& id) -> IPhotoInfo::Ptr
-            {
-                const auto data = backend.getPhoto(id);
-                auto photoPtr = std::make_shared<FakePhotoInfo>(data);
-
-                return photoPtr;
-            }));
-
             model.setDatabase(&db);
         }
 
@@ -60,7 +48,6 @@ class APhotoInfoModelTest: public testing::Test
     private:
         Database::MemoryBackend backend;
         NiceMock<MockDatabase> db;
-        NiceMock<MockUtils> utils;
 
 };
 

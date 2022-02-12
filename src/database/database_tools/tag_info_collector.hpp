@@ -26,8 +26,8 @@
 #include <core/signal_postponer.hpp>
 
 #include "itag_info_collector.hpp"
-#include "../iphoto_info.hpp"
 #include "database_export.h"
+
 
 namespace Database
 {

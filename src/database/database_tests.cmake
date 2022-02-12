@@ -19,7 +19,6 @@ addTestTarget(database
                     implementation/notifications_accumulator.cpp
                     implementation/person_data.cpp
                     implementation/photo_data.cpp
-                    implementation/photo_info.cpp
                     implementation/photo_utils.cpp
                     notifications_accumulator.hpp
 

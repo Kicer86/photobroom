@@ -6,9 +6,9 @@
 #include <QObject>
 
 #include <core/icore_factory_accessor.hpp>
+#include <database/database_tools/id_to_data_converter.hpp>
 #include <project_utils/project.hpp>
 #include "models/actions_model.hpp"
-#include "utils/selection_to_photoid_translator.hpp"
 
 
 class ContextMenuManager: public QObject
@@ -36,7 +36,7 @@ signals:
     void selectionChanged(const QList<QVariant> &);
 
 private:
-    std::unique_ptr<SelectionToPhotoDataTranslator> m_translator;
+    std::unique_ptr<IdToDataConverter> m_translator;
     std::vector<Photo::Data> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;

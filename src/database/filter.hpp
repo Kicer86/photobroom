@@ -31,7 +31,6 @@
 #include <core/search_expression_evaluator.hpp>
 
 #include "database_export.h"
-#include "iphoto_info.hpp"
 #include "person_data.hpp"
 
 namespace Database

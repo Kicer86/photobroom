@@ -59,7 +59,7 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
     });
 
     if (m_translator)
-        m_translator->selectedPhotos({selectedIds.begin(), selectedIds.end()});
+        m_translator->fetchIds({selectedIds.begin(), selectedIds.end()});
 
     emit selectionChanged(m_selection);
 }
@@ -72,8 +72,8 @@ void ContextMenuManager::setProject(Project* prj)
 
     if (m_project)
     {
-        m_translator = std::make_unique<SelectionToPhotoDataTranslator>(m_project->getDatabase());
-        connect(m_translator.get(), &SelectionToPhotoDataTranslator::selectionChanged,
+        m_translator = std::make_unique<IdToDataConverter>(m_project->getDatabase());
+        connect(m_translator.get(), &IdToDataConverter::photoDataFetched,
                 this, &ContextMenuManager::updateModel);
     }
 }

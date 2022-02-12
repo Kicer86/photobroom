@@ -30,10 +30,8 @@
 
 #include "ibackend.hpp"
 #include "igroup_operator.hpp"
-#include "iphoto_info_cache.hpp"
 #include "iphoto_operator.hpp"
 #include "photo_data.hpp"
-#include "photo_info.hpp"
 #include "project_info.hpp"
 
 
@@ -123,99 +121,11 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    Utils::Utils(IPhotoInfoCache* cache, IBackend* backend, IDatabase* keeper, ILogger* logger):
-        m_logger(logger->subLogger("Utils")),
-        m_cache(cache),
-        m_backend(backend),
-        m_storeKeeper(keeper)
-    {
-        connect(backend, &IBackend::photosModified, this, &Utils::photosModified, Qt::DirectConnection);
-    }
-
-
-    Utils::~Utils()
-    {
-
-    }
-
-
-    IPhotoInfo::Ptr Utils::getPhotoFor(const Photo::Id& id)
-    {
-        IPhotoInfo::Ptr photoPtr = findInCache(id);
-
-        if (photoPtr.get() == nullptr)
-        {
-            const Photo::Data photoData = m_backend->getPhoto(id);
-
-            photoPtr = constructPhotoInfo(photoData);
-        }
-
-        return photoPtr;
-    }
-
-
-    IPhotoInfo::Ptr Utils::constructPhotoInfo(const Photo::Data& data)
-    {
-        auto photoInfo = std::make_shared<PhotoInfo>(data, m_storeKeeper);
-
-        m_cache->introduce(photoInfo);
-
-        const QString insert_msg = QString("Adding photo with id %1 to cache").arg(data.id);
-        m_logger->debug(insert_msg);
-
-        return photoInfo;
-    }
-
-
-    void Utils::photosModified(const std::set<Photo::Id>& ids)
-    {
-        for (const Photo::Id& id: ids)
-        {
-            auto photoInfo = findInCache(id);
-
-            if (photoInfo.get() != nullptr)
-            {
-                const Photo::Data photoData = m_backend->getPhoto(id);
-
-                photoInfo->setData(photoData);
-            }
-        }
-    }
-
-
-    IPhotoInfo::Ptr Utils::findInCache(const Photo::Id& id)
-    {
-        const QString search_msg = QString("Looking for photo with id %1 in cache").arg(id);
-        m_logger->trace(search_msg);
-
-        auto photoInfo = m_cache->find(id);
-
-        if (photoInfo.get() == nullptr)
-        {
-            const QString result_msg = QString("Photo with id %1 not found in cache").arg(id);
-            m_logger->trace(result_msg);
-        }
-        else
-        {
-            const QString result_msg = QString("Photo with id %1 found in cache").arg(id);
-            m_logger->trace(result_msg);
-        }
-
-        return photoInfo;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-
-
     AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
-                                 std::unique_ptr<IPhotoInfoCache>&& cache,
                                  ILogger* logger):
         m_logger(logger->subLogger("AsyncDatabase")),
         m_backend(std::move(backend)),
-        m_cache(std::move(cache)),
         m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get())),
-        m_utils(m_cache.get(), m_backend.get(), this, m_logger.get()),
         m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
@@ -246,25 +156,9 @@ namespace Database
     }
 
 
-    void AsyncDatabase::update(const Photo::DataDelta& data)
-    {
-        exec([data](IBackend& backend)
-        {
-            const bool status = backend.update( {data} );
-            assert(status);
-        });
-    }
-
-
     void AsyncDatabase::execute(std::unique_ptr<IDatabaseThread::ITask>&& task)
     {
         addTask(std::move(task));
-    }
-
-
-    IUtils& AsyncDatabase::utils()
-    {
-        return m_utils;
     }
 
 

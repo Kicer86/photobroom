@@ -35,7 +35,6 @@
 #include "filter.hpp"
 #include "group.hpp"
 #include "ibackend.hpp"
-#include "iphoto_info.hpp"
 #include "person_data.hpp"
 
 #include "database_export.h"
@@ -108,15 +107,6 @@ namespace Database
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
-    // High level utils to be used in db's thread
-    struct DATABASE_EXPORT IUtils
-    {
-        virtual ~IUtils() = default;
-
-        virtual IPhotoInfo::Ptr getPhotoFor(const Photo::Id &) = 0;
-    };
-
-
     //Database interface.
     //A bridge between clients and backend.
     // TODO: remove most of this interface (user should work on backend directly) (see github issue #272)
@@ -127,11 +117,7 @@ namespace Database
 
         virtual ~IDatabase() = default;
 
-        // store data
-        virtual void update(const Photo::DataDelta &) = 0;
-
         // other
-        [[deprecated]] virtual IUtils& utils() = 0;
         virtual IBackend& backend() = 0;
 
         //init backend - connect to database or create new one

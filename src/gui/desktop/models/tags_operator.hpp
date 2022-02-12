@@ -22,25 +22,26 @@
 
 #include <vector>
 
-#include <database/iphoto_info.hpp>
-
+#include <database/idatabase.hpp>
 #include "itags_operator.hpp"
+
 
 class TagsOperator: public ITagsOperator
 {
     public:
         TagsOperator();
 
-        void operateOn(const std::vector< IPhotoInfo::Ptr >&) override;
+        void setDb(Database::IDatabase *);
+        void operateOn(const std::vector<Photo::Data>&) override;
 
         Tag::TagsList getTags() const override;
 
         void setTag(const Tag::Types &, const TagValue &) override;
-        void setTags(const Tag::TagsList &) override;
         void insert(const Tag::Types& name, const TagValue & ) override;
 
     private:
-        std::vector<IPhotoInfo::Ptr> m_photos;
+        std::vector<Photo::DataDelta> m_diffs;
+        Database::IDatabase* m_db = nullptr;
 };
 
 #endif // TAGS_OPERATOR_HPP

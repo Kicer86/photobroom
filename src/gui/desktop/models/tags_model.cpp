@@ -26,20 +26,14 @@
 #include <core/base_tags.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
-#include "tags_operator.hpp"
 
 
 using namespace std::chrono;
 using namespace std::placeholders;
 
-namespace
-{
-    TagsOperator tagsOperator;
-}
 
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_tagsOperator(&tagsOperator),              // TODO: I do not like it, but that's simplest way to set TagsOperator for QML usage
     m_database(nullptr)
 {
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
@@ -55,24 +49,29 @@ TagsModel::~TagsModel()
 void TagsModel::set(Database::IDatabase* database)
 {
     m_database = database;
-}
+    m_tagsOperator.setDb(database);
 
+    if (m_database)
+    {
+        m_translator = std::make_unique<IdToDataConverter>(*m_database);
 
-void TagsModel::set(ITagsOperator* tagsOperator)
-{
-    m_tagsOperator = tagsOperator;
+        connect(m_translator.get(), &IdToDataConverter::photoDataFetched, this, &TagsModel::loadPhotos);
+    }
+    else
+        m_translator.reset();
 }
 
 
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    fetchPhotos(photos);
+    if (m_translator)
+        m_translator->fetchIds(photos);
 }
 
 
 Tag::TagsList TagsModel::getTags() const
 {
-    return m_tagsOperator->getTags();
+    return m_tagsOperator.getTags();
 }
 
 
@@ -243,36 +242,11 @@ void TagsModel::clearModel()
 }
 
 
-void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
-{
-    if (ids.empty())
-        loadPhotos({});
-    else if (m_database)
-    {
-        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
-        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
-
-        m_database->exec([this, ids, callback](Database::IBackend &)
-        {
-            std::vector<IPhotoInfo::Ptr> photos;
-
-            for (const Photo::Id& id: ids)
-            {
-                IPhotoInfo::Ptr photo = m_database->utils().getPhotoFor(id);
-                photos.push_back(photo);
-            }
-
-            callback(photos);
-        });
-    }
-}
-
-
-void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
+void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
 {
     clearModel();
 
-    m_tagsOperator->operateOn(photos);
+    m_tagsOperator.operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
     const std::vector<Tag::Types> all_tags = BaseTags::getAll();
@@ -344,9 +318,9 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
                     TagValue::fromQVariant(valueRaw);
 
             const QVariant typeRaw = itemIndex.data(TagTypeRole);
-            const Tag::Types typeInfo = typeRaw.value<Tag::Types>();
+            const Tag::Types type = typeRaw.value<Tag::Types>();
 
-            m_tagsOperator->insert(typeInfo, value);
+            m_tagsOperator.insert(type, value);
         }
     }
 }

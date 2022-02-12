@@ -22,8 +22,6 @@ set(DATABASE_SOURCES
     igroup_operator.hpp
     ipeople_information_accessor.hpp
     iphoto_change_log_operator.hpp
-    iphoto_info_cache.hpp
-    iphoto_info.hpp
     iphoto_operator.hpp
     itransaction.hpp
     notifications_accumulator.hpp
@@ -44,24 +42,21 @@ set(DATABASE_SOURCES
     implementation/notifications_accumulator.cpp
     implementation/person_data.cpp
     implementation/photo_data.cpp
-    implementation/photo_info_cache.cpp
-    implementation/photo_info_cache.hpp
-    implementation/photo_info.cpp
-    implementation/photo_info.hpp
     implementation/photo_utils.cpp
 
     database_tools/common_backend_operations.hpp
+    database_tools/id_to_data_converter.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
     database_tools/photos_data_guesser.hpp
     database_tools/series_candidate.hpp
     database_tools/series_detector.hpp
-    database_tools/signal_mapper.hpp
     database_tools/tag_info_collector.hpp
 
     database_tools/implementation/data_from_path_extractor.cpp
     database_tools/implementation/data_from_path_extractor.hpp
+    database_tools/implementation/id_to_data_converter.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photo_info_updater.cpp
     database_tools/implementation/photo_info_updater.hpp
@@ -69,7 +64,6 @@ set(DATABASE_SOURCES
     database_tools/implementation/photos_analyzer_constants.hpp
     database_tools/implementation/photos_data_guesser.cpp
     database_tools/implementation/series_detector.cpp
-    database_tools/implementation/signal_mapper.cpp
     database_tools/implementation/tag_info_collector.cpp
 )
 

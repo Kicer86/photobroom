@@ -155,14 +155,14 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
     for(const auto& photo: photos)
     {
         auto storage = make_cross_thread_function<Photo::SafeData *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, photo, _1));
-        Photo::SharedData sharedDelta(new Photo::SafeData(photo), storage);
+        Photo::SharedData sharedData(new Photo::SafeData(photo), storage);
         m_totalTasks++;
 
         if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
-            m_updater.updateGeometry(sharedDelta);
+            m_updater.updateGeometry(sharedData);
 
         if (photo.flags.at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
-            m_updater.updateTags(sharedDelta);
+            m_updater.updateTags(sharedData);
     }
 
     refreshView();
