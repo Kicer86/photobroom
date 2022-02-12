@@ -8,9 +8,7 @@
 
 #include "database_tools/tag_info_collector.hpp"
 #include "unit_tests_utils/mock_database.hpp"
-#include "unit_tests_utils/mock_photo_info.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
-#include "unit_tests_utils/mock_db_utils.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
 
 
@@ -41,14 +39,10 @@ class TagInfoCollectorTest: public testing::Test
 
             ON_CALL(database, backend)
                 .WillByDefault(ReturnRef(backend));
-
-            ON_CALL(database, utils)
-                .WillByDefault(ReturnRef(utils));
         }
 
         NiceMock<MockBackend> backend;
         NiceMock<MockDatabase> database;
-        NiceMock<MockUtils> utils;
 };
 
 

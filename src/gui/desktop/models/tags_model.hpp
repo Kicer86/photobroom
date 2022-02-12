@@ -22,7 +22,6 @@
 
 #include <QAbstractItemModel>
 
-#include <database/iphoto_info.hpp>
 #include <database/idatabase.hpp>
 #include <database/database_tools/id_to_data_converter.hpp>
 

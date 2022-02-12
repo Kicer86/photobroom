@@ -45,7 +45,6 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
     qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");
-    qRegisterMetaType<IPhotoInfo::Ptr>("IPhotoInfo::Ptr");
 
     ObjectsAccessor::instance().setCoreFactory(&coreFactory);
 

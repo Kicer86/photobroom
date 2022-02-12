@@ -10,7 +10,6 @@
 #include <core/exif_reader_factory.hpp>
 #include <core/itask_executor.hpp>
 #include <core/media_information.hpp>
-#include <database/iphoto_info.hpp>
 #include <database/idatabase.hpp>
 
 struct ICoreFactoryAccessor;

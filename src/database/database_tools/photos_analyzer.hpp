@@ -22,8 +22,6 @@
 
 #include <QObject>
 
-#include <database/iphoto_info.hpp>
-
 #include "database_export.h"
 
 struct ITasksView;

@@ -6,8 +6,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 
-#include <database/iphoto_info.hpp>
-
+#include <database/photo_data.hpp>
 #include "utils/grouppers/generator_utils.hpp"
 
 
