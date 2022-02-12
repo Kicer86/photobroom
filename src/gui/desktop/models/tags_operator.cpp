@@ -88,13 +88,6 @@ void TagsOperator::setTag(const Tag::Types& name, const TagValue& values)
 }
 
 
-void TagsOperator::setTags(const Tag::TagsList& tags)
-{
-    for(auto& delta: m_diffs)
-        delta.insert<Photo::Field::Tags>(tags);
-}
-
-
 void TagsOperator::insert(const Tag::Types& name, const TagValue& value)
 {
     //find tag for given name

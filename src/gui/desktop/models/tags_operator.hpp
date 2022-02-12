@@ -35,7 +35,6 @@ class TagsOperator: public ITagsOperator
         Tag::TagsList getTags() const override;
 
         void setTag(const Tag::Types &, const TagValue &) override;
-        void setTags(const Tag::TagsList &) override;
         void insert(const Tag::Types& name, const TagValue & ) override;
 
     private:
