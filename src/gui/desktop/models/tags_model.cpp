@@ -55,6 +55,15 @@ TagsModel::~TagsModel()
 void TagsModel::set(Database::IDatabase* database)
 {
     m_database = database;
+
+    if (m_database)
+    {
+        m_translator = std::make_unique<IdToDataConverter>(*m_database);
+
+        connect(m_translator.get(), &IdToDataConverter::photoDataFetched, this, &TagsModel::loadPhotos);
+    }
+    else
+        m_translator.reset();
 }
 
 
@@ -66,7 +75,8 @@ void TagsModel::set(ITagsOperator* tagsOperator)
 
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    fetchPhotos(photos);
+    if (m_translator)
+        m_translator->fetchIds(photos);
 }
 
 
@@ -243,32 +253,7 @@ void TagsModel::clearModel()
 }
 
 
-void TagsModel::fetchPhotos(const std::vector<Photo::Id>& ids)
-{
-    if (ids.empty())
-        loadPhotos({});
-    else if (m_database)
-    {
-        auto target_fun = std::bind(&TagsModel::loadPhotos, this, _1);
-        auto callback = make_cross_thread_function<const IPhotoInfo::List &>(this, target_fun);
-
-        m_database->exec([this, ids, callback](Database::IBackend &)
-        {
-            std::vector<IPhotoInfo::Ptr> photos;
-
-            for (const Photo::Id& id: ids)
-            {
-                IPhotoInfo::Ptr photo = m_database->utils().getPhotoFor(id);
-                photos.push_back(photo);
-            }
-
-            callback(photos);
-        });
-    }
-}
-
-
-void TagsModel::loadPhotos(const std::vector<IPhotoInfo::Ptr>& photos)
+void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
 {
     clearModel();
 
@@ -344,9 +329,9 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
                     TagValue::fromQVariant(valueRaw);
 
             const QVariant typeRaw = itemIndex.data(TagTypeRole);
-            const Tag::Types typeInfo = typeRaw.value<Tag::Types>();
+            const Tag::Types type = typeRaw.value<Tag::Types>();
 
-            m_tagsOperator->insert(typeInfo, value);
+            m_tagsOperator->insert(type, value);
         }
     }
 }

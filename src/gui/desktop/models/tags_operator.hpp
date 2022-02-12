@@ -22,16 +22,15 @@
 
 #include <vector>
 
-#include <database/iphoto_info.hpp>
-
 #include "itags_operator.hpp"
+
 
 class TagsOperator: public ITagsOperator
 {
     public:
         TagsOperator();
 
-        void operateOn(const std::vector< IPhotoInfo::Ptr >&) override;
+        void operateOn(const std::vector<Photo::Data>&) override;
 
         Tag::TagsList getTags() const override;
 
@@ -40,7 +39,7 @@ class TagsOperator: public ITagsOperator
         void insert(const Tag::Types& name, const TagValue & ) override;
 
     private:
-        std::vector<IPhotoInfo::Ptr> m_photos;
+        std::vector<Photo::DataDelta> m_diffs;
 };
 
 #endif // TAGS_OPERATOR_HPP
