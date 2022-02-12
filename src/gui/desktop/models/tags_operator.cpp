@@ -28,13 +28,19 @@ TagsOperator::TagsOperator()
 }
 
 
+void TagsOperator::setDb(Database::IDatabase* db)
+{
+    m_db = db;
+}
+
+
 void TagsOperator::operateOn(const std::vector<Photo::Data>& photos)
 {
     m_diffs.clear();
 
     for(const auto& photo: photos)
     {
-        Photo::DataDelta delta;
+        Photo::DataDelta delta(photo.id);
         delta.insert<Photo::Field::Tags>(photo.tags);
 
         m_diffs.push_back(delta);
@@ -85,6 +91,11 @@ void TagsOperator::setTag(const Tag::Types& name, const TagValue& values)
         Tag::TagsList& tags = delta.get<Photo::Field::Tags>();
         tags[name] = values;
     }
+
+    m_db->exec([deltas = m_diffs](Database::IBackend& backend)
+    {
+        backend.update(deltas);
+    });
 }
 
 

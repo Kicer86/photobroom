@@ -26,8 +26,7 @@
 #include <database/idatabase.hpp>
 #include <database/database_tools/id_to_data_converter.hpp>
 
-
-struct ITagsOperator;
+#include "tags_operator.hpp"
 
 
 class TagsModel: public QAbstractItemModel
@@ -46,7 +45,7 @@ class TagsModel: public QAbstractItemModel
         ~TagsModel();
 
         void set(Database::IDatabase *);
-        void set(ITagsOperator *);
+
         Q_INVOKABLE void setPhotos(const std::vector<Photo::Id> &);
 
         TagsModel& operator=(const TagsModel &) = delete;
@@ -72,8 +71,8 @@ class TagsModel: public QAbstractItemModel
         typedef QMap<int, QVariant> ItemData;
         std::vector<ItemData> m_keys,
                               m_values;
+        TagsOperator m_tagsOperator;
         std::unique_ptr<IdToDataConverter> m_translator;
-        ITagsOperator* m_tagsOperator;
         Database::IDatabase* m_database;
 
         void clearModel();

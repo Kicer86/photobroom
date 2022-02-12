@@ -941,12 +941,12 @@ Error code: %1</source>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="238"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="227"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="239"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="228"/>
         <source>Value</source>
         <translation>Value</translation>
     </message>

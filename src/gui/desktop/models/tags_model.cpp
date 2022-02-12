@@ -26,20 +26,14 @@
 #include <core/base_tags.hpp>
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
-#include "tags_operator.hpp"
 
 
 using namespace std::chrono;
 using namespace std::placeholders;
 
-namespace
-{
-    TagsOperator tagsOperator;
-}
 
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
-    m_tagsOperator(&tagsOperator),              // TODO: I do not like it, but that's simplest way to set TagsOperator for QML usage
     m_database(nullptr)
 {
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
@@ -55,6 +49,7 @@ TagsModel::~TagsModel()
 void TagsModel::set(Database::IDatabase* database)
 {
     m_database = database;
+    m_tagsOperator.setDb(database);
 
     if (m_database)
     {
@@ -67,12 +62,6 @@ void TagsModel::set(Database::IDatabase* database)
 }
 
 
-void TagsModel::set(ITagsOperator* tagsOperator)
-{
-    m_tagsOperator = tagsOperator;
-}
-
-
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
     if (m_translator)
@@ -82,7 +71,7 @@ void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 
 Tag::TagsList TagsModel::getTags() const
 {
-    return m_tagsOperator->getTags();
+    return m_tagsOperator.getTags();
 }
 
 
@@ -257,7 +246,7 @@ void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
 {
     clearModel();
 
-    m_tagsOperator->operateOn(photos);
+    m_tagsOperator.operateOn(photos);
 
     const Tag::TagsList photo_tags = getTags();
     const std::vector<Tag::Types> all_tags = BaseTags::getAll();
@@ -331,7 +320,7 @@ void TagsModel::syncData(const QModelIndex& topLeft, const QModelIndex& bottomRi
             const QVariant typeRaw = itemIndex.data(TagTypeRole);
             const Tag::Types type = typeRaw.value<Tag::Types>();
 
-            m_tagsOperator->insert(type, value);
+            m_tagsOperator.insert(type, value);
         }
     }
 }

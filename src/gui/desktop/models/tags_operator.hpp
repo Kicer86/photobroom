@@ -22,6 +22,7 @@
 
 #include <vector>
 
+#include <database/idatabase.hpp>
 #include "itags_operator.hpp"
 
 
@@ -30,6 +31,7 @@ class TagsOperator: public ITagsOperator
     public:
         TagsOperator();
 
+        void setDb(Database::IDatabase *);
         void operateOn(const std::vector<Photo::Data>&) override;
 
         Tag::TagsList getTags() const override;
@@ -39,6 +41,7 @@ class TagsOperator: public ITagsOperator
 
     private:
         std::vector<Photo::DataDelta> m_diffs;
+        Database::IDatabase* m_db = nullptr;
 };
 
 #endif // TAGS_OPERATOR_HPP
