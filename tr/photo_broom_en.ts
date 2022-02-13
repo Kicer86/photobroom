@@ -342,86 +342,81 @@ Check paths in configuration window.</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="109"/>
-        <source>Tasks</source>
-        <translation>Tasks</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="118"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="123"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="114"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="131"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="122"/>
         <source>&amp;Add photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="136"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="127"/>
         <source>&amp;About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="141"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="132"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="146"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="137"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="151"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="142"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="156"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="147"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="161"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="152"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="169"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="160"/>
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="177"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="168"/>
         <source>T&amp;asks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="182"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="173"/>
         <source>&amp;Scan collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="190"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="181"/>
         <source>&amp;Media information</source>
         <translation>&amp;Media information</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="195"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="186"/>
         <source>&amp;Face organizer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="200"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="191"/>
         <source>Series detector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="205"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="196"/>
         <source>Photo data completion</source>
         <translation type="unfinished"></translation>
     </message>
@@ -447,32 +442,32 @@ Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="341"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="338"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="342"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="339"/>
         <source>Photo broom: %1</source>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="436"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="433"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="436"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="433"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="501"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="498"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="507"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="504"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>

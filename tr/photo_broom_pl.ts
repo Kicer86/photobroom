@@ -347,11 +347,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Tasks</source>
-        <translation>Operacje</translation>
-    </message>
-    <message>
-        <location line="+9"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -453,7 +448,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+106"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -473,7 +468,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+234"/>
+        <location line="+237"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -546,7 +541,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-114"/>
+        <location line="-117"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

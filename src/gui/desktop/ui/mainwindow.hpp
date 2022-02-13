@@ -13,6 +13,7 @@
 #include "models/notifications_model.hpp"
 #include "ui_utils/completer_factory.hpp"
 #include "utils/features_observer.hpp"
+#include "widgets/tasks_view_widget.hpp"
 
 class ConfigDialogManager;
 class LookTabController;
@@ -53,6 +54,7 @@ class MainWindow: public QMainWindow
         void set(IUpdater *);
 
     private:
+        TasksViewWidget           m_tasksModel;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;

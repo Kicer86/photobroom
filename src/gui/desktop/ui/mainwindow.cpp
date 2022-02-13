@@ -205,7 +205,7 @@ void MainWindow::updateWindowsMenu()
     QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
-    ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
+    //TODO: ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
     ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
 }
 
@@ -305,9 +305,6 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     setupQmlView();
-
-    // connect to docks
-    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
 }
 
 
@@ -361,7 +358,7 @@ void MainWindow::updateTools()
     if (prj)
     {
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
-        m_photosAnalyzer->set(ui->tasksWidget);
+        m_photosAnalyzer->set(&m_tasksModel);
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
     }
     else
@@ -520,9 +517,12 @@ void MainWindow::on_actionTags_editor_triggered()
 
 void MainWindow::on_actionTasks_triggered()
 {
+    /*
+    // TODO:
     const bool state = ui->actionTasks->isChecked();
 
     ui->tasksDockWidget->setVisible(state);
+    */
 }
 
 
@@ -538,7 +538,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_tasksModel, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
 
 void MainWindow::on_actionPhoto_data_completion_triggered()

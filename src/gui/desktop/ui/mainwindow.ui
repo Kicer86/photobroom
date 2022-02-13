@@ -104,15 +104,6 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="tasksDockWidget">
-   <property name="windowTitle">
-    <string>Tasks</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="TasksViewWidget" name="tasksWidget"/>
-  </widget>
   <action name="actionNew_collection">
    <property name="text">
     <string>&amp;New</string>
@@ -211,12 +202,6 @@
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
-  <customwidget>
-   <class>TasksViewWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/tasks_view_widget.hpp</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
