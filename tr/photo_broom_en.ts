@@ -532,22 +532,27 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="109"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="88"/>
+        <source>Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="114"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Properties&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="123"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="128"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation>&lt;b&gt;Media information&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="146"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="151"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Debug window&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="161"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="166"/>
         <source>Back to photos</source>
         <translation>Back to photos</translation>
     </message>

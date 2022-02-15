@@ -83,11 +83,16 @@ SwipeView {
                 }
             }
 
-            Components.TasksView {
-                id: tasksView
-                objectName: "TasksView"
-                height: 100
-                width: 300
+            GroupBox {
+                width: parent.width
+                title: "<b>" + qsTr("Tasks") +"</b"
+
+                Components.TasksView {
+                    id: tasksView
+                    objectName: "TasksView"
+                    width: parent.width
+                    height: 100
+                }
             }
 
             Internals.NotificationsBar {

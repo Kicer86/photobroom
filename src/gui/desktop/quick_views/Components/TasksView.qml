@@ -3,6 +3,9 @@ import QtQuick
 import photo_broom.qml
 
 ListView {
+    implicitHeight: contentHeight
+    implicitWidth: contentWidth
+
     delegate: Item {
         required property int minValue
         required property int maxValue
