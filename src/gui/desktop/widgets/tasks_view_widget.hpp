@@ -20,34 +20,19 @@
 #ifndef TASKSVIEWWIDGET_HPP
 #define TASKSVIEWWIDGET_HPP
 
-#include <QWidget>
+#include <QStandardItemModel>
 
 #include <core/itasks_view.hpp>
 
-class QScrollArea;
-class QBoxLayout;
 
-
-class TasksViewWidget: public QWidget, public ITasksView
+class TasksViewWidget: public QStandardItemModel, public ITasksView
 {
     public:
-        TasksViewWidget(QWidget* p = nullptr);
-        TasksViewWidget(const TasksViewWidget &) = delete;
+        TasksViewWidget();
         ~TasksViewWidget();
 
-        TasksViewWidget& operator=(const TasksViewWidget &) = delete;
-
+        QHash<int, QByteArray> roleNames() const override;
         IViewTask* add(const QString &) override;
-
-    private:
-        struct Task;
-        friend struct Task;
-
-        QScrollArea* m_view;
-        int m_tasks;
-
-        void finished(IViewTask *);
-        QBoxLayout* getLayout();
 };
 
 #endif // TASKSVIEWWIDGET_HPP

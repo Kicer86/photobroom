@@ -2,6 +2,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "ViewsComponents" as Internals
+import "../Components" as Components
 import photo_broom.qml
 
 
@@ -29,7 +30,7 @@ SwipeView {
                 enabled: projectOpened
 
                 width: parent.width
-                height: parent.height - notifications.height
+                height: parent.height - notifications.height - tasksView.height
 
                 onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
@@ -80,6 +81,13 @@ SwipeView {
                         onObjectRemoved: (object) => contextMenu.removeItem(object)
                     }
                 }
+            }
+
+            Components.TasksView {
+                id: tasksView
+                objectName: "TasksView"
+                height: 100
+                width: 300
             }
 
             Internals.NotificationsBar {

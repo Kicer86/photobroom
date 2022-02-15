@@ -29,113 +29,85 @@
 
 #include <core/iview_task.hpp>
 #include <core/function_wrappers.hpp>
+#include <core/qmodel_utils.hpp>
 
 
 namespace
 {
-    struct ProgressBar final: IProgressBar
+
+    enum Roles
     {
-        ProgressBar(QProgressBar* pb): m_progressBar(pb) {}
-        ProgressBar(const ProgressBar &) = delete;
+        MinValueRole = Qt::UserRole + 1,
+        MaxValueRole,
+        ValueRole,
+        NameRole,
+    };
 
-        ProgressBar& operator=(const ProgressBar &) = delete;
+    struct Task: QObject, IViewTask, IProgressBar
+    {
+        Task(const QString& name, QStandardItem* item):
+            m_name(name),
+            m_item(item)
+        {
+            setRole(NameRole, name);
+        }
 
+        // IViewTask overrides:
+        const QString& getName() override
+        {
+            return m_name;
+        }
+
+        IProgressBar* getProgressBar() override
+        {
+            return this;
+        }
+
+        void finished() override
+        {
+            const int row = m_item->row();
+            QStandardItemModel* model = m_item->model();
+            model->removeRow(row);
+            m_item = nullptr;
+
+            deleteLater();
+        }
+
+        // IProgressBar overrides:
         void setMaximum(int v) override
         {
-            invokeMethod(m_progressBar, &QProgressBar::setMaximum, v);
+            setRole(Roles::MaxValueRole, v);
         }
 
         void setMinimum(int v) override
         {
-            invokeMethod(m_progressBar, &QProgressBar::setMinimum, v);
+            setRole(Roles::MinValueRole, v);
         }
 
         void setValue(int v) override
         {
-            invokeMethod(m_progressBar, &QProgressBar::setValue, v);
+            setRole(Roles::ValueRole, v);
         }
 
-        void setFormat(const QString& format) override
+        template<typename T>
+        void setRole(int role, const T& value)
         {
-            invokeMethod(m_progressBar, &QProgressBar::setFormat, format);
+            QMetaObject::invokeMethod(this, [this, role, value]
+            {
+                if (m_item)
+                    m_item->setData(value, role);
+            });
         }
 
-        QProgressBar* m_progressBar;
+        QString m_name;
+        QStandardItem* m_item;
     };
 }
 
 
-struct TasksViewWidget::Task: QWidget, IViewTask
+TasksViewWidget::TasksViewWidget()
 {
-    Task(const QString &, TasksViewWidget *);
 
-    Task(const Task &) = delete;
-    Task& operator=(const Task &) = delete;
-
-    const QString& getName() override;
-    IProgressBar* getProgressBar() override;
-    void finished() override;
-
-    QString m_name;
-    QProgressBar* m_progressBar;
-    TasksViewWidget* m_parent;
-    ProgressBar m_progressBarInterface;
-};
-
-
-TasksViewWidget::Task::Task(const QString& name, TasksViewWidget* parent):
-    QWidget(parent),
-    IViewTask(),
-    m_name(name),
-    m_progressBar(new QProgressBar(this)),
-    m_parent(parent),
-    m_progressBarInterface(m_progressBar)
-{
-    QLabel* label = new QLabel(name, this);
-    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
-    QHBoxLayout* l = new QHBoxLayout(this);
-    l->addWidget(m_progressBar, 30);
-    l->addWidget(label, 70);
-}
-
-
-const QString& TasksViewWidget::Task::getName()
-{
-    return m_name;
-}
-
-
-IProgressBar* TasksViewWidget::Task::getProgressBar()
-{
-    return &m_progressBarInterface;
-}
-
-
-void TasksViewWidget::Task::finished()
-{
-    invokeMethod(m_parent, &TasksViewWidget::finished, this);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-TasksViewWidget::TasksViewWidget(QWidget* p): QWidget(p), m_view(nullptr), m_tasks(0)
-{
-    m_view = new QScrollArea(this);
-    m_view->setWidgetResizable(true);
-
-    QWidget* mainWidget = new QWidget(this);
-    QVBoxLayout* wl = new QVBoxLayout(mainWidget);
-    wl->addStretch();
-
-    m_view->setWidget(mainWidget);
-
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(m_view);
-
-    setBackgroundRole(QPalette::Base);
 }
 
 
@@ -145,33 +117,22 @@ TasksViewWidget::~TasksViewWidget()
 }
 
 
+QHash<int, QByteArray> TasksViewWidget::roleNames() const
+{
+    QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
+
+    names.insert(parseRoles<Roles>());
+
+    return names;
+}
+
+
 IViewTask* TasksViewWidget::add(const QString& name)
 {
-    Task* task = new Task(name, this);
+    QStandardItem* item = new QStandardItem;
+    Task* task = new Task(name, item);
 
-    getLayout()->insertWidget(m_tasks, task);
-    m_tasks++;
+    appendRow(item);
 
     return task;
-}
-
-
-void TasksViewWidget::finished(IViewTask* task)
-{
-    Task* t = static_cast<Task *>(task);
-
-    delete t;
-    m_tasks--;
-}
-
-
-QBoxLayout* TasksViewWidget::getLayout()
-{
-    QWidget* w = m_view->widget();
-    QLayout* l = w->layout();
-
-    assert(dynamic_cast<QBoxLayout*>(l));
-    QBoxLayout *bl = static_cast<QBoxLayout *>(l);
-
-    return bl;
 }

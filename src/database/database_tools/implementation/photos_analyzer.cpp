@@ -228,7 +228,6 @@ void PhotosAnalyzerImpl::refreshView()
         IProgressBar* progressBar = m_viewTask->getProgressBar();
         progressBar->setMaximum(m_totalTasks);
         progressBar->setValue(m_doneTasks);
-        progressBar->setFormat("%v/%m");
     }
 }
 

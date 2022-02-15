@@ -12,7 +12,6 @@ struct IProgressBar
     virtual void setMinimum(int) = 0;
     virtual void setMaximum(int) = 0;
     virtual void setValue(int) = 0;
-    virtual void setFormat(const QString& format) = 0;
 };
 
 

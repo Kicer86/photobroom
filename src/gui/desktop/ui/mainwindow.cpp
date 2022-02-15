@@ -141,10 +141,10 @@ void MainWindow::setupQmlView()
 
     controller->setCompleterFactory(&m_completerFactory);
 
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(photosSelected()));
-
+    QObject* tasksView = QmlUtils::findQmlObject(ui->mainViewQml, "TasksView");
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
+
+    tasksView->setProperty("model", QVariant::fromValue(&m_tasksModel));
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 }
 
@@ -540,6 +540,7 @@ void MainWindow::on_actionSeries_detector_triggered()
 {
     SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_tasksModel, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
+
 
 void MainWindow::on_actionPhoto_data_completion_triggered()
 {
