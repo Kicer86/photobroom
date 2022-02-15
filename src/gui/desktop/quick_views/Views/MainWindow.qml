@@ -84,6 +84,8 @@ SwipeView {
             }
 
             GroupBox {
+                objectName: "TasksViewDock"
+
                 width: parent.width
                 title: "<b>" + qsTr("Tasks") +"</b"
 

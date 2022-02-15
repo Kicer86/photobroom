@@ -426,7 +426,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -468,7 +468,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+237"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -541,7 +541,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-117"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -551,7 +551,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+88"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+90"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
