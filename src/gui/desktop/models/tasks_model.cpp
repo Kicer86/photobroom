@@ -17,18 +17,9 @@
  *
  */
 
-#include "tasks_view_widget.hpp"
-
-#include <cassert>
-
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QScrollArea>
-#include <QProgressBar>
-#include <QLabel>
+#include "tasks_model.hpp"
 
 #include <core/iview_task.hpp>
-#include <core/function_wrappers.hpp>
 #include <core/qmodel_utils.hpp>
 
 
@@ -105,19 +96,19 @@ namespace
 }
 
 
-TasksViewWidget::TasksViewWidget()
+TasksModel::TasksModel()
 {
 
 }
 
 
-TasksViewWidget::~TasksViewWidget()
+TasksModel::~TasksModel()
 {
 
 }
 
 
-QHash<int, QByteArray> TasksViewWidget::roleNames() const
+QHash<int, QByteArray> TasksModel::roleNames() const
 {
     QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
 
@@ -127,7 +118,7 @@ QHash<int, QByteArray> TasksViewWidget::roleNames() const
 }
 
 
-IViewTask* TasksViewWidget::add(const QString& name)
+IViewTask* TasksModel::add(const QString& name)
 {
     QStandardItem* item = new QStandardItem;
     Task* task = new Task(name, item);

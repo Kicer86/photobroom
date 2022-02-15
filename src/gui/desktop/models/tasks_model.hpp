@@ -17,22 +17,23 @@
  *
  */
 
-#ifndef TASKSVIEWWIDGET_HPP
-#define TASKSVIEWWIDGET_HPP
+
+#ifndef TASKS_MODEL_HPP_INCLUDED
+#define TASKS_MODEL_HPP_INCLUDED
 
 #include <QStandardItemModel>
 
 #include <core/itasks_view.hpp>
 
 
-class TasksViewWidget: public QStandardItemModel, public ITasksView
+class TasksModel: public QStandardItemModel, public ITasksView
 {
     public:
-        TasksViewWidget();
-        ~TasksViewWidget();
+        TasksModel();
+        ~TasksModel();
 
         QHash<int, QByteArray> roleNames() const override;
         IViewTask* add(const QString &) override;
 };
 
-#endif // TASKSVIEWWIDGET_HPP
+#endif // TASKS_MODEL_HPP_INCLUDED
