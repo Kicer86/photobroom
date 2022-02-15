@@ -306,6 +306,7 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     setupQmlView();
+    updateWindowsMenu();
 }
 
 
