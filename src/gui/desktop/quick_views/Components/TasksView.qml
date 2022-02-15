@@ -3,8 +3,7 @@ import QtQuick
 import photo_broom.qml
 
 ListView {
-    delegate:  Item {
-
+    delegate: Item {
         required property int minValue
         required property int maxValue
         required property int value
@@ -18,5 +17,13 @@ ListView {
         property string _details: value + "/" + _steps
 
         Text { text: '<b>' + name + ':</b> ' + _progress + "(" + _details + ")"  }
+    }
+
+    displaced: Transition {
+        NumberAnimation { properties: "x,y"; easing.type: Easing.InOutQuad; duration: 1000 }
+    }
+
+    remove: Transition {
+        NumberAnimation { property: "opacity"; to: 0; easing.type: Easing.InOutQuad; duration: 1000 }
     }
 }
