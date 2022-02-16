@@ -539,7 +539,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="116"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Properties&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="130"/>
@@ -910,22 +910,22 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="102"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="105"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
         <source>Saving group details.</source>
         <translation>Saving group details.</translation>
     </message>

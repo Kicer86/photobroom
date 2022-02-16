@@ -558,7 +558,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+26"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
@@ -937,7 +937,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+102"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+103"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

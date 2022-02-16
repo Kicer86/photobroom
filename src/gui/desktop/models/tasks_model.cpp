@@ -110,11 +110,12 @@ TasksModel::~TasksModel()
 
 QHash<int, QByteArray> TasksModel::roleNames() const
 {
-    QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
+    auto roles = QStandardItemModel::roleNames();
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
 
-    names.insert(parseRoles<Roles>());
-
-    return names;
+    return roles;
 }
 
 

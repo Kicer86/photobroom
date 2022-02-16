@@ -10,28 +10,34 @@
 #include <magic_enum.hpp>
 
 
-template<typename T> requires std::is_enum_v<T>
-QHash<int, QByteArray> parseRoles()
+template<typename T, int i, int Count> requires std::is_enum_v<T> && (i < Count)
+constexpr void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
 {
-    QHash<int, QByteArray> roles;
-    constexpr auto entries = magic_enum::enum_entries<T>();
+    constexpr const T value = magic_enum::enum_value<T>(i);
+    constexpr const std::string_view fullName = magic_enum::enum_name(value);
+    static_assert(fullName.size() > 4 && fullName.substr(fullName.size() - 4) == "Role", "enum entry needs to end with 'Role'");
 
-    for(auto& entry: entries)
-    {
-        const int& value = entry.first;
-        const std::string_view& fullName = entry.second;
-        assert(fullName.size() > 4);
-        assert(fullName.substr(fullName.size() - 4) == "Role");
+    constexpr std::string_view name = fullName.substr(0, fullName.size() - 4);
 
-        const std::string_view name = fullName.substr(0, fullName.size() - 4);
+    QByteArray lowerCaseName(name.data(), name.size());
+    lowerCaseName[0] = static_cast<char>(std::tolower(lowerCaseName[0]));
 
-        std::string lowerCaseName(name.cbegin(), name.cend());
-        lowerCaseName[0] = static_cast<char>(std::tolower(lowerCaseName[0]));
+    output[i] = std::make_pair(value, lowerCaseName);
 
-        roles.insert(value, QByteArray::fromStdString(lowerCaseName));
-    }
+    if constexpr (i + 1 < Count)
+        _parseRoles<T, i + 1, Count>(output);
+}
 
-    return roles;
+template<typename T> requires std::is_enum_v<T>
+constexpr auto parseRoles()
+{
+    constexpr auto count = magic_enum::enum_count<T>();
+    static_assert(count > 0, "Enum is empty");
+
+    std::array<std::pair<int, QByteArray>, count> output;
+    _parseRoles<T, 0, count>(output);
+
+    return output;
 }
 
 #endif // QMODEL_UTILS_HPP_INCLUDED
