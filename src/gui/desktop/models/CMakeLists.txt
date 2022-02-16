@@ -19,6 +19,8 @@ set(SRC
     tags_model.hpp
     tags_operator.cpp
     tags_operator.hpp
+    tasks_model.cpp
+    tasks_model.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )

@@ -11,6 +11,7 @@
 #include <updater/iupdater.hpp>
 
 #include "models/notifications_model.hpp"
+#include "models/tasks_model.hpp"
 #include "ui_utils/completer_factory.hpp"
 #include "utils/features_observer.hpp"
 
@@ -53,6 +54,7 @@ class MainWindow: public QMainWindow
         void set(IUpdater *);
 
     private:
+        TasksModel                m_tasksModel;
         Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;

@@ -17,37 +17,23 @@
  *
  */
 
-#ifndef TASKSVIEWWIDGET_HPP
-#define TASKSVIEWWIDGET_HPP
 
-#include <QWidget>
+#ifndef TASKS_MODEL_HPP_INCLUDED
+#define TASKS_MODEL_HPP_INCLUDED
+
+#include <QStandardItemModel>
 
 #include <core/itasks_view.hpp>
 
-class QScrollArea;
-class QBoxLayout;
 
-
-class TasksViewWidget: public QWidget, public ITasksView
+class TasksModel: public QStandardItemModel, public ITasksView
 {
     public:
-        TasksViewWidget(QWidget* p = nullptr);
-        TasksViewWidget(const TasksViewWidget &) = delete;
-        ~TasksViewWidget();
+        TasksModel();
+        ~TasksModel();
 
-        TasksViewWidget& operator=(const TasksViewWidget &) = delete;
-
+        QHash<int, QByteArray> roleNames() const override;
         IViewTask* add(const QString &) override;
-
-    private:
-        struct Task;
-        friend struct Task;
-
-        QScrollArea* m_view;
-        int m_tasks;
-
-        void finished(IViewTask *);
-        QBoxLayout* getLayout();
 };
 
-#endif // TASKSVIEWWIDGET_HPP
+#endif // TASKS_MODEL_HPP_INCLUDED

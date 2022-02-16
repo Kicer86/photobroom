@@ -2,6 +2,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "ViewsComponents" as Internals
+import "../Components" as Components
 import photo_broom.qml
 
 
@@ -29,7 +30,7 @@ SwipeView {
                 enabled: projectOpened
 
                 width: parent.width
-                height: parent.height - notifications.height
+                height: parent.height - notifications.height - tasksViewDock.height
 
                 onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
@@ -78,6 +79,25 @@ SwipeView {
 
                         onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
                         onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    }
+                }
+            }
+
+            GroupBox {
+                id: tasksViewDock
+                objectName: "TasksViewDock"
+
+                width: parent.width
+                title: "<b>" + qsTr("Tasks") +"</b"
+
+                Components.TasksView {
+                    id: tasksView
+                    objectName: "TasksView"
+                    width: parent.width
+                    implicitHeight: contentHeight
+
+                    Behavior on implicitHeight {
+                        NumberAnimation { duration: 1000 }
                     }
                 }
             }

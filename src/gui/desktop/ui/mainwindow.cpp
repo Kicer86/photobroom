@@ -141,10 +141,10 @@ void MainWindow::setupQmlView()
 
     controller->setCompleterFactory(&m_completerFactory);
 
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    connect(mainwindow, SIGNAL(selectedPhotosChanged()), SLOT(photosSelected()));
-
+    QObject* tasksView = QmlUtils::findQmlObject(ui->mainViewQml, "TasksView");
     QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
+
+    tasksView->setProperty("model", QVariant::fromValue(&m_tasksModel));
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
 }
 
@@ -202,10 +202,11 @@ void MainWindow::checkVersion()
 void MainWindow::updateWindowsMenu()
 {
     QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
+    QQuickItem* tasksWindow = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
     QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
-    ui->actionTasks->setChecked(ui->tasksDockWidget->isVisible());
+    ui->actionTasks->setChecked(tasksWindow->isVisible());
     ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
 }
 
@@ -305,9 +306,7 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     setupQmlView();
-
-    // connect to docks
-    connect(ui->tasksDockWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(updateWindowsMenu()));
+    updateWindowsMenu();
 }
 
 
@@ -361,7 +360,7 @@ void MainWindow::updateTools()
     if (prj)
     {
         m_photosAnalyzer = std::make_unique<PhotosAnalyzer>(m_coreAccessor, m_currentPrj->getDatabase());
-        m_photosAnalyzer->set(ui->tasksWidget);
+        m_photosAnalyzer->set(&m_tasksModel);
         m_thumbnailsManager->setDatabaseCache(&m_currentPrj->getDatabase());
     }
     else
@@ -522,7 +521,9 @@ void MainWindow::on_actionTasks_triggered()
 {
     const bool state = ui->actionTasks->isChecked();
 
-    ui->tasksDockWidget->setVisible(state);
+    QQuickItem* tasksView = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
+
+    tasksView->setVisible(state);
 }
 
 
@@ -538,8 +539,9 @@ void MainWindow::on_actionPhoto_properties_triggered()
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, *ui->tasksWidget, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
+    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_tasksModel, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
+
 
 void MainWindow::on_actionPhoto_data_completion_triggered()
 {

@@ -347,11 +347,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+15"/>
-        <source>Tasks</source>
-        <translation>Operacje</translation>
-    </message>
-    <message>
-        <location line="+9"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -431,7 +426,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+222"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -453,7 +448,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+107"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -473,7 +468,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+234"/>
+        <location line="+237"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -546,7 +541,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-114"/>
+        <location line="-117"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -556,24 +551,29 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+101"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+91"/>
+        <source>Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+23"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje debugowe&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Back to photos</source>
-        <translation>Powrót do zdjęć</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -937,7 +937,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+102"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+103"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

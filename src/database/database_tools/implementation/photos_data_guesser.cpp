@@ -2,7 +2,8 @@
 #include <functional>
 #include <QRegularExpression>
 
-#include "core/function_wrappers.hpp"
+#include <core/function_wrappers.hpp>
+#include <core/qmodel_utils.hpp>
 #include "database/filter.hpp"
 #include "database/iphoto_operator.hpp"
 #include "../photos_data_guesser.hpp"
@@ -16,10 +17,10 @@ namespace
 {
     enum Roles
     {
-        Path            = Qt::UserRole + 1,
-        PhotoID,
-        SuggestedDate,
-        SuggestedTime,
+        photoPathRole            = Qt::UserRole + 1,
+        PhotoIDRole,
+        SuggestedDateRole,
+        SuggestedTimeRole,
     };
 }
 
@@ -96,13 +97,13 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
     const auto& photo = m_photos[index.row()];
 
-    if (role == Path)
+    if (role == photoPathRole)
         return photo.photoData.get<Photo::Field::Path>();
-    else if (role == PhotoID)
+    else if (role == PhotoIDRole)
         return QVariant::fromValue(photo.photoData.getId());
-    else if (role == SuggestedDate)
+    else if (role == SuggestedDateRole)
         return photo.date.toString(Qt::ISODate);
-    else if (role == SuggestedTime)
+    else if (role == SuggestedTimeRole)
         return photo.time.toString();
     else
         return {};
@@ -117,12 +118,10 @@ int PhotosDataGuesser::rowCount(const QModelIndex& parent) const
 
 QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 {
-    return {
-        { Path,           "photoPath" },
-        { PhotoID,        "photoID" },
-        { SuggestedDate , "suggestedDate" },
-        { SuggestedTime , "suggestedTime" },
-    };
+    const auto roles = parseRoles<Roles>();
+    const QHash<int, QByteArray> rolesMap(roles.begin(), roles.end());
+
+    return rolesMap;
 }
 
 

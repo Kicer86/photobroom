@@ -5,6 +5,7 @@
 #include <core/itask_executor.hpp>
 #include <core/itasks_view_utils.hpp>
 #include <core/task_executor_utils.hpp>
+#include <core/qmodel_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
 #include <database/database_executor_traits.hpp>
 #include <QElapsedTimer>
@@ -141,14 +142,9 @@ void SeriesModel::fetchMore(const QModelIndex& parent)
 QHash<int, QByteArray> SeriesModel::roleNames() const
 {
     auto roles = QAbstractListModel::roleNames();
-
-    roles.insert(
-    {
-        { DetailsRole,   "details" },
-        { PhotoDataRole, "photoData" },
-        { GroupTypeRole, "groupType" },
-        { MembersRole,   "members" }
-    });
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
 
     return roles;
 }
