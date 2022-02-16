@@ -30,7 +30,7 @@ SwipeView {
                 enabled: projectOpened
 
                 width: parent.width
-                height: parent.height - notifications.height - tasksView.height
+                height: parent.height - notifications.height - tasksViewDock.height
 
                 onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
@@ -84,6 +84,7 @@ SwipeView {
             }
 
             GroupBox {
+                id: tasksViewDock
                 objectName: "TasksViewDock"
 
                 width: parent.width
@@ -93,7 +94,11 @@ SwipeView {
                     id: tasksView
                     objectName: "TasksView"
                     width: parent.width
-                    height: 100
+                    implicitHeight: contentHeight
+
+                    Behavior on implicitHeight {
+                        NumberAnimation { duration: 1000 }
+                    }
                 }
             }
 

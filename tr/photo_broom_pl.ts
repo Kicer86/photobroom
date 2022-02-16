@@ -551,29 +551,29 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+90"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+91"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+30"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+23"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje debugowe&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Back to photos</source>
-        <translation>Powrót do zdjęć</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
