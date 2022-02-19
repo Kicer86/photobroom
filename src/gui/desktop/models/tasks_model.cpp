@@ -95,6 +95,8 @@ namespace
     };
 }
 
+ENUM_ROLES_SETUP(Roles);
+
 
 TasksModel::TasksModel()
 {

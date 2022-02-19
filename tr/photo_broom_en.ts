@@ -910,22 +910,22 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="106"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="107"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="105"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="108"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="74"/>
         <source>Saving group details.</source>
         <translation>Saving group details.</translation>
     </message>

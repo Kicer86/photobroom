@@ -5,9 +5,15 @@
 #include <type_traits>
 #include <QByteArray>
 #include <QHash>
-#define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX 512
 #include <magic_enum.hpp>
+
+
+#define ENUM_ROLES_SETUP(T)                         \
+    template <>                                     \
+    struct magic_enum::customize::enum_range<T> {   \
+    static constexpr int min = 0;                   \
+    static constexpr int max = 512;                 \
+}
 
 
 template<typename T, int i, int Count> requires std::is_enum_v<T> && (i < Count)
@@ -31,6 +37,10 @@ constexpr void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output
 template<typename T> requires std::is_enum_v<T>
 constexpr auto parseRoles()
 {
+    static_assert(magic_enum::customize::enum_range<T>::min == 0 && magic_enum::customize::enum_range<T>::max == 512,
+                  "ENUM_ROLES_SETUP macro needs to be applied for enum with roles."
+    );
+
     constexpr auto count = magic_enum::enum_count<T>();
     static_assert(count > 0, "Enum is empty");
 
