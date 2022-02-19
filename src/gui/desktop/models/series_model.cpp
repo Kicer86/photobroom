@@ -18,6 +18,9 @@
 using namespace std::placeholders;
 
 
+ENUM_ROLES_SETUP(SeriesModel::Roles);
+
+
 SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksView& taskView)
     : m_logger(core.getLoggerFactory().get("SeriesModel"))
     , m_project(project)
