@@ -148,22 +148,22 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="22"/>
+        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="23"/>
         <source>Tasks in queue</source>
         <translation>Tasks in queue</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="26"/>
+        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="27"/>
         <source>Tasks executed</source>
         <translation>Tasks executed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="31"/>
         <source>Execution speed</source>
         <translation>Execution speed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="31"/>
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation type="unfinished">tps</translation>
@@ -532,27 +532,27 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="91"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="93"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="121"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="123"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="135"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="137"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="160"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="173"/>
+        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="175"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -576,27 +576,27 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="127"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="129"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="151"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="153"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="167"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="169"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="174"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="176"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="181"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="183"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
         <translation>
@@ -605,7 +605,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="188"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="190"/>
         <source>Saving results</source>
         <translation>Saving results</translation>
     </message>
@@ -812,12 +812,12 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="178"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="179"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="182"/>
+        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="183"/>
         <source>Accept</source>
         <translation type="unfinished"></translation>
     </message>
@@ -933,7 +933,7 @@ Error code: %1</source>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="109"/>
+        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="110"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>

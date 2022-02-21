@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QStandardItemModel>
+#include <QQmlEngine>
 
 #include <database/idatabase.hpp>
 #include <database/filter.hpp>
@@ -34,6 +35,7 @@ struct ICompleterFactory;
 class PhotosModelControllerComponent: public QObject
 {
         Q_OBJECT
+        QML_NAMED_ELEMENT(PhotosModelController)
 
         // getters
         Q_PROPERTY(QAbstractItemModel* photos READ model CONSTANT)

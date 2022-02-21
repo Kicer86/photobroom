@@ -3,6 +3,8 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2)
 
 include(GenerateExportHeader)
 
+set(CMAKE_AUTOMOC ON)
+
 if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
@@ -51,6 +53,7 @@ target_link_libraries(gui
                             gui_ui_utils
                             gui_widgets
                             quick_views
+                            quick_viewsplugin
 
                             core
                             database

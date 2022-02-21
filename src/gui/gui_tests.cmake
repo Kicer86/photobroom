@@ -1,7 +1,7 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Test)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Test Quick)
 find_package(GTest REQUIRED CONFIG)
 find_program(QML_TEST_RUNNER NAMES qmltestrunner-qt5 qmltestrunner REQUIRED)
 
@@ -44,6 +44,7 @@ addTestTarget(gui
                     sample_dbs
                     Qt::Core
                     Qt::Gui
+                    Qt::Quick
                     Qt::Widgets
                     Qt::Test
                     GTest::gtest
@@ -54,10 +55,10 @@ addTestTarget(gui
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop
                     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
-                    ${CMAKE_CURRENT_SOURCE_DIR}        
-                    
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+
                 DEFINITIONS
-                    GUI_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    GUI_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )
 
 

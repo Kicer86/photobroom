@@ -2,7 +2,7 @@
 
 import QtQuick 2.15
 import "internal/ZoomLogic.js" as Logic
-import photo_broom.qml 1.0
+import quick_views
 
 Flickable {
     id: flickableArea

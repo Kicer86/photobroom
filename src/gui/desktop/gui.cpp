@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include <QTranslator>
 #include <QQuickWindow>
+#include <QtQml/qqmlextensionplugin.h>
 
 #ifdef OS_WIN
     #include <QQuickStyle>
@@ -31,13 +32,14 @@
 #include "utils/thumbnails_cache.hpp"
 #include "utils/thumbnail_manager.hpp"
 
-
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory, IFeaturesManager& features)
     : m_prjManager(prjMgr)
     , m_pluginLoader(pluginLoader)
     , m_coreFactory(coreFactory)
     , m_featuresManager(features)
 {
+
+    Q_IMPORT_QML_PLUGIN(quick_viewsPlugin)
     register_qml_types();
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");

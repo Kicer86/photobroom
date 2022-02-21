@@ -1,7 +1,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import photo_broom.qml 1.0
+import photo_broom.utils
+import quick_views
 import "../../Components" as Components
 import "../../external/qml-colorpicker/colorpicker" as Colorpicker
 

@@ -4,6 +4,7 @@
 
 
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 
 #include <core/icore_factory_accessor.hpp>
 #include <database/database_tools/id_to_data_converter.hpp>
@@ -14,6 +15,7 @@
 class ContextMenuManager: public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(const QAbstractItemModel* model READ model CONSTANT)
     Q_PROPERTY(QList<QVariant> selection READ selection WRITE setSelection NOTIFY selectionChanged)
