@@ -21,7 +21,7 @@
 
 #include "ui_faces_dialog.h"
 #include "utils/people_list_model.hpp"
-#include "quick_views/qml_utils.hpp"
+#include "quick_items/qml_utils.hpp"
 
 using namespace std::placeholders;
 

@@ -123,7 +123,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/context_menu_manager.cpp" line="+104"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+104"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -151,7 +151,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/DebugWindow.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="+23"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -180,7 +180,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/FacesDialog.qml" line="+108"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+108"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>
@@ -215,12 +215,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Filter.qml" line="+89"/>
+        <location filename="../src/gui/desktop/quick_items/Filter.qml" line="+89"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/Filter.qml" line="+59"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+59"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -551,7 +551,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/MainWindow.qml" line="+93"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+93"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,7 +579,7 @@ Kod błędu: %1</translation>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/NotificationsBar.qml" line="+88"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="+88"/>
         <source>Click here to collapse notifications.</source>
         <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>
@@ -596,7 +596,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotoDataCompletion.qml" line="+129"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+129"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -831,7 +831,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/photos_model_controller_component.cpp" line="+101"/>
+        <location filename="../src/gui/desktop/quick_items/photos_model_controller_component.cpp" line="+101"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
@@ -839,7 +839,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/PhotosView.qml" line="+179"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+179"/>
         <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
         <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
     </message>
@@ -913,7 +913,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/SeriesDetection.qml" line="+33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+33"/>
         <source>Group candidates</source>
         <translation>Potencjalne grupy</translation>
     </message>
@@ -960,7 +960,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Views/ViewsComponents/TagValueEditor.qml" line="+110"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+110"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
@@ -981,7 +981,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/ThumbnailSlider.qml" line="+32"/>
+        <location filename="../src/gui/desktop/quick_items/Components/ThumbnailSlider.qml" line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
@@ -989,7 +989,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TimeRange</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/TimeRange.qml" line="+26"/>
+        <location filename="../src/gui/desktop/quick_items/Components/TimeRange.qml" line="+26"/>
         <source>Time range:</source>
         <translation>Zakres czasu:</translation>
     </message>
@@ -1072,7 +1072,7 @@ Kod błędu: %1</translation>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_views/Components/VideoPlayer.qml" line="+84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+84"/>
         <source>Playing</source>
         <translation>Odtwarzanie</translation>
     </message>
@@ -1125,7 +1125,7 @@ Kod błędu: %1</translation>
         <translation>liczba wątków</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_views/external/qml-colorpicker/test/main.qml" line="+11"/>
+        <location filename="../src/gui/desktop/quick_items/external/qml-colorpicker/test/main.qml" line="+11"/>
         <source>Hello Colorpicker</source>
         <translation>Hello Colorpicker</translation>
     </message>

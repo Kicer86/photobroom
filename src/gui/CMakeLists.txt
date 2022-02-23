@@ -11,7 +11,7 @@ endif()
 
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
-add_subdirectory(desktop/quick_views)
+add_subdirectory(desktop/quick_items)
 add_subdirectory(desktop/ui)
 add_subdirectory(desktop/ui_utils)
 add_subdirectory(desktop/utils)
@@ -52,8 +52,8 @@ target_link_libraries(gui
                             gui_ui
                             gui_ui_utils
                             gui_widgets
-                            quick_views
-                            quick_viewsplugin
+                            quick_items
+                            quick_itemsplugin
 
                             core
                             database

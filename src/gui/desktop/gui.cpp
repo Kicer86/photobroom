@@ -26,8 +26,8 @@
 #endif
 
 #include "ui/mainwindow.hpp"
-#include "quick_views/objects_accessor.hpp"
-#include "quick_views/qml_setup.hpp"
+#include "quick_items/objects_accessor.hpp"
+#include "quick_items/qml_setup.hpp"
 #include "utils/features_manager.hpp"
 #include "utils/thumbnails_cache.hpp"
 #include "utils/thumbnail_manager.hpp"

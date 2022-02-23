@@ -34,7 +34,7 @@
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
-#include "quick_views/qml_utils.hpp"
+#include "quick_items/qml_utils.hpp"
 #include "utils/groups_manager.hpp"
 
 

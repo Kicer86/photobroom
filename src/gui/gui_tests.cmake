@@ -12,7 +12,7 @@ addTestTarget(gui
                     desktop/models/aphoto_info_model.cpp
                     desktop/models/flat_model.cpp
                     desktop/utils/model_index_utils.cpp
-                    desktop/quick_views/selection_manager_component.cpp
+                    desktop/quick_items/selection_manager_component.cpp
                     desktop/utils/thumbnail_manager.cpp
                     desktop/utils/thumbnails_cache.cpp
 

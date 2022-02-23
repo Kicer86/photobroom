@@ -6,7 +6,7 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS
 
 set(CMAKE_AUTOMOC ON)
 
-add_library(quick_views STATIC
+add_library(quick_items STATIC
     ${MOCED}
     context_menu_manager.cpp
     context_menu_manager.hpp
@@ -37,17 +37,17 @@ file(GLOB_RECURSE
     *.qml *.js
 )
 
-qt6_add_resources(quick_views "UI"
+qt6_add_resources(quick_items "UI"
     PREFIX "/photo_broom.items"
     FILES ${QML_RESOURCES}
 )
 
-qt6_add_qml_module(quick_views
+qt6_add_qml_module(quick_items
     URI "photo_broom.items"
     VERSION 1.0
 )
 
-target_link_libraries(quick_views
+target_link_libraries(quick_items
                         PUBLIC
                             core
                             database
@@ -59,7 +59,7 @@ target_link_libraries(quick_views
                             Qt::QuickWidgets
 )
 
-target_include_directories(quick_views
+target_include_directories(quick_items
                                 PUBLIC
                                     ${CMAKE_CURRENT_BINARY_DIR}
 )

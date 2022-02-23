@@ -18,7 +18,7 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
@@ -43,7 +43,7 @@ function(setup_qt_environment)
                                   ARGS --dir ${OUTPUT_PATH}/deploy/libs
                                        --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
+                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
