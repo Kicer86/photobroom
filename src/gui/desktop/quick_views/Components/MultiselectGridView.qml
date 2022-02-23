@@ -1,6 +1,6 @@
 
 import QtQuick 2.15
-import quick_views
+import photo_broom.items
 
 // Generic component extending GridView by multiselection.
 // Requires c++ SelectionManager class

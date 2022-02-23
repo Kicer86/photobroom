@@ -39,7 +39,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     , m_featuresManager(features)
 {
 
-    Q_IMPORT_QML_PLUGIN(quick_viewsPlugin)
+    Q_IMPORT_QML_PLUGIN(photo_broom_itemsPlugin)
     register_qml_types();
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");

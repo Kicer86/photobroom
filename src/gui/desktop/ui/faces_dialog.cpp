@@ -70,7 +70,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
 {
     ui->setupUi(this);
 
-    ui->quickView->setSource(QUrl("qrc:///quick_views/Views/FacesDialog.qml"));
+    ui->quickView->setSource(QUrl("qrc:///photo_broom.items/Views/FacesDialog.qml"));
     ui->peopleList->setItemDelegate(new TableDelegate(prj->getDatabase(), this));
 
     connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,

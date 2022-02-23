@@ -3,7 +3,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.models
 import photo_broom.singletons
-import quick_views
+import photo_broom.items
 import "ViewsComponents" as Internals
 import "../Components" as Components
 

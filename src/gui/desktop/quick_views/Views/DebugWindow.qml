@@ -1,6 +1,6 @@
 
 import QtQuick 2.0
-import quick_views
+import photo_broom.items
 import photo_broom.singletons
 
 

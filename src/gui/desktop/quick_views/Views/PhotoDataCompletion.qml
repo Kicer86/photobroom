@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 import photo_broom.database
 import photo_broom.singletons
-import quick_views
+import photo_broom.items
 import "../Components" as Components
 
 Item {

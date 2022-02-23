@@ -133,7 +133,7 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    ui->mainViewQml->setSource(QUrl("qrc:///quick_views/Views/MainWindow.qml"));
+    ui->mainViewQml->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
     QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 

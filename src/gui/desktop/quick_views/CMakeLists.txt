@@ -38,12 +38,12 @@ file(GLOB_RECURSE
 )
 
 qt6_add_resources(quick_views "UI"
-    PREFIX "/quick_views"
+    PREFIX "/photo_broom.items"
     FILES ${QML_RESOURCES}
 )
 
 qt6_add_qml_module(quick_views
-    URI "quick_views"
+    URI "photo_broom.items"
     VERSION 1.0
 )
 

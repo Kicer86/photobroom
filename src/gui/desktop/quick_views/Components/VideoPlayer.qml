@@ -1,7 +1,7 @@
 
 import QtQuick
 import QtMultimedia
-import quick_views
+import photo_broom.items
 
 
 VideoOutput {
