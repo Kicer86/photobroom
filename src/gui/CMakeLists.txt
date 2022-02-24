@@ -3,8 +3,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2)
 
 include(GenerateExportHeader)
 
-set(CMAKE_AUTOMOC ON)
-
 if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
