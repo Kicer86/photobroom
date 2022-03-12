@@ -12,5 +12,3 @@ top_dir=$(readlink -f $parent_dir)
 version=$1
 
 sed -i -e "s/project(PhotoBroom VERSION .*)/project(PhotoBroom VERSION $version)/" $top_dir/CMakeLists.txt
-sed -i -e "s/version: .*{build}/version: $version.{build}/" $top_dir/appveyor.yml
-sed -i -e "s/path: build\/PhotoBroom-.*exe/path: build\/PhotoBroom-$version-*.exe/" $top_dir/appveyor.yml
