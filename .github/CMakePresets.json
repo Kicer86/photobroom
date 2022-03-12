@@ -7,7 +7,7 @@
   },
   "configurePresets": [
     {
-      "name": "ninja-multi-vcpkg",
+      "name": "ninja_multi_vcpkg",
       "displayName": "Ninja Multi-Config Configure Settings",
       "description": "Configure with vcpkg toolchain",
       "binaryDir": "${sourceDir}/builds/${presetName}",
@@ -23,15 +23,15 @@
   "buildPresets": [
     {
       "name": "ninja-release",
-      "configurePreset": "ninja-multi-vcpkg",
+      "configurePreset": "ninja_multi_vcpkg",
       "displayName": "Build ninja-multi-vcpkg release",
       "configuration": "Release"
     }
   ],
   "testPresets": [
     {
-      "name": "ninja-multi-vcpkg",
-      "configurePreset": "ninja-multi-vcpkg"
+      "name": "ninja_multi_vcpkg",
+      "configurePreset": "ninja_multi_vcpkg"
     }
   ]
 }
