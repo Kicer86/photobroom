@@ -8,8 +8,11 @@
   "dependencies": [
     {
         "name": "dlib",
-        "features": [ "cuda", "fftw3" ]
+        "default-features": false,
+        "features": [ "fftw3" ]
     },
-    "exiv2"
+    "exiv2",
+    "magic-enum",
+    "gtest"
   ]
 }

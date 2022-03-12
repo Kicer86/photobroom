@@ -1,0 +1,46 @@
+
+name: CMake
+
+on: [pull_request, push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Copy CMake config
+      run: cmake -E copy .github/CMakePresets.json ./
+
+    - name: Install system dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install ninja-build imagemagick
+
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt
+        key: ${{ runner.os }}-QtCache
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '6.2.2'
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v10.1
+
+    - name: Build
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja-multi-vcpkg'
+        buildPreset: 'ninja-release'
