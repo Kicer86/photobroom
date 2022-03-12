@@ -21,6 +21,7 @@ addTestTarget(database
                     implementation/photo_data.cpp
                     implementation/photo_utils.cpp
                     notifications_accumulator.hpp
+                    ibackend.hpp
 
                     # tests:
                     unit_tests/data_delta_tests.cpp
@@ -58,7 +59,9 @@ addTestTarget(database
 
                 DEFINITIONS
                     STATIC_PLUGINS
+                    DATABASE_MEMORY_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    SQL_BACKEND_BASE_STATIC_DEFINE          # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )
