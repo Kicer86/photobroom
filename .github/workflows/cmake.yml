@@ -1,7 +1,7 @@
 
 name: CMake
 
-on: [pull_request, push]
+on: [pull_request]
 
 jobs:
   build:
