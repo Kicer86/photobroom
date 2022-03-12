@@ -9,7 +9,7 @@ addTestTarget(database_backends
                     backends/sql_backends/sqlite_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/mysql_server.cpp
-                    backends/memory_backend/memory_backend.cpp
+                    backends/memory_backend/memory_backend.cpp                    
 
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
@@ -24,6 +24,8 @@ addTestTarget(database_backends
                     backends/sql_backends/table_definition.cpp
                     backends/sql_backends/tables.cpp
                     backends/sql_backends/transaction.cpp
+                    ibackend.hpp
+                    idatabase_plugin.hpp
 
                     # sql tests:
                     unit_tests_for_backends/common.hpp
@@ -70,7 +72,9 @@ addTestTarget(database_backends
 
                 DEFINITIONS
                     STATIC_PLUGINS                          # build in all plugins
+                    DATABASE_MEMORY_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_MYSQL_BACKEND_STATIC_DEFINE    # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_SQLITE_BACKEND_STATIC_DEFINE   # disable visibility mechanisms to prevent inconsistent dll linkage warnings
                     DATABASE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+                    SQL_BACKEND_BASE_STATIC_DEFINE          # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )

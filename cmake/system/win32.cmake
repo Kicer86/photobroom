@@ -116,15 +116,15 @@ endfunction(install_external_lib)
 
 
 function(download_tools)
-    if(NOT EXISTS tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
+    if(NOT EXISTS ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
         message("Downloading ImageMagick")
         file(DOWNLOAD
-            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT tools/ImageMagick-7.1.0-portable-Q16-x64.zip
-            DESTINATION tools/ImageMagick
+            INPUT ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            DESTINATION ${OUTPUT_PATH}/tools/ImageMagick
         )
     endif()
 
@@ -132,15 +132,15 @@ function(download_tools)
         DESTINATION tools/ImageMagick
     )
 
-    if(NOT EXISTS tools/ffmpeg-release-essentials.7z)
+    if(NOT EXISTS ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z)
         message("Downloading FFMpeg")
         file(DOWNLOAD
-            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z tools/ffmpeg-release-essentials.7z
+            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT tools/ffmpeg-release-essentials.7z
-            DESTINATION tools
+            INPUT ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
+            DESTINATION ${OUTPUT_PATH}/tools
         )
     endif()
 
@@ -148,15 +148,15 @@ function(download_tools)
         DESTINATION tools/FFMpeg
     )
 
-    if(NOT EXISTS tools/exiftool-12.35.zip)
+    if(NOT EXISTS ${OUTPUT_PATH}/tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
-            https://exiftool.org/exiftool-12.35.zip tools/exiftool-12.35.zip
+            https://exiftool.org/exiftool-12.35.zip ${OUTPUT_PATH}/tools/exiftool-12.35.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT tools/exiftool-12.35.zip
-            DESTINATION tools
+            INPUT ${OUTPUT_PATH}/tools/exiftool-12.35.zip
+            DESTINATION ${OUTPUT_PATH}/tools
         )
     endif()
 
@@ -165,10 +165,10 @@ function(download_tools)
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS tools/Hugin-2020.0.0-win64.msi)
+    if(NOT EXISTS ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
-            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi tools/Hugin-2020.0.0-win64.msi
+            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi
             SHOW_PROGRESS
         )
 
