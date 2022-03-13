@@ -1,6 +1,6 @@
 
 import QtQuick
-import photo_broom.qml 1.0
+import photo_broom.items
 
 
 Item {

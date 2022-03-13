@@ -2,7 +2,7 @@
 import QtQuick 2.15
 import QtMultimedia
 import QtQuick.Controls
-import photo_broom.qml 1.0
+import photo_broom.items
 
 
 Item {

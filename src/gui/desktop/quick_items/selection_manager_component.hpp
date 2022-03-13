@@ -3,6 +3,7 @@
 #define SELECTIONMANAGERCOMPONENT_HPP
 
 
+#include <QQmlEngine>
 #include <QObject>
 #include <QList>
 #include <set>
@@ -11,6 +12,8 @@
 class SelectionManagerComponent: public QObject
 {
         Q_OBJECT
+
+        QML_NAMED_ELEMENT(SelectionManager)
 
     public:
         explicit SelectionManagerComponent(QObject * = nullptr);

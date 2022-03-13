@@ -21,7 +21,7 @@
 
 #include "ui_faces_dialog.h"
 #include "utils/people_list_model.hpp"
-#include "quick_views/qml_utils.hpp"
+#include "quick_items/qml_utils.hpp"
 
 using namespace std::placeholders;
 
@@ -70,7 +70,7 @@ FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAcce
 {
     ui->setupUi(this);
 
-    ui->quickView->setSource(QUrl("qrc:/ui/Views/FacesDialog.qml"));
+    ui->quickView->setSource(QUrl("qrc:///photo_broom.items/Views/FacesDialog.qml"));
     ui->peopleList->setItemDelegate(new TableDelegate(prj->getDatabase(), this));
 
     connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,

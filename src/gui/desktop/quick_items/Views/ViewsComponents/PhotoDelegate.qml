@@ -1,7 +1,8 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import photo_broom.qml 1.0
+import photo_broom.enums
+import photo_broom.items
 import "../../Components" as Components
 
 

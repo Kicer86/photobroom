@@ -2,6 +2,7 @@
 #ifndef MEDIAVIEWCTRL_HPP
 #define MEDIAVIEWCTRL_HPP
 
+#include <QQmlEngine>
 #include <QObject>
 #include <QUrl>
 
@@ -17,6 +18,7 @@ class MediaViewCtrl: public QObject
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
     Q_PROPERTY(Mode mode READ mode NOTIFY modeChanged)
     Q_ENUMS(Mode)
+    QML_ELEMENT
 
 public:
     MediaViewCtrl() = default;

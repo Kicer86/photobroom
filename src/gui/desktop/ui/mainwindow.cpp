@@ -47,11 +47,11 @@
 #include "utils/grouppers/collage_generator.hpp"
 #include "utils/model_index_utils.hpp"
 #include "ui_utils/icons_loader.hpp"
-#include "quick_views/objects_accessor.hpp"
-#include "quick_views/qml_utils.hpp"
-#include "quick_views/photos_model_controller_component.hpp"
-#include "quick_views/selection_manager_component.hpp"
-#include "quick_views/thumbnail_image_provider.hpp"
+#include "quick_items/objects_accessor.hpp"
+#include "quick_items/qml_utils.hpp"
+#include "quick_items/photos_model_controller_component.hpp"
+#include "quick_items/selection_manager_component.hpp"
+#include "quick_items/thumbnail_image_provider.hpp"
 #include "ui_mainwindow.h"
 
 
@@ -130,10 +130,10 @@ void MainWindow::set(IPluginLoader* pluginLoader)
 
 void MainWindow::setupQmlView()
 {
-    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
-    qmlRegisterSingletonInstance("photo_broom.qml", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
+    qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
+    qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    ui->mainViewQml->setSource(QUrl("qrc:/ui/Views/MainWindow.qml"));
+    ui->mainViewQml->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
     QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
 

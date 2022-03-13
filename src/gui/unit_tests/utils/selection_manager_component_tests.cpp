@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include <QSignalSpy>
 
-#include <desktop/quick_views/selection_manager_component.hpp>
+#include <desktop/quick_items/selection_manager_component.hpp>
 
 using testing::ElementsAre;
 using testing::IsEmpty;

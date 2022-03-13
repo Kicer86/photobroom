@@ -2,6 +2,7 @@
 #ifndef PHOTODATAQML_HPP
 #define PHOTODATAQML_HPP
 
+#include <QQmlEngine>
 #include <QObject>
 
 #include <database/photo_data.hpp>
@@ -12,6 +13,7 @@
 class PhotoDataQml: public QObject
 {
         Q_OBJECT
+        QML_ELEMENT
 
     public:
         Q_PROPERTY(QVariantMap flags READ getFlags NOTIFY flagsChanged)

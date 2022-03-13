@@ -6,7 +6,7 @@
 #include <QQmlContext>
 #include <QQmlPropertyMap>
 
-#include "quick_views/thumbnail_image_provider.hpp"
+#include "quick_items/thumbnail_image_provider.hpp"
 
 
 namespace QmlUtils

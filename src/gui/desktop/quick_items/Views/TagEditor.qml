@@ -1,6 +1,8 @@
 
 import QtQuick
-import photo_broom.qml 1.0
+import photo_broom.models
+import photo_broom.singletons
+import photo_broom.items
 import "ViewsComponents" as Internals
 
 

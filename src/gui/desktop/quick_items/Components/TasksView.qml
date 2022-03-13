@@ -1,6 +1,5 @@
 
 import QtQuick
-import photo_broom.qml
 
 ListView {
     implicitHeight: contentHeight

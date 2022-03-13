@@ -44,7 +44,7 @@ target_link_libraries(gui_ui
                             photos_crawler
                             project_utils
                             system
-                            quick_views
+                            quick_items
 
                             Qt::Widgets
                             Qt::Quick
