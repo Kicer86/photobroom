@@ -192,9 +192,7 @@ macro(addDeploymentActions)
 
     # install required dll files
     set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib cublas64_11                               #dlib dependencies
-                  cublasLt64_11
-                  openblas
+    set(libs_dlib openblas              #dlib dependencies
                   liblapack
                   libgfortran-5
                   libgcc_s_seh-1
@@ -203,6 +201,8 @@ macro(addDeploymentActions)
     )
     set(libs_nvidia
         cudnn64_8                                           #required by dlib when compiled with CUDA
+        cublas64_11
+        cublasLt64_11
     )
     set(libs_openssl                                        #required by github_api for secure connections
         libcrypto-1_1-x64
