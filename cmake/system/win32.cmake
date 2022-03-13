@@ -3,7 +3,7 @@
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
 function(setup_qt_environment)
-    file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy)
 
     find_program(WINDEPLOY windeployqt
         HINTS ${qt_bin_dir}
@@ -13,46 +13,46 @@ function(setup_qt_environment)
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
 
         if(BUILD_SHARED_LIBS)
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
+            add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
+                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
                                        $<TARGET_FILE:gui>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
+                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
+                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:updater>
 
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
+                               COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
         else()
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
+            add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
+                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
                                        $<TARGET_FILE:photo_broom>
 
                                COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
+                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
                                        $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
                                        $<TARGET_FILE:sql_backend_base>
 
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
+                               COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
                                DEPENDS photo_broom
                                WORKING_DIRECTORY ${WINDEPLOY_DIR}
                               )
@@ -116,59 +116,59 @@ endfunction(install_external_lib)
 
 
 function(download_tools)
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
         message("Downloading ImageMagick")
         file(DOWNLOAD
-            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
-            DESTINATION ${OUTPUT_PATH}/tools/ImageMagick
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick
         )
     endif()
 
-    install(DIRECTORY ${OUTPUT_PATH}/tools/ImageMagick/
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick/
         DESTINATION tools/ImageMagick
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z)
         message("Downloading FFMpeg")
         file(DOWNLOAD
-            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
+            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
-            DESTINATION ${OUTPUT_PATH}/tools
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
         )
     endif()
 
-    install(DIRECTORY ${OUTPUT_PATH}/tools/ffmpeg-4.4.1-essentials_build/   # version :/ not nice to have it here
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-4.4.1-essentials_build/   # version :/ not nice to have it here
         DESTINATION tools/FFMpeg
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/exiftool-12.35.zip)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
-            https://exiftool.org/exiftool-12.35.zip ${OUTPUT_PATH}/tools/exiftool-12.35.zip
+            https://exiftool.org/exiftool-12.35.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/exiftool-12.35.zip
-            DESTINATION ${OUTPUT_PATH}/tools
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
         )
     endif()
 
-    install(FILES ${OUTPUT_PATH}/tools/exiftool\(-k\).exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool\(-k\).exe
         DESTINATION tools/ExifTool/
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
-            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi
+            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi
             SHOW_PROGRESS
         )
 
@@ -179,7 +179,7 @@ function(download_tools)
         )
     endif()
 
-    install(FILES ${OUTPUT_PATH}/tools/Hugin/Hugin/bin/align_image_stack.exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/align_image_stack.exe
         DESTINATION tools/Hugin
     )
 
@@ -280,19 +280,17 @@ macro(addDeploymentActions)
     )
 
     # hierarchy setup
-    set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-
     setup_qt_environment()
 
     #target
     add_custom_target(deploy ALL
         DEPENDS
             photo_broom
-            ${OUTPUT_PATH}/deploy_qt6
+            ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
     )
 
     # install deployed files to proper locations
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/ DESTINATION ${PATH_LIBS})
 
 endmacro(addDeploymentActions)
 
