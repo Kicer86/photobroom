@@ -2,36 +2,6 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
-function(setup_qt_environment)
-    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy)
-
-    find_program(WINDEPLOY windeployqt
-        HINTS ${qt_bin_dir}
-    )
-
-    if(WINDEPLOY)
-        get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
-
-        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-            COMMAND ${WINDEPLOY}
-                ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                    --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                    $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                    --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
-                    $<TARGET_FILE:photo_broom>
-                    $<$<BOOL:${BUILD_SHARED_LIBS}>:$<TARGET_FILE:gui>>                  #include 'gui' target only if it is shared library
-                    $<TARGET_FILE:updater>
-                    $<TARGET_FILE:sql_backend_base>
-
-            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-            DEPENDS photo_broom
-            WORKING_DIRECTORY ${WINDEPLOY_DIR}
-        )       
-    else()
-        message(FATAL_ERROR "Could not find windeployqt")
-    endif(WINDEPLOY)
-endfunction()
-
 
 function(download_tools)
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
@@ -104,57 +74,28 @@ function(download_tools)
 endfunction(download_tools)
 
 
-macro(addDeploymentActions)
-    
-    # https://stackoverflow.com/questions/62884439/how-to-use-cmake-file-get-runtime-dependencies-in-an-install-statement
-    # another interesting solution is https://cmake.org/cmake/help/latest/command/install.html?highlight=install#targets with RUNTIME_DEPENDENCIES
-    # however for some reason it doesn't find exiv2 and some other dependencies.
-    # Also see: https://gitlab.kitware.com/cmake/cmake/-/issues/22006
-    # Some details about fake dependencies: https://stackoverflow.com/questions/36240215/dependency-walker-missing-dlls
-    install(CODE [[
+function(addDependenciesInstallStep)
 
-        file(GET_RUNTIME_DEPENDENCIES  
-            PRE_EXCLUDE_REGEXES 
-                api-ms-.* 
-                ext-ms-.*
-                hvsifiletrust.dll
-                [qQ]t6.*\\.dll                                  #windeployqt will take care about Qt's libs
-            POST_EXCLUDE_REGEXES
-                ".*/system32/.*\\.dll"
-            RESOLVED_DEPENDENCIES_VAR deps 
-            EXECUTABLES $<TARGET_FILE:photo_broom>
-        )
-     
-        file(INSTALL
-            DESTINATION "${CMAKE_INSTALL_PREFIX}/${PATH_BIN}"
-            TYPE SHARED_LIBRARY
-            FOLLOW_SYMLINK_CHAIN
-            FILES ${deps}
-        )
-
-    ]])
-
-    # hierarchy setup
-    setup_qt_environment()
-
-    #target
-    add_custom_target(deploy ALL
-        DEPENDS
-            photo_broom
-            ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+    get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+                    
+    find_program(WINDEPLOY windeployqt
+        HINTS ${qt_bin_dir}
+        REQUIRED
     )
+        
+    get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
 
-    # install deployed files to proper locations
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/ DESTINATION ${PATH_LIBS})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/win32_deps.cmake.in win32_deps.cmake @ONLY) 
 
-endmacro(addDeploymentActions)
+    include(${CMAKE_CURRENT_BINARY_DIR}/win32_deps.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Core)
-get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
-get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+endfunction(addDependenciesInstallStep)
 
-#enable deployment
-addDeploymentActions()
+
+#install dependencies
+addDependenciesInstallStep()
 
 #download tools
 download_tools()
