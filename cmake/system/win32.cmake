@@ -187,97 +187,34 @@ endfunction(download_tools)
 
 
 macro(addDeploymentActions)
+    
+    # https://stackoverflow.com/questions/62884439/how-to-use-cmake-file-get-runtime-dependencies-in-an-install-statement
+    # another interesting solution is https://cmake.org/cmake/help/latest/command/install.html?highlight=install#targets with RUNTIME_DEPENDENCIES
+    # however for some reason it doesn't find exiv2 and some other dependencies.
+    # Also see: https://gitlab.kitware.com/cmake/cmake/-/issues/22006
+    # Some details about fake dependencies: https://stackoverflow.com/questions/36240215/dependency-walker-missing-dlls
+    install(CODE [[
 
-    find_package(OpenSSL)
-
-    # install required dll files
-    set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib openblas              #dlib dependencies
-                  liblapack
-                  libgfortran-5
-                  libgcc_s_seh-1
-                  libwinpthread-1
-                  libquadmath-0
-    )
-    set(libs_nvidia
-        cudnn64_8                                           #required by dlib when compiled with CUDA
-        cublas64_11
-        cublasLt64_11
-    )
-    set(libs_openssl                                        #required by github_api for secure connections
-        libcrypto-1_1-x64
-        libssl-1_1-x64
-    )
-
-    set(libs_qt6
-        zstd
-        pcre2-16
-        harfbuzz
-        freetype
-        brotlidec
-        libpng16
-        bz2
-        brotlicommon
-        sqlite3
-        jpeg62
-    )
-
-    set(libs_qt6_nonvcpkg
-        opengl32sw
-    )
-
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-
-        # include compiler's runtime copied by windeploy in installer as extra install step
-        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-            set(redistributable_file_name vc_redist.x64.exe)
-        else()
-            set(redistributable_file_name vc_redist.x86.exe)
-        endif()
-
-        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\${redistributable_file_name}\\\"'")
-
-        set(libs_Compiler )
-
-    endif()
-
-    install_external_lib(NAME "Exiv2"
-                         DLLFILES ${libs_exiv2}
-    )
-
-    install_external_lib(NAME "DLIB"
-                         DLLFILES ${libs_dlib}
-    )
-
-
-    install_external_lib(NAME "NVidia"
-                         DLLFILES ${libs_nvidia}
-                         HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
-                         OPTIONAL
-    )
-
-    install_external_lib(NAME "OpenSSL"
-                         DLLFILES ${libs_openssl}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${OPENSSL_ROOT_DIR}/bin
-                         OPTIONAL
-    )
-
-    if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
-        install_external_lib(NAME "Qt6_third_party"
-                             DLLFILES ${libs_qt6}
+        file(GET_RUNTIME_DEPENDENCIES  
+            PRE_EXCLUDE_REGEXES 
+                api-ms-.* 
+                ext-ms-.*
+                hvsifiletrust.dll
+                [qQ]t6.*\\.dll                                  #windeployqt will take care about Qt's libs
+            POST_EXCLUDE_REGEXES
+                ".*/system32/.*\\.dll"
+            RESOLVED_DEPENDENCIES_VAR deps 
+            EXECUTABLES $<TARGET_FILE:photo_broom>
         )
-    else()
-        install_external_lib(NAME "Qt6_third_party"
-                             DLLFILES ${libs_qt6_nonvcpkg}
-                             HINTS ${qt_bin_dir}
+     
+        file(INSTALL
+            DESTINATION "${CMAKE_INSTALL_PREFIX}/${PATH_BIN}"
+            TYPE SHARED_LIBRARY
+            FOLLOW_SYMLINK_CHAIN
+            FILES ${deps}
         )
-    endif()
 
-    install_external_lib(NAME "Compiler"
-                         DLLFILES ${libs_Compiler}
-                         LOCATION "."
-    )
+    ]])
 
     # hierarchy setup
     setup_qt_environment()
