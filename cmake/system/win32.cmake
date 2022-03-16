@@ -63,58 +63,6 @@ function(setup_qt_environment)
 endfunction()
 
 
-function(install_external_lib)
-
-  set(options OPTIONAL)
-  set(oneValueArgs NAME LOCATION)
-  set(multiValueArgs DLLFILES HINTS)
-  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-  if(_VCPKG_INSTALLED_DIR)
-    set(VCPKG_REL_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
-    set(VCPKG_DBG_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
-  elseif(VCPKG_TRIPLET_DIR)
-    set(VCPKG_REL_HINT_DIR "${VCPKG_TRIPLET_DIR}/bin")
-    set(VCPKG_DBG_HINT_DIR "${VCPKG_TRIPLET_DIR}/debug/bin")
-  endif()
-
-  if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
-    set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
-  endif()
-
-  set(CopiedBinaries)
-
-  foreach(config IN ITEMS Debug Release)
-
-    if(config MATCHES Debug)
-      set(hints ${VCPKG_DBG_HINT_DIR})
-    else()
-      set(hints ${VCPKG_REL_HINT_DIR})
-    endif()
-
-    list(APPEND hints ${EXTERNAL_LIB_HINTS})
-
-    foreach(lib ${EXTERNAL_LIB_DLLFILES})
-      set(LIB_PATH_VAR "LIBPATH_${lib}_${config}")     # name of variable with path to file is combined so it looks nice in CMake's cache file
-
-      message(DEBUG "Looking for ${lib} in ${hints}")
-
-      find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
-
-      if(${LIB_PATH_VAR})
-          install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION} CONFIGURATIONS ${config})
-      elseif(EXTERNAL_LIB_OPTIONAL OR config MATCHES Debug)         # debug packages are optional
-          message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-          continue()
-      else()
-          message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-      endif()
-    endforeach()
-  endforeach()
-
-endfunction(install_external_lib)
-
-
 function(download_tools)
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
         message("Downloading ImageMagick")
