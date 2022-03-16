@@ -12,51 +12,21 @@ function(setup_qt_environment)
     if(WINDEPLOY)
         get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
 
-        if(BUILD_SHARED_LIBS)
-            add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
-                                       $<TARGET_FILE:gui>
+        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
+            COMMAND ${WINDEPLOY}
+                ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
+                    --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
+                    $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
+                    --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_views
+                    $<TARGET_FILE:photo_broom>
+                    $<$<BOOL:${BUILD_SHARED_LIBS}>:$<TARGET_FILE:gui>>                  #include 'gui' target only if it is shared library
+                    $<TARGET_FILE:updater>
+                    $<TARGET_FILE:sql_backend_base>
 
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:updater>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        else()
-            add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
-                                       $<TARGET_FILE:photo_broom>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs
-                                       --plugindir ${CMAKE_CURRENT_BINARY_DIR}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        endif()
+            COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/deploy_qt6
+            DEPENDS photo_broom
+            WORKING_DIRECTORY ${WINDEPLOY_DIR}
+        )       
     else()
         message(FATAL_ERROR "Could not find windeployqt")
     endif(WINDEPLOY)
