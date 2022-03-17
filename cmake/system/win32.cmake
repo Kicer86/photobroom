@@ -2,173 +2,61 @@
 # CMake script preparing build environment for windows
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
-function(setup_qt_environment)
-    file(MAKE_DIRECTORY ${OUTPUT_PATH}/deploy)
-
-    find_program(WINDEPLOY windeployqt
-        HINTS ${qt_bin_dir}
-    )
-
-    if(WINDEPLOY)
-        get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
-
-        if(BUILD_SHARED_LIBS)
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
-                                       $<TARGET_FILE:gui>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:updater>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        else()
-            add_custom_command(OUTPUT ${OUTPUT_PATH}/deploy_qt6
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       --qmldir ${PROJECT_SOURCE_DIR}/src/gui/desktop/quick_items
-                                       $<TARGET_FILE:photo_broom>
-
-                               COMMAND ${WINDEPLOY}
-                                  ARGS --dir ${OUTPUT_PATH}/deploy/libs
-                                       --plugindir ${OUTPUT_PATH}/deploy/libs/qt_plugins
-                                       $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-                                       $<TARGET_FILE:sql_backend_base>
-
-                               COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT_PATH}/deploy_qt6
-                               DEPENDS photo_broom
-                               WORKING_DIRECTORY ${WINDEPLOY_DIR}
-                              )
-        endif()
-    else()
-        message(FATAL_ERROR "Could not find windeployqt")
-    endif(WINDEPLOY)
-endfunction()
-
-
-function(install_external_lib)
-
-  set(options OPTIONAL)
-  set(oneValueArgs NAME LOCATION)
-  set(multiValueArgs DLLFILES HINTS)
-  cmake_parse_arguments(EXTERNAL_LIB "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-  if(_VCPKG_INSTALLED_DIR)
-    set(VCPKG_REL_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
-    set(VCPKG_DBG_HINT_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
-  elseif(VCPKG_TRIPLET_DIR)
-    set(VCPKG_REL_HINT_DIR "${VCPKG_TRIPLET_DIR}/bin")
-    set(VCPKG_DBG_HINT_DIR "${VCPKG_TRIPLET_DIR}/debug/bin")
-  endif()
-
-  if("${EXTERNAL_LIB_LOCATION}" STREQUAL "")
-    set(EXTERNAL_LIB_LOCATION ${PATH_LIBS})
-  endif()
-
-  set(CopiedBinaries)
-
-  foreach(config IN ITEMS Debug Release)
-
-    if(config MATCHES Debug)
-      set(hints ${VCPKG_DBG_HINT_DIR})
-    else()
-      set(hints ${VCPKG_REL_HINT_DIR})
-    endif()
-
-    list(APPEND hints ${EXTERNAL_LIB_HINTS})
-
-    foreach(lib ${EXTERNAL_LIB_DLLFILES})
-      set(LIB_PATH_VAR "LIBPATH_${lib}_${config}")     # name of variable with path to file is combined so it looks nice in CMake's cache file
-
-      message(DEBUG "Looking for ${lib} in ${hints}")
-
-      find_file(${LIB_PATH_VAR} NAMES ${lib}.dll ${lib}d.dll HINTS ${hints} DOC "DLL file location for package build")
-
-      if(${LIB_PATH_VAR})
-          install(FILES ${${LIB_PATH_VAR}} DESTINATION ${EXTERNAL_LIB_LOCATION} CONFIGURATIONS ${config})
-      elseif(EXTERNAL_LIB_OPTIONAL OR config MATCHES Debug)         # debug packages are optional
-          message(WARNING "Could not find location for OPTIONAL ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-          continue()
-      else()
-          message(FATAL_ERROR "Could not find location for ${lib}.dll file (hints: ${hints}) for configuration: ${config}. Set path manually in CMake's cache file in ${LIB_PATH_VAR} variable.")
-      endif()
-    endforeach()
-  endforeach()
-
-endfunction(install_external_lib)
-
 
 function(download_tools)
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
         message("Downloading ImageMagick")
         file(DOWNLOAD
-            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            https://download.imagemagick.org/ImageMagick/download/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
-            DESTINATION ${OUTPUT_PATH}/tools/ImageMagick
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick
         )
     endif()
 
-    install(DIRECTORY ${OUTPUT_PATH}/tools/ImageMagick/
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick/
         DESTINATION tools/ImageMagick
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z)
         message("Downloading FFMpeg")
         file(DOWNLOAD
-            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
+            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/ffmpeg-release-essentials.7z
-            DESTINATION ${OUTPUT_PATH}/tools
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
         )
     endif()
 
-    install(DIRECTORY ${OUTPUT_PATH}/tools/ffmpeg-4.4.1-essentials_build/   # version :/ not nice to have it here
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.0-essentials_build/   # version :/ not nice to have it here
         DESTINATION tools/FFMpeg
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/exiftool-12.35.zip)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
-            https://exiftool.org/exiftool-12.35.zip ${OUTPUT_PATH}/tools/exiftool-12.35.zip
+            https://exiftool.org/exiftool-12.35.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${OUTPUT_PATH}/tools/exiftool-12.35.zip
-            DESTINATION ${OUTPUT_PATH}/tools
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
         )
     endif()
 
-    install(FILES ${OUTPUT_PATH}/tools/exiftool\(-k\).exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool\(-k\).exe
         DESTINATION tools/ExifTool/
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
-            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${OUTPUT_PATH}/tools/Hugin-2020.0.0-win64.msi
+            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi
             SHOW_PROGRESS
         )
 
@@ -179,129 +67,35 @@ function(download_tools)
         )
     endif()
 
-    install(FILES ${OUTPUT_PATH}/tools/Hugin/Hugin/bin/align_image_stack.exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/align_image_stack.exe
         DESTINATION tools/Hugin
     )
 
 endfunction(download_tools)
 
 
-macro(addDeploymentActions)
+function(addDependenciesInstallStep)
 
-    find_package(OpenSSL)
-
-    # install required dll files
-    set(libs_exiv2 exiv2 zlib1 iconv-2)
-    set(libs_dlib openblas              #dlib dependencies
-                  liblapack
-                  libgfortran-5
-                  libgcc_s_seh-1
-                  libwinpthread-1
-                  libquadmath-0
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+    get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
+    get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
+                    
+    find_program(WINDEPLOY windeployqt
+        HINTS ${qt_bin_dir}
+        REQUIRED
     )
-    set(libs_nvidia
-        cudnn64_8                                           #required by dlib when compiled with CUDA
-        cublas64_11
-        cublasLt64_11
-    )
-    set(libs_openssl                                        #required by github_api for secure connections
-        libcrypto-1_1-x64
-        libssl-1_1-x64
-    )
+        
+    get_filename_component(WINDEPLOY_DIR ${WINDEPLOY} DIRECTORY)
 
-    set(libs_qt6
-        zstd
-        pcre2-16
-        harfbuzz
-        freetype
-        brotlidec
-        libpng16
-        bz2
-        brotlicommon
-        sqlite3
-        jpeg62
-    )
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/win32_deps.cmake.in win32_deps.cmake @ONLY) 
 
-    set(libs_qt6_nonvcpkg
-        opengl32sw
-    )
+    include(${CMAKE_CURRENT_BINARY_DIR}/win32_deps.cmake)
 
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-
-        # include compiler's runtime copied by windeploy in installer as extra install step
-        if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-            set(redistributable_file_name vc_redist.x64.exe)
-        else()
-            set(redistributable_file_name vc_redist.x86.exe)
-        endif()
-
-        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\${redistributable_file_name}\\\"'")
-
-        set(libs_Compiler )
-
-    endif()
-
-    install_external_lib(NAME "Exiv2"
-                         DLLFILES ${libs_exiv2}
-    )
-
-    install_external_lib(NAME "DLIB"
-                         DLLFILES ${libs_dlib}
-    )
+endfunction(addDependenciesInstallStep)
 
 
-    install_external_lib(NAME "NVidia"
-                         DLLFILES ${libs_nvidia}
-                         HINTS "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin"
-                         OPTIONAL
-    )
-
-    install_external_lib(NAME "OpenSSL"
-                         DLLFILES ${libs_openssl}
-                         HINTS ${CMAKE_INSTALL_PREFIX}/lib
-                               ${OPENSSL_ROOT_DIR}/bin
-                         OPTIONAL
-    )
-
-    if(qt_moc_path MATCHES "${_VCPKG_INSTALLED_DIR}.*")             # qt comes from vcpkg - include additional libraries
-        install_external_lib(NAME "Qt6_third_party"
-                             DLLFILES ${libs_qt6}
-        )
-    else()
-        install_external_lib(NAME "Qt6_third_party"
-                             DLLFILES ${libs_qt6_nonvcpkg}
-                             HINTS ${qt_bin_dir}
-        )
-    endif()
-
-    install_external_lib(NAME "Compiler"
-                         DLLFILES ${libs_Compiler}
-                         LOCATION "."
-    )
-
-    # hierarchy setup
-    set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-
-    setup_qt_environment()
-
-    #target
-    add_custom_target(deploy ALL
-        DEPENDS
-            photo_broom
-            ${OUTPUT_PATH}/deploy_qt6
-    )
-
-    # install deployed files to proper locations
-    install(DIRECTORY ${OUTPUT_PATH}/deploy/libs/ DESTINATION ${PATH_LIBS})
-
-endmacro(addDeploymentActions)
-
-find_package(Qt6 REQUIRED COMPONENTS Core)
-get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
-get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
-
-#enable deployment
-addDeploymentActions()
+#install dependencies
+addDependenciesInstallStep()
 
 #download tools
 download_tools()
