@@ -40,6 +40,12 @@ jobs:
         version: '6.2.2'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+    - uses: actions/cache@v2
+      if: matrix.os == 'windows-latest'
+      with:
+        path: builds/ninja_multi_vcpkg/tools
+        key: ${{ runner.os }}-externalTools
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.1
 
