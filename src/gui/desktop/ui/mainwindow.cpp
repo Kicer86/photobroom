@@ -65,7 +65,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_updater(nullptr),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
-    m_mainView(new QQuickView),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
     m_toolsTabCtrl(new ToolsTabController),
@@ -134,8 +133,7 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    m_mainView->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
-    m_mainView->show();
+    m_mainView.load(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller

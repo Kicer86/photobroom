@@ -4,6 +4,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQuickWidget>
+#include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlPropertyMap>
 
@@ -21,12 +22,21 @@ namespace QmlUtils
     }
 
 
-    QObject* findQmlObject(QQuickView* qml, const QString& objectName)
+    QObject* findQmlObject(QQmlApplicationEngine& engine, const QString& objectName)
     {
-        auto rootObject = qml->rootObject();
-        return (rootObject->objectName() == objectName)?
-            rootObject :
-            rootObject->findChild<QObject*>(objectName);
+        QObject* child = nullptr;
+
+        for(auto rootObject: engine.rootObjects())
+        {
+            child = (rootObject->objectName() == objectName)?
+                rootObject :
+                rootObject->findChild<QObject*>(objectName);
+
+            if (child != nullptr)
+                break;
+        }
+
+        return child;
     }
 
 
@@ -38,9 +48,9 @@ namespace QmlUtils
     }
 
 
-    QQuickItem* findQuickItem(QQuickView* qml, const QString& objectName)
+    QQuickItem* findQuickItem(QQmlApplicationEngine& engine, const QString& objectName)
     {
-        QObject* obj = findQmlObject(qml, objectName);
+        QObject* obj = findQmlObject(engine, objectName);
 
         return qobject_cast<QQuickItem *>(obj);
     }
@@ -60,9 +70,9 @@ namespace QmlUtils
     }
 
 
-    void registerImageProviders(QQuickView* view, IThumbnailsManager& thbMgr)
+    void registerImageProviders(QQmlApplicationEngine& engine, IThumbnailsManager& thbMgr)
     {
-        view->engine()->addImageProvider("thumbnail", new ThumbnailImageProvider(thbMgr));
+        engine.addImageProvider("thumbnail", new ThumbnailImageProvider(thbMgr));
     }
 
 

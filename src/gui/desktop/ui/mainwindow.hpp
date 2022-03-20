@@ -5,7 +5,7 @@
 #include <memory>
 
 #include <QMainWindow>
-#include <QQuickView>
+#include <QQmlApplicationEngine>
 
 #include <core/ifeatures_manager.hpp>
 #include <database/idatabase.hpp>
@@ -65,7 +65,7 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
-        QQuickView*               m_mainView;
+        QQmlApplicationEngine     m_mainView;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
