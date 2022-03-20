@@ -311,12 +311,13 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+24"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+4"/>
         <source>Open &amp;recent</source>
         <translation>O&amp;twórz poprzednią</translation>
     </message>
@@ -326,17 +327,19 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+12"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+15"/>
         <source>&amp;Windows</source>
         <translation>&amp;Okna</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="-4"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-21"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+15"/>
         <source>Settin&amp;gs</source>
         <translation>Ustawie&amp;nia</translation>
     </message>
@@ -366,17 +369,19 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;O Photo Broom</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-5"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+2"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Quit</source>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>About &amp;Qt</source>
         <translation>O &amp;Qt</translation>
     </message>
@@ -386,32 +391,41 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+19"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-11"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Tags editor</source>
         <translation>&amp;Edytor tagów</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-12"/>
+        <source>&amp;New...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Scan collection</source>
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-1"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Media information</source>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Face organizer</source>
         <translation>&amp;Zarządzanie osobami</translation>
     </message>
@@ -551,7 +565,37 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+98"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-12"/>
+        <source>&amp;Open...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>S&amp;can collection...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>&amp;Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>S&amp;eries detector...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ph&amp;oto data completion...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+81"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>

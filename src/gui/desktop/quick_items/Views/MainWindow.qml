@@ -9,17 +9,47 @@ import "../Components" as Components
 
 
 ApplicationWindow {
+    id: mainWindow
+    objectName: "MainWindow"
+
+    property bool projectOpened: false
+    property var selectedPhotos: null
+
     visible: true
     width: 1024
     height: 768
 
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("&Photo collection")
+            Action { text: qsTr("&New...") }
+            Action { text: qsTr("&Open...") }
+            Action { text: qsTr("&Close") }
+            MenuSeparator { }
+            Action { text: qsTr("&Quit") }
+        }
+        Menu {
+            title: qsTr("P&hotos")
+            Action { text: qsTr("S&can collection...") }
+        }
+        Menu {
+            title: qsTr("&Windows")
+            Action { checkable: true; text: qsTr("&Tags editor") }
+            Action { checkable: true; text: qsTr("&Media information") }
+            Action { checkable: true; text: qsTr("T&asks") }
+        }
+        Menu {
+            title: qsTr("&Tools")
+            Action { text: qsTr("S&eries detector...") }
+            Action { text: qsTr("Ph&oto data completion...") }
+        }
+        Menu {
+            title: qsTr("&Settings")
+            Action { text: qsTr("&Configuration") }
+        }
+    }
+
     SwipeView {
-        id: mainWindow
-        objectName: "MainWindow"
-
-        property bool projectOpened: false
-        property var selectedPhotos: null
-
         anchors.fill: parent
 
         interactive: false
