@@ -327,13 +327,13 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Po&amp;moc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+12"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+13"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+15"/>
         <source>&amp;Windows</source>
         <translation>&amp;Okna</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-5"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-21"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
@@ -391,24 +391,24 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+19"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+21"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-12"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Tags editor</source>
         <translation>&amp;Edytor tagów</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-13"/>
         <source>&amp;New...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
@@ -565,12 +565,12 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-12"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-13"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>S&amp;can collection...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -580,7 +580,7 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>S&amp;eries detector...</source>
         <translation type="unfinished"></translation>
     </message>

@@ -333,7 +333,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="36"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="37"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="75"/>
         <source>&amp;Windows</source>
         <translation type="unfinished"></translation>
@@ -386,13 +386,13 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="48"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="50"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="141"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="37"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="38"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="149"/>
         <source>&amp;Tags editor</source>
         <translation type="unfinished"></translation>
@@ -403,7 +403,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="39"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="40"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="157"/>
         <source>T&amp;asks</source>
         <translation type="unfinished"></translation>
@@ -414,7 +414,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="38"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="39"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="170"/>
         <source>&amp;Media information</source>
         <translation>&amp;Media information</translation>
@@ -551,52 +551,52 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="34"/>
         <source>S&amp;can collection...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="42"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="43"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="43"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="45"/>
         <source>S&amp;eries detector...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="44"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="46"/>
         <source>Ph&amp;oto data completion...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="47"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="49"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="128"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="130"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="160"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="172"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="174"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="195"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="197"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="212"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>

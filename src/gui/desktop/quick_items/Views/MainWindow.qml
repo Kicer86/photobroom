@@ -24,12 +24,13 @@ ApplicationWindow {
             title: qsTr("&Photo collection")
             Action { text: qsTr("&New...") }
             Action { text: qsTr("&Open...") }
-            Action { text: qsTr("&Close") }
+            Action { text: qsTr("&Close"); enabled: projectOpened }
             MenuSeparator { }
             Action { text: qsTr("&Quit") }
         }
         Menu {
             title: qsTr("P&hotos")
+            enabled: projectOpened
             Action { text: qsTr("S&can collection...") }
         }
         Menu {
@@ -40,6 +41,7 @@ ApplicationWindow {
         }
         Menu {
             title: qsTr("&Tools")
+            enabled: projectOpened
             Action { text: qsTr("S&eries detector...") }
             Action { text: qsTr("Ph&oto data completion...") }
         }
