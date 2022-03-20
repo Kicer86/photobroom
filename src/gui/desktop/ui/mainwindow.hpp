@@ -108,11 +108,6 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
-        // windows menu
-        void on_actionTags_editor_triggered();
-        void on_actionTasks_triggered();
-        void on_actionPhoto_properties_triggered();
-
         // tools menu
         void on_actionSeries_detector_triggered();
         void on_actionPhoto_data_completion_triggered();
@@ -125,9 +120,6 @@ class MainWindow: public QMainWindow
 
         //check version
         void checkVersion();
-
-        // update windows menu
-        void updateWindowsMenu();
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);

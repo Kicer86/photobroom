@@ -328,13 +328,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+13"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+15"/>
         <source>&amp;Windows</source>
         <translation>&amp;Okna</translation>
     </message>
     <message>
         <location line="-5"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-21"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="-6"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -344,12 +343,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+6"/>
         <source>Tools</source>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+14"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -397,21 +396,80 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-12"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Tags editor</source>
         <translation>&amp;Edytor tagów</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-25"/>
         <source>&amp;New...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+1"/>
+        <source>&amp;Open...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>S&amp;can collection...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>P&amp;roperties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>S&amp;eries detector...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ph&amp;oto data completion...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+80"/>
+        <source>Tasks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Back to photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
@@ -419,7 +477,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-1"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-172"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Media information</source>
         <translation>&amp;Informacje o pliku</translation>
@@ -440,7 +498,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+225"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+209"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -462,7 +520,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+107"/>
+        <location line="+106"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -482,7 +540,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+237"/>
+        <location line="+207"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -555,7 +613,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-117"/>
+        <location line="-87"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -563,61 +621,6 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-13"/>
-        <source>&amp;Open...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>S&amp;can collection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>S&amp;eries detector...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ph&amp;oto data completion...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+81"/>
-        <source>Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Back to photos</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

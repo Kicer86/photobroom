@@ -101,10 +101,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
 
-    // hide debug dock if ObservablesRegistry is disabled
-    QQuickItem* debugWindow = QmlUtils::findQuickItem(m_mainView, "DebugWindow");
-    debugWindow->setVisible(ObservablesRegistry::instance().isEnabled());
-
     // TODO: nothing useful in help menu at this moment
     ui->menuHelp->menuAction()->setVisible(false);
 }
@@ -198,18 +194,6 @@ void MainWindow::checkVersion()
 
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
     m_updater->getStatus(callback);
-}
-
-
-void MainWindow::updateWindowsMenu()
-{
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(m_mainView, "TagEditor");
-    QQuickItem* tasksWindow = QmlUtils::findQuickItem(m_mainView, "TasksViewDock");
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(m_mainView, "PropertiesWindow");
-
-    ui->actionTags_editor->setChecked(tagEditor->isVisible());
-    ui->actionTasks->setChecked(tasksWindow->isVisible());
-    ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
 }
 
 
@@ -308,7 +292,6 @@ void MainWindow::closeProject()
 void MainWindow::setupView()
 {
     setupQmlView();
-    updateWindowsMenu();
 }
 
 
@@ -506,36 +489,6 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this, tr("About Qt"));
-}
-
-
-void MainWindow::on_actionTags_editor_triggered()
-{
-    const bool state = ui->actionTags_editor->isChecked();
-
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(m_mainView, "TagEditor");
-
-    tagEditor->setVisible(state);
-}
-
-
-void MainWindow::on_actionTasks_triggered()
-{
-    const bool state = ui->actionTasks->isChecked();
-
-    QQuickItem* tasksView = QmlUtils::findQuickItem(m_mainView, "TasksViewDock");
-
-    tasksView->setVisible(state);
-}
-
-
-void MainWindow::on_actionPhoto_properties_triggered()
-{
-    const bool state = ui->actionPhoto_properties->isChecked();
-
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(m_mainView, "PropertiesWindow");
-
-    propertiesWindow->setVisible(state);
 }
 
 

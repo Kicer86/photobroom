@@ -35,9 +35,9 @@ ApplicationWindow {
         }
         Menu {
             title: qsTr("&Windows")
-            Action { checkable: true; text: qsTr("&Tags editor") }
-            Action { checkable: true; text: qsTr("&Media information") }
-            Action { checkable: true; text: qsTr("T&asks") }
+            Action { text: qsTr("P&roperties");        checkable: true; checked: tagEditor.visible;        onTriggered: tagEditor.visible = !tagEditor.visible }
+            Action { text: qsTr("&Media information"); checkable: true; checked: propertiesWindow.visible; onTriggered: propertiesWindow.visible = !propertiesWindow.visible }
+            Action { text: qsTr("T&asks");             checkable: true; checked: tasksViewDock.visible;    onTriggered: tasksViewDock.visible = !tasksViewDock.visible; }
         }
         Menu {
             title: qsTr("&Tools")
@@ -124,7 +124,6 @@ ApplicationWindow {
 
                 GroupBox {
                     id: tasksViewDock
-                    objectName: "TasksViewDock"
 
                     width: parent.width
                     title: "<b>" + qsTr("Tasks") +"</b"
@@ -154,7 +153,7 @@ ApplicationWindow {
                 spacing: 10
 
                 GroupBox {
-                    objectName: "TagEditor"
+                    id: tagEditor
 
                     width: parent.width
                     title: qsTr("<b>Properties</b>")
@@ -168,7 +167,7 @@ ApplicationWindow {
                 }
 
                 GroupBox {
-                    objectName: "PropertiesWindow"
+                    id: propertiesWindow
 
                     width: parent.width
                     title: qsTr("<b>Media information</b>")
@@ -193,12 +192,12 @@ ApplicationWindow {
                 }
 
                 GroupBox {
+                    id: debugWindow
                     width: parent.width
+                    visible: ObservablesRegistry.enabled
                     title: qsTr("<b>Debug window</b>")
 
-                    DebugWindow {
-                        objectName: "DebugWindow"
-                    }
+                    DebugWindow { }
                 }
             }
         }
