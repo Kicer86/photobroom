@@ -29,9 +29,9 @@ jobs:
 
     - name: Cache Qt
       id: cache-qt
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
-        path: ../Qt
+        path: ${{ runner.workspace }}/Qt
         key: ${{ runner.os }}-QtCache
 
     - name: Install Qt
