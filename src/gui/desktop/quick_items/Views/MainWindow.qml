@@ -43,7 +43,7 @@ ApplicationWindow {
             title: qsTr("&Tools")
             enabled: projectOpened
             Action { text: qsTr("S&eries detector...") }
-            Action { text: qsTr("Ph&oto data completion...") }
+            Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
         }
         Menu {
             title: qsTr("&Settings")
@@ -52,6 +52,7 @@ ApplicationWindow {
     }
 
     SwipeView {
+        id: mainView
         anchors.fill: parent
 
         interactive: false
@@ -210,7 +211,7 @@ ApplicationWindow {
 
                 text: qsTr("Back to photos")
 
-                onClicked: mainWindow.currentIndex = 0
+                onClicked: mainView.currentIndex = 0
             }
 
             PhotoDataCompletion {

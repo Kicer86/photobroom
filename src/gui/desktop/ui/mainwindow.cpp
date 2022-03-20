@@ -498,13 +498,6 @@ void MainWindow::on_actionSeries_detector_triggered()
 }
 
 
-void MainWindow::on_actionPhoto_data_completion_triggered()
-{
-    QObject* mainwindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
-    mainwindow->setProperty("currentIndex", 1);
-}
-
-
 void MainWindow::on_actionConfiguration_triggered()
 {
     m_configDialogManager->run();

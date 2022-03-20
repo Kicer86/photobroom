@@ -348,7 +348,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -447,7 +447,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+81"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
@@ -477,7 +477,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-172"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-173"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
         <source>&amp;Media information</source>
         <translation>&amp;Informacje o pliku</translation>
@@ -540,7 +540,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Photo broom: %1</translation>
     </message>
     <message>
-        <location line="+207"/>
+        <location line="+200"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -613,7 +613,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-80"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>

@@ -75,7 +75,6 @@
      <string>Tools</string>
     </property>
     <addaction name="actionSeries_detector"/>
-    <addaction name="actionPhoto_data_completion"/>
    </widget>
    <addaction name="menuCollection"/>
    <addaction name="menuPhotos"/>
