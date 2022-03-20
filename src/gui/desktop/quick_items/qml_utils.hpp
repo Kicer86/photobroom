@@ -7,6 +7,7 @@
 #include "utils/ithumbnails_manager.hpp"
 
 class QQuickItem;
+class QQuickView;
 class QQuickWidget;
 class QQmlPropertyMap;
 
@@ -14,9 +15,11 @@ class QQmlPropertyMap;
 namespace QmlUtils
 {
     QObject* findQmlObject(QQuickWidget *, const QString& objectName);
-    QQuickItem* findQuickItem(QQuickWidget *, const QString& objectName);
+    QObject* findQmlObject(QQuickView *, const QString& objectName);
+    QQuickItem* findQuickItem(QQuickView *, const QString& objectName);
     void registerObject(QQuickWidget *, const QString& objectName, QObject *);
     void registerObjectProperties(QQuickWidget *, const QString& objectName, QQmlPropertyMap* properties);
+    void registerImageProviders(QQuickView *, IThumbnailsManager &);
     void registerImageProviders(QQuickWidget *, IThumbnailsManager &);
 }
 

@@ -21,18 +21,7 @@
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <widget class="QWidget" name="mainWidget">
-   <layout class="QVBoxLayout">
-    <item>
-     <widget class="QQuickWidget" name="mainViewQml">
-      <property name="contextMenuPolicy">
-       <enum>Qt::CustomContextMenu</enum>
-      </property>
-      <property name="resizeMode">
-       <enum>QQuickWidget::SizeRootObjectToView</enum>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <layout class="QVBoxLayout"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -197,13 +186,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QQuickWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../../images/images.qrc"/>
  </resources>

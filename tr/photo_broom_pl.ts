@@ -311,7 +311,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -426,7 +426,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+227"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

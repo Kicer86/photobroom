@@ -65,6 +65,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_updater(nullptr),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
+    m_mainView(new QQuickView),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
     m_toolsTabCtrl(new ToolsTabController),
@@ -102,7 +103,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_toolsTabCtrl->set(&m_configuration);
 
     // hide debug dock if ObservablesRegistry is disabled
-    QQuickItem* debugWindow = QmlUtils::findQuickItem(ui->mainViewQml, "DebugWindow");
+    QQuickItem* debugWindow = QmlUtils::findQuickItem(m_mainView, "DebugWindow");
     debugWindow->setVisible(ObservablesRegistry::instance().isEnabled());
 
     // TODO: nothing useful in help menu at this moment
@@ -133,16 +134,19 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    ui->mainViewQml->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
-    QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
-    PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
+    m_mainView->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
+    m_mainView->show();
+
+    QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
+    PhotosModelControllerComponent* controller
+        = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(m_mainView, "photos_model_controller"));
 
     assert(controller != nullptr);
 
     controller->setCompleterFactory(&m_completerFactory);
 
-    QObject* tasksView = QmlUtils::findQmlObject(ui->mainViewQml, "TasksView");
-    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
+    QObject* tasksView = QmlUtils::findQmlObject(m_mainView, "TasksView");
+    QObject* notificationsList = QmlUtils::findQmlObject(m_mainView, "NotificationsList");
 
     tasksView->setProperty("model", QVariant::fromValue(&m_tasksModel));
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
@@ -201,9 +205,9 @@ void MainWindow::checkVersion()
 
 void MainWindow::updateWindowsMenu()
 {
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
-    QQuickItem* tasksWindow = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(m_mainView, "TagEditor");
+    QQuickItem* tasksWindow = QmlUtils::findQuickItem(m_mainView, "TasksViewDock");
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(m_mainView, "PropertiesWindow");
 
     ui->actionTags_editor->setChecked(tagEditor->isVisible());
     ui->actionTasks->setChecked(tasksWindow->isVisible());
@@ -375,7 +379,7 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    QObject* notificationsList = QmlUtils::findQmlObject(m_mainView, "MainWindow");
     notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
 }
 
@@ -511,7 +515,7 @@ void MainWindow::on_actionTags_editor_triggered()
 {
     const bool state = ui->actionTags_editor->isChecked();
 
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
+    QQuickItem* tagEditor = QmlUtils::findQuickItem(m_mainView, "TagEditor");
 
     tagEditor->setVisible(state);
 }
@@ -521,7 +525,7 @@ void MainWindow::on_actionTasks_triggered()
 {
     const bool state = ui->actionTasks->isChecked();
 
-    QQuickItem* tasksView = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
+    QQuickItem* tasksView = QmlUtils::findQuickItem(m_mainView, "TasksViewDock");
 
     tasksView->setVisible(state);
 }
@@ -531,7 +535,7 @@ void MainWindow::on_actionPhoto_properties_triggered()
 {
     const bool state = ui->actionPhoto_properties->isChecked();
 
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
+    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(m_mainView, "PropertiesWindow");
 
     propertiesWindow->setVisible(state);
 }
@@ -545,7 +549,7 @@ void MainWindow::on_actionSeries_detector_triggered()
 
 void MainWindow::on_actionPhoto_data_completion_triggered()
 {
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
+    QObject* mainwindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
     mainwindow->setProperty("currentIndex", 1);
 }
 
