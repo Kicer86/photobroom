@@ -403,22 +403,22 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-25"/>
         <source>&amp;New...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nowa...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Open...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Otwórz...</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>S&amp;can collection...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Przeskanuj kolekcję...</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>P&amp;roperties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Właściwości</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -429,47 +429,47 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     <message>
         <location line="+3"/>
         <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Narzędzia</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>S&amp;eries detector...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wyszukiwanie grup...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Ph&amp;oto data completion...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uzupełnianie danych...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawie&amp;nia</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>Tasks</source>
-        <translation type="unfinished"></translation>
+        <translation>Operacje</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Back to photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
