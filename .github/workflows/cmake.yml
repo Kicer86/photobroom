@@ -20,9 +20,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Copy CMake config
-      run: cmake -E copy .github/CMakePresets.json ./
-
     - name: Install system dependencies
       if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install ninja-build imagemagick
@@ -43,7 +40,7 @@ jobs:
     - uses: actions/cache@v2
       if: matrix.os == 'windows-latest'
       with:
-        path: builds/ninja_multi_vcpkg/tools
+        path: builds/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools
 
     - name: Run vcpkg
@@ -52,5 +49,5 @@ jobs:
     - name: Build
       uses: lukka/run-cmake@v10
       with:
-        configurePreset: 'ninja_multi_vcpkg'
-        buildPreset: 'ninja-release'
+        configurePreset: 'ninja_release_vcpkg'
+        buildPreset: 'Ninja Release'
