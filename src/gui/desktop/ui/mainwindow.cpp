@@ -245,7 +245,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     m_configuration.setEntry("gui::state", state.toBase64());
 
     //store recent collections
-    m_configuration.setEntry("gui::recent", m_recentCollections.join(";"));
+    m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
 }
 
 
@@ -264,9 +264,10 @@ void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
         projectOpened(open_status.second, is_new);
 
         // add project to list of recent projects
-        m_recentCollections.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
-
-        m_recentCollections.prepend(prjInfo.getPath());    // add it at the beginning
+        QStringList projects = ObjectsAccessor::instance().recentProjects();
+        projects.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
+        projects.prepend(prjInfo.getPath());    // add it at the beginning
+        ObjectsAccessor::instance().setRecentProjects(projects);
     }
 }
 
@@ -297,15 +298,17 @@ void MainWindow::setupView()
 
 void MainWindow::updateMenus()
 {
+    const QStringList projects = ObjectsAccessor::instance().recentProjects();
+
     const bool prj = m_currentPrj.get() != nullptr;
-    const bool valid = m_recentCollections.isEmpty() == false;
+    const bool valid = projects.isEmpty() == false;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuTools->menuAction()->setVisible(prj);
     ui->menuOpen_recent->menuAction()->setVisible(valid);
     ui->menuOpen_recent->clear();
 
-    for(const QString& entry: qAsConst(m_recentCollections))
+    for(const QString& entry: qAsConst(projects))
     {
         QAction* action = ui->menuOpen_recent->addAction(entry);
         connect(action, &QAction::triggered, [=, this]
@@ -399,7 +402,7 @@ void MainWindow::loadRecentCollections()
     const QString rawList = m_configuration.getEntry("gui::recent").toString();
 
     if (rawList.isEmpty() == false)
-        m_recentCollections = rawList.split(";");
+        ObjectsAccessor::instance().setRecentProjects(rawList.split(";"));
 
     updateMenus();
 }

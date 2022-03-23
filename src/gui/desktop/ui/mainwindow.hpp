@@ -70,7 +70,6 @@ class MainWindow: public QMainWindow
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
-        QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;

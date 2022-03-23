@@ -21,6 +21,7 @@ class ObjectsAccessor: public QObject
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase NOTIFY databaseChanged)
     Q_PROPERTY(Project* project READ project WRITE setProject NOTIFY projectChanged)
     Q_PROPERTY(ICoreFactoryAccessor* coreFactory READ coreFactory WRITE setCoreFactory NOTIFY coreFactoryChanged)
+    Q_PROPERTY(QStringList recentProjects READ recentProjects WRITE setRecentProjects NOTIFY recentProjectsChanged)
 
     public:
         static ObjectsAccessor& instance();
@@ -28,17 +29,21 @@ class ObjectsAccessor: public QObject
         void setDatabase(Database::IDatabase *);
         void setProject(Project *);
         void setCoreFactory(ICoreFactoryAccessor *);
+        void setRecentProjects(const QStringList &);
 
         Database::IDatabase* database() const;
         Project* project() const;
         ICoreFactoryAccessor* coreFactory() const;
+        const QStringList& recentProjects() const;
 
     signals:
         void databaseChanged(Database::IDatabase *) const;
         void projectChanged(Project *) const;
         void coreFactoryChanged(ICoreFactoryAccessor *) const;
+        void recentProjectsChanged(const QStringList &) const;
 
     private:
+        QStringList m_recentProjects;
         Database::IDatabase* m_database;
         Project* m_project;
         ICoreFactoryAccessor* m_core;
