@@ -24,6 +24,40 @@ ApplicationWindow {
             title: qsTr("&Photo collection")
             Action { text: qsTr("&New...") }
             Action { text: qsTr("&Open...") }
+            Menu {
+                id: recentsMenu
+                title: qsTr("Open &recent")
+
+                width: {
+                    var result = 0;
+                    var padding = 0;
+
+                    for (var i = 0; i < count; i++) {
+                        var item = itemAt(i);
+                        result = Math.max(item.contentItem.implicitWidth, result);
+                        padding = Math.max(item.padding, padding);
+                    }
+
+                    return result + padding * 2;
+                }
+
+                Instantiator {
+                    model: PhotoBroomProject.recentProjects
+
+                    delegate: MenuItem {
+                        required property var modelData
+
+                        text: modelData
+
+                        onTriggered: {
+                            console.log(modelData);
+                        }
+                    }
+
+                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)
+                    onObjectRemoved: (object) => recentsMenu.removeItem(object)
+                }
+            }
             Action { text: qsTr("&Close"); enabled: projectOpened }
             MenuSeparator { }
             Action { text: qsTr("&Quit") }
