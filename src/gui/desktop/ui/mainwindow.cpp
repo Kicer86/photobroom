@@ -131,6 +131,9 @@ void MainWindow::setupQmlView()
 
     m_mainView.load(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
 
+    QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
+    connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
+
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller
         = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(m_mainView, "photos_model_controller"));
@@ -249,8 +252,10 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 
-void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
+void MainWindow::openProject(const QString& prjPath, bool is_new)
 {
+    const ProjectInfo prjInfo(prjPath);
+
     if (prjInfo.isValid())
     {
         closeProject();
@@ -313,9 +318,7 @@ void MainWindow::updateMenus()
         QAction* action = ui->menuOpen_recent->addAction(entry);
         connect(action, &QAction::triggered, [=, this]
         {
-            const ProjectInfo prjInfo(entry);
-
-            openProject(prjInfo);
+            openProject(entry);
         });
     }
 }
@@ -414,7 +417,7 @@ void MainWindow::on_actionNew_collection_triggered()
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (creation_status)
-        openProject(prjCreator.project(), true);
+        openProject(prjCreator.project().getPath(), true);
 }
 
 
@@ -423,11 +426,7 @@ void MainWindow::on_actionOpen_collection_triggered()
     const QString prjPath = QFileDialog::getOpenFileName(this, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
 
     if (prjPath.isEmpty() == false)
-    {
-        const ProjectInfo prjName(prjPath);
-
-        openProject(prjName);
-    }
+        openProject(prjPath);
 }
 
 

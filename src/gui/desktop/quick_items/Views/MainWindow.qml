@@ -14,6 +14,7 @@ ApplicationWindow {
 
     property bool projectOpened: false
     property var selectedPhotos: null
+    signal openProject(string path)
 
     visible: true
     width: 1024
@@ -49,9 +50,7 @@ ApplicationWindow {
 
                         text: modelData
 
-                        onTriggered: {
-                            console.log(modelData);
-                        }
+                        onTriggered: mainWindow.openProject(modelData)
                     }
 
                     onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)

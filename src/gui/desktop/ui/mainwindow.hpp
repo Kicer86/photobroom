@@ -76,7 +76,7 @@ class MainWindow: public QMainWindow
 
         void closeEvent(QCloseEvent *) override;
 
-        void openProject(const ProjectInfo &, bool = false);
+        Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
         void setupView();
         void updateMenus();
