@@ -30,14 +30,16 @@ class QString;
 class Project;
 struct ProjectInfo;
 
-struct IProjectManager
+class IProjectManager
 {
+public:
     typedef std::pair<std::unique_ptr<Project>, Database::BackendStatus> OpenStatus;
 
     virtual ~IProjectManager() = default;
 
     virtual ProjectInfo new_prj(const QString& name, const Database::IPlugin *, const QString& location) = 0;
     virtual OpenStatus open(const ProjectInfo &) = 0;
+    virtual OpenStatus open(const QString &) = 0;
 };
 
 #endif // PROJECTMANAGER_H
