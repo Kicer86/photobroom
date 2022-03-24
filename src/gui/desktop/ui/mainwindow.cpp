@@ -363,8 +363,8 @@ void MainWindow::updateWidgets()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    QObject* notificationsList = QmlUtils::findQmlObject(m_mainView, "MainWindow");
-    notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
+    QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
+    mainWindow->setProperty("projectOpened", QVariant::fromValue(prj));
 }
 
 
