@@ -132,6 +132,8 @@ void MainWindow::setupQmlView()
     m_mainView.load(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
 
     QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
+    connect(mainWindow, SIGNAL(newProject()), this, SLOT(on_actionNew_collection_triggered()));
+    connect(mainWindow, SIGNAL(openProjectDialog()), this, SLOT(on_actionOpen_collection_triggered()));
     connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);

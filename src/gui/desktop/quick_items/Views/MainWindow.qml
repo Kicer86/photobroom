@@ -15,6 +15,8 @@ ApplicationWindow {
     property bool projectOpened: false
     property var selectedPhotos: null
     signal openProject(string path)
+    signal openProjectDialog()
+    signal newProject()
 
     visible: true
     width: 1024
@@ -23,8 +25,8 @@ ApplicationWindow {
     menuBar: MenuBar {
         Menu {
             title: qsTr("&Photo collection")
-            Action { text: qsTr("&New...") }
-            Action { text: qsTr("&Open...") }
+            Action { text: qsTr("&New...");     onTriggered: newProject(); }
+            Action { text: qsTr("&Open...");    onTriggered: openProjectDialog(); }
             Menu {
                 id: recentsMenu
                 title: qsTr("Open &recent")

@@ -311,7 +311,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+25"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+27"/>
         <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
@@ -499,7 +499,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+212"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+214"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
