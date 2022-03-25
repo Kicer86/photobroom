@@ -306,24 +306,10 @@ void MainWindow::setupView()
 
 void MainWindow::updateMenus()
 {
-    const QStringList projects = ObjectsAccessor::instance().recentProjects();
-
     const bool prj = m_currentPrj.get() != nullptr;
-    const bool valid = projects.isEmpty() == false;
 
     ui->menuPhotos->menuAction()->setVisible(prj);
     ui->menuTools->menuAction()->setVisible(prj);
-    ui->menuOpen_recent->menuAction()->setVisible(valid);
-    ui->menuOpen_recent->clear();
-
-    for(const QString& entry: qAsConst(projects))
-    {
-        QAction* action = ui->menuOpen_recent->addAction(entry);
-        connect(action, &QAction::triggered, [=, this]
-        {
-            openProject(entry);
-        });
-    }
 }
 
 

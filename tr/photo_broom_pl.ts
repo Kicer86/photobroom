@@ -312,7 +312,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+28"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+23"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -328,7 +327,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+4"/>
         <source>Open &amp;recent</source>
         <translation>O&amp;twórz poprzednią</translation>
     </message>
@@ -393,7 +391,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+19"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+29"/>
         <source>He&amp;lp</source>
         <translation>Po&amp;moc</translation>
     </message>
@@ -414,7 +412,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Narzędzia</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -521,7 +519,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+95"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
