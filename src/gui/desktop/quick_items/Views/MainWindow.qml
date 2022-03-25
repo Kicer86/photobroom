@@ -17,6 +17,7 @@ ApplicationWindow {
     signal openProject(string path)
     signal openProjectDialog()
     signal newProject()
+    signal closeProject()
 
     visible: true
     width: 1024
@@ -59,9 +60,9 @@ ApplicationWindow {
                     onObjectRemoved: (object) => recentsMenu.removeItem(object)
                 }
             }
-            Action { text: qsTr("&Close"); enabled: projectOpened }
+            Action { text: qsTr("&Close"); enabled: projectOpened; onTriggered: closeProject(); }
             MenuSeparator { }
-            Action { text: qsTr("&Quit") }
+            Action { text: qsTr("&Quit"); onTriggered: Qt.quit(); }
         }
         Menu {
             title: qsTr("P&hotos")

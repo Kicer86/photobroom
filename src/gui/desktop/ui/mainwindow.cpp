@@ -135,6 +135,7 @@ void MainWindow::setupQmlView()
     connect(mainWindow, SIGNAL(newProject()), this, SLOT(on_actionNew_collection_triggered()));
     connect(mainWindow, SIGNAL(openProjectDialog()), this, SLOT(on_actionOpen_collection_triggered()));
     connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
+    connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller
