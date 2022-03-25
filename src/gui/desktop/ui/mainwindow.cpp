@@ -74,7 +74,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     // setup
     ui->setupUi(this);
     setupConfig();
-    setupView();
+    setupQmlView();
     updateGui();
     registerConfigTab();
 
@@ -295,12 +295,6 @@ void MainWindow::closeProject()
 
         QDir::setSearchPaths("prj", QStringList() );
     }
-}
-
-
-void MainWindow::setupView()
-{
-    setupQmlView();
 }
 
 
