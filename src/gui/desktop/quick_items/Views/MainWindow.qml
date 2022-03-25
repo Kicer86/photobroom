@@ -26,8 +26,8 @@ ApplicationWindow {
     menuBar: MenuBar {
         Menu {
             title: qsTr("&Photo collection")
-            Action { text: qsTr("&New...");     onTriggered: newProject(); }
-            Action { text: qsTr("&Open...");    onTriggered: openProjectDialog(); }
+            Action { text: qsTr("&New...");   icon.name: "document-new";  onTriggered: newProject(); }
+            Action { text: qsTr("&Open...");  icon.name: "document-open"; onTriggered: openProjectDialog(); }
             Menu {
                 id: recentsMenu
                 title: qsTr("Open &recent")
@@ -60,9 +60,9 @@ ApplicationWindow {
                     onObjectRemoved: (object) => recentsMenu.removeItem(object)
                 }
             }
-            Action { text: qsTr("&Close"); enabled: projectOpened; onTriggered: closeProject(); }
+            Action { text: qsTr("&Close"); enabled: projectOpened; icon.name: "window-close"; onTriggered: closeProject(); }
             MenuSeparator { }
-            Action { text: qsTr("&Quit"); onTriggered: Qt.quit(); }
+            Action { text: qsTr("&Quit"); icon.name: "application-exit"; onTriggered: Qt.quit(); }
         }
         Menu {
             title: qsTr("P&hotos")
