@@ -14,10 +14,15 @@ ApplicationWindow {
 
     property bool projectOpened: false
     property var selectedPhotos: null
+
+    // TODO: these signals should be removed.
+    //       Some cpp singletons could manage it.
     signal openProject(string path)
     signal openProjectDialog()
     signal newProject()
     signal closeProject()
+    signal scanCollection()
+    signal seriesDetector()
 
     visible: true
     width: 1024
@@ -67,7 +72,7 @@ ApplicationWindow {
         Menu {
             title: qsTr("P&hotos")
             enabled: projectOpened
-            Action { text: qsTr("S&can collection...") }
+            Action { text: qsTr("S&can collection..."); onTriggered: scanCollection(); }
         }
         Menu {
             title: qsTr("&Windows")
@@ -78,7 +83,7 @@ ApplicationWindow {
         Menu {
             title: qsTr("&Tools")
             enabled: projectOpened
-            Action { text: qsTr("S&eries detector...") }
+            Action { text: qsTr("S&eries detector...");       onTriggered: seriesDetector(); }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
         }
         Menu {

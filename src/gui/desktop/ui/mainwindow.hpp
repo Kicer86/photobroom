@@ -78,7 +78,6 @@ class MainWindow: public QMainWindow
 
         Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
-        void updateMenus();
         void updateTitle();
         void updateGui();
         void updateTools();

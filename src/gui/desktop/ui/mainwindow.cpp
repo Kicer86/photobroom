@@ -136,6 +136,8 @@ void MainWindow::setupQmlView()
     connect(mainWindow, SIGNAL(openProjectDialog()), this, SLOT(on_actionOpen_collection_triggered()));
     connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
     connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
+    connect(mainWindow, SIGNAL(scanCollection()), this, SLOT(on_actionScan_collection_triggered()));
+    connect(mainWindow, SIGNAL(seriesDetector()), this, SLOT(on_actionSeries_detector_triggered()));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller
@@ -298,15 +300,6 @@ void MainWindow::closeProject()
 }
 
 
-void MainWindow::updateMenus()
-{
-    const bool prj = m_currentPrj.get() != nullptr;
-
-    ui->menuPhotos->menuAction()->setVisible(prj);
-    ui->menuTools->menuAction()->setVisible(prj);
-}
-
-
 void MainWindow::updateTitle()
 {
     const bool prj = m_currentPrj.get() != nullptr;
@@ -320,7 +313,6 @@ void MainWindow::updateTitle()
 
 void MainWindow::updateGui()
 {
-    updateMenus();
     updateTitle();
     updateTools();
     updateWidgets();
@@ -389,8 +381,6 @@ void MainWindow::loadRecentCollections()
 
     if (rawList.isEmpty() == false)
         ObjectsAccessor::instance().setRecentProjects(rawList.split(";"));
-
-    updateMenus();
 }
 
 
