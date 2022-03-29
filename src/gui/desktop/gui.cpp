@@ -152,7 +152,5 @@ void Gui::run()
     mainWindow.set(&updater);
 #endif
 
-    mainWindow.show();
-
     qApp->exec();
 }

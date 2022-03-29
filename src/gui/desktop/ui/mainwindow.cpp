@@ -4,7 +4,7 @@
 #include <functional>
 #include <ranges>
 
-#include <QCloseEvent>
+#include <QEvent>
 #include <QFileDialog>
 #include <QLayout>
 #include <QMenuBar>
@@ -52,11 +52,10 @@
 #include "quick_items/photos_model_controller_component.hpp"
 #include "quick_items/selection_manager_component.hpp"
 #include "quick_items/thumbnail_image_provider.hpp"
-#include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
-    ui(new Ui::MainWindow),
+MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p):
+    QObject(p),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
@@ -72,7 +71,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_featuresObserver(featuresManager, m_notifications)
 {
     // setup
-    ui->setupUi(this);
     setupConfig();
     setupQmlView();
     updateGui();
@@ -87,17 +85,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     IconsLoader icons;
 
-    ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
-    ui->actionOpen_collection->setIcon(icons.getIcon(IconsLoader::Icon::Open));
-    ui->actionClose->setIcon(icons.getIcon(IconsLoader::Icon::Close));
-    ui->actionQuit->setIcon(icons.getIcon(IconsLoader::Icon::Quit));
-
-    ui->actionConfiguration->setIcon(icons.getIcon(IconsLoader::Icon::Settings));
-
-    ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
-    ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
-    ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
-
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
 }
@@ -105,7 +92,7 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+
 }
 
 
@@ -158,7 +145,6 @@ void MainWindow::setupConfig()
     // setup defaults
     m_configuration.setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
 
-    loadGeometry();
     loadRecentCollections();
 }
 
@@ -211,7 +197,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
     {
         case IUpdater::OnlineVersion::NewVersionAvailable:
             logger->info("New version avialable");
-            QMessageBox::information(this,
+            QMessageBox::information(nullptr,
                                      tr("New version"),
                                      tr("New version of PhotoBroom is available <a href=\"%1\">here</a>.")
                                         .arg(versionInfo.url.url())
@@ -220,7 +206,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 
         case IUpdater::OnlineVersion::ConnectionError:
             logger->error("Error when checking for new version");
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Internet connection problem"),
                                   tr("Could not check if there is new version of PhotoBroom.\n"
                                      "Please check your internet connection.")
@@ -234,24 +220,24 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 }
 
 
-void MainWindow::closeEvent(QCloseEvent *e)
+bool MainWindow::event(QEvent *e)
 {
-    // TODO: close project!
-    //m_currentPrj->close();
+    if (e->type() == QEvent::Close)
+    {
+        // TODO: close project!
+        //m_currentPrj->close();
 
-    closeProject();
+        closeProject();
 
-    e->accept();
+        e->accept();
 
-    // store windows state
-    const QByteArray geometry = saveGeometry();
-    m_configuration.setEntry("gui::geometry", geometry.toBase64());
+        //store recent collections
+        m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
 
-    const QByteArray state = saveState();
-    m_configuration.setEntry("gui::state", state.toBase64());
-
-    //store recent collections
-    m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
+        return true;
+    }
+    else
+        return QObject::event(e);
 }
 
 
@@ -298,20 +284,8 @@ void MainWindow::closeProject()
 }
 
 
-void MainWindow::updateTitle()
-{
-    const bool prj = m_currentPrj.get() != nullptr;
-
-    const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
-    const QString title = tr("Photo broom: %1").arg(prjName);
-
-    setWindowTitle(title);
-}
-
-
 void MainWindow::updateGui()
 {
-    updateTitle();
     updateTools();
     updateWidgets();
 }
@@ -351,27 +325,6 @@ void MainWindow::registerConfigTab()
 }
 
 
-void MainWindow::loadGeometry()
-{
-    // restore state
-    const QVariant geometry = m_configuration.getEntry("gui::geometry");
-    if (geometry.isValid())
-    {
-        const QByteArray base64 = geometry.toString().toLatin1();
-        const QByteArray geometryData = QByteArray::fromBase64(base64);
-        restoreGeometry(geometryData);
-    }
-
-    const QVariant state = m_configuration.getEntry("gui::state");
-    if (state.isValid())
-    {
-        const QByteArray base64 = state.toByteArray();
-        const QByteArray stateData = QByteArray::fromBase64(base64);
-        restoreState(stateData);
-    }
-}
-
-
 void MainWindow::loadRecentCollections()
 {
     // recent collections
@@ -394,7 +347,7 @@ void MainWindow::on_actionNew_collection_triggered()
 
 void MainWindow::on_actionOpen_collection_triggered()
 {
-    const QString prjPath = QFileDialog::getOpenFileName(this, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
+    const QString prjPath = QFileDialog::getOpenFileName(nullptr, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
 
     if (prjPath.isEmpty() == false)
         openProject(prjPath);
@@ -404,12 +357,6 @@ void MainWindow::on_actionOpen_collection_triggered()
 void MainWindow::on_actionClose_triggered()
 {
     closeProject();
-}
-
-
-void MainWindow::on_actionQuit_triggered()
-{
-    close();
 }
 
 
@@ -455,13 +402,13 @@ void MainWindow::on_actionAbout_triggered()
     about =  QString("Photo Broom ") + PHOTO_BROOM_VERSION + "\n";
     about += "by Michał Walenciak";
 
-    QMessageBox::about(this, tr("About Photo Broom"), about);
+    QMessageBox::about(nullptr, tr("About Photo Broom"), about);
 }
 
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-    QMessageBox::aboutQt(this, tr("About Qt"));
+    QMessageBox::aboutQt(nullptr, tr("About Qt"));
 }
 
 
@@ -495,7 +442,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
         }
 
         case Database::StatusCodes::BadVersion:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unsupported photo collection version"),
                                   tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
@@ -505,7 +452,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::VersionTooOld:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unsupported photo collection version"),
                                   tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your database is too old to open it.\n\n")
@@ -514,7 +461,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::OpenFailed:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Could not open collection"),
                                   tr("Photo collection could not be opened.\n"
                                      "It usually means that collection files are broken\n"
@@ -525,7 +472,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::ProjectLocked:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Collection locked"),
                                   tr("Photo collection could not be opened.\n"
                                      "It is already opened by another Photo Broom instance.")
@@ -534,7 +481,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         default:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unexpected error"),
                                   tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"

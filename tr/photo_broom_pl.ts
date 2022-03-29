@@ -306,11 +306,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
-        <source>Photo broom</source>
-        <translation>Photo broom</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+34"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
@@ -396,92 +391,32 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+25"/>
-        <source>&amp;New</source>
-        <translation>&amp;Nowa</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;Open</source>
-        <translation>&amp;Otwórz</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&amp;Add photos</source>
-        <translation>&amp;Dodaj zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;About Photo Broom</source>
-        <translation>&amp;O Photo Broom</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-5"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
+        <location line="-5"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
         <source>&amp;Quit</source>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
-        <source>About &amp;Qt</source>
-        <translation>O &amp;Qt</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;Help</source>
-        <translation>&amp;Pomoc</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+21"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
+        <location line="+21"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
-        <source>&amp;Tags editor</source>
-        <translation>&amp;Edytor tagów</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-10"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
+        <location line="-10"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
-        <source>&amp;Scan collection</source>
-        <translation>&amp;Przeskanuj kolekcję</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-1"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+8"/>
+        <location line="-1"/>
         <source>&amp;Media information</source>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+5"/>
-        <source>&amp;Face organizer</source>
-        <translation>&amp;Zarządzanie osobami</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Series detector</source>
-        <translation>Wyszukiwanie grup</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Photo data completion</source>
-        <translation>Uzupełnianie danych</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+201"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -503,12 +438,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+80"/>
-        <source>No collection opened</source>
-        <translation>Nie otwarto kolekcji zdjęć</translation>
-    </message>
-    <message>
-        <location line="+92"/>
+        <location line="+139"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -518,12 +448,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-91"/>
-        <source>Photo broom: %1</source>
-        <translation>Photo broom: %1</translation>
-    </message>
-    <message>
-        <location line="+193"/>
+        <location line="+96"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

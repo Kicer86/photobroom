@@ -4,7 +4,6 @@
 
 #include <memory>
 
-#include <QMainWindow>
 #include <QQmlApplicationEngine>
 
 #include <core/ifeatures_manager.hpp>
@@ -34,12 +33,7 @@ class Project;
 struct ProjectInfo;
 struct IThumbnailsManager;
 
-namespace Ui
-{
-    class MainWindow;
-}
-
-class MainWindow: public QMainWindow
+class MainWindow: public QObject
 {
         Q_OBJECT
 
@@ -56,7 +50,6 @@ class MainWindow: public QMainWindow
 
     private:
         TasksModel                m_tasksModel;
-        Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
@@ -74,17 +67,15 @@ class MainWindow: public QMainWindow
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
 
-        void closeEvent(QCloseEvent *) override;
+        bool event(QEvent *) override;
 
         Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
-        void updateTitle();
         void updateGui();
         void updateTools();
         void updateWidgets();
         void registerConfigTab();
 
-        void loadGeometry();
         void loadRecentCollections();
 
         void setupQmlView();
@@ -95,7 +86,6 @@ class MainWindow: public QMainWindow
         void on_actionNew_collection_triggered();
         void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
-        void on_actionQuit_triggered();
 
         // photos menu
         void on_actionScan_collection_triggered();
