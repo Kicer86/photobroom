@@ -23,6 +23,7 @@ ApplicationWindow {
     signal closeProject()
     signal scanCollection()
     signal seriesDetector()
+    signal configuration()
 
     visible: true
     width: 1024
@@ -88,7 +89,7 @@ ApplicationWindow {
         }
         Menu {
             title: qsTr("&Settings")
-            Action { text: qsTr("&Configuration") }
+            Action { text: qsTr("&Configuration"); onTriggered: configuration();  }
         }
     }
 

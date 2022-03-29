@@ -100,9 +100,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
-
-    // TODO: nothing useful in help menu at this moment
-    ui->menuHelp->menuAction()->setVisible(false);
 }
 
 
@@ -138,6 +135,7 @@ void MainWindow::setupQmlView()
     connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
     connect(mainWindow, SIGNAL(scanCollection()), this, SLOT(on_actionScan_collection_triggered()));
     connect(mainWindow, SIGNAL(seriesDetector()), this, SLOT(on_actionSeries_detector_triggered()));
+    connect(mainWindow, SIGNAL(configuration()), this, SLOT(on_actionConfiguration_triggered()));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller

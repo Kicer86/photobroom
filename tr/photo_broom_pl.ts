@@ -311,7 +311,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Photo broom</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+34"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -391,22 +391,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+23"/>
-        <source>He&amp;lp</source>
-        <translation>Po&amp;moc</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="-180"/>
+        <location line="-180"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+9"/>
-        <source>Settin&amp;gs</source>
-        <translation>Ustawie&amp;nia</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+25"/>
         <source>&amp;New</source>
         <translation>&amp;Nowa</translation>
     </message>
@@ -491,7 +481,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Uzupełnianie danych</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+217"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+215"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
