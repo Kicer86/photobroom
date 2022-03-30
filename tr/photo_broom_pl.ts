@@ -416,7 +416,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+201"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -438,7 +438,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+139"/>
+        <location line="+118"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>

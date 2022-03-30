@@ -4,7 +4,6 @@
 #include <functional>
 #include <ranges>
 
-#include <QEvent>
 #include <QFileDialog>
 #include <QLayout>
 #include <QMenuBar>
@@ -92,7 +91,13 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
 MainWindow::~MainWindow()
 {
+    // TODO: close project!
+    //m_currentPrj->close();
 
+    closeProject();
+
+    //store recent collections
+    m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
 }
 
 
@@ -217,27 +222,6 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             logger->info("Application is up to date");
             break;
     }
-}
-
-
-bool MainWindow::event(QEvent *e)
-{
-    if (e->type() == QEvent::Close)
-    {
-        // TODO: close project!
-        //m_currentPrj->close();
-
-        closeProject();
-
-        e->accept();
-
-        //store recent collections
-        m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
-
-        return true;
-    }
-    else
-        return QObject::event(e);
 }
 
 

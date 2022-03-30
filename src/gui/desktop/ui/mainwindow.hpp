@@ -67,8 +67,6 @@ class MainWindow: public QObject
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
 
-        bool event(QEvent *) override;
-
         Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
         void updateGui();
