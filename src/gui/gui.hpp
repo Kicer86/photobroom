@@ -12,7 +12,7 @@ class QCoreApplication;
 
 struct ICoreFactoryAccessor;
 struct IPluginLoader;
-struct IProjectManager;
+class IProjectManager;
 class IFeaturesManager;
 
 struct GUI_EXPORT Gui

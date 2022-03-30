@@ -25,7 +25,7 @@ struct ICoreFactoryAccessor;
 struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPluginLoader;
-struct IProjectManager;
+class IProjectManager;
 struct IConfiguration;
 struct IView;
 
