@@ -306,7 +306,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+36"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -391,7 +391,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-48"/>
+        <source>No collection opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
@@ -438,7 +443,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+119"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>

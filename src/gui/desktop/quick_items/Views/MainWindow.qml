@@ -13,6 +13,7 @@ ApplicationWindow {
     objectName: "MainWindow"
 
     property bool projectOpened: false
+    property string projectName: ""
 
     // TODO: these signals should be removed.
     //       Some cpp singletons could manage it.
@@ -23,6 +24,8 @@ ApplicationWindow {
     signal scanCollection()
     signal seriesDetector()
     signal configuration()
+
+    title: projectOpened? "Photo broom: " + projectName : qsTr("No collection opened")
 
     visible: true
     width: 1024
