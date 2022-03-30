@@ -166,7 +166,7 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
         <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="31"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation type="unfinished">tps</translation>
+        <translation>tps</translation>
     </message>
 </context>
 <context>
