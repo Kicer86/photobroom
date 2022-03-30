@@ -306,7 +306,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+34"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+33"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -361,7 +361,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+77"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
@@ -386,7 +386,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-180"/>
+        <location line="-176"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>

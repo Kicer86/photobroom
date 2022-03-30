@@ -13,7 +13,6 @@ ApplicationWindow {
     objectName: "MainWindow"
 
     property bool projectOpened: false
-    property var selectedPhotos: null
 
     // TODO: these signals should be removed.
     //       Some cpp singletons could manage it.
@@ -99,8 +98,6 @@ ApplicationWindow {
 
         interactive: false
 
-        onCurrentIndexChanged: selectedPhotos = [];            // reset selected photos when view changes
-
         // main view
         SplitView {
             Column {
@@ -113,8 +110,6 @@ ApplicationWindow {
 
                     width: parent.width
                     height: parent.height - notifications.height - tasksViewDock.height
-
-                    onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
 
                     MouseArea {
                         anchors.fill: parent
@@ -205,7 +200,7 @@ ApplicationWindow {
                         enabled: mainWindow.projectOpened
                         width: parent.width
 
-                        selection: mainWindow.selectedPhotos
+                        selection: photosView.selectedPhotos
                     }
                 }
 
@@ -222,7 +217,7 @@ ApplicationWindow {
                         columnSpacing: 5
 
                         model: PhotoPropertiesModel {
-                            property var _photos: mainWindow.selectedPhotos
+                            property var _photos: photosView.selectedPhotos
                             database: PhotoBroomProject.database
 
                             on_PhotosChanged: setPhotos(_photos)
@@ -261,8 +256,6 @@ ApplicationWindow {
                 width: parent.width
                 anchors.bottom: parent.bottom
                 anchors.top: backButton.bottom
-
-                onSelectedPhotoChanged: mainWindow.selectedPhotos = selectedPhoto
             }
         }
     }
