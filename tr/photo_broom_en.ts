@@ -393,7 +393,7 @@ Check paths in configuration window.</source>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="28"/>
         <source>No collection opened</source>
-        <translation type="unfinished"></translation>
+        <translation>No collection opened</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="73"/>

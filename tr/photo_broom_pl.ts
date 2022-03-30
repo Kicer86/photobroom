@@ -393,7 +393,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     <message>
         <location line="-48"/>
         <source>No collection opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
         <location line="+43"/>
