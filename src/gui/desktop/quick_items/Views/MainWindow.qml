@@ -91,7 +91,7 @@ ApplicationWindow {
         }
         Menu {
             title: qsTr("&Settings")
-            Action { text: qsTr("&Configuration"); onTriggered: configuration();  }
+            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: configuration();  }
         }
     }
 
