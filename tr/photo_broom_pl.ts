@@ -421,7 +421,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+206"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

@@ -45,7 +45,6 @@
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
 #include "utils/model_index_utils.hpp"
-#include "ui_utils/icons_loader.hpp"
 #include "quick_items/objects_accessor.hpp"
 #include "quick_items/qml_utils.hpp"
 #include "quick_items/photos_model_controller_component.hpp"
@@ -81,8 +80,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
             &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
-
-    IconsLoader icons;
 
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
