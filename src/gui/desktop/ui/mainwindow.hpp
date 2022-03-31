@@ -71,7 +71,7 @@ class MainWindow: public QObject
         void closeProject();
         void updateGui();
         void updateTools();
-        void updateWidgets();
+        void updateProjectProperties();
         void registerConfigTab();
 
         void loadRecentCollections();

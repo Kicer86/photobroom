@@ -268,7 +268,7 @@ void MainWindow::closeProject()
 void MainWindow::updateGui()
 {
     updateTools();
-    updateWidgets();
+    updateProjectProperties();
 }
 
 
@@ -290,7 +290,7 @@ void MainWindow::updateTools()
 }
 
 
-void MainWindow::updateWidgets()
+void MainWindow::updateProjectProperties()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
