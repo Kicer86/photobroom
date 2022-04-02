@@ -3,7 +3,6 @@ set(UTILS_SOURCES
     completer_factory.cpp
     config_dialog_manager.cpp
     iconfig_dialog_manager.cpp
-    icons_loader.cpp
 )
 
 set(UTILS_HEADERS
@@ -11,7 +10,6 @@ set(UTILS_HEADERS
     config_dialog_manager.hpp
     icompleter_factory.hpp
     iconfig_dialog_manager.hpp
-    icons_loader.hpp
 )
 
 

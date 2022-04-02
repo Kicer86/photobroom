@@ -37,7 +37,8 @@ jobs:
         version: '6.2.2'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-    - uses: actions/cache@v2
+    - name: Cache external tools
+      uses: actions/cache@v2
       if: matrix.os == 'windows-latest'
       with:
         path: builds/ninja_release_vcpkg/tools

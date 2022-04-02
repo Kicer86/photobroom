@@ -44,6 +44,13 @@ void ObjectsAccessor::setCoreFactory(ICoreFactoryAccessor* core)
 }
 
 
+void ObjectsAccessor::setRecentProjects(const QStringList& recent)
+{
+    m_recentProjects = recent;
+    emit recentProjectsChanged(recent);
+}
+
+
 Database::IDatabase* ObjectsAccessor::database() const
 {
     return m_database;
@@ -59,4 +66,10 @@ Project* ObjectsAccessor::project() const
 ICoreFactoryAccessor* ObjectsAccessor::coreFactory() const
 {
     return m_core;
+}
+
+
+const QStringList& ObjectsAccessor::recentProjects() const
+{
+    return m_recentProjects;
 }

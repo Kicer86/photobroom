@@ -126,3 +126,19 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 
     return std::make_pair(std::move(project), db_status);
 }
+
+
+ProjectManager::OpenStatus ProjectManager::open(const QString& prjPath)
+{
+    ProjectManager::OpenStatus status(nullptr, Database::StatusCodes::OpenFailed);
+    const QFileInfo prjFileInfo(prjPath);
+
+    if (prjFileInfo.exists())
+    {
+        const ProjectInfo prjName(prjPath);
+
+        status = open(prjName);
+    }
+
+    return status;
+}

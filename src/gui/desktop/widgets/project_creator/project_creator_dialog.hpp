@@ -33,7 +33,7 @@ class QDialogButtonBox;
 class QtExtChooseFile;
 
 struct IPluginLoader;
-struct IProjectManager;
+class IProjectManager;
 
 namespace Database
 {

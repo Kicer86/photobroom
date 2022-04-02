@@ -49,11 +49,6 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<Photo::Id>("Photo::Id");
 
     ObjectsAccessor::instance().setCoreFactory(&coreFactory);
-
-    // TODO: required by QQuickWidget
-    // https://doc.qt.io/qt-6/qquickwidget.html#details
-    // https://doc.qt.io/qt-6/quick-changes-qt6.html#changes-to-qquickwidget
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
 }
 
 
@@ -151,8 +146,6 @@ void Gui::run()
     Updater updater;
     mainWindow.set(&updater);
 #endif
-
-    mainWindow.show();
 
     qApp->exec();
 }

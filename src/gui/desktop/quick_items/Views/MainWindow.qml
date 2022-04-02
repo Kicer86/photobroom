@@ -8,182 +8,263 @@ import "ViewsComponents" as Internals
 import "../Components" as Components
 
 
-SwipeView {
+ApplicationWindow {
     id: mainWindow
     objectName: "MainWindow"
 
     property bool projectOpened: false
-    property var selectedPhotos: null
+    property string projectName: ""
 
-    anchors.fill: parent
+    // TODO: these signals should be removed.
+    //       Some cpp singletons could manage it.
+    signal openProject(string path)
+    signal openProjectDialog()
+    signal newProject()
+    signal closeProject()
+    signal scanCollection()
+    signal seriesDetector()
+    signal configuration()
 
-    interactive: false
+    title: projectOpened? "Photo broom: " + projectName : qsTr("No collection opened")
 
-    onCurrentIndexChanged: selectedPhotos = [];            // reset selected photos when view changes
+    visible: true
+    width: 1024
+    height: 768
 
-    // main view
-    SplitView {
-        Column {
-            SplitView.preferredWidth: parent.width * 3/4
+    menuBar: MenuBar {
+        Menu {
+            id: collectionMenu
+            title: qsTr("&Photo collection")
+            Action { text: qsTr("&New...");   icon.name: "document-new";  onTriggered: { collectionMenu.dismiss(); newProject(); } }
+            Action { text: qsTr("&Open...");  icon.name: "document-open"; onTriggered: { collectionMenu.dismiss(); openProjectDialog(); } }
+            Menu {
+                id: recentsMenu
+                title: qsTr("Open &recent")
 
-            PhotosView {
-                id: photosView
+                width: {
+                    var result = 0;
+                    var padding = 0;
 
-                enabled: projectOpened
-
-                width: parent.width
-                height: parent.height - notifications.height - tasksViewDock.height
-
-                onSelectedPhotosChanged: mainWindow.selectedPhotos = selectedPhotos
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    acceptedButtons: Qt.RightButton
-                    propagateComposedEvents: true
-
-                    onClicked: function(mouse) {
-                        contextMenu.selection = photosView.selectedPhotos;
-                        contextMenu.popup(mouse.x, mouse.y);
+                    for (var i = 0; i < count; i++) {
+                        var item = itemAt(i);
+                        result = Math.max(item.contentItem.implicitWidth, result);
+                        padding = Math.max(item.padding, padding);
                     }
+
+                    return result + padding * 2;
                 }
 
-                Menu {
-                    id: contextMenu
+                Instantiator {
+                    model: PhotoBroomProject.recentProjects
 
-                    property alias selection: contextMenuManager.selection
+                    delegate: MenuItem {
+                        required property var modelData
 
-                    ContextMenuManager {
-                        id: contextMenuManager
+                        text: modelData
 
-                        project: PhotoBroomProject.project
-                        coreFactory: PhotoBroomProject.coreFactory
+                        onTriggered: mainWindow.openProject(modelData)
                     }
 
-                    Instantiator {
-                        id: instantiator
+                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)
+                    onObjectRemoved: (object) => recentsMenu.removeItem(object)
+                }
+            }
+            Action { text: qsTr("&Close"); enabled: projectOpened; icon.name: "window-close"; onTriggered: closeProject(); }
+            MenuSeparator { }
+            Action { text: qsTr("&Quit"); icon.name: "application-exit"; onTriggered: Qt.quit(); }
+        }
+        Menu {
+            id: photosMenu
+            title: qsTr("P&hotos")
+            enabled: projectOpened
+            Action { text: qsTr("S&can collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
+        }
+        Menu {
+            title: qsTr("&Windows")
+            Action { text: qsTr("P&roperties");        checkable: true; checked: tagEditor.visible;        onTriggered: tagEditor.visible = !tagEditor.visible }
+            Action { text: qsTr("&Media information"); checkable: true; checked: propertiesWindow.visible; onTriggered: propertiesWindow.visible = !propertiesWindow.visible }
+            Action { text: qsTr("T&asks");             checkable: true; checked: tasksViewDock.visible;    onTriggered: tasksViewDock.visible = !tasksViewDock.visible; }
+        }
+        Menu {
+            id: toolsMenu
+            title: qsTr("&Tools")
+            enabled: projectOpened
+            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
+            Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
+        }
+        Menu {
+            id: settingsMenu
+            title: qsTr("&Settings")
+            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: { settingsMenu.dismiss(); configuration(); } }
+        }
+    }
 
-                        model: contextMenuManager.model
+    SwipeView {
+        id: mainView
+        anchors.fill: parent
 
-                        delegate: MenuItem {
-                            required property var actionName
-                            required property var actionEnabled
-                            required property var actionIndex
+        interactive: false
 
-                            enabled: actionEnabled
-                            text: actionName
+        // main view
+        SplitView {
+            Column {
+                SplitView.preferredWidth: parent.width * 3/4
 
-                            onTriggered: {
-                                contextMenu.close();
-                                contextMenuManager.model.trigger(actionIndex);
-                            }
+                PhotosView {
+                    id: photosView
+
+                    enabled: mainWindow.projectOpened
+
+                    width: parent.width
+                    height: parent.height - notifications.height - tasksViewDock.height
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        acceptedButtons: Qt.RightButton
+                        propagateComposedEvents: true
+
+                        onClicked: function(mouse) {
+                            contextMenu.selection = photosView.selectedPhotos;
+                            contextMenu.popup(mouse.x, mouse.y);
+                        }
+                    }
+
+                    Menu {
+                        id: contextMenu
+
+                        property alias selection: contextMenuManager.selection
+
+                        ContextMenuManager {
+                            id: contextMenuManager
+
+                            project: PhotoBroomProject.project
+                            coreFactory: PhotoBroomProject.coreFactory
                         }
 
-                        onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
-                        onObjectRemoved: (object) => contextMenu.removeItem(object)
+                        Instantiator {
+                            id: instantiator
+
+                            model: contextMenuManager.model
+
+                            delegate: MenuItem {
+                                required property var actionName
+                                required property var actionEnabled
+                                required property var actionIndex
+
+                                enabled: actionEnabled
+                                text: actionName
+
+                                onTriggered: {
+                                    contextMenu.close();
+                                    contextMenuManager.model.trigger(actionIndex);
+                                }
+                            }
+
+                            onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                            onObjectRemoved: (object) => contextMenu.removeItem(object)
+                        }
                     }
                 }
-            }
 
-            GroupBox {
-                id: tasksViewDock
-                objectName: "TasksViewDock"
+                GroupBox {
+                    id: tasksViewDock
 
-                width: parent.width
-                title: "<b>" + qsTr("Tasks") +"</b"
-
-                Components.TasksView {
-                    id: tasksView
-                    objectName: "TasksView"
                     width: parent.width
-                    implicitHeight: contentHeight
+                    title: "<b>" + qsTr("Tasks") +"</b"
 
-                    Behavior on implicitHeight {
-                        NumberAnimation { duration: 1000 }
+                    Components.TasksView {
+                        id: tasksView
+                        objectName: "TasksView"
+                        width: parent.width
+                        implicitHeight: contentHeight
+
+                        Behavior on implicitHeight {
+                            NumberAnimation { duration: 1000 }
+                        }
                     }
+                }
+
+                Internals.NotificationsBar {
+                    id: notifications
+
+                    width: parent.width
                 }
             }
 
-            Internals.NotificationsBar {
-                id: notifications
+            Column {
+                SplitView.fillWidth: true
 
-                width: parent.width
+                spacing: 10
+
+                GroupBox {
+                    id: tagEditor
+
+                    width: parent.width
+                    title: qsTr("<b>Properties</b>")
+
+                    TagEditor {
+                        enabled: mainWindow.projectOpened
+                        width: parent.width
+
+                        selection: photosView.selectedPhotos
+                    }
+                }
+
+                GroupBox {
+                    id: propertiesWindow
+
+                    width: parent.width
+                    title: qsTr("<b>Media information</b>")
+
+                    TableView {
+                        id: propertiesTable
+                        implicitHeight: contentHeight
+                        implicitWidth: contentWidth
+                        columnSpacing: 5
+
+                        model: PhotoPropertiesModel {
+                            property var _photos: photosView.selectedPhotos
+                            database: PhotoBroomProject.database
+
+                            on_PhotosChanged: setPhotos(_photos)
+                        }
+
+                        delegate: Text {
+                            text: display
+                        }
+                    }
+                }
+
+                GroupBox {
+                    id: debugWindow
+                    width: parent.width
+                    visible: ObservablesRegistry.enabled
+                    title: qsTr("<b>Debug window</b>")
+
+                    DebugWindow { }
+                }
             }
         }
 
-        Column {
-            SplitView.fillWidth: true
+        // photo data completion view
+        Item {
 
-            spacing: 10
+            Button {
+                id: backButton
 
-            GroupBox {
-                objectName: "TagEditor"
+                text: qsTr("Back to photos")
 
-                width: parent.width
-                title: qsTr("<b>Properties</b>")
-
-                TagEditor {
-                    enabled: projectOpened
-                    width: parent.width
-
-                    selection: mainWindow.selectedPhotos
-                }
+                onClicked: mainView.currentIndex = 0
             }
 
-            GroupBox {
-                objectName: "PropertiesWindow"
-
+            PhotoDataCompletion {
+                id: completer
                 width: parent.width
-                title: qsTr("<b>Media information</b>")
-
-                TableView {
-                    id: propertiesTable
-                    implicitHeight: contentHeight
-                    implicitWidth: contentWidth
-                    columnSpacing: 5
-
-                    model: PhotoPropertiesModel {
-                        property var _photos: mainWindow.selectedPhotos
-                        database: PhotoBroomProject.database
-
-                        on_PhotosChanged: setPhotos(_photos)
-                    }
-
-                    delegate: Text {
-                        text: display
-                    }
-                }
-            }
-
-            GroupBox {
-                width: parent.width
-                title: qsTr("<b>Debug window</b>")
-
-                DebugWindow {
-                    objectName: "DebugWindow"
-                }
+                anchors.bottom: parent.bottom
+                anchors.top: backButton.bottom
             }
         }
     }
 
-    // photo data completion view
-    Item {
-
-        Button {
-            id: backButton
-
-            text: qsTr("Back to photos")
-
-            onClicked: mainWindow.currentIndex = 0
-        }
-
-        PhotoDataCompletion {
-            id: completer
-            width: parent.width
-            anchors.bottom: parent.bottom
-            anchors.top: backButton.bottom
-
-            onSelectedPhotoChanged: mainWindow.selectedPhotos = selectedPhoto
-        }
-    }
 }

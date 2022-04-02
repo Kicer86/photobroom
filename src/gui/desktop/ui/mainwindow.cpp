@@ -4,7 +4,6 @@
 #include <functional>
 #include <ranges>
 
-#include <QCloseEvent>
 #include <QFileDialog>
 #include <QLayout>
 #include <QMenuBar>
@@ -46,17 +45,15 @@
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
 #include "utils/model_index_utils.hpp"
-#include "ui_utils/icons_loader.hpp"
 #include "quick_items/objects_accessor.hpp"
 #include "quick_items/qml_utils.hpp"
 #include "quick_items/photos_model_controller_component.hpp"
 #include "quick_items/selection_manager_component.hpp"
 #include "quick_items/thumbnail_image_provider.hpp"
-#include "ui_mainwindow.h"
 
 
-MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p): QMainWindow(p),
-    ui(new Ui::MainWindow),
+MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p):
+    QObject(p),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
@@ -72,9 +69,8 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_featuresObserver(featuresManager, m_notifications)
 {
     // setup
-    ui->setupUi(this);
     setupConfig();
-    setupView();
+    setupQmlView();
     updateGui();
     registerConfigTab();
 
@@ -85,34 +81,20 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
-    IconsLoader icons;
-
-    ui->actionNew_collection->setIcon(icons.getIcon(IconsLoader::Icon::New));
-    ui->actionOpen_collection->setIcon(icons.getIcon(IconsLoader::Icon::Open));
-    ui->actionClose->setIcon(icons.getIcon(IconsLoader::Icon::Close));
-    ui->actionQuit->setIcon(icons.getIcon(IconsLoader::Icon::Quit));
-
-    ui->actionConfiguration->setIcon(icons.getIcon(IconsLoader::Icon::Settings));
-
-    ui->actionHelp->setIcon(icons.getIcon(IconsLoader::Icon::Help));
-    ui->actionAbout->setIcon(icons.getIcon(IconsLoader::Icon::About));
-    ui->actionAbout_Qt->setIcon(icons.getIcon(IconsLoader::Icon::AboutQt));
-
     m_mainTabCtrl->set(&m_configuration);
     m_toolsTabCtrl->set(&m_configuration);
-
-    // hide debug dock if ObservablesRegistry is disabled
-    QQuickItem* debugWindow = QmlUtils::findQuickItem(ui->mainViewQml, "DebugWindow");
-    debugWindow->setVisible(ObservablesRegistry::instance().isEnabled());
-
-    // TODO: nothing useful in help menu at this moment
-    ui->menuHelp->menuAction()->setVisible(false);
 }
 
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    // TODO: close project!
+    //m_currentPrj->close();
+
+    closeProject();
+
+    //store recent collections
+    m_configuration.setEntry("gui::recent", ObjectsAccessor::instance().recentProjects().join(";"));
 }
 
 
@@ -133,16 +115,27 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    ui->mainViewQml->setSource(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
-    QmlUtils::registerImageProviders(ui->mainViewQml, *m_thumbnailsManager);
-    PhotosModelControllerComponent* controller = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(ui->mainViewQml, "photos_model_controller"));
+    m_mainView.load(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
+
+    QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
+    connect(mainWindow, SIGNAL(newProject()), this, SLOT(on_actionNew_collection_triggered()));
+    connect(mainWindow, SIGNAL(openProjectDialog()), this, SLOT(on_actionOpen_collection_triggered()));
+    connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
+    connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
+    connect(mainWindow, SIGNAL(scanCollection()), this, SLOT(on_actionScan_collection_triggered()));
+    connect(mainWindow, SIGNAL(seriesDetector()), this, SLOT(on_actionSeries_detector_triggered()));
+    connect(mainWindow, SIGNAL(configuration()), this, SLOT(on_actionConfiguration_triggered()));
+
+    QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
+    PhotosModelControllerComponent* controller
+        = qobject_cast<PhotosModelControllerComponent *>(QmlUtils::findQmlObject(m_mainView, "photos_model_controller"));
 
     assert(controller != nullptr);
 
     controller->setCompleterFactory(&m_completerFactory);
 
-    QObject* tasksView = QmlUtils::findQmlObject(ui->mainViewQml, "TasksView");
-    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "NotificationsList");
+    QObject* tasksView = QmlUtils::findQmlObject(m_mainView, "TasksView");
+    QObject* notificationsList = QmlUtils::findQmlObject(m_mainView, "NotificationsList");
 
     tasksView->setProperty("model", QVariant::fromValue(&m_tasksModel));
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
@@ -154,7 +147,6 @@ void MainWindow::setupConfig()
     // setup defaults
     m_configuration.setDefaultValue(UpdateConfigKeys::updateEnabled,   true);
 
-    loadGeometry();
     loadRecentCollections();
 }
 
@@ -199,18 +191,6 @@ void MainWindow::checkVersion()
 }
 
 
-void MainWindow::updateWindowsMenu()
-{
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
-    QQuickItem* tasksWindow = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
-
-    ui->actionTags_editor->setChecked(tagEditor->isVisible());
-    ui->actionTasks->setChecked(tasksWindow->isVisible());
-    ui->actionPhoto_properties->setChecked(propertiesWindow->isVisible());
-}
-
-
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
     auto logger = m_loggerFactory.get("Updater");
@@ -219,7 +199,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
     {
         case IUpdater::OnlineVersion::NewVersionAvailable:
             logger->info("New version avialable");
-            QMessageBox::information(this,
+            QMessageBox::information(nullptr,
                                      tr("New version"),
                                      tr("New version of PhotoBroom is available <a href=\"%1\">here</a>.")
                                         .arg(versionInfo.url.url())
@@ -228,7 +208,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 
         case IUpdater::OnlineVersion::ConnectionError:
             logger->error("Error when checking for new version");
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Internet connection problem"),
                                   tr("Could not check if there is new version of PhotoBroom.\n"
                                      "Please check your internet connection.")
@@ -242,29 +222,10 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 }
 
 
-void MainWindow::closeEvent(QCloseEvent *e)
+void MainWindow::openProject(const QString& prjPath, bool is_new)
 {
-    // TODO: close project!
-    //m_currentPrj->close();
+    const ProjectInfo prjInfo(prjPath);
 
-    closeProject();
-
-    e->accept();
-
-    // store windows state
-    const QByteArray geometry = saveGeometry();
-    m_configuration.setEntry("gui::geometry", geometry.toBase64());
-
-    const QByteArray state = saveState();
-    m_configuration.setEntry("gui::state", state.toBase64());
-
-    //store recent collections
-    m_configuration.setEntry("gui::recent", m_recentCollections.join(";"));
-}
-
-
-void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
-{
     if (prjInfo.isValid())
     {
         closeProject();
@@ -278,9 +239,10 @@ void MainWindow::openProject(const ProjectInfo& prjInfo, bool is_new)
         projectOpened(open_status.second, is_new);
 
         // add project to list of recent projects
-        m_recentCollections.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
-
-        m_recentCollections.prepend(prjInfo.getPath());    // add it at the beginning
+        QStringList projects = ObjectsAccessor::instance().recentProjects();
+        projects.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
+        projects.prepend(prjInfo.getPath());    // add it at the beginning
+        ObjectsAccessor::instance().setRecentProjects(projects);
     }
 }
 
@@ -303,53 +265,10 @@ void MainWindow::closeProject()
 }
 
 
-void MainWindow::setupView()
-{
-    setupQmlView();
-    updateWindowsMenu();
-}
-
-
-void MainWindow::updateMenus()
-{
-    const bool prj = m_currentPrj.get() != nullptr;
-    const bool valid = m_recentCollections.isEmpty() == false;
-
-    ui->menuPhotos->menuAction()->setVisible(prj);
-    ui->menuTools->menuAction()->setVisible(prj);
-    ui->menuOpen_recent->menuAction()->setVisible(valid);
-    ui->menuOpen_recent->clear();
-
-    for(const QString& entry: qAsConst(m_recentCollections))
-    {
-        QAction* action = ui->menuOpen_recent->addAction(entry);
-        connect(action, &QAction::triggered, [=, this]
-        {
-            const ProjectInfo prjInfo(entry);
-
-            openProject(prjInfo);
-        });
-    }
-}
-
-
-void MainWindow::updateTitle()
-{
-    const bool prj = m_currentPrj.get() != nullptr;
-
-    const QString prjName = prj? m_currentPrj->getProjectInfo().getName(): tr("No collection opened");
-    const QString title = tr("Photo broom: %1").arg(prjName);
-
-    setWindowTitle(title);
-}
-
-
 void MainWindow::updateGui()
 {
-    updateMenus();
-    updateTitle();
     updateTools();
-    updateWidgets();
+    updateProjectProperties();
 }
 
 
@@ -371,12 +290,13 @@ void MainWindow::updateTools()
 }
 
 
-void MainWindow::updateWidgets()
+void MainWindow::updateProjectProperties()
 {
     const bool prj = m_currentPrj.get() != nullptr;
 
-    QObject* notificationsList = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    notificationsList->setProperty("projectOpened", QVariant::fromValue(prj));
+    QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
+    mainWindow->setProperty("projectOpened", QVariant::fromValue(prj));
+    mainWindow->setProperty("projectName", QVariant::fromValue(prj? m_currentPrj->getProjectInfo().getName(): QString()));
 }
 
 
@@ -387,36 +307,13 @@ void MainWindow::registerConfigTab()
 }
 
 
-void MainWindow::loadGeometry()
-{
-    // restore state
-    const QVariant geometry = m_configuration.getEntry("gui::geometry");
-    if (geometry.isValid())
-    {
-        const QByteArray base64 = geometry.toString().toLatin1();
-        const QByteArray geometryData = QByteArray::fromBase64(base64);
-        restoreGeometry(geometryData);
-    }
-
-    const QVariant state = m_configuration.getEntry("gui::state");
-    if (state.isValid())
-    {
-        const QByteArray base64 = state.toByteArray();
-        const QByteArray stateData = QByteArray::fromBase64(base64);
-        restoreState(stateData);
-    }
-}
-
-
 void MainWindow::loadRecentCollections()
 {
     // recent collections
     const QString rawList = m_configuration.getEntry("gui::recent").toString();
 
     if (rawList.isEmpty() == false)
-        m_recentCollections = rawList.split(";");
-
-    updateMenus();
+        ObjectsAccessor::instance().setRecentProjects(rawList.split(";"));
 }
 
 
@@ -426,32 +323,22 @@ void MainWindow::on_actionNew_collection_triggered()
     const bool creation_status = prjCreator.create(m_prjManager, m_pluginLoader);
 
     if (creation_status)
-        openProject(prjCreator.project(), true);
+        openProject(prjCreator.project().getPath(), true);
 }
 
 
 void MainWindow::on_actionOpen_collection_triggered()
 {
-    const QString prjPath = QFileDialog::getOpenFileName(this, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
+    const QString prjPath = QFileDialog::getOpenFileName(nullptr, tr("Open collection"), QString(), tr("Photo Broom files (*.bpj)"));
 
     if (prjPath.isEmpty() == false)
-    {
-        const ProjectInfo prjName(prjPath);
-
-        openProject(prjName);
-    }
+        openProject(prjPath);
 }
 
 
 void MainWindow::on_actionClose_triggered()
 {
     closeProject();
-}
-
-
-void MainWindow::on_actionQuit_triggered()
-{
-    close();
 }
 
 
@@ -497,56 +384,19 @@ void MainWindow::on_actionAbout_triggered()
     about =  QString("Photo Broom ") + PHOTO_BROOM_VERSION + "\n";
     about += "by Michał Walenciak";
 
-    QMessageBox::about(this, tr("About Photo Broom"), about);
+    QMessageBox::about(nullptr, tr("About Photo Broom"), about);
 }
 
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-    QMessageBox::aboutQt(this, tr("About Qt"));
-}
-
-
-void MainWindow::on_actionTags_editor_triggered()
-{
-    const bool state = ui->actionTags_editor->isChecked();
-
-    QQuickItem* tagEditor = QmlUtils::findQuickItem(ui->mainViewQml, "TagEditor");
-
-    tagEditor->setVisible(state);
-}
-
-
-void MainWindow::on_actionTasks_triggered()
-{
-    const bool state = ui->actionTasks->isChecked();
-
-    QQuickItem* tasksView = QmlUtils::findQuickItem(ui->mainViewQml, "TasksViewDock");
-
-    tasksView->setVisible(state);
-}
-
-
-void MainWindow::on_actionPhoto_properties_triggered()
-{
-    const bool state = ui->actionPhoto_properties->isChecked();
-
-    QQuickItem* propertiesWindow = QmlUtils::findQuickItem(ui->mainViewQml, "PropertiesWindow");
-
-    propertiesWindow->setVisible(state);
+    QMessageBox::aboutQt(nullptr, tr("About Qt"));
 }
 
 
 void MainWindow::on_actionSeries_detector_triggered()
 {
     SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_tasksModel, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
-}
-
-
-void MainWindow::on_actionPhoto_data_completion_triggered()
-{
-    QObject* mainwindow = QmlUtils::findQmlObject(ui->mainViewQml, "MainWindow");
-    mainwindow->setProperty("currentIndex", 1);
 }
 
 
@@ -574,7 +424,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
         }
 
         case Database::StatusCodes::BadVersion:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unsupported photo collection version"),
                                   tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your application is too old to open it.\n\n"
@@ -584,7 +434,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::VersionTooOld:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unsupported photo collection version"),
                                   tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your database is too old to open it.\n\n")
@@ -593,7 +443,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::OpenFailed:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Could not open collection"),
                                   tr("Photo collection could not be opened.\n"
                                      "It usually means that collection files are broken\n"
@@ -604,7 +454,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         case Database::StatusCodes::ProjectLocked:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Collection locked"),
                                   tr("Photo collection could not be opened.\n"
                                      "It is already opened by another Photo Broom instance.")
@@ -613,7 +463,7 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
             break;
 
         default:
-            QMessageBox::critical(this,
+            QMessageBox::critical(nullptr,
                                   tr("Unexpected error"),
                                   tr("An unexpected error occured while opening photo collection.\n"
                                      "Please report a bug.\n"

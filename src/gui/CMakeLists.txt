@@ -43,30 +43,30 @@ add_library(gui
 )
 
 target_link_libraries(gui
-                        PRIVATE
-                            gui_config_tabs
-                            gui_models
-                            gui_utils
-                            gui_ui
-                            gui_ui_utils
-                            gui_widgets
-                            quick_items
-                            quick_itemsplugin
+    PRIVATE
+        gui_config_tabs
+        gui_models
+        gui_utils
+        gui_ui
+        gui_ui_utils
+        gui_widgets
+        quick_items
+        quick_itemsplugin
 
-                            core
-                            database
-                            face_recognition
-                            photos_crawler
-                            project_utils
-                            system
+        core
+        database
+        face_recognition
+        photos_crawler
+        project_utils
+        system
 )
 
 target_include_directories(gui
-                            PUBLIC
-                                ${CMAKE_CURRENT_BINARY_DIR}
-                            PRIVATE
-                                ${CMAKE_CURRENT_SOURCE_DIR}/desktop
-                                ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if(BUILD_UPDATER)
@@ -90,4 +90,3 @@ endif()
 if(BUILD_TESTING)
     include(gui_tests.cmake)
 endif()
-

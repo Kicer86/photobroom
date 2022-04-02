@@ -306,127 +306,122 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.ui" line="+14"/>
-        <source>Photo broom</source>
-        <translation>Photo broom</translation>
-    </message>
-    <message>
-        <location line="+34"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+37"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+1"/>
+        <source>&amp;New...</source>
+        <translation>&amp;Nowa...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Open...</source>
+        <translation>&amp;Otwórz...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Open &amp;recent</source>
         <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>He&amp;lp</source>
-        <translation>Po&amp;moc</translation>
+        <location line="+38"/>
+        <source>S&amp;can collection...</source>
+        <translation>&amp;Wyszukiwanie zdjęć...</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+3"/>
         <source>&amp;Windows</source>
-        <translation>&amp;Okna</translation>
+        <translation>O&amp;kna</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="+1"/>
+        <source>P&amp;roperties</source>
+        <translation>&amp;Właściwości</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Tools</source>
+        <translation>N&amp;arzędzia</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>S&amp;eries detector...</source>
+        <translation>W&amp;ykrywanie serii...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ph&amp;oto data completion...</source>
+        <translation>&amp;Uzupełnianie danych...</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>&amp;Settings</source>
+        <translation>U&amp;stawienia</translation>
+    </message>
+    <message>
+        <location line="+77"/>
+        <source>Tasks</source>
+        <translation>Operacje</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Back to photos</source>
+        <translation>Powrót</translation>
+    </message>
+    <message>
+        <location line="-178"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>Settin&amp;gs</source>
-        <translation>Ustawie&amp;nia</translation>
+        <location line="-50"/>
+        <source>No collection opened</source>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Tools</source>
-        <translation>Narzędzia</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>&amp;New</source>
-        <translation>&amp;Nowa</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;Open</source>
-        <translation>&amp;Otwórz</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>&amp;Add photos</source>
-        <translation>&amp;Dodaj zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;About Photo Broom</source>
-        <translation>&amp;O Photo Broom</translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location line="+44"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+2"/>
         <source>&amp;Quit</source>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>About &amp;Qt</source>
-        <translation>O &amp;Qt</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&amp;Help</source>
-        <translation>&amp;Pomoc</translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location line="+24"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>&amp;Tags editor</source>
-        <translation>&amp;Edytor tagów</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="-12"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>&amp;Scan collection</source>
-        <translation>&amp;Przeskanuj kolekcję</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="-1"/>
         <source>&amp;Media information</source>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>&amp;Face organizer</source>
-        <translation>&amp;Zarządzanie osobami</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Series detector</source>
-        <translation>Wyszukiwanie grup</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Photo data completion</source>
-        <translation>Uzupełnianie danych</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+223"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -448,12 +443,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+107"/>
-        <source>No collection opened</source>
-        <translation>Nie otwarto kolekcji zdjęć</translation>
-    </message>
-    <message>
-        <location line="+95"/>
+        <location line="+119"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -463,12 +453,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="-94"/>
-        <source>Photo broom: %1</source>
-        <translation>Photo broom: %1</translation>
-    </message>
-    <message>
-        <location line="+237"/>
+        <location line="+96"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -541,7 +526,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-117"/>
+        <location line="-80"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -549,31 +534,6 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+93"/>
-        <source>Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Back to photos</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

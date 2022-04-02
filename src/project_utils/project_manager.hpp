@@ -44,6 +44,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
         ProjectInfo new_prj(const QString &, const Database::IPlugin *, const QString &) override;
         OpenStatus open(const ProjectInfo &) override;
+        OpenStatus open(const QString &) override;
 
     private:
         Database::IBuilder* m_dbBuilder;

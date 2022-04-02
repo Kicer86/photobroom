@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <QMainWindow>
+#include <QQmlApplicationEngine>
 
 #include <core/ifeatures_manager.hpp>
 #include <database/idatabase.hpp>
@@ -25,7 +25,7 @@ struct ICoreFactoryAccessor;
 struct ILoggerFactory;
 struct ITaskExecutor;
 struct IPluginLoader;
-struct IProjectManager;
+class IProjectManager;
 struct IConfiguration;
 struct IView;
 
@@ -33,12 +33,7 @@ class Project;
 struct ProjectInfo;
 struct IThumbnailsManager;
 
-namespace Ui
-{
-    class MainWindow;
-}
-
-class MainWindow: public QMainWindow
+class MainWindow: public QObject
 {
         Q_OBJECT
 
@@ -55,7 +50,6 @@ class MainWindow: public QMainWindow
 
     private:
         TasksModel                m_tasksModel;
-        Ui::MainWindow*           ui;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
@@ -64,28 +58,22 @@ class MainWindow: public QMainWindow
         IUpdater*                 m_updater;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
+        QQmlApplicationEngine     m_mainView;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
         std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
-        QStringList               m_recentCollections;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
 
-        void closeEvent(QCloseEvent *) override;
-
-        void openProject(const ProjectInfo &, bool = false);
+        Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
-        void setupView();
-        void updateMenus();
-        void updateTitle();
         void updateGui();
         void updateTools();
-        void updateWidgets();
+        void updateProjectProperties();
         void registerConfigTab();
 
-        void loadGeometry();
         void loadRecentCollections();
 
         void setupQmlView();
@@ -96,7 +84,6 @@ class MainWindow: public QMainWindow
         void on_actionNew_collection_triggered();
         void on_actionOpen_collection_triggered();
         void on_actionClose_triggered();
-        void on_actionQuit_triggered();
 
         // photos menu
         void on_actionScan_collection_triggered();
@@ -106,14 +93,8 @@ class MainWindow: public QMainWindow
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
 
-        // windows menu
-        void on_actionTags_editor_triggered();
-        void on_actionTasks_triggered();
-        void on_actionPhoto_properties_triggered();
-
         // tools menu
         void on_actionSeries_detector_triggered();
-        void on_actionPhoto_data_completion_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();
@@ -123,9 +104,6 @@ class MainWindow: public QMainWindow
 
         //check version
         void checkVersion();
-
-        // update windows menu
-        void updateWindowsMenu();
 
         //
         void currentVersion(const IUpdater::OnlineVersion &);
