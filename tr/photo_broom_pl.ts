@@ -306,7 +306,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+36"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+37"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -326,7 +326,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>S&amp;can collection...</source>
         <translation>&amp;Wyszukiwanie zdjęć...</translation>
     </message>
@@ -341,7 +341,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Właściwości</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>&amp;Tools</source>
         <translation>N&amp;arzędzia</translation>
     </message>
@@ -356,7 +356,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Uzupełnianie danych...</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>&amp;Settings</source>
         <translation>U&amp;stawienia</translation>
     </message>
@@ -386,17 +386,17 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-176"/>
+        <location line="-178"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-50"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+44"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
@@ -406,12 +406,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+24"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-12"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>

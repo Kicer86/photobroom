@@ -33,9 +33,10 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
+            id: collectionMenu
             title: qsTr("&Photo collection")
-            Action { text: qsTr("&New...");   icon.name: "document-new";  onTriggered: newProject(); }
-            Action { text: qsTr("&Open...");  icon.name: "document-open"; onTriggered: openProjectDialog(); }
+            Action { text: qsTr("&New...");   icon.name: "document-new";  onTriggered: { collectionMenu.dismiss(); newProject(); } }
+            Action { text: qsTr("&Open...");  icon.name: "document-open"; onTriggered: { collectionMenu.dismiss(); openProjectDialog(); } }
             Menu {
                 id: recentsMenu
                 title: qsTr("Open &recent")
@@ -73,9 +74,10 @@ ApplicationWindow {
             Action { text: qsTr("&Quit"); icon.name: "application-exit"; onTriggered: Qt.quit(); }
         }
         Menu {
+            id: photosMenu
             title: qsTr("P&hotos")
             enabled: projectOpened
-            Action { text: qsTr("S&can collection..."); onTriggered: scanCollection(); }
+            Action { text: qsTr("S&can collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
         }
         Menu {
             title: qsTr("&Windows")
@@ -84,14 +86,16 @@ ApplicationWindow {
             Action { text: qsTr("T&asks");             checkable: true; checked: tasksViewDock.visible;    onTriggered: tasksViewDock.visible = !tasksViewDock.visible; }
         }
         Menu {
+            id: toolsMenu
             title: qsTr("&Tools")
             enabled: projectOpened
-            Action { text: qsTr("S&eries detector...");       onTriggered: seriesDetector(); }
+            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
         }
         Menu {
+            id: settingsMenu
             title: qsTr("&Settings")
-            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: configuration();  }
+            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: { settingsMenu.dismiss(); configuration(); } }
         }
     }
 
