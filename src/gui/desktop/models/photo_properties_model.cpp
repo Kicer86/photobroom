@@ -121,7 +121,7 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
     QStandardItem* sizeItem = new QStandardItem;
     QStandardItem* geomItem = new QStandardItem;
 
-    // calcualte photos size
+    // calculate photos size
     std::size_t size = 0;
     for(std::size_t i = 0; i < s; i++)
     {
