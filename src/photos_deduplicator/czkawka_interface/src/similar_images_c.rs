@@ -1,6 +1,8 @@
 
+//use czkawka_core::*;  //::similar_images::SimilarImages;
+
 #[no_mangle]
-pub extern "C" fn CreateSimilarImagesObj()
+pub extern "C" fn CreateSimilarImagesObj() // -> SimilarImages
 {
-    println!("Hello World!");
+    //let mut sf = SimilarImages::new();
 }
