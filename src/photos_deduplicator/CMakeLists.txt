@@ -13,16 +13,15 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/Cargo.toml
      crate-type=[\"staticlib\"]"
 )
 
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/cbindgen.toml)
-
 corrosion_import_crate(MANIFEST_PATH ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/Cargo.toml)
+corrosion_import_crate(MANIFEST_PATH czkawka_interface/Cargo.toml)
 
 add_custom_command(
     OUTPUT czkawka_interface.h
     COMMAND ${CBINDGEN}
     ARGS --config cbindgen.toml
-         --output ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core.h
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core
+         --output ${CMAKE_CURRENT_BINARY_DIR}/czkawka_interface.h
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/czkawka_interface
 )
 
 add_library(photos_deduplicator SHARED
@@ -30,7 +29,12 @@ add_library(photos_deduplicator SHARED
     ${CMAKE_CURRENT_BINARY_DIR}/czkawka_interface.h
 )
 
+target_include_directories(photos_deduplicator
+    PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 target_link_libraries(photos_deduplicator
     PRIVATE
-        czkawka_core
+        czkawka_interface
 )

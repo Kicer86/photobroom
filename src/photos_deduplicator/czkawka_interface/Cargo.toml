@@ -1,0 +1,9 @@
+[package]
+name = "czkawka_interface"
+version = "1.0.0"
+
+[dependencies]
+czkawka_core = "4.0.0"
+
+[lib]
+crate-type=["staticlib"]
