@@ -13,6 +13,8 @@ Required tools and libraries:
  - exiv2*
  - dlib*
  - magic_enum*
+ - cbindgen
+ - corrosion
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
