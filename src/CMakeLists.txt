@@ -51,6 +51,7 @@ target_link_libraries(photo_broom
     database
     face_recognition
     gui
+    photos_deduplicator
     project_utils
     system
     $<$<TARGET_EXISTS:QtClick::QtClick>:QtClick::QtClick>
