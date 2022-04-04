@@ -1,5 +1,6 @@
 
 find_package(Corrosion REQUIRED)
+find_program(CBINDGEN cbindgen REQUIRED)
 
 # copy czkawka_core to build dir
 # it is required for 2 reasons:
@@ -12,10 +13,21 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/Cargo.toml
      crate-type=[\"staticlib\"]"
 )
 
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/cbindgen.toml)
+
 corrosion_import_crate(MANIFEST_PATH ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core/Cargo.toml)
+
+add_custom_command(
+    OUTPUT czkawka_interface.h
+    COMMAND ${CBINDGEN}
+    ARGS --config cbindgen.toml
+         --output ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core.h
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/czkawka_core
+)
 
 add_library(photos_deduplicator SHARED
     photos_deduplicator.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/czkawka_interface.h
 )
 
 target_link_libraries(photos_deduplicator
