@@ -9,6 +9,9 @@ add_custom_command(
     COMMAND ${CBINDGEN}
     ARGS --config cbindgen.toml
          --output ${CMAKE_CURRENT_BINARY_DIR}/czkawka_interface.h
+    DEPENDS
+        czkawka_interface/src/similar_images_c.rs
+
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/czkawka_interface
 )
 
