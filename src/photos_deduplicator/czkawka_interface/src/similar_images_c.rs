@@ -1,8 +1,8 @@
 
-//use czkawka_core::*;  //::similar_images::SimilarImages;
+use czkawka_core::similar_images::SimilarImages;
 
 #[no_mangle]
-pub extern "C" fn CreateSimilarImagesObj() // -> SimilarImages
+pub extern "C" fn CreateSimilarImagesObj()
 {
-    //let mut sf = SimilarImages::new();
+    let sf = SimilarImages::new();
 }
