@@ -14,3 +14,7 @@ rust:
 https://hsivonen.fi/modern-cpp-in-rust/
 https://doc.rust-lang.org/rust-by-example
 https://github.com/nrc/r4cppp
+
+
+perceptual hashing:
+https://www.sciencedirect.com/science/article/pii/S1877050921011030
