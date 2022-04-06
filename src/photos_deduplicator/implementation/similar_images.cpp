@@ -18,7 +18,7 @@ struct SimilarImages::Impl
 
     }
 
-    std::unique_ptr<void, void (*)(void *)> m_similarImages;
+    std::unique_ptr<SimilarImagesData, void (*)(SimilarImagesData *)> m_similarImages;
 };
 
 
@@ -32,4 +32,10 @@ SimilarImages::SimilarImages()
 SimilarImages::~SimilarImages()
 {
 
+}
+
+
+void SimilarImages::findSimilarImages()
+{
+    collectImages(m_impl->m_similarImages.get());
 }

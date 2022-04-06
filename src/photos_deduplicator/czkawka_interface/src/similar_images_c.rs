@@ -1,14 +1,28 @@
 
 use czkawka_core::similar_images::SimilarImages;
 
-#[no_mangle]
-pub unsafe extern "C" fn CreateSimilarImagesObj() -> *mut ()
+
+pub struct SimilarImagesData
 {
-    return Box::into_raw(Box::new(SimilarImages::new())) as *mut ();
+    si: SimilarImages,
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn DestroySimilarImagesObj(sim_img: &mut ())
+pub unsafe extern "C" fn CreateSimilarImagesObj() -> *mut SimilarImagesData
+{
+    return Box::into_raw(Box::new( SimilarImagesData{si: SimilarImages::new()} ));
+}
+
+
+#[no_mangle]
+pub unsafe extern "C" fn DestroySimilarImagesObj(sim_img: &mut SimilarImagesData)
 {
     let _ = Box::from_raw(sim_img);
+}
+
+
+#[no_mangle]
+pub unsafe extern "C" fn collectImages(sim_img: &mut SimilarImagesData)
+{
+    sim_img.si.find_similar_images(None, None);
 }

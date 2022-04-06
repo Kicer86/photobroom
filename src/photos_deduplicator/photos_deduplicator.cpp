@@ -7,5 +7,6 @@ public:
     S()
     {
         SimilarImages si;
+        si.findSimilarImages();
     }
 } s;
