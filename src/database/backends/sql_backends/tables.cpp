@@ -194,6 +194,19 @@ namespace Database
                             }
         );
 
+        TableDefinition
+        table_phashes(TAB_PHASHES,
+            {
+                { "id", "", ColDefinition::Purpose::ID },
+                { "photo_id", "INTEGER NOT NULL"       },
+                { "PH0", "BIGINT" },
+                { "PH1", "BIGINT" },
+                { "PH2", "BIGINT" },
+                { "PH3", "BIGINT" },
+                { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
+            }
+        );
+
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
@@ -211,5 +224,6 @@ namespace Database
             { TAB_FACES_FINGERPRINTS,   table_faces_fingerprints },
             { TAB_GENERAL_FLAGS,        table_general_flags },
             { TAB_PHOTOS_CHANGE_LOG,    table_photos_change_log },
+            { TAB_PHASHES,              table_phashes },
         };
 }
