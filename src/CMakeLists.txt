@@ -13,7 +13,6 @@ endif()
 
 add_subdirectory(core)
 add_subdirectory(crash_catcher)
-add_subdirectory(photos_deduplicator)
 add_subdirectory(photos_crawler)
 add_subdirectory(database)
 add_subdirectory(face_recognition)
@@ -51,7 +50,6 @@ target_link_libraries(photo_broom
     database
     face_recognition
     gui
-    photos_deduplicator
     project_utils
     system
     $<$<TARGET_EXISTS:QtClick::QtClick>:QtClick::QtClick>
