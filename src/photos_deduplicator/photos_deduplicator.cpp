@@ -1,11 +1,11 @@
 
-#include "czkawka_interface.h"
+#include "implementation/similar_images.hpp"
 
 class S
 {
 public:
     S()
     {
-        CreateSimilarImagesObj();
+        SimilarImages si;
     }
 } s;

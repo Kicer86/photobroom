@@ -17,6 +17,8 @@ add_custom_command(
 
 add_library(photos_deduplicator SHARED
     photos_deduplicator.cpp
+    implementation/similar_images.cpp
+    implementation/similar_images.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/czkawka_interface.h
 )
 
