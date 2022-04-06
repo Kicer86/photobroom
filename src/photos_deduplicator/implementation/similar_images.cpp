@@ -13,7 +13,7 @@ namespace
 struct SimilarImages::Impl
 {
     Impl()
-        : m_similarImages(CreateSimilarImagesObj(), &DestroySimilarImagesObj)
+        : m_similarImages(createSimilarImagesObj(), &destroySimilarImagesObj)
     {
 
     }

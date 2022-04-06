@@ -8,14 +8,14 @@ pub struct SimilarImagesData
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn CreateSimilarImagesObj() -> *mut SimilarImagesData
+pub unsafe extern "C" fn createSimilarImagesObj() -> *mut SimilarImagesData
 {
     return Box::into_raw(Box::new( SimilarImagesData{si: SimilarImages::new()} ));
 }
 
 
 #[no_mangle]
-pub unsafe extern "C" fn DestroySimilarImagesObj(sim_img: &mut SimilarImagesData)
+pub unsafe extern "C" fn destroySimilarImagesObj(sim_img: &mut SimilarImagesData)
 {
     let _ = Box::from_raw(sim_img);
 }
