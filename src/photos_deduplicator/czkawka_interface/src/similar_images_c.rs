@@ -2,7 +2,7 @@
 use czkawka_core::similar_images::SimilarImages;
 
 #[no_mangle]
-pub extern "C" fn CreateSimilarImagesObj()
+pub unsafe extern "C" fn CreateSimilarImagesObj() -> *mut ()
 {
-    let sf = SimilarImages::new();
+    return Box::into_raw(Box::new(SimilarImages::new())) as *mut ();
 }
