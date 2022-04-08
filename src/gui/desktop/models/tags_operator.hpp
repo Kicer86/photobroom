@@ -32,7 +32,7 @@ class TagsOperator: public ITagsOperator
         TagsOperator();
 
         void setDb(Database::IDatabase *);
-        void operateOn(const std::vector<Photo::Data>&) override;
+        void operateOn(const std::vector<Photo::DataDelta>&) override;
 
         Tag::TagsList getTags() const override;
 

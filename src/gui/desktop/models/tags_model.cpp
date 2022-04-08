@@ -246,7 +246,13 @@ void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
 {
     clearModel();
 
-    m_tagsOperator.operateOn(photos);
+    std::vector<Photo::DataDelta> deltas;
+    std::transform(photos.begin(), photos.end(), std::back_inserter(deltas), [](const Photo::Data& data)
+    {
+        return Photo::DataDelta(data);
+    });
+
+    m_tagsOperator.operateOn(deltas);
 
     const Tag::TagsList photo_tags = getTags();
     const std::vector<Tag::Types> all_tags = BaseTags::getAll();
