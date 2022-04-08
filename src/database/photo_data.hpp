@@ -36,6 +36,9 @@ namespace Photo
 {
     class DataDelta;
 
+    /**
+     * @brief Structure containing full set of photo details
+     */
     struct DATABASE_EXPORT Data
     {
         Photo::Id            id;
@@ -62,6 +65,9 @@ namespace Photo
     };
 
 
+    /**
+     * @brief Structure containing chosen of photo details
+     */
     class DATABASE_EXPORT DataDelta
     {
         public:
