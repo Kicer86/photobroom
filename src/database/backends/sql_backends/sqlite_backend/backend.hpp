@@ -27,7 +27,7 @@ namespace Database
             // ASqlBackend:
             virtual BackendStatus prepareDB(const ProjectInfo &) override;
             virtual bool dbOpened() override;
-            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const override;
+            virtual const IGenericSqlQueryGenerator& getGenericQueryGenerator() const override;
 
             //ISqlQueryConstructor:
             virtual QString prepareFindTableQuery(const QString &) const override;

@@ -27,6 +27,7 @@
 #include "isql_query_executor.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "tables.hpp"
+#include "query_structs.hpp"
 
 
 namespace Database
@@ -59,11 +60,13 @@ namespace Database
 
     PhotoOperator::PhotoOperator(const QString& connection,
                                  ISqlQueryExecutor* executor,
+                                 const IGenericSqlQueryGenerator& queryGenerator,
                                  ILogger* logger,
                                  IBackend* backend,
                                  NotificationsAccumulator& notificationsAccumulator):
         m_connectionName(connection),
         m_executor(executor),
+        m_queryGenerator(queryGenerator),
         m_logger(logger),
         m_backend(backend),
         m_notifications(notificationsAccumulator)
@@ -170,6 +173,73 @@ namespace Database
         auto result = fetch(query);
 
         return result;
+    }
+
+
+    void PhotoOperator::setPHash(const Photo::Id& id, const Database::PHash& phash)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        InsertQueryData insertQueryData(TAB_PHASHES);
+        insertQueryData.setColumns("photo_id", "PH0", "PH1", "PH2", "PH3");
+        insertQueryData.setValues(id.value(), phash.ph0, phash.ph1, phash.ph2, phash.ph3);
+
+        QSqlQuery query;
+        if (hasPHash(id))
+        {
+            UpdateQueryData updateQueryData(insertQueryData);
+            updateQueryData.addCondition("photo_id", QString::number(id));
+
+            query = m_queryGenerator.update(db, updateQueryData);
+        }
+        else
+            query = m_queryGenerator.insert(db, insertQueryData);
+
+        m_executor->exec(query);
+    }
+
+
+    std::optional<PHash> PhotoOperator::getPHash(const Photo::Id& id)
+    {
+        const QString queryStr = QString("SELECT PH0, PH1, PH2, PH3 FROM %1 WHERE photo_id=%2")
+            .arg(TAB_PHASHES)
+            .arg(id.value());
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        std::optional<PHash> result;
+        if (query.next())
+        {
+            PHash phash;
+            phash.ph0 = query.value("PH0").toInt();
+            phash.ph1 = query.value("PH1").toInt();
+            phash.ph2 = query.value("PH2").toInt();
+            phash.ph3 = query.value("PH3").toInt();
+
+            result = phash;
+        }
+
+        return result;
+    }
+
+
+    bool PhotoOperator::hasPHash(const Photo::Id& id)
+    {
+        const QString queryStr = QString("SELECT COUNT(photo_id) FROM %1 WHERE photo_id=%2")
+            .arg(TAB_PHASHES)
+            .arg(id.value());
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        const int count = query.next()? query.value(0).toInt() : 0;
+
+        return count > 0;
     }
 
 

@@ -9,6 +9,16 @@
 
 namespace Database
 {
+    struct PHash
+    {
+        std::uint32_t ph0;
+        std::uint32_t ph1;
+        std::uint32_t ph2;
+        std::uint32_t ph3;
+
+        bool operator==(const PHash &) const = default;
+    };
+
     struct IPhotoOperator
     {
         virtual ~IPhotoOperator() = default;
@@ -19,6 +29,11 @@ namespace Database
 
         /// find all photos matching filters
         virtual std::vector<Photo::Id> getPhotos(const Filter &) = 0;
+
+        // phash operations
+        virtual void setPHash(const Photo::Id &, const PHash &) = 0;
+        virtual std::optional<PHash> getPHash(const Photo::Id &) = 0;
+        virtual bool hasPHash(const Photo::Id &) = 0;
     };
 }
 

@@ -35,7 +35,7 @@ namespace Database
 {
 
     GroupOperator::GroupOperator(const QString& name,
-                                 const IGenericSqlQueryGenerator* generator,
+                                 const IGenericSqlQueryGenerator& generator,
                                  ISqlQueryExecutor* executor,
                                  ILogger* logger,
                                  IBackend& backend,
@@ -62,7 +62,7 @@ namespace Database
         insertData.setColumns("id", "representative_id", "type");
         insertData.setValues(InsertQueryData::Value::Null, id, static_cast<int>(type));
 
-        QSqlQuery query = m_queryGenerator->insert(db, insertData);
+        QSqlQuery query = m_queryGenerator.insert(db, insertData);
 
         bool status = m_executor->exec(query);
 

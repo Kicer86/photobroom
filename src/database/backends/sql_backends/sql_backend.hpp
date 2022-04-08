@@ -124,7 +124,7 @@ namespace Database
              * \brief IGenericSqlQueryGenerator accessor
              * \return instance of IGenericSqlQueryGenerator
              */
-            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
+            virtual const IGenericSqlQueryGenerator& getGenericQueryGenerator() const = 0;
 
         private:
             std::unique_ptr<GroupOperator> m_groupOperator;

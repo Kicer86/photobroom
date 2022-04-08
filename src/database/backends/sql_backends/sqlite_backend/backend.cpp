@@ -89,9 +89,9 @@ namespace Database
     }
 
 
-    const IGenericSqlQueryGenerator* SQLiteBackend::getGenericQueryGenerator() const
+    const IGenericSqlQueryGenerator& SQLiteBackend::getGenericQueryGenerator() const
     {
-        return this;
+        return *this;
     }
 
 

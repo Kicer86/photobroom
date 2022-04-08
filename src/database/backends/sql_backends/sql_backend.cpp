@@ -60,7 +60,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
-        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
+        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
         m_executor(),
@@ -145,6 +145,7 @@ namespace Database
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_connectionName,
                                                               &m_executor,
+                                                              getGenericQueryGenerator(),
                                                               m_logger.get(),
                                                               this,
                                                               m_notificationsAccumulator
@@ -186,7 +187,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         QSqlQuery query(db);
-        const QString showQuery = getGenericQueryGenerator()->prepareFindTableQuery(definition.name);
+        const QString showQuery = getGenericQueryGenerator().prepareFindTableQuery(definition.name);
 
         BackendStatus status = m_executor.exec(showQuery, &query);
 
@@ -202,7 +203,7 @@ namespace Database
             {
                 const QStringList types =
                 {
-                    getGenericQueryGenerator()->getTypeFor(definition.columns[i].purpose),
+                    getGenericQueryGenerator().getTypeFor(definition.columns[i].purpose),
                     definition.columns[i].type_definition
                 };
 
@@ -214,7 +215,7 @@ namespace Database
                 columnsDesc += notlast? ", ": "";
             }
 
-            status = m_executor.exec( getGenericQueryGenerator()->prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_executor.exec( getGenericQueryGenerator().prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {
@@ -743,12 +744,12 @@ namespace Database
                     queryData.setValues(value, photo_id, name_id);
 
                     if (tag_id == -1)
-                        query = getGenericQueryGenerator()->insert(db, queryData);
+                        query = getGenericQueryGenerator().insert(db, queryData);
                     else
                     {
                         UpdateQueryData updateQueryData(queryData);
                         updateQueryData.addCondition("id", QString::number(tag_id));
-                        query = getGenericQueryGenerator()->update(db, updateQueryData);
+                        query = getGenericQueryGenerator().update(db, updateQueryData);
                     }
 
                     const QVariantList bound = query.boundValues();
@@ -790,7 +791,7 @@ namespace Database
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
-        QSqlQuery query = getGenericQueryGenerator()->insert(db, insertData);
+        QSqlQuery query = getGenericQueryGenerator().insert(db, insertData);
 
         DbErrorOnFalse(m_executor.exec(query));
 
@@ -1329,7 +1330,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        QSqlQuery query = getGenericQueryGenerator()->update(db, queryInfo);
+        QSqlQuery query = getGenericQueryGenerator().update(db, queryInfo);
 
         bool status = m_executor.exec(query);
 
@@ -1339,7 +1340,7 @@ namespace Database
 
             if (affected_rows == 0)
             {
-                query = getGenericQueryGenerator()->insert(db, queryInfo);
+                query = getGenericQueryGenerator().insert(db, queryInfo);
                 status = m_executor.exec(query);
             }
         }

@@ -9,7 +9,7 @@ addTestTarget(database_backends
                     backends/sql_backends/sqlite_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/backend.cpp
                     #backends/sql_backends/mysql_backend/mysql_server.cpp
-                    backends/memory_backend/memory_backend.cpp                    
+                    backends/memory_backend/memory_backend.cpp
 
                     # other sql stuff
                     backends/sql_backends/generic_sql_query_constructor.cpp
@@ -32,6 +32,7 @@ addTestTarget(database_backends
                     unit_tests_for_backends/general_flags_tests.cpp
                     unit_tests_for_backends/groups_tests.cpp
                     unit_tests_for_backends/people_tests.cpp
+                    unit_tests_for_backends/phash_tests.cpp
                     unit_tests_for_backends/photo_operator_tests.cpp
                     unit_tests_for_backends/photos_change_log_tests.cpp
                     unit_tests_for_backends/photos_tests.cpp

@@ -79,6 +79,9 @@ namespace Database
             bool removePhotos(const Filter &) override;
             std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
             std::vector<Photo::Id> getPhotos(const Filter &) override;
+            void setPHash(const Photo::Id &, const Database::PHash & ) override;
+            std::optional<PHash> getPHash(const Photo::Id &) override;
+            bool hasPHash(const Photo::Id &) override;
             //
 
             static Photo::Id getIdFor(const Photo::Data& d);

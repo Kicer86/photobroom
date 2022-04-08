@@ -24,6 +24,8 @@
 #include <database/iphoto_operator.hpp>
 #include <database/notifications_accumulator.hpp>
 
+#include "isql_query_constructor.hpp"
+
 
 class QSqlQuery;
 struct ILogger;
@@ -36,13 +38,17 @@ namespace Database
     class PhotoOperator final: public IPhotoOperator
     {
         public:
-            PhotoOperator(const QString &, ISqlQueryExecutor *, ILogger *, IBackend *, NotificationsAccumulator &);
+            PhotoOperator(const QString &, ISqlQueryExecutor *, const IGenericSqlQueryGenerator &, ILogger *, IBackend *, NotificationsAccumulator &);
 
             bool removePhoto(const Photo::Id &) override;
             bool removePhotos(const Filter &) override;
             std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
 
             std::vector<Photo::Id> getPhotos(const Filter &) override final;
+
+            void setPHash(const Photo::Id &, const Database::PHash & ) override;
+            std::optional<PHash> getPHash(const Photo::Id &) override;
+            bool hasPHash(const Photo::Id &) override;
 
         private:
             struct SortingContext
@@ -55,6 +61,7 @@ namespace Database
 
             QString m_connectionName;
             ISqlQueryExecutor* m_executor;
+            const IGenericSqlQueryGenerator& m_queryGenerator;
             ILogger* m_logger;
             IBackend* m_backend;
             NotificationsAccumulator& m_notifications;
