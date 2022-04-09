@@ -59,12 +59,12 @@ namespace
     };
 }
 
-FacesDialog::FacesDialog(const Photo::Data& data, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
+FacesDialog::FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
     QDialog(parent),
-    m_id(data.id),
-    m_peopleManipulator(data.id, prj->getDatabase(), *coreAccessor),
+    m_id(pd.getId()),
+    m_peopleManipulator(pd.getId(), prj->getDatabase(), *coreAccessor),
     m_faces(),
-    m_photoPath(data.path),
+    m_photoPath(pd.get<Photo::Field::Path>()),
     ui(new Ui::FacesDialog),
     m_exif(coreAccessor->getExifReaderFactory().get())
 {
