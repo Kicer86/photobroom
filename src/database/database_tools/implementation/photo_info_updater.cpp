@@ -62,44 +62,6 @@ struct UpdaterTask: ITaskExecutor::ITask
 namespace
 {
 
-    struct Sha256Assigner: UpdaterTask
-    {
-        Sha256Assigner(PhotoInfoUpdater* updater,
-                       const Photo::SharedData& photoInfo)
-            : UpdaterTask(updater, photoInfo)
-        {
-        }
-
-        Sha256Assigner(const Sha256Assigner &) = delete;
-        Sha256Assigner& operator=(const Sha256Assigner &) = delete;
-
-        std::string name() const override
-        {
-            return "Photo hash generation";
-        }
-
-        void perform() override
-        {
-            QFile file(m_photoInfo->lock()->path);
-            bool status = file.open(QFile::ReadOnly);
-            assert(status);
-
-            QCryptographicHash hasher(QCryptographicHash::Sha256);
-            status = hasher.addData(&file);
-            assert(status);
-
-            const QByteArray rawHash = hasher.result();
-            const QByteArray hexHash = rawHash.toHex();
-
-            assert(hexHash.isEmpty() == false);
-
-            auto photoDelta = m_photoInfo->lock();
-            photoDelta->sha256Sum = hexHash;
-            photoDelta->flags[Photo::FlagsE::Sha256Loaded] = 1;
-        }
-    };
-
-
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
@@ -209,14 +171,6 @@ PhotoInfoUpdater::PhotoInfoUpdater(ITaskExecutor& executor, IMediaInformation& m
 PhotoInfoUpdater::~PhotoInfoUpdater()
 {
 
-}
-
-
-void PhotoInfoUpdater::updateSha256(const Photo::SharedData& photoInfo)
-{
-    auto task = std::make_unique<Sha256Assigner>(this, photoInfo);
-
-    addTask(std::move(task));
 }
 
 

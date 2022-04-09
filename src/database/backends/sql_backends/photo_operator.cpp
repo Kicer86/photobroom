@@ -41,7 +41,6 @@ namespace Database
             { TAB_GEOMETRY,       "photo_id" },
             { TAB_GROUPS_MEMBERS, "photo_id" },
             { TAB_PEOPLE,         "photo_id" },
-            { TAB_SHA256SUMS,     "photo_id" },
             { TAB_TAGS,           "photo_id" },
             { TAB_THUMBS,         "photo_id" },
             { TAB_PHOTOS,         "id"       }
@@ -115,7 +114,6 @@ namespace Database
             // There should be no data in groups and group members TODO: check + remove group if not true
             QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_SHA256SUMS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
 

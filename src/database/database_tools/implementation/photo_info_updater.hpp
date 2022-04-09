@@ -26,7 +26,6 @@ class PhotoInfoUpdater final: public QObject
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
         PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
-        void updateSha256(const Photo::SharedData &);
         void updateGeometry(const Photo::SharedData &);
         void updateTags(const Photo::SharedData &);
         void updatePHash(const Photo::SharedData &);

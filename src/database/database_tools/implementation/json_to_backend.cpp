@@ -77,9 +77,7 @@ namespace Database
 
         for(auto it = photo.constBegin(); it != photo.constEnd(); ++it)
         {
-            if (it.key() == "checksum")
-                delta.insert<Photo::Field::Checksum>(it.value().toString().toUtf8());
-            else if (it.key() == "flags")
+            if (it.key() == "flags")
             {
                 // TODO: implement
             }
@@ -100,7 +98,7 @@ namespace Database
             else if (it.key() == "id")
                 id = it.value().toString();
             else
-                throw std::invalid_argument("unexpected entry for photo");
+                throw std::invalid_argument("unexpected entry for photo: " + it.key().toStdString());
         }
 
         return {delta, id};

@@ -49,7 +49,7 @@ TEST(PhotoInfoUpdaterTest, tagsUpdate)
     // orignal state of photo
     Photo::Data photo;
     photo.id = Photo::Id(123);
-    photo.flags = { {Photo::FlagsE::StagingArea, 1}, {Photo::FlagsE::Sha256Loaded, 2} };
+    photo.flags = { {Photo::FlagsE::StagingArea, 1}, {Photo::FlagsE::GeometryLoaded, 2} };
     photo.tags = { {Tag::Types::Event, TagValue::fromType<Tag::Types::Event>("qweasd")}, {Tag::Types::Rating, 5} };
 
     // expected state after calling updater

@@ -220,14 +220,6 @@ namespace Database
                 delta.insert<Photo::Field::Geometry>(geometry);
         }
 
-        if (fields.contains(Photo::Field::Checksum))
-        {
-            const auto& checksum = data.sha256Sum;
-
-            if (checksum.isEmpty() == false)
-                delta.insert<Photo::Field::Checksum>(checksum);
-        }
-
         if (fields.contains(Photo::Field::GroupInfo))
             delta.insert<Photo::Field::GroupInfo>(data.groupInfo);
 

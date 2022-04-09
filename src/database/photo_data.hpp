@@ -42,7 +42,6 @@ namespace Photo
     struct DATABASE_EXPORT Data
     {
         Photo::Id            id;
-        Photo::Sha256sum     sha256Sum;
         Tag::TagsList        tags;
         Photo::FlagValues    flags;
         QString              path;
@@ -115,8 +114,7 @@ namespace Photo
             DataDelta& operator=(const Data &);
 
         private:
-            typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
-                                 DeltaTypes<Field::Tags>::Storage,
+            typedef std::variant<DeltaTypes<Field::Tags>::Storage,
                                  DeltaTypes<Field::Flags>::Storage,
                                  DeltaTypes<Field::Path>::Storage,
                                  DeltaTypes<Field::Geometry>::Storage,

@@ -411,14 +411,6 @@ namespace Database
                     photoData.insert<Photo::Field::Geometry>(geometry);
             }
 
-            if (fields.contains(Photo::Field::Checksum))
-            {
-                const auto checksum = getSha256For(id);
-
-                if (checksum)
-                    photoData.insert<Photo::Field::Checksum>(*checksum);
-            }
-
             if (fields.contains(Photo::Field::GroupInfo))
                 photoData.insert<Photo::Field::GroupInfo>(getGroupFor(id));
 
@@ -844,12 +836,6 @@ namespace Database
             status = storeGeometryFor(data.getId(), geometry);
         }
 
-        if (status && data.has(Photo::Field::Checksum))
-        {
-            const Photo::Sha256sum& checksum = data.get<Photo::Field::Checksum>();
-            status = storeSha256(data.getId(), checksum);
-        }
-
         if (status && data.has(Photo::Field::Flags))
         {
             const Photo::FlagValues& flags = data.get<Photo::Field::Flags>();
@@ -878,23 +864,6 @@ namespace Database
         data.addCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
-
-        const bool status = updateOrInsert(data);
-
-        return status;
-    }
-
-
-    /**
-     * \brief store photo's sha256 checksum
-     * \return false on error
-     */
-    bool ASqlBackend::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
-    {
-        UpdateQueryData data(TAB_SHA256SUMS);
-        data.addCondition("photo_id", QString::number(photo_id));
-        data.setColumns("photo_id", "sha256");
-        data.setValues(QString::number(photo_id), sha256.constData());
 
         const bool status = updateOrInsert(data);
 
@@ -987,11 +956,10 @@ namespace Database
 
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.addCondition("photo_id", QString::number(id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
         queryInfo.setValues(QString::number(id),
                             get_flag(Photo::FlagsE::StagingArea),
                             get_flag(Photo::FlagsE::ExifLoaded),
-                            get_flag(Photo::FlagsE::Sha256Loaded),
                             get_flag(Photo::FlagsE::ThumbnailLoaded),
                             get_flag(Photo::FlagsE::GeometryLoaded)
         );
@@ -1147,34 +1115,6 @@ namespace Database
 
 
     /**
-     * \brief read photo's checksum
-     * \param id photo id
-     * \return photo's checksum
-     */
-    std::optional<Photo::Sha256sum> ASqlBackend::getSha256For(const Photo::Id& id) const
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        QString queryStr = QString("SELECT sha256 FROM %1 WHERE %1.photo_id = '%2'");
-
-        queryStr = queryStr.arg(TAB_SHA256SUMS);
-        queryStr = queryStr.arg(id.value());
-
-        const bool status = m_executor.exec(queryStr, &query);
-
-        std::optional<Photo::Sha256sum> result;
-        if(status && query.next())
-        {
-            const QVariant variant = query.value(0);
-
-            result = variant.toString().toLatin1();
-        }
-
-        return result;
-    }
-
-
-    /**
      * \brief read details about group
      * \param id photo id
      * \return group details
@@ -1236,7 +1176,7 @@ namespace Database
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -1252,12 +1192,9 @@ namespace Database
             flags[Photo::FlagsE::ExifLoaded] = variant.toInt();
 
             variant = query.value(2);
-            flags[Photo::FlagsE::Sha256Loaded] = variant.toInt();
-
-            variant = query.value(3);
             flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
 
-            variant = query.value(4);
+            variant = query.value(3);
             flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
         }
 

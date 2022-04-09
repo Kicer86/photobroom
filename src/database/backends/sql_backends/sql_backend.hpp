@@ -176,14 +176,12 @@ namespace Database
             bool storeData(const Photo::DataDelta &);
             bool storeData(const Photo::DataDelta& newData, const Photo::Data& oldData);
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
-            bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
             bool storeGroup(const Photo::Id &, const GroupInfo &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
-            std::optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
             GroupInfo            getGroupFor(const Photo::Id &) const;
             Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;

@@ -3,6 +3,7 @@
 #include <QTime>
 
 #include "sql_filter_query_generator.hpp"
+#include "unit_tests_utils/printers.hpp"
 
 
 TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
@@ -25,12 +26,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
     QString query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded < '1'", query);
-
-    filter.flags.clear();
-    filter.flags[Photo::FlagsE::Sha256Loaded] = 2;
-    filter.comparison[Photo::FlagsE::Sha256Loaded] = Database::ComparisonOp::Greater;
-    query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded > '2'", query);
 
     filter.flags.clear();
     filter.flags[Photo::FlagsE::StagingArea] = 3;
@@ -172,20 +167,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 }
 #endif
 
-TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
-{
-    Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithSha256 filter;
-
-    filter.sha256 = "1234567890";
-
-    const QString query = generator.generate(filter);
-
-    EXPECT_EQ("SELECT id FROM photos "
-              "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
-              "WHERE sha256sums.sha256 = '1234567890'", query);
-}
-
 
 TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 {
@@ -205,11 +186,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     Database::SqlFilterQueryGenerator generator;
     std::vector<Database::Filter> filters;
 
-    // sha256
-    Database::FilterPhotosWithSha256 sha_filter;
-    sha_filter.sha256 = "1234567890";
-    filters.push_back(sha_filter);
-
     //tag
     Database::FilterPhotosWithTag tag_filter(Tag::Types::Place, QString("place 1"));
     filters.push_back(tag_filter);
@@ -225,11 +201,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     const QString expected_query =
         "SELECT id FROM photos "
         "WHERE id IN "
-        "("
-            "SELECT id FROM photos JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
-            "WHERE sha256sums.sha256 = '1234567890'"
-        ") "
-        "AND id IN "
         "("
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '2' AND tags.value = 'place 1'"

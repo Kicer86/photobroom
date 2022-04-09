@@ -7,7 +7,6 @@ namespace Photo
 {
     enum class Field
     {
-        Checksum,
         Tags,
         Flags,
         Path,
@@ -17,12 +16,6 @@ namespace Photo
 
     template<Field>
     struct DeltaTypes {};
-
-    template<>
-    struct DeltaTypes<Field::Checksum>
-    {
-        typedef Photo::Sha256sum Storage;
-    };
 
     template<>
     struct DeltaTypes<Field::Tags>

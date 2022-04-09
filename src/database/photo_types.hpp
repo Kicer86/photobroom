@@ -17,15 +17,12 @@ namespace Photo
 {
     Q_NAMESPACE_EXPORT(DATABASE_EXPORT)
 
-    typedef QByteArray Sha256sum;
-
     using Id = Id<int, struct photo_tag>;
 
     enum class FlagsE
     {
         StagingArea,
         ExifLoaded,
-        Sha256Loaded,
         ThumbnailLoaded,
         GeometryLoaded,
     };

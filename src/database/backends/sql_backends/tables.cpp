@@ -64,21 +64,6 @@ namespace Database
 
 
         TableDefinition
-        table_sha256sums(TAB_SHA256SUMS,
-                         {
-                             { "id", "", ColDefinition::Purpose::ID                      },
-                             { "photo_id INTEGER NOT NULL", ""                           },
-                             { "sha256 CHAR(32) NOT NULL", ""                            },
-                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
-                         },
-                         {
-                             { "ha_photo_id", "UNIQUE INDEX", "(photo_id)" },               //one sha per photo
-                             { "ha_sha256", "INDEX", "(sha256)"            },
-                         }
-        );
-
-
-        TableDefinition
         table_geometry(TAB_GEOMETRY,
                        {
                            { "id", "", ColDefinition::Purpose::ID   },
@@ -102,7 +87,6 @@ namespace Database
                         { "photo_id",  "INTEGER NOT NULL"    },
                         { FLAG_STAGING_AREA,  "INT NOT NULL" },
                         { FLAG_TAGS_LOADED,   "INT NOT NULL" },
-                        { FLAG_SHA256_LOADED, "INT NOT NULL" },
                         { FLAG_THUMB_LOADED,  "INT NOT NULL" },
                         { FLAG_GEOM_LOADED,   "INT NOT NULL" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
@@ -214,7 +198,6 @@ namespace Database
             { TAB_PHOTOS,               table_photos },
             { TAB_TAGS,                 table_tags },
             { TAB_THUMBS,               table_thumbnails },
-            { TAB_SHA256SUMS,           table_sha256sums },
             { TAB_FLAGS,                table_flags },
             { TAB_GEOMETRY,             table_geometry },
             { TAB_GROUPS,               table_groups },

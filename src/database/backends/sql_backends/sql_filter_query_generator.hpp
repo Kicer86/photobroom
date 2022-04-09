@@ -46,7 +46,6 @@ namespace Database
             QString visit(const GroupFilter& groupFilter) const;
             QString visit(const FilterPhotosWithTag& desciption) const;
             QString visit(const FilterPhotosWithFlags& flags) const;
-            QString visit(const FilterPhotosWithSha256& sha256) const;
             QString visit(const FilterNotMatchingFilter& filter) const;
             QString visit(const FilterPhotosWithId& filter) const;
             QString visit(const FilterPhotosMatchingExpression& filter) const;

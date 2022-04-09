@@ -41,7 +41,6 @@ namespace Database
     struct GroupFilter;
     struct FilterPhotosWithTag;
     struct FilterPhotosWithFlags;
-    struct FilterPhotosWithSha256;
     struct FilterNotMatchingFilter;
     struct FilterPhotosWithId;
     struct FilterPhotosMatchingExpression;
@@ -55,7 +54,6 @@ namespace Database
                          GroupFilter,
                          FilterPhotosWithTag,
                          FilterPhotosWithFlags,
-                         FilterPhotosWithSha256,
                          FilterNotMatchingFilter,
                          FilterPhotosWithId,
                          FilterPhotosMatchingExpression,
@@ -114,13 +112,6 @@ namespace Database
         std::map<Photo::FlagsE, int> flags;
         std::map<Photo::FlagsE, ComparisonOp> comparison;
         LogicalOp mode;
-    };
-
-    struct DATABASE_EXPORT FilterPhotosWithSha256
-    {
-        FilterPhotosWithSha256();
-
-        Photo::Sha256sum sha256;
     };
 
     struct DATABASE_EXPORT FilterNotMatchingFilter
