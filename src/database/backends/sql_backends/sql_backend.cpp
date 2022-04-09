@@ -956,11 +956,10 @@ namespace Database
 
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.addCondition("photo_id", QString::number(id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", FLAG_GEOM_LOADED);
         queryInfo.setValues(QString::number(id),
                             get_flag(Photo::FlagsE::StagingArea),
                             get_flag(Photo::FlagsE::ExifLoaded),
-                            get_flag(Photo::FlagsE::ThumbnailLoaded),
                             get_flag(Photo::FlagsE::GeometryLoaded)
         );
 
@@ -1176,7 +1175,7 @@ namespace Database
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -1192,9 +1191,6 @@ namespace Database
             flags[Photo::FlagsE::ExifLoaded] = variant.toInt();
 
             variant = query.value(2);
-            flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
-
-            variant = query.value(3);
             flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
         }
 

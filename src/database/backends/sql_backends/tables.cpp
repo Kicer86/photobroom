@@ -87,7 +87,6 @@ namespace Database
                         { "photo_id",  "INTEGER NOT NULL"    },
                         { FLAG_STAGING_AREA,  "INT NOT NULL" },
                         { FLAG_TAGS_LOADED,   "INT NOT NULL" },
-                        { FLAG_THUMB_LOADED,  "INT NOT NULL" },
                         { FLAG_GEOM_LOADED,   "INT NOT NULL" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     },

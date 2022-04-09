@@ -22,7 +22,6 @@
 
 #define FLAG_STAGING_AREA  "staging_area"
 #define FLAG_TAGS_LOADED   "tags_loaded"
-#define FLAG_THUMB_LOADED  "thumbnail_loaded"
 #define FLAG_GEOM_LOADED   "geometry_loaded"
 
 namespace Database

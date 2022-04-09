@@ -23,7 +23,6 @@ namespace Photo
     {
         StagingArea,
         ExifLoaded,
-        ThumbnailLoaded,
         GeometryLoaded,
     };
     Q_ENUM_NS(FlagsE)

@@ -99,7 +99,6 @@ namespace Database
         {
             case Photo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA;  break;
             case Photo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;   break;
-            case Photo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
             case Photo::FlagsE::GeometryLoaded:  result = FLAG_GEOM_LOADED;   break;
         }
 

@@ -31,11 +31,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     filter.flags[Photo::FlagsE::StagingArea] = 3;
     query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
-
-    filter.flags.clear();
-    filter.flags[Photo::FlagsE::ThumbnailLoaded] = 4;
-    query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
 }
 
 
