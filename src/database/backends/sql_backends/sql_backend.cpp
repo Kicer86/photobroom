@@ -542,27 +542,22 @@ namespace Database
 
         try
         {
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
             //check tables existance
             for (const auto& table: tables)
                 DbErrorOnFalse(ensureTableExists(table.second));
 
-            QSqlQuery query(db);
-
-            // table 'version' cannot be empty
-            DbErrorOnFalse(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
-
-            DbErrorOnFalse(query.next());
-
-            const QVariant rows = query.value(0);
+            const bool hasVersionTable = hasCurrentVersionTable();
 
             //insert first entry
-            if (rows == 0)
+            if (hasVersionTable)
+                DbErrorOnFalse(checkDBVersion());
+            else
+            {
+                QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+                QSqlQuery query(db);
                 DbErrorOnFalse(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                                          .arg(db_version), &query));
-            else
-                DbErrorOnFalse(checkDBVersion());
+            }
         }
         catch(const db_error& err)
         {
@@ -573,6 +568,23 @@ namespace Database
         }
 
         return status;
+    }
+
+
+    int ASqlBackend::hasCurrentVersionTable()
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        //check tables existance
+        for (const auto& table: tables)
+            DbErrorOnFalse(ensureTableExists(table.second));
+
+        QSqlQuery query(db);
+
+        DbErrorOnFalse(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+        DbErrorOnFalse(query.next());
+
+        return query.value(0).toInt() > 0;
     }
 
 

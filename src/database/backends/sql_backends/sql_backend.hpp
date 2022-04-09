@@ -160,6 +160,7 @@ namespace Database
 
             // general helpers
             BackendStatus checkStructure();
+            int hasCurrentVersionTable();
             Database::BackendStatus checkDBVersion();
             bool updateOrInsert(const UpdateQueryData &) const;
 
