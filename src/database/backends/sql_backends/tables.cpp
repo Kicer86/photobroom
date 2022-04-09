@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 5;
+        const int db_version = 6;
 
         TableDefinition
         table_versionHistory(TAB_VER,

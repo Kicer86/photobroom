@@ -614,6 +614,7 @@ namespace Database
         if (status)
         {
             const int v = query.value(0).toInt();
+            query.clear();
 
             switch (v)
             {
@@ -649,9 +650,58 @@ namespace Database
                     status = m_executor.exec(fill_people, &query);
                     if (status == false)
                         break;
+
+                    // drop temporary_table
+                    const QString drop_table = QString("DROP TABLE temporary_table");
+
+                    status = m_executor.exec(drop_table, &query);
+                    if (status == false)
+                        break;
                 }
 
-                case 5:             // current version, break updgrades chain
+                case 5:// remove sha256 and thumbnail columns from TAB_FLAGS
+                {
+                    // drop index
+                    const QString drop_index = QString("DROP INDEX fl_photo_id_idx");
+
+                    status = m_executor.exec(drop_index, &query);
+                    if (status == false)
+                        break;
+
+                    // move flags table to a temporary place
+                    const QString rename_table = QString("ALTER TABLE %1 RENAME TO temporary_table")
+                                                    .arg(TAB_FLAGS);
+
+                    status = m_executor.exec(rename_table, &query);
+                    if (status == false)
+                        break;
+
+                    // recreate TAB_FLAGS
+                    auto tab_flags = tables.find(TAB_FLAGS);
+                    if (tab_flags == tables.end())
+                        break;
+
+                    status = ensureTableExists(tab_flags->second);
+                    if (status == false)
+                        break;
+
+                    // fill fresh instance of TAB_FLAGS
+                    const QString fill_people = QString("INSERT INTO %1(id, photo_id, staging_area, tags_loaded, geometry_loaded) SELECT id, photo_id, staging_area, tags_loaded, geometry_loaded FROM temporary_table")
+                                                    .arg(TAB_FLAGS);
+
+                    status = m_executor.exec(fill_people, &query);
+                    if (status == false)
+                        break;
+
+                    // drop temporary_table
+                    const QString drop_table = QString("DROP TABLE temporary_table");
+
+                    status = m_executor.exec(drop_table, &query);
+                    if (status == false)
+                        break;
+                }
+
+                case 6:             // current version, break updgrades chain
                     break;
 
                 default:
