@@ -29,6 +29,7 @@
 #include "database_export.h"
 #include "group.hpp"
 #include "photo_types.hpp"
+#include "photo_data_fields.hpp"
 
 
 namespace Photo
@@ -60,54 +61,6 @@ namespace Photo
         Q_GADGET
     };
 
-    enum class Field
-    {
-        Checksum,
-        Tags,
-        Flags,
-        Path,
-        Geometry,
-        GroupInfo,
-    };
-
-    template<Field>
-    struct DeltaTypes {};
-
-    template<>
-    struct DeltaTypes<Field::Checksum>
-    {
-        typedef Photo::Sha256sum Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Tags>
-    {
-        typedef Tag::TagsList Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Flags>
-    {
-        typedef Photo::FlagValues Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Path>
-    {
-        typedef QString Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Geometry>
-    {
-        typedef QSize Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::GroupInfo>
-    {
-        typedef GroupInfo Storage;
-    };
 
     class DATABASE_EXPORT DataDelta
     {
@@ -169,6 +122,7 @@ namespace Photo
             const Storage& get(Field) const;
             Storage& get(Field);
     };
+
 
     using SafeData = ol::ThreadSafeResource<Data>;
     using SharedData = std::shared_ptr<SafeData>;
