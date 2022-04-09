@@ -29,6 +29,7 @@ class PhotoInfoUpdater final: public QObject
         void updateSha256(const Photo::SharedData &);
         void updateGeometry(const Photo::SharedData &);
         void updateTags(const Photo::SharedData &);
+        void updatePHash(const Photo::SharedData &);
 
     private:
         friend struct UpdaterTask;

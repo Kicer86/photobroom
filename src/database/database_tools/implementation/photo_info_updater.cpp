@@ -236,6 +236,12 @@ void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 }
 
 
+void PhotoInfoUpdater::updatePHash(const Photo::SharedData& photoInfo)
+{
+
+}
+
+
 void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 {
     m_tasksExecutor.add(std::move(task));
