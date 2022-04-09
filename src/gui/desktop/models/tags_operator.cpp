@@ -34,14 +34,14 @@ void TagsOperator::setDb(Database::IDatabase* db)
 }
 
 
-void TagsOperator::operateOn(const std::vector<Photo::Data>& photos)
+void TagsOperator::operateOn(const std::vector<Photo::DataDelta>& photos)
 {
     m_diffs.clear();
 
     for(const auto& photo: photos)
     {
-        Photo::DataDelta delta(photo.id);
-        delta.insert<Photo::Field::Tags>(photo.tags);
+        Photo::DataDelta delta(photo.getId());
+        delta.insert<Photo::Field::Tags>(photo.get<Photo::Field::Tags>());
 
         m_diffs.push_back(delta);
     }

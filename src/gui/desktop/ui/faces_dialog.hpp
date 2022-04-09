@@ -27,7 +27,7 @@ class FacesDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit FacesDialog(const Photo::Data &, ICoreFactoryAccessor *, Project *, QWidget *parent = 0);
+        FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget* parent = 0 );
         ~FacesDialog();
 
     protected:

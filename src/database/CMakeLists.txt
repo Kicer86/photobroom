@@ -28,6 +28,7 @@ set(DATABASE_SOURCES
     observable_database.hpp
     person_data.hpp
     photo_data.hpp
+    photo_data_fields.hpp
     photo_types.hpp
     photo_utils.hpp
     project_info.hpp

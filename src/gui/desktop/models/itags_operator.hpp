@@ -12,7 +12,7 @@ struct ITagsOperator
 {
     virtual ~ITagsOperator() = default;
 
-    virtual void operateOn(const std::vector<Photo::Data> &) = 0;               // scope
+    virtual void operateOn(const std::vector<Photo::DataDelta> &) = 0;          // scope
 
     virtual Tag::TagsList getTags() const = 0;                                  // list of common tags
 
