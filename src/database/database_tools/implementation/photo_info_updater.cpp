@@ -179,9 +179,9 @@ namespace
 
             cv::Mat phashMat;
 
-            if (image.dims == 2)
+            if (image.dims == 2 && image.cols > 0 && image.rows > 0)
             {
-                phashAlgorithm->compute(image, phashMat );
+                phashAlgorithm->compute(image, phashMat);
 
                 constexpr int DataSize = 8;
                 assert( phashMat.rows == 1);
