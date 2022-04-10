@@ -226,6 +226,9 @@ namespace Database
         if (fields.contains(Photo::Field::Flags))
             delta.insert<Photo::Field::Flags>(data.flags);
 
+        if (fields.contains(Photo::Field::PHash))
+            delta.insert<Photo::Field::PHash>(data.phash);
+
         return delta;
     }
 

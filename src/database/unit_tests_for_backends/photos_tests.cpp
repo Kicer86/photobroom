@@ -44,6 +44,11 @@ namespace
                     if (delta.has(Photo::Field::GroupInfo) && delta.get<Photo::Field::GroupInfo>() != data.groupInfo)
                         return false;
                     break;
+
+                case Photo::Field::PHash:
+                    if (delta.has(Photo::Field::PHash) && delta.get<Photo::Field::PHash>() != data.phash)
+                        return false;
+                    break;
             }
         }
 
@@ -96,6 +101,7 @@ TYPED_TEST(PhotosTest, retrievingAllDataInDelta)
         EXPECT_TRUE(photoDelta.has(Photo::Field::Tags));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Flags));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Geometry));
+        EXPECT_TRUE(photoDelta.has(Photo::Field::PHash));
 
         EXPECT_TRUE(same(photo, photoDelta));
     }

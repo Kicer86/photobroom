@@ -47,6 +47,7 @@ namespace Photo
         QString              path;
         QSize                geometry;
         GroupInfo            groupInfo;
+        Photo::PHash         phash;
 
         Data() = default;
         Data(const Data &) = default;
@@ -114,11 +115,14 @@ namespace Photo
             DataDelta& operator=(const Data &);
 
         private:
-            typedef std::variant<DeltaTypes<Field::Tags>::Storage,
-                                 DeltaTypes<Field::Flags>::Storage,
-                                 DeltaTypes<Field::Path>::Storage,
-                                 DeltaTypes<Field::Geometry>::Storage,
-                                 DeltaTypes<Field::GroupInfo>::Storage> Storage;
+            typedef std::variant<
+                DeltaTypes<Field::Tags>::Storage,
+                DeltaTypes<Field::Flags>::Storage,
+                DeltaTypes<Field::Path>::Storage,
+                DeltaTypes<Field::Geometry>::Storage,
+                DeltaTypes<Field::GroupInfo>::Storage,
+                DeltaTypes<Field::PHash>::Storage
+            > Storage;
 
             Photo::Id                m_id;
             std::unordered_map<Field, Storage> m_data;

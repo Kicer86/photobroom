@@ -49,6 +49,9 @@ namespace Photo
         if (delta.has(Photo::Field::Path))
             path = delta.get<Photo::Field::Path>();
 
+        if (delta.has(Photo::Field::PHash))
+            phash = delta.get<Photo::Field::PHash>();
+
         return *this;
     }
 
@@ -73,6 +76,9 @@ namespace Photo
 
         if (oldData.tags != newData.tags)
             insert<Photo::Field::Tags>(newData.tags);
+
+        if (oldData.phash != newData.phash)
+            insert<Photo::Field::PHash>(newData.phash);
     }
 
 

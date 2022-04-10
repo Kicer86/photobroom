@@ -76,6 +76,7 @@ TEST(DataDeltaTest, DataDiff)
     oldData.groupInfo = GroupInfo(Group::Id(5), GroupInfo::Member);
     oldData.path = "1234";
     oldData.tags[Tag::Types::Event] = QString("tttr");
+    oldData.phash = Photo::PHash(0x1234567890123456LL);
 
     Photo::Data newData1(oldData);
     newData1.flags[Photo::FlagsE::StagingArea] = 1;
@@ -84,6 +85,7 @@ TEST(DataDeltaTest, DataDiff)
     newData1.groupInfo = GroupInfo(Group::Id(6), GroupInfo::Member);
     newData1.path = "12345";
     newData1.tags[Tag::Types::Event] = QString("tttrq");
+    oldData.phash = Photo::PHash(0xabcdef0011223344LL);
 
     Photo::Data newData2(oldData);
 
@@ -98,6 +100,7 @@ TEST(DataDeltaTest, DataDiff)
     EXPECT_EQ(d1.get<Photo::Field::GroupInfo>(), GroupInfo(Group::Id(6), GroupInfo::Member));
     EXPECT_EQ(d1.get<Photo::Field::Path>(), "12345");
     EXPECT_THAT(d1.get<Photo::Field::Tags>(), UnorderedElementsAre( std::pair{Tag::Types::Event, QString("tttrq")} ));
+    EXPECT_EQ(d1.get<Photo::Field::PHash>(), newData1.phash);
 
     EXPECT_EQ(d2.getId(), oldData.id);
     EXPECT_FALSE(d2.has(Photo::Field::Flags));
@@ -105,5 +108,5 @@ TEST(DataDeltaTest, DataDiff)
     EXPECT_FALSE(d2.has(Photo::Field::GroupInfo));
     EXPECT_FALSE(d2.has(Photo::Field::Path));
     EXPECT_FALSE(d2.has(Photo::Field::Tags));
+    EXPECT_FALSE(d2.has(Photo::Field::PHash));
 }
-

@@ -416,6 +416,14 @@ namespace Database
 
             if (fields.contains(Photo::Field::Flags))
                 photoData.insert<Photo::Field::Flags>(getFlagsFor(id));
+
+            if (fields.contains(Photo::Field::PHash))
+            {
+                const auto phash = photoOperator().getPHash(id);
+
+                if (phash.has_value())
+                    photoData.insert<Photo::Field::PHash>(*phash);
+            }
         }
 
         return photoData;
@@ -909,6 +917,9 @@ namespace Database
             const GroupInfo& groupInfo = data.get<Photo::Field::GroupInfo>();
             status = storeGroup(data.getId(), groupInfo);
         }
+
+        if (status && data.has(Photo::Field::PHash))
+            photoOperator().setPHash(data.getId(), data.get<Photo::Field::PHash>());
 
         photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 

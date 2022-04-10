@@ -2,6 +2,7 @@
 #ifndef PHOTO_DATA_FIELDS_HPP_INCLUDED
 #define PHOTO_DATA_FIELDS_HPP_INCLUDED
 
+#include "photo_types.hpp"
 
 namespace Photo
 {
@@ -12,6 +13,7 @@ namespace Photo
         Path,
         Geometry,
         GroupInfo,
+        PHash,
     };
 
     template<Field>
@@ -45,6 +47,12 @@ namespace Photo
     struct DeltaTypes<Field::GroupInfo>
     {
         typedef GroupInfo Storage;
+    };
+
+    template<>
+    struct DeltaTypes<Field::PHash>
+    {
+        typedef Photo::PHash Storage;
     };
 }
 
