@@ -174,7 +174,7 @@ namespace Database
     }
 
 
-    void PhotoOperator::setPHash(const Photo::Id& id, const Database::PHash& phash)
+    void PhotoOperator::setPHash(const Photo::Id& id, const Photo::PHash& phash)
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
@@ -197,7 +197,7 @@ namespace Database
     }
 
 
-    std::optional<PHash> PhotoOperator::getPHash(const Photo::Id& id)
+    std::optional<Photo::PHash> PhotoOperator::getPHash(const Photo::Id& id)
     {
         const QString queryStr = QString("SELECT hash FROM %1 WHERE photo_id=%2")
             .arg(TAB_PHASHES)
@@ -208,10 +208,10 @@ namespace Database
 
         m_executor->exec(queryStr, &query);
 
-        std::optional<PHash> result;
+        std::optional<Photo::PHash> result;
         if (query.next())
         {
-            const PHash phash(query.value("hash").toLongLong());
+            const Photo::PHash phash(query.value("hash").toLongLong());
 
             result = phash;
         }

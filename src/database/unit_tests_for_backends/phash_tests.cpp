@@ -47,7 +47,7 @@ TYPED_TEST(PHashTest, readWhatWasWritten)
 
     for(const auto& id: photos)
     {
-        const Database::PHash phash(id.value());
+        const Photo::PHash phash(id.value());
         this->m_backend->photoOperator().setPHash(id, phash);
 
         ASSERT_TRUE(this->m_backend->photoOperator().hasPHash(id));
@@ -71,8 +71,8 @@ TYPED_TEST(PHashTest, replacePHash)
     ASSERT_FALSE(photos.empty());
 
     const auto id = photos.front();
-    const Database::PHash phash1(0x1122334455667788LL);
-    const Database::PHash phash2(0x7900aabbccddeeffLL);
+    const Photo::PHash phash1(0x1122334455667788LL);
+    const Photo::PHash phash2(0x7900aabbccddeeffLL);
 
     this->m_backend->photoOperator().setPHash(id, phash1);
     this->m_backend->photoOperator().setPHash(id, phash2);

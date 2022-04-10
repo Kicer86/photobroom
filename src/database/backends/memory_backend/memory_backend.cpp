@@ -76,7 +76,7 @@ namespace Database
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
         std::map<Photo::Id, QByteArray> m_thumbnails;
-        std::map<Photo::Id, Database::PHash> m_phashes;
+        std::map<Photo::Id, Photo::PHash> m_phashes;
 
         int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
@@ -610,16 +610,16 @@ namespace Database
     }
 
 
-    void MemoryBackend::setPHash(const Photo::Id& id, const Database::PHash& phash)
+    void MemoryBackend::setPHash(const Photo::Id& id, const Photo::PHash& phash)
     {
         m_db->m_phashes[id] = phash;
     }
 
 
-    std::optional<PHash> MemoryBackend::getPHash(const Photo::Id& id)
+    std::optional<Photo::PHash> MemoryBackend::getPHash(const Photo::Id& id)
     {
         auto it = m_db->m_phashes.find(id);
-        std::optional<PHash> result;
+        std::optional<Photo::PHash> result;
 
         if (it != m_db->m_phashes.end())
             result = it->second;
