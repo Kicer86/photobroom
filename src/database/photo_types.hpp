@@ -49,7 +49,7 @@ namespace Photo
     public:
         PHash() = default;
         explicit PHash(qlonglong v): m_hash(v) {}
-        explicit PHash(const PHash &) = default;
+        PHash(const PHash &) = default;
         explicit PHash(const std::array<std::byte, 8>& v)
         {
             for(unsigned int i = 0; i < v.size(); i++)
