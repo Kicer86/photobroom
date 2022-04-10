@@ -657,7 +657,7 @@ namespace Database
                     status = m_executor.exec(drop_table, &query);
                     if (status == false)
                         break;
-                }
+                } [[fallthrough]];
 
                 case 5:// remove sha256 and thumbnail columns from TAB_FLAGS
                 {
