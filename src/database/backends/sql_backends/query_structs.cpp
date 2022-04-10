@@ -69,13 +69,6 @@ namespace Database
     }
 
 
-    void InsertQueryData::addValue(int value)
-    {
-        m_data->m_args--;
-        m_data->m_values.push_back(value);
-    }
-
-
     void InsertQueryData::addValue(InsertQueryData::Value value)
     {
         m_data->m_args--;

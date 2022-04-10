@@ -8,6 +8,7 @@
 #include <QVariant>
 
 #include <core/data_ptr.hpp>
+#include <core/id.hpp>
 
 #include "sql_backend_base_export.h"
 
@@ -54,7 +55,11 @@ namespace Database
             struct Data;
             ol::data_ptr<Data> m_data;
 
-            void addValue(int);
+            template<typename T>
+            void addValue(const Id<int, T>& id)
+            {
+                addValue(id.value());
+            }
             void addValue(Value);
 
             //finish variadic templates

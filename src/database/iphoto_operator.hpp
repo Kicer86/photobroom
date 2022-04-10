@@ -9,14 +9,31 @@
 
 namespace Database
 {
-    struct PHash
+    class PHash
     {
-        std::uint32_t ph0;
-        std::uint32_t ph1;
-        std::uint32_t ph2;
-        std::uint32_t ph3;
+    public:
+        PHash() = default;
+        explicit PHash(qlonglong v): m_hash(v) {}
+        explicit PHash(const PHash &) = default;
+        explicit PHash(const std::array<std::byte, 8>& v)
+        {
+            for(unsigned int i = 0; i < v.size(); i++)
+            {
+                m_hash <<= 8;
+                m_hash |= static_cast<std::int64_t>(v[i]);
+            }
+        }
 
         bool operator==(const PHash &) const = default;
+        PHash& operator=(const PHash &) = default;
+
+        QVariant variant() const
+        {
+            return static_cast<qlonglong>(m_hash);
+        }
+
+    private:
+        std::int64_t m_hash = 0;
     };
 
     struct IPhotoOperator

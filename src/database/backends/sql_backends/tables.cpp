@@ -182,10 +182,7 @@ namespace Database
             {
                 { "id", "", ColDefinition::Purpose::ID },
                 { "photo_id", "INTEGER NOT NULL"       },
-                { "PH0", "BIGINT" },
-                { "PH1", "BIGINT" },
-                { "PH2", "BIGINT" },
-                { "PH3", "BIGINT" },
+                { "hash", "BIGINT" },
                 { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
             }
         );

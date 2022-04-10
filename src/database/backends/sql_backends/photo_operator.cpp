@@ -179,8 +179,8 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         InsertQueryData insertQueryData(TAB_PHASHES);
-        insertQueryData.setColumns("photo_id", "PH0", "PH1", "PH2", "PH3");
-        insertQueryData.setValues(id.value(), phash.ph0, phash.ph1, phash.ph2, phash.ph3);
+        insertQueryData.setColumns("photo_id", "hash");
+        insertQueryData.setValues(id.value(), phash.variant());
 
         QSqlQuery query;
         if (hasPHash(id))
@@ -199,7 +199,7 @@ namespace Database
 
     std::optional<PHash> PhotoOperator::getPHash(const Photo::Id& id)
     {
-        const QString queryStr = QString("SELECT PH0, PH1, PH2, PH3 FROM %1 WHERE photo_id=%2")
+        const QString queryStr = QString("SELECT hash FROM %1 WHERE photo_id=%2")
             .arg(TAB_PHASHES)
             .arg(id.value());
 
@@ -211,11 +211,7 @@ namespace Database
         std::optional<PHash> result;
         if (query.next())
         {
-            PHash phash;
-            phash.ph0 = query.value("PH0").toInt();
-            phash.ph1 = query.value("PH1").toInt();
-            phash.ph2 = query.value("PH2").toInt();
-            phash.ph3 = query.value("PH3").toInt();
+            const PHash phash(query.value("hash").toLongLong());
 
             result = phash;
         }
