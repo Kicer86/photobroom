@@ -77,6 +77,8 @@ namespace Database
 
         for(auto it = photo.constBegin(); it != photo.constEnd(); ++it)
         {
+            bool ok = {};
+
             if (it.key() == "flags")
             {
                 // TODO: implement
@@ -95,6 +97,11 @@ namespace Database
             }
             else if (it.key() == "path")
                 delta.insert<Photo::Field::Path>(it.value().toString());
+            else if (it.key() == "phash")
+            {
+                const Photo::PHash phash(it.value().toString().toULongLong(&ok, 16));
+                delta.insert<Photo::Field::PHash>(phash);
+            }
             else if (it.key() == "id")
                 id = it.value().toString();
             else
