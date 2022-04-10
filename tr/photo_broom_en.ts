@@ -637,7 +637,7 @@ Error code: %1</source>
         <translation>Loading photos needing update</translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="213"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="212"/>
         <source>Extracting data from photos</source>
         <translation>Extracting data from photos</translation>
     </message>

@@ -47,18 +47,18 @@ TEST(PhotoInfoUpdaterTest, tagsUpdate)
     }));
 
     // orignal state of photo
-    Photo::Data photo;
-    photo.id = Photo::Id(123);
-    photo.flags = { {Photo::FlagsE::StagingArea, 1}, {Photo::FlagsE::GeometryLoaded, 2} };
-    photo.tags = { {Tag::Types::Event, TagValue::fromType<Tag::Types::Event>("qweasd")}, {Tag::Types::Rating, 5} };
+    Photo::DataDelta photo(Photo::Id(123));
+    photo.insert<Photo::Field::Path>("/path/to/file.jpeg");
+    photo.insert<Photo::Field::Flags>( std::map<Photo::FlagsE, int>{ {Photo::FlagsE::StagingArea, 1}, {Photo::FlagsE::GeometryLoaded, 2} } );
+    photo.insert<Photo::Field::Tags>( std::map<Tag::Types, TagValue>{ {Tag::Types::Event, TagValue::fromType<Tag::Types::Event>("qweasd")}, {Tag::Types::Rating, 5} } );
 
     // expected state after calling updater
-    Photo::Data newPhotoData(photo);
-    newPhotoData.flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+    Photo::DataDelta newPhotoData(photo);
+    newPhotoData.get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
 
     PhotoInfoUpdater updater(taskExecutor, mediaInformation, &coreFactory, db);
 
-    Photo::SharedData sharedData = std::make_shared<Photo::SafeData>(photo);
+    auto sharedData = std::make_shared<Photo::SafeDataDelta>(photo);
     updater.updateTags(sharedData);
 
     const auto lockedData = sharedData->lock();

@@ -26,9 +26,9 @@ class PhotoInfoUpdater final: public QObject
         PhotoInfoUpdater(const PhotoInfoUpdater &) = delete;
         PhotoInfoUpdater& operator=(const PhotoInfoUpdater &) = delete;
 
-        void updateGeometry(const Photo::SharedData &);
-        void updateTags(const Photo::SharedData &);
-        void updatePHash(const Photo::SharedData &);
+        void updateGeometry(const Photo::SharedDataDelta &);
+        void updateTags(const Photo::SharedDataDelta &);
+        void updatePHash(const Photo::SharedDataDelta &);
 
     private:
         friend struct UpdaterTask;

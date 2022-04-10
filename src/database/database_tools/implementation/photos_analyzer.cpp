@@ -116,15 +116,15 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 
             slice(ids.begin(), ids.end(), 200, [this, loadTask, &progress](auto first, auto last)
             {
-                const std::vector<Photo::Data> photoData =
-                    evaluate<std::vector<Photo::Data>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
+                const std::vector<Photo::DataDelta> photoData =
+                    evaluate<std::vector<Photo::DataDelta>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
                 {
-                    std::vector<Photo::Data> photos;
+                    std::vector<Photo::DataDelta> photos;
                     photos.reserve(static_cast<unsigned>(last - first));
 
                     std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
                     {
-                        return backend.getPhoto(id);
+                        return backend.getPhotoDelta(id, {Photo::Field::Flags, Photo::Field::Path, Photo::Field::Tags});
                     });
 
                     return photos;
@@ -150,31 +150,30 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 }
 
 
-void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
+void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::DataDelta>& photos)
 {
     for(const auto& photo: photos)
     {
-        auto storage = make_cross_thread_function<Photo::SafeData *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, photo, _1));
-        Photo::SharedData sharedData(new Photo::SafeData(photo), storage);
+        auto storage = make_cross_thread_function<Photo::SafeDataDelta *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, _1));
+        Photo::SharedDataDelta sharedDataDelta(new Photo::SafeDataDelta(photo), storage);
         m_totalTasks++;
 
-        if (photo.flags.at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
-            m_updater.updateGeometry(sharedData);
+        if (photo.get<Photo::Field::Flags>().at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
+            m_updater.updateGeometry(sharedDataDelta);
 
-        if (photo.flags.at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
-            m_updater.updateTags(sharedData);
+        if (photo.get<Photo::Field::Flags>().at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
+            m_updater.updateTags(sharedDataDelta);
 
-        m_updater.updatePHash(sharedData);
+        m_updater.updatePHash(sharedDataDelta);
     }
 
     refreshView();
 }
 
 
-void PhotosAnalyzerImpl::photoUpdated(const Photo::Data& oldPhotoData, Photo::SafeData* safeData)
+void PhotosAnalyzerImpl::photoUpdated(Photo::SafeDataDelta* safeData)
 {
-    const Photo::Data newPhotoData = *safeData->lock();
-    const Photo::DataDelta delta(oldPhotoData, newPhotoData);
+    const auto delta = *safeData->lock();
 
     m_updateQueue.push(delta);
     m_doneTasks++;

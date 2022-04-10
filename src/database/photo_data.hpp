@@ -134,6 +134,9 @@ namespace Photo
 
     using SafeData = ol::ThreadSafeResource<Data>;
     using SharedData = std::shared_ptr<SafeData>;
+
+    using SafeDataDelta = ol::ThreadSafeResource<DataDelta>;
+    using SharedDataDelta = std::shared_ptr<SafeDataDelta>;
 }
 
 #endif // PHOTO_DATA_HPP

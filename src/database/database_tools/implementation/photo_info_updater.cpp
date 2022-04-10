@@ -31,7 +31,7 @@ using namespace PhotosAnalyzerConsts;
 
 struct UpdaterTask: ITaskExecutor::ITask
 {
-    UpdaterTask(PhotoInfoUpdater* updater, const Photo::SharedData& delta)
+    UpdaterTask(PhotoInfoUpdater* updater, const Photo::SharedDataDelta& delta)
         : m_updater(updater)
         , m_photoInfo(delta)
     {
@@ -57,7 +57,7 @@ struct UpdaterTask: ITaskExecutor::ITask
     UpdaterTask& operator=(const UpdaterTask &) = delete;
 
     PhotoInfoUpdater* m_updater;
-    Photo::SharedData m_photoInfo;
+    Photo::SharedDataDelta m_photoInfo;
 };
 
 
@@ -67,7 +67,7 @@ namespace
     struct GeometryAssigner: UpdaterTask
     {
         GeometryAssigner(PhotoInfoUpdater* updater,
-                         const Photo::SharedData& photoInfo)
+                         const Photo::SharedDataDelta& photoInfo)
             : UpdaterTask(updater, photoInfo)
         {
         }
@@ -82,18 +82,18 @@ namespace
 
         void perform() override
         {
-            const QString path = m_photoInfo->lock()->path;
+            const QString path = m_photoInfo->lock()->get<Photo::Field::Path>();
             const FileInformation info = getFileInformation(path);
 
             auto photoDelta = m_photoInfo->lock();
             if (info.common.dimension.has_value())
             {
-                photoDelta->geometry = info.common.dimension.value();
-                photoDelta->flags[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
+                photoDelta->insert<Photo::Field::Geometry>(info.common.dimension.value());
+                photoDelta->get<Photo::Field::Flags>()[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
             }
             else
             {
-                apply(photoDelta->id,
+                apply(photoDelta->getId(),
                 {
                     Database::CommonGeneralFlags::State,
                     static_cast<int>(Database::CommonGeneralFlags::StateType::Broken)
@@ -105,7 +105,7 @@ namespace
 
     struct TagsCollector: UpdaterTask
     {
-        TagsCollector(PhotoInfoUpdater* updater, const Photo::SharedData& photoInfo)
+        TagsCollector(PhotoInfoUpdater* updater, const Photo::SharedDataDelta& photoInfo)
             : UpdaterTask(updater, photoInfo)
         {
 
@@ -125,14 +125,14 @@ namespace
             QString path;
             {
                 auto lockedPhoto = m_photoInfo->lock();
-                const auto tags = lockedPhoto->tags;
-                path = lockedPhoto->path;
+                const auto tags = lockedPhoto->get<Photo::Field::Tags>();
+                path = lockedPhoto->get<Photo::Field::Path>();
 
                 // If media already has date or time update, do not override it.
                 // Just update ExifLoaded flag. It could be set to previous version, so bump it
                 if (tags.contains(Tag::Types::Date) || tags.contains(Tag::Types::Time))
                 {
-                    lockedPhoto->flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+                    lockedPhoto->get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
                     return;
                 }
             }
@@ -144,22 +144,20 @@ namespace
             auto photoDelta = m_photoInfo->lock();
             if (info.common.creationTime.has_value())
             {
-                Tag::TagsList tags = photoDelta->tags;
+                Tag::TagsList& tags = photoDelta->get<Photo::Field::Tags>();
 
                 tags[Tag::Types::Date] = info.common.creationTime->date();
                 tags[Tag::Types::Time] = info.common.creationTime->time();
-
-                photoDelta->tags = tags;
             }
 
-            photoDelta->flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+            photoDelta->get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
         }
     };
 
 
     struct PHashCalculator: UpdaterTask
     {
-        PHashCalculator(PhotoInfoUpdater* updater, const Photo::SharedData& photoInfo)
+        PHashCalculator(PhotoInfoUpdater* updater, const Photo::SharedDataDelta& photoInfo)
             : UpdaterTask(updater, photoInfo)
         {
 
@@ -174,7 +172,7 @@ namespace
         {
             // based on:
             // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
-            const QString path = m_photoInfo->lock()->path;
+            const QString path = m_photoInfo->lock()->get<Photo::Field::Path>();
             const QFileInfo fileInfo(path);
             const auto phashAlgorithm = cv::img_hash::PHash::create();
             const cv::Mat image = cv::imread(fileInfo.absoluteFilePath().toStdString());
@@ -197,7 +195,7 @@ namespace
                     std::memcpy(rawPHash.data(), phashMat.datastart, DataSize);
 
                     Photo::PHash phash(rawPHash);
-                    m_photoInfo->lock()->phash = phash;
+                    m_photoInfo->lock()->insert<Photo::Field::PHash>(phash);
                 }
             }
         }
@@ -222,7 +220,7 @@ PhotoInfoUpdater::~PhotoInfoUpdater()
 }
 
 
-void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
+void PhotoInfoUpdater::updateGeometry(const Photo::SharedDataDelta& photoInfo)
 {
     auto task = std::make_unique<GeometryAssigner>(this, photoInfo);
 
@@ -230,7 +228,7 @@ void PhotoInfoUpdater::updateGeometry(const Photo::SharedData& photoInfo)
 }
 
 
-void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
+void PhotoInfoUpdater::updateTags(const Photo::SharedDataDelta& photoInfo)
 {
     auto task = std::make_unique<TagsCollector>(this, photoInfo);
 
@@ -238,7 +236,7 @@ void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 }
 
 
-void PhotoInfoUpdater::updatePHash(const Photo::SharedData& photoInfo)
+void PhotoInfoUpdater::updatePHash(const Photo::SharedDataDelta& photoInfo)
 {
     auto task = std::make_unique<PHashCalculator>(this, photoInfo);
 
