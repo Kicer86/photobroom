@@ -48,6 +48,7 @@ namespace Database
     struct FilterPhotosWithRole;
     struct FilterPhotosWithPerson;
     struct FilterPhotosWithGeneralFlag;
+    struct FilterPhotosWithPHash;
 
 
     typedef std::variant<EmptyFilter,
@@ -60,7 +61,8 @@ namespace Database
                          FilterPhotosWithPath,
                          FilterPhotosWithRole,
                          FilterPhotosWithPerson,
-                         FilterPhotosWithGeneralFlag
+                         FilterPhotosWithGeneralFlag,
+                         FilterPhotosWithPHash
     > Filter;
 
     enum class ComparisonOp
@@ -169,6 +171,11 @@ namespace Database
 
         QString name;
         int value;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithPHash
+    {
+
     };
 }
 
