@@ -66,7 +66,22 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     const Database::FilterPhotosWithGeneralFlag generalFlagsFilter(Database::CommonGeneralFlags::State,
                                                                    static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
 
-    const Database::GroupFilter filters = {flagsFilter, generalFlagsFilter};
+    const Database::GroupFilter noExifOrGeometryFilter = {flagsFilter, generalFlagsFilter};
+
+    // photos with no phash
+    Database::FilterPhotosWithPHash phashFilter;
+    Database::FilterNotMatchingFilter noPhashFiler(phashFilter);
+
+    // photos without phash_state == 1 flag
+    Database::FilterPhotosWithGeneralFlag phashGeneralFlagFilter(Database::CommonGeneralFlags::PHashState,
+                                                                 static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Normal));
+
+    // group phash filters
+    const Database::GroupFilter noPhashFilterGroup = { noPhashFiler, phashGeneralFlagFilter };
+
+    // bind all fitlers together
+    Database::GroupFilter filters = {noExifOrGeometryFilter, noPhashFilterGroup};
+    filters.mode = Database::LogicalOp::Or;
 
     m_database.exec([this, filters](Database::IBackend& backend)
     {
@@ -164,7 +179,8 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::DataDelta>& photo
         if (photo.get<Photo::Field::Flags>().at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
             m_updater.updateTags(sharedDataDelta);
 
-        m_updater.updatePHash(sharedDataDelta);
+        if (photo.has(Photo::Field::PHash) == false)
+            m_updater.updatePHash(sharedDataDelta);
     }
 
     refreshView();
