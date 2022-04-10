@@ -198,6 +198,12 @@ namespace
                     m_photoInfo->lock()->insert<Photo::Field::PHash>(phash);
                 }
             }
+            else
+                apply(m_photoInfo->lock()->getId(),
+                {
+                    Database::CommonGeneralFlags::PHashState,
+                    static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incomaptible)
+                });
         }
     };
 }
