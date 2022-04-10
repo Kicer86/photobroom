@@ -163,6 +163,8 @@ void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::Data>& photos)
 
         if (photo.flags.at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
             m_updater.updateTags(sharedData);
+
+        m_updater.updatePHash(sharedData);
     }
 
     refreshView();

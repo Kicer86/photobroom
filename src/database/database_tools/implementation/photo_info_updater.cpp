@@ -5,9 +5,11 @@
 
 #include <memory>
 #include <ranges>
-
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/img_hash.hpp>
 #include <QImage>
 #include <QFile>
+#include <QFileInfo>
 #include <QPixmap>
 #include <QCryptographicHash>
 
@@ -154,6 +156,52 @@ namespace
         }
     };
 
+
+    struct PHashCalculator: UpdaterTask
+    {
+        PHashCalculator(PhotoInfoUpdater* updater, const Photo::SharedData& photoInfo)
+            : UpdaterTask(updater, photoInfo)
+        {
+
+        }
+
+        std::string name() const override
+        {
+            return "PHash calculator";
+        }
+
+        void perform() override
+        {
+            // based on:
+            // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
+            const QString path = m_photoInfo->lock()->path;
+            const QFileInfo fileInfo(path);
+            const auto phashAlgorithm = cv::img_hash::PHash::create();
+            const cv::Mat image = cv::imread(fileInfo.absoluteFilePath().toStdString());
+
+            cv::Mat phashMat;
+
+            if (image.dims == 2)
+            {
+                phashAlgorithm->compute(image, phashMat );
+
+                constexpr int DataSize = 8;
+                assert( phashMat.rows == 1);
+                assert( phashMat.cols == DataSize);
+
+                const auto count = phashMat.dataend - phashMat.datastart;
+
+                if (count == DataSize)
+                {
+                    std::array<std::byte, DataSize> rawPHash;
+                    std::memcpy(rawPHash.data(), phashMat.datastart, DataSize);
+
+                    Photo::PHash phash(rawPHash);
+                    m_photoInfo->lock()->phash = phash;
+                }
+            }
+        }
+    };
 }
 
 
@@ -192,7 +240,9 @@ void PhotoInfoUpdater::updateTags(const Photo::SharedData& photoInfo)
 
 void PhotoInfoUpdater::updatePHash(const Photo::SharedData& photoInfo)
 {
+    auto task = std::make_unique<PHashCalculator>(this, photoInfo);
 
+    addTask(std::move(task));
 }
 
 
