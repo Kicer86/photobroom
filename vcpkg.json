@@ -13,6 +13,7 @@
     },
     "exiv2",
     "magic-enum",
-    "gtest"
+    "gtest",
+    "opencv"
   ]
 }
