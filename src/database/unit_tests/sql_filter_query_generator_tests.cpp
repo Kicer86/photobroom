@@ -145,7 +145,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOr
               "WHERE tags.name = '4' AND tags.value <= '12:34:00'", query);
 }
 
-#ifndef OS_WIN          //TODO: does not compile with visual studio
+
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
@@ -160,7 +160,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '4')", query);
 }
-#endif
 
 
 TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
