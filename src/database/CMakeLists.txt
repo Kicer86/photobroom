@@ -79,7 +79,6 @@ target_link_libraries(database
                             core
                             Qt::Core
                             opencv_img_hash                 # do not link all possible libs, just those we will need (opencv_cvv uses Qt5 which causes problems)
-                            opencv_imgcodecs
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 

@@ -5,13 +5,11 @@
 
 #include <memory>
 #include <ranges>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/img_hash.hpp>
 #include <QImage>
 #include <QFile>
 #include <QFileInfo>
 #include <QPixmap>
-#include <QCryptographicHash>
 
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
@@ -172,16 +170,37 @@ namespace
         {
             // based on:
             // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
+
             const QString path = m_photoInfo->lock()->get<Photo::Field::Path>();
-            const QFileInfo fileInfo(path);
-            const auto phashAlgorithm = cv::img_hash::PHash::create();
-            const cv::Mat image = cv::imread(fileInfo.absoluteFilePath().toStdString());
 
-            cv::Mat phashMat;
+            // NOTE: cv::imread could be used here, however it would be better to have a unique mechanism
+            // of reading images, so if an image can be displayed in gui, then we also know how to
+            // read and phash it here.
+            QImage image(path);
 
-            if (image.dims == 2 && image.cols > 0 && image.rows > 0)
+            if (image.isNull())
+                apply(m_photoInfo->lock()->getId(),
+                {
+                    Database::CommonGeneralFlags::PHashState,
+                    static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incomaptible)
+                });
+            else
             {
-                phashAlgorithm->compute(image, phashMat);
+                if (image.format() != QImage::Format_RGB888)
+                    image = image.convertToFormat(QImage::Format_RGB888);
+
+                const cv::Mat cvImage(
+                    image.height(),
+                    image.width(),
+                    CV_8UC3,
+                    image.bits(),
+                    static_cast<std::size_t>(image.bytesPerLine())
+                );
+
+                cv::Mat phashMat;
+
+                const auto phashAlgorithm = cv::img_hash::PHash::create();
+                phashAlgorithm->compute(cvImage, phashMat);
 
                 constexpr int DataSize = 8;
                 assert( phashMat.rows == 1);
@@ -198,12 +217,6 @@ namespace
                     m_photoInfo->lock()->insert<Photo::Field::PHash>(phash);
                 }
             }
-            else
-                apply(m_photoInfo->lock()->getId(),
-                {
-                    Database::CommonGeneralFlags::PHashState,
-                    static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incomaptible)
-                });
         }
     };
 }

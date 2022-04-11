@@ -51,7 +51,6 @@ addTestTarget(database
                     GTest::gtest
                     GTest::gmock
                     opencv_img_hash
-                    opencv_imgcodecs
 
                 INCLUDES
                     backends/sql_backends
