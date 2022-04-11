@@ -119,7 +119,7 @@ namespace
 
         void perform() override
         {
-            // make sure we wan't to update
+            // make sure we want to update
             QString path;
             {
                 auto lockedPhoto = m_photoInfo->lock();
