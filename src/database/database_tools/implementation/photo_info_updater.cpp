@@ -198,9 +198,7 @@ namespace
                 );
 
                 cv::Mat phashMat;
-
-                const auto phashAlgorithm = cv::img_hash::PHash::create();
-                phashAlgorithm->compute(cvImage, phashMat);
+                cv::img_hash::pHash(cvImage, phashMat);
 
                 constexpr int DataSize = 8;
                 assert( phashMat.rows == 1);
