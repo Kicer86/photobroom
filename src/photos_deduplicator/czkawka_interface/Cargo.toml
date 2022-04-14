@@ -1,9 +1,0 @@
-[package]
-name = "czkawka_interface"
-version = "1.0.0"
-
-[dependencies]
-czkawka_core = { path = "czkawka/czkawka_core", version = "4.0.0"}
-
-[lib]
-crate-type=["staticlib"]

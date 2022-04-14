@@ -13,6 +13,3 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
-[submodule "src/photos_deduplicator/czkawka_interface/czkawka"]
-	path = src/photos_deduplicator/czkawka_interface/czkawka
-	url = https://github.com/qarmin/czkawka.git
