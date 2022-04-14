@@ -11,9 +11,13 @@
         "default-features": false,
         "features": [ "fftw3" ]
     },
+    {
+        "name": "opencv",
+        "default-features": false,
+        "features": [ "contrib" ]
+    },
     "exiv2",
     "magic-enum",
-    "gtest",
-    "opencv"
+    "gtest"
   ]
 }
