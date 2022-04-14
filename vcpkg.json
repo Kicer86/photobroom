@@ -12,7 +12,7 @@
         "features": [ "fftw3" ]
     },
     {
-        "name": "opencv",
+        "name": "opencv4",
         "default-features": false,
         "features": [ "contrib" ]
     },
