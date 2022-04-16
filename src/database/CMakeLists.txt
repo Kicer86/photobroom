@@ -1,5 +1,6 @@
 
 add_subdirectory(backends)
+add_subdirectory(learning_tests)
 
 find_package(Qt6       REQUIRED COMPONENTS Core Gui)
 find_package(Threads   REQUIRED)
