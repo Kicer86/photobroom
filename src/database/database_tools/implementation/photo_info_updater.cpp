@@ -8,7 +8,6 @@
 #include <opencv2/img_hash.hpp>
 #include <QImage>
 #include <QFile>
-#include <QFileInfo>
 #include <QPixmap>
 
 #include <core/function_wrappers.hpp>
