@@ -186,13 +186,13 @@ namespace
                 });
             else
             {
-                if (image.format() != QImage::Format_RGB888)
-                    image = image.convertToFormat(QImage::Format_RGB888);
+                if (image.format() != QImage::Format_ARGB32)
+                    image = image.convertToFormat(QImage::Format_ARGB32);
 
                 const cv::Mat cvImage(
                     image.height(),
                     image.width(),
-                    CV_8UC3,
+                    CV_8UC4,
                     image.bits(),
                     static_cast<std::size_t>(image.bytesPerLine())
                 );
