@@ -64,12 +64,6 @@ namespace Database
     }
 
 
-    FilterNotMatchingFilter::FilterNotMatchingFilter(const Filter& f): filter(new Filter(f))
-    {
-
-    }
-
-
     FilterPhotosWithId::FilterPhotosWithId(): filter()
     {
 

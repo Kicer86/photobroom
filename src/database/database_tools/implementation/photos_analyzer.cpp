@@ -70,14 +70,14 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 
     // photos with no phash
     Database::FilterPhotosWithPHash phashFilter;
-    Database::FilterNotMatchingFilter noPhashFiler(phashFilter);
+    Database::FilterNotMatchingFilter noPhashFilter(phashFilter);
 
     // photos without phash_state == 1 flag
     Database::FilterPhotosWithGeneralFlag phashGeneralFlagFilter(Database::CommonGeneralFlags::PHashState,
                                                                  static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Normal));
 
     // group phash filters
-    const Database::GroupFilter noPhashFilterGroup = { noPhashFiler, phashGeneralFlagFilter };
+    const Database::GroupFilter noPhashFilterGroup = { noPhashFilter, phashGeneralFlagFilter };
 
     // bind all fitlers together
     Database::GroupFilter filters = {noExifOrGeometryFilter, noPhashFilterGroup};

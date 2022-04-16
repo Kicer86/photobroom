@@ -151,7 +151,7 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
     Database::SqlFilterQueryGenerator generator;
 
     Database::FilterPhotosWithTag sub_filter1(Tag::Types::Time);
-    Database::FilterNotMatchingFilter filter = Database::Filter(sub_filter1);
+    Database::FilterNotMatchingFilter filter(sub_filter1);
 
     const QString query = generator.generate(Database::Filter(filter));
     EXPECT_EQ("SELECT id FROM photos "

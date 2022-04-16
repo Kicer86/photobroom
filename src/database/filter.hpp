@@ -118,7 +118,11 @@ namespace Database
 
     struct DATABASE_EXPORT FilterNotMatchingFilter
     {
-        FilterNotMatchingFilter(const Filter &);
+        template<typename T>
+        explicit FilterNotMatchingFilter(const T& f): filter(new Filter(f))
+        {
+
+        }
 
         ol::data_ptr<Filter> filter;
     };
