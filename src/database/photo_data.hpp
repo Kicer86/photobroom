@@ -36,15 +36,18 @@ namespace Photo
 {
     class DataDelta;
 
+    /**
+     * @brief Structure containing full set of photo details
+     */
     struct DATABASE_EXPORT Data
     {
         Photo::Id            id;
-        Photo::Sha256sum     sha256Sum;
         Tag::TagsList        tags;
         Photo::FlagValues    flags;
         QString              path;
         QSize                geometry;
         GroupInfo            groupInfo;
+        Photo::PHash         phash;
 
         Data() = default;
         Data(const Data &) = default;
@@ -62,6 +65,9 @@ namespace Photo
     };
 
 
+    /**
+     * @brief Structure containing chosen of photo details
+     */
     class DATABASE_EXPORT DataDelta
     {
         public:
@@ -109,12 +115,14 @@ namespace Photo
             DataDelta& operator=(const Data &);
 
         private:
-            typedef std::variant<DeltaTypes<Field::Checksum>::Storage,
-                                 DeltaTypes<Field::Tags>::Storage,
-                                 DeltaTypes<Field::Flags>::Storage,
-                                 DeltaTypes<Field::Path>::Storage,
-                                 DeltaTypes<Field::Geometry>::Storage,
-                                 DeltaTypes<Field::GroupInfo>::Storage> Storage;
+            typedef std::variant<
+                DeltaTypes<Field::Tags>::Storage,
+                DeltaTypes<Field::Flags>::Storage,
+                DeltaTypes<Field::Path>::Storage,
+                DeltaTypes<Field::Geometry>::Storage,
+                DeltaTypes<Field::GroupInfo>::Storage,
+                DeltaTypes<Field::PHash>::Storage
+            > Storage;
 
             Photo::Id                m_id;
             std::unordered_map<Field, Storage> m_data;
@@ -126,6 +134,9 @@ namespace Photo
 
     using SafeData = ol::ThreadSafeResource<Data>;
     using SharedData = std::shared_ptr<SafeData>;
+
+    using SafeDataDelta = ol::ThreadSafeResource<DataDelta>;
+    using SharedDataDelta = std::shared_ptr<SafeDataDelta>;
 }
 
 #endif // PHOTO_DATA_HPP

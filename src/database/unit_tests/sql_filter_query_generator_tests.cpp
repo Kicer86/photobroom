@@ -3,6 +3,7 @@
 #include <QTime>
 
 #include "sql_filter_query_generator.hpp"
+#include "unit_tests_utils/printers.hpp"
 
 
 TEST(SqlFilterQueryGeneratorTest, HandlesEmptyList)
@@ -27,20 +28,9 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFlagsFilter)
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.tags_loaded < '1'", query);
 
     filter.flags.clear();
-    filter.flags[Photo::FlagsE::Sha256Loaded] = 2;
-    filter.comparison[Photo::FlagsE::Sha256Loaded] = Database::ComparisonOp::Greater;
-    query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.sha256_loaded > '2'", query);
-
-    filter.flags.clear();
     filter.flags[Photo::FlagsE::StagingArea] = 3;
     query = generator.generate(filter);
     EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.staging_area = '3'", query);
-
-    filter.flags.clear();
-    filter.flags[Photo::FlagsE::ThumbnailLoaded] = 4;
-    query = generator.generate(filter);
-    EXPECT_EQ("SELECT photos.id FROM photos JOIN (flags) ON (flags.photo_id = photos.id) WHERE flags.thumbnail_loaded = '4'", query);
 }
 
 
@@ -155,13 +145,13 @@ TEST(SqlFilterQueryGeneratorTest, HandlesTagsFilterWithComparisonModeSetToLessOr
               "WHERE tags.name = '4' AND tags.value <= '12:34:00'", query);
 }
 
-#ifndef OS_WIN          //TODO: does not compile with visual studio
+
 TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
 {
     Database::SqlFilterQueryGenerator generator;
 
     Database::FilterPhotosWithTag sub_filter1(Tag::Types::Time);
-    Database::FilterNotMatchingFilter filter = Database::Filter(sub_filter1);
+    Database::FilterNotMatchingFilter filter(sub_filter1);
 
     const QString query = generator.generate(Database::Filter(filter));
     EXPECT_EQ("SELECT id FROM photos "
@@ -169,21 +159,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesFilterNotMatchingFilter)
               "(SELECT photos.id FROM photos "
               "JOIN (tags) ON (tags.photo_id = photos.id) "
               "WHERE tags.name = '4')", query);
-}
-#endif
-
-TEST(SqlFilterQueryGeneratorTest, HandlesSha256Filter)
-{
-    Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithSha256 filter;
-
-    filter.sha256 = "1234567890";
-
-    const QString query = generator.generate(filter);
-
-    EXPECT_EQ("SELECT id FROM photos "
-              "JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
-              "WHERE sha256sums.sha256 = '1234567890'", query);
 }
 
 
@@ -200,15 +175,23 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 }
 
 
+TEST(SqlFilterQueryGeneratorTest, HandlesWithPHashFilter)
+{
+    Database::SqlFilterQueryGenerator generator;
+    Database::FilterPhotosWithPHash filter;
+
+    const QString query = generator.generate(filter);
+
+    EXPECT_EQ("SELECT photos.id FROM photos "
+              "JOIN (phashes) "
+              "ON (phashes.photo_id = photos.id)", query);
+}
+
+
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlFilterQueryGenerator generator;
     std::vector<Database::Filter> filters;
-
-    // sha256
-    Database::FilterPhotosWithSha256 sha_filter;
-    sha_filter.sha256 = "1234567890";
-    filters.push_back(sha_filter);
 
     //tag
     Database::FilterPhotosWithTag tag_filter(Tag::Types::Place, QString("place 1"));
@@ -225,11 +208,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
     const QString expected_query =
         "SELECT id FROM photos "
         "WHERE id IN "
-        "("
-            "SELECT id FROM photos JOIN (sha256sums) ON (sha256sums.photo_id = photos.id) "
-            "WHERE sha256sums.sha256 = '1234567890'"
-        ") "
-        "AND id IN "
         "("
             "SELECT photos.id FROM photos JOIN (tags) ON (tags.photo_id = photos.id) "
             "WHERE tags.name = '2' AND tags.value = 'place 1'"

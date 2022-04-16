@@ -27,6 +27,7 @@
 #include "isql_query_executor.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "tables.hpp"
+#include "query_structs.hpp"
 
 
 namespace Database
@@ -40,7 +41,6 @@ namespace Database
             { TAB_GEOMETRY,       "photo_id" },
             { TAB_GROUPS_MEMBERS, "photo_id" },
             { TAB_PEOPLE,         "photo_id" },
-            { TAB_SHA256SUMS,     "photo_id" },
             { TAB_TAGS,           "photo_id" },
             { TAB_THUMBS,         "photo_id" },
             { TAB_PHOTOS,         "id"       }
@@ -59,11 +59,13 @@ namespace Database
 
     PhotoOperator::PhotoOperator(const QString& connection,
                                  ISqlQueryExecutor* executor,
+                                 const IGenericSqlQueryGenerator& queryGenerator,
                                  ILogger* logger,
                                  IBackend* backend,
                                  NotificationsAccumulator& notificationsAccumulator):
         m_connectionName(connection),
         m_executor(executor),
+        m_queryGenerator(queryGenerator),
         m_logger(logger),
         m_backend(backend),
         m_notifications(notificationsAccumulator)
@@ -112,7 +114,6 @@ namespace Database
             // There should be no data in groups and group members TODO: check + remove group if not true
             QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_SHA256SUMS        " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
 
@@ -170,6 +171,69 @@ namespace Database
         auto result = fetch(query);
 
         return result;
+    }
+
+
+    void PhotoOperator::setPHash(const Photo::Id& id, const Photo::PHash& phash)
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        InsertQueryData insertQueryData(TAB_PHASHES);
+        insertQueryData.setColumns("photo_id", "hash");
+        insertQueryData.setValues(id.value(), phash.variant());
+
+        QSqlQuery query;
+        if (hasPHash(id))
+        {
+            UpdateQueryData updateQueryData(insertQueryData);
+            updateQueryData.addCondition("photo_id", QString::number(id));
+
+            query = m_queryGenerator.update(db, updateQueryData);
+        }
+        else
+            query = m_queryGenerator.insert(db, insertQueryData);
+
+        m_executor->exec(query);
+    }
+
+
+    std::optional<Photo::PHash> PhotoOperator::getPHash(const Photo::Id& id)
+    {
+        const QString queryStr = QString("SELECT hash FROM %1 WHERE photo_id=%2")
+            .arg(TAB_PHASHES)
+            .arg(id.value());
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        std::optional<Photo::PHash> result;
+        if (query.next())
+        {
+            const Photo::PHash phash(query.value("hash").toLongLong());
+
+            result = phash;
+        }
+
+        return result;
+    }
+
+
+    bool PhotoOperator::hasPHash(const Photo::Id& id)
+    {
+        const QString queryStr = QString("SELECT COUNT(photo_id) FROM %1 WHERE photo_id=%2")
+            .arg(TAB_PHASHES)
+            .arg(id.value());
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        const int count = query.next()? query.value(0).toInt() : 0;
+
+        return count > 0;
     }
 
 

@@ -632,12 +632,12 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="105"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="120"/>
         <source>Loading photos needing update</source>
         <translation>Loading photos needing update</translation>
     </message>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="211"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="228"/>
         <source>Extracting data from photos</source>
         <translation>Extracting data from photos</translation>
     </message>

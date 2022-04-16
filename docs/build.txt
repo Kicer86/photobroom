@@ -8,11 +8,12 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 
 Required tools and libraries:
- - cmake - version 3.16 or later
+ - cmake - version 3.18 or later
  - Qt6 - version 6.2 or higher*
  - exiv2*
  - dlib*
  - magic_enum*
+ - opencv*
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -20,16 +21,20 @@ Required tools and libraries:
  Packages, libraries and other components kept as git submodules:
  - https://github.com/Kicer86/cmake_modules.git                 - various cmake modules and package finders
  - https://github.com/ageitgey/face_recognition_models.git      - modules for face recognition
- - git://anongit.kde.org/kwidgetsaddons.git                     - kdewidgets
  - https://github.com/Kicer86/github_api.git                    - github api
+ - https://github.com/rshest/qml-colorpicker.git                - QML colorpicker item
+ - https://github.com/microsoft/vcpkg.git
 
 * For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
 
 Build tips:
-To install all required depenencies with vcpkg use the following command:
-vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia
+You may want to use predefined CMakePresets (automatically used by VisualStudio) which will read
+vcpkg.json file and install all dependencies (except Qt).
+
+Dependencies can be also install manually:
+vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib]
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 
@@ -54,7 +59,6 @@ Build 'install' target to install PhotoBroom.
 On Windows photo broom can be launched from installation dir only.
 On Linux, thanks to RPATH, it can be launched from build dir.
 
-Extra targets available for Windows:
-'deploy'  prepares extra dir with all external dependencies required by PhotoBroom.
+Extra target available for Windows:
 'package' target will create a package (Installator) with all files required for running
           PhotoBroom on other Windows machines.

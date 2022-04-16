@@ -1,7 +1,8 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Sql Test)
+find_package(Qt6    REQUIRED COMPONENTS Sql Test)
+find_package(OpenCV REQUIRED)
 
 addTestTarget(database
                 SOURCES
@@ -49,6 +50,7 @@ addTestTarget(database
                     Qt::Test
                     GTest::gtest
                     GTest::gmock
+                    opencv_img_hash
 
                 INCLUDES
                     backends/sql_backends
@@ -56,6 +58,7 @@ addTestTarget(database
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/sql_backends
                     ${CMAKE_CURRENT_BINARY_DIR}/backends/memory_backend
+                    ${OpenCV_INCLUDE_DIRS}
 
                 DEFINITIONS
                     STATIC_PLUGINS

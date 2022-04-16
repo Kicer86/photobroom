@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 5;
+        const int db_version = 6;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -64,21 +64,6 @@ namespace Database
 
 
         TableDefinition
-        table_sha256sums(TAB_SHA256SUMS,
-                         {
-                             { "id", "", ColDefinition::Purpose::ID                      },
-                             { "photo_id INTEGER NOT NULL", ""                           },
-                             { "sha256 CHAR(32) NOT NULL", ""                            },
-                             { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
-                         },
-                         {
-                             { "ha_photo_id", "UNIQUE INDEX", "(photo_id)" },               //one sha per photo
-                             { "ha_sha256", "INDEX", "(sha256)"            },
-                         }
-        );
-
-
-        TableDefinition
         table_geometry(TAB_GEOMETRY,
                        {
                            { "id", "", ColDefinition::Purpose::ID   },
@@ -102,8 +87,6 @@ namespace Database
                         { "photo_id",  "INTEGER NOT NULL"    },
                         { FLAG_STAGING_AREA,  "INT NOT NULL" },
                         { FLAG_TAGS_LOADED,   "INT NOT NULL" },
-                        { FLAG_SHA256_LOADED, "INT NOT NULL" },
-                        { FLAG_THUMB_LOADED,  "INT NOT NULL" },
                         { FLAG_GEOM_LOADED,   "INT NOT NULL" },
                         { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
                     },
@@ -194,6 +177,16 @@ namespace Database
                             }
         );
 
+        TableDefinition
+        table_phashes(TAB_PHASHES,
+            {
+                { "id", "", ColDefinition::Purpose::ID },
+                { "photo_id", "INTEGER NOT NULL"       },
+                { "hash", "BIGINT" },
+                { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", ""  },
+            }
+        );
+
         //all tables
         std::map<std::string, TableDefinition> tables =
         {
@@ -201,7 +194,6 @@ namespace Database
             { TAB_PHOTOS,               table_photos },
             { TAB_TAGS,                 table_tags },
             { TAB_THUMBS,               table_thumbnails },
-            { TAB_SHA256SUMS,           table_sha256sums },
             { TAB_FLAGS,                table_flags },
             { TAB_GEOMETRY,             table_geometry },
             { TAB_GROUPS,               table_groups },
@@ -211,5 +203,6 @@ namespace Database
             { TAB_FACES_FINGERPRINTS,   table_faces_fingerprints },
             { TAB_GENERAL_FLAGS,        table_general_flags },
             { TAB_PHOTOS_CHANGE_LOG,    table_photos_change_log },
+            { TAB_PHASHES,              table_phashes },
         };
 }

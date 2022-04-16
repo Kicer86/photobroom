@@ -1,9 +1,11 @@
 
 add_subdirectory(backends)
+add_subdirectory(learning_tests)
 
-find_package(Qt6     REQUIRED COMPONENTS Core Gui)
-find_package(Threads REQUIRED)
+find_package(Qt6       REQUIRED COMPONENTS Core Gui)
+find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
+find_package(OpenCV    REQUIRED)
 
 set(DATABASE_SOURCES
     actions.hpp
@@ -77,6 +79,7 @@ target_link_libraries(database
                         PRIVATE
                             core
                             Qt::Core
+                            opencv_img_hash                 # do not link all possible libs, just those we will need (opencv_cvv uses Qt5 which causes problems)
                             ${CMAKE_THREAD_LIBS_INIT}
 )
 
@@ -87,6 +90,7 @@ target_include_directories(database
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
+                                ${OpenCV_INCLUDE_DIRS}
 )
 
 set_target_properties(database PROPERTIES AUTOMOC TRUE)

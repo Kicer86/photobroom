@@ -8,6 +8,7 @@
 
 #include <QByteArray>
 #include <QMetaType>
+#include <QVariant>
 
 #include "database_export.h"
 
@@ -17,16 +18,12 @@ namespace Photo
 {
     Q_NAMESPACE_EXPORT(DATABASE_EXPORT)
 
-    typedef QByteArray Sha256sum;
-
     using Id = Id<int, struct photo_tag>;
 
     enum class FlagsE
     {
         StagingArea,
         ExifLoaded,
-        Sha256Loaded,
-        ThumbnailLoaded,
         GeometryLoaded,
     };
     Q_ENUM_NS(FlagsE)
@@ -47,6 +44,32 @@ namespace Photo
         }
     };
 
+    class PHash
+    {
+    public:
+        PHash() = default;
+        explicit PHash(qlonglong v): m_hash(v) {}
+        PHash(const PHash &) = default;
+        explicit PHash(const std::array<std::byte, 8>& v)
+        {
+            for(unsigned int i = 0; i < v.size(); i++)
+            {
+                m_hash <<= 8;
+                m_hash |= static_cast<std::int64_t>(v[i]);
+            }
+        }
+
+        bool operator==(const PHash &) const = default;
+        PHash& operator=(const PHash &) = default;
+
+        QVariant variant() const
+        {
+            return static_cast<qlonglong>(m_hash);
+        }
+
+    private:
+        std::int64_t m_hash = 0;
+    };
 }
 
 Q_DECLARE_METATYPE(Photo::Id)

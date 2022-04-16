@@ -20,11 +20,6 @@ namespace
         {
             switch (field)
             {
-                case Photo::Field::Checksum:
-                    if (delta.has(Photo::Field::Checksum) && delta.get<Photo::Field::Checksum>() != data.sha256Sum)
-                        return false;
-                    break;
-
                 case Photo::Field::Tags:
                     if (delta.has(Photo::Field::Tags) && delta.get<Photo::Field::Tags>() != data.tags)
                         return false;
@@ -47,6 +42,11 @@ namespace
 
                 case Photo::Field::GroupInfo:
                     if (delta.has(Photo::Field::GroupInfo) && delta.get<Photo::Field::GroupInfo>() != data.groupInfo)
+                        return false;
+                    break;
+
+                case Photo::Field::PHash:
+                    if (delta.has(Photo::Field::PHash) && delta.get<Photo::Field::PHash>() != data.phash)
                         return false;
                     break;
             }
@@ -99,8 +99,9 @@ TYPED_TEST(PhotosTest, retrievingAllDataInDelta)
 
         EXPECT_TRUE(photoDelta.has(Photo::Field::Path));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Tags));
-        EXPECT_TRUE(photoDelta.has(Photo::Field::Checksum));
+        EXPECT_TRUE(photoDelta.has(Photo::Field::Flags));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Geometry));
+        EXPECT_TRUE(photoDelta.has(Photo::Field::PHash));
 
         EXPECT_TRUE(same(photo, photoDelta));
     }
@@ -119,11 +120,11 @@ TYPED_TEST(PhotosTest, retrievingPartialDataInDelta)
     for (const auto& id: ids)
     {
         auto photo = this->m_backend->getPhoto(id);
-        auto photoDelta = this->m_backend->getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Checksum});
+        auto photoDelta = this->m_backend->getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags});
 
         EXPECT_TRUE(photoDelta.has(Photo::Field::Path));
         EXPECT_FALSE(photoDelta.has(Photo::Field::Tags));
-        EXPECT_TRUE(photoDelta.has(Photo::Field::Checksum));
+        EXPECT_TRUE(photoDelta.has(Photo::Field::Flags));
         EXPECT_FALSE(photoDelta.has(Photo::Field::Geometry));
 
         EXPECT_TRUE(same(photo, photoDelta));
@@ -136,7 +137,7 @@ TYPED_TEST(PhotosTest, retrievingPartialDataInDelta)
 
         EXPECT_FALSE(photoDelta.has(Photo::Field::Path));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Tags));
-        EXPECT_FALSE(photoDelta.has(Photo::Field::Checksum));
+        EXPECT_FALSE(photoDelta.has(Photo::Field::Flags));
         EXPECT_TRUE(photoDelta.has(Photo::Field::Geometry));
 
         EXPECT_TRUE(same(photo, photoDelta));

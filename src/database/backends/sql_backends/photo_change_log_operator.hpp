@@ -36,7 +36,7 @@ namespace Database
     class PhotoChangeLogOperator final: public APhotoChangeLogOperator
     {
         public:
-            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator *, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
+            PhotoChangeLogOperator(const QString &, const IGenericSqlQueryGenerator &, const Database::ISqlQueryExecutor *, ILogger *, IBackend *);
             ~PhotoChangeLogOperator();
 
             // for debug / tests
@@ -44,7 +44,7 @@ namespace Database
 
         private:
             QString m_connectionName;
-            const IGenericSqlQueryGenerator* m_queryGenerator;
+            const IGenericSqlQueryGenerator& m_queryGenerator;
             const ISqlQueryExecutor* m_executor;
             ILogger* m_logger;
             IBackend* m_backend;

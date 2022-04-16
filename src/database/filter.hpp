@@ -41,7 +41,6 @@ namespace Database
     struct GroupFilter;
     struct FilterPhotosWithTag;
     struct FilterPhotosWithFlags;
-    struct FilterPhotosWithSha256;
     struct FilterNotMatchingFilter;
     struct FilterPhotosWithId;
     struct FilterPhotosMatchingExpression;
@@ -49,20 +48,21 @@ namespace Database
     struct FilterPhotosWithRole;
     struct FilterPhotosWithPerson;
     struct FilterPhotosWithGeneralFlag;
+    struct FilterPhotosWithPHash;
 
 
     typedef std::variant<EmptyFilter,
                          GroupFilter,
                          FilterPhotosWithTag,
                          FilterPhotosWithFlags,
-                         FilterPhotosWithSha256,
                          FilterNotMatchingFilter,
                          FilterPhotosWithId,
                          FilterPhotosMatchingExpression,
                          FilterPhotosWithPath,
                          FilterPhotosWithRole,
                          FilterPhotosWithPerson,
-                         FilterPhotosWithGeneralFlag
+                         FilterPhotosWithGeneralFlag,
+                         FilterPhotosWithPHash
     > Filter;
 
     enum class ComparisonOp
@@ -116,16 +116,13 @@ namespace Database
         LogicalOp mode;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithSha256
-    {
-        FilterPhotosWithSha256();
-
-        Photo::Sha256sum sha256;
-    };
-
     struct DATABASE_EXPORT FilterNotMatchingFilter
     {
-        FilterNotMatchingFilter(const Filter &);
+        template<typename T>
+        explicit FilterNotMatchingFilter(const T& f): filter(new Filter(f))
+        {
+
+        }
 
         ol::data_ptr<Filter> filter;
     };
@@ -178,6 +175,11 @@ namespace Database
 
         QString name;
         int value;
+    };
+
+    struct DATABASE_EXPORT FilterPhotosWithPHash
+    {
+
     };
 }
 

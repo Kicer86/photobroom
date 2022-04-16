@@ -40,9 +40,6 @@ namespace Photo
         if (delta.has(Photo::Field::Geometry))
             geometry = delta.get<Photo::Field::Geometry>();
 
-        if (delta.has(Photo::Field::Checksum))
-            sha256Sum = delta.get<Photo::Field::Checksum>();
-
         if (delta.has(Photo::Field::Flags))
             flags = delta.get<Photo::Field::Flags>();
 
@@ -51,6 +48,9 @@ namespace Photo
 
         if (delta.has(Photo::Field::Path))
             path = delta.get<Photo::Field::Path>();
+
+        if (delta.has(Photo::Field::PHash))
+            phash = delta.get<Photo::Field::PHash>();
 
         return *this;
     }
@@ -74,11 +74,11 @@ namespace Photo
         if (oldData.path != newData.path)
             insert<Photo::Field::Path>(newData.path);
 
-        if (oldData.sha256Sum != newData.sha256Sum)
-            insert<Photo::Field::Checksum>(newData.sha256Sum);
-
         if (oldData.tags != newData.tags)
             insert<Photo::Field::Tags>(newData.tags);
+
+        if (oldData.phash != newData.phash)
+            insert<Photo::Field::PHash>(newData.phash);
     }
 
 
@@ -157,7 +157,6 @@ namespace Photo
     {
         insert<Photo::Field::Tags>(data.tags);
         insert<Photo::Field::Geometry>(data.geometry);
-        insert<Photo::Field::Checksum>(data.sha256Sum);
         insert<Photo::Field::Flags>(data.flags);
         insert<Photo::Field::GroupInfo>(data.groupInfo);
         insert<Photo::Field::Path>(data.path);

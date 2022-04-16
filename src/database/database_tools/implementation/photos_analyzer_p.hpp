@@ -69,8 +69,8 @@ class PhotosAnalyzerImpl: public QObject
         void setupRefresher();
         void refreshView();
         void addPhotos(const std::vector<Photo::Id> &);
-        void updatePhotos(const std::vector<Photo::Data> &);
-        void photoUpdated(const Photo::Data &, Photo::SafeData *);
+        void updatePhotos(const std::vector<Photo::DataDelta> &);
+        void photoUpdated(Photo::SafeDataDelta *);
         void flushQueue(PhotosQueue::ContainerIt, PhotosQueue::ContainerIt);
 };
 

@@ -64,18 +64,6 @@ namespace Database
     }
 
 
-    FilterPhotosWithSha256::FilterPhotosWithSha256(): sha256("")
-    {
-
-    }
-
-
-    FilterNotMatchingFilter::FilterNotMatchingFilter(const Filter& f): filter(new Filter(f))
-    {
-
-    }
-
-
     FilterPhotosWithId::FilterPhotosWithId(): filter()
     {
 

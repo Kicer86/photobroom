@@ -13,6 +13,13 @@ namespace Database::CommonGeneralFlags
         Broken      = 1,                    // 1 - one or more photo parameters could not be determined (dimension, thumbnail etc)
         Missing     = 2,                    // 2 - photo file is missing
     };
+
+    const QString PHashState("phash_state");           // photo state.
+    enum class PHashStateType
+    {
+        Normal        = 0,                  // 0 (or nonexistent) - photo is in fine state
+        Incomaptible  = 1,                  // 1 - could not generate phash. Not an image file.
+    };
 }
 
 #endif // GENERAL_FLAGS_HPP_INCLUDED

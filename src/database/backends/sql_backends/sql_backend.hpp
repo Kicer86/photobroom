@@ -124,7 +124,7 @@ namespace Database
              * \brief IGenericSqlQueryGenerator accessor
              * \return instance of IGenericSqlQueryGenerator
              */
-            virtual const IGenericSqlQueryGenerator* getGenericQueryGenerator() const = 0;
+            virtual const IGenericSqlQueryGenerator& getGenericQueryGenerator() const = 0;
 
         private:
             std::unique_ptr<GroupOperator> m_groupOperator;
@@ -160,6 +160,7 @@ namespace Database
 
             // general helpers
             BackendStatus checkStructure();
+            int hasCurrentVersionTable();
             Database::BackendStatus checkDBVersion();
             bool updateOrInsert(const UpdateQueryData &) const;
 
@@ -176,14 +177,12 @@ namespace Database
             bool storeData(const Photo::DataDelta &);
             bool storeData(const Photo::DataDelta& newData, const Photo::Data& oldData);
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
-            bool storeSha256(int photo_id, const Photo::Sha256sum &) const;
             bool storeTags(int photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
             bool storeGroup(const Photo::Id &, const GroupInfo &) const;
 
             Tag::TagsList        getTagsFor(const Photo::Id &) const;
             QSize                getGeometryFor(const Photo::Id &) const;
-            std::optional<Photo::Sha256sum> getSha256For(const Photo::Id &) const;
             GroupInfo            getGroupFor(const Photo::Id &) const;
             Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;

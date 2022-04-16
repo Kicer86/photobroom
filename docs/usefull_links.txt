@@ -8,3 +8,13 @@ http://sandlab.cs.uchicago.edu/fawkes/ face recognition cloaker
 about exif:
 https://exiftool.org/commentary.html
 https://dev.exiv2.org/issues/0000813
+
+
+rust:
+https://hsivonen.fi/modern-cpp-in-rust/
+https://doc.rust-lang.org/rust-by-example
+https://github.com/nrc/r4cppp
+
+
+perceptual hashing:
+https://www.sciencedirect.com/science/article/pii/S1877050921011030

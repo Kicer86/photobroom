@@ -99,8 +99,6 @@ namespace Database
         {
             case Photo::FlagsE::StagingArea:     result = FLAG_STAGING_AREA;  break;
             case Photo::FlagsE::ExifLoaded:      result = FLAG_TAGS_LOADED;   break;
-            case Photo::FlagsE::Sha256Loaded:    result = FLAG_SHA256_LOADED; break;
-            case Photo::FlagsE::ThumbnailLoaded: result = FLAG_THUMB_LOADED;  break;
             case Photo::FlagsE::GeometryLoaded:  result = FLAG_GEOM_LOADED;   break;
         }
 
@@ -236,16 +234,6 @@ namespace Database
                 .arg(merged_conditions);
     }
 
-    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithSha256& sha256) const
-    {
-        assert(sha256.sha256.isEmpty() == false);
-
-        return QString("SELECT id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.sha256 = '%3'")
-                .arg(TAB_PHOTOS)
-                .arg(TAB_SHA256SUMS)
-                .arg(sha256.sha256.constData());
-    }
-
     QString SqlFilterQueryGenerator::visit(const FilterNotMatchingFilter& filter) const
     {
         const QString internal_condition = generate(*filter.filter.get());
@@ -370,5 +358,13 @@ namespace Database
                                 .arg(TAB_GENERAL_FLAGS)
                                 .arg(genericFlagsFilter.value)
                                 .arg(genericFlagsFilter.name);
+    }
+
+
+    QString SqlFilterQueryGenerator::visit(const FilterPhotosWithPHash &) const
+    {
+        return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id)")
+            .arg(TAB_PHOTOS)
+            .arg(TAB_PHASHES);
     }
 }

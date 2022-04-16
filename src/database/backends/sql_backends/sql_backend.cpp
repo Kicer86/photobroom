@@ -60,7 +60,7 @@ namespace Database
 {
 
     ASqlBackend::ASqlBackend(ILogger* l):
-        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, *this->getGenericQueryGenerator()); }),
+        m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, this->getGenericQueryGenerator()); }),
         m_connectionName(""),
         m_logger(nullptr),
         m_executor(),
@@ -145,6 +145,7 @@ namespace Database
         if (m_photoOperator.get() == nullptr)
             m_photoOperator = std::make_unique<PhotoOperator>(m_connectionName,
                                                               &m_executor,
+                                                              getGenericQueryGenerator(),
                                                               m_logger.get(),
                                                               this,
                                                               m_notificationsAccumulator
@@ -186,7 +187,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         QSqlQuery query(db);
-        const QString showQuery = getGenericQueryGenerator()->prepareFindTableQuery(definition.name);
+        const QString showQuery = getGenericQueryGenerator().prepareFindTableQuery(definition.name);
 
         BackendStatus status = m_executor.exec(showQuery, &query);
 
@@ -202,7 +203,7 @@ namespace Database
             {
                 const QStringList types =
                 {
-                    getGenericQueryGenerator()->getTypeFor(definition.columns[i].purpose),
+                    getGenericQueryGenerator().getTypeFor(definition.columns[i].purpose),
                     definition.columns[i].type_definition
                 };
 
@@ -214,7 +215,7 @@ namespace Database
                 columnsDesc += notlast? ", ": "";
             }
 
-            status = m_executor.exec( getGenericQueryGenerator()->prepareCreationQuery(definition.name, columnsDesc), &query );
+            status = m_executor.exec( getGenericQueryGenerator().prepareCreationQuery(definition.name, columnsDesc), &query );
 
             if (status && definition.keys.empty() == false)
             {
@@ -410,19 +411,19 @@ namespace Database
                     photoData.insert<Photo::Field::Geometry>(geometry);
             }
 
-            if (fields.contains(Photo::Field::Checksum))
-            {
-                const auto checksum = getSha256For(id);
-
-                if (checksum)
-                    photoData.insert<Photo::Field::Checksum>(*checksum);
-            }
-
             if (fields.contains(Photo::Field::GroupInfo))
                 photoData.insert<Photo::Field::GroupInfo>(getGroupFor(id));
 
             if (fields.contains(Photo::Field::Flags))
                 photoData.insert<Photo::Field::Flags>(getFlagsFor(id));
+
+            if (fields.contains(Photo::Field::PHash))
+            {
+                const auto phash = photoOperator().getPHash(id);
+
+                if (phash.has_value())
+                    photoData.insert<Photo::Field::PHash>(*phash);
+            }
         }
 
         return photoData;
@@ -549,27 +550,22 @@ namespace Database
 
         try
         {
-            QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-
             //check tables existance
             for (const auto& table: tables)
                 DbErrorOnFalse(ensureTableExists(table.second));
 
-            QSqlQuery query(db);
-
-            // table 'version' cannot be empty
-            DbErrorOnFalse(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
-
-            DbErrorOnFalse(query.next());
-
-            const QVariant rows = query.value(0);
+            const bool hasVersionTable = hasCurrentVersionTable();
 
             //insert first entry
-            if (rows == 0)
+            if (hasVersionTable)
+                DbErrorOnFalse(checkDBVersion());
+            else
+            {
+                QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+                QSqlQuery query(db);
                 DbErrorOnFalse(m_executor.exec(QString("INSERT INTO " TAB_VER "(version) VALUES(%1);")
                                                          .arg(db_version), &query));
-            else
-                DbErrorOnFalse(checkDBVersion());
+            }
         }
         catch(const db_error& err)
         {
@@ -580,6 +576,23 @@ namespace Database
         }
 
         return status;
+    }
+
+
+    int ASqlBackend::hasCurrentVersionTable()
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+
+        //check tables existance
+        for (const auto& table: tables)
+            DbErrorOnFalse(ensureTableExists(table.second));
+
+        QSqlQuery query(db);
+
+        DbErrorOnFalse(m_executor.exec("SELECT COUNT(*) FROM " TAB_VER ";", &query), StatusCodes::QueryFailed);
+        DbErrorOnFalse(query.next());
+
+        return query.value(0).toInt() > 0;
     }
 
 
@@ -609,6 +622,7 @@ namespace Database
         if (status)
         {
             const int v = query.value(0).toInt();
+            query.clear();
 
             switch (v)
             {
@@ -644,9 +658,58 @@ namespace Database
                     status = m_executor.exec(fill_people, &query);
                     if (status == false)
                         break;
+
+                    // drop temporary_table
+                    const QString drop_table = QString("DROP TABLE temporary_table");
+
+                    status = m_executor.exec(drop_table, &query);
+                    if (status == false)
+                        break;
+                } [[fallthrough]];
+
+                case 5:// remove sha256 and thumbnail columns from TAB_FLAGS
+                {
+                    // drop index
+                    const QString drop_index = QString("DROP INDEX fl_photo_id_idx");
+
+                    status = m_executor.exec(drop_index, &query);
+                    if (status == false)
+                        break;
+
+                    // move flags table to a temporary place
+                    const QString rename_table = QString("ALTER TABLE %1 RENAME TO temporary_table")
+                                                    .arg(TAB_FLAGS);
+
+                    status = m_executor.exec(rename_table, &query);
+                    if (status == false)
+                        break;
+
+                    // recreate TAB_FLAGS
+                    auto tab_flags = tables.find(TAB_FLAGS);
+                    if (tab_flags == tables.end())
+                        break;
+
+                    status = ensureTableExists(tab_flags->second);
+                    if (status == false)
+                        break;
+
+                    // fill fresh instance of TAB_FLAGS
+                    const QString fill_people = QString("INSERT INTO %1(id, photo_id, staging_area, tags_loaded, geometry_loaded) SELECT id, photo_id, staging_area, tags_loaded, geometry_loaded FROM temporary_table")
+                                                    .arg(TAB_FLAGS);
+
+                    status = m_executor.exec(fill_people, &query);
+                    if (status == false)
+                        break;
+
+                    // drop temporary_table
+                    const QString drop_table = QString("DROP TABLE temporary_table");
+
+                    status = m_executor.exec(drop_table, &query);
+                    if (status == false)
+                        break;
                 }
 
-                case 5:             // current version, break updgrades chain
+                case 6:             // current version, break updgrades chain
                     break;
 
                 default:
@@ -743,12 +806,12 @@ namespace Database
                     queryData.setValues(value, photo_id, name_id);
 
                     if (tag_id == -1)
-                        query = getGenericQueryGenerator()->insert(db, queryData);
+                        query = getGenericQueryGenerator().insert(db, queryData);
                     else
                     {
                         UpdateQueryData updateQueryData(queryData);
                         updateQueryData.addCondition("id", QString::number(tag_id));
-                        query = getGenericQueryGenerator()->update(db, updateQueryData);
+                        query = getGenericQueryGenerator().update(db, updateQueryData);
                     }
 
                     const QVariantList bound = query.boundValues();
@@ -790,7 +853,7 @@ namespace Database
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
-        QSqlQuery query = getGenericQueryGenerator()->insert(db, insertData);
+        QSqlQuery query = getGenericQueryGenerator().insert(db, insertData);
 
         DbErrorOnFalse(m_executor.exec(query));
 
@@ -843,12 +906,6 @@ namespace Database
             status = storeGeometryFor(data.getId(), geometry);
         }
 
-        if (status && data.has(Photo::Field::Checksum))
-        {
-            const Photo::Sha256sum& checksum = data.get<Photo::Field::Checksum>();
-            status = storeSha256(data.getId(), checksum);
-        }
-
         if (status && data.has(Photo::Field::Flags))
         {
             const Photo::FlagValues& flags = data.get<Photo::Field::Flags>();
@@ -860,6 +917,9 @@ namespace Database
             const GroupInfo& groupInfo = data.get<Photo::Field::GroupInfo>();
             status = storeGroup(data.getId(), groupInfo);
         }
+
+        if (status && data.has(Photo::Field::PHash))
+            photoOperator().setPHash(data.getId(), data.get<Photo::Field::PHash>());
 
         photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 
@@ -877,23 +937,6 @@ namespace Database
         data.addCondition("photo_id", QString::number(photo_id));
         data.setColumns("photo_id", "width", "height");
         data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
-
-        const bool status = updateOrInsert(data);
-
-        return status;
-    }
-
-
-    /**
-     * \brief store photo's sha256 checksum
-     * \return false on error
-     */
-    bool ASqlBackend::storeSha256(int photo_id, const Photo::Sha256sum& sha256) const
-    {
-        UpdateQueryData data(TAB_SHA256SUMS);
-        data.addCondition("photo_id", QString::number(photo_id));
-        data.setColumns("photo_id", "sha256");
-        data.setValues(QString::number(photo_id), sha256.constData());
 
         const bool status = updateOrInsert(data);
 
@@ -986,12 +1029,10 @@ namespace Database
 
         UpdateQueryData queryInfo(TAB_FLAGS);
         queryInfo.addCondition("photo_id", QString::number(id));
-        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", "sha256_loaded", "thumbnail_loaded", FLAG_GEOM_LOADED);
+        queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", FLAG_GEOM_LOADED);
         queryInfo.setValues(QString::number(id),
                             get_flag(Photo::FlagsE::StagingArea),
                             get_flag(Photo::FlagsE::ExifLoaded),
-                            get_flag(Photo::FlagsE::Sha256Loaded),
-                            get_flag(Photo::FlagsE::ThumbnailLoaded),
                             get_flag(Photo::FlagsE::GeometryLoaded)
         );
 
@@ -1146,34 +1187,6 @@ namespace Database
 
 
     /**
-     * \brief read photo's checksum
-     * \param id photo id
-     * \return photo's checksum
-     */
-    std::optional<Photo::Sha256sum> ASqlBackend::getSha256For(const Photo::Id& id) const
-    {
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-        QString queryStr = QString("SELECT sha256 FROM %1 WHERE %1.photo_id = '%2'");
-
-        queryStr = queryStr.arg(TAB_SHA256SUMS);
-        queryStr = queryStr.arg(id.value());
-
-        const bool status = m_executor.exec(queryStr, &query);
-
-        std::optional<Photo::Sha256sum> result;
-        if(status && query.next())
-        {
-            const QVariant variant = query.value(0);
-
-            result = variant.toString().toLatin1();
-        }
-
-        return result;
-    }
-
-
-    /**
      * \brief read details about group
      * \param id photo id
      * \return group details
@@ -1235,7 +1248,7 @@ namespace Database
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
-        QString queryStr = QString("SELECT staging_area, tags_loaded, sha256_loaded, thumbnail_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
+        QString queryStr = QString("SELECT staging_area, tags_loaded, geometry_loaded FROM %1 WHERE %1.photo_id = '%2'");
 
         queryStr = queryStr.arg(TAB_FLAGS);
         queryStr = queryStr.arg(id.value());
@@ -1251,12 +1264,6 @@ namespace Database
             flags[Photo::FlagsE::ExifLoaded] = variant.toInt();
 
             variant = query.value(2);
-            flags[Photo::FlagsE::Sha256Loaded] = variant.toInt();
-
-            variant = query.value(3);
-            flags[Photo::FlagsE::ThumbnailLoaded] = variant.toInt();
-
-            variant = query.value(4);
             flags[Photo::FlagsE::GeometryLoaded] = variant.toInt();
         }
 
@@ -1329,7 +1336,7 @@ namespace Database
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
-        QSqlQuery query = getGenericQueryGenerator()->update(db, queryInfo);
+        QSqlQuery query = getGenericQueryGenerator().update(db, queryInfo);
 
         bool status = m_executor.exec(query);
 
@@ -1339,7 +1346,7 @@ namespace Database
 
             if (affected_rows == 0)
             {
-                query = getGenericQueryGenerator()->insert(db, queryInfo);
+                query = getGenericQueryGenerator().insert(db, queryInfo);
                 status = m_executor.exec(query);
             }
         }

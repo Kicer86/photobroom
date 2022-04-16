@@ -31,7 +31,7 @@
 namespace Database
 {
     PhotoChangeLogOperator::PhotoChangeLogOperator(const QString& name,
-                                    const IGenericSqlQueryGenerator* generator,
+                                    const IGenericSqlQueryGenerator& generator,
                                     const ISqlQueryExecutor* executor,
                                     ILogger* logger,
                                     IBackend* backend):
@@ -96,7 +96,7 @@ namespace Database
                              InsertQueryData::Value::CurrentTime
                             );
 
-        QSqlQuery query = m_queryGenerator->insert(db, insertData);
+        QSqlQuery query = m_queryGenerator.insert(db, insertData);
 
         DbErrorOnFalse(m_executor->exec(query));
     }

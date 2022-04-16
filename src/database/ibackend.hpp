@@ -161,9 +161,6 @@ namespace Database
          */
         virtual std::vector<Photo::Id> markStagedAsReviewed() = 0;
 
-        // write extra data
-        //virtual bool setThumbnail(const Photo::Id &, const QByteArray &) = 0;                  // set thumbnail for photo
-
         /// \brief init backend - connect to database or create new one
         virtual BackendStatus init(const ProjectInfo &) = 0;
 
