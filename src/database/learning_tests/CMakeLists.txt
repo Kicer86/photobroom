@@ -1,8 +1,12 @@
 
-find_package(OpenCV    REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(GTest  REQUIRED)
+find_package(Qt6    REQUIRED COMPONENTS Gui)
+
 find_program(Magick magick REQUIRED
     HINTS ${CMAKE_BINARY_DIR}/tools/ImageMagick
 )
+
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/img1_500.png
     COMMAND ${Magick} convert ${CMAKE_CURRENT_SOURCE_DIR}/img1.svg -resize 500x ${CMAKE_CURRENT_BINARY_DIR}/img1_500.png
@@ -41,8 +45,24 @@ add_executable(
 target_link_libraries(
     opencv_tests
         PRIVATE
-            gmock_main
+            GTest::gtest
+            GTest::gmock
+            GTest::gmock_main
             opencv_img_hash
+            opencv_imgcodecs
+            Qt6::Gui
+)
+
+target_include_directories(
+    opencv_tests
+        PRIVATE
+            ${OpenCV_INCLUDE_DIRS}
+)
+
+target_compile_definitions(
+    opencv_tests
+        PRIVATE
+            IMAGES_PATH="${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 add_dependencies(opencv_tests opencv_tests_images)
