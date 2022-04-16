@@ -50,7 +50,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       with:
         path: builds/ninja_release_vcpkg/tools
-        key: ${{ runner.os }}-externalTools
+        key: ${{ runner.os }}-externalTools-${{ hashFiles('cmake/system/win32.cmake') }}
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.1
