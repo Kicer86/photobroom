@@ -21,6 +21,8 @@
 #define ID_HPP
 
 #include <cassert>
+#include <QVariant>
+
 
 template<typename T, typename Tag>
 class Id
@@ -28,7 +30,7 @@ class Id
     public:
         typedef T type;
 
-        Id(): m_value(-1), m_valid(false)
+        Id()
         {
 
         }
@@ -36,6 +38,14 @@ class Id
         explicit Id(const T& id): m_value(id), m_valid(true)
         {
 
+        }
+
+        explicit Id(const QVariant& variant)
+        {
+            m_valid = variant.canConvert<T>();
+
+            if (m_valid)
+                m_value = variant.value<T>();
         }
 
         Id(const Id &) = default;
@@ -90,8 +100,8 @@ class Id
         }
 
     private:
-        T m_value;
-        bool m_valid;
+        T m_value = {};
+        bool m_valid = false;
 };
 
 #endif // ID_HPP
