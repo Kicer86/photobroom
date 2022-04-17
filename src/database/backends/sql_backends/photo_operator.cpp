@@ -248,7 +248,11 @@ namespace Database
 
         while (query.next())
         {
-            const Photo::Id id(query.value("photos.id").toInt());
+            const QVariant idVar = query.value(0);   // assumption that id will be in 1. column
+            assert(idVar.isValid());
+            assert(idVar.canConvert<int>());
+
+            const Photo::Id id(idVar);
 
             collection.push_back(id);
         }
