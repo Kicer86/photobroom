@@ -144,4 +144,44 @@ std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
     return lhs;
 }
 
+
+template<class ForwardIt>
+ForwardIt remove_unique(ForwardIt first, ForwardIt last)
+{
+    if (std::distance(first, last) < 2)
+        return first;
+
+    ForwardIt result = first;
+
+    for(auto it = first; it != last; ++it)
+    {
+        bool nonUnique = false;
+
+        if (it != first)
+        {
+            auto prev = std::prev(it);
+
+            nonUnique = *prev == *it;
+        }
+
+        if (nonUnique == false)
+        {
+            auto next = std::next(it);
+
+            if (next != last)
+                nonUnique = *next == *it;
+        }
+
+        if (nonUnique)
+        {
+            if (result != it)
+                *result = std::move(*it);
+
+            ++result;
+        }
+    }
+
+    return result;
+}
+
 #endif
