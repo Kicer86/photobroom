@@ -31,7 +31,7 @@ namespace
         return (is_less? -1: 0) + (is_greater? 1: 0);
     }
 
-    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos, const Database::Filter& filter)
+    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos, const Database::Filter& dbFilter)
     {
         std::vector<Photo::Data> result = photos;
 
@@ -49,7 +49,7 @@ namespace
                 }), result.end());
             }
 
-        }, filter);
+        }, dbFilter);
 
         return result;
     }
