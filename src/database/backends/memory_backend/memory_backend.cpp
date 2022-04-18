@@ -2,6 +2,7 @@
 #include <QFileInfo>
 
 #include <core/utils.hpp>
+#include <core/containers_utils.hpp>
 #include "memory_backend.hpp"
 #include "database/transaction_wrapper.hpp"
 #include "database/notifications_accumulator.hpp"
@@ -28,6 +29,29 @@ namespace
         const bool is_greater = compare(r_tag, l_tag, order);
 
         return (is_less? -1: 0) + (is_greater? 1: 0);
+    }
+
+    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos, const Database::Filter& filter)
+    {
+        std::vector<Photo::Data> result = photos;
+
+        std::visit([&result](auto&& filter)
+        {
+            using T = std::decay_t<decltype(filter)>;
+            if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
+            {
+                std::sort(result.begin(), result.end(), [](const auto& lhs, const auto& rhs) {
+                    return lhs.phash < rhs.phash;
+                });
+
+                result.erase(remove_unique(result.begin(), result.end(), [](const auto& lhs, const auto& rhs) {
+                    return lhs.phash == rhs.phash;
+                }), result.end());
+            }
+
+        }, filter);
+
+        return result;
     }
 }
 
@@ -602,11 +626,13 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter &)
+    std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
-        std::vector<Photo::Id> ids;
+        std::vector<Photo::Data> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        data = filterPhotos(data, filter);
 
-        for(const auto& photo: m_db->m_photos)
+        std::vector<Photo::Id> ids;
+        for(const auto& photo: data)
             ids.push_back(photo.id);
 
         return ids;

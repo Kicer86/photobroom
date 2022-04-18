@@ -1,6 +1,7 @@
 
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
+#include "unit_tests_utils/phash_db.json.hpp"
 
 #include "common.hpp"
 
@@ -60,7 +61,6 @@ TYPED_TEST(PHashTest, readWhatWasWritten)
 }
 
 
-
 TYPED_TEST(PHashTest, replacePHash)
 {
     // fill backend with sample data
@@ -81,4 +81,18 @@ TYPED_TEST(PHashTest, replacePHash)
     ASSERT_TRUE(phash_read.has_value());
 
     EXPECT_EQ(phash2, *phash_read);
+}
+
+
+TYPED_TEST(PHashTest, findSimilar)
+{
+    // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PHashDB::db);
+
+    // find duplicated
+    Database::FilterSimilarPhotos filter;
+    const auto photos = this->m_backend->photoOperator().getPhotos(filter);
+
+    ASSERT_EQ(photos.size(), 7);
 }
