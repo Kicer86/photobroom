@@ -1,0 +1,53 @@
+
+{
+    "photos": [
+        {
+            "path": "/some/path1.jpeg",
+            "phash": "1"
+        },
+        {
+            "path": "/some/path2.jpeg",
+            "phash": "2"
+        },
+        {
+            "path": "/some/path3.jpeg",
+            "phash": "3"
+        },
+        {
+            "path": "/some/path4.jpeg",
+            "phash": "6"
+        },
+        {
+            "path": "/some/path5.jpeg",
+            "phash": "5"
+        },
+        {
+            "path": "/some/path6.jpeg",
+            "phash": "4"
+        },
+        {
+            "path": "/some/path7.jpeg",
+            "phash": "2"
+        },
+        {
+            "path": "/some/path8.jpeg",
+            "phash": "1"
+        },
+        {
+            "path": "/some/path9.jpeg",
+            "phash": "3"
+        },
+        {
+            "path": "/some/path10.jpeg",
+            "phash": "8"
+        },
+        {
+            "path": "/some/path11.jpeg",
+            "phash": "10"
+        },
+        {
+            "path": "/some/path12.jpeg",
+            "phash": "3"
+        }
+    ]
+}
