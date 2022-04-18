@@ -145,8 +145,8 @@ std::vector<T>& operator/=(std::vector<T>& lhs, const P& rhs)
 }
 
 
-template<class ForwardIt>
-ForwardIt remove_unique(ForwardIt first, ForwardIt last)
+template<typename ForwardIt, typename BinaryPredicate>
+ForwardIt remove_unique(ForwardIt first, ForwardIt last, BinaryPredicate p)
 {
     if (std::distance(first, last) < 2)
         return first;
@@ -161,7 +161,7 @@ ForwardIt remove_unique(ForwardIt first, ForwardIt last)
         {
             auto prev = std::prev(it);
 
-            nonUnique = *prev == *it;
+            nonUnique = p(*prev, *it);
         }
 
         if (nonUnique == false)
@@ -169,7 +169,7 @@ ForwardIt remove_unique(ForwardIt first, ForwardIt last)
             auto next = std::next(it);
 
             if (next != last)
-                nonUnique = *next == *it;
+                nonUnique = p(*next, *it);
         }
 
         if (nonUnique)
@@ -182,6 +182,13 @@ ForwardIt remove_unique(ForwardIt first, ForwardIt last)
     }
 
     return result;
+}
+
+
+template<typename ForwardIt>
+ForwardIt remove_unique(ForwardIt first, ForwardIt last)
+{
+    return remove_unique(first, last, std::equal_to{});
 }
 
 #endif
