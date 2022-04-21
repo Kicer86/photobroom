@@ -276,6 +276,7 @@ ApplicationWindow {
                 }
             }
 
+            // duplicates view
             Item {
             }
         }
