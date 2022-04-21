@@ -306,7 +306,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+37"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+40"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -356,6 +356,11 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Uzupełnianie danych...</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Look for &amp;duplicates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+4"/>
         <source>&amp;Settings</source>
         <translation>U&amp;stawienia</translation>
@@ -381,12 +386,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+17"/>
         <source>Back to photos</source>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-181"/>
+        <location line="-185"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -406,12 +411,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-13"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>

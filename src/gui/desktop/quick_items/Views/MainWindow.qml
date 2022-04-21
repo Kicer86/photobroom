@@ -1,9 +1,12 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts
+
 import photo_broom.models
 import photo_broom.singletons
 import quick_items
+
 import "ViewsComponents" as Internals
 import "../Components" as Components
 
@@ -90,7 +93,8 @@ ApplicationWindow {
             title: qsTr("&Tools")
             enabled: projectOpened
             Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
-            Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
+            Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 0; mainView.currentIndex = 1; } }
+            Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
         }
         Menu {
             id: settingsMenu
@@ -250,22 +254,29 @@ ApplicationWindow {
             }
         }
 
-        // photo data completion view
-        Item {
+        StackLayout {
+            id: toolsStackView
 
-            Button {
-                id: backButton
+            // photo data completion view
+            Item {
 
-                text: qsTr("Back to photos")
+                Button {
+                    id: backButton
 
-                onClicked: mainView.currentIndex = 0
+                    text: qsTr("Back to photos")
+
+                    onClicked: mainView.currentIndex = 0
+                }
+
+                PhotoDataCompletion {
+                    id: completer
+                    width: parent.width
+                    anchors.bottom: parent.bottom
+                    anchors.top: backButton.bottom
+                }
             }
 
-            PhotoDataCompletion {
-                id: completer
-                width: parent.width
-                anchors.bottom: parent.bottom
-                anchors.top: backButton.bottom
+            Item {
             }
         }
     }
