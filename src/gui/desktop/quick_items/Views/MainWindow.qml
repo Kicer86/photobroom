@@ -16,7 +16,7 @@ ApplicationWindow {
     property string projectName: ""
 
     // TODO: these signals should be removed.
-    //       Some cpp singletons could manage it.
+    //       cpp singletons could manage it.
     signal openProject(string path)
     signal openProjectDialog()
     signal newProject()
