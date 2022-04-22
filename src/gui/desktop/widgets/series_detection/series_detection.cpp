@@ -34,8 +34,8 @@
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
-#include "quick_items/qml_utils.hpp"
 #include "utils/groups_manager.hpp"
+#include "utils/qml_utils.hpp"
 
 
 Q_DECLARE_METATYPE(GroupCandidate)

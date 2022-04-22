@@ -107,11 +107,11 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
     QAction* location       = new QAction(tr("Open photo location"));
     QAction* faces          = new QAction(tr("Recognize people..."));
 
-    connect(groupPhotos, &QAction::triggered, this, &ContextMenuManager::groupPhotosAction);
-    connect(manageGroup, &QAction::triggered, this, &ContextMenuManager::manageGroupsAction);
+    connect(groupPhotos,   &QAction::triggered, this, &ContextMenuManager::groupPhotosAction);
+    connect(manageGroup,   &QAction::triggered, this, &ContextMenuManager::manageGroupsAction);
     connect(ungroupPhotos, &QAction::triggered, this, &ContextMenuManager::ungroupAction);
-    connect(location,    &QAction::triggered, this, &ContextMenuManager::locationAction);
-    connect(faces,       &QAction::triggered, this, &ContextMenuManager::facesAction);
+    connect(location,      &QAction::triggered, this, &ContextMenuManager::locationAction);
+    connect(faces,         &QAction::triggered, this, &ContextMenuManager::facesAction);
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;

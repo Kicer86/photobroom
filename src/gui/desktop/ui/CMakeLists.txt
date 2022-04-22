@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS Quick QuickWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickWidgets)
 
 set(SRC
     configuration_dialog.cpp

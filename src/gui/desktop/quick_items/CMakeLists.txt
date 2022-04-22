@@ -20,10 +20,6 @@ add_library(quick_items STATIC
     photos_model_controller_component.hpp
     picture_item.cpp
     picture_item.hpp
-    qml_setup.cpp
-    qml_setup.hpp
-    qml_utils.cpp
-    qml_utils.hpp
     selection_manager_component.cpp
     selection_manager_component.hpp
     thumbnail_image_provider.cpp
@@ -56,7 +52,7 @@ target_link_libraries(quick_items
                             project_utils
 
                             Qt::Quick
-                            Qt::QuickWidgets
+                            Qt::Widgets                  # TODO: remove ASAP
 )
 
 target_include_directories(quick_items

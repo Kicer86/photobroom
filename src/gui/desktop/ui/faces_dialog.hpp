@@ -1,3 +1,4 @@
+
 #ifndef FACES_DIALOG_HPP
 #define FACES_DIALOG_HPP
 

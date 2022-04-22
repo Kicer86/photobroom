@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS Svg)
+find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
 
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
@@ -30,6 +30,10 @@ set(UTILS_SOURCES
     people_manipulator.hpp
     photos_collector.cpp
     photos_collector.hpp
+    qml_setup.cpp
+    qml_setup.hpp
+    qml_utils.cpp
+    qml_utils.hpp
     signal_filter.cpp
     signal_filter.hpp
     svg_utils.cpp
@@ -59,6 +63,8 @@ target_link_libraries(gui_utils
                             project_utils
 
                             Qt::Svg
+                            Qt::Quick
+                            Qt::QuickWidgets
 )
 
 target_include_directories(gui_utils
