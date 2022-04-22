@@ -46,7 +46,6 @@ qt6_add_qml_module(quick_items
 target_link_libraries(quick_items
                         PUBLIC
                             core
-                            database
                             face_recognition
                             gui_models
                             project_utils
