@@ -1,5 +1,5 @@
 
-import QtQuick 2.15
+import QtQuick
 import QtMultimedia
 import QtQuick.Controls
 import quick_items
