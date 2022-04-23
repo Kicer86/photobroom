@@ -27,7 +27,7 @@ set(QUICK_ITEMS_CPP_SOURCES
 
 # consider https://doc.qt.io/QtQuickCompiler/ in case of load performance problems
 file(GLOB_RECURSE
-    QML_RESOURCES
+    QML_SOURCES
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     *.qml *.js
 )
@@ -36,7 +36,7 @@ qt6_add_qml_module(quick_items
     URI "quick_items"
     VERSION 1.0
     SOURCES ${QUICK_ITEMS_CPP_SOURCES}
-    QML_FILES ${QML_RESOURCES}
+    QML_FILES ${QML_SOURCES}
     STATIC
     RESOURCE_PREFIX /photo_broom
 )
