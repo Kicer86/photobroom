@@ -42,17 +42,17 @@ qt6_add_qml_module(quick_items
 )
 
 target_link_libraries(quick_items
-                        PUBLIC
-                            core
-                            face_recognition
-                            gui_models
-                            project_utils
+    PUBLIC
+        core
+        face_recognition
+        gui_models
+        project_utils
 
-                            Qt::Quick
-                            Qt::Widgets                  # TODO: remove ASAP
+        Qt::Quick
+        Qt::Widgets                  # TODO: remove ASAP
 )
 
 target_include_directories(quick_items
-                                PUBLIC
-                                    ${CMAKE_CURRENT_BINARY_DIR}
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
 )
