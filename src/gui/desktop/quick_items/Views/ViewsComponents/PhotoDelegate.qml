@@ -2,7 +2,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.enums
-import photo_broom.items
+import quick_items
 import "../../Components" as Components
 
 

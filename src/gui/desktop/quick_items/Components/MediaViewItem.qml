@@ -1,6 +1,6 @@
 
 import QtQuick
-import photo_broom.items
+import quick_items
 
 
 Item {

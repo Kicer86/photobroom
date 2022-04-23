@@ -2,7 +2,7 @@
 import QtQuick
 import photo_broom.enums
 import photo_broom.utils
-import photo_broom.items
+import quick_items
 import "../../Components" as Components
 
 
