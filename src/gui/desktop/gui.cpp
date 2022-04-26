@@ -27,10 +27,10 @@
 
 #include "ui/mainwindow.hpp"
 #include "quick_items/objects_accessor.hpp"
-#include "quick_items/qml_setup.hpp"
 #include "utils/features_manager.hpp"
 #include "utils/thumbnails_cache.hpp"
 #include "utils/thumbnail_manager.hpp"
+#include "utils/qml_setup.hpp"
 
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory, IFeaturesManager& features)
     : m_prjManager(prjMgr)
@@ -39,7 +39,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     , m_featuresManager(features)
 {
 
-    Q_IMPORT_QML_PLUGIN(photo_broom_itemsPlugin)
+    Q_IMPORT_QML_PLUGIN(quick_itemsPlugin)
     register_qml_types();
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");

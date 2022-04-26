@@ -1,7 +1,7 @@
 
 
 import QtQuick 2.15
-import photo_broom.items
+import quick_items
 
 /*
  * Item displays a provided busy indicator until `embeddedItem` (needs to be `Image` based) is ready to be shown

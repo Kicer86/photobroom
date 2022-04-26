@@ -1,8 +1,8 @@
 
-import QtQuick 2.15
+import QtQuick
 import QtMultimedia
 import QtQuick.Controls
-import photo_broom.items
+import quick_items
 
 
 Item {

@@ -1,13 +1,12 @@
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS
-                 Quick
-                 QuickWidgets
+    Quick
+    QuickWidgets
 )
 
 set(CMAKE_AUTOMOC ON)
 
-add_library(quick_items STATIC
-    ${MOCED}
+set(QUICK_ITEMS_CPP_SOURCES
     context_menu_manager.cpp
     context_menu_manager.hpp
     media_view_ctrl.cpp
@@ -20,10 +19,6 @@ add_library(quick_items STATIC
     photos_model_controller_component.hpp
     picture_item.cpp
     picture_item.hpp
-    qml_setup.cpp
-    qml_setup.hpp
-    qml_utils.cpp
-    qml_utils.hpp
     selection_manager_component.cpp
     selection_manager_component.hpp
     thumbnail_image_provider.cpp
@@ -32,34 +27,32 @@ add_library(quick_items STATIC
 
 # consider https://doc.qt.io/QtQuickCompiler/ in case of load performance problems
 file(GLOB_RECURSE
-    QML_RESOURCES
+    QML_SOURCES
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     *.qml *.js
 )
 
-qt6_add_resources(quick_items "UI"
-    PREFIX "/photo_broom.items"
-    FILES ${QML_RESOURCES}
-)
-
 qt6_add_qml_module(quick_items
-    URI "photo_broom.items"
+    URI "quick_items"
     VERSION 1.0
+    SOURCES ${QUICK_ITEMS_CPP_SOURCES}
+    QML_FILES ${QML_SOURCES}
+    STATIC
+    RESOURCE_PREFIX /photo_broom
 )
 
 target_link_libraries(quick_items
-                        PUBLIC
-                            core
-                            database
-                            face_recognition
-                            gui_models
-                            project_utils
+    PUBLIC
+        core
+        face_recognition
+        gui_models
+        project_utils
 
-                            Qt::Quick
-                            Qt::QuickWidgets
+        Qt::Quick
+        Qt::Widgets                  # TODO: remove ASAP
 )
 
 target_include_directories(quick_items
-                                PUBLIC
-                                    ${CMAKE_CURRENT_BINARY_DIR}
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
 )

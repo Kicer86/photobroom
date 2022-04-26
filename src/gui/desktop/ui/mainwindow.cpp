@@ -45,8 +45,8 @@
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
 #include "utils/model_index_utils.hpp"
+#include "utils/qml_utils.hpp"
 #include "quick_items/objects_accessor.hpp"
-#include "quick_items/qml_utils.hpp"
 #include "quick_items/photos_model_controller_component.hpp"
 #include "quick_items/selection_manager_component.hpp"
 #include "quick_items/thumbnail_image_provider.hpp"
@@ -115,7 +115,7 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "PhotoBroomProject", &ObjectsAccessor::instance());
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
-    m_mainView.load(QUrl("qrc:///photo_broom.items/Views/MainWindow.qml"));
+    m_mainView.load(QUrl("qrc:///photo_broom/quick_items/Views/MainWindow.qml"));
 
     QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
     connect(mainWindow, SIGNAL(newProject()), this, SLOT(on_actionNew_collection_triggered()));

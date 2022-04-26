@@ -34,8 +34,8 @@
 #include <database/idatabase.hpp>
 
 #include "ui/photos_grouping_dialog.hpp"
-#include "quick_items/qml_utils.hpp"
 #include "utils/groups_manager.hpp"
+#include "utils/qml_utils.hpp"
 
 
 Q_DECLARE_METATYPE(GroupCandidate)
@@ -66,7 +66,7 @@ SeriesDetection::SeriesDetection(Database::IDatabase& db,
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QmlUtils::registerObject(m_qmlView, "groupsModelId", &m_seriesModel);
     QmlUtils::registerImageProviders(m_qmlView, thbMgr);
-    m_qmlView->setSource(QUrl("qrc:/ui/Views/SeriesDetection.qml"));
+    m_qmlView->setSource(QUrl("qrc:///photo_broom/quick_items/Views/SeriesDetection.qml"));
 
     layout->addWidget(m_qmlView);
     layout->addWidget(dialog_buttons);

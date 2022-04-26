@@ -53,7 +53,7 @@ jobs:
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
 
     - name: Run vcpkg
-      uses: lukka/run-vcpkg@v10.1
+      uses: lukka/run-vcpkg@v10.2
 
     - name: Build
       uses: lukka/run-cmake@v10
