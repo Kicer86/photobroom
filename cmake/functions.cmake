@@ -9,8 +9,6 @@ option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
 #function will add executable with tests and will register it for ctest.
 macro(addTestTarget target)
 
-    find_package(Qt6 REQUIRED COMPONENTS Core)
-
     #get sources
     set(multiValueArgs SOURCES LIBRARIES SYSTEM_INCLUDES INCLUDES DEFINITIONS)
     cmake_parse_arguments(T "" "" "${multiValueArgs}" ${ARGN} )
