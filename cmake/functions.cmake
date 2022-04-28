@@ -1,8 +1,17 @@
 
-
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
+
+function(addFlags target propertyName flags)
+    get_target_property(current_properties ${target} ${propertyName})
+
+    if(NOT current_properties)
+        set(current_properties "")
+    endif(NOT current_properties)
+
+    set_target_properties(${target} PROPERTIES ${propertyName} "${current_properties} ${flags}")
+endfunction(addFlags)
 
 #usage:
 #addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
