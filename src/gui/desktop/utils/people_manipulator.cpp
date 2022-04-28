@@ -47,7 +47,6 @@ namespace
 }
 
 
-
 PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& db, ICoreFactoryAccessor& core)
     : m_pid(pid)
     , m_core(core)
