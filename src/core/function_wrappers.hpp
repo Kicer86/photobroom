@@ -136,14 +136,23 @@ void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is
 
 // call_from_this_thread uses Qt mechanisms to invoke function in another thread
 // (thread of 'object' object)
-template<typename F, typename... Args>
-void call_from_this_thread(QPointer<QObject> object, const F& function, Args&&... args)
+template<typename F, typename ObjT, typename... Args>
+requires std::is_base_of_v<QObject, ObjT>
+void call_from_this_thread(QPointer<ObjT> object, const F& function, Args&&... args)
 {
     if (object.data() != nullptr)
-        QMetaObject::invokeMethod(object.data(), [function, args...]()
-        {
-            function(args...);
-        });
+    {
+        if constexpr (std::is_member_function_pointer_v<F>)
+            QMetaObject::invokeMethod(object.data(), [object, function, args...]()
+            {
+                ((*object).*function)(args...);
+            });
+        else
+            QMetaObject::invokeMethod(object.data(), [function, args...]()
+            {
+                function(args...);
+            });
+    }
 }
 
 
@@ -159,12 +168,13 @@ void call_from_this_thread(QThread* thread, const F& function, Args&&... args)
 
 // construct a functor which invoked will invoke encapsulated
 // functor in another thread
-template<typename... Args, typename F>
-std::function<void(Args...)> make_cross_thread_function(QObject* object, const F& function)
+template<typename... Args, typename ObjT, typename F>
+requires std::is_base_of_v<QObject, ObjT>
+std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& function)
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
-        call_from_this_thread(QPointer<QObject>(object), function, std::forward<Args>(args)...);
+        call_from_this_thread(QPointer<ObjT>(object), function, std::forward<Args>(args)...);
     };
 
     return result;
