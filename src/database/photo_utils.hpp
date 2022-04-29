@@ -20,6 +20,12 @@ namespace Photo
     {
         return data.groupInfo.role == role;
     }
+
+    template<Photo::Field field>
+    bool isLess(const Photo::DataDelta& lhs, const Photo::DataDelta& rhs)
+    {
+        return lhs.get<field>() < rhs.get<field>();
+    }
 }
 
 #endif // PHOTO_UTILS_HPP_INCLUDED
