@@ -304,8 +304,24 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
         for (const auto& sub_action: group_action->actions)
             processAction(context, sub_action);
     }
-    else
+    else if (auto sort = std::get_if<Actions::Sort>(&action))
     {
-        assert(!"Unknown action");
+        switch(sort->by)
+        {
+            case Actions::Sort::By::PHash:
+            {
+                context.joins.append(QString("LEFT JOIN %1 ON (%2.id = %1.photo_id)")
+                    .arg(TAB_PHASHES)
+                    .arg(TAB_PHOTOS));
+
+                context.sortOrder.append(QString("%2.hash %1")
+                    .arg(sort->sort_order == Qt::AscendingOrder? "ASC": "DESC")
+                    .arg(TAB_PHASHES));
+
+                break;
+            }
+        }
     }
+    else
+        assert(!"Unknown action");
 }

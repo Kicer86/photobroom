@@ -684,10 +684,17 @@ namespace Database
             for (auto it = group_action->actions.rbegin(); it != group_action->actions.rend(); ++it)
                 onPhotos(photo_data, *it);
         }
-        else
+        else if (auto sort = std::get_if<Actions::Sort>(&action))
         {
-            assert(!"Unknown action");
+            switch(sort->by)
+            {
+                case Actions::Sort::By::PHash:
+                    std::stable_sort(photo_data.begin(), photo_data.end(), &Photo::isDataLess<Photo::Field::PHash>);
+                    break;
+            }
         }
+        else
+            assert(!"Unknown action");
     }
 
 }

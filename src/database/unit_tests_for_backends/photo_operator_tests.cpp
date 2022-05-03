@@ -2,10 +2,12 @@
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 #include "unit_tests_utils/sample_db2.json.hpp"
+#include "unit_tests_utils/phash_db.json.hpp"
 
 #include "common.hpp"
 
 using testing::Contains;
+using testing::ElementsAre;
 
 
 MATCHER_P(IsPhotoWithPath, _path, "") {
@@ -85,3 +87,24 @@ TYPED_TEST(PhotoOperatorTest, sortingByTimestampActionOnPhotos)
     }
 }
 
+
+TYPED_TEST(PhotoOperatorTest, sortingByPHash)
+{
+    // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PHashDB::db);
+
+    Database::Actions::Sort sort(Database::Actions::Sort::By::PHash);
+    const auto ids = this->m_backend->photoOperator().onPhotos({}, {sort});
+
+    ASSERT_EQ(ids.size(), 12);
+
+    std::vector<Photo::DataDelta> photos;
+    for (const auto& id: ids)
+        photos.push_back(this->m_backend->getPhotoDelta(id, {Photo::Field::PHash}));
+
+    std::vector<Photo::PHash> phashes;
+    std::transform(photos.begin(), photos.end(), std::back_inserter(phashes), [](const Photo::DataDelta& data) { return data.get<Photo::Field::PHash>(); });
+
+    EXPECT_THAT(phashes, ElementsAre(1, 1, 2, 2, 3, 3, 3, 4, 5, 6, 8, 16));
+}
