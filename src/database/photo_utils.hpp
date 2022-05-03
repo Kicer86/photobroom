@@ -26,6 +26,13 @@ namespace Photo
     {
         return lhs.get<field>() < rhs.get<field>();
     }
+
+    template<Photo::Field field>
+    bool isDataLess(const Photo::Data& lhs, const Photo::Data& rhs)
+    {
+        if constexpr (field == Photo::Field::PHash)
+            return lhs.phash < rhs.phash;
+    }
 }
 
 #endif // PHOTO_UTILS_HPP_INCLUDED
