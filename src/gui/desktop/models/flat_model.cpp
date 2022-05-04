@@ -320,7 +320,7 @@ void FlatModel::fetchPhotoData(const Photo::Id& id) const
 void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 {
     const Database::Actions::GroupAction sort_action({
-        Database::Actions::SortByTimestamp(),
+        Database::Actions::Sort(Database::Actions::Sort::By::Timestamp),
         Database::Actions::SortByID()
     });
 

@@ -288,13 +288,6 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                 .arg(joinName));
         }
     }
-    else if (auto sort_by_timestamp = std::get_if<Actions::SortByTimestamp>(&action))
-    {
-        const Actions::SortByTag byDate(Tag::Types::Date, sort_by_timestamp->sort_order);
-        const Actions::SortByTag byTime(Tag::Types::Time, sort_by_timestamp->sort_order);
-        processAction(context, byDate);
-        processAction(context, byTime);
-    }
     else if (std::get_if<Actions::SortByID>(&action))
     {
         context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
@@ -318,6 +311,15 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                     .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC")
                     .arg(TAB_PHASHES));
 
+                break;
+            }
+
+            case Actions::Sort::By::Timestamp:
+            {
+                const Actions::SortByTag byDate(Tag::Types::Date, sort->order);
+                const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
+                processAction(context, byDate);
+                processAction(context, byTime);
                 break;
             }
         }

@@ -66,7 +66,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
@@ -122,7 +122,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
@@ -179,7 +179,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
         Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
     };
 
-    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
@@ -246,7 +246,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         Photo::Id(6), Photo::Id(4), Photo::Id(5)
     };
 
-    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()) )).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)) )).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
         Photo::Data data;
@@ -342,7 +342,7 @@ TEST_F(SeriesDetectorTest, Complexity)
     for(int i = 1; i <= 50; i++)
         all_photos.push_back(Photo::Id(i));
 
-    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::SortByTimestamp()))).WillByDefault(Return(all_photos));
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
 
     EXPECT_CALL(backend, getPhotoDelta(_, _)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
