@@ -50,7 +50,7 @@ namespace Database::Actions
             ID,
         };
 
-        Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), order(order_) {}
+        explicit Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), order(order_) {}
 
         friend auto operator<=>(const Sort &, const Sort &) = default;
 
