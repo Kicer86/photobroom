@@ -71,12 +71,12 @@ namespace Database::Actions
             PHash,
         };
 
-        Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), sort_order(order_) {}
+        Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), order(order_) {}
 
         friend auto operator<=>(const Sort &, const Sort &) = default;
 
         const By by;
-        const Qt::SortOrder sort_order;
+        const Qt::SortOrder order;
     };
 
     struct GroupAction

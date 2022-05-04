@@ -689,7 +689,10 @@ namespace Database
             switch(sort->by)
             {
                 case Actions::Sort::By::PHash:
-                    std::stable_sort(photo_data.begin(), photo_data.end(), &Photo::isDataLess<Photo::Field::PHash>);
+                    if (sort->order == Qt::AscendingOrder)
+                        std::stable_sort(photo_data.begin(), photo_data.end(), &Photo::isDataLess<Photo::Field::PHash>);
+                    else
+                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &Photo::isDataLess<Photo::Field::PHash>);
                     break;
             }
         }

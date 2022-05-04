@@ -315,7 +315,7 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                     .arg(TAB_PHOTOS));
 
                 context.sortOrder.append(QString("%2.hash %1")
-                    .arg(sort->sort_order == Qt::AscendingOrder? "ASC": "DESC")
+                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC")
                     .arg(TAB_PHASHES));
 
                 break;
