@@ -664,13 +664,6 @@ namespace Database
                 return tristate_compare(lhs, rhs, sort_action->tag, sort_action->sort_order) < 0;
             });
         }
-        else if (std::get_if<Actions::SortByID>(&action))
-        {
-            std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
-            {
-                return lhs.id < rhs.id;
-            });
-        }
         else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
         {
             // sort by actions in reverse order so first one has greates influence.
@@ -694,6 +687,22 @@ namespace Database
                     const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
                     onPhotos(photo_data, byTime);
                     onPhotos(photo_data, byDate);
+
+                    break;
+                }
+
+                case Actions::Sort::By::ID:
+                {
+                    if (sort->order == Qt::AscendingOrder)
+                        std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
+                        {
+                            return lhs.id < rhs.id;
+                        });
+                    else
+                        std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
+                        {
+                            return lhs.id > rhs.id;
+                        });
 
                     break;
                 }

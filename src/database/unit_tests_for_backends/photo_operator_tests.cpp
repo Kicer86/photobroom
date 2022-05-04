@@ -130,3 +130,33 @@ TYPED_TEST(PhotoOperatorTest, sortingByPHashReversed)
 
     EXPECT_THAT(phashes, ElementsAre(16, 8, 6, 5, 4, 3, 3, 3, 2, 2, 1, 1));
 }
+
+
+TYPED_TEST(PhotoOperatorTest, sortingByID)
+{
+    // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PHashDB::db);
+
+    Database::Actions::Sort sort(Database::Actions::Sort::By::ID);
+    const auto ids = this->m_backend->photoOperator().onPhotos({}, {sort});
+
+    ASSERT_EQ(ids.size(), 12);
+
+    EXPECT_TRUE(std::is_sorted(ids.begin(), ids.end()));
+}
+
+
+TYPED_TEST(PhotoOperatorTest, sortingByIDRev)
+{
+    // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PHashDB::db);
+
+    Database::Actions::Sort sort(Database::Actions::Sort::By::ID, Qt::DescendingOrder);
+    const auto ids = this->m_backend->photoOperator().onPhotos({}, {sort});
+
+    ASSERT_EQ(ids.size(), 12);
+
+    EXPECT_TRUE(std::is_sorted(ids.rbegin(), ids.rend()));
+}

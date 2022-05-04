@@ -321,7 +321,7 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 {
     const Database::Actions::GroupAction sort_action({
         Database::Actions::Sort(Database::Actions::Sort::By::Timestamp),
-        Database::Actions::SortByID()
+        Database::Actions::Sort(Database::Actions::Sort::By::ID)
     });
 
     const auto view_filters = filters();

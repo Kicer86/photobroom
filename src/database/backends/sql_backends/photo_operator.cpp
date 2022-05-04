@@ -288,10 +288,6 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                 .arg(joinName));
         }
     }
-    else if (std::get_if<Actions::SortByID>(&action))
-    {
-        context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
-    }
     else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
     {
         for (const auto& sub_action: group_action->actions)
@@ -322,6 +318,12 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                 processAction(context, byTime);
                 break;
             }
+
+            case Actions::Sort::By::ID:
+                context.sortOrder.append(QString("%1.id %2")
+                    .arg(TAB_PHOTOS)
+                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC"));
+                break;
         }
     }
     else
