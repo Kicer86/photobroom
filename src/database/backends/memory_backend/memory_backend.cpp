@@ -664,30 +664,52 @@ namespace Database
                 return tristate_compare(lhs, rhs, sort_action->tag, sort_action->sort_order) < 0;
             });
         }
-        else if(auto sort_action = std::get_if<Actions::SortByTimestamp>(&action))
-        {
-            const Actions::SortByTag byDate(Tag::Types::Date, sort_action->sort_order);
-            const Actions::SortByTag byTime(Tag::Types::Time, sort_action->sort_order);
-            onPhotos(photo_data, byTime);
-            onPhotos(photo_data, byDate);
-        }
-        else if (std::get_if<Actions::SortByID>(&action))
-        {
-            std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
-            {
-                return lhs.id < rhs.id;
-            });
-        }
         else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
         {
             // sort by actions in reverse order so first one has greates influence.
             for (auto it = group_action->actions.rbegin(); it != group_action->actions.rend(); ++it)
                 onPhotos(photo_data, *it);
         }
-        else
+        else if (auto sort = std::get_if<Actions::Sort>(&action))
         {
-            assert(!"Unknown action");
+            switch(sort->by)
+            {
+                case Actions::Sort::By::PHash:
+                    if (sort->order == Qt::AscendingOrder)
+                        std::stable_sort(photo_data.begin(), photo_data.end(), &Photo::isDataLess<Photo::Field::PHash>);
+                    else
+                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &Photo::isDataLess<Photo::Field::PHash>);
+                    break;
+
+                case Actions::Sort::By::Timestamp:
+                {
+                    const Actions::SortByTag byDate(Tag::Types::Date, sort->order);
+                    const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
+                    onPhotos(photo_data, byTime);
+                    onPhotos(photo_data, byDate);
+
+                    break;
+                }
+
+                case Actions::Sort::By::ID:
+                {
+                    if (sort->order == Qt::AscendingOrder)
+                        std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
+                        {
+                            return lhs.id < rhs.id;
+                        });
+                    else
+                        std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
+                        {
+                            return lhs.id > rhs.id;
+                        });
+
+                    break;
+                }
+            }
         }
+        else
+            assert(!"Unknown action");
     }
 
 }

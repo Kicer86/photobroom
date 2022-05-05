@@ -59,8 +59,15 @@ namespace Photo
             }
         }
 
-        bool operator==(const PHash &) const = default;
         PHash& operator=(const PHash &) = default;
+
+        auto operator<=>(const PHash &) const = default;
+        bool operator==(const PHash &) const = default;
+
+        friend bool operator==(const PHash& phash, std::int64_t v)
+        {
+            return phash.m_hash == v;
+        }
 
         QVariant variant() const
         {

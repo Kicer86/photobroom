@@ -323,7 +323,7 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
         // find photos which are not part of any group
         Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
 
-        const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::SortByTimestamp() );
+        const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
 
         std::deque<Photo::DataDelta> deltas;
         std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)

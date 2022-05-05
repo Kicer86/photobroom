@@ -288,24 +288,44 @@ void Database::PhotoOperator::processAction(ActionContext& context, const Databa
                 .arg(joinName));
         }
     }
-    else if (auto sort_by_timestamp = std::get_if<Actions::SortByTimestamp>(&action))
-    {
-        const Actions::SortByTag byDate(Tag::Types::Date, sort_by_timestamp->sort_order);
-        const Actions::SortByTag byTime(Tag::Types::Time, sort_by_timestamp->sort_order);
-        processAction(context, byDate);
-        processAction(context, byTime);
-    }
-    else if (std::get_if<Actions::SortByID>(&action))
-    {
-        context.sortOrder.append(QString("%1.id ASC").arg(TAB_PHOTOS));
-    }
     else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
     {
         for (const auto& sub_action: group_action->actions)
             processAction(context, sub_action);
     }
-    else
+    else if (auto sort = std::get_if<Actions::Sort>(&action))
     {
-        assert(!"Unknown action");
+        switch(sort->by)
+        {
+            case Actions::Sort::By::PHash:
+            {
+                context.joins.append(QString("LEFT JOIN %1 ON (%2.id = %1.photo_id)")
+                    .arg(TAB_PHASHES)
+                    .arg(TAB_PHOTOS));
+
+                context.sortOrder.append(QString("%2.hash %1")
+                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC")
+                    .arg(TAB_PHASHES));
+
+                break;
+            }
+
+            case Actions::Sort::By::Timestamp:
+            {
+                const Actions::SortByTag byDate(Tag::Types::Date, sort->order);
+                const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
+                processAction(context, byDate);
+                processAction(context, byTime);
+                break;
+            }
+
+            case Actions::Sort::By::ID:
+                context.sortOrder.append(QString("%1.id %2")
+                    .arg(TAB_PHOTOS)
+                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC"));
+                break;
+        }
     }
+    else
+        assert(!"Unknown action");
 }

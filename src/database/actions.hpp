@@ -9,8 +9,7 @@
 namespace Database::Actions
 {
     struct SortByTag;
-    struct SortByTimestamp;
-    struct SortByID;
+    struct Sort;
     struct GroupAction;
 }
 
@@ -18,8 +17,7 @@ namespace Database::Actions
 namespace Database
 {
     typedef std::variant<Actions::SortByTag,
-                         Actions::SortByTimestamp,
-                         Actions::SortByID,
+                         Actions::Sort,
                          Actions::GroupAction> Action;
 }
 
@@ -43,25 +41,22 @@ namespace Database::Actions
         const Qt::SortOrder sort_order;
     };
 
-
-    struct SortByTimestamp          // Sort by date and time
+    struct Sort
     {
-        SortByTimestamp(const Qt::SortOrder& order = Qt::AscendingOrder):
-            sort_order(order)
+        enum class By
         {
-        }
+            PHash,
+            Timestamp,                  // Sort by date and time
+            ID,
+        };
 
-        friend auto operator<=>(const SortByTimestamp &, const SortByTimestamp &) = default;
+        explicit Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), order(order_) {}
 
-        const Qt::SortOrder sort_order;
+        friend auto operator<=>(const Sort &, const Sort &) = default;
+
+        const By by;
+        const Qt::SortOrder order;
     };
-
-
-    struct SortByID
-    {
-        friend auto operator<=>(const SortByID &, const SortByID &) = default;
-    };
-
 
     struct GroupAction
     {
