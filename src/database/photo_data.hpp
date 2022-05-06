@@ -70,6 +70,9 @@ namespace Photo
      */
     class DATABASE_EXPORT DataDelta
     {
+            Q_PROPERTY(Photo::Id id MEMBER m_id CONSTANT)
+            Q_GADGET
+
         public:
             DataDelta(): m_id(), m_data() {}
 

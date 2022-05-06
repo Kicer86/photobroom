@@ -40,7 +40,7 @@ class APhotoInfoModel: public QAbstractItemModel
 
         APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
 
-        virtual const Photo::Data& getPhotoData(const QModelIndex &) const = 0;
+        virtual const Photo::DataDelta& getPhotoData(const QModelIndex &) const = 0;
         virtual QHash<int, QByteArray> roleNames() const override;
 
     protected:

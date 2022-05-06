@@ -48,7 +48,7 @@ class FlatModel: public APhotoInfoModel
         const Database::Filter& filter() const;
         Database::IDatabase* database() const;
 
-        const Photo::Data& getPhotoData(const QModelIndex &) const override;
+        const Photo::DataDelta& getPhotoData(const QModelIndex &) const override;
         QVariant data(const QModelIndex& index, int role) const override;
         int rowCount(const QModelIndex& parent) const override;
         int columnCount(const QModelIndex & parent) const override;
@@ -63,7 +63,7 @@ class FlatModel: public APhotoInfoModel
         std::vector<Photo::Id> m_photos;
         mutable std::mutex m_filtersMutex;
         mutable std::map<Photo::Id, int> m_idToRow;
-        mutable std::map<Photo::Id, Photo::Data> m_properties;
+        mutable std::map<Photo::Id, Photo::DataDelta> m_properties;
         Database::IDatabase* m_db;
 
         void reloadPhotos();
@@ -74,7 +74,7 @@ class FlatModel: public APhotoInfoModel
         void invalidatePhotos(const std::set<Photo::Id> &);
         const Database::Filter& filters() const;
 
-        const Photo::Data& photoData(const Photo::Id &) const;
+        const Photo::DataDelta& photoData(const Photo::Id &) const;
         void fetchPhotoData(const Photo::Id &) const;
 
         // methods working on backend
@@ -83,7 +83,7 @@ class FlatModel: public APhotoInfoModel
 
         // results from backend
         void fetchedPhotos(const std::vector<Photo::Id> &);
-        void fetchedPhotoProperties(const Photo::Id &, const Photo::Data &);
+        void fetchedPhotoProperties(const Photo::Id &, const Photo::DataDelta &);
 
         // altering model
         template<typename T>
