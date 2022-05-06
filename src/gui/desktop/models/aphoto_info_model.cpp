@@ -21,7 +21,7 @@
 #include "aphoto_info_model.hpp"
 
 
-APhotoInfoModel::APhotoInfoModel(QObject* p)
+APhotoDataModel::APhotoDataModel(QObject* p)
     : QAbstractItemModel(p)
 {
     registerRole(PhotoDataRole, "photoData");
@@ -29,13 +29,13 @@ APhotoInfoModel::APhotoInfoModel(QObject* p)
 }
 
 
-APhotoInfoModel::~APhotoInfoModel()
+APhotoDataModel::~APhotoDataModel()
 {
 
 }
 
 
-QHash<int, QByteArray> APhotoInfoModel::roleNames() const
+QHash<int, QByteArray> APhotoDataModel::roleNames() const
 {
     QHash<int, QByteArray> result = QAbstractItemModel::roleNames();
 
@@ -45,7 +45,7 @@ QHash<int, QByteArray> APhotoInfoModel::roleNames() const
 }
 
 
-void APhotoInfoModel::registerRole(int id, const QByteArray& name)
+void APhotoDataModel::registerRole(int id, const QByteArray& name)
 {
     m_customRoles[id] = name;
 }

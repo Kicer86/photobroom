@@ -33,7 +33,7 @@ namespace Database
     struct IBackend;
 }
 
-class FlatModel: public APhotoInfoModel
+class FlatModel: public APhotoDataModel
 {
     Q_OBJECT
 

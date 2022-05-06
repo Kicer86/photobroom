@@ -61,7 +61,7 @@ class PhotosModelControllerComponent: public QObject
         void setCompleterFactory(ICompleterFactory* completerFactory);
 
         // various getters
-        APhotoInfoModel* model() const;
+        APhotoDataModel* model() const;
         QStringList categories() const;
         unsigned int datesCount() const;
         Database::IDatabase* database() const;

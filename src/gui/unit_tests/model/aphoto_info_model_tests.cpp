@@ -18,10 +18,10 @@ using testing::_;
 
 // tests for implementations of APhotoInfoModel
 template<typename T>
-class APhotoInfoModelTest: public testing::Test
+class APhotoDataModelTest: public testing::Test
 {
     public:
-        APhotoInfoModelTest()
+        APhotoDataModelTest()
         {
             ON_CALL(db, execute).WillByDefault(Invoke([this](std::unique_ptr<Database::IDatabase::ITask>&& task)
             {
@@ -33,7 +33,7 @@ class APhotoInfoModelTest: public testing::Test
             model.setDatabase(&db);
         }
 
-        ~APhotoInfoModelTest()
+        ~APhotoDataModelTest()
         {
         }
 
@@ -52,22 +52,22 @@ class APhotoInfoModelTest: public testing::Test
 };
 
 using ModelTypes = testing::Types<FlatModel>;
-TYPED_TEST_SUITE(APhotoInfoModelTest, ModelTypes);
+TYPED_TEST_SUITE(APhotoDataModelTest, ModelTypes);
 
 
-TYPED_TEST(APhotoInfoModelTest, qtTest)
+TYPED_TEST(APhotoDataModelTest, qtTest)
 {
     QAbstractItemModelTester tester(&this->model, QAbstractItemModelTester::FailureReportingMode::Fatal);
 }
 
 
-TYPED_TEST(APhotoInfoModelTest, noEntriesWhenEmptyDatabase)
+TYPED_TEST(APhotoDataModelTest, noEntriesWhenEmptyDatabase)
 {
     EXPECT_EQ(this->model.rowCount({}), 0);
 }
 
 
-TYPED_TEST(APhotoInfoModelTest, photoDetailsForIndex)
+TYPED_TEST(APhotoDataModelTest, photoDetailsForIndex)
 {
     this->loadDB(SampleDB::db1);
 

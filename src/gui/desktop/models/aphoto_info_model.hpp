@@ -24,7 +24,7 @@
 #include <database/photo_data.hpp>
 
 
-class APhotoInfoModel: public QAbstractItemModel
+class APhotoDataModel: public QAbstractItemModel
 {
     public:
         enum Roles
@@ -34,11 +34,11 @@ class APhotoInfoModel: public QAbstractItemModel
             _lastRole,
         };
 
-        APhotoInfoModel(QObject * = nullptr);
-        APhotoInfoModel(const APhotoInfoModel &) = delete;
-        ~APhotoInfoModel();
+        APhotoDataModel(QObject * = nullptr);
+        APhotoDataModel(const APhotoDataModel &) = delete;
+        ~APhotoDataModel();
 
-        APhotoInfoModel& operator=(const APhotoInfoModel &) = delete;
+        APhotoDataModel& operator=(const APhotoDataModel &) = delete;
 
         virtual const Photo::DataDelta& getPhotoData(const QModelIndex &) const = 0;
         virtual QHash<int, QByteArray> roleNames() const override;

@@ -63,7 +63,7 @@ namespace
 using namespace std::placeholders;
 
 FlatModel::FlatModel(QObject* p)
-    : APhotoInfoModel(p)
+    : APhotoDataModel(p)
     , m_db(nullptr)
 {
 }
