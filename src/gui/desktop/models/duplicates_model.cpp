@@ -1,9 +1,19 @@
 
 #include <core/function_wrappers.hpp>
+#include <core/qmodel_utils.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/photo_utils.hpp>
 
 #include "duplicates_model.hpp"
+
+
+enum Roles
+{
+    DuplicatesRole = Qt::UserRole + 1,
+};
+
+
+ENUM_ROLES_SETUP(Roles);
 
 
 QVariant DuplicatesModel::data(const QModelIndex& index, int role ) const
@@ -46,6 +56,17 @@ void DuplicatesModel::fetchMore(const QModelIndex &parent)
         "Looking for photo duplicates"
         );
     }
+}
+
+
+QHash<int, QByteArray> DuplicatesModel::roleNames() const
+{
+    auto roles = QAbstractListModel::roleNames();
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
+
+    return roles;
 }
 
 

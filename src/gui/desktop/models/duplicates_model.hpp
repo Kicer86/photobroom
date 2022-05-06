@@ -14,6 +14,7 @@ public:
     int rowCount(const QModelIndex & parent) const override;
     bool canFetchMore(const QModelIndex &parent) const override;
     void fetchMore(const QModelIndex &parent) override;
+    QHash<int, QByteArray> roleNames() const override;
 
     void setDB(Database::IDatabase *);
 
