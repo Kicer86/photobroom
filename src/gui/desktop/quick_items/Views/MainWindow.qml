@@ -277,9 +277,17 @@ ApplicationWindow {
             }
 
             // duplicates view
-            Item {
+            ListView {
+                objectName: "DuplicatesView"
+
+                delegate: Rectangle {
+
+                    width: 100
+                    height: 20
+
+                    color: "red"
+                }
             }
         }
     }
-
 }
