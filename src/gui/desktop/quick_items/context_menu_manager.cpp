@@ -113,10 +113,10 @@ void ContextMenuManager::updateModel(const std::vector<Photo::Data>& selectedPho
     connect(location,      &QAction::triggered, this, &ContextMenuManager::locationAction);
     connect(faces,         &QAction::triggered, this, &ContextMenuManager::facesAction);
 
-    const bool groupsOnly = std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::Representative>);
+    const bool groupsOnly = std::ranges::all_of(m_photos, &PhotoData::is<GroupInfo::Role::Representative>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
     const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const Photo::Data &>(&Photo::getPath)), &MediaTypes::isImageFile) &&
-                            std::ranges::all_of(m_photos, &Photo::is<GroupInfo::Role::None>);
+                            std::ranges::all_of(m_photos, &PhotoData::is<GroupInfo::Role::None>);
     const bool isSingleImage = m_photos.size() == 1 && imagesOnly;
 
     groupPhotos->setEnabled(m_photos.size() > 1 && imagesOnly);

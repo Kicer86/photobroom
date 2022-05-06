@@ -676,9 +676,9 @@ namespace Database
             {
                 case Actions::Sort::By::PHash:
                     if (sort->order == Qt::AscendingOrder)
-                        std::stable_sort(photo_data.begin(), photo_data.end(), &Photo::isDataLess<Photo::Field::PHash>);
+                        std::stable_sort(photo_data.begin(), photo_data.end(), &PhotoData::isLess<Photo::Field::PHash>);
                     else
-                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &Photo::isDataLess<Photo::Field::PHash>);
+                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &PhotoData::isLess<Photo::Field::PHash>);
                     break;
 
                 case Actions::Sort::By::Timestamp:
