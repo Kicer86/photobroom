@@ -83,7 +83,7 @@ void PhotosModelControllerComponent::setCompleterFactory(ICompleterFactory* comp
 }
 
 
-APhotoInfoModel* PhotosModelControllerComponent::model() const
+APhotoDataModel* PhotosModelControllerComponent::model() const
 {
     return m_model;
 }

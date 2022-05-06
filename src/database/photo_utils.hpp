@@ -16,9 +16,9 @@ namespace Photo
     DATABASE_EXPORT const QString& getPath(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
 
-    template<GroupInfo::Role role> bool is(const Photo::Data& data)
+    template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
     {
-        return data.groupInfo.role == role;
+        return data.get<Photo::Field::GroupInfo>().role == role;
     }
 
     template<Photo::Field field>
@@ -26,12 +26,21 @@ namespace Photo
     {
         return lhs.get<field>() < rhs.get<field>();
     }
+}
 
+
+namespace PhotoData
+{
     template<Photo::Field field>
-    bool isDataLess(const Photo::Data& lhs, const Photo::Data& rhs)
+    bool isLess(const Photo::Data& lhs, const Photo::Data& rhs)
     {
         if constexpr (field == Photo::Field::PHash)
             return lhs.phash < rhs.phash;
+    }
+
+    template<GroupInfo::Role role> bool is(const Photo::Data& data)
+    {
+        return data.groupInfo.role == role;
     }
 }
 

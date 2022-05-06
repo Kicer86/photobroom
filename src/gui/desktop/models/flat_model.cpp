@@ -63,7 +63,7 @@ namespace
 using namespace std::placeholders;
 
 FlatModel::FlatModel(QObject* p)
-    : APhotoInfoModel(p)
+    : APhotoDataModel(p)
     , m_db(nullptr)
 {
 }
@@ -132,11 +132,11 @@ Database::IDatabase * FlatModel::database() const
 }
 
 
-const Photo::Data& FlatModel::getPhotoData(const QModelIndex& index) const
+const Photo::DataDelta& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();
     const Photo::Id id = m_photos[row];
-    const Photo::Data& data = photoData(id);
+    const Photo::DataDelta& data = photoData(id);
 
     return data;
 }
@@ -155,8 +155,8 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
     }
     else if (role == PhotoDataRole)
     {
-        const Photo::Data& data = getPhotoData(index);
-        d = QVariant::fromValue<Photo::Data>(data);
+        const Photo::DataDelta& data = getPhotoData(index);
+        d = QVariant::fromValue<Photo::DataDelta>(data);
     }
 
     return d;
@@ -190,8 +190,8 @@ QModelIndex FlatModel::index(int r, int c, const QModelIndex& p) const
 QUrl FlatModel::getPhotoPath(int row) const
 {
     const Photo::Id id = m_photos[row];
-    const Photo::Data& data = photoData(id);
-    const QUrl url = QUrl::fromLocalFile(data.path);
+    const Photo::DataDelta& data = photoData(id);
+    const QUrl url = QUrl::fromLocalFile(data.get<Photo::Field::Path>());
 
     return url;
 }
@@ -293,7 +293,7 @@ const Database::Filter& FlatModel::filters() const
 }
 
 
-const Photo::Data& FlatModel::photoData(const Photo::Id& id) const
+const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
 {
     assert(m_idToRow.find(id) != m_idToRow.end());
 
@@ -333,7 +333,7 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 
 void FlatModel::fetchPhotoProperties(Database::IBackend& backend, const Photo::Id& id) const
 {
-    auto photo = backend.getPhoto(id);
+    auto photo = backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
 
     invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }
@@ -423,7 +423,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 }
 
 
-void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::Data& properties)
+void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::DataDelta& properties)
 {
     auto it = m_idToRow.find(id);
 

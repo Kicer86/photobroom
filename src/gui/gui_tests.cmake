@@ -9,7 +9,7 @@ include_directories(unit_tests)
 
 addTestTarget(gui
                 SOURCES
-                    desktop/models/aphoto_info_model.cpp
+                    desktop/models/aphoto_data_model.cpp
                     desktop/models/flat_model.cpp
                     desktop/utils/model_index_utils.cpp
                     desktop/quick_items/selection_manager_component.cpp
@@ -17,7 +17,7 @@ addTestTarget(gui
                     desktop/utils/thumbnails_cache.cpp
 
                     # model tests:
-                    unit_tests/model/aphoto_info_model_tests.cpp
+                    unit_tests/model/aphoto_data_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
 
                     # helpers:

@@ -27,10 +27,6 @@
 #include <database/database_tools/id_to_data_converter.hpp>
 
 
-
-class APhotoInfoModel;
-
-
 class PhotoPropertiesModel: public QStandardItemModel
 {
         Q_OBJECT
