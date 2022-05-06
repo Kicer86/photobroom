@@ -29,9 +29,9 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
         auto task = m_callbackCtrl.make_safe_callback<Database::IBackend &>([this, id](Database::IBackend& backend)
         {
             // MediaViewCtrl may be destroyed here
-            const Photo::Data data = backend.getPhoto(id);
+            const Photo::DataDelta data = backend.getPhotoDelta(id, {Photo::Field::Path});
 
-            invokeMethod(this, &MediaViewCtrl::setPath, data.path);
+            invokeMethod(this, &MediaViewCtrl::setPath, data.get<Photo::Field::Path>());
         });
 
         db->exec(task);
