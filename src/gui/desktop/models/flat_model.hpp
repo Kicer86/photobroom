@@ -24,7 +24,7 @@
 #include <QUrl>
 
 #include <database/filter.hpp>
-#include "aphoto_info_model.hpp"
+#include "aphoto_data_model.hpp"
 
 
 namespace Database

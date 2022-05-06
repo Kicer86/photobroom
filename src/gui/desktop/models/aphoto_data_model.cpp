@@ -18,7 +18,7 @@
  */
 
 
-#include "aphoto_info_model.hpp"
+#include "aphoto_data_model.hpp"
 
 
 APhotoDataModel::APhotoDataModel(QObject* p)
