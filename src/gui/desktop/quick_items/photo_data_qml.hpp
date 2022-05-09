@@ -19,6 +19,7 @@ class PhotoDataQml: public QObject
         Q_PROPERTY(QVariantMap flags READ getFlags NOTIFY flagsChanged)
         Q_PROPERTY(Photo::DataDelta data READ getPhotoData WRITE setPhotoData NOTIFY photoDataChanged)
         Q_PROPERTY(bool group READ isGroup NOTIFY isGroupChanged)
+        Q_PROPERTY(QString path READ path NOTIFY pathChanged)
 
         PhotoDataQml(QObject* parent = nullptr);
         PhotoDataQml(const Photo::DataDelta &);
@@ -38,10 +39,13 @@ class PhotoDataQml: public QObject
 
         bool isGroup() const;
 
+        QString path() const;
+
     signals:
         void photoDataChanged(const Photo::DataDelta &) const;
         void flagsChanged(const QVariantMap &) const;
         void isGroupChanged(bool) const;
+        void pathChanged(const QString &) const;
 
     private:
         Photo::DataDelta m_photo;

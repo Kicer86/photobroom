@@ -44,12 +44,25 @@ void PhotoDataQml::setPhotoData(const Photo::DataDelta& photo)
     m_photo = photo;
 
     emit photoDataChanged(m_photo);
-    emit flagsChanged(getFlags());
-    emit isGroupChanged(isGroup());
+
+    if (m_photo.has(Photo::Field::Flags))
+        emit flagsChanged(getFlags());
+
+    if (m_photo.has(Photo::Field::GroupInfo))
+        emit isGroupChanged(isGroup());
+
+    if (m_photo.has(Photo::Field::Path))
+        emit pathChanged(path());
 }
 
 
 bool PhotoDataQml::isGroup() const
 {
     return m_photo.getId().valid()? Photo::is<GroupInfo::Representative>(m_photo) : false;
+}
+
+
+QString PhotoDataQml::path() const
+{
+    return m_photo.has(Photo::Field::Path)? m_photo.get<Photo::Field::Path>() : QString();
 }
