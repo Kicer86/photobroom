@@ -54,7 +54,7 @@ void DuplicatesModel::fetchMore(const QModelIndex &parent)
             data.reserve(ids.size());
 
             for(const auto& id: ids)
-                data.push_back(backend.getPhotoDelta(id, {Photo::Field::PHash}));
+                data.push_back(backend.getPhotoDelta(id, {Photo::Field::PHash, Photo::Field::Path}));
 
             resultCallback(data);
         },
