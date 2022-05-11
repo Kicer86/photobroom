@@ -280,12 +280,39 @@ ApplicationWindow {
             ListView {
                 objectName: "DuplicatesView"
 
-                delegate: Rectangle {
+                implicitHeight: contentHeight
+                implicitWidth: contentWidth
 
-                    width: 100
-                    height: 20
+                delegate: ListView {
 
-                    color: "red"
+                    required property var duplicates
+
+                    implicitHeight: contentItem.childrenRect.height
+                    implicitWidth: contentItem.childrenRect.width
+
+                    orientation: ListView.Horizontal
+                    model: duplicates
+
+                    delegate: Rectangle {
+
+                        required property var modelData
+
+                        implicitHeight: 200
+                        implicitWidth: 30
+                        width: 200
+                        height: 30
+
+                        color: "red"
+
+                        PhotoDataQml {
+                            id: dataQml
+                            data: modelData
+                        }
+
+                        Text {
+                            text: dataQml.path
+                        }
+                    }
                 }
             }
         }
