@@ -90,6 +90,5 @@ Item {
                 source: "qrc:/gui/paper.svg"
             }
         }
-
     }
 }
