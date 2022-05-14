@@ -283,6 +283,8 @@ ApplicationWindow {
                 implicitHeight: contentHeight
                 implicitWidth: contentWidth
 
+                boundsBehavior: Flickable.StopAtBounds
+
                 delegate: ListView {
 
                     required property var duplicates
@@ -292,21 +294,23 @@ ApplicationWindow {
 
                     orientation: ListView.Horizontal
                     model: duplicates
+                    boundsBehavior: Flickable.StopAtBounds
 
-                    delegate: Rectangle {
+                    delegate: Column {
 
                         required property var modelData
-
-                        implicitHeight: 200
-                        implicitWidth: 30
-                        width: 200
-                        height: 30
-
-                        color: "red"
 
                         PhotoDataQml {
                             id: dataQml
                             data: modelData
+                        }
+
+                        Components.MediaPreviewItem {
+
+                            height: 160
+                            width:  160
+
+                            photoID: modelData.id
                         }
 
                         Text {
