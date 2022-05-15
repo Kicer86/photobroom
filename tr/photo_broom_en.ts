@@ -893,7 +893,7 @@ Error code: %1</source>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="110"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="111"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>

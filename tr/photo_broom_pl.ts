@@ -920,7 +920,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+110"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+111"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
