@@ -9,6 +9,7 @@ endif()
 
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
+add_subdirectory(desktop/QmlItems)
 add_subdirectory(desktop/quick_items)
 add_subdirectory(desktop/ui)
 add_subdirectory(desktop/ui_utils)
@@ -50,7 +51,7 @@ target_link_libraries(gui
         gui_ui
         gui_ui_utils
         gui_widgets
-        quick_items
+        qml_itemsplugin
         quick_itemsplugin
 
         core

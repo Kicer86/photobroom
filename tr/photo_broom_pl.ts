@@ -421,7 +421,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+203"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -920,7 +920,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+111"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+112"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>

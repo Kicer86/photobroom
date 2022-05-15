@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickWidgets Qml)
 
 set(SRC
     configuration_dialog.cpp
@@ -36,6 +36,8 @@ qt6_wrap_ui(WRAPPED_UI ${UI_FILES})
 add_library(gui_ui OBJECT ${SRC} ${MOCED} ${WRAPPED_UI} ${HEADERS})
 set_target_properties(gui_ui PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_ui
+                        PUBLIC
+                            Qt::Qml
                         PRIVATE
                             core
                             database
