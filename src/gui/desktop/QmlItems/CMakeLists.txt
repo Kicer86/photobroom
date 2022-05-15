@@ -25,14 +25,19 @@ qt6_add_qml_module(qml_items
     ${EXTRA_QML_OPTIONS}
 )
 
-#qt6_target_compile_qml_to_cpp(qml_items
-#    QML_FILES ${QML_SOURCES}
-#)
-
 target_link_libraries(qml_items
     PUBLIC
         Qt::Quick
-
-        #Qt::QmlPrivate
-        #Qt::QuickPrivate
 )
+
+if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.3.0")
+    qt6_target_compile_qml_to_cpp(qml_items
+        QML_FILES ${QML_SOURCES}
+    )
+
+    target_link_libraries(qml_items
+        PRIVATE
+            Qt::QmlPrivate
+            Qt::QuickPrivate
+    )
+endif()
