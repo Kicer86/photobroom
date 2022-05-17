@@ -37,7 +37,7 @@ Item {
     Component {
         id: timeEditor
 
-        Components.TimeEdit {
+        TimeEdit {
             anchors.fill: parent
             value: editor.value === undefined? new Date(): editor.value
 
