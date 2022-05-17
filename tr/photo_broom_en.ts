@@ -520,12 +520,12 @@ Error code: %1</source>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="88"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="89"/>
         <source>Click here to collapse notifications.</source>
         <translation>Click here to collapse notifications.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="89"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="90"/>
         <source>There are %n notification(s). Click here to read.</source>
         <translation>
             <numerusform>There is %n notification. Click here to read.</numerusform>
