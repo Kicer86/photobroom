@@ -37,7 +37,6 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     , m_coreFactory(coreFactory)
     , m_featuresManager(features)
 {
-
     Q_IMPORT_QML_PLUGIN(QmlItemsPlugin)
     Q_IMPORT_QML_PLUGIN(quick_itemsPlugin)
     register_qml_types();
