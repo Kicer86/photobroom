@@ -884,7 +884,7 @@ Kod błędu: %1</translation>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+37"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>

@@ -857,12 +857,12 @@ Error code: %1</source>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="172"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="169"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="184"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="181"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>

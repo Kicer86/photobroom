@@ -157,9 +157,6 @@ Item
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            // TODO: For some reason BusyIndicator causes
-            // 'QQmlEngine::setContextForObject(): Object already has a QQmlContext'
-            // error in output
             BusyIndicator {
                 id: busyIndicatorId
                 anchors.top: infoId.bottom
