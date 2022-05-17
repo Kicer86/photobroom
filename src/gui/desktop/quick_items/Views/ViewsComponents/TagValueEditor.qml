@@ -67,7 +67,7 @@ Item {
     Component {
         id: ratingsEditor
 
-        Components.StarRatingEditor {
+        StarRatingEditor {
             rating: editor.value === undefined? 0: editor.value
 
             onAccepted: editor.accepted(rating)

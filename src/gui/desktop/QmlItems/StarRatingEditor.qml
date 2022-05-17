@@ -1,6 +1,5 @@
 
 import QtQuick
-import quick_items
 
 
 Item {

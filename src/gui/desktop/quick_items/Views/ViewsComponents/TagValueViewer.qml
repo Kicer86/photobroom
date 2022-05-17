@@ -2,6 +2,7 @@
 import QtQuick
 import photo_broom.enums
 import photo_broom.utils
+import QmlItems
 import quick_items
 import "../../Components" as Components
 
@@ -37,7 +38,7 @@ Item {
     Component {
         id: ratingDelegate
 
-        Components.StarRating {
+        StarRating {
             rating: variant.localize(tagType, value);
         }
     }
