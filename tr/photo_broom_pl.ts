@@ -180,7 +180,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+108"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+109"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>

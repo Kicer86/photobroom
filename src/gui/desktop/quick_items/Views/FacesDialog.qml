@@ -1,6 +1,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QmlItems
 import "../Components" as Components
 
 Item {
@@ -51,7 +52,7 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        Components.ShadowFocus {
+        ShadowFocus {
             id: shadow
 
             opacity: 0.7

@@ -172,22 +172,22 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="108"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="109"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="134"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="135"/>
         <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="159"/>
         <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="167"/>
         <source>Faces detected a recognised.</source>
         <translation type="unfinished"></translation>
     </message>

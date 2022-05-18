@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QMimeData>
 #include <QPainter>
+#include <QQmlEngine>
 #include <QQuickItem>
 #include <QStyledItemDelegate>
 
@@ -70,6 +71,7 @@ FacesDialog::FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreA
 {
     ui->setupUi(this);
 
+    ui->quickView->engine()->addImportPath(":/photo_broom");
     ui->quickView->setSource(QUrl("qrc:///photo_broom/quick_items/Views/FacesDialog.qml"));
     ui->peopleList->setItemDelegate(new TableDelegate(prj->getDatabase(), this));
 
