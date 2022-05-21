@@ -30,9 +30,10 @@ jobs:
 
     - name: Install system dependencies
       if: matrix.os == 'ubuntu-22.04'
-      run: sudo apt-get install ninja-build imagemagick
+      run: sudo apt-get install ninja-build qt6-declarative-dev qt6-multimedia-dev
 
     - name: Cache Qt
+      if: matrix.os == 'windows-latest'
       id: cache-qt
       uses: actions/cache@v2
       with:
@@ -40,14 +41,15 @@ jobs:
         key: ${{ runner.os }}-QtCache
 
     - name: Install Qt
+      if: matrix.os == 'windows-latest'
       uses: jurplel/install-qt-action@v2
       with:
         version: '6.2.2'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Cache external tools
-      uses: actions/cache@v2
       if: matrix.os == 'windows-latest'
+      uses: actions/cache@v2
       with:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
