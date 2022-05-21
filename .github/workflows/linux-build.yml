@@ -21,7 +21,13 @@ jobs:
         submodules: true
 
     - name: Install system dependencies
-      run: sudo apt-get install ninja-build qt6-declarative-dev qt6-multimedia-dev libopencv-dev libdlib-dev
+      run: sudo apt-get install ninja-build qt6-declarative-dev qt6-multimedia-dev libopencv-dev libdlib-dev libfuse2
+
+    - name: Install imagemagick
+      run: |
+        mkdir -p /home/runner/.local/bin/
+        wget https://download.imagemagick.org/ImageMagick/download/binaries/magick -O /home/runner/.local/bin/magick
+        chmod +x /home/runner/.local/bin/magick
 
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
