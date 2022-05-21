@@ -29,6 +29,10 @@ jobs:
         wget https://download.imagemagick.org/ImageMagick/download/binaries/magick -O /home/runner/.local/bin/magick
         chmod +x /home/runner/.local/bin/magick
 
+    - name: Install magic enum
+      run: |
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
