@@ -21,7 +21,7 @@ jobs:
         submodules: true
 
     - name: Install system dependencies
-      run: sudo apt-get install ninja-build qt6-base-dev qt6-declarative-dev qt6-multimedia-dev libopencv-dev libdlib-dev libgl1-mesa-dev libglvnd-dev libfuse2
+      run: sudo apt-get install ninja-build qt6-base-dev qt6-declarative-dev qt6-multimedia-dev libopencv-dev libdlib-dev libexiv2-dev libgl1-mesa-dev libglvnd-dev libfuse2
 
     - name: Install imagemagick
       run: |
