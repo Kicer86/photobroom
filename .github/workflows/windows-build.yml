@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-22.04]
+        os: [windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -21,19 +21,13 @@ jobs:
         submodules: true
 
     - name: Prepare build dir
-      if: matrix.os == 'windows-latest'
       run: |
         New-Item -ItemType directory -Path "c:\" -Name "build"
         New-Item -ItemType Junction  -Path "out" -Target "c:\build"
         Move-Item -Path vcpkg -Destination c:\build
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
 
-    - name: Install system dependencies
-      if: matrix.os == 'ubuntu-22.04'
-      run: sudo apt-get install ninja-build qt6-declarative-dev qt6-multimedia-dev opencv-data libdlib-dev
-
     - name: Cache Qt
-      if: matrix.os == 'windows-latest'
       id: cache-qt
       uses: actions/cache@v2
       with:
@@ -41,21 +35,18 @@ jobs:
         key: ${{ runner.os }}-QtCache
 
     - name: Install Qt
-      if: matrix.os == 'windows-latest'
       uses: jurplel/install-qt-action@v2
       with:
         version: '6.2.2'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Cache external tools
-      if: matrix.os == 'windows-latest'
       uses: actions/cache@v2
       with:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
 
     - name: Run vcpkg
-      if: matrix.os == 'windows-latest'
       uses: lukka/run-vcpkg@v10.2
 
     - name: Build
