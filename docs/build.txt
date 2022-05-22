@@ -31,9 +31,10 @@ Required tools and libraries:
 
 Build tips:
 You may want to use predefined CMakePresets (automatically used by VisualStudio) which will read
-vcpkg.json file and install all dependencies (except Qt).
+vcpkg.json file and install all dependencies (except Qt - building Qt with vcpkg takes a lot of time and space
+so it may be more convenient to use manually installed Qt. Also dlib will be built without GPU support. Read more about it below).
 
-Dependencies can be also install manually:
+Dependencies can be also install by hand:
 vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib]
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.

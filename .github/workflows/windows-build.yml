@@ -1,5 +1,5 @@
 
-name: Build
+name: Build-Windows
 
 on:
   push:
@@ -21,16 +21,11 @@ jobs:
         submodules: true
 
     - name: Prepare build dir
-      if: matrix.os == 'windows-latest'
       run: |
         New-Item -ItemType directory -Path "c:\" -Name "build"
         New-Item -ItemType Junction  -Path "out" -Target "c:\build"
         Move-Item -Path vcpkg -Destination c:\build
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
-
-    - name: Install system dependencies
-      if: matrix.os == 'ubuntu-latest'
-      run: sudo apt-get install ninja-build imagemagick
 
     - name: Cache Qt
       id: cache-qt
@@ -47,7 +42,6 @@ jobs:
 
     - name: Cache external tools
       uses: actions/cache@v2
-      if: matrix.os == 'windows-latest'
       with:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}

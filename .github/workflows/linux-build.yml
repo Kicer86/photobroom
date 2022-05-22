@@ -1,0 +1,55 @@
+
+name: Build-Linux
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get install    \
+          ninja-build           \
+          qt6-base-dev          \
+          qt6-declarative-dev   \
+          qt6-multimedia-dev    \
+          libqt6svg6-dev        \
+          qt6-l10n-tools        \
+          libopencv-dev         \
+          libdlib-dev           \
+          libexiv2-dev          \
+          libgmock-dev          \
+          libgl1-mesa-dev       \
+          libglvnd-dev          \
+          libfuse2
+
+    - name: Install imagemagick
+      run: |
+        mkdir -p /home/runner/.local/bin/
+        wget https://download.imagemagick.org/ImageMagick/download/binaries/magick -O /home/runner/.local/bin/magick
+        chmod +x /home/runner/.local/bin/magick
+
+    - name: Install magic enum
+      run: |
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        build-type: Release
+        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
