@@ -30,6 +30,10 @@ file(GLOB_RECURSE
     *.qml *.js
 )
 
+set_source_files_properties(Components/Constants.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+
 if(${Qt6Quick_VERSION} EQUAL "6.3.0")
     set(EXTRA_QML_OPTIONS NO_CACHEGEN)      # disable qmlsc due to a bug https://bugreports.qt.io/browse/QTBUG-99042
 endif()
