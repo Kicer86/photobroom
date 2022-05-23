@@ -298,6 +298,9 @@ ApplicationWindow {
 
                     delegate: Column {
 
+                        padding: Components.Constants.defaultThumbnailMargin
+                        spacing: Components.Constants.defaultThumbnailMargin * 2
+
                         required property var modelData
 
                         PhotoDataQml {
@@ -307,8 +310,8 @@ ApplicationWindow {
 
                         Components.MediaPreviewItem {
 
-                            height: 160
-                            width:  160
+                            height: Components.Constants.defaultThumbnailSize
+                            width:  Components.Constants.defaultThumbnailSize
 
                             photoID: modelData.id
                         }

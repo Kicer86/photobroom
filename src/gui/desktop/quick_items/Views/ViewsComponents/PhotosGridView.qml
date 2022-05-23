@@ -11,8 +11,8 @@ Components.MultiselectGridView {
 
     id: grid
 
-    property int thumbnailSize: 160
-    property int thumbnailMargin: 5
+    property int thumbnailSize: Components.Constants.defaultThumbnailSize
+    property int thumbnailMargin: Components.Constants.defaultThumbnailMargin
 
     signal itemDoubleClicked(int index)
 

@@ -45,7 +45,7 @@ Item {
             stepSize: 10
             from: 40
             to: 400
-            value: 160
+            value: Constants.defaultThumbnailSize
         }
 
         Text {
