@@ -1,6 +1,6 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
-find_package(QtClick)
+find_package(QtClick QUIET)
 
 include(GenerateExportHeader)
 
