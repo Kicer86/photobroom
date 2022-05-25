@@ -1,10 +1,9 @@
 
-
-import QtQuick 2.15
-import quick_items
+import QtQuick
 
 /*
  * Item displays a provided busy indicator until `embeddedItem` (needs to be `Image` based) is ready to be shown
+ * TODO: Requires https://bugreports.qt.io/browse/QTBUG-95117 to be fixed before being qmltced
  */
 
 Item {

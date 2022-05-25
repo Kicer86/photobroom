@@ -2,6 +2,7 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
+import QmlItems
 import "../../Components" as Components
 
 
@@ -59,7 +60,7 @@ Item {
                     text: parent.display
                 }
 
-                Components.ImageButton {
+                ImageButton {
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 5

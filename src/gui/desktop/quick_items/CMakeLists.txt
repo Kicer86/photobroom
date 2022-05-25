@@ -17,8 +17,6 @@ set(QUICK_ITEMS_CPP_SOURCES
     photo_data_qml.hpp
     photos_model_controller_component.cpp
     photos_model_controller_component.hpp
-    picture_item.cpp
-    picture_item.hpp
     selection_manager_component.cpp
     selection_manager_component.hpp
     thumbnail_image_provider.cpp

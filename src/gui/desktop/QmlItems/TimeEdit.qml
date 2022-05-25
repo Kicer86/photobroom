@@ -1,6 +1,5 @@
 
 import QtQuick
-import QtQuick.Controls
 
 
 Row {
@@ -15,16 +14,16 @@ Row {
         height: parent.height
         verticalAlignment: TextInput.AlignVCenter
         selectByMouse: true
-        inputMask: "00.00.0000"
+        inputMask: "00:00:00"
         color: valid? "black": "red"
 
         property bool valid: true
 
         onTextChanged: {
-            // translate input into date
-            const userDate = Date.fromLocaleDateString(Qt.locale(), input.text, "d.M.yyyy");
+            // translate input into time
+            const userDate = Date.fromLocaleTimeString(Qt.locale(), input.text, "h:m:s");
 
-            // if date is valid, update public property
+            // if time is valid, update public property
             input.valid = isNaN(userDate.getTime()) == false
             if (input.valid)
                 root.value = userDate
@@ -33,5 +32,6 @@ Row {
         onEditingFinished: root.accepted()
     }
 
-    Component.onCompleted: input.text = root.value.toLocaleDateString(Qt.locale(), "dd.MM.yyyy")
+    Component.onCompleted: input.text = root.value.toLocaleTimeString(Qt.locale(), "hh:mm:ss")
 }
+

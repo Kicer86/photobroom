@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import photo_broom.utils
 import photo_broom.enums
+import QmlItems
 import quick_items
 import "../../Components" as Components
 import "../../external/qml-colorpicker/colorpicker" as Colorpicker
@@ -23,7 +24,7 @@ Item {
     Component {
         id: dateEditor
 
-        Components.DateEdit {
+        DateEdit {
             anchors.fill: parent
             value: editor.value === undefined? new Date(): editor.value
 
@@ -36,7 +37,7 @@ Item {
     Component {
         id: timeEditor
 
-        Components.TimeEdit {
+        TimeEdit {
             anchors.fill: parent
             value: editor.value === undefined? new Date(): editor.value
 
@@ -66,7 +67,7 @@ Item {
     Component {
         id: ratingsEditor
 
-        Components.StarRatingEditor {
+        StarRatingEditor {
             rating: editor.value === undefined? 0: editor.value
 
             onAccepted: editor.accepted(rating)

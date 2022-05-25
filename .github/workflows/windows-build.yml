@@ -32,12 +32,12 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ runner.workspace }}/Qt
-        key: ${{ runner.os }}-QtCache
+        key: ${{ runner.os }}-QtCache2
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        version: '6.2.2'
+        version: '6.3.0'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - name: Cache external tools
