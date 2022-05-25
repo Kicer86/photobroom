@@ -48,6 +48,15 @@ class Id
                 m_value = variant.value<T>();
         }
 
+        explicit Id(const std::array<std::byte, sizeof(T)>& v)
+        {
+            for(unsigned int i = 0; i < v.size(); i++)
+            {
+                m_value <<= 8;
+                m_value |= static_cast<T>(v[i]);
+            }
+        }
+
         Id(const Id &) = default;
 
         Id& operator=(const Id &) = default;
@@ -84,6 +93,11 @@ class Id
         }
 
         T value() const
+        {
+            return m_value;
+        }
+
+        QVariant variant() const
         {
             return m_value;
         }
