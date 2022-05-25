@@ -242,7 +242,7 @@ ApplicationWindow {
                     visible: ObservablesRegistry.enabled
                     title: qsTr("<b>Debug window</b>")
 
-                    DebugWindow { }
+                    Internals.DebugWindow { }
                 }
             }
         }

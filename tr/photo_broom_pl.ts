@@ -151,7 +151,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="+23"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
