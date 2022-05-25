@@ -40,11 +40,15 @@ namespace
             using T = std::decay_t<decltype(filter)>;
             if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
             {
-                std::sort(result.begin(), result.end(), [](const auto& lhs, const auto& rhs) {
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
+                    return !photo.phash;
+                }), result.end());
+
+                std::sort(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
                     return lhs.phash < rhs.phash;
                 });
 
-                result.erase(remove_unique(result.begin(), result.end(), [](const auto& lhs, const auto& rhs) {
+                result.erase(remove_unique(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
                     return lhs.phash == rhs.phash;
                 }), result.end());
             }

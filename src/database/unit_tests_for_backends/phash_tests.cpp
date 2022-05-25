@@ -89,10 +89,11 @@ TYPED_TEST(PHashTest, findSimilar)
     // fill backend with sample data
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(PHashDB::db);
+    converter.append(SampleDB::db1);            // append photos without hash
 
     // find duplicated
     Database::FilterSimilarPhotos filter;
     const auto photos = this->m_backend->photoOperator().getPhotos(filter);
 
-    ASSERT_EQ(photos.size(), 7);
+    EXPECT_EQ(photos.size(), 7);
 }
