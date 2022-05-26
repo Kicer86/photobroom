@@ -414,7 +414,7 @@ TEST(SqlFilterQueryGeneratorTest, FiltersSimilarPhotos)
     const QString query = generator.generate(filter);
 
     const QString duplicatesQuery = "SELECT photo_id, hash FROM phashes GROUP BY hash HAVING COUNT(*) > 1";
-    const QString expectedResult = QString("SELECT ph.id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
+    const QString expectedResult = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
 
     EXPECT_EQ(query, expectedResult);
 }
