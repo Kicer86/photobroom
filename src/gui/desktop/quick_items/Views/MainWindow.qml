@@ -216,6 +216,7 @@ ApplicationWindow {
 
                     width: parent.width
                     title: qsTr("<b>Media information</b>")
+                    clip: true
 
                     TableView {
                         id: propertiesTable
@@ -238,9 +239,11 @@ ApplicationWindow {
 
                 GroupBox {
                     id: debugWindow
+
                     width: parent.width
                     visible: ObservablesRegistry.enabled
                     title: qsTr("<b>Debug window</b>")
+                    clip: true
 
                     Internals.DebugWindow { }
                 }

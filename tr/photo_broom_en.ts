@@ -376,12 +376,12 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="243"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="245"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="256"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="259"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
