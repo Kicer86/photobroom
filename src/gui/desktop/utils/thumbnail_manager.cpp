@@ -48,22 +48,23 @@ ThumbnailManager::~ThumbnailManager()
 void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
     assert(id.valid());
-    assert(m_db != nullptr);
     assert(desired_size.isEmpty() == false);
 
     const IThumbnailsCache::ThumbnailParameters params(desired_size);
     const QImage cached = find(id, params);
 
     // not cached in memory, search in db (if possible)
-    if (cached.isNull())
+    if (cached.isNull() && m_db)
     {
         auto task = m_callbackCtrl.make_safe_callback([=, this]()
         {
-            // load thumbnail from db
-            QByteArray dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
-            {
-                return backend.getThumbnail(id);
-            });
+            QByteArray dbThumb;
+
+            if (m_db)                   // load thumbnail from db
+                evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
+                {
+                    return backend.getThumbnail(id);
+                });
 
             QImage baseThumbnail;
 
