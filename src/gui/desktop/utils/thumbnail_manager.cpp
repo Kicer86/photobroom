@@ -47,6 +47,8 @@ ThumbnailManager::~ThumbnailManager()
 
 void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)>& callback)
 {
+    std::lock_guard<std::mutex> _(m_cacheMutex);
+
     assert(id.valid());
     assert(desired_size.isEmpty() == false);
 
@@ -122,6 +124,8 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 
 std::optional<QImage> ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size)
 {
+    std::lock_guard<std::mutex> _(m_cacheMutex);
+
     std::optional img = m_cache.find(id, IThumbnailsCache::ThumbnailParameters(desired_size));
 
     return img;
@@ -130,6 +134,8 @@ std::optional<QImage> ThumbnailManager::fetch(const Photo::Id& id, const QSize& 
 
 void ThumbnailManager::setDatabaseCache(Database::IDatabase* db)
 {
+    std::lock_guard<std::mutex> _(m_cacheMutex);
+
     m_callbackCtrl.invalidate();
     m_db = db;
     m_cache.clear();
