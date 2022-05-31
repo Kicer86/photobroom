@@ -1,5 +1,6 @@
 
 import QtQuick
+import QtQuick.Controls
 
 import "../../Components" as Components
 import quick_items
@@ -25,10 +26,10 @@ ListView {
 
         delegate: Column {
 
+            required property var modelData
+
             padding: Components.Constants.defaultThumbnailMargin
             spacing: Components.Constants.defaultThumbnailMargin * 2
-
-            required property var modelData
 
             PhotoDataQml {
                 id: dataQml
@@ -36,6 +37,7 @@ ListView {
             }
 
             Components.MediaPreviewItem {
+                id: mediaPreview
 
                 height: Components.Constants.defaultThumbnailSize
                 width:  Components.Constants.defaultThumbnailSize
@@ -44,7 +46,14 @@ ListView {
             }
 
             Text {
-                text: dataQml.path
+                function removePrefix(value, prefix) {
+                    return value.startsWith(prefix)? value.slice(prefix.length): value;
+                }
+
+                width: mediaPreview.width
+
+                text: removePrefix(dataQml.path, Components.Constants.projectPrefix)
+                wrapMode: Text.Wrap
             }
         }
     }
