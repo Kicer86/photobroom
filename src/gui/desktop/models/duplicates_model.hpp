@@ -10,10 +10,10 @@
 class DuplicatesModel: public QAbstractListModel
 {
 public:
-    QVariant data(const QModelIndex & index, int role) const override;
-    int rowCount(const QModelIndex & parent) const override;
-    bool canFetchMore(const QModelIndex &parent) const override;
-    void fetchMore(const QModelIndex &parent) override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    int rowCount(const QModelIndex& parent) const override;
+    bool canFetchMore(const QModelIndex& parent) const override;
+    void fetchMore(const QModelIndex& parent) override;
     QHash<int, QByteArray> roleNames() const override;
 
     void setDB(Database::IDatabase *);
