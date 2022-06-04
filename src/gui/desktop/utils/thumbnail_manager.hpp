@@ -55,6 +55,7 @@ class ThumbnailManager: public IThumbnailsManager
         IThumbnailsCache& m_cache;
         IThumbnailsGenerator& m_generator;
         Database::IDatabase* m_db;
+        std::mutex m_cacheMutex;
 
         QImage find(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &);
         void cache(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &, const QImage &);
