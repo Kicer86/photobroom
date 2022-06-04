@@ -36,13 +36,25 @@ Components.ExListView  {
                 data: modelData
             }
 
-            Components.MediaPreviewItem {
-                id: mediaPreview
+            Row {
+                Components.MediaPreviewItem {
+                    id: mediaPreview
 
-                height: Components.Constants.defaultThumbnailSize
-                width:  Components.Constants.defaultThumbnailSize
+                    height: Components.Constants.defaultThumbnailSize
+                    width:  Components.Constants.defaultThumbnailSize
 
-                photoID: modelData.id
+                    photoID: modelData.id
+                }
+
+                Column {
+                    RoundButton {
+                        action: Action {
+                            icon.name: "folder"
+                        }
+                    }
+
+
+                }
             }
 
             Text {
