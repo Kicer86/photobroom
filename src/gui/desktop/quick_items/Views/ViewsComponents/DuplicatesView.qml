@@ -6,14 +6,14 @@ import "../../Components" as Components
 import quick_items
 
 
-ListView {
+Components.ExListView  {
 
     implicitHeight: contentHeight
     implicitWidth: contentWidth
 
     boundsBehavior: Flickable.StopAtBounds
 
-    delegate: ListView {
+    delegate: Components.ExListView {
 
         required property var duplicates
 
