@@ -222,22 +222,8 @@ ApplicationWindow {
                     title: qsTr("<b>Media information</b>")
                     clip: true
 
-                    TableView {
-                        id: propertiesTable
-                        implicitHeight: contentHeight
-                        implicitWidth: contentWidth
-                        columnSpacing: 5
-
-                        model: PhotoPropertiesModel {
-                            property var _photos: photosView.selectedPhotos
-                            database: PhotoBroomProject.database
-
-                            on_PhotosChanged: setPhotos(_photos)
-                        }
-
-                        delegate: Text {
-                            text: display
-                        }
+                    Components.MediaPropertiesView {
+                        photos: photosView.selectedPhotos
                     }
                 }
 

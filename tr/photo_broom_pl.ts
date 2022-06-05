@@ -381,7 +381,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
@@ -391,7 +391,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-185"/>
+        <location line="-171"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
