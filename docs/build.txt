@@ -14,6 +14,7 @@ Required tools and libraries:
  - dlib*
  - magic_enum*
  - opencv*
+ - jsoncpp*
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -35,7 +36,7 @@ vcpkg.json file and install all dependencies (except Qt - building Qt with vcpkg
 so it may be more convenient to use manually installed Qt. Also dlib will be built without GPU support. Read more about it below).
 
 Dependencies can be also install by hand:
-vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib]
+vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib] jsoncpp
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 

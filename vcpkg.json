@@ -17,6 +17,7 @@
         "features": [ "contrib" ]
     },
     "exiv2",
-    "magic-enum"
+    "magic-enum",
+    "jsoncpp"
   ]
 }
