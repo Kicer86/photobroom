@@ -4,7 +4,6 @@
 
 #include <QImage>
 #include <QQuickPaintedItem>
-#include <QQmlEngine>
 
 class PictureItem: public QQuickPaintedItem
 {
