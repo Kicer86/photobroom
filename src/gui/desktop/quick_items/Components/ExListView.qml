@@ -6,6 +6,8 @@ import QtQuick.Controls
 ListView {
     id: listView
 
+    boundsMovement: Flickable.StopAtBounds
+
     ScrollBar.vertical: ScrollBar {
         anchors.right: parent.right
         visible: listView.contentHeight > listView.height
