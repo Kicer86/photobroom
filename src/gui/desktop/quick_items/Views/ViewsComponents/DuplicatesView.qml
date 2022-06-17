@@ -4,6 +4,7 @@ import QtQuick.Controls
 
 import "../../Components" as Components
 import quick_items
+import QmlItems
 
 
 Components.ExListView  {
@@ -50,10 +51,13 @@ Components.ExListView  {
                     RoundButton {
                         action: Action {
                             icon.name: "folder"
+                            onTriggered: {
+                                var path = Utils.fileInfo().fullDirectoryPath(dataQml.path);
+                                var url  = Utils.fileInfo().toUrl(path);
+                                Qt.openUrlExternally(url);
+                            }
                         }
                     }
-
-
                 }
             }
 
