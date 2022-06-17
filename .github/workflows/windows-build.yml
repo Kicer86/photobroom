@@ -46,6 +46,9 @@ jobs:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
 
+    - name: disable debug build for vcpkg
+      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.2
 
