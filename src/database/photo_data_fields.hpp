@@ -16,44 +16,13 @@ namespace Photo
         PHash,
     };
 
-    template<Field>
-    struct DeltaTypes {};
-
-    template<>
-    struct DeltaTypes<Field::Tags>
-    {
-        typedef Tag::TagsList Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Flags>
-    {
-        typedef Photo::FlagValues Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Path>
-    {
-        typedef QString Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::Geometry>
-    {
-        typedef QSize Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::GroupInfo>
-    {
-        typedef GroupInfo Storage;
-    };
-
-    template<>
-    struct DeltaTypes<Field::PHash>
-    {
-        typedef Photo::PHash Storage;
-    };
+    template<Field> struct DeltaTypes {};
+    template<> struct DeltaTypes<Field::Tags>      { using Storage = Tag::TagsList;     };
+    template<> struct DeltaTypes<Field::Flags>     { using Storage = Photo::FlagValues; };
+    template<> struct DeltaTypes<Field::Path>      { using Storage = QString;           };
+    template<> struct DeltaTypes<Field::Geometry>  { using Storage = QSize;             };
+    template<> struct DeltaTypes<Field::GroupInfo> { using Storage = GroupInfo;         };
+    template<> struct DeltaTypes<Field::PHash>     { using Storage = Photo::PHash;      };
 }
 
 #endif
