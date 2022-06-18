@@ -51,6 +51,8 @@ jobs:
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.2
+      with:
+        vcpkgJsonGlob: vcpkg.json
 
     - name: Build
       uses: lukka/run-cmake@v10
