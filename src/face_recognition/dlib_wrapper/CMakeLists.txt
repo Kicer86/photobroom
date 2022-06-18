@@ -1,6 +1,5 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui)
-find_package(Threads REQUIRED)
 find_package(dlib REQUIRED)
 
 add_library(dlib_wrapper
