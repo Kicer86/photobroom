@@ -3,7 +3,7 @@
 #define FILE_INFO_HPP_INCLUDED
 
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QUrl>
 
 
 class FileInfo: public QObject

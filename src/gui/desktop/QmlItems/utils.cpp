@@ -1,4 +1,5 @@
 
+#include <QCoreApplication>
 #include <QQmlEngine>
 
 #include "utils.hpp"
