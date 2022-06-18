@@ -1,15 +1,22 @@
 
-
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
+
+function(addFlags target propertyName flags)
+    get_target_property(current_properties ${target} ${propertyName})
+
+    if(NOT current_properties)
+        set(current_properties "")
+    endif(NOT current_properties)
+
+    set_target_properties(${target} PROPERTIES ${propertyName} "${current_properties} ${flags}")
+endfunction(addFlags)
 
 #usage:
 #addTestTarget(`target` SOURCES source files LIBRARIES libraries to link INCLUDES include directories)
 #function will add executable with tests and will register it for ctest.
 macro(addTestTarget target)
-
-    find_package(Qt6 REQUIRED COMPONENTS Core)
 
     #get sources
     set(multiValueArgs SOURCES LIBRARIES SYSTEM_INCLUDES INCLUDES DEFINITIONS)
@@ -31,8 +38,8 @@ macro(addTestTarget target)
     set(test_bin ${target}_tests)
 
     #add test executables
-    add_executable(${test_bin}_base ${T_SOURCES})
-    set_target_properties(${test_bin}_base PROPERTIES AUTOMOC TRUE)
+    add_executable(${test_bin} ${T_SOURCES})
+    set_target_properties(${test_bin} PROPERTIES AUTOMOC TRUE)
 
     if(ENABLE_CODE_COVERAGE)
         add_executable(${test_bin}_cc ${T_SOURCES})
@@ -88,7 +95,7 @@ macro(addTestTarget target)
     endif()
 
     #link against proper libraries
-    target_link_libraries(${test_bin}_base PRIVATE ${T_LIBRARIES})
+    target_link_libraries(${test_bin} PRIVATE ${T_LIBRARIES})
 
     if(ENABLE_CODE_COVERAGE)
         target_link_libraries(${test_bin}_cc PRIVATE ${T_LIBRARIES})
@@ -102,8 +109,8 @@ macro(addTestTarget target)
     endif()
 
     #include dirs
-    target_include_directories(${test_bin}_base PRIVATE ${T_INCLUDES})
-    target_include_directories(${test_bin}_base SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
+    target_include_directories(${test_bin} PRIVATE ${T_INCLUDES})
+    target_include_directories(${test_bin} SYSTEM PRIVATE ${T_SYSTEM_INCLUDES})
 
     if(ENABLE_CODE_COVERAGE)
         target_include_directories(${test_bin}_cc PRIVATE ${T_INCLUDES})
@@ -124,7 +131,7 @@ macro(addTestTarget target)
 
     #definitions
     if(T_DEFINITIONS)
-        target_compile_definitions(${test_bin}_base PRIVATE ${T_DEFINITIONS})
+        target_compile_definitions(${test_bin} PRIVATE ${T_DEFINITIONS})
 
         if(ENABLE_CODE_COVERAGE)
             target_compile_definitions(${test_bin}_cc PRIVATE ${T_DEFINITIONS})
@@ -155,9 +162,9 @@ macro(addTestTarget target)
     endif()
 
     #add tests
-    add_test(${target}_base ${test_bin}_base)
-    set_tests_properties(${target}_base PROPERTIES LABELS "UnitTest")
-    set(test_binaries ${test_bin}_base)
+    add_test(${target} ${test_bin})
+    set_tests_properties(${target} PROPERTIES LABELS "UnitTest")
+    set(test_binaries ${test_bin})
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         add_test(${target}_addr ${test_bin}_addr)

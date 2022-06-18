@@ -148,22 +148,22 @@ You can watch progress in &apos;Tasks&apos; panel.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="23"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="23"/>
         <source>Tasks in queue</source>
         <translation>Tasks in queue</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="27"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="27"/>
         <source>Tasks executed</source>
         <translation>Tasks executed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="31"/>
         <source>Execution speed</source>
         <translation>Execution speed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="31"/>
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation>tps</translation>
@@ -376,12 +376,12 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="243"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="245"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="256"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="259"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>

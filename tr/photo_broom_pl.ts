@@ -151,7 +151,7 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DebugWindow.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="+23"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -376,17 +376,17 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+27"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Back to photos</source>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-178"/>
+        <location line="-181"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
