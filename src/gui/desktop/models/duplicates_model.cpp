@@ -80,6 +80,7 @@ void DuplicatesModel::setDB(Database::IDatabase* db)
     beginResetModel();
     m_db = db;
     m_loaded = false;
+    m_duplicates.clear();
     endResetModel();
 }
 
