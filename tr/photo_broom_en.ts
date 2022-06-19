@@ -386,7 +386,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="252"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="247"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>

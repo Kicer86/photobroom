@@ -386,12 +386,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+12"/>
         <source>Back to photos</source>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-171"/>
+        <location line="-166"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>

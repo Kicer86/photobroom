@@ -240,31 +240,28 @@ ApplicationWindow {
             }
         }
 
-        StackLayout {
-            id: toolsStackView
+        ColumnLayout {
+            Button {
+                id: backButton
 
-            // photo data completion view
-            Item {
+                text: qsTr("Back to photos")
 
-                Button {
-                    id: backButton
+                onClicked: mainView.currentIndex = 0
+            }
 
-                    text: qsTr("Back to photos")
+            StackLayout {
+                id: toolsStackView
 
-                    onClicked: mainView.currentIndex = 0
-                }
+                // photo data completion view
 
                 PhotoDataCompletion {
                     id: completer
-                    width: parent.width
-                    anchors.bottom: parent.bottom
-                    anchors.top: backButton.bottom
                 }
-            }
 
-            // duplicates view
-            Internals.DuplicatesView {
-                objectName: "DuplicatesView"
+                // duplicates view
+                Internals.DuplicatesView {
+                    objectName: "DuplicatesView"
+                }
             }
         }
     }
