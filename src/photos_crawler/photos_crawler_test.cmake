@@ -11,7 +11,6 @@ addTestTarget(photos_crawler
 
                     unit_tests/analyzerTests.cpp
                     unit_tests/photo_crawler_tests.cpp
-                    unit_tests/photo_crawler_builder_tests.cpp
 
                 LIBRARIES
                     core
@@ -24,7 +23,7 @@ addTestTarget(photos_crawler
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
-                    
+
                 DEFINITIONS
-                    PHOTOS_CRAWLER_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings 
+                    PHOTOS_CRAWLER_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
 )

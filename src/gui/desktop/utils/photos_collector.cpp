@@ -21,7 +21,7 @@
 
 #include <cassert>
 
-#include <photos_crawler/photo_crawler_builder.hpp>
+#include <photos_crawler/default_analyzers/file_analyzer.hpp>
 #include <photos_crawler/photo_crawler.hpp>
 #include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>
 #include <project_utils/project.hpp>
@@ -62,7 +62,7 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 
     m_data->m_callback = callback;
 
-    auto analyzer = PhotoCrawlerBuilder().buildFullFileAnalyzer();
+    auto analyzer = std::unique_ptr<FileAnalyzer>();
     auto scanner = std::make_unique<FileSystemScanner>();
 
     const ProjectInfo& info = m_data->m_project->getProjectInfo();
