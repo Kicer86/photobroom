@@ -1,10 +1,10 @@
 
 #include "notifications_model.hpp"
 
-int NotificationsModel::insert(const QString& warning, Type type)
+INotifications::Id NotificationsModel::insert(const QString& warning, Type type)
 {
-    const int id = m_id;
-    m_id++;
+    const Id id = m_id;
+    m_id.next();
 
     const int count = getCount();
 
@@ -28,7 +28,7 @@ void NotificationsModel::removeRow(int row)
 }
 
 
-void NotificationsModel::removeId(int id)
+void NotificationsModel::remove(INotifications::Id id)
 {
     const auto it = std::find_if(m_data.begin(), m_data.end(), [id](const auto item) {
         return item.first == id;
@@ -36,8 +36,8 @@ void NotificationsModel::removeId(int id)
 
     if (it != m_data.end())
     {
-        const int pos = std::distance(m_data.begin(), it);
-        removeRow(pos);
+        const auto pos = std::distance(m_data.begin(), it);
+        removeRow(static_cast<int>(pos));
     }
 }
 

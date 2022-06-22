@@ -13,9 +13,9 @@ class NotificationsModel: public QAbstractListModel, public INotifications
     Q_PROPERTY(int count READ getCount() NOTIFY countChanged)
 
 public:
-    int insert(const QString &, Type) override;
+    Id insert(const QString &, Type) override;
     Q_INVOKABLE void removeRow(int row);
-    void removeId(int id) override;
+    void remove(Id id) override;
 
     int getCount() const;
 
@@ -27,7 +27,7 @@ signals:
 
 private:
     std::vector<std::pair<int, QString>> m_data;
-    int m_id = 0;
+    Id m_id = Id(0);
 };
 
 #endif

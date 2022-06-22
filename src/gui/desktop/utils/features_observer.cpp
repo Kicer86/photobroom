@@ -16,8 +16,8 @@ namespace
 }
 
 
-FeaturesObserver::FeaturesObserver(IFeaturesManager& features, NotificationsModel& model)
-    : m_model(model)
+FeaturesObserver::FeaturesObserver(IFeaturesManager& features, INotifications& notifications)
+    : m_notifications(notifications)
 {
     connect(&features, &IFeaturesManager::featureChanged, this, &FeaturesObserver::featureChanged);
 
@@ -36,7 +36,7 @@ void FeaturesObserver::featureChanged(const QString& feature, bool value)
 
             if (it != m_warnings.end())
             {
-                m_model.removeId(it->second);
+                m_notifications.remove(it->second);
                 m_warnings.erase(it);
             }
         }
@@ -48,10 +48,10 @@ void FeaturesObserver::featureChanged(const QString& feature, bool value)
             {
                 auto toolIt = Tools.find(feature);
 
-                const int id = m_model.insert(tr("Path for tool %1 is not set or is invalid.\n"
-                                                 "Some functionality may be disabled.\n"
-                                                 "Check paths in configuration window.").arg(toolIt->second),
-                                              INotifications::Type::Warning);
+                const int id = m_notifications.insert(tr("Path for tool %1 is not set or is invalid.\n"
+                                                         "Some functionality may be disabled.\n"
+                                                         "Check paths in configuration window.").arg(toolIt->second),
+                                                      INotifications::Type::Warning);
 
                 m_warnings.emplace(feature, id);
             }

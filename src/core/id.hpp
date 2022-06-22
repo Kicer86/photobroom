@@ -94,6 +94,12 @@ class Id
             std::swap(m_valid, other.m_valid);
         }
 
+        Id& next()
+        {
+            ++m_value;
+            return *this;
+        }
+
         void invalidate()
         {
             swap(*this, {});

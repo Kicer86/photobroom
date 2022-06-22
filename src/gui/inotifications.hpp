@@ -4,17 +4,23 @@
 
 #include <QString>
 
+#include <core/id.hpp>
+
+
 class INotifications
 {
 public:
+    struct NotificationsTag;
+    using Id = ::Id<int, NotificationsTag>;
+
     enum class Type
     {
         Warning,
         Info,
     };
 
-    virtual int insert(const QString &, Type) = 0;
-    virtual void removeId(int id) = 0;
+    virtual Id insert(const QString &, Type) = 0;
+    virtual void remove(Id id) = 0;
 };
 
 #endif
