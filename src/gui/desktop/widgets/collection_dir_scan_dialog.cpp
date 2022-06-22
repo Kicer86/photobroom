@@ -23,13 +23,14 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <core/iview_task.hpp>
 #include <database/iphoto_operator.hpp>
 #include "collection_dir_scan_dialog.hpp"
 #include "project_utils/project.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, QWidget* p):
-    QDialog(p),
+CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, ITasksView& tasksView):
+    QDialog(),
     m_collector(project),
     m_photosFound(),
     m_dbPhotos(),
@@ -38,6 +39,7 @@ CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Databas
     m_info(nullptr),
     m_button(nullptr),
     m_database(db),
+    m_tasksView(tasksView),
     m_gotPhotos(false),
     m_gotDBPhotos(false)
 {
@@ -46,7 +48,6 @@ CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Databas
 
     connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
     connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
-    connect(this, &CollectionDirScanDialog::analyze, this, &CollectionDirScanDialog::performAnalysis, Qt::QueuedConnection);
 
     // main layout
     QVBoxLayout* l = new QVBoxLayout(this);
@@ -114,11 +115,15 @@ void CollectionDirScanDialog::performAnalysis()
     // now m_photosFound contains only photos which are not in db
     m_state = State::Done;
     updateGui();
+
+    m_progressTask->finished();
+    m_progressTask = nullptr;
 }
 
 
 void CollectionDirScanDialog::scan()
 {
+    m_progressTask = m_tasksView.add(tr("Scanning collection"));
     m_state = State::Scanning;
     updateGui();
 
@@ -149,7 +154,7 @@ void CollectionDirScanDialog::scan()
 void CollectionDirScanDialog::checkIfReady()
 {
     if (m_gotPhotos && m_gotDBPhotos)
-        emit analyze();
+        QMetaObject::invokeMethod(this, &CollectionDirScanDialog::performAnalysis, Qt::QueuedConnection);
 }
 
 

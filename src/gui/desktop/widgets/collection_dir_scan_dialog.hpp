@@ -25,6 +25,7 @@
 
 #include <QDialog>
 
+#include <core/itasks_view.hpp>
 #include <database/idatabase.hpp>
 #include "utils/photos_collector.hpp"
 
@@ -37,7 +38,7 @@ class CollectionDirScanDialog: public QDialog
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const Project *, Database::IDatabase &, QWidget* parent = nullptr);
+        CollectionDirScanDialog(const Project *, Database::IDatabase &, ITasksView &);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
@@ -62,6 +63,8 @@ class CollectionDirScanDialog: public QDialog
         QLabel* m_info;
         QPushButton* m_button;
         Database::IDatabase& m_database;
+        ITasksView& m_tasksView;
+        IViewTask* m_progressTask;
         std::atomic<bool> m_gotPhotos;
         std::atomic<bool> m_gotDBPhotos;
 
@@ -77,9 +80,6 @@ class CollectionDirScanDialog: public QDialog
         void gotPhoto(const QString &);
         void gotExistingPhotos(const std::vector<Photo::DataDelta> &);
         void updateGui();
-
-    signals:
-        void analyze();
 };
 
-#endif // COLLECTIONDIRSCANDIALOG_HPP
+#endif

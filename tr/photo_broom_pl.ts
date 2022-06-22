@@ -60,18 +60,23 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+183"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+188"/>
         <location line="+5"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-136"/>
         <source>Collection scan</source>
         <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+69"/>
+        <source>Scanning collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+56"/>
         <source>Scan canceled</source>
         <translation>Skanowanie kolekcji przerwane</translation>
     </message>
@@ -426,7 +431,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+224"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+208"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
