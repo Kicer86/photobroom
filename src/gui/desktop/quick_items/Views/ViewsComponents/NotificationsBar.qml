@@ -72,7 +72,7 @@ Item {
                     source: "qrc:/gui/close.svg"
 
                     onClicked: {
-                        listView.model.removeWarning(index);
+                        listView.model.removeRow(index);
                     }
                 }
             }

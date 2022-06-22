@@ -23,6 +23,7 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     features.hpp
     gui.hpp
+    inotifications.hpp
     desktop/config_keys.hpp
     images/images.hpp
 )

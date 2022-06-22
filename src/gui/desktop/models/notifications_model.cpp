@@ -1,7 +1,7 @@
 
 #include "notifications_model.hpp"
 
-int NotificationsModel::insertWarning(const QString& warning)
+int NotificationsModel::insert(const QString& warning, Type type)
 {
     const int id = m_id;
     m_id++;
@@ -18,7 +18,7 @@ int NotificationsModel::insertWarning(const QString& warning)
 }
 
 
-void NotificationsModel::removeWarning(int row)
+void NotificationsModel::removeRow(int row)
 {
     beginRemoveRows({}, row, row);
     m_data.erase(m_data.begin() + row);
@@ -28,7 +28,7 @@ void NotificationsModel::removeWarning(int row)
 }
 
 
-void NotificationsModel::removeWarningWithId(int id)
+void NotificationsModel::removeId(int id)
 {
     const auto it = std::find_if(m_data.begin(), m_data.end(), [id](const auto item) {
         return item.first == id;
@@ -37,7 +37,7 @@ void NotificationsModel::removeWarningWithId(int id)
     if (it != m_data.end())
     {
         const int pos = std::distance(m_data.begin(), it);
-        removeWarning(pos);
+        removeRow(pos);
     }
 }
 

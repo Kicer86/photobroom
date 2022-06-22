@@ -4,15 +4,18 @@
 
 #include <QAbstractListModel>
 
-class NotificationsModel: public QAbstractListModel
+#include "inotifications.hpp"
+
+
+class NotificationsModel: public QAbstractListModel, public INotifications
 {
     Q_OBJECT
     Q_PROPERTY(int count READ getCount() NOTIFY countChanged)
 
 public:
-    int insertWarning(const QString &);
-    Q_INVOKABLE void removeWarning(int row);
-    void removeWarningWithId(int id);
+    int insert(const QString &, Type) override;
+    Q_INVOKABLE void removeRow(int row);
+    void removeId(int id) override;
 
     int getCount() const;
 
