@@ -62,7 +62,7 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 
     m_data->m_callback = callback;
 
-    auto analyzer = std::unique_ptr<FileAnalyzer>();
+    auto analyzer = std::make_unique<FileAnalyzer>();
     auto scanner = std::make_unique<FileSystemScanner>();
 
     const ProjectInfo& info = m_data->m_project->getProjectInfo();
