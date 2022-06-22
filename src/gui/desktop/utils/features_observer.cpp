@@ -48,10 +48,10 @@ void FeaturesObserver::featureChanged(const QString& feature, bool value)
             {
                 auto toolIt = Tools.find(feature);
 
-                const int id = m_notifications.insert(tr("Path for tool %1 is not set or is invalid.\n"
-                                                         "Some functionality may be disabled.\n"
-                                                         "Check paths in configuration window.").arg(toolIt->second),
-                                                      INotifications::Type::Warning);
+                const auto id = m_notifications.insert(tr("Path for tool %1 is not set or is invalid.\n"
+                                                          "Some functionality may be disabled.\n"
+                                                          "Check paths in configuration window.").arg(toolIt->second),
+                                                       INotifications::Type::Warning);
 
                 m_warnings.emplace(feature, id);
             }

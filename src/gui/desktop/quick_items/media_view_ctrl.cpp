@@ -47,7 +47,7 @@ const Photo::Id& MediaViewCtrl::source() const
 
 QString MediaViewCtrl::photoIDString() const
 {
-    return QString::number(m_id);
+    return QString::number(m_id.value());
 }
 
 

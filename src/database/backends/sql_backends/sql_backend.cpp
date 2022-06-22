@@ -457,7 +457,7 @@ namespace Database
         UpdateQueryData updateData(TAB_GENERAL_FLAGS);
         updateData.setColumns("photo_id", "name", "value");
         updateData.setValues(id, name, value);
-        updateData.addCondition("photo_id", QString::number(id));
+        updateData.addCondition("photo_id", QString::number(id.value()));
         updateData.addCondition("name", name);
 
         updateOrInsert(updateData);
@@ -470,7 +470,7 @@ namespace Database
 
         const QString findQuery = QString("SELECT value FROM %1 WHERE photo_id = %2 AND name = '%3'")
                                     .arg(TAB_GENERAL_FLAGS)
-                                    .arg(id)
+                                    .arg(id.value())
                                     .arg(name);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -488,9 +488,9 @@ namespace Database
     void ASqlBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
     {
         UpdateQueryData data(TAB_THUMBS);
-        data.addCondition("photo_id", QString::number(id));
+        data.addCondition("photo_id", QString::number(id.value()));
         data.setColumns("photo_id", "data");
-        data.setValues(QString::number(id), thumbnail);
+        data.setValues(QString::number(id.value()), thumbnail);
 
         updateOrInsert(data);
     }
@@ -500,7 +500,7 @@ namespace Database
     {
         const QString thbQuery = QString("SELECT data FROM %1 WHERE photo_id=%2")
             .arg(TAB_THUMBS)
-            .arg(QString::number(id));
+            .arg(QString::number(id.value()));
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -774,7 +774,7 @@ namespace Database
      * \param name_id id of tag name (tag type)
      * \param tag_id id of existing entry for value update.\n -1 if new entry is to be created.
      */
-    bool ASqlBackend::store(const TagValue& tagValue, int photo_id, int name_id, int tag_id) const
+    bool ASqlBackend::store(const TagValue& tagValue, const Photo::Id& photo_id, int name_id, int tag_id) const
     {
         //store tag values
         bool status = true;
@@ -888,7 +888,7 @@ namespace Database
 
     bool ASqlBackend::storeData(const Photo::DataDelta& data, const Photo::Data& currentStateOfPhoto)
     {
-        assert(data.getId());
+        assert(data.getId().valid());
 
         bool status = true;
 
@@ -934,9 +934,9 @@ namespace Database
     bool ASqlBackend::storeGeometryFor(const Photo::Id& photo_id, const QSize& geometry) const
     {
         UpdateQueryData data(TAB_GEOMETRY);
-        data.addCondition("photo_id", QString::number(photo_id));
+        data.addCondition("photo_id", QString::number(photo_id.value()));
         data.setColumns("photo_id", "width", "height");
-        data.setValues(QString::number(photo_id), QString::number(geometry.width()), QString::number(geometry.height()) );
+        data.setValues(photo_id.value(), QString::number(geometry.width()), QString::number(geometry.height()) );
 
         const bool status = updateOrInsert(data);
 
@@ -947,16 +947,17 @@ namespace Database
      * \brief store photo's tags in database
      * \return false on error
      */
-    bool ASqlBackend::storeTags(int photo_id, const Tag::TagsList& tagsList) const
+    bool ASqlBackend::storeTags(const Photo::Id& photo_id, const Tag::TagsList& tagsList) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
         bool status = true;
 
         // gather ids for current set of tag for photo_id
-        const QString tagIdsQuery = QString("SELECT id FROM %1 WHERE photo_id=\"%2\"")
-                                    .arg(TAB_TAGS)
-                                    .arg(photo_id);
+        const QString tagIdsQuery =
+            QString("SELECT id FROM %1 WHERE photo_id=\"%2\"")
+                .arg(TAB_TAGS)
+                .arg(photo_id.value());
 
         status = m_executor.exec(tagIdsQuery, &query);
 
@@ -1028,9 +1029,9 @@ namespace Database
         };
 
         UpdateQueryData queryInfo(TAB_FLAGS);
-        queryInfo.addCondition("photo_id", QString::number(id));
+        queryInfo.addCondition("photo_id", QString::number(id.value()));
         queryInfo.setColumns("photo_id", "staging_area", "tags_loaded", FLAG_GEOM_LOADED);
-        queryInfo.setValues(QString::number(id),
+        queryInfo.setValues(id.variant(),
                             get_flag(Photo::FlagsE::StagingArea),
                             get_flag(Photo::FlagsE::ExifLoaded),
                             get_flag(Photo::FlagsE::GeometryLoaded)
@@ -1056,11 +1057,9 @@ namespace Database
                 case GroupInfo::Member:
                 {
                     UpdateQueryData queryInfo(TAB_GROUPS_MEMBERS);
-                    queryInfo.addCondition("photo_id", QString::number(id));
+                    queryInfo.addCondition("photo_id", QString::number(id.value()));
                     queryInfo.setColumns("group_id", "photo_id");
-                    queryInfo.setValues(QString::number(groupInfo.group_id),
-                                        QString::number(id)
-                    );
+                    queryInfo.setValues(groupInfo.group_id.variant(), id.variant());
 
                     status = updateOrInsert(queryInfo);
                     break;
@@ -1213,20 +1212,18 @@ namespace Database
             const QVariant representativeVariant = query.value(1);
             const QVariant memberVariant = query.value(2);
 
-            const int groupId = groupVariant.toInt();
-            const int representativeId = representativeVariant.toInt();
-            const int memberId = memberVariant.toInt();
-
-            const Group::Id gid(groupId);
+            const Group::Id groupId(groupVariant);
+            const Photo::Id representativeId(representativeVariant);
+            const Photo::Id memberId(memberVariant);
 
             if (id == representativeId)
             {
-                result = GroupInfo(gid, GroupInfo::Representative);
+                result = GroupInfo(groupId, GroupInfo::Representative);
                 break;
             }
             else if (id == memberId)
             {
-                result = GroupInfo(gid, GroupInfo::Member);
+                result = GroupInfo(groupId, GroupInfo::Member);
                 break;
             }
         }

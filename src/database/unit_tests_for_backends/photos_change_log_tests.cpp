@@ -54,10 +54,10 @@ TYPED_TEST(PhotosChangeLog, tagsManipulation)
     const QStringList changeLog = this->m_backend->photoChangeLogOperator().dumpChangeLog();
 
     ASSERT_EQ(changeLog.size(), 4);
-    EXPECT_EQ(changeLog[0], QString("photo id: %1. Tag added. Event: test event").arg(id));
-    EXPECT_EQ(changeLog[1], QString("photo id: %1. Tag added. Place: test place").arg(id));
-    EXPECT_EQ(changeLog[2], QString("photo id: %1. Tag modified. Event: test event -> test event 2").arg(id));
-    EXPECT_EQ(changeLog[3], QString("photo id: %1. Tag removed. Place: test place").arg(id));
+    EXPECT_EQ(changeLog[0], QString("photo id: %1. Tag added. Event: test event").arg(id.value()));
+    EXPECT_EQ(changeLog[1], QString("photo id: %1. Tag added. Place: test place").arg(id.value()));
+    EXPECT_EQ(changeLog[2], QString("photo id: %1. Tag modified. Event: test event -> test event 2").arg(id.value()));
+    EXPECT_EQ(changeLog[3], QString("photo id: %1. Tag removed. Place: test place").arg(id.value()));
 }
 
 
@@ -106,12 +106,12 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     const QStringList changeLog = this->m_backend->photoChangeLogOperator().dumpChangeLog();
 
     ASSERT_EQ(changeLog.size(), 8);
-    EXPECT_EQ(changeLog[0], QString("photo id: %1. Group added. %2: 1").arg(id0).arg(gr1));   // photo #1 added to group #1 as representative (1)
-    EXPECT_EQ(changeLog[1], QString("photo id: %1. Group added. %2: 1").arg(id3).arg(gr2));   // photo #4 added to group #2 as representative (1)
-    EXPECT_EQ(changeLog[2], QString("photo id: %1. Group added. %2: 2").arg(id1).arg(gr1));   // photo #2 added to group #1 as member (2)
-    EXPECT_EQ(changeLog[3], QString("photo id: %1. Group added. %2: 2").arg(id2).arg(gr1));   // photo #3 added to group #1 as member (2)
-    EXPECT_EQ(changeLog[4], QString("photo id: %1. Group removed. %2: 1").arg(id0).arg(gr1)); // photo #1 removed from group #1 (representative)
-    EXPECT_EQ(changeLog[5], QString("photo id: %1. Group removed. %2: 2").arg(id1).arg(gr1)); // photo #2 removed from group #1 (member)
-    EXPECT_EQ(changeLog[6], QString("photo id: %1. Group removed. %2: 2").arg(id2).arg(gr1)); // photo #3 removed from group #1 (member)
-    EXPECT_EQ(changeLog[7], QString("photo id: %1. Group removed. %2: 1").arg(id3).arg(gr2)); // photo #4 removed from group #2 (representative)
+    EXPECT_EQ(changeLog[0], QString("photo id: %1. Group added. %2: 1").arg(id0.value()).arg(gr1.value()));   // photo #1 added to group #1 as representative (1)
+    EXPECT_EQ(changeLog[1], QString("photo id: %1. Group added. %2: 1").arg(id3.value()).arg(gr2.value()));   // photo #4 added to group #2 as representative (1)
+    EXPECT_EQ(changeLog[2], QString("photo id: %1. Group added. %2: 2").arg(id1.value()).arg(gr1.value()));   // photo #2 added to group #1 as member (2)
+    EXPECT_EQ(changeLog[3], QString("photo id: %1. Group added. %2: 2").arg(id2.value()).arg(gr1.value()));   // photo #3 added to group #1 as member (2)
+    EXPECT_EQ(changeLog[4], QString("photo id: %1. Group removed. %2: 1").arg(id0.value()).arg(gr1.value())); // photo #1 removed from group #1 (representative)
+    EXPECT_EQ(changeLog[5], QString("photo id: %1. Group removed. %2: 2").arg(id1.value()).arg(gr1.value())); // photo #2 removed from group #1 (member)
+    EXPECT_EQ(changeLog[6], QString("photo id: %1. Group removed. %2: 2").arg(id2.value()).arg(gr1.value())); // photo #3 removed from group #1 (member)
+    EXPECT_EQ(changeLog[7], QString("photo id: %1. Group removed. %2: 1").arg(id3.value()).arg(gr2.value())); // photo #4 removed from group #2 (representative)
 }

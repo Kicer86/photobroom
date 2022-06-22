@@ -151,7 +151,7 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
         const int row = index.row();
         const Photo::Id id = m_photos[row];
 
-        d = static_cast<int>(id);
+        d = id.variant();
     }
     else if (role == PhotoDataRole)
     {

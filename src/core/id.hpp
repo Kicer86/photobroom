@@ -69,12 +69,6 @@ class Id
             return *this;
         }
 
-        operator T() const
-        {
-            assert(m_valid);
-            return m_value;
-        }
-
         bool operator!() const
         {
             return !m_valid;
@@ -94,12 +88,13 @@ class Id
 
         T value() const
         {
+            assert(valid());
             return m_value;
         }
 
         QVariant variant() const
         {
-            return m_value;
+            return m_valid? QVariant(m_value): QVariant();
         }
 
         void swap(Id& other)

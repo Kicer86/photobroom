@@ -94,7 +94,7 @@ namespace Database
         try
         {
             const QString query_str =
-                QString("SELECT representative_id FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
+                QString("SELECT representative_id FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid.value());
 
             QSqlQuery query(db);
             DbErrorOnFalse(m_executor->exec(query_str, &query));
@@ -110,10 +110,10 @@ namespace Database
             modified_photos.insert(ph_id);
 
             const QString members_delete =
-                QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid);
+                QString("DELETE FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(gid.value());
 
             const QString group_delete =
-                QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid);
+                QString("DELETE FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(gid.value());
 
             DbErrorOnFalse(m_executor->exec(members_delete, &query));
             DbErrorOnFalse(m_executor->exec(group_delete, &query));
@@ -141,7 +141,7 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         const QString query_str =
-            QString("SELECT type FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(id);
+            QString("SELECT type FROM %1 WHERE id=%2").arg(TAB_GROUPS).arg(id.value());
 
         QSqlQuery query(db);
         bool status = m_executor->exec(query_str, &query);
@@ -162,7 +162,7 @@ namespace Database
         QSqlQuery query(db);
 
         const QString members_list =
-                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id);
+                QString("SELECT photo_id FROM %1 WHERE group_id=%2").arg(TAB_GROUPS_MEMBERS).arg(g_id.value());
 
         DbErrorOnFalse(m_executor->exec(members_list, &query));
 

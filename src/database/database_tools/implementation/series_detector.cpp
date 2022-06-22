@@ -258,7 +258,7 @@ namespace
                     group.type = validator.type();
 
                     QStringList ids;
-                    std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& id){ return QString::number(id); });
+                    std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& id){ return QString::number(id.value()); });
                     m_logger->trace(QString("Detected series of %1 photos: %2").arg(membersCount).arg(ids.join(", ")));
 
                     // Id to Data  TODO: this can be done in background

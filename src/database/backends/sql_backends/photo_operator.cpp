@@ -186,7 +186,7 @@ namespace Database
         if (hasPHash(id))
         {
             UpdateQueryData updateQueryData(insertQueryData);
-            updateQueryData.addCondition("photo_id", QString::number(id));
+            updateQueryData.addCondition("photo_id", QString::number(id.value()));
 
             query = m_queryGenerator.update(db, updateQueryData);
         }

@@ -488,7 +488,7 @@ namespace Database
 
         for(const auto& entry: m_db->m_logEntries)
         {
-            const QString formatted = format(std::get<0>(entry),
+            const QString formatted = format(std::get<0>(entry).value(),
                                              std::get<1>(entry),
                                              std::get<2>(entry),
                                              std::get<3>(entry)
