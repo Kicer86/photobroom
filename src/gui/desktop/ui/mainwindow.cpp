@@ -354,7 +354,7 @@ void MainWindow::on_actionScan_collection_triggered()
         Database::IDatabase& db = m_currentPrj->getDatabase();
 
         auto scanner = new CollectionDirScanDialog(m_currentPrj.get(), db, m_tasksModel, m_notifications);
-        scanner->setParent(this);
+        connect(scanner, &CollectionDirScanDialog::scanFinished, scanner, &QObject::deleteLater);
         scanner->scan();
 
         m_collectionScanner = scanner;

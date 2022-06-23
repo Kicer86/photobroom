@@ -65,7 +65,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+101"/>
         <source>Done. No new photos found.</source>
         <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>

@@ -42,6 +42,9 @@ class CollectionDirScanDialog: public QObject
 
         void scan();
 
+    signals:
+        void scanFinished() const;
+
     private:
         enum class State
         {
@@ -64,7 +67,7 @@ class CollectionDirScanDialog: public QObject
         std::atomic<bool> m_gotDBPhotos;
 
         // slots:
-        void scanDone();
+        void diskScanDone();
         void performAnalysis();
         //
 

@@ -42,7 +42,7 @@ CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Databas
     m_gotPhotos(false),
     m_gotDBPhotos(false)
 {
-    connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
+    connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::diskScanDone);
 }
 
 
@@ -82,7 +82,7 @@ void CollectionDirScanDialog::scan()
 }
 
 
-void CollectionDirScanDialog::scanDone()
+void CollectionDirScanDialog::diskScanDone()
 {
     m_gotPhotos = true;
 
@@ -111,6 +111,8 @@ void CollectionDirScanDialog::performAnalysis()
 
     m_progressTask->finished();
     m_progressTask = nullptr;
+
+    emit scanFinished();
 }
 
 
