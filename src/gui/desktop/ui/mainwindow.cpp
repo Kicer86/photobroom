@@ -359,29 +359,6 @@ void MainWindow::on_actionScan_collection_triggered()
 
         m_collectionScanner = scanner;
     }
-
-    /*
-    if (status == QDialog::Accepted)
-    {
-        const std::set<QString>& paths = scanner.newPhotos();
-
-        std::vector<Photo::DataDelta> photos;
-        for(const QString& path: paths)
-        {
-            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
-
-            Photo::DataDelta photo_data;
-            photo_data.insert<Photo::Field::Path>(path);
-            photo_data.insert<Photo::Field::Flags>(flags);
-            photos.emplace_back(photo_data);
-        }
-
-        db.exec([photos](Database::IBackend& backend) mutable
-        {
-            backend.addPhotos(photos);
-        });
-    }
-    */
 }
 
 

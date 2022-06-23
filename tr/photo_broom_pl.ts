@@ -65,7 +65,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+119"/>
         <source>Done. No new photos found.</source>
         <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>
@@ -431,7 +431,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+81"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

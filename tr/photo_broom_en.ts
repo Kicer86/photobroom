@@ -65,12 +65,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="158"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="176"/>
         <source>Done. No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="159"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Tasks&apos; panel.</source>
@@ -425,23 +425,23 @@ Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="400"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="377"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="406"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="383"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="441"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="451"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="418"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="428"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="442"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="419"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -449,7 +449,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="452"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="429"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -457,12 +457,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="460"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="437"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="461"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="438"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -472,23 +472,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="471"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="448"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="472"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="449"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="480"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="457"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="481"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="458"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>

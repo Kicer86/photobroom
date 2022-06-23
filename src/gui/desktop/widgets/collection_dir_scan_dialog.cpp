@@ -105,13 +105,31 @@ void CollectionDirScanDialog::performAnalysis()
             m_photosFound.erase(it);
     }
 
-    // now m_photosFound contains only photos which are not in db
+    // now m_photosFound contains only photos which are not in db, add them
+    std::vector<Photo::DataDelta> photos;
+    photos.reserve(m_photosFound.size());
+
+    for(const QString& path: m_photosFound)
+    {
+        const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
+
+        Photo::DataDelta photo_data;
+        photo_data.insert<Photo::Field::Path>(path);
+        photo_data.insert<Photo::Field::Flags>(flags);
+        photos.emplace_back(photo_data);
+    }
+
+    m_database.exec([photos](Database::IBackend& backend) mutable
+    {
+        backend.addPhotos(photos);
+    });
+
+    // cleanups
     m_state = State::Done;
     updateGui();
 
     m_progressTask->finished();
     m_progressTask = nullptr;
-
     emit scanFinished();
 }
 
