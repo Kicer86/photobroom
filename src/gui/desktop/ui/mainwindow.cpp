@@ -351,7 +351,7 @@ void MainWindow::on_actionScan_collection_triggered()
 {
     Database::IDatabase& db = m_currentPrj->getDatabase();
 
-    CollectionDirScanDialog scanner(m_currentPrj.get(), db, m_tasksModel);
+    CollectionDirScanDialog scanner(m_currentPrj.get(), db, m_tasksModel, m_notifications);
     const int status = scanner.exec();
 
     if (status == QDialog::Accepted)

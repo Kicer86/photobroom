@@ -29,7 +29,7 @@
 #include "project_utils/project.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, ITasksView& tasksView):
+CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, ITasksView& tasksView, INotifications& notifications):
     QDialog(),
     m_collector(project),
     m_photosFound(),
@@ -40,6 +40,7 @@ CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Databas
     m_button(nullptr),
     m_database(db),
     m_tasksView(tasksView),
+    m_notifications(notifications),
     m_gotPhotos(false),
     m_gotDBPhotos(false)
 {
@@ -206,6 +207,7 @@ void CollectionDirScanDialog::updateGui()
 
             m_info->setText(info);
             m_button->setText(tr("Close"));
+            m_notifications.insert(info, INotifications::Type::Info);
             break;
         }
     }

@@ -60,49 +60,49 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="57"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="58"/>
         <source>Collection scan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="183"/>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="208"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="184"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="209"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="182"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="183"/>
         <source>Scan canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="126"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="127"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="187"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="188"/>
         <source>Scaning disk for media files...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="188"/>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="193"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="189"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="194"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="192"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="193"/>
         <source>Searching for new photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="199"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="200"/>
         <source>Done. No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="200"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="201"/>
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Tasks&apos; panel.</source>

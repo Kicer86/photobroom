@@ -60,7 +60,7 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+188"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+189"/>
         <location line="+5"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>

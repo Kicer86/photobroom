@@ -28,9 +28,9 @@
 #include <core/itasks_view.hpp>
 #include <database/idatabase.hpp>
 #include "utils/photos_collector.hpp"
+#include "inotifications.hpp"
 
 class QLabel;
-
 class Project;
 
 class CollectionDirScanDialog: public QDialog
@@ -38,7 +38,7 @@ class CollectionDirScanDialog: public QDialog
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const Project *, Database::IDatabase &, ITasksView &);
+        CollectionDirScanDialog(const Project *, Database::IDatabase &, ITasksView &, INotifications &);
         CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
         ~CollectionDirScanDialog();
 
@@ -65,6 +65,7 @@ class CollectionDirScanDialog: public QDialog
         Database::IDatabase& m_database;
         ITasksView& m_tasksView;
         IViewTask* m_progressTask;
+        INotifications& m_notifications;
         std::atomic<bool> m_gotPhotos;
         std::atomic<bool> m_gotDBPhotos;
 
