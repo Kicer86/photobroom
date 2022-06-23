@@ -40,7 +40,7 @@ jobs:
     - name: Install imagemagick
       run: |
         mkdir -p /home/runner/.local/bin/
-        wget https://download.imagemagick.org/ImageMagick/download/binaries/magick -O /home/runner/.local/bin/magick
+        wget https://imagemagick.org/archive/binaries/magick -O /home/runner/.local/bin/magick
         chmod +x /home/runner/.local/bin/magick
 
     - name: Install magic enum
