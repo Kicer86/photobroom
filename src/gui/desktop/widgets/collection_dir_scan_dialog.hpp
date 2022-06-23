@@ -23,17 +23,13 @@
 #include <atomic>
 #include <set>
 
-#include <QDialog>
-
 #include <core/itasks_view.hpp>
 #include <database/idatabase.hpp>
 #include "utils/photos_collector.hpp"
 #include "inotifications.hpp"
 
-class QLabel;
-class Project;
 
-class CollectionDirScanDialog: public QDialog
+class CollectionDirScanDialog: public QObject
 {
         Q_OBJECT
 
@@ -44,7 +40,7 @@ class CollectionDirScanDialog: public QDialog
 
         CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
 
-        const std::set<QString>& newPhotos() const;
+        void scan();
 
     private:
         enum class State
@@ -60,8 +56,6 @@ class CollectionDirScanDialog: public QDialog
         std::vector<Photo::DataDelta> m_dbPhotos;
         State m_state;
         const Project* m_project;
-        QLabel* m_info;
-        QPushButton* m_button;
         Database::IDatabase& m_database;
         ITasksView& m_tasksView;
         IViewTask* m_progressTask;
@@ -70,12 +64,10 @@ class CollectionDirScanDialog: public QDialog
         std::atomic<bool> m_gotDBPhotos;
 
         // slots:
-        void buttonPressed();
         void scanDone();
         void performAnalysis();
         //
 
-        void scan();
         void checkIfReady();
 
         void gotPhoto(const QString &);

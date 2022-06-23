@@ -30,35 +30,19 @@
 
 
 CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, ITasksView& tasksView, INotifications& notifications):
-    QDialog(),
+    QObject(),
     m_collector(project),
     m_photosFound(),
     m_dbPhotos(),
     m_state(State::Scanning),
     m_project(project),
-    m_info(nullptr),
-    m_button(nullptr),
     m_database(db),
     m_tasksView(tasksView),
     m_notifications(notifications),
     m_gotPhotos(false),
     m_gotDBPhotos(false)
 {
-    m_info = new QLabel(this);
-    m_button = new QPushButton(this);
-
-    connect(m_button, &QPushButton::clicked, this, &CollectionDirScanDialog::buttonPressed);
     connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::scanDone);
-
-    // main layout
-    QVBoxLayout* l = new QVBoxLayout(this);
-    l->addWidget(m_info);
-    l->addWidget(m_button);
-
-    setWindowTitle(tr("Collection scan"));
-
-    //
-    scan();
 }
 
 
@@ -68,25 +52,33 @@ CollectionDirScanDialog::~CollectionDirScanDialog()
 }
 
 
-const std::set< QString >& CollectionDirScanDialog::newPhotos() const
+void CollectionDirScanDialog::scan()
 {
-    return m_photosFound;
-}
+    m_progressTask = m_tasksView.add(tr("Scanning collection"));
+    m_state = State::Scanning;
+    updateGui();
 
+    // collect photos from disk
+    using namespace std::placeholders;
+    auto disk_callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
 
-void CollectionDirScanDialog::buttonPressed()
-{
-    if (m_state == State::Done)
-        accept();
-    else if (m_state == State::Canceled)
-        rejected();
-    else
+    m_collector.collect(m_project->getProjectInfo().getBaseDir(), disk_callback);
+
+    // collect photos from db
+    auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
+
+    m_database.exec([db_callback](Database::IBackend& backend)
     {
-        m_state = State::Canceled;
-        m_collector.stop();
+        auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
 
-        updateGui();
-    }
+        std::vector<Photo::DataDelta> photoDeltas;
+        photoDeltas.reserve(photos.size());
+
+        for(const Photo::Id& id: photos)
+            photoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
+
+        db_callback(photoDeltas);
+    });
 }
 
 
@@ -122,36 +114,6 @@ void CollectionDirScanDialog::performAnalysis()
 }
 
 
-void CollectionDirScanDialog::scan()
-{
-    m_progressTask = m_tasksView.add(tr("Scanning collection"));
-    m_state = State::Scanning;
-    updateGui();
-
-    // collect photos from disk
-    using namespace std::placeholders;
-    auto disk_callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
-
-    m_collector.collect(m_project->getProjectInfo().getBaseDir(), disk_callback);
-
-    // collect photos from db
-    auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
-
-    m_database.exec([db_callback](Database::IBackend& backend)
-    {
-        auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
-
-        std::vector<Photo::DataDelta> photoDeltas;
-        photoDeltas.reserve(photos.size());
-
-        for(const Photo::Id& id: photos)
-            photoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
-
-        db_callback(photoDeltas);
-    });
-}
-
-
 void CollectionDirScanDialog::checkIfReady()
 {
     if (m_gotPhotos && m_gotDBPhotos)
@@ -180,18 +142,12 @@ void CollectionDirScanDialog::updateGui()
     switch(m_state)
     {
         case State::Canceled:
-            m_info->setText(tr("Scan canceled"));
-            m_button->setText(tr("Close"));
             break;
 
         case State::Scanning:
-            m_info->setText(tr("Scaning disk for media files..."));
-            m_button->setText(tr("Cancel"));
             break;
 
         case State::Analyzing:
-            m_info->setText(tr("Searching for new photos"));
-            m_button->setText(tr("Cancel"));
             break;
 
         case State::Done:
@@ -205,8 +161,6 @@ void CollectionDirScanDialog::updateGui()
                    "",
                    m_photosFound.size());
 
-            m_info->setText(info);
-            m_button->setText(tr("Close"));
             m_notifications.insert(info, INotifications::Type::Info);
             break;
         }

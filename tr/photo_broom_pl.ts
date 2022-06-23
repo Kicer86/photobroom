@@ -60,38 +60,12 @@
 <context>
     <name>CollectionDirScanDialog</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+189"/>
-        <location line="+5"/>
-        <source>Cancel</source>
-        <translation>Anuluj</translation>
-    </message>
-    <message>
-        <location line="-136"/>
-        <source>Collection scan</source>
-        <translation>Skanowanie kolekcji</translation>
-    </message>
-    <message>
-        <location line="+69"/>
+        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="+57"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+56"/>
-        <source>Scan canceled</source>
-        <translation>Skanowanie kolekcji przerwane</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Scaning disk for media files...</source>
-        <translation>Skanowanie dysku w poszukiwaniu plików multimedialnych...</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Searching for new photos</source>
-        <translation>Wyszukiwanie nowych zdjęć</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+99"/>
         <source>Done. No new photos found.</source>
         <translation>Zakończono. Brak nowych zdjęć.</translation>
     </message>
@@ -109,12 +83,6 @@ Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
 Photo broom rozpocznie teraz proces odczytywania z nich informacji.
 Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
         </translation>
-    </message>
-    <message>
-        <location line="-17"/>
-        <location line="+25"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
@@ -463,7 +431,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+104"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>

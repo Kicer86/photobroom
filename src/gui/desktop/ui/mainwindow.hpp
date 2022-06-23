@@ -61,6 +61,7 @@ class MainWindow: public QObject
         IUpdater*                 m_updater;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;
+        QObject*                  m_collectionScanner = nullptr;
         QQmlApplicationEngine     m_mainView;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;

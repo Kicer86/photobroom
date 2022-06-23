@@ -349,11 +349,18 @@ void MainWindow::on_actionClose_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-    Database::IDatabase& db = m_currentPrj->getDatabase();
+    if (m_collectionScanner == nullptr)
+    {
+        Database::IDatabase& db = m_currentPrj->getDatabase();
 
-    CollectionDirScanDialog scanner(m_currentPrj.get(), db, m_tasksModel, m_notifications);
-    const int status = scanner.exec();
+        auto scanner = new CollectionDirScanDialog(m_currentPrj.get(), db, m_tasksModel, m_notifications);
+        scanner->setParent(this);
+        scanner->scan();
 
+        m_collectionScanner = scanner;
+    }
+
+    /*
     if (status == QDialog::Accepted)
     {
         const std::set<QString>& paths = scanner.newPhotos();
@@ -374,6 +381,7 @@ void MainWindow::on_actionScan_collection_triggered()
             backend.addPhotos(photos);
         });
     }
+    */
 }
 
 
