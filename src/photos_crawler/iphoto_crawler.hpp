@@ -8,11 +8,6 @@
 
 class QString;
 
-struct Rules
-{
-
-};
-
 
 struct PHOTOS_CRAWLER_EXPORT IMediaNotification
 {
@@ -27,7 +22,6 @@ struct PHOTOS_CRAWLER_EXPORT IPhotoCrawler
     virtual ~IPhotoCrawler() = default;
 
     virtual void crawl(const QString &, IMediaNotification *) = 0;   // find media files for given path. Notify about each result
-    virtual void setRules(const Rules &) = 0;                        // provide crawl rules
     virtual void stop() = 0;                                         // stop crawling
 };
 

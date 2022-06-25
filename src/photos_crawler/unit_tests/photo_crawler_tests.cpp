@@ -59,20 +59,3 @@ TEST(PhotoCrawlerShould, returnMediaFilesForPath)
     photo_crawler.crawl("/path/");
 }
 */
-
-TEST(PhotoCrawlerShould, allowToSetRules)
-{
-    auto fileSystem = std::make_unique<FileSystemMock>();
-    auto analyzer = std::make_unique<AnalyzerMock>();
-
-    using ::testing::_;
-
-    EXPECT_CALL(*fileSystem, getFilesFor(_, _)).Times(0);
-    EXPECT_CALL(*fileSystem, stop()).Times(1);
-    EXPECT_CALL(*analyzer, isMediaFile(_)).Times(0);
-
-    PhotoCrawler photo_crawler(std::move(fileSystem), std::move(analyzer));
-
-    Rules rules;
-    photo_crawler.setRules(rules);
-}
