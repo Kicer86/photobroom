@@ -29,7 +29,7 @@
 #include "project_utils/project.hpp"
 
 
-CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Database::IDatabase& db, ITasksView& tasksView, INotifications& notifications):
+CollectionScanner::CollectionScanner(const Project* project, Database::IDatabase& db, ITasksView& tasksView, INotifications& notifications):
     QObject(),
     m_collector(project),
     m_photosFound(),
@@ -42,17 +42,17 @@ CollectionDirScanDialog::CollectionDirScanDialog(const Project* project, Databas
     m_gotPhotos(false),
     m_gotDBPhotos(false)
 {
-    connect(&m_collector, &PhotosCollector::finished, this, &CollectionDirScanDialog::diskScanDone);
+    connect(&m_collector, &PhotosCollector::finished, this, &CollectionScanner::diskScanDone);
 }
 
 
-CollectionDirScanDialog::~CollectionDirScanDialog()
+CollectionScanner::~CollectionScanner()
 {
 
 }
 
 
-void CollectionDirScanDialog::scan()
+void CollectionScanner::scan()
 {
     m_progressTask = m_tasksView.add(tr("Scanning collection"));
     m_state = State::Scanning;
@@ -60,12 +60,12 @@ void CollectionDirScanDialog::scan()
 
     // collect photos from disk
     using namespace std::placeholders;
-    auto disk_callback = std::bind(&CollectionDirScanDialog::gotPhoto, this, _1);
+    auto disk_callback = std::bind(&CollectionScanner::gotPhoto, this, _1);
 
     m_collector.collect(m_project->getProjectInfo().getBaseDir(), disk_callback);
 
     // collect photos from db
-    auto db_callback = std::bind(&CollectionDirScanDialog::gotExistingPhotos, this, _1);
+    auto db_callback = std::bind(&CollectionScanner::gotExistingPhotos, this, _1);
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
@@ -82,7 +82,7 @@ void CollectionDirScanDialog::scan()
 }
 
 
-void CollectionDirScanDialog::diskScanDone()
+void CollectionScanner::diskScanDone()
 {
     m_gotPhotos = true;
 
@@ -90,7 +90,7 @@ void CollectionDirScanDialog::diskScanDone()
 }
 
 
-void CollectionDirScanDialog::performAnalysis()
+void CollectionScanner::performAnalysis()
 {
     m_state = State::Analyzing;
     updateGui();
@@ -134,21 +134,21 @@ void CollectionDirScanDialog::performAnalysis()
 }
 
 
-void CollectionDirScanDialog::checkIfReady()
+void CollectionScanner::checkIfReady()
 {
     if (m_gotPhotos && m_gotDBPhotos)
-        QMetaObject::invokeMethod(this, &CollectionDirScanDialog::performAnalysis, Qt::QueuedConnection);
+        QMetaObject::invokeMethod(this, &CollectionScanner::performAnalysis, Qt::QueuedConnection);
 }
 
 
-void CollectionDirScanDialog::gotPhoto(const QString& path)
+void CollectionScanner::gotPhoto(const QString& path)
 {
     const QString relative = m_project->makePathRelative(path);
     m_photosFound.insert(relative);
 }
 
 
-void CollectionDirScanDialog::gotExistingPhotos(const std::vector<Photo::DataDelta>& photos)
+void CollectionScanner::gotExistingPhotos(const std::vector<Photo::DataDelta>& photos)
 {
     m_dbPhotos = photos;
     m_gotDBPhotos = true;
@@ -157,7 +157,7 @@ void CollectionDirScanDialog::gotExistingPhotos(const std::vector<Photo::DataDel
 }
 
 
-void CollectionDirScanDialog::updateGui()
+void CollectionScanner::updateGui()
 {
     switch(m_state)
     {

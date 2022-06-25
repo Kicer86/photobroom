@@ -58,7 +58,7 @@
     </message>
 </context>
 <context>
-    <name>CollectionDirScanDialog</name>
+    <name>CollectionScanner</name>
     <message>
         <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="57"/>
         <source>Scanning collection</source>
@@ -74,7 +74,7 @@
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Tasks&apos; panel.</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>Done. %n new photo found.</numerusform>
             <numerusform>Done. %n new photos found.
 Photo broom will now collect data from photos.

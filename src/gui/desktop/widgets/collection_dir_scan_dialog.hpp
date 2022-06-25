@@ -29,16 +29,16 @@
 #include "inotifications.hpp"
 
 
-class CollectionDirScanDialog: public QObject
+class CollectionScanner: public QObject
 {
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const Project *, Database::IDatabase &, ITasksView &, INotifications &);
-        CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
-        ~CollectionDirScanDialog();
+        CollectionScanner(const Project *, Database::IDatabase &, ITasksView &, INotifications &);
+        CollectionScanner(const CollectionScanner &) = delete;
+        ~CollectionScanner();
 
-        CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
+        CollectionScanner& operator=(const CollectionScanner &) = delete;
 
         void scan();
 
