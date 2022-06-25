@@ -55,6 +55,8 @@ class Id
                 m_value <<= 8;
                 m_value |= static_cast<T>(v[i]);
             }
+
+            m_valid = true;
         }
 
         Id(const Id &) = default;
