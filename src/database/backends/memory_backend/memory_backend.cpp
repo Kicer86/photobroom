@@ -41,7 +41,7 @@ namespace
             if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
             {
                 result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
-                    return !photo.phash;
+                    return !photo.phash.valid();
                 }), result.end());
 
                 std::sort(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
@@ -50,6 +50,12 @@ namespace
 
                 result.erase(remove_unique(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
                     return lhs.phash == rhs.phash;
+                }), result.end());
+            }
+            else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
+            {
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
+                    return !photo.phash.valid();
                 }), result.end());
             }
 
@@ -104,7 +110,6 @@ namespace Database
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
         std::map<Photo::Id, QByteArray> m_thumbnails;
-        std::map<Photo::Id, Photo::PHash> m_phashes;
 
         int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
@@ -645,17 +650,26 @@ namespace Database
 
     void MemoryBackend::setPHash(const Photo::Id& id, const Photo::PHash& phash)
     {
-        m_db->m_phashes[id] = phash;
+        auto it = m_db->m_photos.find(id);
+
+        if (it != m_db->m_photos.end())
+        {
+            auto data = *it;
+            data.phash = phash;
+            m_db->m_photos.erase(it);
+            m_db->m_photos.insert(data);
+        }
     }
 
 
     std::optional<Photo::PHash> MemoryBackend::getPHash(const Photo::Id& id)
     {
-        auto it = m_db->m_phashes.find(id);
+        auto it = m_db->m_photos.find(id);
+
         std::optional<Photo::PHash> result;
 
-        if (it != m_db->m_phashes.end())
-            result = it->second;
+        if (it != m_db->m_photos.end() && it->phash.valid())
+            result = it->phash;
 
         return result;
     }
@@ -663,7 +677,9 @@ namespace Database
 
     bool MemoryBackend::hasPHash(const Photo::Id& id)
     {
-        return m_db->m_phashes.contains(id);
+        auto it = m_db->m_photos.find(id);
+
+        return it == m_db->m_photos.end()? false: it->phash.valid();
     }
 
 

@@ -175,19 +175,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 }
 
 
-TEST(SqlFilterQueryGeneratorTest, HandlesWithPHashFilter)
-{
-    Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithPHash filter;
-
-    const QString query = generator.generate(filter);
-
-    EXPECT_EQ("SELECT photos.id FROM photos "
-              "JOIN (phashes) "
-              "ON (phashes.photo_id = photos.id)", query);
-}
-
-
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlFilterQueryGenerator generator;

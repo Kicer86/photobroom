@@ -1,4 +1,5 @@
 
+#include "database/filter.hpp"
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 #include "unit_tests_utils/phash_db.json.hpp"
@@ -6,6 +7,7 @@
 #include "common.hpp"
 
 using testing::Contains;
+using testing::UnorderedElementsAre;
 
 
 template<typename T>
@@ -96,4 +98,28 @@ TYPED_TEST(PHashTest, findSimilar)
     const auto photos = this->m_backend->photoOperator().getPhotos(filter);
 
     EXPECT_EQ(photos.size(), 7);
+}
+
+
+TYPED_TEST(PHashTest, filterPhotosWithPHash)
+{
+    // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db1);            // append photos without hash
+
+    //
+    const auto photos = this->m_backend->photoOperator().getPhotos({});
+    ASSERT_EQ(photos.size(), 3);
+
+    const Photo::PHash phash1(0x1122334455667788LL);
+    const Photo::PHash phash2;
+
+    this->m_backend->photoOperator().setPHash(photos[0], phash1);
+    this->m_backend->photoOperator().setPHash(photos[1], phash2);
+
+    // filter photos
+    Database::FilterPhotosWithPHash withPhash;
+    const auto noPhashPhotos = this->m_backend->photoOperator().getPhotos(withPhash);
+
+    EXPECT_THAT(noPhashPhotos, UnorderedElementsAre(photos[0]));
 }

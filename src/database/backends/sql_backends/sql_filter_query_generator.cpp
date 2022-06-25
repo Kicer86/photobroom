@@ -363,7 +363,7 @@ namespace Database
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosWithPHash &) const
     {
-        return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id)")
+        return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.hash IS NOT NULL")
             .arg(TAB_PHOTOS)
             .arg(TAB_PHASHES);
     }
