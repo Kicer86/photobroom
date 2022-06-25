@@ -60,7 +60,7 @@
 <context>
     <name>CollectionScanner</name>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+57"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+55"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>

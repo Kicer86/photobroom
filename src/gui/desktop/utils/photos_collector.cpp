@@ -22,31 +22,15 @@
 #include <cassert>
 
 #include <photos_crawler/default_analyzers/file_analyzer.hpp>
-#include <photos_crawler/photo_crawler.hpp>
 #include <photos_crawler/default_filesystem_scanners/filesystemscanner.hpp>
 #include <project_utils/project.hpp>
+#include <photos_crawler/photo_crawler.hpp>
 
 
-struct PhotosCollector::Data
+PhotosCollector::PhotosCollector(const Project& project, QObject* p)
+    : QObject(p)
+    , m_project(project)
 {
-    std::function<void(const QString &)> m_callback;
-    ITasksView* m_tasksView;
-    std::unique_ptr<PhotoCrawler> m_crawler;
-    const Project* m_project;
-
-    Data(): m_callback(), m_tasksView(nullptr), m_crawler(nullptr)
-    {
-
-    }
-
-    Data(const Data &) = delete;
-    Data& operator=(const Data &) = delete;
-};
-
-
-PhotosCollector::PhotosCollector(const Project* project, QObject* p): QObject(p), m_data(new Data)
-{
-    m_data->m_project = project;
 }
 
 
@@ -60,30 +44,30 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
 {
     stop();
 
-    m_data->m_callback = callback;
+    m_callback = callback;
 
     auto analyzer = std::make_unique<FileAnalyzer>();
     auto scanner = std::make_unique<FileSystemScanner>();
 
-    const ProjectInfo& info = m_data->m_project->getProjectInfo();
+    const ProjectInfo& info = m_project.getProjectInfo();
     const QString& internals = info.getInternalLocation();
     const QStringList to_ignore { internals };
 
     scanner->ignorePaths(to_ignore);
 
-    m_data->m_crawler = std::make_unique<PhotoCrawler>( std::move(scanner), std::move(analyzer) );
-    m_data->m_crawler->crawl(path, this);
+    m_crawler = std::make_unique<PhotoCrawler>(std::move(scanner), std::move(analyzer) );
+    m_crawler->crawl(path, this);
 }
 
 
 void PhotosCollector::stop()
 {
-    if (m_data->m_crawler.get() != nullptr)
-        m_data->m_crawler->stop();
+    if (m_crawler.get() != nullptr)
+        m_crawler->stop();
 }
 
 
 void PhotosCollector::found(const QString& path)
 {
-    m_data->m_callback(path);
+    m_callback(path);
 }

@@ -34,7 +34,7 @@ class CollectionScanner: public QObject
         Q_OBJECT
 
     public:
-        CollectionScanner(const Project *, Database::IDatabase &, ITasksView &, INotifications &);
+        CollectionScanner(const Project &, ITasksView &, INotifications &);
         CollectionScanner(const CollectionScanner &) = delete;
         ~CollectionScanner();
 
@@ -58,7 +58,7 @@ class CollectionScanner: public QObject
         std::set<QString> m_photosFound;
         std::vector<Photo::DataDelta> m_dbPhotos;
         State m_state;
-        const Project* m_project;
+        const Project& m_project;
         Database::IDatabase& m_database;
         ITasksView& m_tasksView;
         IViewTask* m_progressTask;

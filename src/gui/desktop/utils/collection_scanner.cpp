@@ -29,14 +29,12 @@
 #include "project_utils/project.hpp"
 
 
-CollectionScanner::CollectionScanner(const Project* project, Database::IDatabase& db, ITasksView& tasksView, INotifications& notifications):
+CollectionScanner::CollectionScanner(const Project& project, ITasksView& tasksView, INotifications& notifications):
     QObject(),
     m_collector(project),
-    m_photosFound(),
-    m_dbPhotos(),
     m_state(State::Scanning),
     m_project(project),
-    m_database(db),
+    m_database(project.getDatabase()),
     m_tasksView(tasksView),
     m_notifications(notifications),
     m_gotPhotos(false),
@@ -62,7 +60,7 @@ void CollectionScanner::scan()
     using namespace std::placeholders;
     auto disk_callback = std::bind(&CollectionScanner::gotPhoto, this, _1);
 
-    m_collector.collect(m_project->getProjectInfo().getBaseDir(), disk_callback);
+    m_collector.collect(m_project.getProjectInfo().getBaseDir(), disk_callback);
 
     // collect photos from db
     auto db_callback = std::bind(&CollectionScanner::gotExistingPhotos, this, _1);
@@ -143,7 +141,7 @@ void CollectionScanner::checkIfReady()
 
 void CollectionScanner::gotPhoto(const QString& path)
 {
-    const QString relative = m_project->makePathRelative(path);
+    const QString relative = m_project.makePathRelative(path);
     m_photosFound.insert(relative);
 }
 

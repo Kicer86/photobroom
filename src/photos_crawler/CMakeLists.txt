@@ -34,12 +34,12 @@ target_link_libraries(photos_crawler
 )
 
 target_include_directories(photos_crawler
-                                PUBLIC
-                                    ${CMAKE_CURRENT_BINARY_DIR}
-                                    ${CMAKE_CURRENT_SOURCE_DIR}
-                                PRIVATE
-                                    ${CMAKE_SOURCE_DIR}/src
-                                    ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/..    # force clients to use scoped include: #include <photos_crawler/...>
+        ${CMAKE_CURRENT_BINARY_DIR}
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 generate_export_header(photos_crawler)
