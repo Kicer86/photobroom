@@ -60,17 +60,17 @@
 <context>
     <name>CollectionScanner</name>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="57"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="57"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="176"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="176"/>
         <source>Done. No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/widgets/collection_dir_scan_dialog.cpp" line="177"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="177"/>
         <source>Done. %n new photo(s) found.
 Photo broom will now collect data from photos.
 You can watch progress in &apos;Tasks&apos; panel.</source>

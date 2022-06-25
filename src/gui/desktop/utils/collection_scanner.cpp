@@ -25,7 +25,7 @@
 
 #include <core/iview_task.hpp>
 #include <database/iphoto_operator.hpp>
-#include "collection_dir_scan_dialog.hpp"
+#include "collection_scanner.hpp"
 #include "project_utils/project.hpp"
 
 

@@ -2,7 +2,6 @@
 find_package(Qt6 REQUIRED COMPONENTS QuickWidgets Widgets)
 
 set(SRCS
-    collection_dir_scan_dialog.cpp
     media_preview.cpp
     project_creator/project_creator_dialog.cpp
     series_detection/series_detection.cpp
@@ -10,7 +9,6 @@ set(SRCS
 )
 
 set(HEADERS
-    collection_dir_scan_dialog.hpp
     media_preview.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp
@@ -19,7 +17,6 @@ set(HEADERS
 
 #set of file to be moced
 set(TO_MOC
-    collection_dir_scan_dialog.hpp
     media_preview.hpp
     project_creator/project_creator_dialog.hpp
     series_detection/series_detection.hpp

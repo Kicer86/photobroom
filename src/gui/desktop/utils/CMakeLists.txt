@@ -10,6 +10,8 @@ set(UTILS_SOURCES
     grouppers/generator_utils.hpp
     grouppers/hdr_generator.cpp
     grouppers/hdr_generator.hpp
+    collection_scanner.cpp
+    collection_scanner.hpp
     config_tools.cpp
     config_tools.hpp
     features_manager.cpp
