@@ -63,16 +63,17 @@ void CollectionScanner::scan()
     m_collector.collect(m_project.getProjectInfo().getBaseDir(), disk_callback);
 
     // collect photos from db
-    auto db_callback = std::bind(&CollectionScanner::gotDBPhotos, this, _1);
+    auto db_callback = std::bind(&CollectionScanner::gotDBPhotos, this, _1, _2);
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
-        // collect all photos from db but those we already know are missing
+        // collect all photos but separate missing from others
         const Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
-                                                            static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
+                                                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
         const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
         auto photos = backend.photoOperator().getPhotos(filterNotMissing);
+        auto missingPhotos = backend.photoOperator().getPhotos(filterMissing);
 
         std::vector<Photo::DataDelta> photoDeltas;
         photoDeltas.reserve(photos.size());
@@ -80,7 +81,13 @@ void CollectionScanner::scan()
         for(const Photo::Id& id: photos)
             photoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
 
-        db_callback(photoDeltas);
+        std::vector<Photo::DataDelta> missingPhotoDeltas;
+        missingPhotoDeltas.reserve(missingPhotos.size());
+
+        for(const Photo::Id& id: missingPhotos)
+            missingPhotoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
+
+        db_callback(photoDeltas, missingPhotoDeltas);
     });
 }
 
@@ -96,8 +103,9 @@ void CollectionScanner::diskScanDone()
 void CollectionScanner::performAnalysis()
 {
     // sort db and disk sets for further steps
-    std::sort(m_dbPhotos.begin(), m_dbPhotos.end(), &Photo::isLess<Photo::Field::Path>);
-    std::sort(m_diskPhotos.begin(), m_diskPhotos.end(), &Photo::isLess<Photo::Field::Path>);
+    std::ranges::sort(m_dbPhotos, &Photo::isLess<Photo::Field::Path>);
+    std::ranges::sort(m_diskPhotos, &Photo::isLess<Photo::Field::Path>);
+    std::ranges::sort(m_missingPhotos, &Photo::isLess<Photo::Field::Path>);
 
     // find new photos
     std::vector<Photo::DataDelta> newPhotos;
@@ -106,6 +114,12 @@ void CollectionScanner::performAnalysis()
     // find removed photos
     std::vector<Photo::DataDelta> removedPhotos;
     std::ranges::set_difference(m_dbPhotos, m_diskPhotos, std::back_inserter(removedPhotos), &Photo::isLess<Photo::Field::Path>);
+
+    // find restored photos (are marked as missing in db but now are available again)
+    // it is crucial for `m_missingPhotos` to go first here as `set_intersection` will use items from this container to feed `restoredPhotos`,
+    // and `m_missingPhotos` contains more details
+    std::vector<Photo::DataDelta> restoredPhotos;
+    std::ranges::set_intersection(m_missingPhotos, m_diskPhotos, std::back_inserter(restoredPhotos), &Photo::isLess<Photo::Field::Path>);
 
     // prepare new photos for storage
     for(auto& photo: newPhotos)
@@ -134,8 +148,20 @@ void CollectionScanner::performAnalysis()
             }
         });
 
+    // restore photos
+    if (restoredPhotos.empty() == false)
+        m_database.exec([restoredPhotos](Database::IBackend& backend) mutable
+        {
+            for(const auto& photo: restoredPhotos)
+            {
+                backend.set(photo.getId(),
+                            Database::CommonGeneralFlags::State,
+                            static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+            }
+        });
+
     // finalization
-    addNotification(newPhotos.size(), removedPhotos.size());
+    addNotification(newPhotos.size(), removedPhotos.size(), restoredPhotos.size());
     m_progressTask->finished();
     m_progressTask = nullptr;
     emit scanFinished();
@@ -158,28 +184,32 @@ void CollectionScanner::gotDiskPhoto(const QString& path)
 }
 
 
-void CollectionScanner::gotDBPhotos(const std::vector<Photo::DataDelta>& photos)
+void CollectionScanner::gotDBPhotos(const std::vector<Photo::DataDelta>& photos, const std::vector<Photo::DataDelta>& missingPhotos)
 {
     m_dbPhotos = photos;
+    m_missingPhotos = missingPhotos;
     m_gotDBPhotos = true;
 
     checkIfReady();
 }
 
 
-void CollectionScanner::addNotification(std::size_t added, std::size_t removed)
+void CollectionScanner::addNotification(std::size_t added, std::size_t removed, std::size_t restored)
 {
     QString info;
 
-    if (added == 0 && removed == 0)
+    if (added == 0 && removed == 0 && restored == 0)
         info = tr("No new photos found.");
     else
     {
         if (added > 0)
-            info = tr("%n new photo(s) was found and added to collection.", "", added);
+            info = tr("%n new photo(s) was found and added to collection.\n", "", added);
 
         if (removed > 0)
-            info += tr("%n photo(s) were no longer found on disk.", "", removed);
+            info += tr("%n photo(s) were no longer found on disk.\n", "", removed);
+
+        if (restored > 0)
+            info += tr("%n missing photos were found.\n", "", restored);
     }
 
     m_notifications.insert(info, INotifications::Type::Info);

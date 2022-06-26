@@ -65,13 +65,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+145"/>
         <source>No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
-        <source>%n new photo(s) was found and added to collection.</source>
+        <source>%n new photo(s) was found and added to collection.
+</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
@@ -80,7 +81,18 @@
     </message>
     <message numerus="yes">
         <location line="+3"/>
-        <source>%n photo(s) were no longer found on disk.</source>
+        <source>%n photo(s) were no longer found on disk.
+</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+3"/>
+        <source>%n missing photos were found.
+</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>

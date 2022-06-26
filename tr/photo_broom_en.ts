@@ -65,21 +65,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="175"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="202"/>
         <source>No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="179"/>
-        <source>%n new photo(s) was found and added to collection.</source>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="206"/>
+        <source>%n new photo(s) was found and added to collection.
+</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="182"/>
-        <source>%n photo(s) were no longer found on disk.</source>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="209"/>
+        <source>%n photo(s) were no longer found on disk.
+</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="212"/>
+        <source>%n missing photos were found.
+</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
