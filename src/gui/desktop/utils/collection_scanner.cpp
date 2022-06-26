@@ -71,9 +71,9 @@ void CollectionScanner::scan()
     m_database.exec([db_callback](Database::IBackend& backend)
     {
         // collect all photos from db but those we already know are missing
-        Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
+        const Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
                                                             static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
-        Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
+        const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
         auto photos = backend.photoOperator().getPhotos(filterNotMissing);
 
