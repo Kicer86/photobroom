@@ -89,7 +89,7 @@
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="216"/>
-        <source>%n missing photos were found.
+        <source>%n missing photo(s) were found.
 </source>
         <translation type="unfinished">
             <numerusform></numerusform>

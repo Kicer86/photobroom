@@ -91,7 +91,7 @@
     </message>
     <message numerus="yes">
         <location line="+3"/>
-        <source>%n missing photos were found.
+        <source>%n missing photo(s) were found.
 </source>
         <translation type="unfinished">
             <numerusform></numerusform>

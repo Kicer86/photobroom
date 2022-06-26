@@ -213,7 +213,7 @@ void CollectionScanner::addNotification(std::size_t added, std::size_t removed, 
             info += tr("%n photo(s) were no longer found on disk.\n", "", static_cast<int>(removed));
 
         if (restored > 0)
-            info += tr("%n missing photos were found.\n", "", static_cast<int>(restored));
+            info += tr("%n missing photo(s) were found.\n", "", static_cast<int>(restored));
     }
 
     m_notifications.insert(info.trimmed(), INotifications::Type::Info);
