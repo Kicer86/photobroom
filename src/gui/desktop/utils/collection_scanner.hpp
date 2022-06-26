@@ -55,7 +55,7 @@ class CollectionScanner: public QObject
         };
 
         PhotosCollector m_collector;
-        std::set<QString> m_diskPhotos;
+        std::vector<Photo::DataDelta> m_diskPhotos;
         std::vector<Photo::DataDelta> m_dbPhotos;
         State m_state;
         const Project& m_project;

@@ -18,6 +18,7 @@
  */
 
 
+#include <algorithm>
 #include <QFileInfo>
 #include <QLabel>
 #include <QPushButton>
@@ -25,6 +26,8 @@
 
 #include <core/iview_task.hpp>
 #include <database/iphoto_operator.hpp>
+#include <database/photo_utils.hpp>
+#include <database/general_flags.hpp>
 #include "collection_scanner.hpp"
 #include "project_utils/project.hpp"
 
@@ -67,7 +70,12 @@ void CollectionScanner::scan()
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
-        auto photos = backend.photoOperator().getPhotos(Database::EmptyFilter());
+        // collect all photos from db but those we already know are missing
+        Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
+                                                            static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
+        Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
+
+        auto photos = backend.photoOperator().getPhotos(filterNotMissing);
 
         std::vector<Photo::DataDelta> photoDeltas;
         photoDeltas.reserve(photos.size());
@@ -93,34 +101,44 @@ void CollectionScanner::performAnalysis()
     m_state = State::Analyzing;
     updateGui();
 
-    for(const Photo::DataDelta& photo: m_dbPhotos)
-    {
-        const QString path = photo.get<Photo::Field::Path>();
+    // sort db and disk sets for further steps
+    std::sort(m_dbPhotos.begin(), m_dbPhotos.end(), &Photo::isLess<Photo::Field::Path>);
+    std::sort(m_diskPhotos.begin(), m_diskPhotos.end(), &Photo::isLess<Photo::Field::Path>);
 
-        auto it = m_diskPhotos.find(path);
+    // find new photos
+    std::vector<Photo::DataDelta> newPhotos;
+    std::ranges::set_difference(m_diskPhotos, m_dbPhotos, std::back_inserter(newPhotos), &Photo::isLess<Photo::Field::Path>);
 
-        if (it != m_diskPhotos.end())
-            m_diskPhotos.erase(it);
-    }
+    // find removed photos
+    std::vector<Photo::DataDelta> removedPhotos;
+    std::ranges::set_difference(m_dbPhotos, m_diskPhotos, std::back_inserter(removedPhotos), &Photo::isLess<Photo::Field::Path>);
 
-    // now m_diskPhotos contains only photos which are not in db, add them
-    std::vector<Photo::DataDelta> photos;
-    photos.reserve(m_diskPhotos.size());
-
-    for(const QString& path: m_diskPhotos)
+    // prepare new photos for storage
+    for(auto& photo: newPhotos)
     {
         const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
 
-        Photo::DataDelta photo_data;
-        photo_data.insert<Photo::Field::Path>(path);
-        photo_data.insert<Photo::Field::Flags>(flags);
-        photos.emplace_back(photo_data);
+        photo.insert<Photo::Field::Flags>(flags);
     }
 
-    m_database.exec([photos](Database::IBackend& backend) mutable
-    {
-        backend.addPhotos(photos);
-    });
+    // store new photos
+    if (newPhotos.empty() == false)
+        m_database.exec([newPhotos](Database::IBackend& backend) mutable
+        {
+            backend.addPhotos(newPhotos);
+        });
+
+    // mark removed photos as missing
+    if (removedPhotos.empty() == false)
+        m_database.exec([removedPhotos](Database::IBackend& backend) mutable
+        {
+            for(const auto& photo: removedPhotos)
+            {
+                backend.set(photo.getId(),
+                            Database::CommonGeneralFlags::State,
+                            static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
+            }
+        });
 
     // cleanups
     m_state = State::Done;
@@ -142,7 +160,9 @@ void CollectionScanner::checkIfReady()
 void CollectionScanner::gotDiskPhoto(const QString& path)
 {
     const QString relative = m_project.makePathRelative(path);
-    m_diskPhotos.insert(relative);
+    Photo::DataDelta photo;
+    photo.insert<Photo::Field::Path>(relative);
+    m_diskPhotos.push_back(photo);
 }
 
 

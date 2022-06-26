@@ -60,12 +60,12 @@
 <context>
     <name>CollectionScanner</name>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+55"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+58"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+136"/>
         <source>Done. No new photos found.</source>
         <translation type="unfinished">Zakończono. Brak nowych zdjęć.</translation>
     </message>
