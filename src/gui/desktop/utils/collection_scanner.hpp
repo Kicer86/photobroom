@@ -55,7 +55,7 @@ class CollectionScanner: public QObject
         };
 
         PhotosCollector m_collector;
-        std::set<QString> m_photosFound;
+        std::set<QString> m_diskPhotos;
         std::vector<Photo::DataDelta> m_dbPhotos;
         State m_state;
         const Project& m_project;
@@ -73,8 +73,8 @@ class CollectionScanner: public QObject
 
         void checkIfReady();
 
-        void gotPhoto(const QString &);
-        void gotExistingPhotos(const std::vector<Photo::DataDelta> &);
+        void gotDiskPhoto(const QString &);
+        void gotDBPhotos(const std::vector<Photo::DataDelta> &);
         void updateGui();
 };
 

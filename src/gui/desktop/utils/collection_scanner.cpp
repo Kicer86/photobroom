@@ -58,12 +58,12 @@ void CollectionScanner::scan()
 
     // collect photos from disk
     using namespace std::placeholders;
-    auto disk_callback = std::bind(&CollectionScanner::gotPhoto, this, _1);
+    auto disk_callback = std::bind(&CollectionScanner::gotDiskPhoto, this, _1);
 
     m_collector.collect(m_project.getProjectInfo().getBaseDir(), disk_callback);
 
     // collect photos from db
-    auto db_callback = std::bind(&CollectionScanner::gotExistingPhotos, this, _1);
+    auto db_callback = std::bind(&CollectionScanner::gotDBPhotos, this, _1);
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
@@ -97,17 +97,17 @@ void CollectionScanner::performAnalysis()
     {
         const QString path = photo.get<Photo::Field::Path>();
 
-        auto it = m_photosFound.find(path);
+        auto it = m_diskPhotos.find(path);
 
-        if (it != m_photosFound.end())
-            m_photosFound.erase(it);
+        if (it != m_diskPhotos.end())
+            m_diskPhotos.erase(it);
     }
 
-    // now m_photosFound contains only photos which are not in db, add them
+    // now m_diskPhotos contains only photos which are not in db, add them
     std::vector<Photo::DataDelta> photos;
-    photos.reserve(m_photosFound.size());
+    photos.reserve(m_diskPhotos.size());
 
-    for(const QString& path: m_photosFound)
+    for(const QString& path: m_diskPhotos)
     {
         const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
 
@@ -139,14 +139,14 @@ void CollectionScanner::checkIfReady()
 }
 
 
-void CollectionScanner::gotPhoto(const QString& path)
+void CollectionScanner::gotDiskPhoto(const QString& path)
 {
     const QString relative = m_project.makePathRelative(path);
-    m_photosFound.insert(relative);
+    m_diskPhotos.insert(relative);
 }
 
 
-void CollectionScanner::gotExistingPhotos(const std::vector<Photo::DataDelta>& photos)
+void CollectionScanner::gotDBPhotos(const std::vector<Photo::DataDelta>& photos)
 {
     m_dbPhotos = photos;
     m_gotDBPhotos = true;
@@ -170,14 +170,14 @@ void CollectionScanner::updateGui()
 
         case State::Done:
         {
-            const QString info = m_photosFound.empty()?
+            const QString info = m_diskPhotos.empty()?
                 tr("Done. No new photos found."):
                 tr("Done. %n new photo(s) found.\n"
                    "Photo broom will now collect data from photos.\n"
                    "You can watch progress in 'Tasks' panel."
                    ,
                    "",
-                   m_photosFound.size());
+                   m_diskPhotos.size());
 
             m_notifications.insert(info, INotifications::Type::Info);
             break;
