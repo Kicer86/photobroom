@@ -121,8 +121,12 @@ void CollectionScanner::performAnalysis()
     std::vector<Photo::DataDelta> restoredPhotos;
     std::ranges::set_intersection(m_missingPhotos, m_diskPhotos, std::back_inserter(restoredPhotos), &Photo::isLess<Photo::Field::Path>);
 
+    // all `restored photos` will also be available in `new photos` set. Prepare a fresh container for `new photos` which are not `restored photos`
+    std::vector<Photo::DataDelta> pureNewPhotos;
+    std::ranges::set_difference(newPhotos, restoredPhotos, std::back_inserter(pureNewPhotos), &Photo::isLess<Photo::Field::Path>);
+
     // prepare new photos for storage
-    for(auto& photo: newPhotos)
+    for(auto& photo: pureNewPhotos)
     {
         const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
 
@@ -131,9 +135,9 @@ void CollectionScanner::performAnalysis()
 
     // store new photos
     if (newPhotos.empty() == false)
-        m_database.exec([newPhotos](Database::IBackend& backend) mutable
+        m_database.exec([pureNewPhotos](Database::IBackend& backend) mutable
         {
-            backend.addPhotos(newPhotos);
+            backend.addPhotos(pureNewPhotos);
         });
 
     // mark removed photos as missing
@@ -161,7 +165,7 @@ void CollectionScanner::performAnalysis()
         });
 
     // finalization
-    addNotification(newPhotos.size(), removedPhotos.size(), restoredPhotos.size());
+    addNotification(pureNewPhotos.size(), removedPhotos.size(), restoredPhotos.size());
     m_progressTask->finished();
     m_progressTask = nullptr;
     emit scanFinished();
