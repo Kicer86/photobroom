@@ -351,8 +351,6 @@ void MainWindow::on_actionScan_collection_triggered()
 {
     if (m_collectionScanner == nullptr)
     {
-        Database::IDatabase& db = m_currentPrj->getDatabase();
-
         auto scanner = new CollectionScanner(*m_currentPrj.get(), m_tasksModel, m_notifications);
         connect(scanner, &CollectionScanner::scanFinished, scanner, &QObject::deleteLater);
         scanner->scan();
