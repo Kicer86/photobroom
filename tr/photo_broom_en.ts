@@ -60,17 +60,17 @@
 <context>
     <name>CollectionScanner</name>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="58"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="57"/>
         <source>Scanning collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="205"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="175"/>
         <source>No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="209"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="179"/>
         <source>%n new photo(s) was found and added to collection.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -78,7 +78,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="212"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="182"/>
         <source>%n photo(s) were no longer found on disk.</source>
         <translation type="unfinished">
             <numerusform></numerusform>

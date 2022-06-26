@@ -35,7 +35,6 @@
 CollectionScanner::CollectionScanner(const Project& project, ITasksView& tasksView, INotifications& notifications):
     QObject(),
     m_collector(project),
-    m_state(State::Scanning),
     m_project(project),
     m_database(project.getDatabase()),
     m_tasksView(tasksView),
@@ -56,8 +55,6 @@ CollectionScanner::~CollectionScanner()
 void CollectionScanner::scan()
 {
     m_progressTask = m_tasksView.add(tr("Scanning collection"));
-    m_state = State::Scanning;
-    updateGui();
 
     // collect photos from disk
     using namespace std::placeholders;
@@ -98,9 +95,6 @@ void CollectionScanner::diskScanDone()
 
 void CollectionScanner::performAnalysis()
 {
-    m_state = State::Analyzing;
-    updateGui();
-
     // sort db and disk sets for further steps
     std::sort(m_dbPhotos.begin(), m_dbPhotos.end(), &Photo::isLess<Photo::Field::Path>);
     std::sort(m_diskPhotos.begin(), m_diskPhotos.end(), &Photo::isLess<Photo::Field::Path>);
@@ -140,10 +134,7 @@ void CollectionScanner::performAnalysis()
             }
         });
 
-    // cleanups
-    m_state = State::Done;
-    updateGui();
-
+    // finalization
     addNotification(newPhotos.size(), removedPhotos.size());
     m_progressTask->finished();
     m_progressTask = nullptr;
@@ -173,27 +164,6 @@ void CollectionScanner::gotDBPhotos(const std::vector<Photo::DataDelta>& photos)
     m_gotDBPhotos = true;
 
     checkIfReady();
-}
-
-
-void CollectionScanner::updateGui()
-{
-    switch(m_state)
-    {
-        case State::Canceled:
-            break;
-
-        case State::Scanning:
-            break;
-
-        case State::Analyzing:
-            break;
-
-        case State::Done:
-        {
-            break;
-        }
-    }
 }
 
 
