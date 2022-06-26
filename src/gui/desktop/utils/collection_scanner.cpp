@@ -144,6 +144,7 @@ void CollectionScanner::performAnalysis()
     m_state = State::Done;
     updateGui();
 
+    addNotification(newPhotos.size(), removedPhotos.size());
     m_progressTask->finished();
     m_progressTask = nullptr;
     emit scanFinished();
@@ -190,17 +191,26 @@ void CollectionScanner::updateGui()
 
         case State::Done:
         {
-            const QString info = m_diskPhotos.empty()?
-                tr("Done. No new photos found."):
-                tr("Done. %n new photo(s) found.\n"
-                   "Photo broom will now collect data from photos.\n"
-                   "You can watch progress in 'Tasks' panel."
-                   ,
-                   "",
-                   m_diskPhotos.size());
-
-            m_notifications.insert(info, INotifications::Type::Info);
             break;
         }
     }
+}
+
+
+void CollectionScanner::addNotification(std::size_t added, std::size_t removed)
+{
+    QString info;
+
+    if (added == 0 && removed == 0)
+        info = tr("No new photos found.");
+    else
+    {
+        if (added > 0)
+            info = tr("%n new photo(s) was found and added to collection.", "", added);
+
+        if (removed > 0)
+            info += tr("%n photo(s) were no longer found on disk.", "", removed);
+    }
+
+    m_notifications.insert(info, INotifications::Type::Info);
 }

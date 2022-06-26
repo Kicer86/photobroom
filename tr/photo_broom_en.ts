@@ -65,20 +65,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="194"/>
-        <source>Done. No new photos found.</source>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="205"/>
+        <source>No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="195"/>
-        <source>Done. %n new photo(s) found.
-Photo broom will now collect data from photos.
-You can watch progress in &apos;Tasks&apos; panel.</source>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="209"/>
+        <source>%n new photo(s) was found and added to collection.</source>
         <translation type="unfinished">
-            <numerusform>Done. %n new photo found.</numerusform>
-            <numerusform>Done. %n new photos found.
-Photo broom will now collect data from photos.
-You can watch progress in &apos;Tasks&apos; panel.</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="212"/>
+        <source>%n photo(s) were no longer found on disk.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>

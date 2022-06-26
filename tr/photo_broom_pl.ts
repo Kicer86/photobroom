@@ -65,23 +65,26 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+136"/>
-        <source>Done. No new photos found.</source>
-        <translation type="unfinished">Zakończono. Brak nowych zdjęć.</translation>
+        <location line="+147"/>
+        <source>No new photos found.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+1"/>
-        <source>Done. %n new photo(s) found.
-Photo broom will now collect data from photos.
-You can watch progress in &apos;Tasks&apos; panel.</source>
+        <location line="+4"/>
+        <source>%n new photo(s) was found and added to collection.</source>
         <translation type="unfinished">
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcie.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowe zdjęcia.
-Photo broom rozpocznie teraz proces odczytywania z nich informacji.
-Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
-            <numerusform>Zakończono. Znaleziono %n nowych zdjęć.
-Photo broom rozpocznie teraz proces odczytywania z nich informacji.
-Jego postęp widoczny będzie w panelu &quot;Operacje&quot;.</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+3"/>
+        <source>%n photo(s) were no longer found on disk.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
