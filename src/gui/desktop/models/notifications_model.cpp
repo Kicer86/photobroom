@@ -58,6 +58,7 @@ int NotificationsModel::rowCount(const QModelIndex& parent) const
     return parent.isValid()? 0: getCount();
 }
 
+
 QVariant NotificationsModel::data(const QModelIndex& index, int role) const
 {
     QVariant result;
@@ -70,6 +71,7 @@ QVariant NotificationsModel::data(const QModelIndex& index, int role) const
 
     return result;
 }
+
 
 QHash<int, QByteArray> NotificationsModel::roleNames() const
 {
