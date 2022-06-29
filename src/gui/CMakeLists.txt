@@ -23,6 +23,7 @@ set(GUI_SOURCES
 set(GUI_HEADERS
     features.hpp
     gui.hpp
+    inotifications.hpp
     desktop/config_keys.hpp
     images/images.hpp
 )
@@ -69,6 +70,8 @@ target_include_directories(gui
         ${CMAKE_CURRENT_SOURCE_DIR}/desktop
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+set_target_properties(gui PROPERTIES AUTOMOC TRUE)
 
 if(BUILD_UPDATER)
     target_link_libraries(gui PRIVATE updater)

@@ -38,7 +38,9 @@ target_link_libraries(gui_models
 
 target_include_directories(gui_models
                             INTERFACE
-                                ${CMAKE_CURRENT_SOURCE_DIR}/..          #require "model/" from clients
+                                ${CMAKE_CURRENT_SOURCE_DIR}/..          # require "model/" from clients
+                            PUBLIC
+                                ${CMAKE_CURRENT_SOURCE_DIR}/../..       # gui's top directory
                             PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}
 )

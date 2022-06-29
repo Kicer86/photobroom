@@ -4,7 +4,7 @@
 
 #include <QObject>
 
-#include "models/notifications_model.hpp"
+#include "inotifications.hpp"
 #include "core/ifeatures_manager.hpp"
 
 
@@ -13,11 +13,11 @@ class FeaturesObserver: public QObject
     Q_OBJECT
 
 public:
-    FeaturesObserver(IFeaturesManager &, NotificationsModel &);
+    FeaturesObserver(IFeaturesManager &, INotifications &);
 
 private:
-    std::map<QString, int> m_warnings;
-    NotificationsModel& m_model;
+    std::map<QString, INotifications::Id> m_warnings;
+    INotifications& m_notifications;
 
     void featureChanged(const QString& key, bool value);
 };

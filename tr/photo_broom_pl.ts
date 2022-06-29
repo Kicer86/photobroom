@@ -539,7 +539,7 @@ Kod błędu: %1</translation>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="+89"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="+97"/>
         <source>Click here to collapse notifications.</source>
         <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>

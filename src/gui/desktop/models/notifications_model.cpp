@@ -1,15 +1,20 @@
 
+#include <core/qmodel_utils.hpp>
 #include "notifications_model.hpp"
 
-int NotificationsModel::insertWarning(const QString& warning)
+
+ENUM_ROLES_SETUP(NotificationsModel::Roles);
+
+
+INotifications::Id NotificationsModel::insert(const QString& warning, Type type)
 {
-    const int id = m_id;
-    m_id++;
+    const Id id = m_id;
+    m_id.next();
 
     const int count = getCount();
 
     beginInsertRows({}, count, count);
-    m_data.emplace_back(id, warning);
+    m_data.emplace_back(id, warning, type);
     endInsertRows();
 
     emit countChanged(getCount());
@@ -18,7 +23,7 @@ int NotificationsModel::insertWarning(const QString& warning)
 }
 
 
-void NotificationsModel::removeWarning(int row)
+void NotificationsModel::removeRow(int row)
 {
     beginRemoveRows({}, row, row);
     m_data.erase(m_data.begin() + row);
@@ -28,23 +33,23 @@ void NotificationsModel::removeWarning(int row)
 }
 
 
-void NotificationsModel::removeWarningWithId(int id)
+void NotificationsModel::remove(INotifications::Id id)
 {
-    const auto it = std::find_if(m_data.begin(), m_data.end(), [id](const auto item) {
-        return item.first == id;
+    const auto it = std::find_if(m_data.begin(), m_data.end(), [id](const auto& item) {
+        return std::get<0>(item) == id;
     });
 
     if (it != m_data.end())
     {
-        const int pos = std::distance(m_data.begin(), it);
-        removeWarning(pos);
+        const auto pos = std::distance(m_data.begin(), it);
+        removeRow(static_cast<int>(pos));
     }
 }
 
 
 int NotificationsModel::getCount() const
 {
-    return m_data.size();
+    return static_cast<int>(m_data.size());
 }
 
 
@@ -55,5 +60,23 @@ int NotificationsModel::rowCount(const QModelIndex& parent) const
 
 QVariant NotificationsModel::data(const QModelIndex& index, int role) const
 {
-    return role == Qt::DisplayRole? m_data[index.row()].second: QVariant();
+    QVariant result;
+
+    switch(role)
+    {
+        case Qt::DisplayRole: result = std::get<1>(m_data[index.row()]); break;
+        case TypeRole:        result = static_cast<int>(std::get<2>(m_data[index.row()])); break;
+    }
+
+    return result;
+}
+
+QHash<int, QByteArray> NotificationsModel::roleNames() const
+{
+    auto roles = QAbstractListModel::roleNames();
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
+
+    return roles;
 }
