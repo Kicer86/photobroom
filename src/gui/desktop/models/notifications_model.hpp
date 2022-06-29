@@ -26,7 +26,7 @@ signals:
     void countChanged(int);
 
 private:
-    std::vector<std::pair<int, QString>> m_data;
+    std::vector<std::tuple<Id, QString, Type>> m_data;
     Id m_id = Id(0);
 };
 
