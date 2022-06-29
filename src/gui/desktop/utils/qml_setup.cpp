@@ -8,6 +8,7 @@
 #include "models/tags_model.hpp"
 #include "models/photo_properties_model.hpp"
 #include "utils/variant_display.hpp"
+#include "inotifications.hpp"
 
 
 void register_qml_types()
@@ -21,4 +22,5 @@ void register_qml_types()
     qRegisterMetaType<QAbstractItemModel*>("QAbstractItemModel*");
     qmlRegisterUncreatableMetaObject(Photo::staticMetaObject, "photo_broom.enums", 1, 0, "PhotoEnums", "Error: only enums");
     qmlRegisterUncreatableMetaObject(Tag::staticMetaObject, "photo_broom.enums", 1, 0, "TagEnums", "Error: only enums");
+    qmlRegisterUncreatableMetaObject(INotifications::staticMetaObject, "photo_broom.enums", 1, 0, "NotificationEnums", "Error: only enums");
 }

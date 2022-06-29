@@ -9,6 +9,8 @@
 
 class INotifications
 {
+    Q_GADGET
+
 public:
     struct NotificationsTag;
     using Id = ::Id<int, NotificationsTag>;
@@ -18,6 +20,8 @@ public:
         Warning,
         Info,
     };
+
+    Q_ENUM(Type)
 
     virtual Id insert(const QString &, Type) = 0;
     virtual void remove(Id id) = 0;

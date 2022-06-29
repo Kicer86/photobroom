@@ -71,6 +71,8 @@ target_include_directories(gui
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+set_target_properties(gui PROPERTIES AUTOMOC TRUE)
+
 if(BUILD_UPDATER)
     target_link_libraries(gui PRIVATE updater)
 endif()

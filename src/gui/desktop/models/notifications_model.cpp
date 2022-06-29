@@ -1,5 +1,10 @@
 
+#include <core/qmodel_utils.hpp>
 #include "notifications_model.hpp"
+
+
+ENUM_ROLES_SETUP(NotificationsModel::Roles);
+
 
 INotifications::Id NotificationsModel::insert(const QString& warning, Type type)
 {
@@ -55,5 +60,23 @@ int NotificationsModel::rowCount(const QModelIndex& parent) const
 
 QVariant NotificationsModel::data(const QModelIndex& index, int role) const
 {
-    return role == Qt::DisplayRole? std::get<1>(m_data[index.row()]): QVariant();
+    QVariant result;
+
+    switch(role)
+    {
+        case Qt::DisplayRole: result = std::get<1>(m_data[index.row()]); break;
+        case TypeRole:        result = static_cast<int>(std::get<2>(m_data[index.row()])); break;
+    }
+
+    return result;
+}
+
+QHash<int, QByteArray> NotificationsModel::roleNames() const
+{
+    auto roles = QAbstractListModel::roleNames();
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
+
+    return roles;
 }
