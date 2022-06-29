@@ -82,6 +82,20 @@ void DuplicatesModel::setDB(Database::IDatabase* db)
     m_loaded = false;
     m_duplicates.clear();
     endResetModel();
+
+    emit dbChanged();
+}
+
+
+Database::IDatabase * DuplicatesModel::db() const
+{
+    return m_db;
+}
+
+
+void DuplicatesModel::reloadDuplicates()
+{
+
 }
 
 

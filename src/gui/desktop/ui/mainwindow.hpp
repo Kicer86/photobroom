@@ -10,7 +10,6 @@
 #include <database/idatabase.hpp>
 #include <updater/iupdater.hpp>
 
-#include "models/duplicates_model.hpp"
 #include "models/notifications_model.hpp"
 #include "models/tasks_model.hpp"
 #include "ui_utils/completer_factory.hpp"
@@ -52,7 +51,6 @@ class MainWindow: public QObject
 
     private:
         TasksModel                m_tasksModel;
-        DuplicatesModel           m_duplicatesModel;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;

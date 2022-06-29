@@ -260,7 +260,12 @@ ApplicationWindow {
 
                 // duplicates view
                 Internals.DuplicatesView {
-                    objectName: "DuplicatesView"
+                    DuplicatesModel {
+                        id: duplicatesModel
+                        database: PhotoBroomProject.database
+                    }
+
+                    model: duplicatesModel
                 }
             }
         }

@@ -77,8 +77,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentDatabaseChanged,
-            &m_duplicatesModel, &DuplicatesModel::setDB);
-    connect(this, &MainWindow::currentDatabaseChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
@@ -139,11 +137,9 @@ void MainWindow::setupQmlView()
 
     QObject* tasksView = QmlUtils::findQmlObject(m_mainView, "TasksView");
     QObject* notificationsList = QmlUtils::findQmlObject(m_mainView, "NotificationsList");
-    QObject* duplicatesView = QmlUtils::findQmlObject(m_mainView, "DuplicatesView");
 
     tasksView->setProperty("model", QVariant::fromValue(&m_tasksModel));
     notificationsList->setProperty("model", QVariant::fromValue(&m_notifications));
-    duplicatesView->setProperty("model", QVariant::fromValue(&m_duplicatesModel));
 }
 
 
