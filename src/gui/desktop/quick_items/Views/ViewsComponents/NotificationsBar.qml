@@ -3,6 +3,7 @@ import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
 import QmlItems
+import photo_broom.enums
 import "../../Components" as Components
 
 
@@ -39,8 +40,15 @@ Item {
             delegate: Rectangle {
                 required property string display
                 required property string index
+                required property int type
 
-                color: "goldenrod"
+                color: {
+                    switch(type) {
+                        case NotificationEnums.Info:    return "deepskyblue";
+                        case NotificationEnums.Warning: return "goldenrod";
+                        default:                        return "white";
+                    }
+                }
                 radius: 5
                 border.width: 1
 
