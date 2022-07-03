@@ -241,6 +241,7 @@ ApplicationWindow {
         }
 
         ColumnLayout {
+
             Button {
                 id: backButton
 
@@ -253,19 +254,44 @@ ApplicationWindow {
                 id: toolsStackView
 
                 // photo data completion view
-
                 PhotoDataCompletion {
                     id: completer
                 }
 
                 // duplicates view
-                Internals.DuplicatesView {
-                    DuplicatesModel {
-                        id: duplicatesModel
-                        database: PhotoBroomProject.database
+                Item {
+
+                    anchors.fill: parent
+
+                    Row {
+
+                        id: duplicatesControls
+
+                        Button {
+                            text: qsTr("(re)load duplicates")
+                            enabled: duplicatesModel.workInProgress == false
+
+                            onPressed: duplicatesModel.reloadDuplicates()
+                        }
+
+                        BusyIndicator {
+                            running: duplicatesModel.workInProgress
+                        }
                     }
 
-                    model: duplicatesModel
+                    Internals.DuplicatesView {
+
+                        anchors.top:    duplicatesControls.bottom
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+
+                        DuplicatesModel {
+                            id: duplicatesModel
+                            database: PhotoBroomProject.database
+                        }
+
+                        model: duplicatesModel
+                    }
                 }
             }
         }

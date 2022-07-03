@@ -33,17 +33,49 @@ int DuplicatesModel::rowCount(const QModelIndex& parent) const
 }
 
 
-bool DuplicatesModel::canFetchMore(const QModelIndex &parent) const
+QHash<int, QByteArray> DuplicatesModel::roleNames() const
 {
-    return parent.isValid()? false: m_db != nullptr && m_loaded == false;
+    auto roles = QAbstractListModel::roleNames();
+    const auto extra = parseRoles<Roles>();
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
+    roles.insert(extraRoles);
+
+    return roles;
 }
 
 
-void DuplicatesModel::fetchMore(const QModelIndex &parent)
+void DuplicatesModel::setDB(Database::IDatabase* db)
 {
-    if (m_db && m_loaded == false &&parent.isValid() == false)
+    assert(m_workInProgress == false);
+
+    m_db = db;
+    clear();
+
+    emit dbChanged();
+}
+
+
+bool DuplicatesModel::isWorking() const
+{
+    return m_workInProgress;
+}
+
+
+
+Database::IDatabase * DuplicatesModel::db() const
+{
+    return m_db;
+}
+
+
+void DuplicatesModel::reloadDuplicates()
+{
+    if (m_db && m_workInProgress == false)
     {
-        m_loaded = true;
+        clear();
+
+        setWorkInProgress(true);
+
         auto resultCallback = make_cross_thread_function<std::vector<Photo::DataDelta>>(this, &DuplicatesModel::compileDuplicates);
 
         m_db->exec([resultCallback](Database::IBackend& backend)
@@ -61,41 +93,6 @@ void DuplicatesModel::fetchMore(const QModelIndex &parent)
         "Looking for photo duplicates"
         );
     }
-}
-
-
-QHash<int, QByteArray> DuplicatesModel::roleNames() const
-{
-    auto roles = QAbstractListModel::roleNames();
-    const auto extra = parseRoles<Roles>();
-    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());
-    roles.insert(extraRoles);
-
-    return roles;
-}
-
-
-void DuplicatesModel::setDB(Database::IDatabase* db)
-{
-    beginResetModel();
-    m_db = db;
-    m_loaded = false;
-    m_duplicates.clear();
-    endResetModel();
-
-    emit dbChanged();
-}
-
-
-Database::IDatabase * DuplicatesModel::db() const
-{
-    return m_db;
-}
-
-
-void DuplicatesModel::reloadDuplicates()
-{
-
 }
 
 
@@ -119,4 +116,22 @@ void DuplicatesModel::compileDuplicates(const std::vector<Photo::DataDelta>& dup
     beginInsertRows({}, 0, grouped.size() - 1);
     m_duplicates.swap(grouped);
     endInsertRows();
+
+    setWorkInProgress(false);
+}
+
+
+void DuplicatesModel::setWorkInProgress(bool work)
+{
+    m_workInProgress = work;
+
+    emit workStatusChanged(work);
+}
+
+
+void DuplicatesModel::clear()
+{
+    beginResetModel();
+    m_duplicates.clear();
+    endResetModel();
 }

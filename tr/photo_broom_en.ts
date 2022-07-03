@@ -374,8 +374,13 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="247"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="248"/>
         <source>Back to photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="271"/>
+        <source>(re)load duplicates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
