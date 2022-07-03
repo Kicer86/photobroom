@@ -9,11 +9,6 @@ import QmlItems
 
 Components.ExListView  {
 
-    implicitHeight: contentHeight
-    implicitWidth: contentWidth
-
-    boundsBehavior: Flickable.StopAtBounds
-
     delegate: Components.ExListView {
 
         required property var duplicates
@@ -23,7 +18,6 @@ Components.ExListView  {
 
         orientation: ListView.Horizontal
         model: duplicates
-        boundsBehavior: Flickable.StopAtBounds
 
         delegate: Column {
 
