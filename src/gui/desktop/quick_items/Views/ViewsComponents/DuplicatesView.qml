@@ -42,7 +42,31 @@ Item
             database: PhotoBroomProject.database
 
             onWorkInProgressChanged: {
-                status.text = workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to search for duplicates again.")
+                status.text = workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to search for duplicates again.");
+                duplicatesListStatus.visible = true;
+            }
+        }
+
+        Item {
+            id: duplicatesListStatus
+
+            anchors.fill: parent
+
+            visible: false
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter:   parent.verticalCenter
+
+                text: qsTr("No duplicates found")
+                visible: duplicatesList.count == 0 && duplicatesModel.workInProgress == false
+            }
+
+            BusyIndicator {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter:   parent.verticalCenter
+
+                running: duplicatesModel.workInProgress
             }
         }
 

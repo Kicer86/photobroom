@@ -174,6 +174,11 @@
         <source>Click here to search for duplicates again.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="61"/>
+        <source>No duplicates found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FacesDialog</name>

@@ -177,6 +177,11 @@
         <source>Click here to search for duplicates again.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+16"/>
+        <source>No duplicates found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FacesDialog</name>
