@@ -261,8 +261,6 @@ ApplicationWindow {
                 // duplicates view
                 Item {
 
-                    anchors.fill: parent
-
                     Row {
 
                         id: duplicatesControls

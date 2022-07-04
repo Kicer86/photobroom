@@ -379,7 +379,7 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="271"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="269"/>
         <source>(re)load duplicates</source>
         <translation type="unfinished"></translation>
     </message>
