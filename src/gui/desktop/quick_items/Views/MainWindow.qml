@@ -3,7 +3,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
 
-import photo_broom.models
 import photo_broom.singletons
 import quick_items
 
@@ -259,38 +258,7 @@ ApplicationWindow {
                 }
 
                 // duplicates view
-                Item {
-
-                    Row {
-
-                        id: duplicatesControls
-
-                        Button {
-                            text: qsTr("(re)load duplicates")
-                            enabled: duplicatesModel.workInProgress == false
-
-                            onPressed: duplicatesModel.reloadDuplicates()
-                        }
-
-                        BusyIndicator {
-                            running: duplicatesModel.workInProgress
-                        }
-                    }
-
-                    Internals.DuplicatesView {
-
-                        anchors.top:    duplicatesControls.bottom
-                        anchors.bottom: parent.bottom
-                        width: parent.width
-
-                        DuplicatesModel {
-                            id: duplicatesModel
-                            database: PhotoBroomProject.database
-                        }
-
-                        model: duplicatesModel
-                    }
-                }
+                Internals.DuplicatesView { }
             }
         }
     }

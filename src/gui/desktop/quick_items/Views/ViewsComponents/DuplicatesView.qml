@@ -4,68 +4,100 @@ import QtQuick.Controls
 
 import "../../Components" as Components
 import quick_items
+import photo_broom.models
+import photo_broom.singletons
 import QmlItems
 
 
-Components.ExListView  {
+Item
+{
+    Components.InfoItem {
+        id: status
 
-    id: duplicatesList
+        width: parent.width
+        height: desiredHeight
 
-    delegate: Components.ExListView {
+        text: duplicatesModel.workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to load duplicates.")
 
-        required property var duplicates
+        MouseArea {
+            anchors.fill: parent
 
-        implicitHeight: contentItem.childrenRect.height
-        implicitWidth:  duplicatesList.width
+            enabled: duplicatesModel.workInProgress == false
+            cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
 
-        orientation: ListView.Horizontal
-        model: duplicates
+            onClicked: duplicatesModel.reloadDuplicates()
+        }
+    }
 
-        delegate: Column {
+    Components.ExListView  {
 
-            required property var modelData
+        id: duplicatesList
 
-            padding: Components.Constants.defaultThumbnailMargin
-            spacing: Components.Constants.defaultThumbnailMargin * 2
+        width: parent.width
+        anchors.top: status.bottom
+        anchors.bottom: parent.bottom
 
-            PhotoDataQml {
-                id: dataQml
-                data: modelData
-            }
+        model: DuplicatesModel {
+            id: duplicatesModel
+            database: PhotoBroomProject.database
+        }
 
-            Row {
-                Components.MediaPreviewItem {
-                    id: mediaPreview
+        delegate: Components.ExListView {
 
-                    height: Components.Constants.defaultThumbnailSize
-                    width:  Components.Constants.defaultThumbnailSize
+            required property var duplicates
 
-                    photoID: modelData.id
+            implicitHeight: contentItem.childrenRect.height
+            implicitWidth:  duplicatesList.width
+
+            orientation: ListView.Horizontal
+            model: duplicates
+
+            delegate: Column {
+
+                required property var modelData
+
+                padding: Components.Constants.defaultThumbnailMargin
+                spacing: Components.Constants.defaultThumbnailMargin * 2
+
+                PhotoDataQml {
+                    id: dataQml
+                    data: modelData
                 }
 
-                Column {
-                    RoundButton {
-                        action: Action {
-                            icon.name: "folder"
-                            onTriggered: {
-                                var path = Utils.fileInfo().fullDirectoryPath(dataQml.path);
-                                var url  = Utils.fileInfo().toUrl(path);
-                                Qt.openUrlExternally(url);
+                Row {
+                    Components.MediaPreviewItem {
+                        id: mediaPreview
+
+                        height: Components.Constants.defaultThumbnailSize
+                        width:  Components.Constants.defaultThumbnailSize
+
+                        photoID: modelData.id
+                    }
+
+                    Column {
+                        RoundButton {
+                            action: Action {
+                                icon.name: "folder"
+                                onTriggered: {
+                                    var path = Utils.fileInfo().fullDirectoryPath(dataQml.path);
+                                    var url  = Utils.fileInfo().toUrl(path);
+                                    Qt.openUrlExternally(url);
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            Text {
-                function removePrefix(value, prefix) {
-                    return value.startsWith(prefix)? value.slice(prefix.length): value;
+                Text {
+                    function removePrefix(value, prefix) {
+                        return value.startsWith(prefix)? value.slice(prefix.length): value;
+                    }
+
+                    width: mediaPreview.width
+
+                    text: removePrefix(dataQml.path, Components.Constants.projectPrefix)
+                    wrapMode: Text.Wrap
                 }
-
-                width: mediaPreview.width
-
-                text: removePrefix(dataQml.path, Components.Constants.projectPrefix)
-                wrapMode: Text.Wrap
             }
         }
     }

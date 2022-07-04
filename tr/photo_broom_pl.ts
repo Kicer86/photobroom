@@ -161,6 +161,19 @@
     </message>
 </context>
 <context>
+    <name>DuplicatesView</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+20"/>
+        <source>Looking for duplicates.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Click here to load duplicates.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FacesDialog</name>
     <message>
         <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
@@ -294,7 +307,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+40"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+39"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -379,12 +392,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="+21"/>
-        <source>(re)load duplicates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-188"/>
+        <location line="-167"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
