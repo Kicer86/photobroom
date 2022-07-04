@@ -7,6 +7,7 @@ ListView {
     id: listView
 
     boundsMovement: Flickable.StopAtBounds
+    clip: true
 
     ScrollBar.vertical: ScrollBar {
         anchors.right: parent.right
