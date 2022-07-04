@@ -17,7 +17,7 @@ Item
         width: parent.width
         height: desiredHeight
 
-        text: duplicatesModel.workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to load duplicates.")
+        text: qsTr("Click here to load duplicates.")
 
         MouseArea {
             anchors.fill: parent
@@ -40,6 +40,10 @@ Item
         model: DuplicatesModel {
             id: duplicatesModel
             database: PhotoBroomProject.database
+
+            onWorkInProgressChanged: {
+                status.text = workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to search for duplicates again.")
+            }
         }
 
         delegate: Components.ExListView {

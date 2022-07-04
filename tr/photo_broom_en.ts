@@ -161,12 +161,17 @@
     <name>DuplicatesView</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="20"/>
+        <source>Click here to load duplicates.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="45"/>
         <source>Looking for duplicates.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="20"/>
-        <source>Click here to load duplicates.</source>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="45"/>
+        <source>Click here to search for duplicates again.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
