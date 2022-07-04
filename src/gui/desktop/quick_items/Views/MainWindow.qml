@@ -252,12 +252,8 @@ ApplicationWindow {
             StackLayout {
                 id: toolsStackView
 
-                // photo data completion view
-                PhotoDataCompletion {
-                    id: completer
-                }
+                PhotoDataCompletion { }
 
-                // duplicates view
                 Internals.DuplicatesView { }
             }
         }
