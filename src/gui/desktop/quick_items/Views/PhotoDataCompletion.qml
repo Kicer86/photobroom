@@ -51,7 +51,6 @@ Item {
             id: status
 
             width: parent.width
-            height: desiredHeight
 
             MouseArea {
                 anchors.fill: parent

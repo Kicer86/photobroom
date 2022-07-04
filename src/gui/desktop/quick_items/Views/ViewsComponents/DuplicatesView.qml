@@ -15,7 +15,6 @@ Item
         id: status
 
         width: parent.width
-        height: desiredHeight
 
         text: qsTr("Click here to load duplicates.")
 

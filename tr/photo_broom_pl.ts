@@ -163,7 +163,7 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+20"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+19"/>
         <source>Click here to load duplicates.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -572,7 +572,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+129"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+128"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
