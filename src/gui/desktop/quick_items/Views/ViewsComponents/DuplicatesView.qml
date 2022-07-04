@@ -9,12 +9,14 @@ import QmlItems
 
 Components.ExListView  {
 
+    id: duplicatesList
+
     delegate: Components.ExListView {
 
         required property var duplicates
 
         implicitHeight: contentItem.childrenRect.height
-        implicitWidth: contentItem.childrenRect.width
+        implicitWidth:  duplicatesList.width
 
         orientation: ListView.Horizontal
         model: duplicates
