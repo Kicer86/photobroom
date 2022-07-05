@@ -102,6 +102,15 @@ ApplicationWindow {
         }
     }
 
+    // actions on database close/open
+    Connections {
+        target: PhotoBroomProject
+
+        function onProjectOpenChanged(open) {
+            mainView.currentIndex = 0;
+        }
+    }
+
     SwipeView {
         id: mainView
         anchors.fill: parent

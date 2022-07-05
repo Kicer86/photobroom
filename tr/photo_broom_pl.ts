@@ -377,7 +377,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>U&amp;stawienia</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+86"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
@@ -402,7 +402,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-167"/>
+        <location line="-176"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -437,7 +437,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+204"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+202"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
