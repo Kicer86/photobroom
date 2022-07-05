@@ -261,9 +261,17 @@ ApplicationWindow {
             StackLayout {
                 id: toolsStackView
 
-                PhotoDataCompletion { }
+                Loader {
+                    active: PhotoBroomProject.projectOpen
 
-                Internals.DuplicatesView { }
+                    sourceComponent: PhotoDataCompletion { }
+                }
+
+                Loader {
+                    active: PhotoBroomProject.projectOpen
+
+                    sourceComponent: Internals.DuplicatesView { }
+                }
             }
         }
     }
