@@ -76,8 +76,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
-    connect(this, &MainWindow::currentDatabaseChanged,
-            &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
