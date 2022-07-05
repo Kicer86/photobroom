@@ -2,51 +2,51 @@
 {
     "photos": [
         {
-            "path": "/some/path1.jpeg",
+            "path": "/phash/path/path1.jpeg",
             "phash": "1"
         },
         {
-            "path": "/some/path2.jpeg",
+            "path": "/phash/path/path2.jpeg",
             "phash": "2"
         },
         {
-            "path": "/some/path3.jpeg",
+            "path": "/phash/path/path3.jpeg",
             "phash": "3"
         },
         {
-            "path": "/some/path4.jpeg",
+            "path": "/phash/path/path4.jpeg",
             "phash": "6"
         },
         {
-            "path": "/some/path5.jpeg",
+            "path": "/phash/path/path5.jpeg",
             "phash": "5"
         },
         {
-            "path": "/some/path6.jpeg",
+            "path": "/phash/path/path6.jpeg",
             "phash": "4"
         },
         {
-            "path": "/some/path7.jpeg",
+            "path": "/phash/path/path7.jpeg",
             "phash": "2"
         },
         {
-            "path": "/some/path8.jpeg",
+            "path": "/phash/path/path8.jpeg",
             "phash": "1"
         },
         {
-            "path": "/some/path9.jpeg",
+            "path": "/phash/path/path9.jpeg",
             "phash": "3"
         },
         {
-            "path": "/some/path10.jpeg",
+            "path": "/phash/path/path10.jpeg",
             "phash": "8"
         },
         {
-            "path": "/some/path11.jpeg",
+            "path": "/phash/path/path11.jpeg",
             "phash": "10"
         },
         {
-            "path": "/some/path12.jpeg",
+            "path": "/phash/path/path12.jpeg",
             "phash": "3"
         }
     ]

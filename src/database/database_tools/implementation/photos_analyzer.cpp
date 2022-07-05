@@ -72,7 +72,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     Database::FilterPhotosWithPHash phashFilter;
     Database::FilterNotMatchingFilter noPhashFilter(phashFilter);
 
-    // photos without phash_state == 1 flag
+    // photos with phash_state == 0 (Normal) flag
     Database::FilterPhotosWithGeneralFlag phashGeneralFlagFilter(Database::CommonGeneralFlags::PHashState,
                                                                  static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Normal));
 

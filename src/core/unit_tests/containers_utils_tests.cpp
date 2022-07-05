@@ -4,6 +4,8 @@
 #include "containers_utils.hpp"
 
 
+using testing::ElementsAre;
+
 TEST(compareTest, removalDetection)
 {
     const std::map<int, char> l =
@@ -254,4 +256,50 @@ TEST(VectorDivisionAndAssignTest, byInt)
 
     const std::vector expected_sum = {1, 2, 4, 8, 16};
     EXPECT_EQ(l, expected_sum);
+}
+
+
+TEST(RemoveUniqueTest, mix)
+{
+    {
+        std::vector<int> empty;
+        empty.erase(remove_unique(empty.begin(), empty.end()), empty.end());
+        EXPECT_TRUE(empty.empty());
+    }
+
+    {
+        std::vector<int> singleUnique = {5};
+        singleUnique.erase(remove_unique(singleUnique.begin(), singleUnique.end()), singleUnique.end());
+        EXPECT_TRUE(singleUnique.empty());
+    }
+
+    {
+        std::vector<int> doubleUnique = {5, 9};
+        doubleUnique.erase(remove_unique(doubleUnique.begin(), doubleUnique.end()), doubleUnique.end());
+        EXPECT_TRUE(doubleUnique.empty());
+    }
+
+    {
+        std::vector<int> singleNonUnique = {5, 5};
+        singleNonUnique.erase(remove_unique(singleNonUnique.begin(), singleNonUnique.end()), singleNonUnique.end());
+        EXPECT_THAT(singleNonUnique, ElementsAre(5, 5));
+    }
+
+    {
+        std::vector<int> nonUniqueSurrounded = {1, 5, 5, 9};
+        nonUniqueSurrounded.erase(remove_unique(nonUniqueSurrounded.begin(), nonUniqueSurrounded.end()), nonUniqueSurrounded.end());
+        EXPECT_THAT(nonUniqueSurrounded, ElementsAre(5, 5));
+    }
+
+    {
+        std::vector<int> doubleNonUnique = {1, 1, 9, 9};
+        doubleNonUnique.erase(remove_unique(doubleNonUnique.begin(), doubleNonUnique.end()), doubleNonUnique.end());
+        EXPECT_THAT(doubleNonUnique, ElementsAre(1, 1, 9, 9));
+    }
+
+    {
+        std::vector<int> nonUniqueSplit = {1, 1, 5, 9, 9};
+        nonUniqueSplit.erase(remove_unique(nonUniqueSplit.begin(), nonUniqueSplit.end()), nonUniqueSplit.end());
+        EXPECT_THAT(nonUniqueSplit, ElementsAre(1, 1, 9, 9));
+    }
 }

@@ -40,8 +40,8 @@
 #include "models/flat_model.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "widgets/series_detection/series_detection.hpp"
-#include "widgets/collection_dir_scan_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
+#include "utils/collection_scanner.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
 #include "utils/model_index_utils.hpp"
@@ -76,8 +76,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
 
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
-    connect(this, &MainWindow::currentDatabaseChanged,
-            &ObjectsAccessor::instance(), &ObjectsAccessor::setDatabase);
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
@@ -296,7 +294,6 @@ void MainWindow::updateProjectProperties()
     const bool prj = m_currentPrj.get() != nullptr;
 
     QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
-    mainWindow->setProperty("projectOpened", QVariant::fromValue(prj));
     mainWindow->setProperty("projectName", QVariant::fromValue(prj? m_currentPrj->getProjectInfo().getName(): QString()));
 }
 
@@ -345,30 +342,13 @@ void MainWindow::on_actionClose_triggered()
 
 void MainWindow::on_actionScan_collection_triggered()
 {
-    Database::IDatabase& db = m_currentPrj->getDatabase();
-
-    CollectionDirScanDialog scanner(m_currentPrj.get(), db);
-    const int status = scanner.exec();
-
-    if (status == QDialog::Accepted)
+    if (m_collectionScanner == nullptr)
     {
-        const std::set<QString>& paths = scanner.newPhotos();
+        auto scanner = new CollectionScanner(*m_currentPrj.get(), m_tasksModel, m_notifications);
+        connect(scanner, &CollectionScanner::scanFinished, scanner, &QObject::deleteLater);
+        scanner->scan();
 
-        std::vector<Photo::DataDelta> photos;
-        for(const QString& path: paths)
-        {
-            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, 1} };
-
-            Photo::DataDelta photo_data;
-            photo_data.insert<Photo::Field::Path>(path);
-            photo_data.insert<Photo::Field::Flags>(flags);
-            photos.emplace_back(photo_data);
-        }
-
-        db.exec([photos](Database::IBackend& backend) mutable
-        {
-            backend.addPhotos(photos);
-        });
+        m_collectionScanner = scanner;
     }
 }
 

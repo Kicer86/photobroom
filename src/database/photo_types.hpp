@@ -18,7 +18,7 @@ namespace Photo
 {
     Q_NAMESPACE_EXPORT(DATABASE_EXPORT)
 
-    using Id = Id<int, struct photo_tag>;
+    using Id = ::Id<int, struct photo_tag>;
 
     enum class FlagsE
     {
@@ -44,39 +44,8 @@ namespace Photo
         }
     };
 
-    class PHash
-    {
-    public:
-        PHash() = default;
-        explicit PHash(qlonglong v): m_hash(v) {}
-        PHash(const PHash &) = default;
-        explicit PHash(const std::array<std::byte, 8>& v)
-        {
-            for(unsigned int i = 0; i < v.size(); i++)
-            {
-                m_hash <<= 8;
-                m_hash |= static_cast<std::int64_t>(v[i]);
-            }
-        }
-
-        PHash& operator=(const PHash &) = default;
-
-        auto operator<=>(const PHash &) const = default;
-        bool operator==(const PHash &) const = default;
-
-        friend bool operator==(const PHash& phash, std::int64_t v)
-        {
-            return phash.m_hash == v;
-        }
-
-        QVariant variant() const
-        {
-            return static_cast<qlonglong>(m_hash);
-        }
-
-    private:
-        std::int64_t m_hash = 0;
-    };
+    struct phash_tag;
+    using PHash = ::Id<qlonglong, phash_tag>;
 }
 
 Q_DECLARE_METATYPE(Photo::Id)

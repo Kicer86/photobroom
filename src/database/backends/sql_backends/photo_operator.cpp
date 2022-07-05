@@ -186,7 +186,7 @@ namespace Database
         if (hasPHash(id))
         {
             UpdateQueryData updateQueryData(insertQueryData);
-            updateQueryData.addCondition("photo_id", QString::number(id));
+            updateQueryData.addCondition("photo_id", QString::number(id.value()));
 
             query = m_queryGenerator.update(db, updateQueryData);
         }
@@ -248,7 +248,11 @@ namespace Database
 
         while (query.next())
         {
-            const Photo::Id id(query.value("photos.id").toInt());
+            const QVariant idVar = query.value(0);   // assumption that id will be in 1. column
+            assert(idVar.isValid());
+            assert(idVar.canConvert<int>());
+
+            const Photo::Id id(idVar);
 
             collection.push_back(id);
         }

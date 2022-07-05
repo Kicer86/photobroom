@@ -175,19 +175,6 @@ TEST(SqlFilterQueryGeneratorTest, HandlesIdFilter)
 }
 
 
-TEST(SqlFilterQueryGeneratorTest, HandlesWithPHashFilter)
-{
-    Database::SqlFilterQueryGenerator generator;
-    Database::FilterPhotosWithPHash filter;
-
-    const QString query = generator.generate(filter);
-
-    EXPECT_EQ("SELECT photos.id FROM photos "
-              "JOIN (phashes) "
-              "ON (phashes.photo_id = photos.id)", query);
-}
-
-
 TEST(SqlFilterQueryGeneratorTest, HandlesSimpleMergesWell)
 {
     Database::SqlFilterQueryGenerator generator;
@@ -403,4 +390,18 @@ TEST(SqlFilterQueryGeneratorTest, FiltersPhotosByGeneralFlags)
     const QString query = generator.generate(filter);
 
     EXPECT_EQ(query, "SELECT photos.id FROM photos LEFT JOIN (general_flags) ON (general_flags.photo_id = photos.id AND general_flags.name = 'some_name') WHERE COALESCE(general_flags.value, 0) = 12345");
+}
+
+
+TEST(SqlFilterQueryGeneratorTest, FiltersSimilarPhotos)
+{
+    Database::SqlFilterQueryGenerator generator;
+    Database::FilterSimilarPhotos filter;
+
+    const QString query = generator.generate(filter);
+
+    const QString duplicatesQuery = "SELECT photo_id, hash FROM phashes GROUP BY hash HAVING COUNT(*) > 1";
+    const QString expectedResult = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
+
+    EXPECT_EQ(query, expectedResult);
 }

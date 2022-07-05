@@ -48,6 +48,17 @@ class Id
                 m_value = variant.value<T>();
         }
 
+        explicit Id(const std::array<std::byte, sizeof(T)>& v)
+        {
+            for(unsigned int i = 0; i < v.size(); i++)
+            {
+                m_value <<= 8;
+                m_value |= static_cast<T>(v[i]);
+            }
+
+            m_valid = true;
+        }
+
         Id(const Id &) = default;
 
         Id& operator=(const Id &) = default;
@@ -58,12 +69,6 @@ class Id
             m_valid = true;
 
             return *this;
-        }
-
-        operator T() const
-        {
-            assert(m_valid);
-            return m_value;
         }
 
         bool operator!() const
@@ -85,7 +90,13 @@ class Id
 
         T value() const
         {
+            assert(valid());
             return m_value;
+        }
+
+        QVariant variant() const
+        {
+            return m_valid? QVariant(m_value): QVariant();
         }
 
         void swap(Id& other)

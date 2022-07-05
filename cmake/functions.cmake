@@ -230,7 +230,7 @@ function(objdump_target target)
 
         add_custom_command(
             OUTPUT ${lstFile}
-            COMMAND ${OBJDUMP} -d -M intel $<TARGET_FILE:${target}> > ${lstFile}
+            COMMAND ${OBJDUMP} -d -M intel --no-addresses --no-show-raw-insn $<TARGET_FILE:${target}> > ${lstFile}
             DEPENDS ${target}
         )
 

@@ -5,7 +5,7 @@ Rectangle {
     id: root
 
     property alias text: textItem.text
-    readonly property alias desiredHeight: textItem.height
+    implicitHeight: textItem.height
 
     color: "deepskyblue"
     radius: 5

@@ -17,7 +17,6 @@ class PHOTOS_CRAWLER_EXPORT PhotoCrawler: public IPhotoCrawler
         virtual ~PhotoCrawler();
 
         virtual void crawl(const QString &, IMediaNotification *) override;
-        virtual void setRules(const Rules &) override;
         virtual void stop() override;
 
     private:

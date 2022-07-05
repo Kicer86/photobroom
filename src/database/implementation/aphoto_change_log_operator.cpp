@@ -151,8 +151,8 @@ namespace Database
         if (oldGroupInfo.group_id.valid() && newGroupInfo.group_id.valid())   // both valid -> modification
         {
             const QString data = QString("%1 %2,%3 %4")
-                                    .arg(oldGroupInfo.group_id)
-                                    .arg(newGroupInfo.group_id)
+                                    .arg(oldGroupInfo.group_id.value())
+                                    .arg(newGroupInfo.group_id.value())
                                     .arg(oldGroupInfo.role)
                                     .arg(newGroupInfo.role);
 
@@ -161,7 +161,7 @@ namespace Database
         else if (oldGroupInfo.group_id.valid() && !newGroupInfo.group_id)     // only old valid -> removal
         {
             const QString data = QString("%1,%2")
-                                    .arg(oldGroupInfo.group_id)
+                                    .arg(oldGroupInfo.group_id.value())
                                     .arg(oldGroupInfo.role);
 
             append(id, Remove, Group, data);
@@ -169,7 +169,7 @@ namespace Database
         else if (!oldGroupInfo.group_id && newGroupInfo.group_id.valid())    // only new valid -> addition
         {
             const QString data = QString("%1,%2")
-                                    .arg(newGroupInfo.group_id)
+                                    .arg(newGroupInfo.group_id.value())
                                     .arg(newGroupInfo.role);
 
             append(id, Add, Group, data);

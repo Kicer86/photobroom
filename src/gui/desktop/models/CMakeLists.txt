@@ -4,6 +4,8 @@ set(SRC
     actions_model.hpp
     aphoto_data_model.cpp
     aphoto_data_model.hpp
+    duplicates_model.cpp
+    duplicates_model.hpp
     flat_model.cpp
     flat_model.hpp
     itags_operator.hpp

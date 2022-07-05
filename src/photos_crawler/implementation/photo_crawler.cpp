@@ -103,12 +103,6 @@ void PhotoCrawler::crawl(const QString& path, IMediaNotification* notifications)
 }
 
 
-void PhotoCrawler::setRules(const Rules &)
-{
-
-}
-
-
 void PhotoCrawler::stop()
 {
     m_impl->releaseThread();

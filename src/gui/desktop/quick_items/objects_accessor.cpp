@@ -4,7 +4,6 @@
 
 ObjectsAccessor::ObjectsAccessor(QObject* parent)
     : QObject(parent)
-    , m_database(nullptr)
     , m_project(nullptr)
     , m_core(nullptr)
 {
@@ -20,19 +19,13 @@ ObjectsAccessor& ObjectsAccessor::instance()
 }
 
 
-void ObjectsAccessor::setDatabase(Database::IDatabase* database)
-{
-    m_database = database;
-
-    emit databaseChanged(database);
-}
-
-
 void ObjectsAccessor::setProject(Project* prj)
 {
     m_project = prj;
 
     emit projectChanged(prj);
+    emit projectOpenChanged(projectOpen());
+    emit databaseChanged(database());
 }
 
 
@@ -53,7 +46,7 @@ void ObjectsAccessor::setRecentProjects(const QStringList& recent)
 
 Database::IDatabase* ObjectsAccessor::database() const
 {
-    return m_database;
+    return m_project == nullptr? nullptr: &m_project->getDatabase();
 }
 
 
@@ -72,4 +65,10 @@ ICoreFactoryAccessor* ObjectsAccessor::coreFactory() const
 const QStringList& ObjectsAccessor::recentProjects() const
 {
     return m_recentProjects;
+}
+
+
+bool ObjectsAccessor::projectOpen() const
+{
+    return m_project != nullptr;
 }

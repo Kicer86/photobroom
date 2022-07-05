@@ -6,8 +6,12 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCES
+    file_info.cpp
+    file_info.hpp
     picture_item.cpp
     picture_item.hpp
+    utils.cpp
+    utils.hpp
 )
 
 file(GLOB_RECURSE

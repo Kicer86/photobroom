@@ -1,9 +1,11 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import photo_broom.models
+import QtQuick.Layouts
+
 import photo_broom.singletons
 import quick_items
+
 import "ViewsComponents" as Internals
 import "../Components" as Components
 
@@ -12,8 +14,7 @@ ApplicationWindow {
     id: mainWindow
     objectName: "MainWindow"
 
-    property bool projectOpened: false
-    property string projectName: ""
+    property string projectName: ""                 // TODO: read title from PhotoBroomProject
 
     // TODO: these signals should be removed.
     //       cpp singletons could manage it.
@@ -25,7 +26,7 @@ ApplicationWindow {
     signal seriesDetector()
     signal configuration()
 
-    title: projectOpened? "Photo broom: " + projectName : qsTr("No collection opened")
+    title: PhotoBroomProject.projectOpen? "Photo broom: " + projectName : qsTr("No collection opened")
 
     visible: true
     width: 1024
@@ -69,14 +70,14 @@ ApplicationWindow {
                     onObjectRemoved: (object) => recentsMenu.removeItem(object)
                 }
             }
-            Action { text: qsTr("&Close"); enabled: projectOpened; icon.name: "window-close"; onTriggered: closeProject(); }
+            Action { text: qsTr("&Close"); enabled: PhotoBroomProject.projectOpen; icon.name: "window-close"; onTriggered: closeProject(); }
             MenuSeparator { }
             Action { text: qsTr("&Quit"); icon.name: "application-exit"; onTriggered: Qt.quit(); }
         }
         Menu {
             id: photosMenu
             title: qsTr("P&hotos")
-            enabled: projectOpened
+            enabled: PhotoBroomProject.projectOpen
             Action { text: qsTr("S&can collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
         }
         Menu {
@@ -88,14 +89,24 @@ ApplicationWindow {
         Menu {
             id: toolsMenu
             title: qsTr("&Tools")
-            enabled: projectOpened
+            enabled: PhotoBroomProject.projectOpen
             Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
-            Action { text: qsTr("Ph&oto data completion..."); onTriggered: mainView.currentIndex = 1; }
+            Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 0; mainView.currentIndex = 1; } }
+            Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
         }
         Menu {
             id: settingsMenu
             title: qsTr("&Settings")
             Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: { settingsMenu.dismiss(); configuration(); } }
+        }
+    }
+
+    // actions on database close/open
+    Connections {
+        target: PhotoBroomProject
+
+        function onProjectOpenChanged(open) {
+            mainView.currentIndex = 0;
         }
     }
 
@@ -113,7 +124,7 @@ ApplicationWindow {
                 PhotosView {
                     id: photosView
 
-                    enabled: mainWindow.projectOpened
+                    enabled: PhotoBroomProject.projectOpen
 
                     width: parent.width
                     height: parent.height - notifications.height - tasksViewDock.height
@@ -204,7 +215,7 @@ ApplicationWindow {
                     title: qsTr("<b>Properties</b>")
 
                     TagEditor {
-                        enabled: mainWindow.projectOpened
+                        enabled: PhotoBroomProject.projectOpen
                         width: parent.width
 
                         selection: photosView.selectedPhotos
@@ -218,22 +229,8 @@ ApplicationWindow {
                     title: qsTr("<b>Media information</b>")
                     clip: true
 
-                    TableView {
-                        id: propertiesTable
-                        implicitHeight: contentHeight
-                        implicitWidth: contentWidth
-                        columnSpacing: 5
-
-                        model: PhotoPropertiesModel {
-                            property var _photos: photosView.selectedPhotos
-                            database: PhotoBroomProject.database
-
-                            on_PhotosChanged: setPhotos(_photos)
-                        }
-
-                        delegate: Text {
-                            text: display
-                        }
+                    Components.MediaPropertiesView {
+                        photos: photosView.selectedPhotos
                     }
                 }
 
@@ -250,8 +247,7 @@ ApplicationWindow {
             }
         }
 
-        // photo data completion view
-        Item {
+        ColumnLayout {
 
             Button {
                 id: backButton
@@ -261,13 +257,21 @@ ApplicationWindow {
                 onClicked: mainView.currentIndex = 0
             }
 
-            PhotoDataCompletion {
-                id: completer
-                width: parent.width
-                anchors.bottom: parent.bottom
-                anchors.top: backButton.bottom
+            StackLayout {
+                id: toolsStackView
+
+                Loader {
+                    active: PhotoBroomProject.projectOpen
+
+                    sourceComponent: PhotoDataCompletion { }
+                }
+
+                Loader {
+                    active: PhotoBroomProject.projectOpen
+
+                    sourceComponent: Internals.DuplicatesView { }
+                }
             }
         }
     }
-
 }

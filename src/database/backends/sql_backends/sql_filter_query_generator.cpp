@@ -248,7 +248,7 @@ namespace Database
     {
         return QString("SELECT id FROM %1 WHERE id = '%2'")
                 .arg(TAB_PHOTOS)
-                .arg(filter.filter);
+                .arg(filter.filter.value());
     }
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosMatchingExpression& filter) const
@@ -348,7 +348,7 @@ namespace Database
         return QString("SELECT photos.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.person_id = '%3'")
                     .arg(TAB_PHOTOS)
                     .arg(TAB_PEOPLE)
-                    .arg(personFilter.person_id);
+                    .arg(personFilter.person_id.value());
     }
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlag& genericFlagsFilter) const
@@ -363,8 +363,16 @@ namespace Database
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosWithPHash &) const
     {
-        return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id)")
+        return QString("SELECT %1.id FROM %1 JOIN (%2) ON (%2.photo_id = %1.id) WHERE %2.hash IS NOT NULL")
             .arg(TAB_PHOTOS)
             .arg(TAB_PHASHES);
+    }
+
+    QString SqlFilterQueryGenerator::visit(const FilterSimilarPhotos& similarPhotosFilter) const
+    {
+        const QString duplicatesQuery = "SELECT photo_id, hash FROM phashes GROUP BY hash HAVING COUNT(*) > 1";
+        const QString finalQuery = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
+
+        return finalQuery;
     }
 }

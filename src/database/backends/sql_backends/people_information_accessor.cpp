@@ -77,7 +77,7 @@ namespace Database
     {
         const QString findQuery = QString("SELECT %1.id, %1.person_id, %1.location, %1.fingerprint_id FROM %1 WHERE %1.photo_id = %2")
                                     .arg(TAB_PEOPLE)
-                                    .arg(ph_id);
+                                    .arg(ph_id.value());
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -129,7 +129,7 @@ namespace Database
     {
         const QString findQuery = QString("SELECT id, name FROM %1 WHERE %1.id = %2")
                                     .arg( TAB_PEOPLE_NAMES )
-                                    .arg(p_id);
+                                    .arg(p_id.value());
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -155,7 +155,7 @@ namespace Database
         const QString sql_query = QString("SELECT %1.id, fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.person_id = %3")
                                     .arg(TAB_FACES_FINGERPRINTS)
                                     .arg(TAB_PEOPLE)
-                                    .arg(id);
+                                    .arg(id.value());
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -186,7 +186,7 @@ namespace Database
     {
         QStringList ids_list;
         for(const auto& id: ids)
-            ids_list.append(QString::number(id));
+            ids_list.append(QString::number(id.value()));
 
         const QString sql_query = QString("SELECT %2.id, %1.id, fingerprint FROM %1 JOIN %2 ON %2.fingerprint_id = %1.id WHERE %2.id IN(%3)")
                                     .arg(TAB_FACES_FINGERPRINTS)
@@ -233,7 +233,7 @@ namespace Database
         if (id.valid())  // id valid? override (update name)
         {
             UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
+            updateQueryData.addCondition("id", QString::number(id.value()));
             query = m_query_generator.update(db, updateQueryData);
 
             m_executor.exec(query);
@@ -282,7 +282,7 @@ namespace Database
             {
                 const QString delete_query = QString ("DELETE from %1 WHERE id = %2")
                                                 .arg(TAB_FACES_FINGERPRINTS)
-                                                .arg(fid);
+                                                .arg(fid.value());
 
                 QSqlQuery query(db);
                 m_executor.exec(delete_query, &query);
@@ -292,7 +292,7 @@ namespace Database
                 UpdateQueryData updateData(TAB_FACES_FINGERPRINTS);
                 updateData.addColumn("fingerprint");
                 updateData.addValue(fingerprint_raw);
-                updateData.addCondition("id", QString::number(fid));
+                updateData.addCondition("id", QString::number(fid.value()));
 
                 QSqlQuery query(db);
                 query = m_query_generator.update(db, updateData);
@@ -329,7 +329,7 @@ namespace Database
 
         const QString query = QString("DELETE FROM %1 WHERE id=%2")
                                 .arg(TAB_PEOPLE)
-                                .arg(id);
+                                .arg(id.value());
 
         QSqlQuery q(db);
         m_executor.exec(query, &q);
@@ -366,16 +366,12 @@ namespace Database
         queryData.addColumn("location");
         queryData.addValue(face_coords);
 
-        const QVariant person_id = fd.p_id.valid()?
-                                    QVariant(fd.p_id):
-                                    QVariant();
+        const QVariant person_id = fd.p_id.variant();
 
         queryData.addColumn("person_id");
         queryData.addValue(person_id);
 
-        const QVariant fingerprint_id = fd.f_id.valid()?
-                                    QVariant(fd.f_id):
-                                    QVariant();
+        const QVariant fingerprint_id = fd.f_id.variant();
 
         queryData.addColumn("fingerprint_id");
         queryData.addValue(fingerprint_id);
@@ -385,7 +381,7 @@ namespace Database
         if (id.valid())
         {
             UpdateQueryData updateQueryData(queryData);
-            updateQueryData.addCondition("id", QString::number(id));
+            updateQueryData.addCondition("id", QString::number(id.value()));
             query = m_query_generator.update(db, updateQueryData);
         }
         else

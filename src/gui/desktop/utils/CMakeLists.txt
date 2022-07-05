@@ -10,6 +10,8 @@ set(UTILS_SOURCES
     grouppers/generator_utils.hpp
     grouppers/hdr_generator.cpp
     grouppers/hdr_generator.hpp
+    collection_scanner.cpp
+    collection_scanner.hpp
     config_tools.cpp
     config_tools.hpp
     features_manager.cpp
@@ -52,7 +54,6 @@ source_group(files REGULAR_EXPRESSION .*gui.* )
 
 add_library(gui_utils OBJECT ${UTILS_SOURCES})
 set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
-set_target_properties(gui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_utils
                         PRIVATE
                             core

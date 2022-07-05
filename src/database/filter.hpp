@@ -49,6 +49,7 @@ namespace Database
     struct FilterPhotosWithPerson;
     struct FilterPhotosWithGeneralFlag;
     struct FilterPhotosWithPHash;
+    struct FilterSimilarPhotos;
 
 
     typedef std::variant<EmptyFilter,
@@ -62,7 +63,8 @@ namespace Database
                          FilterPhotosWithRole,
                          FilterPhotosWithPerson,
                          FilterPhotosWithGeneralFlag,
-                         FilterPhotosWithPHash
+                         FilterPhotosWithPHash,
+                         FilterSimilarPhotos
     > Filter;
 
     enum class ComparisonOp
@@ -177,10 +179,9 @@ namespace Database
         int value;
     };
 
-    struct DATABASE_EXPORT FilterPhotosWithPHash
-    {
+    struct DATABASE_EXPORT FilterPhotosWithPHash { };
 
-    };
+    struct DATABASE_EXPORT FilterSimilarPhotos { };
 }
 
 #endif // FILTER_HPP

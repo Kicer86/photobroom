@@ -169,7 +169,7 @@ namespace Database
 
             bool createKey(const Database::TableDefinition::KeyDefinition &, const QString &, QSqlQuery &) const;
 
-            bool store(const TagValue& value, int photo_id, int name_id, int tag_id = -1) const;
+            bool store(const TagValue& value, const Photo::Id& photo_id, int name_id, int tag_id = -1) const;
 
             bool insert(std::vector<Photo::DataDelta> &);
 
@@ -177,7 +177,7 @@ namespace Database
             bool storeData(const Photo::DataDelta &);
             bool storeData(const Photo::DataDelta& newData, const Photo::Data& oldData);
             bool storeGeometryFor(const Photo::Id &, const QSize &) const;
-            bool storeTags(int photo_id, const Tag::TagsList &) const;
+            bool storeTags(const Photo::Id& photo_id, const Tag::TagsList &) const;
             bool storeFlags(const Photo::Id &, const Photo::FlagValues &) const;
             bool storeGroup(const Photo::Id &, const GroupInfo &) const;
 

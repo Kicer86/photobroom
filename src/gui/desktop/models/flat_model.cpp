@@ -151,7 +151,7 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
         const int row = index.row();
         const Photo::Id id = m_photos[row];
 
-        d = static_cast<int>(id);
+        d = id.variant();
     }
     else if (role == PhotoDataRole)
     {
@@ -309,6 +309,7 @@ const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
 }
 
 
+//TODO: consider grouping queries
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
     auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);

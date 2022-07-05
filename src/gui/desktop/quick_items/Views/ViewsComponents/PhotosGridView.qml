@@ -11,15 +11,13 @@ Components.MultiselectGridView {
 
     id: grid
 
-    property int thumbnailSize: 160
-    property int thumbnailMargin: 5
+    property int thumbnailSize: Components.Constants.defaultThumbnailSize
+    property int thumbnailMargin: Components.Constants.defaultThumbnailMargin
 
     signal itemDoubleClicked(int index)
 
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
-
-    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
     delegate: PhotoDelegate {
         id: delegateId
@@ -31,14 +29,12 @@ Components.MultiselectGridView {
         height: cellHeight
         margin: thumbnailMargin
 
-        Rectangle {
+        HighlightDelegate {
             id: highlightId
             anchors.fill: parent
             anchors.margins: 0
 
             opacity: delegateId.selected? 1.0: delegateId.GridView.view.currentIndex == index? 0.5 : 0
-            color: currentPalette.highlight
-            radius: 5
             z: -1
 
             Behavior on opacity { PropertyAnimation{} }

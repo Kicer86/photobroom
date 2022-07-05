@@ -37,7 +37,7 @@ class PhotosCollector: public QObject, public IMediaNotification
         Q_OBJECT
 
     public:
-        PhotosCollector(const Project *, QObject * = nullptr);
+        PhotosCollector(const Project &, QObject * = nullptr);
         PhotosCollector(const PhotosCollector& other) = delete;
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
@@ -50,8 +50,10 @@ class PhotosCollector: public QObject, public IMediaNotification
         void finished() override;
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        std::function<void(const QString &)> m_callback;
+        ITasksView* m_tasksView = nullptr;
+        std::unique_ptr<IPhotoCrawler> m_crawler;
+        const Project& m_project;
 
         // IMediaNotification:
         void found(const QString& path) override;

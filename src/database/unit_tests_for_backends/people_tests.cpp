@@ -259,7 +259,7 @@ TYPED_TEST(PeopleTest, alteringPersonData)
     {
         const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
-        EXPECT_EQ(ppl[0].id(), pi_id);
+        EXPECT_EQ(ppl[0].id(), p_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
         const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
@@ -278,7 +278,7 @@ TYPED_TEST(PeopleTest, alteringPersonData)
     {
         const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
-        EXPECT_EQ(ppl[0].id(), pi_id);
+        EXPECT_EQ(ppl[0].id(), p_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
         const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
@@ -296,7 +296,7 @@ TYPED_TEST(PeopleTest, alteringPersonData)
     {
         const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
-        EXPECT_EQ(ppl[0].id(), pi_id);
+        EXPECT_EQ(ppl[0].id(), p_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
         const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
@@ -473,7 +473,7 @@ TYPED_TEST(PeopleTest, inteligentPersonNameRemoval)
     {
         const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
-        EXPECT_EQ(ppl[0].id(), pi_id);
+        EXPECT_EQ(ppl[0].id(), p_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
         const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);
@@ -492,7 +492,7 @@ TYPED_TEST(PeopleTest, inteligentPersonNameRemoval)
     {
         const auto ppl = this->m_backend->peopleInformationAccessor().listPeople();
         ASSERT_EQ(ppl.size(), 1);
-        EXPECT_EQ(ppl[0].id(), pi_id);
+        EXPECT_EQ(ppl[0].id(), p_id);
         EXPECT_EQ(ppl[0].name(), "person 25");
 
         const auto ph_ppl = this->m_backend->peopleInformationAccessor().listPeople(ph_id);

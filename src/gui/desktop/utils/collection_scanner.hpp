@@ -23,63 +23,51 @@
 #include <atomic>
 #include <set>
 
-#include <QDialog>
-
+#include <core/itasks_view.hpp>
 #include <database/idatabase.hpp>
 #include "utils/photos_collector.hpp"
+#include "inotifications.hpp"
 
-class QLabel;
 
-class Project;
-
-class CollectionDirScanDialog: public QDialog
+class CollectionScanner: public QObject
 {
         Q_OBJECT
 
     public:
-        CollectionDirScanDialog(const Project *, Database::IDatabase &, QWidget* parent = nullptr);
-        CollectionDirScanDialog(const CollectionDirScanDialog &) = delete;
-        ~CollectionDirScanDialog();
+        CollectionScanner(const Project &, ITasksView &, INotifications &);
+        CollectionScanner(const CollectionScanner &) = delete;
+        ~CollectionScanner();
 
-        CollectionDirScanDialog& operator=(const CollectionDirScanDialog &) = delete;
+        CollectionScanner& operator=(const CollectionScanner &) = delete;
 
-        const std::set<QString>& newPhotos() const;
+        void scan();
+
+    signals:
+        void scanFinished() const;
 
     private:
-        enum class State
-        {
-            Canceled,
-            Scanning,
-            Analyzing,
-            Done,
-        };
-
         PhotosCollector m_collector;
-        std::set<QString> m_photosFound;
+        std::vector<Photo::DataDelta> m_diskPhotos;
         std::vector<Photo::DataDelta> m_dbPhotos;
-        State m_state;
-        const Project* m_project;
-        QLabel* m_info;
-        QPushButton* m_button;
+        std::vector<Photo::DataDelta> m_missingPhotos;
+        const Project& m_project;
         Database::IDatabase& m_database;
+        ITasksView& m_tasksView;
+        IViewTask* m_progressTask;
+        INotifications& m_notifications;
         std::atomic<bool> m_gotPhotos;
         std::atomic<bool> m_gotDBPhotos;
 
         // slots:
-        void buttonPressed();
-        void scanDone();
+        void diskScanDone();
         void performAnalysis();
         //
 
-        void scan();
         void checkIfReady();
 
-        void gotPhoto(const QString &);
-        void gotExistingPhotos(const std::vector<Photo::DataDelta> &);
-        void updateGui();
-
-    signals:
-        void analyze();
+        void gotDiskPhoto(const QString &);
+        void gotDBPhotos(const std::vector<Photo::DataDelta> &, const std::vector<Photo::DataDelta> &);
+        void addNotification(std::size_t, std::size_t, std::size_t);
 };
 
-#endif // COLLECTIONDIRSCANDIALOG_HPP
+#endif

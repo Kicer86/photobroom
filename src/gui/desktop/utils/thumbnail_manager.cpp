@@ -101,7 +101,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 baseThumbnail = QImage::fromData(dbThumb, "JPG");
 
                 if (baseThumbnail.isNull())
-                    m_logger->error(QString("Error when loading JPG file from raw data for photo %1").arg(id));
+                    m_logger->error(QString("Error when loading JPG file from raw data for photo %1").arg(id.value()));
             }
 
             // handle errors in generation

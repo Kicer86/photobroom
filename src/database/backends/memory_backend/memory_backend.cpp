@@ -2,6 +2,7 @@
 #include <QFileInfo>
 
 #include <core/utils.hpp>
+#include <core/containers_utils.hpp>
 #include "memory_backend.hpp"
 #include "database/transaction_wrapper.hpp"
 #include "database/notifications_accumulator.hpp"
@@ -28,6 +29,39 @@ namespace
         const bool is_greater = compare(r_tag, l_tag, order);
 
         return (is_less? -1: 0) + (is_greater? 1: 0);
+    }
+
+    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos, const Database::Filter& dbFilter)
+    {
+        std::vector<Photo::Data> result = photos;
+
+        std::visit([&result](auto&& filter)
+        {
+            using T = std::decay_t<decltype(filter)>;
+            if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
+            {
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
+                    return !photo.phash.valid();
+                }), result.end());
+
+                std::sort(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
+                    return lhs.phash < rhs.phash;
+                });
+
+                result.erase(remove_unique(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
+                    return lhs.phash == rhs.phash;
+                }), result.end());
+            }
+            else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
+            {
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
+                    return !photo.phash.valid();
+                }), result.end());
+            }
+
+        }, dbFilter);
+
+        return result;
     }
 }
 
@@ -76,7 +110,6 @@ namespace Database
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
         std::map<Photo::Id, QByteArray> m_thumbnails;
-        std::map<Photo::Id, Photo::PHash> m_phashes;
 
         int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
@@ -460,7 +493,7 @@ namespace Database
 
         for(const auto& entry: m_db->m_logEntries)
         {
-            const QString formatted = format(std::get<0>(entry),
+            const QString formatted = format(std::get<0>(entry).value(),
                                              std::get<1>(entry),
                                              std::get<2>(entry),
                                              std::get<3>(entry)
@@ -602,11 +635,13 @@ namespace Database
     }
 
 
-    std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter &)
+    std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
-        std::vector<Photo::Id> ids;
+        std::vector<Photo::Data> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        data = filterPhotos(data, filter);
 
-        for(const auto& photo: m_db->m_photos)
+        std::vector<Photo::Id> ids;
+        for(const auto& photo: data)
             ids.push_back(photo.id);
 
         return ids;
@@ -615,17 +650,26 @@ namespace Database
 
     void MemoryBackend::setPHash(const Photo::Id& id, const Photo::PHash& phash)
     {
-        m_db->m_phashes[id] = phash;
+        auto it = m_db->m_photos.find(id);
+
+        if (it != m_db->m_photos.end())
+        {
+            auto data = *it;
+            data.phash = phash;
+            m_db->m_photos.erase(it);
+            m_db->m_photos.insert(data);
+        }
     }
 
 
     std::optional<Photo::PHash> MemoryBackend::getPHash(const Photo::Id& id)
     {
-        auto it = m_db->m_phashes.find(id);
+        auto it = m_db->m_photos.find(id);
+
         std::optional<Photo::PHash> result;
 
-        if (it != m_db->m_phashes.end())
-            result = it->second;
+        if (it != m_db->m_photos.end() && it->phash.valid())
+            result = it->phash;
 
         return result;
     }
@@ -633,7 +677,9 @@ namespace Database
 
     bool MemoryBackend::hasPHash(const Photo::Id& id)
     {
-        return m_db->m_phashes.contains(id);
+        auto it = m_db->m_photos.find(id);
+
+        return it == m_db->m_photos.end()? false: it->phash.valid();
     }
 
 

@@ -42,13 +42,10 @@ void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* noti
     while (m_work && dirIt.hasNext())
     {
         const QString entry = dirIt.next();
-        bool is_fine = true;
-
-        for (const QString& banned: qAsConst(m_ignored))
+        const bool is_fine = std::none_of(m_ignored.begin(), m_ignored.end(), [&entry](const QString& ignored)
         {
-            if (entry.contains(banned))
-                is_fine = false;
-        }
+            return entry.contains(ignored);
+        });
 
         if (is_fine)
             notifier->found(entry);
