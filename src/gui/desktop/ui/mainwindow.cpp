@@ -294,7 +294,6 @@ void MainWindow::updateProjectProperties()
     const bool prj = m_currentPrj.get() != nullptr;
 
     QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
-    mainWindow->setProperty("projectOpened", QVariant::fromValue(prj));
     mainWindow->setProperty("projectName", QVariant::fromValue(prj? m_currentPrj->getProjectInfo().getName(): QString()));
 }
 

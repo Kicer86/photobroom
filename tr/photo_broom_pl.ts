@@ -339,7 +339,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+118"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -432,7 +432,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+30"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+29"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>

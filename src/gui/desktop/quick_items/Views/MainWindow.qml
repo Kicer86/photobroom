@@ -14,8 +14,7 @@ ApplicationWindow {
     id: mainWindow
     objectName: "MainWindow"
 
-    property bool projectOpened: false
-    property string projectName: ""
+    property string projectName: ""                 // TODO: read title from PhotoBroomProject
 
     // TODO: these signals should be removed.
     //       cpp singletons could manage it.
@@ -27,7 +26,7 @@ ApplicationWindow {
     signal seriesDetector()
     signal configuration()
 
-    title: projectOpened? "Photo broom: " + projectName : qsTr("No collection opened")
+    title: PhotoBroomProject.projectOpen? "Photo broom: " + projectName : qsTr("No collection opened")
 
     visible: true
     width: 1024
@@ -71,14 +70,14 @@ ApplicationWindow {
                     onObjectRemoved: (object) => recentsMenu.removeItem(object)
                 }
             }
-            Action { text: qsTr("&Close"); enabled: projectOpened; icon.name: "window-close"; onTriggered: closeProject(); }
+            Action { text: qsTr("&Close"); enabled: PhotoBroomProject.projectOpen; icon.name: "window-close"; onTriggered: closeProject(); }
             MenuSeparator { }
             Action { text: qsTr("&Quit"); icon.name: "application-exit"; onTriggered: Qt.quit(); }
         }
         Menu {
             id: photosMenu
             title: qsTr("P&hotos")
-            enabled: projectOpened
+            enabled: PhotoBroomProject.projectOpen
             Action { text: qsTr("S&can collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
         }
         Menu {
@@ -90,7 +89,7 @@ ApplicationWindow {
         Menu {
             id: toolsMenu
             title: qsTr("&Tools")
-            enabled: projectOpened
+            enabled: PhotoBroomProject.projectOpen
             Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 0; mainView.currentIndex = 1; } }
             Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
@@ -125,7 +124,7 @@ ApplicationWindow {
                 PhotosView {
                     id: photosView
 
-                    enabled: mainWindow.projectOpened
+                    enabled: PhotoBroomProject.projectOpen
 
                     width: parent.width
                     height: parent.height - notifications.height - tasksViewDock.height
@@ -216,7 +215,7 @@ ApplicationWindow {
                     title: qsTr("<b>Properties</b>")
 
                     TagEditor {
-                        enabled: mainWindow.projectOpened
+                        enabled: PhotoBroomProject.projectOpen
                         width: parent.width
 
                         selection: photosView.selectedPhotos
