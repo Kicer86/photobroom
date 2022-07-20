@@ -264,9 +264,9 @@ namespace
                     // Id to Data  TODO: this can be done in background
                     std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
                     {
-                        return evaluate<Photo::Data(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
+                        return evaluate<Photo::DataDelta(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
                         {
-                            return backend.getPhoto(id);
+                            return backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
                         });
                     });
 

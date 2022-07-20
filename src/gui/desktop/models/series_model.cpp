@@ -48,7 +48,7 @@ bool SeriesModel::isLoaded() const
 
 void SeriesModel::groupBut(const QSet<int>& excludedRows)
 {
-    std::vector<std::vector<Photo::Data>> toStore;
+    std::vector<std::vector<Photo::DataDelta>> toStore;
     std::vector<GroupCandidate> left;
 
     for(std::size_t i = 0; i < m_candidates.size(); i++)
