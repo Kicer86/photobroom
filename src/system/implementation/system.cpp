@@ -122,7 +122,8 @@ QString System::getUniqueFileName(const QString& path, const QString& fileExt)
                         .arg(value++, 8, 16, QLatin1Char('0'))
                         .arg(fileExt);
 
-        const bool exists = QFile::exists(full_path);
+        const QFileInfo fileInfo(full_path);
+        const bool exists = fileInfo.isSymLink() || fileInfo.exists();
 
         if (exists == false)
             break;
