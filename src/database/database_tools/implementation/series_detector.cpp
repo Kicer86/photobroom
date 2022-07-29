@@ -52,10 +52,10 @@ namespace
         virtual Group::Type type() const = 0;
     };
 
-    class GroupValidator_Animation: public IGroupValidator
+    class GroupValidator_Series: public IGroupValidator
     {
     public:
-        GroupValidator_Animation(IExifReader& exif, const SeriesDetector::Rules &)
+        GroupValidator_Series(IExifReader& exif, const SeriesDetector::Rules &)
             : m_exifReader(exif)
         {
 
@@ -102,15 +102,14 @@ namespace
         }
 
         std::optional<std::any> m_sequence;
-
         std::unordered_set<int> m_sequence_numbers;
         IExifReader& m_exifReader;
     };
 
 
-    class GroupValidator_HDR: public GroupValidator_Animation
+    class GroupValidator_HDR: public GroupValidator_Series
     {
-        typedef GroupValidator_Animation Base;
+        typedef GroupValidator_Series Base;
 
     public:
         GroupValidator_HDR(IExifReader& exif, const SeriesDetector::Rules& r)
@@ -373,7 +372,7 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
         m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        GroupValidator_Animation animationsValidator(m_exifReader, rules);
+        GroupValidator_Series animationsValidator(m_exifReader, rules);
         auto animations = extractor.extract(animationsValidator);
         m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
 
