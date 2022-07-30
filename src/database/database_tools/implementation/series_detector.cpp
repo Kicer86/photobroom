@@ -107,6 +107,67 @@ namespace
     };
 
 
+    class GroupValidator_FileNameBased: public IGroupValidator
+    {
+    public:
+        GroupValidator_FileNameBased()
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::DataDelta& d) override
+        {
+            const auto path = d.get<Photo::Field::Path>();
+            const int burstLen = 5;
+            const int burstIdx = path.indexOf("BURST");
+
+            if (burstIdx > -1)
+            {
+                const int startIdx = burstIdx + burstLen;
+                int endIdx = startIdx;
+
+                for (; endIdx < path.size(); endIdx++)
+                    if (path[endIdx].isNumber() == false)
+                        break;
+
+                const auto idxStr = path.mid(startIdx, endIdx - startIdx);
+                m_index = idxStr.toInt();
+            }
+        }
+
+        bool canBePartOfGroup() const override
+        {
+            if (m_index > -1)
+            {
+                auto s_it = m_burst_numbers.find(m_index);
+
+                return s_it == m_burst_numbers.end();
+            }
+            else
+                return false;
+        }
+
+        void accept() override
+        {
+            m_burst_numbers.insert(m_index);
+        }
+
+        void reset() override
+        {
+            m_index = -1;
+            m_burst_numbers.clear();
+        }
+
+        Group::Type type() const override
+        {
+            return Group::Animation;
+        }
+
+        std::unordered_set<int> m_burst_numbers;
+        int m_index = -1;
+    };
+
+
     class GroupValidator_HDR: public GroupValidator_Series
     {
         typedef GroupValidator_Series Base;
@@ -375,6 +436,12 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
         GroupValidator_Series animationsValidator(m_exifReader, rules);
         auto animations = extractor.extract(animationsValidator);
         m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
+
+        timer.restart();
+        GroupValidator_FileNameBased fileNameValidator;
+        auto fileNameAnimations = extractor.extract(fileNameValidator);
+        std::ranges::copy(fileNameAnimations, std::back_inserter(animations));
+        m_logger.debug(QString("Filename extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
         GroupValidator_Generic genericValidator(rules);
