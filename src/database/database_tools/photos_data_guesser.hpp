@@ -29,7 +29,7 @@ public:
     bool isUpdateInProgress() const;
 
     Q_INVOKABLE void performAnalysis();
-    Q_INVOKABLE void applyBut(const QList<int> &);
+    Q_INVOKABLE void apply(const QList<int> &);
     Q_INVOKABLE Photo::Id getId(int row) const;
 
     QVariant data(const QModelIndex & index, int role) const override;

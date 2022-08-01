@@ -39,6 +39,7 @@ Item
                 id: delegateState
 
                 defaultValue: false
+                model: groupsModelId
             }
 
             ListView {

@@ -73,16 +73,13 @@ void PhotosDataGuesser::performAnalysis()
 }
 
 
-void PhotosDataGuesser::applyBut(const QList<int>& excluded)
+void PhotosDataGuesser::apply(const QList<int>& included)
 {
-    const std::set excludedSet(excluded.begin(), excluded.end());
-
     std::vector<CollectedData> photosToProcess;
-    photosToProcess.reserve(m_photos.size() - excludedSet.size());
+    photosToProcess.reserve(included.size());
 
-    for (auto i = 0u; i < m_photos.size(); i++)
-        if (excludedSet.contains(i) == false)
-            photosToProcess.push_back(m_photos[i]);
+    for (const int i: included)
+        photosToProcess.push_back(m_photos[i]);
 
     updateUpdateStatus(true);
     m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));

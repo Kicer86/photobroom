@@ -572,7 +572,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+128"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+129"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -894,7 +894,7 @@ Kod błędu: %1</translation>
         <translation>Potencjalne grupy</translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+100"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
