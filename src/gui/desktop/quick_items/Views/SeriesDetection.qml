@@ -2,6 +2,10 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
+
+import photo_broom.models
+import photo_broom.singletons
+
 import "../Components" as Components
 import "ViewsComponents" as Internals
 
@@ -16,6 +20,13 @@ Item
     state: "LoadingState"
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
+
+    SeriesModel {
+        id: groupsModelId
+
+        coreFactory: PhotoBroomProject.coreFactory
+        project: PhotoBroomProject.project
+    }
 
     RowLayout {
         id: groupsId

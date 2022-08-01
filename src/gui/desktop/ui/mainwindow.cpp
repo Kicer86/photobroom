@@ -39,7 +39,6 @@
 #include "config_tabs/tools_tab.hpp"
 #include "models/flat_model.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
-#include "widgets/series_detection/series_detection.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
 #include "utils/collection_scanner.hpp"
 #include "utils/groups_manager.hpp"
@@ -122,7 +121,6 @@ void MainWindow::setupQmlView()
     connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
     connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
     connect(mainWindow, SIGNAL(scanCollection()), this, SLOT(on_actionScan_collection_triggered()));
-    connect(mainWindow, SIGNAL(seriesDetector()), this, SLOT(on_actionSeries_detector_triggered()));
     connect(mainWindow, SIGNAL(configuration()), this, SLOT(on_actionConfiguration_triggered()));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
@@ -372,12 +370,6 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(nullptr, tr("About Qt"));
-}
-
-
-void MainWindow::on_actionSeries_detector_triggered()
-{
-    SeriesDetection{m_currentPrj->getDatabase(), m_coreAccessor, m_tasksModel, *m_currentPrj.get(), *m_thumbnailsManager}.exec();
 }
 
 

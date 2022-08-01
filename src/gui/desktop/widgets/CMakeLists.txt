@@ -4,14 +4,12 @@ find_package(Qt6 REQUIRED COMPONENTS QuickWidgets Widgets)
 set(SRCS
     media_preview.cpp
     project_creator/project_creator_dialog.cpp
-    series_detection/series_detection.cpp
     qtext_choosefile.cpp
 )
 
 set(HEADERS
     media_preview.hpp
     project_creator/project_creator_dialog.hpp
-    series_detection/series_detection.hpp
     qtext_choosefile.hpp
 )
 
@@ -19,7 +17,6 @@ set(HEADERS
 set(TO_MOC
     media_preview.hpp
     project_creator/project_creator_dialog.hpp
-    series_detection/series_detection.hpp
     qtext_choosefile.hpp
 )
 

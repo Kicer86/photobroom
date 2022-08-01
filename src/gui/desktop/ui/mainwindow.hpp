@@ -11,6 +11,7 @@
 #include <updater/iupdater.hpp>
 
 #include "models/notifications_model.hpp"
+#include "models/series_model.hpp"
 #include "models/tasks_model.hpp"
 #include "ui_utils/completer_factory.hpp"
 #include "utils/features_observer.hpp"
@@ -21,7 +22,6 @@ class LookTabController;
 class MainTabController;
 class ToolsTabController;
 class PhotosAnalyzer;
-class PhotosWidget;
 struct ICoreFactoryAccessor;
 struct ILoggerFactory;
 struct ITaskExecutor;
@@ -94,9 +94,6 @@ class MainWindow: public QObject
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
-
-        // tools menu
-        void on_actionSeries_detector_triggered();
 
         // settings menu
         void on_actionConfiguration_triggered();

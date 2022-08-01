@@ -21,11 +21,11 @@ using namespace std::placeholders;
 ENUM_ROLES_SETUP(SeriesModel::Roles);
 
 
-SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksView& taskView)
-    : m_logger(core.getLoggerFactory().get("SeriesModel"))
-    , m_project(project)
-    , m_core(core)
-    , m_tasksView(taskView)
+SeriesModel::SeriesModel()
+    : m_logger()
+    , m_project()
+    , m_core()
+    , m_tasksView()
     , m_initialized(false)
     , m_loaded(false)
     , m_busy(false)
@@ -58,7 +58,7 @@ void SeriesModel::group(const QList<int>& rows)
         toStore.push_back(candidate.members);
     }
 
-    auto& executor = m_core.getTaskExecutor();
+    auto& executor = m_core->getTaskExecutor();
 
     QPromise<void> promise;
     QFuture<void> future = promise.future();
@@ -66,13 +66,26 @@ void SeriesModel::group(const QList<int>& rows)
 
     setBusy(true);
 
-    runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
+    runOn(executor, [groups = std::move(toStore), project = m_project, promise = std::move(promise)]() mutable
     {
-        GroupsManager::groupIntoUnified(project, std::move(promise), groups);
+        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
     },
     "unified group generation");
 
-    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
+    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
+}
+
+
+void SeriesModel::setCoreAccessor(ICoreFactoryAccessor* core)
+{
+    m_core = core;
+    m_logger = m_core->getLoggerFactory().get("SeriesModel");
+}
+
+
+ICoreFactoryAccessor* SeriesModel::coreAccessor() const
+{
+    return m_core;
 }
 
 
@@ -126,7 +139,11 @@ int SeriesModel::rowCount(const QModelIndex& parent) const
 
 bool SeriesModel::canFetchMore(const QModelIndex& parent) const
 {
-    return parent.isValid() == false && m_initialized == false && m_busy == false;
+    return m_core != nullptr &&
+           m_project != nullptr &&
+           parent.isValid() == false &&
+           m_initialized == false &&
+           m_busy == false;
 }
 
 
@@ -163,19 +180,19 @@ void SeriesModel::setBusy(bool busy)
 
 void SeriesModel::fetchGroups()
 {
-    auto& executor = m_core.getTaskExecutor();
+    auto& executor = m_core->getTaskExecutor();
 
     m_candidatesFuture = runOn<std::vector<GroupCandidate>>
     (
         executor,
         [this](QPromise<std::vector<GroupCandidate>>& promise)
         {
-            IExifReaderFactory& exif = m_core.getExifReaderFactory();
+            IExifReaderFactory& exif = m_core->getExifReaderFactory();
 
             QElapsedTimer timer;
 
             auto detectLogger = m_logger->subLogger("SeriesDetector");
-            SeriesDetector detector(*detectLogger, m_project.getDatabase(), exif.get(), &promise);
+            SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), &promise);
 
             timer.start();
             promise.addResult(detector.listCandidates());

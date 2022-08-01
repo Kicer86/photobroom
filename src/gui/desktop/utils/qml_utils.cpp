@@ -56,13 +56,6 @@ namespace QmlUtils
     }
 
 
-    void registerObject(QQuickWidget* qml, const QString& objectName, QObject* object)
-    {
-        auto rootContext = qml->rootContext();
-        rootContext->setContextProperty(objectName, object);
-    }
-
-
     void registerObjectProperties(QQuickWidget* qml, const QString& objectName, QQmlPropertyMap* properties)
     {
         auto rootContext = qml->rootContext();

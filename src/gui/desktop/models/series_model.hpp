@@ -19,6 +19,8 @@ class SeriesModel: public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
     Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
+    Q_PROPERTY(Project* project MEMBER m_project REQUIRED)
+    Q_PROPERTY(ICoreFactoryAccessor* coreFactory WRITE setCoreAccessor READ coreAccessor REQUIRED)
 
 public:
     enum Roles
@@ -29,13 +31,16 @@ public:
         MembersRole,
     };
 
-    SeriesModel(Project &, ICoreFactoryAccessor &, ITasksView &);
+    SeriesModel();
     ~SeriesModel();
 
     bool isLoaded() const;
     Q_INVOKABLE void group(const QList<int> &);
     Q_INVOKABLE bool isEmpty() const;
     bool isBusy() const;
+
+    void setCoreAccessor(ICoreFactoryAccessor *);
+    ICoreFactoryAccessor* coreAccessor() const;
 
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;
@@ -50,9 +55,9 @@ signals:
 private:
     std::unique_ptr<ILogger> m_logger;
     std::vector<GroupCandidate> m_candidates;
-    Project& m_project;
-    ICoreFactoryAccessor& m_core;
-    ITasksView& m_tasksView;
+    Project* m_project = nullptr;
+    ICoreFactoryAccessor* m_core = nullptr;
+    ITasksView* m_tasksView = nullptr;
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     bool m_initialized;
     bool m_loaded;
