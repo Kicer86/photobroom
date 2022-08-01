@@ -133,7 +133,7 @@ bool SeriesModel::canFetchMore(const QModelIndex& parent) const
 
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {
-    if (parent.isValid() == false)
+    if (m_initialized == false && parent.isValid() == false)
     {
         m_initialized = true;
 
