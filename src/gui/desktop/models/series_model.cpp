@@ -46,18 +46,15 @@ bool SeriesModel::isLoaded() const
 }
 
 
-void SeriesModel::groupBut(const QSet<int>& excludedRows)
+void SeriesModel::group(const QList<int>& rows)
 {
     std::vector<std::vector<Photo::DataDelta>> toStore;
-    std::vector<GroupCandidate> left;
 
-    for(std::size_t i = 0; i < m_candidates.size(); i++)
+    for(const int i: rows)
     {
         const auto& candidate = m_candidates[i];
 
-        excludedRows.contains(i)?
-            left.push_back(candidate):
-            toStore.push_back(candidate.members);
+        toStore.push_back(candidate.members);
     }
 
     auto& executor = m_core.getTaskExecutor();
@@ -73,11 +70,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
 
     TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving group details."));
 
-    beginResetModel();
-    m_candidates.clear();
-    endResetModel();
-
-    updateModel(left);
+    clean();
 }
 
 
@@ -188,5 +181,17 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
     endInsertRows();
 
     m_loaded = true;
+    emit loadedChanged(m_loaded);
+}
+
+
+void SeriesModel::clean()
+{
+    beginResetModel();
+    m_candidates.clear();
+    m_initialized = false;
+    m_loaded = false;
+    endResetModel();
+
     emit loadedChanged(m_loaded);
 }

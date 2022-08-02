@@ -886,22 +886,22 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="106"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="99"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="107"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="100"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="108"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="101"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="74"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
         <source>Saving group details.</source>
         <translation>Saving group details.</translation>
     </message>

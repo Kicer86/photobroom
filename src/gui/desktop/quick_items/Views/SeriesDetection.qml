@@ -135,9 +135,9 @@ Item
                 Connections {
                     target: button
                     function onClicked() {
-                        var unselected = delegateState.getItems((state) => {return state === false;});
+                        var selected = delegateState.getItems((state) => {return state;});
 
-                        groupsModelId.groupBut(unselected);
+                        groupsModelId.group(selected);
                         delegateState.clear();
                     }
                 }
