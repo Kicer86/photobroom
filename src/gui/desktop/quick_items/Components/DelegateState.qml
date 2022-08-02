@@ -13,7 +13,6 @@ Item {
     }
 
     function state(index) {
-        console.log("ddd", index, dataSet.objectAt(index), dataSet.count);
         return dataSet.objectAt(index).state;
     }
 
