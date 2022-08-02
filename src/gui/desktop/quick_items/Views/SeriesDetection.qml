@@ -188,6 +188,7 @@ Item
     states: [
         State {
             name: "LoadingState"
+            when: groupsModelId.loaded === false
 
             PropertyChanges {
                 target: groupsId
