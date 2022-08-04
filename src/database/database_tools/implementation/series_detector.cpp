@@ -52,10 +52,10 @@ namespace
         virtual Group::Type type() const = 0;
     };
 
-    class GroupValidator_Series: public IGroupValidator
+    class GroupValidator_ExifBasedSeries: public IGroupValidator
     {
     public:
-        GroupValidator_Series(IExifReader& exif, const SeriesDetector::Rules &)
+        GroupValidator_ExifBasedSeries(IExifReader& exif, const SeriesDetector::Rules &)
             : m_exifReader(exif)
         {
 
@@ -107,10 +107,10 @@ namespace
     };
 
 
-    class GroupValidator_FileNameBased: public IGroupValidator
+    class GroupValidator_FileNameBasedSeries: public IGroupValidator
     {
     public:
-        GroupValidator_FileNameBased()
+        GroupValidator_FileNameBasedSeries()
         {
 
         }
@@ -168,9 +168,9 @@ namespace
     };
 
 
-    class GroupValidator_HDR: public GroupValidator_Series
+    class GroupValidator_HDR: public GroupValidator_ExifBasedSeries
     {
-        typedef GroupValidator_Series Base;
+        typedef GroupValidator_ExifBasedSeries Base;
 
     public:
         GroupValidator_HDR(IExifReader& exif, const SeriesDetector::Rules& r)
@@ -433,12 +433,12 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
         m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        GroupValidator_Series animationsValidator(m_exifReader, rules);
+        GroupValidator_ExifBasedSeries animationsValidator(m_exifReader, rules);
         auto animations = extractor.extract(animationsValidator);
         m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        GroupValidator_FileNameBased fileNameValidator;
+        GroupValidator_FileNameBasedSeries fileNameValidator;
         auto fileNameAnimations = extractor.extract(fileNameValidator);
         std::ranges::copy(fileNameAnimations, std::back_inserter(animations));
         m_logger.debug(QString("Filename extraction took: %1s").arg(timer.elapsed() / 1000));
