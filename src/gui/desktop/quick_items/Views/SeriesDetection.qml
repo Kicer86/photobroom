@@ -132,14 +132,11 @@ Item
                 id: button
                 text: qsTr("Group", "used as verb - group photos")
 
-                Connections {
-                    target: button
-                    function onClicked() {
-                        var selected = delegateState.getItems((state) => {return state;});
+                onClicked: {
+                    var selected = delegateState.getItems((state) => {return state;});
 
-                        groupsModelId.group(selected);
-                        delegateState.clear();
-                    }
+                    groupsModelId.group(selected);
+                    delegateState.clear();
                 }
             }
         }

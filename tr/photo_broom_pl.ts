@@ -900,7 +900,7 @@ Kod błędu: %1</translation>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+34"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
