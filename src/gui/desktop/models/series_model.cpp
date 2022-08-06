@@ -82,7 +82,7 @@ bool SeriesModel::isEmpty() const
 
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && index.column() == 0 && index.row() < m_candidates.size())
+    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
     {
         const auto& candidate = m_candidates[index.row()];
 
@@ -95,11 +95,9 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
             QString type;
             switch (candidate.type)
             {
-                case Group::Type::Invalid:                                              break;
-                case Group::Type::Animation: type = tr("Photo series");                 break;
-                case Group::Type::HDR:       type = tr("HDR");                          break;
-                case Group::Type::Generic:   type = tr("Photos taken at similar time"); break;
-                case Group::Type::Collage:   assert(!"not expected nor implemented");   break;
+                case GroupCandidate::Type::Series:   type = tr("Photo series");                 break;
+                case GroupCandidate::Type::HDR:      type = tr("HDR");                          break;
+                case GroupCandidate::Type::Generic:  type = tr("Photos taken at similar time"); break;
             }
 
             return type;

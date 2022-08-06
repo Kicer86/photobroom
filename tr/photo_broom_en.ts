@@ -886,17 +886,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="99"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="98"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="100"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="99"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="101"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="100"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>

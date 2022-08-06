@@ -2,12 +2,17 @@
 #ifndef SERIES_CANDIDATE_HPP_INCLUDED
 #define SERIES_CANDIDATE_HPP_INCLUDED
 
-#include <database/group.hpp>
 #include <database/photo_data.hpp>
 
 struct GroupCandidate
 {
-    Group::Type type;
+    enum class Type {
+        Series,
+        HDR,
+        Generic,
+    };
+
+    Type type;
     std::vector<Photo::DataDelta> members;
 };
 

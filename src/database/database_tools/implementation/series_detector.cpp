@@ -49,7 +49,7 @@ namespace
         virtual bool canBePartOfGroup() const = 0;
         virtual void accept() = 0;
         virtual void reset() = 0;
-        virtual Group::Type type() const = 0;
+        virtual GroupCandidate::Type type() const = 0;
     };
 
     class GroupValidator_ExifBasedSeries: public IGroupValidator
@@ -96,9 +96,9 @@ namespace
             m_sequence_numbers.clear();
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::Animation;
+            return GroupCandidate::Type::Series;
         }
 
         std::optional<std::any> m_sequence;
@@ -158,9 +158,9 @@ namespace
             m_burst_numbers.clear();
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::Animation;
+            return GroupCandidate::Type::Series;
         }
 
         std::unordered_set<int> m_burst_numbers;
@@ -218,9 +218,9 @@ namespace
             m_exposures.clear();
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::HDR;
+            return GroupCandidate::Type::HDR;
         }
 
         std::optional<std::any> m_exposure;
@@ -257,9 +257,9 @@ namespace
             m_prev_stamp = std::chrono::milliseconds(0);
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::Generic;
+            return GroupCandidate::Type::Generic;
         }
 
         std::chrono::milliseconds m_prev_stamp,

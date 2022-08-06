@@ -101,8 +101,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -157,8 +157,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -216,8 +216,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -255,8 +255,8 @@ TEST_F(SeriesDetectorTest, smartphoneSeries)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -337,8 +337,8 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::HDR);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::HDR);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::HDR);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::HDR);
 }
 
 
@@ -363,8 +363,8 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 6);
     ASSERT_EQ(groupCanditates.back().members.size(), 5);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Generic);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Generic);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Generic);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Generic);
 }
 
 
