@@ -353,8 +353,9 @@ namespace
 }
 
 
-SeriesDetector::Rules::Rules(std::chrono::milliseconds gap)
+SeriesDetector::Rules::Rules(std::chrono::milliseconds gap, bool neighbours)
     : manualSeriesMaxGap(gap)
+    , detectTimeNeighbors(neighbours)
 {
 
 }
@@ -426,34 +427,34 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
     try
     {
         SeriesExtractor extractor(m_db, prefiltered, m_logger.subLogger("SeriesExtractor"), m_promise);
+        std::vector<GroupCandidate> sequences;
 
         timer.restart();
         GroupValidator_HDR hdrValidator(m_exifReader, rules);
-        auto hdrs = extractor.extract(hdrValidator);
+        const auto hdrs = extractor.extract(hdrValidator);
+        std::ranges::copy(hdrs, std::back_inserter(sequences));
         m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
         GroupValidator_ExifBasedSeries animationsValidator(m_exifReader, rules);
-        auto animations = extractor.extract(animationsValidator);
-        m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
+        const auto exifSeries = extractor.extract(animationsValidator);
+        std::ranges::copy(exifSeries, std::back_inserter(sequences));
+        m_logger.debug(QString("Exif based series extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
         GroupValidator_FileNameBasedSeries fileNameValidator;
-        auto fileNameAnimations = extractor.extract(fileNameValidator);
-        std::ranges::copy(fileNameAnimations, std::back_inserter(animations));
-        m_logger.debug(QString("Filename extraction took: %1s").arg(timer.elapsed() / 1000));
+        const auto fileNameSeries = extractor.extract(fileNameValidator);
+        std::ranges::copy(fileNameSeries, std::back_inserter(sequences));
+        m_logger.debug(QString("Filename based series extraction took: %1s").arg(timer.elapsed() / 1000));
 
-        timer.restart();
-        GroupValidator_Generic genericValidator(rules);
-        auto generics = extractor.extract(genericValidator);
-        m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
-
-        timer.restart();
-        std::vector<GroupCandidate> sequences;
-        std::ranges::copy(hdrs, std::back_inserter(sequences));
-        std::ranges::copy(animations, std::back_inserter(sequences));
-        std::ranges::copy(generics, std::back_inserter(sequences));
-        m_logger.debug(QString("Finalization took: %1s").arg(timer.elapsed() / 1000));
+        if (rules.detectTimeNeighbors)
+        {
+            timer.restart();
+            GroupValidator_Generic genericValidator(rules);
+            const auto generics = extractor.extract(genericValidator);
+            std::ranges::copy(generics, std::back_inserter(sequences));
+            m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
+        }
 
         return sequences;
     }

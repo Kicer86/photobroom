@@ -358,7 +358,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
     }));
 
     const SeriesDetector sd(logger, mem_db, exif);
-    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates(SeriesDetector::Rules(std::chrono::seconds(10), true));
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 6);
