@@ -23,6 +23,7 @@
 
 #include <core/ilogger.hpp>
 #include <database/ibackend.hpp>
+#include <database/general_flags.hpp>
 
 #include "isql_query_executor.hpp"
 #include "sql_filter_query_generator.hpp"
@@ -90,7 +91,9 @@ namespace Database
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        //collect ids of photos to be dropped
+        auto tr = m_backend->openTransaction();
+
+        //collect ids of photos to be dropped and mark them
         std::vector<Photo::Id> ids;
         bool status = m_executor->exec(filterQuery, &query);
 
@@ -98,34 +101,12 @@ namespace Database
         {
             while(query.next())
             {
-                const Photo::Id id(query.value(0).toUInt());
+                const Photo::Id id(query.value(0));
 
+                m_backend->set(id, CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Delete));
                 ids.push_back(id);
             }
         }
-
-        //from filtered photos, get info about tags used there
-        std::vector<QString> queries =
-        {
-            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
-            QString("DELETE FROM " TAB_FLAGS             " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_GENERAL_FLAGS     " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_GEOMETRY          " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            // There should be no data in groups and group members TODO: check + remove group if not true
-            QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_PHASHES           " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-
-            QString("DELETE FROM " TAB_PHOTOS            " WHERE id IN (SELECT * FROM drop_indices)"),
-            QString("DROP TABLE drop_indices")
-        };
-
-        auto tr = m_backend->openTransaction();
-
-        if (status)
-            status = m_executor->exec(queries, &query);
 
         if (status)
             m_notifications.photosRemoved(ids);

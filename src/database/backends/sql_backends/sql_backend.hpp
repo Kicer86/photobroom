@@ -187,6 +187,7 @@ namespace Database
             Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             bool doesPhotoExist(const Photo::Id &) const;
+            void prune();
     };
 }
 
