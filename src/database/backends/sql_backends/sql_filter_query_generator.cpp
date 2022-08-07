@@ -374,7 +374,7 @@ namespace Database
             .arg(TAB_PHASHES);
     }
 
-    QString SqlFilterQueryGenerator::visit(const FilterSimilarPhotos& similarPhotosFilter) const
+    QString SqlFilterQueryGenerator::visit(const FilterSimilarPhotos &) const
     {
         const QString duplicatesQuery = "SELECT photo_id, hash FROM phashes GROUP BY hash HAVING COUNT(*) > 1";
         const QString finalQuery = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
