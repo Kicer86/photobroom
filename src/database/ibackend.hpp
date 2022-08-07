@@ -145,6 +145,26 @@ namespace Database
          */
         virtual std::optional<int>       get(const Photo::Id& id, const QString& name) = 0;
 
+        /**
+         * @brief set bits for provided flag
+         * @arg id id of photo
+         * @arg name flag name
+         * @arg bits bits to be set
+         *
+         * This method is similar to @ref set and @ref clearBits but allow to set particular bits of stored value
+         */
+        virtual void setBits(const Photo::Id& id, const QString& name, int bits) = 0;
+
+        /**
+         * @brief clear bits for provided flag
+         * @arg id id of photo
+         * @arg name flag name
+         * @arg bits bits to be cleared (zeroed)
+         *
+         * This method is similar to @ref set and @ref setBits but allow to clear particular bits of stored value
+         */
+        virtual void clearBits(const Photo::Id& id, const QString& name, int bits) = 0;
+
         virtual void setThumbnail(const Photo::Id &, const QByteArray &) = 0;
 
         // reading extra data

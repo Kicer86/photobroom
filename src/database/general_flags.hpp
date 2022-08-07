@@ -10,9 +10,11 @@ namespace Database::CommonGeneralFlags
     enum class StateType
     {
         Normal      = 0,                    // 0 (or nonexistent entry) - photo is in fine state
+
+        // flags:
         Broken      = 1,                    // 1 - one or more photo parameters could not be determined (dimension, thumbnail etc)
         Missing     = 2,                    // 2 - photo file is missing
-        Delete      = 3,                    // 3 - photo marked for deletion
+        Delete      = 4,                    // 4 - photo marked for deletion
     };
 
     const QString PHashState("phash_state");    // phash info

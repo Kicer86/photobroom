@@ -51,3 +51,26 @@ TYPED_TEST(GeneralFlagsTest, invalidName)
     EXPECT_FALSE(this->m_backend->get(ids[0], "test2").has_value());
     EXPECT_FALSE(this->m_backend->get(ids[0], "test1").has_value());
 }
+
+
+TYPED_TEST(GeneralFlagsTest, setAndClearBits)
+{
+    // store photo
+    Photo::DataDelta pd;
+    pd.insert<Photo::Field::Path>("photo1.jpeg");
+
+    std::vector<Photo::DataDelta> photos = { pd };
+    this->m_backend->addPhotos(photos);
+
+    const auto id = photos.front().getId();
+
+    // perform some bit logic operations
+    this->m_backend->set(id, "test1", 0x1);
+    EXPECT_EQ(this->m_backend->get(id, "test1"), 0x1);
+
+    this->m_backend->setBits(id, "test1", 0x12);
+    EXPECT_EQ(this->m_backend->get(id, "test1"), 0x13);
+
+    this->m_backend->clearBits(id, "test1", 0x2);
+    EXPECT_EQ(this->m_backend->get(id, "test1"), 0x11);
+}

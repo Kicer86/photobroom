@@ -488,6 +488,26 @@ namespace Database
     }
 
 
+    void ASqlBackend::setBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value |= bits;
+        set(id, name, value);
+    }
+
+
+    void ASqlBackend::clearBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value &= ~bits;
+        set(id, name, value);
+    }
+
+
     void ASqlBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
     {
         UpdateQueryData data(TAB_THUMBS);

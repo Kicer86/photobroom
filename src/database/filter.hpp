@@ -173,10 +173,17 @@ namespace Database
 
     struct DATABASE_EXPORT FilterPhotosWithGeneralFlag
     {
-        explicit FilterPhotosWithGeneralFlag(const QString& name, int value);
+        enum class Mode
+        {
+            Exact,          // filter photos with exact value
+            Bit,            // filter photos with given bits set (ie value AND flag.value == value)
+        };
+
+        explicit FilterPhotosWithGeneralFlag(const QString& name, int value, Mode mode = Mode::Exact);
 
         QString name;
         int value;
+        Mode mode;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithPHash { };
