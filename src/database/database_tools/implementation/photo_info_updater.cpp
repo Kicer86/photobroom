@@ -40,9 +40,9 @@ struct UpdaterTask: ITaskExecutor::ITask
 
     }
 
-    void apply(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
+    void apply(std::function<void(Database::IBackend &)> action)
     {
-        invokeMethod(m_updater, &PhotoInfoUpdater::applyFlags, id, generic_flag);
+        invokeMethod(m_updater, &PhotoInfoUpdater::apply, action);
     }
 
     FileInformation getFileInformation(const QString& path)
@@ -89,13 +89,10 @@ namespace
                 photoDelta->get<Photo::Field::Flags>()[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
             }
             else
-            {
-                apply(photoDelta->getId(),
+                apply([id = photoDelta->getId()](Database::IBackend& backend)
                 {
-                    Database::CommonGeneralFlags::State,
-                    static_cast<int>(Database::CommonGeneralFlags::StateType::Broken)
+                    backend.setBits(id, Database::CommonGeneralFlags::State, static_cast<int>(Database::CommonGeneralFlags::StateType::Broken));
                 });
-            }
         }
     };
 
@@ -178,10 +175,9 @@ namespace
             QImage image(path);
 
             if (image.isNull())
-                apply(m_photoInfo->lock()->getId(),
+                apply([id = m_photoInfo->lock()->getId()](Database::IBackend& backend)
                 {
-                    Database::CommonGeneralFlags::PHashState,
-                    static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incomaptible)
+                    backend.setBits(id, Database::CommonGeneralFlags::PHashState, static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incomaptible));
                 });
             else
             {
@@ -266,12 +262,9 @@ void PhotoInfoUpdater::addTask(std::unique_ptr<UpdaterTask> task)
 }
 
 
-void PhotoInfoUpdater::applyFlags(const Photo::Id& id, const std::pair<QString, int>& generic_flag)
+void PhotoInfoUpdater::apply(std::function<void(Database::IBackend &)> action)
 {
-    m_db.exec([id, generic_flag](Database::IBackend& db)
-    {
-        db.set(id, generic_flag.first, generic_flag.second);
-    });
+    m_db.exec(action);
 }
 
 

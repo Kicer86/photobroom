@@ -2,6 +2,7 @@
 #include "common.hpp"
 
 using testing::UnorderedElementsAreArray;
+using testing::ElementsAre;
 
 
 template<typename T>
@@ -32,11 +33,21 @@ TYPED_TEST(FiltersTest, generalFlagsFilterTests)
     this->m_backend->set(ids[1], "test1", 0xaa);
     this->m_backend->set(ids[1], "test2", 0x55);
 
-    auto flagsFilter1 = Database::FilterPhotosWithGeneralFlag("test1", 5, Database::FilterPhotosWithGeneralFlag::Mode::Bit);
-    auto value5Photos = this->m_backend->photoOperator().getPhotos({flagsFilter1});
-    EXPECT_TRUE(value5Photos.empty());
+    {
+        auto flagsFilter1 = Database::FilterPhotosWithGeneralFlag("test1", 5, Database::FilterPhotosWithGeneralFlag::Mode::Bit);
+        auto value5Photos = this->m_backend->photoOperator().getPhotos({flagsFilter1});
+        EXPECT_TRUE(value5Photos.empty());
+    }
 
-    auto flagsFilter2 = Database::FilterPhotosWithGeneralFlag("test1", 2, Database::FilterPhotosWithGeneralFlag::Mode::Bit);
-    auto value1Photos = this->m_backend->photoOperator().getPhotos({flagsFilter2});
-    EXPECT_THAT(value1Photos, UnorderedElementsAreArray(ids));
+    {
+        auto flagsFilter2 = Database::FilterPhotosWithGeneralFlag("test1", 2, Database::FilterPhotosWithGeneralFlag::Mode::Bit);
+        auto value1Photos = this->m_backend->photoOperator().getPhotos({flagsFilter2});
+        EXPECT_THAT(value1Photos, UnorderedElementsAreArray(ids));
+    }
+
+    {
+        auto flagsFilter3 = Database::FilterPhotosWithGeneralFlag("test2", 0x55);
+        auto value55Photos = this->m_backend->photoOperator().getPhotos({flagsFilter3});
+        EXPECT_THAT(value55Photos, ElementsAre(ids.back()));
+    }
 }

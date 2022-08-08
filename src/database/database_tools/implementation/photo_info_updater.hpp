@@ -42,7 +42,7 @@ class PhotoInfoUpdater final: public QObject
         ITaskExecutor& m_tasksExecutor;
 
         void addTask(std::unique_ptr<UpdaterTask>);
-        void applyFlags(const Photo::Id &, const std::pair<QString, int>& generic_flag);
+        void apply(std::function<void(Database::IBackend &)>);
         FileInformation getFileInformation(const QString &);
 };
 

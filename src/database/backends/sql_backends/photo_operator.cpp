@@ -103,7 +103,7 @@ namespace Database
             {
                 const Photo::Id id(query.value(0));
 
-                m_backend->set(id, CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Delete));
+                m_backend->setBits(id, CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Delete));
                 ids.push_back(id);
             }
         }

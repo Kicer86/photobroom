@@ -334,8 +334,7 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
 
     // ignore broken photos
     filters_for_model.push_back( Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,
-                                                                        static_cast<int>(Database::CommonGeneralFlags::StateType::Normal))
-    );
+                                                                       static_cast<int>(Database::CommonGeneralFlags::StateType::Normal)));
 
     // if photo is part of a group then show only a representatives
     filters_for_model.push_back(Database::FilterNotMatchingFilter(Database::FilterPhotosWithRole(Database::FilterPhotosWithRole::Role::GroupMember)));

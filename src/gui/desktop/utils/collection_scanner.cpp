@@ -69,7 +69,8 @@ void CollectionScanner::scan()
     {
         // collect all photos but separate missing from others
         const Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
-                                                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
+                                                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Missing),
+                                                                  Database::FilterPhotosWithGeneralFlag::Mode::Bit);
         const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
         auto photos = backend.photoOperator().getPhotos(filterNotMissing);
@@ -146,9 +147,9 @@ void CollectionScanner::performAnalysis()
         {
             for(const auto& photo: removedPhotos)
             {
-                backend.set(photo.getId(),
-                            Database::CommonGeneralFlags::State,
-                            static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
+                backend.setBits(photo.getId(),
+                                Database::CommonGeneralFlags::State,
+                                static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
             }
         });
 
@@ -158,9 +159,9 @@ void CollectionScanner::performAnalysis()
         {
             for(const auto& photo: restoredPhotos)
             {
-                backend.set(photo.getId(),
-                            Database::CommonGeneralFlags::State,
-                            static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+                backend.clearBits(photo.getId(),
+                                  Database::CommonGeneralFlags::State,
+                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
             }
         });
 

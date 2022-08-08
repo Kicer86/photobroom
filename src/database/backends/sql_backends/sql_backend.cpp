@@ -1349,7 +1349,9 @@ namespace Database
 
     void ASqlBackend::prune()
     {
-        const auto deletedFilter = FilterPhotosWithGeneralFlag(CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Delete));
+        const auto deletedFilter = FilterPhotosWithGeneralFlag(CommonGeneralFlags::State,
+                                                               static_cast<int>(CommonGeneralFlags::StateType::Delete),
+                                                               FilterPhotosWithGeneralFlag::Mode::Bit);
         const QString filterQuery = SqlFilterQueryGenerator().generate(deletedFilter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
