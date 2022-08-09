@@ -41,7 +41,7 @@ void ModelCompositor::add(const IModelCompositorDataSource* dataSource)
     const bool is_data_source_empty = dataSource->data().empty();
 
     if (is_data_source_empty == false)
-        beginInsertRows(QModelIndex(), current_size, current_size + dataSource->data().size() - 1);
+        beginInsertRows(QModelIndex(), current_size, current_size + static_cast<int>(dataSource->data().size()) - 1);
 
     m_sources.emplace(dataSource, dataSource->data().size());
 

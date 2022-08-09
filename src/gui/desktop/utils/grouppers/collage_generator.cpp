@@ -324,7 +324,7 @@ QImage CollageGenerator::merge(const QList<QImage>& images_list, int height) con
 
     std::vector<QRect> positions;
     const QRect area = calculatePositionsForImages(positions, root.get(), height);
-    assert(positions.size() == images_list.size());
+    assert(static_cast<int>(positions.size()) == images_list.size());
 
     const QImage image = area.isValid()?
         generateCollageImage(area.size(), images_list, positions):

@@ -64,7 +64,7 @@ namespace
             {
                 result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const Photo::Data& photo) {
 
-                    auto value = 0;
+                    int value = 0;
                     auto it = db.m_flags.find(photo.id);
 
                     if (it != db.m_flags.end())             // if no flags for given photo, continue with value == 0
