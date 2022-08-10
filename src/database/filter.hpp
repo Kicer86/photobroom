@@ -189,6 +189,13 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithPHash { };
 
     struct DATABASE_EXPORT FilterSimilarPhotos { };
+
+    // helpers
+
+    /**
+     * @brief return filter which will filter out broken photos (missing, broken, deleted etc)
+     */
+    Filter getValidPhotosFilter();
 }
 
 #endif // FILTER_HPP
