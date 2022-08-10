@@ -900,9 +900,14 @@ Kod błędu: %1</translation>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+32"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Saving groups...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
@@ -913,12 +918,12 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+71"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+75"/>
         <source>Saving groups details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+31"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

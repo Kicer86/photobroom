@@ -149,14 +149,12 @@ Item
         Behavior on opacity { PropertyAnimation{} }
 
         Item {
-            id: containerId
             width: childrenRect.width
             height: childrenRect.height
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
             BusyIndicator {
-                id: busyIndicatorId
                 anchors.top: infoId.bottom
                 anchors.topMargin: 0
                 anchors.horizontalCenter: infoId.horizontalCenter
@@ -165,6 +163,34 @@ Item
             Text {
                 id: infoId
                 text: qsTr("Looking for group candidates...")
+                anchors.top: parent.top
+                font.pixelSize: 12
+            }
+        }
+    }
+
+    Item {
+        id: busyId
+        anchors.fill: parent
+        opacity: 0.0
+
+        Behavior on opacity { PropertyAnimation{} }
+
+        Item {
+            width: childrenRect.width
+            height: childrenRect.height
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+
+            BusyIndicator {
+                anchors.top: infoId2.bottom
+                anchors.topMargin: 0
+                anchors.horizontalCenter: infoId2.horizontalCenter
+            }
+
+            Text {
+                id: infoId2
+                text: qsTr("Saving groups...")
                 anchors.top: parent.top
                 font.pixelSize: 12
             }
@@ -184,8 +210,32 @@ Item
 
     states: [
         State {
+            name: "StoringState"
+            when: groupsModelId.busy === true
+
+            PropertyChanges {
+                target: groupsId
+                opacity: 0.5
+            }
+
+            PropertyChanges {
+                target: emptyListInfo
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: busyId
+                opacity: 1.0
+            }
+
+            PropertyChanges {
+                target: loadingId
+                opacity: 0
+            }
+        },
+        State {
             name: "LoadingState"
-            when: groupsModelId.loaded === false
+            when: groupsModelId.loaded === false && groupsModelId.busy === false
 
             PropertyChanges {
                 target: groupsId

@@ -873,12 +873,17 @@ Error code: %1</source>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="167"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="165"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="179"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="193"/>
+        <source>Saving groups...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="205"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>
@@ -886,22 +891,22 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="75"/>
         <source>Saving groups details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="98"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="106"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="99"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="107"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="100"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="108"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>

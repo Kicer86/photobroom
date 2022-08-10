@@ -28,6 +28,7 @@ SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksVie
     , m_tasksView(taskView)
     , m_initialized(false)
     , m_loaded(false)
+    , m_busy(false)
 {
 
 }
@@ -61,6 +62,9 @@ void SeriesModel::group(const QList<int>& rows)
 
     QPromise<void> promise;
     QFuture<void> future = promise.future();
+    future.then(std::bind(&SeriesModel::clear, this));
+
+    setBusy(true);
 
     runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
     {
@@ -69,14 +73,18 @@ void SeriesModel::group(const QList<int>& rows)
     "unified group generation");
 
     TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
-
-    clean();
 }
 
 
 bool SeriesModel::isEmpty() const
 {
     return rowCount({}) == 0;
+}
+
+
+bool SeriesModel::isBusy() const
+{
+    return m_busy;
 }
 
 
@@ -118,12 +126,13 @@ int SeriesModel::rowCount(const QModelIndex& parent) const
 
 bool SeriesModel::canFetchMore(const QModelIndex& parent) const
 {
-    return parent.isValid() == false && m_initialized == false;
+    return parent.isValid() == false && m_initialized == false && m_busy == false;
 }
 
 
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {
+    assert(m_busy == false);
     if (m_initialized == false && parent.isValid() == false)
     {
         m_initialized = true;
@@ -141,6 +150,14 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
     roles.insert(extraRoles);
 
     return roles;
+}
+
+
+void SeriesModel::setBusy(bool busy)
+{
+    m_busy = busy;
+
+    emit busyChanged(busy);
 }
 
 
@@ -183,12 +200,13 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 }
 
 
-void SeriesModel::clean()
+void SeriesModel::clear()
 {
     beginResetModel();
     m_candidates.clear();
     m_initialized = false;
     m_loaded = false;
+    setBusy(false);
     endResetModel();
 
     emit loadedChanged(m_loaded);
