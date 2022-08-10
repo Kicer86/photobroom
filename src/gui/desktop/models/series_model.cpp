@@ -60,7 +60,7 @@ void SeriesModel::group(const QList<int>& rows)
     auto& executor = m_core.getTaskExecutor();
 
     QPromise<void> promise;
-    QFuture<void> future = promise.future();;
+    QFuture<void> future = promise.future();
 
     runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
     {
