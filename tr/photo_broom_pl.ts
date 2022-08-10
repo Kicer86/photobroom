@@ -913,7 +913,12 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+98"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+71"/>
+        <source>Saving groups details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
@@ -926,11 +931,6 @@ Kod błędu: %1</translation>
         <location line="+1"/>
         <source>Photos taken at similar time</source>
         <translation>Zdjęcia wykonane w podobnym czasie</translation>
-    </message>
-    <message>
-        <location line="-29"/>
-        <source>Saving group details.</source>
-        <translation>Tworzenie grup.</translation>
     </message>
 </context>
 <context>

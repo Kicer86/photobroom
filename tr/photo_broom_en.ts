@@ -886,6 +886,11 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
+        <source>Saving groups details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="98"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
@@ -899,11 +904,6 @@ Error code: %1</source>
         <location filename="../src/gui/desktop/models/series_model.cpp" line="100"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
-        <source>Saving group details.</source>
-        <translation>Saving group details.</translation>
     </message>
 </context>
 <context>

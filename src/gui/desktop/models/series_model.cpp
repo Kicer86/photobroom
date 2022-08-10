@@ -68,7 +68,7 @@ void SeriesModel::group(const QList<int>& rows)
     },
     "unified group generation");
 
-    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving group details."));
+    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
 
     clean();
 }
