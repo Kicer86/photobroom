@@ -900,17 +900,17 @@ Kod błędu: %1</translation>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+32"/>
-        <source>Looking for group candidates...</source>
-        <translation>Wyszukiwanie potencjalnych grup...</translation>
-    </message>
-    <message>
-        <location line="+28"/>
+        <location line="+71"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+20"/>
+        <source>Looking for group candidates...</source>
+        <translation>Wyszukiwanie potencjalnych grup...</translation>
+    </message>
+    <message>
+        <location line="-43"/>
         <source>There are no group candidates.</source>
         <translation>Brak potencjalnych grup.</translation>
     </message>

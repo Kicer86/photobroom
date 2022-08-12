@@ -143,7 +143,10 @@ Item
     }
 
     Item {
-        id: loadingId
+        id: progressId
+
+        property alias text: infoId.text
+
         anchors.fill: parent
 
         Behavior on opacity { PropertyAnimation{} }
@@ -158,39 +161,12 @@ Item
                 anchors.top: infoId.bottom
                 anchors.topMargin: 0
                 anchors.horizontalCenter: infoId.horizontalCenter
+
+                running: progressId.opacity > 0.0
             }
 
             Text {
                 id: infoId
-                text: qsTr("Looking for group candidates...")
-                anchors.top: parent.top
-                font.pixelSize: 12
-            }
-        }
-    }
-
-    Item {
-        id: busyId
-        anchors.fill: parent
-        opacity: 0.0
-
-        Behavior on opacity { PropertyAnimation{} }
-
-        Item {
-            width: childrenRect.width
-            height: childrenRect.height
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-
-            BusyIndicator {
-                anchors.top: infoId2.bottom
-                anchors.topMargin: 0
-                anchors.horizontalCenter: infoId2.horizontalCenter
-            }
-
-            Text {
-                id: infoId2
-                text: qsTr("Saving groups...")
                 anchors.top: parent.top
                 font.pixelSize: 12
             }
@@ -203,8 +179,8 @@ Item
         Behavior on opacity { PropertyAnimation{} }
 
         text: qsTr("There are no group candidates.")
-        anchors.verticalCenter: loadingId.verticalCenter
-        anchors.horizontalCenter: loadingId.horizontalCenter
+        anchors.verticalCenter: progressId.verticalCenter
+        anchors.horizontalCenter: progressId.horizontalCenter
         font.pixelSize: 12
     }
 
@@ -220,17 +196,13 @@ Item
 
             PropertyChanges {
                 target: emptyListInfo
-                opacity: 0
+                opacity: 0.0
             }
 
             PropertyChanges {
-                target: busyId
+                target: progressId
+                text: qsTr("Saving groups...")
                 opacity: 1.0
-            }
-
-            PropertyChanges {
-                target: loadingId
-                opacity: 0
             }
         },
         State {
@@ -239,12 +211,17 @@ Item
 
             PropertyChanges {
                 target: groupsId
-                opacity: 0
+                opacity: 0.0
             }
 
             PropertyChanges {
                 target: emptyListInfo
-                opacity: 0
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: progressId
+                text: qsTr("Looking for group candidates...")
             }
         },
         State {
@@ -253,12 +230,12 @@ Item
 
             PropertyChanges {
                 target: emptyListInfo
-                opacity: 0
+                opacity: 0.0
             }
 
             PropertyChanges {
-                target: loadingId
-                opacity: 0
+                target: progressId
+                opacity: 0.0
             }
         },
         State {
@@ -271,7 +248,7 @@ Item
             }
 
             PropertyChanges {
-                target: loadingId
+                target: progressId
                 opacity: 0
             }
         }
