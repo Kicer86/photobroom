@@ -53,17 +53,23 @@ signals:
     void busyChanged(bool) const;
 
 private:
+    enum State
+    {
+        Idle,
+        Fetching,
+        Loaded,
+        Storing,
+    };
+
     std::unique_ptr<ILogger> m_logger;
     std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     ITasksView* m_tasksView = nullptr;
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
-    bool m_initialized;
-    bool m_loaded;
-    bool m_busy;
+    State m_state = Idle;
 
-    void setBusy(bool);
+    void setState(State);
     void fetchGroups();
     void updateModel(const std::vector<GroupCandidate> &);
     void clear();

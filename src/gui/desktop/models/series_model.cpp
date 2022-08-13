@@ -26,9 +26,6 @@ SeriesModel::SeriesModel()
     , m_project()
     , m_core()
     , m_tasksView()
-    , m_initialized(false)
-    , m_loaded(false)
-    , m_busy(false)
 {
 
 }
@@ -43,7 +40,7 @@ SeriesModel::~SeriesModel()
 
 bool SeriesModel::isLoaded() const
 {
-    return m_loaded;
+    return m_state == State::Loaded;
 }
 
 
@@ -64,7 +61,7 @@ void SeriesModel::group(const QList<int>& rows)
     QFuture<void> future = promise.future();
     future.then(std::bind(&SeriesModel::clear, this));
 
-    setBusy(true);
+    setState(State::Storing);
 
     runOn(executor, [groups = std::move(toStore), project = m_project, promise = std::move(promise)]() mutable
     {
@@ -97,7 +94,7 @@ bool SeriesModel::isEmpty() const
 
 bool SeriesModel::isBusy() const
 {
-    return m_busy;
+    return m_state == State::Storing;
 }
 
 
@@ -142,17 +139,15 @@ bool SeriesModel::canFetchMore(const QModelIndex& parent) const
     return m_core != nullptr &&
            m_project != nullptr &&
            parent.isValid() == false &&
-           m_initialized == false &&
-           m_busy == false;
+           m_state == State::Idle;
 }
 
 
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {
-    assert(m_busy == false);
-    if (m_initialized == false && parent.isValid() == false)
+    if (m_state == State::Idle && parent.isValid() == false)
     {
-        m_initialized = true;
+        setState(State::Fetching);
 
         fetchGroups();
     }
@@ -170,11 +165,23 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::setBusy(bool busy)
+void SeriesModel::setState(SeriesModel::State state)
 {
-    m_busy = busy;
+    if (state == m_state)
+        return;
 
-    emit busyChanged(busy);
+    if (m_state == State::Storing)
+        emit busyChanged(false);
+
+    if (m_state == State::Loaded)
+        emit loadedChanged(false);
+
+    m_state = state;
+
+    if (state == Storing)
+        emit busyChanged(true);
+    if (state == State::Loaded)
+        emit loadedChanged(true);
 }
 
 
@@ -212,8 +219,7 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
     m_logger->info(QString("Got %1 group canditates").arg(canditates.size()));
     endInsertRows();
 
-    m_loaded = true;
-    emit loadedChanged(m_loaded);
+    setState(State::Loaded);
 }
 
 
@@ -221,10 +227,6 @@ void SeriesModel::clear()
 {
     beginResetModel();
     m_candidates.clear();
-    m_initialized = false;
-    m_loaded = false;
-    setBusy(false);
+    setState(State::Idle);
     endResetModel();
-
-    emit loadedChanged(m_loaded);
 }

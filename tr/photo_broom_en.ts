@@ -891,17 +891,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="119"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="122"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="120"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="123"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="121"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="124"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
