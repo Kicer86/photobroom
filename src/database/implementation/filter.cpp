@@ -18,6 +18,8 @@
  */
 
 #include "filter.hpp"
+#include "general_flags.hpp"
+
 
 namespace Database
 {
@@ -99,5 +101,11 @@ namespace Database
         , value(v)
         , mode(m)
     {
+    }
+
+
+    Filter getValidPhotosFilter()
+    {
+        return FilterPhotosWithGeneralFlag(CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Normal));
     }
 }

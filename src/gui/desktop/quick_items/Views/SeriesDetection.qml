@@ -39,6 +39,7 @@ Item
                 id: delegateState
 
                 defaultValue: true
+                model: groupsModelId
             }
 
             ListView {
@@ -131,42 +132,41 @@ Item
                 id: button
                 text: qsTr("Group", "used as verb - group photos")
 
-                Connections {
-                    target: button
-                    function onClicked() {
-                        var unselected = delegateState.getItems((state) => {return state === false;});
+                onClicked: {
+                    var selected = delegateState.getItems((state) => {return state;});
 
-                        groupsModelId.groupBut(unselected);
-                        delegateState.clear();
-                    }
+                    groupsModelId.group(selected);
+                    delegateState.clear();
                 }
             }
         }
     }
 
     Item {
-        id: loadingId
+        id: progressId
+
+        property alias text: infoId.text
+
         anchors.fill: parent
 
         Behavior on opacity { PropertyAnimation{} }
 
         Item {
-            id: containerId
             width: childrenRect.width
             height: childrenRect.height
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
             BusyIndicator {
-                id: busyIndicatorId
                 anchors.top: infoId.bottom
                 anchors.topMargin: 0
                 anchors.horizontalCenter: infoId.horizontalCenter
+
+                running: progressId.opacity > 0.0
             }
 
             Text {
                 id: infoId
-                text: qsTr("Looking for group candidates...")
                 anchors.top: parent.top
                 font.pixelSize: 12
             }
@@ -179,23 +179,49 @@ Item
         Behavior on opacity { PropertyAnimation{} }
 
         text: qsTr("There are no group candidates.")
-        anchors.verticalCenter: loadingId.verticalCenter
-        anchors.horizontalCenter: loadingId.horizontalCenter
+        anchors.verticalCenter: progressId.verticalCenter
+        anchors.horizontalCenter: progressId.horizontalCenter
         font.pixelSize: 12
     }
 
     states: [
         State {
-            name: "LoadingState"
+            name: "StoringState"
+            when: groupsModelId.busy === true
 
             PropertyChanges {
                 target: groupsId
-                opacity: 0
+                opacity: 0.5
             }
 
             PropertyChanges {
                 target: emptyListInfo
-                opacity: 0
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: progressId
+                text: qsTr("Saving groups...")
+                opacity: 1.0
+            }
+        },
+        State {
+            name: "LoadingState"
+            when: groupsModelId.loaded === false && groupsModelId.busy === false
+
+            PropertyChanges {
+                target: groupsId
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: emptyListInfo
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: progressId
+                text: qsTr("Looking for group candidates...")
             }
         },
         State {
@@ -204,12 +230,12 @@ Item
 
             PropertyChanges {
                 target: emptyListInfo
-                opacity: 0
+                opacity: 0.0
             }
 
             PropertyChanges {
-                target: loadingId
-                opacity: 0
+                target: progressId
+                opacity: 0.0
             }
         },
         State {
@@ -222,7 +248,7 @@ Item
             }
 
             PropertyChanges {
-                target: loadingId
+                target: progressId
                 opacity: 0
             }
         }

@@ -1,34 +1,42 @@
 
-import QtQuick 2.15
+import QtQuick
 
 Item {
+    id: root
 
-    property var properties: new Map()
+    property alias model: dataSet.model
     property var defaultValue
 
     function clear() {
-        properties.clear();
+        for (let i = 0; i < dataSet.count; i++)
+            dataSet.objectAt(i).state = root.defaultValue
     }
 
     function state(index) {
-        if (properties.has(index))
-            return properties.get(index);
-        else
-            return defaultValue;
+        return dataSet.objectAt(index).state;
     }
 
     function setState(index, state) {
-        return properties.set(index, state);
+        dataSet.objectAt(index).state = state;
     }
 
     function getItems(condition) {
         var result = []
 
-        properties.forEach( (state, index, map) => {
-            if (condition(state))
-                result.push(index);
-        });
+        for (let i = 0; i < dataSet.count; i++) {
+            const itemState = state(i);
+            if (condition(itemState))
+                result.push(i);
+        }
 
         return result;
+    }
+
+    Instantiator {
+        id: dataSet
+
+        delegate: Item {
+            property bool state: root.defaultValue
+        }
     }
 }

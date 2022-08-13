@@ -39,31 +39,6 @@ QString GroupsManager::includeRepresentatInDatabase(const QString& representativ
 }
 
 
-void GroupsManager::groupIntoCollage(
-    IExifReaderFactory& exifFactory,
-    Project& project,
-    const std::vector<Photo::Data>& photos)
-{
-    QStringList paths;
-    std::transform(photos.begin(), photos.end(), std::back_inserter(paths), [](const auto& data) { return data.path; });
-
-    const Photo::Data highest = *std::max_element(photos.begin(), photos.end(), [](const auto& lhs, const auto& rhs)
-    {
-        return lhs.geometry.height() < rhs.geometry.height();
-    });
-
-    CollageGenerator generator(exifFactory.get());
-    const auto collage = generator.generateCollage(paths, highest.geometry.height());
-
-    auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
-    const QString collagePath = System::getUniqueFileName(tmpDir->path(), "jpeg");
-    collage.save(collagePath);
-
-    const QString representantPath = GroupsManager::includeRepresentatInDatabase(collagePath, project);
-    GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
-}
-
-
 void GroupsManager::groupIntoUnified(
     Project& project,
     const std::vector<Photo::Data>& photos)
@@ -73,16 +48,16 @@ void GroupsManager::groupIntoUnified(
 }
 
 
-void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<Photo::Data>>& groups)
+void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<Photo::DataDelta>>& groups)
 {
     std::vector<GroupDetails> groupsDetails;
 
-    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const auto& group)
+    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const std::vector<Photo::DataDelta>& group)
     {
-        const QString representativePath = GroupsManager::includeRepresentatInDatabase(group.front().path, project);
+        const QString representativePath = GroupsManager::includeRepresentatInDatabase(group.front().get<Photo::Field::Path>(), project);
 
         std::vector<Photo::Id> ids;
-        std::transform(group.begin(), group.end(), std::back_inserter(ids), Photo::getId);
+        std::transform(group.begin(), group.end(), std::back_inserter(ids), [](const auto& data) { return data.getId(); } );
 
         return GroupDetails{ .members = ids, .representativePath = representativePath, .type = Group::Type::Generic };
     });

@@ -41,8 +41,9 @@ class DATABASE_EXPORT SeriesDetector
         struct DATABASE_EXPORT Rules
         {
             std::chrono::milliseconds manualSeriesMaxGap;
+            bool detectTimeNeighbors;
 
-            Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10));
+            Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10), bool neighbors = false);
         };
 
         SeriesDetector(ILogger &, Database::IDatabase &, IExifReader &, const QPromise<std::vector<GroupCandidate>> * = nullptr);

@@ -101,8 +101,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -157,8 +157,8 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -216,8 +216,47 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Animation);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Animation);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
+}
+
+
+TEST_F(SeriesDetectorTest, smartphoneSeries)
+{
+    NiceMock<MockExifReader> exif;
+    NiceMock<PhotoOperatorMock> photoOperator;
+
+    ON_CALL(backend, photoOperator()).WillByDefault(ReturnRef(photoOperator));
+
+    // Mock 6 photos
+    // divideded into two groups.
+    // Each group has BURSTXXX in filename from 1 to 3
+    // All photos are made at different time (1 second difference between photos)
+    std::vector<Photo::Id> all_photos =
+    {
+        Photo::Id(1), Photo::Id(2), Photo::Id(3), Photo::Id(4), Photo::Id(5), Photo::Id(6)
+    };
+
+    ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
+    ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
+    {
+        Photo::Data data;
+        data.id = id;
+        data.path = QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1);                                    // add id to path so exif mock can use it for data mocking
+        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg(id.value()), "hh.mm.s"));  // simulate different time - use id as second
+
+        return Photo::DataDelta(data);
+    }));
+
+    const SeriesDetector sd(logger, db, exif);
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
+
+    ASSERT_EQ(groupCanditates.size(), 2);
+    ASSERT_EQ(groupCanditates.front().members.size(), 3);
+    ASSERT_EQ(groupCanditates.back().members.size(), 3);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Series);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Series);
 }
 
 
@@ -298,8 +337,8 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 3);
     ASSERT_EQ(groupCanditates.back().members.size(), 3);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::HDR);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::HDR);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::HDR);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::HDR);
 }
 
 
@@ -319,13 +358,13 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
     }));
 
     const SeriesDetector sd(logger, mem_db, exif);
-    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
+    const std::vector<GroupCandidate> groupCanditates = sd.listCandidates(SeriesDetector::Rules(std::chrono::seconds(10), true));
 
     ASSERT_EQ(groupCanditates.size(), 2);
     ASSERT_EQ(groupCanditates.front().members.size(), 6);
     ASSERT_EQ(groupCanditates.back().members.size(), 5);
-    EXPECT_EQ(groupCanditates.front().type, Group::Type::Generic);
-    EXPECT_EQ(groupCanditates.back().type, Group::Type::Generic);
+    EXPECT_EQ(groupCanditates.front().type, GroupCandidate::Type::Generic);
+    EXPECT_EQ(groupCanditates.back().type, GroupCandidate::Type::Generic);
 }
 
 

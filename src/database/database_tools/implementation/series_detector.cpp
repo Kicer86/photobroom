@@ -49,13 +49,13 @@ namespace
         virtual bool canBePartOfGroup() const = 0;
         virtual void accept() = 0;
         virtual void reset() = 0;
-        virtual Group::Type type() const = 0;
+        virtual GroupCandidate::Type type() const = 0;
     };
 
-    class GroupValidator_Animation: public IGroupValidator
+    class GroupValidator_ExifBasedSeries: public IGroupValidator
     {
     public:
-        GroupValidator_Animation(IExifReader& exif, const SeriesDetector::Rules &)
+        GroupValidator_ExifBasedSeries(IExifReader& exif, const SeriesDetector::Rules &)
             : m_exifReader(exif)
         {
 
@@ -96,21 +96,81 @@ namespace
             m_sequence_numbers.clear();
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::Animation;
+            return GroupCandidate::Type::Series;
         }
 
         std::optional<std::any> m_sequence;
-
         std::unordered_set<int> m_sequence_numbers;
         IExifReader& m_exifReader;
     };
 
 
-    class GroupValidator_HDR: public GroupValidator_Animation
+    class GroupValidator_FileNameBasedSeries: public IGroupValidator
     {
-        typedef GroupValidator_Animation Base;
+    public:
+        GroupValidator_FileNameBasedSeries()
+        {
+
+        }
+
+        void setCurrentPhoto(const Photo::DataDelta& d) override
+        {
+            const auto path = d.get<Photo::Field::Path>();
+            const int burstLen = 5;
+            const int burstIdx = path.indexOf("BURST");
+
+            if (burstIdx > -1)
+            {
+                const int startIdx = burstIdx + burstLen;
+                int endIdx = startIdx;
+
+                for (; endIdx < path.size(); endIdx++)
+                    if (path[endIdx].isNumber() == false)
+                        break;
+
+                const auto idxStr = path.mid(startIdx, endIdx - startIdx);
+                m_index = idxStr.toInt();
+            }
+        }
+
+        bool canBePartOfGroup() const override
+        {
+            if (m_index > -1)
+            {
+                auto s_it = m_burst_numbers.find(m_index);
+
+                return s_it == m_burst_numbers.end();
+            }
+            else
+                return false;
+        }
+
+        void accept() override
+        {
+            m_burst_numbers.insert(m_index);
+        }
+
+        void reset() override
+        {
+            m_index = -1;
+            m_burst_numbers.clear();
+        }
+
+        GroupCandidate::Type type() const override
+        {
+            return GroupCandidate::Type::Series;
+        }
+
+        std::unordered_set<int> m_burst_numbers;
+        int m_index = -1;
+    };
+
+
+    class GroupValidator_HDR: public GroupValidator_ExifBasedSeries
+    {
+        typedef GroupValidator_ExifBasedSeries Base;
 
     public:
         GroupValidator_HDR(IExifReader& exif, const SeriesDetector::Rules& r)
@@ -158,9 +218,9 @@ namespace
             m_exposures.clear();
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::HDR;
+            return GroupCandidate::Type::HDR;
         }
 
         std::optional<std::any> m_exposure;
@@ -197,9 +257,9 @@ namespace
             m_prev_stamp = std::chrono::milliseconds(0);
         }
 
-        Group::Type type() const override
+        GroupCandidate::Type type() const override
         {
-            return Group::Generic;
+            return GroupCandidate::Type::Generic;
         }
 
         std::chrono::milliseconds m_prev_stamp,
@@ -264,9 +324,9 @@ namespace
                     // Id to Data  TODO: this can be done in background
                     std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
                     {
-                        return evaluate<Photo::Data(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
+                        return evaluate<Photo::DataDelta(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
                         {
-                            return backend.getPhoto(id);
+                            return backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
                         });
                     });
 
@@ -293,8 +353,9 @@ namespace
 }
 
 
-SeriesDetector::Rules::Rules(std::chrono::milliseconds gap)
+SeriesDetector::Rules::Rules(std::chrono::milliseconds gap, bool neighbours)
     : manualSeriesMaxGap(gap)
+    , detectTimeNeighbors(neighbours)
 {
 
 }
@@ -321,9 +382,13 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
         std::vector<GroupCandidate> result;
 
         // find photos which are not part of any group
-        Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
+        const Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
 
-        const auto photos = backend.photoOperator().onPhotos( {group_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
+        // and are valid
+        const auto valid_photos_filter = Database::getValidPhotosFilter();
+
+        // photos - candidates for series/groups
+        const auto photos = backend.photoOperator().onPhotos( Database::GroupFilter{group_filter, valid_photos_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
 
         std::deque<Photo::DataDelta> deltas;
         std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)
@@ -366,28 +431,34 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
     try
     {
         SeriesExtractor extractor(m_db, prefiltered, m_logger.subLogger("SeriesExtractor"), m_promise);
+        std::vector<GroupCandidate> sequences;
 
         timer.restart();
         GroupValidator_HDR hdrValidator(m_exifReader, rules);
-        auto hdrs = extractor.extract(hdrValidator);
+        const auto hdrs = extractor.extract(hdrValidator);
+        std::ranges::copy(hdrs, std::back_inserter(sequences));
         m_logger.debug(QString("HDRs extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        GroupValidator_Animation animationsValidator(m_exifReader, rules);
-        auto animations = extractor.extract(animationsValidator);
-        m_logger.debug(QString("Animations extraction took: %1s").arg(timer.elapsed() / 1000));
+        GroupValidator_ExifBasedSeries animationsValidator(m_exifReader, rules);
+        const auto exifSeries = extractor.extract(animationsValidator);
+        std::ranges::copy(exifSeries, std::back_inserter(sequences));
+        m_logger.debug(QString("Exif based series extraction took: %1s").arg(timer.elapsed() / 1000));
 
         timer.restart();
-        GroupValidator_Generic genericValidator(rules);
-        auto generics = extractor.extract(genericValidator);
-        m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
+        GroupValidator_FileNameBasedSeries fileNameValidator;
+        const auto fileNameSeries = extractor.extract(fileNameValidator);
+        std::ranges::copy(fileNameSeries, std::back_inserter(sequences));
+        m_logger.debug(QString("Filename based series extraction took: %1s").arg(timer.elapsed() / 1000));
 
-        timer.restart();
-        std::vector<GroupCandidate> sequences;
-        std::ranges::copy(hdrs, std::back_inserter(sequences));
-        std::ranges::copy(animations, std::back_inserter(sequences));
-        std::ranges::copy(generics, std::back_inserter(sequences));
-        m_logger.debug(QString("Finalization took: %1s").arg(timer.elapsed() / 1000));
+        if (rules.detectTimeNeighbors)
+        {
+            timer.restart();
+            GroupValidator_Generic genericValidator(rules);
+            const auto generics = extractor.extract(genericValidator);
+            std::ranges::copy(generics, std::back_inserter(sequences));
+            m_logger.debug(QString("Generic groups extraction took: %1s").arg(timer.elapsed() / 1000));
+        }
 
         return sequences;
     }

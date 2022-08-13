@@ -67,6 +67,7 @@ Item {
         id: delegateState
 
         defaultValue: true
+        model: dataSource
     }
 
     ListView {
@@ -154,9 +155,9 @@ Item {
         visible: root.state == "summary" && listView.count > 0
 
         onClicked: {
-            var toBeExcluded = delegateState.getItems((state) => {return state === false;});
+            var toBeExcluded = delegateState.getItems((state) => {return state;});
 
-            dataSource.applyBut(toBeExcluded);
+            dataSource.apply(toBeExcluded);
         }
     }
 

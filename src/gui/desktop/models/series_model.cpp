@@ -28,6 +28,7 @@ SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksVie
     , m_tasksView(taskView)
     , m_initialized(false)
     , m_loaded(false)
+    , m_busy(false)
 {
 
 }
@@ -46,24 +47,24 @@ bool SeriesModel::isLoaded() const
 }
 
 
-void SeriesModel::groupBut(const QSet<int>& excludedRows)
+void SeriesModel::group(const QList<int>& rows)
 {
-    std::vector<std::vector<Photo::Data>> toStore;
-    std::vector<GroupCandidate> left;
+    std::vector<std::vector<Photo::DataDelta>> toStore;
 
-    for(std::size_t i = 0; i < m_candidates.size(); i++)
+    for(const int i: rows)
     {
         const auto& candidate = m_candidates[i];
 
-        excludedRows.contains(i)?
-            left.push_back(candidate):
-            toStore.push_back(candidate.members);
+        toStore.push_back(candidate.members);
     }
 
     auto& executor = m_core.getTaskExecutor();
 
     QPromise<void> promise;
-    QFuture<void> future = promise.future();;
+    QFuture<void> future = promise.future();
+    future.then(std::bind(&SeriesModel::clear, this));
+
+    setBusy(true);
 
     runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
     {
@@ -71,13 +72,7 @@ void SeriesModel::groupBut(const QSet<int>& excludedRows)
     },
     "unified group generation");
 
-    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving group details."));
-
-    beginResetModel();
-    m_candidates.clear();
-    endResetModel();
-
-    updateModel(left);
+    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
 }
 
 
@@ -87,9 +82,15 @@ bool SeriesModel::isEmpty() const
 }
 
 
+bool SeriesModel::isBusy() const
+{
+    return m_busy;
+}
+
+
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && index.column() == 0 && index.row() < m_candidates.size())
+    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
     {
         const auto& candidate = m_candidates[index.row()];
 
@@ -102,11 +103,9 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
             QString type;
             switch (candidate.type)
             {
-                case Group::Type::Invalid:                                              break;
-                case Group::Type::Animation: type = tr("Photo series");                 break;
-                case Group::Type::HDR:       type = tr("HDR");                          break;
-                case Group::Type::Generic:   type = tr("Photos taken at similar time"); break;
-                case Group::Type::Collage:   assert(!"not expected nor implemented");   break;
+                case GroupCandidate::Type::Series:   type = tr("Photo series");                 break;
+                case GroupCandidate::Type::HDR:      type = tr("HDR");                          break;
+                case GroupCandidate::Type::Generic:  type = tr("Photos taken at similar time"); break;
             }
 
             return type;
@@ -127,13 +126,14 @@ int SeriesModel::rowCount(const QModelIndex& parent) const
 
 bool SeriesModel::canFetchMore(const QModelIndex& parent) const
 {
-    return parent.isValid() == false && m_initialized == false;
+    return parent.isValid() == false && m_initialized == false && m_busy == false;
 }
 
 
 void SeriesModel::fetchMore(const QModelIndex& parent)
 {
-    if (parent.isValid() == false)
+    assert(m_busy == false);
+    if (m_initialized == false && parent.isValid() == false)
     {
         m_initialized = true;
 
@@ -150,6 +150,14 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
     roles.insert(extraRoles);
 
     return roles;
+}
+
+
+void SeriesModel::setBusy(bool busy)
+{
+    m_busy = busy;
+
+    emit busyChanged(busy);
 }
 
 
@@ -188,5 +196,18 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
     endInsertRows();
 
     m_loaded = true;
+    emit loadedChanged(m_loaded);
+}
+
+
+void SeriesModel::clear()
+{
+    beginResetModel();
+    m_candidates.clear();
+    m_initialized = false;
+    m_loaded = false;
+    setBusy(false);
+    endResetModel();
+
     emit loadedChanged(m_loaded);
 }

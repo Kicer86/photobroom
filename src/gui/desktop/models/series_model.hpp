@@ -18,6 +18,7 @@ class SeriesModel: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
+    Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
 
 public:
     enum Roles
@@ -32,8 +33,9 @@ public:
     ~SeriesModel();
 
     bool isLoaded() const;
-    Q_INVOKABLE void groupBut(const QSet<int> &);
+    Q_INVOKABLE void group(const QList<int> &);
     Q_INVOKABLE bool isEmpty() const;
+    bool isBusy() const;
 
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;
@@ -43,6 +45,7 @@ public:
 
 signals:
     void loadedChanged(bool) const;
+    void busyChanged(bool) const;
 
 private:
     std::unique_ptr<ILogger> m_logger;
@@ -53,9 +56,12 @@ private:
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     bool m_initialized;
     bool m_loaded;
+    bool m_busy;
 
+    void setBusy(bool);
     void fetchGroups();
     void updateModel(const std::vector<GroupCandidate> &);
+    void clear();
 };
 
 #endif

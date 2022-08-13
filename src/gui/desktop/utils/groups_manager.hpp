@@ -44,16 +44,12 @@ namespace GroupsManager
 
     QString includeRepresentatInDatabase(const QString& representativePhoto, Project &);
 
-    void groupIntoCollage(IExifReaderFactory &,
-                          Project &,
-                          const std::vector<Photo::Data> &);
-
     void groupIntoUnified(Project &,
                           const std::vector<Photo::Data> &);
 
     void groupIntoUnified(Project &,
                           QPromise<void> &&,
-                          const std::vector<std::vector<Photo::Data>> &);       // create many groups at once
+                          const std::vector<std::vector<Photo::DataDelta>> &);       // create many groups at once
 
     void group(Database::IDatabase &,
                const std::vector<Photo::Data> &,
