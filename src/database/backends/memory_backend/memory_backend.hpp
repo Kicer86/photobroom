@@ -38,6 +38,8 @@ namespace Database
             int getPhotosCount(const Filter &) override;
             void set(const Photo::Id& id, const QString& name, int value) override;
             std::optional<int> get(const Photo::Id& id, const QString& name) override;
+            void setBits(const Photo::Id& id, const QString& name, int bits) override final;
+            void clearBits(const Photo::Id& id, const QString& name, int bits) override final;
             void setThumbnail(const Photo::Id &, const QByteArray &) override;
             QByteArray getThumbnail(const Photo::Id &) override;
             std::vector<Photo::Id> markStagedAsReviewed() override;

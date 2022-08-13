@@ -107,6 +107,7 @@ TYPED_TEST(PhotosTest, retrievingAllDataInDelta)
     }
 }
 
+
 TYPED_TEST(PhotosTest, retrievingPartialDataInDelta)
 {
     std::vector<Photo::Id> reported_ids;

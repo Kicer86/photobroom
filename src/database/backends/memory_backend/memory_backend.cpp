@@ -31,11 +31,13 @@ namespace
         return (is_less? -1: 0) + (is_greater? 1: 0);
     }
 
-    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos, const Database::Filter& dbFilter)
+    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos,
+                                          const Database::MemoryBackend::DB& db,
+                                          const Database::Filter& dbFilter)
     {
         std::vector<Photo::Data> result = photos;
 
-        std::visit([&result](auto&& filter)
+        std::visit([&result, &db](auto&& filter)
         {
             using T = std::decay_t<decltype(filter)>;
             if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
@@ -56,6 +58,27 @@ namespace
             {
                 result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
                     return !photo.phash.valid();
+                }), result.end());
+            }
+            else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
+            {
+                result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const Photo::Data& photo) {
+
+                    int value = 0;
+                    auto it = db.m_flags.find(photo.id);
+
+                    if (it != db.m_flags.end())             // if no flags for given photo, continue with value == 0
+                    {
+                        const auto& flagsMap = it->second;
+                        auto itm = flagsMap.find(filter.name);
+
+                        value = itm == flagsMap.end()? 0: itm->second;    // if no flag value for given flag, continue with value == 0
+                    }
+
+                    return filter.mode == Database::FilterPhotosWithGeneralFlag::Mode::Exact?
+                        value != filter.value:
+                        (value & filter.value) != filter.value;
+
                 }), result.end());
             }
 
@@ -293,6 +316,26 @@ namespace Database
         }
 
         return result;
+    }
+
+
+    void MemoryBackend::setBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value |= bits;
+        set(id, name, value);
+    }
+
+
+    void MemoryBackend::clearBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value &= ~bits;
+        set(id, name, value);
     }
 
 
@@ -638,7 +681,7 @@ namespace Database
     std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
         std::vector<Photo::Data> data(m_db->m_photos.begin(), m_db->m_photos.end());
-        data = filterPhotos(data, filter);
+        data = filterPhotos(data, *m_db, filter);
 
         std::vector<Photo::Id> ids;
         for(const auto& photo: data)

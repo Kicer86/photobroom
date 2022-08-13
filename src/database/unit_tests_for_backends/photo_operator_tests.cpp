@@ -160,3 +160,30 @@ TYPED_TEST(PhotoOperatorTest, sortingByIDRev)
 
     EXPECT_TRUE(std::is_sorted(ids.rbegin(), ids.rend()));
 }
+
+
+TYPED_TEST(PhotoOperatorTest, removal)
+{
+    // insert photo
+    Photo::DataDelta data;
+    const auto path = QStringLiteral("some path");
+    data.insert<Photo::Field::Path>(path);
+    std::vector<Photo::DataDelta> photos = {data};
+    this->m_backend->addPhotos(photos);
+
+    // delete photo
+    const Photo::Id id = photos.front().getId();
+    this->m_backend->photoOperator().removePhoto(id);
+
+    // Photo should be still accessible but marked as to be deleted.
+    // Reason for this behavior is that Photo::Id may be used by many clients.
+    // Some may ask Photo::DataDelta for it while photo is being deleted.
+    // It is not convenient to protect them all against null result.
+    // Instead db should mark such photos and delete them later (possibly on db close).
+    const Photo::DataDelta readData = this->m_backend->getPhotoDelta(id, {Photo::Field::Path});    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
+    const auto& readDataPath = readData.get<Photo::Field::Path>();
+    EXPECT_EQ(readDataPath, path);
+
+
+}
+

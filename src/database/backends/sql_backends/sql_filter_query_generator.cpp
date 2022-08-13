@@ -353,7 +353,13 @@ namespace Database
 
     QString SqlFilterQueryGenerator::visit(const FilterPhotosWithGeneralFlag& genericFlagsFilter) const
     {
-        return QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE COALESCE(%2.value, 0) = %3")
+        return genericFlagsFilter.mode == FilterPhotosWithGeneralFlag::Mode::Exact?
+                QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE COALESCE(%2.value, 0) = %3")
+                                .arg(TAB_PHOTOS)
+                                .arg(TAB_GENERAL_FLAGS)
+                                .arg(genericFlagsFilter.value)
+                                .arg(genericFlagsFilter.name) :
+                QString("SELECT %1.id FROM %1 LEFT JOIN (%2) ON (%2.photo_id = %1.id AND %2.name = '%4') WHERE (COALESCE(%2.value, 0) & %3) = %3")
                                 .arg(TAB_PHOTOS)
                                 .arg(TAB_GENERAL_FLAGS)
                                 .arg(genericFlagsFilter.value)
@@ -368,7 +374,7 @@ namespace Database
             .arg(TAB_PHASHES);
     }
 
-    QString SqlFilterQueryGenerator::visit(const FilterSimilarPhotos& similarPhotosFilter) const
+    QString SqlFilterQueryGenerator::visit(const FilterSimilarPhotos &) const
     {
         const QString duplicatesQuery = "SELECT photo_id, hash FROM phashes GROUP BY hash HAVING COUNT(*) > 1";
         const QString finalQuery = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);

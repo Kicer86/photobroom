@@ -43,7 +43,7 @@ Project* ContextMenuManager::project() const
 }
 
 
-ICoreFactoryAccessor * ContextMenuManager::coreFactory() const
+ICoreFactoryAccessor* ContextMenuManager::coreFactory() const
 {
     return m_core;
 }

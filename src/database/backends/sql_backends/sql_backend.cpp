@@ -43,6 +43,7 @@
 #include <core/ilogger.hpp>
 #include <core/ilogger_factory.hpp>
 #include <database/filter.hpp>
+#include <database/general_flags.hpp>
 #include <database/project_info.hpp>
 
 #include "isql_query_constructor.hpp"
@@ -94,6 +95,8 @@ namespace Database
      */
     void ASqlBackend::closeConnections()
     {
+        prune();
+
         // use scope here so all Qt objects are destroyed before removeDatabase call
         {
             QSqlDatabase db = QSqlDatabase::database(m_connectionName);
@@ -482,6 +485,26 @@ namespace Database
             result = query.value(0).toInt();
 
         return result;
+    }
+
+
+    void ASqlBackend::setBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value |= bits;
+        set(id, name, value);
+    }
+
+
+    void ASqlBackend::clearBits(const Photo::Id& id, const QString& name, int bits)
+    {
+        auto valueOpt = get(id, name);
+        auto value = valueOpt.has_value()? *valueOpt : 0;
+
+        value &= ~bits;
+        set(id, name, value);
     }
 
 
@@ -1322,6 +1345,59 @@ namespace Database
 
         return result == id;
     }
+
+
+    void ASqlBackend::prune()
+    {
+        const auto deletedFilter = FilterPhotosWithGeneralFlag(CommonGeneralFlags::State,
+                                                               static_cast<int>(CommonGeneralFlags::StateType::Delete),
+                                                               FilterPhotosWithGeneralFlag::Mode::Bit);
+        const QString filterQuery = SqlFilterQueryGenerator().generate(deletedFilter);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        //collect ids of photos to be deleted
+        std::vector<Photo::Id> ids;
+        bool status = m_executor.exec(filterQuery, &query);
+
+        if (status)
+        {
+            while(query.next())
+            {
+                const Photo::Id id(query.value(0));
+
+                ids.push_back(id);
+            }
+        }
+
+        // delete marked photos
+        std::vector<QString> queries =
+        {
+            QString("CREATE TEMPORARY TABLE drop_indices AS %1").arg(filterQuery),
+            QString("DELETE FROM " TAB_FLAGS             " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_GENERAL_FLAGS     " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_GEOMETRY          " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            // There should be no data in groups and group members TODO: check + remove group if not true
+            QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_PHASHES           " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+
+            QString("DELETE FROM " TAB_PHOTOS            " WHERE id IN (SELECT * FROM drop_indices)"),
+            QString("DROP TABLE drop_indices")
+        };
+
+        auto tr = openTransaction();
+
+        if (status)
+            status = m_executor.exec(queries, &query);
+
+        if (status == false)
+            tr->abort();
+    }
+
 
 
     /**

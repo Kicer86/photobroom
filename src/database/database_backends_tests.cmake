@@ -29,6 +29,7 @@ addTestTarget(database_backends
 
                     # sql tests:
                     unit_tests_for_backends/common.hpp
+                    unit_tests_for_backends/filters_tests.cpp
                     unit_tests_for_backends/general_flags_tests.cpp
                     unit_tests_for_backends/groups_tests.cpp
                     unit_tests_for_backends/people_tests.cpp

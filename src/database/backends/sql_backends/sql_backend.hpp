@@ -151,6 +151,8 @@ namespace Database
             int                      getPhotosCount(const Filter &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;
             std::optional<int>       get(const Photo::Id &, const QString &) override final;
+            void                     setBits(const Photo::Id& id, const QString& name, int bits) override final;
+            void                     clearBits(const Photo::Id& id, const QString& name, int bits) override final;
 
             void setThumbnail(const Photo::Id &, const QByteArray &) override;
             QByteArray getThumbnail(const Photo::Id &) override;
@@ -187,6 +189,7 @@ namespace Database
             Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
             QString getPathFor(const Photo::Id &) const;
             bool doesPhotoExist(const Photo::Id &) const;
+            void prune();
     };
 }
 
