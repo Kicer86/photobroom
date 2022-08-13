@@ -39,31 +39,6 @@ QString GroupsManager::includeRepresentatInDatabase(const QString& representativ
 }
 
 
-void GroupsManager::groupIntoCollage(
-    IExifReaderFactory& exifFactory,
-    Project& project,
-    const std::vector<Photo::Data>& photos)
-{
-    QStringList paths;
-    std::transform(photos.begin(), photos.end(), std::back_inserter(paths), [](const auto& data) { return data.path; });
-
-    const Photo::Data highest = *std::max_element(photos.begin(), photos.end(), [](const auto& lhs, const auto& rhs)
-    {
-        return lhs.geometry.height() < rhs.geometry.height();
-    });
-
-    CollageGenerator generator(exifFactory.get());
-    const auto collage = generator.generateCollage(paths, highest.geometry.height());
-
-    auto tmpDir = System::createTmpDir("CollageGenerator", System::BigFiles | System::Confidential);
-    const QString collagePath = System::getUniqueFileName(tmpDir->path(), "jpeg");
-    collage.save(collagePath);
-
-    const QString representantPath = GroupsManager::includeRepresentatInDatabase(collagePath, project);
-    GroupsManager::group(project.getDatabase(), photos, representantPath, Group::Type::Generic);
-}
-
-
 void GroupsManager::groupIntoUnified(
     Project& project,
     const std::vector<Photo::Data>& photos)
@@ -88,18 +63,6 @@ void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise,
     });
 
     return group(project.getDatabase(), std::move(promise), groupsDetails);
-}
-
-
-void GroupsManager::group(Database::IDatabase& database,
-                          const std::vector<Photo::DataDelta>& photos,
-                          const QString& representativePath,
-                          Group::Type type)
-{
-    std::vector<Photo::Id> photos_ids;
-    std::transform(photos.begin(), photos.end(), std::back_inserter(photos_ids), [](const auto& data){ return data.getId(); });
-
-    group(database, photos_ids, representativePath, type);
 }
 
 
