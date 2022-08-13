@@ -86,6 +86,16 @@ ICoreFactoryAccessor* SeriesModel::coreAccessor() const
 }
 
 
+void SeriesModel::reload()
+{
+    if (m_state == State::Idle || m_state == State::Loaded)
+    {
+        clear();
+        fetchGroups();
+    }
+}
+
+
 bool SeriesModel::isEmpty() const
 {
     return rowCount({}) == 0;
@@ -134,26 +144,6 @@ int SeriesModel::rowCount(const QModelIndex& parent) const
 }
 
 
-bool SeriesModel::canFetchMore(const QModelIndex& parent) const
-{
-    return m_core != nullptr &&
-           m_project != nullptr &&
-           parent.isValid() == false &&
-           m_state == State::Idle;
-}
-
-
-void SeriesModel::fetchMore(const QModelIndex& parent)
-{
-    if (m_state == State::Idle && parent.isValid() == false)
-    {
-        setState(State::Fetching);
-
-        fetchGroups();
-    }
-}
-
-
 QHash<int, QByteArray> SeriesModel::roleNames() const
 {
     auto roles = QAbstractListModel::roleNames();
@@ -187,6 +177,8 @@ void SeriesModel::setState(SeriesModel::State state)
 
 void SeriesModel::fetchGroups()
 {
+    setState(State::Fetching);
+
     auto& executor = m_core->getTaskExecutor();
 
     m_candidatesFuture = runOn<std::vector<GroupCandidate>>

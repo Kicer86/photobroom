@@ -35,6 +35,7 @@ public:
     ~SeriesModel();
 
     bool isLoaded() const;
+    Q_INVOKABLE void reload();
     Q_INVOKABLE void group(const QList<int> &);
     Q_INVOKABLE bool isEmpty() const;
     bool isBusy() const;
@@ -44,8 +45,6 @@ public:
 
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;
-    bool canFetchMore(const QModelIndex& parent) const override;
-    void fetchMore(const QModelIndex& parent) override;
     QHash<int, QByteArray> roleNames() const override;
 
 signals:
