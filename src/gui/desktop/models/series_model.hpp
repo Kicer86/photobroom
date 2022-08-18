@@ -62,7 +62,6 @@ private:
     std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
-    ITasksView* m_tasksView = nullptr;
     QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
     State m_state = Idle;
 

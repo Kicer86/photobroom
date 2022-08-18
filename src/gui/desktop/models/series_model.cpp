@@ -25,7 +25,6 @@ SeriesModel::SeriesModel()
     : m_logger()
     , m_project()
     , m_core()
-    , m_tasksView()
 {
 
 }
