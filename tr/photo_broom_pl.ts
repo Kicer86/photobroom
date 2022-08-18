@@ -889,28 +889,33 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+44"/>
-        <source>Group candidates</source>
-        <translation>Potencjalne grupy</translation>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+210"/>
+        <source>Click here to scan for photo series.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="-53"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+67"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+14"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="+14"/>
+        <source>Click here to rescan for photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-66"/>
         <source>There are no group candidates.</source>
         <translation>Brak potencjalnych grup.</translation>
     </message>
@@ -918,7 +923,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+122"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+120"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

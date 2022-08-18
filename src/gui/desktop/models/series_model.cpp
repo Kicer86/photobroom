@@ -38,12 +38,6 @@ SeriesModel::~SeriesModel()
 }
 
 
-bool SeriesModel::isLoaded() const
-{
-    return m_state == State::Loaded;
-}
-
-
 void SeriesModel::group(const QList<int>& rows)
 {
     std::vector<std::vector<Photo::DataDelta>> toStore;
@@ -102,9 +96,9 @@ bool SeriesModel::isEmpty() const
 }
 
 
-bool SeriesModel::isBusy() const
+SeriesModel::State SeriesModel::state() const
 {
-    return m_state == State::Storing;
+    return m_state;
 }
 
 
@@ -157,21 +151,9 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 
 void SeriesModel::setState(SeriesModel::State state)
 {
-    if (state == m_state)
-        return;
-
-    if (m_state == State::Storing)
-        emit busyChanged(false);
-
-    if (m_state == State::Loaded)
-        emit loadedChanged(false);
-
     m_state = state;
 
-    if (state == Storing)
-        emit busyChanged(true);
-    if (state == State::Loaded)
-        emit loadedChanged(true);
+    emit stateChanged();
 }
 
 

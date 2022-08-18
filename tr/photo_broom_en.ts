@@ -862,28 +862,33 @@ Error code: %1</source>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="44"/>
-        <source>Group candidates</source>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="210"/>
+        <source>Click here to scan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="144"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="157"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="215"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="224"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="235"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="238"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="192"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="252"/>
+        <source>Click here to rescan for photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="186"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>
@@ -891,17 +896,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="122"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="120"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="123"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="121"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="124"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="122"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
