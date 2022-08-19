@@ -2,6 +2,10 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
+
+import photo_broom.models
+import photo_broom.singletons
+
 import "../Components" as Components
 import "ViewsComponents" as Internals
 
@@ -17,23 +21,40 @@ Item
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
 
-    RowLayout {
-        id: groupsId
+    SeriesModel {
+        id: groupsModelId
+
+        coreFactory: PhotoBroomProject.coreFactory
+        project: PhotoBroomProject.project
+    }
+
+    Item {
         anchors.fill: parent
 
         Behavior on opacity { PropertyAnimation{} }
 
-        ColumnLayout {
-            id: column
-            width: 200
-            height: 400
+        Components.InfoItem {
+            id: status
 
-            Text {
-                id: element
-                text: qsTr("Group candidates")
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                font.pixelSize: 12
+            width: parent.width
+            anchors.top: parent.top
+
+            MouseArea {
+                anchors.fill: parent
+
+                enabled: seriesDetectionMainId.state == "Idle" || seriesDetectionMainId.state == "LoadedState"
+                cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
+
+                onClicked: groupsModelId.reload()
             }
+        }
+
+        ColumnLayout {
+            id: groupsId
+
+            width: parent.width
+            anchors.top: status.bottom
+            anchors.bottom: parent.bottom
 
             Components.DelegateState {
                 id: delegateState
@@ -130,6 +151,9 @@ Item
 
             Button {
                 id: button
+
+                visible: groupsModelId.state === SeriesModel.Loaded && groupsModelId.isEmpty() === false
+
                 text: qsTr("Group", "used as verb - group photos")
 
                 onClicked: {
@@ -140,54 +164,55 @@ Item
                 }
             }
         }
-    }
 
-    Item {
-        id: progressId
+        BusyIndicator {
+            id: progressId
 
-        property alias text: infoId.text
-
-        anchors.fill: parent
-
-        Behavior on opacity { PropertyAnimation{} }
-
-        Item {
-            width: childrenRect.width
-            height: childrenRect.height
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            BusyIndicator {
-                anchors.top: infoId.bottom
-                anchors.topMargin: 0
-                anchors.horizontalCenter: infoId.horizontalCenter
+            running: progressId.opacity > 0.0
 
-                running: progressId.opacity > 0.0
-            }
-
-            Text {
-                id: infoId
-                anchors.top: parent.top
-                font.pixelSize: 12
-            }
+            Behavior on opacity { PropertyAnimation{} }
         }
-    }
 
-    Text {
-        id: emptyListInfo
+        Text {
+            id: emptyListInfo
 
-        Behavior on opacity { PropertyAnimation{} }
+            opacity: groupsModelId.state == SeriesModel.Loaded && groupsModelId.isEmpty()? 1.0 : 0.0
 
-        text: qsTr("There are no group candidates.")
-        anchors.verticalCenter: progressId.verticalCenter
-        anchors.horizontalCenter: progressId.horizontalCenter
-        font.pixelSize: 12
+            Behavior on opacity { PropertyAnimation{} }
+
+            text: qsTr("There are no group candidates.")
+            anchors.verticalCenter: progressId.verticalCenter
+            anchors.horizontalCenter: progressId.horizontalCenter
+            font.pixelSize: 12
+        }
     }
 
     states: [
         State {
+            name: "Idle"
+            when: groupsModelId.state == SeriesModel.Idle
+
+            PropertyChanges {
+                target: groupsId
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: progressId
+                opacity: 0.0
+            }
+
+            PropertyChanges {
+                target: status
+                text: qsTr("Click here to scan for photo series.")
+            }
+        },
+        State {
             name: "StoringState"
-            when: groupsModelId.busy === true
+            when: groupsModelId.state == SeriesModel.Storing
 
             PropertyChanges {
                 target: groupsId
@@ -195,19 +220,13 @@ Item
             }
 
             PropertyChanges {
-                target: emptyListInfo
-                opacity: 0.0
-            }
-
-            PropertyChanges {
-                target: progressId
+                target: status
                 text: qsTr("Saving groups...")
-                opacity: 1.0
             }
         },
         State {
             name: "LoadingState"
-            when: groupsModelId.loaded === false && groupsModelId.busy === false
+            when: groupsModelId.state == SeriesModel.Fetching
 
             PropertyChanges {
                 target: groupsId
@@ -215,41 +234,22 @@ Item
             }
 
             PropertyChanges {
-                target: emptyListInfo
-                opacity: 0.0
-            }
-
-            PropertyChanges {
-                target: progressId
+                target: status
                 text: qsTr("Looking for group candidates...")
             }
         },
         State {
             name: "LoadedState"
-            when: groupsModelId.loaded && groupsModelId.isEmpty() === false
-
-            PropertyChanges {
-                target: emptyListInfo
-                opacity: 0.0
-            }
+            when: groupsModelId.state == SeriesModel.Loaded
 
             PropertyChanges {
                 target: progressId
                 opacity: 0.0
             }
-        },
-        State {
-            name: "LoadedEmptyState"
-            when: groupsModelId.loaded && groupsModelId.isEmpty()
 
             PropertyChanges {
-                target: groupsId
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: progressId
-                opacity: 0
+                target: status
+                text: qsTr("Click here to rescan for photo series.")
             }
         }
     ]

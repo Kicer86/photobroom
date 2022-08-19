@@ -21,14 +21,11 @@ using namespace std::placeholders;
 ENUM_ROLES_SETUP(SeriesModel::Roles);
 
 
-SeriesModel::SeriesModel(Project& project, ICoreFactoryAccessor& core, ITasksView& taskView)
-    : m_logger(core.getLoggerFactory().get("SeriesModel"))
-    , m_project(project)
-    , m_core(core)
-    , m_tasksView(taskView)
-    , m_initialized(false)
-    , m_loaded(false)
-    , m_busy(false)
+SeriesModel::SeriesModel()
+    : m_logger()
+    , m_project()
+    , m_core()
+    , m_tasksView()
 {
 
 }
@@ -38,12 +35,6 @@ SeriesModel::~SeriesModel()
 {
     m_candidatesFuture.cancel();
     m_candidatesFuture.waitForFinished();
-}
-
-
-bool SeriesModel::isLoaded() const
-{
-    return m_loaded;
 }
 
 
@@ -58,21 +49,44 @@ void SeriesModel::group(const QList<int>& rows)
         toStore.push_back(candidate.members);
     }
 
-    auto& executor = m_core.getTaskExecutor();
+    auto& executor = m_core->getTaskExecutor();
 
     QPromise<void> promise;
     QFuture<void> future = promise.future();
     future.then(std::bind(&SeriesModel::clear, this));
 
-    setBusy(true);
+    setState(State::Storing);
 
-    runOn(executor, [groups = std::move(toStore), &project = m_project, promise = std::move(promise)]() mutable
+    runOn(executor, [groups = std::move(toStore), project = m_project, promise = std::move(promise)]() mutable
     {
-        GroupsManager::groupIntoUnified(project, std::move(promise), groups);
+        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
     },
     "unified group generation");
 
-    TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
+    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
+}
+
+
+void SeriesModel::setCoreAccessor(ICoreFactoryAccessor* core)
+{
+    m_core = core;
+    m_logger = m_core->getLoggerFactory().get("SeriesModel");
+}
+
+
+ICoreFactoryAccessor* SeriesModel::coreAccessor() const
+{
+    return m_core;
+}
+
+
+void SeriesModel::reload()
+{
+    if (m_state == State::Idle || m_state == State::Loaded)
+    {
+        clear();
+        fetchGroups();
+    }
 }
 
 
@@ -82,9 +96,9 @@ bool SeriesModel::isEmpty() const
 }
 
 
-bool SeriesModel::isBusy() const
+SeriesModel::State SeriesModel::state() const
 {
-    return m_busy;
+    return m_state;
 }
 
 
@@ -124,24 +138,6 @@ int SeriesModel::rowCount(const QModelIndex& parent) const
 }
 
 
-bool SeriesModel::canFetchMore(const QModelIndex& parent) const
-{
-    return parent.isValid() == false && m_initialized == false && m_busy == false;
-}
-
-
-void SeriesModel::fetchMore(const QModelIndex& parent)
-{
-    assert(m_busy == false);
-    if (m_initialized == false && parent.isValid() == false)
-    {
-        m_initialized = true;
-
-        fetchGroups();
-    }
-}
-
-
 QHash<int, QByteArray> SeriesModel::roleNames() const
 {
     auto roles = QAbstractListModel::roleNames();
@@ -153,29 +149,31 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::setBusy(bool busy)
+void SeriesModel::setState(SeriesModel::State state)
 {
-    m_busy = busy;
+    m_state = state;
 
-    emit busyChanged(busy);
+    emit stateChanged();
 }
 
 
 void SeriesModel::fetchGroups()
 {
-    auto& executor = m_core.getTaskExecutor();
+    setState(State::Fetching);
+
+    auto& executor = m_core->getTaskExecutor();
 
     m_candidatesFuture = runOn<std::vector<GroupCandidate>>
     (
         executor,
         [this](QPromise<std::vector<GroupCandidate>>& promise)
         {
-            IExifReaderFactory& exif = m_core.getExifReaderFactory();
+            IExifReaderFactory& exif = m_core->getExifReaderFactory();
 
             QElapsedTimer timer;
 
             auto detectLogger = m_logger->subLogger("SeriesDetector");
-            SeriesDetector detector(*detectLogger, m_project.getDatabase(), exif.get(), &promise);
+            SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), &promise);
 
             timer.start();
             promise.addResult(detector.listCandidates());
@@ -195,8 +193,7 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
     m_logger->info(QString("Got %1 group canditates").arg(canditates.size()));
     endInsertRows();
 
-    m_loaded = true;
-    emit loadedChanged(m_loaded);
+    setState(State::Loaded);
 }
 
 
@@ -204,10 +201,6 @@ void SeriesModel::clear()
 {
     beginResetModel();
     m_candidates.clear();
-    m_initialized = false;
-    m_loaded = false;
-    setBusy(false);
+    setState(State::Idle);
     endResetModel();
-
-    emit loadedChanged(m_loaded);
 }

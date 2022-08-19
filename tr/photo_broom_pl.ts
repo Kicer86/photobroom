@@ -317,7 +317,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+202"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+200"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -349,7 +349,7 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+73"/>
         <location line="+10"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
@@ -422,7 +422,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-74"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
@@ -432,7 +432,7 @@ Kod błędu: %1</translation>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+29"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+28"/>
         <source>No collection opened</source>
         <translation type="unfinished"></translation>
     </message>
@@ -889,28 +889,33 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+33"/>
-        <source>Group candidates</source>
-        <translation>Potencjalne grupy</translation>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+210"/>
+        <source>Click here to scan for photo series.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="-53"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+67"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+14"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="+14"/>
+        <source>Click here to rescan for photo series.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-66"/>
         <source>There are no group candidates.</source>
         <translation>Brak potencjalnych grup.</translation>
     </message>
@@ -918,12 +923,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+75"/>
-        <source>Saving groups details.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+120"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

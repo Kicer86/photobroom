@@ -23,7 +23,6 @@ ApplicationWindow {
     signal newProject()
     signal closeProject()
     signal scanCollection()
-    signal seriesDetector()
     signal configuration()
 
     title: PhotoBroomProject.projectOpen? "Photo broom: " + projectName : qsTr("No collection opened")
@@ -90,7 +89,7 @@ ApplicationWindow {
             id: toolsMenu
             title: qsTr("&Tools")
             enabled: PhotoBroomProject.projectOpen
-            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsMenu.dismiss(); seriesDetector(); } }
+            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsStackView.currentIndex = 2; mainView.currentIndex = 1; } }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 0; mainView.currentIndex = 1; } }
             Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
         }
@@ -270,6 +269,12 @@ ApplicationWindow {
                     active: PhotoBroomProject.projectOpen
 
                     sourceComponent: Internals.DuplicatesView { }
+                }
+
+                Loader {
+                    active: PhotoBroomProject.projectOpen
+
+                    sourceComponent: SeriesDetection { }
                 }
             }
         }
