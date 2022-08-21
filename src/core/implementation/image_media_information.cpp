@@ -104,6 +104,14 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
             result->transpose();
     }
 
+    if (!result)
+    {
+        const QImage image(path);
+
+        if (image.isNull() == false)
+            result = image.size();
+    }
+
     return result;
 }
 
