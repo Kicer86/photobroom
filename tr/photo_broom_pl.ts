@@ -62,41 +62,50 @@
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+57"/>
         <source>Scanning collection</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeskanuj kolekcję</translation>
     </message>
     <message>
         <location line="+150"/>
         <source>No new photos found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono nowych zdjęć.</translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n new photo(s) was found and added to collection.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Znaleziono %n nowe zdjęcie.
+</numerusform>
+            <numerusform>Znaleziono %n nowe zdjęcia.
+</numerusform>
+            <numerusform>Znaleziono %n nowych zdjęć.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
         <source>%n photo(s) were no longer found on disk.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n zdjęcie już nie istnieje na dysku.
+</numerusform>
+            <numerusform>%n zdjęcia już nie istnieją na dysku.
+</numerusform>
+            <numerusform>%n zdjęć już nie istnieje na dysku.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
         <source>%n missing photo(s) were found.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n brakujące zdjęcie zostało odnalezione.
+</numerusform>
+            <numerusform>%n brakujące zdjęcia zostały odnalezione.
+</numerusform>
+            <numerusform>%n brakujących zdjęć zostało odnalezionych.
+</numerusform>
         </translation>
     </message>
 </context>
@@ -165,22 +174,22 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+19"/>
         <source>Click here to load duplicates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj, aby załadować duplikaty.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Looking for duplicates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie duplikatów.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Click here to search for duplicates again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj aby wyszukać duplikaty ponownie.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>No duplicates found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono duplikatów</translation>
     </message>
 </context>
 <context>
@@ -317,6 +326,126 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+37"/>
+        <source>&amp;Photo collection</source>
+        <translation>&amp;Kolekcja zdjęć</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;New...</source>
+        <translation>&amp;Nowa...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Open...</source>
+        <translation>&amp;Otwórz...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Open &amp;recent</source>
+        <translation>O&amp;twórz poprzednią</translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>S&amp;can collection...</source>
+        <translation>&amp;Wyszukiwanie zdjęć...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&amp;Windows</source>
+        <translation>O&amp;kna</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>P&amp;roperties</source>
+        <translation>&amp;Właściwości</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Tools</source>
+        <translation>N&amp;arzędzia</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>S&amp;eries detector...</source>
+        <translation>W&amp;ykrywanie serii...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ph&amp;oto data completion...</source>
+        <translation>&amp;Uzupełnianie danych...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Look for &amp;duplicates</source>
+        <translation>Wyszukaj &amp;duplikaty</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>&amp;Settings</source>
+        <translation>U&amp;stawienia</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Tasks</source>
+        <translation>Operacje</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Back to photos</source>
+        <translation>Powrót</translation>
+    </message>
+    <message>
+        <location line="-176"/>
+        <source>P&amp;hotos</source>
+        <translation>&amp;Zdjęcia</translation>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>No collection opened</source>
+        <translation>Nie otwarto kolekcji zdjęć</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>&amp;Close</source>
+        <translation>&amp;Zamknij</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Quit</source>
+        <translation>Za&amp;kończ</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>&amp;Configuration</source>
+        <translation>&amp;Ustawienia programu</translation>
+    </message>
+    <message>
+        <location line="-13"/>
+        <source>T&amp;asks</source>
+        <translation>&amp;Operacje</translation>
+    </message>
+    <message>
+        <location line="-1"/>
+        <source>&amp;Media information</source>
+        <translation>&amp;Informacje o pliku</translation>
+    </message>
+    <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+200"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
@@ -430,126 +559,6 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+28"/>
-        <source>No collection opened</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>&amp;Photo collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&amp;New...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&amp;Open...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Open &amp;recent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>P&amp;hotos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>S&amp;can collection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Windows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>P&amp;roperties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&amp;Media information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>T&amp;asks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>S&amp;eries detector...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Ph&amp;oto data completion...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Look for &amp;duplicates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&amp;Configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+85"/>
-        <source>Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Back to photos</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -891,7 +900,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+210"/>
         <source>Click here to scan for photo series.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
     <message>
         <location line="-53"/>
@@ -902,7 +911,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+67"/>
         <source>Saving groups...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie grup...</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -912,7 +921,7 @@ Kod błędu: %1</translation>
     <message>
         <location line="+14"/>
         <source>Click here to rescan for photo series.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij tutaj aby wyszukać na nowo serii zdjęć.</translation>
     </message>
     <message>
         <location line="-66"/>
