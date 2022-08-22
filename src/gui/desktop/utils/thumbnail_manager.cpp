@@ -63,7 +63,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             QByteArray dbThumb;
 
             if (m_db)                   // load thumbnail from db
-                evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
+                dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
                 {
                     return backend.getThumbnail(id);
                 });
