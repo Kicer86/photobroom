@@ -1,0 +1,3 @@
+
+# ts files always have lf ending (on all systems)
+*.ts text eol=lf
