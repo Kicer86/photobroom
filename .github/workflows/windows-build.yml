@@ -27,18 +27,12 @@ jobs:
         Move-Item -Path vcpkg -Destination c:\build
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
 
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v2
-      with:
-        path: ${{ runner.workspace }}/Qt
-        key: ${{ runner.os }}-QtCache2
-
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2
+      uses: jurplel/install-qt-action@v3
       with:
         version: '6.3.0'
-        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        cache: 'true'
+        modules: 'qtmultimedia'
 
     - name: Cache external tools
       uses: actions/cache@v2
