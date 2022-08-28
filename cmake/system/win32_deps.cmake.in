@@ -31,7 +31,7 @@ install(CODE [[
             --plugindir "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@/qt_plugins"
             $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
             --no-compiler-runtime
-            --qmldir "@PROJECT_SOURCE_DIR@/src/gui/desktop/quick_items"
+            --qmldir "@PROJECT_SOURCE_DIR@/src/gui/desktop"
             $<$<BOOL:@BUILD_SHARED_LIBS@>:$<TARGET_FILE:gui>>                  #include 'gui' target only if it is shared library
             $<TARGET_FILE:photo_broom>
             $<TARGET_FILE:updater>
