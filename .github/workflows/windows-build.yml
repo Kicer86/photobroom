@@ -62,3 +62,7 @@ jobs:
       with:
         name: Installer
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
+        
+    - name: Prepare list of files in installer
+      run: |
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
