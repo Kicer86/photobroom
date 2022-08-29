@@ -57,12 +57,12 @@ jobs:
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
 
-    - name: Uplaod artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: Installer
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
-        
+
     - name: Prepare list of files in installer
       run: |
         7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
