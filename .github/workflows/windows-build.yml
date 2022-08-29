@@ -65,5 +65,4 @@ jobs:
 
     - name: Prepare list of files in installer
       run: |
-        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/workflows/parse7z-l.py
-
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/workflows/parse7z-l.py | python .github/workflows/compare.py
