@@ -15,7 +15,12 @@ missing_expected = list(expected_files - package_files)
 package_additional = list(package_files - expected_files)
 
 if missing_expected:
-    sys.exit(f"There are missing files in package: {missing_expected}")
+    print(f"There are missing files in package: {missing_expected}")
 
 if package_additional:
-    sys.exit(f"There are additional files in package: {package_additional}")
+    print(f"There are additional files in package: {package_additional}")
+
+if missing_expected or package_additional:
+    print()
+    print(f"Expected list of files: {package_files}")
+    sys.exit(1)
