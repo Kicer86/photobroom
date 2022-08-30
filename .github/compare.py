@@ -11,8 +11,8 @@ package_files = set()
 for line in sys.stdin:
     package_files.add(line.strip())
 
-missing_expected = list(expected_files - package_files)
-package_additional = list(package_files - expected_files)
+missing_expected = expected_files - package_files
+package_additional = package_files - expected_files
 
 if missing_expected:
     print(f"There are missing files in package: {missing_expected}")
