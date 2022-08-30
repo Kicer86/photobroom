@@ -22,5 +22,6 @@ if package_additional:
 
 if missing_expected or package_additional:
     print()
-    print(f"Expected list of files: {package_files}")
+    print(f"Expected list of files: {expected_files}")
+    print(f"list of files in package: {package_files}")
     sys.exit(1)
