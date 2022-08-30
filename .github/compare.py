@@ -2,7 +2,7 @@
 from sys import stdin
 from sys import exit
 
-expected = open('expected_file_list','rt')
+expected = open('.github/expected_file_list','rt')
 
 for line in stdin:
     line = line.strip()
