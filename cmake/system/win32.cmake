@@ -59,13 +59,17 @@ function(download_tools)
             https://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2021.0/Hugin-2021.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
             SHOW_PROGRESS
         )
-        file(ARCHIVE_EXTRACT
-            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin
+
+        find_program(APP_7Z 7z REQUIRED)
+        execute_process(
+            COMMAND
+                ${APP_7Z} e
+                -o${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin
+                ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
         )
     endif()
 
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/CM_FP_bin.align_image_stack.exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/CM_FP_bin.align_image_stack.exe
         DESTINATION tools/Hugin
         RENAME align_image_stack.exe
     )
