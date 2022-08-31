@@ -56,19 +56,18 @@ function(download_tools)
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
-            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi
+            https://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2021.0/Hugin-2021.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
             SHOW_PROGRESS
         )
-
-        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi" hugin_source)
-        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin" hugin_destination)
-        execute_process(
-            COMMAND msiexec /a ${hugin_source} /quiet TARGETDIR=${hugin_destination}
+        file(ARCHIVE_EXTRACT
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin
         )
     endif()
 
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/align_image_stack.exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/CM_FP_bin.align_image_stack.exe
         DESTINATION tools/Hugin
+        RENAME align_image_stack.exe
     )
 
 endfunction(download_tools)
