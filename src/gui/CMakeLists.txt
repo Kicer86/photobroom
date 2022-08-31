@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2)
+find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2 Multimedia)
 
 include(GenerateExportHeader)
 
@@ -78,7 +78,11 @@ if(BUILD_UPDATER)
 endif()
 
 if(WIN32)
-    target_link_libraries(gui PRIVATE Qt::QuickControls2)
+    target_link_libraries(gui 
+        PRIVATE 
+        Qt::QuickControls2
+        Qt::Multimedia                  # workaround for windeployqt issue which for some reason won't include qtmultimedia module basing on qml imports only
+    )
 endif()
 
 generate_export_header(gui)

@@ -31,6 +31,16 @@
 #include "utils/thumbnail_manager.hpp"
 #include "utils/qml_setup.hpp"
 
+#ifdef OS_WIN
+#include <QMediaPlayer>
+namespace 
+{
+    auto mediaptr = &QMediaPlayer::error;       // workaround for windeployqt issue which for some reason won't include qtmultimedia module basing on qml imports only
+}
+
+#endif
+
+
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory, IFeaturesManager& features)
     : m_prjManager(prjMgr)
     , m_pluginLoader(pluginLoader)
