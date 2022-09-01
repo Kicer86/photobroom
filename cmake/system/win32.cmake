@@ -32,7 +32,7 @@ function(download_tools)
         )
     endif()
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.1-essentials_build/   # version :/ not nice to have it here
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.1.1-essentials_build/   # version :/ not nice to have it here
         DESTINATION tools/FFMpeg
     )
 
@@ -53,22 +53,25 @@ function(download_tools)
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
-            https://netcologne.dl.sourceforge.net/project/hugin/hugin/hugin-2020.0/Hugin-2020.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi
+            https://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2021.0/Hugin-2021.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
             SHOW_PROGRESS
         )
 
-        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi" hugin_source)
-        file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/tools/Hugin" hugin_destination)
+        find_program(APP_7Z 7z REQUIRED)
         execute_process(
-            COMMAND msiexec /a ${hugin_source} /quiet TARGETDIR=${hugin_destination}
+            COMMAND
+                ${APP_7Z} e
+                -o${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin
+                ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
         )
     endif()
 
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/Hugin/bin/align_image_stack.exe
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/CM_FP_bin.align_image_stack.exe
         DESTINATION tools/Hugin
+        RENAME align_image_stack.exe
     )
 
 endfunction(download_tools)

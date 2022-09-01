@@ -4,20 +4,20 @@
 # however for some reason it doesn't find exiv2 and some other dependencies.
 # Also see: https://gitlab.kitware.com/cmake/cmake/-/issues/22006
 # Some details about fake dependencies: https://stackoverflow.com/questions/36240215/dependency-walker-missing-dlls
- 
+
 install(CODE [[
-    file(GET_RUNTIME_DEPENDENCIES  
-        PRE_EXCLUDE_REGEXES 
-            api-ms-.* 
+    file(GET_RUNTIME_DEPENDENCIES
+        PRE_EXCLUDE_REGEXES
+            api-ms-.*
             ext-ms-.*
             hvsifiletrust.dll
             [qQ]t6.*\\.dll                                  #windeployqt will take care about Qt's libs
         POST_EXCLUDE_REGEXES
             ".*/system32/.*\\.dll"
-        RESOLVED_DEPENDENCIES_VAR deps 
+        RESOLVED_DEPENDENCIES_VAR deps
         EXECUTABLES $<TARGET_FILE:photo_broom>
     )
-     
+
     file(INSTALL
         DESTINATION "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@"
         TYPE SHARED_LIBRARY
@@ -37,5 +37,5 @@ install(CODE [[
             $<TARGET_FILE:updater>
             $<TARGET_FILE:sql_backend_base>
         WORKING_DIRECTORY "@WINDEPLOY_DIR@"
-    ) 
+    )
 ]])
