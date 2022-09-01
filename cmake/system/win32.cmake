@@ -32,7 +32,7 @@ function(download_tools)
         )
     endif()
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.1-essentials_build/   # version :/ not nice to have it here
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.1.1-essentials_build/   # version :/ not nice to have it here
         DESTINATION tools/FFMpeg
     )
 
