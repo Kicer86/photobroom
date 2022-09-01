@@ -53,7 +53,7 @@ function(download_tools)
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2020.0.0-win64.msi)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi)
         message("Downloading Hugin")
         file(DOWNLOAD
             https://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2021.0/Hugin-2021.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
