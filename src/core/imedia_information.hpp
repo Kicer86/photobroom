@@ -2,6 +2,7 @@
 #ifndef IMEDIAINFORMATION_HPP
 #define IMEDIAINFORMATION_HPP
 
+#include <chrono>
 #include <optional>
 #include <QSize>
 #include <QDateTime>
@@ -19,6 +20,7 @@ struct ImageFile
 
 struct VideoFile
 {
+    std::chrono::milliseconds duration;
 };
 
 struct FileInformation
