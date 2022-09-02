@@ -10,7 +10,6 @@ set(CORE_SOURCES
     implementation/configuration_p.hpp
     implementation/exiftool_video_details_reader.hpp        implementation/exiftool_video_details_reader.cpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
-    implementation/ffmpeg_video_details_reader.hpp          implementation/ffmpeg_video_details_reader.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp
     implementation/init.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
