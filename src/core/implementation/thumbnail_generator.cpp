@@ -137,7 +137,6 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
             }
 
             // wait for frame to be ready
-            if (player.isSeekable())
             {
                 QEventLoop eventLoop;
                 QObject::connect(&videoSink, &QVideoSink::videoFrameChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
