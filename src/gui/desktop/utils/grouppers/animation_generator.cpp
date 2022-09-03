@@ -181,6 +181,8 @@ QString AnimationGenerator::format() const
         return "gif";
     else if (m_data.format == "MNG")
         return "mng";
+    else if (m_data.format == "WEBP")
+        return "webp";
     else                    // fallback to gif, but this should not happend
     {
         assert(!"unexpected format");

@@ -209,12 +209,17 @@
                  <widget class="QComboBox" name="formatComboBox">
                   <item>
                    <property name="text">
-                    <string notr="true">GIF</string>
+                    <string notr="true">WEBP</string>
                    </property>
                   </item>
                   <item>
                    <property name="text">
                     <string notr="true">MNG</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string notr="true">GIF</string>
                    </property>
                   </item>
                  </widget>

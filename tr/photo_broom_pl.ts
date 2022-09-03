@@ -757,7 +757,7 @@ Kod błędu: %1</translation>
         <translation>Kolaż</translation>
     </message>
     <message>
-        <location line="+175"/>
+        <location line="+180"/>
         <source>height:</source>
         <translation>wysokość:</translation>
     </message>
