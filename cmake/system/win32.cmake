@@ -20,22 +20,6 @@ function(download_tools)
         DESTINATION tools/ImageMagick
     )
 
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z)
-        message("Downloading FFMpeg")
-        file(DOWNLOAD
-            https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
-            SHOW_PROGRESS
-        )
-        file(ARCHIVE_EXTRACT
-            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-release-essentials.7z
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
-        )
-    endif()
-
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ffmpeg-5.1.1-essentials_build/   # version :/ not nice to have it here
-        DESTINATION tools/FFMpeg
-    )
-
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD

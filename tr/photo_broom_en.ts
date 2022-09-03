@@ -981,17 +981,12 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="123"/>
-        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="184"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="146"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="161"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="123"/>
         <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1010,7 +1005,6 @@ Error code: %1</source>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="28"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="30"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="32"/>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="34"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1018,7 +1012,7 @@ Error code: %1</source>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="87"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="79"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>

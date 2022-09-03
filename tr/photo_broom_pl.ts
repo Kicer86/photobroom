@@ -1017,11 +1017,6 @@ Kod błędu: %1</translation>
         <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
     </message>
     <message>
-        <location line="+38"/>
-        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation>Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby pobrać.</translation>
-    </message>
-    <message>
         <location line="+61"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
@@ -1046,7 +1041,6 @@ Kod błędu: %1</translation>
         <location line="+6"/>
         <location line="+2"/>
         <location line="+2"/>
-        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1054,7 +1048,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+53"/>
+        <location line="+47"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
