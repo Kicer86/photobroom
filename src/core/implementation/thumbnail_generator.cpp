@@ -97,7 +97,7 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 }
 
 
-QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& exiftool, const QString& ffmpeg) const
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 {
     const QFileInfo pathInfo(path);
 
@@ -162,17 +162,7 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
     if (MediaTypes::isImageFile(path))
         image = readFrameFromImage(path);
     else if (MediaTypes::isVideoFile(path))
-    {
-        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-        const QString ffmpegPath = ffmpegVar.toString();
-        const QVariant exiftoolVar = m_configuration->getEntry(ExternalToolsConfigKeys::exiftoolPath);
-        const QString exiftoolPath = exiftoolVar.toString();
-        const QFileInfo mpegfileInfo(ffmpegPath);
-        const QFileInfo exiftoolFileInfo(exiftoolPath);
-
-        if (mpegfileInfo.isExecutable() && exiftoolFileInfo.isExecutable())
-            image = readFrameFromVideo(path, exiftoolPath, ffmpegPath);
-    }
+        image = readFrameFromVideo(path);
     else
         m_logger->error(QString("Unknown file type: %1").arg(path));
 
