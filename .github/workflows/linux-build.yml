@@ -35,7 +35,8 @@ jobs:
           libgmock-dev          \
           libgl1-mesa-dev       \
           libglvnd-dev          \
-          libfuse2
+          libfuse2              \
+          libwebp-dev
 
     - name: Install imagemagick
       run: |
