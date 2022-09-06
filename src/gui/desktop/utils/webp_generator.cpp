@@ -46,6 +46,7 @@ QByteArray WebPGenerator::save()
 
     std::unique_ptr<WebPAnimEncoder, void(*)(WebPAnimEncoder*)> enc(WebPAnimEncoderNew(size.width(), size.height(), &enc_options), &WebPAnimEncoderDelete);
 
+    int timestamp = 0;
     for (const auto& image: m_frames)
     {
         QImage srcImage = image;
@@ -75,8 +76,10 @@ QByteArray WebPGenerator::save()
         else
             WebPPictureImportRGB(&picture, srcImage.constBits(), static_cast<int>(srcImage.bytesPerLine()));
 
-        WebPAnimEncoderAdd(enc.get(), &picture, static_cast<int>(m_delayForFrames.count()), &config);
+        WebPAnimEncoderAdd(enc.get(), &picture, timestamp, &config);
         WebPPictureFree(&picture);
+
+        timestamp += static_cast<int>(m_delayForFrames.count());
     }
 
     WebPData webp_data;

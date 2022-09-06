@@ -47,3 +47,28 @@ TEST(WebPGeneratorTest, multiFrameImage)
     const auto image3 = reader.read();
     EXPECT_EQ(image3.pixelColor(50, 50), frame3.pixelColor(50, 50));
 }
+
+
+TEST(WebPGeneratorTest, imagesDelay)
+{
+    using namespace std::chrono_literals;
+
+    QImage frame1(100, 100, QImage::Format_ARGB32);
+    frame1.fill(Qt::red);
+
+    QImage frame2(100, 100, QImage::Format_ARGB32);
+    frame2.fill(Qt::blue);
+
+    auto data = WebPGenerator().append(frame1).append(frame2).setDelay(300ms).save();
+
+    QBuffer buffer(&data);
+    QImageReader reader(&buffer);
+
+    ASSERT_EQ(reader.imageCount(), 2);
+
+    reader.read();
+    EXPECT_EQ(reader.nextImageDelay(), 300);
+
+    reader.read();
+    EXPECT_EQ(reader.nextImageDelay(), 300);
+}
