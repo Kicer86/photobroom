@@ -4,22 +4,6 @@
 
 
 function(download_tools)
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip)
-        message("Downloading ImageMagick")
-        file(DOWNLOAD
-            https://imagemagick.org/archive/binaries/ImageMagick-7.1.0-portable-Q16-x64.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
-            SHOW_PROGRESS
-        )
-        file(ARCHIVE_EXTRACT
-            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick-7.1.0-portable-Q16-x64.zip
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick
-        )
-    endif()
-
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tools/ImageMagick/
-        DESTINATION tools/ImageMagick
-    )
-
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD

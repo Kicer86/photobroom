@@ -750,22 +750,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="328"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="327"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="362"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -955,31 +955,21 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="26"/>
-        <source>Used for creating animations (gifs) from photo series.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="44"/>
-        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="67"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="85"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="44"/>
         <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="146"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="105"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="123"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="82"/>
         <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -997,7 +987,6 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="28"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="30"/>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="32"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1005,7 +994,7 @@ Error code: %1</source>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="79"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="71"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>

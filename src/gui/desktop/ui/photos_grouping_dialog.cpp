@@ -309,7 +309,6 @@ void PhotosGroupingDialog::makeHDR()
 
     generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.magickPath = m_config.getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
 
     auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);

@@ -775,7 +775,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+50"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
@@ -985,16 +985,6 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Used for creating animations (gifs) from photo series.</source>
-        <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
-        <translation>Odwiedź &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; aby pobrać.</translation>
-    </message>
-    <message>
-        <location line="+23"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
@@ -1027,7 +1017,6 @@ Kod błędu: %1</translation>
     <message>
         <location line="+6"/>
         <location line="+2"/>
-        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1035,7 +1024,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+47"/>
+        <location line="+41"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
