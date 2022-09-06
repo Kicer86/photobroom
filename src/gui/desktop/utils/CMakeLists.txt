@@ -1,5 +1,6 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
+find_package(OpenCV REQUIRED)
 
 find_package(WebP CONFIG)
 
@@ -80,6 +81,7 @@ target_link_libraries(gui_utils
                             Qt::Quick
                             Qt::QuickWidgets
                             ${WEBP_LIBRARIES}
+                            opencv_imgcodecs
 )
 
 target_include_directories(gui_utils

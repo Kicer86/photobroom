@@ -292,12 +292,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+53"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+56"/>
         <source>generating HDR</source>
         <translation>generacja HDR</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+14"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
     </message>

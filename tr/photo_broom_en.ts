@@ -284,12 +284,12 @@ Check paths in configuration window.</source>
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="53"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="56"/>
         <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="73"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="70"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>
