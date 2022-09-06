@@ -49,8 +49,9 @@ QByteArray WebPGenerator::save()
     for (const auto& image: m_frames)
     {
         QImage srcImage = image;
-        bool alpha = srcImage.hasAlphaChannel();
-        QImage::Format newFormat = alpha ? QImage::Format_RGBA8888 : QImage::Format_RGB888;
+        const bool alpha = srcImage.hasAlphaChannel();
+        const QImage::Format newFormat = alpha ? QImage::Format_RGBA8888 : QImage::Format_RGB888;
+
         if (srcImage.format() != newFormat)
             srcImage = srcImage.convertToFormat(newFormat);
 
@@ -70,11 +71,11 @@ QByteArray WebPGenerator::save()
             return {};
 
         if (alpha)
-            WebPPictureImportRGBA(&picture, srcImage.constBits(), srcImage.bytesPerLine());
+            WebPPictureImportRGBA(&picture, srcImage.constBits(), static_cast<int>(srcImage.bytesPerLine()));
         else
-            WebPPictureImportRGB(&picture, srcImage.constBits(), srcImage.bytesPerLine());
+            WebPPictureImportRGB(&picture, srcImage.constBits(), static_cast<int>(srcImage.bytesPerLine()));
 
-        WebPAnimEncoderAdd(enc.get(), &picture, m_delayForFrames.count(), &config);
+        WebPAnimEncoderAdd(enc.get(), &picture, static_cast<int>(m_delayForFrames.count()), &config);
         WebPPictureFree(&picture);
     }
 
@@ -83,5 +84,5 @@ QByteArray WebPGenerator::save()
 
     WebPAnimEncoderAssemble(enc.get(), &webp_data);
 
-    return QByteArray(reinterpret_cast<const char *>(webp_data.bytes), webp_data.size);
+    return QByteArray(reinterpret_cast<const char *>(webp_data.bytes), static_cast<qsizetype>(webp_data.size));
 }
