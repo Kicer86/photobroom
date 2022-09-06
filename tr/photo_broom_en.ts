@@ -19,7 +19,7 @@
         <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="144"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="142"/>
         <source>Saving animated file</source>
         <translation>Saving animated file</translation>
     </message>
@@ -270,7 +270,7 @@ Check paths in configuration window.</source>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="265"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preparing photos</translation>
     </message>
 </context>
 <context>

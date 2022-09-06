@@ -134,8 +134,6 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 
 QString AnimationGenerator::generateAnimation(const QStringList& photos)
 {
-    using GeneratorUtils::MagickOutputAnalyzer;
-
     // generate animation
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();

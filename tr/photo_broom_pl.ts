@@ -19,7 +19,7 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+42"/>
         <source>Saving animated file</source>
         <translation>Zapisywanie animacji</translation>
     </message>
