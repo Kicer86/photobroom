@@ -21,7 +21,7 @@
     <message>
         <location line="+44"/>
         <source>Saving animated file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie animacji</translation>
     </message>
 </context>
 <context>

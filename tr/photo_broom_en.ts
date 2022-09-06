@@ -11,17 +11,17 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="88"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Preparing photos</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
         <source>Stabilizing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Stabilizing photos</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="144"/>
         <source>Saving animated file</source>
-        <translation type="unfinished"></translation>
+        <translation>Saving animated file</translation>
     </message>
 </context>
 <context>
@@ -73,27 +73,33 @@
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="211"/>
         <source>%n new photo(s) was found and added to collection.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n new photo was found and added to collection.
+</numerusform>
+            <numerusform>%n new photos were found and added to collection.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="214"/>
         <source>%n photo(s) were no longer found on disk.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n photo was no longer found on disk.
+</numerusform>
+            <numerusform>%n photos were no longer found on disk.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="217"/>
         <source>%n missing photo(s) were found.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n missing photo was found.
+</numerusform>
+            <numerusform>%n missing photos were found.
+</numerusform>
         </translation>
     </message>
 </context>
