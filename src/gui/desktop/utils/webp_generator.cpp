@@ -20,6 +20,13 @@ WebPGenerator& WebPGenerator::setDelay(const std::chrono::milliseconds& delay)
 }
 
 
+WebPGenerator& WebPGenerator::setLoopDelay(const std::chrono::milliseconds& delay)
+{
+    m_delayForLoop = delay;
+    return *this;
+}
+
+
 WebPGenerator& WebPGenerator::setLossless()
 {
     m_lossless = true;
@@ -46,6 +53,12 @@ QByteArray WebPGenerator::save()
 
     std::unique_ptr<WebPAnimEncoder, void(*)(WebPAnimEncoder*)> enc(WebPAnimEncoderNew(size.width(), size.height(), &enc_options), &WebPAnimEncoderDelete);
 
+    WebPConfig config;
+    if (!WebPConfigInit(&config))
+        return {};
+
+    config.lossless = m_lossless? 1: 0;
+
     int timestamp = 0;
     for (const auto& image: m_frames)
     {
@@ -56,13 +69,9 @@ QByteArray WebPGenerator::save()
         if (srcImage.format() != newFormat)
             srcImage = srcImage.convertToFormat(newFormat);
 
-        WebPConfig config;
         WebPPicture picture;
-
-        if (!WebPPictureInit(&picture) || !WebPConfigInit(&config))
+        if (!WebPPictureInit(&picture))
             return {};
-
-        config.lossless = m_lossless? 1: 0;
 
         picture.width = size.width();
         picture.height = size.height();
@@ -81,6 +90,9 @@ QByteArray WebPGenerator::save()
 
         timestamp += static_cast<int>(m_delayForFrames.count());
     }
+
+    const int lastFrameTimestamp = timestamp + static_cast<int>(m_delayForLoop.count());
+    WebPAnimEncoderAdd(enc.get(), nullptr, lastFrameTimestamp, &config);
 
     WebPData webp_data;
     WebPDataInit(&webp_data);

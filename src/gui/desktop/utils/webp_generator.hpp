@@ -12,12 +12,14 @@ class WebPGenerator
     public:
         WebPGenerator& append(const QImage &);
         WebPGenerator& setDelay(const std::chrono::milliseconds &);
+        WebPGenerator& setLoopDelay(const std::chrono::milliseconds &);
         WebPGenerator& setLossless();
         QByteArray save();
 
     private:
         std::vector<QImage> m_frames;
         std::chrono::milliseconds m_delayForFrames = std::chrono::milliseconds(100);
+        std::chrono::milliseconds m_delayForLoop = std::chrono::milliseconds(0);
         bool m_lossless = false;
 };
 

@@ -72,3 +72,30 @@ TEST(WebPGeneratorTest, imagesDelay)
     reader.read();
     EXPECT_EQ(reader.nextImageDelay(), 300);
 }
+
+
+TEST(WebPGeneratorTest, loopDelay)
+{
+    using namespace std::chrono_literals;
+
+    QImage frame1(100, 100, QImage::Format_ARGB32);
+    frame1.fill(Qt::red);
+
+    QImage frame2(100, 100, QImage::Format_ARGB32);
+    frame2.fill(Qt::blue);
+
+    QImage frame3(100, 100, QImage::Format_ARGB32);
+    frame3.fill(Qt::green);
+
+    auto data = WebPGenerator().append(frame1).append(frame2).append(frame3).setLoopDelay(500ms).save();
+
+    QBuffer buffer(&data);
+    QImageReader reader(&buffer);
+
+    ASSERT_EQ(reader.imageCount(), 3);
+
+    reader.read();
+    reader.read();
+    reader.read();
+    EXPECT_EQ(reader.nextImageDelay(), 500 + 100);  // last frame's duration + delay before loop is being reset
+}
