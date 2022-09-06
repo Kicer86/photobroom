@@ -41,7 +41,6 @@ std::string HDRGenerator::name() const
 void HDRGenerator::run()
 {
     using GeneratorUtils::AISOutputAnalyzer;
-    using GeneratorUtils::MagickOutputAnalyzer;
 
     // rotate photos
     const QStringList rotated = preparePhotos(m_data.photos, 100);

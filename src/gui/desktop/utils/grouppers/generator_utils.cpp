@@ -84,53 +84,6 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    MagickOutputAnalyzer::MagickOutputAnalyzer(ILogger* logger, int photos_count):
-        GenericAnalyzer(logger, 10),
-        m_photos_count(photos_count)
-    {
-    }
-
-
-    void MagickOutputAnalyzer::processMessage(const QString& line)
-    {
-        switch (conversion_data.state)
-        {
-            case Data::LoadingImages:
-            {
-                if (loadImages_regExp.match(line).hasMatch())
-                {
-                    conversion_data.photos_loaded++;
-
-                    emit progress(conversion_data.photos_loaded * 100 / m_photos_count);
-                }
-                else if (mogrify_regExp.match(line).hasMatch())
-                {
-                    conversion_data.state = conversion_data.BuildingImage;
-
-                    emit operation(tr("Assembling final file"));
-                }
-
-                break;
-            }
-
-            case Data::BuildingImage:
-            {
-                if (dither_regExp.match(line).hasMatch())
-                {
-                    conversion_data.photos_assembled++;
-
-                    emit progress(conversion_data.photos_assembled * 100 / m_photos_count);
-                }
-
-                break;
-            }
-        }
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-
-
     AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
         GenericAnalyzer(logger, 10),
         m_photos_count(photos_count)

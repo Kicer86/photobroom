@@ -260,7 +260,7 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="159"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="112"/>
         <source>Saving stabilized images</source>
         <translation type="unfinished"></translation>
     </message>
@@ -268,28 +268,20 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="265"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="218"/>
         <source>Preparing photos</source>
         <translation type="unfinished">Preparing photos</translation>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::MagickOutputAnalyzer</name>
-    <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="110"/>
-        <source>Assembling final file</source>
-        <translation>Assembling final file</translation>
-    </message>
-</context>
-<context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="56"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="55"/>
         <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="70"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="69"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>

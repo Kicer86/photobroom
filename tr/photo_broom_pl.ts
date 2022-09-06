@@ -268,7 +268,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+112"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -282,17 +282,9 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::MagickOutputAnalyzer</name>
-    <message>
-        <location line="-155"/>
-        <source>Assembling final file</source>
-        <translation>Składanie pliku wynikowego</translation>
-    </message>
-</context>
-<context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+56"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+55"/>
         <source>generating HDR</source>
         <translation>generacja HDR</translation>
     </message>
