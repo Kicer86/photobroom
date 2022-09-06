@@ -101,7 +101,7 @@
               </property>
               <item>
                <layout class="QGridLayout" name="gridLayout">
-                <item row="1" column="1">
+                <item row="0" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_2">
                   <item>
                    <widget class="QDoubleSpinBox" name="speedSpinBox">
@@ -125,28 +125,21 @@
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="delayLabel">
-                  <property name="text">
-                   <string>Delay before restart:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="scaleLabel">
-                  <property name="text">
-                   <string>Scale:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
+                <item row="3" column="1">
                  <widget class="QCheckBox" name="stabilizationCheckBox">
                   <property name="text">
                    <string>Stabilize image</string>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
+                <item row="2" column="0">
+                 <widget class="QLabel" name="scaleLabel">
+                  <property name="text">
+                   <string>Scale:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
                   <item>
                    <widget class="QSpinBox" name="scaleSpinBox">
@@ -170,7 +163,21 @@
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="1">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="speedLabel">
+                  <property name="text">
+                   <string>Animation speed:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="delayLabel">
+                  <property name="text">
+                   <string>Delay before restart:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
                    <widget class="QSpinBox" name="delaySpinBox">
@@ -190,39 +197,6 @@
                    </widget>
                   </item>
                  </layout>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="speedLabel">
-                  <property name="text">
-                   <string>Animation speed:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Format:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="formatComboBox">
-                  <item>
-                   <property name="text">
-                    <string notr="true">WEBP</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string notr="true">MNG</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string notr="true">GIF</string>
-                   </property>
-                  </item>
-                 </widget>
                 </item>
                </layout>
               </item>

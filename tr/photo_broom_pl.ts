@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+75"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
         <source>Error occured during external program execution</source>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
@@ -19,9 +19,9 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+53"/>
-        <source>Loading photos to be animated</source>
-        <translation>Wczytywanie zdjęć</translation>
+        <location line="+44"/>
+        <source>Saving animated file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -717,47 +717,42 @@ Kod błędu: %1</translation>
         <translation>HDR</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+117"/>
         <source>Animation speed:</source>
         <translation>Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-47"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+54"/>
         <source>Delay before restart:</source>
         <translation>Opóźnienie przed zapętleniem:</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+19"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-57"/>
         <source>Scale:</source>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-7"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+59"/>
-        <source>Format:</source>
-        <translation>Typ pliku:</translation>
-    </message>
-    <message>
-        <location line="-147"/>
+        <location line="-74"/>
         <source>Collage</source>
         <translation>Kolaż</translation>
     </message>
     <message>
-        <location line="+180"/>
+        <location line="+154"/>
         <source>height:</source>
         <translation>wysokość:</translation>
     </message>
@@ -788,7 +783,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+51"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>

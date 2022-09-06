@@ -4,23 +4,23 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="75"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
         <source>Error occured during external program execution</source>
         <translation>Error occured during external program execution</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="86"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="88"/>
         <source>Preparing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="98"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
         <source>Stabilizing photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="151"/>
-        <source>Loading photos to be animated</source>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="144"/>
+        <source>Saving animated file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -686,7 +686,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="176"/>
         <source>Delay before restart:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -696,23 +696,18 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="145"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
         <source>Stabilize image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="188"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="195"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="197"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="169"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="204"/>
-        <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -721,22 +716,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="237"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="211"/>
         <source>height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="296"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="320"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="294"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="356"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="330"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -757,22 +752,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="329"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="328"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="366"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="365"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
