@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [macos-12]
 
     steps:
     - uses: actions/checkout@v2
@@ -32,8 +32,6 @@ jobs:
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        cc: /usr/local/bin/gcc-12
-        cxx: /usr/local/bin/g++-12
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
