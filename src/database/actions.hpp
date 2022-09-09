@@ -35,7 +35,7 @@ namespace Database::Actions
 
         SortByTag(const SortByTag &) = default;
 
-        friend auto operator<=>(const SortByTag&, const SortByTag&) = default;
+        friend std::strong_ordering operator<=>(const SortByTag&, const SortByTag&) = default;
 
         const Tag::Types tag;
         const Qt::SortOrder sort_order;
@@ -52,7 +52,7 @@ namespace Database::Actions
 
         explicit Sort(By by_, Qt::SortOrder order_ = Qt::AscendingOrder): by(by_), order(order_) {}
 
-        friend auto operator<=>(const Sort &, const Sort &) = default;
+        friend std::strong_ordering operator<=>(const Sort &, const Sort &) = default;
 
         const By by;
         const Qt::SortOrder order;
@@ -64,7 +64,7 @@ namespace Database::Actions
 
         const std::vector<Action> actions;
 
-        friend auto operator<=>(const GroupAction &, const GroupAction &) = default;
+        friend bool operator==(const GroupAction &, const GroupAction &) = default;
     };
 }
 

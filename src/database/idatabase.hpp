@@ -42,11 +42,6 @@
 struct ILogger;
 struct IConfiguration;
 
-#ifdef _MSC_VER
-#define CURRENT_LOCATION ""
-#else
-#define CURRENT_LOCATION std::source_location::current().function_name()
-#endif
 
 namespace Database
 {
@@ -65,7 +60,7 @@ namespace Database
         virtual ~IDatabaseThread() = default;
 
         template<typename Callable> requires std::is_invocable_v<Callable, IBackend &>
-        void exec(Callable&& f, const std::string& name = CURRENT_LOCATION)
+        void exec(Callable&& f, const std::string& name = std::source_location::current().function_name())
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f), name);
             execute(std::move(task));

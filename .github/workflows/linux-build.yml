@@ -14,11 +14,27 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
+        compiler:
+          - { compiler: GNU,  CC: gcc,   CXX: g++ }
+          # - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
 
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: true
+
+    - name: Load llvm keys
+      if: matrix.compiler.compiler == 'LLVM'
+      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+
+    - name: Update clang
+      if: matrix.compiler.compiler == 'LLVM'
+      uses: myci-actions/add-deb-repo@10
+      with:
+        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main
+        repo-name: llvm-toolchain-focal-15
+        update: false
+        install: clang-15
 
     - name: Install system dependencies
       run: |
@@ -48,9 +64,16 @@ jobs:
       run: |
         sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
+        cc: ${{ matrix.compiler.CC }}
+        cxx: ${{ matrix.compiler.CXX }}
+        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
