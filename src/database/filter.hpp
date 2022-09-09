@@ -118,17 +118,6 @@ namespace Database
         LogicalOp mode;
     };
 
-    struct DATABASE_EXPORT FilterNotMatchingFilter
-    {
-        template<typename T>
-        explicit FilterNotMatchingFilter(const T& f): filter(new Filter(f))
-        {
-
-        }
-
-        ol::data_ptr<Filter> filter;
-    };
-
     struct DATABASE_EXPORT FilterPhotosWithId
     {
         FilterPhotosWithId();
@@ -189,6 +178,17 @@ namespace Database
     struct DATABASE_EXPORT FilterPhotosWithPHash { };
 
     struct DATABASE_EXPORT FilterSimilarPhotos { };
+
+    struct DATABASE_EXPORT FilterNotMatchingFilter
+    {
+        template<typename T>
+        explicit FilterNotMatchingFilter(const T& f): filter(new Filter(f))
+        {
+
+        }
+
+        ol::data_ptr<Filter> filter;
+    };
 
     // helpers
 
