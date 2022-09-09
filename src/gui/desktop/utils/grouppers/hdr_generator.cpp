@@ -16,6 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QImage>
+#include <opencv2/imgcodecs.hpp>
+
 #include "hdr_generator.hpp"
 
 #include "system/system.hpp"
@@ -38,7 +41,6 @@ std::string HDRGenerator::name() const
 void HDRGenerator::run()
 {
     using GeneratorUtils::AISOutputAnalyzer;
-    using GeneratorUtils::MagickOutputAnalyzer;
 
     // rotate photos
     const QStringList rotated = preparePhotos(m_data.photos, 100);
@@ -64,22 +66,11 @@ void HDRGenerator::run()
             "-o", location,
             rotated);
 
-    const QString output = System::getUniqueFileName(m_storage, "jpeg");
-    MagickOutputAnalyzer moa(m_logger, photos_count);
-    connect(&moa, &MagickOutputAnalyzer::operation, this, &HDRGenerator::operation);
-    connect(&moa, &MagickOutputAnalyzer::progress,  this, &HDRGenerator::progress);
-    connect(&moa, &MagickOutputAnalyzer::finished,  this, &HDRGenerator::finished);
-
     emit operation(tr("Saving result"));
 
-    GeneratorUtils::execute(m_logger,
-            m_data.magickPath,
-            moa,
-            m_runner,
-            "convert",
-            "-monitor",                                      // for convert_output_analizer
-            location,
-            output);
+    const QString output = System::getUniqueFileName(m_storage, "jpeg");
+    const cv::Mat cvmat = cv::imread(location.toStdString());
+    cv::imwrite(output.toStdString(), cvmat);
 
     emit finished(output);
 }

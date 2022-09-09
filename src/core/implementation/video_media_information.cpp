@@ -21,6 +21,8 @@
 #include <cassert>
 
 #include <QVariant>
+#include <QMediaPlayer>
+#include <QEventLoop>
 
 #include "constants.hpp"
 #include "iconfiguration.hpp"
@@ -45,6 +47,15 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
     FileInformation info;
     info.common.dimension = videoDetailsReader.resolutionOf();
     info.common.creationTime = videoDetailsReader.creationTime();
+
+    QMediaPlayer player;
+    player.setSource(QUrl::fromLocalFile(path));
+
+    QEventLoop eventLoop;
+    QObject::connect(&player, &QMediaPlayer::mediaStatusChanged, &eventLoop, &QEventLoop::exit);
+    eventLoop.exec();
+
+    info.details = VideoFile{.duration = std::chrono::milliseconds(player.duration()) };
 
     return info;
 }

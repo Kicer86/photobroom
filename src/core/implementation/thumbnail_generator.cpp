@@ -19,18 +19,22 @@
 #include "thumbnail_generator.hpp"
 
 #include <QElapsedTimer>
+#include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
+#include <QMediaPlayer>
 #include <QProcess>
+#include <QVideoFrame>
+#include <QVideoSink>
 
 #include <system/system.hpp>
 #include "constants.hpp"
-#include "exiftool_video_details_reader.hpp"
 #include "iconfiguration.hpp"
 #include "iexif_reader.hpp"
 #include "ilogger.hpp"
 #include "image_tools.hpp"
 #include "media_types.hpp"
+#include "video_media_information.hpp"
 
 
 ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IConfiguration* config):
@@ -93,7 +97,7 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
 }
 
 
-QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString& exiftool, const QString& ffmpeg) const
+QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 {
     const QFileInfo pathInfo(path);
 
@@ -102,32 +106,48 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path, const QString
     if (pathInfo.exists())
     {
         const QString absolute_path = pathInfo.absoluteFilePath();
-        const auto output = ExiftoolUtils::exiftoolOutput(exiftool, absolute_path);
-        const auto entries = ExiftoolUtils::parseOutput(output);
-        const ExiftoolVideoDetailsReader videoDetailsReader(entries);
-        const std::optional<int> seconds = videoDetailsReader.durationOf();
+        const VideoMediaInformation videoMediaInfo(*m_configuration);
+        const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
+        const auto videoInfo = std::get<VideoFile>(fileInfo.details);
+        const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
 
-        if (seconds)
+        if (milliseconds > 0)
         {
-            auto tmpDir = System::createTmpDir("FromVideoTask", System::Confidential);
-            const QString thumbnail_path = System::getUniqueFileName(tmpDir->path(), "jpeg");
+            QVideoSink videoSink;
+            QMediaPlayer player;
 
-            QProcess ffmpeg_process4thumbnail;
-            const QStringList ffmpeg_thumbnail_args =
+            // load media and wait for finish
             {
-                "-y",                                        // overwrite file created with QTemporaryFile
-                "-ss", QString::number(*seconds / 10),
-                "-i", absolute_path,
-                "-vframes", "1",
-                "-q:v", "2",
-                thumbnail_path
-            };
+                QEventLoop eventLoop;
+                QObject::connect(&player, &QMediaPlayer::mediaStatusChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
+                player.setVideoSink(&videoSink);
+                player.setSource(QUrl::fromLocalFile(path));
+                eventLoop.exec();
+            }
 
-            ffmpeg_process4thumbnail.start(ffmpeg, ffmpeg_thumbnail_args );
-            const bool status = ffmpeg_process4thumbnail.waitForFinished();
+            player.play();
 
-            if (status)
-                result = QImage(thumbnail_path);
+            // set desired position
+            if (player.isSeekable())
+            {
+                QEventLoop eventLoop;
+                QObject::connect(&player, &QMediaPlayer::positionChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
+                player.setPosition(milliseconds / 10);
+                eventLoop.exec();
+            }
+
+            // wait for frame to be ready
+            {
+                QEventLoop eventLoop;
+                QObject::connect(&videoSink, &QVideoSink::videoFrameChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
+                eventLoop.exec();
+            }
+
+            player.stop();
+
+            const auto frame = videoSink.videoFrame();
+
+            result = frame.toImage();
         }
     }
 
@@ -142,17 +162,7 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
     if (MediaTypes::isImageFile(path))
         image = readFrameFromImage(path);
     else if (MediaTypes::isVideoFile(path))
-    {
-        const QVariant ffmpegVar = m_configuration->getEntry(ExternalToolsConfigKeys::ffmpegPath);
-        const QString ffmpegPath = ffmpegVar.toString();
-        const QVariant exiftoolVar = m_configuration->getEntry(ExternalToolsConfigKeys::exiftoolPath);
-        const QString exiftoolPath = exiftoolVar.toString();
-        const QFileInfo mpegfileInfo(ffmpegPath);
-        const QFileInfo exiftoolFileInfo(exiftoolPath);
-
-        if (mpegfileInfo.isExecutable() && exiftoolFileInfo.isExecutable())
-            image = readFrameFromVideo(path, exiftoolPath, ffmpegPath);
-    }
+        image = readFrameFromVideo(path);
     else
         m_logger->error(QString("Unknown file type: %1").arg(path));
 

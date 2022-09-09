@@ -4,24 +4,24 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="75"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
         <source>Error occured during external program execution</source>
         <translation>Error occured during external program execution</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="86"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="88"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Preparing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="98"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
         <source>Stabilizing photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="151"/>
-        <source>Loading photos to be animated</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="142"/>
+        <source>Saving animated file</source>
+        <translation>Saving animated file</translation>
     </message>
 </context>
 <context>
@@ -73,27 +73,33 @@
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="211"/>
         <source>%n new photo(s) was found and added to collection.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n new photo was found and added to collection.
+</numerusform>
+            <numerusform>%n new photos were found and added to collection.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="214"/>
         <source>%n photo(s) were no longer found on disk.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n photo was no longer found on disk.
+</numerusform>
+            <numerusform>%n photos were no longer found on disk.
+</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="217"/>
         <source>%n missing photo(s) were found.
 </source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n missing photo was found.
+</numerusform>
+            <numerusform>%n missing photos were found.
+</numerusform>
         </translation>
     </message>
 </context>
@@ -254,7 +260,7 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="159"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="112"/>
         <source>Saving stabilized images</source>
         <translation type="unfinished"></translation>
     </message>
@@ -262,28 +268,20 @@ Check paths in configuration window.</source>
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="265"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="218"/>
         <source>Preparing photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GeneratorUtils::MagickOutputAnalyzer</name>
-    <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="110"/>
-        <source>Assembling final file</source>
-        <translation>Assembling final file</translation>
+        <translation type="unfinished">Preparing photos</translation>
     </message>
 </context>
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="53"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="55"/>
         <source>generating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="73"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="69"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>
@@ -686,7 +684,7 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="176"/>
         <source>Delay before restart:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -696,23 +694,18 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="145"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="131"/>
         <source>Stabilize image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="188"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="195"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="197"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="169"/>
         <source>Animation speed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="204"/>
-        <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -721,22 +714,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="232"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="211"/>
         <source>height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="291"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="270"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="315"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="294"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="351"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.ui" line="330"/>
         <source>Preview:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -757,22 +750,22 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="329"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="327"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="362"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="363"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="366"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="364"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -962,36 +955,21 @@ Error code: %1</source>
     </message>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="26"/>
-        <source>Used for creating animations (gifs) from photo series.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="44"/>
-        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="67"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="85"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="44"/>
         <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="123"/>
-        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="184"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="105"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="161"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="82"/>
         <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,8 +987,6 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="28"/>
         <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="30"/>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="32"/>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="34"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1018,7 +994,7 @@ Error code: %1</source>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="87"/>
+        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="71"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>

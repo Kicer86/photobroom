@@ -23,9 +23,11 @@
 
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QImage>
 
 #include <core/function_wrappers.hpp>
 #include <system/system.hpp>
+#include <utils/webp_generator.hpp>
 
 using std::placeholders::_1;
 
@@ -81,7 +83,7 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 {
     using GeneratorUtils::AISOutputAnalyzer;
 
-    const int photos_count = photos.size();
+    const int photos_count = static_cast<int>(photos.size());
 
     emit operation(tr("Preparing photos"));
     emit progress(0);
@@ -132,58 +134,31 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 
 QString AnimationGenerator::generateAnimation(const QStringList& photos)
 {
-    using GeneratorUtils::MagickOutputAnalyzer;
-
     // generate animation
-    const int photos_count = m_data.photos.size();
-    const double last_photo_exact_delay = (m_data.delay / 1000.0) * 100 + (1 / m_data.fps * 100);
-    const int last_photo_delay = static_cast<int>(last_photo_exact_delay);
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
     const QString last = photos.last();
-    const QString extension = format();
-    const QString location = System::getUniqueFileName(m_storage, extension);
+    const QString location = System::getUniqueFileName(m_storage, "webp");
 
-    MagickOutputAnalyzer coa(m_logger, photos_count);
-    connect(&coa, &MagickOutputAnalyzer::operation, this, &AnimationGenerator::operation);
-    connect(&coa, &MagickOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
-    connect(&coa, &MagickOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
+    emit operation(tr("Saving animated file"));
 
-    emit operation(tr("Loading photos to be animated"));
+    WebPGenerator webpgenerator;
+    webpgenerator.setDelay(std::chrono::milliseconds(static_cast<int>(1/m_data.fps * 1000)));
+    webpgenerator.setLoopDelay(std::chrono::milliseconds(static_cast<int>(m_data.delay)));
 
-    GeneratorUtils::execute(m_logger,
-            m_data.magickPath,
-            coa,
-            m_runner,
-            "convert",
-            "-monitor",                                      // for convert_output_analizer
-            "-delay", QString::number(1/m_data.fps * 100),   // convert fps to 1/100th of a second
-            all_but_last,
-            "-delay", QString::number(last_photo_delay),
-            last,
-            "+repage",                                       // [1]
-            "-auto-orient",
-            "-loop", "0",
-            location);
+    for (int i = 0; i < photos.size(); i++)
+    {
+        const auto& photoPath = photos[i];
+        const QImage image(photoPath);
+        webpgenerator.append(image);
+
+        emit progress(i * 100 / static_cast<int>(photos.size()));
+    }
+
+    const auto outputData = webpgenerator.save();
+
+    QFile outputFile(location);
+    outputFile.open(QFile::WriteOnly);
+    outputFile.write(outputData);
 
     return location;
-
-    // [1] It seems that align_image_stack may safe information about crop it applied to images.
-    //     convert uses this information(?) and generates animation with frames moved
-    //     from (0, 0) to (cropX, cropY). It results in a black border.
-    //     +repage fixes it (I don't know how does it work exactly. It just does the trick).
-    //     http://www.imagemagick.org/discourse-server/viewtopic.php?t=14556
-}
-
-
-QString AnimationGenerator::format() const
-{
-    if (m_data.format == "GIF")
-        return "gif";
-    else if (m_data.format == "MNG")
-        return "mng";
-    else                    // fallback to gif, but this should not happend
-    {
-        assert(!"unexpected format");
-        return "gif";
-    }
 }

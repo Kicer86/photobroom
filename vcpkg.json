@@ -17,7 +17,8 @@
         "features": [ "contrib" ]
     },
     "exiv2",
-    "magic-enum",
-    "jsoncpp"
+    "jsoncpp",
+    "libwebp",
+    "magic-enum"
   ]
 }

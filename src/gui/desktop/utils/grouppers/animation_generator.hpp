@@ -39,7 +39,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             QString magickPath;
             QString alignImageStackPath;
             QStringList photos;
-            QString format;
             double fps;
             double delay;
             int scale;                          // % of original size
@@ -63,7 +62,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
 
         QStringList stabilize(const QStringList &);
         QString generateAnimation(const QStringList &);
-        QString format() const;
 };
 
 

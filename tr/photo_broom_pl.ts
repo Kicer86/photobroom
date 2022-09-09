@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+75"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
         <source>Error occured during external program execution</source>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
@@ -19,9 +19,9 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+53"/>
-        <source>Loading photos to be animated</source>
-        <translation>Wczytywanie zdjęć</translation>
+        <location line="+42"/>
+        <source>Saving animated file</source>
+        <translation>Zapisywanie animacji</translation>
     </message>
 </context>
 <context>
@@ -268,7 +268,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>GeneratorUtils::AISOutputAnalyzer</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+159"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+112"/>
         <source>Saving stabilized images</source>
         <translation>Zapisywanie wyników</translation>
     </message>
@@ -282,22 +282,14 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::MagickOutputAnalyzer</name>
-    <message>
-        <location line="-155"/>
-        <source>Assembling final file</source>
-        <translation>Składanie pliku wynikowego</translation>
-    </message>
-</context>
-<context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+53"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+55"/>
         <source>generating HDR</source>
         <translation>generacja HDR</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+14"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
     </message>
@@ -717,47 +709,42 @@ Kod błędu: %1</translation>
         <translation>HDR</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+117"/>
         <source>Animation speed:</source>
         <translation>Prędkość&#xa0;animacji:</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-47"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+54"/>
         <source>Delay before restart:</source>
         <translation>Opóźnienie przed zapętleniem:</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+19"/>
         <source>ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-57"/>
         <source>Scale:</source>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-7"/>
         <source>Stabilize image</source>
         <translation>Stabilizuj obraz</translation>
     </message>
     <message>
-        <location line="+59"/>
-        <source>Format:</source>
-        <translation>Typ pliku:</translation>
-    </message>
-    <message>
-        <location line="-147"/>
+        <location line="-74"/>
         <source>Collage</source>
         <translation>Kolaż</translation>
     </message>
     <message>
-        <location line="+175"/>
+        <location line="+154"/>
         <source>height:</source>
         <translation>wysokość:</translation>
     </message>
@@ -788,7 +775,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+50"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
@@ -998,16 +985,6 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Used for creating animations (gifs) from photo series.</source>
-        <translation>Potrzeby podczas generowania animacji (gifów) z serii zdjęć.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Visit &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; for downloads.</source>
-        <translation>Odwiedź &lt;a href=&quot;https://www.imagemagick.org/&quot;&gt;https://www.imagemagick.org&lt;/a&gt; aby pobrać.</translation>
-    </message>
-    <message>
-        <location line="+23"/>
         <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
         <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
     </message>
@@ -1015,11 +992,6 @@ Kod błędu: %1</translation>
         <location line="+18"/>
         <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
         <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+38"/>
-        <source>Visit &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; for downloads.</source>
-        <translation>Odwiedź &lt;a href=&quot;https://ffmpeg.org/&quot;&gt;https://ffmpeg.org&lt;/a&gt; aby pobrać.</translation>
     </message>
     <message>
         <location line="+61"/>
@@ -1045,8 +1017,6 @@ Kod błędu: %1</translation>
     <message>
         <location line="+6"/>
         <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1054,7 +1024,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+53"/>
+        <location line="+41"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>

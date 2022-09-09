@@ -103,33 +103,6 @@ namespace GeneratorUtils
     };
 
 
-    class MagickOutputAnalyzer: public GenericAnalyzer
-    {
-            Q_OBJECT
-
-        public:
-            MagickOutputAnalyzer(ILogger* logger, int photos_count);
-
-            void processMessage(const QString &) override;
-
-        private:
-            struct Data
-            {
-                int photos_loaded = 0;
-                int photos_assembled = 0;
-
-                enum
-                {
-                    LoadingImages,
-                    BuildingImage,
-                } state = LoadingImages;
-
-            } conversion_data;
-
-            const int m_photos_count;
-    };
-
-
     class AISOutputAnalyzer: public GenericAnalyzer
     {
             Q_OBJECT

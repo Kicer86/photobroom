@@ -1,5 +1,6 @@
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS
+    Multimedia
     Quick
     QuickWidgets
 )

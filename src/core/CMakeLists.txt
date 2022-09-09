@@ -1,5 +1,5 @@
 
-find_package(Qt6              REQUIRED COMPONENTS Core Gui)
+find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 
@@ -10,7 +10,6 @@ set(CORE_SOURCES
     implementation/configuration_p.hpp
     implementation/exiftool_video_details_reader.hpp        implementation/exiftool_video_details_reader.cpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
-    implementation/ffmpeg_video_details_reader.hpp          implementation/ffmpeg_video_details_reader.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp
     implementation/init.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
@@ -90,6 +89,7 @@ target_link_libraries(core
                         PUBLIC
                             Qt::Core
                             Qt::Gui
+                            Qt::Multimedia
                         PRIVATE
                             system
                             ${CMAKE_THREAD_LIBS_INIT}

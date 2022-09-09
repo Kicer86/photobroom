@@ -22,7 +22,7 @@ namespace MediaTypes
     {
         const QMimeType mime = QMimeDatabase().mimeTypeForFile(file_path);
         const QString mimeName = mime.name();
-        const bool isAnimated = mimeName == "image/gif" || mimeName == "video/x-mng";
+        const bool isAnimated = mimeName == "image/gif" || mimeName == "video/x-mng" || mimeName == "image/webp";
 
         return isAnimated;
     }

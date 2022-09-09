@@ -126,7 +126,7 @@ TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
     EXPECT_CALL(response, result(img)).Times(1);
 
     // memory cache behavior
-    MockThumbnailsCache cache;
+    NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
     EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(1);
 
@@ -158,7 +158,7 @@ TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     MockResponse response;
     EXPECT_CALL(response, result(img)).Times(1);
 
-    MockThumbnailsCache cache;
+    NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
     EXPECT_CALL(backend, setThumbnail(id, _)).Times(0);
@@ -178,7 +178,7 @@ TEST_F(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
     QImage img(height * 2, height, QImage::Format_RGB32);
 
     MockThumbnailsGenerator generator;
-    MockThumbnailsCache cache;
+    NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
     ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
@@ -196,7 +196,7 @@ TEST_F(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
     const int height = 100;
     QImage img(height * 2, height, QImage::Format_RGB32);
 
-    MockThumbnailsCache cache;
+    NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(std::optional<QImage>{}));
     EXPECT_CALL(cache, store(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)), img)).Times(0);
 
@@ -218,7 +218,7 @@ TEST_F(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
     QImage img;                         // emulate broken image with no height
     QImage base_img(Parameters::databaseThumbnailSize, QImage::Format_RGB32);
 
-    MockThumbnailsCache cache;
+    NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, { QSize(requested_height, requested_height) })).Times(1).WillOnce(Return(std::optional<QImage>{}));
     EXPECT_CALL(cache, store(id, { QSize(requested_height, requested_height) }, img)).Times(1);
 

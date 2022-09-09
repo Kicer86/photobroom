@@ -1,5 +1,17 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
+find_package(OpenCV REQUIRED)
+
+find_package(WebP CONFIG)
+
+if(WebP_FOUND)
+    set(WEBP_LIBRARIES ${WebP_LIBRARIES})
+else()
+    find_package(PkgConfig REQUIRED)
+
+    pkg_check_modules(WEBP REQUIRED libwebpmux)
+endif()
+
 
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
@@ -48,6 +60,8 @@ set(UTILS_SOURCES
     thumbnail_manager.cpp
     variant_display.cpp
     variant_display.hpp
+    webp_generator.cpp
+    webp_generator.hpp
 )
 
 source_group(files REGULAR_EXPRESSION .*gui.* )
@@ -66,6 +80,8 @@ target_link_libraries(gui_utils
                             Qt::Svg
                             Qt::Quick
                             Qt::QuickWidgets
+                            ${WEBP_LIBRARIES}
+                            opencv_imgcodecs
 )
 
 target_include_directories(gui_utils

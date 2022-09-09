@@ -27,8 +27,6 @@ class ToolsTab : public QWidget
         ToolsTab& operator=(const ToolsTab &) = delete;
 
         QtExtChooseFile* aisPath() const;
-        QtExtChooseFile* magickPath() const;
-        QtExtChooseFile* ffmpegPath() const;
         QtExtChooseFile* exiftoolPath() const;
 
     private:
