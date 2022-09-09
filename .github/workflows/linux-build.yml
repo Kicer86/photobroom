@@ -14,6 +14,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
+        compiler:
+          - { compiler: GNU,  CC: gcc,   CXX: g++ }
+          - { compiler: LLVM, CC: clang, CXX: clang++ }
 
     steps:
     - uses: actions/checkout@v2
@@ -53,4 +56,6 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
+        cc: ${{ matrix.compiler.CC }}
+        cxx: ${{ matrix.compiler.CXX }}
         configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
