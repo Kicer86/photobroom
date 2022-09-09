@@ -1,0 +1,38 @@
+
+name: Build-MacOS
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-12]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Install system dependencies
+      run: |
+        brew install        \
+          qt6               \
+          exiv2             \
+          magic_enum        \
+          opencv            \
+          dlib
+
+    - name: Build
+      continue-on-error: true
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        build-type: Release
+        configure-options: -DBUILD_TESTING=OFF
