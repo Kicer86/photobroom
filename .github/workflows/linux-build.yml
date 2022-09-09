@@ -16,12 +16,25 @@ jobs:
         os: [ubuntu-22.04]
         compiler:
           - { compiler: GNU,  CC: gcc,   CXX: g++ }
-          - { compiler: LLVM, CC: clang, CXX: clang++ }
+          - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
 
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: true
+
+    - name: Load llvm keys
+      if: matrix.compiler.compiler == 'LLVM'
+      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+
+    - name: Update clang
+      if: matrix.compiler.compiler == 'LLVM'
+      uses: myci-actions/add-deb-repo@10
+      with:
+        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main
+        repo-name: llvm-toolchain-focal-15
+        update: false
+        install: clang-15
 
     - name: Install system dependencies
       run: |
