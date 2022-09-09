@@ -54,6 +54,7 @@ msvcrt.dll
 openblas.dll
 opencv_core4.dll
 opencv_img_hash4.dll
+opencv_imgcodecs4.dll
 opencv_imgproc4.dll
 opengl32sw.dll
 photo_broom.exe
@@ -66,6 +67,8 @@ system.dll
 updater.dll
 vcruntime140.dll
 vcruntime140_1.dll
+webp.dll
+webpmux.dll
 ws2_32.dll
 zlib1.dll
 QtMultimedia\Video.qml
