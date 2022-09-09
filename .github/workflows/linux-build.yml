@@ -64,6 +64,11 @@ jobs:
       run: |
         sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
@@ -71,4 +76,4 @@ jobs:
         build-type: Release
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
+        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
