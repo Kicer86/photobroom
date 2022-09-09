@@ -17,7 +17,7 @@
 
 
 template<typename T, int i, int Count> requires std::is_enum_v<T> && (i < Count)
-constexpr void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
+void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
 {
     constexpr const T value = magic_enum::enum_value<T>(i);
     constexpr const std::string_view fullName = magic_enum::enum_name(value);

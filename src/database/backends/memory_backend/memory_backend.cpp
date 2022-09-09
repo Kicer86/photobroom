@@ -9,6 +9,24 @@
 #include "database/project_info.hpp"
 #include "database/photo_utils.hpp"
 
+namespace Database
+{
+    struct MemoryBackend::DB
+    {
+        std::map<Photo::Id, Flags> m_flags;
+        std::map<Group::Id, GroupData> m_groups;
+        std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
+        std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
+        std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+        std::vector<LogEntry> m_logEntries;
+        std::map<Photo::Id, QByteArray> m_thumbnails;
+
+        int m_nextPhotoId = 0;
+        int m_nextPersonName = 0;
+        int m_nextGroup = 0;
+        int m_nextPersonInfo = 0;
+    };
+}
 
 namespace
 {
@@ -122,24 +140,6 @@ namespace Database
                 NotificationsAccumulator& m_notifications;
         };
     }
-
-
-    struct MemoryBackend::DB
-    {
-        std::map<Photo::Id, Flags> m_flags;
-        std::map<Group::Id, GroupData> m_groups;
-        std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
-        std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
-        std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
-        std::vector<LogEntry> m_logEntries;
-        std::map<Photo::Id, QByteArray> m_thumbnails;
-
-        int m_nextPhotoId = 0;
-        int m_nextPersonName = 0;
-        int m_nextGroup = 0;
-        int m_nextPersonInfo = 0;
-    };
-
 
     struct MemoryBackend::Impl
     {
