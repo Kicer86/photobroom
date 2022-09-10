@@ -3,10 +3,10 @@
 #define ANALYZER_FILESYSTEM_SCANNER_HPP
 
 #include <vector>
+#include <QStringList>
 
 #include "photos_crawler_export.h"
 
-class QString;
 
 struct PHOTOS_CRAWLER_EXPORT IFileNotifier
 {
@@ -21,7 +21,7 @@ struct PHOTOS_CRAWLER_EXPORT IFileSystemScanner
 {
     virtual ~IFileSystemScanner();
 
-    virtual void getFilesFor(const QString &, IFileNotifier *) = 0;
+    virtual void getFilesFor(const QStringList &, IFileNotifier *) = 0;
     virtual void stop() = 0;
 };
 

@@ -40,7 +40,7 @@ PhotosCollector::~PhotosCollector()
 }
 
 
-void PhotosCollector::collect(const QString& path, const std::function<void(const QString &)>& callback)
+void PhotosCollector::collect(const std::function<void(const QString &)>& callback)
 {
     stop();
 
@@ -49,14 +49,12 @@ void PhotosCollector::collect(const QString& path, const std::function<void(cons
     auto analyzer = std::make_unique<FileAnalyzer>();
     auto scanner = std::make_unique<FileSystemScanner>();
 
-    const ProjectInfo& info = m_project.getProjectInfo();
-    const QString& internals = info.getInternalLocation();
-    const QStringList to_ignore { internals };
+    scanner->ignoreDirsWithFiles( { QString(Project::ignoreFileName) } );
 
-    scanner->ignorePaths(to_ignore);
-
+    const auto& prjInfo = m_project.getProjectInfo();
+    const QStringList pathsToScan = { prjInfo.getBaseDir(), prjInfo.getInternalLocation(ProjectInfo::InternalData::PrivateMultimedia) };
     m_crawler = std::make_unique<PhotoCrawler>(std::move(scanner), std::move(analyzer) );
-    m_crawler->crawl(path, this);
+    m_crawler->crawl(pathsToScan, this);
 }
 
 

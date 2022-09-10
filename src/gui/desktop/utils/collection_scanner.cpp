@@ -60,7 +60,7 @@ void CollectionScanner::scan()
     using namespace std::placeholders;
     auto disk_callback = std::bind(&CollectionScanner::gotDiskPhoto, this, _1);
 
-    m_collector.collect(m_project.getProjectInfo().getBaseDir(), disk_callback);
+    m_collector.collect(disk_callback);
 
     // collect photos from db
     auto db_callback = std::bind(&CollectionScanner::gotDBPhotos, this, _1, _2);
