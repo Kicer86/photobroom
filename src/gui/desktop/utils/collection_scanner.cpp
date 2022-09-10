@@ -67,14 +67,20 @@ void CollectionScanner::scan()
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
-        // collect all photos but separate missing from others
+        // collect all (but deleted) photos however separate missing from others
+        const Database::FilterNotMatchingFilter notDeleted(
+            Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,
+                                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Delete),
+                                                  Database::FilterPhotosWithGeneralFlag::Mode::Bit)
+        );
+
         const Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
                                                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Missing),
                                                                   Database::FilterPhotosWithGeneralFlag::Mode::Bit);
         const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
-        auto photos = backend.photoOperator().getPhotos(filterNotMissing);
-        auto missingPhotos = backend.photoOperator().getPhotos(filterMissing);
+        auto photos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterNotMissing} ));
+        auto missingPhotos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterMissing} ));
 
         std::vector<Photo::DataDelta> photoDeltas;
         photoDeltas.reserve(photos.size());
