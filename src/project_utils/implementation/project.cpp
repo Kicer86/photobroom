@@ -90,6 +90,8 @@ QString ProjectInfo::getInternalLocation(InternalData dataType) const
 
 ///////////////////////////////////////////////////////////////////////////////
 
+const char* Project::ignoreFileName = ".photo_broom_ignore";
+
 
 Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo):
     m_prjInfo(prjInfo),

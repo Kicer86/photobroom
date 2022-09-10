@@ -64,6 +64,8 @@ struct PROJECT_UTILS_EXPORT ProjectInfo
 class PROJECT_UTILS_EXPORT Project
 {
     public:
+        static const char* ignoreFileName;
+
         Project(std::unique_ptr<Database::IDatabase> &&, const ProjectInfo &);
         Project(const Project &) = delete;
         virtual ~Project();
@@ -83,4 +85,4 @@ class PROJECT_UTILS_EXPORT Project
         QLockFile m_lock;
 };
 
-#endif // PROJECT_HPP
+#endif

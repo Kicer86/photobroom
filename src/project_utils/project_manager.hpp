@@ -48,6 +48,8 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 
     private:
         Database::IBuilder* m_dbBuilder;
+
+        void createIgnoreFile(const ProjectInfo &) const;
 };
 
-#endif // PROJECTMANAGER_HPP
+#endif
