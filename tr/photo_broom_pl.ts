@@ -65,7 +65,7 @@
         <translation>Przeskanuj kolekcję</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+158"/>
         <source>No new photos found.</source>
         <translation>Nie znaleziono nowych zdjęć.</translation>
     </message>

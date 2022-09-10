@@ -151,6 +151,7 @@ void CollectionScanner::performAnalysis()
     if (removedPhotos.empty() == false)
         m_database.exec([removedPhotos](Database::IBackend& backend) mutable
         {
+            auto tr = backend.openTransaction();
             for(const auto& photo: removedPhotos)
             {
                 backend.setBits(photo.getId(),
@@ -163,6 +164,7 @@ void CollectionScanner::performAnalysis()
     if (restoredPhotos.empty() == false)
         m_database.exec([restoredPhotos](Database::IBackend& backend) mutable
         {
+            auto tr = backend.openTransaction();
             for(const auto& photo: restoredPhotos)
             {
                 backend.clearBits(photo.getId(),
