@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+57"/>
         <source>Scanning collection</source>
-        <translation>Przeskanuj kolekcję</translation>
+        <translation>Skanowanie kolekcji</translation>
     </message>
     <message>
         <location line="+158"/>
