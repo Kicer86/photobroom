@@ -36,14 +36,16 @@ class PHOTOS_CRAWLER_EXPORT FileSystemScanner: public IFileSystemScanner
         FileSystemScanner();
         virtual ~FileSystemScanner();
 
-        void ignorePaths(const QStringList &);
+        void ignoreDirsWithFiles(const QStringList &);
 
-        void getFilesFor(const QString &, IFileNotifier *) override;
+        void getFilesFor(const QStringList &, IFileNotifier *) override;
         void stop() override;
 
     private:
         std::atomic<bool> m_work;
-        QStringList m_ignored;
+        QStringList m_blockingFiles;
+
+        void scan(const QString &, IFileNotifier *);
 
         FileSystemScanner(const FileSystemScanner& other) = delete;
         virtual FileSystemScanner& operator=(const FileSystemScanner& other) = delete;

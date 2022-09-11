@@ -16,7 +16,7 @@ class PHOTOS_CRAWLER_EXPORT PhotoCrawler: public IPhotoCrawler
         PhotoCrawler(std::unique_ptr<IFileSystemScanner> &&, std::unique_ptr<IAnalyzer> &&);
         virtual ~PhotoCrawler();
 
-        virtual void crawl(const QString &, IMediaNotification *) override;
+        virtual void crawl(const QStringList &, IMediaNotification *) override;
         virtual void stop() override;
 
     private:

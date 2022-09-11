@@ -42,7 +42,7 @@ class PhotosCollector: public QObject, public IMediaNotification
         ~PhotosCollector();
         PhotosCollector& operator=(const PhotosCollector& other) = delete;
 
-        void collect(const QString &, const std::function<void(const QString &)> &);
+        void collect(const std::function<void(const QString &)> &);
         void stop();
 
     signals:

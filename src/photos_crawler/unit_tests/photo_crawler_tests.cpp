@@ -13,7 +13,7 @@
 
 struct FileSystemMock: public IFileSystemScanner
 {
-    MOCK_METHOD2(getFilesFor, void(const QString &, IFileNotifier *));
+    MOCK_METHOD2(getFilesFor, void(const QStringList &, IFileNotifier *));
     MOCK_METHOD0(stop, void());
 };
 

@@ -72,6 +72,8 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
     prjFile.setValue("name", prjName);
     prjFile.endGroup();
 
+    createIgnoreFile(prjInfo);
+
     return prjInfo;
 }
 
@@ -114,6 +116,9 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 
             openFuture.wait();          // here we wait for result. If called from main thread, gui will be frozen until db gets open
             db_status = openFuture.get();
+
+            createIgnoreFile(prjInfo);
+
         }
         else
         {
@@ -141,4 +146,12 @@ ProjectManager::OpenStatus ProjectManager::open(const QString& prjPath)
     }
 
     return status;
+}
+
+
+void ProjectManager::createIgnoreFile(const ProjectInfo& prjInfo) const
+{
+    const QDir baseDir(prjInfo.getInternalLocation());
+    QFile ignore(baseDir.absoluteFilePath(Project::ignoreFileName));
+    ignore.open(QFile::WriteOnly);
 }

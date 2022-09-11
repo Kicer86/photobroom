@@ -60,21 +60,27 @@ void CollectionScanner::scan()
     using namespace std::placeholders;
     auto disk_callback = std::bind(&CollectionScanner::gotDiskPhoto, this, _1);
 
-    m_collector.collect(m_project.getProjectInfo().getBaseDir(), disk_callback);
+    m_collector.collect(disk_callback);
 
     // collect photos from db
     auto db_callback = std::bind(&CollectionScanner::gotDBPhotos, this, _1, _2);
 
     m_database.exec([db_callback](Database::IBackend& backend)
     {
-        // collect all photos but separate missing from others
+        // collect all (but deleted) photos however separate missing from others
+        const Database::FilterNotMatchingFilter notDeleted(
+            Database::FilterPhotosWithGeneralFlag(Database::CommonGeneralFlags::State,
+                                                  static_cast<int>(Database::CommonGeneralFlags::StateType::Delete),
+                                                  Database::FilterPhotosWithGeneralFlag::Mode::Bit)
+        );
+
         const Database::FilterPhotosWithGeneralFlag filterMissing(Database::CommonGeneralFlags::State,
                                                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Missing),
                                                                   Database::FilterPhotosWithGeneralFlag::Mode::Bit);
         const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
-        auto photos = backend.photoOperator().getPhotos(filterNotMissing);
-        auto missingPhotos = backend.photoOperator().getPhotos(filterMissing);
+        auto photos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterNotMissing} ));
+        auto missingPhotos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterMissing} ));
 
         std::vector<Photo::DataDelta> photoDeltas;
         photoDeltas.reserve(photos.size());
@@ -145,6 +151,7 @@ void CollectionScanner::performAnalysis()
     if (removedPhotos.empty() == false)
         m_database.exec([removedPhotos](Database::IBackend& backend) mutable
         {
+            auto tr = backend.openTransaction();
             for(const auto& photo: removedPhotos)
             {
                 backend.setBits(photo.getId(),
@@ -157,6 +164,7 @@ void CollectionScanner::performAnalysis()
     if (restoredPhotos.empty() == false)
         m_database.exec([restoredPhotos](Database::IBackend& backend) mutable
         {
+            auto tr = backend.openTransaction();
             for(const auto& photo: restoredPhotos)
             {
                 backend.clearBits(photo.getId(),

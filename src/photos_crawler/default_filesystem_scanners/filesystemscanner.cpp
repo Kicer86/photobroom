@@ -24,32 +24,18 @@
 #include <QDirIterator>
 
 
-void FileSystemScanner::ignorePaths(const QStringList& to_ignore)
+void FileSystemScanner::ignoreDirsWithFiles(const QStringList& toIgnore)
 {
-    m_ignored = to_ignore;
+    m_blockingFiles = toIgnore;
 }
 
 
-void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* notifier)
+void FileSystemScanner::getFilesFor(const QStringList& paths, IFileNotifier* notifier)
 {
     m_work = true;
 
-    QDirIterator dirIt(dir_path,
-                       QStringList(),
-                       QDir::NoDotAndDotDot | QDir::Files,
-                       QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
-
-    while (m_work && dirIt.hasNext())
-    {
-        const QString entry = dirIt.next();
-        const bool is_fine = std::none_of(m_ignored.begin(), m_ignored.end(), [&entry](const QString& ignored)
-        {
-            return entry.contains(ignored);
-        });
-
-        if (is_fine)
-            notifier->found(entry);
-    }
+    for (const auto& path: paths)
+        scan(path, notifier);
 
     notifier->finished();
 }
@@ -58,6 +44,33 @@ void FileSystemScanner::getFilesFor(const QString& dir_path, IFileNotifier* noti
 void FileSystemScanner::stop()
 {
     m_work = false;
+}
+
+
+void FileSystemScanner::scan(const QString& dir_path, IFileNotifier* notifier)
+{
+    // check if path contains file which prevents analysis:
+    for(const QString& blockingFile: m_blockingFiles)
+        if (QFile::exists(dir_path + "/" + blockingFile))
+            return;
+
+    QDirIterator dirIt(
+        dir_path,
+        QStringList(),
+        QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs,
+        QDirIterator::FollowSymlinks
+    );
+
+    while (m_work && dirIt.hasNext())
+    {
+        const QString entry = dirIt.next();
+        const QFileInfo entryInfo(entry);
+
+        if (entryInfo.isDir())
+            scan(entry, notifier);
+        else
+            notifier->found(entry);
+    }
 }
 
 

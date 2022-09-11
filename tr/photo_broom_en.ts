@@ -65,12 +65,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="207"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="215"/>
         <source>No new photos found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="211"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="219"/>
         <source>%n new photo(s) was found and added to collection.
 </source>
         <translation>
@@ -81,7 +81,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="214"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="222"/>
         <source>%n photo(s) were no longer found on disk.
 </source>
         <translation>
@@ -92,7 +92,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="217"/>
+        <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="225"/>
         <source>%n missing photo(s) were found.
 </source>
         <translation>

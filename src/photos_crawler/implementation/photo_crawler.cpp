@@ -59,11 +59,11 @@ struct PhotoCrawler::Impl
     std::unique_ptr<IAnalyzer> m_analyzer;
     std::thread m_thread;
 
-    void run(const QString& path, IMediaNotification* notifications)
+    void run(const QStringList& paths, IMediaNotification* notifications)
     {
         releaseThread();
 
-        m_thread = std::thread(&Impl::thread, this, path, notifications );
+        m_thread = std::thread(&Impl::thread, this, paths, notifications );
     }
 
     void releaseThread()
@@ -75,11 +75,11 @@ struct PhotoCrawler::Impl
     }
 
     //thread function
-    void thread(const QString& path, IMediaNotification* notifications)
+    void thread(const QStringList& paths, IMediaNotification* notifications)
     {
         FileNotifier notifier(m_analyzer.get(), notifications);
 
-        m_scanner->getFilesFor(path, &notifier);
+        m_scanner->getFilesFor(paths, &notifier);
     }
 };
 
@@ -97,9 +97,9 @@ PhotoCrawler::~PhotoCrawler()
 }
 
 
-void PhotoCrawler::crawl(const QString& path, IMediaNotification* notifications)
+void PhotoCrawler::crawl(const QStringList& paths, IMediaNotification* notifications)
 {
-    m_impl->run(path, notifications);
+    m_impl->run(paths, notifications);
 }
 
 

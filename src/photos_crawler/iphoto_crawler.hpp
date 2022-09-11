@@ -3,10 +3,9 @@
 #define ANALYZER_IPHOTO_CRAWLER_HPP
 
 #include <vector>
+#include <QStringList>
 
 #include "photos_crawler_export.h"
-
-class QString;
 
 
 struct PHOTOS_CRAWLER_EXPORT IMediaNotification
@@ -21,8 +20,8 @@ struct PHOTOS_CRAWLER_EXPORT IPhotoCrawler
 {
     virtual ~IPhotoCrawler() = default;
 
-    virtual void crawl(const QString &, IMediaNotification *) = 0;   // find media files for given path. Notify about each result
-    virtual void stop() = 0;                                         // stop crawling
+    virtual void crawl(const QStringList &, IMediaNotification *) = 0;   // find media files for given paths. Notify about each result
+    virtual void stop() = 0;                                             // stop crawling
 };
 
 #endif
