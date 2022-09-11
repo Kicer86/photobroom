@@ -19,14 +19,14 @@
 #include "thumbnails_cache.hpp"
 
 
-uint qHash(const IThumbnailsCache::ThumbnailParameters& params)
+size_t qHash(const IThumbnailsCache::ThumbnailParameters& params)
 {
     const QSize& size = std::get<0>(params);
 
     return qHash(size.width()) ^ qHash(size.height());
 }
 
-uint qHash(const std::tuple<Photo::Id, IThumbnailsCache::ThumbnailParameters>& key)
+size_t qHash(const std::tuple<Photo::Id, IThumbnailsCache::ThumbnailParameters>& key)
 {
     const Photo::Id& id = std::get<0>(key);
     const IThumbnailsCache::ThumbnailParameters& params = std::get<1>(key);
