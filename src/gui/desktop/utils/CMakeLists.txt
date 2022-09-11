@@ -2,7 +2,7 @@
 find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
 find_package(OpenCV REQUIRED)
 
-find_package(WebP CONFIG)
+find_package(WebP CONFIG QUIET)
 
 if(WebP_FOUND)
     set(WEBP_LIBRARIES ${WebP_LIBRARIES})
