@@ -36,7 +36,6 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
         struct Data
         {
             QString storage;
-            QString magickPath;
             QString alignImageStackPath;
             QStringList photos;
             double fps;
@@ -44,7 +43,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
             int scale;                          // % of original size
             bool stabilize;
 
-            Data(): storage(), magickPath(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(100), stabilize(false) {}
+            Data(): storage(), alignImageStackPath(), photos(), fps(0.0), delay(0.0), scale(100), stabilize(false) {}
         };
 
         AnimationGenerator(const Data& data, ILogger *, IExifReaderFactory &);

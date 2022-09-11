@@ -290,7 +290,6 @@ void PhotosGroupingDialog::makeAnimation()
 
     generator_data.storage = m_tmpDir->path();
     generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
-    generator_data.magickPath = m_config.getEntry(ExternalToolsConfigKeys::magickPath).toString();
     generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
