@@ -206,7 +206,7 @@ namespace
                     std::array<std::byte, DataSize> rawPHash;
                     std::memcpy(rawPHash.data(), phashMat.datastart, DataSize);
 
-                    Photo::PHash phash(rawPHash);
+                    Photo::PHashT phash(rawPHash);
                     m_photoInfo->lock()->insert<Photo::Field::PHash>(phash);
                 }
             }

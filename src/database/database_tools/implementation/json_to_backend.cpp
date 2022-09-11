@@ -99,7 +99,7 @@ namespace Database
                 delta.insert<Photo::Field::Path>(it.value().toString());
             else if (it.key() == "phash")
             {
-                const Photo::PHash phash(it.value().toString().toULongLong(&ok, 16));
+                const Photo::PHashT phash(it.value().toString().toULongLong(&ok, 16));
                 delta.insert<Photo::Field::PHash>(phash);
             }
             else if (it.key() == "id")

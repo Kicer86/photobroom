@@ -691,7 +691,7 @@ namespace Database
     }
 
 
-    void MemoryBackend::setPHash(const Photo::Id& id, const Photo::PHash& phash)
+    void MemoryBackend::setPHash(const Photo::Id& id, const Photo::PHashT& phash)
     {
         auto it = m_db->m_photos.find(id);
 
@@ -705,11 +705,11 @@ namespace Database
     }
 
 
-    std::optional<Photo::PHash> MemoryBackend::getPHash(const Photo::Id& id)
+    std::optional<Photo::PHashT> MemoryBackend::getPHash(const Photo::Id& id)
     {
         auto it = m_db->m_photos.find(id);
 
-        std::optional<Photo::PHash> result;
+        std::optional<Photo::PHashT> result;
 
         if (it != m_db->m_photos.end() && it->phash.valid())
             result = it->phash;

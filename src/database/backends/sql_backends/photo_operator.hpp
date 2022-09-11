@@ -46,8 +46,8 @@ namespace Database
 
             std::vector<Photo::Id> getPhotos(const Filter &) override final;
 
-            void setPHash(const Photo::Id &, const Photo::PHash & ) override;
-            std::optional<Photo::PHash> getPHash(const Photo::Id &) override;
+            void setPHash(const Photo::Id &, const Photo::PHashT & ) override;
+            std::optional<Photo::PHashT> getPHash(const Photo::Id &) override;
             bool hasPHash(const Photo::Id &) override;
 
         private:

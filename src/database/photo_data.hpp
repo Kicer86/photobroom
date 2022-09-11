@@ -47,7 +47,7 @@ namespace Photo
         QString              path;
         QSize                geometry;
         GroupInfo            groupInfo;
-        Photo::PHash         phash;
+        Photo::PHashT         phash;
 
         Data() = default;
         Data(const Data &) = default;

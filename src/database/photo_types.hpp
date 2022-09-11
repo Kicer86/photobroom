@@ -45,7 +45,7 @@ namespace Photo
     };
 
     struct phash_tag;
-    using PHash = ::Id<qlonglong, phash_tag>;
+    using PHashT = ::Id<qlonglong, phash_tag>;
 }
 
 Q_DECLARE_METATYPE(Photo::Id)

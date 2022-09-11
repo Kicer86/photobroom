@@ -76,7 +76,7 @@ TEST(DataDeltaTest, DataDiff)
     oldData.groupInfo = GroupInfo(Group::Id(5), GroupInfo::Member);
     oldData.path = "1234";
     oldData.tags[Tag::Types::Event] = QString("tttr");
-    oldData.phash = Photo::PHash(0x1234567890123456LL);
+    oldData.phash = Photo::PHashT(0x1234567890123456LL);
 
     Photo::Data newData1(oldData);
     newData1.flags[Photo::FlagsE::StagingArea] = 1;
@@ -85,7 +85,7 @@ TEST(DataDeltaTest, DataDiff)
     newData1.groupInfo = GroupInfo(Group::Id(6), GroupInfo::Member);
     newData1.path = "12345";
     newData1.tags[Tag::Types::Event] = QString("tttrq");
-    oldData.phash = Photo::PHash(0xabcdef0011223344LL);
+    oldData.phash = Photo::PHashT(0xabcdef0011223344LL);
 
     Photo::Data newData2(oldData);
 
