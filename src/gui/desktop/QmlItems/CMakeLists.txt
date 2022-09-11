@@ -39,7 +39,7 @@ target_link_libraries(qml_items
         Qt::Quick
 )
 
-if(${Qt6Quick_VERSION} VERSION_GREATER "6.3.1")     # TODO: in Qt 6.3.0 there is an error: 'qtquickglobal_p.h': No such file or directory
+if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.4")     # TODO: in Qt 6.3 there is an error: 'qtquickglobal_p.h': No such file or directory
     qt6_target_compile_qml_to_cpp(qml_items
         QML_FILES ${QML_SOURCES}
     )
