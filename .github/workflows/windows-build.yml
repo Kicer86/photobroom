@@ -43,6 +43,11 @@ jobs:
     - name: disable debug build for vcpkg
       run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
 
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.2
       with:
@@ -53,6 +58,7 @@ jobs:
       with:
         configurePreset: 'ninja_release_vcpkg'
         buildPreset: 'Ninja Release'
+        configure-options: -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
