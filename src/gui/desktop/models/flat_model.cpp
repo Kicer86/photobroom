@@ -277,11 +277,13 @@ void FlatModel::invalidatePhotos(const std::set<Photo::Id>& ids)
     for(const auto& range: rangesToBeInvalidated)
         emit dataChanged(indexForRow(range.first), indexForRow(range.second));
 
-    // Some of the photos which changed were not matching model's filters.
-    // Maybe they do now? Update model.
-    // TODO: currently all photos are bing refetched, try to be smarter and only fetch invalidated photos.
     if (rowsToBeInvalidated.size() != ids.size())
+    {
+        // Some of the photos which changed were not matching model's filters.
+        // Maybe they do now? Update model.
+        // TODO: currently all photos are being refetched, try to be smarter and only fetch invalidated photos.
         updatePhotos();
+    }
 }
 
 
