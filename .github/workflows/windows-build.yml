@@ -58,7 +58,6 @@ jobs:
       with:
         configurePreset: 'ninja_release_vcpkg'
         buildPreset: 'Ninja Release'
-        configure-options: -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
