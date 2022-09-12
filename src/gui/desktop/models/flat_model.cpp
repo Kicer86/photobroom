@@ -120,13 +120,13 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
-const Database::Filter & FlatModel::filter() const
+const Database::Filter& FlatModel::filter() const
 {
     return m_filters;
 }
 
 
-Database::IDatabase * FlatModel::database() const
+Database::IDatabase* FlatModel::database() const
 {
     return m_db;
 }

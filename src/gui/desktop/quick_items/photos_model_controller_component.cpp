@@ -37,7 +37,6 @@ namespace
 
 PhotosModelControllerComponent::PhotosModelControllerComponent(QObject* p)
     : QObject(p)
-    , m_newPhotosOnly(false)
     , m_model(new FlatModel(this))
     , m_db(nullptr)
     , m_completerFactory(nullptr)
@@ -146,12 +145,6 @@ QString PhotosModelControllerComponent::searchExpression() const
 }
 
 
-bool PhotosModelControllerComponent::newPhotosOnly() const
-{
-    return m_newPhotosOnly;
-}
-
-
 int PhotosModelControllerComponent::category() const
 {
     if (m_categoryFilter.isEmpty())
@@ -202,14 +195,6 @@ void PhotosModelControllerComponent::setSearchExpression(const QString& expressi
 
     if (differ)
         m_searchLauncher.start(1s);
-}
-
-
-void PhotosModelControllerComponent::setNewPhotosOnly(bool v)
-{
-    m_newPhotosOnly = v;
-
-    updateModelFilters();
 }
 
 
@@ -314,11 +299,9 @@ Database::Filter PhotosModelControllerComponent::allFilters() const
     if (expression.empty() == false)
         filters_for_model.push_back( Database::FilterPhotosMatchingExpression(expression) );
 
-    if (m_newPhotosOnly)
-    {
-        const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 1} };
-        filters_for_model.push_back( Database::FilterPhotosWithFlags(flags) );
-    }
+    // do not show phots not fully loaded
+    const std::map flags = { std::pair{Photo::FlagsE::StagingArea, 0} };
+    filters_for_model.push_back( Database::FilterPhotosWithFlags(flags) );
 
     if (m_categoryFilter.isEmpty() == false)
     {

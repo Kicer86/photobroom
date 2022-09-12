@@ -14,7 +14,6 @@ Item {
     property alias timeRange: timeRange
     property alias ratingSlider: ratingSlider
     property alias categoryComboBox: categoryComboBox
-    property bool newPhotosOnly: newPhotosSwitch.checked
 
     property var controller
 
@@ -81,21 +80,6 @@ Item {
         id: row1
         spacing: 2
         anchors.top: row.bottom
-
-        Switch {
-            id: newPhotosSwitch
-            text: qsTr("")
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Text {
-            text: qsTr("New photos only")
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        ToolSeparator {
-            id: toolSeparator
-        }
 
         Text {
             id: categoriesText

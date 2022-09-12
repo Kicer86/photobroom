@@ -46,7 +46,6 @@ class PhotosModelControllerComponent: public QObject
         Q_PROPERTY(unsigned int timeViewFrom READ timeViewFrom WRITE setTimeViewFrom)
         Q_PROPERTY(unsigned int timeViewTo READ timeViewTo WRITE setTimeViewTo)
         Q_PROPERTY(QString searchExpression READ searchExpression WRITE setSearchExpression)
-        Q_PROPERTY(bool newPhotosOnly READ newPhotosOnly WRITE setNewPhotosOnly)
         Q_PROPERTY(int category READ category WRITE setCategory)
         Q_PROPERTY(float ratingFrom READ ratingFrom WRITE setRankFrom)
         Q_PROPERTY(float ratingTo READ ratingTo WRITE setRankTo)
@@ -70,7 +69,6 @@ class PhotosModelControllerComponent: public QObject
         unsigned int timeViewFrom() const;
         unsigned int timeViewTo() const;
         QString searchExpression() const;
-        bool newPhotosOnly() const;
         int category() const;
         float ratingFrom() const;
         float ratingTo() const;
@@ -79,7 +77,6 @@ class PhotosModelControllerComponent: public QObject
         void setTimeViewFrom(unsigned int);
         void setTimeViewTo(unsigned int);
         void setSearchExpression(const QString &);
-        void setNewPhotosOnly(bool);
         void setCategory(int);
         void setRankFrom(float);
         void setRankTo(float);
@@ -102,7 +99,6 @@ class PhotosModelControllerComponent: public QObject
         QString m_categoryFilter;
         int m_ratingFrom = 0;
         int m_ratingTo = 10;
-        bool m_newPhotosOnly;
         //
 
         FlatModel* m_model;
