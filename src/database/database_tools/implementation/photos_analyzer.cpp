@@ -63,8 +63,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     flagsFilter.mode = Database::LogicalOp::Or;
 
     // only normal photos
-    const Database::FilterPhotosWithGeneralFlag generalFlagsFilter(Database::CommonGeneralFlags::State,
-                                                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Normal));
+    const auto generalFlagsFilter = Database::getValidPhotosFilter();
 
     const Database::GroupFilter noExifOrGeometryFilter = {flagsFilter, generalFlagsFilter};
 
