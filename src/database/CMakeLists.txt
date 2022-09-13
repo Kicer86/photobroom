@@ -16,6 +16,7 @@ set(DATABASE_SOURCES
     aphoto_change_log_operator.hpp
     database_builder.hpp
     database_executor_traits.hpp
+    database_queue.hpp
     database_status.hpp
     filter.hpp
     general_flags.hpp
@@ -44,6 +45,7 @@ set(DATABASE_SOURCES
     implementation/async_database.cpp
     implementation/async_database.hpp
     implementation/database_builder.cpp
+    implementation/database_queue.cpp
     implementation/filter.cpp
     implementation/notifications_accumulator.cpp
     implementation/person_data.cpp
