@@ -80,7 +80,7 @@ TEST_F(ThumbnailManagerTest, constructs)
     {
         MockThumbnailsGenerator generator;
         MockThumbnailsCache cache;
-        ThumbnailManager(&executor, generator, cache, std::make_unique<EmptyLogger>());
+        ThumbnailManager(executor, generator, cache, std::make_unique<EmptyLogger>());
     });
 }
 
@@ -109,7 +109,7 @@ TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenOneWasNotFoundInCache)
         .WillRepeatedly(Return(img));
 
     NullCache cache;
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
@@ -143,7 +143,7 @@ TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
     // database behavior (thumbnail storage)
     EXPECT_CALL(backend, setThumbnail(id, _)).Times(1);
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
@@ -165,7 +165,7 @@ TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
 
     MockThumbnailsGenerator generator;
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     tm.fetch(id, QSize(height, height), [&response](const QImage& _img){response(_img);});  // mock cannot be used here directly
 }
@@ -181,7 +181,7 @@ TEST_F(ThumbnailManagerTest, returnImageImmediatelyWhenInCache)
     NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     const std::optional fetchedImg = tm.fetch(id, QSize(height, height));
 
@@ -203,7 +203,7 @@ TEST_F(ThumbnailManagerTest, returnEmptyResultWhenNotInCache)
     MockThumbnailsGenerator generator;
     EXPECT_CALL(generator, generate(_, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(0);
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     const std::optional fetchedImg = tm.fetch(id, QSize(height, height));
 
@@ -229,7 +229,7 @@ TEST_F(ThumbnailManagerTest, cacheThumbnailUnderRequestedHeight)
     MockResponse response;
     EXPECT_CALL(response, result(img)).Times(1);
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     tm.fetch(id, QSize(requested_height, requested_height), [&response](const QImage& _img){response(_img);});
 }
@@ -241,7 +241,7 @@ TEST_F(ThumbnailManagerTest, cacheClearOnDbChange)
     MockThumbnailsCache cache;
     EXPECT_CALL(cache, clear()).Times(2);
 
-    ThumbnailManager tm(&executor, generator, cache, std::make_unique<EmptyLogger>());
+    ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
     tm.setDatabaseCache(&db);
 }

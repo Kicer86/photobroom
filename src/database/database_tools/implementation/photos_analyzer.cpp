@@ -35,7 +35,7 @@ using namespace std::placeholders;
 using namespace PhotosAnalyzerConsts;
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
-    m_taskQueue(&coreFactory->getTaskExecutor()),
+    m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
     m_updater(m_taskQueue, m_mediaInformation, coreFactory, database),
     m_updateQueue(1000, 5s, std::bind(&PhotosAnalyzerImpl::flushQueue, this, _1, _2)),

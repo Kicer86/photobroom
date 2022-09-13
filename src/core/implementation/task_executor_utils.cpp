@@ -49,22 +49,16 @@ void WorkState::throwIfAbort()
 
 struct TasksQueue::IntTask final: ITaskExecutor::ITask
 {
-    IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, TasksQueue* queue):
+    IntTask(std::unique_ptr<ITaskExecutor::ITask>&& callable, const Notifier& notifier):
         m_task(std::move(callable)),
-        m_queue(queue)
+        m_notifier(notifier)
     {
-    }
 
-    void notify()
-    {
-        // tell TasksQueue job is done
-        m_queue->task_finished();
     }
 
     void perform() override
     {
-        m_task->perform();         // client's code
-        notify();                  // internal jobs
+        m_task->perform();
     }
 
     std::string name() const override
@@ -73,63 +67,16 @@ struct TasksQueue::IntTask final: ITaskExecutor::ITask
     }
 
     std::unique_ptr<ITaskExecutor::ITask> m_task;
-    TasksQueue* m_queue;
+    std::shared_ptr<void> m_notifier;
 };
 
 
 
-TasksQueue::TasksQueue(ITaskExecutor* executor, Mode mode):
-    m_tasksMutex(),
-    m_waitingTasks(),
-    m_tasksExecutor(executor),
-    m_maxTasks(executor->heavyWorkers() + 2),
-    m_executingTasks(0),
-    m_mode(mode)
+TasksQueue::TasksQueue(ITaskExecutor& executor, Mode mode)
+    : Queue(executor.heavyWorkers() * 3 / 2, mode)
+    , m_executor(executor)
 {
 
-}
-
-
-TasksQueue::~TasksQueue()
-{
-    clear();  // drop all tasks awaiting
-
-    waitForPendingTasks();
-}
-
-
-void TasksQueue::push(std::unique_ptr<ITaskExecutor::ITask>&& callable)
-{
-    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
-
-    auto task = std::make_unique<IntTask>(std::move(callable), this);
-    m_waitingTasks.push_back(std::move(task));
-
-    try_to_fire();
-}
-
-
-void TasksQueue::clear()
-{
-    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
-    m_waitingTasks.clear();
-}
-
-
-std::size_t TasksQueue::size() const
-{
-    return m_waitingTasks.size();
-}
-
-
-void TasksQueue::waitForPendingTasks()
-{
-    // wait for tasks being executed
-    std::unique_lock<std::recursive_mutex> lock(m_tasksMutex);
-    m_noWork.wait(lock, [this]
-    {
-        return m_executingTasks == 0;
-    });
 }
 
 
@@ -141,54 +88,19 @@ void TasksQueue::add(std::unique_ptr<ITask>&& task)
 
 void TasksQueue::addLight(std::unique_ptr<ITask>&& task)
 {
-    m_tasksExecutor->addLight(std::move(task));
+    m_executor.addLight(std::move(task));
 }
 
 
 int TasksQueue::heavyWorkers() const
 {
-    return m_tasksExecutor->heavyWorkers();
+    return m_executor.heavyWorkers();
 }
 
 
-void TasksQueue::try_to_fire()
+void TasksQueue::passTaskToExecutor(std::unique_ptr<ITask>&& task, const Notifier& notifier)
 {
-    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
-
-    // Do not put all waiting tasks to executor.
-    while (m_maxTasks > m_executingTasks && m_waitingTasks.empty() == false)
-    {
-        fire();
-    }
-}
-
-
-void TasksQueue::fire()
-{
-    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
-    assert(m_waitingTasks.empty() == false);
-
-    auto task = m_mode == Mode::Fifo? take_front(m_waitingTasks): take_back(m_waitingTasks);
-
-    m_executingTasks++;
-    m_tasksExecutor->add(std::move(task));
-}
-
-
-void TasksQueue::task_finished()
-{
-    // It is possible that in this function TasksQueue::fire() will be on stack
-    // of current thread (if m_tasksExecutor->add(std::move(task)); executes task immediately)
-    // That's why we need recursive mutex here
-    std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
-
-    assert(m_executingTasks > 0);
-    m_executingTasks--;
-
-    if (m_executingTasks == 0)
-        m_noWork.notify_one();
-
-    try_to_fire();
+    m_executor.add(std::make_unique<IntTask>(std::move(task), notifier));
 }
 
 

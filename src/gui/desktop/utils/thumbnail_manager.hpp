@@ -40,7 +40,7 @@ struct IThumbnailsCache;
 class ThumbnailManager: public IThumbnailsManager
 {
     public:
-        explicit ThumbnailManager(ITaskExecutor *, IThumbnailsGenerator &, IThumbnailsCache &, std::unique_ptr<ILogger>, Database::IDatabase * = nullptr);
+        explicit ThumbnailManager(ITaskExecutor &, IThumbnailsGenerator &, IThumbnailsCache &, std::unique_ptr<ILogger>, Database::IDatabase * = nullptr);
         ~ThumbnailManager();
 
         void fetch(const Photo::Id& id, const QSize& desired_size, const std::function<void(const QImage &)> &) override;
