@@ -21,7 +21,7 @@ namespace Database::CommonGeneralFlags
     enum class PHashStateType
     {
         Normal        = 0,                      // 0 (or nonexistent entry) - photo is in fine state
-        Incomaptible  = 1,                      // 1 - could not generate phash. Not an image file.
+        Incompatible  = 1,                      // 1 - could not generate phash. Not an image file.
     };
 }
 

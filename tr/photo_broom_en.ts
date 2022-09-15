@@ -641,14 +641,9 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="119"/>
-        <source>Loading photos needing update</source>
-        <translation>Loading photos needing update</translation>
-    </message>
-    <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="227"/>
-        <source>Extracting data from photos</source>
-        <translation>Extracting data from photos</translation>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="300"/>
+        <source>Extracting data from new photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

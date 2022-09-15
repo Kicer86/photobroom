@@ -17,10 +17,11 @@
  *
  */
 
+#include <opencv2/img_hash.hpp>
+
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/itask_executor.hpp>
-#include <core/slicer.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/general_flags.hpp>
 #include <database/database_executor_traits.hpp>
@@ -34,16 +35,167 @@ using namespace std::chrono_literals;
 using namespace std::placeholders;
 using namespace PhotosAnalyzerConsts;
 
+
+namespace
+{
+    void assignGeometry(IMediaInformation& mediaInfo, Photo::DataDelta& data)
+    {
+        const QString path = data.get<Photo::Field::Path>();
+        const auto info = mediaInfo.getInformation(path);
+
+        if (info.common.dimension.has_value())
+        {
+            data.insert<Photo::Field::Geometry>(info.common.dimension.value());
+            data.get<Photo::Field::Flags>()[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
+        }
+        else
+            throw std::make_pair(Database::CommonGeneralFlags::State, static_cast<int>(Database::CommonGeneralFlags::StateType::Broken));
+    }
+
+    void assignTags(IMediaInformation& mediaInfo, Photo::DataDelta& data)
+    {
+        auto& tags = data.get<Photo::Field::Tags>();
+        const auto path = data.get<Photo::Field::Path>();
+
+        // If media already has date or time update, do not override it.
+        // Just update ExifLoaded flag. It could be set to previous version, so bump it
+        if (tags.contains(Tag::Types::Date) || tags.contains(Tag::Types::Time))
+        {
+            data.get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+            return;
+        }
+
+        // collect data
+        const FileInformation info = mediaInfo.getInformation(path);
+
+        if (info.common.creationTime.has_value())
+        {
+            tags[Tag::Types::Date] = info.common.creationTime->date();
+            tags[Tag::Types::Time] = info.common.creationTime->time();
+        }
+
+        data.get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+    }
+
+    void assignPHash(Photo::DataDelta& data)
+    {
+        // based on:
+        // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
+
+        const QString path = data.get<Photo::Field::Path>();
+
+        // NOTE: cv::imread could be used here, however it would be better to have a unique mechanism
+        // of reading images, so if an image can be displayed in gui, then we also know how to
+        // read and phash it here.
+        QImage image(path);
+
+        if (image.isNull())
+            throw std::make_pair(Database::CommonGeneralFlags::PHashState, static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incompatible));
+        else
+        {
+            if (image.format() != QImage::Format_ARGB32)
+                image = image.convertToFormat(QImage::Format_ARGB32);
+
+            const cv::Mat cvImage(
+                image.height(),
+                image.width(),
+                CV_8UC4,
+                image.bits(),
+                static_cast<std::size_t>(image.bytesPerLine())
+            );
+
+            cv::Mat phashMat;
+            cv::img_hash::pHash(cvImage, phashMat);
+
+            constexpr int DataSize = 8;
+            assert( phashMat.rows == 1);
+            assert( phashMat.cols == DataSize);
+
+            const auto count = phashMat.dataend - phashMat.datastart;
+
+            if (count == DataSize)
+            {
+                std::array<std::byte, DataSize> rawPHash;
+                std::memcpy(rawPHash.data(), phashMat.datastart, DataSize);
+
+                Photo::PHashT phash(rawPHash);
+                data.insert<Photo::Field::PHash>(phash);
+            }
+        }
+    }
+
+    struct UpdatePhoto: ITaskExecutor::ITask
+    {
+        UpdatePhoto(Database::IDatabase& db, const Photo::Id& id, IMediaInformation& mediaInfo)
+            : m_db(db)
+            , m_mediaInfo(mediaInfo)
+            , m_id(id)
+        {
+
+        }
+
+        void perform() override
+        {
+            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(m_db, [this](Database::IBackend& backend)
+            {
+                return backend.getPhotoDelta(m_id);
+            });
+
+            std::vector<std::tuple<Photo::Id, QString, int>> bitsToSet;
+
+            if (data.get<Photo::Field::Flags>().at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
+                try
+                {
+                    assignGeometry(m_mediaInfo, data);
+                }
+                catch(const std::pair<QString, int>& bits)
+                {
+                    bitsToSet.push_back(std::make_tuple(m_id, bits.first, bits.second));
+                }
+
+            if (data.get<Photo::Field::Flags>().at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
+                assignTags(m_mediaInfo, data);
+
+            if (data.has(Photo::Field::PHash) == false)
+                try
+                {
+                    assignPHash(data);
+                }
+                catch(const std::pair<QString, int>& bits)
+                {
+                    bitsToSet.push_back(std::make_tuple(m_id, bits.first, bits.second));
+                }
+
+            data.get<Photo::Field::Flags>()[Photo::FlagsE::StagingArea] = 0;
+
+            m_db.exec([data, bitsToSet](Database::IBackend& backend)
+            {
+                backend.update({data});
+
+                if (bitsToSet.empty() == false)
+                    for(const auto& bits: bitsToSet)
+                        backend.setBits(std::get<0>(bits), std::get<1>(bits), std::get<2>(bits));
+            });
+        }
+
+        std::string name() const override
+        {
+            return "Update new photo data";
+        }
+
+        Database::IDatabase& m_db;
+        IMediaInformation& m_mediaInfo;
+        const Photo::Id m_id;
+    };
+}
+
+
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
-    m_updater(m_taskQueue, m_mediaInformation, coreFactory, database),
-    m_updateQueue(1000, 5s, std::bind(&PhotosAnalyzerImpl::flushQueue, this, _1, _2)),
     m_database(database),
     m_tasksView(nullptr),
-    m_viewTask(nullptr),
-    m_totalTasks(0),
-    m_doneTasks(0)
+    m_viewTask(nullptr)
 {
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
@@ -53,13 +205,18 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     geometryFilter.comparison[Photo::FlagsE::GeometryLoaded] = Database::ComparisonOp::Less;
     geometryFilter.flags[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
 
-    // ExifLoaded < 1
+    // ExifLoaded < 2
     Database::FilterPhotosWithFlags exifFilter;
     exifFilter.comparison[Photo::FlagsE::ExifLoaded] = Database::ComparisonOp::Less;
     exifFilter.flags[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
 
+    // Staging Area == 1
+    Database::FilterPhotosWithFlags stagingAreaFilter;
+    stagingAreaFilter.comparison[Photo::FlagsE::StagingArea] = Database::ComparisonOp::Equal;
+    stagingAreaFilter.flags[Photo::FlagsE::StagingArea] = StagingAreaSet;
+
     // group flag filters
-    Database::GroupFilter flagsFilter = {geometryFilter, exifFilter};
+    Database::GroupFilter flagsFilter = {geometryFilter, exifFilter, stagingAreaFilter};
     flagsFilter.mode = Database::LogicalOp::Or;
 
     // only normal photos
@@ -72,13 +229,15 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     Database::FilterNotMatchingFilter noPhashFilter(phashFilter);
 
     // photos with phash_state == 0 (Normal) flag
-    Database::FilterPhotosWithGeneralFlag phashGeneralFlagFilter(Database::CommonGeneralFlags::PHashState,
-                                                                 static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Normal));
+    Database::FilterPhotosWithGeneralFlag phashGeneralFlagFilter(
+        Database::CommonGeneralFlags::PHashState,
+        static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Normal)
+    );
 
     // group phash filters
     const Database::GroupFilter noPhashFilterGroup = { noPhashFilter, phashGeneralFlagFilter };
 
-    // bind all fitlers together
+    // bind all filters together
     Database::GroupFilter filters = {noExifOrGeometryFilter, noPhashFilterGroup};
     filters.mode = Database::LogicalOp::Or;
 
@@ -96,6 +255,21 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     },
     "PhotosAnalyzerImpl: fetching nonanalyzed photos"
     );
+
+    // setup progress bar
+    connect(&m_taskQueue, &ObservableExecutor::awaitingTasksChanged, this, [this](int awaiting)
+    {
+        if (m_viewTask)
+        {
+            m_viewTask->getProgressBar()->setValue(m_maxPhotos - awaiting);
+
+            if (awaiting == 0)
+            {
+                m_viewTask->finished();
+                m_viewTask = nullptr;
+            }
+        }
+    });
 }
 
 
@@ -116,97 +290,21 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    IViewTask* loadTask = m_tasksView->add(tr("Loading photos needing update"));
+    for(const auto& id: ids)
+        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_database, id, m_mediaInformation));
 
-    runOn(m_taskQueue, [this, ids, loadTask]()
+    if (m_viewTask == nullptr)
     {
-        const auto count = ids.size();
+        m_maxPhotos = static_cast<int>(ids.size());
 
-        try
-        {
-            int progress = 0;
-            loadTask->getProgressBar()->setMinimum(0);
-            loadTask->getProgressBar()->setMaximum(static_cast<int>(count));
-
-            slice(ids.begin(), ids.end(), 200, [this, loadTask, &progress](auto first, auto last)
-            {
-                const std::vector<Photo::DataDelta> photoData =
-                    evaluate<std::vector<Photo::DataDelta>(Database::IBackend &)>(m_database, [first, last](Database::IBackend& backend)
-                {
-                    std::vector<Photo::DataDelta> photos;
-                    photos.reserve(static_cast<unsigned>(last - first));
-
-                    std::transform(first, last, std::back_inserter(photos), [&backend](const Photo::Id& id) mutable
-                    {
-                        return backend.getPhotoDelta(id, {Photo::Field::Flags, Photo::Field::Path, Photo::Field::Tags});
-                    });
-
-                    return photos;
-                });
-
-                invokeMethod(this, &PhotosAnalyzerImpl::updatePhotos, photoData);
-                progress += last - first;
-
-                loadTask->getProgressBar()->setValue(progress);
-
-                m_workState.throwIfAbort();
-            });
-        }
-        catch(const abort_exception &)
-        {
-
-        }
-
-        loadTask->finished();
-    },
-    "PhotosAnalyzerImpl: fetching photo details"
-    );
-}
-
-
-void PhotosAnalyzerImpl::updatePhotos(const std::vector<Photo::DataDelta>& photos)
-{
-    for(const auto& photo: photos)
-    {
-        auto storage = make_cross_thread_function<Photo::SafeDataDelta *>(this, std::bind(&PhotosAnalyzerImpl::photoUpdated, this, _1));
-        Photo::SharedDataDelta sharedDataDelta(new Photo::SafeDataDelta(photo), storage);
-        m_totalTasks++;
-
-        if (photo.get<Photo::Field::Flags>().at(Photo::FlagsE::GeometryLoaded) < GeometryFlagVersion)
-            m_updater.updateGeometry(sharedDataDelta);
-
-        if (photo.get<Photo::Field::Flags>().at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
-            m_updater.updateTags(sharedDataDelta);
-
-        if (photo.has(Photo::Field::PHash) == false)
-            m_updater.updatePHash(sharedDataDelta);
+        m_viewTask = m_tasksView->add(tr("Extracting data from new photos"));
     }
+    else
+        m_maxPhotos += static_cast<int>(ids.size());
 
-    refreshView();
-}
-
-
-void PhotosAnalyzerImpl::photoUpdated(Photo::SafeDataDelta* safeData)
-{
-    const auto delta = *safeData->lock();
-
-    m_updateQueue.push(delta);
-    m_doneTasks++;
-
-    refreshView();
-
-    delete safeData;
-}
-
-
-void PhotosAnalyzerImpl::flushQueue(PhotosQueue::ContainerIt first, PhotosQueue::ContainerIt last)
-{
-    std::vector<Photo::DataDelta> toFlush(first, last);
-
-    m_database.exec([toFlush](Database::IBackend& backend)
-    {
-        backend.update(toFlush);
-    });
+    auto* progress = m_viewTask->getProgressBar();
+    progress->setMaximum(m_maxPhotos);
+    progress->setMinimum(0);
 }
 
 
@@ -214,37 +312,7 @@ void PhotosAnalyzerImpl::stop()
 {
     disconnect(m_backendConnection);
     m_taskQueue.clear();
-    m_workState.abort();
     m_taskQueue.waitForPendingTasks();
-}
-
-
-void PhotosAnalyzerImpl::setupRefresher()
-{
-    const auto work = m_totalTasks - m_doneTasks;
-
-    if (work > 0 && m_viewTask == nullptr)         //there are tasks but no view task
-        m_viewTask = m_tasksView->add(tr("Extracting data from photos"));
-    else if (work == 0 && m_viewTask != nullptr)
-    {
-        m_viewTask->finished();
-        m_viewTask = nullptr;
-        m_totalTasks = 0;
-        m_doneTasks = 0;
-    }
-}
-
-
-void PhotosAnalyzerImpl::refreshView()
-{
-    setupRefresher();
-
-    if (m_viewTask != nullptr)
-    {
-        IProgressBar* progressBar = m_viewTask->getProgressBar();
-        progressBar->setMaximum(m_totalTasks);
-        progressBar->setValue(m_doneTasks);
-    }
 }
 
 

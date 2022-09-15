@@ -66,8 +66,6 @@ set(DATABASE_SOURCES
     database_tools/implementation/data_from_path_extractor.hpp
     database_tools/implementation/id_to_data_converter.cpp
     database_tools/implementation/json_to_backend.cpp
-    database_tools/implementation/photo_info_updater.cpp
-    database_tools/implementation/photo_info_updater.hpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/photos_analyzer_constants.hpp
     database_tools/implementation/photos_data_guesser.cpp
