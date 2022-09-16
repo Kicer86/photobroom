@@ -298,7 +298,7 @@ class Queue
 class CORE_EXPORT TasksQueue: public ITaskExecutor, public Queue<std::unique_ptr<ITaskExecutor::ITask>>
 {
     public:
-        TasksQueue(ITaskExecutor &, Mode = Mode::Fifo);
+        explicit TasksQueue(ITaskExecutor &, Mode = Mode::Fifo);
         ~TasksQueue() = default;
 
         // ITaskExecutor overrides:

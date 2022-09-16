@@ -19,7 +19,7 @@ namespace Database
     class DatabaseQueue
     {
     public:
-        DatabaseQueue(Database::IDatabase &);
+        explicit DatabaseQueue(Database::IDatabase &);
         ~DatabaseQueue();
 
         void flush();
