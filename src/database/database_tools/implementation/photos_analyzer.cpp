@@ -126,10 +126,12 @@ namespace
 
     struct UpdatePhoto: ITaskExecutor::ITask
     {
-        UpdatePhoto(Database::IDatabase& db, const Photo::Id& id, IMediaInformation& mediaInfo)
+        UpdatePhoto(Database::IDatabase& db, Database::DatabaseQueue& storage, const Photo::Id& id, IMediaInformation& mediaInfo, const std::shared_ptr<void>& captain)
             : m_db(db)
+            , m_storage(storage)
             , m_mediaInfo(mediaInfo)
             , m_id(id)
+            , m_captain(captain)
         {
 
         }
@@ -168,7 +170,7 @@ namespace
 
             data.get<Photo::Field::Flags>()[Photo::FlagsE::StagingArea] = 0;
 
-            m_db.exec([data, bitsToSet](Database::IBackend& backend)
+            m_storage.push([data, bitsToSet](Database::IBackend& backend)
             {
                 backend.update({data});
 
@@ -184,8 +186,10 @@ namespace
         }
 
         Database::IDatabase& m_db;
+        Database::DatabaseQueue& m_storage;
         IMediaInformation& m_mediaInfo;
         const Photo::Id m_id;
+        const std::shared_ptr<void> m_captain;
     };
 }
 
@@ -193,6 +197,7 @@ namespace
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
+    m_storageQueue(database),
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr)
@@ -260,15 +265,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     connect(&m_taskQueue, &ObservableExecutor::awaitingTasksChanged, this, [this](int awaiting)
     {
         if (m_viewTask)
-        {
             m_viewTask->getProgressBar()->setValue(m_maxPhotos - awaiting);
-
-            if (awaiting == 0)
-            {
-                m_viewTask->finished();
-                m_viewTask = nullptr;
-            }
-        }
     });
 }
 
@@ -290,21 +287,34 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    for(const auto& id: ids)
-        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_database, id, m_mediaInformation));
+    std::shared_ptr<void> captain = m_tasksCaptain.lock();
 
-    if (m_viewTask == nullptr)
+    if (captain == nullptr)
     {
         m_maxPhotos = static_cast<int>(ids.size());
 
+        assert(m_viewTask == nullptr);
         m_viewTask = m_tasksView->add(tr("Extracting data from new photos"));
+
+        captain = std::shared_ptr<void>(nullptr, [this](void *)
+        {
+            m_viewTask->finished();
+            m_viewTask = nullptr;
+            m_storageQueue.flush();
+        });
     }
     else
+    {
+        assert(m_viewTask != nullptr);
         m_maxPhotos += static_cast<int>(ids.size());
+    }
 
     auto* progress = m_viewTask->getProgressBar();
     progress->setMaximum(m_maxPhotos);
     progress->setMinimum(0);
+
+    for(const auto& id: ids)
+        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_database, m_storageQueue, id, m_mediaInformation, captain));
 }
 
 
