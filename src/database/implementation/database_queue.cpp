@@ -1,22 +1,48 @@
 
 #include "database_queue.hpp"
 
+using namespace std::placeholders;
+
 namespace Database
 {
 
     DatabaseQueue::DatabaseQueue(Database::IDatabase& db)
-        : Queue(1, Mode::Fifo)
+        : m_queue(1000, std::bind(&DatabaseQueue::flushQueue, this, _1))
         , m_db(db)
     {
 
     }
 
 
-    void DatabaseQueue::passTaskToExecutor(std::function<void(Database::IBackend &)>&& task, const Notifier& notifier)
+    DatabaseQueue::~DatabaseQueue()
     {
-        m_db.exec([task, notifier](Database::IBackend& backend)
+        flush();
+    }
+
+
+    void DatabaseQueue::flush()
+    {
+        m_queue.lock()->flush();
+    }
+
+
+
+    void DatabaseQueue::push(std::function<void(Database::IBackend &)> task)
+    {
+        m_queue.lock()->push(std::move(task));
+    }
+
+
+    void DatabaseQueue::flushQueue(Queue::Container&& tasks)
+    {
+        qDebug() << "Flushing queue of " << tasks.size() << " tasks";
+
+        m_db.exec([dbTasks = std::move(tasks)](Database::IBackend& backend)
         {
-            task(backend);
+            auto _ = backend.openTransaction();
+
+            for (auto& task: dbTasks)
+                task(backend);
         });
     }
 
