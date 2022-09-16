@@ -314,9 +314,11 @@ const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
 //TODO: consider grouping queries
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
-
-    m_db->exec(b);
+    if (m_db)
+    {
+        auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
+        m_db->exec(b);
+    }
 }
 
 
