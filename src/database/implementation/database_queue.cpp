@@ -35,8 +35,6 @@ namespace Database
 
     void DatabaseQueue::flushQueue(Queue::Container&& tasks)
     {
-        qDebug() << "Flushing queue of " << tasks.size() << " tasks";
-
         m_db.exec([dbTasks = std::move(tasks)](Database::IBackend& backend)
         {
             auto _ = backend.openTransaction();
