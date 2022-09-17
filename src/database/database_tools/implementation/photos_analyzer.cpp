@@ -125,18 +125,17 @@ namespace
 
     struct UpdatePhoto: ITaskExecutor::ITask
     {
-        UpdatePhoto(Database::DatabaseQueue& storage, const Photo::Id& id, IMediaInformation& mediaInfo, const std::shared_ptr<void>& captain)
+        UpdatePhoto(const std::shared_ptr<Database::DatabaseQueue>& storage, const Photo::Id& id, IMediaInformation& mediaInfo)
             : m_storage(storage)
-            , m_mediaInfo(mediaInfo)
             , m_id(id)
-            , m_captain(captain)
+            , m_mediaInfo(mediaInfo)
         {
 
         }
 
         void perform() override
         {
-            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(m_storage, [this](Database::IBackend& backend)
+            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(*m_storage, [this](Database::IBackend& backend)
             {
                 return backend.getPhotoDelta(m_id);
             });
@@ -168,7 +167,7 @@ namespace
 
             data.get<Photo::Field::Flags>()[Photo::FlagsE::StagingArea] = 0;
 
-            m_storage.pushPackibleTask([data, bitsToSet](Database::IBackend& backend)
+            m_storage->pushPackibleTask([data, bitsToSet](Database::IBackend& backend)
             {
                 backend.update({data});
 
@@ -183,10 +182,9 @@ namespace
             return "Update new photo data";
         }
 
-        Database::DatabaseQueue& m_storage;
-        IMediaInformation& m_mediaInfo;
+        const std::shared_ptr<Database::DatabaseQueue> m_storage;
         const Photo::Id m_id;
-        const std::shared_ptr<void> m_captain;
+        IMediaInformation& m_mediaInfo;
     };
 }
 
@@ -194,7 +192,6 @@ namespace
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
-    m_storageQueue(database),
     m_database(database),
     m_tasksView(nullptr),
     m_viewTask(nullptr)
@@ -258,7 +255,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     "PhotosAnalyzerImpl: fetching nonanalyzed photos"
     );
 
-    // setup progress bar
+    // update progress bar
     connect(&m_taskQueue, &ObservableExecutor::awaitingTasksChanged, this, [this](int awaiting)
     {
         if (m_viewTask)
@@ -269,10 +266,8 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
 
 PhotosAnalyzerImpl::~PhotosAnalyzerImpl()
 {
+    finishProgressBar();
     stop();
-
-    if (m_viewTask)
-        m_viewTask->finished();
 }
 
 
@@ -284,20 +279,33 @@ void PhotosAnalyzerImpl::set(ITasksView* tasksView)
 
 void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
 {
-    std::shared_ptr<void> captain = m_tasksCaptain.lock();
+    std::shared_ptr<Database::DatabaseQueue> storage = m_storageQueue.lock();
 
-    if (captain == nullptr)
+    if (storage == nullptr)
     {
         m_maxPhotos = static_cast<int>(ids.size());
 
         assert(m_viewTask == nullptr);
         m_viewTask = m_tasksView->add(tr("Extracting data from new photos"));
 
-        captain = std::shared_ptr<void>(nullptr, [this](void *)
+        std::unique_lock storageLock(m_storageMutex);   // mark storage as being used so PhotosAnalyzerImpl::stop() will wait for its deletion
+
+        // Construct DatabaseQueue as a shared pointer used to be passed to all tasks.
+        // When last task is done, custom destructor below will do all necessary cleanups.
+        storage = std::shared_ptr<Database::DatabaseQueue>(
+            new Database::DatabaseQueue(m_database),
+            [this, _ = std::move(storageLock)](Database::DatabaseQueue* queue)
         {
-            m_viewTask->finished();
-            m_viewTask = nullptr;
-            m_storageQueue.flush();
+            // This lambda may be called from ~PhotosAnalyzerImpl as a result of stop().
+            // What needs to be done immediately is to flush queue from all pending database task.
+            // This is done by simply deleting queue which takes care of its tasks.
+            //
+            // Here we also delete progress view, but that needs to be postponed to main thread.
+            // If called from ~PhotosAnalyzerImpl, then view should be already cleaned.
+            delete queue;
+
+            if (m_viewTask)
+                QMetaObject::invokeMethod(this, &PhotosAnalyzerImpl::finishProgressBar);
         });
     }
     else
@@ -311,7 +319,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
     progress->setMinimum(0);
 
     for(const auto& id: ids)
-        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_storageQueue, id, m_mediaInformation, captain));
+        m_taskQueue.add(std::make_unique<UpdatePhoto>(storage, id, m_mediaInformation));
 }
 
 
@@ -320,7 +328,21 @@ void PhotosAnalyzerImpl::stop()
     disconnect(m_backendConnection);
     m_taskQueue.clear();
     m_taskQueue.waitForPendingTasks();
+
+    // make sure storage is unlocked
+    std::lock_guard _(m_storageMutex);
 }
+
+
+void PhotosAnalyzerImpl::finishProgressBar()
+{
+    if (m_viewTask)
+    {
+        m_viewTask->finished();
+        m_viewTask = nullptr;
+    }
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

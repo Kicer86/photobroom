@@ -51,14 +51,15 @@ class PhotosAnalyzerImpl: public QObject
         ObservableTaskExecutor<TasksQueue> m_taskQueue;
         MediaInformation m_mediaInformation;
         QMetaObject::Connection m_backendConnection;
-        Database::DatabaseQueue m_storageQueue;
-        std::weak_ptr<void> m_tasksCaptain;
+        std::weak_ptr<Database::DatabaseQueue> m_storageQueue;
+        std::mutex m_storageMutex;
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxPhotos;
 
         void addPhotos(const std::vector<Photo::Id> &);
+        void finishProgressBar();
 };
 
 #endif
