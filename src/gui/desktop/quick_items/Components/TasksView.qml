@@ -1,5 +1,6 @@
 
 import QtQuick
+import QtQuick.Controls
 
 ListView {
     implicitHeight: contentHeight
@@ -18,7 +19,13 @@ ListView {
         property string _progress: _steps == 0? "": (Math.round(value / _steps * 100) + "% ")
         property string _details: value + "/" + _steps
 
-        Text { text: '<b>' + name + ':</b> ' + _progress + "(" + _details + ")"  }
+        Row {
+            height: busy.height
+
+            Text { id: title; anchors.verticalCenter: parent.verticalCenter;  text: '<b>' + name + ':</b>&nbsp;' }
+            Text { visible: _steps > 0; anchors.verticalCenter: parent.verticalCenter; text: _progress + "(" + _details + ")"  }
+            BusyIndicator { id: busy; running: _steps === 0; height: title.height * 1.5; anchors.verticalCenter: parent.verticalCenter }
+        }
     }
 
     displaced: Transition {
