@@ -54,11 +54,10 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     - name: Build
-      uses: lukka/run-cmake@v10
       shell: bash
-      with:
-        configurePreset: 'ninja_release_vcpkg'
-        buildPreset: 'Ninja Release'
+      run: |
+        cmake --preset "ninja_release_vcpkg"
+        cmake --build --preset "Ninja Release"
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
