@@ -40,7 +40,7 @@ namespace
         for(const PersonFingerprint& fingerprint: faces)
             avg_face += fingerprint.fingerprint();
 
-        avg_face /= faces.size();
+        avg_face /= static_cast<double>(faces.size());
 
         return avg_face;
     }

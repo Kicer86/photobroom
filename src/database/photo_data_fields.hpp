@@ -22,7 +22,7 @@ namespace Photo
     template<> struct DeltaTypes<Field::Path>      { using Storage = QString;           };
     template<> struct DeltaTypes<Field::Geometry>  { using Storage = QSize;             };
     template<> struct DeltaTypes<Field::GroupInfo> { using Storage = GroupInfo;         };
-    template<> struct DeltaTypes<Field::PHash>     { using Storage = Photo::PHash;      };
+    template<> struct DeltaTypes<Field::PHash>     { using Storage = Photo::PHashT;      };
 }
 
 #endif

@@ -120,13 +120,13 @@ const std::vector<Photo::Id>& FlatModel::photos() const
 }
 
 
-const Database::Filter & FlatModel::filter() const
+const Database::Filter& FlatModel::filter() const
 {
     return m_filters;
 }
 
 
-Database::IDatabase * FlatModel::database() const
+Database::IDatabase* FlatModel::database() const
 {
     return m_db;
 }
@@ -277,11 +277,13 @@ void FlatModel::invalidatePhotos(const std::set<Photo::Id>& ids)
     for(const auto& range: rangesToBeInvalidated)
         emit dataChanged(indexForRow(range.first), indexForRow(range.second));
 
-    // Some of the photos which changed were not matching model's filters.
-    // Maybe they do now? Update model.
-    // TODO: currently all photos are bing refetched, try to be smarter and only fetch invalidated photos.
     if (rowsToBeInvalidated.size() != ids.size())
+    {
+        // Some of the photos which changed were not matching model's filters.
+        // Maybe they do now? Update model.
+        // TODO: currently all photos are being refetched, try to be smarter and only fetch invalidated photos.
         updatePhotos();
+    }
 }
 
 
@@ -312,9 +314,11 @@ const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
 //TODO: consider grouping queries
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
-
-    m_db->exec(b);
+    if (m_db)
+    {
+        auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
+        m_db->exec(b);
+    }
 }
 
 

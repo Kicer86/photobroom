@@ -240,7 +240,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+59"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+58"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -250,12 +250,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Więcej opcji</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>New photos only</source>
-        <translation>Tylko nowe zdjęcia</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Category:</source>
         <translation>Kategoria:</translation>
     </message>
@@ -676,14 +671,9 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+120"/>
-        <source>Loading photos needing update</source>
-        <translation>Wczytywanie zdjęć wymagających aktualizacji</translation>
-    </message>
-    <message>
-        <location line="+108"/>
-        <source>Extracting data from photos</source>
-        <translation>Wydobywanie informacji ze zdjęć</translation>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+289"/>
+        <source>Extracting data from new photos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -803,22 +793,9 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosModelControllerComponent</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/photos_model_controller_component.cpp" line="+101"/>
+        <location filename="../src/gui/desktop/quick_items/photos_model_controller_component.cpp" line="+100"/>
         <source>All</source>
         <translation>Wszystkie</translation>
-    </message>
-</context>
-<context>
-    <name>PhotosView</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+179"/>
-        <source>Click &apos;Accept&apos; button to mark &lt;b&gt;all&lt;/b&gt; new photos as reviewed.</source>
-        <translation>Wciśnij przycisk &apos;Akceptuj&apos; aby oznaczyć &lt;b&gt;wszystkie&lt;/b&gt; nowe zdjęcia jako przejrzane.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Accept</source>
-        <translation>Akceptuj</translation>
     </message>
 </context>
 <context>

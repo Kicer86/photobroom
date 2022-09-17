@@ -23,8 +23,8 @@ namespace Database
         virtual std::vector<Photo::Id> getPhotos(const Filter &) = 0;
 
         // phash operations
-        virtual void setPHash(const Photo::Id &, const Photo::PHash &) = 0;
-        virtual std::optional<Photo::PHash> getPHash(const Photo::Id &) = 0;
+        virtual void setPHash(const Photo::Id &, const Photo::PHashT &) = 0;
+        virtual std::optional<Photo::PHashT> getPHash(const Photo::Id &) = 0;
         virtual bool hasPHash(const Photo::Id &) = 0;
     };
 }

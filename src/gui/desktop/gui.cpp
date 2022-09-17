@@ -122,7 +122,7 @@ void Gui::run()
     auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
     ThumbnailsCache thumbnailsCache;
     ThumbnailGenerator thumbnailGenerator(thumbnail_generator_logger.get(), &configuration);
-    ThumbnailManager thbMgr(&m_coreFactory.getTaskExecutor(), thumbnailGenerator, thumbnailsCache, loggerFactory.get("ThumbnailManager"));
+    ThumbnailManager thbMgr(m_coreFactory.getTaskExecutor(), thumbnailGenerator, thumbnailsCache, loggerFactory.get("ThumbnailManager"));
 
     FeaturesManager guiFeatures(configuration, gui_logger);
 

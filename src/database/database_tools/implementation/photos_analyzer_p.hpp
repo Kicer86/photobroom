@@ -21,20 +21,16 @@
 #define PHOTOSANALYZER_PRIVATE_HPP
 
 
-#include <thread>
-#include <condition_variable>
-#include <mutex>
-
 #include <QObject>
 
 #include <core/accumulative_queue.hpp>
 #include <core/itasks_view.hpp>
 #include <core/iview_task.hpp>
+#include <core/media_information.hpp>
 #include <core/observable_task_executor.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/idatabase.hpp>
-
-#include "photo_info_updater.hpp"
+#include <database/database_queue.hpp>
 
 
 class PhotosAnalyzerImpl: public QObject
@@ -52,27 +48,18 @@ class PhotosAnalyzerImpl: public QObject
         void stop();
 
     private:
-        using PhotosQueue = AccumulativeQueue<Photo::DataDelta>;
-
         ObservableTaskExecutor<TasksQueue> m_taskQueue;
         MediaInformation m_mediaInformation;
-        PhotoInfoUpdater m_updater;
-        PhotosQueue m_updateQueue;
-        WorkState m_workState;
         QMetaObject::Connection m_backendConnection;
+        std::weak_ptr<Database::DatabaseQueue> m_storageQueue;
+        std::mutex m_storageMutex;
         Database::IDatabase& m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
-        std::size_t m_totalTasks;
-        std::size_t m_doneTasks;
+        int m_maxPhotos;
 
-        void setupRefresher();
-        void refreshView();
         void addPhotos(const std::vector<Photo::Id> &);
-        void updatePhotos(const std::vector<Photo::DataDelta> &);
-        void photoUpdated(Photo::SafeDataDelta *);
-        void flushQueue(PhotosQueue::ContainerIt, PhotosQueue::ContainerIt);
+        void finishProgressBar();
 };
 
-#endif // PHOTOSANALYZER_PRIVATE_HPP
-
+#endif

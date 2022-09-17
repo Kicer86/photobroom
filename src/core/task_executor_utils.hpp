@@ -51,6 +51,7 @@ class CORE_EXPORT WorkState
 // Helper function.
 // Run a task and wait for it to be finished.
 template<typename R, typename E, typename T>
+[[nodiscard]]
 auto evaluate(E& executor, const T& task)
 {
     typedef std::packaged_task<R> PTask;
@@ -154,17 +155,17 @@ QFuture<R> runOn(ITaskExecutor& executor, Callable&& callable, const std::string
 
 
 /**
- * @brief A subqueue for ITaskExecutor.
+ * @brief Base class for all kind of executor queues
  *
- * Purpose of this class is to have a queue of tasks to be executed by executor
+ * Purpose of this class is to have a base queue of tasks to be executed by any executor
  * but controled by client (can be cleaned)
  *
  * @see clear
  */
-class CORE_EXPORT TasksQueue: public ITaskExecutor
+template<typename Task>
+class Queue
 {
     public:
-
         /// Determines queue behavior
         enum class Mode
         {
@@ -172,33 +173,135 @@ class CORE_EXPORT TasksQueue: public ITaskExecutor
             Lifo,               ///< Execute tasks in reversed order of insertion. Last inserted will be first to execute.
         };
 
-        TasksQueue(ITaskExecutor *, Mode = Mode::Fifo);
-        ~TasksQueue();
+        Queue(int maxTasks, Mode mode = Mode::Fifo)
+            : m_maxTasks(maxTasks)
+            , m_mode(mode)
+        {
+
+        }
+
+        ~Queue()
+        {
+            clear();  // drop all tasks awaiting
+
+            waitForPendingTasks();
+        }
 
         /**
          * @brief Insert new task to queue.
          */
-        void push(std::unique_ptr<ITaskExecutor::ITask> &&);
+        void push(Task&& task)
+        {
+            std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
+
+            m_waitingTasks.push_back(std::move(task));
+
+            try_to_fire();
+        }
 
         /**
          * @brief Remove queued items.
          *
          * Remove tasks staying in queue. Tasks already being executed are not touched.
          */
-        void clear();
+        void clear()
+        {
+            std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
+            m_waitingTasks.clear();
+        }
 
         /**
          * @returns number of items wating in queue. Tasks being executed are not counted in.
          */
-        std::size_t size() const;
+        std::size_t size() const
+        {
+            return m_waitingTasks.size();
+        }
 
         /**
          * @brief Wait for tasks being executed.
          *
          * Blocks current thread until all tasks being executed are done.
          */
-        void waitForPendingTasks();
+        void waitForPendingTasks()
+        {
+            // wait for tasks being executed
+            std::unique_lock<std::recursive_mutex> lock(m_tasksMutex);
+            m_noWork.wait(lock, [this]
+            {
+                return m_executingTasks == 0;
+            });
+        }
 
+    protected:
+        typedef std::shared_ptr<void> Notifier;
+        virtual void passTaskToExecutor(Task&& task, const Notifier &) = 0;
+
+    private:
+        std::recursive_mutex m_tasksMutex;
+        std::deque<Task> m_waitingTasks;
+        std::condition_variable_any m_noWork;
+        int m_maxTasks = 0;
+        int m_executingTasks = 0;
+        const Mode m_mode = Mode::Fifo;
+
+        void task_finished_notification(void *)
+        {
+            task_finished();
+        }
+
+        void try_to_fire()
+        {
+            std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
+
+            // Do not put all waiting tasks to executor.
+            while (m_maxTasks > m_executingTasks && m_waitingTasks.empty() == false)
+            {
+                fire();
+            }
+        }
+
+        void fire()
+        {
+            std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
+            assert(m_waitingTasks.empty() == false);
+
+            auto task = m_mode == Mode::Fifo? take_front(m_waitingTasks): take_back(m_waitingTasks);
+
+            m_executingTasks++;
+            auto notifier = Notifier(nullptr, std::bind(&Queue::task_finished_notification, this, std::placeholders::_1));
+            passTaskToExecutor(std::move(task), notifier);
+        }
+
+        void task_finished()
+        {
+            // It is possible that in this function TasksQueue::fire() will be on stack
+            // of current thread (if addTask(std::move(task), notifier); executes task immediately)
+            // That's why we need recursive mutex here
+            std::lock_guard<std::recursive_mutex> guard(m_tasksMutex);
+
+            assert(m_executingTasks > 0);
+            m_executingTasks--;
+
+            if (m_executingTasks == 0)
+                m_noWork.notify_one();
+
+            try_to_fire();
+        }
+};
+
+
+
+/**
+ * @brief A subqueue for ITaskExecutor.
+ */
+class CORE_EXPORT TasksQueue: public ITaskExecutor, public Queue<std::unique_ptr<ITaskExecutor::ITask>>
+{
+    public:
+        explicit TasksQueue(ITaskExecutor &, Mode = Mode::Fifo);
+        ~TasksQueue() = default;
+
+        // ITaskExecutor overrides:
         void add(std::unique_ptr<ITask> &&) override;
         void addLight(std::unique_ptr<ITask> &&) override;
         int heavyWorkers() const override;
@@ -207,17 +310,9 @@ class CORE_EXPORT TasksQueue: public ITaskExecutor
         friend struct IntTask;
         struct IntTask;
 
-        std::recursive_mutex m_tasksMutex;
-        std::deque<std::unique_ptr<ITaskExecutor::ITask>> m_waitingTasks;
-        std::condition_variable_any m_noWork;
-        ITaskExecutor* m_tasksExecutor;
-        int m_maxTasks;
-        int m_executingTasks;
-        const Mode m_mode;
+        ITaskExecutor& m_executor;
 
-        void try_to_fire();
-        void fire();
-        void task_finished();
+        void passTaskToExecutor(std::unique_ptr<ITask> &&, const Notifier &) override;
 };
 
 

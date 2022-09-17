@@ -22,7 +22,6 @@ Item {
 
         database: PhotoBroomProject.database
 
-        newPhotosOnly: filterId.newPhotosOnly
         category: filterId.categoryComboBox.currentIndex
         ratingFrom: filterId.ratingSlider.first.value
         ratingTo: filterId.ratingSlider.second.value
@@ -52,7 +51,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: filterId.bottom
-        anchors.bottom: infoItem.top
+        anchors.bottom: parent.bottom
 
         focus: true
         focusPolicy: Qt.StrongFocus
@@ -147,65 +146,6 @@ Item {
 
                 anchors.fill: parent
             }
-        }
-    }
-
-    Item {
-        id: infoItem
-        height: 0
-
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        clip: true
-
-        state: "hidden"
-
-        Rectangle {
-            id: infoBalloon
-
-            width: childrenRect.width
-            height: childrenRect.height
-
-            color: "CornflowerBlue"
-            radius: 5
-
-            Row {
-                spacing: 25
-
-                Text {
-                    id: infoItemText
-
-                    text: qsTr("Click 'Accept' button to mark <b>all</b> new photos as reviewed.")
-                }
-
-                Button {
-                    text: qsTr("Accept")
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    onClicked: photosModelControllerId.markNewAsReviewed()
-                }
-            }
-        }
-
-        states: [
-            State {
-                name: "hidden"
-                when: filterId.newPhotosOnly == false
-            },
-            State {
-                name: "visible"
-                when: filterId.newPhotosOnly
-
-                PropertyChanges {
-                    target: infoItem
-                    height: infoBalloon.height
-                }
-            }
-        ]
-
-        transitions: Transition {
-            PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
         }
     }
 

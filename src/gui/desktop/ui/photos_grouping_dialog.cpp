@@ -377,7 +377,7 @@ double PhotosGroupingDialog::calculateFPS() const
 
     const auto diff = back(timestamps) - front(timestamps);
 
-    return diff.count() > 0? (m_photos.size() * 1000.0 / diff.count()): 10.0;
+    return diff.count() > 0? (static_cast<double>(m_photos.size()) * 1000.0 / static_cast<double>(diff.count())): 10.0;
 }
 
 
