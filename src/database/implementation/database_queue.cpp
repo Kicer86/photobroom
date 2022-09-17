@@ -7,7 +7,7 @@ namespace Database
 {
 
     DatabaseQueue::DatabaseQueue(Database::IDatabase& db)
-        : m_queue(1000, std::bind(&DatabaseQueue::flushQueue, this, _1))
+        : m_queue(1000u, std::bind(&DatabaseQueue::flushQueue, this, _1))
         , m_db(db)
     {
 
@@ -26,8 +26,7 @@ namespace Database
     }
 
 
-
-    void DatabaseQueue::push(std::function<void(Database::IBackend &)> task)
+    void DatabaseQueue::pushPackibleTask(std::function<void(Database::IBackend &)>&& task)
     {
         m_queue.lock()->push(std::move(task));
     }

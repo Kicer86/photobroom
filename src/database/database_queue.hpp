@@ -23,7 +23,14 @@ namespace Database
         ~DatabaseQueue();
 
         void flush();
-        void push(std::function<void(Database::IBackend &)>);
+
+        template<typename C>
+        void pushTask(C&& task)                                                ///< task will be send directly to db
+        {
+            m_db.exec(std::move(task));
+        }
+
+        void pushPackibleTask(std::function<void(Database::IBackend &)> &&);   ///< task will be send to db as a pack with other tasks
 
     private:
         using Queue = AccumulativeQueue<std::function<void(Database::IBackend &)>>;
@@ -33,5 +40,16 @@ namespace Database
         Database::IDatabase& m_db;
     };
 }
+
+
+template<typename T>
+struct ExecutorTraits<Database::DatabaseQueue, T>
+{
+    static void exec(Database::DatabaseQueue& queue, T&& t)
+    {
+        queue.pushTask(std::move(t));
+    }
+};
+
 
 #endif

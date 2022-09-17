@@ -24,7 +24,6 @@
 #include <core/itask_executor.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/general_flags.hpp>
-#include <database/database_executor_traits.hpp>
 
 #include "photos_analyzer_p.hpp"
 #include "photos_analyzer_constants.hpp"
@@ -126,9 +125,8 @@ namespace
 
     struct UpdatePhoto: ITaskExecutor::ITask
     {
-        UpdatePhoto(Database::IDatabase& db, Database::DatabaseQueue& storage, const Photo::Id& id, IMediaInformation& mediaInfo, const std::shared_ptr<void>& captain)
-            : m_db(db)
-            , m_storage(storage)
+        UpdatePhoto(Database::DatabaseQueue& storage, const Photo::Id& id, IMediaInformation& mediaInfo, const std::shared_ptr<void>& captain)
+            : m_storage(storage)
             , m_mediaInfo(mediaInfo)
             , m_id(id)
             , m_captain(captain)
@@ -138,7 +136,7 @@ namespace
 
         void perform() override
         {
-            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(m_db, [this](Database::IBackend& backend)
+            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(m_storage, [this](Database::IBackend& backend)
             {
                 return backend.getPhotoDelta(m_id);
             });
@@ -170,7 +168,7 @@ namespace
 
             data.get<Photo::Field::Flags>()[Photo::FlagsE::StagingArea] = 0;
 
-            m_storage.push([data, bitsToSet](Database::IBackend& backend)
+            m_storage.pushPackibleTask([data, bitsToSet](Database::IBackend& backend)
             {
                 backend.update({data});
 
@@ -185,7 +183,6 @@ namespace
             return "Update new photo data";
         }
 
-        Database::IDatabase& m_db;
         Database::DatabaseQueue& m_storage;
         IMediaInformation& m_mediaInfo;
         const Photo::Id m_id;
@@ -314,7 +311,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
     progress->setMinimum(0);
 
     for(const auto& id: ids)
-        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_database, m_storageQueue, id, m_mediaInformation, captain));
+        m_taskQueue.add(std::make_unique<UpdatePhoto>(m_storageQueue, id, m_mediaInformation, captain));
 }
 
 
