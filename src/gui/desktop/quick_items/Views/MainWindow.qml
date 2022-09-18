@@ -77,7 +77,7 @@ ApplicationWindow {
             id: photosMenu
             title: qsTr("P&hotos")
             enabled: PhotoBroomProject.projectOpen
-            Action { text: qsTr("S&can collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
+            Action { text: qsTr("&Refresh collection..."); onTriggered: { photosMenu.dismiss(); scanCollection(); } }
         }
         Menu {
             title: qsTr("&Windows")
