@@ -330,11 +330,6 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="80"/>
-        <source>S&amp;can collection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="83"/>
         <source>&amp;Windows</source>
         <translation type="unfinished"></translation>
@@ -408,6 +403,11 @@ Check paths in configuration window.</source>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="74"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="80"/>
+        <source>&amp;Refresh collection...</source>
+        <translation>&amp;Refresh collection...</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="99"/>

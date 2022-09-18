@@ -6,6 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
         <source>Error occured during external program execution</source>
+        <translatorcomment>Error occured during external program execution</translatorcomment>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
     </message>
     <message>
@@ -333,12 +334,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
-        <location line="+38"/>
-        <source>S&amp;can collection...</source>
-        <translation>&amp;Wyszukiwanie zdjęć...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+41"/>
         <source>&amp;Windows</source>
         <translation>O&amp;kna</translation>
     </message>
@@ -418,7 +414,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Za&amp;kończ</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+6"/>
+        <source>&amp;Refresh collection...</source>
+        <translation>&amp;Odśwież kolekcję...</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
@@ -673,7 +674,8 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+289"/>
         <source>Extracting data from new photos</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Extracting data from new photos</translatorcomment>
+        <translation>Odczytywanie danych z nowych zdjęć</translation>
     </message>
 </context>
 <context>
