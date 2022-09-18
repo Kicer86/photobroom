@@ -50,7 +50,6 @@ bool FeaturesManager::has(const QString& name) const
 void FeaturesManager::refresh()
 {
     refreshTools();
-    refreshImageFormats();
 }
 
 
@@ -63,26 +62,6 @@ void FeaturesManager::refreshTools()
 
         testTool(path, tool.featureKey, tool.name);
     }
-}
-
-
-void FeaturesManager::refreshImageFormats()
-{
-    QList<QByteArray> images = QImageReader::supportedImageFormats();
-
-    bool mngDetected = false;
-
-    for(const QByteArray& image: qAsConst(images))
-    {
-        const QString msg = QString("Qt supports %1 file format").arg(image.data());
-
-        m_logger->debug(msg);
-
-        if (image == "mng")
-            mngDetected = true;
-    }
-
-    mngDetected? addFeature(gui::features::MngFile) : removeFeature(gui::features::MngFile);
 }
 
 

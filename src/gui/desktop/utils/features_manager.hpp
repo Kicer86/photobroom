@@ -23,7 +23,6 @@ private:
     void refresh();
 
     void refreshTools();
-    void refreshImageFormats();
 
     void addFeature(const QString &);
     void removeFeature(const QString &);

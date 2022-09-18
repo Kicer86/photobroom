@@ -148,8 +148,8 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 
     if (it != m_faces.cend())
     {
-        const long idx = std::distance(m_faces.cbegin(), it);
-        ui->peopleList->setItem(idx, 0, new QTableWidgetItem(name));
+        const auto idx = std::distance(m_faces.cbegin(), it);
+        ui->peopleList->setItem(static_cast<int>(idx), 0, new QTableWidgetItem(name));
     }
 }
 
@@ -175,7 +175,7 @@ void FacesDialog::setImage()
 void FacesDialog::updatePeopleList()
 {
     const int rowCount = ui->peopleList->rowCount();
-    const int peopleCount = m_faces.size();
+    const int peopleCount = static_cast<int>(m_faces.size());
 
     if (rowCount < peopleCount)
         ui->peopleList->setRowCount(peopleCount);

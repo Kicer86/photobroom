@@ -223,7 +223,7 @@
 <context>
     <name>FeaturesObserver</name>
     <message>
-        <location filename="../src/gui/desktop/utils/features_observer.cpp" line="+51"/>
+        <location filename="../src/gui/desktop/utils/features_observer.cpp" line="+49"/>
         <source>Path for tool %1 is not set or is invalid.
 Some functionality may be disabled.
 Check paths in configuration window.</source>
