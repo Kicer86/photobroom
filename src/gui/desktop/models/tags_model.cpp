@@ -65,7 +65,10 @@ void TagsModel::set(Database::IDatabase* database)
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
     if (m_translator)
+    {
+        setBusy(true);
         m_translator->fetchIds(photos);
+    }
 }
 
 
@@ -78,6 +81,12 @@ Tag::TagsList TagsModel::getTags() const
 Database::IDatabase* TagsModel::getDatabase() const
 {
     return m_database;
+}
+
+
+bool TagsModel::busy() const
+{
+    return m_busy;
 }
 
 
@@ -303,6 +312,8 @@ void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
     }
 
     QAbstractItemModel::endInsertRows();
+
+    setBusy(false);
 }
 
 
@@ -395,4 +406,12 @@ QVariant TagsModel::correctInput(const QModelIndex& idx, const QVariant& value) 
     }
 
     return result;
+}
+
+
+void TagsModel::setBusy(bool b)
+{
+    m_busy = b;
+
+    emit busyChanged(b);
 }

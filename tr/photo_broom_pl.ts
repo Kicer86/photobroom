@@ -924,7 +924,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+227"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+236"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
