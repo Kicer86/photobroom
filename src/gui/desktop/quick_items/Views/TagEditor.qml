@@ -1,146 +1,169 @@
 
 import QtQuick
+import QtQuick.Controls
+
 import photo_broom.models
 import photo_broom.singletons
 import quick_items
 import "ViewsComponents" as Internals
 
 
-TableView {
-    id: view
+Item {
 
     required property var selection
 
-    implicitHeight: contentHeight
+    implicitHeight: view.implicitHeight
 
-    SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
-
-    model: TagsModel {
-        id: tagsModel
-
-        database: PhotoBroomProject.database
-    }
-
-    columnWidthProvider: columnWidthFun
-
-    onWidthChanged: view.forceLayout();
     onSelectionChanged: tagsModel.setPhotos(selection)
 
-    selectionModel: ItemSelectionModel {
-        model: view.model
-    }
+    TableView {
+        id: view
 
-    delegate: Rectangle {
-        id: delegate
+        anchors.fill: parent
 
-        implicitWidth: 30
-        implicitHeight: 30
+        implicitHeight: contentHeight
+        enabled: tagsModel.busy === false
+        opacity: enabled? 1: 0.5
 
-        color: sysPalette.base
-        border.color: selected ? sysPalette.highlight : sysPalette.button
+        Behavior on opacity { PropertyAnimation {} }
 
-        required property bool selected
-        required property int column
-        required property int row
-        required property var display
-        required property var tagType
+        SystemPalette { id: sysPalette; colorGroup: SystemPalette.Active }
 
-        property bool editState: false
+        model: TagsModel {
+            id: tagsModel
 
-        Component {
-            id: labelDelegate
-
-            Text {
-                verticalAlignment: Text.AlignVCenter
-                text: display === undefined? "": display
-            }
+            database: PhotoBroomProject.database
         }
 
-        Component {
-            id: tagViewer
+        columnWidthProvider: _columnWidthFun
 
-            Internals.TagValueViewer {
-                id: tagViewerItem
+        onWidthChanged: view.forceLayout();
 
-                tagType: delegate.tagType
-                value: delegate.display
+        selectionModel: ItemSelectionModel {
+            model: view.model
+        }
 
-                MouseArea {
-                    anchors.fill: parent
+        delegate: Rectangle {
+            id: delegate
 
-                    onDoubleClicked: {
-                        delegate.editState = true;
-                    }
+            implicitWidth: 30
+            implicitHeight: 30
 
-                    onClicked: {
-                        const index = view.model.index(row, column);
-                        view.selectionModel.select(index, ItemSelectionModel.ClearAndSelect);
-                        tagViewerItem.forceActiveFocus();
-                    }
+            color: sysPalette.base
+            border.color: selected ? sysPalette.highlight : sysPalette.button
+
+            required property bool selected
+            required property int column
+            required property int row
+            required property var display
+            required property var tagType
+
+            property bool editState: false
+
+            Component {
+                id: labelDelegate
+
+                Text {
+                    verticalAlignment: Text.AlignVCenter
+                    text: display === undefined? "": display
                 }
+            }
 
-                Keys.onPressed: function(event) {
-                    if (event.key == Qt.Key_Delete) {
-                        const index = view.model.index(row, column);
-                        view.model.setData(index, undefined);
+            Component {
+                id: tagViewer
+
+                Internals.TagValueViewer {
+                    id: tagViewerItem
+
+                    tagType: delegate.tagType
+                    value: delegate.display
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onDoubleClicked: {
+                            delegate.editState = true;
+                        }
+
+                        onClicked: {
+                            const index = view.model.index(row, column);
+                            view.selectionModel.select(index, ItemSelectionModel.ClearAndSelect);
+                            tagViewerItem.forceActiveFocus();
+                        }
+                    }
+
+                    Keys.onPressed: function(event) {
+                        if (event.key == Qt.Key_Delete) {
+                            const index = view.model.index(row, column);
+                            view.model.setData(index, undefined);
+                        }
                     }
                 }
             }
-        }
 
-        Component {
-            id: tagEditor
+            Component {
+                id: tagEditor
 
-            Internals.TagValueEditor {
-                tagType: delegate.tagType
-                value: delegate.display
+                Internals.TagValueEditor {
+                    tagType: delegate.tagType
+                    value: delegate.display
 
-                onAccepted: function(value) {
-                    model.edit = value;
-                    delegate.editState = false;
-                }
-
-                onRejected: delegate.editState = false;
-
-                Keys.onPressed: function(event) {
-                    if (event.key == Qt.Key_Escape)
+                    onAccepted: function(value) {
+                        model.edit = value;
                         delegate.editState = false;
+                    }
+
+                    onRejected: delegate.editState = false;
+
+                    Keys.onPressed: function(event) {
+                        if (event.key == Qt.Key_Escape)
+                            delegate.editState = false;
+                    }
                 }
             }
-        }
 
-        Loader {
-            sourceComponent: column === 0? labelDelegate: (delegate.editState? tagEditor: tagViewer)
+            Loader {
+                sourceComponent: column === 0? labelDelegate: (delegate.editState? tagEditor: tagViewer)
 
-            anchors.fill: parent
-            anchors.margins: 3
-        }
-    }
-
-    TextMetrics {
-        id: metrics
-    }
-
-    function columnWidthFun(column) {
-        if (column === 0) {
-            var rows = view.model.rowCount();
-            var maxWidth = 0;
-
-            for(var i = 0; i < rows; i++) {
-                var index = view.model.index(i, 0);
-                var data = view.model.data(index);
-
-                metrics.text = data;
-                var textWidth = metrics.boundingRect.width;
-
-                if (textWidth > maxWidth)
-                    maxWidth = textWidth;
+                anchors.fill: parent
+                anchors.margins: 3
             }
+        }
 
-            return maxWidth + 7;   // some margin
-        } else if (column === 1)
-            return view.width - columnWidthFun(0);
-        else
-            return 0;
+        TextMetrics {
+            id: metrics
+        }
+
+        function _columnWidthFun(column) {
+            if (column === 0) {
+                var rows = view.model.rowCount();
+                var maxWidth = 0;
+
+                for(var i = 0; i < rows; i++) {
+                    var index = view.model.index(i, 0);
+                    var data = view.model.data(index);
+
+                    metrics.text = data;
+                    var textWidth = metrics.boundingRect.width;
+
+                    if (textWidth > maxWidth)
+                        maxWidth = textWidth;
+                }
+
+                return maxWidth + 7;   // some margin
+            } else if (column === 1)
+                return view.width - _columnWidthFun(0);
+            else
+                return 0;
+        }
     }
+
+    BusyIndicator {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        running: tagsModel.busy
+    }
+
 }
+
