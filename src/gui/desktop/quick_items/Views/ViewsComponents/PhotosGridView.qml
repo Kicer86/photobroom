@@ -47,6 +47,9 @@ Components.MultiselectGridView {
                 grid.itemDoubleClicked(index)
             }
         }
+
+        // load selection information from selection manager
+        Component.onCompleted: selected = grid.isIndexSelected(index);
     }
 
     currentIndex: -1
