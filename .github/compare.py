@@ -5,11 +5,11 @@ expected = open('.github/expected_file_list','rt')
 
 expected_files = set()
 for line in expected:
-    expected_files.add(line.strip())
+    expected_files.add(line.strip().lower())
 
 package_files = set()
 for line in sys.stdin:
-    package_files.add(line.strip())
+    package_files.add(line.strip().lower())
 
 missing_expected = expected_files - package_files
 package_additional = package_files - expected_files
