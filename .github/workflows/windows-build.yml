@@ -9,11 +9,9 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-2022
     strategy:
       fail-fast: false
-      matrix:
-        os: [windows-latest]
 
     steps:
     - uses: actions/checkout@v2
