@@ -15,7 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
         compiler:
-          - { compiler: GNU,  CC: gcc,   CXX: g++ }
+          - { compiler: GNU, CC: gcc, CXX: g++ }
           # - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
 
     steps:
