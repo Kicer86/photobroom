@@ -32,15 +32,23 @@ add_executable(photo_broom
 
 if(WIN32)
 
+    find_program(Magick magick REQUIRED)
+
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+        COMMAND ${Magick} convert ${CMAKE_SOURCE_DIR}/images/photo_broom.svg -resize 32x32 ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+        DEPENDS ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
+    )
+
     set_target_properties(photo_broom PROPERTIES WIN32_EXECUTABLE TRUE)
-    target_sources(photo_broom PRIVATE env/PhotoBroom.rc)
 
+    target_sources(photo_broom
+        PRIVATE
+            env/PhotoBroom.rc
+            ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+    )
+
+    # used by env/PhotoBroom.rc
     configure_file(env/PhotoBroom.hpp.cmake PhotoBroom.hpp @ONLY)
-
-    include_directories(${CMAKE_BINARY_DIR}/tools)                                 #for PhotoBroom.rc include files
-
-    #on Windows photo_broom requires Images (for exe file ico)
-    add_dependencies(photo_broom Images)
 
 endif()
 

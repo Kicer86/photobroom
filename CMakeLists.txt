@@ -123,7 +123,6 @@ elseif(WIN32)
 endif(UNIX OR CYGWIN)
 
 #subdirs
-add_subdirectory(images)
 add_subdirectory(src)
 add_subdirectory(tr)
 
