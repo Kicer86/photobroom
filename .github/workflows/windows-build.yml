@@ -53,9 +53,12 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
+    - name: Add msbuild to PATH
+      uses: ilammy/msvc-dev-cmd@v1.11.0
+
     - name: Build
       run: |
-        cmake --preset "ninja_release_vcpkg" -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
+        cmake --preset "ninja_release_vcpkg" -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
         cmake --build --preset "Ninja Release"
 
     - name: Make package
