@@ -44,9 +44,9 @@ jobs:
       run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
 
     - name: Setup ccache
-      uses: hendrikmuhs/ccache-action@v1.2
+      uses: Chocobo1/setup-ccache-action@v1
       with:
-        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+        windows_compile_environment: msvc  #
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v10.2
@@ -54,9 +54,8 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     - name: Build
-      shell: bash
       run: |
-        cmake --preset "ninja_release_vcpkg"
+        cmake --preset "ninja_release_vcpkg" -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
         cmake --build --preset "Ninja Release"
 
     - name: Make package
