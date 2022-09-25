@@ -183,7 +183,4 @@ TYPED_TEST(PhotoOperatorTest, removal)
     const Photo::DataDelta readData = this->m_backend->getPhotoDelta(id, {Photo::Field::Path});    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
     const auto& readDataPath = readData.get<Photo::Field::Path>();
     EXPECT_EQ(readDataPath, path);
-
-
 }
-
