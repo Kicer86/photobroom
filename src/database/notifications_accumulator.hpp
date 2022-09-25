@@ -16,6 +16,7 @@ namespace Database
 
         public:
             NotificationsAccumulator() = default;
+            ~NotificationsAccumulator();
 
             void photosAdded(const std::vector<Photo::Id> &);
             void photosModified(const std::set<Photo::Id> &);

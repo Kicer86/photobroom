@@ -297,7 +297,9 @@ namespace Database
 
     void MemoryBackend::set(const Photo::Id &id, const QString& name, int value)
     {
+        auto tr = openTransaction();
         m_db->m_flags[id][name] = value;
+        m_impl->m_notifications.photosModified({id});
     }
 
 

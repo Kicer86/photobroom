@@ -1,4 +1,5 @@
 
+#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <QSignalSpy>
 
@@ -121,4 +122,23 @@ TEST(NotificationsAccumulatorTest, deletionWins)
     EXPECT_THAT(addSpy.size(), Eq(0));
     EXPECT_THAT(modSpy.size(), Eq(0));
     EXPECT_THAT(delSpy.size(), Eq(1));
+}
+
+
+TEST(NotificationsAccumulatorTest, failWhenNoActionTaken)
+{
+    EXPECT_DEATH({
+        Database::NotificationsAccumulator notifications;
+        notifications.photosAdded({Photo::Id(1)});
+    }, "");
+
+    EXPECT_DEATH({
+        Database::NotificationsAccumulator notifications;
+        notifications.photosModified({Photo::Id(1)});
+    }, "");
+
+    EXPECT_DEATH({
+        Database::NotificationsAccumulator notifications;
+        notifications.photosRemoved({Photo::Id(1)});
+    }, "");
 }
