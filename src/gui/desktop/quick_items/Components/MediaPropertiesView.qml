@@ -1,27 +1,52 @@
 
 import QtQuick
+import QtQuick.Controls
 
 import photo_broom.models
 import photo_broom.singletons
 
 
-TableView {
-    id: root
+Item {
 
-    property var photos: []
+    property alias photos: view.photos
 
-    implicitHeight: contentHeight
-    implicitWidth: contentWidth
-    columnSpacing: 5
+    implicitHeight: view.contentHeight
+    implicitWidth: view.contentWidth
 
-    model: PhotoPropertiesModel {
-        property var _photos: root.photos
-        database: PhotoBroomProject.database
+    TableView {
+        id: view
 
-        on_PhotosChanged: setPhotos(_photos)
+        property var photos: []
+
+        anchors.fill: parent
+
+        implicitHeight: contentHeight
+        implicitWidth: contentWidth
+        columnSpacing: 5
+
+        enabled: propertiesModel.busy === false
+        opacity: enabled? 1: 0.5
+
+        Behavior on opacity { PropertyAnimation {} }
+
+        model: PhotoPropertiesModel {
+            id: propertiesModel
+
+            property var _photos: view.photos
+            database: PhotoBroomProject.database
+
+            on_PhotosChanged: setPhotos(_photos)
+        }
+
+        delegate: Text {
+            text: display
+        }
     }
 
-    delegate: Text {
-        text: display
+    BusyIndicator {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        running: propertiesModel.busy
     }
 }
