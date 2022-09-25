@@ -137,17 +137,17 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
             }
 
             // wait for frame to be ready
+            if (player.error() == QMediaPlayer::NoError && player.playbackState() == QMediaPlayer::PlayingState)
             {
                 QEventLoop eventLoop;
                 QObject::connect(&videoSink, &QVideoSink::videoFrameChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
                 eventLoop.exec();
+
+                player.stop();
+                const auto frame = videoSink.videoFrame();
+
+                result = frame.toImage();
             }
-
-            player.stop();
-
-            const auto frame = videoSink.videoFrame();
-
-            result = frame.toImage();
         }
     }
 
