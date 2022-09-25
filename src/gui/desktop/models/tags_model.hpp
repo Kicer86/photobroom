@@ -32,6 +32,7 @@ class TagsModel: public QAbstractItemModel
 {
         Q_OBJECT
         Q_PROPERTY(Database::IDatabase* database WRITE set READ getDatabase REQUIRED)
+        Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
     public:
         enum Roles
@@ -51,6 +52,7 @@ class TagsModel: public QAbstractItemModel
 
         Tag::TagsList getTags() const;
         Database::IDatabase* getDatabase() const;
+        bool busy() const;
 
         // overrides:
         bool setData(const QModelIndex & index, const QVariant & value, int role) override;
@@ -66,6 +68,9 @@ class TagsModel: public QAbstractItemModel
         int rowCount(const QModelIndex & parent = QModelIndex()) const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    signals:
+        void busyChanged(bool) const;
+
     private:
         typedef QMap<int, QVariant> ItemData;
         std::vector<ItemData> m_keys,
@@ -73,12 +78,15 @@ class TagsModel: public QAbstractItemModel
         TagsOperator m_tagsOperator;
         std::unique_ptr<IdToDataConverter> m_translator;
         Database::IDatabase* m_database;
+        bool m_busy = false;
 
         void clearModel();
         void loadPhotos(const std::vector<Photo::Data> &);
         void syncData(const QModelIndex &, const QModelIndex &);
         QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
         QVariant correctInput(const QModelIndex &, const QVariant &) const;
+
+        void setBusy(bool);
 };
 
 #endif // TAGSMODEL_HPP

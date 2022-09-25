@@ -31,6 +31,7 @@ class PhotoPropertiesModel: public QStandardItemModel
 {
         Q_OBJECT
         Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
+        Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
     public:
         explicit PhotoPropertiesModel(QObject * = nullptr);
@@ -40,16 +41,22 @@ class PhotoPropertiesModel: public QStandardItemModel
         Q_INVOKABLE void setPhotos(const std::vector<Photo::Id> &);
 
         Database::IDatabase* database() const;
+        bool busy() const;
 
     private:
         Database::IDatabase* m_db = nullptr;
         std::unique_ptr<IdToDataConverter> m_translator;
+        bool m_busy = false;
 
         void gotPhotoData(const std::vector<Photo::Data> &);
         void refreshLabels(const std::vector<Photo::Data> &);
         void refreshValues(const std::vector<Photo::Data> &);
 
         QString sizeHuman(qint64) const;
+        void setBusy(bool);
+
+    signals:
+        void busyChanged(bool) const;
 };
 
 #endif // PHOTOPROPERTIES_HPP

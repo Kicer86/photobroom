@@ -10,6 +10,10 @@ GridView {
 
     property alias selectedIndexes: selectionManager.selected
 
+    function isIndexSelected(idx) {
+        return selectionManager.isIndexSelected(idx);
+    }
+
     SelectionManager {
         id: selectionManager
     }

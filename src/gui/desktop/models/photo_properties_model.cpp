@@ -82,7 +82,10 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
 {
     if (m_translator)
+    {
+        setBusy(true);
         m_translator->fetchIds(ids);
+    }
 }
 
 
@@ -92,10 +95,18 @@ Database::IDatabase* PhotoPropertiesModel::database() const
 }
 
 
+bool PhotoPropertiesModel::busy() const
+{
+    return m_busy;
+}
+
+
 void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::Data>& data)
 {
     refreshLabels(data);
     refreshValues(data);
+
+    setBusy(false);
 }
 
 
@@ -201,4 +212,12 @@ QString PhotoPropertiesModel::sizeHuman(qint64 size) const
     }
 
     return units;
+}
+
+
+void PhotoPropertiesModel::setBusy(bool b)
+{
+    m_busy = b;
+
+    emit busyChanged(b);
 }
