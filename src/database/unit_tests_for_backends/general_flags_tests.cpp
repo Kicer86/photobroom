@@ -1,5 +1,7 @@
 
+#include <QSignalSpy>
 #include "common.hpp"
+
 
 template<typename T>
 struct GeneralFlagsTest: DatabaseTest<T>
@@ -73,4 +75,31 @@ TYPED_TEST(GeneralFlagsTest, setAndClearBits)
 
     this->m_backend->clearBits(id, "test1", 0x2);
     EXPECT_EQ(this->m_backend->get(id, "test1"), 0x11);
+}
+
+
+TYPED_TEST(GeneralFlagsTest, notificationAfterChange)
+{
+    // store photo
+    Photo::DataDelta pd;
+    pd.insert<Photo::Field::Path>("photo1.jpeg");
+
+    std::vector<Photo::DataDelta> photos = { pd };
+    this->m_backend->addPhotos(photos);
+
+    const auto id = photos.front().getId();
+
+    QSignalSpy spyChanged(this->m_backend.get(), &Database::IBackend::photosModified);
+
+    this->m_backend->set(id, "test1", 0x1);
+    ASSERT_EQ(spyChanged.size(), 1);
+    EXPECT_EQ(spyChanged.at(0).at(0).value<std::set<Photo::Id>>(), std::set{id});
+
+    this->m_backend->setBits(id, "test1", 0x12);
+    ASSERT_EQ(spyChanged.size(), 2);
+    EXPECT_EQ(spyChanged.at(1).at(0).value<std::set<Photo::Id>>(), std::set{id});
+
+    this->m_backend->clearBits(id, "test1", 0x2);
+    ASSERT_EQ(spyChanged.size(), 3);
+    EXPECT_EQ(spyChanged.at(2).at(0).value<std::set<Photo::Id>>(), std::set{id});
 }

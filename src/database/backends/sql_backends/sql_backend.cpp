@@ -455,6 +455,8 @@ namespace Database
 
     void ASqlBackend::set(const Photo::Id& id, const QString& name, int value)
     {
+        auto tr = openTransaction();
+
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         UpdateQueryData updateData(TAB_GENERAL_FLAGS);
@@ -464,6 +466,8 @@ namespace Database
         updateData.addCondition("name", name);
 
         updateOrInsert(updateData);
+
+        m_notificationsAccumulator.photosModified({id});
     }
 
 
