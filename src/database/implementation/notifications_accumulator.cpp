@@ -5,6 +5,12 @@
 namespace Database
 {
 
+    NotificationsAccumulator::~NotificationsAccumulator() noexcept
+    {
+        assert(m_photosAdded.empty() && m_photosModified.empty() && m_photosRemoved.empty());
+    }
+
+
     void NotificationsAccumulator::photosAdded(const std::vector<Photo::Id>& photos)
     {
         m_photosAdded.insert(m_photosAdded.end(), photos.begin(), photos.end());
