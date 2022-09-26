@@ -282,7 +282,7 @@ namespace
 
         }
 
-        std::vector<GroupCandidate> extract( IGroupValidator& validator)
+        std::vector<GroupCandidate> extract(IGroupValidator& validator)
         {
             std::vector<GroupCandidate> results;
 
@@ -293,7 +293,7 @@ namespace
 
                 validator.reset();
 
-                std::vector<Photo::Id> members;
+                std::vector<Photo::DataDelta> members;
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
@@ -303,7 +303,7 @@ namespace
 
                     if (validator.canBePartOfGroup())
                     {
-                        members.push_back(data.getId());
+                        members.push_back(data);
                         validator.accept();
                     }
                     else
@@ -318,18 +318,10 @@ namespace
                     group.type = validator.type();
 
                     QStringList ids;
-                    std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& id){ return QString::number(id.value()); });
+                    std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& member){ return QString::number(member.getId().value()); });
                     m_logger->trace(QString("Detected series of %1 photos: %2").arg(membersCount).arg(ids.join(", ")));
 
-                    // Id to Data  TODO: this can be done in background
-                    std::transform(members.begin(), members.end(), std::back_inserter(group.members), [this](const Photo::Id& id)
-                    {
-                        return evaluate<Photo::DataDelta(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
-                        {
-                            return backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
-                        });
-                    });
-
+                    group.members = members;
                     results.push_back(group);
 
                     auto first = it;
