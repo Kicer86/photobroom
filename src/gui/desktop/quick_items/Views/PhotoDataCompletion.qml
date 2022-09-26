@@ -84,6 +84,7 @@ Item {
         spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
+        flickDeceleration: 10000
         model: dataSource
 
         delegate: Item {

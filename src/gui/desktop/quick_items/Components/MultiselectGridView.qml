@@ -14,8 +14,6 @@ GridView {
         return selectionManager.isIndexSelected(idx);
     }
 
-    flickDeceleration: 10000
-
     SelectionManager {
         id: selectionManager
     }
