@@ -1,5 +1,5 @@
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS
+find_package(Qt6 6.4 REQUIRED COMPONENTS
     Multimedia
     Quick
     Quick3D
@@ -36,10 +36,6 @@ set_source_files_properties(Components/Constants.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 
-if(${Qt6Quick_VERSION} EQUAL "6.3.0")
-    set(EXTRA_QML_OPTIONS NO_CACHEGEN)      # disable qmlsc due to a bug https://bugreports.qt.io/browse/QTBUG-99042
-endif()
-
 qt6_add_qml_module(quick_items
     URI "quick_items"
     VERSION 1.0
@@ -47,7 +43,6 @@ qt6_add_qml_module(quick_items
     QML_FILES ${QML_SOURCES}
     STATIC
     RESOURCE_PREFIX /photo_broom
-    ${EXTRA_QML_OPTIONS}
 )
 
 target_link_libraries(quick_items
