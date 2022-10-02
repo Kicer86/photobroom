@@ -284,7 +284,6 @@ QtQuick\Controls\Imagine\plugins.qmltypes
 QtQuick\Controls\Imagine\qmldir
 QtQuick\Controls\Imagine\qtquickcontrols2imaginestyleplugin.dll
 QtQuick\Controls\Imagine\impl\OpacityMask.qml
-QtQuick\Controls\Imagine\impl\plugins.qmltypes
 QtQuick\Controls\Imagine\impl\qmldir
 QtQuick\Controls\Imagine\impl\qtquickcontrols2imaginestyleimplplugin.dll
 QtQuick\Controls\Material\ApplicationWindow.qml
@@ -474,6 +473,18 @@ QtQuick\Dialogs\quickimpl\qml\+Universal\FolderDialog.qml
 QtQuick\Dialogs\quickimpl\qml\+Universal\FolderDialogDelegate.qml
 QtQuick\Dialogs\quickimpl\qml\+Universal\FontDialog.qml
 QtQuick\Dialogs\quickimpl\qml\+Universal\MessageDialog.qml
+qtquick\dialogs\quickimpl\qml\colordialog.qml
+qtquick\dialogs\quickimpl\qml\+fusion\colordialog.qml
+qtquick\dialogs\quickimpl\qml\colorinputs.qml
+qtquick\dialogs\quickimpl\qml\huegradient.qml
+qtquick\controls\material\treeviewdelegate.qml
+qtquick\dialogs\quickimpl\qml\+universal\colordialog.qml
+qtquick\dialogs\quickimpl\qml\+imagine\colordialog.qml
+qtquick\dialogs\quickimpl\qml\+material\colordialog.qml
+qtquick\controls\fusion\treeviewdelegate.qml
+qtquick\controls\imagine\impl\qtquickcontrols2imaginestyleimplplugin.qmltypes
+qtquick\dialogs\quickimpl\qml\saturationlightnesspicker.qml
+qtquick\dialogs\quickimpl\qml\pickerhandle.qml
 QtQuick\Layouts\plugins.qmltypes
 QtQuick\Layouts\qmldir
 QtQuick\Layouts\qquicklayoutsplugin.dll
