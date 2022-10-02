@@ -924,14 +924,6 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>TagValueEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+112"/>
-        <source>Apply</source>
-        <translation>Zastosuj</translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/models/tags_model.cpp" line="+236"/>

@@ -1,12 +1,12 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import photo_broom.utils
 import photo_broom.enums
 import QmlItems
 import quick_items
 import "../../Components" as Components
-import "../../external/qml-colorpicker/colorpicker" as Colorpicker
 
 Item {
     id: editor
@@ -80,51 +80,13 @@ Item {
     Component {
         id: categoryEditor
 
-        Item {
-            id: editorRect
+        ColorDialog {
 
-            Popup {
-                id: popup
+            visible: true
+            modality: Qt.ApplicationModal
 
-                parent: Overlay.overlay
-                x: width > editorRect.width? _pos.x - (width - editorRect.width) : _pos.x
-                y: _pos.y + editorRect.height
-                modal: true
-                focus: true
-                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
-                property point _pos: mapToItem(Overlay.overlay, editorRect.x, editorRect.y)
-                property bool _accepted: false
-
-                Column {
-                    anchors.fill: parent
-
-                    Colorpicker.Colorpicker {
-                        id: picker
-
-                        enableAlphaChannel: false
-                        enableDetails: false
-                        paletteMode: true
-                    }
-
-                    RoundButton {
-                        height: 17
-                        text: qsTr("Apply")
-                        radius: 3
-
-                        onClicked: {
-                            popup._accepted = true;
-                            editor.accepted(picker.colorValue);
-                        }
-                    }
-                }
-
-                Component.onCompleted: popup.open()
-                onClosed: {
-                    if (!_accepted)
-                        editor.rejected();
-                }
-            }
+            onAccepted: editor.accepted(selectedColor)
+            onRejected: editor.rejected()
         }
     }
 
