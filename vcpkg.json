@@ -19,6 +19,11 @@
     "exiv2",
     "jsoncpp",
     "libwebp",
-    "magic-enum"
+    "magic-enum",
+    "qtbase",
+    "qtsvg",
+    "qttools",
+    "qtdeclarative",
+    "qtmultimedia"
   ]
 }
