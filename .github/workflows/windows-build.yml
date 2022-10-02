@@ -7,6 +7,9 @@ on:
       - master
   pull_request:
 
+env:
+  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+
 jobs:
   build:
     runs-on: windows-2022
