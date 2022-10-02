@@ -75,6 +75,7 @@ Item
                 spacing: 10
 
                 ScrollBar.vertical: ScrollBar { }
+                flickDeceleration: 10000
 
                 delegate: Item {
                     id: delegateId

@@ -63,9 +63,7 @@ auto evaluate(E& executor, const T& task)
 
     result_future.wait();
 
-    const auto result = result_future.get();
-
-    return result;
+    return result_future.get();
 }
 
 

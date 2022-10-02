@@ -60,4 +60,4 @@ class DATABASE_EXPORT SeriesDetector
         std::deque<Photo::DataDelta> removeSingles(const std::deque<Photo::DataDelta> &, const Rules &) const;
 };
 
-#endif // SERIESDETECTOR_HPP
+#endif
