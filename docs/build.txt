@@ -40,9 +40,12 @@ vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdecl
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 
-If you do not want vcpkg to download and build Qt6 (for any reason) do not include Qt packages.
-In such case remeber to provide path to your Qt installation during cmake invocation for example with:
+If you do not want vcpkg to download and build Qt6 (for any reason) do not include Qt packages,
+or use ports overlay option by providing --overlay-ports=<repo path>/.github/vcpkg_overlays/qt/ parameter to vcpkg call
+which will make vcpkg to use system Qt packages (https://devblogs.microsoft.com/cppblog/using-system-package-manager-dependencies-with-vcpkg).
+In either way remeber to provide path to your Qt installation during cmake invocation for example with:
 cmake -DCMAKE_PREFIX_PATH=C:/Qt/6.2/msvc2019_64 path/to/sources
+or use any other way to make it visible to CMake.
 
 If your system does not have NVidia GPU (or you do not want to use gpu acceleration for photo analysis),
 use dlib[core,fftw3] instead of dlib[core,cuda,fftw3] in vcpkg call.
