@@ -1065,10 +1065,5 @@ Kod błędu: %1</translation>
         <source>threads count</source>
         <translation>liczba wątków</translation>
     </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/external/qml-colorpicker/test/main.qml" line="+11"/>
-        <source>Hello Colorpicker</source>
-        <translation>Hello Colorpicker</translation>
-    </message>
 </context>
 </TS>
