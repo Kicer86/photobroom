@@ -62,5 +62,6 @@ Item {
     Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Error? staticImage: undefined; anchors.fill: parent }
 
     // TODO: use AnimatedImage for all kinds of non-static media files when https://bugreports.qt.io/browse/QTBUG-30524 is fixed
+    // TODO: check https://doc-snapshots.qt.io/qt6-dev/qml-qtquick-frameanimation.html if it solves above problem
 }
 
