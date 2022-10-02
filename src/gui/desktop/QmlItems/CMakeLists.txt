@@ -21,7 +21,11 @@ file(GLOB_RECURSE
 )
 
 if(${Qt6Quick_VERSION} EQUAL "6.3.0")
-    set(EXTRA_QML_OPTIONS NO_CACHEGEN)      # disable qmlsc due to a bug https://bugreports.qt.io/browse/QTBUG-99042
+    list(APPEND EXTRA_QML_OPTIONS NO_CACHEGEN)              # disable qmlsc due to a bug https://bugreports.qt.io/browse/QTBUG-99042
+endif()
+
+if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.4")
+    list(APPEND EXTRA_QML_OPTIONS ENABLE_TYPE_COMPILER)     # compile qml files
 endif()
 
 qt6_add_qml_module(qml_items
@@ -39,11 +43,7 @@ target_link_libraries(qml_items
         Qt::Quick
 )
 
-if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.4")     # TODO: in Qt 6.3 there is an error: 'qtquickglobal_p.h': No such file or directory
-    qt6_target_compile_qml_to_cpp(qml_items
-        QML_FILES ${QML_SOURCES}
-    )
-
+if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.4")
     target_link_libraries(qml_items
         PRIVATE
             Qt::QmlPrivate
