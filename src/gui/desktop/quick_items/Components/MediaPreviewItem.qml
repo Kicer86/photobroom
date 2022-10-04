@@ -6,7 +6,8 @@ import quick_items
 
 
 Item {
-    property alias photoID: ctrl.photoID
+    property alias photoID: ctrl.photoID        // set to make this Item work
+    property alias mediaType: ctrl.mode         // get media type
 
     MediaViewCtrl {
         id: ctrl
