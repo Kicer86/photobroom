@@ -3,6 +3,7 @@ import QtQuick
 import QtMultimedia
 import QtQuick.Controls
 import quick_items
+import QmlItems
 
 import photo_broom.singletons
 
