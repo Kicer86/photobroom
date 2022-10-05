@@ -44,7 +44,8 @@ Item {
                 width: 24
                 height: 24
 
-                visible: mediaPreview.mediaType === MediaViewCtrl.AnimatedImage
+                visible: mediaPreview.mediaType === MediaViewCtrl.AnimatedImage ||
+                         mediaPreview.mediaType === MediaViewCtrl.Video
 
                 Rectangle {
                     anchors.fill: parent
