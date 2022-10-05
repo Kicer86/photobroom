@@ -21,6 +21,7 @@ Item {
     required property var photoData
 
     Components.MediaPreviewItem {
+        id: mediaPreview
 
         anchors.centerIn: parent
         height: delegateId.height - delegateId.margin * 2
@@ -33,61 +34,61 @@ Item {
             data: delegateId.photoData
         }
 
-        Item {
-            x: 5
-            y: 5
-
-            width: 24
-            height: 24
-
-            visible: photoDataProperies.flags[PhotoEnums.StagingArea] === 1
-
-            Rectangle {
-                anchors.fill: parent
-
-                opacity: 0.7
-
-                radius: 12
-                color: "white"
-            }
-
-            Image {
-                anchors.fill: parent
-
-                sourceSize.width: 24
-                sourceSize.height: 24
-
-                source: "qrc:/gui/new.svg"
-            }
-        }
-
-        Item {
+        Row {
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.bottomMargin: 5
             anchors.leftMargin: 5
 
-            width: 24
-            height: 24
+            Item {
+                width: 24
+                height: 24
 
-            visible: photoDataProperies.group
+                visible: mediaPreview.mediaType === MediaViewCtrl.AnimatedImage ||
+                         mediaPreview.mediaType === MediaViewCtrl.Video
 
-            Rectangle {
-                anchors.fill: parent
+                Rectangle {
+                    anchors.fill: parent
 
-                opacity: 0.7
+                    opacity: 0.7
 
-                radius: 3
-                color: "white"
+                    radius: 12
+                    color: "white"
+                }
+
+                Image {
+                    anchors.fill: parent
+
+                    sourceSize.width: 24
+                    sourceSize.height: 24
+
+                    source: "qrc:/gui/video.svg"
+                }
             }
 
-            Image {
-                anchors.fill: parent
+            Item {
+                width: 24
+                height: 24
 
-                sourceSize.width: 24
-                sourceSize.height: 24
+                visible: photoDataProperies.group
 
-                source: "qrc:/gui/paper.svg"
+                Rectangle {
+                    anchors.fill: parent
+
+                    opacity: 0.7
+
+                    radius: 3
+                    color: "white"
+                }
+
+                Image {
+                    anchors.fill: parent
+
+                    sourceSize.width: 24
+                    sourceSize.height: 24
+
+                    source: "qrc:/gui/paper.svg"
+                }
             }
         }
     }
