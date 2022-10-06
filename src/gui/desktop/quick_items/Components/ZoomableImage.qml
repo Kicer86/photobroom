@@ -1,7 +1,6 @@
 
 import QtQuick
 import "internal/ZoomLogic.js" as Logic
-import quick_items
 import QmlItems
 
 
