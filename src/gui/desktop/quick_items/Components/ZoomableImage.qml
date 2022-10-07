@@ -139,7 +139,7 @@ Flickable {
                     pictureScale = area.zoomToFitScale
 
                 var currentScale = image.scale
-                var point = area.pointInView(wheel)
+                var point = area.pointInView(wheelEvent)
                 var v = area.imageView()
                 var is = area.imageSize()
 
