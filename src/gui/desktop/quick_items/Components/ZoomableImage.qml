@@ -127,12 +127,12 @@ Flickable {
         MouseArea {
             anchors.fill: parent
 
-            onWheel: {
+            onWheel: (wheelEvent) => {
                 var pictureScale = image.scale
 
-                if (wheel.angleDelta.y > 0 && pictureScale < 8)
+                if (wheelEvent.angleDelta.y > 0 && pictureScale < 8)
                     pictureScale *= 1.4;
-                else if (wheel.angleDelta.y < 0)
+                else if (wheelEvent.angleDelta.y < 0)
                     pictureScale /= 1.4;
 
                 if (pictureScale < area.zoomToFitScale)
