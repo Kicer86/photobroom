@@ -44,7 +44,16 @@ Item {
         }
     }
 
-    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.StaticImage?   staticImage:   undefined; anchors.fill: parent }
-    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.Video?         video:         undefined; anchors.fill: parent }
-    Loader { sourceComponent: ctrl.mode === MediaViewCtrl.AnimatedImage? animatedImage: undefined; anchors.fill: parent }
+    Loader {
+        anchors.fill: parent
+
+        sourceComponent: {
+            switch (ctrl.mode) {
+                case MediaViewCtrl.StaticImage:   return staticImage;
+                case MediaViewCtrl.Video:         return video;
+                case MediaViewCtrl.AnimatedImage: return animatedImage;
+                default:                          return undefined;
+            }
+        }
+    }
 }
