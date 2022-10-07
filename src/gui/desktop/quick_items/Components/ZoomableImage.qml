@@ -1,5 +1,6 @@
 
 import QtQuick
+
 import "internal/ZoomLogic.js" as Logic
 import QmlItems
 
@@ -34,10 +35,13 @@ Flickable {
         property double zoomToFitScale: 1.0
 
         function calculateZoomToFitScale() {
+            if (image.width == 0 || image.height == 0)
+                return;
+
             if (image.width > image.height)
                 zoomToFitScale = flickableArea.width / image.width;
             else
-                zoomToFitScale = flickableArea.height / image.height
+                zoomToFitScale = flickableArea.height / image.height;
         }
 
         function availableAreaChanged() {
@@ -101,15 +105,23 @@ Flickable {
             flickableArea.contentY = offset.y
         }
 
-        Picture {
+        Image {
             id: image
-
             anchors.centerIn: parent
 
-            width: implicitWidth
-            height: implicitHeight
+            width: sourceSize.width
+            height: sourceSize.height
+            asynchronous: true
+            autoTransform: true
 
-            onSourceChanged: area.calculateZoomToFitScale()
+            onStatusChanged: {
+                if (image.status == Image.Ready) {
+                    image.width = sourceSize.width;
+                    image.height = sourceSize.height;
+                    area.calculateZoomToFitScale();
+                    area.zoomToFit();
+                }
+            }
         }
 
         MouseArea {

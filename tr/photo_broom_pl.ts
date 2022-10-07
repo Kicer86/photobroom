@@ -201,7 +201,7 @@
         <translation>Przypisywanie osób</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+109"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+108"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>

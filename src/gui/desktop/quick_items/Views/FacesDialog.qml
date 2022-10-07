@@ -42,7 +42,6 @@ Item {
     }
 
     Components.ZoomableImage {
-        id: imageArea
         objectName: "flickablePhoto"
 
         anchors.left: parent.left

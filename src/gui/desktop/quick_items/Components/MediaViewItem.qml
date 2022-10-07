@@ -13,13 +13,10 @@ Item {
     Component {
         id: staticImage
 
-        Image {
+        ZoomableImage {
             anchors.fill: parent
 
             source: ctrl.path
-            asynchronous: true
-            autoTransform: true
-            fillMode: Image.PreserveAspectFit
         }
     }
 
