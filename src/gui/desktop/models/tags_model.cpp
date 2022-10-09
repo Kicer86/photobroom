@@ -400,7 +400,7 @@ QVariant TagsModel::correctInput(const QModelIndex& idx, const QVariant& value) 
                 else if (tagType == Tag::Types::Time)
                     result = value.toTime();
                 else
-                    assert(!"not expected situation");
+                    assert(!"unexpected situation");
             }
         }
     }
