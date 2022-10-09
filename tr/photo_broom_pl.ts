@@ -916,9 +916,9 @@ Kod błędu: %1</translation>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+112"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+115"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
