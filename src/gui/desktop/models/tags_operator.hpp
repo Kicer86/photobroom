@@ -40,7 +40,7 @@ class TagsOperator: public ITagsOperator
         void insert(const Tag::Types& name, const TagValue & ) override;
 
     private:
-        std::vector<Photo::DataDelta> m_diffs;
+        std::vector<Photo::DataDelta> m_deltas;
         Database::IDatabase* m_db = nullptr;
 };
 

@@ -36,14 +36,14 @@ void TagsOperator::setDb(Database::IDatabase* db)
 
 void TagsOperator::operateOn(const std::vector<Photo::DataDelta>& photos)
 {
-    m_diffs.clear();
+    m_deltas.clear();
 
     for(const auto& photo: photos)
     {
         Photo::DataDelta delta(photo.getId());
         delta.insert<Photo::Field::Tags>(photo.get<Photo::Field::Tags>());
 
-        m_diffs.push_back(delta);
+        m_deltas.push_back(delta);
     }
 }
 
@@ -63,7 +63,7 @@ Tag::TagsList TagsOperator::getTags() const
     Tag::TagsList commonTags;
     bool first = true;
 
-    for (const auto& photo: m_diffs)
+    for (const auto& photo: m_deltas)
     {
         const Tag::TagsList& tags = photo.get<Photo::Field::Tags>();
 
@@ -84,18 +84,25 @@ Tag::TagsList TagsOperator::getTags() const
 }
 
 
-void TagsOperator::setTag(const Tag::Types& name, const TagValue& values)
+void TagsOperator::setTag(const Tag::Types& name, const TagValue& value)
 {
-    for(auto& delta: m_diffs)
+    const auto savedDeltas = m_deltas;
+
+    for(auto& delta: m_deltas)
     {
         Tag::TagsList& tags = delta.get<Photo::Field::Tags>();
-        tags[name] = values;
+
+        if (value.type() == Tag::ValueType::Empty)
+            tags.erase(name);
+        else
+            tags[name] = value;
     }
 
-    m_db->exec([deltas = m_diffs](Database::IBackend& backend)
-    {
-        backend.update(deltas);
-    });
+    if (savedDeltas != m_deltas)
+        m_db->exec([deltas = m_deltas](Database::IBackend& backend)
+        {
+            backend.update(deltas);
+        });
 }
 
 
