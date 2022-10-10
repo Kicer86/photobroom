@@ -884,9 +884,9 @@ Error code: %1</source>
 <context>
     <name>TagValueEditor</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="112"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="115"/>
         <source>Apply</source>
-        <translation>Apply</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -980,7 +980,7 @@ namespace Database
         QSqlQuery query(db);
         bool status = true;
 
-        // gather ids for current set of tag for photo_id
+        // gather ids for current set of tags for photo_id
         const QString tagIdsQuery =
             QString("SELECT id FROM %1 WHERE photo_id=\"%2\"")
                 .arg(TAB_TAGS)

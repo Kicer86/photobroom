@@ -29,6 +29,7 @@ Item {
             value: editor.value === undefined? new Date(): editor.value
 
             onAccepted: editor.accepted(value)
+            onRejected: editor.rejected()
 
             Component.onCompleted: forceActiveFocus();
         }
@@ -42,6 +43,7 @@ Item {
             value: editor.value === undefined? new Date(): editor.value
 
             onAccepted: editor.accepted(value)
+            onRejected: editor.rejected()
 
             Component.onCompleted: forceActiveFocus();
         }
@@ -50,7 +52,7 @@ Item {
     Component {
         id: textEditor
 
-        TextInput {
+        ExTextInput {
             anchors.fill: parent
             height: parent.height
 
@@ -58,9 +60,10 @@ Item {
             verticalAlignment: TextInput.AlignVCenter
             text: editor.value === undefined? "": editor.value
 
-            onEditingFinished: editor.accepted(text)
+            onAccepted: editor.accepted(text)
+            onFocusLost: editor.rejected()
 
-            Component.onCompleted: forceActiveFocus();
+            Component.onCompleted: forceActiveFocus()
         }
     }
 
