@@ -19,7 +19,7 @@ jobs:
           # - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: true
 
