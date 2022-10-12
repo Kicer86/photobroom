@@ -1,0 +1,25 @@
+
+name: AUR package build test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Build Package
+      uses: 2m/arch-pkgbuild-builder@v1.16
+      with:
+        target: 'pkgbuild'
+        pkgname: '.github/aur/photobroom-git'
