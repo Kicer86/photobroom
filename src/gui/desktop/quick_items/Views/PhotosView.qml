@@ -111,7 +111,7 @@ Item {
             }
         }
 
-        // TODO: troublesome item. Without it StackView does not get focus when clicked
+        // TODO: troublesome item. Without it StackView does not get focus when clicked,
         // so Keys.onPressed won't work. Adding this item helps, but requires z:1,
         // otherwise any new page pushed to StackView overlaps it and it does not work.
         // z:1 from the other side causes that scrollbars and other elements of
