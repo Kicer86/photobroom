@@ -134,6 +134,7 @@ FocusScope {
                 id: fullscreenImage
 
                 anchors.fill: parent
+                clip: true
             }
         }
     }
