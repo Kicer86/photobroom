@@ -254,6 +254,7 @@ namespace dlib_api
         }
         catch(const dlib::cuda_error &)
         {
+#ifdef DLIB_HAS_CUDA_MEMORY_OVERFLOW_BUG
             // image was too big for being processed
             // due to an issue in dlib, we just need to call face_locations_cnn here again
             QImage empty_image(10, 10, QImage::Format_Mono);
@@ -266,6 +267,7 @@ namespace dlib_api
                 // we will end up here as long as https://github.com/davisking/dlib/issues/1984 exists
                 // covered by learning tests
             }
+#endif
         }
 
         return faces;

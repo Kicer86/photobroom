@@ -1,4 +1,6 @@
 
+#ifdef DLIB_HAS_CUDA_MEMORY_OVERFLOW_BUG
+
 #include <gtest/gtest.h>
 #include <QImage>
 #include <dlib/cuda/cuda_errors.h>
@@ -59,3 +61,5 @@ TEST(DlibIssuesTest, outOfMemoryEvenWhenResourcesAreAvailable)
         dlib::cuda_error);
     }
 }
+
+#endif

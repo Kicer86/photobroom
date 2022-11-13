@@ -30,6 +30,10 @@ target_link_libraries(dlib_wrapper
                                 system
 )
 
+if (${dlib_VERSION} VERSION_LESS 19.25)
+    target_compile_definitions(dlib_wrapper PRIVATE DLIB_HAS_CUDA_MEMORY_OVERFLOW_BUG)
+endif()
+
 generate_export_header(dlib_wrapper)
 hideSymbols(dlib_wrapper)
 
