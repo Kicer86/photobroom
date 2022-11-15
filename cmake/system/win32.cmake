@@ -4,14 +4,15 @@
 
 
 function(download_tools)
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip)
+    set(EXIFTOOL_VER 12.50)
+    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
-            https://exiftool.org/exiftool-12.35.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
+            https://exiftool.org/exiftool-${EXIFTOOL_VER}.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip
             SHOW_PROGRESS
         )
         file(ARCHIVE_EXTRACT
-            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-12.35.zip
+            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip
             DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
         )
     endif()
