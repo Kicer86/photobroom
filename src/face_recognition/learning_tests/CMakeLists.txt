@@ -48,6 +48,11 @@ if(BUILD_LEARNING_TESTS AND WGET)
                                     FACES_DIR=${CMAKE_CURRENT_BINARY_DIR}
     )
 
+    find_package(dlib REQUIRED)
+    if (${dlib_VERSION} VERSION_LESS 19.25)
+        target_compile_definitions(dlib_behaviour_tests PRIVATE DLIB_HAS_CUDA_MEMORY_OVERFLOW_BUG)
+    endif()
+
     add_custom_target(face_images
                       DEPENDS lfw/George_W_Bush/George_W_Bush_0518.jpg
     )
