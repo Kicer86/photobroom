@@ -56,5 +56,7 @@ Components.MultiselectGridView {
 
     ScrollBar.vertical: ScrollBar { }
 
+    // TODO: without it parent (PhotosView) doesn't get focus and Esc key does not work.
+    // Figure out how to drop this.
     Components.Focuser { }
 }

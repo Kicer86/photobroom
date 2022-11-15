@@ -156,19 +156,9 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 
 void FacesDialog::setImage()
 {
-    const OrientedImage oriented_image = Image::normalized(m_photoPath, m_exif);
-    m_photoSize = oriented_image->size();
-
-    if (oriented_image->isNull())
-    {
-        // TODO: display some empty image or something
-    }
-    else
-    {
-        QObject* photo = QmlUtils::findQmlObject(ui->quickView, "flickablePhoto");
-        photo->setProperty("source", QVariant(oriented_image.get()));
-        QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
-    }
+    QObject* photo = QmlUtils::findQmlObject(ui->quickView, "flickablePhoto");
+    photo->setProperty("source", QVariant(m_photoPath));
+    QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
 }
 
 

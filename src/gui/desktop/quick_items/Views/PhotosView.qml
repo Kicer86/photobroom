@@ -10,7 +10,7 @@ import "ViewsComponents" as Internals
  * Top level view for diplaying photos from APhotoInfoModel.
  */
 
-Item {
+FocusScope {
     id: photosViewId
 
     property var selectedPhotos: []                // list of selected photo ids
@@ -52,9 +52,6 @@ Item {
         anchors.right: parent.right
         anchors.top: filterId.bottom
         anchors.bottom: parent.bottom
-
-        focus: true
-        focusPolicy: Qt.StrongFocus
 
         initialItem: Internals.PhotosGridView {
             // grid with photos
@@ -110,15 +107,6 @@ Item {
                 event.accepted = true;
             }
         }
-
-        // TODO: troublesome item. Without it StackView does not get focus when clicked
-        // so Keys.onPressed won't work. Adding this item helps, but requires z:1,
-        // otherwise any new page pushed to StackView overlaps it and it does not work.
-        // z:1 from the other side causes that scrollbars and other elements of
-        // Internals.PhotosGridView (initial page) do not get focus for some reason...
-        // Current solution is not perfect either - after poping page, Internals.PhotosGridView
-        // requires double click to get focus. But that's the least broken solution.
-        Components.Focuser { enabled: photosArea.depth > 1; z: 1}
     }
 
     Component {
@@ -146,6 +134,7 @@ Item {
                 id: fullscreenImage
 
                 anchors.fill: parent
+                clip: true
             }
         }
     }
