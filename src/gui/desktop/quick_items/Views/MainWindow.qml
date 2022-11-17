@@ -150,6 +150,10 @@ ApplicationWindow {
 
                             project: PhotoBroomProject.project
                             coreFactory: PhotoBroomProject.coreFactory
+
+                            onFaceRecognitionAction: {
+
+                            }
                         }
 
                         Instantiator {

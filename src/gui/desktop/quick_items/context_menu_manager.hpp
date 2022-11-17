@@ -37,6 +37,11 @@ public:
 signals:
     void selectionChanged(const QList<QVariant> &);
 
+    // actions to be handled by qml side.
+    // TODO: I do not like the fact that some actions are handled on cpp side
+    //       and some on the qml side. At this moment I could not find another solution
+    void faceRecognitionAction();
+
 private:
     std::unique_ptr<IdToDataConverter> m_translator;
     std::vector<Photo::Data> m_photos;

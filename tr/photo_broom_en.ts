@@ -365,27 +365,27 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="184"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="188"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="214"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="218"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="228"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="232"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="241"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="245"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="254"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="258"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
