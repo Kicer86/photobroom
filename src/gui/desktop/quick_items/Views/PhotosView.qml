@@ -53,7 +53,26 @@ FocusScope {
         anchors.top: filterId.bottom
         anchors.bottom: parent.bottom
 
-        initialItem: Internals.PhotosGridView {
+        initialItem: photosPage
+
+        pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0.0; to: 1.0} }
+        pushExit:  Transition { PropertyAction    { property: "enabled"; value: false} }
+
+        popEnter:  Transition { PropertyAction    { property: "enabled"; value: true} }
+        popExit:   Transition { PropertyAnimation { property: "opacity"; to: 0.0} }
+
+        Keys.onPressed: function(event) {
+            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
+                photosArea.pop();
+                event.accepted = true;
+            }
+        }
+    }
+
+    Component {
+        id: photosPage
+
+        Internals.PhotosGridView {
             // grid with photos
             id: gridView
 
@@ -93,18 +112,12 @@ FocusScope {
 
                 selectedPhotos = ids;
             }
-        }
 
-        pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0.0; to: 1.0} }
-        pushExit:  Transition { PropertyAction    { property: "enabled"; value: false} }
+            function turnOnFullscreenMode(index) {
+                var id = gridView.model.getId(index);
 
-        popEnter:  Transition { PropertyAction    { property: "enabled"; value: true} }
-        popExit:   Transition { PropertyAnimation { property: "opacity"; to: 0.0} }
-
-        Keys.onPressed: function(event) {
-            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
-                photosArea.pop();
-                event.accepted = true;
+                photosArea.push(fullscreenPage, {"photoID": id});
+                console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
             }
         }
     }
@@ -137,13 +150,6 @@ FocusScope {
                 clip: true
             }
         }
-    }
-
-    function turnOnFullscreenMode(index) {
-        var id = gridView.model.getId(index);
-
-        photosArea.push(fullscreenPage, {"photoID": id});
-        console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
     }
 }
 
