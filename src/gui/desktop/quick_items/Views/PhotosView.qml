@@ -100,6 +100,58 @@ FocusScope {
                 anchors.right: parent.ScrollBar.vertical.left
             }
 
+            MouseArea {
+                anchors.fill: parent
+
+                acceptedButtons: Qt.RightButton
+                propagateComposedEvents: true
+
+                onClicked: function(mouse) {
+                    contextMenu.selection = photosView.selectedPhotos;
+                    contextMenu.popup(mouse.x, mouse.y);
+                }
+            }
+
+            Menu {
+                id: contextMenu
+
+                property alias selection: contextMenuManager.selection
+
+                ContextMenuManager {
+                    id: contextMenuManager
+
+                    project: PhotoBroomProject.project
+                    coreFactory: PhotoBroomProject.coreFactory
+
+                    onFaceRecognitionAction: {
+
+                    }
+                }
+
+                Instantiator {
+                    id: instantiator
+
+                    model: contextMenuManager.model
+
+                    delegate: MenuItem {
+                        required property var actionName
+                        required property var actionEnabled
+                        required property var actionIndex
+
+                        enabled: actionEnabled
+                        text: actionName
+
+                        onTriggered: {
+                            contextMenu.close();
+                            contextMenuManager.model.trigger(actionIndex);
+                        }
+                    }
+
+                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                    onObjectRemoved: (object) => contextMenu.removeItem(object)
+                }
+            }
+
             onItemDoubleClicked: (index) => turnOnFullscreenMode(index)
 
             onSelectedIndexesChanged: function() {
