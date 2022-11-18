@@ -123,9 +123,7 @@ FocusScope {
                     project: PhotoBroomProject.project
                     coreFactory: PhotoBroomProject.coreFactory
 
-                    onFaceRecognitionAction: {
-
-                    }
+                    onFaceRecognitionAction: turnOnFaceRecognitionMode()
                 }
 
                 Instantiator {
@@ -171,6 +169,10 @@ FocusScope {
                 photosArea.push(fullscreenPage, {"photoID": id});
                 console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
             }
+
+            function turnOnFaceRecognitionMode() {
+                photosArea.push(faceRecognitionPage, {});
+            }
         }
     }
 
@@ -202,6 +204,12 @@ FocusScope {
                 clip: true
             }
         }
+    }
+
+    Component {
+        id: faceRecognitionPage
+
+        FacesDialog {}
     }
 }
 

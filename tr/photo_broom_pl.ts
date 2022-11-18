@@ -369,7 +369,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>U&amp;stawienia</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+38"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
@@ -394,7 +394,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-180"/>
+        <location line="-128"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
