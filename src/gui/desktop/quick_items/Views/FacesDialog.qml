@@ -2,10 +2,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QmlItems
+import quick_items
 import "../Components" as Components
 
 Item {
     id: main
+
+    property alias photoID: ctrl.photoID
 
     state: "Detecting Faces"
 
@@ -35,6 +38,10 @@ Item {
         facesMarker.model = mask;
     }
 
+    MediaViewCtrl {
+        id: ctrl
+    }
+
     Timer {
         id: notificationTimer
         interval: 4000
@@ -42,7 +49,6 @@ Item {
     }
 
     Components.ZoomableImage {
-        objectName: "flickablePhoto"
 
         anchors.left: parent.left
         anchors.right: parent.right
@@ -50,6 +56,8 @@ Item {
         anchors.bottom: notificationArea.top
 
         boundsBehavior: Flickable.StopAtBounds
+
+        source: ctrl.path
 
         ShadowFocus {
             id: shadow
