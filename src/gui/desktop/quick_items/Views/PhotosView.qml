@@ -123,7 +123,12 @@ FocusScope {
                     project: PhotoBroomProject.project
                     coreFactory: PhotoBroomProject.coreFactory
 
-                    onFaceRecognitionAction: turnOnFaceRecognitionMode()
+                    onFaceRecognitionAction: {
+                        if (selectedIndexes.length == 1)
+                            turnOnFaceRecognitionMode(selectedIndexes[0])
+                        else
+                            console.error("No photo selected, weird")
+                    }
                 }
 
                 Instantiator {
@@ -170,8 +175,10 @@ FocusScope {
                 console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
             }
 
-            function turnOnFaceRecognitionMode() {
-                photosArea.push(faceRecognitionPage, {});
+            function turnOnFaceRecognitionMode(index) {
+                var id = gridView.model.getId(index);
+
+                photosArea.push(faceRecognitionPage, {"photoID": id});
             }
         }
     }
