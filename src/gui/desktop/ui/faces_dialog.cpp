@@ -84,8 +84,6 @@ FacesDialog::FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreA
     connect(ui->peopleList, &QTableWidget::itemSelectionChanged, this, &FacesDialog::selectFace);
 
     updateDetectionState(0);
-
-    setImage();
 }
 
 
@@ -151,14 +149,6 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
         const auto idx = std::distance(m_faces.cbegin(), it);
         ui->peopleList->setItem(static_cast<int>(idx), 0, new QTableWidgetItem(name));
     }
-}
-
-
-void FacesDialog::setImage()
-{
-    QObject* photo = QmlUtils::findQmlObject(ui->quickView, "flickablePhoto");
-    photo->setProperty("source", QVariant(m_photoPath));
-    QMetaObject::invokeMethod(photo, "zoomToFit", Qt::QueuedConnection);
 }
 
 

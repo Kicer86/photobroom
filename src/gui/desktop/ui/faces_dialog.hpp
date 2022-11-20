@@ -45,7 +45,6 @@ class FacesDialog: public QDialog
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);
-        void setImage();
         void updatePeopleList();
         void selectFace();
 
