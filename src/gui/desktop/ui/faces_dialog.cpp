@@ -20,7 +20,6 @@
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
-#include "ui_faces_dialog.h"
 #include "utils/people_list_model.hpp"
 #include "utils/qml_utils.hpp"
 
@@ -60,28 +59,14 @@ namespace
     };
 }
 
-FacesDialog::FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget *parent):
-    QDialog(parent),
-    m_id(pd.getId()),
-    m_peopleManipulator(pd.getId(), prj->getDatabase(), *coreAccessor),
-    m_faces(),
-    m_photoPath(pd.get<Photo::Field::Path>()),
-    ui(new Ui::FacesDialog),
-    m_exif(coreAccessor->getExifReaderFactory().get())
+FacesDialog::FacesDialog(QObject *parent):
+    QObject(parent),
+    m_id(),
+    m_peopleManipulator(),
+    m_faces()
 {
-    ui->setupUi(this);
-
-    ui->quickView->engine()->addImportPath(":/photo_broom");
-    ui->quickView->setSource(QUrl("qrc:///photo_broom/quick_items/Views/FacesDialog.qml"));
-    ui->peopleList->setItemDelegate(new TableDelegate(prj->getDatabase(), this));
-
-    connect(&m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
+    connect(m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
             this, &FacesDialog::updateFaceInformation);
-
-    connect(this, &FacesDialog::accepted,
-            this, &FacesDialog::apply);
-
-    connect(ui->peopleList, &QTableWidget::itemSelectionChanged, this, &FacesDialog::selectFace);
 
     updateDetectionState(0);
 }
@@ -89,38 +74,26 @@ FacesDialog::FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreA
 
 FacesDialog::~FacesDialog()
 {
-    delete ui;
-}
 
-
-void FacesDialog::keyPressEvent(QKeyEvent* keyEvent)
-{
-    if (keyEvent->key() == Qt::Key_Escape)
-    {
-        keyEvent->accept();
-        ui->peopleList->clearSelection();
-    }
-    else
-        QDialog::keyPressEvent(keyEvent);
 }
 
 
 void FacesDialog::updateFaceInformation()
 {
-    const auto faces_count = m_peopleManipulator.facesCount();
+    const auto faces_count = m_peopleManipulator->facesCount();
 
     updateDetectionState(faces_count == 0? 2: 1);
 
     m_faces.clear();
     for(std::size_t i = 0; i < faces_count; i++)
-        m_faces.push_back(m_peopleManipulator.position(i));
+        m_faces.push_back(m_peopleManipulator->position(i));
 
     updatePeopleList();
 
     for(std::size_t i = 0; i < faces_count; i++)
     {
-        const QRect& pos = m_peopleManipulator.position(i);
-        const QString& name = m_peopleManipulator.name(i);
+        const QRect& pos = m_peopleManipulator->position(i);
+        const QString& name = m_peopleManipulator->name(i);
 
         applyFaceName(pos, name);
     }
@@ -133,8 +106,6 @@ void FacesDialog::updateFaceInformation()
 
     QList<QVariant> qmlListOfRects;
     std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
-
-    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setFacesMask", Qt::QueuedConnection, Q_ARG(QVariant, qmlListOfRects));
 }
 
 
@@ -147,18 +118,20 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
     if (it != m_faces.cend())
     {
         const auto idx = std::distance(m_faces.cbegin(), it);
-        ui->peopleList->setItem(static_cast<int>(idx), 0, new QTableWidgetItem(name));
+        //ui->peopleList->setItem(static_cast<int>(idx), 0, new QTableWidgetItem(name));
     }
 }
 
 
 void FacesDialog::updatePeopleList()
 {
+    /*
     const int rowCount = ui->peopleList->rowCount();
     const int peopleCount = static_cast<int>(m_faces.size());
 
     if (rowCount < peopleCount)
         ui->peopleList->setRowCount(peopleCount);
+    */
 }
 
 
@@ -166,6 +139,7 @@ void FacesDialog::selectFace()
 {
     QRect selectionArea( QPoint(), m_photoSize);
 
+    /*
     const auto selected = ui->peopleList->selectedItems();
 
     if (selected.empty() == false)
@@ -179,27 +153,28 @@ void FacesDialog::selectFace()
         QMetaObject::invokeMethod(ui->quickView->rootObject(), "clearFaceSelection", Qt::QueuedConnection);
     else
         QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
+    */
 }
 
 
 void FacesDialog::updateDetectionState(int state)
 {
-    QMetaObject::invokeMethod(ui->quickView->rootObject(), "setDetectionState", Qt::QueuedConnection, Q_ARG(QVariant, state));
+
 }
 
 
 void FacesDialog::apply()
 {
-    const int known_count = ui->peopleList->rowCount();
+    const int known_count = 0; //TODO: ui->peopleList->rowCount();
     assert( known_count == m_faces.size());
 
     for(int i = 0; i < known_count; i++)
     {
-        const auto person = ui->peopleList->item(i, 0);
-        const QString name = person == nullptr? QString(): person->text();
+        //const auto person = nullptr; //TODO: ui->peopleList->item(i, 0);
+        //const QString name = person == nullptr? QString(): person->text();
 
-        m_peopleManipulator.setName(static_cast<std::size_t>(i), name);
+        //m_peopleManipulator->setName(static_cast<std::size_t>(i), name);
     }
 
-    m_peopleManipulator.store();
+    m_peopleManipulator->store();
 }

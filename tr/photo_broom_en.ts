@@ -208,11 +208,6 @@
         <source>Faces detected a recognised.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="14"/>
-        <source>People assignment</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>FeaturesObserver</name>

@@ -2,7 +2,7 @@
 #ifndef FACES_DIALOG_HPP
 #define FACES_DIALOG_HPP
 
-#include <QDialog>
+#include <QQmlEngine>
 
 #include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
@@ -12,36 +12,25 @@
 #include "utils/people_manipulator.hpp"
 
 
-class QTableWidgetItem;
 
 struct ICoreFactoryAccessor;
-struct IExifReader;
-
-namespace Ui {
-    class FacesDialog;
-}
-
 class Project;
 
-class FacesDialog: public QDialog
+class FacesDialog: public QObject
 {
         Q_OBJECT
+        QML_ELEMENT
 
     public:
-        FacesDialog(const Photo::DataDelta& pd, ICoreFactoryAccessor* coreAccessor, Project* prj, QWidget* parent = 0 );
+        FacesDialog(QObject* parent = 0 );
         ~FacesDialog();
-
-    protected:
-        void keyPressEvent(QKeyEvent *) override;
 
     private:
         const Photo::Id m_id;
-        PeopleManipulator m_peopleManipulator;
+        PeopleManipulator *m_peopleManipulator;
         QVector<QRect> m_faces;
         QString m_photoPath;
         QSize m_photoSize;
-        Ui::FacesDialog *ui;
-        IExifReader& m_exif;
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);

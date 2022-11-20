@@ -196,11 +196,6 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="+14"/>
-        <source>People assignment</source>
-        <translation>Przypisywanie osób</translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+116"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>

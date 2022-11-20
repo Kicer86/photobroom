@@ -24,7 +24,6 @@ set(TO_MOC
 
 set(UI_FILES
     configuration_dialog.ui
-    faces_dialog.ui
     photos_grouping_dialog.ui
 )
 
