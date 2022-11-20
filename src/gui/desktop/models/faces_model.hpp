@@ -31,7 +31,7 @@ class FacesModel: public QObject
         Photo::Id m_id;
         Database::IDatabase* m_database = nullptr;
         ICoreFactoryAccessor* m_core = nullptr;
-        PeopleManipulator *m_peopleManipulator;
+        std::unique_ptr<PeopleManipulator> m_peopleManipulator;
         QVector<QRect> m_faces;
         QString m_photoPath;
         QSize m_photoSize;
@@ -42,6 +42,7 @@ class FacesModel: public QObject
         void updatePeopleList();
         void selectFace();
 
+        void initialSetup();
         void updateDetectionState(int);
 
         void apply();

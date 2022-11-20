@@ -24,10 +24,7 @@ FacesModel::FacesModel(QObject *parent):
     m_peopleManipulator(),
     m_faces()
 {
-    connect(m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
-            this, &FacesModel::updateFaceInformation);
-
-    QMetaObject::invokeMethod(this, std::bind(&FacesModel::updateDetectionState, this, 0), Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, &FacesModel::initialSetup, Qt::QueuedConnection);
 }
 
 
@@ -116,12 +113,23 @@ void FacesModel::selectFace()
 }
 
 
-void FacesModel::updateDetectionState(int state)
+void FacesModel::initialSetup()
 {
     assert(m_id.valid());
     assert(m_database);
     assert(m_core);
+    assert(m_peopleManipulator.get() == nullptr);
 
+    m_peopleManipulator = std::make_unique<PeopleManipulator>(m_id, *m_database, *m_core);
+    connect(m_peopleManipulator.get(), &PeopleManipulator::facesAnalyzed,
+            this, &FacesModel::updateFaceInformation);
+
+    updateDetectionState(0);
+}
+
+
+void FacesModel::updateDetectionState(int state)
+{
     emit stateChanged(state);
 }
 
