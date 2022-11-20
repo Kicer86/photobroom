@@ -2,7 +2,7 @@
 #ifndef FACES_DIALOG_HPP
 #define FACES_DIALOG_HPP
 
-#include <QQmlEngine>
+#include <QObject>
 
 #include <core/function_wrappers.hpp>
 #include <database/idatabase.hpp>
@@ -19,7 +19,6 @@ class Project;
 class FacesModel: public QObject
 {
         Q_OBJECT
-        QML_ELEMENT
 
     public:
         FacesModel(QObject* parent = 0 );

@@ -12,7 +12,6 @@
 #include <database/igroup_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
-#include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"

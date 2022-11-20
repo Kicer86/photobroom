@@ -1,16 +1,5 @@
 
-#include "faces_dialog.hpp"
-
 #include <cassert>
-
-#include <QCompleter>
-#include <QDrag>
-#include <QLineEdit>
-#include <QMimeData>
-#include <QPainter>
-#include <QQmlEngine>
-#include <QQuickItem>
-#include <QStyledItemDelegate>
 
 #include <core/down_cast.hpp>
 #include <core/iexif_reader.hpp>
@@ -23,41 +12,10 @@
 #include "utils/people_list_model.hpp"
 #include "utils/qml_utils.hpp"
 
+#include "faces_model.hpp"
+
 using namespace std::placeholders;
 
-namespace
-{
-    class TableDelegate: public QStyledItemDelegate
-    {
-        public:
-            TableDelegate(Database::IDatabase& db, QObject* p):
-                QStyledItemDelegate(p)
-            {
-                m_peopleModel.setDB(&db);
-            }
-
-            QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
-            {
-                const QString value = index.data(Qt::EditRole).toString();
-
-                QCompleter* completer = new QCompleter;
-                ModelCompositor* model_compositor = new ModelCompositor(completer);
-                model_compositor->add(&m_peopleModel);
-
-                completer->setModel(model_compositor);
-
-                QLineEdit* lineEdit = new QLineEdit(value, parent);
-                lineEdit->setGeometry(option.rect);
-                lineEdit->show();
-                lineEdit->setCompleter(completer);
-
-                return lineEdit;
-            }
-
-        private:
-            PeopleListModel m_peopleModel;
-    };
-}
 
 FacesModel::FacesModel(QObject *parent):
     QObject(parent),

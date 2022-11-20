@@ -3,21 +3,18 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Quick QuickWidgets Qml)
 
 set(SRC
     configuration_dialog.cpp
-    faces_dialog.cpp
     mainwindow.cpp
     photos_grouping_dialog.cpp
 )
 
 set(HEADERS
     configuration_dialog.hpp
-    faces_dialog.hpp
     mainwindow.hpp
     photos_grouping_dialog.hpp
 )
 
 set(TO_MOC
     configuration_dialog.hpp
-    faces_dialog.hpp
     mainwindow.hpp
     photos_grouping_dialog.hpp
 )
@@ -40,7 +37,6 @@ target_link_libraries(gui_ui
                         PRIVATE
                             core
                             database
-                            face_recognition
                             photos_crawler
                             project_utils
                             system
