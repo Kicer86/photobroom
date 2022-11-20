@@ -3,6 +3,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QmlItems
 import quick_items
+import photo_broom.models
+import photo_broom.singletons
 import "../Components" as Components
 
 Item {
@@ -40,6 +42,14 @@ Item {
 
     MediaViewCtrl {
         id: ctrl
+    }
+
+    FacesModel {
+        id: model
+
+        photoID: ctrl.photoID
+        database: PhotoBroomProject.database
+        core: PhotoBroomProject.coreFactory
     }
 
     Timer {

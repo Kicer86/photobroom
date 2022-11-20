@@ -14,6 +14,7 @@
 
 #include "faces_model.hpp"
 
+
 using namespace std::placeholders;
 
 
@@ -26,13 +27,7 @@ FacesModel::FacesModel(QObject *parent):
     connect(m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
             this, &FacesModel::updateFaceInformation);
 
-    updateDetectionState(0);
-}
-
-
-FacesModel::~FacesModel()
-{
-
+    QMetaObject::invokeMethod(this, std::bind(&FacesModel::updateDetectionState, this, 0), Qt::QueuedConnection);
 }
 
 
@@ -117,7 +112,9 @@ void FacesModel::selectFace()
 
 void FacesModel::updateDetectionState(int state)
 {
-
+    assert(m_id.valid());
+    assert(m_database);
+    assert(m_core);
 }
 
 

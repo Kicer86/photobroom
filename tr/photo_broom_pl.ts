@@ -196,24 +196,24 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+116"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+126"/>
         <source>Detecting and analyzing faces</source>
-        <translation>Wykrywanie i analizowanie twarzy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Mark found faces</source>
-        <translation>Zaznacz znalezione twarze</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Could not detect any face.</source>
-        <translation>Nie udało się znaleźć żadnej twarzy.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Faces detected a recognised.</source>
-        <translation>Znaleziono i rozpoznano twarze.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

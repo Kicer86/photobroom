@@ -23,7 +23,9 @@
 #include <database/photo_types.hpp>
 #include <database/idatabase.hpp>
 
+
 struct ICoreFactoryAccessor;
+
 
 class PeopleManipulator: public QObject
 {
