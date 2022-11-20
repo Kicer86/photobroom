@@ -16,14 +16,14 @@
 struct ICoreFactoryAccessor;
 class Project;
 
-class FacesDialog: public QObject
+class FacesModel: public QObject
 {
         Q_OBJECT
         QML_ELEMENT
 
     public:
-        FacesDialog(QObject* parent = 0 );
-        ~FacesDialog();
+        FacesModel(QObject* parent = 0 );
+        ~FacesModel();
 
     private:
         const Photo::Id m_id;

@@ -59,26 +59,26 @@ namespace
     };
 }
 
-FacesDialog::FacesDialog(QObject *parent):
+FacesModel::FacesModel(QObject *parent):
     QObject(parent),
     m_id(),
     m_peopleManipulator(),
     m_faces()
 {
     connect(m_peopleManipulator, &PeopleManipulator::facesAnalyzed,
-            this, &FacesDialog::updateFaceInformation);
+            this, &FacesModel::updateFaceInformation);
 
     updateDetectionState(0);
 }
 
 
-FacesDialog::~FacesDialog()
+FacesModel::~FacesModel()
 {
 
 }
 
 
-void FacesDialog::updateFaceInformation()
+void FacesModel::updateFaceInformation()
 {
     const auto faces_count = m_peopleManipulator->facesCount();
 
@@ -109,7 +109,7 @@ void FacesDialog::updateFaceInformation()
 }
 
 
-void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
+void FacesModel::applyFaceName(const QRect& face, const PersonName& person)
 {
     const QString name = person.name();
 
@@ -123,7 +123,7 @@ void FacesDialog::applyFaceName(const QRect& face, const PersonName& person)
 }
 
 
-void FacesDialog::updatePeopleList()
+void FacesModel::updatePeopleList()
 {
     /*
     const int rowCount = ui->peopleList->rowCount();
@@ -135,7 +135,7 @@ void FacesDialog::updatePeopleList()
 }
 
 
-void FacesDialog::selectFace()
+void FacesModel::selectFace()
 {
     QRect selectionArea( QPoint(), m_photoSize);
 
@@ -157,13 +157,13 @@ void FacesDialog::selectFace()
 }
 
 
-void FacesDialog::updateDetectionState(int state)
+void FacesModel::updateDetectionState(int state)
 {
 
 }
 
 
-void FacesDialog::apply()
+void FacesModel::apply()
 {
     const int known_count = 0; //TODO: ui->peopleList->rowCount();
     assert( known_count == m_faces.size());
