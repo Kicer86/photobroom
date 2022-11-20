@@ -14,20 +14,6 @@ Item {
 
     state: "Detecting Faces"
 
-    function setDetectionState(state) {
-        if (state === 0) {
-            // nothing to do
-        } else if (state === 1) {
-            main.state = "Faces Detected";
-            notificationTimer.running = true;
-        } else if (state === 2) {
-            main.state = "No Face Detected";
-            notificationTimer.running = true;
-        } else if (state === 10) {
-            main.state = "Notification Hidden";
-        }
-    }
-
     function selectFace(face) {
         shadow.setFocus(face);
     }
@@ -50,6 +36,20 @@ Item {
         photoID: ctrl.photoID
         database: PhotoBroomProject.database
         core: PhotoBroomProject.coreFactory
+
+        onStateChanged: (state) => {
+            if (state === 0) {
+                // nothing to do
+            } else if (state === 1) {
+                main.state = "Faces Detected";
+                notificationTimer.running = true;
+            } else if (state === 2) {
+                main.state = "No Face Detected";
+                notificationTimer.running = true;
+            } else if (state === 10) {
+                main.state = "Notification Hidden";
+            }
+        }
     }
 
     Timer {

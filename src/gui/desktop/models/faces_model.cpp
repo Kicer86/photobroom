@@ -31,6 +31,12 @@ FacesModel::FacesModel(QObject *parent):
 }
 
 
+int FacesModel::state() const
+{
+    return m_state;
+}
+
+
 void FacesModel::updateFaceInformation()
 {
     const auto faces_count = m_peopleManipulator->facesCount();
@@ -115,6 +121,8 @@ void FacesModel::updateDetectionState(int state)
     assert(m_id.valid());
     assert(m_database);
     assert(m_core);
+
+    emit stateChanged(state);
 }
 
 

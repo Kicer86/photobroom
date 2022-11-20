@@ -20,9 +20,12 @@ class FacesModel: public QObject
         Q_PROPERTY(Photo::Id photoID MEMBER m_id REQUIRED)
         Q_PROPERTY(Database::IDatabase* database MEMBER m_database REQUIRED)
         Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED)
+        Q_PROPERTY(int state READ state NOTIFY stateChanged)
 
     public:
         FacesModel(QObject* parent = nullptr);
+
+        int state() const;
 
     private:
         Photo::Id m_id;
@@ -32,6 +35,7 @@ class FacesModel: public QObject
         QVector<QRect> m_faces;
         QString m_photoPath;
         QSize m_photoSize;
+        int m_state = 0;
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);
@@ -43,8 +47,7 @@ class FacesModel: public QObject
         void apply();
 
     signals:
-        void databaseChanged() const;
-        void coreChanged() const;
+        void stateChanged(int);
 };
 
 #endif // FACES_DIALOG_HPP
