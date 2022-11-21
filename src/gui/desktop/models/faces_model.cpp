@@ -19,7 +19,7 @@ using namespace std::placeholders;
 
 
 FacesModel::FacesModel(QObject *parent):
-    QObject(parent),
+    QAbstractListModel(parent),
     m_id(),
     m_peopleManipulator(),
     m_faces()
@@ -31,6 +31,28 @@ FacesModel::FacesModel(QObject *parent):
 int FacesModel::state() const
 {
     return m_state;
+}
+
+
+int FacesModel::rowCount(const QModelIndex& parent) const
+{
+    return parent.isValid() == false && m_peopleManipulator.get()?
+        static_cast<int>(m_peopleManipulator->facesCount()):
+        0;
+}
+
+
+QVariant FacesModel::data(const QModelIndex& index, int role) const
+{
+    const std::size_t row = static_cast<std::size_t>(index.row());
+
+    if (index.column() == 0 && row < m_peopleManipulator->facesCount())
+    {
+        if (role == Qt::DisplayRole)
+            return m_peopleManipulator->name(row);
+    }
+
+    return QVariant();
 }
 
 
@@ -62,6 +84,9 @@ void FacesModel::updateFaceInformation()
 
     QList<QVariant> qmlListOfRects;
     std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
+
+    beginInsertRows(QModelIndex(), 0, faces_count - 1);
+    endInsertRows();
 }
 
 

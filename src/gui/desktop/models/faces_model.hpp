@@ -2,7 +2,7 @@
 #ifndef FACES_DIALOG_HPP
 #define FACES_DIALOG_HPP
 
-#include <QObject>
+#include <QAbstractListModel>
 
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
@@ -13,7 +13,7 @@
 #include "utils/people_manipulator.hpp"
 
 
-class FacesModel: public QObject
+class FacesModel: public QAbstractListModel
 {
         Q_OBJECT
 
@@ -26,6 +26,10 @@ class FacesModel: public QObject
         FacesModel(QObject* parent = nullptr);
 
         int state() const;
+
+        // QAbstractItemModel:
+        int rowCount(const QModelIndex& parent) const override;
+        QVariant data(const QModelIndex& index, int role) const override;
 
     private:
         Photo::Id m_id;
