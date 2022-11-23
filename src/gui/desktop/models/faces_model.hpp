@@ -40,6 +40,7 @@ class FacesModel: public QAbstractListModel
         QString m_photoPath;
         QSize m_photoSize;
         int m_state = 0;
+        int m_facesCount = 0;
 
         void updateFaceInformation();
         void applyFaceName(const QRect &, const PersonName &);

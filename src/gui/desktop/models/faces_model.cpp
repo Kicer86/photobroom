@@ -36,9 +36,7 @@ int FacesModel::state() const
 
 int FacesModel::rowCount(const QModelIndex& parent) const
 {
-    return parent.isValid() == false && m_peopleManipulator.get()?
-        static_cast<int>(m_peopleManipulator->facesCount()):
-        0;
+    return parent.isValid() == false? static_cast<int>(m_facesCount): 0;
 }
 
 
@@ -86,6 +84,7 @@ void FacesModel::updateFaceInformation()
     std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
 
     beginInsertRows(QModelIndex(), 0, faces_count - 1);
+    m_facesCount = m_peopleManipulator->facesCount();
     endInsertRows();
 }
 
