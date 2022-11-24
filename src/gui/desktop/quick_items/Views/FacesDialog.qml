@@ -31,7 +31,7 @@ Item {
     }
 
     FacesModel {
-        id: model
+        id: facesModel
 
         photoID: ctrl.photoID
         database: PhotoBroomProject.database
@@ -49,6 +49,22 @@ Item {
             } else if (state === 10) {
                 main.state = "Notification Hidden";
             }
+        }
+    }
+
+    TableView {
+        anchors.top: parent.top
+        anchors.right: parent.right
+        implicitWidth: contentWidth
+        height: contentHeight
+        z:1
+
+        model: facesModel
+
+        delegate: TextField {
+            text: display
+            readOnly: true
+            placeholderText: qsTr("unknown")
         }
     }
 
