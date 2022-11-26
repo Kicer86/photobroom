@@ -23,6 +23,12 @@ class FacesModel: public QAbstractListModel
         Q_PROPERTY(int state READ state NOTIFY stateChanged)
 
     public:
+        enum Roles
+        {
+            FaceRectRole = Qt::UserRole + 1,
+            _lastRole,
+        };
+
         FacesModel(QObject* parent = nullptr);
 
         int state() const;
@@ -30,6 +36,7 @@ class FacesModel: public QAbstractListModel
         // QAbstractItemModel:
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
+        QHash<int, QByteArray> roleNames() const override;
 
     private:
         Photo::Id m_id;

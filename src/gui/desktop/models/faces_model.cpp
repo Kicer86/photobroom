@@ -2,10 +2,11 @@
 #include <cassert>
 
 #include <core/down_cast.hpp>
-#include <core/iexif_reader.hpp>
 #include <core/icore_factory_accessor.hpp>
-#include <core/model_compositor.hpp>
+#include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
+#include <core/model_compositor.hpp>
+#include <core/qmodel_utils.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
@@ -16,6 +17,8 @@
 
 
 using namespace std::placeholders;
+
+ENUM_ROLES_SETUP(FacesModel::Roles);
 
 
 FacesModel::FacesModel(QObject *parent):
@@ -48,9 +51,17 @@ QVariant FacesModel::data(const QModelIndex& index, int role) const
     {
         if (role == Qt::DisplayRole)
             return m_peopleManipulator->name(row);
+        else if (role == Roles::FaceRectRole)
+            return m_peopleManipulator->position(row);
     }
 
-    return QVariant();
+    return {};
+}
+
+
+QHash<int, QByteArray> FacesModel::roleNames() const
+{
+    RETURN_MODEL_ROLES(QAbstractListModel, Roles);
 }
 
 
