@@ -5,6 +5,7 @@ import QmlItems
 import quick_items
 import photo_broom.models
 import photo_broom.singletons
+import photo_broom.utils
 import "../Components" as Components
 
 Item {
@@ -20,10 +21,6 @@ Item {
 
     function clearFaceSelection() {
         shadow.clear();
-    }
-
-    function setFacesMask(mask) {
-        facesMarker.model = mask;
     }
 
     MediaViewCtrl {
@@ -62,9 +59,22 @@ Item {
         model: facesModel
 
         delegate: TextField {
-            text: display
+            id: name
+
+            required property var display       // DisplayRole
+            required property var faceRect      // FaceRectRole
+
             readOnly: true
+            hoverEnabled: true
+            text: display
             placeholderText: qsTr("unknown")
+
+            onPressed: name.readOnly = false
+
+            onHoveredChanged: {
+                if (hovered)
+                    selectFace(faceRect);
+            }
         }
     }
 
@@ -104,6 +114,8 @@ Item {
 
             Repeater {
                 id: facesMarker
+
+                model: facesModel.facesMask
 
                 delegate: Rectangle {
                     x: modelData.x
