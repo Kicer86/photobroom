@@ -21,6 +21,7 @@ class FacesModel: public QAbstractListModel
         Q_PROPERTY(Database::IDatabase* database MEMBER m_database REQUIRED)
         Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED)
         Q_PROPERTY(int state READ state NOTIFY stateChanged)
+        Q_PROPERTY(QList<QVariant> facesMask READ facesMask NOTIFY facesMaskChanged)
 
     public:
         enum Roles
@@ -32,6 +33,7 @@ class FacesModel: public QAbstractListModel
         FacesModel(QObject* parent = nullptr);
 
         int state() const;
+        QList<QVariant> facesMask() const;
 
         // QAbstractItemModel:
         int rowCount(const QModelIndex& parent) const override;
@@ -60,7 +62,8 @@ class FacesModel: public QAbstractListModel
         void apply();
 
     signals:
-        void stateChanged(int);
+        void stateChanged(int) const;
+        void facesMaskChanged(const QList<QVariant> &) const;
 };
 
 #endif // FACES_DIALOG_HPP

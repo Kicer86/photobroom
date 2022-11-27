@@ -37,6 +37,24 @@ int FacesModel::state() const
 }
 
 
+QList<QVariant> FacesModel::facesMask() const
+{
+    if (m_photoSize.isValid())
+    {
+        QRegion reg(0, 0, m_photoSize.width(), m_photoSize.height());
+
+        for (const QRect& rect: m_faces)
+            reg-=QRegion(rect);
+
+        const QList<QVariant> qmlListOfRects(reg.begin(), reg.end());
+
+        return qmlListOfRects;
+    }
+    else
+        return {};
+}
+
+
 int FacesModel::rowCount(const QModelIndex& parent) const
 {
     return parent.isValid() == false? static_cast<int>(m_facesCount): 0;
@@ -85,18 +103,12 @@ void FacesModel::updateFaceInformation()
         applyFaceName(pos, name);
     }
 
-    // convert faces into QRegion containing all but faces
-    QRegion reg(0, 0, m_photoSize.width(), m_photoSize.height());
-
-    for (const QRect& rect: m_faces)
-        reg-=QRegion(rect);
-
-    QList<QVariant> qmlListOfRects;
-    std::copy(reg.begin(), reg.end(), std::back_inserter(qmlListOfRects));
-
     beginInsertRows(QModelIndex(), 0, faces_count - 1);
     m_facesCount = m_peopleManipulator->facesCount();
+    m_photoSize = m_peopleManipulator->photoSize();
     endInsertRows();
+
+    emit facesMaskChanged(facesMask());
 }
 
 
@@ -128,7 +140,7 @@ void FacesModel::updatePeopleList()
 
 void FacesModel::selectFace()
 {
-    QRect selectionArea( QPoint(), m_photoSize);
+    QRect selectionArea(QPoint(), m_photoSize);
 
     /*
     const auto selected = ui->peopleList->selectedItems();
