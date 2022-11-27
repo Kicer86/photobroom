@@ -80,6 +80,12 @@ const QRect& PeopleManipulator::position(std::size_t n) const
 }
 
 
+QSize PeopleManipulator::photoSize() const
+{
+    return m_image->size();
+}
+
+
 void PeopleManipulator::setName(std::size_t n, const QString& name)
 {
     const QString trimmed_name = name.trimmed();
