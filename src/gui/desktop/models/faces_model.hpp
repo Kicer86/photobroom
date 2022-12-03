@@ -30,6 +30,8 @@ class FacesModel: public QAbstractListModel
             _lastRole,
         };
 
+        Q_ENUMS(Roles)
+
         FacesModel(QObject* parent = nullptr);
 
         int state() const;
