@@ -15,12 +15,42 @@ Item {
 
     state: "Detecting Faces"
 
-    function selectFace(face) {
-        shadow.setFocus(face);
+// private:
+    Timer {
+        id: faceSelectionUpdater
+        running: false
+        repeat: false
+        onTriggered: updateFaceSelection()
     }
 
-    function clearFaceSelection() {
-        shadow.clear();
+    property var selectedFaces: new Set()
+
+    function selectFace(index) {
+        selectedFaces.add(index);
+        postFaceSelectionUpdate();
+    }
+
+    function deselectFace(index) {
+        selectedFaces.delete(index);
+        postFaceSelectionUpdate();
+    }
+
+    function postFaceSelectionUpdate() {
+        faceSelectionUpdater.interval = 100;
+        faceSelectionUpdater.running = true;
+    }
+
+    function updateFaceSelection() {
+        if (selectedFaces.size > 1)
+            postFaceSelectionUpdate();
+        else if (selectedFaces.size === 0)
+            shadow.clear();
+        else {
+            const row = selectedFaces.values().next().value;
+            var index = facesModel.index(row, 0);
+            const face = facesModel.data(index, FacesModel.FaceRectRole);
+            shadow.setFocus(face);
+        }
     }
 
     MediaViewCtrl {
@@ -62,7 +92,6 @@ Item {
             id: name
 
             required property var display       // DisplayRole
-            required property var faceRect      // FaceRectRole
 
             readOnly: true
             hoverEnabled: true
@@ -73,7 +102,9 @@ Item {
 
             onHoveredChanged: {
                 if (hovered)
-                    selectFace(faceRect);
+                    selectFace(index);
+                else
+                    deselectFace(index);
             }
         }
     }
@@ -81,7 +112,7 @@ Item {
     Timer {
         id: notificationTimer
         interval: 4000
-        onTriggered: setDetectionState(10);
+        //onTriggered: setDetectionState(10);
     }
 
     Components.ZoomableImage {
