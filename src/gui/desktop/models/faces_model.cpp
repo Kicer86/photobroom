@@ -103,10 +103,14 @@ void FacesModel::updateFaceInformation()
         applyFaceName(pos, name);
     }
 
-    beginInsertRows(QModelIndex(), 0, faces_count - 1);
-    m_facesCount = m_peopleManipulator->facesCount();
+    if (faces_count > 0)
+    {
+        beginInsertRows(QModelIndex(), 0, faces_count - 1);
+        m_facesCount = m_peopleManipulator->facesCount();
+        endInsertRows();
+    }
+
     m_photoSize = m_peopleManipulator->photoSize();
-    endInsertRows();
 
     emit facesMaskChanged(facesMask());
 }
