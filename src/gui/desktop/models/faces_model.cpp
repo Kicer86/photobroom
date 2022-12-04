@@ -33,7 +33,7 @@ FacesModel::FacesModel(QObject *parent):
 
 FacesModel::~FacesModel()
 {
-    m_peopleManipulator->store();
+    apply();
 }
 
 
