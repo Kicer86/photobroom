@@ -111,6 +111,7 @@ Item {
             onEditingFinished: {
                 var model_index = facesModel.index(index, 0);
                 facesModel.setData(model_index, text);
+                name.readOnly = true
             }
         }
     }

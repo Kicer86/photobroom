@@ -201,7 +201,7 @@
         <translation type="unfinished">nieznane</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location line="+92"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>

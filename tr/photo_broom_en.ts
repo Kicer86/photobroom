@@ -194,22 +194,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="191"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="192"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="217"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="218"/>
         <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="241"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="242"/>
         <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="249"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="250"/>
         <source>Faces detected a recognised.</source>
         <translation type="unfinished"></translation>
     </message>
