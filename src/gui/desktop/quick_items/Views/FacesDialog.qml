@@ -92,6 +92,7 @@ Item {
             id: name
 
             required property var display       // DisplayRole
+            required property var index
 
             readOnly: true
             hoverEnabled: true
@@ -105,6 +106,11 @@ Item {
                     selectFace(index);
                 else
                     deselectFace(index);
+            }
+
+            onEditingFinished: {
+                var model_index = facesModel.index(index, 0);
+                facesModel.setData(model_index, text);
             }
         }
     }

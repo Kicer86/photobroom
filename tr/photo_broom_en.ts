@@ -189,27 +189,27 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="99"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="100"/>
         <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="185"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="191"/>
         <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="211"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="217"/>
         <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="235"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="241"/>
         <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="243"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="249"/>
         <source>Faces detected a recognised.</source>
         <translation type="unfinished"></translation>
     </message>
