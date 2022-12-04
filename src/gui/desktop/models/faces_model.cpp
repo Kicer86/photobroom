@@ -31,6 +31,12 @@ FacesModel::FacesModel(QObject *parent):
 }
 
 
+FacesModel::~FacesModel()
+{
+    m_peopleManipulator->store();
+}
+
+
 int FacesModel::state() const
 {
     return m_state;
@@ -80,6 +86,13 @@ QVariant FacesModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray> FacesModel::roleNames() const
 {
     RETURN_MODEL_ROLES(QAbstractListModel, Roles);
+}
+
+
+bool FacesModel::setData(const QModelIndex& index, const QVariant& data, int role)
+{
+    if (role == Qt::EditRole && index.column() == 0 && index.row() < m_facesCount)
+        m_peopleManipulator->setName(index.row(), data.toString());
 }
 
 

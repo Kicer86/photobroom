@@ -33,6 +33,7 @@ class FacesModel: public QAbstractListModel
         Q_ENUMS(Roles)
 
         FacesModel(QObject* parent = nullptr);
+        ~FacesModel();
 
         int state() const;
         QList<QVariant> facesMask() const;
@@ -41,6 +42,7 @@ class FacesModel: public QAbstractListModel
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
         QHash<int, QByteArray> roleNames() const override;
+        bool setData(const QModelIndex &, const QVariant &, int role) override;
 
     private:
         Photo::Id m_id;
