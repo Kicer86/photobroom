@@ -106,16 +106,6 @@ void FacesModel::updateFaceInformation()
     for(std::size_t i = 0; i < faces_count; i++)
         m_faces.push_back(m_peopleManipulator->position(i));
 
-    updatePeopleList();
-
-    for(std::size_t i = 0; i < faces_count; i++)
-    {
-        const QRect& pos = m_peopleManipulator->position(i);
-        const QString& name = m_peopleManipulator->name(i);
-
-        applyFaceName(pos, name);
-    }
-
     if (faces_count > 0)
     {
         beginInsertRows(QModelIndex(), 0, faces_count - 1);
@@ -126,54 +116,6 @@ void FacesModel::updateFaceInformation()
     m_photoSize = m_peopleManipulator->photoSize();
 
     emit facesMaskChanged(facesMask());
-}
-
-
-void FacesModel::applyFaceName(const QRect& face, const PersonName& person)
-{
-    const QString name = person.name();
-
-    auto it = std::find(m_faces.cbegin(), m_faces.cend(), face);
-
-    if (it != m_faces.cend())
-    {
-        const auto idx = std::distance(m_faces.cbegin(), it);
-        //ui->peopleList->setItem(static_cast<int>(idx), 0, new QTableWidgetItem(name));
-    }
-}
-
-
-void FacesModel::updatePeopleList()
-{
-    /*
-    const int rowCount = ui->peopleList->rowCount();
-    const int peopleCount = static_cast<int>(m_faces.size());
-
-    if (rowCount < peopleCount)
-        ui->peopleList->setRowCount(peopleCount);
-    */
-}
-
-
-void FacesModel::selectFace()
-{
-    QRect selectionArea(QPoint(), m_photoSize);
-
-    /*
-    const auto selected = ui->peopleList->selectedItems();
-
-    if (selected.empty() == false)
-    {
-        const auto item = selected.front();
-        const int row = item->row();
-        selectionArea = m_faces[row];
-    }
-
-    if (selected.empty())
-        QMetaObject::invokeMethod(ui->quickView->rootObject(), "clearFaceSelection", Qt::QueuedConnection);
-    else
-        QMetaObject::invokeMethod(ui->quickView->rootObject(), "selectFace", Qt::QueuedConnection, Q_ARG(QVariant, selectionArea));
-    */
 }
 
 
@@ -200,16 +142,5 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
-    const int known_count = 0; //TODO: ui->peopleList->rowCount();
-    assert( known_count == m_faces.size());
-
-    for(int i = 0; i < known_count; i++)
-    {
-        //const auto person = nullptr; //TODO: ui->peopleList->item(i, 0);
-        //const QString name = person == nullptr? QString(): person->text();
-
-        //m_peopleManipulator->setName(static_cast<std::size_t>(i), name);
-    }
-
     m_peopleManipulator->store();
 }

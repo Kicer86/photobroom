@@ -56,9 +56,6 @@ class FacesModel: public QAbstractListModel
         int m_facesCount = 0;
 
         void updateFaceInformation();
-        void applyFaceName(const QRect &, const PersonName &);
-        void updatePeopleList();
-        void selectFace();
 
         void initialSetup();
         void updateDetectionState(int);
