@@ -23,31 +23,50 @@ Item {
         onTriggered: updateFaceSelection()
     }
 
-    property var selectedFaces: new Set()
+    property var hoveredItems: new Set()
+    property var editedItems: new Set()
 
-    function selectFace(index) {
-        selectedFaces.add(index);
+    function hoveredItem(index) {
+        hoveredItems.add(index);
         postFaceSelectionUpdate();
     }
 
-    function deselectFace(index) {
-        selectedFaces.delete(index);
+    function unhoveredItem(index) {
+        hoveredItems.delete(index);
+        postFaceSelectionUpdate();
+    }
+
+    function editedItem(index) {
+        editedItems.add(index);
+        postFaceSelectionUpdate();
+    }
+
+    function finishedItem(index) {
+        editedItems.delete(index);
         postFaceSelectionUpdate();
     }
 
     function postFaceSelectionUpdate() {
-        faceSelectionUpdater.interval = 100;
+        faceSelectionUpdater.interval = 200;
         faceSelectionUpdater.running = true;
     }
 
     function updateFaceSelection() {
-        if (selectedFaces.size > 1)
+        var toSelect = -1;
+
+        if (editedItems.size > 1)
             postFaceSelectionUpdate();
-        else if (selectedFaces.size === 0)
+        else if (editedItems.size === 1)
+            toSelect = editedItems.values().next().value;
+        else if (hoveredItems.size > 1)
+            postFaceSelectionUpdate();
+        else if (hoveredItems.size === 1)
+            toSelect = hoveredItems.values().next().value;
+
+        if (toSelect === -1)
             shadow.clear();
         else {
-            const row = selectedFaces.values().next().value;
-            var index = facesModel.index(row, 0);
+            var index = facesModel.index(toSelect, 0);
             const face = facesModel.data(index, FacesModel.FaceRectRole);
             shadow.setFocus(face);
         }
@@ -99,19 +118,23 @@ Item {
             text: display
             placeholderText: qsTr("unknown")
 
-            onPressed: name.readOnly = false
+            onPressed: {
+                name.readOnly = false;
+                editedItem(index);
+            }
 
             onHoveredChanged: {
                 if (hovered)
-                    selectFace(index);
+                    hoveredItem(index);
                 else
-                    deselectFace(index);
+                    unhoveredItem(index);
             }
 
             onEditingFinished: {
                 var model_index = facesModel.index(index, 0);
                 facesModel.setData(model_index, text);
                 name.readOnly = true
+                finishedItem(index);
             }
         }
     }
