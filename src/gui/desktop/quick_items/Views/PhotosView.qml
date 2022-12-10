@@ -67,6 +67,16 @@ FocusScope {
                 event.accepted = true;
             }
         }
+
+        // actions on database close/open
+        Connections {
+            target: PhotoBroomProject
+
+            function onProjectOpenChanged(open) {
+                if (open === false)
+                    photosArea.pop();
+            }
+        }
     }
 
     Component {
