@@ -142,5 +142,6 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
+    assert(m_database);
     m_peopleManipulator->store();
 }
