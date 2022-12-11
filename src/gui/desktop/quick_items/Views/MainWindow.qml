@@ -159,7 +159,7 @@ ApplicationWindow {
 
                 spacing: 10
 
-                GroupBox {
+                CollapsibleGroupBox {
                     id: tagEditor
 
                     width: parent.width
@@ -173,7 +173,7 @@ ApplicationWindow {
                     }
                 }
 
-                GroupBox {
+                CollapsibleGroupBox {
                     id: propertiesWindow
 
                     width: parent.width
@@ -185,7 +185,7 @@ ApplicationWindow {
                     }
                 }
 
-                GroupBox {
+                CollapsibleGroupBox {
                     id: debugWindow
 
                     width: parent.width
