@@ -37,6 +37,22 @@ FacesModel::~FacesModel()
 }
 
 
+void FacesModel::setDatabase(Database::IDatabase* db)
+{
+    // flush data when db changes
+    if (m_database != nullptr && m_database != db)
+        apply();
+
+    m_database = db;
+}
+
+
+Database::IDatabase* FacesModel::database()
+{
+    return m_database;
+}
+
+
 int FacesModel::state() const
 {
     return m_state;
@@ -142,6 +158,6 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
-    assert(m_database);
-    m_peopleManipulator->store();
+    if (m_database)
+        m_peopleManipulator->store();
 }

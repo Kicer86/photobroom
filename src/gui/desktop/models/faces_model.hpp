@@ -18,7 +18,7 @@ class FacesModel: public QAbstractListModel
         Q_OBJECT
 
         Q_PROPERTY(Photo::Id photoID MEMBER m_id REQUIRED)
-        Q_PROPERTY(Database::IDatabase* database MEMBER m_database REQUIRED)
+        Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
         Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED)
         Q_PROPERTY(int state READ state NOTIFY stateChanged)
         Q_PROPERTY(QList<QVariant> facesMask READ facesMask NOTIFY facesMaskChanged)
@@ -34,6 +34,9 @@ class FacesModel: public QAbstractListModel
 
         FacesModel(QObject* parent = nullptr);
         ~FacesModel();
+
+        void setDatabase(Database::IDatabase *);
+        Database::IDatabase* database();
 
         int state() const;
         QList<QVariant> facesMask() const;
