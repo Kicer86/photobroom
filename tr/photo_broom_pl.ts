@@ -198,27 +198,27 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+119"/>
         <source>unknown</source>
-        <translation type="unfinished">nieznane</translation>
+        <translation>nieznane</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Mark found faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz znalezione twarze</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono żadnej twarzy.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Faces detected a recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Twarze znalezione i rozpoznane.</translation>
     </message>
 </context>
 <context>
@@ -780,17 +780,17 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+209"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
