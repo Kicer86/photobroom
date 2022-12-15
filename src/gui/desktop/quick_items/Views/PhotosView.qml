@@ -13,7 +13,6 @@ import "ViewsComponents" as Internals
 FocusScope {
     id: photosViewId
 
-    property var selectedPhotos: []                // list of selected photo ids
     state: "gallery"
 
     PhotosModelController {
@@ -82,114 +81,164 @@ FocusScope {
     Component {
         id: photosPage
 
-        Internals.PhotosGridView {
-            // grid with photos
-            id: gridView
+        SplitView {
 
             StackView.visible: true
 
-            clip: true
-            activeFocusOnTab: true
-            keyNavigationEnabled: true
+            Internals.PhotosGridView {
+                // grid with photos
+                id: gridView
 
-            flickDeceleration: 10000
-            model: photosModelControllerId.photos
-            thumbnailSize: thumbnailSliderId.size
+                SplitView.preferredWidth: parent.width * 3/4
 
-            populate: Transition {
-                NumberAnimation { properties: "x,y"; duration: 1000 }
-            }
+                clip: true
+                activeFocusOnTab: true
+                keyNavigationEnabled: true
 
-            displaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: 250 }
-            }
+                flickDeceleration: 10000
+                model: photosModelControllerId.photos
+                thumbnailSize: thumbnailSliderId.size
 
-            Components.ThumbnailSlider {
-                id: thumbnailSliderId
-                anchors.bottom: parent.bottom
-                anchors.right: parent.ScrollBar.vertical.left
-            }
+                property var selectedPhotos: []                // list of selected photo ids
 
-            MouseArea {
-                anchors.fill: parent
-
-                acceptedButtons: Qt.RightButton
-                propagateComposedEvents: true
-
-                onClicked: function(mouse) {
-                    contextMenu.selection = photosView.selectedPhotos;
-                    contextMenu.popup(mouse.x, mouse.y);
+                populate: Transition {
+                    NumberAnimation { properties: "x,y"; duration: 1000 }
                 }
-            }
 
-            Menu {
-                id: contextMenu
+                displaced: Transition {
+                    NumberAnimation { properties: "x,y"; duration: 250 }
+                }
 
-                property alias selection: contextMenuManager.selection
+                Components.ThumbnailSlider {
+                    id: thumbnailSliderId
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.ScrollBar.vertical.left
+                }
 
-                ContextMenuManager {
-                    id: contextMenuManager
+                MouseArea {
+                    anchors.fill: parent
 
-                    project: PhotoBroomProject.project
-                    coreFactory: PhotoBroomProject.coreFactory
+                    acceptedButtons: Qt.RightButton
+                    propagateComposedEvents: true
 
-                    onFaceRecognitionAction: {
-                        if (selectedIndexes.length == 1)
-                            turnOnFaceRecognitionMode(selectedIndexes[0])
-                        else
-                            console.error("No photo selected, weird")
+                    onClicked: function(mouse) {
+                        contextMenu.selection = gridView.selectedPhotos;
+                        contextMenu.popup(mouse.x, mouse.y);
                     }
                 }
 
-                Instantiator {
-                    id: instantiator
+                Menu {
+                    id: contextMenu
 
-                    model: contextMenuManager.model
+                    property alias selection: contextMenuManager.selection
 
-                    delegate: MenuItem {
-                        required property var actionName
-                        required property var actionEnabled
-                        required property var actionIndex
+                    ContextMenuManager {
+                        id: contextMenuManager
 
-                        enabled: actionEnabled
-                        text: actionName
+                        project: PhotoBroomProject.project
+                        coreFactory: PhotoBroomProject.coreFactory
 
-                        onTriggered: {
-                            contextMenu.close();
-                            contextMenuManager.model.trigger(actionIndex);
+                        onFaceRecognitionAction: {
+                            if (gridView.selectedIndexes.length == 1)
+                                gridView.turnOnFaceRecognitionMode(gridView.selectedIndexes[0])
+                            else
+                                console.error("No photo selected, weird")
                         }
                     }
 
-                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
-                    onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    Instantiator {
+                        id: instantiator
+
+                        model: contextMenuManager.model
+
+                        delegate: MenuItem {
+                            required property var actionName
+                            required property var actionEnabled
+                            required property var actionIndex
+
+                            enabled: actionEnabled
+                            text: actionName
+
+                            onTriggered: {
+                                contextMenu.close();
+                                contextMenuManager.model.trigger(actionIndex);
+                            }
+                        }
+
+                        onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                        onObjectRemoved: (object) => contextMenu.removeItem(object)
+                    }
+                }
+
+                onItemDoubleClicked: (index) => turnOnFullscreenMode(index)
+
+                onSelectedIndexesChanged: function() {
+                    var ids = [];
+
+                    selectedIndexes.forEach((index) => {
+                        var id = gridView.model.getId(index);
+                        ids.push(id);
+                    });
+
+                    selectedPhotos = ids;
+                }
+
+                function turnOnFullscreenMode(index) {
+                    var id = gridView.model.getId(index);
+
+                    photosArea.push(fullscreenPage, {"photoID": id});
+                    console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
+                }
+
+                function turnOnFaceRecognitionMode(index) {
+                    var id = gridView.model.getId(index);
+
+                    photosArea.push(faceRecognitionPage, {"photoID": id});
                 }
             }
 
-            onItemDoubleClicked: (index) => turnOnFullscreenMode(index)
+            Column {
+                SplitView.fillWidth: true
 
-            onSelectedIndexesChanged: function() {
-                var ids = [];
+                spacing: 10
 
-                selectedIndexes.forEach((index) => {
-                    var id = gridView.model.getId(index);
-                    ids.push(id);
-                });
+                CollapsibleGroupBox {
+                    id: tagEditor
 
-                selectedPhotos = ids;
+                    width: parent.width
+                    title: qsTr("<b>Properties</b>")
+
+                    TagEditor {
+                        enabled: PhotoBroomProject.projectOpen
+
+                        selection: gridView.selectedPhotos
+                    }
+                }
+
+                CollapsibleGroupBox {
+                    id: propertiesWindow
+
+                    width: parent.width
+                    title: qsTr("<b>Media information</b>")
+                    clip: true
+
+                    Components.MediaPropertiesView {
+                        photos: gridView.selectedPhotos
+                    }
+                }
+
+                CollapsibleGroupBox {
+                    id: debugWindow
+
+                    width: parent.width
+                    visible: ObservablesRegistry.enabled
+                    title: qsTr("<b>Debug window</b>")
+                    clip: true
+
+                    Internals.DebugWindow { }
+                }
             }
 
-            function turnOnFullscreenMode(index) {
-                var id = gridView.model.getId(index);
-
-                photosArea.push(fullscreenPage, {"photoID": id});
-                console.log("Fullscreen mode for photo: " + gridView.model.getPhotoPath(index));
-            }
-
-            function turnOnFaceRecognitionMode(index) {
-                var id = gridView.model.getId(index);
-
-                photosArea.push(faceRecognitionPage, {"photoID": id});
-            }
         }
     }
 

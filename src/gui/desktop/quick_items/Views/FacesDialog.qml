@@ -103,7 +103,7 @@ Item {
         anchors.right: parent.right
         implicitWidth: contentWidth
         height: contentHeight
-        z:1
+        z: 1
 
         model: facesModel
 

@@ -339,12 +339,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>O&amp;kna</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>P&amp;roperties</source>
-        <translation>&amp;Właściwości</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>&amp;Tools</source>
         <translation>N&amp;arzędzia</translation>
     </message>
@@ -369,32 +364,17 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>U&amp;stawienia</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+37"/>
         <source>Tasks</source>
         <translation>Operacje</translation>
     </message>
     <message>
-        <location line="+30"/>
-        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="+26"/>
         <source>Back to photos</source>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-128"/>
+        <location line="-81"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -419,7 +399,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Odśwież kolekcję...</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+17"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
@@ -427,11 +407,6 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <location line="-13"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <source>&amp;Media information</source>
-        <translation>&amp;Informacje o pliku</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+200"/>
@@ -798,6 +773,24 @@ Kod błędu: %1</translation>
         <location filename="../src/gui/desktop/quick_items/photos_model_controller_component.cpp" line="+100"/>
         <source>All</source>
         <translation>Wszystkie</translation>
+    </message>
+</context>
+<context>
+    <name>PhotosView</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+209"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation type="unfinished">&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation type="unfinished">&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
+        <translation type="unfinished">&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

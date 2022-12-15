@@ -81,8 +81,6 @@ ApplicationWindow {
         }
         Menu {
             title: qsTr("&Windows")
-            Action { text: qsTr("P&roperties");        checkable: true; checked: tagEditor.visible;        onTriggered: tagEditor.visible = !tagEditor.visible }
-            Action { text: qsTr("&Media information"); checkable: true; checked: propertiesWindow.visible; onTriggered: propertiesWindow.visible = !propertiesWindow.visible }
             Action { text: qsTr("T&asks");             checkable: true; checked: tasksViewDock.visible;    onTriggered: tasksViewDock.visible = !tasksViewDock.visible; }
         }
         Menu {
@@ -116,85 +114,40 @@ ApplicationWindow {
         interactive: false
 
         // main view
-        SplitView {
-            Column {
-                SplitView.preferredWidth: parent.width * 3/4
+        Column {
+            SplitView.preferredWidth: parent.width * 3/4
 
-                PhotosView {
-                    id: photosView
+            PhotosView {
+                id: photosView
 
-                    enabled: PhotoBroomProject.projectOpen
+                enabled: PhotoBroomProject.projectOpen
 
+                width: parent.width
+                height: parent.height - notifications.height - tasksViewDock.height
+            }
+
+            GroupBox {
+                id: tasksViewDock
+
+                width: parent.width
+                title: "<b>" + qsTr("Tasks") +"</b"
+
+                Components.TasksView {
+                    id: tasksView
+                    objectName: "TasksView"
                     width: parent.width
-                    height: parent.height - notifications.height - tasksViewDock.height
-                }
+                    implicitHeight: contentHeight
 
-                GroupBox {
-                    id: tasksViewDock
-
-                    width: parent.width
-                    title: "<b>" + qsTr("Tasks") +"</b"
-
-                    Components.TasksView {
-                        id: tasksView
-                        objectName: "TasksView"
-                        width: parent.width
-                        implicitHeight: contentHeight
-
-                        Behavior on implicitHeight {
-                            NumberAnimation { duration: 1000 }
-                        }
+                    Behavior on implicitHeight {
+                        NumberAnimation { duration: 1000 }
                     }
-                }
-
-                Internals.NotificationsBar {
-                    id: notifications
-
-                    width: parent.width
                 }
             }
 
-            Column {
-                SplitView.fillWidth: true
+            Internals.NotificationsBar {
+                id: notifications
 
-                spacing: 10
-
-                CollapsibleGroupBox {
-                    id: tagEditor
-
-                    width: parent.width
-                    title: qsTr("<b>Properties</b>")
-
-                    TagEditor {
-                        enabled: PhotoBroomProject.projectOpen
-                        width: parent.width
-
-                        selection: photosView.selectedPhotos
-                    }
-                }
-
-                CollapsibleGroupBox {
-                    id: propertiesWindow
-
-                    width: parent.width
-                    title: qsTr("<b>Media information</b>")
-                    clip: true
-
-                    Components.MediaPropertiesView {
-                        photos: photosView.selectedPhotos
-                    }
-                }
-
-                CollapsibleGroupBox {
-                    id: debugWindow
-
-                    width: parent.width
-                    visible: ObservablesRegistry.enabled
-                    title: qsTr("<b>Debug window</b>")
-                    clip: true
-
-                    Internals.DebugWindow { }
-                }
+                width: parent.width
             }
         }
 
