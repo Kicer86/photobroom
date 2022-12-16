@@ -275,9 +275,7 @@ FocusScope {
     Component {
         id: faceRecognitionPage
 
-        FacesDialog {
-            clip: true
-        }
+        FacesDialog { }
     }
 }
 

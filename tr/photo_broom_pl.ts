@@ -196,7 +196,7 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+172"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+177"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>

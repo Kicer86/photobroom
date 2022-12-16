@@ -8,6 +8,7 @@ import photo_broom.singletons
 import photo_broom.utils
 import "../Components" as Components
 
+
 Item {
     id: main
 
@@ -102,6 +103,10 @@ Item {
         id: notificationTimer
         interval: 4000
         //onTriggered: setDetectionState(10);
+    }
+
+    ShadowBackground {
+        anchors.fill: parent
     }
 
     Components.ZoomableImage {
