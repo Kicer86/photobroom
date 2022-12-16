@@ -109,6 +109,8 @@ bool FacesModel::setData(const QModelIndex& index, const QVariant& data, int rol
 {
     if (role == Qt::EditRole && index.column() == 0 && index.row() < m_facesCount)
         m_peopleManipulator->setName(index.row(), data.toString());
+
+    return true;
 }
 
 
