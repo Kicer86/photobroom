@@ -3,6 +3,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import photo_broom.singletons
 import quick_items
+import QmlItems
 import "../Components" as Components
 import "ViewsComponents" as Internals
 
@@ -254,13 +255,8 @@ FocusScope {
 
             Behavior on opacity { PropertyAnimation{} }
 
-            Rectangle {
-                // gallery shadow for full screen mode
-                id: shadow
-
+            ShadowBackground {
                 anchors.fill: parent
-                color: "black"
-                opacity: 0.7
             }
 
             Components.MediaViewItem {
