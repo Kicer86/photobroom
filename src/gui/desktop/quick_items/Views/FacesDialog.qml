@@ -98,47 +98,6 @@ Item {
         }
     }
 
-    TableView {
-        anchors.top: parent.top
-        anchors.right: parent.right
-        implicitWidth: contentWidth
-        height: contentHeight
-        z: 1
-
-        model: facesModel
-
-        delegate: TextField {
-            id: name
-
-            required property var display       // DisplayRole
-            required property var index
-
-            readOnly: true
-            hoverEnabled: true
-            text: display
-            placeholderText: qsTr("unknown")
-
-            onPressed: {
-                name.readOnly = false;
-                editedItem(index);
-            }
-
-            onHoveredChanged: {
-                if (hovered)
-                    hoveredItem(index);
-                else
-                    unhoveredItem(index);
-            }
-
-            onEditingFinished: {
-                var model_index = facesModel.index(index, 0);
-                facesModel.setData(model_index, text);
-                name.readOnly = true
-                finishedItem(index);
-            }
-        }
-    }
-
     Timer {
         id: notificationTimer
         interval: 4000
@@ -146,9 +105,8 @@ Item {
     }
 
     Components.ZoomableImage {
-
         anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.right: peopleList.left
         anchors.top: parent.top
         anchors.bottom: notificationArea.top
 
@@ -187,6 +145,49 @@ Item {
                     color: "black"
                     opacity: 0.7
                 }
+            }
+        }
+    }
+
+    TableView {
+        id: peopleList
+
+        anchors.top: parent.top
+        anchors.right: parent.right
+        implicitWidth: contentWidth
+        height: contentHeight
+        z: 1
+
+        model: facesModel
+
+        delegate: TextField {
+            id: name
+
+            required property var display       // DisplayRole
+            required property var index
+
+            readOnly: true
+            hoverEnabled: true
+            text: display
+            placeholderText: qsTr("unknown")
+
+            onPressed: {
+                name.readOnly = false;
+                editedItem(index);
+            }
+
+            onHoveredChanged: {
+                if (hovered)
+                    hoveredItem(index);
+                else
+                    unhoveredItem(index);
+            }
+
+            onEditingFinished: {
+                var model_index = facesModel.index(index, 0);
+                facesModel.setData(model_index, text);
+                name.readOnly = true
+                finishedItem(index);
             }
         }
     }

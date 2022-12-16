@@ -196,12 +196,12 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+119"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+172"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+44"/>
         <source>Detecting and analyzing faces</source>
         <translation>Wykrywanie i analizowanie twarzy</translation>
     </message>
