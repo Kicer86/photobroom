@@ -89,20 +89,12 @@ Item {
                 // nothing to do
             } else if (state === 1) {
                 main.state = "Faces Detected";
-                notificationTimer.running = true;
             } else if (state === 2) {
                 main.state = "No Face Detected";
-                notificationTimer.running = true;
             } else if (state === 10) {
                 main.state = "Notification Hidden";
             }
         }
-    }
-
-    Timer {
-        id: notificationTimer
-        interval: 4000
-        //onTriggered: setDetectionState(10);
     }
 
     ShadowBackground {
@@ -161,7 +153,6 @@ Item {
         anchors.right: parent.right
         implicitWidth: contentWidth
         height: contentHeight
-        z: 1
 
         model: facesModel
 
