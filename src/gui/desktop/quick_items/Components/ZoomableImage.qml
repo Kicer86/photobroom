@@ -168,6 +168,8 @@ Flickable {
                     area.followMouse(image.scale/currentScale, point, v, is);
                 }
             }
+
+            onClicked: focus = true
         }
     }
 }
