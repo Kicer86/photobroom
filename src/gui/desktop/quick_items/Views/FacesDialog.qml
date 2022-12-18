@@ -156,6 +156,8 @@ Item {
 
         model: facesModel
 
+        Behavior on implicitWidth { PropertyAnimation{} }
+
         delegate: TextField {
             id: name
 
