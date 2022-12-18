@@ -16,6 +16,7 @@ Item {
         ZoomableImage {
             anchors.fill: parent
 
+            boundsBehavior: Flickable.StopAtBounds
             source: ctrl.path
         }
     }

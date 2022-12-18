@@ -16,6 +16,14 @@
 }
 
 
+#define RETURN_MODEL_ROLES(A, R)                                            \
+    auto roles = A::roleNames();                                            \
+    const auto extra = parseRoles<R>();                                     \
+    const QHash<int, QByteArray> extraRoles(extra.begin(), extra.end());    \
+    roles.insert(extraRoles);                                               \
+    return roles
+
+
 template<typename T, int i, int Count> requires std::is_enum_v<T> && (i < Count)
 void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
 {

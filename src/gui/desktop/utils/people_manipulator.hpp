@@ -23,7 +23,9 @@
 #include <database/photo_types.hpp>
 #include <database/idatabase.hpp>
 
+
 struct ICoreFactoryAccessor;
+
 
 class PeopleManipulator: public QObject
 {
@@ -36,6 +38,7 @@ class PeopleManipulator: public QObject
         std::size_t facesCount() const;
         const QString& name(std::size_t) const;
         const QRect& position(std::size_t) const;
+        QSize photoSize() const;
 
         void setName(std::size_t, const QString &);
         void store();

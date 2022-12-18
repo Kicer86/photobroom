@@ -6,6 +6,8 @@ set(SRC
     aphoto_data_model.hpp
     duplicates_model.cpp
     duplicates_model.hpp
+    faces_model.cpp
+    faces_model.hpp
     flat_model.cpp
     flat_model.hpp
     itags_operator.hpp
@@ -34,14 +36,14 @@ target_link_libraries(gui_models
                             database
                         PRIVATE
                             core
+                            face_recognition
                             project_utils
                             system
 )
 
 target_include_directories(gui_models
-                            INTERFACE
-                                ${CMAKE_CURRENT_SOURCE_DIR}/..          # require "model/" from clients
                             PUBLIC
+                                ${CMAKE_CURRENT_SOURCE_DIR}/..          # require "model/" from clients
                                 ${CMAKE_CURRENT_SOURCE_DIR}/../..       # gui's top directory
                             PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}

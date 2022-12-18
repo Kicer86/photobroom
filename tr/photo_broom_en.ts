@@ -114,27 +114,27 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="103"/>
         <source>Group</source>
         <translation>Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
         <source>Manage group...</source>
         <translation>Manage group...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
         <source>Ungroup</source>
         <translation>Ungroup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
         <source>Open photo location</source>
         <translation>Open photo location</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="108"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
         <source>Recognize people...</source>
         <translation>Recognize people...</translation>
     </message>
@@ -189,28 +189,23 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="108"/>
-        <source>Detecting and analyzing faces</source>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
+        <source>unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="134"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="206"/>
         <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
+        <source>Detecting and analyzing faces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
-        <source>Faces detected a recognised.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/ui/faces_dialog.ui" line="14"/>
-        <source>People assignment</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -335,57 +330,37 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="84"/>
-        <source>P&amp;roperties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="90"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="88"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="92"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="90"/>
         <source>S&amp;eries detector...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="93"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="91"/>
         <source>Ph&amp;oto data completion...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="94"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="92"/>
         <source>Look for &amp;duplicates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="98"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="96"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="184"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="133"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="214"/>
-        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="228"/>
-        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="241"/>
-        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="254"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="159"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -410,19 +385,14 @@ Check paths in configuration window.</source>
         <translation>&amp;Refresh collection...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="99"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="86"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="84"/>
         <source>T&amp;asks</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="85"/>
-        <source>&amp;Media information</source>
-        <translation>&amp;Media information</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="200"/>
@@ -765,6 +735,24 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_items/photos_model_controller_component.cpp" line="100"/>
         <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhotosView</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="210"/>
+        <source>&lt;b&gt;Properties&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="223"/>
+        <source>&lt;b&gt;Media information&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="236"/>
+        <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

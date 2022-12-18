@@ -12,7 +12,6 @@
 #include <database/igroup_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
-#include "ui/faces_dialog.hpp"
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
@@ -220,10 +219,5 @@ void ContextMenuManager::locationAction()
 
 void ContextMenuManager::facesAction()
 {
-    const Photo::Data& first = m_photos.front();
-    Photo::DataDelta delta(first.id);
-    delta.insert<Photo::Field::Path>(first.path);
-
-    FacesDialog faces_dialog(delta, m_core, m_project);
-    faces_dialog.exec();
+    emit faceRecognitionAction();
 }
