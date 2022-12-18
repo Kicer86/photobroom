@@ -14,8 +14,6 @@ Item {
 
     property alias photoID: ctrl.photoID
 
-    state: "Detecting Faces"
-
 // private:
     Timer {
         id: faceSelectionUpdater
@@ -26,6 +24,7 @@ Item {
 
     property var hoveredItems: new Set()
     property var editedItems: new Set()
+    property int _facesModelState: 0            // an indirect property for items depending facesModel.state. Direct usage won't work for some reason
 
     function hoveredItem(index) {
         hoveredItems.add(index);
@@ -85,15 +84,7 @@ Item {
         core: PhotoBroomProject.coreFactory
 
         onStateChanged: (state) => {
-            if (state === 0) {
-                // nothing to do
-            } else if (state === 1) {
-                main.state = "Faces Detected";
-            } else if (state === 2) {
-                main.state = "No Face Detected";
-            } else if (state === 10) {
-                main.state = "Notification Hidden";
-            }
+            main._facesModelState = state;
         }
     }
 
@@ -105,10 +96,10 @@ Item {
         anchors.left: parent.left
         anchors.right: peopleList.left
         anchors.top: parent.top
-        anchors.bottom: notificationArea.top
+        anchors.bottom: toolsArea.top
 
+        clip: true
         boundsBehavior: Flickable.StopAtBounds
-
         source: ctrl.path
 
         ShadowFocus {
@@ -191,48 +182,19 @@ Item {
     }
 
     Rectangle {
-        id: notificationArea
+        id: toolsArea
 
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: switchesArea.top
-        clip: true
-
-        height: row.height
-        color: "dodgerblue"
-
-        radius: 5
-
-        Row {
-            id: row
-
-            height: busyIndicator.height
-            leftPadding: 5
-
-            Text {
-                id: status
-                text: qsTr("Detecting and analyzing faces")
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: 12
-            }
-
-            BusyIndicator {
-                id: busyIndicator
-                running: false
-            }
-        }
-    }
-
-    Rectangle {
-        id: switchesArea
-
-        height: switches.height
+        height: 30
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        color: "white"
+
         Row {
-            id: switches
+            anchors.fill: parent
+
+            visible: _facesModelState == 1
 
             Switch {
                 id: facesSwitch
@@ -240,62 +202,24 @@ Item {
                 text: qsTr("Mark found faces")
             }
         }
+
+        Row {
+            anchors.fill: parent
+
+            visible: _facesModelState !== 1
+
+            Text {
+                text: _facesModelState === 0? qsTr("Detecting and analyzing faces") : qsTr("Could not detect any face.")
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 12
+            }
+
+            BusyIndicator {
+                id: busyIndicator
+                running: _facesModelState === 0
+            }
+        }
     }
-
-    states: [
-        State {
-            name: "Detecting Faces"
-
-            PropertyChanges {
-                target: busyIndicator
-                running: true
-            }
-
-            PropertyChanges {
-                target: switchesArea
-                height: 0
-            }
-        },
-        State {
-            name: "No Face Detected"
-
-            PropertyChanges {
-                target: status
-                text: qsTr("Could not detect any face.")
-            }
-        },
-        State {
-            name: "Faces Detected"
-
-            PropertyChanges {
-                target: status
-                text: qsTr("Faces detected a recognised.")
-            }
-        },
-        State {
-            name: "Notification Hidden"
-
-            PropertyChanges {
-                target: notificationArea
-                height: 0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            id: facesDetected
-
-            to: "Notification Hidden"
-
-            PropertyAnimation { target: notificationArea; properties: "height"; }
-        },
-        Transition {
-            from: "Detecting Faces"
-
-            PropertyAnimation { target: switchesArea; properties: "height"; }
-        }
-    ]
 }
 
 /*##^##

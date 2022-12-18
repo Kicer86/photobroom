@@ -196,28 +196,23 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+170"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+161"/>
         <source>unknown</source>
         <translation type="unfinished">nieznane</translation>
     </message>
     <message>
-        <location line="+44"/>
-        <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+26"/>
+        <location line="+41"/>
         <source>Mark found faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+24"/>
-        <source>Could not detect any face.</source>
+        <location line="+10"/>
+        <source>Detecting and analyzing faces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Faces detected a recognised.</source>
+        <location line="+0"/>
+        <source>Could not detect any face.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
