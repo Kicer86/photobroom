@@ -38,10 +38,10 @@ Flickable {
             if (image.width == 0 || image.height == 0)
                 return;
 
-            if (image.width > image.height)
-                zoomToFitScale = flickableArea.width / image.width;
-            else
-                zoomToFitScale = flickableArea.height / image.height;
+            const verticalFit = flickableArea.height / image.height;
+            const horizontalFit = flickableArea.width / image.width;
+
+            zoomToFitScale = verticalFit < 1 || horizontalFit < 1? Math.min(verticalFit, horizontalFit) : 1;
         }
 
         function availableAreaChanged() {
