@@ -15,6 +15,11 @@ Item {
     property alias photoID: ctrl.photoID
 
 // private:
+    SystemPalette {
+        id: systemPalette
+        colorGroup: SystemPalette.Active
+    }
+
     Timer {
         id: faceSelectionUpdater
         running: false
@@ -184,16 +189,15 @@ Item {
     Rectangle {
         id: toolsArea
 
-        height: 30
+        height: childrenRect.height
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        color: "white"
+        color: systemPalette.window
 
         Row {
-            anchors.fill: parent
-
+            height: childrenRect.height
             visible: _facesModelState == 1
 
             Switch {
@@ -204,14 +208,15 @@ Item {
         }
 
         Row {
-            anchors.fill: parent
-
+            height: childrenRect.height
             visible: _facesModelState !== 1
 
             Text {
+                id: stateLabel
+
+                anchors.verticalCenter: busyIndicator.verticalCenter
+
                 text: _facesModelState === 0? qsTr("Detecting and analyzing faces") : qsTr("Could not detect any face.")
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: 12
             }
 
             BusyIndicator {
