@@ -270,7 +270,13 @@ void PeopleManipulator::recognizeFaces_thrd()
 {
     recognizeFaces_thrd_fetch_from_db();
 
-    const bool missing_fingerprints = std::any_of(m_faces.cbegin(), m_faces.cend(), [](const auto& face){ return face.fingerprint.id().valid() == false; });
+    const bool missing_fingerprints =
+        std::any_of(m_faces.cbegin(),
+                    m_faces.cend(),
+                    [](const auto& face)
+                    {
+                        return face.fingerprint.id().valid() == false;
+                    });
 
     if (missing_fingerprints)
     {
