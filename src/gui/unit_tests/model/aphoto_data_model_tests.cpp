@@ -47,7 +47,7 @@ class APhotoDataModelTest: public testing::Test
 
     private:
         Database::MemoryBackend backend;
-        NiceMock<MockDatabase> db;
+        NiceMock<DatabaseMock> db;
 
 };
 

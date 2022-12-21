@@ -68,7 +68,7 @@ public:
         }));
     }
 
-    NiceMock<MockDatabase> db;
+    NiceMock<DatabaseMock> db;
     NiceMock<MockBackend> backend;
     FakeTaskExecutor executor;
 };

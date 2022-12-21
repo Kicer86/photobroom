@@ -23,7 +23,7 @@ class FlatModelTest: public testing::Test
 {
     public:
         FlatModel model;
-        NiceMock<MockDatabase> db;
+        NiceMock<DatabaseMock> db;
         NiceMock<MockBackend> backend;
         NiceMock<PhotoOperatorMock> photoOperator;
 
@@ -555,7 +555,7 @@ TEST_F(FlatModelTest, DataChange)
 
 TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
 {
-    NiceMock<MockDatabase> memoryDb;
+    NiceMock<DatabaseMock> memoryDb;
     Database::MemoryBackend memoryBackend;
     Database::JsonToBackend jsonReader(memoryBackend);
 
