@@ -296,24 +296,34 @@ void PeopleManipulator::recognizeFaces_result()
 
 void PeopleManipulator::store_people_names()
 {
-    const std::vector<PersonName> people = fetchPeople();
+    auto nameChanged = [](const PeopleManipulator::FaceInfo& faceInfo) {
+        // no person id and name is not empty?
+        return faceInfo.person.id().valid() == false && faceInfo.person.name().isEmpty() == false;
+    };
 
-    // make sure each name is known (exists in db)
-    for (auto& face: m_faces)
-        if (face.person.id().valid() == false && face.person.name().isEmpty() == false)  // no id + name set
-        {
-            const QString& name = face.person.name();
+    const bool anyNameChanged = std::ranges::any_of(m_faces, nameChanged);
 
-            auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
+    if (anyNameChanged)
+    {
+        const std::vector<PersonName> people = fetchPeople();
+
+        // make sure each name is known (exists in db)
+        for (auto& face: m_faces)
+            if (nameChanged(face))
             {
-                return d.name() == name;
-            });
+                const QString& name = face.person.name();
 
-            if (it == people.cend())        // new name, store it in db
-                face.person = storeNewPerson(name);
-            else
-                face.person = *it;
-        }
+                auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
+                {
+                    return d.name() == name;
+                });
+
+                if (it == people.cend())        // new name, store it in db
+                    face.person = storeNewPerson(name);
+                else
+                    face.person = *it;
+            }
+    }
 }
 
 
