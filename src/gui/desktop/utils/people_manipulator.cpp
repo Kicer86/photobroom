@@ -25,6 +25,7 @@
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
 #include <database/database_executor_traits.hpp>
+#include <database/general_flags.hpp>
 #include <face_recognition/face_recognition.hpp>
 
 
@@ -100,19 +101,32 @@ void PeopleManipulator::setName(std::size_t n, const QString& name)
 
 void PeopleManipulator::store()
 {
-    store_people_names();
-    store_fingerprints();
+    if (m_faces.empty())
+    {
+        m_db.exec([ph_id = m_pid](Database::IBackend& backend)
+        {
+            backend.set(
+                ph_id,
+                Database::CommonGeneralFlags::FacesAnalysisState,
+                Database::CommonGeneralFlags::FacesAnalysisType::AnalysedAndNotFound);
+        });
+    }
+    else
+    {
+        store_people_names();
+        store_fingerprints();
 
-    // update names assigned to face locations
-    for (auto& face: m_faces)
-        face.face.p_id = face.person.id();
+        // update names assigned to face locations
+        for (auto& face: m_faces)
+            face.face.p_id = face.person.id();
 
-    // update fingerprints assigned to face locations
-    for (auto& face: m_faces)
-        if (face.face.f_id.valid() == false)
-            face.face.f_id = face.fingerprint.id();
+        // update fingerprints assigned to face locations
+        for (auto& face: m_faces)
+            if (face.face.f_id.valid() == false)
+                face.face.f_id = face.fingerprint.id();
 
-    store_people_information();
+        store_people_information();
+    }
 }
 
 
