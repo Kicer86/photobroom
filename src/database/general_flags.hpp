@@ -4,6 +4,9 @@
 
 #include <QString>
 
+// Various flags for photos.
+// Use 0 as most common/basic state,
+// so all photos without flag are considered 'normal/basic/unchecked'.
 namespace Database::CommonGeneralFlags
 {
     const QString State("state");           // photo state.
@@ -23,6 +26,20 @@ namespace Database::CommonGeneralFlags
         Normal        = 0,                      // 0 (or nonexistent entry) - photo is in fine state
         Incompatible  = 1,                      // 1 - could not generate phash. Not an image file.
     };
+
+    const QString FacesAnalysisState("faces_analysis_state");
+    enum class FacesAnalysisType
+    {
+        // We could have use 3 states here - 0 for not analyzed, 1 for analyzed and 2 for no faces
+        // However that would cause many entries in db as each photo would eventualy went to state 1 or 2.
+        // So a bit tricky solution is used here:
+        // 0 (or nonexistent entry) means photo was not scaned for faces,
+        // or faces were found (and database will return faces for this photo in such case)
+        // 1 - no faces found.
+        // that should allow to distinguish between all 3 states with less db usage.
+        NotAnalysedOrAnalysedAndFound = 0,
+        AnalysedAndNotFound  = 1,
+    };
 }
 
-#endif // GENERAL_FLAGS_HPP_INCLUDED
+#endif
