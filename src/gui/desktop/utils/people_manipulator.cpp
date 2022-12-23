@@ -172,6 +172,7 @@ void PeopleManipulator::findFaces_thrd()
         std::copy(list_of_faces.cbegin(), list_of_faces.cend(), std::back_inserter(result));
     }
 
+    // sort faces so they appear from left to right
     std::sort(result.begin(), result.end(), [](const QRect& lhs, const QRect& rhs) {
         if (lhs.right() < rhs.left())               // lhs if left to rhs? - in order
             return true;
