@@ -29,6 +29,8 @@
 #include <face_recognition/face_recognition.hpp>
 
 
+using namespace Database::CommonGeneralFlags;
+
 namespace
 {
     Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
@@ -107,8 +109,8 @@ void PeopleManipulator::store()
         {
             backend.set(
                 ph_id,
-                Database::CommonGeneralFlags::FacesAnalysisState,
-                Database::CommonGeneralFlags::FacesAnalysisType::AnalysedAndNotFound);
+                FacesAnalysisState,
+                FacesAnalysisType::AnalysedAndNotFound);
         });
     }
     else
@@ -150,26 +152,37 @@ void PeopleManipulator::findFaces_thrd()
 {
     QVector<QRect> result;
 
+    // check if we already know there are no faces on this photo
+    const bool facesNotFound = evaluate<bool(Database::IBackend &)>(m_db, [this](Database::IBackend& backend)
+    {
+        const auto analysisState = backend.get(m_pid, FacesAnalysisState);
+
+        return analysisState? *analysisState == static_cast<int>(FacesAnalysisType::AnalysedAndNotFound): false;
+    });
+
     const QString path = pathFor(m_pid);
     const QFileInfo pathInfo(path);
     const QString full_path = pathInfo.absoluteFilePath();
     m_image = OrientedImage(m_core.getExifReaderFactory().get(), full_path);
 
-    const std::vector<QRect> list_of_faces = fetchFacesFromDb();
-
-    if (list_of_faces.empty())
+    if (facesNotFound == false)
     {
-        FaceRecognition face_recognition(&m_core);
-        const auto faces = face_recognition.fetchFaces(full_path);
+        const std::vector<QRect> list_of_faces = fetchFacesFromDb();
 
-        for(const QRect& face: faces)
-            result.append(face);
-    }
-    else
-    {
-        result.reserve(static_cast<int>(list_of_faces.size()));
+        if (list_of_faces.empty())
+        {
+            FaceRecognition face_recognition(&m_core);
+            const auto faces = face_recognition.fetchFaces(full_path);
 
-        std::copy(list_of_faces.cbegin(), list_of_faces.cend(), std::back_inserter(result));
+            for(const QRect& face: faces)
+                result.append(face);
+        }
+        else
+        {
+            result.reserve(static_cast<int>(list_of_faces.size()));
+
+            std::copy(list_of_faces.cbegin(), list_of_faces.cend(), std::back_inserter(result));
+        }
     }
 
     // sort faces so they appear from left to right
