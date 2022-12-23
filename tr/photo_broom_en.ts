@@ -350,17 +350,22 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="96"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="93"/>
+        <source>&amp;Face detection...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="133"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="134"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="159"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="160"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -385,7 +390,7 @@ Check paths in configuration window.</source>
         <translation>&amp;Refresh collection...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="98"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>

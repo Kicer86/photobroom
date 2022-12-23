@@ -90,6 +90,7 @@ ApplicationWindow {
             Action { text: qsTr("S&eries detector...");       onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 2; mainView.currentIndex = 1; } }
             Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 3; mainView.currentIndex = 1; } }
+            Action { text: qsTr("&Face detection...");        onTriggered: { toolsStackView.currentIndex = 4; mainView.currentIndex = 1; } }
         }
         Menu {
             id: settingsMenu
@@ -202,6 +203,16 @@ ApplicationWindow {
                     sourceComponent: PhotoBroomProject.projectOpen? duplicates_view : undefined
                 }
 
+                Loader {
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
+
+                    Component {
+                        id: batch_face_detection
+                        BatchFaceDetection { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? batch_face_detection : undefined
+                }
             }
         }
     }
