@@ -354,6 +354,11 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Wyszukaj &amp;duplikaty</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>&amp;Face detection...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+4"/>
         <source>&amp;Settings</source>
         <translation>U&amp;stawienia</translation>
@@ -369,7 +374,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-82"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -394,12 +399,12 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Odśwież kolekcję...</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-14"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>
