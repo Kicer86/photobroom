@@ -21,6 +21,7 @@
 
 #include <core/containers_utils.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/ilogger_factory.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
@@ -171,8 +172,8 @@ void PeopleManipulator::findFaces_thrd()
 
         if (list_of_faces.empty())
         {
-            FaceRecognition face_recognition(&m_core);
-            const auto faces = face_recognition.fetchFaces(full_path);
+            FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
+            const auto faces = face_recognition.fetchFaces(m_image);
 
             for(const QRect& face: faces)
                 result.append(face);
@@ -264,7 +265,7 @@ void PeopleManipulator::recognizeFaces_thrd_calculate_missing_fingerprints()
     for (FaceInfo& faceInfo: m_faces)
         if (faceInfo.fingerprint.id().valid() == false)
         {
-            FaceRecognition face_recognition(&m_core);
+            FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
 
             const auto fingerprint = face_recognition.getFingerprint(m_image, faceInfo.face.rect);
 
@@ -275,7 +276,7 @@ void PeopleManipulator::recognizeFaces_thrd_calculate_missing_fingerprints()
 
 void PeopleManipulator::recognizeFaces_thrd_recognize_people()
 {
-    FaceRecognition face_recognition(&m_core);
+    FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
     const auto people_fingerprints = fetchPeopleAndFingerprints();
     const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
 
