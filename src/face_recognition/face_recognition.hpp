@@ -43,7 +43,7 @@ namespace Database
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
-        FaceRecognition(ICoreFactoryAccessor *);
+        FaceRecognition(const std::unique_ptr<ILogger>& logger);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();
@@ -54,17 +54,16 @@ class FACE_RECOGNITION_EXPORT FaceRecognition final
         static bool checkSystem();
 
         // Locate faces on given photo.
-        QVector<QRect> fetchFaces(const QString &) const;
+        std::vector<QRect> fetchFaces(const OrientedImage &) const;
 
         Person::Fingerprint getFingerprint(const OrientedImage& image, const QRect& face = QRect());
 
         int recognize(const Person::Fingerprint& unknown, const std::vector<Person::Fingerprint>& known);
 
     private:
-        struct Data;
-        std::unique_ptr<Data> m_data;
+        std::unique_ptr<ILogger> m_logger;
 
         QVector<QRect> fetchFaces(const OrientedImage &, double scale) const;
 };
 
-#endif // FACERECOGNITION_HPP
+#endif
