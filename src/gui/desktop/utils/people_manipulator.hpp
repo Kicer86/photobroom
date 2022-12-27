@@ -26,71 +26,30 @@
 
 struct ICoreFactoryAccessor;
 
-
-class PeopleManipulator: public QObject
+class IFace
 {
-        Q_OBJECT
+public:
+    virtual ~IFace() = default;
 
-    public:
-        PeopleManipulator(const Photo::Id &, Database::IDatabase &, ICoreFactoryAccessor &);
-        ~PeopleManipulator();
+    virtual const QRect& rect() const = 0;
+    virtual const QString& name() const = 0;
+    virtual const OrientedImage& image() const = 0;
 
-        std::size_t facesCount() const;
-        const QString& name(std::size_t) const;
-        const QRect& position(std::size_t) const;
-        QSize photoSize() const;
-
-        void setName(std::size_t, const QString &);
-        void store();
-
-    signals:
-        void facesAnalyzed() const;
-
-    private:
-        struct FaceInfo
-        {
-            PersonInfo face;
-            PersonName person;
-            PersonFingerprint fingerprint;
-
-            FaceInfo(const QRect& r)
-            {
-                face.rect = r;
-            }
-        };
-
-        safe_callback_ctrl m_callback_ctrl;
-        std::vector<FaceInfo> m_faces;
-        OrientedImage m_image;
-        Photo::Id m_pid;
-        ICoreFactoryAccessor& m_core;
-        Database::IDatabase& m_db;
-
-        void runOnThread(void (PeopleManipulator::*)());
-
-        void findFaces();
-        void findFaces_thrd();
-        void findFaces_result(const QVector<QRect> &);
-
-        void recognizeFaces();
-        void recognizeFaces_thrd_fetch_from_db();
-        void recognizeFaces_thrd_calculate_missing_fingerprints();
-        void recognizeFaces_thrd_recognize_people();
-        void recognizeFaces_thrd();
-        void recognizeFaces_result();
-
-        void store_people_names();
-        void store_fingerprints();
-        void store_people_information();
-
-        std::vector<QRect> fetchFacesFromDb() const;
-        std::vector<PersonInfo> fetchPeopleFromDb() const;
-        std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> fetchPeopleAndFingerprints() const;
-        std::map<PersonInfo::Id, PersonFingerprint> fetchFingerprints(const std::vector<PersonInfo::Id>& ids) const;
-        std::vector<PersonName> fetchPeople() const;
-        PersonName personData(const Person::Id& id) const;
-        PersonName storeNewPerson(const QString& name) const;
-        QString pathFor(const Photo::Id& id) const;
+    virtual void setName(const QString &) = 0;
+    virtual void store() = 0;
 };
 
-#endif // PEOPLEMANIPULATOR_HPP
+
+class FaceEditor
+{
+public:
+    FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &);
+
+    std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
+
+private:
+    Database::IDatabase& m_db;
+    ICoreFactoryAccessor& m_core;
+};
+
+#endif
