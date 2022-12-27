@@ -34,6 +34,25 @@ using namespace Database::CommonGeneralFlags;
 
 namespace
 {
+    struct FaceInfo
+    {
+        PersonInfo face;
+        PersonName person;
+        PersonFingerprint fingerprint;
+
+        FaceInfo(const Photo::Id& id, const QRect& r)
+        {
+            face.ph_id = id;
+            face.rect = r;
+        }
+
+        FaceInfo(const PersonInfo& pi)
+            : face(pi)
+        {
+
+        }
+    };
+
     Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
     {
         if (faces.empty())
@@ -48,415 +67,385 @@ namespace
 
         return avg_face;
     }
-}
 
 
-PeopleManipulator::PeopleManipulator(const Photo::Id& pid, Database::IDatabase& db, ICoreFactoryAccessor& core)
-    : m_pid(pid)
-    , m_core(core)
-    , m_db(db)
-{
-    findFaces();
-}
-
-
-PeopleManipulator::~PeopleManipulator()
-{
-    m_callback_ctrl.invalidate();
-}
-
-
-std::size_t PeopleManipulator::facesCount() const
-{
-    return m_faces.size();
-}
-
-
-const QString& PeopleManipulator::name(std::size_t n) const
-{
-    return m_faces[n].person.name();
-}
-
-
-const QRect& PeopleManipulator::position(std::size_t n) const
-{
-    return m_faces[n].face.rect;
-}
-
-
-QSize PeopleManipulator::photoSize() const
-{
-    return m_image->size();
-}
-
-
-void PeopleManipulator::setName(std::size_t n, const QString& name)
-{
-    const QString trimmed_name = name.trimmed();
-
-    if (n < m_faces.size() && m_faces[n].person.name() != trimmed_name)
+    bool wasPhotoAnalyzedAndHasNoFaces(Database::IDatabase& db, const Photo::Id& ph_id)
     {
-        PersonName new_name(trimmed_name);
-        m_faces[n].person = new_name;
-    }
-}
-
-
-void PeopleManipulator::store()
-{
-    if (m_faces.empty())
-    {
-        m_db.exec([ph_id = m_pid](Database::IBackend& backend)
+        return evaluate<bool(Database::IBackend &)>(db, [ph_id](Database::IBackend& backend)
         {
-            backend.set(
-                ph_id,
-                FacesAnalysisState,
-                FacesAnalysisType::AnalysedAndNotFound);
+            const auto analysisState = backend.get(ph_id, FacesAnalysisState);
+
+            return analysisState? *analysisState == static_cast<int>(FacesAnalysisType::AnalysedAndNotFound): false;
         });
     }
-    else
+
+    QString pathFor(Database::IDatabase& db, const Photo::Id& id)
     {
-        store_people_names();
-        store_fingerprints();
-
-        // update names assigned to face locations
-        for (auto& face: m_faces)
-            face.face.p_id = face.person.id();
-
-        // update fingerprints assigned to face locations
-        for (auto& face: m_faces)
-            if (face.face.f_id.valid() == false)
-                face.face.f_id = face.fingerprint.id();
-
-        store_people_information();
-    }
-}
-
-
-void PeopleManipulator::runOnThread(void (PeopleManipulator::*method)())
-{
-    auto task = std::bind(method, this);
-    auto safe_task = m_callback_ctrl.make_safe_callback<>(task);
-    auto& executor = m_core.getTaskExecutor();
-
-    runOn(executor, safe_task, "PeopleManipulator");
-}
-
-
-void PeopleManipulator::findFaces()
-{
-    runOnThread(&PeopleManipulator::findFaces_thrd);
-}
-
-
-void PeopleManipulator::findFaces_thrd()
-{
-    QVector<QRect> result;
-
-    // check if we already know there are no faces on this photo
-    const bool facesNotFound = evaluate<bool(Database::IBackend &)>(m_db, [this](Database::IBackend& backend)
-    {
-        const auto analysisState = backend.get(m_pid, FacesAnalysisState);
-
-        return analysisState? *analysisState == static_cast<int>(FacesAnalysisType::AnalysedAndNotFound): false;
-    });
-
-    const QString path = pathFor(m_pid);
-    const QFileInfo pathInfo(path);
-    const QString full_path = pathInfo.absoluteFilePath();
-    m_image = OrientedImage(m_core.getExifReaderFactory().get(), full_path);
-
-    if (facesNotFound == false)
-    {
-        const std::vector<QRect> list_of_faces = fetchFacesFromDb();
-
-        if (list_of_faces.empty())
+        return evaluate<QString(Database::IBackend &)>(db, [id](Database::IBackend& backend)
         {
-            FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
-            const auto faces = face_recognition.fetchFaces(m_image);
+            auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
 
-            for(const QRect& face: faces)
-                result.append(face);
-        }
-        else
-        {
-            result.reserve(static_cast<int>(list_of_faces.size()));
-
-            std::copy(list_of_faces.cbegin(), list_of_faces.cend(), std::back_inserter(result));
-        }
+            return photo.get<Photo::Field::Path>();
+        });
     }
 
-    // sort faces so they appear from left to right
-    std::sort(result.begin(), result.end(), [](const QRect& lhs, const QRect& rhs) {
-        if (lhs.right() < rhs.left())               // lhs if left to rhs? - in order
-            return true;
-        else if (lhs.left() > rhs.right())          // lhs is right to rhs? - not in order
-            return false;
-        else
-            return lhs.top() < rhs.top();           // when in line - lhs needs to be above
-    });
-
-    invokeMethod(this, &PeopleManipulator::findFaces_result, result);
-}
-
-
-void PeopleManipulator::findFaces_result(const QVector<QRect>& faces)
-{
-    m_faces.reserve(faces.size());
-
-    std::copy(faces.cbegin(), faces.cend(), std::back_inserter(m_faces));
-
-    for (auto& face: m_faces)
-        face.face.ph_id = m_pid;
-
-    recognizeFaces();
-}
-
-
-void PeopleManipulator::recognizeFaces()
-{
-    runOnThread(&PeopleManipulator::recognizeFaces_thrd);
-}
-
-
-void PeopleManipulator::recognizeFaces_thrd_fetch_from_db()
-{
-    const std::vector<PersonInfo> peopleData = fetchPeopleFromDb();
-
-    for (FaceInfo& faceInfo: m_faces)
+    std::vector<PersonInfo> fetchFacesFromDb(Database::IDatabase& db, const Photo::Id& ph_id)
     {
-        // check if we have data for given face rect in db
-        auto person_it = std::find_if(peopleData.cbegin(), peopleData.cend(), [faceInfo](const PersonInfo& pi)
+        return evaluate<std::vector<PersonInfo>(Database::IBackend &)>(db, [ph_id](Database::IBackend& backend)
         {
-            return pi.rect == faceInfo.face.rect;
+            std::vector<PersonInfo> faces;
+
+            const auto people = backend.peopleInformationAccessor().listPeople(ph_id);
+            std::ranges::copy_if(people, std::back_inserter(faces), [](const PersonInfo& pi) { return pi.rect.isValid(); });
+
+            return faces;
+        });
+    }
+
+    PersonName personName(Database::IDatabase& db, const Person::Id& id)
+    {
+        const PersonName person = evaluate<PersonName (Database::IBackend &)>
+            (db, [id](Database::IBackend& backend)
+        {
+            const auto people = backend.peopleInformationAccessor().person(id);
+
+            return people;
         });
 
-        if (person_it != peopleData.cend())   // rect matches
-        {
-            if (person_it->p_id.valid())
-                faceInfo.person = personData(person_it->p_id);     // fill name
-
-            faceInfo.face = *person_it;
-        }
+        return person;
     }
 
-    // collect faces and try to access theirs fingerprints
-    std::vector<PersonInfo::Id> faces_ids;
+    std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> fetchPeopleAndFingerprints(Database::IDatabase& db)
+    {
+        typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
 
-    for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.face.id.valid())
-            faces_ids.push_back(faceInfo.face.id);
-
-    const auto fingerprints = fetchFingerprints(faces_ids);
-
-    for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.face.id.valid())
+        return evaluate<Result(Database::IBackend &)>(db, [](Database::IBackend& backend)
         {
-            auto it = fingerprints.find(faceInfo.face.id);
+            std::vector<Person::Fingerprint> people_fingerprints;
+            std::vector<Person::Id> people;
 
-            if (it != fingerprints.end())
-                faceInfo.fingerprint = it->second;
-        }
-}
-
-
-void PeopleManipulator::recognizeFaces_thrd_calculate_missing_fingerprints()
-{
-    for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.fingerprint.id().valid() == false)
-        {
-            FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
-
-            const auto fingerprint = face_recognition.getFingerprint(m_image, faceInfo.face.rect);
-
-            faceInfo.fingerprint = fingerprint;
-        }
-}
-
-
-void PeopleManipulator::recognizeFaces_thrd_recognize_people()
-{
-    FaceRecognition face_recognition(m_core.getLoggerFactory().get("PeopleManipulator"));
-    const auto people_fingerprints = fetchPeopleAndFingerprints();
-    const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
-
-    for (FaceInfo& faceInfo: m_faces)
-        if (faceInfo.person.name().isEmpty())
-        {
-            const int pos = face_recognition.recognize(faceInfo.fingerprint.fingerprint(), known_fingerprints);
-
-            if (pos >=0)
+            const auto all_people = backend.peopleInformationAccessor().listPeople();
+            for(const auto& person: all_people)
             {
-                const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
-                const Person::Id found_person = known_people[pos];
-                faceInfo.person = personData(found_person);
+                const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
+
+                if (fingerprints.empty() == false)
+                {
+                    people_fingerprints.push_back(average_fingerprint(fingerprints));
+                    people.push_back(person.id());
+                }
             }
-        }
-}
 
-
-void PeopleManipulator::recognizeFaces_thrd()
-{
-    recognizeFaces_thrd_fetch_from_db();
-
-    const bool missing_fingerprints =
-        std::any_of(m_faces.cbegin(),
-                    m_faces.cend(),
-                    [](const auto& face)
-                    {
-                        return face.fingerprint.id().valid() == false;
-                    });
-
-    if (missing_fingerprints)
-    {
-        recognizeFaces_thrd_calculate_missing_fingerprints();
-        recognizeFaces_thrd_recognize_people();
+            return std::tuple(people_fingerprints, people);
+        });
     }
 
-    invokeMethod(this, &PeopleManipulator::recognizeFaces_result);
-}
+    std::vector<QRect> detectFaces(const OrientedImage& image, const std::unique_ptr<ILogger>& logger)
+    {
+        return FaceRecognition(logger).fetchFaces(image);
+    }
 
+    void calculateMissingFingerprints(std::vector<FaceInfo>& faces, const OrientedImage& image, const std::unique_ptr<ILogger>& logger)
+    {
+        FaceRecognition face_recognition(logger);
+        for (FaceInfo& faceInfo: faces)
+            if (faceInfo.fingerprint.id().valid() == false)
+            {
+                const auto fingerprint = face_recognition.getFingerprint(image, faceInfo.face.rect);
 
-void PeopleManipulator::recognizeFaces_result()
-{
-    emit facesAnalyzed();
-}
+                faceInfo.fingerprint = fingerprint;
+            }
+    }
 
+    void recognizePeople(std::vector<FaceInfo>& faces, Database::IDatabase& db, const std::unique_ptr<ILogger>& logger)
+    {
+        FaceRecognition face_recognition(logger);
+        const auto people_fingerprints = fetchPeopleAndFingerprints(db);
+        const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
 
-void PeopleManipulator::store_people_names()
-{
-    auto nameChanged = [](const PeopleManipulator::FaceInfo& faceInfo) {
-        // no person id and name is not empty?
-        return faceInfo.person.id().valid() == false && faceInfo.person.name().isEmpty() == false;
+        for (FaceInfo& faceInfo: faces)
+            if (faceInfo.person.name().isEmpty())
+            {
+                const int pos = face_recognition.recognize(faceInfo.fingerprint.fingerprint(), known_fingerprints);
+
+                if (pos >=0)
+                {
+                    const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
+                    const Person::Id found_person = known_people[pos];
+                    faceInfo.person = personName(db, found_person);
+                }
+            }
+    }
+
+    class FacesSaver
+    {
+        public:
+            FacesSaver(Database::IDatabase &, ICoreFactoryAccessor &);
+            ~FacesSaver();
+
+            void store(FaceInfo &);
+
+        private:
+            ICoreFactoryAccessor& m_core;
+            Database::IDatabase& m_db;
+            std::vector<PersonName> m_people;
+
+            void store_person_name(FaceInfo& face);
+            void store_fingerprint(FaceInfo& face);
+            void store_person_information(const FaceInfo& face);
+
+            std::vector<PersonName> fetchPeople() const;
+            PersonName storeNewPerson(const QString& name) const;
     };
 
-    const bool anyNameChanged = std::ranges::any_of(m_faces, nameChanged);
-
-    if (anyNameChanged)
+    struct Face: public IFace
     {
-        const std::vector<PersonName> people = fetchPeople();
+        Face(const FaceInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<FacesSaver> saver)
+            : m_faceInfo(fi)
+            , m_image(image)
+            , m_saver(saver)
+        {}
 
-        // make sure each name is known (exists in db)
-        for (auto& face: m_faces)
-            if (nameChanged(face))
-            {
-                const QString& name = face.person.name();
-
-                auto it = std::find_if(people.cbegin(), people.cend(), [name](const PersonName& d)
-                {
-                    return d.name() == name;
-                });
-
-                if (it == people.cend())        // new name, store it in db
-                    face.person = storeNewPerson(name);
-                else
-                    face.person = *it;
-            }
-    }
-}
-
-
-void PeopleManipulator::store_fingerprints()
-{
-    for (auto& face: m_faces)
-        if (face.fingerprint.id().valid() == false)
+        const QRect& rect() const override
         {
-            const PersonFingerprint::Id fid =
-                evaluate<PersonFingerprint::Id(Database::IBackend &)>(m_db, [fingerprint = face.fingerprint](Database::IBackend& backend)
-            {
-                return backend.peopleInformationAccessor().store(fingerprint);
-            });
-
-            const PersonFingerprint fingerprint(fid, face.fingerprint.fingerprint());
-            face.fingerprint = fingerprint;
+            return m_faceInfo.face.rect;
         }
-}
 
-
-void PeopleManipulator::store_people_information()
-{
-    for (const auto& face: m_faces)
-    {
-        const PersonInfo& faceInfo = face.face;
-        const PersonFingerprint& fingerprint = face.fingerprint;
-
-        m_db.exec([faceInfo, fingerprint](Database::IBackend& backend)
+        const QString& name() const override
         {
-            backend.peopleInformationAccessor().store(faceInfo);
+            return m_faceInfo.person.name();
+        }
+
+        const OrientedImage& image() const override
+        {
+            return *m_image;
+        }
+
+        void setName(const QString& name) override
+        {
+            m_faceInfo.person = PersonName(name);
+        }
+
+        void store() override
+        {
+            m_saver->store(m_faceInfo);
+        }
+
+        FaceInfo m_faceInfo;
+        std::shared_ptr<OrientedImage> m_image;
+        std::shared_ptr<FacesSaver> m_saver;
+    };
+
+    void sortFaces(std::vector<FaceInfo>& faces)
+    {
+        // sort faces so they appear from left to right
+        std::sort(faces.begin(), faces.end(), [](const FaceInfo& lhs, const FaceInfo& rhs) {
+            const auto lhs_face = lhs.face.rect;
+            const auto rhs_face = rhs.face.rect;
+
+            if (lhs_face.left() < rhs_face.left())        // lhs if left to rhs? - in order
+                return true;
+            else if (lhs_face.left() > rhs_face.right())  // lhs is right to rhs? - not in order
+                return false;
+            else
+                return lhs_face.top() < rhs_face.top();   // when in line - lhs needs to be above
         });
     }
-}
 
-
-std::vector<QRect> PeopleManipulator::fetchFacesFromDb() const
-{
-    return evaluate<std::vector<QRect>(Database::IBackend &)>
-        (m_db, [id = m_pid](Database::IBackend& backend)
+    std::vector<FaceInfo> findFaces(Database::IDatabase& db,
+                                    const OrientedImage& image,
+                                    const std::unique_ptr<ILogger>& logger,
+                                    const Photo::Id& id)
     {
-        std::vector<QRect> faces;
+        std::vector<FaceInfo> result;
 
-        const auto people = backend.peopleInformationAccessor().listPeople(id);
-        for(const auto& person: people)
-            if (person.rect.isValid())
-                faces.push_back(person.rect);
+        const bool facesNotFound = wasPhotoAnalyzedAndHasNoFaces(db, id);
 
-        return faces;
-    });
-}
-
-
-std::vector<PersonInfo> PeopleManipulator::fetchPeopleFromDb() const
-{
-    return evaluate<std::vector<PersonInfo>(Database::IBackend &)>
-        (m_db, [id = m_pid](Database::IBackend& backend)
-    {
-        auto people = backend.peopleInformationAccessor().listPeople(id);
-
-        return people;
-    });
-}
-
-
-std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> PeopleManipulator::fetchPeopleAndFingerprints() const
-{
-    typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
-
-    return evaluate<Result(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
-    {
-        std::vector<Person::Fingerprint> people_fingerprints;
-        std::vector<Person::Id> people;
-
-        const auto all_people = backend.peopleInformationAccessor().listPeople();
-        for(const auto& person: all_people)
+        // photo not analyzed yet (no records in db) or analyzed and we have data in db
+        if (facesNotFound == false)
         {
-            const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
+            const std::vector<PersonInfo> list_of_faces = fetchFacesFromDb(db, id);
 
-            if (fingerprints.empty() == false)
+            // no data in db
+            if (list_of_faces.empty())
             {
-                people_fingerprints.push_back(average_fingerprint(fingerprints));
-                people.push_back(person.id());
+                // analyze photo - look for faces
+                const auto detected_faces = detectFaces(image, logger);
+                std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
+                {
+                    return FaceInfo(id, rect);;
+                });
+
+                //calculate fingerprints
+                calculateMissingFingerprints(result, image, logger);
+
+                //recognize people
+                recognizePeople(result, db, logger);
+
+                if (result.empty())
+                {
+                    db.exec([id](Database::IBackend& backend)
+                    {
+                        backend.set(
+                            id,
+                            FacesAnalysisState,
+                            FacesAnalysisType::AnalysedAndNotFound);
+                    });
+                }
+            }
+            else    // data in db just use it
+            {
+                evaluate<void(Database::IBackend &)>(db, [&result, &list_of_faces](Database::IBackend& backend)
+                {
+                    std::vector<PersonInfo::Id> pi_ids;
+                    std::ranges::transform(list_of_faces, std::back_inserter(pi_ids), [](const PersonInfo& pi)
+                    {
+                        return pi.id;
+                    });
+
+                    const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(pi_ids);
+                    assert(fingerprints.size() == list_of_faces.size());
+
+                    for (const PersonInfo& pi: list_of_faces)
+                    {
+                        FaceInfo fi(pi);
+                        fi.fingerprint = fingerprints.find(pi.id)->second;
+
+                        if (pi.p_id.valid())
+                            fi.person = backend.peopleInformationAccessor().person(pi.p_id);
+
+                        result.push_back(fi);
+                    };
+                });
             }
         }
 
-        return std::tuple(people_fingerprints, people);
-    });
-}
-
-
-std::map<PersonInfo::Id, PersonFingerprint> PeopleManipulator::fetchFingerprints(const std::vector<PersonInfo::Id>& ids) const
-{
-    typedef std::map<PersonInfo::Id, PersonFingerprint> Result;
-
-    return evaluate<Result(Database::IBackend &)>(m_db, [ids](Database::IBackend& backend)
-    {
-        const Result result = backend.peopleInformationAccessor().fingerprintsFor(ids);
+        sortFaces(result);
 
         return result;
+    }
+}
+
+
+FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core)
+    : m_db(db)
+    , m_core(core)
+{
+
+}
+
+
+std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
+{
+    const QString path = pathFor(m_db, id);
+    const QFileInfo pathInfo(path);
+    const QString full_path = pathInfo.absoluteFilePath();
+    auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), full_path);
+
+    const auto faces = findFaces(
+        m_db,
+        *image,
+        m_core.getLoggerFactory().get("FaceEditor"),
+        id);
+
+    auto storage = std::make_shared<FacesSaver>(m_db, m_core);
+
+    std::vector<std::unique_ptr<IFace>> result;
+
+    std::ranges::transform(faces, std::back_inserter(result), [&image, &storage](const FaceInfo& fi)
+    {
+        return std::make_unique<Face>(fi, image, storage);
+    });
+
+    return result;
+}
+
+
+FacesSaver::FacesSaver(Database::IDatabase& db, ICoreFactoryAccessor& core)
+    : m_core(core)
+    , m_db(db)
+{
+    m_people = fetchPeople();
+}
+
+
+FacesSaver::~FacesSaver()
+{
+
+}
+
+
+void FacesSaver::store(FaceInfo& face)
+{
+    store_person_name(face);
+    store_fingerprint(face);
+
+    // update names assigned to face
+    face.face.p_id = face.person.id();
+
+    // update fingerprints assigned to face
+    if (face.face.f_id.valid() == false)
+        face.face.f_id = face.fingerprint.id();
+
+    store_person_information(face);
+}
+
+
+void FacesSaver::store_person_name(FaceInfo& face)
+{
+    const bool nameChanged =
+        face.person.id().valid() == false && face.person.name().isEmpty() == false;
+
+    if (nameChanged)
+    {
+        // introduce name associated with face to db (if needed)
+        const QString& name = face.person.name();
+
+        auto it = std::find_if(m_people.cbegin(), m_people.cend(), [name](const PersonName& d)
+        {
+            return d.name() == name;
+        });
+
+        if (it == m_people.cend())        // new name, store it in db
+        {
+            face.person = storeNewPerson(name);
+            m_people.push_back(face.person);
+        }
+        else
+            face.person = *it;
+    }
+}
+
+
+void FacesSaver::store_fingerprint(FaceInfo& face)
+{
+    if (face.fingerprint.id().valid() == false)
+    {
+        const PersonFingerprint::Id fid =
+            evaluate<PersonFingerprint::Id(Database::IBackend &)>(m_db, [fingerprint = face.fingerprint](Database::IBackend& backend)
+        {
+            return backend.peopleInformationAccessor().store(fingerprint);
+        });
+
+        const PersonFingerprint fingerprint(fid, face.fingerprint.fingerprint());
+        face.fingerprint = fingerprint;
+    }
+}
+
+
+void FacesSaver::store_person_information(const FaceInfo& face)
+{
+    const PersonInfo& faceInfo = face.face;
+    const PersonFingerprint& fingerprint = face.fingerprint;
+
+    m_db.exec([faceInfo, fingerprint](Database::IBackend& backend)
+    {
+        backend.peopleInformationAccessor().store(faceInfo);
     });
 }
 
 
-std::vector<PersonName> PeopleManipulator::fetchPeople() const
+std::vector<PersonName> FacesSaver::fetchPeople() const
 {
     return evaluate<std::vector<PersonName>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
@@ -467,21 +456,7 @@ std::vector<PersonName> PeopleManipulator::fetchPeople() const
 }
 
 
-PersonName PeopleManipulator::personData(const Person::Id& id) const
-{
-    const PersonName person = evaluate<PersonName (Database::IBackend &)>
-        (m_db, [id](Database::IBackend& backend)
-    {
-        const auto people = backend.peopleInformationAccessor().person(id);
-
-        return people;
-    });
-
-    return person;
-}
-
-
-PersonName PeopleManipulator::storeNewPerson(const QString& name) const
+PersonName FacesSaver::storeNewPerson(const QString& name) const
 {
     const PersonName person = evaluate<PersonName (Database::IBackend &)>
             (m_db, [name](Database::IBackend& backend)
@@ -492,15 +467,4 @@ PersonName PeopleManipulator::storeNewPerson(const QString& name) const
     });
 
     return person;
-}
-
-
-QString PeopleManipulator::pathFor(const Photo::Id& id) const
-{
-    return evaluate<QString(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
-    {
-        auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
-
-        return photo.get<Photo::Field::Path>();
-    });
 }
