@@ -46,7 +46,7 @@ namespace
             face.rect = r;
         }
 
-        FaceInfo(const PersonInfo& pi)
+        explicit FaceInfo(const PersonInfo& pi)
             : face(pi)
         {
 
