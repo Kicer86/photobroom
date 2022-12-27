@@ -12,7 +12,6 @@
 
 #include "utils/people_manipulator.hpp"
 
-
 class FacesModel: public QAbstractListModel
 {
         Q_OBJECT
@@ -51,14 +50,11 @@ class FacesModel: public QAbstractListModel
         Photo::Id m_id;
         Database::IDatabase* m_database = nullptr;
         ICoreFactoryAccessor* m_core = nullptr;
-        std::unique_ptr<PeopleManipulator> m_peopleManipulator;
-        QVector<QRect> m_faces;
-        QString m_photoPath;
+        std::vector<std::unique_ptr<IFace>> m_faces;
         QSize m_photoSize;
         int m_state = 0;
-        int m_facesCount = 0;
 
-        void updateFaceInformation();
+        void updateFaceInformation(std::shared_ptr<std::vector<std::unique_ptr<IFace>>>);
 
         void initialSetup();
         void updateDetectionState(int);
