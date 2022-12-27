@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "people_manipulator.hpp"
+#include "people_editor.hpp"
 
 #include <QFileInfo>
 
