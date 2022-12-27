@@ -10,7 +10,7 @@
 #include <database/person_data.hpp>
 #include <face_recognition/face_recognition.hpp>
 
-#include "utils/people_manipulator.hpp"
+#include "utils/people_editor.hpp"
 
 class FacesModel: public QAbstractListModel
 {

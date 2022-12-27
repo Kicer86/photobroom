@@ -29,10 +29,10 @@ set(UTILS_SOURCES
     model_index_utils.hpp
     painter_helpers.cpp
     painter_helpers.hpp
+    people_editor.cpp
+    people_editor.hpp
     people_list_model.cpp
     people_list_model.hpp
-    people_manipulator.cpp
-    people_manipulator.hpp
     photos_collector.cpp
     photos_collector.hpp
     qml_setup.cpp
