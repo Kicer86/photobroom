@@ -147,8 +147,8 @@ Item {
 
         anchors.top: parent.top
         anchors.right: parent.right
+        anchors.bottom: toolsArea.top
         implicitWidth: contentWidth
-        height: contentHeight
 
         model: facesModel
 
