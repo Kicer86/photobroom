@@ -5,6 +5,8 @@ set(SRC
     aheavy_list_model.hpp                   # needed for moc
     aphoto_data_model.cpp
     aphoto_data_model.hpp
+    batch_face_recognition_model.cpp
+    batch_face_recognition_model.hpp
     duplicates_model.cpp
     duplicates_model.hpp
     faces_model.cpp
