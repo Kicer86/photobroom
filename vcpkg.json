@@ -7,6 +7,10 @@
   "description": "Photo Broom is a tool for managing your photos.",
   "dependencies": [
     {
+        "name": "cppgraphqlgen",
+        "default-features": false
+      },
+    {
         "name": "dlib",
         "default-features": false,
         "features": [ "fftw3" ]
