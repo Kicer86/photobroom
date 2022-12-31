@@ -9,7 +9,6 @@ find_package(Qt6       REQUIRED COMPONENTS Core Gui)
 find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
 find_package(OpenCV    REQUIRED)
-find_package(pegtl     REQUIRED)            #required by cppgraphqlgen
 
 include(FetchContent)
 FetchContent_Declare(
@@ -19,6 +18,10 @@ FetchContent_Declare(
   FIND_PACKAGE_ARGS NAMES cppgraphqlgen
 )
 FetchContent_MakeAvailable(cppgraphqlgen)
+
+if(NOT TARGET taocpp::pegtl)
+    find_package(pegtl     REQUIRED)            #required by cppgraphqlgen
+endif()
 
 find_program(python python REQUIRED)
 
