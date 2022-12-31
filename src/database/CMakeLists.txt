@@ -10,7 +10,15 @@ find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
 find_package(OpenCV    REQUIRED)
 find_package(pegtl     REQUIRED)            #required by cppgraphqlgen
-find_package(cppgraphqlgen REQUIRED)
+
+include(FetchContent)
+FetchContent_Declare(
+  cppgraphqlgen
+  GIT_REPOSITORY https://github.com/microsoft/cppgraphqlgen.git
+  GIT_TAG        8c1623acc42392ef2a1bc0336482621386f98c77 # v4.5.0
+  FIND_PACKAGE_ARGS NAMES cppgraphqlgen
+)
+FetchContent_MakeAvailable(cppgraphqlgen)
 
 find_program(python python REQUIRED)
 
