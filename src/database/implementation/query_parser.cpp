@@ -13,12 +13,12 @@ namespace graphql::database
         public:
             service::AwaitableObject<std::vector<std::shared_ptr<object::Photo>>> getPhotos(service::FieldParams&& params) const
             {
-
+                return service::AwaitableObject<std::vector<std::shared_ptr<object::Photo>>>(std::vector<std::shared_ptr<object::Photo>>{});
             }
 
             service::AwaitableObject<std::shared_ptr<object::Photo>> getPhoto(service::FieldParams&& params, response::IdType&& idArg) const
             {
-
+                return service::AwaitableObject<std::shared_ptr<object::Photo>>(std::shared_ptr<object::Photo>{});
             }
 
     };
