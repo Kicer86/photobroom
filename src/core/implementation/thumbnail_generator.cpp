@@ -132,6 +132,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
             {
                 QEventLoop eventLoop;
                 QObject::connect(&player, &QMediaPlayer::positionChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
+                QObject::connect(&player, &QMediaPlayer::mediaStatusChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
                 player.setPosition(milliseconds / 10);
                 eventLoop.exec();
             }
