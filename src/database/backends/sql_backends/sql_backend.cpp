@@ -332,6 +332,12 @@ namespace Database
     }
 
 
+    QString ASqlBackend::query(const QString &)
+    {
+        return {};
+    }
+
+
     std::vector<TagValue> ASqlBackend::listTagValues(const Tag::Types& tagType, const Filter& filter)
     {
         std::vector<TagValue> result;

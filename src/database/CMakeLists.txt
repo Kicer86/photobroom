@@ -9,6 +9,10 @@ find_package(Qt6       REQUIRED COMPONENTS Core Gui)
 find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
 find_package(OpenCV    REQUIRED)
+find_package(pegtl     REQUIRED)            #required by cppgraphqlgen
+find_package(cppgraphqlgen REQUIRED)
+
+find_program(python python REQUIRED)
 
 set(DATABASE_SOURCES
     actions.hpp
@@ -51,6 +55,8 @@ set(DATABASE_SOURCES
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_utils.cpp
+    implementation/query_parser.cpp
+    implementation/query_parser.hpp
 
     database_tools/common_backend_operations.hpp
     database_tools/id_to_data_converter.hpp
@@ -75,12 +81,44 @@ set(DATABASE_SOURCES
 
 source_group(files REGULAR_EXPRESSION .*database.* )
 
-add_library(database SHARED ${DATABASE_SOURCES})
+add_custom_command(
+    OUTPUT graphql_files.list
+    COMMAND ${CMAKE_COMMAND}
+    ARGS -E make_directory graphql
+    COMMAND $<TARGET_FILE:cppgraphqlgen::schemagen>
+    ARGS --schema ${CMAKE_CURRENT_SOURCE_DIR}/implementation/photos.gql
+         --prefix photo_broom
+         --namespace database
+         --source-dir graphql
+         --header-dir graphql
+         --no-introspection
+         > graphql_files.list
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS implementation/photos.gql
+)
+
+add_custom_command(
+    OUTPUT graphql_files.cpp
+    COMMAND ${python}
+    ARGS ${CMAKE_CURRENT_SOURCE_DIR}/implementation/collect_graphql_files.py
+         ${CMAKE_CURRENT_BINARY_DIR}/graphql_files.list
+         ${CMAKE_CURRENT_BINARY_DIR}/graphql_files.cpp
+    DEPENDS graphql_files.list
+)
+
+add_library(
+    database
+    SHARED
+    ${DATABASE_SOURCES}
+    ${CMAKE_CURRENT_BINARY_DIR}/graphql_files.cpp
+)
+
 target_link_libraries(database
                         PUBLIC
                             Qt::Gui
                         PRIVATE
                             core
+                            cppgraphqlgen::graphqlservice
                             Qt::Core
                             opencv_img_hash                 # do not link all possible libs, just those we will need (opencv_cvv uses Qt5 which causes problems)
                             ${CMAKE_THREAD_LIBS_INIT}

@@ -114,6 +114,9 @@ namespace Database
 
         //read data
 
+        /// Universal query mechanism
+        virtual QString query(const QString &) = 0;
+
         /// list all values of tag for photos matching provided filter
         virtual std::vector<TagValue>    listTagValues(const Tag::Types &,
                                                        const Filter &) = 0;

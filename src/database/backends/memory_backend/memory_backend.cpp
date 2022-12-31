@@ -222,6 +222,12 @@ namespace Database
     }
 
 
+    QString MemoryBackend::query(const QString &)
+    {
+        return {};
+    }
+
+
     std::vector<TagValue> MemoryBackend::listTagValues(const Tag::Types& type, const Filter &)
     {
         std::set<TagValue> values;

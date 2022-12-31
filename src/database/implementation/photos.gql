@@ -1,0 +1,18 @@
+
+scalar DateTime
+
+type Photo {
+  id: ID!
+  createdAt: DateTime!
+  tags: Tags!
+}
+
+type Tags {
+    date: DateTime
+    event: String
+}
+
+type Query {
+  photos: [Photo!]!
+  photo(id: ID!): Photo
+}
