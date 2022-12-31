@@ -51,7 +51,10 @@ jobs:
           libgmock-dev          \
           libgl1-mesa-dev       \
           libglvnd-dev          \
-          libwebp-dev
+          libwebp-dev           \
+          tao-pegtl-dev         \
+          libboost-program-options-dev \
+          rapidjson-dev
 
     - name: Install magic enum
       run: |
