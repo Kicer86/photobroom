@@ -2,8 +2,8 @@
 #ifndef QUERY_PARSER_HPP_INCLUDED
 #define QUERY_PARSER_HPP_INCLUDED
 
-#include <QString>
+#include <string>
 
-void parseQuery(const QString &);
+void parseQuery(const std::string &);
 
 #endif

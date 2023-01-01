@@ -20,14 +20,13 @@ namespace graphql::database
             {
                 return service::AwaitableObject<std::shared_ptr<object::Photo>>(std::shared_ptr<object::Photo>{});
             }
-
     };
 }
 
 
-void parseQuery(const QString& queryString)
+void parseQuery(const std::string& queryString)
 {
-    auto parsed = graphql::peg::parseString(queryString.toStdString());
+    auto parsed = graphql::peg::parseString(queryString);
     auto query = std::make_shared<graphql::database::Query>();
     auto service = std::make_shared<graphql::database::Operations>(std::move(query));
 }
