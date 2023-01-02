@@ -27,7 +27,9 @@ jobs:
           exiv2             \
           magic_enum        \
           opencv            \
-          dlib
+          dlib              \
+          rapidjson         \
+          googletest
 
     - name: Build
       continue-on-error: true
