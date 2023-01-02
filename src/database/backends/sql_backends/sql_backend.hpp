@@ -26,10 +26,12 @@
 #include <vector>
 #include <vector>
 
-#include "core/lazy_ptr.hpp"
+#include <core/lazy_ptr.hpp>
+
 #include "database/ibackend.hpp"
 #include "database/notifications_accumulator.hpp"
 #include "database/transaction_wrapper.hpp"
+#include "graphql-service/query_parser.hpp"
 #include "group_operator.hpp"
 #include "people_information_accessor.hpp"
 #include "photo_change_log_operator.hpp"
@@ -52,6 +54,7 @@ namespace Database
     struct IGenericSqlQueryGenerator;
     struct TableDefinition;
 
+    class SqlQuery4GraphQl;
 
     class SQL_BACKEND_BASE_EXPORT ASqlBackend: public Database::IBackend
     {
@@ -81,6 +84,10 @@ namespace Database
             PhotoOperator& photoOperator() override;
             PhotoChangeLogOperator& photoChangeLogOperator() override;
             IPeopleInformationAccessor& peopleInformationAccessor() override;
+
+            // GraphQl queries:
+            std::vector<std::shared_ptr<graphql::database::object::Photo>> getPhotos(graphql::service::FieldParams&& params);
+            std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::service::FieldParams&& params, graphql::response::IdType&& idArg);
 
         protected:
             /**
@@ -127,8 +134,9 @@ namespace Database
             virtual const IGenericSqlQueryGenerator& getGenericQueryGenerator() const = 0;
 
         private:
+            friend class SqlQuery4GraphQl;
             std::unique_ptr<GroupOperator> m_groupOperator;
-            std::unique_ptr<PhotoOperator> m_photoOperator;
+            mutable std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
             lazy_ptr<IPeopleInformationAccessor, std::function<IPeopleInformationAccessor*()>> m_peopleInfoAccessor;
             NotificationsAccumulator m_notificationsAccumulator;

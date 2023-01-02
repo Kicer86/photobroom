@@ -44,7 +44,6 @@ add_custom_command(
 add_library(
     graphql-service
     SHARED
-    query_parser.cpp
     query_parser.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/graphql_files.cpp
 )
@@ -53,6 +52,7 @@ add_library(
 target_include_directories(
     graphql-service
     PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -60,4 +60,5 @@ target_link_libraries(
     graphql-service
     PUBLIC
         cppgraphqlgen::graphqlservice
+        cppgraphqlgen::graphqljson
 )

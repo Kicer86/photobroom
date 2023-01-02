@@ -41,6 +41,7 @@ addTestTarget(database
                 LIBRARIES
                     core
                     database
+                    graphql-service
                     sample_dbs
                     Qt::Core
                     Qt::Gui

@@ -7,6 +7,7 @@
 #include "database/ibackend.hpp"
 #include "database/igroup_operator.hpp"
 #include "database/iphoto_operator.hpp"
+#include "graphql-service/query_parser.hpp"
 
 #include "database_memory_backend_export.h"
 
@@ -53,6 +54,10 @@ namespace Database
             IPeopleInformationAccessor& peopleInformationAccessor() override;
 
             struct DB;
+
+            // GraphQl queries:
+            std::vector<std::shared_ptr<graphql::database::object::Photo>> getPhotos(graphql::service::FieldParams&& params);
+            std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::service::FieldParams&& params, graphql::response::IdType&& idArg);
 
         private:
             // APeopleInformationAccessor interface

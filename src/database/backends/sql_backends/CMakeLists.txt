@@ -38,7 +38,17 @@ set(HEADERS
     )
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(sql_backend_base PRIVATE database core Qt::Core Qt::Sql Qt::Gui)
+target_link_libraries(
+    sql_backend_base
+    PUBLIC
+        graphql-service
+    PRIVATE
+        core
+        database
+        Qt::Core
+        Qt::Sql
+        Qt::Gui
+)
 target_include_directories(sql_backend_base PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base)

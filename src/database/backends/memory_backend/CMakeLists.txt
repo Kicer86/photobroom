@@ -14,12 +14,12 @@ target_include_directories(database_memory_backend
 
 
 target_link_libraries(database_memory_backend
-                          PUBLIC
-                              Qt::Core
-
-                          PRIVATE
-                              core
-                              database
+    PUBLIC
+        graphql-service
+        Qt::Core
+    PRIVATE
+        core
+        database
 )
 
 generate_export_header(database_memory_backend)

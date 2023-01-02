@@ -9,6 +9,11 @@
 #include "database/project_info.hpp"
 #include "database/photo_utils.hpp"
 
+
+using namespace graphql;
+using namespace graphql::database;
+
+
 namespace Database
 {
     struct MemoryBackend::DB
@@ -21,7 +26,7 @@ namespace Database
         std::vector<LogEntry> m_logEntries;
         std::map<Photo::Id, QByteArray> m_thumbnails;
 
-        int m_nextPhotoId = 0;
+        int m_nextPhotoId = 1;
         int m_nextPersonName = 0;
         int m_nextGroup = 0;
         int m_nextPersonInfo = 0;
@@ -222,9 +227,15 @@ namespace Database
     }
 
 
-    QString MemoryBackend::query(const QString &)
+    QString MemoryBackend::query(const QString& query)
     {
-        return {};
+        // create "fake" shared_ptr to ASqlBackend as shown here:
+        // https://stackoverflow.com/a/28523089/1749713
+        std::shared_ptr<MemoryBackend> memoryBackendPtr(std::shared_ptr<MemoryBackend>(), this);
+
+        const auto response = GraphQLParser::parseQuery(query.toStdString(), memoryBackendPtr);
+
+        return QString::fromStdString(response);
     }
 
 
@@ -410,6 +421,31 @@ namespace Database
     {
         return *this;
     }
+
+
+    std::vector<std::shared_ptr<object::Photo>> MemoryBackend::getPhotos(service::FieldParams&& params)
+    {
+        const auto ids = photoOperator().getPhotos({});
+        std::vector<std::shared_ptr<object::Photo>> photos;
+
+        std::ranges::transform(ids, std::back_inserter(photos), [](const Photo::Id& id)
+        {
+            Photo::DataDelta data(id);
+            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data);
+            auto photo = std::make_shared<object::Photo>(photoDeltaAdapter);
+
+            return photo;
+        });
+
+        return photos;
+    }
+
+
+    std::shared_ptr<object::Photo> MemoryBackend::getPhoto(service::FieldParams&& params, response::IdType&& idArg)
+    {
+        return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
+    }
+
 
 
     std::vector<PersonName> MemoryBackend::listPeople()

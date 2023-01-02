@@ -31,6 +31,7 @@ addTestTarget(database_backends
                     unit_tests_for_backends/common.hpp
                     unit_tests_for_backends/filters_tests.cpp
                     unit_tests_for_backends/general_flags_tests.cpp
+                    unit_tests_for_backends/graphql_query_tests.cpp
                     unit_tests_for_backends/groups_tests.cpp
                     unit_tests_for_backends/people_tests.cpp
                     unit_tests_for_backends/phash_tests.cpp
@@ -53,6 +54,7 @@ addTestTarget(database_backends
 
                 LIBRARIES
                     core
+                    graphql-service
                     plugins
                     sample_dbs
                     system

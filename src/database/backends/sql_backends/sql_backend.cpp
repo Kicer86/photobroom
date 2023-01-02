@@ -56,10 +56,11 @@
 // useful links
 // about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
+using namespace graphql;
+using namespace graphql::database;
 
 namespace Database
 {
-
     ASqlBackend::ASqlBackend(ILogger* l):
         m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, this->getGenericQueryGenerator()); }),
         m_connectionName(""),
@@ -239,6 +240,30 @@ namespace Database
     }
 
 
+    std::vector<std::shared_ptr<object::Photo>> ASqlBackend::getPhotos(service::FieldParams&& params)
+    {
+        const auto ids = photoOperator().getPhotos({});
+        std::vector<std::shared_ptr<object::Photo>> photos;
+
+        std::ranges::transform(ids, std::back_inserter(photos), [](const Photo::Id& id)
+        {
+            Photo::DataDelta data(id);
+            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data);
+            auto photo = std::make_shared<object::Photo>(photoDeltaAdapter);
+
+            return photo;
+        });
+
+        return photos;
+    }
+
+
+    std::shared_ptr<object::Photo> ASqlBackend::getPhoto(service::FieldParams&& params, response::IdType&& idArg)
+    {
+        return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
+    }
+
+
     /**
      * \brief initialize database connection
      * \param prjInfo database details
@@ -332,9 +357,15 @@ namespace Database
     }
 
 
-    QString ASqlBackend::query(const QString &)
+    QString ASqlBackend::query(const QString& query)
     {
-        return {};
+        // create "fake" shared_ptr to ASqlBackend as shown here:
+        // https://stackoverflow.com/a/28523089/1749713
+        std::shared_ptr<ASqlBackend> sqlBackendPtr(std::shared_ptr<ASqlBackend>(), this);
+
+        const auto response = GraphQLParser::parseQuery(query.toStdString(), sqlBackendPtr);
+
+        return QString::fromStdString(response);
     }
 
 
