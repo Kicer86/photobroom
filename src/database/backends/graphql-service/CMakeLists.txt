@@ -62,3 +62,6 @@ target_link_libraries(
         cppgraphqlgen::graphqlservice
         cppgraphqlgen::graphqljson
 )
+
+install(TARGETS graphql-service RUNTIME DESTINATION ${PATH_LIBS}
+                                LIBRARY DESTINATION ${PATH_LIBS})
