@@ -95,8 +95,8 @@ target_include_directories(database
                             PUBLIC
                                 ${MAGIC_ENUM_INCLUDE_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
-                            PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src
+                            PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}
                                 ${OpenCV_INCLUDE_DIRS}
 )

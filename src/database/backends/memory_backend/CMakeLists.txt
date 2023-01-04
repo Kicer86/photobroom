@@ -8,7 +8,6 @@ add_library(database_memory_backend
 
 target_include_directories(database_memory_backend
                                PUBLIC
-                                   ${PROJECT_SOURCE_DIR}/src
                                    ${CMAKE_CURRENT_BINARY_DIR}
 )
 

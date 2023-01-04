@@ -14,32 +14,16 @@
 #include "graphql/TagsObject.h"
 
 
-
 namespace GraphQLParser
 {
     class PhotoDeltaAdapter
     {
     public:
-        PhotoDeltaAdapter(const Photo::DataDelta& data)
-            : m_data(data)
-        {
+        PhotoDeltaAdapter(const Photo::DataDelta& data);
 
-        }
-
-        graphql::response::IdType getId(graphql::service::FieldParams&& params) const
-        {
-            return std::to_string(m_data.getId().value());
-        }
-
-        graphql::response::Value getCreatedAt(graphql::service::FieldParams&& params) const
-        {
-            return {};
-        }
-
-        std::shared_ptr<graphql::database::object::Tags> getTags(graphql::service::FieldParams&& params) const
-        {
-            return {};
-        }
+        graphql::response::IdType getId(graphql::service::FieldParams&& params) const;
+        graphql::response::Value getCreatedAt(graphql::service::FieldParams&& params) const;
+        std::shared_ptr<graphql::database::object::Tags> getTags(graphql::service::FieldParams&& params) const;
 
     private:
         const Photo::DataDelta m_data;
