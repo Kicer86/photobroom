@@ -19,7 +19,7 @@ namespace GraphQLParser
     class PhotoDeltaAdapter
     {
     public:
-        PhotoDeltaAdapter(const Photo::DataDelta& data);
+        explicit PhotoDeltaAdapter(const Photo::DataDelta& data);
 
         graphql::response::IdType getId(graphql::service::FieldParams&& params) const;
         graphql::response::Value getCreatedAt(graphql::service::FieldParams&& params) const;
