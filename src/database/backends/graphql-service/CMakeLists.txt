@@ -21,7 +21,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND}
     ARGS -E make_directory graphql
     COMMAND $<TARGET_FILE:cppgraphqlgen::schemagen>
-    ARGS --schema ${CMAKE_CURRENT_SOURCE_DIR}/photos.gql
+    ARGS --schema ${CMAKE_CURRENT_SOURCE_DIR}/photos.graphql
          --prefix photo_broom
          --namespace database
          --source-dir graphql
@@ -29,7 +29,7 @@ add_custom_command(
          --no-introspection
          > graphql_files.list
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS photos.gql
+    DEPENDS photos.graphql
 )
 
 add_custom_command(
@@ -47,7 +47,6 @@ add_library(
     query_parser.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/graphql_files.cpp
 )
-
 
 target_include_directories(
     graphql-service
