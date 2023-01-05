@@ -38,6 +38,7 @@ set(DATABASE_SOURCES
     photo_types.hpp
     photo_utils.hpp
     project_info.hpp
+    query_response_parser.hpp
     transaction_wrapper.hpp
 
     implementation/apeople_information_accessor.cpp
@@ -51,6 +52,7 @@ set(DATABASE_SOURCES
     implementation/person_data.cpp
     implementation/photo_data.cpp
     implementation/photo_utils.cpp
+    implementation/query_response_parser.cpp
 
     database_tools/common_backend_operations.hpp
     database_tools/id_to_data_converter.hpp

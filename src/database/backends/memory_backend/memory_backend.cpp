@@ -26,7 +26,7 @@ namespace Database
         std::vector<LogEntry> m_logEntries;
         std::map<Photo::Id, QByteArray> m_thumbnails;
 
-        int m_nextPhotoId = 1;
+        int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
         int m_nextGroup = 0;
         int m_nextPersonInfo = 0;

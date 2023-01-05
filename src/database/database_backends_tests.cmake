@@ -58,6 +58,7 @@ addTestTarget(database_backends
                     plugins
                     sample_dbs
                     system
+
                     Qt::Core
                     Qt::Gui
                     Qt::Sql

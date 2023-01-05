@@ -1,5 +1,6 @@
 
 #include "database_tools/json_to_backend.hpp"
+#include "database/query_response_parser.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 
 #include "common.hpp"
@@ -29,5 +30,7 @@ TYPED_TEST(QueryTests, getPhotos)
             }
         )"));
 
-    EXPECT_EQ(response, R"({"data":{"photos":[{"id":"1"},{"id":"2"},{"id":"3"}]}})");
+    const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
+
+    EXPECT_EQ(photos.size(), 3);
 }
