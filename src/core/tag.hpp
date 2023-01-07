@@ -79,8 +79,8 @@ class CORE_EXPORT TagValue
             return TagValue(value);
         }
 
-        static TagValue fromRaw(const QString &, const Tag::ValueType &);    // tag's value as stored in db
-        static TagValue fromQVariant(const QVariant &);
+        [[nodiscard]] static TagValue fromRaw(const QString &, const Tag::ValueType &);    // tag's value as stored in db
+        [[nodiscard]] static TagValue fromQVariant(const QVariant &);
 
         ~TagValue();
 
