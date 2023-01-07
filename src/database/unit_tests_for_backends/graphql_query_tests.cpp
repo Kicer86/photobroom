@@ -55,16 +55,19 @@ TYPED_TEST(QueryTests, getPhotos)
         Tag::TagsList(
         {
             {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Time, QTime(10,0,0)},
             {Tag::Event, QString("Some event")}
         }),
         Tag::TagsList(
         {
             {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Time, QTime(10,0,0)},
             {Tag::Event, QString("")}
         }),
         Tag::TagsList(
         {
             {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Time, QTime(11,0,0)},
             {Tag::Event, QString("Another event")}
         })
     ));

@@ -15,8 +15,9 @@ namespace
         Tag::TagsList tags;
 
         if (jo.contains("date"))
-            tags[Tag::Types::Date] = QDate::fromString(jo["date"].toString(), Qt::ISODate);
-
+            tags[Tag::Types::Date] = TagValue::fromRaw(jo["date"].toString(), Tag::ValueType::Date);
+        if (jo.contains("time"))
+            tags[Tag::Types::Time] = TagValue::fromRaw(jo["time"].toString(), Tag::ValueType::Time);
         if (jo.contains("event"))
             tags[Tag::Types::Event] = jo["event"].toString();
 
@@ -33,6 +34,7 @@ namespace Query
             R"(
                 fragment TagsFields on Tags {
                     date
+                    time
                     event
                 }
             )");

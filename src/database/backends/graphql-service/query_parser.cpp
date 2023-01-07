@@ -19,13 +19,21 @@ namespace
             auto it = m_tags.find(Tag::Date);
             return it == m_tags.end()?
                 std::optional<graphql::response::Value>():
-                graphql::response::Value(it->second.getDate().toString(Qt::ISODate).toStdString());
+                graphql::response::Value(it->second.rawValue().toStdString());
+        }
+
+        std::optional<graphql::response::Value> getTime() const
+        {
+            auto it = m_tags.find(Tag::Time);
+            return it == m_tags.end()?
+                std::optional<graphql::response::Value>():
+                graphql::response::Value(it->second.rawValue().toStdString());
         }
 
         std::optional<std::string> getEvent(graphql::service::FieldParams&& params) const
         {
             auto it = m_tags.find(Tag::Event);
-            return it == m_tags.end()? std::optional<std::string>(): it->second.getString().toStdString();
+            return it == m_tags.end()? std::optional<std::string>(): it->second.rawValue().toStdString();
         }
 
     private:

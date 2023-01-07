@@ -1,5 +1,7 @@
 
 scalar DateTime
+scalar Date
+scalar Time
 
 type Photo {
   id: ID!
@@ -8,7 +10,8 @@ type Photo {
 }
 
 type Tags {
-    date: DateTime
+    date: Date
+    time: Time
     event: String
 }
 
