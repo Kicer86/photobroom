@@ -7,6 +7,7 @@
 #include <graphqlservice/JSONResponse.h>
 
 #include <database/photo_data.hpp>
+#include <database/ibackend.hpp>
 
 #include "graphql/photo_broomSchema.h"
 #include "graphql/QueryObject.h"
@@ -19,14 +20,15 @@ namespace GraphQLParser
     class PhotoDeltaAdapter
     {
     public:
-        explicit PhotoDeltaAdapter(const Photo::DataDelta& data);
+        explicit PhotoDeltaAdapter(const Photo::Id &, Database::IBackend &);
 
         graphql::response::IdType getId(graphql::service::FieldParams&& params) const;
         graphql::response::Value getCreatedAt(graphql::service::FieldParams&& params) const;
         std::shared_ptr<graphql::database::object::Tags> getTags(graphql::service::FieldParams&& params) const;
 
     private:
-        const Photo::DataDelta m_data;
+        const Photo::Id m_id;
+        Database::IBackend& m_backend;
     };
 
     template<typename TQuery>

@@ -6,6 +6,40 @@
 #include "query_response_parser.hpp"
 
 
+namespace
+{
+    void parseTags(Photo::DataDelta& data, const QJsonValue& jv)
+    {
+        const QJsonObject jo =jv.toObject();
+
+        Tag::TagsList tags;
+
+        if (jo.contains("date"))
+            tags[Tag::Types::Date] = QDate::fromString(jo["date"].toString(), Qt::ISODate);
+
+        if (jo.contains("event"))
+            tags[Tag::Types::Event] = jo["event"].toString();
+
+        data.insert<Photo::Field::Tags>(tags);
+    }
+}
+
+
+namespace Query
+{
+    QString commonFragments()
+    {
+        return QStringLiteral(
+            R"(
+                fragment TagsFields on Tags {
+                    date
+                    event
+                }
+            )");
+    }
+}
+
+
 namespace ResponseParser
 {
     std::vector<Photo::DataDelta> parsePhotosQueryResponse(const QString& response)
@@ -23,6 +57,9 @@ namespace ResponseParser
             const QString id = photoObject["id"].toString();
 
             Photo::DataDelta photo(Photo::Id(id.toInt()));
+
+            if (photoObject.contains("tags"))
+                parseTags(photo, photoObject["tags"]);
 
             photos.push_back(photo);
         }

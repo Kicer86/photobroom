@@ -1,11 +1,44 @@
 
+#include <QDate>
+
 #include "query_parser.hpp"
+
+
+namespace
+{
+    class TagsAdapter
+    {
+    public:
+        TagsAdapter(const Tag::TagsList& tags)
+            : m_tags(tags)
+        {
+        }
+
+        std::optional<graphql::response::Value> getDate(graphql::service::FieldParams&& params) const
+        {
+            auto it = m_tags.find(Tag::Date);
+            return it == m_tags.end()?
+                std::optional<graphql::response::Value>():
+                graphql::response::Value(it->second.getDate().toString(Qt::ISODate).toStdString());
+        }
+
+        std::optional<std::string> getEvent(graphql::service::FieldParams&& params) const
+        {
+            auto it = m_tags.find(Tag::Event);
+            return it == m_tags.end()? std::optional<std::string>(): it->second.getString().toStdString();
+        }
+
+    private:
+        const Tag::TagsList m_tags;
+    };
+}
 
 
 namespace GraphQLParser
 {
-    PhotoDeltaAdapter::PhotoDeltaAdapter(const Photo::DataDelta& data)
-        : m_data(data)
+    PhotoDeltaAdapter::PhotoDeltaAdapter(const Photo::Id& id, Database::IBackend& backend)
+        : m_id(id)
+        , m_backend(backend)
     {
 
     }
@@ -13,7 +46,7 @@ namespace GraphQLParser
 
     graphql::response::IdType PhotoDeltaAdapter::getId(graphql::service::FieldParams&& params) const
     {
-        return std::to_string(m_data.getId().value());
+        return std::to_string(m_id.value());
     }
 
 
@@ -25,7 +58,9 @@ namespace GraphQLParser
 
     std::shared_ptr<graphql::database::object::Tags> PhotoDeltaAdapter::getTags(graphql::service::FieldParams&& params) const
     {
-        return {};
+        auto data = m_backend.getPhotoDelta(m_id, {Photo::Field::Tags});
+        auto tagsModel = std::make_shared<TagsAdapter>(data.get<Photo::Field::Tags>());
+        return std::make_shared<graphql::database::object::Tags>(tagsModel);
     }
 
 }

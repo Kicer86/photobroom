@@ -244,11 +244,11 @@ namespace Database
     {
         const auto ids = photoOperator().getPhotos({});
         std::vector<std::shared_ptr<object::Photo>> photos;
+        auto fields = params.fieldDirectives;
 
-        std::ranges::transform(ids, std::back_inserter(photos), [](const Photo::Id& id)
+        std::ranges::transform(ids, std::back_inserter(photos), [this](const Photo::Id& id)
         {
-            Photo::DataDelta data(id);
-            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data);
+            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(id, *this);
             auto photo = std::make_shared<object::Photo>(photoDeltaAdapter);
 
             return photo;

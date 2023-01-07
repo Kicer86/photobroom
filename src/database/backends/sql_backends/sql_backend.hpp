@@ -110,7 +110,6 @@ namespace Database
              */
             virtual bool dbOpened();
 
-
             /**
             * \brief Make sure given table exists in database
             * \return true on success

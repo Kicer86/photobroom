@@ -6,6 +6,9 @@
 #include "common.hpp"
 
 
+using testing::UnorderedElementsAre;
+
+
 template<typename T>
 struct QueryTests: DatabaseTest<T>
 {
@@ -21,16 +24,48 @@ TYPED_TEST(QueryTests, getPhotos)
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(SampleDB::db1);
 
-    const auto response = this->m_backend->query(QStringLiteral(
+    const auto response = this->m_backend->query(
+        Query::commonFragments() +
+        QStringLiteral(
         R"(
-            {
+            query {
                 photos {
                     id
+                    tags{
+                        ...TagsFields
+                    }
                 }
             }
         )"));
 
     const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
 
-    EXPECT_EQ(photos.size(), 3);
+    ASSERT_EQ(photos.size(), 3);
+
+    std::array<Tag::TagsList, 3> tags;
+    for(auto i = 0u; i < 3; i++)
+    {
+        const Photo::DataDelta& data = photos[i];
+        ASSERT_TRUE(data.has(Photo::Field::Tags));
+
+        tags[i] = data.get<Photo::Field::Tags>();
+    }
+
+    EXPECT_THAT(tags, UnorderedElementsAre(
+        Tag::TagsList(
+        {
+            {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Event, QString("Some event")}
+        }),
+        Tag::TagsList(
+        {
+            {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Event, QString("")}
+        }),
+        Tag::TagsList(
+        {
+            {Tag::Date, QDate(2001, 01, 01)},
+            {Tag::Event, QString("Another event")}
+        })
+    ));
 }
