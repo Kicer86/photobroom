@@ -240,11 +240,10 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<object::Photo>> ASqlBackend::getPhotos(service::FieldParams&& params)
+    std::vector<std::shared_ptr<object::Photo>> ASqlBackend::getPhotos()
     {
         const auto ids = photoOperator().getPhotos({});
         std::vector<std::shared_ptr<object::Photo>> photos;
-        auto fields = params.fieldDirectives;
 
         std::ranges::transform(ids, std::back_inserter(photos), [this](const Photo::Id& id)
         {
@@ -258,7 +257,7 @@ namespace Database
     }
 
 
-    std::shared_ptr<object::Photo> ASqlBackend::getPhoto(service::FieldParams&& params, response::IdType&& idArg)
+    std::shared_ptr<object::Photo> ASqlBackend::getPhoto(response::IdType&& idArg)
     {
         return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
     }

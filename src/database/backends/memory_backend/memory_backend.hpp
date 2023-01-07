@@ -56,8 +56,8 @@ namespace Database
             struct DB;
 
             // GraphQl queries:
-            std::vector<std::shared_ptr<graphql::database::object::Photo>> getPhotos(graphql::service::FieldParams&& params);
-            std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::service::FieldParams&& params, graphql::response::IdType&& idArg);
+            std::vector<std::shared_ptr<graphql::database::object::Photo>> getPhotos();
+            std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::response::IdType&& idArg);
 
         private:
             // APeopleInformationAccessor interface

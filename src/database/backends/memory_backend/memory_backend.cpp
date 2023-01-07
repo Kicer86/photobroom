@@ -423,7 +423,7 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<object::Photo>> MemoryBackend::getPhotos(service::FieldParams&& params)
+    std::vector<std::shared_ptr<object::Photo>> MemoryBackend::getPhotos()
     {
         const auto ids = photoOperator().getPhotos({});
         std::vector<std::shared_ptr<object::Photo>> photos;
@@ -440,11 +440,10 @@ namespace Database
     }
 
 
-    std::shared_ptr<object::Photo> MemoryBackend::getPhoto(service::FieldParams&& params, response::IdType&& idArg)
+    std::shared_ptr<object::Photo> MemoryBackend::getPhoto(response::IdType&& idArg)
     {
         return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
     }
-
 
 
     std::vector<PersonName> MemoryBackend::listPeople()
