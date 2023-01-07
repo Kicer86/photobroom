@@ -3,19 +3,19 @@
     "photos": [
         {
             "path": "/some/path1.jpeg",
-            "tags": { "date":  "2001.01.01", "time":  "10:00", "event": "Some event", "place": "Internet", "rating": 4 },
+            "tags": { "date":  "2001.01.01", "time":  "10:00:00", "event": "Some event", "place": "Internet", "rating": 4 },
             "geometry": { "width": "1234", "height": "2234" },
             "phash": "1122334455667788"
         },
         {
             "path": "/some/path2.jpeg",
-            "tags": { "date":  "2002.02.02", "time":  "10:00", "event": "", "place": "Internet", "category": 12343554656767586787 },
+            "tags": { "date":  "2002.02.02", "time":  "10:00:00", "event": "", "place": "Internet", "category": 12343554656767586787 },
             "geometry": { "width": "98", "height": "45347" },
             "phash": "2233aabb9900ccdd"
         },
         {
             "path": "/some/path3.jpeg",
-            "tags": { "date":  "2003.03.03",  "time":  "11:00", "event": "Another event", "place": "", "rating": 10, "category": 1230987242 },
+            "tags": { "date":  "2003.03.03",  "time":  "11:00:00", "event": "Another event", "place": "", "rating": 10, "category": 1230987242 },
             "geometry": { "width": "100", "height": "100" },
             "phash": "0aa00bb11cc22dd33"
         }

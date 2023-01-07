@@ -123,9 +123,9 @@ namespace Database
                 continue;
 
             if (it.key() == "date")
-                tagsList[Tag::Types::Date] = QDate::fromString(value, Qt::ISODate);
+                tagsList[Tag::Types::Date] = TagValue::fromRaw(value, Tag::ValueType::Date);
             else if (it.key() == "time")
-                tagsList[Tag::Types::Time] = QTime::fromString(value);
+                tagsList[Tag::Types::Time] = TagValue::fromRaw(value, Tag::ValueType::Time);
             else if (it.key() == "event")
                 tagsList[Tag::Types::Event] = value;
             else if (it.key() == "place")

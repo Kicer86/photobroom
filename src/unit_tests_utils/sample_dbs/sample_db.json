@@ -3,15 +3,15 @@
     "photos": [
         {
             "path": "/some/path1.jpeg",
-            "tags": { "date":  "2001.01.01", "time":  "10:00", "event": "Some event", "place": "Internet" }
+            "tags": { "date":  "2001.01.01", "time":  "10:00:00", "event": "Some event", "place": "Internet" }
         },
         {
             "path": "/some/path2.jpeg",
-            "tags": { "date":  "2001.01.01", "time":  "10:00", "event": "", "place": "Internet" }
+            "tags": { "date":  "2001.01.01", "time":  "10:00:00", "event": "", "place": "Internet" }
         },
         {
             "path": "/some/path3.jpeg",
-            "tags": { "date":  "2001.01.01",  "time":  "11:00", "event": "Another event", "place": "" }
+            "tags": { "date":  "2001.01.01", "time":  "11:00:00", "event": "Another event", "place": "" }
         }
     ]
 }

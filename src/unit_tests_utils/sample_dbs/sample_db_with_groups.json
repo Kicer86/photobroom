@@ -5,107 +5,107 @@
         {
             "id": "01",
             "path": "/some/path1.jpeg",
-            "tags": { "date": "2001.01.01", "time": "10:00", "event": "Event1", "place": "Internet" }
+            "tags": { "date": "2001.01.01", "time": "10:00:00", "event": "Event1", "place": "Internet" }
         },
         {
             "id": "02",
             "path": "/some/path2.jpeg",
-            "tags": { "date": "2001.01.01", "time": "11:00", "event": "Event1", "place": "Internet" }
+            "tags": { "date": "2001.01.01", "time": "11:00:00", "event": "Event1", "place": "Internet" }
         },
         {
             "id": "03",
             "path": "/some/path3.jpeg",
-            "tags": { "date": "2001.01.01", "time": "12:00", "event": "Event1", "place": "" }
+            "tags": { "date": "2001.01.01", "time": "12:00:00", "event": "Event1", "place": "" }
         },
         {
             "id": "04",
             "path": "/some/path4.jpeg",
-            "tags": { "date": "2001.01.02", "time": "10:00", "event": "Event1", "place": "Internet" }
+            "tags": { "date": "2001.01.02", "time": "10:00:00", "event": "Event1", "place": "Internet" }
         },
         {
             "id": "05",
             "path": "/some/path5.jpeg",
-            "tags": { "date": "2001.01.02", "time": "11:00", "event": "Event1", "place": "" }
+            "tags": { "date": "2001.01.02", "time": "11:00:00", "event": "Event1", "place": "" }
         },
         {
             "id": "06",
             "path": "/some/path6.jpeg",
-            "tags": { "date": "2001.01.02", "time": "12:00", "event": "Event1", "place": "Internet" }
+            "tags": { "date": "2001.01.02", "time": "12:00:00", "event": "Event1", "place": "Internet" }
         },
         {
             "id": "07",
             "path": "/some/path7.jpeg",
-            "tags": { "date": "2001.01.03", "time": "10:00", "event": "Event1", "place": "" }
+            "tags": { "date": "2001.01.03", "time": "10:00:00", "event": "Event1", "place": "" }
         },
         {
             "id": "08",
             "path": "/some/path8.jpeg",
-            "tags": { "date": "2001.01.03", "time": "11:00", "event": "", "place": "Internet" }
+            "tags": { "date": "2001.01.03", "time": "11:00:00", "event": "", "place": "Internet" }
         },
         {
             "id": "09",
             "path": "/some/path9.jpeg",
-            "tags": { "date": "2001.01.03", "time": "12:00", "event": "", "place": "" }
+            "tags": { "date": "2001.01.03", "time": "12:00:00", "event": "", "place": "" }
         },
         {
             "id": "0a",
             "path": "/some/path10.jpeg",
-            "tags": { "date": "2001.01.04", "time": "10:00", "event": "", "place": "Internet" }
+            "tags": { "date": "2001.01.04", "time": "10:00:00", "event": "", "place": "Internet" }
         },
         {
             "id": "0b",
             "path": "/some/path11.jpeg",
-            "tags": { "date": "2001.01.04", "time": "11:00", "event": "Event 2", "place": "" }
+            "tags": { "date": "2001.01.04", "time": "11:00:00", "event": "Event 2", "place": "" }
         },
         {
             "id": "0c",
             "path": "/some/path12.jpeg",
-            "tags": { "date": "2001.01.04", "time": "12:00", "event": "Event 2", "place": "Internet" }
+            "tags": { "date": "2001.01.04", "time": "12:00:00", "event": "Event 2", "place": "Internet" }
         },
         {
             "id": "0d",
             "path": "/some/path13.jpeg",
-            "tags": { "date": "2001.01.05", "time": "10:00", "event": "", "place": "" }
+            "tags": { "date": "2001.01.05", "time": "10:00:00", "event": "", "place": "" }
         },
         {
             "id": "0e",
             "path": "/some/path14.jpeg",
-            "tags": { "date": "2001.01.05", "time": "11:00", "event": "", "place": "Internet" }
+            "tags": { "date": "2001.01.05", "time": "11:00:00", "event": "", "place": "Internet" }
         },
         {
             "id": "0f",
             "path": "/some/path15.jpeg",
-            "tags": { "date": "2001.01.05", "time": "12:00", "event": "Event 2", "place": "" }
+            "tags": { "date": "2001.01.05", "time": "12:00:00", "event": "Event 2", "place": "" }
         },
         {
             "id": "10",
             "path": "/some/path16.jpeg",
-            "tags": { "date": "2001.01.06", "time": "10:00", "event": "", "place": "Internet" }
+            "tags": { "date": "2001.01.06", "time": "10:00:00", "event": "", "place": "Internet" }
         },
         {
             "id": "11",
             "path": "/some/path17.jpeg",
-            "tags": { "date": "2001.01.06", "time": "11:00", "event": "Event 1", "place": "" }
+            "tags": { "date": "2001.01.06", "time": "11:00:00", "event": "Event 1", "place": "" }
         },
         {
             "id": "12",
             "path": "/some/path18.jpeg",
-            "tags": { "date": "2001.01.06", "time": "12:00", "event": "Event 3", "place": "Internet" }
+            "tags": { "date": "2001.01.06", "time": "12:00:00", "event": "Event 3", "place": "Internet" }
         },
         {
             "id": "13",
             "path": "/some/path19.jpeg",
-            "tags": { "date": "2001.01.07", "time": "10:00", "event": "Event 4", "place": "" }
+            "tags": { "date": "2001.01.07", "time": "10:00:00", "event": "Event 4", "place": "" }
         },
         {
             "id": "14",
             "path": "/some/path20.jpeg",
-            "tags": { "date": "2001.01.07", "time": "11:00", "event": "", "place": "Internet" }
+            "tags": { "date": "2001.01.07", "time": "11:00:00", "event": "", "place": "Internet" }
         },
         {
             "id": "15",
             "path": "/some/path21.jpeg",
-            "tags": { "date": "2001.01.07", "time": "12:00", "event": "Event 5", "place": "" }
+            "tags": { "date": "2001.01.07", "time": "12:00:00", "event": "Event 5", "place": "" }
         }
     ],
 
