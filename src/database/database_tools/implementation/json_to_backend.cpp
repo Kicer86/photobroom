@@ -130,8 +130,12 @@ namespace Database
                 tagsList[Tag::Types::Event] = value;
             else if (it.key() == "place")
                 tagsList[Tag::Types::Place] = value;
+            else if (it.key() == "rating")
+                tagsList[Tag::Types::Rating] = TagValue::fromRaw(value, Tag::ValueType::Int);
+            else if (it.key() == "category")
+                tagsList[Tag::Types::Category] = TagValue::fromRaw(value, Tag::ValueType::Color);
             else
-                throw std::invalid_argument("unexpected entry for tag");
+                throw std::invalid_argument(std::string("unexpected entry for tag: ") + it.key().toStdString());
         }
 
         return tagsList;
