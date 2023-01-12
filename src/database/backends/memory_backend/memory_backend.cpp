@@ -1,4 +1,5 @@
 
+#include <ranges>
 #include <QFileInfo>
 
 #include <core/utils.hpp>
@@ -8,10 +9,6 @@
 #include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
 #include "database/photo_utils.hpp"
-
-
-using namespace graphql;
-using namespace graphql::database;
 
 
 namespace Database
@@ -423,26 +420,45 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<object::Photo>> MemoryBackend::getPhotos()
+    std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<gqlr::Value>&& phashArg)
     {
-        const auto ids = photoOperator().getPhotos({});
-        std::vector<std::shared_ptr<object::Photo>> photos;
+        std::vector<std::shared_ptr<gqldb::object::Photo>> result;
 
-        std::ranges::transform(ids, std::back_inserter(photos), [this](const Photo::Id& id)
+        auto photos = m_db->m_photos |
+            std::views::filter([&tagsArg](const Photo::Data& data)
+            {
+                bool status = true;
+
+                if (tagsArg)
+                {
+                    if (tagsArg->time)
+                    {
+                        auto it = data.tags.find(Tag::Types::Time);
+
+                        status = it == data.tags.end()?
+                            false:
+                            it->second == TagValue::fromRaw(QString::fromStdString(*tagsArg->time->eq), Tag::ValueType::Time);
+                    }
+                }
+
+                return status;
+            });
+
+        std::ranges::transform(photos, std::back_inserter(result), [this](const Photo::Data& data)
         {
-            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(id, *this);
-            auto photo = std::make_shared<object::Photo>(photoDeltaAdapter);
+            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data.id, *this);
+            auto photo = std::make_shared<gqldb::object::Photo>(photoDeltaAdapter);
 
             return photo;
         });
 
-        return photos;
+        return result;
     }
 
 
-    std::shared_ptr<object::Photo> MemoryBackend::getPhoto(response::IdType&& idArg)
+    std::shared_ptr<gqldb::object::Photo> MemoryBackend::getPhoto(gqlr::IdType&& idArg)
     {
-        return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
+        return std::shared_ptr<gqldb::object::Photo>(std::shared_ptr<gqldb::object::Photo>{});
     }
 
 

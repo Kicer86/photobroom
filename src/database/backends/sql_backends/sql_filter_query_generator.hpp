@@ -25,6 +25,8 @@
 #include <QString>
 
 #include <database/filter.hpp>
+#include <graphql-service/query_parser.hpp>
+
 
 namespace Database
 {
@@ -39,6 +41,7 @@ namespace Database
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
             QString generate(const Filter &) const;
+            QString generate(const std::optional<gqldb::TagsFilter>& tagsArg) const;
 
         private:
             QString getFlagName(Photo::FlagsE flag) const;

@@ -91,6 +91,25 @@ namespace Database
     }
 
 
+    QString SqlFilterQueryGenerator::generate(const std::optional<gqldb::TagsFilter>& tagsArg) const
+    {
+        std::vector<Database::Filter> filter;
+
+        if (tagsArg)
+        {
+            const auto& tagsQuery = *tagsArg;
+            const Database::FilterPhotosWithTag filterTag(
+                Tag::Types::Time,
+                TagValue::fromRaw(QString::fromStdString(*tagsQuery.time->eq), Tag::ValueType::Time)
+            );
+
+            filter.push_back(filterTag);
+        }
+
+        return generate(Database::GroupFilter(filter));
+    }
+
+
     QString SqlFilterQueryGenerator::getFlagName(Photo::FlagsE flag) const
     {
         QString result;

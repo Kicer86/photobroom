@@ -2,11 +2,13 @@
 scalar DateTime
 scalar Date
 scalar Time
+scalar PHash
 
 type Photo {
   id: ID!
   createdAt: DateTime!
   tags: Tags!
+  phash: PHash!
 }
 
 type Tags {
@@ -16,6 +18,14 @@ type Tags {
 }
 
 type Query {
-  photos: [Photo!]!
+  photos(tags: TagsFilter, phash: PHash): [Photo!]!
   photo(id: ID!): Photo
+}
+
+input TagsFilter {
+  time: TimeOperator
+}
+
+input TimeOperator {
+  eq: String
 }

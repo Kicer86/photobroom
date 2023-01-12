@@ -15,6 +15,11 @@
 #include "graphql/TagsObject.h"
 
 
+namespace gqls = graphql::service;
+namespace gqlr = graphql::response;
+namespace gqldb = graphql::database;
+
+
 namespace GraphQLParser
 {
     class PhotoDeltaAdapter
@@ -22,9 +27,10 @@ namespace GraphQLParser
     public:
         explicit PhotoDeltaAdapter(const Photo::Id &, Database::IBackend &);
 
-        graphql::response::IdType getId(graphql::service::FieldParams&& params) const;
-        graphql::response::Value getCreatedAt(graphql::service::FieldParams&& params) const;
-        std::shared_ptr<graphql::database::object::Tags> getTags(graphql::service::FieldParams&& params) const;
+        gqlr::IdType getId(graphql::service::FieldParams&& params) const;
+        gqlr::Value getCreatedAt(graphql::service::FieldParams&& params) const;
+        std::shared_ptr<gqldb::object::Tags> getTags(graphql::service::FieldParams&& params) const;
+        gqlr::Value getPhash() const;
 
     private:
         const Photo::Id m_id;

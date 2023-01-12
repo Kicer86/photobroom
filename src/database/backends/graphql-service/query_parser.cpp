@@ -71,4 +71,9 @@ namespace GraphQLParser
         return std::make_shared<graphql::database::object::Tags>(tagsModel);
     }
 
+
+    graphql::response::Value PhotoDeltaAdapter::getPhash() const
+    {
+        return {};
+    }
 }

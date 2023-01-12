@@ -56,9 +56,6 @@
 // useful links
 // about insert + update/ignore: http://stackoverflow.com/questions/15277373/sqlite-upsert-update-or-insert
 
-using namespace graphql;
-using namespace graphql::database;
-
 namespace Database
 {
     ASqlBackend::ASqlBackend(ILogger* l):
@@ -240,15 +237,35 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<object::Photo>> ASqlBackend::getPhotos()
+    std::vector<std::shared_ptr<gqldb::object::Photo>> ASqlBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<gqlr::Value>&& phashArg)
     {
-        const auto ids = photoOperator().getPhotos({});
-        std::vector<std::shared_ptr<object::Photo>> photos;
+        const std::optional tagsFilter = tagsArg.get()? *tagsArg: std::optional<gqldb::TagsFilter>();
+        const QString queryStr = SqlFilterQueryGenerator().generate(tagsFilter);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor.exec(queryStr, &query);
+
+        std::vector<Photo::Id> ids;
+
+        while (query.next())
+        {
+            const QVariant idVar = query.value(0);   // assumption that id will be in 1. column
+            assert(idVar.isValid());
+            assert(idVar.canConvert<int>());
+
+            const Photo::Id id(idVar);
+
+            ids.push_back(id);
+        }
+
+        std::vector<std::shared_ptr<gqldb::object::Photo>> photos;
 
         std::ranges::transform(ids, std::back_inserter(photos), [this](const Photo::Id& id)
         {
             auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(id, *this);
-            auto photo = std::make_shared<object::Photo>(photoDeltaAdapter);
+            auto photo = std::make_shared<gqldb::object::Photo>(photoDeltaAdapter);
 
             return photo;
         });
@@ -257,9 +274,9 @@ namespace Database
     }
 
 
-    std::shared_ptr<object::Photo> ASqlBackend::getPhoto(response::IdType&& idArg)
+    std::shared_ptr<gqldb::object::Photo> ASqlBackend::getPhoto(gqlr::IdType&& idArg)
     {
-        return std::shared_ptr<object::Photo>(std::shared_ptr<object::Photo>{});
+        return std::shared_ptr<gqldb::object::Photo>(std::shared_ptr<gqldb::object::Photo>{});
     }
 
 
