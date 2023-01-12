@@ -12,7 +12,23 @@ using testing::UnorderedElementsAre;
 template<typename T>
 struct QueryTests: DatabaseTest<T>
 {
+    template<std::size_t count>
+    std::array<Tag::TagsList, count> readTags(const QString& response)
+    {
+        const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
+        assert(photos.size() == count);
 
+        std::array<Tag::TagsList, count> tags;
+        for(auto i = 0u; i < count; i++)
+        {
+            const Photo::DataDelta& data = photos[i];
+            assert(data.has(Photo::Field::Tags));
+
+            tags[i] = data.get<Photo::Field::Tags>();
+        }
+
+        return tags;
+    }
 };
 
 TYPED_TEST_SUITE(QueryTests, BackendTypes);
@@ -20,7 +36,7 @@ TYPED_TEST_SUITE(QueryTests, BackendTypes);
 
 TYPED_TEST(QueryTests, getPhotos)
 {
-     // fill backend with sample data
+    // fill backend with sample data
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(SampleDB::db1);
 
@@ -38,19 +54,8 @@ TYPED_TEST(QueryTests, getPhotos)
             }
         )"));
 
-    const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
-
     constexpr std::size_t expectedPhotos = 3;
-    ASSERT_EQ(photos.size(), expectedPhotos);
-
-    std::array<Tag::TagsList, expectedPhotos> tags;
-    for(auto i = 0u; i < expectedPhotos; i++)
-    {
-        const Photo::DataDelta& data = photos[i];
-        ASSERT_TRUE(data.has(Photo::Field::Tags));
-
-        tags[i] = data.get<Photo::Field::Tags>();
-    }
+    const auto tags = this-> template readTags<expectedPhotos>(response);
 
     EXPECT_THAT(tags, UnorderedElementsAre(
         Tag::TagsList(
@@ -95,19 +100,8 @@ TYPED_TEST(QueryTests, filterPhotosByTime)
             }
         )"));
 
-    const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
-
     constexpr std::size_t expectedPhotos = 2;
-    ASSERT_EQ(photos.size(), expectedPhotos);
-
-    std::array<Tag::TagsList, expectedPhotos> tags;
-    for(auto i = 0u; i < expectedPhotos; i++)
-    {
-        const Photo::DataDelta& data = photos[i];
-        ASSERT_TRUE(data.has(Photo::Field::Tags));
-
-        tags[i] = data.get<Photo::Field::Tags>();
-    }
+    const auto tags = this-> template readTags<expectedPhotos>(response);
 
     EXPECT_THAT(tags, UnorderedElementsAre(
         Tag::TagsList(
