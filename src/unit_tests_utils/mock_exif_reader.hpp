@@ -9,8 +9,6 @@
 
 #include <core/iexif_reader.hpp>
 
-#include "general.hpp"
-
 struct MockExifReader: IExifReader
 {
     MOCK_METHOD1(hasExif, bool(const QString &));
