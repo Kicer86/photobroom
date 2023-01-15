@@ -19,8 +19,13 @@ type Tags {
 }
 
 type Query {
-  photos(tags: TagsFilter, hasPHash: Boolean): [Photo!]!
+  photos(filter: PhotosFilter): [Photo!]!
   photo(id: ID!): Photo
+}
+
+input PhotosFilter {
+  tags: TagsFilter
+  hasPHash: Boolean
 }
 
 input TagsFilter {

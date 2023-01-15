@@ -420,34 +420,34 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<bool>&& phashArg)
+    std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::PhotosFilter>&& filterArg)
     {
         std::vector<std::shared_ptr<gqldb::object::Photo>> result;
 
         auto photos = m_db->m_photos |
-            std::views::filter([&tagsArg](const Photo::Data& data)
+            std::views::filter([&filterArg](const Photo::Data& data)
             {
                 bool status = true;
 
-                if (tagsArg)
+                if (filterArg && filterArg->tags)
                 {
-                    if (tagsArg->time)
+                    if (filterArg->tags->time)
                     {
                         auto it = data.tags.find(Tag::Types::Time);
 
                         status = it == data.tags.end()?
                             false:
-                            it->second == TagValue::fromRaw(QString::fromStdString(*tagsArg->time->eq), Tag::ValueType::Time);
+                            it->second == TagValue::fromRaw(QString::fromStdString(*filterArg->tags->time->eq), Tag::ValueType::Time);
                     }
                 }
 
                 return status;
             })
             |
-            std::views::filter([&phashArg](const Photo::Data& data)
+            std::views::filter([&filterArg](const Photo::Data& data)
             {
-                if (phashArg)
-                    return data.phash.valid() == *phashArg;
+                if (filterArg && filterArg->hasPHash)
+                    return data.phash.valid() == *filterArg->hasPHash;
                 else
                     return true;
             });

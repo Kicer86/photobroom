@@ -86,8 +86,8 @@ namespace Database
             IPeopleInformationAccessor& peopleInformationAccessor() override;
 
             // GraphQl queries:
-            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::TagsFilter> &&, std::optional<bool>&& phashArg);
-            std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::response::IdType&& idArg);
+            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::PhotosFilter>&& filterArg);
+            std::shared_ptr<graphql::database::object::Photo> getPhoto(gqlr::IdType&& idArg);
 
         protected:
             /**

@@ -237,10 +237,10 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<gqldb::object::Photo>> ASqlBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<bool>&& phashArg)
+    std::vector<std::shared_ptr<gqldb::object::Photo>> ASqlBackend::getPhotos(std::unique_ptr<gqldb::PhotosFilter>&& filterArg)
     {
-        const std::optional tagsFilter = tagsArg.get()? *tagsArg: std::optional<gqldb::TagsFilter>();
-        const QString queryStr = SqlFilterQueryGenerator().generate(tagsFilter, phashArg);
+        const std::optional photosFilter = filterArg.get()? *filterArg: std::optional<gqldb::PhotosFilter>();
+        const QString queryStr = SqlFilterQueryGenerator().generate(photosFilter);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);

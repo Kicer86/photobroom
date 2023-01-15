@@ -125,7 +125,7 @@ TYPED_TEST(QueryTests, filterPhotosByTime)
         QStringLiteral(
         R"(
             query {
-                photos(tags: {time: {eq: "10:00:00"}}) {
+                photos(filter: {tags: {time: {eq: "10:00:00"}}}) {
                     id
                     tags{
                         ...TagsFields
@@ -164,7 +164,7 @@ TYPED_TEST(QueryTests, filterPhotosWithPHash)
         QStringLiteral(
         R"(
             query {
-                photos(hasPHash: true) {
+                photos(filter: {hasPHash: true}) {
                     id
                     path
                 }

@@ -91,29 +91,30 @@ namespace Database
     }
 
 
-    QString SqlFilterQueryGenerator::generate(
-        const std::optional<gqldb::TagsFilter>& tagsArg,
-        const std::optional<bool>& phashArg) const
+    QString SqlFilterQueryGenerator::generate(const std::optional<gqldb::PhotosFilter>& filterArg) const
     {
         std::vector<Database::Filter> filter;
 
-        if (tagsArg)
+        if (filterArg)
         {
-            const auto& tagsQuery = *tagsArg;
-            const Database::FilterPhotosWithTag filterTag(
-                Tag::Types::Time,
-                TagValue::fromRaw(QString::fromStdString(*tagsQuery.time->eq), Tag::ValueType::Time)
-            );
+            if (filterArg->tags)
+            {
+                const auto& tagsQuery = *filterArg->tags;
+                const Database::FilterPhotosWithTag filterTag(
+                    Tag::Types::Time,
+                    TagValue::fromRaw(QString::fromStdString(*tagsQuery.time->eq), Tag::ValueType::Time)
+                );
 
-            filter.push_back(filterTag);
-        }
+                filter.push_back(filterTag);
+            }
 
-        if (phashArg)
-        {
-            if (*phashArg)
-                filter.push_back(Database::FilterPhotosWithPHash{});
-            else
-                filter.push_back(Database::FilterNotMatchingFilter(Database::FilterPhotosWithPHash{}));
+            if (filterArg->hasPHash)
+            {
+                if (*filterArg->hasPHash)
+                    filter.push_back(Database::FilterPhotosWithPHash{});
+                else
+                    filter.push_back(Database::FilterNotMatchingFilter(Database::FilterPhotosWithPHash{}));
+            }
         }
 
         return generate(Database::GroupFilter(filter));

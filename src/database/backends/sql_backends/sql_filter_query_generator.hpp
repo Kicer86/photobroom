@@ -41,7 +41,7 @@ namespace Database
             SqlFilterQueryGenerator& operator=(const SqlFilterQueryGenerator &) = delete;
 
             QString generate(const Filter &) const;
-            QString generate(const std::optional<gqldb::TagsFilter>& tagsArg, const std::optional<bool>& phashArg) const;
+            QString generate(const std::optional<gqldb::PhotosFilter>& filterArg) const;
 
         private:
             QString getFlagName(Photo::FlagsE flag) const;
