@@ -1,12 +1,46 @@
 
+#include "database/photo_utils.hpp"
 #include "database_tools/json_to_backend.hpp"
 #include "database/query_response_parser.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
+#include "unit_tests_utils/phash_db.json.hpp"
 
 #include "common.hpp"
 
 
+using testing::Eq;
+using testing::ResultOf;
 using testing::UnorderedElementsAre;
+
+
+namespace
+{
+
+inline const char* test_db = R"(
+{
+    "photos": [
+        {
+            "path": "/some/path1.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00:00", "event": "Some event", "place": "Internet" }
+        },
+        {
+            "path": "/some/path2.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00:00", "event": "", "place": "Internet" },
+            "phash": 1
+        },
+        {
+            "path": "/some/path3.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "11:00:00", "event": "Another event", "place": "" },
+            "phash": 2
+        },
+        {
+            "path": "/some/path4.jpeg",
+            "tags": { "date":  "2001.01.02", "time":  "11:00:00", "event": "Another event", "place": "" }
+        }
+    ]
+})";
+
+}
 
 
 template<typename T>
@@ -117,4 +151,31 @@ TYPED_TEST(QueryTests, filterPhotosByTime)
             {Tag::Event, QString("")}
         })
     ));
+}
+
+
+TYPED_TEST(QueryTests, filterPhotosWithPHash)
+{
+     // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(test_db);
+
+    const auto response = this->m_backend->query(
+        QStringLiteral(
+        R"(
+            query {
+                photos(hasPHash: true) {
+                    id
+                    path
+                }
+            }
+        )"));
+
+    const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
+
+    const auto getPath = qOverload<const Photo::DataDelta &>(&Photo::getPath);
+    EXPECT_THAT(photos,
+        UnorderedElementsAre(ResultOf(getPath, Eq("/some/path2.jpeg")),
+                             ResultOf(getPath, Eq("/some/path3.jpeg")))
+    );
 }

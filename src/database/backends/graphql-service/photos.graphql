@@ -7,6 +7,7 @@ scalar PHash
 type Photo {
   id: ID!
   createdAt: DateTime!
+  path: String!
   tags: Tags!
   phash: PHash!
 }
@@ -18,7 +19,7 @@ type Tags {
 }
 
 type Query {
-  photos(tags: TagsFilter, phash: PHash): [Photo!]!
+  photos(tags: TagsFilter, hasPHash: Boolean): [Photo!]!
   photo(id: ID!): Photo
 }
 

@@ -91,7 +91,9 @@ namespace Database
     }
 
 
-    QString SqlFilterQueryGenerator::generate(const std::optional<gqldb::TagsFilter>& tagsArg) const
+    QString SqlFilterQueryGenerator::generate(
+        const std::optional<gqldb::TagsFilter>& tagsArg,
+        const std::optional<bool>& phashArg) const
     {
         std::vector<Database::Filter> filter;
 
@@ -104,6 +106,14 @@ namespace Database
             );
 
             filter.push_back(filterTag);
+        }
+
+        if (phashArg)
+        {
+            if (*phashArg)
+                filter.push_back(Database::FilterPhotosWithPHash{});
+            else
+                filter.push_back(Database::FilterNotMatchingFilter(Database::FilterPhotosWithPHash{}));
         }
 
         return generate(Database::GroupFilter(filter));

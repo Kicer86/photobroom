@@ -420,7 +420,7 @@ namespace Database
     }
 
 
-    std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<gqlr::Value>&& phashArg)
+    std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::TagsFilter>&& tagsArg, std::optional<bool>&& phashArg)
     {
         std::vector<std::shared_ptr<gqldb::object::Photo>> result;
 
@@ -442,6 +442,14 @@ namespace Database
                 }
 
                 return status;
+            })
+            |
+            std::views::filter([&phashArg](const Photo::Data& data)
+            {
+                if (phashArg)
+                    return data.phash.valid() == *phashArg;
+                else
+                    return true;
             });
 
         std::ranges::transform(photos, std::back_inserter(result), [this](const Photo::Data& data)

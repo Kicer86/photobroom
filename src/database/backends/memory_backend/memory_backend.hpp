@@ -56,7 +56,7 @@ namespace Database
             struct DB;
 
             // GraphQl queries:
-            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::TagsFilter> &&, std::optional<gqlr::Value>&& phashArg);
+            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::TagsFilter> &&, std::optional<bool>&& phashArg);
             std::shared_ptr<gqldb::object::Photo> getPhoto(gqlr::IdType&& idArg);
 
         private:

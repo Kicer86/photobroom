@@ -63,6 +63,9 @@ namespace ResponseParser
             if (photoObject.contains("tags"))
                 parseTags(photo, photoObject["tags"]);
 
+            if (photoObject.contains("path"))
+                photo.insert<Photo::Field::Path>(photoObject["path"].toString());
+
             photos.push_back(photo);
         }
 

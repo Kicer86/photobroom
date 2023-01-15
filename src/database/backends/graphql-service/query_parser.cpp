@@ -64,6 +64,13 @@ namespace GraphQLParser
     }
 
 
+    std::string PhotoDeltaAdapter::getPath() const
+    {
+        auto data = m_backend.getPhotoDelta(m_id, {Photo::Field::Path});
+        return data.get<Photo::Field::Path>().toStdString();
+    }
+
+
     std::shared_ptr<graphql::database::object::Tags> PhotoDeltaAdapter::getTags(graphql::service::FieldParams&& params) const
     {
         auto data = m_backend.getPhotoDelta(m_id, {Photo::Field::Tags});

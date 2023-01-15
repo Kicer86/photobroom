@@ -86,7 +86,7 @@ namespace Database
             IPeopleInformationAccessor& peopleInformationAccessor() override;
 
             // GraphQl queries:
-            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::TagsFilter> &&, std::optional<gqlr::Value>&& phashArg);
+            std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::TagsFilter> &&, std::optional<bool>&& phashArg);
             std::shared_ptr<graphql::database::object::Photo> getPhoto(graphql::response::IdType&& idArg);
 
         protected:
@@ -96,7 +96,7 @@ namespace Database
              *
              * Method called from init().
              * Its purpose is to create new database connection named by
-             * getConnectionName() with QSqlDatabase::addDatabase().             *
+             * getConnectionName() with QSqlDatabase::addDatabase()
              */
             virtual BackendStatus prepareDB(const ProjectInfo& location) = 0;
 
