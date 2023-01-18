@@ -422,8 +422,23 @@ namespace Database
 
     std::vector<std::shared_ptr<gqldb::object::Photo>> MemoryBackend::getPhotos(std::unique_ptr<gqldb::PhotosFilter>&& filterArg)
     {
+        const auto ids = getPhotoIds(filterArg);
         std::vector<std::shared_ptr<gqldb::object::Photo>> result;
 
+        std::ranges::transform(ids, std::back_inserter(result), [this](const Photo::Data& data)
+        {
+            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data.id, *this);
+            auto photo = std::make_shared<gqldb::object::Photo>(photoDeltaAdapter);
+
+            return photo;
+        });
+
+        return result;
+    }
+
+
+    std::vector<Photo::Id> MemoryBackend::getPhotoIds(const std::unique_ptr<gqldb::PhotosFilter>& filterArg) const
+    {
         auto photos = m_db->m_photos |
             std::views::filter([&filterArg](const Photo::Data& data)
             {
@@ -452,15 +467,23 @@ namespace Database
                     return true;
             });
 
-        std::ranges::transform(photos, std::back_inserter(result), [this](const Photo::Data& data)
+        std::vector<Photo::Id> ids;
+        std::ranges::transform(photos, std::back_inserter(ids), [](const Photo::Data& data) {return data.id;});
+
+        if (filterArg && filterArg->or_)
         {
-            auto photoDeltaAdapter = std::make_shared<GraphQLParser::PhotoDeltaAdapter>(data.id, *this);
-            auto photo = std::make_shared<gqldb::object::Photo>(photoDeltaAdapter);
+            for(const auto& subquery: *filterArg->or_)
+            {
+                auto subResult = getPhotoIds(subquery);
+                ids.insert(ids.end(), subResult.begin(), subResult.end());
+            }
 
-            return photo;
-        });
+            std::ranges::sort(ids);
+            const auto e = std::ranges::unique(ids);
+            ids.erase(e.begin(), e.end());
+        }
 
-        return result;
+        return ids;
     }
 
 

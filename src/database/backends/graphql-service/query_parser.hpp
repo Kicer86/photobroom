@@ -42,7 +42,7 @@ namespace GraphQLParser
     std::string parseQuery(const std::string& queryString, std::shared_ptr<TQuery> query)
     {
         auto parsed = graphql::peg::parseString(queryString);
-        auto service = std::make_shared<graphql::database::Operations>(std::move(query));
+        auto service = std::make_shared<gqldb::Operations>(std::move(query));
 
         auto response = service->resolve({parsed});
         const auto json = graphql::response::toJSON(response.get());

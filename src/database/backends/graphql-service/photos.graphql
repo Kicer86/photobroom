@@ -26,6 +26,7 @@ type Query {
 input PhotosFilter {
   tags: TagsFilter
   hasPHash: Boolean
+  or: [PhotosFilter]
 }
 
 input TagsFilter {

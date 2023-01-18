@@ -179,3 +179,31 @@ TYPED_TEST(QueryTests, filterPhotosWithPHash)
                              ResultOf(getPath, Eq("/some/path3.jpeg")))
     );
 }
+
+
+TYPED_TEST(QueryTests, orFilters)
+{
+     // fill backend with sample data
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(test_db);
+
+    const auto response = this->m_backend->query(
+        QStringLiteral(
+        R"(
+            query {
+                photos(filter: { or: [ {hasPHash: true}, {tags: {time: {eq: "10:00:00" } } }] }) {
+                    id
+                    path
+                }
+            }
+        )"));
+
+    const std::vector<Photo::DataDelta> photos = ResponseParser::parsePhotosQueryResponse(response);
+
+    const auto getPath = qOverload<const Photo::DataDelta &>(&Photo::getPath);
+    EXPECT_THAT(photos,
+        UnorderedElementsAre(ResultOf(getPath, Eq("/some/path1.jpeg")),
+                             ResultOf(getPath, Eq("/some/path2.jpeg")),
+                             ResultOf(getPath, Eq("/some/path3.jpeg")))
+    );
+}

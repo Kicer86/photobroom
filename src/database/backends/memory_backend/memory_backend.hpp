@@ -59,6 +59,9 @@ namespace Database
             std::vector<std::shared_ptr<gqldb::object::Photo>> getPhotos(std::unique_ptr<gqldb::PhotosFilter>&& filterArg);
             std::shared_ptr<gqldb::object::Photo> getPhoto(gqlr::IdType&& idArg);
 
+            // GraphQl helpers
+            std::vector<Photo::Id> getPhotoIds(const std::unique_ptr<gqldb::PhotosFilter>& filterArg) const;
+
         private:
             // APeopleInformationAccessor interface
             std::vector<PersonName> listPeople() override;
