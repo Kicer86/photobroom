@@ -589,7 +589,8 @@ Uninstall.exe
 updater.dll
 vcruntime140_1.dll
 vcruntime140.dll
-webp.dll
-webpmux.dll
+libsharpyuv.dll
+libwebpmux.dll
+libwebp.dll
 ws2_32.dll
 zlib1.dll
