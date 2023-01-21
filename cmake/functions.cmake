@@ -1,4 +1,6 @@
 
+find_program(python python REQUIRED)
+
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
@@ -201,20 +203,22 @@ endfunction(disableWarnings)
 
 
 function(stringify_file output_file input_file variable_with_type namespace)
+    add_custom_command(
+        OUTPUT
+            ${output_file}
+        COMMAND
+            ${python} ${PROJECT_SOURCE_DIR}/cmake/stringify.py
+        ARGS
+            ${input_file}
+            ${output_file}
+            ${namespace}
+            ${variable_with_type}
+        DEPENDS
+            ${input_file}
+            ${PROJECT_SOURCE_DIR}/cmake/stringify.py
+    )
 
-    if(${input_file} IS_NEWER_THAN ${output_file})
-
-        file(READ ${input_file} file_content)
-
-        file(WRITE ${output_file} "#pragma once\n\n")
-
-        file(APPEND ${output_file} "namespace ${namespace} {\n")
-        file(APPEND ${output_file} "inline ${variable_with_type} = ")
-        file(APPEND ${output_file} "R\"(")
-        file(APPEND ${output_file} ${file_content})
-        file(APPEND ${output_file} ")\";\n")
-        file(APPEND ${output_file} "}\n")
-    endif()
+    set_source_files_properties(${output_file} PROPERTIES GENERATED TRUE)
 
 endfunction(stringify_file)
 
