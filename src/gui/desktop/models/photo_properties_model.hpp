@@ -48,9 +48,9 @@ class PhotoPropertiesModel: public QStandardItemModel
         std::unique_ptr<IdToDataConverter> m_translator;
         bool m_busy = false;
 
-        void gotPhotoData(const std::vector<Photo::Data> &);
-        void refreshLabels(const std::vector<Photo::Data> &);
-        void refreshValues(const std::vector<Photo::Data> &);
+        void gotPhotoData(const std::vector<Photo::DataDelta> &);
+        void refreshLabels(const std::vector<Photo::DataDelta> &);
+        void refreshValues(const std::vector<Photo::DataDelta> &);
 
         QString sizeHuman(qint64) const;
         void setBusy(bool);
