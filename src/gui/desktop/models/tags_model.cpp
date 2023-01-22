@@ -55,7 +55,7 @@ void TagsModel::set(Database::IDatabase* database)
     {
         m_translator = std::make_unique<IdToDataConverter>(*m_database);
 
-        connect(m_translator.get(), &IdToDataConverter::photoDataFetched, this, &TagsModel::loadPhotos);
+        connect(m_translator.get(), &IdToDataConverter::photoDataDeltaFetched, this, &TagsModel::loadPhotos);
     }
     else
         m_translator.reset();
@@ -67,7 +67,7 @@ void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
     if (m_translator)
     {
         setBusy(true);
-        m_translator->fetchIds(photos);
+        m_translator->fetchIds(photos, {Photo::Field::Tags});
     }
 }
 
@@ -251,15 +251,9 @@ void TagsModel::clearModel()
 }
 
 
-void TagsModel::loadPhotos(const std::vector<Photo::Data>& photos)
+void TagsModel::loadPhotos(const std::vector<Photo::DataDelta>& deltas)
 {
     clearModel();
-
-    std::vector<Photo::DataDelta> deltas;
-    std::transform(photos.begin(), photos.end(), std::back_inserter(deltas), [](const Photo::Data& data)
-    {
-        return Photo::DataDelta(data);
-    });
 
     m_tagsOperator.operateOn(deltas);
 
