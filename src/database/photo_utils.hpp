@@ -44,4 +44,12 @@ namespace PhotoData
     }
 }
 
-#endif // PHOTO_UTILS_HPP_INCLUDED
+namespace PhotoDelta
+{
+    template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
+    {
+        return data.get<Photo::Field::GroupInfo>().role == role;
+    }
+}
+
+#endif

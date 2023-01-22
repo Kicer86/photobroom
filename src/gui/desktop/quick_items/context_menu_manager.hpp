@@ -44,15 +44,15 @@ signals:
 
 private:
     std::unique_ptr<IdToDataConverter> m_translator;
-    std::vector<Photo::Data> m_photos;
+    std::vector<Photo::DataDelta> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     const bool m_enableFaceRecognition;
 
-    void updateModel(const std::vector<Photo::Data> &);
-    void removeGroupOf(const std::vector<Photo::Data>&);
+    void updateModel(const std::vector<Photo::DataDelta> &);
+    void removeGroupOf(const std::vector<Photo::DataDelta>&);
 
     void groupPhotosAction();
     void manageGroupsAction();
