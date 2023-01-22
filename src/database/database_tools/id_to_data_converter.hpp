@@ -19,16 +19,19 @@ class DATABASE_EXPORT IdToDataConverter: public QObject
         explicit IdToDataConverter(Database::IDatabase &);
         ~IdToDataConverter();
 
-        void fetchIds(const std::vector<Photo::Id> &);
+        [[deprecated]] void fetchIds(const std::vector<Photo::Id> &);
+        void fetchIds(const std::vector<Photo::Id> &, const std::set<Photo::Field> &);
 
     private:
         safe_callback_ctrl m_callbackCtrl;
         Database::IDatabase& m_db;
 
-        void storePhotoData(const std::vector<Photo::Data> &);
+        [[deprecated]]void storePhotoData(const std::vector<Photo::Data> &);
+        void storePhotoData(const std::vector<Photo::DataDelta> &);
 
     signals:
-        void photoDataFetched(const std::vector<Photo::Data> &) const;
+        [[deprecated]] void photoDataFetched(const std::vector<Photo::Data> &) const;
+        void photoDataDeltaFetched(const std::vector<Photo::DataDelta> &) const;
 };
 
 
