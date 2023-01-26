@@ -119,12 +119,12 @@ namespace
         {
             const auto path = d.get<Photo::Field::Path>();
             const int burstLen = 5;
-            const int burstIdx = path.indexOf("BURST");
+            const qsizetype burstIdx = path.indexOf("BURST");
 
             if (burstIdx > -1)
             {
-                const int startIdx = burstIdx + burstLen;
-                int endIdx = startIdx;
+                const qsizetype startIdx = burstIdx + burstLen;
+                qsizetype endIdx = startIdx;
 
                 for (; endIdx < path.size(); endIdx++)
                     if (path[endIdx].isNumber() == false)
