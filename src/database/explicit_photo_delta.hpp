@@ -22,6 +22,11 @@ namespace Photo
             validateData();
         }
 
+        const Id& getId() const
+        {
+            return m_data.getId();
+        }
+
         template<Field field>
         const typename DeltaTypes<field>::Storage& get() const
         {
