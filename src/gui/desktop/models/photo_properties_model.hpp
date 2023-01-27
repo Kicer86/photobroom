@@ -23,7 +23,7 @@
 #include <QStandardItemModel>
 
 #include <database/idatabase.hpp>
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 #include <database/database_tools/id_to_data_converter.hpp>
 
 
@@ -34,6 +34,8 @@ class PhotoPropertiesModel: public QStandardItemModel
         Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
     public:
+        using PhotoDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::Geometry>;
+
         explicit PhotoPropertiesModel(QObject * = nullptr);
         ~PhotoPropertiesModel();
 
@@ -49,8 +51,8 @@ class PhotoPropertiesModel: public QStandardItemModel
         bool m_busy = false;
 
         void gotPhotoData(const std::vector<Photo::DataDelta> &);
-        void refreshLabels(const std::vector<Photo::DataDelta> &);
-        void refreshValues(const std::vector<Photo::DataDelta> &);
+        void refreshLabels(const std::vector<PhotoDelta> &);
+        void refreshValues(const std::vector<PhotoDelta> &);
 
         QString sizeHuman(qint64) const;
         void setBusy(bool);

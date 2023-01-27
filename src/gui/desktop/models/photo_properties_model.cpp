@@ -38,7 +38,7 @@ namespace
         return result;
     }
 
-    QString geometryToStr(const Photo::DataDelta& photoInfo)
+    QString geometryToStr(const PhotoPropertiesModel::PhotoDelta& photoInfo)
     {
         return geometryToStr(photoInfo.get<Photo::Field::Geometry>());
     }
@@ -103,14 +103,16 @@ bool PhotoPropertiesModel::busy() const
 
 void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::DataDelta>& data)
 {
-    refreshLabels(data);
-    refreshValues(data);
+    const auto explicitData = Photo::EDV<PhotoDelta>(data);
+
+    refreshLabels(explicitData);
+    refreshValues(explicitData);
 
     setBusy(false);
 }
 
 
-void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::DataDelta>& photos)
+void PhotoPropertiesModel::refreshLabels(const std::vector<PhotoDelta>& photos)
 {
     const int s = static_cast<int>(photos.size());
 
@@ -124,7 +126,7 @@ void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::DataDelta>& ph
 }
 
 
-void PhotoPropertiesModel::refreshValues(const std::vector<Photo::DataDelta>& photos)
+void PhotoPropertiesModel::refreshValues(const std::vector<PhotoDelta>& photos)
 {
     const std::size_t s = photos.size();
 
@@ -151,7 +153,7 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::DataDelta>& ph
     }
     else if (s == 1)
     {
-        const Photo::DataDelta& photo = photos.front();
+        const PhotoDelta& photo = photos.front();
         const QString& filePath = photo.get<Photo::Field::Path>();
         const QString geometry = geometryToStr(photo);
 
@@ -175,7 +177,7 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::DataDelta>& ph
 
         // try to merge geometry
         const QSize geometry = photos.front().get<Photo::Field::Geometry>();
-        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const Photo::DataDelta& photo)
+        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const PhotoDelta& photo)
         {
             return photo.get<Photo::Field::Geometry>() == geometry;
         });

@@ -321,7 +321,7 @@ namespace
                     std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& member){ return QString::number(member.getId().value()); });
                     m_logger->trace(QString("Detected series of %1 photos: %2").arg(membersCount).arg(ids.join(", ")));
 
-                    group.members = members;
+                    group.members = Photo::EDV<GroupCandidate::ExplicitDelta>(members);
                     results.push_back(group);
 
                     auto first = it;

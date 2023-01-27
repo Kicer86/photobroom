@@ -39,11 +39,11 @@ QString GroupsManager::includeRepresentatInDatabase(const QString& representativ
 }
 
 
-void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<Photo::DataDelta>>& groups)
+void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise, const std::vector<std::vector<ExplicitDelta>>& groups)
 {
     std::vector<GroupDetails> groupsDetails;
 
-    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const std::vector<Photo::DataDelta>& group)
+    std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const std::vector<ExplicitDelta>& group)
     {
         const QString representativePath = GroupsManager::includeRepresentatInDatabase(group.front().get<Photo::Field::Path>(), project);
 

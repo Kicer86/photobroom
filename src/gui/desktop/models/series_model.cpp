@@ -39,7 +39,7 @@ SeriesModel::~SeriesModel()
 
 void SeriesModel::group(const QList<int>& rows)
 {
-    std::vector<std::vector<Photo::DataDelta>> toStore;
+    std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
 
     for(const int i: rows)
     {
@@ -189,7 +189,7 @@ void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, canditates.size() - 1);
     m_candidates = canditates;
-    m_logger->info(QString("Got %1 group canditates").arg(canditates.size()));
+    m_logger->info(QString("Got %1 group canditates").arg(m_candidates.size()));
     endInsertRows();
 
     setState(State::Loaded);

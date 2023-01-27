@@ -92,10 +92,14 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
     m_photos.clear();
     m_model.clear();
 
-    std::remove_copy_if(selectedPhotos.cbegin(), selectedPhotos.cend(), std::back_inserter(m_photos), [](const Photo::DataDelta& photo)
-    {
-        return QFile::exists(photo.get<Photo::Field::Path>()) == false;
-    });
+    std::ranges::transform(
+        selectedPhotos | std::views::filter([](const Photo::DataDelta& photo)
+        {
+            return QFile::exists(photo.get<Photo::Field::Path>());
+        }),
+        std::back_inserter(m_photos),
+        [](const Photo::DataDelta& photo) { return ContextMenuManager::ExplicitDelta(photo); }
+    );
 
     if (m_photos.empty())
         return;
@@ -112,10 +116,10 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
     connect(location,      &QAction::triggered, this, &ContextMenuManager::locationAction);
     connect(faces,         &QAction::triggered, this, &ContextMenuManager::facesAction);
 
-    const bool groupsOnly = std::ranges::all_of(m_photos, &PhotoDelta::is<GroupInfo::Role::Representative>);
+    const bool groupsOnly = std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::Representative, ExplicitDelta>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
-    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const Photo::DataDelta &>(&Photo::getPath)), &MediaTypes::isImageFile) &&
-                            std::ranges::all_of(m_photos, &PhotoDelta::is<GroupInfo::Role::None>);
+    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const ExplicitDelta &>(&Photo::getPath<ExplicitDelta>)), &MediaTypes::isImageFile) &&
+                            std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::None, ExplicitDelta>);
     const bool isSingleImage = m_photos.size() == 1 && imagesOnly;
 
     groupPhotos->setEnabled(m_photos.size() > 1 && imagesOnly);
@@ -137,9 +141,9 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
 }
 
 
-void ContextMenuManager::removeGroupOf(const std::vector<Photo::DataDelta>& representatives)
+void ContextMenuManager::removeGroupOf(const std::vector<ExplicitDelta>& representatives)
 {
-    for (const Photo::DataDelta& representative: representatives)
+    for (const ExplicitDelta& representative: representatives)
     {
         const GroupInfo& grpInfo = representative.get<Photo::Field::GroupInfo>();
         const Group::Id gid = grpInfo.group_id;
@@ -157,7 +161,7 @@ void ContextMenuManager::removeGroupOf(const std::vector<Photo::DataDelta>& repr
 
 void ContextMenuManager::groupPhotosAction()
 {
-    GroupsManager::groupIntoUnified(*m_project, {}, {m_photos});
+    GroupsManager::groupIntoUnified(*m_project, {}, {Photo::EDV<GroupsManager::ExplicitDelta>(m_photos)} );
 }
 
 
@@ -209,7 +213,7 @@ void ContextMenuManager::ungroupAction()
 
 void ContextMenuManager::locationAction()
 {
-    const Photo::DataDelta& first = m_photos.front();
+    const auto& first = m_photos.front();
     const QString relative_path = first.get<Photo::Field::Path>();
     const QString absolute_path = m_project->makePathAbsolute(relative_path);
     const QFileInfo photoFileInfo(absolute_path);

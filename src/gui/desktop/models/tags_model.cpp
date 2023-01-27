@@ -222,7 +222,7 @@ int TagsModel::rowCount(const QModelIndex& parent) const
 {
     assert(m_keys.size() == m_values.size());
 
-    const int r = parent.isValid()? 0 : m_keys.size();
+    const int r = parent.isValid()? 0 : static_cast<int>(m_keys.size());
 
     return r;
 }
@@ -255,7 +255,7 @@ void TagsModel::loadPhotos(const std::vector<Photo::DataDelta>& deltas)
 {
     clearModel();
 
-    m_tagsOperator.operateOn(deltas);
+    m_tagsOperator.operateOn(Photo::EDV<Photo::ExplicitDelta<Photo::Field::Tags>>(deltas));
 
     const Tag::TagsList photo_tags = getTags();
     const std::vector<Tag::Types> all_tags = BaseTags::getAll();

@@ -8,6 +8,7 @@
 
 #include <core/icore_factory_accessor.hpp>
 #include <database/database_tools/id_to_data_converter.hpp>
+#include <database/explicit_photo_delta.hpp>
 #include <project_utils/project.hpp>
 #include "models/actions_model.hpp"
 
@@ -43,8 +44,10 @@ signals:
     void faceRecognitionAction();
 
 private:
+    using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::GroupInfo>;
+
     std::unique_ptr<IdToDataConverter> m_translator;
-    std::vector<Photo::DataDelta> m_photos;
+    std::vector<ExplicitDelta> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;
     Project* m_project = nullptr;
@@ -52,7 +55,7 @@ private:
     const bool m_enableFaceRecognition;
 
     void updateModel(const std::vector<Photo::DataDelta> &);
-    void removeGroupOf(const std::vector<Photo::DataDelta>&);
+    void removeGroupOf(const std::vector<ExplicitDelta>&);
 
     void groupPhotosAction();
     void manageGroupsAction();
