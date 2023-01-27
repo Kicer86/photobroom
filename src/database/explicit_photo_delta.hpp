@@ -16,10 +16,37 @@ namespace Photo
     class ExplicitDelta
     {
     public:
+        ExplicitDelta(): m_data() {}
+
         explicit ExplicitDelta(const DataDelta& delta)
             : m_data(delta)
         {
             validateData();
+        }
+
+        explicit ExplicitDelta(const ExplicitDelta& other) noexcept
+        {
+            m_data = other.m_data;
+        }
+
+        template<Photo::Field... otherFields>
+        explicit ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
+        {
+            static_assert( (... && ExplicitDelta<dataFields...>::template has<dataFields>()), "Other object needs to be superset of this");
+
+            m_data = other.m_data;
+        }
+
+        explicit ExplicitDelta(ExplicitDelta&& other) noexcept
+        {
+            m_data = std::move(other.m_data);
+        }
+
+        ExplicitDelta& operator=(const ExplicitDelta& other)
+        {
+            m_data = other.m_data;
+
+            return *this;
         }
 
         const Id& getId() const
@@ -30,15 +57,24 @@ namespace Photo
         template<Field field>
         const typename DeltaTypes<field>::Storage& get() const
         {
-            auto is = [](Field f) { return f == field; };
-
-            static_assert( (... || is(dataFields)), "ExplicitDelta has no required Photo::Field" );
+            static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
 
             return m_data.get<field>();
         }
 
     private:
-        const DataDelta m_data;
+        template<typename Photo::Field... other>
+        friend class ExplicitDelta;
+
+        DataDelta m_data;
+
+        template<Field field>
+        constexpr static bool has()
+        {
+            auto is = [](Field f) { return f == field; };
+
+            return (... || is(dataFields));
+        }
 
         void validateData()
         {
@@ -61,6 +97,12 @@ namespace Photo
         return std::vector<T>(c.begin(), c.end());
     }
 
+    // convert vector of ExplicitDelta to std::vector ExplicitDelta
+    template<typename T, Photo::Field... fields>
+    std::vector<T> EDV(const std::vector<ExplicitDelta<fields...>>& c)
+    {
+        return std::vector<T>(c.begin(), c.end());
+    }
 }
 
 

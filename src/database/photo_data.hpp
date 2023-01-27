@@ -76,9 +76,13 @@ namespace Photo
         public:
             DataDelta(): m_id(), m_data() {}
 
+            DataDelta(const DataDelta& other);
+            explicit DataDelta(DataDelta&& other) noexcept;
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
             explicit DataDelta(const Data& oldData, const Data& newData);
             explicit DataDelta(const Data &);
+
+            DataDelta& operator=(const DataDelta& other);
 
             template<Field field>
             void insert(const typename DeltaTypes<field>::Storage& value)

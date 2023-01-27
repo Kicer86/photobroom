@@ -25,6 +25,9 @@ TEST(ExplicitPhotoDeltaTest, constructors)
     {
         ED ed(nonemptyData);
     });
+
+    ED ed(nonemptyData);
+    ExplicitDelta<Photo::Field::Geometry> subed(ed);
 }
 
 
