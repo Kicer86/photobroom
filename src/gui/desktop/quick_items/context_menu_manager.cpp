@@ -169,16 +169,16 @@ void ContextMenuManager::manageGroupsAction()
 {
     Database::IDatabase& db = m_project->getDatabase();
 
-    const std::vector<Photo::Data> groupMembers = evaluate<std::vector<Photo::Data>(Database::IBackend &)>(db, [this](Database::IBackend& backend)
+    const std::vector<ExplicitDelta> groupMembers = evaluate<std::vector<ExplicitDelta>(Database::IBackend &)>(db, [this](Database::IBackend& backend)
     {
-        std::vector<Photo::Data> members;
+        std::vector<ExplicitDelta> members;
 
         auto& groupOperator = backend.groupOperator();
         const auto memberIds = groupOperator.membersOf(m_photos.front().get<Photo::Field::GroupInfo>().group_id);
 
         for (const auto& id: memberIds)
         {
-            const Photo::Data member = backend.getPhoto(id);
+            const ExplicitDelta member = backend.getPhotoDelta<Photo::Field::Path, Photo::Field::GroupInfo>(id);
             members.push_back(member);
         }
 
@@ -187,7 +187,7 @@ void ContextMenuManager::manageGroupsAction()
 
     IExifReaderFactory& factory = m_core->getExifReaderFactory();
     auto logger = m_core->getLoggerFactory().get("PhotosGrouping");
-    PhotosGroupingDialog dialog(groupMembers, factory, m_core->getTaskExecutor(), m_core->getConfiguration(), logger.get());
+    PhotosGroupingDialog dialog(Photo::EDV<PhotosGroupingDialog::ExplicitDelta>(groupMembers), factory, m_core->getTaskExecutor(), m_core->getConfiguration(), logger.get());
     const int status = dialog.exec();
 
     if (status == QDialog::Accepted)
@@ -197,7 +197,7 @@ void ContextMenuManager::manageGroupsAction()
 
         // create new one
         std::vector<Photo::Id> member_ids;
-        std::transform(groupMembers.begin(), groupMembers.end(), std::back_inserter(member_ids), [](const auto& data){ return data.id; });
+        std::transform(groupMembers.begin(), groupMembers.end(), std::back_inserter(member_ids), [](const auto& data){ return data.getId(); });
 
         const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_project);
         GroupsManager::group(db, member_ids, representantPath, dialog.groupType());

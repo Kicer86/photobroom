@@ -6,7 +6,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 #include "utils/grouppers/generator_utils.hpp"
 
 
@@ -57,7 +57,8 @@ class PhotosGroupingDialog: public QDialog
         Q_OBJECT
 
     public:
-        explicit PhotosGroupingDialog(const std::vector<Photo::Data> &,
+        using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::Tags>;
+        explicit PhotosGroupingDialog(const std::vector<ExplicitDelta> &,
                                       IExifReaderFactory &,
                                       ITaskExecutor &,
                                       IConfiguration &,
@@ -73,8 +74,6 @@ class PhotosGroupingDialog: public QDialog
         QString getRepresentative() const;
         Group::Type groupType() const;
 
-        const std::vector<Photo::Data>& photos() const;
-
         void reject() override;
 
     private:
@@ -82,7 +81,7 @@ class PhotosGroupingDialog: public QDialog
         std::shared_ptr<ITmpDir> m_tmpDir;
         SortingProxy m_sortProxy;
         QString m_representativeFile;
-        std::vector<Photo::Data> m_photos;
+        std::vector<ExplicitDelta> m_photos;
         Group::Type m_representativeType;
         Ui::PhotosGroupingDialog *ui;
         MediaPreview* m_preview;
@@ -103,7 +102,7 @@ class PhotosGroupingDialog: public QDialog
         void makeAnimation();
         void makeHDR();
         void makeCollage();
-        void fillModel(const std::vector<Photo::Data> &);
+        void fillModel(const std::vector<ExplicitDelta> &);
         double calculateFPS() const;
         void startTask(std::unique_ptr<GeneratorUtils::BreakableTask>);
         void switchUiToGeneration();
