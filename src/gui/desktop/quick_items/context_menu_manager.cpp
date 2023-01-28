@@ -58,7 +58,7 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
     });
 
     if (m_translator)
-        m_translator->fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo});
+        m_translator->fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
 
     emit selectionChanged(m_selection);
 }
@@ -178,7 +178,7 @@ void ContextMenuManager::manageGroupsAction()
 
         for (const auto& id: memberIds)
         {
-            const ExplicitDelta member = backend.getPhotoDelta<Photo::Field::Path, Photo::Field::GroupInfo>(id);
+            const ExplicitDelta member = backend.getPhotoDelta<Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags>(id);
             members.push_back(member);
         }
 

@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include <core/generic_concepts.hpp>
+#include <magic_enum.hpp>
 
 #include "photo_data.hpp"
 
@@ -32,7 +33,7 @@ namespace Photo
         template<Photo::Field... otherFields>
         explicit ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
         {
-            static_assert( (... && ExplicitDelta<dataFields...>::template has<dataFields>()), "Other object needs to be superset of this");
+            static_assert( (... && ExplicitDelta<otherFields...>::template has<dataFields>()), "Other object needs to be superset of this");
 
             m_data = other.m_data;
         }
@@ -81,8 +82,7 @@ namespace Photo
             auto isValid = [this](Photo::Field field)
             {
                 if (m_data.has(field) == false)
-                    //throw std::invalid_argument(std::format("Photo::Field: {} was expected to be present in DataDelta", magic_enum::enum_name(field))); TODO: enable, when <format> is available (possibly in gcc 13)
-                    throw std::invalid_argument("Missing expected field");
+                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " was expected to be present in DataDelta");
             };
 
             (..., isValid(dataFields));

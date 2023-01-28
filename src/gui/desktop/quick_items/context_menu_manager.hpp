@@ -44,7 +44,7 @@ signals:
     void faceRecognitionAction();
 
 private:
-    using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::GroupInfo>;
+    using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags>;
 
     std::unique_ptr<IdToDataConverter> m_translator;
     std::vector<ExplicitDelta> m_photos;
