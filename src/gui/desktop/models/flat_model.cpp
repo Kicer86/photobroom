@@ -304,7 +304,9 @@ const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
     if (it == m_properties.end())
     {
         fetchPhotoData(id);
-        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::Data(id));   // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
+
+        // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
+        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::DataDelta(id));
     }
 
     return it->second;
