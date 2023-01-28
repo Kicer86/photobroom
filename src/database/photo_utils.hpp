@@ -43,11 +43,6 @@ namespace PhotoData
         if constexpr (field == Photo::Field::PHash)
             return lhs.phash < rhs.phash;
     }
-
-    template<GroupInfo::Role role> bool is(const Photo::Data& data)
-    {
-        return data.groupInfo.role == role;
-    }
 }
 
 namespace PhotoDelta
