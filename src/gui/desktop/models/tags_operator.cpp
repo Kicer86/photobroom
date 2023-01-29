@@ -34,7 +34,7 @@ void TagsOperator::setDb(Database::IDatabase* db)
 }
 
 
-void TagsOperator::operateOn(const std::vector<Photo::DataDelta>& photos)
+void TagsOperator::operateOn(const std::vector<Photo::ExplicitDelta<Photo::Field::Tags>>& photos)
 {
     m_diffs.clear();
 

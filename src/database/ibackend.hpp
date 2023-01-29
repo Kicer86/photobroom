@@ -33,7 +33,7 @@
 #include "filter.hpp"
 #include "group.hpp"
 #include "person_data.hpp"
-#include "photo_data.hpp"
+#include "explicit_photo_delta.hpp"
 #include "ipeople_information_accessor.hpp"
 #include "itransaction.hpp"
 #include "database_export.h"
@@ -119,8 +119,19 @@ namespace Database
                                                        const Filter &) = 0;
 
         /// get particular photo
-        virtual Photo::Data              getPhoto(const Photo::Id &) = 0;
-        virtual Photo::DataDelta         getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
+        [[deprecated]] virtual Photo::Data getPhoto(const Photo::Id &) = 0;
+        [[deprecated]] virtual Photo::DataDelta           getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
+
+        template<Photo::Field... fields>
+        Photo::ExplicitDelta<fields...>    getPhotoDelta(const Photo::Id& id)
+        {
+            std::set<Photo::Field> f;
+
+            auto append = [&f](Photo::Field field) { f.insert(field); };
+            (..., append(fields));
+
+            return Photo::ExplicitDelta<fields...>(getPhotoDelta(id, f));
+        }
 
         /// Count photos matching filter
         virtual int                      getPhotosCount(const Filter &) = 0;

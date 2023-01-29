@@ -19,20 +19,20 @@ IdToDataConverter::~IdToDataConverter()
 }
 
 
-void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids)
+void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids, const std::set<Photo::Field>& fields)
 {
     m_callbackCtrl.invalidate();        // new query, drop any pending tasks
 
     if (ids.empty())
-        storePhotoData({});
+        storePhotoData(std::vector<Photo::DataDelta>{});
     else
     {
-        auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, this](Database::IBackend& backend)
+        auto db_task = m_callbackCtrl.make_safe_callback<Database::IBackend&>([ids, fields, this](Database::IBackend& backend)
         {
-            std::vector<Photo::Data> data;
+            std::vector<Photo::DataDelta> data;
 
             for (const auto& id: ids)
-                data.push_back(backend.getPhoto(id));
+                data.push_back(backend.getPhotoDelta(id, fields));
 
             storePhotoData(data);
         });
@@ -42,7 +42,7 @@ void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids)
 }
 
 
-void IdToDataConverter::storePhotoData(const std::vector<Photo::Data>& data)
+void IdToDataConverter::storePhotoData(const std::vector<Photo::DataDelta>& data)
 {
-    emit photoDataFetched(data);
+    emit photoDataDeltaFetched(data);
 }

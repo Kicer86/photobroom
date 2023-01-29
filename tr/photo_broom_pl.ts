@@ -121,7 +121,7 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+103"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+107"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -576,7 +576,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+117"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+119"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>lokalizacja zdjęcia:</numerusform>
@@ -721,7 +721,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+153"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+147"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -839,7 +839,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-176"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-178"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>

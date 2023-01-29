@@ -38,9 +38,9 @@ namespace
         return result;
     }
 
-    QString geometryToStr(const Photo::Data& photoInfo)
+    QString geometryToStr(const PhotoPropertiesModel::PhotoDelta& photoInfo)
     {
-        return geometryToStr(photoInfo.geometry);
+        return geometryToStr(photoInfo.get<Photo::Field::Geometry>());
     }
 
     QString cutPrj(const QString& path)
@@ -72,7 +72,7 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
     {
         m_translator = std::make_unique<IdToDataConverter>(*db);
 
-        connect(m_translator.get(), &IdToDataConverter::photoDataFetched, this, &PhotoPropertiesModel::gotPhotoData);
+        connect(m_translator.get(), &IdToDataConverter::photoDataDeltaFetched, this, &PhotoPropertiesModel::gotPhotoData);
     }
     else
         m_translator.reset();
@@ -84,7 +84,7 @@ void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
     if (m_translator)
     {
         setBusy(true);
-        m_translator->fetchIds(ids);
+        m_translator->fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
     }
 }
 
@@ -101,16 +101,18 @@ bool PhotoPropertiesModel::busy() const
 }
 
 
-void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::Data>& data)
+void PhotoPropertiesModel::gotPhotoData(const std::vector<Photo::DataDelta>& data)
 {
-    refreshLabels(data);
-    refreshValues(data);
+    const auto explicitData = Photo::EDV<PhotoDelta>(data);
+
+    refreshLabels(explicitData);
+    refreshValues(explicitData);
 
     setBusy(false);
 }
 
 
-void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::Data>& photos)
+void PhotoPropertiesModel::refreshLabels(const std::vector<PhotoDelta>& photos)
 {
     const int s = static_cast<int>(photos.size());
 
@@ -124,7 +126,7 @@ void PhotoPropertiesModel::refreshLabels(const std::vector<Photo::Data>& photos)
 }
 
 
-void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
+void PhotoPropertiesModel::refreshValues(const std::vector<PhotoDelta>& photos)
 {
     const std::size_t s = photos.size();
 
@@ -136,7 +138,7 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
     std::size_t size = 0;
     for(std::size_t i = 0; i < s; i++)
     {
-        const QFileInfo info(photos[i].path);
+        const QFileInfo info(photos[i].get<Photo::Field::Path>());
         size += info.size();
     }
 
@@ -151,8 +153,8 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
     }
     else if (s == 1)
     {
-        const Photo::Data& photo = photos.front();
-        const QString& filePath = photo.path;
+        const PhotoDelta& photo = photos.front();
+        const QString& filePath = photo.get<Photo::Field::Path>();
         const QString geometry = geometryToStr(photo);
 
         // update values
@@ -163,21 +165,21 @@ void PhotoPropertiesModel::refreshValues(const std::vector<Photo::Data>& photos)
     else
     {
         // 'merge' paths
-        QString result = photos.front().path;
+        QString result = photos.front().get<Photo::Field::Path>();
 
         for(std::size_t i = 1; i < s; i++)
         {
-            const QString anotherPhotoPath = photos[i].path;
+            const QString anotherPhotoPath = photos[i].get<Photo::Field::Path>();
             result = FileSystem().commonPath(result, anotherPhotoPath);
         }
 
         const QString decorated_path = result + (result.right(1) == QDir::separator()? QString("") : QDir::separator()) + "...";
 
         // try to merge geometry
-        const QSize geometry = photos.front().geometry;
-        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const Photo::Data& photo)
+        const QSize geometry = photos.front().get<Photo::Field::Geometry>();
+        const bool equal = std::all_of(photos.cbegin(), photos.cend(), [&geometry](const PhotoDelta& photo)
         {
-            return photo.geometry == geometry;
+            return photo.get<Photo::Field::Geometry>() == geometry;
         });
 
         const QString geometryStr = equal? geometryToStr(geometry): "---";

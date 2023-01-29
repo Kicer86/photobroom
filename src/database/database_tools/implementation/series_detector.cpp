@@ -45,7 +45,7 @@ namespace
     {
     public:
         virtual ~IGroupValidator() = default;
-        virtual void setCurrentPhoto(const Photo::DataDelta &) = 0;
+        virtual void setCurrentPhoto(const SeriesDetector::ExplicitDelta &) = 0;
         virtual bool canBePartOfGroup() const = 0;
         virtual void accept() = 0;
         virtual void reset() = 0;
@@ -61,7 +61,7 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d) override
+        void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
         }
@@ -115,16 +115,16 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d) override
+        void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             const auto path = d.get<Photo::Field::Path>();
             const int burstLen = 5;
-            const int burstIdx = path.indexOf("BURST");
+            const qsizetype burstIdx = path.indexOf("BURST");
 
             if (burstIdx > -1)
             {
-                const int startIdx = burstIdx + burstLen;
-                int endIdx = startIdx;
+                const qsizetype startIdx = burstIdx + burstLen;
+                qsizetype endIdx = startIdx;
 
                 for (; endIdx < path.size(); endIdx++)
                     if (path[endIdx].isNumber() == false)
@@ -179,7 +179,7 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d) override
+        void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             Base::setCurrentPhoto(d);
             m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
@@ -237,7 +237,7 @@ namespace
 
         }
 
-        void setCurrentPhoto(const Photo::DataDelta& d) override
+        void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             m_current_stamp = Tag::timestamp(d.get<Photo::Field::Tags>());
         }
@@ -271,7 +271,7 @@ namespace
     {
     public:
         SeriesExtractor(Database::IDatabase& db,
-                        const std::deque<Photo::DataDelta>& photos,
+                        const std::deque<SeriesDetector::ExplicitDelta>& photos,
                         std::unique_ptr<ILogger> logger,
                         const QPromise<std::vector<GroupCandidate>>* p)
             : m_db(db)
@@ -293,11 +293,11 @@ namespace
 
                 validator.reset();
 
-                std::vector<Photo::DataDelta> members;
+                std::vector<SeriesDetector::ExplicitDelta> members;
 
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
-                    const Photo::DataDelta& data = *it2;
+                    const auto& data = *it2;
 
                     validator.setCurrentPhoto(data);
 
@@ -321,7 +321,7 @@ namespace
                     std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const auto& member){ return QString::number(member.getId().value()); });
                     m_logger->trace(QString("Detected series of %1 photos: %2").arg(membersCount).arg(ids.join(", ")));
 
-                    group.members = members;
+                    group.members = Photo::EDV<GroupCandidate::ExplicitDelta>(members);
                     results.push_back(group);
 
                     auto first = it;
@@ -338,7 +338,7 @@ namespace
 
     private:
         Database::IDatabase& m_db;
-        std::deque<Photo::DataDelta> m_photos;
+        std::deque<SeriesDetector::ExplicitDelta> m_photos;
         std::unique_ptr<ILogger> m_logger;
         const QPromise<std::vector<GroupCandidate>>* m_promise;
     };
@@ -368,8 +368,8 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
     QElapsedTimer timer;
     timer.start();
 
-    const std::deque<Photo::DataDelta> candidates =
-        evaluate<std::deque<Photo::DataDelta>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
+    const std::deque<ExplicitDelta> candidates =
+        evaluate<std::deque<ExplicitDelta>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
     {
         std::vector<GroupCandidate> result;
 
@@ -382,10 +382,10 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
         // photos - candidates for series/groups
         const auto photos = backend.photoOperator().onPhotos( Database::GroupFilter{group_filter, valid_photos_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
 
-        std::deque<Photo::DataDelta> deltas;
+        std::deque<ExplicitDelta> deltas;
         std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)
         {
-            return backend.getPhotoDelta(id, {Photo::Field::Tags, Photo::Field::Path});
+            return backend.getPhotoDelta<Photo::Field::Tags, Photo::Field::Path>(id);
         });
 
         return deltas;
@@ -399,10 +399,10 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
 }
 
 
-std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo::DataDelta>& photos, const Rules& rules) const
+std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<ExplicitDelta>& photos, const Rules& rules) const
 {
     QElapsedTimer timer;
-    std::deque<Photo::DataDelta> suitablePhotos;
+    std::deque<ExplicitDelta> suitablePhotos;
 
     // grouping works for images only
     timer.start();
@@ -414,7 +414,7 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
 
     // drop images which were not made in similar time
     timer.restart();
-    std::deque<Photo::DataDelta> prefiltered = removeSingles(suitablePhotos, rules);
+    std::deque<ExplicitDelta> prefiltered = removeSingles(suitablePhotos, rules);
 
     m_logger.debug(QString("Prefiltration time: %1s. %2 photos left.")
         .arg(timer.elapsed() / 1000)
@@ -461,9 +461,9 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Photo
 }
 
 
-std::deque<Photo::DataDelta> SeriesDetector::removeSingles(const std::deque<Photo::DataDelta>& suitablePhotos, const Rules& rules) const
+std::deque<SeriesDetector::ExplicitDelta> SeriesDetector::removeSingles(const std::deque<SeriesDetector::ExplicitDelta>& suitablePhotos, const Rules& rules) const
 {
-    std::deque<Photo::DataDelta> prefiltered;
+    std::deque<SeriesDetector::ExplicitDelta> prefiltered;
 
     for(std::size_t i = 0; i < suitablePhotos.size(); i++)
     {

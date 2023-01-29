@@ -2,10 +2,12 @@
 #ifndef SERIES_CANDIDATE_HPP_INCLUDED
 #define SERIES_CANDIDATE_HPP_INCLUDED
 
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 
 struct GroupCandidate
 {
+    using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path>;
+
     enum class Type {
         Series,
         HDR,
@@ -13,7 +15,7 @@ struct GroupCandidate
     };
 
     Type type;
-    std::vector<Photo::DataDelta> members;
+    std::vector<ExplicitDelta> members;
 };
 
-#endif // SERIES_CANDIDATE_HPP_INCLUDED
+#endif

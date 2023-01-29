@@ -81,7 +81,7 @@ class TagsModel: public QAbstractItemModel
         bool m_busy = false;
 
         void clearModel();
-        void loadPhotos(const std::vector<Photo::Data> &);
+        void loadPhotos(const std::vector<Photo::DataDelta> &);
         void syncData(const QModelIndex &, const QModelIndex &);
         QVector<int> setDataInternal(const QModelIndex & index, const QVariant & value, int role);
         QVariant correctInput(const QModelIndex &, const QVariant &) const;

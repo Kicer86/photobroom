@@ -5,7 +5,7 @@
 #include <QString>
 
 #include <core/utils.hpp>
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 #include <database_export.h>
 
 
@@ -15,6 +15,12 @@ namespace Photo
 
     DATABASE_EXPORT const QString& getPath(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
+
+    template<typename T>                    // TODO: T is expected to be Photo::ExplicitDelta
+    const QString& getPath(const T& data)
+    {
+        return data.template get<Photo::Field::Path>();
+    }
 
     template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
     {
@@ -37,11 +43,22 @@ namespace PhotoData
         if constexpr (field == Photo::Field::PHash)
             return lhs.phash < rhs.phash;
     }
+}
 
-    template<GroupInfo::Role role> bool is(const Photo::Data& data)
+namespace PhotoDelta
+{
+    template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
     {
-        return data.groupInfo.role == role;
+        return data.get<Photo::Field::GroupInfo>().role == role;
     }
 }
 
-#endif // PHOTO_UTILS_HPP_INCLUDED
+namespace PhotoExplicitDelta
+{
+    template<GroupInfo::Role role, typename T> bool is(const T& data)           // TODO: T is expected to be Photo::ExplicitDelta
+    {
+        return data.template get<Photo::Field::GroupInfo>().role == role;
+    }
+}
+
+#endif

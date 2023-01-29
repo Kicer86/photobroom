@@ -22,7 +22,7 @@
 #include <QPromise>
 
 #include <core/iexif_reader.hpp>
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 #include <database/group.hpp>
 #include <project_utils/project.hpp>
 
@@ -35,6 +35,8 @@ namespace Database
 
 namespace GroupsManager
 {
+    using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path>;
+
     struct GroupDetails
     {
         std::vector<Photo::Id> members;
@@ -45,16 +47,8 @@ namespace GroupsManager
     QString includeRepresentatInDatabase(const QString& representativePhoto, Project &);
 
     void groupIntoUnified(Project &,
-                          const std::vector<Photo::Data> &);
-
-    void groupIntoUnified(Project &,
                           QPromise<void> &&,
-                          const std::vector<std::vector<Photo::DataDelta>> &);       // create many groups at once
-
-    void group(Database::IDatabase &,
-               const std::vector<Photo::Data> &,
-               const QString& representativePath,
-               Group::Type);                                 // group set of photos as one with given (external/generated) representative
+                          const std::vector<std::vector<ExplicitDelta>> &);       // create many groups at once
 
     void group(Database::IDatabase &,
                const std::vector<Photo::Id> &,

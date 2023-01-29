@@ -56,6 +56,20 @@ namespace Photo
     }
 
 
+    DataDelta::DataDelta(const DataDelta& other)
+    {
+        m_id = other.m_id;
+        m_data = other.m_data;
+    }
+
+
+    DataDelta::DataDelta(DataDelta&& other) noexcept
+    {
+        m_id = other.m_id;
+        m_data = std::move(other.m_data);
+    }
+
+
     DataDelta::DataDelta(const Data& oldData, const Data& newData)
     {
         assert(oldData.id == newData.id);
@@ -88,6 +102,13 @@ namespace Photo
         this->operator=(data);
     }
 
+    DataDelta& DataDelta::operator=(const DataDelta& other)
+    {
+        m_id = other.m_id;
+        m_data = other.m_data;
+
+        return *this;
+    }
 
     void DataDelta::setId(const Photo::Id& id)
     {

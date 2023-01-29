@@ -23,6 +23,7 @@
 #include <vector>
 
 #include <database/idatabase.hpp>
+
 #include "itags_operator.hpp"
 
 
@@ -32,7 +33,7 @@ class TagsOperator: public ITagsOperator
         TagsOperator();
 
         void setDb(Database::IDatabase *);
-        void operateOn(const std::vector<Photo::DataDelta>&) override;
+        void operateOn(const std::vector<Photo::ExplicitDelta<Photo::Field::Tags>> &) override;
 
         Tag::TagsList getTags() const override;
 

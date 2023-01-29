@@ -65,7 +65,7 @@ namespace
 ///////////////////////////////////////////////////////////////////////////////
 
 
-PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<Photo::Data>& photos,
+PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<ExplicitDelta>& photos,
                                            IExifReaderFactory& exifReader,
                                            ITaskExecutor& executor,
                                            IConfiguration& configuration,
@@ -137,12 +137,6 @@ QString PhotosGroupingDialog::getRepresentative() const
 Group::Type PhotosGroupingDialog::groupType() const
 {
     return m_representativeType;
-}
-
-
-const std::vector<Photo::Data>& PhotosGroupingDialog::photos() const
-{
-    return m_photos;
 }
 
 
@@ -334,7 +328,7 @@ void PhotosGroupingDialog::makeCollage()
 }
 
 
-void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
+void PhotosGroupingDialog::fillModel(const std::vector<ExplicitDelta>& photos)
 {
     m_model.clear();
 
@@ -342,9 +336,9 @@ void PhotosGroupingDialog::fillModel(const std::vector<Photo::Data>& photos)
 
     const QRegularExpression burstRE(".*BURST([0-9]+).*");
 
-    for(const Photo::Data& photo: photos)
+    for(const auto& photo: photos)
     {
-        const QString& path = photo.path;
+        const QString& path = photo.get<Photo::Field::Path>();
         const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
         const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
 
@@ -371,7 +365,7 @@ double PhotosGroupingDialog::calculateFPS() const
 
     for(const auto& photo: m_photos)
     {
-        const auto timestamp = Tag::timestamp(photo.tags);
+        const auto timestamp = Tag::timestamp(photo.get<Photo::Field::Tags>());
         timestamps.insert(timestamp);
     }
 
