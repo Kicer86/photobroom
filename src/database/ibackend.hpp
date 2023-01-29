@@ -120,7 +120,7 @@ namespace Database
 
         /// get particular photo
         [[deprecated]] virtual Photo::Data getPhoto(const Photo::Id &) = 0;
-        virtual Photo::DataDelta           getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
+        [[deprecated]] virtual Photo::DataDelta           getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
 
         template<Photo::Field... fields>
         Photo::ExplicitDelta<fields...>    getPhotoDelta(const Photo::Id& id)

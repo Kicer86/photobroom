@@ -132,11 +132,11 @@ Database::IDatabase* FlatModel::database() const
 }
 
 
-const Photo::DataDelta& FlatModel::getPhotoData(const QModelIndex& index) const
+const APhotoDataModel::ExplicitDelta& FlatModel::getPhotoData(const QModelIndex& index) const
 {
     const int row = index.row();
     const Photo::Id id = m_photos[row];
-    const Photo::DataDelta& data = photoData(id);
+    const auto& data = photoData(id);
 
     return data;
 }
@@ -155,8 +155,8 @@ QVariant FlatModel::data(const QModelIndex& index, int role) const
     }
     else if (role == PhotoDataRole)
     {
-        const Photo::DataDelta& data = getPhotoData(index);
-        d = QVariant::fromValue<Photo::DataDelta>(data);
+        const auto& data = getPhotoData(index);
+        d = QVariant::fromValue<Photo::DataDelta>(static_cast<Photo::DataDelta>(data));
     }
 
     return d;
@@ -190,7 +190,7 @@ QModelIndex FlatModel::index(int r, int c, const QModelIndex& p) const
 QUrl FlatModel::getPhotoPath(int row) const
 {
     const Photo::Id id = m_photos[row];
-    const Photo::DataDelta& data = photoData(id);
+    const auto& data = photoData(id);
     const QUrl url = QUrl::fromLocalFile(data.get<Photo::Field::Path>());
 
     return url;
@@ -295,7 +295,7 @@ const Database::Filter& FlatModel::filters() const
 }
 
 
-const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
+const APhotoDataModel::ExplicitDelta& FlatModel::photoData(const Photo::Id& id) const
 {
     assert(m_idToRow.find(id) != m_idToRow.end());
 
@@ -306,7 +306,7 @@ const Photo::DataDelta& FlatModel::photoData(const Photo::Id& id) const
         fetchPhotoData(id);
 
         // insert empty properties so we won't call fetchPhotoProperties() for this 'id' again
-        std::tie(it, std::ignore) = m_properties.emplace(id, Photo::DataDelta(id));
+        std::tie(it, std::ignore) = m_properties.emplace(id, ExplicitDelta(id));
     }
 
     return it->second;
@@ -340,7 +340,7 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
 
 void FlatModel::fetchPhotoProperties(Database::IBackend& backend, const Photo::Id& id) const
 {
-    auto photo = backend.getPhotoDelta(id, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
+    auto photo = backend.getPhotoDelta<Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo>(id);
 
     invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }
@@ -430,7 +430,7 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
 }
 
 
-void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const Photo::DataDelta& properties)
+void FlatModel::fetchedPhotoProperties(const Photo::Id& id, const ExplicitDelta& properties)
 {
     auto it = m_idToRow.find(id);
 

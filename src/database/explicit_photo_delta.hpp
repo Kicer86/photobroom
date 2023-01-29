@@ -19,6 +19,8 @@ namespace Photo
     public:
         ExplicitDelta(): m_data() {}
 
+        explicit ExplicitDelta(const Photo::Id& id): m_data(id) {}
+
         explicit ExplicitDelta(const DataDelta& delta)
             : m_data(delta)
         {
@@ -48,6 +50,11 @@ namespace Photo
             m_data = other.m_data;
 
             return *this;
+        }
+
+        operator const DataDelta& () const
+        {
+            return m_data;
         }
 
         const Id& getId() const

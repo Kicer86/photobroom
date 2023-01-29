@@ -38,6 +38,8 @@ struct IExifReader;
 class DATABASE_EXPORT SeriesDetector
 {
     public:
+        using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Tags, Photo::Field::Path>;
+
         struct DATABASE_EXPORT Rules
         {
             std::chrono::milliseconds manualSeriesMaxGap;
@@ -56,8 +58,8 @@ class DATABASE_EXPORT SeriesDetector
         const QPromise<std::vector<GroupCandidate>>* m_promise;
         IExifReader& m_exifReader;
 
-        std::vector<GroupCandidate> analyzePhotos(const std::deque<Photo::DataDelta> &, const Rules &) const;
-        std::deque<Photo::DataDelta> removeSingles(const std::deque<Photo::DataDelta> &, const Rules &) const;
+        std::vector<GroupCandidate> analyzePhotos(const std::deque<ExplicitDelta> &, const Rules &) const;
+        std::deque<ExplicitDelta> removeSingles(const std::deque<ExplicitDelta> &, const Rules &) const;
 };
 
 #endif

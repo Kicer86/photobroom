@@ -21,12 +21,13 @@
 #define ASCALABLEIMAGESMODEL_HPP
 
 #include <QAbstractItemModel>
-#include <database/photo_data.hpp>
+#include <database/explicit_photo_delta.hpp>
 
 
 class APhotoDataModel: public QAbstractItemModel
 {
     public:
+        using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo>;
         enum Roles
         {
             PhotoDataRole = Qt::UserRole + 1,
@@ -40,7 +41,7 @@ class APhotoDataModel: public QAbstractItemModel
 
         APhotoDataModel& operator=(const APhotoDataModel &) = delete;
 
-        virtual const Photo::DataDelta& getPhotoData(const QModelIndex &) const = 0;
+        virtual const ExplicitDelta& getPhotoData(const QModelIndex &) const = 0;
         virtual QHash<int, QByteArray> roleNames() const override;
 
     protected:

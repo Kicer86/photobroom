@@ -41,6 +41,7 @@ const Photo::DataDelta& PhotoDataQml::getPhotoData() const
 
 void PhotoDataQml::setPhotoData(const Photo::DataDelta& photo)
 {
+    assert(photo.getId().valid());
     m_photo = photo;
 
     emit photoDataChanged(m_photo);
