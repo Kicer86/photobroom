@@ -128,7 +128,8 @@ namespace Photo
                 DeltaTypes<Field::Path>::Storage,
                 DeltaTypes<Field::Geometry>::Storage,
                 DeltaTypes<Field::GroupInfo>::Storage,
-                DeltaTypes<Field::PHash>::Storage
+                DeltaTypes<Field::PHash>::Storage,
+                DeltaTypes<Field::People>::Storage
             > Storage;
 
             Photo::Id                m_id;

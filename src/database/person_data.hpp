@@ -24,8 +24,9 @@
 #include <QRect>
 
 #include <core/id.hpp>
+#include <core/qt_operators.hpp>
 
-#include "photo_data.hpp"
+#include "photo_types.hpp"
 #include "database_export.h"
 
 
@@ -46,10 +47,7 @@ class DATABASE_EXPORT PersonName final
         ~PersonName() = default;
 
         PersonName& operator=(const PersonName &) = default;
-        bool operator<(const PersonName& other) const
-        {
-            return std::tie(m_id, m_name) < std::tie(other.m_id, other.m_name);
-        }
+        auto operator<=>(const PersonName &) const = default;
 
         const Person::Id& id() const;
         const QString& name() const;
@@ -68,6 +66,8 @@ class DATABASE_EXPORT PersonFingerprint
         PersonFingerprint() {}
         PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
         PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+
+        auto operator<=>(const PersonFingerprint &) const = default;
 
         const Id& id() const { return m_id; }
         const Person::Fingerprint& fingerprint() const { return m_fingerprint; }
@@ -110,17 +110,21 @@ class DATABASE_EXPORT PersonInfo
 
         PersonInfo(const PersonInfo &) = default;
         PersonInfo& operator=(const PersonInfo &) = default;
-
-        bool operator==(const PersonInfo& other) const
-        {
-            return id == other.id       &&
-                   p_id == other.p_id   &&
-                   ph_id == other.ph_id &&
-                   f_id == other.f_id   &&
-                   rect == other.rect;
-        }
+        auto operator<=>(const PersonInfo &) const = default;
 };
+
+
+class PersonFullInfo
+{
+public:
+    QRect position;
+    PersonFingerprint fingerprint;
+    PersonName name;
+
+    auto operator<=>(const PersonFullInfo &) const = default;
+};
+
 
 Q_DECLARE_METATYPE( PersonName )
 
-#endif // PERSONDATA_HPP
+#endif
