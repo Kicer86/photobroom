@@ -191,4 +191,11 @@ ForwardIt remove_unique(ForwardIt first, ForwardIt last)
     return remove_unique(first, last, std::equal_to{});
 }
 
+
+template<typename CT, typename R>
+CT range_to(R&& range)
+{
+    return CT(range.begin(), range.end());
+}
+
 #endif
