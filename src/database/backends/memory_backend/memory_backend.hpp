@@ -86,7 +86,7 @@ namespace Database
             bool hasPHash(const Photo::Id &) override;
             //
 
-            static Photo::Id getIdFor(const Photo::Data& d);
+            static Photo::Id getIdFor(const Photo::FullDelta& d);
             static Person::Id getIdFor(const PersonName& pn);
             static PersonInfo::Id getIdFor(const PersonInfo& pn);
 

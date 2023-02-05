@@ -898,7 +898,7 @@ namespace Database
         assert(data.getId().valid() == false || data.getId() == id);
         data.setId(id);
 
-        DbErrorOnFalse(storeData(data, Photo::Data(id)));
+        DbErrorOnFalse(storeData(data, Photo::FullDelta(id)));
     }
 
 
@@ -907,13 +907,13 @@ namespace Database
      */
     bool ASqlBackend::storeData(const Photo::DataDelta& data)
     {
-        const Photo::Data currentStateOfPhoto = getPhoto(data.getId());
+        const Photo::FullDelta currentStateOfPhoto(getPhotoDelta(data.getId()));
 
         return storeData(data, currentStateOfPhoto);
     }
 
 
-    bool ASqlBackend::storeData(const Photo::DataDelta& data, const Photo::Data& currentStateOfPhoto)
+    bool ASqlBackend::storeData(const Photo::DataDelta& data, const Photo::FullDelta& currentStateOfPhoto)
     {
         assert(data.getId().valid());
 

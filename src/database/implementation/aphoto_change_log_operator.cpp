@@ -77,14 +77,14 @@ namespace
 namespace Database
 {
 
-    void APhotoChangeLogOperator::storeDifference(const Photo::Data& currentContent, const Photo::DataDelta& newContent)
+    void APhotoChangeLogOperator::storeDifference(const Photo::FullDelta& currentContent, const Photo::DataDelta& newContent)
     {
-        assert(currentContent.id == newContent.getId());
-        const Photo::Id& id = currentContent.id;
+        assert(currentContent.getId() == newContent.getId());
+        const Photo::Id& id = currentContent.getId();
 
         if (newContent.has(Photo::Field::Tags))
         {
-            const auto& oldTags = currentContent.tags;
+            const auto& oldTags = currentContent.get<Photo::Field::Tags>();
             const auto& newTags = newContent.get<Photo::Field::Tags>();
 
             process(id, oldTags, newTags);
@@ -92,7 +92,7 @@ namespace Database
 
         if (newContent.has(Photo::Field::GroupInfo))
         {
-            const auto& oldGroupInfo = currentContent.groupInfo;
+            const auto& oldGroupInfo = currentContent.get<Photo::Field::GroupInfo>();
             const auto& newGroupInfo = newContent.get<Photo::Field::GroupInfo>();
 
             process(id, oldGroupInfo, newGroupInfo);

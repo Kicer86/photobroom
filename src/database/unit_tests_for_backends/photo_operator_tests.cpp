@@ -99,9 +99,9 @@ TYPED_TEST(PhotoOperatorTest, sortingByPHash)
 
     ASSERT_EQ(ids.size(), 12);
 
-    std::vector<Photo::DataDelta> photos;
+    std::vector<Photo::ExplicitDelta<Photo::Field::PHash>> photos;
     for (const auto& id: ids)
-        photos.push_back(this->m_backend->getPhotoDelta(id, {Photo::Field::PHash}));
+        photos.push_back(this->m_backend->template getPhotoDelta<Photo::Field::PHash>(id));
 
     std::vector<int> phashes;
     std::transform(photos.begin(), photos.end(), std::back_inserter(phashes), [](const Photo::DataDelta& data) { return data.get<Photo::Field::PHash>().value(); });
