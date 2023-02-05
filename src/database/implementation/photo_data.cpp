@@ -167,7 +167,7 @@ namespace Photo
 
             }
             else
-                m_data.insert(otherData);
+                m_data.insert_or_assign(otherData.first, otherData.second);
         }
 
         return *this;
