@@ -49,7 +49,8 @@ void BatchFaceRecognitionModel::beginAnalysis()
 {
     m_db->exec([](Database::IBackend& backend)
     {
-        auto baseFitler = Database::getValidPhotosFilter();
-        backend.photoOperator().getPhotos();
+        auto baseFilter = Database::getValidPhotosFilter();
+        auto statusFilter = Database::FilterFaceAnalysisStatus();
+        backend.photoOperator().getPhotos(Database::GroupFilter({baseFilter, statusFilter}));
     });
 }
