@@ -50,6 +50,7 @@ namespace Database
     struct FilterPhotosWithGeneralFlag;
     struct FilterPhotosWithPHash;
     struct FilterSimilarPhotos;
+    struct FilterFaceAnalysisStatus;
 
 
     typedef std::variant<EmptyFilter,
@@ -64,7 +65,8 @@ namespace Database
                          FilterPhotosWithPerson,
                          FilterPhotosWithGeneralFlag,
                          FilterPhotosWithPHash,
-                         FilterSimilarPhotos
+                         FilterSimilarPhotos,
+                         FilterFaceAnalysisStatus
     > Filter;
 
     enum class ComparisonOp
@@ -190,12 +192,21 @@ namespace Database
         ol::data_ptr<Filter> filter;
     };
 
+    struct DATABASE_EXPORT FilterFaceAnalysisStatus
+    {
+        enum Status
+        {
+            NotPerformed,
+            Performed,
+        } status;
+    };
+
     // helpers
 
     /**
      * @brief return filter which will filter out broken photos (missing, broken, deleted etc)
      */
-    Filter getValidPhotosFilter();
+    Filter DATABASE_EXPORT getValidPhotosFilter();
 }
 
 #endif // FILTER_HPP
