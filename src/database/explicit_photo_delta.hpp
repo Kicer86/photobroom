@@ -3,6 +3,7 @@
 #define EXPLICIT_PHOTO_DELTA_HPP_INCLUDED
 
 #include <stdexcept>
+#include <magic_enum.hpp>
 
 #include <core/generic_concepts.hpp>
 #include <magic_enum.hpp>
@@ -17,17 +18,25 @@ namespace Photo
     class ExplicitDelta
     {
     public:
-        ExplicitDelta(): m_data() {}
-
-        explicit ExplicitDelta(const Photo::Id& id): m_data(id) {}
-
-        explicit ExplicitDelta(const DataDelta& delta)
-            : m_data(delta)
+        ExplicitDelta()
+            : m_data()
         {
-            validateData();
+            fill<dataFields...>();
         }
 
-        explicit ExplicitDelta(const ExplicitDelta& other) noexcept
+        explicit ExplicitDelta(const Photo::Id& id)
+            : m_data(id)
+        {
+            fill<dataFields...>();
+        }
+
+        explicit ExplicitDelta(const DataDelta& delta)
+        {
+            fill<dataFields...>();
+            m_data |= delta;
+        }
+
+        ExplicitDelta(const ExplicitDelta& other) noexcept
         {
             m_data = other.m_data;
         }
@@ -37,7 +46,8 @@ namespace Photo
         {
             static_assert( (... && ExplicitDelta<otherFields...>::template has<dataFields>()), "Other object needs to be superset of this");
 
-            m_data = other.m_data;
+            fill<dataFields...>();
+            m_data |= other.m_data;
         }
 
         explicit ExplicitDelta(ExplicitDelta&& other) noexcept
@@ -48,6 +58,29 @@ namespace Photo
         ExplicitDelta& operator=(const ExplicitDelta& other)
         {
             m_data = other.m_data;
+
+            return *this;
+        }
+
+        template<Photo::Field... otherFields>
+        ExplicitDelta& operator|=(const ExplicitDelta<otherFields...>& other)
+        {
+            static_assert( (... && has<otherFields>()), "Other object needs to be subset of this");
+
+            m_data |= other.m_data;
+
+            return *this;
+        }
+
+
+        ExplicitDelta& operator|=(const DataDelta& other)
+        {
+            for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
+                if (other.has(field) && has(field) == false)
+                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is part of this ExplicitDelta.");
+
+            fill<dataFields...>();
+            m_data |= other;
 
             return *this;
         }
@@ -70,11 +103,28 @@ namespace Photo
             return m_data.get<field>();
         }
 
+        template<Field field>
+        void insert(const typename DeltaTypes<field>::Storage& d)
+        {
+            static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
+
+            return m_data.insert<field>(d);
+        }
+
     private:
         template<typename Photo::Field... other>
         friend class ExplicitDelta;
 
         DataDelta m_data;
+
+        template<Field field, Field... fields>
+        void fill()
+        {
+            m_data.insert<field>({});
+
+            if constexpr (sizeof...(fields) > 0)
+                fill<fields...>();
+        }
 
         template<Field field>
         constexpr static bool has()
@@ -84,15 +134,11 @@ namespace Photo
             return (... || is(dataFields));
         }
 
-        void validateData()
+        static bool has(const Field& field)
         {
-            auto isValid = [this](Photo::Field field)
-            {
-                if (m_data.has(field) == false)
-                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " was expected to be present in DataDelta");
-            };
+            auto is = [field](Field f) { return f == field; };
 
-            (..., isValid(dataFields));
+            return (... || is(dataFields));
         }
     };
 
@@ -110,6 +156,22 @@ namespace Photo
     {
         return std::vector<T>(c.begin(), c.end());
     }
+
+    // based on: https://stackoverflow.com/questions/60434033/how-do-i-expand-a-compile-time-stdarray-into-a-parameter-pack
+    namespace details
+    {
+        template <auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
+
+        template <auto arr, std::size_t... I>
+        struct Generator<arr, std::index_sequence<I...>> {
+            using type = ExplicitDelta<arr[I]...>;
+        };
+
+        template <auto arr>
+        using Generator_t = typename Generator<arr>::type;
+    }
+
+    using FullDelta = details::Generator_t<magic_enum::enum_values<Photo::Field>()>;
 }
 
 
