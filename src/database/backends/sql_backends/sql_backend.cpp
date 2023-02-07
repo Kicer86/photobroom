@@ -970,6 +970,21 @@ namespace Database
         if (status && data.has(Photo::Field::PHash))
             photoOperator().setPHash(data.getId(), data.get<Photo::Field::PHash>());
 
+        if (status && data.has(Photo::Field::People))
+        {
+            const auto& people = data.get<Photo::Field::People>();
+            auto& accessor = peopleInformationAccessor();
+
+            for(const auto& person: people)
+            {
+                const auto p_id = accessor.store(person.name);
+                const auto f_id = accessor.store(person.fingerprint);
+
+                const PersonInfo pf(p_id, data.getId(), f_id, person.position);
+                accessor.store(pf);
+            }
+        }
+
         photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 
         return status;
