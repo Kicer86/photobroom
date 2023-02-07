@@ -46,7 +46,7 @@ namespace Database
             * \arg pi Details about person. It needs to refer to a valid photo id.  \n
             *         Also at least one of \a rect, \a person or \a id need to be valid
             *
-            * If \a pi has valid id and rect is invalid and person is is not valid, \n
+            * If \a pi has valid id and rect is invalid and person id is not valid, \n
             * then information about person is removed.                             \n
             * if \a pi has invalid id then database will be searched for exisiting  \n
             * rect or person matching information in \a pi. If found, id will be    \n
