@@ -26,6 +26,15 @@ namespace Database
                IPhotoOperator
     {
         public:
+            using StoregeDelta = Photo::ExplicitDelta<
+                Photo::Field::Tags,
+                Photo::Field::Flags,
+                Photo::Field::Path,
+                Photo::Field::Geometry,
+                Photo::Field::GroupInfo,
+                Photo::Field::PHash
+            >;
+
             MemoryBackend();
             ~MemoryBackend();
 
@@ -86,7 +95,7 @@ namespace Database
             bool hasPHash(const Photo::Id &) override;
             //
 
-            static Photo::Id getIdFor(const Photo::FullDelta& d);
+            static Photo::Id getIdFor(const StoregeDelta& d);
             static Person::Id getIdFor(const PersonName& pn);
             static PersonInfo::Id getIdFor(const PersonInfo& pn);
 
