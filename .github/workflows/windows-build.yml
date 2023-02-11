@@ -53,8 +53,6 @@ jobs:
       uses: lukka/run-vcpkg@v11.1
       with:
         vcpkgJsonGlob: vcpkg.json
-      env:
-        VCPKG_DEFAULT_TRIPLET: x64-windows-static
 
     - name: Add msbuild to PATH
       uses: ilammy/msvc-dev-cmd@v1.12.1
@@ -63,6 +61,8 @@ jobs:
       run: |
         cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
         cmake --build --preset "Ninja Release"
+      env:
+        VCPKG_DEFAULT_TRIPLET: x64-windows-static
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
