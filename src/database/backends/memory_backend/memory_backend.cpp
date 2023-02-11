@@ -1,16 +1,35 @@
 
 #include <QFileInfo>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/member.hpp>
+#include <boost/multi_index/ordered_index.hpp>
 
 #include <core/utils.hpp>
 #include <core/containers_utils.hpp>
 #include "memory_backend.hpp"
-#include "database/transaction_wrapper.hpp"
+#include "database/general_flags.hpp"
 #include "database/notifications_accumulator.hpp"
 #include "database/project_info.hpp"
 #include "database/photo_utils.hpp"
+#include "database/transaction_wrapper.hpp"
+
+
+using boost::multi_index_container;
+using namespace boost::multi_index;
 
 namespace Database
 {
+
+    struct pi_id_tag {};
+    struct pi_ph_id_tag {};
+
+    using PeopleContainer = multi_index_container<
+        PersonInfo,
+        indexed_by<
+            ordered_unique<tag<pi_id_tag>, BOOST_MULTI_INDEX_MEMBER(PersonInfo, PersonInfo::Id, id)>,
+            ordered_non_unique<tag<pi_ph_id_tag>, BOOST_MULTI_INDEX_MEMBER(PersonInfo, Photo::Id, ph_id)>
+        >
+    >;
 
     struct MemoryBackend::DB
     {
@@ -18,7 +37,7 @@ namespace Database
         std::map<Group::Id, GroupData> m_groups;
         std::set<StoregeDelta, IdComparer<StoregeDelta, Photo::Id>> m_photos;
         std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
-        std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
+        PeopleContainer m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
         std::map<std::pair<Photo::Id, IBackend::BlobType>, QByteArray> m_blobs;
 
@@ -102,14 +121,25 @@ namespace Database
                 else if constexpr (std::is_same_v<T, Database::FilterFaceAnalysisStatus>)
                 {
                     result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
-                        if (filter.status == Database::FilterFaceAnalysisStatus::Performed)
+                        bool performed = false;
+
+                        const auto ph_id = photo.getId();
+                        const auto it = db.m_flags.find(ph_id);
+
+                        // 'analyzed' flag set?
+                        if (it != db.m_flags.end())
                         {
-                            //return db.m_peopleInfo.
+                            const auto f_it =  it->second.find(CommonGeneralFlags::FacesAnalysisState);
+
+                            if (f_it != it->second.end() && static_cast<CommonGeneralFlags::FacesAnalysisType>(f_it->second) == CommonGeneralFlags::FacesAnalysisType::AnalysedAndNotFound)
+                                performed = true;
                         }
-                        else
-                        {
-                        }
-                        return true;
+
+                        // any people?
+                        performed = get<pi_ph_id_tag>(db.m_peopleInfo).contains(ph_id);
+
+                       return (filter.status == Database::FilterFaceAnalysisStatus::Performed && !performed) ||
+                              (filter.status == Database::FilterFaceAnalysisStatus::NotPerformed && performed);
                     }), result.end());
                 }
 
@@ -188,6 +218,21 @@ namespace Database
 
             auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta));
             assert(i == true);
+
+            if (delta.has(Photo::Field::People))
+            {
+                const auto& people = delta.get<Photo::Field::People>();
+                auto& accessor = peopleInformationAccessor();
+
+                for(const auto& person: people)
+                {
+                    const auto p_id = accessor.store(person.name);
+                    const auto f_id = accessor.store(person.fingerprint);
+
+                    const PersonInfo pf(p_id, delta.getId(), f_id, person.position);
+                    accessor.store(pf);
+                }
+            }
 
             ids.push_back(id);
 

@@ -55,6 +55,7 @@ namespace Database
             QString visit(const FilterPhotosWithGeneralFlag& genericFlagsFilter) const;
             QString visit(const FilterPhotosWithPHash& withPhashFilter) const;
             QString visit(const FilterSimilarPhotos& similarPhotosFilter) const;
+            QString visit(const FilterFaceAnalysisStatus &) const;
     };
 
 }
