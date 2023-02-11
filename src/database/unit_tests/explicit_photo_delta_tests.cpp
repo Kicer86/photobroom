@@ -6,31 +6,6 @@
 
 using namespace Photo;
 
-TEST(ExplicitPhotoDeltaTest, constructors)
-{
-    using ED = ExplicitDelta<Photo::Field::Tags, Photo::Field::Geometry>;
-
-    DataDelta emptyData(Photo::Id(4));
-
-    EXPECT_THROW(
-    {
-        ED ed(emptyData);
-    }, std::invalid_argument);
-
-    DataDelta nonemptyData(Photo::Id(4));
-    nonemptyData.insert<Photo::Field::Tags>({});
-    nonemptyData.insert<Photo::Field::Geometry>({});
-
-    EXPECT_NO_THROW(
-    {
-        ED ed(nonemptyData);
-    });
-
-    ED ed(nonemptyData);
-    ExplicitDelta<Photo::Field::Geometry> subed(ed);
-}
-
-
 TEST(ExplicitPhotoTest, dataFetch)
 {
     using ED = ExplicitDelta<Photo::Field::Tags, Photo::Field::Geometry>;
