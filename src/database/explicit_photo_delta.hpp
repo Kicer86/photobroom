@@ -42,7 +42,7 @@ namespace Photo
         }
 
         template<Photo::Field... otherFields>
-        explicit ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
+        ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
         {
             static_assert( (... && ExplicitDelta<otherFields...>::template has<dataFields>()), "Other object needs to be superset of this");
 
@@ -160,14 +160,14 @@ namespace Photo
     // based on: https://stackoverflow.com/questions/60434033/how-do-i-expand-a-compile-time-stdarray-into-a-parameter-pack
     namespace details
     {
-        template <auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
+        template<auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
 
-        template <auto arr, std::size_t... I>
+        template<auto arr, std::size_t... I>
         struct Generator<arr, std::index_sequence<I...>> {
             using type = ExplicitDelta<arr[I]...>;
         };
 
-        template <auto arr>
+        template<auto arr>
         using Generator_t = typename Generator<arr>::type;
     }
 
