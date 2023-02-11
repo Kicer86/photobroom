@@ -1,0 +1,28 @@
+
+{
+    "photos": [
+        {
+            "path": "/some/path1.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00", "event": "Some event", "place": "Internet" },
+            "people": [ { "name": "person 1" }, { "name": "person 2" } ]
+        },
+        {
+            "path": "/some/path2.jpeg",
+            "tags": { "date":  "2001.01.01", "time":  "10:00", "event": "", "place": "Internet" },
+            "people": [ { "name": "person 2" }, { "name": "person 3" } ]
+        },
+        {
+            "path": "/some/path3.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "11:00", "event": "Another event", "place": "" }
+        },
+        {
+            "path": "/some/path4.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "11:00", "event": "Another event", "place": "" },
+            "people": [ { "name": "person 4" }, { "name": "person 5" } ]
+        },
+        {
+            "path": "/some/path5.jpeg",
+            "tags": { "date":  "2001.01.01",  "time":  "11:00", "event": "Another event", "place": "" }
+        }
+    ]
+}
