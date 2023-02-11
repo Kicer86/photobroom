@@ -11,11 +11,12 @@
 
 namespace Database
 {
+
     struct MemoryBackend::DB
     {
         std::map<Photo::Id, Flags> m_flags;
         std::map<Group::Id, GroupData> m_groups;
-        std::set<Photo::FullDelta, IdComparer<Photo::FullDelta, Photo::Id>> m_photos;
+        std::set<StoregeDelta, IdComparer<StoregeDelta, Photo::Id>> m_photos;
         std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
@@ -26,92 +27,98 @@ namespace Database
         int m_nextGroup = 0;
         int m_nextPersonInfo = 0;
     };
-}
-
-namespace
-{
-    template<typename T>
-    bool compare(const T& lhs, const T& rhs, Qt::SortOrder order)
-    {
-        return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
-    }
-
-    int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const Tag::Types& tagType, Qt::SortOrder order)
-    {
-        const auto l_it = lhs.tags.find(tagType);
-        const auto r_it = rhs.tags.find(tagType);
-        const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
-        const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
-
-        const bool is_less = compare(l_tag, r_tag, order);
-        const bool is_greater = compare(r_tag, l_tag, order);
-
-        return (is_less? -1: 0) + (is_greater? 1: 0);
-    }
-
-    std::vector<Photo::FullDelta> filterPhotos(const std::vector<Photo::FullDelta>& photos,
-                                               const Database::MemoryBackend::DB& db,
-                                               const Database::Filter& dbFilter)
-    {
-        std::vector<Photo::FullDelta> result = photos;
-
-        std::visit([&result, &db](auto&& filter)
-        {
-            using T = std::decay_t<decltype(filter)>;
-            if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
-            {
-                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::FullDelta& photo) {
-                    return !photo.get<Photo::Field::PHash>().valid();
-                }), result.end());
-
-                std::sort(result.begin(), result.end(), [](const Photo::FullDelta& lhs, const Photo::FullDelta& rhs) {
-                    return lhs.get<Photo::Field::PHash>() < rhs.get<Photo::Field::PHash>();
-                });
-
-                result.erase(remove_unique(result.begin(), result.end(), [](const Photo::FullDelta& lhs, const Photo::FullDelta& rhs) {
-                    return lhs.get<Photo::Field::PHash>() == rhs.get<Photo::Field::PHash>();
-                }), result.end());
-            }
-            else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
-            {
-                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::FullDelta& photo) {
-                    return !photo.get<Photo::Field::PHash>().valid();
-                }), result.end());
-            }
-            else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
-            {
-                result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const Photo::FullDelta& photo) {
-
-                    int value = 0;
-                    auto it = db.m_flags.find(photo.getId());
-
-                    if (it != db.m_flags.end())             // if no flags for given photo, continue with value == 0
-                    {
-                        const auto& flagsMap = it->second;
-                        auto itm = flagsMap.find(filter.name);
-
-                        value = itm == flagsMap.end()? 0: itm->second;    // if no flag value for given flag, continue with value == 0
-                    }
-
-                    return filter.mode == Database::FilterPhotosWithGeneralFlag::Mode::Exact?
-                        value != filter.value:
-                        (value & filter.value) != filter.value;
-
-                }), result.end());
-            }
-
-        }, dbFilter);
-
-        return result;
-    }
-}
-
-
-namespace Database
-{
 
     namespace
     {
+        template<typename T>
+        bool compare(const T& lhs, const T& rhs, Qt::SortOrder order)
+        {
+            return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
+        }
+
+        int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const Tag::Types& tagType, Qt::SortOrder order)
+        {
+            const auto l_it = lhs.tags.find(tagType);
+            const auto r_it = rhs.tags.find(tagType);
+            const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
+            const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
+
+            const bool is_less = compare(l_tag, r_tag, order);
+            const bool is_greater = compare(r_tag, l_tag, order);
+
+            return (is_less? -1: 0) + (is_greater? 1: 0);
+        }
+
+        std::vector<MemoryBackend::StoregeDelta> filterPhotos(const std::vector<MemoryBackend::StoregeDelta>& photos,
+                                                const Database::MemoryBackend::DB& db,
+                                                const Database::Filter& dbFilter)
+        {
+            std::vector<MemoryBackend::StoregeDelta> result = photos;
+
+            std::visit([&result, &db](auto&& filter)
+            {
+                using T = std::decay_t<decltype(filter)>;
+                if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                        return !photo.get<Photo::Field::PHash>().valid();
+                    }), result.end());
+
+                    std::sort(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs) {
+                        return lhs.get<Photo::Field::PHash>() < rhs.get<Photo::Field::PHash>();
+                    });
+
+                    result.erase(remove_unique(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs) {
+                        return lhs.get<Photo::Field::PHash>() == rhs.get<Photo::Field::PHash>();
+                    }), result.end());
+                }
+                else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                        return !photo.get<Photo::Field::PHash>().valid();
+                    }), result.end());
+                }
+                else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
+
+                        int value = 0;
+                        auto it = db.m_flags.find(photo.getId());
+
+                        if (it != db.m_flags.end())             // if no flags for given photo, continue with value == 0
+                        {
+                            const auto& flagsMap = it->second;
+                            auto itm = flagsMap.find(filter.name);
+
+                            value = itm == flagsMap.end()? 0: itm->second;    // if no flag value for given flag, continue with value == 0
+                        }
+
+                        return filter.mode == Database::FilterPhotosWithGeneralFlag::Mode::Exact?
+                            value != filter.value:
+                            (value & filter.value) != filter.value;
+
+                    }), result.end());
+                }
+                else if constexpr (std::is_same_v<T, Database::FilterFaceAnalysisStatus>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
+                        if (filter.status == Database::FilterFaceAnalysisStatus::Performed)
+                        {
+                            //return db.m_peopleInfo.
+                        }
+                        else
+                        {
+                        }
+                        return true;
+                    }), result.end());
+                }
+
+            }, dbFilter);
+
+            return result;
+        }
+
+
         class Transaction
         {
             public:
@@ -179,7 +186,7 @@ namespace Database
             const Photo::Id id(m_db->m_nextPhotoId);
             delta.setId(id);
 
-            auto [it, i] = m_db->m_photos.insert(Photo::FullDelta(delta));
+            auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta));
             assert(i == true);
 
             ids.push_back(id);
@@ -201,7 +208,7 @@ namespace Database
         for (const auto& delta: deltas)
         {
             auto it = m_db->m_photos.find(delta.getId());
-            Photo::FullDelta currentDelta(*it);
+            StoregeDelta currentDelta(*it);
 
             photoChangeLogOperator().storeDifference(currentDelta, delta);
 
@@ -582,7 +589,7 @@ namespace Database
 
             std::vector<Photo::Id> photosToClear;
 
-            for (const Photo::FullDelta& delta: m_db->m_photos)
+            for (const StoregeDelta& delta: m_db->m_photos)
             {
                 const auto& groupInfo = delta.get<Photo::Field::GroupInfo>();
 
@@ -626,15 +633,15 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id& id) const
     {
-        std::vector<Photo::FullDelta> members;
-        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const Photo::FullDelta& data)
+        std::vector<StoregeDelta> members;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const StoregeDelta& data)
         {
             const auto& groupInfo = data.get<Photo::Field::GroupInfo>();
             return groupInfo.group_id == id && groupInfo.role == GroupInfo::Role::Member;
         });
 
         std::vector<Photo::Id> ids;
-        std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const Photo::FullDelta& d){ return d.getId(); });
+        std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const StoregeDelta& d){ return d.getId(); });
 
         return ids;
     }
@@ -642,14 +649,14 @@ namespace Database
 
     std::vector<Group::Id> MemoryBackend::listGroups() const
     {
-        std::vector<Photo::FullDelta> representatives;
-        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const Photo::FullDelta& data)
+        std::vector<StoregeDelta> representatives;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const StoregeDelta& data)
         {
             return data.get<Photo::Field::GroupInfo>().role == GroupInfo::Role::Representative;
         });
 
         std::vector<GroupInfo> infos;
-        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), [](const Photo::FullDelta& d){ return d.get<Photo::Field::GroupInfo>(); });
+        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), [](const StoregeDelta& d){ return d.get<Photo::Field::GroupInfo>(); });
 
         std::vector<Group::Id> ids;
         std::transform(infos.begin(), infos.end(), std::back_inserter(ids), &extract<GroupInfo, Group::Id, &GroupInfo::group_id>);
@@ -691,7 +698,7 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
-        std::vector<Photo::FullDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
         data = filterPhotos(data, *m_db, filter);
 
         std::vector<Photo::Id> ids;
@@ -737,7 +744,7 @@ namespace Database
     }
 
 
-    Photo::Id MemoryBackend::getIdFor(const Photo::FullDelta& d)
+    Photo::Id MemoryBackend::getIdFor(const StoregeDelta& d)
     {
         return d.getId();
     }
