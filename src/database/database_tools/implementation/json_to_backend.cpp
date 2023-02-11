@@ -1,4 +1,5 @@
 
+#include <ranges>
 #include <QDate>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -6,6 +7,7 @@
 #include <QStringList>
 #include <QVariant>
 
+#include <core/containers_utils.hpp>
 #include "../json_to_backend.hpp"
 #include "database/ibackend.hpp"
 #include "database/igroup_operator.hpp"
@@ -101,6 +103,19 @@ namespace Database
             {
                 const Photo::PHashT phash(it.value().toString().toULongLong(&ok, 16));
                 delta.insert<Photo::Field::PHash>(phash);
+            }
+            else if (it.key() == "people")
+            {
+                const auto people =
+                    std::ranges::views::transform(it.value().toArray(),
+                                                  [](const QJsonValue& value)
+                    {
+                        const auto person = value.toObject();
+
+                        return PersonFullInfo{.name = person["name"].toString()};
+                    });
+
+                delta.insert<Photo::Field::People>(range_to<std::vector<PersonFullInfo>>(people));
             }
             else if (it.key() == "id")
                 id = it.value().toString();
