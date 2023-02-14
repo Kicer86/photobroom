@@ -47,6 +47,7 @@ jobs:
           qt6-multimedia-dev    \
           libqt6svg6-dev        \
           qt6-l10n-tools        \
+          libboost-dev          \
           libopencv-dev         \
           libdlib-dev           \
           libexiv2-dev          \
