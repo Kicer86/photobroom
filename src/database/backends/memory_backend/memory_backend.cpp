@@ -135,8 +135,10 @@ namespace Database
                                 performed = true;
                         }
 
-                        // any people?
-                        performed = get<pi_ph_id_tag>(db.m_peopleInfo).contains(ph_id);
+                        // any people?      TODO: use contains() when boost 1.78 is available on github actions
+                        const auto& c = get<pi_ph_id_tag>(db.m_peopleInfo);
+                        const auto c_it = c.find(ph_id);
+                        performed = c_it != c.end();
 
                        return (filter.status == Database::FilterFaceAnalysisStatus::Performed && !performed) ||
                               (filter.status == Database::FilterFaceAnalysisStatus::NotPerformed && performed);
