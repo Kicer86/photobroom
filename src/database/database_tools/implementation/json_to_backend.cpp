@@ -106,16 +106,20 @@ namespace Database
             }
             else if (it.key() == "people")
             {
-                const auto people =
-                    std::ranges::views::transform(it.value().toArray(),
-                                                  [](const QJsonValue& value)
-                    {
-                        const auto person = value.toObject();
+                std::vector<PersonFullInfo> people;
+                const auto array = it.value().toArray();
 
-                        return PersonFullInfo{.name = person["name"].toString()};
-                    });
+                std::transform(array.cbegin(),
+                               array.cend(),
+                               std::back_inserter(people),
+                               [](const QJsonValue& value)
+                {
+                    const auto person = value.toObject();
 
-                delta.insert<Photo::Field::People>(range_to<std::vector<PersonFullInfo>>(people));
+                    return PersonFullInfo{.name = person["name"].toString()};
+                });
+
+                delta.insert<Photo::Field::People>(people);
             }
             else if (it.key() == "id")
                 id = it.value().toString();
