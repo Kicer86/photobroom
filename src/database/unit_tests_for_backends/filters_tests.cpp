@@ -60,9 +60,7 @@ TYPED_TEST(FiltersTest, faceAnalysisStatus)
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(PeopleDB::db);
 
-    auto peopleFilter = Database::FilterFaceAnalysisStatus();
-    peopleFilter.status = Database::FilterFaceAnalysisStatus::Performed;
-
+    auto peopleFilter = Database::FilterFaceAnalysisStatus(Database::FilterFaceAnalysisStatus::Performed);
     auto analyzedPhotos = this->m_backend->photoOperator().getPhotos({peopleFilter});
 
     EXPECT_EQ(analyzedPhotos.size(), 3);

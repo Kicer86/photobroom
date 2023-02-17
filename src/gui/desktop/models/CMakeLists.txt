@@ -5,8 +5,6 @@ set(SRC
     aheavy_list_model.hpp                   # needed for moc
     aphoto_data_model.cpp
     aphoto_data_model.hpp
-    batch_face_recognition_model.cpp
-    batch_face_recognition_model.hpp
     duplicates_model.cpp
     duplicates_model.hpp
     faces_model.cpp
@@ -19,6 +17,7 @@ set(SRC
     photo_properties_model.cpp
     photo_properties_model.hpp
     photos_data_guesser.cpp
+    qml_flat_model.cpp
     roles_expansion.hpp
     series_model.cpp
     series_model.hpp
