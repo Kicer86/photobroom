@@ -199,6 +199,8 @@ namespace Database
             NotPerformed,
             Performed,
         } status;
+
+        FilterFaceAnalysisStatus(Status s): status(s) {};
     };
 
     // helpers
