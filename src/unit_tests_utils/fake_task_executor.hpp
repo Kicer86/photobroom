@@ -9,11 +9,6 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
-        void addLight(std::unique_ptr<ITask>&& task) override
-        {
-            task->perform();
-        }
-
         int heavyWorkers() const override
         {
             return 1;

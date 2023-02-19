@@ -38,7 +38,6 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
-    void addLight(std::unique_ptr<ITask> &&) override;
 
     int heavyWorkers() const override;
 
@@ -48,11 +47,8 @@ private:
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
     std::thread m_taskEater;
-    std::mutex m_lightTasksMutex;
-    std::condition_variable m_lightTaskFinished;
     ILogger& m_logger;
     unsigned int m_threads;
-    int m_lightTasks;
     bool m_working;
 
     void eat();
