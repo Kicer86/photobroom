@@ -58,6 +58,14 @@
     </message>
 </context>
 <context>
+    <name>BatchFaceDetection</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="20"/>
+        <source>Photos to be analyzed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CollectionScanner</name>
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="57"/>

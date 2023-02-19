@@ -1,5 +1,7 @@
 
-import QtQuick 2.15
+import QtQuick
+import QtQuick.Controls
+
 import photo_broom.models
 import photo_broom.singletons
 import "ViewsComponents" as Internals
@@ -13,8 +15,13 @@ Item {
         text_filters: [data_model.facesNotAnalysed, data_model.validMedia]
     }
 
-    Internals.PhotosGridView {
+    GroupBox {
         anchors.fill: parent
-        model: data_model
+        title: qsTr("Photos to be analyzed")
+
+        Internals.PhotosGridView {
+            anchors.fill: parent
+            model: data_model
+        }
     }
 }
