@@ -16,8 +16,10 @@ void QMLFlatModel::setTextFilters(const QStringList& filters)
 
     for (const auto& filter: filters)
     {
-        if (filter == "faces not analysed")
+        if (filter == facesNotAnalysedFilter())
             dbFilter.push_back(FilterFaceAnalysisStatus(FilterFaceAnalysisStatus::NotPerformed));
+        else if (filter == validMediaFilter())
+            dbFilter.push_back(getValidPhotosFilter());
         else
         {
             // log warning
@@ -31,4 +33,16 @@ void QMLFlatModel::setTextFilters(const QStringList& filters)
 const QStringList& QMLFlatModel::textFilters() const
 {
     return m_filters;
+}
+
+
+QString QMLFlatModel::facesNotAnalysedFilter() const
+{
+    return QStringLiteral("faces not analysed");
+}
+
+
+QString QMLFlatModel::validMediaFilter() const
+{
+    return QStringLiteral("valid entries");
 }
