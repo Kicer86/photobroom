@@ -403,7 +403,7 @@ namespace Database
                 break;
 
             case FilterFaceAnalysisStatus::NotPerformed:
-                query = QString("SELECT photo_id FROM %1 "
+                query = QString("SELECT DISTINCT %1.id FROM %1 "
                                 "LEFT JOIN %2 ON (%2.photo_id = %1.id AND %2.name = \"%4\") "
                                 "LEFT JOIN %3 ON %3.photo_id = %1.id "
                                 "WHERE COALESCE(%2.value, 0) = %5 AND %3.id IS NULL")
@@ -411,7 +411,7 @@ namespace Database
                     .arg(TAB_GENERAL_FLAGS)
                     .arg(TAB_PEOPLE)
                     .arg(CommonGeneralFlags::FacesAnalysisState)
-                    .arg(static_cast<int>(CommonGeneralFlags::FacesAnalysisType::AnalysedAndNotFound));
+                    .arg(static_cast<int>(CommonGeneralFlags::FacesAnalysisType::NotAnalysedOrAnalysedAndFound));
                 break;
         }
 
