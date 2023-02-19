@@ -38,11 +38,11 @@ const QStringList& QMLFlatModel::textFilters() const
 
 QString QMLFlatModel::facesNotAnalysedFilter() const
 {
-    return QStringLiteral("faces not analysed");
+    return QStringLiteral("FNA");               // faces not analysed
 }
 
 
 QString QMLFlatModel::validMediaFilter() const
 {
-    return QStringLiteral("valid entries");
+    return QStringLiteral("VMF");               // valid media files
 }
