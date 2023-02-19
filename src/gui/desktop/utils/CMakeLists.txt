@@ -13,6 +13,8 @@ set(UTILS_SOURCES
     grouppers/generator_utils.hpp
     grouppers/hdr_generator.cpp
     grouppers/hdr_generator.hpp
+    batch_face_detector.cpp
+    batch_face_detector.hpp
     collection_scanner.cpp
     collection_scanner.hpp
     config_tools.cpp
