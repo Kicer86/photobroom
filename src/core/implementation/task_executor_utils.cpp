@@ -86,12 +86,6 @@ void TasksQueue::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TasksQueue::addLight(std::unique_ptr<ITask>&& task)
-{
-    m_executor.addLight(std::move(task));
-}
-
-
 int TasksQueue::heavyWorkers() const
 {
     return m_executor.heavyWorkers();
