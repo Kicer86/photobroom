@@ -96,7 +96,6 @@ FocusScope {
                 activeFocusOnTab: true
                 keyNavigationEnabled: true
 
-                flickDeceleration: 10000
                 model: photosModelControllerId.photos
                 thumbnailSize: thumbnailSliderId.size
 
