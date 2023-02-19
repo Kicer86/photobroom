@@ -16,8 +16,10 @@ Components.MultiselectGridView {
 
     signal itemDoubleClicked(int index)
 
+    flickDeceleration: 10000
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
+    currentIndex: -1
 
     delegate: PhotoDelegate {
         id: delegateId
@@ -51,8 +53,6 @@ Components.MultiselectGridView {
         // load selection information from selection manager
         Component.onCompleted: selected = grid.isIndexSelected(index);
     }
-
-    currentIndex: -1
 
     ScrollBar.vertical: ScrollBar { }
 
