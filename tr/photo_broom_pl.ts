@@ -61,7 +61,7 @@
 <context>
     <name>BatchFaceDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="+20"/>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="+27"/>
         <source>Photos to be analyzed</source>
         <translation type="unfinished"></translation>
     </message>
