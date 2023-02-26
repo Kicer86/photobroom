@@ -327,9 +327,10 @@ namespace
 }
 
 
-FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core)
+FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, const std::unique_ptr<ILogger>& logger)
     : m_db(db)
     , m_core(core)
+    , m_logger(logger->subLogger("FaceEditor"))
 {
 
 }
@@ -345,7 +346,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     const auto faces = findFaces(
         m_db,
         *image,
-        m_core.getLoggerFactory().get("FaceEditor"),
+        m_logger,
         id);
 
     auto storage = std::make_shared<FacesSaver>(m_db, m_core);

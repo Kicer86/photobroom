@@ -19,6 +19,7 @@
 #define PEOPLEMANIPULATOR_HPP
 
 #include <core/function_wrappers.hpp>
+#include <core/ilogger.hpp>
 #include <core/oriented_image.hpp>
 #include <database/photo_types.hpp>
 #include <database/idatabase.hpp>
@@ -43,11 +44,12 @@ public:
 class FaceEditor
 {
 public:
-    FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &);
+    FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &, const std::unique_ptr<ILogger> &);
 
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
 private:
+    std::unique_ptr<ILogger> m_logger;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
 };
