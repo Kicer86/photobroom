@@ -5,6 +5,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
+#include <core/logger_factory.hpp>
 #include <core/model_compositor.hpp>
 #include <core/qmodel_utils.hpp>
 #include <core/task_executor_utils.hpp>
@@ -142,7 +143,10 @@ void FacesModel::initialSetup()
 
     runOn(m_core->getTaskExecutor(), [this]()
     {
-        const auto faces = std::make_shared<std::vector<std::unique_ptr<IFace>>>(FaceEditor(*m_database, *m_core).getFacesFor(m_id));
+        const auto faces = std::make_shared<std::vector<std::unique_ptr<IFace>>>(FaceEditor(
+            *m_database,
+            *m_core,
+            m_core->getLoggerFactory().get("FacesModel")).getFacesFor(m_id));
         invokeMethod(this, &FacesModel::updateFaceInformation, faces);
     });
 
