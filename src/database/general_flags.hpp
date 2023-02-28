@@ -38,7 +38,7 @@ namespace Database::CommonGeneralFlags
         // 1 - no faces found.
         // that should allow to distinguish between all 3 states with less db usage.
         NotAnalysedOrAnalysedAndFound = 0,
-        AnalysedAndNotFound  = 1,
+        AnalysedAndNotFound = 1,
     };
 }
 
