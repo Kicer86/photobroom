@@ -129,9 +129,9 @@ class safe_callback_ctrl final
 template<typename Obj, typename F, typename... Args>
 void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is_base_of<QObject, Obj>::value
 {
-    QMetaObject::invokeMethod(object, [object, method, args...]()
+    QMetaObject::invokeMethod(object, [object, method, ...args = std::forward<Args>(args)]() mutable
     {
-        (object->*method)(args...);
+        (object->*method)(std::forward<Args>(args)...);
     });
 }
 
