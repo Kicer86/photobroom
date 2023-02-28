@@ -34,7 +34,7 @@ const QImage& PictureItem::source() const
 
 void PictureItem::paint(QPainter* painter)
 {
-    const QRectF rect(QPointF(0, 0), QSizeF(implicitWidth(), implicitHeight()));
+    const QRectF rect(QPointF(0, 0), QSizeF(width(), height()));
     painter->drawImage(rect, m_source);
 }
 
