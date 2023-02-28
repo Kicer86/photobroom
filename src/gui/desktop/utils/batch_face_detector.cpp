@@ -8,32 +8,6 @@
 #include "batch_face_detector.hpp"
 
 
-#include <QPromise>
-#include <QFuture>
-#include <core/function_wrappers.hpp>
-namespace
-{
-    template<typename T, typename ObjT, typename F, typename... Args>
-    requires std::is_base_of_v<QObject, ObjT>
-    auto invoke_and_wait(QPointer<ObjT> object, const F& function, Args&&... args)
-    {
-        QPromise<T> promise;
-        QFuture<T> future = promise.future();
-
-        call_from_object_thread(object, [&promise, &function, &args...]()
-        {
-            promise.start();
-            promise.addResult(function(args...));
-            promise.finish();
-        });
-
-        future.waitForFinished();
-
-        return future.result();
-    }
-}
-
-
 void BatchFaceDetector::setPhotosModel(APhotoDataModel* model)
 {
     if (m_photosModel != nullptr)
