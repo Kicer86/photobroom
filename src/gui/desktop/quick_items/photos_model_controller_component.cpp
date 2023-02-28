@@ -342,17 +342,17 @@ QStringList PhotosModelControllerComponent::rawCategories() const
 
 void PhotosModelControllerComponent::getTimeRangeForFilters(Database::IBackend& backend)
 {
-    auto dates = backend.listTagValues(Tag::Types::Date, {});
+    auto date = backend.listTagValues(Tag::Types::Date, {});
 
     const Database::FilterPhotosWithTag with_date_filter(Tag::Types::Date);
     const Database::FilterNotMatchingFilter without_date_filter(with_date_filter);
     const auto photos_without_date_tag = backend.photoOperator().getPhotos(without_date_filter);
 
     if (photos_without_date_tag.empty() == false)
-        dates.push_back(QDate());
+        date.push_back(QDate());
 
-    std::sort(dates.begin(), dates.end());
-    invokeMethod(this, &PhotosModelControllerComponent::setAvailableDates, dates);
+    std::sort(date.begin(), date.end());
+    invokeMethod(this, &PhotosModelControllerComponent::setAvailableDates, date);
 }
 
 
