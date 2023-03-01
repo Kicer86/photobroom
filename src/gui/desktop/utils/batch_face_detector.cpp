@@ -108,7 +108,7 @@ void BatchFaceDetector::processPhotos()
     const auto id = m_ids.front();
     m_ids.pop_front();
 
-    runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this] mutable
+    runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this]() mutable
     {
         auto faces = fe.getFacesFor(id);
         std::vector<Face> facesDetails;
