@@ -30,6 +30,7 @@ Item {
 
         GroupBox {
             title: qsTr("Discovered faces")
+            clip: true
 
             GridView {
                 anchors.fill: parent
@@ -38,18 +39,27 @@ Item {
                 cellWidth: 170
                 cellHeight: 170
 
-                delegate: Picture {
+                delegate: Column {
                     required property var decoration
+                    required property var display
 
-                    height: 150
-                    width: 150
-                    source: decoration
+                    Picture {
+                        height: 150
+                        width: 150
+                        source: decoration
+                    }
+
+                    Text {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: display
+                    }
                 }
             }
         }
 
         GroupBox {
             title: qsTr("Photos to be analyzed")
+            clip: true
 
             Internals.PhotosGridView {
                 anchors.fill: parent
