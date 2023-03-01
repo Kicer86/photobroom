@@ -66,7 +66,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+29"/>
         <source>Photos to be analyzed</source>
         <translation type="unfinished"></translation>
     </message>
