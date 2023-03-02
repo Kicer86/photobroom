@@ -24,8 +24,6 @@ set(UI_FILES
     photos_grouping_dialog.ui
 )
 
-source_group(files REGULAR_EXPRESSION .*gui.* )
-
 qt6_wrap_cpp(MOCED ${TO_MOC})
 qt6_wrap_ui(WRAPPED_UI ${UI_FILES})
 
@@ -37,10 +35,10 @@ target_link_libraries(gui_ui
                         PRIVATE
                             core
                             database
+                            gui_models
                             photos_crawler
                             project_utils
                             system
-                            quick_items
 
                             Qt::Widgets
                             Qt::Quick

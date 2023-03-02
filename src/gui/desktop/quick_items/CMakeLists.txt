@@ -54,6 +54,9 @@ target_link_libraries(quick_items
         core
         face_recognition
         gui_models
+        gui_ui
+        gui_utils
+        gui_widgets
         project_utils
 
         Qt::Quick

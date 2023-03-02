@@ -31,8 +31,8 @@ target_link_libraries(gui_widgets
                             face_recognition
                             photos_crawler
                             project_utils
-                            quick_items
                             system
+
                             Qt::Widgets
                             Qt::QuickWidgets
 )
