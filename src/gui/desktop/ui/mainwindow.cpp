@@ -5,10 +5,7 @@
 #include <ranges>
 
 #include <QFileDialog>
-#include <QLayout>
-#include <QMenuBar>
 #include <QMessageBox>
-#include <QPainter>
 #include <QtQuick/QQuickItem>
 #include <QTimer>
 
