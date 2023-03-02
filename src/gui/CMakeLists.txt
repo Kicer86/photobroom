@@ -30,12 +30,6 @@ set(GUI_HEADERS
 
 set(GUI_RESOURCE_FILES images/images.qrc)
 
-source_group(interface FILES gui.hpp)
-source_group(desktop .*\/desktop\/.* )
-source_group(desktop\\images_model_view .*\/images_model_view\/.* )
-source_group(desktop\\ui .*\/ui\/.* )
-source_group(generated_files \(moc.*\)|\(ui_.*\)|\(qrc_.*\) )
-
 qt6_add_resources(GUI_RESOURCES ${GUI_RESOURCE_FILES})
 
 add_library(gui
