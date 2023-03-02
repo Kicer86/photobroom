@@ -59,7 +59,7 @@ jobs:
 
     - name: Build
       run: |
-        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static
+        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DBUILD_SHARED_LIBS=TRUE -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
         cmake --build --preset "Ninja Release"
 
     - name: Make package
