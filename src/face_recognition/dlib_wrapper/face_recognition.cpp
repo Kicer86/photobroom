@@ -76,21 +76,21 @@ namespace dlib_api
     }
 
 
-    dlib::matrix< double, 0, 1 > face_recognition_model_v1::compute_face_descriptor(const QImage& img, const dlib::full_object_detection& face, const int num_jitters, float padding)
+    dlib::matrix<double, 0, 1> face_recognition_model_v1::compute_face_descriptor(const QImage& img, const dlib::full_object_detection& face, const int num_jitters, float padding)
     {
         std::vector<dlib::full_object_detection> faces(1, face);
         return compute_face_descriptors(img, faces, num_jitters, padding)[0];
     }
 
 
-    dlib::matrix< double, 0, 1 > face_recognition_model_v1::compute_face_descriptor_from_aligned_image(const QImage& img, const int num_jitters)
+    dlib::matrix<double, 0, 1> face_recognition_model_v1::compute_face_descriptor_from_aligned_image(const QImage& img, const int num_jitters)
     {
         std::vector<QImage> images{img};
         return batch_compute_face_descriptors_from_aligned_images(images, num_jitters)[0];
     }
 
 
-    std::vector< dlib::matrix< double, 0, 1 > > face_recognition_model_v1::compute_face_descriptors(const QImage& img, const std::vector< dlib::full_object_detection >& faces, const int num_jitters, float padding)
+    std::vector<dlib::matrix<double, 0, 1>> face_recognition_model_v1::compute_face_descriptors(const QImage& img, const std::vector< dlib::full_object_detection >& faces, const int num_jitters, float padding)
     {
         std::vector<QImage> batch_img(1, img);
         std::vector<std::vector<dlib::full_object_detection>> batch_faces(1, faces);
@@ -98,9 +98,8 @@ namespace dlib_api
     }
 
 
-    std::vector< std::vector< dlib::matrix< double, 0, 1 > > > face_recognition_model_v1::batch_compute_face_descriptors(const std::vector< QImage >& batch_imgs, const std::vector< std::vector< dlib::full_object_detection > >& batch_faces, const int num_jitters, float padding)
+    std::vector<std::vector<dlib::matrix<double, 0, 1>>> face_recognition_model_v1::batch_compute_face_descriptors(const std::vector< QImage >& batch_imgs, const std::vector< std::vector< dlib::full_object_detection > >& batch_faces, const int num_jitters, float padding)
     {
-
         if (batch_imgs.size() != batch_faces.size())
             throw dlib::error("The array of images and the array of array of locations must be of the same size");
 
@@ -166,7 +165,7 @@ namespace dlib_api
     }
 
 
-    std::vector< dlib::matrix< double, 0, 1 > > face_recognition_model_v1::batch_compute_face_descriptors_from_aligned_images(const std::vector< QImage >& batch_imgs, const int num_jitters)
+    std::vector<dlib::matrix<double, 0, 1>> face_recognition_model_v1::batch_compute_face_descriptors_from_aligned_images(const std::vector< QImage >& batch_imgs, const int num_jitters)
     {
         dlib::array<dlib::matrix<dlib::rgb_pixel>> face_chips;
         for (auto& img : batch_imgs) {
@@ -204,7 +203,7 @@ namespace dlib_api
     }
 
 
-    std::vector< dlib::matrix< dlib::rgb_pixel > > face_recognition_model_v1::jitter_image(const dlib::matrix< dlib::rgb_pixel >& img, const int num_jitters)
+    std::vector<dlib::matrix< dlib::rgb_pixel>> face_recognition_model_v1::jitter_image(const dlib::matrix<dlib::rgb_pixel>& img, const int num_jitters)
     {
         std::vector<dlib::matrix<dlib::rgb_pixel>> crops;
         for (int i = 0; i < num_jitters; ++i)

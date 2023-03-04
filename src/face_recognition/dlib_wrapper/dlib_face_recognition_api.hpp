@@ -58,7 +58,7 @@ namespace dlib_api
             ~FaceEncoder();
 
             // https://github.com/ageitgey/face_recognition/blob/5fe85a1a8cbd1b994b505464b555d12cd25eee5f/face_recognition/api.py#L203
-            std::vector<double> face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = Large);
+            FaceEncodings face_encodings(const QImage& face, int num_jitters = 1, EncodingsModel = Large);
 
         private:
             struct Data;
