@@ -17,7 +17,7 @@ jobs:
         shared: [TRUE, FALSE]
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
-          # - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
+          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
 
     steps:
     - uses: actions/checkout@v3
@@ -32,10 +32,10 @@ jobs:
       if: matrix.compiler.compiler == 'LLVM'
       uses: myci-actions/add-deb-repo@10
       with:
-        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main
-        repo-name: llvm-toolchain-focal-15
+        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main
+        repo-name: llvm-toolchain-focal-16
         update: false
-        install: clang-15
+        install: clang-16
 
     - name: Install system dependencies
       run: |
