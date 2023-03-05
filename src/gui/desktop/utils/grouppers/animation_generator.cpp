@@ -24,10 +24,10 @@
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QImage>
+#include <webp_generator.hpp>
 
 #include <core/function_wrappers.hpp>
 #include <system/system.hpp>
-#include <utils/webp_generator.hpp>
 
 using std::placeholders::_1;
 

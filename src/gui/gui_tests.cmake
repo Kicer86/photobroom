@@ -15,7 +15,6 @@ addTestTarget(gui
                     desktop/quick_items/selection_manager_component.cpp
                     desktop/utils/thumbnail_manager.cpp
                     desktop/utils/thumbnails_cache.cpp
-                    desktop/utils/webp_generator.cpp
 
                     # model tests:
                     unit_tests/model/aphoto_data_model_tests.cpp
@@ -33,7 +32,6 @@ addTestTarget(gui
                     unit_tests/utils/selection_manager_component_tests.cpp
                     unit_tests/utils/thumbnails_manager_tests.cpp
                     unit_tests/utils/thumbnails_cache_tests.cpp
-                    unit_tests/utils/webp_generator_tests.cpp
 
                     # main()
                     unit_tests/main.cpp
@@ -51,7 +49,6 @@ addTestTarget(gui
                     Qt::Test
                     GTest::gtest
                     GTest::gmock
-                    ${WEBP_LIBRARIES}
 
                 INCLUDES
                     ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers

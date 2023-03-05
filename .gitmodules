@@ -13,3 +13,6 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
+[submodule "src/gui/desktop/utils/animated_webp"]
+	path = src/gui/desktop/utils/animated_webp
+	url = https://github.com/Kicer86/AnimatedWebP.git

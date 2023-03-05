@@ -7,6 +7,7 @@ $PLUGINSDIR\StartMenu.dll
 $PLUGINSDIR\System.dll
 $PLUGINSDIR\UserInfo.dll
 advapi32.dll
+animatedwebp.dll
 concrt140.dll
 core.dll
 crash_catcher.dll
