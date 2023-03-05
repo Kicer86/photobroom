@@ -14,9 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
+        shared: [TRUE, FALSE]
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
-          # - { compiler: LLVM, CC: clang-15, CXX: clang++-15 }
+          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
 
     steps:
     - uses: actions/checkout@v3
@@ -31,10 +32,10 @@ jobs:
       if: matrix.compiler.compiler == 'LLVM'
       uses: myci-actions/add-deb-repo@10
       with:
-        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main
-        repo-name: llvm-toolchain-focal-15
+        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main
+        repo-name: llvm-toolchain-focal-16
         update: false
-        install: clang-15
+        install: clang-16
 
     - name: Install system dependencies
       run: |
@@ -70,4 +71,4 @@ jobs:
         build-type: Release
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options: -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+        configure-options: -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache

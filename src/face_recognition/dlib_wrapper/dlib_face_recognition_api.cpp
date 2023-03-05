@@ -345,7 +345,7 @@ namespace dlib_api
     }
 
 
-    std::vector<double> FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
+    FaceEncodings FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
         // here we assume, that given image is a face extraceted from image with help of face_locations()
         const QSize size = qimage.size();
@@ -364,12 +364,12 @@ namespace dlib_api
         const auto image = qimage_to_dlib_matrix(qimage);
         const auto object_detection = pose_predictor(image, face_location);
 
-        std::vector<double> result;
+        FaceEncodings result;
 
         try
         {
             const auto encodings = m_data->face_encoder.compute_face_descriptor(qimage, object_detection, num_jitters);
-            result = std::vector<double>(encodings.begin(), encodings.end());
+            result = FaceEncodings(encodings.begin(), encodings.end());
         }
         catch(const dlib::cuda_error& err)
         {

@@ -10,8 +10,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 23)
 
-set(BUILD_SHARED_LIBS ON)       # static linking may cause problems with std::any_cast
-
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindEasyExif.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
