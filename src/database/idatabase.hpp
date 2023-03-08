@@ -123,5 +123,4 @@ namespace Database
     };
 }
 
-#undef CURRENT_LOCATION
 #endif
