@@ -38,9 +38,14 @@ TaskExecutor::TaskExecutor(ILogger& logger, int threadsToUse):
 {
     m_logger.info(QString("Using %1 threads.").arg(m_threads));
 
-    m_taskEater = std::thread( [&]
+    m_taskEater = std::thread([&]
     {
         this->eat();
+    });
+
+    m_processRunner = std::thread([&]
+    {
+        this->runProcesses();
     });
 }
 
@@ -58,6 +63,13 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
+void TaskExecutor::add(std::shared_ptr<IProcess>&& task)
+{
+    m_processes[task] = IProcess::Process();
+    m_processesIdleCV.notify_one();
+}
+
+
 int TaskExecutor::heavyWorkers() const
 {
     return m_threads;
@@ -70,9 +82,16 @@ void TaskExecutor::stop()
     {
         m_working = false;
 
-        // wait for heavy tasks
+        // stop processes
+        m_processesIdleCV.notify_one();
+        assert(m_processRunner.joinable());
+
+        // stop heavy tasks
         m_tasks.stop();
         assert(m_taskEater.joinable());
+
+        // wait for threads
+        m_processRunner.join();
         m_taskEater.join();
     }
 }
@@ -168,4 +187,35 @@ void TaskExecutor::eat()
 void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
 {
     task->perform();
+}
+
+
+void TaskExecutor::runProcesses()
+{
+    while(m_working)
+    {
+        bool has_running = false;
+
+        for(auto& process: m_processes)
+        {
+            if (process.first->state == IProcess::State::NotStarted)
+            {
+                has_running = true;
+                process.second = process.first->init();
+                process.first->state = IProcess::State::Running;
+            }
+
+            if (process.first->state == IProcess::State::Running)
+            {
+                has_running = true;
+                process.second.h_();
+            }
+        }
+
+        if (has_running == false)
+        {
+            std::unique_lock lock(m_processesIdleMutex);
+            m_processesIdleCV.wait(lock);
+        }
+    };
 }
