@@ -20,6 +20,8 @@
 #ifndef TASKEXECUTOR_HPP
 #define TASKEXECUTOR_HPP
 
+#include <condition_variable>
+#include <map>
 #include <thread>
 
 #include "core_export.h"
@@ -38,6 +40,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
+    void add(std::shared_ptr<IProcess> &&) override;
 
     int heavyWorkers() const override;
 
@@ -45,15 +48,21 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 
 private:
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
+    typedef std::map<std::shared_ptr<IProcess>, IProcess::Process> ProcessesT;
     QueueT m_tasks;
+    ProcessesT m_processes;
     std::thread m_taskEater;
+    std::thread m_processRunner;
+    std::mutex m_processesIdleMutex;
+    std::condition_variable m_processesIdleCV;
     ILogger& m_logger;
     unsigned int m_threads;
     bool m_working;
 
     void eat();
     void execute(const std::shared_ptr<ITask>& task) const;
+    void runProcesses();
 };
 
 
-#endif // TASKEXECUTOR_HPP
+#endif

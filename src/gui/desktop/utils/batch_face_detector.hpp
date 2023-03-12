@@ -21,6 +21,8 @@ class BatchFaceDetector: public QAbstractListModel
     Q_PROPERTY(APhotoDataModel* photos_model WRITE setPhotosModel READ photosModel)
 
 public:
+    ~BatchFaceDetector();
+
     void setPhotosModel(APhotoDataModel *);
     void setCore(ICoreFactoryAccessor *);
     void setDB(Database::IDatabase *);

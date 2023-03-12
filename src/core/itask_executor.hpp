@@ -20,6 +20,7 @@
 #ifndef ITASKEXECUTOR_H
 #define ITASKEXECUTOR_H
 
+#include <coroutine>
 #include <memory>
 #include <string>
 
@@ -36,11 +37,48 @@ struct CORE_EXPORT ITaskExecutor
         virtual void perform() = 0;                         ///< @brief perform job
     };
 
+    struct CORE_EXPORT IProcess
+    {
+        enum class State
+        {
+            NotStarted,
+            Suspended,
+            Running,
+        };
+
+        State state = State::NotStarted;
+
+        struct promise;
+
+        struct Process
+        {
+            struct promise_type;
+            using handle_type = std::coroutine_handle<promise_type>;
+
+            struct promise_type
+            {
+                Process get_return_object()
+                {
+                    return {.h_ = handle_type::from_promise(*this)};
+                }
+                std::suspend_always initial_suspend() noexcept { return {}; }
+                std::suspend_always final_suspend() noexcept { return {}; }
+                void return_void() {}
+                void unhandled_exception() {}
+            };
+
+            handle_type h_;
+        };
+
+        virtual Process init() = 0;
+    };
+
     virtual ~ITaskExecutor() = default;
 
-    virtual void add(std::unique_ptr<ITask> &&) = 0;         // add short but heavy task (calculations)
+    virtual void add(std::unique_ptr<ITask> &&) = 0;            // add short but heavy task (calculations)
+    virtual void add(std::shared_ptr<IProcess> &&) = 0;         // add task to be run in a ring with other IProcesses
 
-    virtual int heavyWorkers() const = 0;                    // return number of heavy task workers
+    virtual int heavyWorkers() const = 0;                       // return number of heavy task workers
 };
 
-#endif // TASKEXECUTOR_H
+#endif
