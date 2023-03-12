@@ -9,6 +9,12 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
+        void add(std::shared_ptr<IProcess>&& task) override
+        {
+            /// TODO: implement
+            assert(!"Not implemented yet");
+        }
+
         int heavyWorkers() const override
         {
             return 1;

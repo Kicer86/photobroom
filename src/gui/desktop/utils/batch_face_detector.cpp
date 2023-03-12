@@ -3,9 +3,31 @@
 #include <core/itask_executor.hpp>
 #include <core/logger_factory.hpp>
 #include <core/oriented_image.hpp>
+#include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 
 #include "batch_face_detector.hpp"
+
+#include <iostream>
+namespace
+{
+    class Process: public ITaskExecutor::IProcess
+    {
+        ITaskExecutor::IProcess::Process init() override
+        {
+            co_await std::suspend_always{};
+
+            std::cout << "5\n";
+        }
+    };
+}
+
+
+
+BatchFaceDetector::~BatchFaceDetector()
+{
+
+}
 
 
 void BatchFaceDetector::setPhotosModel(APhotoDataModel* model)
@@ -42,6 +64,8 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
     assert(m_core == nullptr);
     m_core = core;
     m_logger = m_core->getLoggerFactory().get("BatchFaceDetector");
+
+    m_core->getTaskExecutor().add(std::make_shared<Process>());
 }
 
 

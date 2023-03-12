@@ -86,6 +86,13 @@ void TasksQueue::add(std::unique_ptr<ITask>&& task)
 }
 
 
+void TasksQueue::add(std::shared_ptr<IProcess>&& task)
+{
+    /// TODO: implement
+    assert(!"Not implemenbted yet");
+}
+
+
 int TasksQueue::heavyWorkers() const
 {
     return m_executor.heavyWorkers();
