@@ -14,7 +14,6 @@
 #include "database/transaction_wrapper.hpp"
 
 
-using boost::multi_index_container;
 using namespace boost::multi_index;
 
 namespace Database
@@ -23,7 +22,7 @@ namespace Database
     struct pi_id_tag {};
     struct pi_ph_id_tag {};
 
-    using PeopleContainer = multi_index_container<
+    using PeopleContainer = boost::multi_index_container<
         PersonInfo,
         indexed_by<
             ordered_unique<tag<pi_id_tag>, BOOST_MULTI_INDEX_MEMBER(PersonInfo, PersonInfo::Id, id)>,
