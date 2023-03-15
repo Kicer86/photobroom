@@ -86,7 +86,7 @@ void TasksQueue::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TasksQueue::add(std::shared_ptr<IProcess>&& task)
+void TasksQueue::add(Process &&)
 {
     /// TODO: implement
     assert(!"Not implemenbted yet");

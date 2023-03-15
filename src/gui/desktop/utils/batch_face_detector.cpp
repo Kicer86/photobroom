@@ -9,20 +9,6 @@
 #include "batch_face_detector.hpp"
 
 #include <iostream>
-namespace
-{
-    class Process: public ITaskExecutor::IProcess
-    {
-        ITaskExecutor::IProcess::Process init() override
-        {
-            co_await std::suspend_always{};
-
-            std::cout << "5\n";
-        }
-    };
-}
-
-
 
 BatchFaceDetector::~BatchFaceDetector()
 {
@@ -65,7 +51,15 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
     m_core = core;
     m_logger = m_core->getLoggerFactory().get("BatchFaceDetector");
 
-    m_core->getTaskExecutor().add(std::make_shared<Process>());
+    m_core->getTaskExecutor().add([]() -> ITaskExecutor::ProcessCoroutine
+    {
+        while(true)
+        {
+            co_await std::suspend_always{};
+
+            std::cout << "5\n";
+        }
+    });
 }
 
 

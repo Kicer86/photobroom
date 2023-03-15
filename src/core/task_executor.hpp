@@ -40,17 +40,28 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
-    void add(std::shared_ptr<IProcess> &&) override;
+    void add(Process &&) override;
 
     int heavyWorkers() const override;
 
     void stop();
 
 private:
+    struct ProcessInfo
+    {
+        enum class State
+        {
+            Suspended,
+            Running,
+        };
+
+        State state = State::Suspended;
+        ProcessCoroutine coru;
+    };
+
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
-    typedef std::map<std::shared_ptr<IProcess>, IProcess::Process> ProcessesT;
     QueueT m_tasks;
-    ProcessesT m_processes;
+    std::vector<ProcessInfo> m_processes;
     std::thread m_taskEater;
     std::thread m_processRunner;
     std::mutex m_processesIdleMutex;
