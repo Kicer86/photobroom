@@ -63,9 +63,9 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TaskExecutor::add(std::shared_ptr<IProcess>&& task)
+void TaskExecutor::add(Process&& task)
 {
-    m_processes[task] = IProcess::Process();
+    m_processes.emplace_back(ProcessInfo::State::Running, task());
     m_processesIdleCV.notify_one();
 }
 
@@ -198,17 +198,10 @@ void TaskExecutor::runProcesses()
 
         for(auto& process: m_processes)
         {
-            if (process.first->state == IProcess::State::NotStarted)
+            if (process.state == ProcessInfo::State::Running)
             {
                 has_running = true;
-                process.second = process.first->init();
-                process.first->state = IProcess::State::Running;
-            }
-
-            if (process.first->state == IProcess::State::Running)
-            {
-                has_running = true;
-                process.second.h_();
+                process.coru.h();
             }
         }
 

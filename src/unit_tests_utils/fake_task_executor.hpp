@@ -1,4 +1,7 @@
 
+#ifndef FAKE_TASK_EXECUTOR_HPP_INCLUDED
+#define FAKE_TASK_EXECUTOR_HPP_INCLUDED
+
 #include <core/itask_executor.hpp>
 
 class FakeTaskExecutor: public ITaskExecutor
@@ -9,7 +12,7 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
-        void add(std::shared_ptr<IProcess>&& task) override
+        void add(Process &&) override
         {
             /// TODO: implement
             assert(!"Not implemented yet");
@@ -20,3 +23,5 @@ class FakeTaskExecutor: public ITaskExecutor
             return 1;
         }
 };
+
+#endif
