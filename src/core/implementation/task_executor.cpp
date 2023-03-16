@@ -201,7 +201,7 @@ void TaskExecutor::runProcesses()
             if (process.state == ProcessInfo::State::Running)
             {
                 has_running = true;
-                process.coru.h();
+                process.co_h();
             }
         }
 

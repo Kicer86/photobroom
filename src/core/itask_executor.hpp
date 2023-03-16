@@ -55,7 +55,6 @@ struct CORE_EXPORT ITaskExecutor
             void unhandled_exception() {}
         };
 
-        ProcessCoroutine() = default;
         ProcessCoroutine(handle_type h_): h(h_) {}
 
         handle_type h = nullptr;

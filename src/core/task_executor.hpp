@@ -56,7 +56,7 @@ private:
         };
 
         State state = State::Suspended;
-        ProcessCoroutine coru;
+        ProcessCoroutine::handle_type co_h;
     };
 
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
