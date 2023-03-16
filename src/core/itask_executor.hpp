@@ -64,10 +64,23 @@ struct CORE_EXPORT ITaskExecutor
 
     using Process = std::function<ProcessCoroutine()>;
 
+    enum class ProcessState
+    {
+        Suspended,
+        Running,
+    };
+
+    struct IProcessControl
+    {
+        virtual void terminate() = 0;
+        virtual void resume() = 0;
+        virtual ProcessState state() = 0;
+    };
+
     virtual ~ITaskExecutor() = default;
 
     virtual void add(std::unique_ptr<ITask> &&) = 0;            // add short but heavy task (calculations)
-    virtual void add(Process &&) = 0;                           // add task to be run in a ring with other Processes
+    virtual IProcessControl* add(Process &&) = 0;               // add task to be run in a ring with other Processes
 
     virtual int heavyWorkers() const = 0;                       // return number of heavy task workers
 };
