@@ -328,9 +328,9 @@ namespace
 
 
 FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, const std::unique_ptr<ILogger>& logger)
-    : m_db(db)
+    : m_logger(logger->subLogger("FaceEditor"))
+    , m_db(db)
     , m_core(core)
-    , m_logger(logger->subLogger("FaceEditor"))
 {
 
 }
