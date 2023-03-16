@@ -301,7 +301,7 @@ class CORE_EXPORT TasksQueue: public ITaskExecutor, public Queue<std::unique_ptr
 
         // ITaskExecutor overrides:
         void add(std::unique_ptr<ITask> &&) override;
-        void add(Process &&) override;
+        IProcessControl* add(Process &&) override;
         int heavyWorkers() const override;
 
     private:
