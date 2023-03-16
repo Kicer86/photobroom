@@ -63,10 +63,12 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TaskExecutor::add(Process&& task)
+ITaskExecutor::IProcessControl* TaskExecutor::add(Process&& task)
 {
-    m_processes.emplace_back(ProcessInfo::State::Running, task());
+    m_processes.emplace_back(ProcessState::Running, task());
     m_processesIdleCV.notify_one();
+
+    return nullptr;
 }
 
 
@@ -198,7 +200,7 @@ void TaskExecutor::runProcesses()
 
         for(auto& process: m_processes)
         {
-            if (process.state == ProcessInfo::State::Running)
+            if (process.state == ProcessState::Running)
             {
                 has_running = true;
                 process.co_h();

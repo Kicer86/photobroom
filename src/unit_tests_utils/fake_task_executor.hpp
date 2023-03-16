@@ -12,10 +12,12 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
-        void add(Process &&) override
+        IProcessControl* add(Process &&) override
         {
             /// TODO: implement
             assert(!"Not implemented yet");
+
+            return nullptr;
         }
 
         int heavyWorkers() const override

@@ -40,7 +40,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
-    void add(Process &&) override;
+    IProcessControl* add(Process &&) override;
 
     int heavyWorkers() const override;
 
@@ -49,13 +49,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 private:
     struct ProcessInfo
     {
-        enum class State
-        {
-            Suspended,
-            Running,
-        };
-
-        State state = State::Suspended;
+        ProcessState state = ProcessState::Suspended;
         ProcessCoroutine::handle_type co_h;
     };
 
