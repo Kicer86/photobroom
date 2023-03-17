@@ -53,12 +53,13 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
 
     m_core->getTaskExecutor().add([]() -> ITaskExecutor::ProcessCoroutine
     {
-        while(true)
+        //while(true)
         {
-            co_await std::suspend_always{};
-
             std::cout << "5\n";
+            co_yield ITaskExecutor::ProcessStateRequest::Run;
         }
+
+        std::cout << "3\n";
     });
 }
 

@@ -289,7 +289,6 @@ class Queue
 };
 
 
-
 /**
  * @brief A subqueue for ITaskExecutor.
  */

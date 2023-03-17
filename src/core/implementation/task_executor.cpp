@@ -22,11 +22,33 @@
 
 #include <chrono>
 #include <iostream>
+#include <set>
 #include <thread>
 
 #include <QString>
 
 #include "thread_utils.hpp"
+
+
+void TaskExecutor::ProcessInfo::terminate()
+{
+    m_executor.terminate(this);
+}
+
+
+void TaskExecutor::ProcessInfo::resume()
+{
+
+}
+
+
+ITaskExecutor::ProcessState TaskExecutor::ProcessInfo::state()
+{
+    return m_state;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 TaskExecutor::TaskExecutor(ILogger& logger, int threadsToUse):
@@ -65,8 +87,8 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 
 ITaskExecutor::IProcessControl* TaskExecutor::add(Process&& task)
 {
-    m_processes.emplace_back(ProcessState::Running, task());
-    m_processesIdleCV.notify_one();
+    m_processes.push_back(std::make_unique<ProcessInfo>(*this, ProcessState::Running, task()));
+    wakeUpScheduler();
 
     return nullptr;
 }
@@ -85,7 +107,7 @@ void TaskExecutor::stop()
         m_working = false;
 
         // stop processes
-        m_processesIdleCV.notify_one();
+        wakeUpScheduler();
         assert(m_processRunner.joinable());
 
         // stop heavy tasks
@@ -198,14 +220,47 @@ void TaskExecutor::runProcesses()
     {
         bool has_running = false;
 
+        std::set<ProcessInfo*> toTerminate;
+
         for(auto& process: m_processes)
         {
-            if (process.state == ProcessState::Running)
+            const auto state = process->state();
+
+            switch(state)
             {
-                has_running = true;
-                process.co_h();
+                case ProcessState::Suspended:
+                    break;
+
+                case ProcessState::Running:
+                {
+                    const auto stateRequest = process->run();
+
+                    switch(stateRequest)
+                    {
+                        case ProcessStateRequest::Run:
+                            has_running = true;
+                            break;
+
+                        case ProcessStateRequest::Suspend:
+                            process->setState(ProcessState::Suspended);
+                            break;
+
+                        case ProcessStateRequest::Terminate:
+                            toTerminate.insert(process.get());
+                            break;
+                    }
+
+                    break;
+                }
             }
         }
+
+        if (toTerminate.empty() == false)
+            m_processes.erase(std::remove_if(
+                                m_processes.begin(),
+                                m_processes.end(),
+                                [&toTerminate](const auto& process){ return toTerminate.contains(process.get()); }),
+               m_processes.end());
 
         if (has_running == false)
         {
@@ -213,4 +268,17 @@ void TaskExecutor::runProcesses()
             m_processesIdleCV.wait(lock);
         }
     };
+}
+
+
+void TaskExecutor::terminate(TaskExecutor::ProcessInfo* process)
+{
+    std::lock_guard _(m_processAlternationMutex);
+    // process->setState(ProcessState::Terminating);
+    wakeUpScheduler();
+}
+
+void TaskExecutor::wakeUpScheduler()
+{
+    m_processesIdleCV.notify_one();
 }
