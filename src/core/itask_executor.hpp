@@ -38,6 +38,19 @@ struct CORE_EXPORT ITaskExecutor
         virtual void perform() = 0;                         ///< @brief perform job
     };
 
+    enum class ProcessStateRequest
+    {
+        Suspend,
+        Run,
+        Terminate,
+    };
+
+    enum class ProcessState
+    {
+        Suspended,
+        Running,
+    };
+
     struct ProcessCoroutine
     {
         struct promise_type;
@@ -45,14 +58,17 @@ struct CORE_EXPORT ITaskExecutor
 
         struct promise_type
         {
+            ProcessStateRequest stateRequest = ProcessStateRequest::Run;
+
             ProcessCoroutine get_return_object()
             {
                 return ProcessCoroutine(handle_type::from_promise(*this));
             }
             std::suspend_always initial_suspend() noexcept { return {}; }
             std::suspend_always final_suspend() noexcept { return {}; }
-            void return_void() {}
+            void return_void() { stateRequest = ProcessStateRequest::Terminate; }
             void unhandled_exception() {}
+            std::suspend_always yield_value(ProcessStateRequest sr) { stateRequest = sr; return {}; }
         };
 
         ProcessCoroutine(handle_type h_): h(h_) {}
@@ -63,12 +79,6 @@ struct CORE_EXPORT ITaskExecutor
     };
 
     using Process = std::function<ProcessCoroutine()>;
-
-    enum class ProcessState
-    {
-        Suspended,
-        Running,
-    };
 
     struct IProcessControl
     {
