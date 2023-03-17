@@ -47,18 +47,57 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void stop();
 
 private:
-    struct ProcessInfo
+    class ProcessInfo: IProcessControl
     {
-        ProcessState state = ProcessState::Suspended;
-        ProcessCoroutine::handle_type co_h;
+    public:
+        ProcessInfo(TaskExecutor& executor, ProcessState s, const ProcessCoroutine& h)
+            : m_state(s)
+            , m_co_h(h)
+            , m_executor(executor)
+        {}
+
+        ~ProcessInfo()
+        {
+            m_co_h.destroy();
+        }
+
+        void terminate() override;
+        void resume() override;
+        ProcessState state() override;
+
+        void setState(ProcessState s)
+        {
+            m_state = s;
+        }
+
+        ProcessStateRequest run() const
+        {
+            m_co_h();
+
+            return stateRequest();
+        }
+
+        ProcessStateRequest stateRequest() const
+        {
+            const auto &promise = m_co_h.promise();
+            return promise.stateRequest;
+        }
+
+    private:
+        ProcessState m_state = ProcessState::Suspended;
+        ProcessCoroutine::handle_type m_co_h;
+        TaskExecutor& m_executor;
     };
+
+    friend class ProcessInfo;
 
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
-    std::vector<ProcessInfo> m_processes;
+    std::vector<std::unique_ptr<ProcessInfo>> m_processes;
     std::thread m_taskEater;
     std::thread m_processRunner;
     std::mutex m_processesIdleMutex;
+    std::mutex m_processAlternationMutex;
     std::condition_variable m_processesIdleCV;
     ILogger& m_logger;
     unsigned int m_threads;
@@ -67,6 +106,8 @@ private:
     void eat();
     void execute(const std::shared_ptr<ITask>& task) const;
     void runProcesses();
+    void terminate(ProcessInfo *);
+    void wakeUpScheduler();
 };
 
 
