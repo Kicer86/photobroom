@@ -8,6 +8,7 @@
 #include <database/idatabase.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger.hpp>
+#include <core/itask_executor.hpp>
 
 #include "models/aphoto_data_model.hpp"
 #include "people_editor.hpp"
@@ -53,14 +54,15 @@ private:
     };
 
     std::deque<Photo::Id> m_ids;
+    std::mutex m_idsMtx;
     std::vector<Face> m_faces;
     std::unique_ptr<ILogger> m_logger;
     APhotoDataModel* m_photosModel = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     Database::IDatabase* m_db = nullptr;
+    ITaskExecutor::IProcessControl* m_photosProcessingProcess = nullptr;
 
-    void kickProcessing();
-    void processPhotos();
+    ITaskExecutor::ProcessCoroutine processPhotos(ITaskExecutor::IProcessSupervisor *);
     void appendFaces(std::vector<Face> &&);
     void newPhotos(const QModelIndex &, int, int);
 };

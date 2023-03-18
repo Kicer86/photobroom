@@ -3,7 +3,6 @@
 #include <core/itask_executor.hpp>
 #include <core/logger_factory.hpp>
 #include <core/oriented_image.hpp>
-#include <core/itask_executor.hpp>
 #include <core/task_executor_utils.hpp>
 
 #include "batch_face_detector.hpp"
@@ -12,7 +11,7 @@
 
 BatchFaceDetector::~BatchFaceDetector()
 {
-
+    m_photosProcessingProcess->terminate();
 }
 
 
@@ -51,16 +50,8 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
     m_core = core;
     m_logger = m_core->getLoggerFactory().get("BatchFaceDetector");
 
-    m_core->getTaskExecutor().add([]() -> ITaskExecutor::ProcessCoroutine
-    {
-        //while(true)
-        {
-            std::cout << "5\n";
-            co_yield ITaskExecutor::ProcessStateRequest::Run;
-        }
-
-        std::cout << "3\n";
-    });
+    auto process = std::bind(&BatchFaceDetector::processPhotos, this, std::placeholders::_1);
+    m_photosProcessingProcess = m_core->getTaskExecutor().add(process);
 }
 
 
@@ -110,36 +101,42 @@ QVariant BatchFaceDetector::data(const QModelIndex& idx, int role) const
 }
 
 
-void BatchFaceDetector::kickProcessing()
+ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::IProcessSupervisor* supervisor)
 {
-    if (m_ids.empty() == false)
-        QMetaObject::invokeMethod(this, &BatchFaceDetector::processPhotos, Qt::QueuedConnection);
-}
-
-
-void BatchFaceDetector::processPhotos()
-{
-    assert(m_ids.empty() == false);
-    QPointer modelPtr(m_photosModel);
-
-    FaceEditor fe(*m_db, *m_core, m_logger);
-
-    const auto id = m_ids.front();
-    m_ids.pop_front();
-
-    runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this]() mutable
+    while(supervisor->keepWorking())
     {
-        auto faces = fe.getFacesFor(id);
-        std::vector<Face> facesDetails;
+        std::unique_lock _(m_idsMtx);
 
-        for (auto& face: faces)
+        // sleep if there is nothing to do
+        if (m_ids.empty())
         {
-            const auto faceImg = face->image()->copy(face->rect());
-            facesDetails.emplace_back(std::move(face), faceImg);
+            _.unlock();
+            co_yield ITaskExecutor::ProcessStateRequest::Suspend;
+            continue;
         }
 
-        invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
-    });
+        FaceEditor fe(*m_db, *m_core, m_logger);
+
+        const auto id = m_ids.front();
+        m_ids.pop_front();
+        _.unlock();
+
+        runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this]() mutable
+        {
+            auto faces = fe.getFacesFor(id);
+            std::vector<Face> facesDetails;
+
+            for (auto& face: faces)
+            {
+                const auto faceImg = face->image()->copy(face->rect());
+                facesDetails.emplace_back(std::move(face), faceImg);
+            }
+
+            invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
+        });
+
+        co_yield ITaskExecutor::ProcessStateRequest::Run;
+    }
 }
 
 
@@ -153,14 +150,12 @@ void BatchFaceDetector::appendFaces(std::vector<Face>&& faces)
         m_faces.insert(m_faces.end(), std::make_move_iterator(faces.begin()),  std::make_move_iterator(faces.end()));
         endInsertRows();
     }
-
-    kickProcessing();
 }
 
 
 void BatchFaceDetector::newPhotos(const QModelIndex &, int first, int last)
 {
-    const bool needKicking = m_ids.empty();
+    std::lock_guard _(m_idsMtx);
 
     for(int row = first; row <= last; row++)
     {
@@ -168,6 +163,6 @@ void BatchFaceDetector::newPhotos(const QModelIndex &, int first, int last)
         m_ids.push_back(id);
     }
 
-    if (needKicking)
-        kickProcessing();
+    // make sure processing process is not suspended
+    m_photosProcessingProcess->resume();
 }
