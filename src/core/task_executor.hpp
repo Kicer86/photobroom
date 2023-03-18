@@ -33,7 +33,7 @@ struct ILogger;
 
 struct CORE_EXPORT TaskExecutor: public ITaskExecutor
 {
-    explicit TaskExecutor(ILogger &, int threadsToUse);
+    explicit TaskExecutor(ILogger &, unsigned int threadsToUse);
     TaskExecutor(const TaskExecutor &) = delete;
     virtual ~TaskExecutor();
 
@@ -47,12 +47,11 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void stop();
 
 private:
-    class ProcessInfo: IProcessControl
+    class ProcessInfo: public IProcessControl, public IProcessSupervisor
     {
     public:
-        ProcessInfo(TaskExecutor& executor, ProcessState s, const ProcessCoroutine& h)
+        ProcessInfo(TaskExecutor& executor, ProcessState s)
             : m_state(s)
-            , m_co_h(h)
             , m_executor(executor)
         {}
 
@@ -61,9 +60,15 @@ private:
             m_co_h.destroy();
         }
 
+        void setCoroutine(const ProcessCoroutine& h)
+        {
+            m_co_h = h;
+        }
+
         void terminate() override;
         void resume() override;
         ProcessState state() override;
+        bool keepWorking() override;
 
         void setState(ProcessState s)
         {
@@ -87,6 +92,7 @@ private:
         ProcessState m_state = ProcessState::Suspended;
         ProcessCoroutine::handle_type m_co_h;
         TaskExecutor& m_executor;
+        bool m_work = true;
     };
 
     friend class ProcessInfo;
@@ -106,7 +112,6 @@ private:
     void eat();
     void execute(const std::shared_ptr<ITask>& task) const;
     void runProcesses();
-    void terminate(ProcessInfo *);
     void wakeUpScheduler();
 };
 

@@ -51,6 +51,11 @@ struct CORE_EXPORT ITaskExecutor
         Running,
     };
 
+    struct IProcessSupervisor
+    {
+        virtual bool keepWorking() = 0;
+    };
+
     struct ProcessCoroutine
     {
         struct promise_type;
@@ -78,7 +83,7 @@ struct CORE_EXPORT ITaskExecutor
         operator std::coroutine_handle<>() const { return h; }
     };
 
-    using Process = std::function<ProcessCoroutine()>;
+    using Process = std::function<ProcessCoroutine(IProcessSupervisor *)>;
 
     struct IProcessControl
     {
