@@ -32,13 +32,15 @@
 
 void TaskExecutor::ProcessInfo::terminate()
 {
-    m_executor.terminate(this);
+    m_work = false;
+    m_executor.wakeUpScheduler();
 }
 
 
 void TaskExecutor::ProcessInfo::resume()
 {
-
+    setState(ITaskExecutor::ProcessState::Running);
+    m_executor.wakeUpScheduler();
 }
 
 
@@ -48,10 +50,16 @@ ITaskExecutor::ProcessState TaskExecutor::ProcessInfo::state()
 }
 
 
+bool TaskExecutor::ProcessInfo::keepWorking()
+{
+    return m_work;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-TaskExecutor::TaskExecutor(ILogger& logger, int threadsToUse):
+TaskExecutor::TaskExecutor(ILogger& logger, unsigned int threadsToUse):
     m_tasks(),
     m_taskEater(),
     m_logger(logger),
@@ -87,10 +95,15 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 
 ITaskExecutor::IProcessControl* TaskExecutor::add(Process&& task)
 {
-    m_processes.push_back(std::make_unique<ProcessInfo>(*this, ProcessState::Running, task()));
+    auto process = std::make_unique<ProcessInfo>(*this, ProcessState::Running);
+    ITaskExecutor::IProcessControl* control = process.get();
+    ITaskExecutor::IProcessSupervisor* supervisor = process.get();
+    process->setCoroutine(task(supervisor));
+
+    m_processes.push_back(std::move(process));
     wakeUpScheduler();
 
-    return nullptr;
+    return control;
 }
 
 
@@ -233,7 +246,11 @@ void TaskExecutor::runProcesses()
 
                 case ProcessState::Running:
                 {
+                    const bool toBeStopped = !process->keepWorking();
                     const auto stateRequest = process->run();
+
+                    // if toBeStopped == true then process should exit with Terminate request
+                    assert(stateRequest == ProcessStateRequest::Terminate || toBeStopped == false);
 
                     switch(stateRequest)
                     {
@@ -270,13 +287,6 @@ void TaskExecutor::runProcesses()
     };
 }
 
-
-void TaskExecutor::terminate(TaskExecutor::ProcessInfo* process)
-{
-    std::lock_guard _(m_processAlternationMutex);
-    // process->setState(ProcessState::Terminating);
-    wakeUpScheduler();
-}
 
 void TaskExecutor::wakeUpScheduler()
 {
