@@ -54,6 +54,7 @@ struct CORE_EXPORT ITaskExecutor
     struct IProcessSupervisor
     {
         virtual bool keepWorking() = 0;
+        virtual void resume() = 0;
     };
 
     struct ProcessCoroutine
