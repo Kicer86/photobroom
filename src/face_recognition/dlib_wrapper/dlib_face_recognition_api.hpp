@@ -75,7 +75,7 @@ namespace dlib_api
      * @brief check if we have proper system setup to perform face recognition
      * @return true if face recognition will work. False if it would crash app.
      *
-     * if dlib was compiled with CUDA support yey no cuda is available, then
+     * if dlib was compiled with CUDA support yet no cuda is available, then
      * we cannot work - dlib will crash/throw on CUDA usage
      */
     DLIB_WRAPPER_EXPORT bool check_system_prerequisites();
