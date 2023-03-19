@@ -349,7 +349,7 @@ namespace dlib_api
 
     FaceEncodings FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
-        // here we assume, that given image is a face extraceted from image with help of face_locations()
+        // here we assume, that given image is a face extracted from image with help of face_locations()
         const QSize size = qimage.size();
 
         m_data->logger->debug(
