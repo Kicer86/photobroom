@@ -105,37 +105,34 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 {
     while(supervisor->keepWorking())
     {
-        std::unique_lock _(m_idsMtx);
+        std::unique_lock lk(m_idsMtx);
 
-        // sleep if there is nothing to do
-        if (m_ids.empty())
+        if (m_ids.empty() == false)
         {
-            _.unlock();
-            co_yield ITaskExecutor::ProcessStateRequest::Suspend;
-            continue;
+            FaceEditor fe(*m_db, *m_core, m_logger);
+
+            const auto id = m_ids.front();
+            m_ids.pop_front();
+
+            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this, supervisor]() mutable
+            {
+                auto faces = fe.getFacesFor(id);
+                std::vector<Face> facesDetails;
+
+                for (auto& face: faces)
+                {
+                    const auto faceImg = face->image()->copy(face->rect());
+                    facesDetails.emplace_back(std::move(face), faceImg);
+                }
+
+                invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
+                supervisor->resume();
+            });
         }
 
-        FaceEditor fe(*m_db, *m_core, m_logger);
+        lk.unlock();
 
-        const auto id = m_ids.front();
-        m_ids.pop_front();
-        _.unlock();
-
-        runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this]() mutable
-        {
-            auto faces = fe.getFacesFor(id);
-            std::vector<Face> facesDetails;
-
-            for (auto& face: faces)
-            {
-                const auto faceImg = face->image()->copy(face->rect());
-                facesDetails.emplace_back(std::move(face), faceImg);
-            }
-
-            invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
-        });
-
-        co_yield ITaskExecutor::ProcessStateRequest::Run;
+        co_yield ITaskExecutor::ProcessStateRequest::Suspend;
     }
 }
 
