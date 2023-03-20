@@ -60,33 +60,15 @@ private:
             m_co_h.destroy();
         }
 
-        void setCoroutine(const ProcessCoroutine& h)
-        {
-            m_co_h = h;
-        }
-
+        void setCoroutine(const ProcessCoroutine& h);
         void terminate() override;
         void resume() override;
         ProcessState state() override;
         bool keepWorking() override;
 
-        void setState(ProcessState s)
-        {
-            m_state = s;
-        }
-
-        ProcessStateRequest run() const
-        {
-            m_co_h();
-
-            return stateRequest();
-        }
-
-        ProcessStateRequest stateRequest() const
-        {
-            const auto &promise = m_co_h.promise();
-            return promise.stateRequest;
-        }
+        void setState(ProcessState s);
+        ProcessStateRequest run() const;
+        ProcessStateRequest stateRequest() const;
 
     private:
         ProcessState m_state = ProcessState::Suspended;
