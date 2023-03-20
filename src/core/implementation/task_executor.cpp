@@ -17,16 +17,15 @@
  *
  */
 
-#include "task_executor.hpp"
 #include <ilogger.hpp>
 
 #include <chrono>
 #include <iostream>
 #include <set>
-#include <thread>
 
 #include <QString>
 
+#include "task_executor.hpp"
 #include "thread_utils.hpp"
 
 
@@ -63,22 +62,22 @@ bool TaskExecutor::ProcessInfo::keepWorking()
 
 void TaskExecutor::ProcessInfo::setState(ProcessState s)
 {
+    std::lock_guard _(m_stateMtx);
     m_state = s;
 }
 
 
-ITaskExecutor::ProcessStateRequest TaskExecutor::ProcessInfo::run() const
+void TaskExecutor::ProcessInfo::run()
 {
+    // lock state and raturn lock to caller, so state is locked until re
+    std::lock_guard lk(m_stateMtx);
+
     m_co_h();
 
-    return stateRequest();
-}
+    m_state = m_co_h.promise().nextState;
 
-
-ITaskExecutor::ProcessStateRequest TaskExecutor::ProcessInfo::stateRequest() const
-{
-    const auto &promise = m_co_h.promise();
-    return promise.stateRequest;
+    if (m_state == ProcessState::Finished)
+        m_co_h.destroy();
 }
 
 
@@ -259,7 +258,7 @@ void TaskExecutor::runProcesses()
     {
         bool has_running = false;
 
-        std::set<ProcessInfo*> toTerminate;
+        std::set<ProcessInfo*> toRemove;
 
         for(auto& process: m_processes)
         {
@@ -273,23 +272,24 @@ void TaskExecutor::runProcesses()
                 case ProcessState::Running:
                 {
                     const bool toBeStopped = !process->keepWorking();
-                    const auto stateRequest = process->run();
+                    process->run();
 
-                    // if toBeStopped == true then process should exit with Terminate request
-                    assert(stateRequest == ProcessStateRequest::Terminate || toBeStopped == false);
+                    const auto newState = process->state();
 
-                    switch(stateRequest)
+                    // if toBeStopped == true then process should have Finished
+                    assert(newState == ProcessState::Finished || toBeStopped == false);
+
+                    switch(newState)
                     {
-                        case ProcessStateRequest::Run:
+                        case ProcessState::Running:
                             has_running = true;
                             break;
 
-                        case ProcessStateRequest::Suspend:
-                            process->setState(ProcessState::Suspended);
+                        case ProcessState::Suspended:
                             break;
 
-                        case ProcessStateRequest::Terminate:
-                            toTerminate.insert(process.get());
+                        case ProcessState::Finished:
+                            toRemove.insert(process.get());
                             break;
                     }
 
@@ -298,11 +298,11 @@ void TaskExecutor::runProcesses()
             }
         }
 
-        if (toTerminate.empty() == false)
+        if (toRemove.empty() == false)
             m_processes.erase(std::remove_if(
                                 m_processes.begin(),
                                 m_processes.end(),
-                                [&toTerminate](const auto& process){ return toTerminate.contains(process.get()); }),
+                                [&toRemove](const auto& process){ return toRemove.contains(process.get()); }),
                m_processes.end());
 
         if (has_running == false)

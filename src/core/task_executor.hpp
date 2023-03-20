@@ -22,6 +22,7 @@
 
 #include <condition_variable>
 #include <map>
+#include <mutex>
 #include <thread>
 
 #include "core_export.h"
@@ -67,10 +68,10 @@ private:
         bool keepWorking() override;
 
         void setState(ProcessState s);
-        ProcessStateRequest run() const;
-        ProcessStateRequest stateRequest() const;
+        void run();
 
     private:
+        std::mutex m_stateMtx;
         ProcessState m_state = ProcessState::Suspended;
         ProcessCoroutine::handle_type m_co_h;
         TaskExecutor& m_executor;

@@ -132,7 +132,7 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 
         lk.unlock();
 
-        co_yield ITaskExecutor::ProcessStateRequest::Suspend;
+        co_yield ITaskExecutor::ProcessState::Suspended;
     }
 }
 
