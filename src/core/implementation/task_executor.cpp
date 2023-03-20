@@ -30,6 +30,11 @@
 #include "thread_utils.hpp"
 
 
+void TaskExecutor::ProcessInfo::setCoroutine(const ProcessCoroutine& h)
+{
+    m_co_h = h;
+}
+
 void TaskExecutor::ProcessInfo::terminate()
 {
     m_work = false;
@@ -53,6 +58,27 @@ ITaskExecutor::ProcessState TaskExecutor::ProcessInfo::state()
 bool TaskExecutor::ProcessInfo::keepWorking()
 {
     return m_work;
+}
+
+
+void TaskExecutor::ProcessInfo::setState(ProcessState s)
+{
+    m_state = s;
+}
+
+
+ITaskExecutor::ProcessStateRequest TaskExecutor::ProcessInfo::run() const
+{
+    m_co_h();
+
+    return stateRequest();
+}
+
+
+ITaskExecutor::ProcessStateRequest TaskExecutor::ProcessInfo::stateRequest() const
+{
+    const auto &promise = m_co_h.promise();
+    return promise.stateRequest;
 }
 
 
