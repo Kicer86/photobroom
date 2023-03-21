@@ -63,6 +63,7 @@ bool TaskExecutor::ProcessInfo::keepWorking()
 void TaskExecutor::ProcessInfo::setState(ProcessState s)
 {
     std::lock_guard _(m_stateMtx);
+    assert(m_state != ProcessState::Finished || s == ProcessState::Finished);          // no sense of changing state of finished process
     m_state = s;
 }
 
@@ -118,17 +119,16 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
-ITaskExecutor::IProcessControl* TaskExecutor::add(Process&& task)
+std::shared_ptr<ITaskExecutor::IProcessControl> TaskExecutor::add(Process&& task)
 {
-    auto process = std::make_unique<ProcessInfo>(*this, ProcessState::Running);
-    ITaskExecutor::IProcessControl* control = process.get();
+    auto process = std::make_shared<ProcessInfo>(*this, ProcessState::Running);
     ITaskExecutor::IProcessSupervisor* supervisor = process.get();
     process->setCoroutine(task(supervisor));
 
-    m_processes.push_back(std::move(process));
+    m_processes.push_back(process);
     wakeUpScheduler();
 
-    return control;
+    return process;
 }
 
 
@@ -295,6 +295,10 @@ void TaskExecutor::runProcesses()
 
                     break;
                 }
+
+                case ProcessState::Finished:
+                    assert(!"Should not happend");
+                    break;
             }
         }
 

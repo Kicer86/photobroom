@@ -12,7 +12,7 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
-        IProcessControl* add(Process &&) override
+        std::shared_ptr<IProcessControl> add(Process &&) override
         {
             /// TODO: implement
             assert(!"Not implemented yet");
