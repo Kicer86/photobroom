@@ -45,12 +45,6 @@ struct CORE_EXPORT ITaskExecutor
         Finished,
     };
 
-    struct IProcessSupervisor
-    {
-        virtual bool keepWorking() = 0;
-        virtual void resume() = 0;
-    };
-
     struct ProcessCoroutine
     {
         struct promise_type;
@@ -78,7 +72,11 @@ struct CORE_EXPORT ITaskExecutor
         operator std::coroutine_handle<>() const { return h; }
     };
 
-    using Process = std::function<ProcessCoroutine(IProcessSupervisor *)>;
+    struct IProcessSupervisor
+    {
+        virtual bool keepWorking() = 0;
+        virtual void resume() = 0;
+    };
 
     struct IProcessControl
     {
@@ -87,12 +85,14 @@ struct CORE_EXPORT ITaskExecutor
         virtual ProcessState state() = 0;
     };
 
+    using Process = std::function<ProcessCoroutine(IProcessSupervisor *)>;
+
     virtual ~ITaskExecutor() = default;
 
-    virtual void add(std::unique_ptr<ITask> &&) = 0;            // add short but heavy task (calculations)
-    virtual IProcessControl* add(Process &&) = 0;               // add task to be run in a ring with other Processes
+    virtual void add(std::unique_ptr<ITask> &&) = 0;                // add short but heavy task (calculations)
+    virtual std::shared_ptr<IProcessControl> add(Process &&) = 0;   // add task to be run in a ring with other Processes
 
-    virtual int heavyWorkers() const = 0;                       // return number of heavy task workers
+    virtual int heavyWorkers() const = 0;                           // return number of heavy task workers
 };
 
 #endif
