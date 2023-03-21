@@ -41,7 +41,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     TaskExecutor& operator=(const TaskExecutor &) = delete;
 
     void add(std::unique_ptr<ITask> &&) override;
-    IProcessControl* add(Process &&) override;
+    std::shared_ptr<IProcessControl> add(Process &&) override;
 
     int heavyWorkers() const override;
 
@@ -82,7 +82,7 @@ private:
 
     typedef ol::TS_Queue<std::unique_ptr<ITask>> QueueT;
     QueueT m_tasks;
-    std::vector<std::unique_ptr<ProcessInfo>> m_processes;
+    std::vector<std::shared_ptr<ProcessInfo>> m_processes;
     std::thread m_taskEater;
     std::thread m_processRunner;
     std::mutex m_processesIdleMutex;

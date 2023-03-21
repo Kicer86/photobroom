@@ -60,7 +60,7 @@ private:
     APhotoDataModel* m_photosModel = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     Database::IDatabase* m_db = nullptr;
-    ITaskExecutor::IProcessControl* m_photosProcessingProcess = nullptr;
+    std::shared_ptr<ITaskExecutor::IProcessControl> m_photosProcessingProcess;
 
     ITaskExecutor::ProcessCoroutine processPhotos(ITaskExecutor::IProcessSupervisor *);
     void appendFaces(std::vector<Face> &&);
