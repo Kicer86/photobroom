@@ -104,7 +104,6 @@ namespace Database
 
     //Database interface.
     //A bridge between clients and backend.
-    // TODO: remove most of this interface (user should work on backend directly) (see github issue #272)
     struct DATABASE_EXPORT IDatabase: IDatabaseThread
     {
         template <typename... Args>
