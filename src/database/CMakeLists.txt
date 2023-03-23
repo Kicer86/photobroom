@@ -45,6 +45,7 @@ set(DATABASE_SOURCES
     implementation/async_database.cpp
     implementation/async_database.hpp
     implementation/database_builder.cpp
+    implementation/database_client.cpp
     implementation/database_queue.cpp
     implementation/filter.cpp
     implementation/notifications_accumulator.cpp
