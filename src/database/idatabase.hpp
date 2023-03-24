@@ -102,6 +102,12 @@ namespace Database
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
+    class IObserver
+    {
+    public:
+        virtual ~IObserver() = default;
+    };
+
     //Database interface.
     //A bridge between clients and backend.
     struct DATABASE_EXPORT IDatabase: IDatabaseThread
@@ -119,6 +125,8 @@ namespace Database
 
         //close database connection
         virtual void closeConnections() = 0;
+
+        virtual std::unique_ptr<IObserver> observe(const std::string &) = 0;
     };
 }
 

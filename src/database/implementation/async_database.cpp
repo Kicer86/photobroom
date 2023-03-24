@@ -121,12 +121,27 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
-                                 ILogger* logger):
-        m_logger(logger->subLogger("AsyncDatabase")),
-        m_backend(std::move(backend)),
-        m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get())),
-        m_working(true)
+    AsyncDatabase::Observer::Observer(AsyncDatabase* db_)
+        : db(db_)
+    {
+
+    }
+
+
+    AsyncDatabase::Observer::~Observer()
+    {
+        db->remove(this);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, ILogger* logger)
+        : m_logger(logger->subLogger("AsyncDatabase"))
+        , m_backend(std::move(backend))
+        , m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get()))
+        , m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
     }
@@ -168,6 +183,16 @@ namespace Database
     }
 
 
+    std::unique_ptr<IObserver> AsyncDatabase::observe(const std::string& name)
+    {
+        auto observer = std::make_unique<Observer>(this);
+
+        m_observers.lock()->insert(observer.get());
+
+        return observer;
+    }
+
+
     void AsyncDatabase::addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
@@ -197,6 +222,12 @@ namespace Database
             assert(m_thread.joinable());
             m_thread.join();
         }
+    }
+
+
+    void AsyncDatabase::remove(Observer* o)
+    {
+        m_observers.lock()->erase(o);
     }
 
 }
