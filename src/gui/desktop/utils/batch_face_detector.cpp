@@ -109,12 +109,13 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 
         if (m_ids.empty() == false)
         {
+            auto observer = m_db->attach(tr("Batch face recognition"));            // prevent db from closing while we use it
             FaceEditor fe(*m_db, *m_core, m_logger);
 
             const auto id = m_ids.front();
             m_ids.pop_front();
 
-            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this, supervisor]() mutable
+            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), o = std::move(observer), id, this, supervisor]() mutable
             {
                 auto faces = fe.getFacesFor(id);
                 std::vector<Face> facesDetails;
