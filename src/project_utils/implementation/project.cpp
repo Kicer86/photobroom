@@ -115,6 +115,12 @@ bool Project::lockProject()
 }
 
 
+void Project::closeDatabase()
+{
+    m_database->closeConnections();
+}
+
+
 Database::IDatabase& Project::getDatabase() const
 {
     return *m_database.get();

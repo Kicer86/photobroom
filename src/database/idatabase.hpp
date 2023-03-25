@@ -102,11 +102,13 @@ namespace Database
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
-    class IObserver
+
+    class IClient
     {
     public:
-        virtual ~IObserver() = default;
+        virtual ~IClient() = default;
     };
+
 
     //Database interface.
     //A bridge between clients and backend.
@@ -126,7 +128,7 @@ namespace Database
         //close database connection
         virtual void closeConnections() = 0;
 
-        virtual std::unique_ptr<IObserver> observe(const std::string &) = 0;
+        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
     };
 }
 

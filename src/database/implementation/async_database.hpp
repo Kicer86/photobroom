@@ -20,10 +20,10 @@
 #ifndef DATABASETHREAD_HPP
 #define DATABASETHREAD_HPP
 
+#include <condition_variable>
 #include <thread>
 #include <vector>
 
-#include <core/ts_resource.hpp>
 #include "idatabase.hpp"
 #include "ibackend.hpp"
 
@@ -53,30 +53,32 @@ namespace Database
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void closeConnections() override;
 
-            std::unique_ptr<IObserver> observe(const std::string &) override;
+            std::unique_ptr<IClient> attach(const QString &) override;
 
         private:
-            struct Observer: IObserver
+            struct Client: IClient
             {
-                Observer(AsyncDatabase *);
-                ~Observer() override;
+                Client(AsyncDatabase *);
+                ~Client() override;
 
                 AsyncDatabase* db;
             };
 
-            friend struct Observer;
+            friend struct Client;
 
-            ol::ThreadSafeResource<std::set<Observer *>> m_observers;
+            std::set<Client *> m_clients;
+            std::mutex m_clientsMutex;
             std::unique_ptr<ILogger> m_logger;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<Executor> m_executor;
+            std::condition_variable m_clientsChangeCV;
             std::thread m_thread;
             bool m_working;
 
-            //store task to be executed by thread
             void addTask(std::unique_ptr<IDatabaseThread::ITask> &&);
+            void waitForClients();
             void stopExecutor();
-            void remove(Observer *);
+            void remove(Client *);
     };
 
 }

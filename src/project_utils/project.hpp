@@ -22,8 +22,8 @@
 
 #include <memory>
 
-#include <QString>
 #include <QLockFile>
+#include <QString>
 
 #include "project_utils_export.h"
 
@@ -73,6 +73,7 @@ class PROJECT_UTILS_EXPORT Project
         Project& operator=(const Project &) = delete;
 
         bool lockProject();
+        void closeDatabase();
 
         Database::IDatabase& getDatabase() const;
         const ProjectInfo& getProjectInfo() const;

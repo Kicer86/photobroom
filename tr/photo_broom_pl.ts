@@ -426,7 +426,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+120"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>

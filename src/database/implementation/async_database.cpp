@@ -121,14 +121,14 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::Observer::Observer(AsyncDatabase* db_)
+    AsyncDatabase::Client::Client(AsyncDatabase* db_)
         : db(db_)
     {
 
     }
 
 
-    AsyncDatabase::Observer::~Observer()
+    AsyncDatabase::Client::~Client()
     {
         db->remove(this);
     }
@@ -151,12 +151,6 @@ namespace Database
     {
         //terminate thread
         closeConnections();
-    }
-
-
-    void AsyncDatabase::closeConnections()
-    {
-        stopExecutor();
     }
 
 
@@ -183,11 +177,21 @@ namespace Database
     }
 
 
-    std::unique_ptr<IObserver> AsyncDatabase::observe(const std::string& name)
+    void AsyncDatabase::closeConnections()
     {
-        auto observer = std::make_unique<Observer>(this);
+        // close clients
+        waitForClients();
 
-        m_observers.lock()->insert(observer.get());
+        stopExecutor();
+    }
+
+
+    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& name)
+    {
+        auto observer = std::make_unique<Client>(this);
+
+        std::lock_guard _(m_clientsMutex);
+        m_clients.insert(observer.get());
 
         return observer;
     }
@@ -204,6 +208,17 @@ namespace Database
             assert(m_working);
             m_executor->addTask(std::move(task));
         }
+    }
+
+
+    void AsyncDatabase::waitForClients()
+    {
+        std::unique_lock lk(m_clientsMutex);
+
+        m_clientsChangeCV.wait(lk, [this]()
+        {
+            return m_clients.empty();
+        });
     }
 
 
@@ -225,9 +240,10 @@ namespace Database
     }
 
 
-    void AsyncDatabase::remove(Observer* o)
+    void AsyncDatabase::remove(Client* c)
     {
-        m_observers.lock()->erase(o);
+        std::lock_guard _(m_clientsMutex);
+        m_clients.erase(c);
     }
 
 }

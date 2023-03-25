@@ -248,6 +248,8 @@ void MainWindow::closeProject()
 {
     if (m_currentPrj)
     {
+        m_currentPrj->closeDatabase();
+
         // Move m_currentPrj to a temporary place, so m_currentPrj is null and all tools will change theirs state basing on this.
         // Project object will be destroyed at the end of this routine
         auto prj = std::move(m_currentPrj);
