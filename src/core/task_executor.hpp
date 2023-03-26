@@ -51,15 +51,8 @@ private:
     class ProcessInfo: public IProcessControl, public IProcessSupervisor
     {
     public:
-        ProcessInfo(TaskExecutor& executor, ProcessState s)
-            : m_state(s)
-            , m_executor(executor)
-        {}
-
-        ~ProcessInfo()
-        {
-            m_co_h.destroy();
-        }
+        ProcessInfo(TaskExecutor &, ProcessState);
+        ~ProcessInfo();
 
         void setCoroutine(const ProcessCoroutine& h);
         void terminate() override;
