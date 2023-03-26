@@ -29,6 +29,19 @@
 #include "thread_utils.hpp"
 
 
+TaskExecutor::ProcessInfo::ProcessInfo(TaskExecutor& executor, ProcessState s)
+    : m_state(s)
+    , m_executor(executor)
+{}
+
+
+TaskExecutor::ProcessInfo::~ProcessInfo()
+{
+    if (m_co_h.done() == false)
+        m_co_h.destroy();
+}
+
+
 void TaskExecutor::ProcessInfo::setCoroutine(const ProcessCoroutine& h)
 {
     m_co_h = h;
@@ -76,9 +89,6 @@ void TaskExecutor::ProcessInfo::run()
     m_co_h();
 
     m_state = m_co_h.promise().nextState;
-
-    if (m_state == ProcessState::Finished)
-        m_co_h.destroy();
 }
 
 
@@ -276,7 +286,7 @@ void TaskExecutor::runProcesses()
 
                     const auto newState = process->state();
 
-                    // if toBeStopped == true then process should have Finished
+                    // if toBeStopped == true then process should have finished
                     assert(newState == ProcessState::Finished || toBeStopped == false);
 
                     switch(newState)
