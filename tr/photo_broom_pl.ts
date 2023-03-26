@@ -74,8 +74,8 @@
 <context>
     <name>BatchFaceDetector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+112"/>
-        <source>Batch face recognition</source>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+61"/>
+        <source>Batch face detector</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
