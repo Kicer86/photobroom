@@ -11,7 +11,8 @@
 
 BatchFaceDetector::~BatchFaceDetector()
 {
-    m_photosProcessingProcess->terminate();
+    // db client should be destroyed by now
+    assert(m_dbClient.get() == nullptr);
 }
 
 
@@ -57,7 +58,12 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
 
 void BatchFaceDetector::setDB(Database::IDatabase* db)
 {
-    m_db = db;
+    m_dbClient = db->attach(tr("Batch face detector"));
+    if (m_dbClient)
+        m_dbClient->onClose([this]()
+        {
+            m_photosProcessingProcess->terminate();
+        });
 }
 
 
@@ -75,7 +81,7 @@ ICoreFactoryAccessor* BatchFaceDetector::core() const
 
 Database::IDatabase* BatchFaceDetector::db() const
 {
-    return m_db;
+    return m_dbClient? &m_dbClient->db(): nullptr;
 }
 
 
@@ -109,13 +115,12 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 
         if (m_ids.empty() == false)
         {
-            auto observer = m_db->attach(tr("Batch face recognition"));            // prevent db from closing while we use it
-            FaceEditor fe(*m_db, *m_core, m_logger);
+            FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
 
             const auto id = m_ids.front();
             m_ids.pop_front();
 
-            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), o = std::move(observer), id, this, supervisor]() mutable
+            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this, supervisor]() mutable
             {
                 auto faces = fe.getFacesFor(id);
                 std::vector<Face> facesDetails;
@@ -135,6 +140,9 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 
         co_yield ITaskExecutor::ProcessState::Suspended;
     }
+
+    // face scanning is done, db won't be needed anymore, release it
+    m_dbClient.reset();
 }
 
 
