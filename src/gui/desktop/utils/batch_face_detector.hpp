@@ -57,9 +57,9 @@ private:
     std::mutex m_idsMtx;
     std::vector<Face> m_faces;
     std::unique_ptr<ILogger> m_logger;
+    std::unique_ptr<Database::IClient> m_dbClient;
     APhotoDataModel* m_photosModel = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
-    Database::IDatabase* m_db = nullptr;
     std::shared_ptr<ITaskExecutor::IProcessControl> m_photosProcessingProcess;
 
     ITaskExecutor::ProcessCoroutine processPhotos(ITaskExecutor::IProcessSupervisor *);
