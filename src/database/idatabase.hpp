@@ -102,11 +102,14 @@ namespace Database
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
+    struct IDatabase;
 
-    class IClient
+    struct IClient
     {
-    public:
         virtual ~IClient() = default;
+
+        virtual IDatabase& db() = 0;
+        virtual void onClose(const std::function<void()> &) = 0;
     };
 
 

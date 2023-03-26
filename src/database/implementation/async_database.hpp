@@ -56,12 +56,20 @@ namespace Database
             std::unique_ptr<IClient> attach(const QString &) override;
 
         private:
-            struct Client: IClient
+            class Client: public IClient
             {
-                Client(AsyncDatabase *);
+            public:
+                Client(AsyncDatabase &);
                 ~Client() override;
 
-                AsyncDatabase* db;
+                IDatabase& db() override;
+                void onClose(const std::function<void()> &) override;
+
+                void callOnClose() const;
+
+            private:
+                std::function<void()> m_onClose;
+                AsyncDatabase& m_db;
             };
 
             friend struct Client;
@@ -73,10 +81,12 @@ namespace Database
             std::unique_ptr<Executor> m_executor;
             std::condition_variable m_clientsChangeCV;
             std::thread m_thread;
+            bool m_acceptClients = true;
             bool m_working;
 
             void addTask(std::unique_ptr<IDatabaseThread::ITask> &&);
-            void waitForClients();
+            void sendOnCloseNotification();
+            void waitForClients(std::unique_lock<std::mutex> &);
             void stopExecutor();
             void remove(Client *);
     };
