@@ -50,9 +50,6 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
     assert(m_core == nullptr);
     m_core = core;
     m_logger = m_core->getLoggerFactory().get("BatchFaceDetector");
-
-    auto process = std::bind(&BatchFaceDetector::processPhotos, this, std::placeholders::_1);
-    m_photosProcessingProcess = m_core->getTaskExecutor().add(process);
 }
 
 
@@ -60,10 +57,16 @@ void BatchFaceDetector::setDB(Database::IDatabase* db)
 {
     m_dbClient = db->attach(tr("Batch face detector"));
     if (m_dbClient)
+    {
         m_dbClient->onClose([this]()
         {
             m_photosProcessingProcess->terminate();
         });
+
+        // begin photo analysis
+        auto process = std::bind(&BatchFaceDetector::processPhotos, this, std::placeholders::_1);
+        m_photosProcessingProcess = m_core->getTaskExecutor().add(process);
+    }
 }
 
 
