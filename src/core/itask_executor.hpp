@@ -65,7 +65,7 @@ struct CORE_EXPORT ITaskExecutor
             std::suspend_always yield_value(ProcessState sr) { nextState = sr; return {}; }
         };
 
-        ProcessCoroutine(handle_type h_): h(h_) {}
+        explicit ProcessCoroutine(handle_type h_): h(h_) {}
 
         handle_type h = nullptr;
         operator std::coroutine_handle<promise_type>() const { return h; }
