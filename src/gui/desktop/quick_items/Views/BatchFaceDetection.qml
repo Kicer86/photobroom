@@ -32,6 +32,8 @@ Item {
             title: qsTr("Discovered faces")
             clip: true
 
+            SplitView.minimumHeight: 150
+
             GridView {
                 anchors.fill: parent
                 model: detector
@@ -60,6 +62,8 @@ Item {
         GroupBox {
             title: qsTr("Photos to be analyzed")
             clip: true
+
+            SplitView.minimumHeight: 150
 
             Internals.PhotosGridView {
                 anchors.fill: parent
