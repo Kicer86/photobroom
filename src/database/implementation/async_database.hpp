@@ -93,4 +93,4 @@ namespace Database
 
 }
 
-#endif // DATABASETHREAD_HPP
+#endif
