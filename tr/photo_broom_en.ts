@@ -65,7 +65,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="61"/>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="63"/>
         <source>Photos to be analyzed</source>
         <translation type="unfinished"></translation>
     </message>
