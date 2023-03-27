@@ -72,7 +72,7 @@ namespace Database
                 AsyncDatabase& m_db;
             };
 
-            friend struct Client;
+            friend class Client;
 
             std::set<Client *> m_clients;
             std::mutex m_clientsMutex;
