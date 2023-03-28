@@ -35,25 +35,69 @@ Item {
             SplitView.minimumHeight: 150
 
             GridView {
+                id: gridView
+
                 anchors.fill: parent
                 model: detector
 
                 cellWidth: 170
-                cellHeight: 170
+                cellHeight: 200
 
-                delegate: Column {
+                delegate: Item {
                     required property var decoration
                     required property var display
+                    required property var index
 
-                    Picture {
-                        height: 150
-                        width: 150
-                        source: decoration
+                    width: 170
+                    height: 200
+
+                    Column {
+                        anchors.fill: parent
+
+                        Picture {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            height: 150
+                            width: 150
+                            source: decoration
+                        }
+
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: display
+                        }
                     }
 
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: display
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            gridView.currentIndex = index
+                        }
+                    }
+                }
+
+                highlight: Item {
+                    height: 150
+                    width: 150
+                    z: 2
+
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+
+                        width: 20
+                        height: 20
+                        radius: 10
+                        color: "green"
+                    }
+
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+
+                        width: 20
+                        height: 20
+                        radius: 10
+                        color: "red"
                     }
                 }
             }
