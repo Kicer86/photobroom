@@ -35,8 +35,6 @@ Item {
             SplitView.minimumHeight: 150
 
             GridView {
-                id: gridView
-
                 anchors.fill: parent
                 model: detector
 
@@ -54,50 +52,57 @@ Item {
                     Column {
                         anchors.fill: parent
 
-                        Picture {
+                        Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             height: 150
                             width: 150
-                            source: decoration
+
+                            Picture {
+                                anchors.fill: parent
+                                source: decoration
+                            }
+
+                            Item {
+                                id: actionButtons
+                                anchors.fill: parent
+
+                                opacity: 0
+                                Behavior on opacity { PropertyAnimation{} }
+
+                                Rectangle {
+                                    anchors.top: parent.top
+                                    anchors.right: parent.right
+
+                                    width: 20
+                                    height: 20
+                                    radius: 10
+                                    color: "green"
+                                }
+
+                                Rectangle {
+                                    anchors.top: parent.top
+                                    anchors.left: parent.left
+
+                                    width: 20
+                                    height: 20
+                                    radius: 10
+                                    color: "red"
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: actionButtons.opacity = 1
+                                onExited: actionButtons.opacity = 0
+                            }
                         }
 
-                        Text {
+                        LineEdit {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: display
+                            width: parent.width - 40
                         }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            gridView.currentIndex = index
-                        }
-                    }
-                }
-
-                highlight: Item {
-                    height: 150
-                    width: 150
-                    z: 2
-
-                    Rectangle {
-                        anchors.top: parent.top
-                        anchors.right: parent.right
-
-                        width: 20
-                        height: 20
-                        radius: 10
-                        color: "green"
-                    }
-
-                    Rectangle {
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-
-                        width: 20
-                        height: 20
-                        radius: 10
-                        color: "red"
                     }
                 }
             }
