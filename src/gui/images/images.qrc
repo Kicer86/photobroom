@@ -9,8 +9,10 @@
         <file>half_star.svg</file>
         <file>missing.svg</file>
         <file>new.svg</file>
+        <file>ok.svg</file>
         <file>paper.svg</file>
         <file>star.svg</file>
+        <file>trash.svg</file>
         <file>video.svg</file>
     </qresource>
 </RCC>
