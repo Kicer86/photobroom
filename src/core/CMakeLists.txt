@@ -2,6 +2,7 @@
 find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
+find_package(CsLibGuarded     REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -68,7 +69,6 @@ set(CORE_SOURCES
     thumbnail_generator.hpp                                 implementation/thumbnail_generator.cpp
     time_guardian.hpp                                       implementation/time_guardian.cpp
     ts_queue.hpp
-    ts_resource.hpp
     utils.hpp
 )
 
@@ -92,6 +92,7 @@ target_link_libraries(core
                             system
                             ${CMAKE_THREAD_LIBS_INIT}
                             exiv2lib
+                            CsLibGuarded::CsLibGuarded
 )
 
 target_include_directories(core PUBLIC

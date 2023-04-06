@@ -20,8 +20,8 @@
 #define THUMBNAILS_CACHE_HPP
 
 #include <QCache>
+#include <CsLibGuarded/cs_plain_guarded.h>
 
-#include <core/ts_resource.hpp>
 #include "ithumbnails_cache.hpp"
 
 
@@ -36,7 +36,7 @@ class ThumbnailsCache: public IThumbnailsCache
 
     private:
         typedef QCache<std::tuple<Photo::Id, ThumbnailParameters>, QImage> CacheContainer;
-        ol::ThreadSafeResource<CacheContainer> m_cache;
+        libguarded::plain_guarded<CacheContainer> m_cache;
 };
 
 #endif

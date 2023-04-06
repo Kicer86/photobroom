@@ -25,7 +25,8 @@
 
 #include <QTimer>
 
-#include "ts_resource.hpp"
+#include <CsLibGuarded/cs_plain_guarded.h>
+
 
 class QJsonValueRef;
 struct IConfigObserver;
@@ -49,7 +50,7 @@ class ConfigurationPrivate final: public QObject
 
     private:
         IConfigStorage& m_configStorage;
-        ol::ThreadSafeResource<IConfigStorage::Content> m_entries;
+        libguarded::plain_guarded<IConfigStorage::Content> m_entries;
         QTimer m_dumpTimer;
         std::map<QString, std::vector<IConfiguration::Watcher>> m_watchers;
 
