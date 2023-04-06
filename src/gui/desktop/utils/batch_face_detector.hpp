@@ -35,6 +35,9 @@ public:
     int rowCount(const QModelIndex &) const override;
     QVariant data(const QModelIndex &, int) const override;
 
+    Q_INVOKABLE void accept(int);
+    Q_INVOKABLE void drop(int);
+
 private:
     struct Face
     {
