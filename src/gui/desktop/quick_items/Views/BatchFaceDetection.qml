@@ -62,39 +62,35 @@ Item {
                                 source: decoration
                             }
 
-                            Item {
-                                id: actionButtons
-                                anchors.fill: parent
-
-                                opacity: 0
-                                Behavior on opacity { PropertyAnimation{} }
-
-                                Rectangle {
-                                    anchors.top: parent.top
-                                    anchors.right: parent.right
-
-                                    width: 20
-                                    height: 20
-                                    radius: 10
-                                    color: "green"
-                                }
-
-                                Rectangle {
-                                    anchors.top: parent.top
-                                    anchors.left: parent.left
-
-                                    width: 20
-                                    height: 20
-                                    radius: 10
-                                    color: "red"
-                                }
-                            }
-
                             MouseArea {
+                                id: mouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onEntered: actionButtons.opacity = 1
-                                onExited: actionButtons.opacity = 0
+
+                                Item {
+                                    anchors.fill: parent
+
+                                    opacity: mouseArea.containsMouse? 1.0: 0.0
+                                    Behavior on opacity { PropertyAnimation{} }
+
+                                    ImageButton {
+                                        anchors.top: parent.top
+                                        anchors.right: parent.right
+
+                                        width: 20
+                                        height: 20
+                                        source: "qrc:/gui/ok.svg"
+                                    }
+
+                                    ImageButton {
+                                        anchors.top: parent.top
+                                        anchors.left: parent.left
+
+                                        width: 20
+                                        height: 20
+                                        source: "qrc:/gui/trash.svg"
+                                    }
+                                }
                             }
                         }
 
