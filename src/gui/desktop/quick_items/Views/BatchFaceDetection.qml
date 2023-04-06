@@ -80,6 +80,8 @@ Item {
                                         width: 20
                                         height: 20
                                         source: "qrc:/gui/ok.svg"
+
+                                        style: ImageButton.Scale
                                     }
 
                                     ImageButton {
@@ -89,6 +91,8 @@ Item {
                                         width: 20
                                         height: 20
                                         source: "qrc:/gui/trash.svg"
+
+                                        style: ImageButton.Scale
                                     }
                                 }
                             }
