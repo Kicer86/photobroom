@@ -18,6 +18,7 @@
     },
     "exiv2",
     "jsoncpp",
+    "libguarded",
     "libwebp",
     "magic-enum",
     "qtbase",
