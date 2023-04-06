@@ -42,6 +42,8 @@ Item {
                 cellHeight: 200
 
                 delegate: Item {
+                    id: delegateItem
+
                     required property var decoration
                     required property var display
                     required property var index
@@ -82,6 +84,8 @@ Item {
                                         source: "qrc:/gui/ok.svg"
 
                                         style: ImageButton.Scale
+
+                                        onClicked: detector.accept(delegateItem.index)
                                     }
 
                                     ImageButton {
@@ -93,6 +97,8 @@ Item {
                                         source: "qrc:/gui/trash.svg"
 
                                         style: ImageButton.Scale
+
+                                        onClicked: detector.drop(delegateItem.index)
                                     }
                                 }
                             }

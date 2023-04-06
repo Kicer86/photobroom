@@ -110,6 +110,18 @@ QVariant BatchFaceDetector::data(const QModelIndex& idx, int role) const
 }
 
 
+void BatchFaceDetector::accept(int idx)
+{
+
+}
+
+
+void BatchFaceDetector::drop(int idx)
+{
+
+}
+
+
 ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::IProcessSupervisor* supervisor)
 {
     while(supervisor->keepWorking())
