@@ -59,6 +59,15 @@ jobs:
       run: |
         sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
+    - name: Install CsLibGuarded
+      run: |
+        git clone https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target install
+
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
