@@ -16,9 +16,9 @@
         "default-features": false,
         "features": [ "contrib" ]
     },
+    "cs_libguarded",
     "exiv2",
     "jsoncpp",
-    "libguarded",
     "libwebp",
     "magic-enum",
     "qtbase",
