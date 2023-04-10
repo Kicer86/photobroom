@@ -16,7 +16,7 @@
         "default-features": false,
         "features": [ "contrib" ]
     },
-    "cs_libguarded",
+    "cs-libguarded",
     "exiv2",
     "jsoncpp",
     "libwebp",
