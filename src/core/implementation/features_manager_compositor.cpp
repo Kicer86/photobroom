@@ -1,4 +1,6 @@
 
+#include <algorithm>
+
 #include "features_manager_compositor.hpp"
 
 
