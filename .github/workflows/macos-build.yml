@@ -35,3 +35,5 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
+        cc: /usr/local/opt/llvm/bin/clang
+        cxx: /usr/local/opt/llvm/bin/clang++
