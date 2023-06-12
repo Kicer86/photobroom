@@ -23,6 +23,7 @@ jobs:
     - name: Install system dependencies
       run: |
         brew install        \
+          llvm              \
           qt6               \
           exiv2             \
           magic_enum        \
