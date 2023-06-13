@@ -34,6 +34,6 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DLDFLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib/c++"
+        configure-options: -DBUILD_TESTING=OFF -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib/c++"
         cc: /usr/local/opt/llvm/bin/clang
         cxx: /usr/local/opt/llvm/bin/clang++
