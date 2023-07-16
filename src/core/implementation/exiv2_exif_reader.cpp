@@ -48,7 +48,7 @@ void Exiv2ExifReader::collect(const QString& path)
             assert(m_exif_data.get() != 0);
             m_exif_data->readMetadata();
         }
-        catch (Exiv2::AnyError &)
+        catch (Exiv2::Error &)
         {
             return;
         }
