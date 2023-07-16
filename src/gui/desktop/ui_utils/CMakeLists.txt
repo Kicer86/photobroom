@@ -16,7 +16,6 @@ set(UTILS_HEADERS
 source_group(files REGULAR_EXPRESSION .*gui.* )
 
 add_library(gui_ui_utils OBJECT ${UTILS_SOURCES} ${UTILS_HEADERS})
-set_target_properties(gui_ui_utils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_ui_utils
                         PRIVATE
                             core

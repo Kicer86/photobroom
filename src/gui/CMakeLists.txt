@@ -7,6 +7,11 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
+# This top level PIC setting is here as otherwise it seems imposible
+# to set PIC on qml_items target (some Qt generated files won't
+# get this flag set)
+set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
 add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
 add_subdirectory(desktop/QmlItems)
