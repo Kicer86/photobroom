@@ -27,8 +27,6 @@ set(SRC
     tasks_model.hpp
 )
 
-source_group(files REGULAR_EXPRESSION .*gui.* )
-
 add_library(gui_models OBJECT ${SRC})
 set_target_properties(gui_models PROPERTIES AUTOMOC ON)
 target_link_libraries(gui_models
