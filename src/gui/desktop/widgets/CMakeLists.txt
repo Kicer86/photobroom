@@ -23,7 +23,6 @@ set(TO_MOC
 qt6_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(gui_widgets OBJECT ${SRCS} ${MOCED} ${HEADERS})
-set_target_properties(gui_widgets PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(gui_widgets
                         PRIVATE
                             core

@@ -53,8 +53,6 @@ set(UTILS_SOURCES
     variant_display.hpp
 )
 
-source_group(files REGULAR_EXPRESSION .*gui.* )
-
 add_library(gui_utils OBJECT ${UTILS_SOURCES})
 set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 target_link_libraries(gui_utils

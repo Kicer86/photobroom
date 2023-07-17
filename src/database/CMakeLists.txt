@@ -73,8 +73,6 @@ set(DATABASE_SOURCES
     database_tools/implementation/tag_info_collector.cpp
 )
 
-source_group(files REGULAR_EXPRESSION .*database.* )
-
 add_library(database SHARED ${DATABASE_SOURCES})
 target_link_libraries(database
                         PUBLIC
