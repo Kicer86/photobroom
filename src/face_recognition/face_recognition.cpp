@@ -156,8 +156,8 @@ QVector<QRect> FaceRecognition::fetchFaces(const OrientedImage& orientedPhoto, d
     result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(photo, 0);
 
     std::transform(result.begin(), result.end(), result.begin(), [scale](const QRect& face){
-        return QRect(face.topLeft().x() / scale, face.topLeft().y() / scale,
-                     face.width() / scale, face.height() / scale);
+        return QRectF(face.topLeft().x() / scale, face.topLeft().y() / scale,
+                      face.width() / scale, face.height() / scale).toRect();
     });
 
     return result;

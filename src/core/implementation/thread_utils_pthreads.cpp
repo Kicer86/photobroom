@@ -29,7 +29,7 @@ namespace
             case Priority::Idle:     prio =  19; break;
         }
 
-        setpriority(PRIO_PROCESS, thread, prio);
+        setpriority(PRIO_PROCESS, static_cast<id_t>(thread), prio);
     }
 }
 

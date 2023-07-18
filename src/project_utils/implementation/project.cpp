@@ -130,8 +130,7 @@ const ProjectInfo& Project::getProjectInfo() const
 QString Project::makePathRelative(const QString& path) const
 {
     const QString baseDir = m_prjInfo.getBaseDir();
-    const int l = baseDir.size();
-
+    const auto l = baseDir.size();
     const bool subdir = path.left(l) == baseDir;
 
     assert(subdir);
