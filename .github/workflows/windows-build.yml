@@ -35,6 +35,10 @@ jobs:
         cache: 'true'
         modules: 'qtmultimedia'
 
+    - name: python deps
+      run: |
+        pip install Pillow
+
     - name: Cache external tools
       uses: actions/cache@v2
       with:
