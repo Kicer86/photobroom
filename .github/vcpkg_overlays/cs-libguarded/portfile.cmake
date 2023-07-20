@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO copperspice/cs_libguarded
-    REF libguarded-1.4.0
-    SHA512 7514f9800f5d8c7419cfa4586c8131f842fe7981e033ab9883d92756cbf1444b54a2f47d749c33d07bd6a4f459ad4dbf88d3264deb9e50ca6ae098a39c910c84
+    REF libguarded-1.4.1
+    SHA512 fb54cce1be0ecbd363cdf7a8bdfcddd540737419aea702a29e5ee37143434f7431de1edb085bdfc2dc1eded9749dab40afd634582479118d2202c8d46b196c7d
     HEAD_REF master
 )
 
