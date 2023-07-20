@@ -22,9 +22,9 @@
 
 #include <variant>
 #include <QImage>
+#include <CsLibGuarded/cs_plain_guarded.h>
 
 #include <core/tag.hpp>
-#include <core/ts_resource.hpp>
 
 #include "database_export.h"
 #include "group.hpp"
@@ -139,10 +139,10 @@ namespace Photo
     };
 
 
-    using SafeData = ol::ThreadSafeResource<Data>;
+    using SafeData = libguarded::plain_guarded<Data>;
     using SharedData = std::shared_ptr<SafeData>;
 
-    using SafeDataDelta = ol::ThreadSafeResource<DataDelta>;
+    using SafeDataDelta = libguarded::plain_guarded<DataDelta>;
     using SharedDataDelta = std::shared_ptr<SafeDataDelta>;
 }
 

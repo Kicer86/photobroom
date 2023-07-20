@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt;.github/vcpkg_overlays/cs-libguarded
 
 jobs:
   build:
@@ -34,6 +34,11 @@ jobs:
         version: '6.4.0'
         cache: 'true'
         modules: 'qtmultimedia'
+
+    - name: python deps
+      run: |
+        pip install Pillow cairosvg pipwin
+        pipwin install cairocffi
 
     - name: Cache external tools
       uses: actions/cache@v2

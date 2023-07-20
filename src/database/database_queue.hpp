@@ -2,9 +2,10 @@
 #ifndef DATABASE_QUEUE_HPP_INCLUDED
 #define DATABASE_QUEUE_HPP_INCLUDED
 
+#include <CsLibGuarded/cs_plain_guarded.h>
+
 #include <core/accumulative_queue.hpp>
 #include <core/task_executor_utils.hpp>
-#include <core/ts_resource.hpp>
 #include <idatabase.hpp>
 
 
@@ -36,7 +37,7 @@ namespace Database
         using Queue = AccumulativeQueue<std::function<void(Database::IBackend &)>>;
         void flushQueue(Queue::Container &&);
 
-        ol::ThreadSafeResource<Queue> m_queue;
+        libguarded::plain_guarded<Queue> m_queue;
         Database::IDatabase& m_db;
     };
 }
