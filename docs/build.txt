@@ -9,12 +9,14 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 
 Required tools and libraries:
  - cmake - version 3.18 or later
+ - python**
  - Qt6 - version 6.2 or higher*
  - exiv2*
  - dlib*
  - magic_enum*
  - opencv*
  - libwebp*
+ - cs_libguarded
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -29,14 +31,22 @@ Required tools and libraries:
 * For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
+** Only on Windows.
+Make sure PIL and cairosvg are installed.
+For cairosvg to work, it may be required to install pipwin and then to install cairocffi with:
+  pipwin install cairocffi
+
+See here for details: https://stackoverflow.com/questions/46265677/get-cairosvg-working-in-windows
+
 
 Build tips:
 You may want to use predefined CMakePresets (automatically used by VisualStudio) which will read
-vcpkg.json file and install all dependencies (except Qt - building Qt with vcpkg takes a lot of time and space
-so it may be more convenient to use manually installed Qt. Also dlib will be built without GPU support. Read more about it below).
+vcpkg.json file and install all dependencies. It is required to have VCPKG_OVERLAY_PORTS set to <repo path>/.github/vcpkg_overlays/cs-libguarded
+so vcpgk can see cs-libguarded dependency.
+Please mind that dlib will be built without GPU support. Read more about it below).
 
 Dependencies can be also install by hand:
-vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib] libwebp
+vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib] libwebp cs-libguarded --overlay-ports=<repo path>/.github/vcpkg_overlays/cs-libguarded/
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 
