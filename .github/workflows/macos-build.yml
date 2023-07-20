@@ -29,6 +29,11 @@ jobs:
           opencv            \
           dlib
 
+    - name: Install CsLibGuarded
+      run: |
+        git clone https://github.com/copperspice/cs_libguarded.git
+        ln -s cs_libguarded/src /usr/local/include/CsLibGuarded
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
