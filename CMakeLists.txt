@@ -2,6 +2,10 @@
 cmake_minimum_required(VERSION 3.18)
 project(PhotoBroom VERSION 1.7.0 LANGUAGES CXX)
 
+if(POLICY CMP0146)
+    cmake_policy(SET CMP0146 OLD)
+endif()
+
 set(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/cmake_modules;
 )
