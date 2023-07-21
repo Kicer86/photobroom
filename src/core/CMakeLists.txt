@@ -2,15 +2,7 @@
 find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
-find_package(CsLibGuarded)
-
-if(WIN32 AND NOT TARGET CsLibGuarded::CsLibGuarded)                     # vcpkg does not provide CsLibGuarded CONFIG. Improvise
-    find_path(CS_LIBGUARDED_INCLUDE_DIRS "CsLibGuarded/cs_cow_guarded.h")
-    add_library(CsLibGuarded::CsLibGuarded INTERFACE IMPORTED)
-    set_target_properties(CsLibGuarded::CsLibGuarded PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${CS_LIBGUARDED_INCLUDE_DIRS}"
-    )
-endif()
+find_package(CsLibGuarded     REQUIRED)
 
 include(GenerateExportHeader)
 

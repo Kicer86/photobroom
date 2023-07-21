@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt;.github/vcpkg_overlays/cs-libguarded
+  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
 
 jobs:
   build:
