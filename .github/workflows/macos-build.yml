@@ -31,8 +31,13 @@ jobs:
 
     - name: Install CsLibGuarded
       run: |
-        git clone https://github.com/copperspice/cs_libguarded.git
-        ln -s cs_libguarded/src /usr/local/include/CsLibGuarded
+        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        sudo cmake --build . --target install
 
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
