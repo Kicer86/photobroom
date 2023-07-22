@@ -23,11 +23,22 @@ jobs:
     - name: Install system dependencies
       run: |
         brew install        \
+          llvm              \
           qt6               \
           exiv2             \
           magic_enum        \
           opencv            \
           dlib
+
+    - name: Install CsLibGuarded
+      run: |
+        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        sudo cmake --build . --target install
 
     - name: Build
       continue-on-error: true
@@ -36,3 +47,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
+        cc: /usr/local/opt/llvm/bin/clang
+        cxx: /usr/local/opt/llvm/bin/clang++
+      env:
+        VERBOSE: 1
