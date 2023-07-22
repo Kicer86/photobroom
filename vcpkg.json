@@ -16,6 +16,7 @@
         "default-features": false,
         "features": [ "contrib" ]
     },
+    "boost-multi-index",
     "exiv2",
     "jsoncpp",
     "libguarded",
