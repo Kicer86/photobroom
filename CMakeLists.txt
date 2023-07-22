@@ -1,6 +1,10 @@
 
 cmake_minimum_required(VERSION 3.18)
-project(PhotoBroom VERSION 1.7.0)
+project(PhotoBroom VERSION 1.7.0 LANGUAGES CXX)
+
+if(POLICY CMP0146)
+    cmake_policy(SET CMP0146 OLD)
+endif()
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/cmake_modules;
@@ -8,7 +12,7 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindEasyExif.cmake)
