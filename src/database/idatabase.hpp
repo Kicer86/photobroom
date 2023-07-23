@@ -128,8 +128,8 @@ namespace Database
         //init backend - connect to database or create new one
         virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
 
-        //close database connection
-        virtual void closeConnections() = 0;
+        //close database
+        virtual void close() = 0;
 
         [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
     };

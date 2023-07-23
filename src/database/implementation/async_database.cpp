@@ -169,7 +169,7 @@ namespace Database
     AsyncDatabase::~AsyncDatabase()
     {
         //terminate thread
-        closeConnections();
+        close();
     }
 
 
@@ -196,7 +196,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::closeConnections()
+    void AsyncDatabase::close()
     {
         // close clients
         std::unique_lock lk(m_clientsMutex);

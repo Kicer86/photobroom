@@ -117,7 +117,7 @@ bool Project::lockProject()
 
 void Project::closeDatabase()
 {
-    m_database->closeConnections();
+    m_database->close();
 }
 
 

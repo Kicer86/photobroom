@@ -51,7 +51,7 @@ namespace Database
             IBackend& backend() override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
-            virtual void closeConnections() override;
+            virtual void close() override;
 
             std::unique_ptr<IClient> attach(const QString &) override;
 
