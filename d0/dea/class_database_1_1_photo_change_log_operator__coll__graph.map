@@ -1,0 +1,8 @@
+<map id="Database::PhotoChangeLogOperator" name="Database::PhotoChangeLogOperator">
+<area shape="rect" id="node1" title=" " alt="" coords="355,127,537,167"/>
+<area shape="rect" id="node2" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="5,5,197,45"/>
+<area shape="rect" id="node3" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="9,69,194,109"/>
+<area shape="rect" id="node4" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="6,134,197,159"/>
+<area shape="rect" id="node5" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="68,183,135,209"/>
+<area shape="rect" id="node6" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="32,233,171,258"/>
+</map>

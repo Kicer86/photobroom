@@ -1,0 +1,10 @@
+<map id="PhotosGroupingDialog" name="PhotosGroupingDialog">
+<area shape="rect" id="node1" title=" " alt="" coords="309,153,460,179"/>
+<area shape="rect" id="node2" title=" " alt="" coords="37,5,105,31"/>
+<area shape="rect" id="node3" href="$d4/d03/class_sorting_proxy.html" title=" " alt="" coords="23,55,118,80"/>
+<area shape="rect" id="node4" href="$de/d4c/class_media_preview.html" title=" " alt="" coords="19,104,123,129"/>
+<area shape="rect" id="node5" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="5,153,136,179"/>
+<area shape="rect" id="node6" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="20,203,121,228"/>
+<area shape="rect" id="node7" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="37,252,104,277"/>
+<area shape="rect" id="node8" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="18,301,123,327"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="PhotosModelControllerComponent::getTimeRangeForFilters" name="PhotosModelControllerComponent::getTimeRangeForFilters">
+<area shape="rect" id="node1" title=" " alt="" coords="5,120,224,160"/>
+<area shape="rect" id="node2" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a" title="find all photos matching filters" alt="" coords="296,5,467,45"/>
+<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="330,70,433,95"/>
+<area shape="rect" id="node4" href="$d2/ddd/struct_database_1_1_i_backend.html#a566e5e93d90f9747fd65b028d47812c5" title="list all values of tag for photos matching provided filter" alt="" coords="312,120,451,160"/>
+<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="312,184,451,224"/>
+<area shape="rect" id="node6" href="$d2/d10/class_photos_model_controller_component.html#a853745d613401fd8f301dcf4816f6f95" title=" " alt="" coords="272,248,491,288"/>
+</map>

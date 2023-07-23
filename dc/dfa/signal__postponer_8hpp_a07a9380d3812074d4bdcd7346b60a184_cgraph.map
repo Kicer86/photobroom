@@ -1,0 +1,4 @@
+<map id="blocked_connect" name="blocked_connect">
+<area shape="rect" id="node1" title="blocks slot invocation until previous invocation is complete." alt="" coords="5,5,125,31"/>
+<area shape="rect" id="node2" href="$d8/da6/class_signal_blocker.html#a04b4aed681630b681cc37f6726844bf9" title=" " alt="" coords="173,5,312,31"/>
+</map>

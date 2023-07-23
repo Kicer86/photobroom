@@ -1,0 +1,8 @@
+<map id="MediaTypes::isVideoFile" name="MediaTypes::isVideoFile">
+<area shape="rect" id="node1" title=" " alt="" coords="264,112,427,137"/>
+<area shape="rect" id="node2" href="$d8/d50/class_media_information.html#aab77a8cbe906790ee43dcec11d6ebe18" title=" " alt="" coords="5,5,216,31"/>
+<area shape="rect" id="node3" href="$de/db8/class_file_analyzer.html#a004f88967bb5ec6246d12cacc1ff8354" title=" " alt="" coords="29,55,193,80"/>
+<area shape="rect" id="node4" href="$d7/d27/class_thumbnail_generator.html#ac140a6ac8e145da51818e8bc6ae4e97c" title=" " alt="" coords="41,105,180,145"/>
+<area shape="rect" id="node5" href="$de/d4c/class_media_preview.html#a4aa614d60c4c1c0858ed4cc44016bba3" title=" " alt="" coords="29,169,192,195"/>
+<area shape="rect" id="node6" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="32,219,189,244"/>
+</map>

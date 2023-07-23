@@ -1,0 +1,8 @@
+<map id="Database::ASqlBackend::ensureTableExists" name="Database::ASqlBackend::ensureTableExists">
+<area shape="rect" id="node1" title="Make sure given table exists in database." alt="" coords="5,120,168,160"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af290d7256ff8cb9c611ffded92447aa6" title="prepare sql statement for KEY creation" alt="" coords="244,5,407,45"/>
+<area shape="rect" id="node3" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="483,35,669,75"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93ae3e2c2134298784344e2fadd09b6e" title="IGenericSqlQueryGenerator accessor." alt="" coords="234,120,417,160"/>
+<area shape="rect" id="node5" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#aa5f11a368757598ccd2fd2314d245b3f" title=" " alt="" coords="233,184,418,224"/>
+<area shape="rect" id="node6" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ae1b62631e873e11fb6d6205fa274453b" title=" " alt="" coords="216,248,435,288"/>
+</map>

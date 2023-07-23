@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::getPhotosCount" name="Database::ASqlBackend::getPhotosCount">
+<area shape="rect" id="node1" title="Count photos matching filter." alt="" coords="5,61,168,101"/>
+<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="216,29,403,69"/>
+<area shape="rect" id="node3" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a41b86be1876d22b283d495106b9bcf0c" title=" " alt="" coords="227,93,392,133"/>
+</map>

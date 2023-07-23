@@ -1,0 +1,6 @@
+<map id="ol::TS_Queue::wait_for_data" name="ol::TS_Queue::wait_for_data">
+<area shape="rect" id="node1" title="Wait until data is available." alt="" coords="376,29,507,69"/>
+<area shape="rect" id="node2" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="5,37,131,62"/>
+<area shape="rect" id="node3" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="190,37,317,62"/>
+<area shape="rect" id="node4" href="$d2/d36/classol_1_1_t_s___queue.html#a84aa50c15e60d6b0cc74a7c91b4854bc" title="Get data." alt="" coords="179,86,328,111"/>
+</map>

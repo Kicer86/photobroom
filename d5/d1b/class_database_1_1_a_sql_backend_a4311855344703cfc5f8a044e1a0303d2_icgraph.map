@@ -1,0 +1,9 @@
+<map id="Database::ASqlBackend::openTransaction" name="Database::ASqlBackend::openTransaction">
+<area shape="rect" id="node1" title="begin transaction" alt="" coords="451,131,613,171"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a2564c757e1cb2fa493a1905b0c4993be" title="Add photos to database." alt="" coords="5,39,168,79"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="228,35,391,75"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138" title="insert set of photos to database" alt="" coords="228,99,391,139"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="228,163,391,203"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="216,228,403,253"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2" title="update photos details" alt="" coords="228,278,391,318"/>
+</map>

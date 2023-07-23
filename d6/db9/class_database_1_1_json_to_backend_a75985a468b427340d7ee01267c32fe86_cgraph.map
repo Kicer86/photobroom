@@ -1,0 +1,8 @@
+<map id="Database::JsonToBackend::parseGroups" name="Database::JsonToBackend::parseGroups">
+<area shape="rect" id="node1" title=" " alt="" coords="5,127,183,167"/>
+<area shape="rect" id="node2" href="$d8/d5e/struct_database_1_1_i_group_operator.html#accb5783eb399eec5f78866f689fd281e" title=" " alt="" coords="233,5,405,45"/>
+<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" title="get group operator" alt="" coords="250,69,389,109"/>
+<area shape="rect" id="node4" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="241,134,398,159"/>
+<area shape="rect" id="node5" href="$d6/db9/class_database_1_1_json_to_backend.html#a37d0f4f1e42ba6568147cfefbed3e04c" title=" " alt="" coords="231,184,408,224"/>
+<area shape="rect" id="node6" href="$d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" title="update photos details" alt="" coords="250,248,389,288"/>
+</map>

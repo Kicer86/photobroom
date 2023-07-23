@@ -1,0 +1,4 @@
+<map id="Database::ASqlBackend::checkDBVersion" name="Database::ASqlBackend::checkDBVersion">
+<area shape="rect" id="node1" title="check current db version and upgrade structures if required" alt="" coords="216,5,379,45"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="5,5,168,45"/>
+</map>

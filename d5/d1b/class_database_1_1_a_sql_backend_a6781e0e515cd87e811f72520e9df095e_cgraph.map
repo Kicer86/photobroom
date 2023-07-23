@@ -1,0 +1,7 @@
+<map id="Database::ASqlBackend::prune" name="Database::ASqlBackend::prune">
+<area shape="rect" id="node1" title=" " alt="" coords="5,125,168,165"/>
+<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="229,29,415,69"/>
+<area shape="rect" id="node3" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a41b86be1876d22b283d495106b9bcf0c" title=" " alt="" coords="239,93,405,133"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="241,157,403,197"/>
+<area shape="rect" id="node5" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a3cd5ed198bec62318f5505339f7c2c30" title=" " alt="" coords="216,221,428,261"/>
+</map>

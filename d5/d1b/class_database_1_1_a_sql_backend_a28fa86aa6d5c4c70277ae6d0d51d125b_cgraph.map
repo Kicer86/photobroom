@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::listPeople" name="Database::ASqlBackend::listPeople">
+<area shape="rect" id="node1" title="get people details for given people ids" alt="" coords="5,37,168,77"/>
+<area shape="rect" id="node2" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#aeb14220779523b736ed934ba9d0e7f29" title="list all people names" alt="" coords="216,5,408,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#affedc37c486bf6ef70dbbcec2392ba42" title=" " alt="" coords="219,69,405,109"/>
+</map>

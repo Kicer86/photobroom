@@ -1,0 +1,9 @@
+<map id="Database::GroupOperator" name="Database::GroupOperator">
+<area shape="rect" id="node1" title=" " alt="" coords="391,141,559,167"/>
+<area shape="rect" id="node2" href="$d8/d5e/struct_database_1_1_i_group_operator.html" title=" " alt="" coords="33,5,205,31"/>
+<area shape="rect" id="node3" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,55,233,80"/>
+<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="27,105,212,145"/>
+<area shape="rect" id="node5" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="24,169,215,195"/>
+<area shape="rect" id="node6" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="86,219,153,244"/>
+<area shape="rect" id="node7" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="50,268,189,293"/>
+</map>

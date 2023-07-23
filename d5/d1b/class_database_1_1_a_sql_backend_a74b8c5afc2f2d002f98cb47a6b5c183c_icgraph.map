@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::dbOpened" name="Database::ASqlBackend::dbOpened">
+<area shape="rect" id="node1" title="called when DB was opened." alt="" coords="228,37,391,77"/>
+<area shape="rect" id="node2" href="$d6/dd8/class_database_1_1_s_q_lite_backend.html#ac321e2104cac7c71cc63803f9eb3a4d1" title="called when DB was opened." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8c4e2051ff9292e1635902200233c954" title="initialize database connection" alt="" coords="11,69,174,109"/>
+</map>

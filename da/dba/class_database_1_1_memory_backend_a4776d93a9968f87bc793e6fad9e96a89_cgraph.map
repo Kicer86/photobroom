@@ -1,0 +1,7 @@
+<map id="Database::MemoryBackend::update" name="Database::MemoryBackend::update">
+<area shape="rect" id="node1" title="update photos details" alt="" coords="5,87,185,127"/>
+<area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="264,5,389,31"/>
+<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a9a4c01c32827fd52e6491b096165fe1d" title="begin transaction" alt="" coords="237,55,417,95"/>
+<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#a5a825645f88f62d48ab33a6523fedc74" title="get changelog operator" alt="" coords="237,119,417,159"/>
+<area shape="rect" id="node5" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a3e824ad81d0b491022031c2d49a683c0" title=" " alt="" coords="233,183,420,223"/>
+</map>

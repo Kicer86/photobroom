@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::storeData" name="Database::ASqlBackend::storeData">
+<area shape="rect" id="node1" title="store photo data" alt="" coords="216,37,379,77"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="5,5,168,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2" title="update photos details" alt="" coords="5,69,168,109"/>
+</map>

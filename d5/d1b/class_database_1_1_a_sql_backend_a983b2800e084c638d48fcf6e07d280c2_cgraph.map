@@ -1,0 +1,7 @@
+<map id="Database::ASqlBackend::update" name="Database::ASqlBackend::update">
+<area shape="rect" id="node1" title="update photos details" alt="" coords="5,87,168,127"/>
+<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="273,5,387,31"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="249,55,411,95"/>
+<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="216,119,444,159"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="249,207,411,247"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Database::db_error::status" name="Database::db_error::status">
+<area shape="rect" id="node1" title=" " alt="" coords="427,63,557,103"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="216,5,379,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8c4e2051ff9292e1635902200233c954" title="initialize database connection" alt="" coords="5,35,168,75"/>
+<area shape="rect" id="node4" href="$d2/da8/db__error__tests_8cpp.html#a37551b9697dd02e9dd23943f9f067609" title=" " alt="" coords="270,121,325,146"/>
+</map>

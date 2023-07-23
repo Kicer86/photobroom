@@ -1,0 +1,5 @@
+<map id="SignalBlocker::notify" name="SignalBlocker::notify">
+<area shape="rect" id="node1" title=" " alt="" coords="363,31,501,56"/>
+<area shape="rect" id="node2" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="195,5,315,31"/>
+<area shape="rect" id="node3" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,31,147,56"/>
+</map>

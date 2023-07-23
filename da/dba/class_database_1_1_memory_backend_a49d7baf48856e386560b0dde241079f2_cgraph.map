@@ -1,0 +1,5 @@
+<map id="Database::MemoryBackend::clearBits" name="Database::MemoryBackend::clearBits">
+<area shape="rect" id="node1" title="clear bits for provided flag" alt="" coords="5,23,185,63"/>
+<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a87db0727f9bbc52e5462317c5ca24218" title="get flag value" alt="" coords="233,5,437,31"/>
+<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e" title="set flag for photo to given value" alt="" coords="233,55,437,80"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Database::IBackend::photosAdded" name="Database::IBackend::photosAdded">
+<area shape="rect" id="node1" title="emited after new photos were added to database" alt="" coords="500,127,639,167"/>
+<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#af94d56d23f94d5532ab285cf6aec18a5" title=" " alt="" coords="272,5,452,45"/>
+<area shape="rect" id="node3" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="291,69,433,109"/>
+<area shape="rect" id="node4" href="$d1/da6/class_flat_model.html#a2737a8ce4698c5aa45a9b9c50b799aea" title=" " alt="" coords="283,134,441,159"/>
+<area shape="rect" id="node5" href="$d2/d10/class_photos_model_controller_component.html#a42e1fbf8b1e05e08767d92e8266f29c8" title=" " alt="" coords="5,152,224,192"/>
+<area shape="rect" id="node6" href="$d3/d9d/photos__tests_8cpp.html#a82c1ed4e904b25dcae621dd0ff5168f7" title=" " alt="" coords="309,235,415,261"/>
+</map>

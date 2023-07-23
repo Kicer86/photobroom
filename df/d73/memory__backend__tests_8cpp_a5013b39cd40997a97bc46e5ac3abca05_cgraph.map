@@ -1,0 +1,5 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node1" title=" " alt="" coords="5,45,76,70"/>
+<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#aa9e5b8958c1b8f4549cc7f2117bd8831" title="close database connection" alt="" coords="124,5,304,45"/>
+<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#adc8a49ea4dbb83d7befdc53e4c91fa77" title="init backend &#45; connect to database or create new one" alt="" coords="124,69,304,109"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="TasksQueue" name="TasksQueue">
+<area shape="rect" id="node1" title="A subqueue for ITaskExecutor." alt="" coords="54,123,150,148"/>
+<area shape="rect" id="node2" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="5,20,111,45"/>
+<area shape="rect" id="node3" href="$d4/da4/class_queue.html" title=" " alt="" coords="135,5,274,60"/>
+</map>

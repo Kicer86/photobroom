@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::insert" name="Database::ASqlBackend::insert">
+<area shape="rect" id="node1" title="insert set of photos to database" alt="" coords="5,37,168,77"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="216,5,379,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="216,69,379,109"/>
+</map>

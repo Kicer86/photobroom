@@ -1,0 +1,6 @@
+<map id="PeopleManipulator::storeNewPerson" name="PeopleManipulator::storeNewPerson">
+<area shape="rect" id="node1" title=" " alt="" coords="5,55,140,95"/>
+<area shape="rect" id="node2" href="$d4/d0e/class_people_manipulator.html#abf23967ee8c4d0cc96e14854a629f512" title=" " alt="" coords="201,5,367,31"/>
+<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a222cff3bd2b3381069cdd58b275d426d" title=" " alt="" coords="191,55,377,95"/>
+<area shape="rect" id="node4" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#abb54529676bde61cbbdc6333bd1b45f8" title="Store or update person." alt="" coords="188,119,380,159"/>
+</map>

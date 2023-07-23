@@ -1,0 +1,6 @@
+<map id="Database::ASqlBackend::ensureTableExists" name="Database::ASqlBackend::ensureTableExists">
+<area shape="rect" id="node1" title="Make sure given table exists in database." alt="" coords="431,63,593,103"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aa1069ca198133cd660ca6a76c5861b81" title="check current db version and upgrade structures if required" alt="" coords="218,5,381,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="5,63,168,103"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2" title=" " alt="" coords="216,120,383,160"/>
+</map>

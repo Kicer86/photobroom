@@ -1,0 +1,16 @@
+<map id="src/gui/desktop/models" name="src/gui/desktop/models">
+<area shape="rect" id="node1" href="dir_1b7a27b8217f5e65b22462c5d7f44b93.html" title="utils" alt="" coords="35,125,82,151"/>
+<area shape="rect" id="node2" href="dir_eedf6bf7af32f88c96a361dd896f2edf.html" title="models" alt="" coords="27,52,91,77"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000028_000051.html" title="4" alt="" coords="63,99,71,114"/>
+<area shape="rect" id="node3" href="dir_3b56e0b998da7a2f208daeb459f27765.html" title="face_recognition" alt="" coords="112,125,229,151"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000028_000011.html" title="1" alt="" coords="137,101,145,115"/>
+<area shape="rect" id="node4" href="dir_54e6d718270be77f4d294dce82c1c152.html" title="project_utils" alt="" coords="254,125,346,151"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000028_000033.html" title="2" alt="" coords="240,104,248,119"/>
+<area shape="rect" id="node5" href="dir_803ee67260c130b45d29089798491ab2.html" title="database" alt="" coords="371,125,445,151"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000028_000005.html" title="24" alt="" coords="347,109,362,123"/>
+<area shape="rect" id="node6" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html" title="core" alt="" coords="470,125,517,151"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000028_000003.html" title="28" alt="" coords="446,109,461,124"/>
+<area shape="rect" id="node7" href="dir_d501334aeb1b78ad67cd3c72c37b1e87.html" title="system" alt="" coords="541,125,605,151"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000028_000039.html" title="1" alt="" coords="521,109,529,123"/>
+<area shape="rect" id="clust1" href="dir_c090f567964b7b78a4e63a3af92480e4.html" title="desktop" alt="" coords="16,16,101,161"/>
+</map>

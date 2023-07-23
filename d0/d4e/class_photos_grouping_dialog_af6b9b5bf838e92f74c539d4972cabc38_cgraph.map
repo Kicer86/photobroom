@@ -1,0 +1,9 @@
+<map id="PhotosGroupingDialog::makeCollage" name="PhotosGroupingDialog::makeCollage">
+<area shape="rect" id="node1" title=" " alt="" coords="5,149,156,189"/>
+<area shape="rect" id="node2" href="$db/d56/class_collage_generator.html#ae4ffed5e6d77e4f918afb46140f6529c" title=" " alt="" coords="208,5,387,45"/>
+<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#aadab8ff1bdd21245d089ed650e98210a" title=" " alt="" coords="439,92,589,132"/>
+<area shape="rect" id="node4" href="$d0/d4e/class_photos_grouping_dialog.html#ab537e3929d675260043bfe111c4afdda" title=" " alt="" coords="222,120,373,160"/>
+<area shape="rect" id="node5" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="220,185,375,210"/>
+<area shape="rect" id="node6" href="$d0/d4e/class_photos_grouping_dialog.html#aa8e8193829d9490df1fcd4aec2273ab5" title=" " alt="" coords="222,235,373,275"/>
+<area shape="rect" id="node7" href="$dc/ddb/struct_system.html#ad5581178d3fe12a658fe8af70c4e4a9c" title="generate unique file name" alt="" coords="204,299,391,325"/>
+</map>

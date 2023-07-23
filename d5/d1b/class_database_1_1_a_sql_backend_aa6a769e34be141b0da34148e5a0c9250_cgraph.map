@@ -1,0 +1,5 @@
+<map id="Database::ASqlBackend::setBits" name="Database::ASqlBackend::setBits">
+<area shape="rect" id="node1" title="set bits for provided flag" alt="" coords="5,23,168,63"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c" title="get flag value" alt="" coords="216,5,403,31"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="216,55,403,80"/>
+</map>

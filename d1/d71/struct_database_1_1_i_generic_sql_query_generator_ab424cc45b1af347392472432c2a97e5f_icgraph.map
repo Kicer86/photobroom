@@ -1,0 +1,8 @@
+<map id="Database::IGenericSqlQueryGenerator::update" name="Database::IGenericSqlQueryGenerator::update">
+<area shape="rect" id="node1" title=" " alt="" coords="241,133,427,173"/>
+<area shape="rect" id="node2" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,5,183,45"/>
+<area shape="rect" id="node3" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,69,193,109"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,133,181,173"/>
+<area shape="rect" id="node5" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,197,193,237"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="18,261,181,301"/>
+</map>

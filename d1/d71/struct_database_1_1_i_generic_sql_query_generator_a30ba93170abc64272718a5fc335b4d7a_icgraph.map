@@ -1,0 +1,11 @@
+<map id="Database::IGenericSqlQueryGenerator::insert" name="Database::IGenericSqlQueryGenerator::insert">
+<area shape="rect" id="node1" title=" " alt="" coords="241,229,427,269"/>
+<area shape="rect" id="node2" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="15,5,183,45"/>
+<area shape="rect" id="node3" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html#a159940cd5cfab82ab1a0e4a5fb8d5799" title=" " alt="" coords="8,69,191,109"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="18,133,181,173"/>
+<area shape="rect" id="node5" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,197,183,237"/>
+<area shape="rect" id="node6" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,261,193,301"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,325,181,365"/>
+<area shape="rect" id="node8" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,389,193,429"/>
+<area shape="rect" id="node9" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="18,453,181,493"/>
+</map>

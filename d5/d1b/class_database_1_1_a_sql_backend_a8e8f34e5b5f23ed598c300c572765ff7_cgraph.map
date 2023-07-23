@@ -1,0 +1,12 @@
+<map id="Database::ASqlBackend::getPhotoDelta" name="Database::ASqlBackend::getPhotoDelta">
+<area shape="rect" id="node1" title=" " alt="" coords="5,261,168,301"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9fa3a0d6b981521fe6d75b116da62fed" title="check if" alt="" coords="218,5,381,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#abcf031def9563be78611d22e14e94f6f" title="read flags for photo" alt="" coords="218,69,381,109"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ac3dff9d69e5311d8e5ac7090c42225f5" title="read photo&#39;s geometry" alt="" coords="218,133,381,173"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8f9836cdac088f4b01cd62b51926a2a0" title="read details about group" alt="" coords="218,197,381,237"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad882d8655cd694ff0ba4967c30f36fcf" title="read photo path" alt="" coords="218,261,381,301"/>
+<area shape="rect" id="node7" href="$da/dd9/class_database_1_1_photo_operator.html#afb2efaf2200feb697c51bf35dad19e3d" title=" " alt="" coords="216,325,383,365"/>
+<area shape="rect" id="node8" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="218,389,381,429"/>
+<area shape="rect" id="node9" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="221,454,378,479"/>
+<area shape="rect" id="node10" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af282cb886405d379b78d19b3af177d03" title="get photo operator" alt="" coords="218,504,381,544"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="Database::ASqlBackend::checkStructure" name="Database::ASqlBackend::checkStructure">
+<area shape="rect" id="node1" title="validate database consistency" alt="" coords="5,203,168,243"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aa1069ca198133cd660ca6a76c5861b81" title="check current db version and upgrade structures if required" alt="" coords="218,5,381,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="431,63,593,103"/>
+<area shape="rect" id="node4" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="641,92,828,132"/>
+<area shape="rect" id="node5" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="455,181,569,206"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2" title=" " alt="" coords="216,120,383,160"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="218,285,381,325"/>
+<area shape="rect" id="node8" href="$d5/dcf/class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65" title=" " alt="" coords="234,349,365,389"/>
+<area shape="rect" id="node9" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="234,413,365,453"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Database::SQLiteBackend::dbOpened" name="Database::SQLiteBackend::dbOpened">
+<area shape="rect" id="node1" title="called when DB was opened." alt="" coords="5,37,180,77"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a74b8c5afc2f2d002f98cb47a6b5c183c" title="called when DB was opened." alt="" coords="228,5,391,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adebbe919f39aef77476b451f6f7d66ed" title="Get connection name." alt="" coords="228,69,391,109"/>
+</map>

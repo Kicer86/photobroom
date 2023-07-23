@@ -1,0 +1,13 @@
+<map id="Database::PeopleInformationAccessor::store" name="Database::PeopleInformationAccessor::store">
+<area shape="rect" id="node1" title="Store or update person." alt="" coords="5,257,193,297"/>
+<area shape="rect" id="node2" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="242,5,429,45"/>
+<area shape="rect" id="node3" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="477,175,668,215"/>
+<area shape="rect" id="node4" href="$db/de4/class_person_name.html#a979b86cf90481f8e272512c14fa01e35" title=" " alt="" coords="278,121,393,146"/>
+<area shape="rect" id="node5" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="243,171,428,211"/>
+<area shape="rect" id="node6" href="$db/de4/class_person_name.html#aee0d4971d8f4ed356107c4b635830e6d" title=" " alt="" coords="267,235,403,261"/>
+<area shape="rect" id="node7" href="$db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" title="get person name for given person id" alt="" coords="241,285,429,325"/>
+<area shape="rect" id="node8" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="247,349,424,389"/>
+<area shape="rect" id="node9" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="247,413,424,453"/>
+<area shape="rect" id="node10" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="243,477,428,517"/>
+<area shape="rect" id="node11" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="302,542,369,567"/>
+</map>

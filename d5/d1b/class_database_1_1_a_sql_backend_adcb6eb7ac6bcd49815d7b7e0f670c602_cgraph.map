@@ -1,0 +1,7 @@
+<map id="Database::ASqlBackend::getTagsFor" name="Database::ASqlBackend::getTagsFor">
+<area shape="rect" id="node1" title="get all tags assigned to photo" alt="" coords="5,112,168,152"/>
+<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="216,29,403,69"/>
+<area shape="rect" id="node3" href="$df/d7c/class_tag_value.html#a23a09559a3f5de9a89b8a237fc2af081" title=" " alt="" coords="242,94,377,119"/>
+<area shape="rect" id="node4" href="$de/dd4/class_base_tags.html#a440585d38153e073f47134a7f04e6f5e" title="Get structure describing tag." alt="" coords="243,143,376,169"/>
+<area shape="rect" id="node5" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="274,193,345,218"/>
+</map>

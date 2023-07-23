@@ -1,0 +1,9 @@
+<map id="Database::PhotoOperator::removePhotos" name="Database::PhotoOperator::removePhotos">
+<area shape="rect" id="node1" title=" " alt="" coords="5,165,172,205"/>
+<area shape="rect" id="node2" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="239,5,429,45"/>
+<area shape="rect" id="node3" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a41b86be1876d22b283d495106b9bcf0c" title=" " alt="" coords="251,69,417,109"/>
+<area shape="rect" id="node4" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="265,133,403,173"/>
+<area shape="rect" id="node5" href="$d2/deb/class_database_1_1_notifications_accumulator.html#aedbc7205c18d44ac9a1e3b3e987c5c4e" title=" " alt="" coords="220,197,448,237"/>
+<area shape="rect" id="node6" href="$d2/ddd/struct_database_1_1_i_backend.html#a043cd4e3f933780157072a225cae861f" title="set bits for provided flag" alt="" coords="265,261,403,301"/>
+<area shape="rect" id="node7" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a3cd5ed198bec62318f5505339f7c2c30" title=" " alt="" coords="228,325,440,365"/>
+</map>

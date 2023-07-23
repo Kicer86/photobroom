@@ -1,0 +1,11 @@
+<map id="Database::ASqlBackend::getGenericQueryGenerator" name="Database::ASqlBackend::getGenericQueryGenerator">
+<area shape="rect" id="node1" title="IGenericSqlQueryGenerator accessor." alt="" coords="229,229,412,269"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a0c0603d80337f62fe765d924b23ffd32" title=" " alt="" coords="12,5,175,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="12,69,175,109"/>
+<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8b66e6fa978d2fbc27e93902776daf90" title="get group operator" alt="" coords="12,133,175,173"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="12,197,175,237"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a3e9501e1fef2f56f42ebc39c17e8aaab" title="get changelog operator" alt="" coords="5,261,181,301"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af282cb886405d379b78d19b3af177d03" title="get photo operator" alt="" coords="12,325,175,365"/>
+<area shape="rect" id="node8" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="12,389,175,429"/>
+<area shape="rect" id="node9" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="12,453,175,493"/>
+</map>

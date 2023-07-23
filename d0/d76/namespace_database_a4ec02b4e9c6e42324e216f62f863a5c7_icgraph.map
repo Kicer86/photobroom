@@ -1,0 +1,5 @@
+<map id="Database::getValidPhotosFilter" name="Database::getValidPhotosFilter">
+<area shape="rect" id="node1" title="return filter which will filter out broken photos (missing, broken, deleted etc)" alt="" coords="249,27,420,67"/>
+<area shape="rect" id="node2" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="5,5,201,31"/>
+<area shape="rect" id="node3" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="32,55,175,95"/>
+</map>

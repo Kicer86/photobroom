@@ -1,0 +1,7 @@
+<map id="Database::ASqlBackend::updateOrInsert" name="Database::ASqlBackend::updateOrInsert">
+<area shape="rect" id="node1" title="insert data to database or upgrade existing entries." alt="" coords="5,125,168,165"/>
+<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="216,29,403,69"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93ae3e2c2134298784344e2fadd09b6e" title="IGenericSqlQueryGenerator accessor." alt="" coords="218,93,401,133"/>
+<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="217,157,402,197"/>
+<area shape="rect" id="node5" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="217,221,402,261"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Database::MemoryBackend" name="Database::MemoryBackend">
+<area shape="rect" id="node1" title="memory based backend" alt="" coords="251,127,431,152"/>
+<area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="35,5,173,31"/>
+<area shape="rect" id="node3" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="5,55,203,95"/>
+<area shape="rect" id="node4" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="8,119,200,159"/>
+<area shape="rect" id="node5" href="$d8/d5e/struct_database_1_1_i_group_operator.html" title=" " alt="" coords="18,184,190,209"/>
+<area shape="rect" id="node6" href="$d1/d7e/struct_database_1_1_i_photo_operator.html" title=" " alt="" coords="19,233,189,259"/>
+</map>

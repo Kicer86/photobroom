@@ -1,0 +1,13 @@
+<map id="main" name="main">
+<area shape="rect" id="node1" title=" " alt="" coords="5,272,56,297"/>
+<area shape="rect" id="node2" href="$dc/ddb/struct_system.html#a18622f40287a5336ac165d6cd97f4495" title="remove all temporary files" alt="" coords="120,5,295,31"/>
+<area shape="rect" id="node3" href="$de/d60/class_observables_registry.html#a84f31b01181a9828b7d7c5c010be4449" title=" " alt="" coords="136,55,279,95"/>
+<area shape="rect" id="node4" href="$d8/d06/class_logger_factory.html#a2226f917a8cef745cd09d0320dc4ff5c" title=" " alt="" coords="143,144,272,169"/>
+<area shape="rect" id="node5" href="$dc/ddb/struct_system.html#a2a859fbff26a7ec69a263639f347d25e" title="get dir for config files" alt="" coords="104,193,311,219"/>
+<area shape="rect" id="node6" href="$df/d0d/class_crash_catcher.html#a37ec71708879a1e684894884e66671c8" title=" " alt="" coords="145,243,269,268"/>
+<area shape="rect" id="node7" href="$de/d60/class_observables_registry.html#acfb967f2868cb5d40475756aeb3be6ae" title=" " alt="" coords="136,293,279,333"/>
+<area shape="rect" id="node8" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="174,357,241,383"/>
+<area shape="rect" id="node9" href="$d5/d53/class_plugin_loader.html#a2caedcf4bb71a03fd7b49e9b4bf88e8a" title=" " alt="" coords="146,407,269,432"/>
+<area shape="rect" id="node10" href="$dd/dc1/struct_database_1_1_builder.html#a565fdb7b80ab1e284f84def5d1e07047" title=" " alt="" coords="134,456,281,481"/>
+<area shape="rect" id="node11" href="$d8/d06/class_logger_factory.html#a1039b2fa8cf3644a3319a1383441e23f" title=" " alt="" coords="123,506,291,546"/>
+</map>

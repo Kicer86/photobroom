@@ -1,0 +1,4 @@
+<map id="Database::IBackend::init" name="Database::IBackend::init">
+<area shape="rect" id="node1" title="init backend &#45; connect to database or create new one" alt="" coords="228,5,367,45"/>
+<area shape="rect" id="node2" href="$dc/dc0/class_database_1_1_async_database.html#a836d2e0ec99e3b7aba3084716033f58d" title=" " alt="" coords="5,5,180,45"/>
+</map>

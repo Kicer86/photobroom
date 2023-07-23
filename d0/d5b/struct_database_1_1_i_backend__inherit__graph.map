@@ -1,0 +1,7 @@
+<map id="Database::IBackend" name="Database::IBackend">
+<area shape="rect" id="node1" title="Low level database interface." alt="" coords="213,79,352,104"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html" title=" " alt="" coords="5,152,168,177"/>
+<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="193,152,373,177"/>
+<area shape="rect" id="node5" href="$dd/d02/struct_mock_backend.html" title=" " alt="" coords="397,152,502,177"/>
+<area shape="rect" id="node2" title=" " alt="" coords="247,5,318,31"/>
+</map>

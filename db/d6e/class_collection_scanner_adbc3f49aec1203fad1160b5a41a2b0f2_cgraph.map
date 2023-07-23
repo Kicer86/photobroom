@@ -1,0 +1,11 @@
+<map id="CollectionScanner::performAnalysis" name="CollectionScanner::performAnalysis">
+<area shape="rect" id="node1" title=" " alt="" coords="5,227,139,267"/>
+<area shape="rect" id="node2" href="$db/d6e/class_collection_scanner.html#a3558b9d54b1298bdce201f33a1ef4acc" title=" " alt="" coords="226,5,359,45"/>
+<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a2f8aca1a1b8a30d97cb01cd6a9a3a347" title="Add photos to database." alt="" coords="223,69,362,109"/>
+<area shape="rect" id="node4" href="$d2/ddd/struct_database_1_1_i_backend.html#aa2a9300036c9a979d277bf5ba1a7acd5" title="clear bits for provided flag" alt="" coords="223,133,362,173"/>
+<area shape="rect" id="node5" href="$d4/d9f/struct_database_1_1_i_database_thread.html#a6bdc1d4ea20d65caa82f4d732ead6830" title=" " alt="" coords="201,197,384,237"/>
+<area shape="rect" id="node6" href="$da/d69/struct_i_view_task.html#ac2eda57488f8b44efeb804089a6d4dfa" title=" " alt="" coords="225,262,360,287"/>
+<area shape="rect" id="node7" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="223,312,362,352"/>
+<area shape="rect" id="node8" href="$d2/ddd/struct_database_1_1_i_backend.html#a043cd4e3f933780157072a225cae861f" title="set bits for provided flag" alt="" coords="223,376,362,416"/>
+<area shape="rect" id="node9" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a3cd5ed198bec62318f5505339f7c2c30" title=" " alt="" coords="187,440,399,480"/>
+</map>

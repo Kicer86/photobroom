@@ -1,0 +1,13 @@
+<map id="GroupsManager::group" name="GroupsManager::group">
+<area shape="rect" id="node1" title=" " alt="" coords="5,315,157,341"/>
+<area shape="rect" id="node2" href="$d8/d5e/struct_database_1_1_i_group_operator.html#accb5783eb399eec5f78866f689fd281e" title=" " alt="" coords="211,5,383,45"/>
+<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a2f8aca1a1b8a30d97cb01cd6a9a3a347" title="Add photos to database." alt="" coords="227,69,366,109"/>
+<area shape="rect" id="node4" href="$d4/d9f/struct_database_1_1_i_database_thread.html#a6bdc1d4ea20d65caa82f4d732ead6830" title=" " alt="" coords="205,133,388,173"/>
+<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d" title="get particular photo" alt="" coords="227,197,366,237"/>
+<area shape="rect" id="node6" href="$df/d40/namespace_groups_manager.html#aedfbeedbd41e72859f20937b21e139a2" title=" " alt="" coords="221,286,373,311"/>
+<area shape="rect" id="node7" href="$d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" title="get group operator" alt="" coords="227,336,366,376"/>
+<area shape="rect" id="node8" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="218,401,375,426"/>
+<area shape="rect" id="node9" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="227,451,366,491"/>
+<area shape="rect" id="node10" href="$d7/d1e/class_photo_1_1_data_delta.html#a8a610541a977ccd70ba88e4c2315f9b5" title=" " alt="" coords="219,515,374,541"/>
+<area shape="rect" id="node11" href="$d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" title="update photos details" alt="" coords="227,565,366,605"/>
+</map>

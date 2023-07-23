@@ -1,0 +1,13 @@
+<map id="Database::GroupOperator::removeGroup" name="Database::GroupOperator::removeGroup">
+<area shape="rect" id="node1" title=" " alt="" coords="5,249,173,289"/>
+<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="535,18,650,43"/>
+<area shape="rect" id="node3" href="$df/ddd/struct_i_logger.html#ad09119105074eaeb5a6230bbc240e4f1" title=" " alt="" coords="286,227,385,253"/>
+<area shape="rect" id="node4" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="497,75,688,115"/>
+<area shape="rect" id="node5" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5acd2fcc149eb79fd1ad353ea76958d8" title=" " alt="" coords="242,277,429,317"/>
+<area shape="rect" id="node6" href="$d5/d6b/class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a" title=" " alt="" coords="251,61,419,101"/>
+<area shape="rect" id="node7" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="557,151,628,177"/>
+<area shape="rect" id="node8" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="266,341,405,381"/>
+<area shape="rect" id="node9" href="$d2/ddd/struct_database_1_1_i_backend.html#aada9ba958324e71ec6e8547e7c87e456" title="get changelog operator" alt="" coords="247,405,423,445"/>
+<area shape="rect" id="node10" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="221,469,449,509"/>
+<area shape="rect" id="node11" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="270,533,401,573"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Database::ASqlBackend::addPhotos" name="Database::ASqlBackend::addPhotos">
+<area shape="rect" id="node1" title="Add photos to database." alt="" coords="5,63,168,103"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138" title="insert set of photos to database" alt="" coords="249,5,411,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="492,35,655,75"/>
+<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a550481b59f09818160110559abc98f54" title=" " alt="" coords="216,120,444,160"/>
+</map>

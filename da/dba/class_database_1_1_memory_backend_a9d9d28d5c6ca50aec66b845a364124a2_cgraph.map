@@ -1,0 +1,5 @@
+<map id="Database::MemoryBackend::addPhotos" name="Database::MemoryBackend::addPhotos">
+<area shape="rect" id="node1" title="Add photos to database." alt="" coords="5,27,185,67"/>
+<area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="261,5,386,31"/>
+<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a9a4c01c32827fd52e6491b096165fe1d" title="begin transaction" alt="" coords="233,55,413,95"/>
+</map>
