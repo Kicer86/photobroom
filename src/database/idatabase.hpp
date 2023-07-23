@@ -131,6 +131,16 @@ namespace Database
         //close database
         virtual void close() = 0;
 
+        /**
+         * @brief Attach to db as a client
+         *
+         * After being closed, database will be kept alive until all clients
+         * destroy theirs std::unique_ptr<IClient> objects.
+         *
+         * That gives clients time to write down what they need to database
+         *
+         * @return object blocking database's destruction
+         */
         [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
     };
 }
