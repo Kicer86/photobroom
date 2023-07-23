@@ -42,7 +42,6 @@ See here for details: https://stackoverflow.com/questions/46265677/get-cairosvg-
 Build tips:
 You may want to use predefined CMakePresets (automatically used by VisualStudio) which will read
 vcpkg.json file and install all dependencies.
-so vcpgk can see cs-libguarded dependency.
 Please mind that dlib will be built without GPU support. Read more about it below).
 
 Dependencies can be also install by hand:
